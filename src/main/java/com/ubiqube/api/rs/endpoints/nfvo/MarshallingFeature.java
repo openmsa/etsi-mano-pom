@@ -8,8 +8,6 @@ import javax.ws.rs.ext.MessageBodyWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ubiqube.api.ejb.nfvo.JacksonJsonProviderAtRest;
-
 public class MarshallingFeature implements Feature {
 	private final static Logger LOG = LoggerFactory.getLogger(MarshallingFeature.class);
 

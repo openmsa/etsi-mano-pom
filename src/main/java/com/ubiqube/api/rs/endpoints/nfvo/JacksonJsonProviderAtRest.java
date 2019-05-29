@@ -27,6 +27,6 @@ public class JacksonJsonProviderAtRest extends JacksonJaxbJsonProvider {
 	public JacksonJsonProviderAtRest() {
 		super();
 		setMapper(objectMapperAtRest);
-		LOG.error(">>>>>>>>>>>>>>>>>>>>>>>>> INNIT DONE. <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+		LOG.error(">>>>>>>>>>>>>>>>>>>>>>>>> INIT DONE. <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 	}
 }

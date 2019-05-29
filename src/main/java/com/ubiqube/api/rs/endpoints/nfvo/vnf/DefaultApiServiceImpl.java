@@ -41,12 +41,14 @@ import javax.ws.rs.core.UriInfo;
 
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataParam;
+import org.glassfish.jersey.server.ResourceConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.owlike.genson.ext.jaxrs.GensonJaxRSFeature;
 import com.ubiqube.api.ejb.nfvo.utils.RangeHeader;
 import com.ubiqube.api.ejb.nfvo.vnf.InlineResponse2001;
 import com.ubiqube.api.ejb.nfvo.vnf.NotificationVnfPackageOnboardingNotification;
@@ -74,6 +76,7 @@ import com.ubiqube.api.interfaces.lookup.LookupService;
 import com.ubiqube.api.interfaces.orchestration.OrchestrationService;
 import com.ubiqube.api.interfaces.repository.RepositoryService;
 import com.ubiqube.api.rs.endpoints.nfvo.GenericException;
+import com.ubiqube.api.rs.endpoints.nfvo.MarshallingFeature;
 import com.ubiqube.api.rs.endpoints.nfvo.SubscriptionRepository;
 import com.ubiqube.api.rs.endpoints.nfvo.VnfPackageRepository;
 import com.ubiqube.api.rs.exception.etsi.BadRequestException;
@@ -127,7 +130,8 @@ public class DefaultApiServiceImpl implements DefaultApi {
 			orchestrationService = (OrchestrationService) jndiContext.lookup(OrchestrationService.RemoteJNDIName);
 			repositoryService = (RepositoryService) jndiContext.lookup(RepositoryService.RemoteJNDIName);
 			lookupService = (LookupService) jndiContext.lookup(LookupService.RemoteJNDIName);
-
+			new ResourceConfig().register(new GensonJaxRSFeature().disable());
+			new ResourceConfig().register(MarshallingFeature.class);
 			init();
 		} catch (final NamingException e) {
 			throw new RuntimeException(e);
@@ -192,7 +196,10 @@ public class DefaultApiServiceImpl implements DefaultApi {
 	@Produces({ "application/json" })
 	@ApiOperation(value = "Query multiple subscriptions.", tags = {})
 	public List<InlineResponse2001> subscriptionsGet(InlineResponse2001 inlineResponse2001, @Context SecurityContext securityContext) {
-		return new ArrayList<InlineResponse2001>();
+		System.out.println(inlineResponse2001.toString());
+		final ArrayList<InlineResponse2001> list = new ArrayList<InlineResponse2001>();
+		list.add(inlineResponse2001);
+		return list;
 	}
 
 	/**
