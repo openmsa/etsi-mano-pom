@@ -21,7 +21,12 @@ public class RuntimeExceptionMapper implements ExceptionMapper<Throwable> {
 		final int statusCode = 501;
 		if (_exception instanceof WebApplicationException) {
 			final WebApplicationException ex = (WebApplicationException) _exception;
-			return ex.getResponse();
+			final Response resp = ex.getResponse();
+			// We kill a lot of information here. :/
+			return Response.status(resp.getStatus())
+					.entity(new ProblemDetails(resp.getStatus(), ex.getMessage()))
+					.type(MediaType.APPLICATION_JSON_TYPE)
+					.build();
 		}
 		final String message = _exception.getMessage();
 		return Response.status(statusCode)
