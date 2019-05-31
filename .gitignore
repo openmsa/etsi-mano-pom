@@ -7,3 +7,5 @@ dist/
 target
 build.log
 dependencies
+build
+.idea
