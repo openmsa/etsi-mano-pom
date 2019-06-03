@@ -48,6 +48,7 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.owlike.genson.ext.jaxrs.GensonJaxRSFeature;
 import com.ubiqube.api.ejb.nfvo.utils.RangeHeader;
 import com.ubiqube.api.ejb.nfvo.vnf.InlineResponse2001;
 import com.ubiqube.api.ejb.nfvo.vnf.NotificationVnfPackageOnboardingNotification;
@@ -130,7 +131,7 @@ public class DefaultApiServiceImpl implements DefaultApi {
 			orchestrationService = (OrchestrationService) jndiContext.lookup("ubi-api/OrchestrationBean/remote-com.ubiqube.api.interfaces.orchestration.OrchestrationService");
 			repositoryService = (RepositoryService) jndiContext.lookup("ubi-api/RepositoryManagerBean/remote-com.ubiqube.api.interfaces.repository.RepositoryService");
 			lookupService = (LookupService) jndiContext.lookup("ubi-api/LookupBean/remote-com.ubiqube.api.interfaces.lookup.LookupService");
-			// new ResourceConfig().register(new GensonJaxRSFeature().disable());
+			new ResourceConfig().register(new GensonJaxRSFeature().disable());
 			new ResourceConfig().register(MarshallingFeature.class);
 			init();
 		} catch (final NamingException e) {
