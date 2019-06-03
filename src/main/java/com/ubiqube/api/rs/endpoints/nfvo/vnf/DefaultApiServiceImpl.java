@@ -102,6 +102,11 @@ import net.sf.json.JSONObject;
  * precedence. Please report bugs to
  * https://forge.etsi.org/bugzilla/buglist.cgi?component=Nfv-Openapis
  *
+ * NOTE: Normaly we should receive object in methods but Genson seems to be on
+ * the classpath and is unable to unserialize objects. So we use a string2Object
+ * to do So. Note same problems occurred when returning object some times genson
+ * could be here and not Jackson, in this case you can use object2String.
+ *
  */
 @Path("/vnfpkgm/v1")
 @Api(value = "/vnfpkgm/v1", description = "")
@@ -135,9 +140,9 @@ public class DefaultApiServiceImpl implements DefaultApi {
 			new ResourceConfig().register(MarshallingFeature.class);
 			init();
 		} catch (final NamingException e) {
-			throw new RuntimeException(e);
+			throw new GenericException(e);
 		} catch (final ServiceException e) {
-			throw new RuntimeException(e);
+			throw new GenericException(e);
 		}
 	}
 
@@ -154,9 +159,9 @@ public class DefaultApiServiceImpl implements DefaultApi {
 			final ObjectMapper jsonWriter = new ObjectMapper();
 			return jsonWriter.writerWithDefaultPrettyPrinter().writeValueAsString(obj);
 		} catch (final JsonProcessingException e) {
-			throw new RuntimeException(e);
+			throw new GenericException(e);
 		} catch (final IOException e) {
-			throw new RuntimeException(e);
+			throw new GenericException(e);
 		}
 	}
 
@@ -197,7 +202,7 @@ public class DefaultApiServiceImpl implements DefaultApi {
 	@Produces({ "application/json" })
 	@ApiOperation(value = "Query multiple subscriptions.", tags = {})
 	public List<InlineResponse2001> subscriptionsGet(InlineResponse2001 inlineResponse2001, @Context SecurityContext securityContext) {
-		System.out.println(inlineResponse2001.toString());
+		LOGGER.info(inlineResponse2001.toString());
 		final ArrayList<InlineResponse2001> list = new ArrayList<InlineResponse2001>();
 		list.add(inlineResponse2001);
 		return list;
@@ -277,12 +282,7 @@ public class DefaultApiServiceImpl implements DefaultApi {
 			@ApiResponse(code = 416, message = "Requested Range Not Satisfiable The byte range passed in the \"Range\" header did not match any available byte range in the VNF package file (e.g. \"access after end of file\"). The response body may contain a ProblemDetails structure. ", response = ProblemDetails.class), @ApiResponse(code = 500, message = "Internal Server Error If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond withthis response code. The ProblemDetails structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = ProblemDetails.class), @ApiResponse(code = 503, message = "Service Unavailable If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 [13] for the use of the Retry-After HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = ProblemDetails.class) })
 	@Override
 	public List<InlineResponse2001> subscriptionsPost(@HeaderParam("Accept") String accept, @HeaderParam("Content-Type") String contentType, String body, @Context SecurityContext securityContext, @Context UriInfo uriInfo) {
-		SubscriptionsPostQuery subscriptionsPostQuery;
-		try {
-			subscriptionsPostQuery = mapper.readValue(body, SubscriptionsPostQuery.class);
-		} catch (final Exception e) {
-			throw new GenericException(e);
-		}
+		final SubscriptionsPostQuery subscriptionsPostQuery = string2Object(body, SubscriptionsPostQuery.class);
 
 		// Job
 		final String id = UUID.randomUUID().toString();
@@ -343,11 +343,8 @@ public class DefaultApiServiceImpl implements DefaultApi {
 	public String subscriptionsSubscriptionIdGet(@PathParam("subscriptionId") String subscriptionId, @HeaderParam("Accept") String accept, @Context SecurityContext securityContext) {
 		final InlineResponse2001 inlineResponse2001 = new InlineResponse2001();
 		inlineResponse2001.setPkgmSubscription(subscriptionRepository.get(subscriptionId).getSubscriptionsPkgmSubscription());
-		try {
-			return mapper.writeValueAsString(inlineResponse2001);
-		} catch (final JsonProcessingException e) {
-			throw new GenericException(e);
-		}
+		return object2String(inlineResponse2001);
+
 	}
 
 	/**
@@ -391,13 +388,7 @@ public class DefaultApiServiceImpl implements DefaultApi {
 			@ApiResponse(code = 403, message = "Forbidden If the API consumer is not allowed to perform a particular request to a particular resource, the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided.  It should include in the \"detail\" attribute information about the source of the problem, and may indicate how to solve it. ", response = ProblemDetails.class), @ApiResponse(code = 500, message = "Internal Server Error If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond withthis response code. The ProblemDetails structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = ProblemDetails.class),
 			@ApiResponse(code = 503, message = "Service Unavailable If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 [13] for the use of the Retry-After HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = ProblemDetails.class) })
 	public void vnfPackageChangeNotificationPost(String body, @Context UriInfo uriInfo, @Context SecurityContext securityContext) {
-		final NotificationsMessage notificationsMessage;
-
-		try {
-			notificationsMessage = mapper.readValue(body, NotificationsMessage.class);
-		} catch (final Exception e) {
-			throw new GenericException(e);
-		}
+		final NotificationsMessage notificationsMessage = string2Object(body, NotificationsMessage.class);
 
 		final Notifications notifications = new Notifications();
 		final String id = UUID.randomUUID().toString();
@@ -435,13 +426,8 @@ public class DefaultApiServiceImpl implements DefaultApi {
 			@ApiResponse(code = 403, message = "Forbidden If the API consumer is not allowed to perform a particular request to a particular resource, the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided.  It should include in the \"detail\" attribute information about the source of the problem, and may indicate how to solve it. ", response = ProblemDetails.class), @ApiResponse(code = 500, message = "Internal Server Error If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond withthis response code. The ProblemDetails structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = ProblemDetails.class),
 			@ApiResponse(code = 503, message = "Service Unavailable If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 [13] for the use of the Retry-After HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = ProblemDetails.class) })
 	public void vnfPackageOnboardingNotificationPost(String body, @Context UriInfo uriInfo, @Context SecurityContext securityContext) {
-		final NotificationsMessage notificationsMessage;
+		final NotificationsMessage notificationsMessage = string2Object(body, NotificationsMessage.class);
 
-		try {
-			notificationsMessage = mapper.readValue(body, NotificationsMessage.class);
-		} catch (final Exception e) {
-			throw new GenericException(e);
-		}
 		final Notifications notifications = new Notifications();
 		final String id = UUID.randomUUID().toString();
 
@@ -515,12 +501,8 @@ public class DefaultApiServiceImpl implements DefaultApi {
 	@ApiOperation(value = "Create a new individual VNF package resource.", tags = {})
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "201 Created             An individual VNF package resource has been created successfully. The response body shall contain a representation of the new individual VNF package resource, as defined in clause 9.5.2.4. The HTTP response shall include a \"Location\" HTTP header that contains the resource URI of the individual VNF package resource. ", response = VnfPackagesVnfPkgIdGetResponse.class) })
 	public Response vnfPackagesPost(@HeaderParam("Accept") String accept, @HeaderParam("Content-Type") String contentType, String body, @Context SecurityContext securityContext, @Context UriInfo uriInfo) {
-		VnfPackagePostQuery vnfPackagePostQuery;
-		try {
-			vnfPackagePostQuery = mapper.readValue(body, VnfPackagePostQuery.class);
-		} catch (final Exception e) {
-			throw new GenericException(e);
-		}
+		final VnfPackagePostQuery vnfPackagePostQuery = string2Object(body, VnfPackagePostQuery.class);
+
 		final String vnfPkgId = UUID.randomUUID().toString();
 		final Object jsonString = vnfPackagePostQuery.getCreateVnfPkgInfoRequest().getUserDefinedData();
 		final VnfPkgInfo vnfPkgInfo = new VnfPkgInfo();
@@ -541,7 +523,7 @@ public class DefaultApiServiceImpl implements DefaultApi {
 				throw new GenericException(e);
 			}
 		} catch (final ServiceException e) {
-			throw new RuntimeException(e);
+			throw new GenericException(e);
 		}
 
 		vnfPkgInfo.setUserDefinedData(jsonString);
@@ -820,12 +802,8 @@ public class DefaultApiServiceImpl implements DefaultApi {
 		if (!"CREATED".equals(vnfPkgInfo.getOnboardingState())) {
 			throw new ConflictException("Onboarding state is not correct.");
 		}
-		VnfPackagesVnfPkgIdPackageContentUploadFromUriPostRequest vnfPackagesVnfPkgIdPackageContentUploadFromUriPostRequest;
-		try {
-			vnfPackagesVnfPkgIdPackageContentUploadFromUriPostRequest = mapper.readValue(body, VnfPackagesVnfPkgIdPackageContentUploadFromUriPostRequest.class);
-		} catch (final Exception e) {
-			throw new GenericException(e);
-		}
+		final VnfPackagesVnfPkgIdPackageContentUploadFromUriPostRequest vnfPackagesVnfPkgIdPackageContentUploadFromUriPostRequest = string2Object(body, VnfPackagesVnfPkgIdPackageContentUploadFromUriPostRequest.class);
+
 		final LinkedHashMap<String, String> uddList = (LinkedHashMap) vnfPackagesVnfPkgIdPackageContentUploadFromUriPostRequest.getUploadVnfPkgFromUriRequest().getUserDefinedData();
 		final String uri = uddList.get("url");
 		final InputStream content = getUrlContent(uri);
@@ -868,12 +846,7 @@ public class DefaultApiServiceImpl implements DefaultApi {
 			@ApiResponse(code = 406, message = "If the \"Accept\" header does not contain at least one name of a content type for which the NFVO can provide a representation of the VNFD, the NFVO shall respond with this response code.         ", response = ProblemDetails.class), @ApiResponse(code = 409, message = "Conflict. Error: The operation cannot be executed currently, due to a conflict with the state of the resource. Typically, this is due to any of the following scenarios: - Disable a VNF package resource of hich the operational state is not ENABLED - Enable a VNF package resource of which the operational state is not DISABLED The response body shall contain a ProblemDetails structure, in which the \"detail\" attribute shall convey more information about the error. ", response = ProblemDetails.class), @ApiResponse(code = 416, message = "Requested Range Not Satisfiable The byte range passed in the \"Range\" header did not match any available byte range in the VNF package file (e.g. \"access after end of file\"). The response body may contain a ProblemDetails structure. ", response = ProblemDetails.class),
 			@ApiResponse(code = 500, message = "Internal Server Error If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond withthis response code. The ProblemDetails structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = ProblemDetails.class), @ApiResponse(code = 503, message = "Service Unavailable If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 [13] for the use of the Retry-After HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = ProblemDetails.class) })
 	public Object vnfPackagesVnfPkgIdPatch(@PathParam("vnfPkgId") String vnfPkgId, String body, @HeaderParam("Content-Type") String contentType, @Context SecurityContext securityContext) {
-		VnfPackagesVnfPkgIdPatchQuery vnfPackagesVnfPkgIdPatchQuery;
-		try {
-			vnfPackagesVnfPkgIdPatchQuery = mapper.readValue(body, VnfPackagesVnfPkgIdPatchQuery.class);
-		} catch (final Exception e) {
-			throw new GenericException(e);
-		}
+		final VnfPackagesVnfPkgIdPatchQuery vnfPackagesVnfPkgIdPatchQuery = string2Object(body, VnfPackagesVnfPkgIdPatchQuery.class);
 		final StringBuilder sb = new StringBuilder().append(REPOSITORY_NVFO_DATAFILE_BASE_PATH).append("/").append(vnfPkgId);
 		try {
 			if (!repositoryService.exists(sb.toString())) {
@@ -1267,6 +1240,31 @@ public class DefaultApiServiceImpl implements DefaultApi {
 	private void removeFields(JSONObject contentJson, ArrayList<String> fields) {
 		for (final String field : fields) {
 			removeField(contentJson, field);
+		}
+	}
+
+	/**
+	 * Simple wrapper for removing Exceptions, and make sure that we serialize using
+	 * correst latest.
+	 *
+	 * @param <T>
+	 * @param input
+	 * @param clazz
+	 * @return
+	 */
+	private <T> T string2Object(String input, Class<T> clazz) {
+		try {
+			return mapper.readValue(input, clazz);
+		} catch (final Exception e) {
+			throw new GenericException(e);
+		}
+	}
+
+	private <T> String object2String(T obj) {
+		try {
+			return mapper.writeValueAsString(obj);
+		} catch (final JsonProcessingException e) {
+			throw new GenericException(e);
 		}
 	}
 }
