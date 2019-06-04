@@ -133,9 +133,9 @@ public class DefaultApiServiceImpl implements DefaultApi {
 		try {
 			final InitialContext jndiContext = new InitialContext();
 			// Use jmx-console service=JNDIView/list
-			orchestrationService = (OrchestrationService) jndiContext.lookup("ubi-api/OrchestrationBean/remote-com.ubiqube.api.interfaces.orchestration.OrchestrationService");
-			repositoryService = (RepositoryService) jndiContext.lookup("ubi-api/RepositoryManagerBean/remote-com.ubiqube.api.interfaces.repository.RepositoryService");
-			lookupService = (LookupService) jndiContext.lookup("ubi-api/LookupBean/remote-com.ubiqube.api.interfaces.lookup.LookupService");
+			orchestrationService = (OrchestrationService) jndiContext.lookup("ubi-jentreprise/OrchestrationBean/remote-com.ubiqube.api.interfaces.orchestration.OrchestrationService");
+			repositoryService = (RepositoryService) jndiContext.lookup("ubi-jentreprise/RepositoryManagerBean/remote-com.ubiqube.api.interfaces.repository.RepositoryService");
+			lookupService = (LookupService) jndiContext.lookup("ubi-jentreprise/LookupBean/remote-com.ubiqube.api.interfaces.lookup.LookupService");
 			new ResourceConfig().register(new GensonJaxRSFeature().disable());
 			new ResourceConfig().register(MarshallingFeature.class);
 			init();
@@ -944,7 +944,7 @@ public class DefaultApiServiceImpl implements DefaultApi {
 			if (MediaType.TEXT_PLAIN.equals(accept)) {
 				final RepositoryElement repositoryElement = repositoryService.getElement(uri);
 				final String content = new String(repositoryService.getRepositoryElementContent(repositoryElement));
-				return Response.ok(JSONObject.fromObject(content)).build();
+				return Response.ok(JSONObject.fromObject(content), MediaType.APPLICATION_JSON).build();
 			} else if ("application/zip".equals(accept)
 					|| ("application/zip".equals(accept) && MediaType.TEXT_PLAIN.equals(accept))) {
 				return getZipArchive(null, listvnfPckgFiles);
