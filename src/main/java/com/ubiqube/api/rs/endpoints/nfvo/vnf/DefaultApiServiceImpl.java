@@ -1046,10 +1046,8 @@ public class DefaultApiServiceImpl implements DefaultApi {
 				return response.build();
 			}
 		} catch (final IOException e) {
-			e.printStackTrace();
+			throw new GenericException(e);
 		}
-
-		return null;
 	}
 
 	private VnfPkgInfo getVnfPkgIndividualInfoOrCheckOnboardingStatus(String vnfPkgId, boolean isCheckOnbordingStatus) {
