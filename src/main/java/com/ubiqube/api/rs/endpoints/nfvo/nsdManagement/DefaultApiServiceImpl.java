@@ -1,13 +1,28 @@
 package com.ubiqube.api.rs.endpoints.nfvo.nsdManagement;
 
 import java.util.List;
+import java.util.UUID;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Link;
 import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.UriInfo;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubiqube.api.ejb.nfvo.nsdManagement.NsDescriptorsNsdInfoIdGetResponse;
 import com.ubiqube.api.ejb.nfvo.nsdManagement.NsDescriptorsNsdInfoIdPatchQuery;
+import com.ubiqube.api.ejb.nfvo.nsdManagement.NsDescriptorsNsdInfoOnboardingFailureDetails;
 import com.ubiqube.api.ejb.nfvo.nsdManagement.NsDescriptorsPostQuery;
 import com.ubiqube.api.ejb.nfvo.nsdManagement.NsdChangeNotification;
 import com.ubiqube.api.ejb.nfvo.nsdManagement.NsdDeletionNotification;
@@ -22,8 +37,14 @@ import com.ubiqube.api.ejb.nfvo.nsdManagement.PnfdOnBoardingFailureNotification;
 import com.ubiqube.api.ejb.nfvo.nsdManagement.PnfdOnBoardingNotification;
 import com.ubiqube.api.ejb.nfvo.nsdManagement.SubscriptionsPostQuery;
 import com.ubiqube.api.ejb.nfvo.nsdManagement.SubscriptionsPostResponse;
+import com.ubiqube.api.rs.endpoints.nfvo.GenericException;
+import com.ubiqube.api.rs.endpoints.nfvo.NsdFactories;
+import com.ubiqube.api.rs.endpoints.nfvo.NsdRepository;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 /**
  * SOL005 - NSD Management Interface
@@ -40,6 +61,13 @@ import io.swagger.annotations.Api;
 @Path("/nsd/v1")
 @Api(value = "/", description = "")
 public class DefaultApiServiceImpl implements DefaultApi {
+	private final ObjectMapper mapper = new ObjectMapper();
+	private final NsdRepository nsdRepository = new NsdRepository();
+
+	public DefaultApiServiceImpl() {
+		// TODO Auto-generated constructor stub
+	}
+
 	/**
 	 * Query information about multiple NS descriptor resources.
 	 *
@@ -50,9 +78,18 @@ public class DefaultApiServiceImpl implements DefaultApi {
 	 *
 	 */
 	@Override
-	public List<Object> nsDescriptorsGet(String accept, String filter, String allFields, String fields, String excludeFields, String excludeDefault, @Context SecurityContext securityContext) {
-		// TODO: Implement...
-
+	@GET
+	@Path("/ns_descriptors")
+	@Consumes({ "application/json" })
+	@Produces({ "application/json" })
+	@ApiOperation(value = "Query information about multiple NS descriptor resources.", tags = {})
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "200 OK Information about zero or more NS descriptors. The response body shall contain a representation of zero or more NS descriptors, as defined in clause 5.5.2.2 ", response = Object.class, responseContainer = "List"), @ApiResponse(code = 400, message = "Bad Request Error: Invalid attribute-based filtering parameters. The response body shall contain a ProblemDetails structure, in which the \"detail\" attribute should convey more information about the error. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 401, message = "Unauthorized If the request contains no access token even though one is required, or if the request contains an authorization token that is invalid (e.g. expired or revoked), the API producer should respond with this response. The details of the error shall be returned in the WWW-Authenticate HTTP header, as defined in IETF RFC 6750 and IETF RFC 7235. The ProblemDetails structure may be provided. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
+			@ApiResponse(code = 403, message = "Forbidden If the API consumer is not allowed to perform a particular request to a particular resource, the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided.  It should include in the \"detail\" attribute information about the source of the problem, and may indicate how to solve it. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 404, message = "Not Found If the API producer did not find a current representation for the resource addressed by the URI passed in the request, or is not willing to disclose that one exists, it shall respond with this response code.  The \"ProblemDetails\" structure may be provided, including in the \"detail\" attribute information about the source of the problem, e.g. a wrong resource URI variable. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
+			@ApiResponse(code = 405, message = "Method Not Allowed If a particular HTTP method is not supported for a particular resource, the API producer shall respond with this response code. The \"ProblemDetails\" structure may be omitted in that case. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 406, message = "406 Not Acceptable If the \"Accept\" header does not contain at least one name of a content type for which the NFVO can provide a representation of the NSD, the NFVO shall respond with this response code. The \"ProblemDetails\" structure may be included with the \"detail\" attribute providing more information about the error.           ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
+			@ApiResponse(code = 409, message = "Conflict Error: The operation cannot be executed currently, due to a conflict with the state of the resource. Typically, this is due to the fact the NS descriptor resource is in the enabled operational state (i.e. operationalState = ENABLED) or there are running NS instances using the concerned individual NS descriptor resource (i.e. usageState = IN_USE). The response body shall contain a ProblemDetails structure, in which the \"detail\" attribute shall convey more information about the error. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 412, message = "Precondition Failed. A precondition given in an HTTP request header is not fulfilled. Typically, this is due to an ETag mismatch, indicating that the resource was modified by another entity.  The response body should contain a ProblemDetails structure, in which the \"detail\" attribute should convey more information about the error. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
+			@ApiResponse(code = 416, message = "The byte range passed in the \"Range\" header did not match any available byte range in the NSD file (e.g. access after end of file). The response body may contain a ProblemDetails structure. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 500, message = "Internal Server Error If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The ProblemDetails structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
+			@ApiResponse(code = 503, message = "Service Unavailable If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 [13] for the use of the Retry-After HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class) })
+	public List<Object> nsDescriptorsGet(@HeaderParam("Accept") String accept, @QueryParam("filter") String filter, @QueryParam("all_fields") String allFields, @QueryParam("fields") String fields, @QueryParam("exclude_fields") String excludeFields, @QueryParam("exclude_default") String excludeDefault, @Context SecurityContext securityContext) {
 		return null;
 	}
 
@@ -66,9 +103,18 @@ public class DefaultApiServiceImpl implements DefaultApi {
 	 *
 	 */
 	@Override
-	public void nsDescriptorsNsdInfoIdDelete(String nsdInfoId, @Context SecurityContext securityContext) {
-		// TODO: Implement...
-
+	@DELETE
+	@Path("/ns_descriptors/{nsdInfoId}")
+	@Consumes({ "application/json" })
+	@Produces({ "application/json" })
+	@ApiOperation(value = "Delete an individual NS descriptor resource.", tags = {})
+	@ApiResponses(value = { @ApiResponse(code = 204, message = "204 No Content The operation has completed successfully. The response body shall be empty. "), @ApiResponse(code = 400, message = "Error: Invalid attribute selector. The response body shall contain a ProblemDetails structure, in which the \"detail\" attribute should convey more information about the error. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 401, message = "Unauthorized If the request contains no access token even though one is required, or if the request contains an authorization token that is invalid (e.g. expired or revoked), the API producer should respond with this response. The details of the error shall be returned in the WWW-Authenticate HTTP header, as defined in IETF RFC 6750 and IETF RFC 7235. The ProblemDetails structure may be provided. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
+			@ApiResponse(code = 403, message = "Forbidden If the API consumer is not allowed to perform a particular request to a particular resource, the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided.  It should include in the \"detail\" attribute information about the source of the problem, and may indicate how to solve it. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 404, message = "Not Found If the API producer did not find a current representation for the resource addressed by the URI passed in the request, or is not willing to disclose that one exists, it shall respond with this response code.  The \"ProblemDetails\" structure may be provided, including in the \"detail\" attribute information about the source of the problem, e.g. a wrong resource URI variable. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
+			@ApiResponse(code = 405, message = "Method Not Allowed If a particular HTTP method is not supported for a particular resource, the API producer shall respond with this response code. The \"ProblemDetails\" structure may be omitted in that case. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 406, message = "406 Not Acceptable If the \"Accept\" header does not contain at least one name of a content type for which the NFVO can provide a representation of the NSD, the NFVO shall respond with this response code. The \"ProblemDetails\" structure may be included with the \"detail\" attribute providing more information about the error.           ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
+			@ApiResponse(code = 409, message = "Conflict Error: The operation cannot be executed currently, due to a conflict with the state of the resource. Typically, this is due to the fact the NS descriptor resource is in the enabled operational state (i.e. operationalState = ENABLED) or there are running NS instances using the concerned individual NS descriptor resource (i.e. usageState = IN_USE). The response body shall contain a ProblemDetails structure, in which the \"detail\" attribute shall convey more information about the error. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 412, message = "Precondition Failed. A precondition given in an HTTP request header is not fulfilled. Typically, this is due to an ETag mismatch, indicating that the resource was modified by another entity.  The response body should contain a ProblemDetails structure, in which the \"detail\" attribute should convey more information about the error. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
+			@ApiResponse(code = 416, message = "The byte range passed in the \"Range\" header did not match any available byte range in the NSD file (e.g. access after end of file). The response body may contain a ProblemDetails structure. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 500, message = "Internal Server Error If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The ProblemDetails structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
+			@ApiResponse(code = 503, message = "Service Unavailable If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 [13] for the use of the Retry-After HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class) })
+	public void nsDescriptorsNsdInfoIdDelete(@PathParam("nsdInfoId") String nsdInfoId, @Context SecurityContext securityContext) {
 	}
 
 	/**
@@ -81,9 +127,18 @@ public class DefaultApiServiceImpl implements DefaultApi {
 	 *
 	 */
 	@Override
-	public NsDescriptorsNsdInfoIdGetResponse nsDescriptorsNsdInfoIdGet(String nsdInfoId, String accept, @Context SecurityContext securityContext) {
-		// TODO: Implement...
-
+	@GET
+	@Path("/ns_descriptors/{nsdInfoId}")
+	@Consumes({ "application/json" })
+	@Produces({ "application/json" })
+	@ApiOperation(value = "Read information about an individual NS descriptor resource.", tags = {})
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "200 OK Information about the individual NS descriptor. The response body shall contain a representation of the individual NS descriptor.             ", response = NsDescriptorsNsdInfoIdGetResponse.class), @ApiResponse(code = 400, message = "Error: Invalid attribute selector. The response body shall contain a ProblemDetails structure, in which the \"detail\" attribute should convey more information about the error. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 401, message = "Unauthorized If the request contains no access token even though one is required, or if the request contains an authorization token that is invalid (e.g. expired or revoked), the API producer should respond with this response. The details of the error shall be returned in the WWW-Authenticate HTTP header, as defined in IETF RFC 6750 and IETF RFC 7235. The ProblemDetails structure may be provided. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
+			@ApiResponse(code = 403, message = "Forbidden If the API consumer is not allowed to perform a particular request to a particular resource, the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided.  It should include in the \"detail\" attribute information about the source of the problem, and may indicate how to solve it. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 404, message = "Not Found If the API producer did not find a current representation for the resource addressed by the URI passed in the request, or is not willing to disclose that one exists, it shall respond with this response code.  The \"ProblemDetails\" structure may be provided, including in the \"detail\" attribute information about the source of the problem, e.g. a wrong resource URI variable. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
+			@ApiResponse(code = 405, message = "Method Not Allowed If a particular HTTP method is not supported for a particular resource, the API producer shall respond with this response code. The \"ProblemDetails\" structure may be omitted in that case. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 406, message = "406 Not Acceptable If the \"Accept\" header does not contain at least one name of a content type for which the NFVO can provide a representation of the NSD, the NFVO shall respond with this response code. The \"ProblemDetails\" structure may be included with the \"detail\" attribute providing more information about the error.           ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
+			@ApiResponse(code = 409, message = "Conflict Error: The operation cannot be executed currently, due to a conflict with the state of the resource. Typically, this is due to the fact the NS descriptor resource is in the enabled operational state (i.e. operationalState = ENABLED) or there are running NS instances using the concerned individual NS descriptor resource (i.e. usageState = IN_USE). The response body shall contain a ProblemDetails structure, in which the \"detail\" attribute shall convey more information about the error. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 412, message = "Precondition Failed. A precondition given in an HTTP request header is not fulfilled. Typically, this is due to an ETag mismatch, indicating that the resource was modified by another entity.  The response body should contain a ProblemDetails structure, in which the \"detail\" attribute should convey more information about the error. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
+			@ApiResponse(code = 416, message = "The byte range passed in the \"Range\" header did not match any available byte range in the NSD file (e.g. access after end of file). The response body may contain a ProblemDetails structure. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 500, message = "Internal Server Error If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The ProblemDetails structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
+			@ApiResponse(code = 503, message = "Service Unavailable If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 [13] for the use of the Retry-After HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class) })
+	public NsDescriptorsNsdInfoIdGetResponse nsDescriptorsNsdInfoIdGet(@PathParam("nsdInfoId") String nsdInfoId, @HeaderParam("Accept") String accept, @Context SecurityContext securityContext) {
 		return null;
 	}
 
@@ -109,8 +164,18 @@ public class DefaultApiServiceImpl implements DefaultApi {
 	 *
 	 */
 	@Override
-	public void nsDescriptorsNsdInfoIdNsdContentGet(String nsdInfoId, String accept, @Context SecurityContext securityContext, String range) {
-		// TODO: Implement...
+	@GET
+	@Path("/ns_descriptors/{nsdInfoId}/nsd_content")
+	@Consumes({ "application/json" })
+	@Produces({ "application/json" })
+	@ApiOperation(value = "Fetch the content of a NSD.", tags = {})
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "200 OK On success, the content of the NSD is returned. The payload body shall contain a copy of the file representing the NSD or a ZIP file that contains the file or multiple files representing the NSD, as specified above. The \"Content-Type\" HTTP header shall be set according to the format of the returned file, i.e. to \"text/plain\" for a YAML file or to \"application/zip\" for a ZIP file. "), @ApiResponse(code = 206, message = "Partial Content. On success, if the NFVO supports range requests, a single consecutive byte range from the content of the NSD file is returned. The response body shall contain the requested part of the NSD file. The \"Content-Range\" HTTP header shall be provided according to IETF RFC 7233 [23]. The \"Content-Type\" HTTP header shall be set as defined above for the \"200 OK\" response.        ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
+			@ApiResponse(code = 400, message = "Error: Invalid attribute selector. The response body shall contain a ProblemDetails structure, in which the \"detail\" attribute should convey more information about the error. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 401, message = "Unauthorized If the request contains no access token even though one is required, or if the request contains an authorization token that is invalid (e.g. expired or revoked), the API producer should respond with this response. The details of the error shall be returned in the WWW-Authenticate HTTP header, as defined in IETF RFC 6750 and IETF RFC 7235. The ProblemDetails structure may be provided. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
+			@ApiResponse(code = 403, message = "Forbidden If the API consumer is not allowed to perform a particular request to a particular resource, the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided.  It should include in the \"detail\" attribute information about the source of the problem, and may indicate how to solve it. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 404, message = "Not Found If the API producer did not find a current representation for the resource addressed by the URI passed in the request, or is not willing to disclose that one exists, it shall respond with this response code.  The \"ProblemDetails\" structure may be provided, including in the \"detail\" attribute information about the source of the problem, e.g. a wrong resource URI variable. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
+			@ApiResponse(code = 405, message = "Method Not Allowed If a particular HTTP method is not supported for a particular resource, the API producer shall respond with this response code. The \"ProblemDetails\" structure may be omitted in that case. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 406, message = "406 Not Acceptable If the \"Accept\" header does not contain at least one name of a content type for which the NFVO can provide a representation of the NSD, the NFVO shall respond with this response code. The \"ProblemDetails\" structure may be included with the \"detail\" attribute providing more information about the error.           ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
+			@ApiResponse(code = 409, message = "Conflict Error: The operation cannot be executed currently, due to a conflict with the state of the resource. Typically, this is due to the fact \"nsdOnboardingState\" has a value different from ONBOARDED. The response body shall contain a ProblemDetails structure, in which the \"detail\" attribute shall convey more information about the error. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 412, message = "Precondition Failed. A precondition given in an HTTP request header is not fulfilled. Typically, this is due to an ETag mismatch, indicating that the resource was modified by another entity.  The response body should contain a ProblemDetails structure, in which the \"detail\" attribute should convey more information about the error. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 416, message = "The byte range passed in the \"Range\" header did not match any available byte range in the NSD file (e.g. access after end of file). The response body may contain a ProblemDetails structure. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
+			@ApiResponse(code = 500, message = "Internal Server Error If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The ProblemDetails structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 503, message = "Service Unavailable If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 [13] for the use of the Retry-After HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class) })
+	public void nsDescriptorsNsdInfoIdNsdContentGet(@PathParam("nsdInfoId") String nsdInfoId, @HeaderParam("Accept") String accept, @Context SecurityContext securityContext, @HeaderParam("Range") String range) { // TODO: Implement...
 
 	}
 
@@ -134,8 +199,18 @@ public class DefaultApiServiceImpl implements DefaultApi {
 	 *
 	 */
 	@Override
-	public void nsDescriptorsNsdInfoIdNsdContentPut(String nsdInfoId, String accept, @Context SecurityContext securityContext) {
-		// TODO: Implement...
+	@PUT
+	@Path("/ns_descriptors/{nsdInfoId}/nsd_content")
+	@Consumes({ "application/json" })
+	@Produces({ "application/json" })
+	@ApiOperation(value = "Upload the content of a NSD.", tags = {})
+	@ApiResponses(value = { @ApiResponse(code = 202, message = "202 Accepted The NSD content was accepted for uploading, but the processing has not been completed. It is expected to take some time for processing (asynchronous mode). The response body shall be empty.  "), @ApiResponse(code = 204, message = "204 No Content The NSD content was successfully uploaded and validated (synchronous mode).  The response body shall be empty. "), @ApiResponse(code = 206, message = "Partial Content. On success, if the NFVO supports range requests, a single consecutive byte range from the content of the NSD file is returned. The response body shall contain the requested part of the NSD file. The \"Content-Range\" HTTP header shall be provided according to IETF RFC 7233 [23]. The \"Content-Type\" HTTP header shall be set as defined above for the \"200 OK\" response.        ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
+			@ApiResponse(code = 400, message = "Error: Invalid attribute selector. The response body shall contain a ProblemDetails structure, in which the \"detail\" attribute should convey more information about the error. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 401, message = "Unauthorized If the request contains no access token even though one is required, or if the request contains an authorization token that is invalid (e.g. expired or revoked), the API producer should respond with this response. The details of the error shall be returned in the WWW-Authenticate HTTP header, as defined in IETF RFC 6750 and IETF RFC 7235. The ProblemDetails structure may be provided. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
+			@ApiResponse(code = 403, message = "Forbidden If the API consumer is not allowed to perform a particular request to a particular resource, the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided.  It should include in the \"detail\" attribute information about the source of the problem, and may indicate how to solve it. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 404, message = "Not Found If the API producer did not find a current representation for the resource addressed by the URI passed in the request, or is not willing to disclose that one exists, it shall respond with this response code.  The \"ProblemDetails\" structure may be provided, including in the \"detail\" attribute information about the source of the problem, e.g. a wrong resource URI variable. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
+			@ApiResponse(code = 405, message = "Method Not Allowed If a particular HTTP method is not supported for a particular resource, the API producer shall respond with this response code. The \"ProblemDetails\" structure may be omitted in that case. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 406, message = "406 Not Acceptable If the \"Accept\" header does not contain at least one name of a content type for which the NFVO can provide a representation of the NSD, the NFVO shall respond with this response code. The \"ProblemDetails\" structure may be included with the \"detail\" attribute providing more information about the error.           ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
+			@ApiResponse(code = 409, message = "Conflict Error: The operation cannot be executed currently, due to a conflict with the state of the resource. Typically, this is due to the fact \"nsdOnboardingState\" has a value different from ONBOARDED. The response body shall contain a ProblemDetails structure, in which the \"detail\" attribute shall convey more information about the error. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 412, message = "Precondition Failed. A precondition given in an HTTP request header is not fulfilled. Typically, this is due to an ETag mismatch, indicating that the resource was modified by another entity.  The response body should contain a ProblemDetails structure, in which the \"detail\" attribute should convey more information about the error. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 416, message = "The byte range passed in the \"Range\" header did not match any available byte range in the NSD file (e.g. access after end of file). The response body may contain a ProblemDetails structure. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
+			@ApiResponse(code = 500, message = "Internal Server Error If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The ProblemDetails structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 503, message = "Service Unavailable If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 [13] for the use of the Retry-After HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class) })
+	public void nsDescriptorsNsdInfoIdNsdContentPut(@PathParam("nsdInfoId") String nsdInfoId, @HeaderParam("Accept") String accept, @Context SecurityContext securityContext) {
 
 	}
 
@@ -170,10 +245,25 @@ public class DefaultApiServiceImpl implements DefaultApi {
 	 *
 	 */
 	@Override
-	public NsDescriptorsNsdInfoIdGetResponse nsDescriptorsPost(String accept, String contentType, NsDescriptorsPostQuery body, @Context SecurityContext securityContext) {
-		// TODO: Implement...
-
-		return null;
+	@POST
+	@Path("/ns_descriptors")
+	@Consumes({ "application/json" })
+	@Produces({ "application/json" })
+	@ApiOperation(value = "Create a new NS descriptor resource.", tags = {})
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Status 201 An NS descriptor resource was created successfully, as a new NS descriptor resource.  The response body shall contain a representation of the new NS descriptor resource, as defined in clause 5.5.2.3 of GS NFV-SOL 005. The HTTP response shall include a \"Location\" HTTP header that contains the resource URI of the new NS descriptor resource.             ", response = NsDescriptorsNsdInfoIdGetResponse.class), @ApiResponse(code = 400, message = "Bad Request Error: Invalid attribute-based filtering parameters. The response body shall contain a ProblemDetails structure, in which the \"detail\" attribute should convey more information about the error. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
+			@ApiResponse(code = 401, message = "Unauthorized If the request contains no access token even though one is required, or if the request contains an authorization token that is invalid (e.g. expired or revoked), the API producer should respond with this response. The details of the error shall be returned in the WWW-Authenticate HTTP header, as defined in IETF RFC 6750 and IETF RFC 7235. The ProblemDetails structure may be provided. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 403, message = "Forbidden If the API consumer is not allowed to perform a particular request to a particular resource, the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided.  It should include in the \"detail\" attribute information about the source of the problem, and may indicate how to solve it. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
+			@ApiResponse(code = 404, message = "Not Found If the API producer did not find a current representation for the resource addressed by the URI passed in the request, or is not willing to disclose that one exists, it shall respond with this response code.  The \"ProblemDetails\" structure may be provided, including in the \"detail\" attribute information about the source of the problem, e.g. a wrong resource URI variable. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 405, message = "Method Not Allowed If a particular HTTP method is not supported for a particular resource, the API producer shall respond with this response code. The \"ProblemDetails\" structure may be omitted in that case. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
+			@ApiResponse(code = 406, message = "406 Not Acceptable If the \"Accept\" header does not contain at least one name of a content type for which the NFVO can provide a representation of the NSD, the NFVO shall respond with this response code. The \"ProblemDetails\" structure may be included with the \"detail\" attribute providing more information about the error.           ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 409, message = "Conflict Error: The operation cannot be executed currently, due to a conflict with the state of the resource. Typically, this is due to the fact the NS descriptor resource is in the enabled operational state (i.e. operationalState = ENABLED) or there are running NS instances using the concerned individual NS descriptor resource (i.e. usageState = IN_USE). The response body shall contain a ProblemDetails structure, in which the \"detail\" attribute shall convey more information about the error. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
+			@ApiResponse(code = 412, message = "Precondition Failed. A precondition given in an HTTP request header is not fulfilled. Typically, this is due to an ETag mismatch, indicating that the resource was modified by another entity.  The response body should contain a ProblemDetails structure, in which the \"detail\" attribute should convey more information about the error. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 416, message = "The byte range passed in the \"Range\" header did not match any available byte range in the NSD file (e.g. access after end of file). The response body may contain a ProblemDetails structure. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
+			@ApiResponse(code = 500, message = "Internal Server Error If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The ProblemDetails structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 503, message = "Service Unavailable If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 [13] for the use of the Retry-After HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class) })
+	public NsDescriptorsNsdInfoIdGetResponse nsDescriptorsPost(@HeaderParam("Accept") String accept, @HeaderParam("Content-Type") String contentType, String body, @Context SecurityContext securityContext, @Context UriInfo uriInfo) {
+		final NsDescriptorsPostQuery nsDescriptorsPostQuery = string2Object(body, NsDescriptorsPostQuery.class);
+		final String id = UUID.randomUUID().toString();
+		final String _self = Link.fromUriBuilder(uriInfo.getBaseUriBuilder().path(this.getClass(), "subscriptionsSubscriptionIdGet")).build(id).getUri().toString();
+		final String _nsdContent = Link.fromUriBuilder(uriInfo.getBaseUriBuilder().path(this.getClass(), "subscriptionsSubscriptionIdGet")).build(id).getUri().toString();
+		final NsDescriptorsNsdInfoIdGetResponse resp = NsdFactories.createNsDescriptorsNsdInfoIdGetResponse(id, _self, _nsdContent);
+		nsdRepository.save(resp);
+		return resp;
 	}
 
 	/**
@@ -497,4 +587,28 @@ public class DefaultApiServiceImpl implements DefaultApi {
 
 	}
 
+	/**
+	 * Simple wrapper for removing Exceptions, and make sure that we serialize using
+	 * correst latest.
+	 *
+	 * @param <T>
+	 * @param input
+	 * @param clazz
+	 * @return
+	 */
+	private <T> T string2Object(String input, Class<T> clazz) {
+		try {
+			return mapper.readValue(input, clazz);
+		} catch (final Exception e) {
+			throw new GenericException(e);
+		}
+	}
+
+	private <T> String object2String(T obj) {
+		try {
+			return mapper.writeValueAsString(obj);
+		} catch (final JsonProcessingException e) {
+			throw new GenericException(e);
+		}
+	}
 }
