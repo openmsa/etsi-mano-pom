@@ -2,13 +2,9 @@ package com.ubiqube.api.rs.endpoints.nfvo;
 
 import java.util.UUID;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubiqube.api.ejb.nfvo.vnf.VnfPkgInfo;
-import com.ubiqube.api.interfaces.repository.RepositoryService;
 
 public class VnfPackageRepository extends AbstractGenericRepository<VnfPkgInfo> {
-	private final ObjectMapper mapper = new ObjectMapper();
-	private RepositoryService repositoryService;
 
 	private final static String REPOSITORY_NVFO_DATAFILE_BASE_PATH = "Datafiles/NFVO/vnf_packages";
 
