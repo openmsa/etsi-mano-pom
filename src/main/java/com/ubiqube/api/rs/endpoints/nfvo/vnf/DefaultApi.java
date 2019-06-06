@@ -16,6 +16,7 @@ import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
 import com.ubiqube.api.ejb.nfvo.vnf.InlineResponse2001;
+import com.ubiqube.api.ejb.nfvo.vnf.SubscriptionsPkgmSubscription;
 import com.ubiqube.api.exception.ServiceException;
 
 /**
@@ -43,7 +44,7 @@ public interface DefaultApi {
 	 * response data structures, and response codes.
 	 *
 	 */
-	public List<InlineResponse2001> subscriptionsGet(@HeaderParam("Accept") String accept, @QueryParam("filter") String filter, @Context SecurityContext securityContext);
+	public List<SubscriptionsPkgmSubscription> subscriptionsGet(@HeaderParam("Accept") String accept, @QueryParam("filter") String filter, @Context SecurityContext securityContext);
 
 	/**
 	 * Subscribe to notifications related to on-boarding and/or changes of VNF

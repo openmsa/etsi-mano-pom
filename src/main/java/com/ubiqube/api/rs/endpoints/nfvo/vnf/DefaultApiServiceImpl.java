@@ -48,7 +48,6 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import com.owlike.genson.ext.jaxrs.GensonJaxRSFeature;
 import com.ubiqube.api.ejb.nfvo.utils.RangeHeader;
 import com.ubiqube.api.ejb.nfvo.vnf.InlineResponse2001;
 import com.ubiqube.api.ejb.nfvo.vnf.NotificationVnfPackageOnboardingNotification;
@@ -136,7 +135,6 @@ public class DefaultApiServiceImpl implements DefaultApi {
 			orchestrationService = (OrchestrationService) jndiContext.lookup("ubi-jentreprise/OrchestrationBean/remote-com.ubiqube.api.interfaces.orchestration.OrchestrationService");
 			repositoryService = (RepositoryService) jndiContext.lookup("ubi-jentreprise/RepositoryManagerBean/remote-com.ubiqube.api.interfaces.repository.RepositoryService");
 			lookupService = (LookupService) jndiContext.lookup("ubi-jentreprise/LookupBean/remote-com.ubiqube.api.interfaces.lookup.LookupService");
-			new ResourceConfig().register(new GensonJaxRSFeature().disable());
 			new ResourceConfig().register(MarshallingFeature.class);
 			init();
 		} catch (final NamingException e) {
@@ -227,14 +225,14 @@ public class DefaultApiServiceImpl implements DefaultApi {
 			@ApiResponse(code = 406, message = "If the \"Accept\" header does not contain at least one name of a content type for which the NFVO can provide a representation of the VNFD, the NFVO shall respond with this response code.         ", response = ProblemDetails.class), @ApiResponse(code = 416, message = "Requested Range Not Satisfiable The byte range passed in the \"Range\" header did not match any available byte range in the VNF package file (e.g. \"access after end of file\"). The response body may contain a ProblemDetails structure. ", response = ProblemDetails.class), @ApiResponse(code = 500, message = "Internal Server Error If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond withthis response code. The ProblemDetails structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = ProblemDetails.class),
 			@ApiResponse(code = 503, message = "Service Unavailable If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 [13] for the use of the Retry-After HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = ProblemDetails.class) })
 	@Override
-	public List<InlineResponse2001> subscriptionsGet(@HeaderParam("Accept") String accept, @QueryParam("filter") String filter, @Context SecurityContext securityContext) {
+	public List<SubscriptionsPkgmSubscription> subscriptionsGet(@HeaderParam("Accept") String accept, @QueryParam("filter") String filter, @Context SecurityContext securityContext) {
 		List<String> listFilesInFolder;
 		try {
 			listFilesInFolder = repositoryService.doSearch(REPOSITORY_SUBSCRIPTION_BASE_PATH, "");
 		} catch (final ServiceException e) {
 			throw new GenericException(e);
 		}
-		final List<InlineResponse2001> response = new ArrayList<InlineResponse2001>();
+		final List<SubscriptionsPkgmSubscription> response = new ArrayList<SubscriptionsPkgmSubscription>();
 		for (final String entry : listFilesInFolder) {
 			final RepositoryElement repositoryElement = repositoryService.getElement(entry);
 			final String content = new String(repositoryService.getRepositoryElementContent(repositoryElement));
@@ -244,7 +242,7 @@ public class DefaultApiServiceImpl implements DefaultApi {
 				final InlineResponse2001 pack = new InlineResponse2001();
 				final SubscriptionsPkgmSubscription subscriptionsPkgmSubscription = subscriptionObject.getSubscriptionsPkgmSubscription();
 				pack.setPkgmSubscription(subscriptionsPkgmSubscription);
-				response.add(pack);
+				response.add(subscriptionsPkgmSubscription);
 			} catch (final Exception e) {
 				throw new GenericException(e);
 			}
@@ -650,7 +648,7 @@ public class DefaultApiServiceImpl implements DefaultApi {
 		final VnfPkgInfo vnfPkgInfo = getVnfPkgIndividualInfoOrCheckOnboardingStatus(vnfPkgId, false);
 		final VnfPackagesVnfPkgIdGetResponse vnfPackagesVnfPkgIdGetResponse = new VnfPackagesVnfPkgIdGetResponse();
 		vnfPackagesVnfPkgIdGetResponse.setVnfPkgInfo(vnfPkgInfo);
-		return Response.ok(vnfPackagesVnfPkgIdGetResponse).build();
+		return Response.ok(vnfPkgInfo).build();
 	}
 
 	/**

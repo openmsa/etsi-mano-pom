@@ -10,7 +10,7 @@ public class VnfPackageRepository extends AbstractGenericRepository<VnfPkgInfo> 
 
 	@Override
 	String getUriForId(String _id) {
-		return REPOSITORY_NVFO_DATAFILE_BASE_PATH + "/" + _id + "/vnfd.json";
+		return REPOSITORY_NVFO_DATAFILE_BASE_PATH + "/" + _id + "/vnfPkgInfo.json";
 	}
 
 	@Override
