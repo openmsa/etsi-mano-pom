@@ -7,6 +7,7 @@ import javax.ws.rs.ext.Provider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -22,6 +23,7 @@ public class JacksonJsonProviderAtRest extends JacksonJaxbJsonProvider {
 	static {
 		objectMapperAtRest.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		objectMapperAtRest.configure(SerializationFeature.INDENT_OUTPUT, true);
+		objectMapperAtRest.setSerializationInclusion(Include.NON_NULL);
 	}
 
 	public JacksonJsonProviderAtRest() {

@@ -43,4 +43,17 @@ public class NsdFactories {
 		return ret;
 	}
 
+	public static NsDescriptorsNsdInfo createNsDescriptorsNsdInfo(String _id, String _self, String _nsdContent) {
+		final NsDescriptorsNsdInfo nsdInfo = new NsDescriptorsNsdInfo();
+		nsdInfo.setLinks(createNsDescriptorsNsdInfoLinks(_self, _nsdContent));
+		nsdInfo.setNestedNsdInfoIds(new ArrayList<String>());
+		nsdInfo.setNsdOnboardingState(NsdOnboardingStateEnum.CREATED);
+		nsdInfo.setNsdOperationalState(NsdOperationalStateEnum.ENABLED);
+		nsdInfo.setNsdUsageState(NsdUsageStateEnum.NOT_IN_USE);
+		nsdInfo.setPnfdInfoIds(new ArrayList<String>());
+		nsdInfo.setVnfPkgIds(new ArrayList<String>());
+		nsdInfo.setId(_id);
+		return nsdInfo;
+	}
+
 }

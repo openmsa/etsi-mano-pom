@@ -21,8 +21,10 @@ import javax.ws.rs.core.Link;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ubiqube.api.ejb.nfvo.nsdManagement.NsDescriptorsNsdInfo;
 import com.ubiqube.api.ejb.nfvo.nsdManagement.NsDescriptorsNsdInfoIdGetResponse;
 import com.ubiqube.api.ejb.nfvo.nsdManagement.NsDescriptorsNsdInfoIdPatchQuery;
 import com.ubiqube.api.ejb.nfvo.nsdManagement.NsDescriptorsNsdInfoOnboardingFailureDetails;
@@ -46,6 +48,7 @@ import com.ubiqube.api.interfaces.repository.RepositoryService;
 import com.ubiqube.api.rs.endpoints.nfvo.GenericException;
 import com.ubiqube.api.rs.endpoints.nfvo.NsdFactories;
 import com.ubiqube.api.rs.endpoints.nfvo.NsdRepository;
+import com.ubiqube.api.rs.exception.etsi.ConflictException;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -68,12 +71,13 @@ import io.swagger.annotations.ApiResponses;
 @Api(value = "/", description = "")
 public class DefaultApiServiceImpl implements DefaultApi {
 	private static final String REPOSITORY_NSD_BASE_PATH = "Datafiles/NFVO/nsd/";
-	private final ObjectMapper mapper = new ObjectMapper();
+	private final ObjectMapper mapper;
 	private final NsdRepository nsdRepository = new NsdRepository();
 	private final RepositoryService repositoryService;
 
 	public DefaultApiServiceImpl() {
-
+		mapper = new ObjectMapper();
+		mapper.setSerializationInclusion(Include.NON_NULL);
 		try {
 			final InitialContext jndiContext = new InitialContext();
 			repositoryService = (RepositoryService) jndiContext.lookup("ubi-jentreprise/RepositoryManagerBean/remote-com.ubiqube.api.interfaces.repository.RepositoryService");
@@ -116,8 +120,10 @@ public class DefaultApiServiceImpl implements DefaultApi {
 			final RepositoryElement repositoryElement = repositoryService.getElement(entry);
 			final String content = new String(repositoryService.getRepositoryElementContent(repositoryElement));
 			try {
-				final NsDescriptorsNsdInfoIdGetResponse nsdInfo = mapper.readValue(content, NsDescriptorsNsdInfoIdGetResponse.class);
-				response.add(nsdInfo);
+				final NsDescriptorsNsdInfo nsdInfo = mapper.readValue(content, NsDescriptorsNsdInfo.class);
+				final NsDescriptorsNsdInfoIdGetResponse resp = new NsDescriptorsNsdInfoIdGetResponse();
+				resp.setNsdInfo(nsdInfo);
+				response.add(resp);
 			} catch (final Exception e) {
 				throw new GenericException(e);
 			}
@@ -147,7 +153,10 @@ public class DefaultApiServiceImpl implements DefaultApi {
 			@ApiResponse(code = 416, message = "The byte range passed in the \"Range\" header did not match any available byte range in the NSD file (e.g. access after end of file). The response body may contain a ProblemDetails structure. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 500, message = "Internal Server Error If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The ProblemDetails structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
 			@ApiResponse(code = 503, message = "Service Unavailable If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 [13] for the use of the Retry-After HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class) })
 	public void nsDescriptorsNsdInfoIdDelete(@PathParam("nsdInfoId") String nsdInfoId, @Context SecurityContext securityContext) {
-		//
+		final NsDescriptorsNsdInfo nsdInfo = nsdRepository.get(nsdInfoId);
+		if (nsdInfo.getNsdOperationalState().equals("DISABLED") || nsdInfo.getNsdUsageState().equals("IN_USE")) {
+			throw new ConflictException("Nsd in bad state " + nsdInfoId);
+		}
 	}
 
 	/**
@@ -171,8 +180,12 @@ public class DefaultApiServiceImpl implements DefaultApi {
 			@ApiResponse(code = 409, message = "Conflict Error: The operation cannot be executed currently, due to a conflict with the state of the resource. Typically, this is due to the fact the NS descriptor resource is in the enabled operational state (i.e. operationalState = ENABLED) or there are running NS instances using the concerned individual NS descriptor resource (i.e. usageState = IN_USE). The response body shall contain a ProblemDetails structure, in which the \"detail\" attribute shall convey more information about the error. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 412, message = "Precondition Failed. A precondition given in an HTTP request header is not fulfilled. Typically, this is due to an ETag mismatch, indicating that the resource was modified by another entity.  The response body should contain a ProblemDetails structure, in which the \"detail\" attribute should convey more information about the error. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
 			@ApiResponse(code = 416, message = "The byte range passed in the \"Range\" header did not match any available byte range in the NSD file (e.g. access after end of file). The response body may contain a ProblemDetails structure. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 500, message = "Internal Server Error If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The ProblemDetails structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
 			@ApiResponse(code = 503, message = "Service Unavailable If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 [13] for the use of the Retry-After HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class) })
-	public NsDescriptorsNsdInfoIdGetResponse nsDescriptorsNsdInfoIdGet(@PathParam("nsdInfoId") String nsdInfoId, @HeaderParam("Accept") String accept, @Context SecurityContext securityContext) {
-		return nsdRepository.get(nsdInfoId);
+	public NsDescriptorsNsdInfo nsDescriptorsNsdInfoIdGet(@PathParam("nsdInfoId") String nsdInfoId, @HeaderParam("Accept") String accept, @Context SecurityContext securityContext) {
+		final NsDescriptorsNsdInfo nsdIfno = nsdRepository.get(nsdInfoId);
+
+		final NsDescriptorsNsdInfoIdGetResponse nsDescriptorsNsdInfoIdGetResponse = new NsDescriptorsNsdInfoIdGetResponse();
+		nsDescriptorsNsdInfoIdGetResponse.setNsdInfo(nsdIfno);
+		return nsdIfno;
 	}
 
 	/**
@@ -289,7 +302,7 @@ public class DefaultApiServiceImpl implements DefaultApi {
 			@ApiResponse(code = 406, message = "406 Not Acceptable If the \"Accept\" header does not contain at least one name of a content type for which the NFVO can provide a representation of the NSD, the NFVO shall respond with this response code. The \"ProblemDetails\" structure may be included with the \"detail\" attribute providing more information about the error.           ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 409, message = "Conflict Error: The operation cannot be executed currently, due to a conflict with the state of the resource. Typically, this is due to the fact the NS descriptor resource is in the enabled operational state (i.e. operationalState = ENABLED) or there are running NS instances using the concerned individual NS descriptor resource (i.e. usageState = IN_USE). The response body shall contain a ProblemDetails structure, in which the \"detail\" attribute shall convey more information about the error. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
 			@ApiResponse(code = 412, message = "Precondition Failed. A precondition given in an HTTP request header is not fulfilled. Typically, this is due to an ETag mismatch, indicating that the resource was modified by another entity.  The response body should contain a ProblemDetails structure, in which the \"detail\" attribute should convey more information about the error. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 416, message = "The byte range passed in the \"Range\" header did not match any available byte range in the NSD file (e.g. access after end of file). The response body may contain a ProblemDetails structure. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
 			@ApiResponse(code = 500, message = "Internal Server Error If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The ProblemDetails structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 503, message = "Service Unavailable If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 [13] for the use of the Retry-After HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class) })
-	public NsDescriptorsNsdInfoIdGetResponse nsDescriptorsPost(@HeaderParam("Accept") String accept, @HeaderParam("Content-Type") String contentType, String body, @Context SecurityContext securityContext, @Context UriInfo uriInfo) {
+	public NsDescriptorsNsdInfo nsDescriptorsPost(@HeaderParam("Accept") String accept, @HeaderParam("Content-Type") String contentType, String body, @Context SecurityContext securityContext, @Context UriInfo uriInfo) {
 		final NsDescriptorsPostQuery nsDescriptorsPostQuery = string2Object(body, NsDescriptorsPostQuery.class);
 		final String id = UUID.randomUUID().toString();
 		final StringBuilder sb = new StringBuilder().append(REPOSITORY_NSD_BASE_PATH).append("/").append(id);
@@ -304,7 +317,9 @@ public class DefaultApiServiceImpl implements DefaultApi {
 
 		final String _self = Link.fromUriBuilder(uriInfo.getBaseUriBuilder().path(this.getClass(), "nsDescriptorsGet")).build(id).getUri().toString();
 		final String _nsdContent = Link.fromUriBuilder(uriInfo.getBaseUriBuilder().path(this.getClass(), "nsDescriptorsNsdInfoIdNsdContentGet")).build(id).getUri().toString();
-		final NsDescriptorsNsdInfoIdGetResponse resp = NsdFactories.createNsDescriptorsNsdInfoIdGetResponse(id, _self, _nsdContent);
+		final NsDescriptorsNsdInfo resp = NsdFactories.createNsDescriptorsNsdInfo(id, _self, _nsdContent);
+		final Object userDefinedData = nsDescriptorsPostQuery.getCreateNsdInfoRequest().getUserDefinedData();
+		resp.setUserDefinedData(userDefinedData);
 		nsdRepository.save(resp);
 		return resp;
 	}

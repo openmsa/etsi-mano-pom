@@ -17,6 +17,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
+import com.ubiqube.api.ejb.nfvo.nsdManagement.NsDescriptorsNsdInfo;
 import com.ubiqube.api.ejb.nfvo.nsdManagement.NsDescriptorsNsdInfoIdGetResponse;
 import com.ubiqube.api.ejb.nfvo.nsdManagement.NsDescriptorsNsdInfoIdPatchQuery;
 import com.ubiqube.api.ejb.nfvo.nsdManagement.NsDescriptorsNsdInfoOnboardingFailureDetails;
@@ -84,7 +85,7 @@ public interface DefaultApi {
 	 * request and response data structures, and response codes.\&quot;
 	 *
 	 */
-	public NsDescriptorsNsdInfoIdGetResponse nsDescriptorsNsdInfoIdGet(@PathParam("nsdInfoId") String nsdInfoId, @HeaderParam("Accept") String accept, @Context SecurityContext securityContext);
+	public NsDescriptorsNsdInfo nsDescriptorsNsdInfoIdGet(@PathParam("nsdInfoId") String nsdInfoId, @HeaderParam("Accept") String accept, @Context SecurityContext securityContext);
 
 	/**
 	 * Fetch the content of a NSD.
@@ -177,7 +178,7 @@ public interface DefaultApi {
 	 * version of an on-boarded NS descriptor.
 	 *
 	 */
-	public NsDescriptorsNsdInfoIdGetResponse nsDescriptorsPost(@HeaderParam("Accept") String accept, @HeaderParam("Content-Type") String contentType, String body, @Context SecurityContext securityContext, @Context UriInfo uriInfo);
+	public NsDescriptorsNsdInfo nsDescriptorsPost(@HeaderParam("Accept") String accept, @HeaderParam("Content-Type") String contentType, String body, @Context SecurityContext securityContext, @Context UriInfo uriInfo);
 
 	/**
 	 * Query information about multiple PNF descriptor resources.

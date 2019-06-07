@@ -3,12 +3,18 @@ package com.ubiqube.api.rs.endpoints.nfvo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubiqube.api.entities.repository.RepositoryElement;
 
 public abstract class AbstractGenericRepository<T> extends AbstractRepository<T> {
 	private static final Logger LOG = LoggerFactory.getLogger(AbstractGenericRepository.class);
-	private final ObjectMapper mapper = new ObjectMapper();
+	private final ObjectMapper mapper;
+
+	public AbstractGenericRepository() {
+		mapper = new ObjectMapper();
+		mapper.setSerializationInclusion(Include.NON_NULL);
+	}
 
 	abstract String getUriForId(String _id);
 
@@ -45,7 +51,7 @@ public abstract class AbstractGenericRepository<T> extends AbstractRepository<T>
 
 		final String uri = getUriForId(saveId);
 		try {
-			final String str = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(_entity);
+			final String str = mapper.writeValueAsString(_entity);
 			LOG.info("Creating entity @" + uri);
 			repositoryService.addFile(uri, "SOL005", "", str, "ncroot");
 		} catch (final Exception e) {
