@@ -27,6 +27,7 @@ public class NsdFactories {
 		nsdInfo.setPnfdInfoIds(new ArrayList<String>());
 		nsdInfo.setVnfPkgIds(new ArrayList<String>());
 		nsdInfo.setId(_id);
+		ret.setNsdInfo(nsdInfo);
 		return ret;
 	}
 
@@ -41,4 +42,5 @@ public class NsdFactories {
 
 		return ret;
 	}
+
 }

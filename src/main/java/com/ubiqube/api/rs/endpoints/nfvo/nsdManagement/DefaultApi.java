@@ -62,7 +62,7 @@ public interface DefaultApi {
 	 * data structures, and response codes.\&quot;
 	 *
 	 */
-	public List<Object> nsDescriptorsGet(@HeaderParam("Accept") String accept, @QueryParam("filter") String filter, @QueryParam("all_fields") String allFields, @QueryParam("fields") String fields, @QueryParam("exclude_fields") String excludeFields, @QueryParam("exclude_default") String excludeDefault, @Context SecurityContext securityContext);
+	public List<NsDescriptorsNsdInfoIdGetResponse> nsDescriptorsGet(@HeaderParam("Accept") String accept, @QueryParam("filter") String filter, @QueryParam("all_fields") String allFields, @QueryParam("fields") String fields, @QueryParam("exclude_fields") String excludeFields, @QueryParam("exclude_default") String excludeDefault, @Context SecurityContext securityContext);
 
 	/**
 	 * Delete an individual NS descriptor resource.

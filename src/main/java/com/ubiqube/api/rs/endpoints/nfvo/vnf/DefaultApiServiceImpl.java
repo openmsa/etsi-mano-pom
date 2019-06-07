@@ -116,6 +116,7 @@ public class DefaultApiServiceImpl implements DefaultApi {
 	private final static String NVFO_DATAFILE_BASE_PATH = "Datafiles/NFVO";
 	private final static String REPOSITORY_NVFO_DATAFILE_BASE_PATH = "Datafiles/NFVO/vnf_packages";
 	private final static String REPOSITORY_SUBSCRIPTION_BASE_PATH = NVFO_DATAFILE_BASE_PATH + "/subscriptions";
+	private final static String REPOSITORY_NSD_BASE_PATH = NVFO_DATAFILE_BASE_PATH + "/nsd";
 
 	private SubscriptionRepository subscriptionRepository = new SubscriptionRepository();
 	private VnfPackageRepository vnfPackageRepository = new VnfPackageRepository();
@@ -186,6 +187,10 @@ public class DefaultApiServiceImpl implements DefaultApi {
 		if (!repositoryService.exists(REPOSITORY_SUBSCRIPTION_BASE_PATH)) {
 			repositoryService.addDirectory(REPOSITORY_SUBSCRIPTION_BASE_PATH, "", "SOL005", "ncroot");
 		}
+		if (!repositoryService.exists(REPOSITORY_NSD_BASE_PATH)) {
+			repositoryService.addDirectory(REPOSITORY_NSD_BASE_PATH, "", "SOL005", "ncroot");
+		}
+
 	}
 
 	@GET
