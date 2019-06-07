@@ -20,7 +20,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -62,7 +61,6 @@ import com.ubiqube.api.ejb.nfvo.vnf.VnfPackageChangeNotification;
 import com.ubiqube.api.ejb.nfvo.vnf.VnfPackagePostQuery;
 import com.ubiqube.api.ejb.nfvo.vnf.VnfPackagesVnfPkgIdGetResponse;
 import com.ubiqube.api.ejb.nfvo.vnf.VnfPackagesVnfPkgIdPackageContentUploadFromUriPostRequest;
-import com.ubiqube.api.ejb.nfvo.vnf.VnfPackagesVnfPkgIdPatchQuery;
 import com.ubiqube.api.ejb.nfvo.vnf.VnfPackagesVnfPkgInfoLinks;
 import com.ubiqube.api.ejb.nfvo.vnf.VnfPackagesVnfPkgInfoLinksSelf;
 import com.ubiqube.api.ejb.nfvo.vnf.VnfPkgInfo;
@@ -71,13 +69,13 @@ import com.ubiqube.api.ejb.nfvo.vnf.VnfPkgInfo.OperationalStateEnum;
 import com.ubiqube.api.ejb.nfvo.vnf.VnfPkgInfo.UsageStateEnum;
 import com.ubiqube.api.entities.repository.RepositoryElement;
 import com.ubiqube.api.exception.ServiceException;
-import com.ubiqube.api.interfaces.lookup.LookupService;
-import com.ubiqube.api.interfaces.orchestration.OrchestrationService;
 import com.ubiqube.api.interfaces.repository.RepositoryService;
 import com.ubiqube.api.rs.endpoints.nfvo.GenericException;
 import com.ubiqube.api.rs.endpoints.nfvo.MarshallingFeature;
 import com.ubiqube.api.rs.endpoints.nfvo.SubscriptionRepository;
 import com.ubiqube.api.rs.endpoints.nfvo.VnfPackageRepository;
+import com.ubiqube.api.rs.endpoints.nfvo.patch.Patcher;
+import com.ubiqube.api.rs.endpoints.nfvo.patch.WeakPatcher;
 import com.ubiqube.api.rs.exception.etsi.BadRequestException;
 import com.ubiqube.api.rs.exception.etsi.ConflictException;
 import com.ubiqube.api.rs.exception.etsi.NotFoundException;
@@ -119,27 +117,23 @@ public class DefaultApiServiceImpl implements DefaultApi {
 	private final static String REPOSITORY_NVFO_DATAFILE_BASE_PATH = "Datafiles/NFVO/vnf_packages";
 	private final static String REPOSITORY_SUBSCRIPTION_BASE_PATH = NVFO_DATAFILE_BASE_PATH + "/subscriptions";
 
-	private final SubscriptionRepository subscriptionRepository = new SubscriptionRepository();
-	private final VnfPackageRepository vnfPackageRepository = new VnfPackageRepository();
+	private SubscriptionRepository subscriptionRepository = new SubscriptionRepository();
+	private VnfPackageRepository vnfPackageRepository = new VnfPackageRepository();
 
-	private final String SERVICE_NANE = new StringBuilder().append(PROCESS_VNF_VNF_PCKGM_BASE_PATH).append("vnf_packages").toString();
 	private final ObjectMapper mapper = new ObjectMapper();
-	private OrchestrationService orchestrationService;
 	private RepositoryService repositoryService;
-	private LookupService lookupService;
+
+	// Should be injected.
+	private Patcher patcher = new WeakPatcher();
 
 	public DefaultApiServiceImpl() {
 		try {
 			final InitialContext jndiContext = new InitialContext();
 			// Use jmx-console service=JNDIView/list
-			orchestrationService = (OrchestrationService) jndiContext.lookup("ubi-jentreprise/OrchestrationBean/remote-com.ubiqube.api.interfaces.orchestration.OrchestrationService");
 			repositoryService = (RepositoryService) jndiContext.lookup("ubi-jentreprise/RepositoryManagerBean/remote-com.ubiqube.api.interfaces.repository.RepositoryService");
-			lookupService = (LookupService) jndiContext.lookup("ubi-jentreprise/LookupBean/remote-com.ubiqube.api.interfaces.lookup.LookupService");
 			new ResourceConfig().register(MarshallingFeature.class);
 			init();
-		} catch (final NamingException e) {
-			throw new GenericException(e);
-		} catch (final ServiceException e) {
+		} catch (final Exception e) {
 			throw new GenericException(e);
 		}
 	}
@@ -846,34 +840,10 @@ public class DefaultApiServiceImpl implements DefaultApi {
 			@ApiResponse(code = 406, message = "If the \"Accept\" header does not contain at least one name of a content type for which the NFVO can provide a representation of the VNFD, the NFVO shall respond with this response code.         ", response = ProblemDetails.class), @ApiResponse(code = 409, message = "Conflict. Error: The operation cannot be executed currently, due to a conflict with the state of the resource. Typically, this is due to any of the following scenarios: - Disable a VNF package resource of hich the operational state is not ENABLED - Enable a VNF package resource of which the operational state is not DISABLED The response body shall contain a ProblemDetails structure, in which the \"detail\" attribute shall convey more information about the error. ", response = ProblemDetails.class), @ApiResponse(code = 416, message = "Requested Range Not Satisfiable The byte range passed in the \"Range\" header did not match any available byte range in the VNF package file (e.g. \"access after end of file\"). The response body may contain a ProblemDetails structure. ", response = ProblemDetails.class),
 			@ApiResponse(code = 500, message = "Internal Server Error If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond withthis response code. The ProblemDetails structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = ProblemDetails.class), @ApiResponse(code = 503, message = "Service Unavailable If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 [13] for the use of the Retry-After HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = ProblemDetails.class) })
 	public Object vnfPackagesVnfPkgIdPatch(@PathParam("vnfPkgId") String vnfPkgId, String body, @HeaderParam("Content-Type") String contentType, @Context SecurityContext securityContext) {
-		final VnfPackagesVnfPkgIdPatchQuery vnfPackagesVnfPkgIdPatchQuery = string2Object(body, VnfPackagesVnfPkgIdPatchQuery.class);
-		final StringBuilder sb = new StringBuilder().append(REPOSITORY_NVFO_DATAFILE_BASE_PATH).append("/").append(vnfPkgId);
-		try {
-			if (!repositoryService.exists(sb.toString())) {
-				throw new NotFoundException("No such object: " + vnfPkgId);
-			}
-		} catch (final ServiceException e) {
-			throw new GenericException(e);
-		}
-		final VnfPkgInfo gud = new VnfPkgInfo();
-		gud.setId(vnfPkgId);
-		gud.setOnboardingState(OnboardingStateEnum.CREATED);
+		final VnfPkgInfo vnfPkgInfo = vnfPackageRepository.get(vnfPkgId);
 
-		final Object jsonString = vnfPackagesVnfPkgIdPatchQuery.getVnfPkgInfoModifications().getUserDefinedData();
-		try {
-			String uri = sb.toString();
-			if (!repositoryService.exists(uri.toString())) {
-				repositoryService.addDirectory(uri, "", "SOL005", "ncroot");
-			}
-
-			uri = sb.append("/").append("Metadata.yaml").toString();
-			repositoryService.addFile(uri, "", "Added: SOL005", jsonString.toString(), "ncroot");
-		} catch (final ServiceException e) {
-			throw new GenericException(e);
-		}
-
-		gud.setUserDefinedData(jsonString);
-
+		patcher.patch(body, vnfPkgInfo);
+		vnfPackageRepository.save(vnfPkgInfo);
 		/*
 		 * VnfPackagesVnfPkgInfoChecksum checksum = new VnfPackagesVnfPkgInfoChecksum();
 		 * checksum.algorithm("SHA-256"); String hash =
@@ -882,7 +852,7 @@ public class DefaultApiServiceImpl implements DefaultApi {
 		 */
 
 		final VnfPackagesVnfPkgIdGetResponse vnfPackagesVnfPkgIdGetResponse = new VnfPackagesVnfPkgIdGetResponse();
-		vnfPackagesVnfPkgIdGetResponse.setVnfPkgInfo(gud);
+		vnfPackagesVnfPkgIdGetResponse.setVnfPkgInfo(vnfPkgInfo);
 		return vnfPackagesVnfPkgIdGetResponse;
 	}
 
@@ -1264,5 +1234,17 @@ public class DefaultApiServiceImpl implements DefaultApi {
 		} catch (final JsonProcessingException e) {
 			throw new GenericException(e);
 		}
+	}
+
+	public void setSubscriptionRepository(SubscriptionRepository _subscriptionRepository) {
+		subscriptionRepository = _subscriptionRepository;
+	}
+
+	public void setVnfPackageRepository(VnfPackageRepository _vnfPackageRepository) {
+		vnfPackageRepository = _vnfPackageRepository;
+	}
+
+	public void setPatcher(Patcher _patcher) {
+		patcher = _patcher;
 	}
 }

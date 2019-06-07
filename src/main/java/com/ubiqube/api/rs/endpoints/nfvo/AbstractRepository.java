@@ -14,7 +14,7 @@ public abstract class AbstractRepository<T> {
 	public AbstractRepository() {
 		try {
 			final InitialContext jndiContext = new InitialContext();
-			repositoryService = (RepositoryService) jndiContext.lookup(RepositoryService.RemoteJNDIName);
+			repositoryService = (RepositoryService) jndiContext.lookup("ubi-jentreprise/RepositoryManagerBean/remote-com.ubiqube.api.interfaces.repository.RepositoryService");
 
 		} catch (final NamingException e) {
 			throw new GenericException(e);
