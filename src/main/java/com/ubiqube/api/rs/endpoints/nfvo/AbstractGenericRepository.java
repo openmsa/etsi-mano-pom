@@ -3,7 +3,6 @@ package com.ubiqube.api.rs.endpoints.nfvo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubiqube.api.entities.repository.RepositoryElement;
 
@@ -12,8 +11,7 @@ public abstract class AbstractGenericRepository<T> extends AbstractRepository<T>
 	private final ObjectMapper mapper;
 
 	public AbstractGenericRepository() {
-		mapper = new ObjectMapper();
-		mapper.setSerializationInclusion(Include.NON_NULL);
+		mapper = ConfiguredObjectMapper.getMapper();
 	}
 
 	abstract String getUriForId(String _id);

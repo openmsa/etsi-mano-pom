@@ -28,6 +28,7 @@ import com.ubiqube.api.ejb.nfvo.vnf.SubscriptionsPkgmSubscriptionRequestAuthenti
 import com.ubiqube.api.ejb.nfvo.vnf.SubscriptionsPkgmSubscriptionRequestAuthentication.AuthTypeEnum;
 import com.ubiqube.api.ejb.nfvo.vnf.SubscriptionsPkgmSubscriptionRequestAuthenticationParamsBasic;
 import com.ubiqube.api.ejb.nfvo.vnf.SubscriptionsPkgmSubscriptionRequestAuthenticationParamsOauth2ClientCredentials;
+import com.ubiqube.api.rs.endpoints.nfvo.ConfiguredObjectMapper;
 import com.ubiqube.api.rs.endpoints.nfvo.GenericException;
 
 /**
@@ -57,7 +58,11 @@ public class Notifications {
 	/** Logger instance. */
 	private static final Logger LOG = LoggerFactory.getLogger(Notifications.class);
 	/** JSON mapper. */
-	private final ObjectMapper mapper = new ObjectMapper();
+	private final ObjectMapper mapper;
+
+	public Notifications() {
+		mapper = ConfiguredObjectMapper.getMapper();
+	}
 
 	/**
 	 * Send a notification Object to the _uri

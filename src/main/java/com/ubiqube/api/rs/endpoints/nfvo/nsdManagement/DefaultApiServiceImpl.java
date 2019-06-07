@@ -21,7 +21,6 @@ import javax.ws.rs.core.Link;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubiqube.api.ejb.nfvo.nsdManagement.NsDescriptorsNsdInfo;
@@ -45,6 +44,7 @@ import com.ubiqube.api.ejb.nfvo.nsdManagement.SubscriptionsPostResponse;
 import com.ubiqube.api.entities.repository.RepositoryElement;
 import com.ubiqube.api.exception.ServiceException;
 import com.ubiqube.api.interfaces.repository.RepositoryService;
+import com.ubiqube.api.rs.endpoints.nfvo.ConfiguredObjectMapper;
 import com.ubiqube.api.rs.endpoints.nfvo.GenericException;
 import com.ubiqube.api.rs.endpoints.nfvo.NsdFactories;
 import com.ubiqube.api.rs.endpoints.nfvo.NsdRepository;
@@ -76,8 +76,7 @@ public class DefaultApiServiceImpl implements DefaultApi {
 	private final RepositoryService repositoryService;
 
 	public DefaultApiServiceImpl() {
-		mapper = new ObjectMapper();
-		mapper.setSerializationInclusion(Include.NON_NULL);
+		mapper = ConfiguredObjectMapper.getMapper();
 		try {
 			final InitialContext jndiContext = new InitialContext();
 			repositoryService = (RepositoryService) jndiContext.lookup("ubi-jentreprise/RepositoryManagerBean/remote-com.ubiqube.api.interfaces.repository.RepositoryService");
@@ -154,7 +153,7 @@ public class DefaultApiServiceImpl implements DefaultApi {
 			@ApiResponse(code = 503, message = "Service Unavailable If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 [13] for the use of the Retry-After HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class) })
 	public void nsDescriptorsNsdInfoIdDelete(@PathParam("nsdInfoId") String nsdInfoId, @Context SecurityContext securityContext) {
 		final NsDescriptorsNsdInfo nsdInfo = nsdRepository.get(nsdInfoId);
-		if (nsdInfo.getNsdOperationalState().equals("DISABLED") || nsdInfo.getNsdUsageState().equals("IN_USE")) {
+		if (!nsdInfo.getNsdOperationalState().equals("DISABLED") || nsdInfo.getNsdUsageState().equals("IN_USE")) {
 			throw new ConflictException("Nsd in bad state " + nsdInfoId);
 		}
 	}

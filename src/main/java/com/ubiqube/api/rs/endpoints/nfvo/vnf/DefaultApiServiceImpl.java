@@ -70,6 +70,7 @@ import com.ubiqube.api.ejb.nfvo.vnf.VnfPkgInfo.UsageStateEnum;
 import com.ubiqube.api.entities.repository.RepositoryElement;
 import com.ubiqube.api.exception.ServiceException;
 import com.ubiqube.api.interfaces.repository.RepositoryService;
+import com.ubiqube.api.rs.endpoints.nfvo.ConfiguredObjectMapper;
 import com.ubiqube.api.rs.endpoints.nfvo.GenericException;
 import com.ubiqube.api.rs.endpoints.nfvo.MarshallingFeature;
 import com.ubiqube.api.rs.endpoints.nfvo.SubscriptionRepository;
@@ -121,13 +122,14 @@ public class DefaultApiServiceImpl implements DefaultApi {
 	private SubscriptionRepository subscriptionRepository = new SubscriptionRepository();
 	private VnfPackageRepository vnfPackageRepository = new VnfPackageRepository();
 
-	private final ObjectMapper mapper = new ObjectMapper();
+	private final ObjectMapper mapper;
 	private RepositoryService repositoryService;
 
 	// Should be injected.
 	private Patcher patcher = new WeakPatcher();
 
 	public DefaultApiServiceImpl() {
+		mapper = ConfiguredObjectMapper.getMapper();
 		try {
 			final InitialContext jndiContext = new InitialContext();
 			// Use jmx-console service=JNDIView/list
