@@ -314,7 +314,7 @@ public class DefaultApiServiceImpl implements DefaultApi {
 			throw new GenericException(e);
 		}
 
-		final String _self = Link.fromUriBuilder(uriInfo.getBaseUriBuilder().path(this.getClass(), "nsDescriptorsGet")).build(id).getUri().toString();
+		final String _self = Link.fromUriBuilder(uriInfo.getBaseUriBuilder().path(this.getClass(), "nsDescriptorsNsdInfoIdGet")).build(id).getUri().toString();
 		final String _nsdContent = Link.fromUriBuilder(uriInfo.getBaseUriBuilder().path(this.getClass(), "nsDescriptorsNsdInfoIdNsdContentGet")).build(id).getUri().toString();
 		final NsDescriptorsNsdInfo resp = NsdFactories.createNsDescriptorsNsdInfo(id, _self, _nsdContent);
 		final Object userDefinedData = nsDescriptorsPostQuery.getCreateNsdInfoRequest().getUserDefinedData();
