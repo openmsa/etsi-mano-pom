@@ -1,10 +1,12 @@
-package com.ubiqube.api.rs.endpoints.nfvo;
+package com.ubiqube.api.rs.endpoints.nfvo.repositories;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubiqube.api.entities.repository.RepositoryElement;
+import com.ubiqube.api.rs.endpoints.nfvo.ConfiguredObjectMapper;
+import com.ubiqube.api.rs.exception.etsi.GenericException;
 
 public abstract class AbstractGenericRepository<T> extends AbstractRepository<T> {
 	private static final Logger LOG = LoggerFactory.getLogger(AbstractGenericRepository.class);

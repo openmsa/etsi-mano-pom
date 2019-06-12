@@ -7,9 +7,6 @@ import java.util.Deque;
 import java.util.Iterator;
 import java.util.Map;
 
-import javax.ejb.Local;
-import javax.ejb.Stateless;
-
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -19,15 +16,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ValueNode;
-import com.ubiqube.api.rs.endpoints.nfvo.GenericException;
+import com.ubiqube.api.rs.exception.etsi.GenericException;
 
 /**
  *
  * @author ovi@ubiqube.com
  *
  */
-@Stateless(name = "WeakPatcher")
-@Local(Patcher.class)
 public class WeakPatcher implements Patcher {
 	private static final Logger LOG = LoggerFactory.getLogger(WeakPatcher.class);
 	private final ObjectMapper mapper = new ObjectMapper();

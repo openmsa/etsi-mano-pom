@@ -51,9 +51,9 @@ import com.ubiqube.api.ejb.nfvo.vnf.VnfPkgInfo;
 import com.ubiqube.api.ejb.nfvo.vnf.VnfPkgInfo.OnboardingStateEnum;
 import com.ubiqube.api.entities.repository.RepositoryElement;
 import com.ubiqube.api.exception.ServiceException;
-import com.ubiqube.api.rs.endpoints.nfvo.GenericException;
 import com.ubiqube.api.rs.exception.etsi.BadRequestException;
 import com.ubiqube.api.rs.exception.etsi.ConflictException;
+import com.ubiqube.api.rs.exception.etsi.GenericException;
 import com.ubiqube.api.rs.exception.etsi.NotFoundException;
 
 import io.swagger.annotations.Api;

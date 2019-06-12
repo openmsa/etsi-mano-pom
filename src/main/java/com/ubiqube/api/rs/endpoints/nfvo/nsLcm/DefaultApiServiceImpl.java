@@ -42,7 +42,7 @@ import com.ubiqube.api.ejb.nfvo.nsdManagement.NsDescriptorsNsdInfo;
 import com.ubiqube.api.entities.device.SimpleDevice;
 import com.ubiqube.api.exception.ServiceException;
 import com.ubiqube.api.interfaces.device.DeviceService;
-import com.ubiqube.api.rs.endpoints.nfvo.NsdRepository;
+import com.ubiqube.api.rs.endpoints.nfvo.repositories.NsdRepository;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

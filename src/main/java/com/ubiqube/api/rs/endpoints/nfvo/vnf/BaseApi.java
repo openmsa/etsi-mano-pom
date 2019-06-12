@@ -7,11 +7,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubiqube.api.exception.ServiceException;
 import com.ubiqube.api.interfaces.repository.RepositoryService;
 import com.ubiqube.api.rs.endpoints.nfvo.ConfiguredObjectMapper;
-import com.ubiqube.api.rs.endpoints.nfvo.GenericException;
-import com.ubiqube.api.rs.endpoints.nfvo.SubscriptionRepository;
-import com.ubiqube.api.rs.endpoints.nfvo.VnfPackageRepository;
 import com.ubiqube.api.rs.endpoints.nfvo.patch.Patcher;
 import com.ubiqube.api.rs.endpoints.nfvo.patch.WeakPatcher;
+import com.ubiqube.api.rs.endpoints.nfvo.repositories.SubscriptionRepository;
+import com.ubiqube.api.rs.endpoints.nfvo.repositories.VnfPackageRepository;
+import com.ubiqube.api.rs.exception.etsi.GenericException;
 
 public class BaseApi {
 	protected static final String NCROOT = "ncroot";

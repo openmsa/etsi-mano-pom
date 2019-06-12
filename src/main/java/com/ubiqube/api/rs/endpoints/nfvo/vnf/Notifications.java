@@ -29,7 +29,7 @@ import com.ubiqube.api.ejb.nfvo.vnf.SubscriptionsPkgmSubscriptionRequestAuthenti
 import com.ubiqube.api.ejb.nfvo.vnf.SubscriptionsPkgmSubscriptionRequestAuthenticationParamsBasic;
 import com.ubiqube.api.ejb.nfvo.vnf.SubscriptionsPkgmSubscriptionRequestAuthenticationParamsOauth2ClientCredentials;
 import com.ubiqube.api.rs.endpoints.nfvo.ConfiguredObjectMapper;
-import com.ubiqube.api.rs.endpoints.nfvo.GenericException;
+import com.ubiqube.api.rs.exception.etsi.GenericException;
 
 /**
  * This class handle the notification callback.

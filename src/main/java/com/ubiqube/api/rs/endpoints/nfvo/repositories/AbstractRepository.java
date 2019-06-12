@@ -1,10 +1,11 @@
-package com.ubiqube.api.rs.endpoints.nfvo;
+package com.ubiqube.api.rs.endpoints.nfvo.repositories;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import com.ubiqube.api.exception.ServiceException;
 import com.ubiqube.api.interfaces.repository.RepositoryService;
+import com.ubiqube.api.rs.exception.etsi.GenericException;
 import com.ubiqube.api.rs.exception.etsi.NotFoundException;
 
 public abstract class AbstractRepository<T> {

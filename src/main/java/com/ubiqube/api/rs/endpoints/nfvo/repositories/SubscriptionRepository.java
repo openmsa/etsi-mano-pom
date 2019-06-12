@@ -1,4 +1,4 @@
-package com.ubiqube.api.rs.endpoints.nfvo;
+package com.ubiqube.api.rs.endpoints.nfvo.repositories;
 
 import java.util.UUID;
 

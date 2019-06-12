@@ -1,4 +1,4 @@
-package com.ubiqube.api.rs.endpoints.nfvo;
+package com.ubiqube.api.rs.exception.etsi;
 
 /**
  * A generic exception.

@@ -45,10 +45,10 @@ import com.ubiqube.api.entities.repository.RepositoryElement;
 import com.ubiqube.api.exception.ServiceException;
 import com.ubiqube.api.interfaces.repository.RepositoryService;
 import com.ubiqube.api.rs.endpoints.nfvo.ConfiguredObjectMapper;
-import com.ubiqube.api.rs.endpoints.nfvo.GenericException;
 import com.ubiqube.api.rs.endpoints.nfvo.NsdFactories;
-import com.ubiqube.api.rs.endpoints.nfvo.NsdRepository;
+import com.ubiqube.api.rs.endpoints.nfvo.repositories.NsdRepository;
 import com.ubiqube.api.rs.exception.etsi.ConflictException;
+import com.ubiqube.api.rs.exception.etsi.GenericException;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

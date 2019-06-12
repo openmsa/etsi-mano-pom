@@ -8,7 +8,7 @@ import org.apache.commons.beanutils.BeanUtils;
 
 import com.ubiqube.api.ejb.nfvo.vnf.SubscriptionObject;
 import com.ubiqube.api.ejb.nfvo.vnf.SubscriptionsPkgmSubscription;
-import com.ubiqube.api.rs.endpoints.nfvo.GenericException;
+import com.ubiqube.api.rs.exception.etsi.GenericException;
 import com.ubiqube.etsi.grammar.EtsiLexer;
 import com.ubiqube.etsi.grammar.Etsifilter;
 
