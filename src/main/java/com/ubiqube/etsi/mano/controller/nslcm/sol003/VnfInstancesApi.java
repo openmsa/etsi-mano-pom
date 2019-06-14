@@ -4,6 +4,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
+import javax.ws.rs.PATCH;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -27,7 +28,6 @@ import com.ubiqube.etsi.mano.model.nslcm.sol003.VnfInfoModificationRequest;
 import com.ubiqube.etsi.mano.model.nslcm.sol003.VnfInstance;
 
 import io.swagger.annotations.ApiParam;
-import io.swagger.jaxrs.PATCH;
 
 @Path("/vnf_instances")
 @Consumes({ "application/json" })

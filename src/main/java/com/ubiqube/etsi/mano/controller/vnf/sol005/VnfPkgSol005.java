@@ -30,7 +30,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
-import org.glassfish.jersey.media.multipart.FormDataBodyPart;
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -58,7 +58,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import io.swagger.jaxrs.PATCH;
 
 /**
  * SOL005 - VNF Package Management Interface
@@ -355,7 +354,7 @@ public class VnfPkgSol005 extends BaseApi {
 	 * data structures, and response codes.\&quot;
 	 *
 	 */
-	@PATCH
+	@javax.ws.rs.PATCH
 	@Path("/vnf_packages/{vnfPkgId}")
 	@Consumes({ "application/json" })
 	@Produces({ "application/json" })
@@ -403,7 +402,9 @@ public class VnfPkgSol005 extends BaseApi {
 	public Response vnfPackagesVnfPkgIdPackageContentPut(@PathParam("vnfPkgId") String vnfPkgId, @HeaderParam("Accept") String accept, @Context SecurityContext securityContext,
 			/* @Multipart(value = "file", required = false) FileInputStream fileDetail, */
 			// OK:FormDataMultiPart multipart
-			@FormDataParam("file") InputStream fileDetail, @FormDataParam("file") FormDataBodyPart part) {
+			@FormDataParam("file") InputStream fileDetail,
+			// OK:@FormDataParam("file") FormDataBodyPart part
+			@FormDataParam("file") FormDataContentDisposition part) {
 		final String uri = new StringBuilder().append(REPOSITORY_NVFO_DATAFILE_BASE_PATH).append("/").append(vnfPkgId).toString();
 		try {
 			if (!repositoryService.exists(uri)) {
@@ -412,7 +413,7 @@ public class VnfPkgSol005 extends BaseApi {
 		} catch (final ServiceException e) {
 			throw new GenericException(e);
 		}
-		if (isZip(part.getMediaType().toString())) {
+		if (isZip(part.getType())) {
 			// Normally we should do an asynchrone call
 			try {
 				unzip(vnfPkgId, fileDetail);

@@ -21,6 +21,8 @@ import javax.ws.rs.core.Link;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
+import org.springframework.stereotype.Service;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubiqube.api.entities.repository.RepositoryElement;
@@ -67,6 +69,7 @@ import io.swagger.annotations.ApiResponses;
  * https://forge.etsi.org/bugzilla/buglist.cgi?component=Nfv-Openapis
  *
  */
+@Service
 @Path("/nsd/v1")
 @Api(value = "/", description = "")
 public class DefaultApiServiceImpl implements DefaultApi {

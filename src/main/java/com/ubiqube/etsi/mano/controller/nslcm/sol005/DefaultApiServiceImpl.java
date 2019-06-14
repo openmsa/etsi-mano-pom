@@ -17,7 +17,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.SecurityContext;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.ubiqube.api.commons.id.DeviceId;
 import com.ubiqube.api.entities.device.SimpleDevice;
@@ -64,7 +65,7 @@ import io.swagger.annotations.ApiResponses;
 @Path("/nslcm/v1")
 @Api(value = "/", description = "")
 public class DefaultApiServiceImpl implements DefaultApi {
-	private static final Logger logger = Logger.getLogger(DefaultApiServiceImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(DefaultApiServiceImpl.class);
 
 	private DeviceService deviceService;
 	private final NsdRepository nsdRepository = new NsdRepository();
@@ -125,7 +126,7 @@ public class DefaultApiServiceImpl implements DefaultApi {
 		try {
 			deviceService.deleteDevice(deviceService.getDeviceId(nsInstanceId), securityContext.getUserPrincipal().getName());
 		} catch (final ServiceException e) {
-			logger.error("", e);
+			LOG.error("", e);
 		}
 
 	}
@@ -197,7 +198,7 @@ public class DefaultApiServiceImpl implements DefaultApi {
 			nsInstance.setAdditionalAffinityOrAntiAffinityRule(null);
 			nsInstance.setLinks(null);
 		} catch (final ServiceException e) {
-			logger.error("", e);
+			LOG.error("", e);
 		}
 		return null;
 	}

@@ -1,5 +1,6 @@
 package com.ubiqube.etsi.mano.config;
 
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,6 +11,7 @@ import com.ubiqube.etsi.mano.controller.vnf.sol005.VnfPkgSol005;
 public class JerseyConfig extends ResourceConfig {
 
 	public JerseyConfig() {
+		register(MultiPartFeature.class);
 		register(VnfPkgSol005.class);
 		register(VnfPkgSol003.class);
 	}
