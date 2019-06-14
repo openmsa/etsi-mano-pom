@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -37,6 +38,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.ubiqube.api.entities.repository.RepositoryElement;
 import com.ubiqube.api.exception.ServiceException;
+import com.ubiqube.api.interfaces.repository.RepositoryService;
 import com.ubiqube.etsi.mano.controller.BaseApi;
 import com.ubiqube.etsi.mano.controller.vnf.sol005.VnfManagement;
 import com.ubiqube.etsi.mano.exception.BadRequestException;
@@ -56,6 +58,9 @@ import com.ubiqube.etsi.mano.model.vnf.sol005.VnfPackageChangeNotification;
 import com.ubiqube.etsi.mano.model.vnf.sol005.VnfPackagesVnfPkgIdGetResponse;
 import com.ubiqube.etsi.mano.model.vnf.sol005.VnfPkgInfo;
 import com.ubiqube.etsi.mano.model.vnf.sol005.VnfPkgInfo.OnboardingStateEnum;
+import com.ubiqube.etsi.mano.repository.SubscriptionRepository;
+import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
+import com.ubiqube.etsi.mano.service.Patcher;
 import com.ubiqube.etsi.mano.utils.Notifications;
 import com.ubiqube.etsi.mano.utils.RangeHeader;
 import com.ubiqube.etsi.mano.utils.ZipFileHandler;
@@ -88,7 +93,13 @@ import net.sf.json.JSONObject;
 @Api(value = "/sol003/vnfpkgm/v1", description = "")
 public class VnfPkgSol003 extends BaseApi implements DefaultSol003Api {
 	private static final Logger LOGGER = LoggerFactory.getLogger(VnfPkgSol003.class);
-	private final VnfManagement vnfManagement = new VnfManagement();
+	private final VnfManagement vnfManagement;
+
+	@Inject
+	public VnfPkgSol003(VnfManagement _vnfManagement, Patcher _patcher, ObjectMapper _mapper, SubscriptionRepository _subscriptionRepository, VnfPackageRepository _vnfPackageRepository, RepositoryService _repositoryService) {
+		super(_patcher, _mapper, _subscriptionRepository, _vnfPackageRepository, _repositoryService);
+		vnfManagement = _vnfManagement;
+	}
 
 	/**
 	 * Map YAML file to JsonObject.

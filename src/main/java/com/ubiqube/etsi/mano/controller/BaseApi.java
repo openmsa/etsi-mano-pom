@@ -1,6 +1,6 @@
 package com.ubiqube.etsi.mano.controller;
 
-import javax.naming.InitialContext;
+import javax.inject.Inject;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,8 +10,6 @@ import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.repository.SubscriptionRepository;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 import com.ubiqube.etsi.mano.service.Patcher;
-import com.ubiqube.etsi.mano.service.WeakPatcher;
-import com.ubiqube.etsi.mano.utils.ConfiguredObjectMapper;
 
 public class BaseApi {
 	protected static final String NCROOT = "ncroot";
@@ -26,23 +24,22 @@ public class BaseApi {
 	protected static final String REPOSITORY_NSD_BASE_PATH = NVFO_DATAFILE_BASE_PATH + "/nsd";
 
 	// Should be injected.
-	protected final Patcher patcher = new WeakPatcher();
 
-	protected final ObjectMapper mapper;
-	protected final SubscriptionRepository subscriptionRepository = new SubscriptionRepository();
-	protected final VnfPackageRepository vnfPackageRepository = new VnfPackageRepository();
+	protected final Patcher patcher;
+
+	protected ObjectMapper mapper;
+	protected SubscriptionRepository subscriptionRepository;
+	protected VnfPackageRepository vnfPackageRepository;
 	protected RepositoryService repositoryService;
 
-	public BaseApi() {
-		mapper = ConfiguredObjectMapper.getMapper();
-		try {
-			final InitialContext jndiContext = new InitialContext();
-			// Use jmx-console service=JNDIView/list
-			repositoryService = (RepositoryService) jndiContext.lookup("ubi-jentreprise/RepositoryManagerBean/remote-com.ubiqube.api.interfaces.repository.RepositoryService");
-			init();
-		} catch (final Exception e) {
-			throw new GenericException(e);
-		}
+	@Inject
+	public BaseApi(Patcher _patcher, ObjectMapper _mapper, SubscriptionRepository _subscriptionRepository, VnfPackageRepository _vnfPackageRepository, RepositoryService _repositoryService) {
+		super();
+		patcher = _patcher;
+		mapper = _mapper;
+		subscriptionRepository = _subscriptionRepository;
+		vnfPackageRepository = _vnfPackageRepository;
+		repositoryService = _repositoryService;
 	}
 
 	/**

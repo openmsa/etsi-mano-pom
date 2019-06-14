@@ -5,6 +5,7 @@ import javax.ws.rs.PathParam;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import com.ubiqube.api.exception.ServiceException;
 import com.ubiqube.etsi.mano.controller.vnf.sol003.VnfPkgSol003;
@@ -14,6 +15,7 @@ import com.ubiqube.etsi.mano.model.vnf.sol005.VnfPkgInfo;
 import com.ubiqube.etsi.mano.model.vnf.sol005.VnfPkgInfo.OnboardingStateEnum;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 
+@Service
 public class VnfManagement {
 	private static final Logger LOG = LoggerFactory.getLogger(VnfPkgSol003.class);
 	protected final VnfPackageRepository vnfPackageRepository = new VnfPackageRepository();

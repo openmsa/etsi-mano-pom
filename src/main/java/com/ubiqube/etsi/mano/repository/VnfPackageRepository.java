@@ -2,8 +2,11 @@ package com.ubiqube.etsi.mano.repository;
 
 import java.util.UUID;
 
+import org.springframework.stereotype.Repository;
+
 import com.ubiqube.etsi.mano.model.vnf.sol005.VnfPkgInfo;
 
+@Repository
 public class VnfPackageRepository extends AbstractGenericRepository<VnfPkgInfo> {
 
 	private final static String REPOSITORY_NVFO_DATAFILE_BASE_PATH = "Datafiles/NFVO/vnf_packages";

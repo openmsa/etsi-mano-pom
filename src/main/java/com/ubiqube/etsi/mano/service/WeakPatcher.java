@@ -11,6 +11,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,6 +24,7 @@ import com.ubiqube.etsi.mano.exception.GenericException;
  * @author ovi@ubiqube.com
  *
  */
+@Service
 public class WeakPatcher implements Patcher {
 	private static final Logger LOG = LoggerFactory.getLogger(WeakPatcher.class);
 	private final ObjectMapper mapper = new ObjectMapper();

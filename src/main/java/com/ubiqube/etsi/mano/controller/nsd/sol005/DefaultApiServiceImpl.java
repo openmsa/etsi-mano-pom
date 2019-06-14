@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -20,8 +19,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Link;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
-
-import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -50,7 +47,6 @@ import com.ubiqube.etsi.mano.model.nsd.sol005.PnfdOnBoardingNotification;
 import com.ubiqube.etsi.mano.model.nsd.sol005.SubscriptionsPostQuery;
 import com.ubiqube.etsi.mano.model.nsd.sol005.SubscriptionsPostResponse;
 import com.ubiqube.etsi.mano.repository.NsdRepository;
-import com.ubiqube.etsi.mano.utils.ConfiguredObjectMapper;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -69,24 +65,20 @@ import io.swagger.annotations.ApiResponses;
  * https://forge.etsi.org/bugzilla/buglist.cgi?component=Nfv-Openapis
  *
  */
-@Service
-@Path("/nsd/v1")
+@Path("/sol005/nsd/v1")
 @Api(value = "/", description = "")
 public class DefaultApiServiceImpl implements DefaultApi {
 	private static final String REPOSITORY_NSD_BASE_PATH = "Datafiles/NFVO/nsd/";
 	private final ObjectMapper mapper;
-	private final NsdRepository nsdRepository = new NsdRepository();
+	private final NsdRepository nsdRepository;
 	private final RepositoryService repositoryService;
 
-	public DefaultApiServiceImpl() {
-		mapper = ConfiguredObjectMapper.getMapper();
-		try {
-			final InitialContext jndiContext = new InitialContext();
-			repositoryService = (RepositoryService) jndiContext.lookup("ubi-jentreprise/RepositoryManagerBean/remote-com.ubiqube.api.interfaces.repository.RepositoryService");
-		} catch (final NamingException e) {
-			throw new GenericException(e);
-		}
-
+	@Inject
+	public DefaultApiServiceImpl(ObjectMapper _mapper, NsdRepository _nsdRepository, RepositoryService _repositoryService) {
+		super();
+		mapper = _mapper;
+		nsdRepository = _nsdRepository;
+		repositoryService = _repositoryService;
 	}
 
 	/**

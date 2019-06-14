@@ -13,6 +13,7 @@ import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -32,10 +33,13 @@ import javax.ws.rs.core.UriInfo;
 
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubiqube.api.entities.repository.RepositoryElement;
 import com.ubiqube.api.exception.ServiceException;
+import com.ubiqube.api.interfaces.repository.RepositoryService;
 import com.ubiqube.etsi.mano.controller.BaseApi;
 import com.ubiqube.etsi.mano.controller.vnf.sol003.VnfPkgSol003;
 import com.ubiqube.etsi.mano.exception.ConflictException;
@@ -53,6 +57,9 @@ import com.ubiqube.etsi.mano.model.vnf.sol005.VnfPkgInfo;
 import com.ubiqube.etsi.mano.model.vnf.sol005.VnfPkgInfo.OnboardingStateEnum;
 import com.ubiqube.etsi.mano.model.vnf.sol005.VnfPkgInfo.OperationalStateEnum;
 import com.ubiqube.etsi.mano.model.vnf.sol005.VnfPkgInfo.UsageStateEnum;
+import com.ubiqube.etsi.mano.repository.SubscriptionRepository;
+import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
+import com.ubiqube.etsi.mano.service.Patcher;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -76,11 +83,18 @@ import io.swagger.annotations.ApiResponses;
  * could be here and not Jackson, in this case you can use object2String.
  *
  */
+@RestController
 @Path("/sol005/vnfpkgm/v1")
 @Api(value = "/sol005/vnfpkgm/v1", description = "")
 public class VnfPkgSol005 extends BaseApi {
-	private final VnfPkgSol003 vnfPkgSol003 = new VnfPkgSol003();
-	private final VnfManagement vnfManagement = new VnfManagement();
+	private final VnfPkgSol003 vnfPkgSol003 = null;
+	private final VnfManagement vnfManagement;
+
+	@Inject
+	public VnfPkgSol005(VnfManagement _vnfManagement, Patcher _patcher, ObjectMapper _mapper, SubscriptionRepository _subscriptionRepository, VnfPackageRepository _vnfPackageRepository, RepositoryService _repositoryService) {
+		super(_patcher, _mapper, _subscriptionRepository, _vnfPackageRepository, _repositoryService);
+		vnfManagement = _vnfManagement;
+	}
 
 	@GET
 	@Path("/subs")
