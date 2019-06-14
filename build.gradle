@@ -1,16 +1,13 @@
-buildscript {
-	ext {
-		springBootVersion = '2.1.5.RELEASE'
-	}
-	repositories {
-		jcenter()
-		mavenCentral()
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-		classpath "com.github.ben-manes:gradle-versions-plugin:0.21.0"
-	}
+plugins {
+	id 'war'
+	id 'antlr'
+	id 'eclipse-wtp'
+	id 'org.springframework.boot' version '2.1.5.RELEASE'
+	id 'org.sonarqube' version '2.7.1'
+	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 }
+
+
 repositories {
 	
 	maven {
@@ -27,11 +24,13 @@ repositories {
 	
 	mavenCentral()
 }
-apply plugin: 'java'
-apply plugin: 'war'
-apply plugin: "com.github.ben-manes.versions"
-//apply plugin: 'org.springframework.boot'
-//apply plugin: 'io.spring.dependency-management'
+
+
+sonarqube {
+	properties {
+		property "sonar.projectName", "etsi-mano"
+	}
+}
 
 group = 'com.ubiqube'
 version = '0.0.1-SNAPSHOT'
@@ -125,6 +124,9 @@ dependencies {
 	//compile group: 'org.apache.bval', name: 'bval-jsr303', version: '0.5'
 	compile group: 'org.apache.bval', name: 'bval-jsr', version: '1.1.2'
 	//compile group: 'org.hibernate.validator', name: 'hibernate-validator', version: '4.1.0.GA'
+	//compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.26'
+	
+	compile("org.springframework.boot:spring-boot-starter-security")
 }
 
 /*
@@ -132,6 +134,11 @@ war {
 	webInf { from 'WebContent/WEB-INF' }
 	webXml = file('WebContent/WEB-INF/web.xml')
 }*/
+
+generateGrammarSource {
+    maxHeapSize = "64m"
+    arguments += ["-visitor", "-long-messages"]
+}
 
 task copyDependencies(type: Copy) {
    from configurations.compile
