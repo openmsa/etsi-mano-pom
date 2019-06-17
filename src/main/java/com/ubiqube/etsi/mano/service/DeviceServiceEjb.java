@@ -56,10 +56,21 @@ import com.ubiqube.etsi.mano.exception.GenericException;
 
 import net.sf.json.JSONObject;
 
+/**
+ * Implementation of a Device service thru remote EJB call. NOTE it's just a
+ * delegate of the interface, feel free to regenerate for correcting arguments.
+ * 
+ * @author Olivier Vignaud <ovi@ubiqube.com>
+ *
+ */
 @Service
 public class DeviceServiceEjb implements DeviceService {
+	/** EJB proxy. */
 	DeviceService deviceService;
 
+	/**
+	 * Constructor.
+	 */
 	public DeviceServiceEjb() {
 		try {
 			final InitialContext jndiContext = new InitialContext();

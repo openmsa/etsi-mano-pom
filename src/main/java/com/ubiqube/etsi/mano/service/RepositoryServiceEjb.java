@@ -21,17 +21,76 @@ import com.ubiqube.api.exception.repository.RepositoryException;
 import com.ubiqube.api.interfaces.repository.RepositoryService;
 import com.ubiqube.etsi.mano.exception.GenericException;
 
+/**
+ * Implementation of a Device service thru remote EJB call. NOTE it's just a
+ * delegate of the interface, feel free to regenerate for correcting arguments.
+ *
+ * @author Olivier Vignaud <ovi@ubiqube.com>
+ *
+ */
 @Service
 public class RepositoryServiceEjb implements RepositoryService {
+	protected static final String NCROOT = "ncroot";
+	protected static final String MANO = "MANO";
+	protected static final String PROCESS_BASE_PATH = "Process";
+	protected static final String PROCESS_NFVO_BASE_PATH = PROCESS_BASE_PATH + "/NFVO";
+	protected static final String PROCESS_VNF_VNF_PCKGM_BASE_PATH = PROCESS_NFVO_BASE_PATH + "/VNF_PCKGM";
+	protected static final String DATAFILE_BASE_PATH = "Datafiles";
+	protected static final String NVFO_DATAFILE_BASE_PATH = "Datafiles/NFVO";
+	protected static final String REPOSITORY_NVFO_DATAFILE_BASE_PATH = "Datafiles/NFVO/vnf_packages";
+	protected static final String REPOSITORY_SUBSCRIPTION_BASE_PATH = NVFO_DATAFILE_BASE_PATH + "/subscriptions";
+	protected static final String REPOSITORY_NSD_BASE_PATH = NVFO_DATAFILE_BASE_PATH + "/nsd";
+	/** EJB Instance. */
 	private RepositoryService repositoryService;
 
+	/**
+	 * Constructor.
+	 */
 	public RepositoryServiceEjb() {
 		try {
 			final InitialContext jndiContext = new InitialContext();
 			repositoryService = (RepositoryService) jndiContext.lookup("ubi-jentreprise/RepositoryManagerBean/remote-com.ubiqube.api.interfaces.repository.RepositoryService");
+			init();
 		} catch (final NamingException e) {
 			throw new GenericException(e);
+		} catch (final ServiceException e) {
+			throw new GenericException(e);
 		}
+	}
+
+	/**
+	 * MSA related stuff. TODO move this method elsewhere.
+	 *
+	 * @throws ServiceException
+	 */
+	private void init() throws ServiceException {
+		if (!repositoryService.exists(PROCESS_BASE_PATH)) {
+			repositoryService.addDirectory(PROCESS_BASE_PATH, "", MANO, NCROOT);
+		}
+		if (!repositoryService.exists(PROCESS_NFVO_BASE_PATH)) {
+			repositoryService.addDirectory(PROCESS_NFVO_BASE_PATH, "", MANO, NCROOT);
+		}
+
+		if (!repositoryService.exists(PROCESS_VNF_VNF_PCKGM_BASE_PATH)) {
+			repositoryService.addDirectory(PROCESS_VNF_VNF_PCKGM_BASE_PATH, "", MANO, NCROOT);
+		}
+
+		if (!repositoryService.exists(DATAFILE_BASE_PATH)) {
+			repositoryService.addDirectory(DATAFILE_BASE_PATH, "", MANO, NCROOT);
+		}
+		if (!repositoryService.exists(NVFO_DATAFILE_BASE_PATH)) {
+			repositoryService.addDirectory(NVFO_DATAFILE_BASE_PATH, "", MANO, NCROOT);
+		}
+		if (!repositoryService.exists(REPOSITORY_NVFO_DATAFILE_BASE_PATH)) {
+			repositoryService.addDirectory(REPOSITORY_NVFO_DATAFILE_BASE_PATH, "", MANO, NCROOT);
+		}
+		if (!repositoryService.exists(REPOSITORY_SUBSCRIPTION_BASE_PATH)) {
+			repositoryService.addDirectory(REPOSITORY_SUBSCRIPTION_BASE_PATH, "", MANO, NCROOT);
+		}
+		if (!repositoryService.exists(REPOSITORY_NSD_BASE_PATH)) {
+			repositoryService.addDirectory(REPOSITORY_NSD_BASE_PATH, "", MANO, NCROOT);
+		}
+
 	}
 
 	@Override
