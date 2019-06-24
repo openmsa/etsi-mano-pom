@@ -5,8 +5,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
+import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
@@ -20,6 +19,7 @@ import com.ubiqube.api.exception.configuration.ConfigurationException;
 import com.ubiqube.api.exception.repository.RepositoryException;
 import com.ubiqube.api.interfaces.repository.RepositoryService;
 import com.ubiqube.etsi.mano.exception.GenericException;
+import com.ubiqube.etsi.mano.repository.JndiWrapper;
 
 /**
  * Implementation of a Device service thru remote EJB call. NOTE it's just a
@@ -46,13 +46,11 @@ public class RepositoryServiceEjb implements RepositoryService {
 	/**
 	 * Constructor.
 	 */
-	public RepositoryServiceEjb() {
+	@Inject
+	public RepositoryServiceEjb(JndiWrapper _jndiWrapper) {
 		try {
-			final InitialContext jndiContext = new InitialContext();
-			repositoryService = (RepositoryService) jndiContext.lookup("ubi-jentreprise/RepositoryManagerBean/remote-com.ubiqube.api.interfaces.repository.RepositoryService");
+			repositoryService = (RepositoryService) _jndiWrapper.lookup("ubi-jentreprise/RepositoryManagerBean/remote-com.ubiqube.api.interfaces.repository.RepositoryService");
 			init();
-		} catch (final NamingException e) {
-			throw new GenericException(e);
 		} catch (final ServiceException e) {
 			throw new GenericException(e);
 		}

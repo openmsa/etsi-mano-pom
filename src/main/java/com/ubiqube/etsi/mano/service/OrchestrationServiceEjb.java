@@ -4,8 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
+import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
@@ -25,7 +24,7 @@ import com.ubiqube.api.exception.ObjectNotFoundException;
 import com.ubiqube.api.exception.ServiceException;
 import com.ubiqube.api.interfaces.orchestration.OrchestrationService;
 import com.ubiqube.api.secEngine.result.SecEngineProcessStatus;
-import com.ubiqube.etsi.mano.exception.GenericException;
+import com.ubiqube.etsi.mano.repository.JndiWrapper;
 
 /**
  * Implementation of a Orchestration service thru remote EJB call. NOTE it's
@@ -38,18 +37,14 @@ import com.ubiqube.etsi.mano.exception.GenericException;
 @Service
 public class OrchestrationServiceEjb implements OrchestrationService {
 	/** EJB Proxy. */
-	private OrchestrationService orchestrationService;
+	private final OrchestrationService orchestrationService;
 
 	/**
 	 * Constructor.
 	 */
-	public OrchestrationServiceEjb() {
-		try {
-			final InitialContext jndiContext = new InitialContext();
-			orchestrationService = (OrchestrationService) jndiContext.lookup("ubi-jentreprise/OrchestrationBean/remote-com.ubiqube.api.interfaces.orchestration.OrchestrationService");
-		} catch (final NamingException e) {
-			throw new GenericException(e);
-		}
+	@Inject
+	public OrchestrationServiceEjb(JndiWrapper _jndiWrapper) {
+		orchestrationService = (OrchestrationService) _jndiWrapper.lookup("ubi-jentreprise/OrchestrationBean/remote-com.ubiqube.api.interfaces.orchestration.OrchestrationService");
 	}
 
 	@Override

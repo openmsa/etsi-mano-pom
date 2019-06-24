@@ -6,8 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
+import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
@@ -52,14 +51,14 @@ import com.ubiqube.api.exception.ServiceException;
 import com.ubiqube.api.interfaces.device.DeviceService;
 import com.ubiqube.api.secEngine.result.SecEngineResult;
 import com.ubiqube.common.ftp.FtpAccount;
-import com.ubiqube.etsi.mano.exception.GenericException;
+import com.ubiqube.etsi.mano.repository.JndiWrapper;
 
 import net.sf.json.JSONObject;
 
 /**
  * Implementation of a Device service thru remote EJB call. NOTE it's just a
  * delegate of the interface, feel free to regenerate for correcting arguments.
- * 
+ *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
@@ -71,13 +70,9 @@ public class DeviceServiceEjb implements DeviceService {
 	/**
 	 * Constructor.
 	 */
-	public DeviceServiceEjb() {
-		try {
-			final InitialContext jndiContext = new InitialContext();
-			deviceService = (DeviceService) jndiContext.lookup("ubi-jentreprise/DeviceBean/remote-com.ubiqube.api.interfaces.device.DeviceService");
-		} catch (final NamingException e) {
-			throw new GenericException(e);
-		}
+	@Inject
+	public DeviceServiceEjb(JndiWrapper _jndiWrapper) {
+		deviceService = (DeviceService) _jndiWrapper.lookup("ubi-jentreprise/DeviceBean/remote-com.ubiqube.api.interfaces.device.DeviceService");
 	}
 
 	@Override
