@@ -338,8 +338,8 @@ public class OrchestrationServiceEjb implements OrchestrationService {
 	}
 
 	@Override
-	public ProcessInstance scheduleServiceImmediateMode(String _arg0, long _arg1, String _arg2, String _arg3, Map<String, String> _arg4) throws ServiceException {
-		return orchestrationService.scheduleServiceImmediateMode(_arg0, _arg1, _arg2, _arg3, _arg4);
+	public ProcessInstance scheduleServiceImmediateMode(String ubiqubeId, long serviceId, String serviceNameUri, String processNameUri, Map<String, String> varsMap) throws ServiceException {
+		return orchestrationService.scheduleServiceImmediateMode(ubiqubeId, serviceId, serviceNameUri, processNameUri, varsMap);
 	}
 
 	@Override
