@@ -40,6 +40,8 @@ public class RepositoryServiceEjb implements RepositoryService {
 	protected static final String REPOSITORY_NVFO_DATAFILE_BASE_PATH = "Datafiles/NFVO/vnf_packages";
 	protected static final String REPOSITORY_SUBSCRIPTION_BASE_PATH = NVFO_DATAFILE_BASE_PATH + "/subscriptions";
 	protected static final String REPOSITORY_NSD_BASE_PATH = NVFO_DATAFILE_BASE_PATH + "/nsd";
+	protected static final String REPOSITORY_VNF_INSTANCE_DATAFILE_BASE_PATH = NVFO_DATAFILE_BASE_PATH + "/vnf_instances";
+	protected static final String REPOSITORY_NS_INSTANCE_DATAFILE_BASE_PATH = NVFO_DATAFILE_BASE_PATH + "/ns_instances";
 	/** EJB Instance. */
 	private RepositoryService repositoryService;
 
@@ -88,7 +90,12 @@ public class RepositoryServiceEjb implements RepositoryService {
 		if (!repositoryService.exists(REPOSITORY_NSD_BASE_PATH)) {
 			repositoryService.addDirectory(REPOSITORY_NSD_BASE_PATH, "", MANO, NCROOT);
 		}
-
+		if (!repositoryService.exists(REPOSITORY_VNF_INSTANCE_DATAFILE_BASE_PATH)) {
+			repositoryService.addDirectory(REPOSITORY_VNF_INSTANCE_DATAFILE_BASE_PATH, "", MANO, NCROOT);
+		}
+		if (!repositoryService.exists(REPOSITORY_NS_INSTANCE_DATAFILE_BASE_PATH)) {
+			repositoryService.addDirectory(REPOSITORY_NS_INSTANCE_DATAFILE_BASE_PATH, "", MANO, NCROOT);
+		}
 	}
 
 	@Override
