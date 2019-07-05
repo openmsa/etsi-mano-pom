@@ -19,7 +19,7 @@ public class VnfInstancesRepository extends AbstractGenericRepository<VnfInstanc
 		super(_mapper, _repositoryService);
 	}
 
-	@Override
+	@Override 
 	String getUriForId(String _id) {
 		return REPOSITORY_VNF_INSTANCE_DATAFILE_BASE_PATH + "/" + _id + "/vnfInstance.json";
 	}
