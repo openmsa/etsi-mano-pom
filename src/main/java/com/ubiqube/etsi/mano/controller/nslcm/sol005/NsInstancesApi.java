@@ -1,6 +1,5 @@
 package com.ubiqube.etsi.mano.controller.nslcm.sol005;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,8 +22,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ubiqube.api.commons.id.DeviceId;
-import com.ubiqube.api.entities.device.SimpleDevice;
 import com.ubiqube.api.entities.orchestration.ProcessInstance;
 import com.ubiqube.api.exception.ServiceException;
 import com.ubiqube.api.interfaces.device.DeviceService;
@@ -37,6 +34,7 @@ import com.ubiqube.etsi.mano.model.nslcm.sol005.InlineResponse200;
 import com.ubiqube.etsi.mano.model.nslcm.sol005.InlineResponse400;
 import com.ubiqube.etsi.mano.model.nslcm.sol005.NsInstancesCreateNsRequest;
 import com.ubiqube.etsi.mano.model.nslcm.sol005.NsInstancesNsInstance;
+import com.ubiqube.etsi.mano.model.nslcm.sol005.NsInstancesNsInstance.NsStateEnum;
 import com.ubiqube.etsi.mano.model.nslcm.sol005.NsInstancesNsInstanceIdHealPostQuery;
 import com.ubiqube.etsi.mano.model.nslcm.sol005.NsInstancesNsInstanceIdInstantiatePostQuery;
 import com.ubiqube.etsi.mano.model.nslcm.sol005.NsInstancesNsInstanceIdScalePostQuery;
@@ -92,8 +90,8 @@ public class NsInstancesApi extends BaseApi {
 			@ApiResponse(code = 403, message = "Forbidden If the API consumer is not allowed to perform a particular request to a particular resource, the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided.  It should include in the \"detail\" attribute information about the source of the problem, and may indicate how to solve it. ", response = InlineResponse400.class), @ApiResponse(code = 404, message = "Not Found If the API producer did not find a current representation for the resource addressed by the URI passed in the request, or is not willing to disclose that one exists, it shall respond with this response code.  The \"ProblemDetails\" structure may be provided, including in the \"detail\" attribute information about the source of the problem, e.g. a wrong resource URI variable. ", response = InlineResponse400.class), @ApiResponse(code = 405, message = "Method Not Allowed If a particular HTTP method is not supported for a particular resource, the API producer shall respond with this response code. The \"ProblemDetails\" structure may be omitted in that case. ", response = InlineResponse400.class),
 			@ApiResponse(code = 406, message = "Not Acceptable If the Accept HTTP header does not contain at least one name of a content type that is acceptable to the API producer, the API producer shall respond with this response code. The ProblemDetails structure may be omitted in that case.         ", response = InlineResponse400.class), @ApiResponse(code = 409, message = "Conflict Another request is in progress that prohibits the fulfilment of the current request, or the current resource state is inconsistent with the request. ", response = InlineResponse400.class), @ApiResponse(code = 416, message = "Requested Range Not Satisfiable This code is returned if the requested byte range in the Range HTTP header is not present in the requested resource. ", response = InlineResponse400.class),
 			@ApiResponse(code = 500, message = "Internal Server Error If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond withthis response code. The ProblemDetails structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = InlineResponse400.class), @ApiResponse(code = 503, message = "Service Unavailable If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 [13] for the use of the Retry-After HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = InlineResponse400.class) })
-	public List<Object> nsInstancesGet(@HeaderParam("Accept") String accept, @QueryParam("filter") String filter, @QueryParam("all_fields") String allFields, @QueryParam("fields") String fields, @QueryParam("exclude_fields") String excludeFields, @QueryParam("exclude_default") String excludeDefault, @Context SecurityContext securityContext) {
-		return new ArrayList<>();
+	public List<NsInstancesNsInstance> nsInstancesGet(@HeaderParam("Accept") String accept, @QueryParam("filter") String filter, @QueryParam("all_fields") String allFields, @QueryParam("fields") String fields, @QueryParam("exclude_fields") String excludeFields, @QueryParam("exclude_default") String excludeDefault, @Context SecurityContext securityContext) {
+		return nsInstanceRepository.query();
 	}
 
 	/**
@@ -138,58 +136,11 @@ public class NsInstancesApi extends BaseApi {
 			@ApiResponse(code = 406, message = "Not Acceptable If the Accept HTTP header does not contain at least one name of a content type that is acceptable to the API producer, the API producer shall respond with this response code. The ProblemDetails structure may be omitted in that case.         ", response = InlineResponse400.class), @ApiResponse(code = 409, message = "Conflict Another request is in progress that prohibits the fulfilment of the current request, or the current resource state is inconsistent with the request. ", response = InlineResponse400.class), @ApiResponse(code = 416, message = "Requested Range Not Satisfiable This code is returned if the requested byte range in the Range HTTP header is not present in the requested resource. ", response = InlineResponse400.class),
 			@ApiResponse(code = 500, message = "Internal Server Error If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond withthis response code. The ProblemDetails structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = InlineResponse400.class), @ApiResponse(code = 503, message = "Service Unavailable If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 [13] for the use of the Retry-After HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = InlineResponse400.class) })
 	public InlineResponse200 nsInstancesNsInstanceIdGet(@PathParam("nsInstanceId") String nsInstanceId, @HeaderParam("Accept") String accept, @HeaderParam("Content-Type") String contentType, @Context SecurityContext securityContext) {
-		try {
-			final DeviceId deviceId = deviceService.getDeviceId(nsInstanceId);
-			final SimpleDevice deviceModel = deviceService.getDeviceModeleAndManId(deviceId);
-			final InlineResponse200 resp = new InlineResponse200();
-			final NsInstancesNsInstance nsInstance = new NsInstancesNsInstance();
-			resp.setNsInstance(nsInstance);
-			/*
-			 * sb.append("    id: ").append(toIndentedString(id)).append("\n");
-			 * sb.append("    nsInstanceName: ").append(toIndentedString(nsInstanceName)).
-			 * append("\n");
-			 * sb.append("    nsInstanceDescription: ").append(toIndentedString(
-			 * nsInstanceDescription)).append("\n");
-			 * sb.append("    nsdId: ").append(toIndentedString(nsdId)).append("\n");
-			 * sb.append("    nsdInfoId: ").append(toIndentedString(nsdInfoId)).append("\n")
-			 * ;
-			 * sb.append("    flavourId: ").append(toIndentedString(flavourId)).append("\n")
-			 * ;
-			 * sb.append("    vnfInstance: ").append(toIndentedString(vnfInstance)).append(
-			 * "\n");
-			 * sb.append("    pnfInfo: ").append(toIndentedString(pnfInfo)).append("\n");
-			 * sb.append("    virtualLinkInfo: ").append(toIndentedString(virtualLinkInfo)).
-			 * append("\n");
-			 * sb.append("    vnffgInfo: ").append(toIndentedString(vnffgInfo)).append("\n")
-			 * ; sb.append("    sapInfo: ").append(toIndentedString(sapInfo)).append("\n");
-			 * sb.append("    nestedNsInstanceId: ").append(toIndentedString(
-			 * nestedNsInstanceId)).append("\n");
-			 * sb.append("    nsState: ").append(toIndentedString(nsState)).append("\n");
-			 * sb.append("    nsScaleStatus: ").append(toIndentedString(nsScaleStatus)).
-			 * append("\n"); sb.append("    additionalAffinityOrAntiAffinityRule: ").append(
-			 * toIndentedString(additionalAffinityOrAntiAffinityRule)).append("\n");
-			 * sb.append("    links: ").append(toIndentedString(links)).append("\n");
-			 */
-			nsInstance.setId(deviceModel.getUbiqubeId().getUbiId());
-			nsInstance.setNsInstanceName(deviceModel.getName());
-			nsInstance.setNsInstanceDescription("");
-			nsInstance.setNsdId("???");
-			nsInstance.setNsdInfoId("???");
-			nsInstance.setFlavourId("???");
-			nsInstance.setVnfInstance(null); // ???
-			nsInstance.setPnfInfo(null); // ??
-			nsInstance.setVirtualLinkInfo(null);
-			nsInstance.setVnffgInfo(null);
-			nsInstance.setSapInfo(null);
-			nsInstance.setNestedNsInstanceId(null);
-			nsInstance.setNsState(NsInstancesNsInstance.NsStateEnum.INSTANTIATED);
-			nsInstance.setNsScaleStatus(null);
-			nsInstance.setAdditionalAffinityOrAntiAffinityRule(null);
-			nsInstance.setLinks(null);
-		} catch (final ServiceException e) {
-			LOG.error("", e);
-		}
-		return null;
+
+		final InlineResponse200 resp = new InlineResponse200();
+		final NsInstancesNsInstance nsInstance = nsInstanceRepository.get(nsInstanceId);
+		resp.setNsInstance(nsInstance);
+		return resp;
 	}
 
 	/**
@@ -243,15 +194,21 @@ public class NsInstancesApi extends BaseApi {
 		final NsDescriptorsNsdInfo nsdInfo = nsdRepository.get(nsdId);
 		final Map<String, String> userData = (Map<String, String>) nsdInfo.getUserDefinedData();
 		varsMap.put("deviceid", userData.get("vimId"));
-		final String processName = "Process/ETSI-MANO/NFV/NSDescriptor_generic/Process_New_service";
-		final String serviceName = "Process/ETSI-MANO/NFV/NSDescriptor_generic/NSDescription_generic";
+		varsMap.put("nsPkgId", nsdId);
+		final String processName = "Process/ETSI-MANO/NFV/NS_Mgmt_Based_On_Heat/Process_Execute_Heat_Stack";
+		final String serviceName = "Process/ETSI-MANO/NFV/NS_Mgmt_Based_On_Heat/NS_Mgmt_Based_On_Heat";
 		final long serviceId = 0;
-		final String ubiqubeId = "TMAA6";
+		final String ubiqubeId = userData.get("customerId");
 		try {
 			final ProcessInstance resp = orchestrationService.scheduleServiceImmediateMode(ubiqubeId, serviceId, serviceName, processName, varsMap);
+			nsInstancesNsInstance.setNsState(NsStateEnum.INSTANTIATED);
+			nsInstanceRepository.save(nsInstancesNsInstance);
+			userData.put("msaProcessId", String.valueOf(resp.processId.id));
+			nsdRepository.save(nsdInfo);
 		} catch (final ServiceException e) {
 			throw new GenericException(e);
 		}
+
 		return nsInstancesNsInstance;
 	}
 
@@ -340,6 +297,7 @@ public class NsInstancesApi extends BaseApi {
 		nsInstancesNsInstance.setNsInstanceDescription(req.getNsDescription());
 		nsInstancesNsInstance.setNsInstanceName(req.getNsName());
 		nsInstancesNsInstance.setNestedNsInstanceId(nsd.getNestedNsdInfoIds());
+		nsInstancesNsInstance.setNsState(NsStateEnum.NOT_INSTANTIATED);
 		final String id = UUID.randomUUID().toString();
 		nsInstancesNsInstance.setId(id);
 		final StringBuilder sb = new StringBuilder().append(REPOSITORY_NS_INSTANCE_DATAFILE_BASE_PATH).append("/").append(id);
