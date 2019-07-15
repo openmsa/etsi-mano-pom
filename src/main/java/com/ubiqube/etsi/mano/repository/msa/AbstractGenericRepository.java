@@ -1,4 +1,4 @@
-package com.ubiqube.etsi.mano.repository;
+package com.ubiqube.etsi.mano.repository.msa;
 
 import javax.inject.Inject;
 
@@ -19,7 +19,7 @@ import com.ubiqube.etsi.mano.exception.GenericException;
  */
 public abstract class AbstractGenericRepository<T> extends AbstractRepository<T> {
 	private static final Logger LOG = LoggerFactory.getLogger(AbstractGenericRepository.class);
-	protected final ObjectMapper mapper;
+	private final ObjectMapper mapper;
 
 	@Inject
 	public AbstractGenericRepository(ObjectMapper _mapper, RepositoryService _repositoryService) {
