@@ -17,7 +17,7 @@ import com.ubiqube.etsi.mano.model.vnf.sol005.VnfPkgInfo;
  *
  */
 @Repository
-public class VnfPackageRepository extends AbstractGenericRepository<VnfPkgInfo> {
+public class VnfPackageRepository extends AbstractGenericRepository<VnfPkgInfo> implements com.ubiqube.etsi.mano.repository.VnfPackageRepository {
 	@Inject
 	public VnfPackageRepository(ObjectMapper _mapper, RepositoryService _repositoryService) {
 		super(_mapper, _repositoryService);
