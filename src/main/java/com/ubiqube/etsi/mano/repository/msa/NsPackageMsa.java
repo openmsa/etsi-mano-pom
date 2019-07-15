@@ -17,9 +17,9 @@ import com.ubiqube.etsi.mano.model.nsd.sol005.NsDescriptorsNsdInfo;
  *
  */
 @Repository
-public class NsdRepository extends AbstractGenericRepository<NsDescriptorsNsdInfo> implements com.ubiqube.etsi.mano.repository.NsdRepository {
+public class NsPackageMsa extends AbstractGenericRepository<NsDescriptorsNsdInfo> implements com.ubiqube.etsi.mano.repository.NsdRepository {
 	@Inject
-	public NsdRepository(ObjectMapper _mapper, RepositoryService _repositoryService) {
+	public NsPackageMsa(ObjectMapper _mapper, RepositoryService _repositoryService) {
 		super(_mapper, _repositoryService);
 	}
 

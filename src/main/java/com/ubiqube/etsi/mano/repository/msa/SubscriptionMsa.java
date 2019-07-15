@@ -17,9 +17,9 @@ import com.ubiqube.etsi.mano.model.vnf.sol005.SubscriptionObject;
  *
  */
 @Repository
-public class SubscriptionRepository extends AbstractGenericRepository<SubscriptionObject> implements com.ubiqube.etsi.mano.repository.SubscriptionRepository {
+public class SubscriptionMsa extends AbstractGenericRepository<SubscriptionObject> implements com.ubiqube.etsi.mano.repository.SubscriptionRepository {
 	@Inject
-	public SubscriptionRepository(ObjectMapper _mapper, RepositoryService _repositoryService) {
+	public SubscriptionMsa(ObjectMapper _mapper, RepositoryService _repositoryService) {
 		super(_mapper, _repositoryService);
 	}
 

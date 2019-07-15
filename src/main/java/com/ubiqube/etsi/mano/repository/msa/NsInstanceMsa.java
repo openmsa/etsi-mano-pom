@@ -10,10 +10,10 @@ import com.ubiqube.api.interfaces.repository.RepositoryService;
 import com.ubiqube.etsi.mano.model.nslcm.sol005.NsInstancesNsInstance;
 
 @Service
-public class NsInstanceRepository extends AbstractGenericRepository<NsInstancesNsInstance> implements com.ubiqube.etsi.mano.repository.NsInstanceRepository {
+public class NsInstanceMsa extends AbstractGenericRepository<NsInstancesNsInstance> implements com.ubiqube.etsi.mano.repository.NsInstanceRepository {
 	private static final String REPOSITORY_NS_INSTANCE_DATAFILE_BASE_PATH = "Datafiles/NFVO/ns_instances";
 
-	public NsInstanceRepository(ObjectMapper _mapper, RepositoryService _repositoryService) {
+	public NsInstanceMsa(ObjectMapper _mapper, RepositoryService _repositoryService) {
 		super(_mapper, _repositoryService);
 	}
 

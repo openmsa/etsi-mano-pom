@@ -11,11 +11,11 @@ import com.ubiqube.api.interfaces.repository.RepositoryService;
 import com.ubiqube.etsi.mano.model.nslcm.sol003.VnfInstance;
 
 @Repository
-public class VnfInstancesRepository extends AbstractGenericRepository<VnfInstance> implements com.ubiqube.etsi.mano.repository.VnfInstancesRepository {
+public class VnfInstancesMsa extends AbstractGenericRepository<VnfInstance> implements com.ubiqube.etsi.mano.repository.VnfInstancesRepository {
 	private static final String REPOSITORY_VNF_INSTANCE_DATAFILE_BASE_PATH = "Datafiles/NFVO/vnf_instances";
 
 	@Inject
-	public VnfInstancesRepository(ObjectMapper _mapper, RepositoryService _repositoryService) {
+	public VnfInstancesMsa(ObjectMapper _mapper, RepositoryService _repositoryService) {
 		super(_mapper, _repositoryService);
 	}
 
