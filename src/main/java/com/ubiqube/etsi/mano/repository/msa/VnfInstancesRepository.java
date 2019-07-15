@@ -11,7 +11,7 @@ import com.ubiqube.api.interfaces.repository.RepositoryService;
 import com.ubiqube.etsi.mano.model.nslcm.sol003.VnfInstance;
 
 @Repository
-public class VnfInstancesRepository extends AbstractGenericRepository<VnfInstance> {
+public class VnfInstancesRepository extends AbstractGenericRepository<VnfInstance> implements com.ubiqube.etsi.mano.repository.VnfInstancesRepository {
 	private static final String REPOSITORY_VNF_INSTANCE_DATAFILE_BASE_PATH = "Datafiles/NFVO/vnf_instances";
 
 	@Inject
@@ -37,6 +37,11 @@ public class VnfInstancesRepository extends AbstractGenericRepository<VnfInstanc
 	@Override
 	Class<?> getClazz() {
 		return VnfInstance.class;
+	}
+
+	@Override
+	public Object query() {
+		return null;
 	}
 
 }

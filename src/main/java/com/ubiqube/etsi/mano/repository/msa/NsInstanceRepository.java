@@ -1,5 +1,6 @@
 package com.ubiqube.etsi.mano.repository.msa;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -9,7 +10,7 @@ import com.ubiqube.api.interfaces.repository.RepositoryService;
 import com.ubiqube.etsi.mano.model.nslcm.sol005.NsInstancesNsInstance;
 
 @Service
-public class NsInstanceRepository extends AbstractGenericRepository<NsInstancesNsInstance> {
+public class NsInstanceRepository extends AbstractGenericRepository<NsInstancesNsInstance> implements com.ubiqube.etsi.mano.repository.NsInstanceRepository {
 	private static final String REPOSITORY_NS_INSTANCE_DATAFILE_BASE_PATH = "Datafiles/NFVO/ns_instances";
 
 	public NsInstanceRepository(ObjectMapper _mapper, RepositoryService _repositoryService) {
@@ -34,6 +35,11 @@ public class NsInstanceRepository extends AbstractGenericRepository<NsInstancesN
 	@Override
 	Class<?> getClazz() {
 		return NsInstancesNsInstance.class;
+	}
+
+	@Override
+	public List<NsInstancesNsInstance> query() {
+		return null;
 	}
 
 }
