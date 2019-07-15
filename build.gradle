@@ -27,8 +27,11 @@ repositories {
 
 configurations.all {
 	exclude group: 'log4j', module: 'log4j'
-	exclude group: 'log4j', module: 'log4j'
 }
+test {
+	useJUnitPlatform()
+}
+
 sonarqube {
 	properties {
 		property "sonar.projectName", "etsi-mano"
@@ -47,7 +50,8 @@ repositories {
 }
 
 dependencies {
-	testCompile group: 'junit', name: 'junit', version: '4.12'
+	testImplementation('org.junit.jupiter:junit-jupiter:5.5.0')
+	testCompile("org.springframework.boot:spring-boot-starter-test")
 	testCompile group: 'commons-jxpath', name: 'commons-jxpath', version: '1.3'
 	
 	compile group: 'org.glassfish.jersey.media', name: 'jersey-media-multipart', version: '2.28'
@@ -82,10 +86,10 @@ dependencies {
 	compile("org.springframework.boot:spring-boot-starter-security")
 	compile("org.springframework.boot:spring-boot-starter-web") {
 		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
-		//exclude group: 'org.hibernate.validator', module: 'hibernate-validator'
+		exclude group: 'org.hibernate.validator', module: 'hibernate-validator'
 	}
 	
-	//compile group: 'org.apache.bval', name: 'bval-jsr', version: '1.1.2'
+	compile group: 'org.apache.bval', name: 'bval-jsr', version: '1.1.2'
 	//compile group: 'org.apache.bval', name: 'bval-jsr', version: '2.0.0'
 	//compile group: 'org.hibernate', name: 'hibernate-validator', version: '3.0.0.GA'
 	
@@ -94,7 +98,8 @@ dependencies {
 }
 
 springBoot {
-	mainClassName = 'com.ubiqube.etsi.mano.config.JerseyConfig'
+	//mainClassName = 'com.ubiqube.etsi.mano.config.JerseyConfig'
+	mainClassName = 'com.ubiqube.etsi.mano.config.ServletInitializer';
 }
 generateGrammarSource {
     maxHeapSize = "64m"
