@@ -1,5 +1,8 @@
 package com.ubiqube.etsi.mano.repository.msa;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -7,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubiqube.api.entities.repository.RepositoryElement;
+import com.ubiqube.api.exception.ServiceException;
 import com.ubiqube.api.interfaces.repository.RepositoryService;
 import com.ubiqube.etsi.mano.exception.GenericException;
 
@@ -39,10 +43,11 @@ public abstract class AbstractGenericRepository<T> extends AbstractRepository<T>
 		verify(uri);
 		final RepositoryElement repositoryElement = repositoryService.getElement(uri);
 		final byte[] repositoryContent = repositoryService.getRepositoryElementContent(repositoryElement);
-		final String content = new String(repositoryContent);
+
 		try {
+			final String content = new String(repositoryContent, StandardCharsets.UTF_8);
 			return (T) mapper.readValue(content, getClazz());
-		} catch (final Exception e) {
+		} catch (final IOException e) {
 			throw new GenericException(e);
 		}
 	}
@@ -66,7 +71,7 @@ public abstract class AbstractGenericRepository<T> extends AbstractRepository<T>
 			final String str = mapper.writeValueAsString(_entity);
 			LOG.info("Creating entity @ {}", uri);
 			repositoryService.addFile(uri, "SOL005", "", str, "ncroot");
-		} catch (final Exception e) {
+		} catch (IOException | ServiceException e) {
 			throw new GenericException(e);
 		}
 

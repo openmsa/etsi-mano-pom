@@ -3,6 +3,7 @@ package com.ubiqube.etsi.mano.controller.vnf;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -90,7 +91,7 @@ public class VnfManagement {
 		final List<SubscriptionsPkgmSubscription> response = new ArrayList<>();
 		for (final String entry : listFilesInFolder) {
 			final RepositoryElement repositoryElement = repositoryService.getElement(entry);
-			final String content = new String(repositoryService.getRepositoryElementContent(repositoryElement));
+			final String content = new String(repositoryService.getRepositoryElementContent(repositoryElement), StandardCharsets.UTF_8);
 			try {
 				final SubscriptionObject subscriptionObject = mapper.readValue(content, SubscriptionObject.class);
 
@@ -98,7 +99,7 @@ public class VnfManagement {
 				final SubscriptionsPkgmSubscription subscriptionsPkgmSubscription = subscriptionObject.getSubscriptionsPkgmSubscription();
 				pack.setPkgmSubscription(subscriptionsPkgmSubscription);
 				response.add(subscriptionsPkgmSubscription);
-			} catch (final Exception e) {
+			} catch (final IOException e) {
 				throw new GenericException(e);
 			}
 		}
@@ -190,8 +191,8 @@ public class VnfManagement {
 				return getZipArchive(rangeHeader, listvnfPckgFiles);
 			}
 			final RepositoryElement repositoryElement = repositoryService.getElement(listvnfPckgFiles.get(0));
-			final String content = new String(repositoryService.getRepositoryElementContent(repositoryElement));
-			return Response.ok().type(APPLICATION_ZIP).entity(new ByteArrayInputStream(content.getBytes())).build();
+			final byte[] content = repositoryService.getRepositoryElementContent(repositoryElement);
+			return Response.ok().type(APPLICATION_ZIP).entity(new ByteArrayInputStream(content)).build();
 		}
 		throw new NotFoundException(new StringBuilder("VNF package artifact not found for vnfPack with id: ")
 				.append(vnfPkgId).append(" artifactPath: ").append(artifactPath).toString());
@@ -211,14 +212,13 @@ public class VnfManagement {
 		if (isVnfd) {
 			if (MediaType.TEXT_PLAIN.equals(accept)) {
 				final RepositoryElement repositoryElement = repositoryService.getElement(uri);
-				final String content = new String(repositoryService.getRepositoryElementContent(repositoryElement));
+				final String content = new String(repositoryService.getRepositoryElementContent(repositoryElement), StandardCharsets.UTF_8);
 				return Response.ok(content, MediaType.APPLICATION_JSON).build();
-			} else if (APPLICATION_ZIP.equals(accept)
-					|| (APPLICATION_ZIP.equals(accept) && MediaType.TEXT_PLAIN.equals(accept))) {
+			} else if (APPLICATION_ZIP.equals(accept) && MediaType.TEXT_PLAIN.equals(accept)) {
 				return getZipArchive(null, listvnfPckgFiles);
 			} else {
 				final RepositoryElement repositoryElement = repositoryService.getElement(uri);
-				final String content = new String(repositoryService.getRepositoryElementContent(repositoryElement));
+				final String content = new String(repositoryService.getRepositoryElementContent(repositoryElement), StandardCharsets.UTF_8);
 				final String yaml = conJsonToYaml(content);
 				return Response.ok(yaml, "application/x-yaml").build();
 			}
@@ -477,7 +477,7 @@ public class VnfManagement {
 
 		// List vnfd package from repository
 		final List<String> listFilesInFolder = repositoryService.doSearch(REPOSITORY_NVFO_DATAFILE_BASE_PATH, "");
-		final List<String> vnfPackageIdList = new ArrayList<String>();
+		final List<String> vnfPackageIdList = new ArrayList<>();
 
 		// Split files path and store VNF Pckg Id
 		for (final String filePath : listFilesInFolder) {

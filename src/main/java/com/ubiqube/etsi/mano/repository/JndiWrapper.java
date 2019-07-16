@@ -18,7 +18,7 @@ public class JndiWrapper {
 
 	@Inject
 	public JndiWrapper(Configuration _configuration) {
-		final Hashtable<String, String> props = new Hashtable<String, String>();
+		final Hashtable<String, String> props = new Hashtable<>();
 		props.put(Context.INITIAL_CONTEXT_FACTORY, "org.jnp.interfaces.NamingContextFactory");
 		props.put(Context.URL_PKG_PREFIXES, "org.jboss.naming:org.jnp.interfaces");
 		props.put(Context.PROVIDER_URL, _configuration.get("remote.ejb.url"));

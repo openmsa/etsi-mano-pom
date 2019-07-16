@@ -1,5 +1,6 @@
 package com.ubiqube.etsi.mano.repository.msa;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -39,7 +40,7 @@ public class NsInstanceMsa extends AbstractGenericRepository<NsInstancesNsInstan
 
 	@Override
 	public List<NsInstancesNsInstance> query() {
-		return null;
+		return new ArrayList<>();
 	}
 
 }

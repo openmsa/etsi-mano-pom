@@ -3,6 +3,7 @@ package com.ubiqube.etsi.mano.controller.nsd.sol005;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -121,13 +122,13 @@ public class DefaultApiServiceImpl extends BaseApi implements DefaultApi {
 		final List<NsDescriptorsNsdInfoIdGetResponse> response = new ArrayList<>();
 		for (final String entry : listFilesInFolder) {
 			final RepositoryElement repositoryElement = repositoryService.getElement(entry);
-			final String content = new String(repositoryService.getRepositoryElementContent(repositoryElement));
+			final String content = new String(repositoryService.getRepositoryElementContent(repositoryElement), StandardCharsets.UTF_8);
 			try {
 				final NsDescriptorsNsdInfo nsdInfo = mapper.readValue(content, NsDescriptorsNsdInfo.class);
 				final NsDescriptorsNsdInfoIdGetResponse resp = new NsDescriptorsNsdInfoIdGetResponse();
 				resp.setNsdInfo(nsdInfo);
 				response.add(resp);
-			} catch (final Exception e) {
+			} catch (final IOException e) {
 				throw new GenericException(e);
 			}
 		}
@@ -235,8 +236,8 @@ public class DefaultApiServiceImpl extends BaseApi implements DefaultApi {
 					return getZipArchive(rangeHeader, listvnfPckgFiles);
 				}
 				final RepositoryElement repositoryElement = repositoryService.getElement(listvnfPckgFiles.get(0));
-				final String content = new String(repositoryService.getRepositoryElementContent(repositoryElement));
-				return Response.ok().type(APPLICATION_ZIP).entity(new ByteArrayInputStream(content.getBytes())).build();
+				final byte[] content = repositoryService.getRepositoryElementContent(repositoryElement);
+				return Response.ok().type(APPLICATION_ZIP).entity(new ByteArrayInputStream(content)).build();
 			}
 			throw new NotFoundException(new StringBuilder("VNF package artifact not found for vnfPack with id: ").append(nsdInfoId).toString());
 		} catch (final ServiceException e) {
@@ -346,11 +347,11 @@ public class DefaultApiServiceImpl extends BaseApi implements DefaultApi {
 		final String _self = Link.fromUriBuilder(uriInfo.getBaseUriBuilder().path(this.getClass(), "nsDescriptorsNsdInfoIdGet")).build(id).getUri().toString();
 		final String _nsdContent = Link.fromUriBuilder(uriInfo.getBaseUriBuilder().path(this.getClass(), "nsDescriptorsNsdInfoIdNsdContentGet")).build(id).getUri().toString();
 		final NsDescriptorsNsdInfo resp = NsdFactories.createNsDescriptorsNsdInfo(id, _self, _nsdContent);
-		final  Map<String, Object> userDefinedData = (Map<String, Object>) nsDescriptorsPostQuery.getCreateNsdInfoRequest().getUserDefinedData();
+		final Map<String, Object> userDefinedData = (Map<String, Object>) nsDescriptorsPostQuery.getCreateNsdInfoRequest().getUserDefinedData();
 		resp.setUserDefinedData(userDefinedData);
-		List<String> vnfPkgIds = (List<String>) userDefinedData.get("vnfPkgIds");
+		final List<String> vnfPkgIds = (List<String>) userDefinedData.get("vnfPkgIds");
 		resp.setVnfPkgIds(vnfPkgIds);
-		
+
 		nsdRepository.save(resp);
 		return resp;
 	}

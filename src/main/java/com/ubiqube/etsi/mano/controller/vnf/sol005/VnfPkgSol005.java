@@ -379,7 +379,7 @@ public class VnfPkgSol005 extends BaseApi {
 		try {
 			deviceService.getDeviceId(vimId);
 		} catch (final ServiceException e) {
-			throw new BadRequestException("vimId is not found in MSA.");
+			throw new BadRequestException("vimId is not found in MSA.", e);
 		}
 		final String manufacturerId = (String) userData.get("manufacturerId");
 		assert (null != manufacturerId);
@@ -417,7 +417,7 @@ public class VnfPkgSol005 extends BaseApi {
 		try {
 			isVnfdMetafile = repositoryService.exists(uri);
 		} catch (final ServiceException e) {
-			throw new NotFoundException("No such object: " + vnfPkgId);
+			throw new NotFoundException("No such object: " + vnfPkgId, e);
 		}
 		if (isVnfdMetafile) {
 			final RepositoryElement repositoryElement = repositoryService.getElement(uri);
@@ -542,7 +542,7 @@ public class VnfPkgSol005 extends BaseApi {
 		try {
 			url = new URL(uri);
 			return (InputStream) url.getContent();
-		} catch (final Exception e) {
+		} catch (final IOException e) {
 			throw new GenericException(e);
 		}
 	}
