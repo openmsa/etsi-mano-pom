@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubiqube.api.interfaces.repository.RepositoryService;
 import com.ubiqube.etsi.mano.model.nsd.sol005.NsDescriptorsNsdInfo;
+import com.ubiqube.etsi.mano.repository.NsdRepository;
 
 /**
  * An implementation of a repository for a NSD Document.
@@ -17,7 +18,7 @@ import com.ubiqube.etsi.mano.model.nsd.sol005.NsDescriptorsNsdInfo;
  *
  */
 @Repository
-public class NsPackageMsa extends AbstractGenericRepository<NsDescriptorsNsdInfo> implements com.ubiqube.etsi.mano.repository.NsdRepository {
+public class NsPackageMsa extends AbstractGenericRepository<NsDescriptorsNsdInfo> implements NsdRepository {
 	@Inject
 	public NsPackageMsa(ObjectMapper _mapper, RepositoryService _repositoryService) {
 		super(_mapper, _repositoryService);

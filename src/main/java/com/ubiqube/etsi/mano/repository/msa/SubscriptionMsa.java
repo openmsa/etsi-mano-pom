@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubiqube.api.interfaces.repository.RepositoryService;
 import com.ubiqube.etsi.mano.model.vnf.sol005.SubscriptionObject;
+import com.ubiqube.etsi.mano.repository.SubscriptionRepository;
 
 /**
  * A single way to handle subscription storage.
@@ -17,7 +18,7 @@ import com.ubiqube.etsi.mano.model.vnf.sol005.SubscriptionObject;
  *
  */
 @Repository
-public class SubscriptionMsa extends AbstractGenericRepository<SubscriptionObject> implements com.ubiqube.etsi.mano.repository.SubscriptionRepository {
+public class SubscriptionMsa extends AbstractGenericRepository<SubscriptionObject> implements SubscriptionRepository {
 	@Inject
 	public SubscriptionMsa(ObjectMapper _mapper, RepositoryService _repositoryService) {
 		super(_mapper, _repositoryService);
