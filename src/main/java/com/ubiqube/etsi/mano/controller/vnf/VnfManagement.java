@@ -10,11 +10,11 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 import org.slf4j.Logger;
@@ -26,7 +26,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.ubiqube.api.entities.repository.RepositoryElement;
 import com.ubiqube.api.exception.ServiceException;
 import com.ubiqube.api.interfaces.repository.RepositoryService;
-import com.ubiqube.etsi.mano.controller.vnf.sol003.VnfPkgSol003;
+import com.ubiqube.etsi.mano.controller.vnf.sol003.VnfPackageSol003Api;
 import com.ubiqube.etsi.mano.exception.BadRequestException;
 import com.ubiqube.etsi.mano.exception.ConflictException;
 import com.ubiqube.etsi.mano.exception.GenericException;
@@ -55,7 +55,7 @@ import net.sf.json.JSONObject;
 @Service
 public class VnfManagement {
 	private static final String APPLICATION_ZIP = "application/zip";
-	private static final Logger LOG = LoggerFactory.getLogger(VnfPkgSol003.class);
+	private static final Logger LOG = LoggerFactory.getLogger(VnfPackageSol003Api.class);
 	private static final String NVFO_DATAFILE_BASE_PATH = "Datafiles/NFVO";
 	private static final String REPOSITORY_NVFO_DATAFILE_BASE_PATH = "Datafiles/NFVO/vnf_packages";
 	private static final String REPOSITORY_SUBSCRIPTION_BASE_PATH = NVFO_DATAFILE_BASE_PATH + "/subscriptions";
@@ -152,7 +152,7 @@ public class VnfManagement {
 		notifications.doNotification(notificationVnfPackageOnboardingNotification, cbUrl, auth);
 	}
 
-	public JSONArray vnfPackagesGet(MultivaluedMap<String, String> queryParameters) throws ServiceException {
+	public JSONArray vnfPackagesGet(Map<String, String> queryParameters) throws ServiceException {
 
 		final List<String> vnfPkgsIdsList = getVnfPkgIdsFromRepository();
 
@@ -256,13 +256,13 @@ public class VnfManagement {
 		}
 	}
 
-	private JSONArray applyAttributebasedFilteringAndSelectors(MultivaluedMap<String, String> queryParams, JSONArray vnfPkgInfos, JSONObject contentJson) {
+	private JSONArray applyAttributebasedFilteringAndSelectors(Map<String, String> queryParams, JSONArray vnfPkgInfos, JSONObject contentJson) {
 		// Get the dynamic paramaters attribute / value(s)
 		String attributesParams = "";
-		List<String> attributesValuesParams = new LinkedList<>();
 
+		String attributesValuesParams = "";
 		// Get the filter parameter from the query params object.
-		for (final Map.Entry<String, List<String>> entry : queryParams.entrySet()) {
+		for (final Entry<String, String> entry : queryParams.entrySet()) {
 			attributesParams = entry.getKey();
 			attributesValuesParams = entry.getValue();
 		}
@@ -327,14 +327,14 @@ public class VnfManagement {
 	 * @param contentJson
 	 * @return TRUE if matched and FALSE in opposite.
 	 */
-	private boolean isFilterMatched(String attributesParams, List<String> attributesValuesParams, JSONObject contentJson) {
+	private boolean isFilterMatched(String attributesParams, String attributesValuesParams, JSONObject contentJson) {
 		String filterOperator = "";
 
 		if (!("".equals(attributesParams) && attributesValuesParams.isEmpty())) {
 
 			final ArrayList<String> listOfAttribute = splitStringObj("\\.", attributesParams);
 
-			final String attributeValues = attributesValuesParams.get(0);
+			final String attributeValues = attributesValuesParams;
 			final ArrayList<String> listOfExpectedValues = splitStringObj(",", attributeValues);
 
 			// Retrieve the filter operator from filter attribute.
@@ -451,8 +451,8 @@ public class VnfManagement {
 		return false;
 	}
 
-	private void keepFieldsInVnfPckgInfo(JSONObject contentJson, List<String> attributesValuesParams, ArrayList<String> listOfDefaultExcludeFields) {
-		final String attributeValues = attributesValuesParams.get(0);
+	private void keepFieldsInVnfPckgInfo(JSONObject contentJson, String attributesValuesParams, ArrayList<String> listOfDefaultExcludeFields) {
+		final String attributeValues = attributesValuesParams;
 		final ArrayList<String> fieldsFromInput = splitStringObj(",", attributeValues);
 		final ArrayList<String> fieldsToRemove = listOfDefaultExcludeFields;
 
