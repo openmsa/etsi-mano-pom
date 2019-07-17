@@ -3,9 +3,11 @@ package com.ubiqube.etsi.mano.controller.nsperfo.sol005;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.SecurityContext;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.ubiqube.etsi.mano.model.nsperfo.sol005.CreatePmJobRequest;
 import com.ubiqube.etsi.mano.model.nsperfo.sol005.CreateThresholdRequest;
@@ -31,8 +33,9 @@ import io.swagger.annotations.Api;
  * https://forge.etsi.org/bugzilla/buglist.cgi?component=Nfv-Openapis
  *
  */
-@Path("/nspm/v1")
-@Api(value = "/", description = "")
+@RestController
+@RequestMapping("/sol005/nspm/v1")
+@Api(value = "/")
 public class DefaultApiServiceImpl implements DefaultApi {
 	/**
 	 * Query PM jobs.
@@ -42,7 +45,7 @@ public class DefaultApiServiceImpl implements DefaultApi {
 	 *
 	 */
 	@Override
-	public List<Object> pmJobsGet(String accept, @Context SecurityContext securityContextn, String contentType, String filter, String allFields, String include, String exclude, String excludeDefault) {
+	public List<Object> pmJobsGet(String accept, String contentType, String filter, String allFields, String include, String exclude, String excludeDefault) {
 		return new ArrayList<>();
 	}
 
@@ -53,7 +56,7 @@ public class DefaultApiServiceImpl implements DefaultApi {
 	 *
 	 */
 	@Override
-	public void pmJobsPmJobIdDelete(String pmJobId, @Context SecurityContext securityContextn) {
+	public void pmJobsPmJobIdDelete(String pmJobId) {
 		// TODO: Implement...
 
 	}
@@ -65,7 +68,7 @@ public class DefaultApiServiceImpl implements DefaultApi {
 	 *
 	 */
 	@Override
-	public PmJobsPostResponse pmJobsPmJobIdGet(String pmJobId, String accept, @Context SecurityContext securityContextn) {
+	public PmJobsPostResponse pmJobsPmJobIdGet(String pmJobId, String accept) {
 		// TODO: Implement...
 
 		return null;
@@ -78,7 +81,7 @@ public class DefaultApiServiceImpl implements DefaultApi {
 	 *
 	 */
 	@Override
-	public PmJobsPmJobIdReportsReportIdGetResponse pmJobsPmJobIdReportsReportIdGet(String pmJobId, String reportId, String accept, @Context SecurityContext securityContextn) {
+	public PmJobsPmJobIdReportsReportIdGetResponse pmJobsPmJobIdReportsReportIdGet(String pmJobId, String reportId, String accept) {
 		// TODO: Implement...
 
 		return null;
@@ -93,7 +96,7 @@ public class DefaultApiServiceImpl implements DefaultApi {
 	 *
 	 */
 	@Override
-	public PmJobsPostResponse pmJobsPost(CreatePmJobRequest createPmJobRequest, String accept, String contentType, @Context SecurityContext securityContextn) {
+	public PmJobsPostResponse pmJobsPost(CreatePmJobRequest createPmJobRequest, String accept, String contentType) {
 		// TODO: Implement...
 
 		return null;
@@ -110,7 +113,7 @@ public class DefaultApiServiceImpl implements DefaultApi {
 	 *
 	 */
 	@Override
-	public List<Object> subscriptionsGet(String accept, @Context SecurityContext securityContextn, String filter) {
+	public List<Object> subscriptionsGet(String accept, String filter) {
 		return new ArrayList<>();
 	}
 
@@ -133,7 +136,7 @@ public class DefaultApiServiceImpl implements DefaultApi {
 	 *
 	 */
 	@Override
-	public SubscriptionsPostResponse subscriptionsPost(String accept, String contentType, SubscriptionsPostQuery body, @Context SecurityContext securityContextn) {
+	public SubscriptionsPostResponse subscriptionsPost(String accept, String contentType, SubscriptionsPostQuery body) {
 		// TODO: Implement...
 
 		return null;
@@ -148,7 +151,7 @@ public class DefaultApiServiceImpl implements DefaultApi {
 	 *
 	 */
 	@Override
-	public void subscriptionsSubscriptionIdDelete(String subscriptionId, String accept, @Context SecurityContext securityContextn) {
+	public void subscriptionsSubscriptionIdDelete(String subscriptionId, String accept) {
 		// TODO: Implement...
 
 	}
@@ -164,7 +167,7 @@ public class DefaultApiServiceImpl implements DefaultApi {
 	 *
 	 */
 	@Override
-	public SubscriptionsPostResponse subscriptionsSubscriptionIdGet(String subscriptionId, String accept, @Context SecurityContext securityContextn) {
+	public SubscriptionsPostResponse subscriptionsSubscriptionIdGet(String subscriptionId, String accept) {
 		// TODO: Implement...
 
 		return null;
@@ -177,7 +180,7 @@ public class DefaultApiServiceImpl implements DefaultApi {
 	 *
 	 */
 	@Override
-	public List<Object> thresholdsGet(String accept, @Context SecurityContext securityContextn, String filter) {
+	public List<Object> thresholdsGet(String accept, String filter) {
 		return new ArrayList<>();
 	}
 
@@ -190,7 +193,7 @@ public class DefaultApiServiceImpl implements DefaultApi {
 	 *
 	 */
 	@Override
-	public ThresholdsPostResponse thresholdsPost(CreateThresholdRequest createThresholdRequest, String accept, String contentType, @Context SecurityContext securityContextn) {
+	public ThresholdsPostResponse thresholdsPost(CreateThresholdRequest createThresholdRequest, String accept, String contentType) {
 		// TODO: Implement...
 
 		return null;
@@ -203,7 +206,7 @@ public class DefaultApiServiceImpl implements DefaultApi {
 	 *
 	 */
 	@Override
-	public void thresholdsThresholdIdDelete(String thresholdId, String accept, @Context SecurityContext securityContextn) {
+	public void thresholdsThresholdIdDelete(String thresholdId, String accept) {
 		// TODO: Implement...
 
 	}
@@ -218,7 +221,7 @@ public class DefaultApiServiceImpl implements DefaultApi {
 	 *
 	 */
 	@Override
-	public ThresholdsPostResponse thresholdsThresholdIdGet(String thresholdId, String accept, @Context SecurityContext securityContextn) {
+	public ThresholdsPostResponse thresholdsThresholdIdGet(String thresholdId, String accept) {
 		// TODO: Implement...
 
 		return null;
@@ -233,7 +236,7 @@ public class DefaultApiServiceImpl implements DefaultApi {
 	 *
 	 */
 	@Override
-	public void uRIIsProvidedByTheClientWhenCreatingTheSubscriptionPerformanceInformationAvailableNotificationPost(PerformanceInformationAvailableNotification performanceInformationAvailableNotification, String accept, String contentType, @Context SecurityContext securityContextn) {
+	public void uRIIsProvidedByTheClientWhenCreatingTheSubscriptionPerformanceInformationAvailableNotificationPost(PerformanceInformationAvailableNotification performanceInformationAvailableNotification, String accept, String contentType) {
 		// TODO: Implement...
 
 	}
@@ -248,7 +251,7 @@ public class DefaultApiServiceImpl implements DefaultApi {
 	 *
 	 */
 	@Override
-	public void uRIIsProvidedByTheClientWhenCreatingTheSubscriptionThresholdCrossedNotificationGet(String accept, @Context SecurityContext securityContextn) {
+	public void uRIIsProvidedByTheClientWhenCreatingTheSubscriptionThresholdCrossedNotificationGet(String accept) {
 		// TODO: Implement...
 
 	}
@@ -262,7 +265,7 @@ public class DefaultApiServiceImpl implements DefaultApi {
 	 *
 	 */
 	@Override
-	public void uRIIsProvidedByTheClientWhenCreatingTheSubscriptionThresholdCrossedNotificationPost(ThresholdCrossedNotification thresholdCrossedNotification, String accept, String contentType, @Context SecurityContext securityContextn) {
+	public void uRIIsProvidedByTheClientWhenCreatingTheSubscriptionThresholdCrossedNotificationPost(ThresholdCrossedNotification thresholdCrossedNotification, String accept, String contentType) {
 		// TODO: Implement...
 
 	}
