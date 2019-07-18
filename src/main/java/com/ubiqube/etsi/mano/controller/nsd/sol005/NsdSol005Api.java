@@ -123,7 +123,7 @@ public class NsdSol005Api extends BaseApi implements NsdSol005 {
 			@ApiResponse(code = 416, message = "The byte range passed in the \"Range\" header did not match any available byte range in the NSD file (e.g. access after end of file). The response body may contain a ProblemDetails structure. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 500, message = "Internal Server Error If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The ProblemDetails structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
 			@ApiResponse(code = 503, message = "Service Unavailable If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 [13] for the use of the Retry-After HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class) })
 	@GetMapping(value = "/ns_descriptors", consumes = { "application/json" }, produces = { "application/json" })
-	public List<NsDescriptorsNsdInfoIdGetResponse> nsDescriptorsGet(@HeaderParam("Accept") String accept, @QueryParam("filter") String filter, @QueryParam("all_fields") String allFields, @QueryParam("fields") String fields, @QueryParam("exclude_fields") String excludeFields, @QueryParam("exclude_default") String excludeDefault, @Context SecurityContext securityContext) {
+	public List<NsDescriptorsNsdInfoIdGetResponse> nsDescriptorsGet(@HeaderParam("Accept") String accept, @QueryParam("filter") String filter, @QueryParam("all_fields") String allFields, @QueryParam("fields") String fields, @QueryParam("exclude_fields") String excludeFields, @QueryParam("exclude_default") String excludeDefault) {
 		List<String> listFilesInFolder;
 		try {
 			listFilesInFolder = repositoryService.doSearch(REPOSITORY_NSD_BASE_PATH, "");
@@ -168,7 +168,7 @@ public class NsdSol005Api extends BaseApi implements NsdSol005 {
 			@ApiResponse(code = 416, message = "The byte range passed in the \"Range\" header did not match any available byte range in the NSD file (e.g. access after end of file). The response body may contain a ProblemDetails structure. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 500, message = "Internal Server Error If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The ProblemDetails structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
 			@ApiResponse(code = 503, message = "Service Unavailable If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 [13] for the use of the Retry-After HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class) })
 	@DeleteMapping(value = "/ns_descriptors/{nsdInfoId}", consumes = { "application/json" }, produces = { "application/json" })
-	public void nsDescriptorsNsdInfoIdDelete(@PathParam("nsdInfoId") String nsdInfoId, @Context SecurityContext securityContext) {
+	public void nsDescriptorsNsdInfoIdDelete(@PathParam("nsdInfoId") String nsdInfoId) {
 		final NsDescriptorsNsdInfo nsdInfo = nsdRepository.get(nsdInfoId);
 		if (!nsdInfo.getNsdOperationalState().equals("DISABLED") || nsdInfo.getNsdUsageState().equals("IN_USE")) {
 			throw new ConflictException("Nsd in bad state " + nsdInfoId);
@@ -197,7 +197,7 @@ public class NsdSol005Api extends BaseApi implements NsdSol005 {
 			@ApiResponse(code = 416, message = "The byte range passed in the \"Range\" header did not match any available byte range in the NSD file (e.g. access after end of file). The response body may contain a ProblemDetails structure. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 500, message = "Internal Server Error If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The ProblemDetails structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
 			@ApiResponse(code = 503, message = "Service Unavailable If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 [13] for the use of the Retry-After HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class) })
 	@GetMapping(value = "/ns_descriptors/{nsdInfoId}", consumes = { "application/json" }, produces = { "application/json" })
-	public NsDescriptorsNsdInfo nsDescriptorsNsdInfoIdGet(@PathParam("nsdInfoId") String nsdInfoId, @HeaderParam("Accept") String accept, @Context SecurityContext securityContext) {
+	public NsDescriptorsNsdInfo nsDescriptorsNsdInfoIdGet(@PathParam("nsdInfoId") String nsdInfoId, @HeaderParam("Accept") String accept) {
 		final NsDescriptorsNsdInfo nsdIfno = nsdRepository.get(nsdInfoId);
 
 		final NsDescriptorsNsdInfoIdGetResponse nsDescriptorsNsdInfoIdGetResponse = new NsDescriptorsNsdInfoIdGetResponse();
@@ -241,7 +241,7 @@ public class NsdSol005Api extends BaseApi implements NsdSol005 {
 			@ApiResponse(code = 409, message = "Conflict Error: The operation cannot be executed currently, due to a conflict with the state of the resource. Typically, this is due to the fact \"nsdOnboardingState\" has a value different from ONBOARDED. The response body shall contain a ProblemDetails structure, in which the \"detail\" attribute shall convey more information about the error. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 412, message = "Precondition Failed. A precondition given in an HTTP request header is not fulfilled. Typically, this is due to an ETag mismatch, indicating that the resource was modified by another entity.  The response body should contain a ProblemDetails structure, in which the \"detail\" attribute should convey more information about the error. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 416, message = "The byte range passed in the \"Range\" header did not match any available byte range in the NSD file (e.g. access after end of file). The response body may contain a ProblemDetails structure. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
 			@ApiResponse(code = 500, message = "Internal Server Error If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The ProblemDetails structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 503, message = "Service Unavailable If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 [13] for the use of the Retry-After HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class) })
 	@GetMapping(value = "/ns_descriptors/{nsdInfoId}/nsd_content", consumes = { "application/json" }, produces = { "application/json" })
-	public Response nsDescriptorsNsdInfoIdNsdContentGet(@PathParam("nsdInfoId") String nsdInfoId, @HeaderParam("Accept") String accept, @Context SecurityContext securityContext, @HeaderParam("Range") String range) {
+	public Response nsDescriptorsNsdInfoIdNsdContentGet(@PathParam("nsdInfoId") String nsdInfoId, @HeaderParam("Accept") String accept, @HeaderParam("Range") String range) {
 		try {
 			final RangeHeader rangeHeader = RangeHeader.fromValue(range);
 			final List<String> listvnfPckgFiles = repositoryService.doSearch(new StringBuilder().append(REPOSITORY_NSD_BASE_PATH).append("/").append(nsdInfoId).toString(), "");
@@ -291,7 +291,7 @@ public class NsdSol005Api extends BaseApi implements NsdSol005 {
 			@ApiResponse(code = 409, message = "Conflict Error: The operation cannot be executed currently, due to a conflict with the state of the resource. Typically, this is due to the fact \"nsdOnboardingState\" has a value different from ONBOARDED. The response body shall contain a ProblemDetails structure, in which the \"detail\" attribute shall convey more information about the error. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 412, message = "Precondition Failed. A precondition given in an HTTP request header is not fulfilled. Typically, this is due to an ETag mismatch, indicating that the resource was modified by another entity.  The response body should contain a ProblemDetails structure, in which the \"detail\" attribute should convey more information about the error. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 416, message = "The byte range passed in the \"Range\" header did not match any available byte range in the NSD file (e.g. access after end of file). The response body may contain a ProblemDetails structure. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
 			@ApiResponse(code = 500, message = "Internal Server Error If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The ProblemDetails structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 503, message = "Service Unavailable If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 [13] for the use of the Retry-After HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class) })
 	@PutMapping(value = "/ns_descriptors/{nsdInfoId}/nsd_content", consumes = { "application/json" }, produces = { "application/json" })
-	public void nsDescriptorsNsdInfoIdNsdContentPut(@PathParam("nsdInfoId") String nsdInfoId, @HeaderParam("Accept") String accept, @Context SecurityContext securityContext) {
+	public void nsDescriptorsNsdInfoIdNsdContentPut(@PathParam("nsdInfoId") String nsdInfoId, @HeaderParam("Accept") String accept) {
 		// Nothing.
 	}
 
@@ -324,7 +324,7 @@ public class NsdSol005Api extends BaseApi implements NsdSol005 {
 			@ApiResponse(code = 416, message = "The byte range passed in the \"Range\" header did not match any available byte range in the NSD file (e.g. access after end of file). The response body may contain a ProblemDetails structure. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 500, message = "Internal Server Error If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The ProblemDetails structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
 			@ApiResponse(code = 503, message = "Service Unavailable If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 [13] for the use of the Retry-After HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class) })
 	@RequestMapping(value = "/ns_descriptors/{nsdInfoId}", consumes = { "application/json" }, produces = { "application/json" }, method = RequestMethod.PATCH)
-	public List<Object> nsDescriptorsNsdInfoIdPatch(@PathParam("nsdInfoId") String nsdInfoId, NsDescriptorsNsdInfoIdPatchQuery body, @HeaderParam("Content-Type") String contentType, @Context SecurityContext securityContext) {
+	public List<Object> nsDescriptorsNsdInfoIdPatch(@PathParam("nsdInfoId") String nsdInfoId, NsDescriptorsNsdInfoIdPatchQuery body, @HeaderParam("Content-Type") String contentType) {
 		return new ArrayList<>();
 	}
 
@@ -348,7 +348,7 @@ public class NsdSol005Api extends BaseApi implements NsdSol005 {
 			@ApiResponse(code = 412, message = "Precondition Failed. A precondition given in an HTTP request header is not fulfilled. Typically, this is due to an ETag mismatch, indicating that the resource was modified by another entity.  The response body should contain a ProblemDetails structure, in which the \"detail\" attribute should convey more information about the error. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 416, message = "The byte range passed in the \"Range\" header did not match any available byte range in the NSD file (e.g. access after end of file). The response body may contain a ProblemDetails structure. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class),
 			@ApiResponse(code = 500, message = "Internal Server Error If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The ProblemDetails structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class), @ApiResponse(code = 503, message = "Service Unavailable If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 [13] for the use of the Retry-After HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = NsDescriptorsNsdInfoOnboardingFailureDetails.class) })
 	@PostMapping(value = "/ns_descriptors", consumes = { "application/json" }, produces = { "application/json" })
-	public NsDescriptorsNsdInfo nsDescriptorsPost(@HeaderParam("Accept") String accept, @HeaderParam("Content-Type") String contentType, String body, @Context SecurityContext securityContext, @Context UriInfo uriInfo) {
+	public NsDescriptorsNsdInfo nsDescriptorsPost(@HeaderParam("Accept") String accept, @HeaderParam("Content-Type") String contentType, String body, @Context UriInfo uriInfo) {
 		final NsDescriptorsPostQuery nsDescriptorsPostQuery = string2Object(body, NsDescriptorsPostQuery.class);
 		final String id = UUID.randomUUID().toString();
 		final StringBuilder sb = new StringBuilder().append(REPOSITORY_NSD_BASE_PATH).append("/").append(id);
@@ -415,7 +415,7 @@ public class NsdSol005Api extends BaseApi implements NsdSol005 {
 	 *
 	 */
 	@Override
-	public PnfDescriptorsPnfdInfoIdGetResponse pnfDescriptorsPnfdInfoIdGet(String pnfdInfoId, String accept, @Context SecurityContext securityContext) {
+	public PnfDescriptorsPnfdInfoIdGetResponse pnfDescriptorsPnfdInfoIdGet(String pnfdInfoId, String accept) {
 		// : Implement...
 
 		return null;
@@ -429,7 +429,7 @@ public class NsdSol005Api extends BaseApi implements NsdSol005 {
 	 *
 	 */
 	@Override
-	public PnfDescriptorsPnfdInfoIdPatchResponse pnfDescriptorsPnfdInfoIdPatch(String pnfdInfoId, String accept, String contentType, PnfDescriptorsPnfdInfoIdPatchQuery body, @Context SecurityContext securityContext) {
+	public PnfDescriptorsPnfdInfoIdPatchResponse pnfDescriptorsPnfdInfoIdPatch(String pnfdInfoId, String accept, String contentType, PnfDescriptorsPnfdInfoIdPatchQuery body) {
 		// : Implement...
 
 		return null;
@@ -444,7 +444,7 @@ public class NsdSol005Api extends BaseApi implements NsdSol005 {
 	 *
 	 */
 	@Override
-	public void pnfDescriptorsPnfdInfoIdPnfdContentGet(String pnfdInfoId, String accept, @Context SecurityContext securityContext) {
+	public void pnfDescriptorsPnfdInfoIdPnfdContentGet(String pnfdInfoId, String accept) {
 		// : Implement...
 
 	}
@@ -459,7 +459,7 @@ public class NsdSol005Api extends BaseApi implements NsdSol005 {
 	 *
 	 */
 	@Override
-	public void pnfDescriptorsPnfdInfoIdPnfdContentPut(String pnfdInfoId, String accept, @Context SecurityContext securityContext) {
+	public void pnfDescriptorsPnfdInfoIdPnfdContentPut(String pnfdInfoId, String accept) {
 		// : Implement...
 
 	}
@@ -471,7 +471,7 @@ public class NsdSol005Api extends BaseApi implements NsdSol005 {
 	 *
 	 */
 	@Override
-	public PnfDescriptorsPnfdInfoIdGetResponse pnfDescriptorsPost(String accept, String contentType, PnfDescriptorsPostQuery body, @Context SecurityContext securityContext) {
+	public PnfDescriptorsPnfdInfoIdGetResponse pnfDescriptorsPost(String accept, String contentType, PnfDescriptorsPostQuery body) {
 		// : Implement...
 
 		return null;
@@ -489,7 +489,7 @@ public class NsdSol005Api extends BaseApi implements NsdSol005 {
 	 *
 	 */
 	@Override
-	public List<Object> subscriptionsGet(String accept, String filter, @Context SecurityContext securityContext) {
+	public List<Object> subscriptionsGet(String accept, String filter) {
 		// : Implement...
 
 		return new ArrayList<>();
@@ -516,7 +516,7 @@ public class NsdSol005Api extends BaseApi implements NsdSol005 {
 	 *
 	 */
 	@Override
-	public SubscriptionsPostResponse subscriptionsPost(String accept, String contentType, SubscriptionsPostQuery body, @Context SecurityContext securityContext) {
+	public SubscriptionsPostResponse subscriptionsPost(String accept, String contentType, SubscriptionsPostQuery body) {
 		// : Implement...
 
 		return null;
@@ -533,7 +533,7 @@ public class NsdSol005Api extends BaseApi implements NsdSol005 {
 	 *
 	 */
 	@Override
-	public void subscriptionsSubscriptionIdDelete(String subscriptionId, @Context SecurityContext securityContext) {
+	public void subscriptionsSubscriptionIdDelete(String subscriptionId) {
 		// : Implement...
 
 	}
@@ -550,7 +550,7 @@ public class NsdSol005Api extends BaseApi implements NsdSol005 {
 	 *
 	 */
 	@Override
-	public SubscriptionsPostResponse subscriptionsSubscriptionIdGet(String subscriptionId, String accept, @Context SecurityContext securityContext) {
+	public SubscriptionsPostResponse subscriptionsSubscriptionIdGet(String subscriptionId, String accept) {
 		// : Implement...
 
 		return null;
@@ -568,7 +568,7 @@ public class NsdSol005Api extends BaseApi implements NsdSol005 {
 	 *
 	 */
 	@Override
-	public void uRIIsProvidedByTheClientWhenCreatingTheSubscriptionNsdChangeNotificationPost(NsdChangeNotification nsdChangeNotification, String accept, String contentType, @Context SecurityContext securityContext) {
+	public void uRIIsProvidedByTheClientWhenCreatingTheSubscriptionNsdChangeNotificationPost(NsdChangeNotification nsdChangeNotification, String accept, String contentType) {
 		// : Implement...
 
 	}
@@ -585,7 +585,7 @@ public class NsdSol005Api extends BaseApi implements NsdSol005 {
 	 *
 	 */
 	@Override
-	public void uRIIsProvidedByTheClientWhenCreatingTheSubscriptionNsdDeletionNotificationPost(NsdDeletionNotification nsdDeletionNotification, String accept, String contentType, @Context SecurityContext securityContext) {
+	public void uRIIsProvidedByTheClientWhenCreatingTheSubscriptionNsdDeletionNotificationPost(NsdDeletionNotification nsdDeletionNotification, String accept, String contentType) {
 		// : Implement...
 
 	}
@@ -602,7 +602,7 @@ public class NsdSol005Api extends BaseApi implements NsdSol005 {
 	 *
 	 */
 	@Override
-	public void uRIIsProvidedByTheClientWhenCreatingTheSubscriptionNsdOnBoardingFailureNotificationPost(NsdOnBoardingFailureNotification nsdOnBoardingFailureNotification, String accept, String contentType, @Context SecurityContext securityContext) {
+	public void uRIIsProvidedByTheClientWhenCreatingTheSubscriptionNsdOnBoardingFailureNotificationPost(NsdOnBoardingFailureNotification nsdOnBoardingFailureNotification, String accept, String contentType) {
 		// : Implement...
 
 	}
@@ -619,7 +619,7 @@ public class NsdSol005Api extends BaseApi implements NsdSol005 {
 	 *
 	 */
 	@Override
-	public void uRIIsProvidedByTheClientWhenCreatingTheSubscriptionNsdOnBoardingNotificationPost(NsdOnBoardingNotification nsdOnBoardingNotification, String accept, String contentType, @Context SecurityContext securityContext) {
+	public void uRIIsProvidedByTheClientWhenCreatingTheSubscriptionNsdOnBoardingNotificationPost(NsdOnBoardingNotification nsdOnBoardingNotification, String accept, String contentType) {
 		// : Implement...
 
 	}
@@ -637,7 +637,7 @@ public class NsdSol005Api extends BaseApi implements NsdSol005 {
 	 *
 	 */
 	@Override
-	public void uRIIsProvidedByTheClientWhenCreatingTheSubscriptionPnfdDeletionNotificationGet(String accept, @Context SecurityContext securityContext) {
+	public void uRIIsProvidedByTheClientWhenCreatingTheSubscriptionPnfdDeletionNotificationGet(String accept) {
 		// : Implement...
 
 	}
@@ -654,7 +654,7 @@ public class NsdSol005Api extends BaseApi implements NsdSol005 {
 	 *
 	 */
 	@Override
-	public void uRIIsProvidedByTheClientWhenCreatingTheSubscriptionPnfdDeletionNotificationPost(PnfdDeletionNotification pnfdDeletionNotification, String accept, String contentType, @Context SecurityContext securityContext) {
+	public void uRIIsProvidedByTheClientWhenCreatingTheSubscriptionPnfdDeletionNotificationPost(PnfdDeletionNotification pnfdDeletionNotification, String accept, String contentType) {
 		// : Implement...
 
 	}
@@ -671,7 +671,7 @@ public class NsdSol005Api extends BaseApi implements NsdSol005 {
 	 *
 	 */
 	@Override
-	public void uRIIsProvidedByTheClientWhenCreatingTheSubscriptionPnfdOnBoardingFailureNotificationPost(PnfdOnBoardingFailureNotification pnfdOnBoardingFailureNotification, String accept, String contentType, @Context SecurityContext securityContext) {
+	public void uRIIsProvidedByTheClientWhenCreatingTheSubscriptionPnfdOnBoardingFailureNotificationPost(PnfdOnBoardingFailureNotification pnfdOnBoardingFailureNotification, String accept, String contentType) {
 		// : Implement...
 
 	}
@@ -688,7 +688,7 @@ public class NsdSol005Api extends BaseApi implements NsdSol005 {
 	 *
 	 */
 	@Override
-	public void uRIIsProvidedByTheClientWhenCreatingTheSubscriptionPnfdOnBoardingNotificationPost(PnfdOnBoardingNotification pnfdOnBoardingNotification, String accept, String contentType, @Context SecurityContext securityContext) {
+	public void uRIIsProvidedByTheClientWhenCreatingTheSubscriptionPnfdOnBoardingNotificationPost(PnfdOnBoardingNotification pnfdOnBoardingNotification, String accept, String contentType) {
 		// : Implement...
 
 	}
