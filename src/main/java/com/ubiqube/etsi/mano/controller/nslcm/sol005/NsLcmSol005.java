@@ -42,7 +42,7 @@ public interface NsLcmSol005 {
 	 * structures, and response codes.
 	 *
 	 */
-	public List<Object> nsLcmOpOccsGet(@HeaderParam("Accept") String accept, @QueryParam("filter") String filter, @QueryParam("fields") String fields, @QueryParam("exclude_fields") String excludeFields, @QueryParam("exclude_default") String excludeDefault, @Context SecurityContext securityContext);
+	public List<Object> nsLcmOpOccsGet(@HeaderParam("Accept") String accept, @QueryParam("filter") String filter, @QueryParam("fields") String fields, @QueryParam("exclude_fields") String excludeFields, @QueryParam("exclude_default") String excludeDefault);
 
 	/**
 	 * Continue a NS lifecycle management operation occurrence.
@@ -55,7 +55,7 @@ public interface NsLcmSol005 {
 	 * and response codes.
 	 *
 	 */
-	public void nsLcmOpOccsNsLcmOpOccIdContinuePost(@PathParam("nsLcmOpOccId") String nsLcmOpOccId, @Context SecurityContext securityContext);
+	public void nsLcmOpOccsNsLcmOpOccIdContinuePost(@PathParam("nsLcmOpOccId") String nsLcmOpOccId);
 
 	/**
 	 * Read an individual NS LCM operation occurrence resource.
@@ -67,7 +67,7 @@ public interface NsLcmSol005 {
 	 * query parameters, request and response data structures, and response codes.
 	 *
 	 */
-	public NsLcmOpOccsNsLcmOpOccIdGetResponse nsLcmOpOccsNsLcmOpOccIdGet(@PathParam("nsLcmOpOccId") String nsLcmOpOccId, @HeaderParam("Accept") String accept, @HeaderParam("Content-Type") String contentType, @Context SecurityContext securityContext);
+	public NsLcmOpOccsNsLcmOpOccIdGetResponse nsLcmOpOccsNsLcmOpOccIdGet(@PathParam("nsLcmOpOccId") String nsLcmOpOccId, @HeaderParam("Accept") String accept, @HeaderParam("Content-Type") String contentType);
 
 	/**
 	 * Retry a NS lifecycle management operation occurrence.
@@ -80,7 +80,7 @@ public interface NsLcmSol005 {
 	 * data structures, and response codes.
 	 *
 	 */
-	public void nsLcmOpOccsNsLcmOpOccIdRetryPost(@PathParam("nsLcmOpOccId") String nsLcmOpOccId, @Context SecurityContext securityContext);
+	public void nsLcmOpOccsNsLcmOpOccIdRetryPost(@PathParam("nsLcmOpOccId") String nsLcmOpOccId);
 
 	/**
 	 * Rollback a NS lifecycle management operation occurrence.
@@ -93,7 +93,7 @@ public interface NsLcmSol005 {
 	 * and response codes.
 	 *
 	 */
-	public void nsLcmOpOccsNsLcmOpOccIdRollbackPost(@PathParam("nsLcmOpOccId") String nsLcmOpOccId, @Context SecurityContext securityContext);
+	public void nsLcmOpOccsNsLcmOpOccIdRollbackPost(@PathParam("nsLcmOpOccId") String nsLcmOpOccId);
 
 	/**
 	 * Cancel a NS lifecycle management operation occurrence.
@@ -107,7 +107,7 @@ public interface NsLcmSol005 {
 	 * and response codes.
 	 *
 	 */
-	public void nslcmV1NsLcmOpOccsNsLcmOpOccIdCancelPost(@PathParam("nsLcmOpOccId") String nsLcmOpOccId, @HeaderParam("Accept") String accept, @HeaderParam("Content-Type") String contentType, @Valid NslcmV1NsLcmOpOccsNsLcmOpOccIdCancelPostQuery body, @Context SecurityContext securityContext);
+	public void nslcmV1NsLcmOpOccsNsLcmOpOccIdCancelPost(@PathParam("nsLcmOpOccId") String nsLcmOpOccId, @HeaderParam("Accept") String accept, @HeaderParam("Content-Type") String contentType, @Valid NslcmV1NsLcmOpOccsNsLcmOpOccIdCancelPostQuery body);
 
 	/**
 	 * Mark a NS lifecycle management operation occurrence as failed.
@@ -117,7 +117,7 @@ public interface NsLcmSol005 {
 	 * \&quot;FAILED_TEMP\&quot; state.
 	 *
 	 */
-	public NslcmV1NsLcmOpOccsNsLcmOpOccIdFailPostResponse nslcmV1NsLcmOpOccsNsLcmOpOccIdFailPost(@PathParam("nsLcmOpOccId") String nsLcmOpOccId, @HeaderParam("Accept") String accept, @Context SecurityContext securityContext);
+	public NslcmV1NsLcmOpOccsNsLcmOpOccIdFailPostResponse nslcmV1NsLcmOpOccsNsLcmOpOccIdFailPost(@PathParam("nsLcmOpOccId") String nsLcmOpOccId, @HeaderParam("Accept") String accept);
 
 	/**
 	 * Query multiple subscriptions.
@@ -127,7 +127,7 @@ public interface NsLcmSol005 {
 	 * e.g. for resynchronization after error situations.
 	 *
 	 */
-	public List<Object> subscriptionsGet(@HeaderParam("Accept") String accept, @Context SecurityContext securityContext);
+	public List<Object> subscriptionsGet(@HeaderParam("Accept") String accept);
 
 	/**
 	 * Subscribe to NS lifecycle change notifications.
@@ -147,7 +147,7 @@ public interface NsLcmSol005 {
 	 * callbackUri).
 	 *
 	 */
-	public SubscriptionsPost subscriptionsPost(@HeaderParam("Accept") String accept, @HeaderParam("Content-Type") String contentType, @Valid SubscriptionsPostQuery body, @Context SecurityContext securityContext);
+	public SubscriptionsPost subscriptionsPost(@HeaderParam("Accept") String accept, @HeaderParam("Content-Type") String contentType, @Valid SubscriptionsPostQuery body);
 
 	/**
 	 * Terminate a subscription.
@@ -157,7 +157,7 @@ public interface NsLcmSol005 {
 	 * response codes, as specified in the Tables 6.4.17.3.5-1 and 6.4.17.3.5-2.
 	 *
 	 */
-	public void subscriptionsSubscriptionIdDelete(@PathParam("subscriptionId") String subscriptionId, @Context SecurityContext securityContext);
+	public void subscriptionsSubscriptionIdDelete(@PathParam("subscriptionId") String subscriptionId);
 
 	/**
 	 * Read an individual subscription resource.
@@ -168,7 +168,7 @@ public interface NsLcmSol005 {
 	 * specified in the Tables 6.4.17.3.2-1 and 6.4.17.3.2-2
 	 *
 	 */
-	public SubscriptionsPost subscriptionsSubscriptionIdGet(@PathParam("subscriptionId") String subscriptionId, @HeaderParam("Accept") String accept, @Context SecurityContext securityContext);
+	public SubscriptionsPost subscriptionsSubscriptionIdGet(@PathParam("subscriptionId") String subscriptionId, @HeaderParam("Accept") String accept);
 
 	/**
 	 * Notify about NS lifecycle change
@@ -179,7 +179,7 @@ public interface NsLcmSol005 {
 	 * 6.4.18.3.1-2.
 	 *
 	 */
-	public void uRIIsProvidedByTheClientWhenCreatingTheSubscriptionNsIdentifierCreationNotificationPost(@Valid NsIdentifierCreationNotification nsIdentifierCreationNotification, @HeaderParam("Accept") String accept, @HeaderParam("Content-Type") String contentType, @Context SecurityContext securityContext);
+	public void uRIIsProvidedByTheClientWhenCreatingTheSubscriptionNsIdentifierCreationNotificationPost(@Valid NsIdentifierCreationNotification nsIdentifierCreationNotification, @HeaderParam("Accept") String accept, @HeaderParam("Content-Type") String contentType);
 
 	/**
 	 * Test the notification endpoint.
@@ -190,7 +190,7 @@ public interface NsLcmSol005 {
 	 * 6.4.2.3.2-1 and 6.4.2.3.2-2.
 	 *
 	 */
-	public void uRIIsProvidedByTheClientWhenCreatingTheSubscriptionNsIdentifierDeletionNotificationGet(@HeaderParam("Accept") String accept, @Context SecurityContext securityContext);
+	public void uRIIsProvidedByTheClientWhenCreatingTheSubscriptionNsIdentifierDeletionNotificationGet(@HeaderParam("Accept") String accept);
 
 	/**
 	 * Notify about NS lifecycle change
@@ -201,7 +201,7 @@ public interface NsLcmSol005 {
 	 * 6.4.18.3.1-2.
 	 *
 	 */
-	public void uRIIsProvidedByTheClientWhenCreatingTheSubscriptionNsIdentifierDeletionNotificationPost(@Valid NsIdentifierDeletionNotification nsIdentifierDeletionNotification, @HeaderParam("Accept") String accept, @HeaderParam("Content-Type") String contentType, @Context SecurityContext securityContext);
+	public void uRIIsProvidedByTheClientWhenCreatingTheSubscriptionNsIdentifierDeletionNotificationPost(@Valid NsIdentifierDeletionNotification nsIdentifierDeletionNotification, @HeaderParam("Accept") String accept, @HeaderParam("Content-Type") String contentType);
 
 	/**
 	 * Notify about NS lifecycle change
@@ -212,5 +212,5 @@ public interface NsLcmSol005 {
 	 * 6.4.18.3.1-2.
 	 *
 	 */
-	public void uRIIsProvidedByTheClientWhenCreatingTheSubscriptionNsLcmOperationOccurrenceNotificationPost(@Valid NsLcmOperationOccurrenceNotification nsLcmOperationOccurrenceNotification, @HeaderParam("Accept") String accept, @HeaderParam("Content-Type") String contentType, @Context SecurityContext securityContext);
+	public void uRIIsProvidedByTheClientWhenCreatingTheSubscriptionNsLcmOperationOccurrenceNotificationPost(@Valid NsLcmOperationOccurrenceNotification nsLcmOperationOccurrenceNotification, @HeaderParam("Accept") String accept, @HeaderParam("Content-Type") String contentType);
 }
