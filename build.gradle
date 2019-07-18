@@ -98,7 +98,6 @@ dependencies {
 }
 
 springBoot {
-	//mainClassName = 'com.ubiqube.etsi.mano.config.JerseyConfig'
 	mainClassName = 'com.ubiqube.etsi.mano.config.ServletInitializer';
 }
 generateGrammarSource {
