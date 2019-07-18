@@ -48,7 +48,7 @@ import io.swagger.annotations.ApiResponses;
  */
 @RestController
 @RequestMapping("/sol005/vnfpm/v1/")
-public interface DefaultApi {
+public interface NsPerfoSol005 {
 
 	/**
 	 * Query PM jobs.

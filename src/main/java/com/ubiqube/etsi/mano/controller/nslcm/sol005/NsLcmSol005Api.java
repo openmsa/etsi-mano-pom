@@ -59,10 +59,10 @@ import io.swagger.annotations.ApiResponses;
 @RestController
 @RequestMapping("/sol005/nslcm/v1")
 @Api(value = "/")
-public class DefaultApiServiceImpl extends BaseApi implements DefaultApi {
+public class NsLcmSol005Api extends BaseApi implements NsLcmSol005 {
 
 	@Inject
-	public DefaultApiServiceImpl(Patcher _patcher, ObjectMapper _mapper, SubscriptionRepository _subscriptionRepository, VnfPackageRepository _vnfPackageRepository, RepositoryService _repositoryService) {
+	public NsLcmSol005Api(Patcher _patcher, ObjectMapper _mapper, SubscriptionRepository _subscriptionRepository, VnfPackageRepository _vnfPackageRepository, RepositoryService _repositoryService) {
 		super(_patcher, _mapper, _subscriptionRepository, _vnfPackageRepository, _repositoryService);
 	}
 

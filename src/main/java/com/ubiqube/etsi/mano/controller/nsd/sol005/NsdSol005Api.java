@@ -90,13 +90,13 @@ import io.swagger.annotations.ApiResponses;
 @RestController
 @RequestMapping("/sol005/nsd/v1")
 @Api(value = "/")
-public class DefaultApiServiceImpl extends BaseApi implements DefaultApi {
+public class NsdSol005Api extends BaseApi implements NsdSol005 {
 	private static final String APPLICATION_ZIP = "application/zip";
 
 	private final NsdRepository nsdRepository;
 
 	@Inject
-	public DefaultApiServiceImpl(NsdRepository _nsdRepository, Patcher _patcher, ObjectMapper _mapper, SubscriptionRepository _subscriptionRepository, VnfPackageRepository _vnfPackageRepository, RepositoryService _repositoryService) {
+	public NsdSol005Api(NsdRepository _nsdRepository, Patcher _patcher, ObjectMapper _mapper, SubscriptionRepository _subscriptionRepository, VnfPackageRepository _vnfPackageRepository, RepositoryService _repositoryService) {
 		super(_patcher, _mapper, _subscriptionRepository, _vnfPackageRepository, _repositoryService);
 		nsdRepository = _nsdRepository;
 	}

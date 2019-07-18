@@ -36,7 +36,7 @@ import io.swagger.annotations.Api;
 @RestController
 @RequestMapping("/sol005/nspm/v1")
 @Api(value = "/")
-public class DefaultApiServiceImpl implements DefaultApi {
+public class NsPerfoSol005Api implements NsPerfoSol005 {
 	/**
 	 * Query PM jobs.
 	 *

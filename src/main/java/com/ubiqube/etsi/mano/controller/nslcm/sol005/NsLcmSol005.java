@@ -30,7 +30,7 @@ import com.ubiqube.etsi.mano.model.nslcm.sol005.SubscriptionsPostQuery;
  * https://forge.etsi.org/bugzilla/buglist.cgi?component=Nfv-Openapis
  *
  */
-public interface DefaultApi {
+public interface NsLcmSol005 {
 
 	/**
 	 * Query multiple NS LCM operation occurrences.

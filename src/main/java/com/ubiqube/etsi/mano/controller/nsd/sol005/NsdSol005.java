@@ -61,7 +61,7 @@ import io.swagger.annotations.ApiResponses;
  *
  */
 
-public interface DefaultApi {
+public interface NsdSol005 {
 
 	/**
 	 * Query information about multiple NS descriptor resources.

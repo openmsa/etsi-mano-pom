@@ -62,7 +62,7 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/sol005/nslcm/v1/ns_instances")
 @Api(value = "/sol005/nslcm/v1/ns_instances")
 public class NsInstancesApi extends BaseApi {
-	private static final Logger LOG = LoggerFactory.getLogger(DefaultApiServiceImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(NsLcmSol005Api.class);
 	private static final String REPOSITORY_NS_INSTANCE_DATAFILE_BASE_PATH = "Datafiles/NFVO/ns_instances";
 
 	private final DeviceService deviceService;
