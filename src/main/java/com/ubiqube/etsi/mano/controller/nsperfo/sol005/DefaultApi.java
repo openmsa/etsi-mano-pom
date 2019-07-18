@@ -12,12 +12,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.SecurityContext;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.ubiqube.etsi.mano.model.nsperfo.sol005.CreatePmJobRequest;
 import com.ubiqube.etsi.mano.model.nsperfo.sol005.CreateThresholdRequest;
@@ -46,7 +46,8 @@ import io.swagger.annotations.ApiResponses;
  * https://forge.etsi.org/bugzilla/buglist.cgi?component=Nfv-Openapis
  *
  */
-
+@RestController
+@RequestMapping("/sol005/vnfpm/v1/")
 public interface DefaultApi {
 
 	/**

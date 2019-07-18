@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubiqube.api.entities.repository.RepositoryElement;
@@ -86,6 +87,7 @@ import io.swagger.annotations.ApiResponses;
  *
  */
 //@Path("/sol005/nsd/v1")
+@RestController
 @RequestMapping("/sol005/nsd/v1")
 @Api(value = "/")
 public class DefaultApiServiceImpl extends BaseApi implements DefaultApi {

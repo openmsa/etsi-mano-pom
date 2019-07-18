@@ -10,7 +10,9 @@ import javax.ws.rs.core.Response;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubiqube.api.exception.ServiceException;
@@ -38,6 +40,8 @@ import net.sf.json.JSONArray;
  * https://forge.etsi.org/bugzilla/buglist.cgi?component=Nfv-Openapis
  *
  */
+@RestController
+@RequestMapping("/sol003/vnfpkgm/v1")
 public class VnfPackageSol003Api extends BaseApi implements VnfPackageSol003 {
 
 	private static final Logger LOG = LoggerFactory.getLogger(VnfPackageSol003Api.class);

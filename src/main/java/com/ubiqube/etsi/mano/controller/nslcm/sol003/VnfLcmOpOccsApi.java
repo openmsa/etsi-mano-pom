@@ -12,6 +12,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.model.nslcm.sol003.ProblemDetails;
 import com.ubiqube.etsi.mano.model.nslcm.sol003.VnfLcmOpOcc;
@@ -19,10 +22,9 @@ import com.ubiqube.etsi.mano.model.nslcm.sol003.VnfLcmOpOcc;
 import io.swagger.annotations.ApiParam;
 
 @Path("/vnf_lcm_op_occs")
-@Consumes({ "application/json" })
-@Produces({ "application/json" })
-@io.swagger.annotations.Api(description = "the vnf_lcm_op_occs API")
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2019-06-13T10:04:39.223+02:00")
+@RestController
+@RequestMapping("/vnf_lcm_op_occs")
 public class VnfLcmOpOccsApi {
 
 	@GET

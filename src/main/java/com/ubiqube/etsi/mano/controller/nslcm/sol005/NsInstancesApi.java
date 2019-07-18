@@ -59,7 +59,7 @@ import io.swagger.annotations.ApiResponses;
 
 //@Path("/sol005/nslcm/v1/ns_instances")
 @RestController
-@RequestMapping("\"/sol005/nslcm/v1/ns_instances\"")
+@RequestMapping("/sol005/nslcm/v1/ns_instances")
 @Api(value = "/sol005/nslcm/v1/ns_instances")
 public class NsInstancesApi extends BaseApi {
 	private static final Logger LOG = LoggerFactory.getLogger(DefaultApiServiceImpl.class);

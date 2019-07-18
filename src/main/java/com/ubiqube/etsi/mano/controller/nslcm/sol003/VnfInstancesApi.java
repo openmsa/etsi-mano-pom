@@ -60,8 +60,6 @@ import com.ubiqube.etsi.mano.service.Patcher;
 import io.swagger.annotations.ApiParam;
 
 //@Path("/sol003/vnflcm/v1/vnf_instances")
-@Consumes({ "application/json" })
-@Produces({ "application/json" })
 @RestController
 @RequestMapping("/sol003/vnflcm/v1/vnf_instances")
 public class VnfInstancesApi extends BaseApi {
