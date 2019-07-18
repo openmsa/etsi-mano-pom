@@ -73,13 +73,4 @@ public class BaseApi {
 		}
 	}
 
-	/**
-	 * Prevent directory traversal.
-	 *
-	 * @param fileName
-	 * @return
-	 */
-	protected String sanitize(String fileName) {
-		return fileName.replaceAll("\\.\\.", "");
-	}
 }
