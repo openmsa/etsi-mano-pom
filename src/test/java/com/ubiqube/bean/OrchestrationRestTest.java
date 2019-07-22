@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.jupiter.api.Tag;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -13,6 +14,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.ubiqube.api.ws.entities.orchestration.ProcessInstance;
 
+@Tag("Remote")
 public class OrchestrationRestTest {
 	// private final String URL_BASE = "http://10.31.1.246/ubi-api-rest";
 	private final String URL_BASE = "http://localhost:8380/ubi-api-rest";
