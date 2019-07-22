@@ -1,7 +1,6 @@
 package com.ubiqube.etsi.mano.config;
 
-import javax.inject.Inject;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,9 +13,9 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableWebMvc
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	Http403EntryPoint http403EntryPoint;
+	private final Http403EntryPoint http403EntryPoint;
 
-	@Inject
+	@Autowired
 	public WebSecurityConfig(Http403EntryPoint _http403EntryPoint) {
 		super();
 		http403EntryPoint = _http403EntryPoint;
