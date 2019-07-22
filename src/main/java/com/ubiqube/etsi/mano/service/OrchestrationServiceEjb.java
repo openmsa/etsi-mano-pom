@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.api.commons.id.ManagerId;
@@ -42,7 +40,6 @@ public class OrchestrationServiceEjb implements OrchestrationService {
 	/**
 	 * Constructor.
 	 */
-	@Inject
 	public OrchestrationServiceEjb(JndiWrapper _jndiWrapper) {
 		orchestrationService = (OrchestrationService) _jndiWrapper.lookup("ubi-jentreprise/OrchestrationBean/remote-com.ubiqube.api.interfaces.orchestration.OrchestrationService");
 	}

@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.inject.Inject;
-
 import org.springframework.stereotype.Service;
 
 import com.netcelo.commun.database.exceptions.DataBaseFailureException;
@@ -70,7 +68,6 @@ public class DeviceServiceEjb implements DeviceService {
 	/**
 	 * Constructor.
 	 */
-	@Inject
 	public DeviceServiceEjb(JndiWrapper _jndiWrapper) {
 		deviceService = (DeviceService) _jndiWrapper.lookup("ubi-jentreprise/DeviceBean/remote-com.ubiqube.api.interfaces.device.DeviceService");
 	}

@@ -2,7 +2,6 @@ package com.ubiqube.etsi.mano.repository;
 
 import java.util.Hashtable;
 
-import javax.inject.Inject;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -16,7 +15,6 @@ import com.ubiqube.etsi.mano.service.Configuration;
 public class JndiWrapper {
 	private final InitialContext context;
 
-	@Inject
 	public JndiWrapper(Configuration _configuration) {
 		final Hashtable<String, String> props = new Hashtable<>();
 		props.put(Context.INITIAL_CONTEXT_FACTORY, "org.jnp.interfaces.NamingContextFactory");

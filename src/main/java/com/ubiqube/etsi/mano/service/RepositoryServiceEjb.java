@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
 
-import javax.inject.Inject;
-
 import org.springframework.stereotype.Service;
 
 import com.netcelo.ses.entities.actor.Actor;
@@ -48,7 +46,6 @@ public class RepositoryServiceEjb implements RepositoryService {
 	/**
 	 * Constructor.
 	 */
-	@Inject
 	public RepositoryServiceEjb(JndiWrapper _jndiWrapper) {
 		try {
 			repositoryService = (RepositoryService) _jndiWrapper.lookup("ubi-jentreprise/RepositoryManagerBean/remote-com.ubiqube.api.interfaces.repository.RepositoryService");
