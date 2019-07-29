@@ -1,6 +1,7 @@
 package com.ubiqube.etsi.mano.grammar;
 
 import java.beans.PropertyDescriptor;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,6 +14,7 @@ public class JsonBeanProperty {
 	private PropertyDescriptor propertyDescriptor;
 	private String jsonName;
 	private Map<String, JsonBeanProperty> right;
+	private List<JsonBeanProperty> listAccessors;
 
 	public JsonBeanProperty() {
 		// Nothing.
@@ -59,6 +61,14 @@ public class JsonBeanProperty {
 
 	public void setRight(Map<String, JsonBeanProperty> res) {
 		right = res;
+	}
+
+	public void setAccessorsList(List<JsonBeanProperty> listObject) {
+		listAccessors = listObject;
+	}
+
+	public List<JsonBeanProperty> getListAccessors() {
+		return listAccessors;
 	}
 
 }
