@@ -28,6 +28,7 @@ repositories {
 
 configurations.all {
 	exclude group: 'log4j', module: 'log4j'
+	exclude group: 'org.hibernate.validator', module: 'hibernate-validator'
 }
 test {
 	useJUnitPlatform() {
@@ -82,7 +83,6 @@ dependencies {
 	compile("org.springframework.boot:spring-boot-starter-security")
 	compile("org.springframework.boot:spring-boot-starter-web") {
 		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
-		exclude group: 'org.hibernate.validator', module: 'hibernate-validator'
 	}
 	compile("org.springframework.boot:spring-boot-starter-hateoas")
 	
