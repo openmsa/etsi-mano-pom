@@ -95,7 +95,7 @@ dependencies {
 }
 
 springBoot {
-	mainClassName = 'com.ubiqube.etsi.mano.config.ServletInitializer';
+	mainClassName = 'com.ubiqube.etsi.mano.Application'
 }
 generateGrammarSource {
     maxHeapSize = "64m"
