@@ -28,6 +28,6 @@ NCONT: 'ncont';
 FILTER: 'filter';
 
 ATTRIBUTE: [a-zA-Z]+;
-STRING: ~('.'|'='|',')+;
+STRING: ~('.'|'='|','|'&')+;
 
 
