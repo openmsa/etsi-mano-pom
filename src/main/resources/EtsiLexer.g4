@@ -9,7 +9,7 @@ SLASH: '/';
 OPEN_BRACKET: '(';
 CLOSE_BRACKET: ')';
 SEMICOLON: ';';
-EQUAL: '=';
+EQUAL: '=' -> mode(VALUES);
 DOT: '.';
 AMPERSAND: '&';
 
@@ -27,7 +27,10 @@ CONT: 'cont';
 NCONT: 'ncont'; 
 FILTER: 'filter';
 
-ATTRIBUTE: [a-zA-Z]+;
-STRING: ~('.'|'='|','|'&')+;
+ATTRIBUTE: [a-zA-Z0-9]+;
+
+mode VALUES;
+
+STRING: ~[.=,&]+ -> mode(DEFAULT_MODE);
 
 

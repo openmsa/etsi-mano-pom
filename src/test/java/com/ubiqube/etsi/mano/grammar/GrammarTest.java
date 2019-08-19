@@ -35,7 +35,16 @@ public class GrammarTest {
 		assertNode(nodes.get(1), "vnfdVersion", Operand.GT, "bad");
 	}
 
-	private void assertNode(final Node node, final String key, final Operand op, final String value) {
+	@Test
+	public void testMultiAttr() {
+		final AstBuilder astBuilder = new AstBuilder("id.my.bean.eq=string&vnfdVersion.gt=bad");
+		final List<Node> nodes = astBuilder.getNodes();
+		assertEquals(2, nodes.size());
+		assertNode(nodes.get(0), "id.my.bean", Operand.EQ, "string");
+		assertNode(nodes.get(1), "vnfdVersion", Operand.GT, "bad");
+	}
+
+	private static void assertNode(final Node node, final String key, final Operand op, final String value) {
 		assertEquals(key, node.getName());
 		assertEquals(op, node.getOp());
 		assertEquals(value, node.getValue());

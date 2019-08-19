@@ -9,8 +9,8 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.jupiter.api.Test;
 
+import com.ubiqube.etsi.mano.grammar.EtsiFilter;
 import com.ubiqube.etsi.mano.grammar.EtsiLexer;
-import com.ubiqube.etsi.mano.grammar.Etsifilter;
 import com.ubiqube.etsi.mano.grammar.Node;
 import com.ubiqube.etsi.mano.grammar.Node.Operand;
 import com.ubiqube.etsi.mano.grammar.TreeBuilder;
@@ -23,7 +23,7 @@ public class FilterTest {
 		final EtsiLexer lexer = new EtsiLexer(input);
 
 		final CommonTokenStream tokens = new CommonTokenStream(lexer);
-		final Etsifilter parser = new Etsifilter(tokens);
+		final EtsiFilter parser = new EtsiFilter(tokens);
 		final TreeBuilder treeBuilder = new TreeBuilder();
 		parser.addParseListener(treeBuilder);
 		parser.filterExpr();
@@ -38,7 +38,7 @@ public class FilterTest {
 		final EtsiLexer lexer = new EtsiLexer(input);
 
 		final CommonTokenStream tokens = new CommonTokenStream(lexer);
-		final Etsifilter parser = new Etsifilter(tokens);
+		final EtsiFilter parser = new EtsiFilter(tokens);
 		final TreeBuilder treeBuilder = new TreeBuilder();
 		parser.addParseListener(treeBuilder);
 		parser.filterExpr();
@@ -53,7 +53,7 @@ public class FilterTest {
 		final EtsiLexer lexer = new EtsiLexer(input);
 
 		final CommonTokenStream tokens = new CommonTokenStream(lexer);
-		final Etsifilter parser = new Etsifilter(tokens);
+		final EtsiFilter parser = new EtsiFilter(tokens);
 		final TreeBuilder treeBuilder = new TreeBuilder();
 		parser.addParseListener(treeBuilder);
 		parser.filterExpr();
