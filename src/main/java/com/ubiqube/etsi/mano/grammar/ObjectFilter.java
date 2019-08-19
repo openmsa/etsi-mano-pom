@@ -22,12 +22,12 @@ public class ObjectFilter {
 	private final TreeBuilder treeBuilder;
 	private final List<Node> nodes;
 
-	public ObjectFilter(String filter) {
+	public ObjectFilter(final String filter) {
 		treeBuilder = new TreeBuilder();
 		if ((null != filter) && !filter.isEmpty()) {
 			final EtsiLexer el = new EtsiLexer(new ANTLRInputStream(filter));
 			final CommonTokenStream tokens = new CommonTokenStream(el);
-			final Etsifilter parser = new Etsifilter(tokens);
+			final EtsiFilter parser = new EtsiFilter(tokens);
 			parser.addParseListener(treeBuilder);
 			parser.filterExpr();
 
@@ -44,7 +44,7 @@ public class ObjectFilter {
 	 * @param nodes
 	 * @return
 	 */
-	public boolean apply(Object object) {
+	public boolean apply(final Object object) {
 		for (final Node node : nodes) {
 			if (!apply(object, node)) {
 				return false;
@@ -54,7 +54,7 @@ public class ObjectFilter {
 		return true;
 	}
 
-	private static boolean apply(Object _object, Node _node) {
+	private static boolean apply(final Object _object, final Node _node) {
 		try {
 			final String objectValue = BeanUtils.getNestedProperty(_object, _node.getName());
 			return decide(objectValue, _node.getValue(), _node.getOp());
@@ -63,7 +63,7 @@ public class ObjectFilter {
 		}
 	}
 
-	private static boolean decide(String _objectValue, String _value, Operand _operand) {
+	private static boolean decide(final String _objectValue, final String _value, final Operand _operand) {
 		if (null == _operand) {
 			return true;
 		}

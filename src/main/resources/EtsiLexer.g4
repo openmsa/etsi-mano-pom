@@ -1,21 +1,33 @@
 lexer grammar EtsiLexer;
-@header {
-	package com.ubiqube.etsi.grammar;
+
+@lexer::header {
+	package com.ubiqube.etsi.mano.grammar;
 }
 
-EQ:			'eq';
-NEQ:		'neq';
-GT:			'gt';
-LT:			'lt';
-GTE:		'gte';
-LTE:		'lte';
-CONT:		'cont';
-NCONT:		'ncont';
+COMMA: ',';
+SLASH: '/';
+OPEN_BRACKET: '(';
+CLOSE_BRACKET: ')';
+SEMICOLON: ';';
+EQUAL: '=';
+DOT: '.';
+AMPERSAND: '&';
 
-DOT:		'.';
-AMP:		'&';
-EQUAL:		'=';
-COMA:		',';
+EQ: 'eq';
+NEQ: 'neq';
 
-STRING:		('a'..'z'|'A'..'Z')+;
-VALUE:		('a'..'z'|'A'..'Z'|'0'..'9')+;
+GT: 'gt';
+LT: 'lt';
+GTE: 'gte';
+LTE: 'lte';
+
+IN: 'in';
+NIN: 'nin';
+CONT: 'cont';
+NCONT: 'ncont'; 
+FILTER: 'filter';
+
+ATTRIBUTE: [a-zA-Z]+;
+STRING: ~('.'|'='|',')+;
+
+
