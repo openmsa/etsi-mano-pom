@@ -1,6 +1,5 @@
 lexer grammar EtsiLexer;
-
-@lexer::header {
+@header {
 	package com.ubiqube.etsi.mano.grammar;
 }
 
@@ -9,7 +8,7 @@ SLASH: '/';
 OPEN_BRACKET: '(';
 CLOSE_BRACKET: ')';
 SEMICOLON: ';';
-EQUAL: '=' -> mode(VALUES);
+EQUAL: '=';
 DOT: '.';
 AMPERSAND: '&';
 
@@ -29,8 +28,5 @@ FILTER: 'filter';
 
 ATTRIBUTE: [a-zA-Z0-9]+;
 
-mode VALUES;
-
-STRING: ~[.=,&]+ -> mode(DEFAULT_MODE);
-
+STRING: ~[.=,&]+;
 

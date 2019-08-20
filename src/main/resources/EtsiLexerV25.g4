@@ -1,6 +1,5 @@
 lexer grammar EtsiLexerV25;
-
-@lexer::header {
+@header {
 	package com.ubiqube.etsi.mano.grammar.v25;
 }
 
