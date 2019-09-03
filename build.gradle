@@ -2,6 +2,7 @@ plugins {
 	id 'war'
 	id 'antlr'
 	id 'eclipse-wtp'
+	id 'jacoco'
 	id 'org.springframework.boot' version '2.1.5.RELEASE'
 	id 'org.sonarqube' version '2.7.1'
 	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
@@ -67,6 +68,7 @@ dependencies {
 	compile group: 'io.swagger', name: 'swagger-annotations', version: '1.5.22'
 	
 	compile group: 'org.antlr', name: 'antlr4-runtime', version: '4.7.2'
+	antlr  group: 'org.antlr', name: 'antlr4', version: '4.7.2'
 	
 	compile name: 'ubi-api-client'
 	compile name: 'ubi-jcommons'
