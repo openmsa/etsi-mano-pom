@@ -6,8 +6,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -17,7 +15,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
-//@EnableWebMvc
 @EnableSwagger2
 public class Application extends SpringBootServletInitializer {
 	private static final Logger LOG = LoggerFactory.getLogger(Application.class);
@@ -37,18 +34,4 @@ public class Application extends SpringBootServletInitializer {
 		return objectMapper;
 	}
 
-	@Bean
-	public WebMvcConfigurerAdapter adapter() {
-		return new WebMvcConfigurerAdapter() {
-			@Override
-			public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-				registry.addResourceHandler("swagger-ui.html")
-						.addResourceLocations("classpath:/META-INF/resources/swagger-ui.html");
-				registry.addResourceHandler("/webjars/**")
-						.addResourceLocations("classpath:/META-INF/resources/webjars/");
-
-				super.addResourceHandlers(registry);
-			}
-		};
-	}
 }
