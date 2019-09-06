@@ -1,4 +1,4 @@
-package com.ubiqube.etsi.mano.service;
+package com.ubiqube.etsi.mano.service.event;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
