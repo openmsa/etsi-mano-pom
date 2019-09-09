@@ -33,8 +33,8 @@ public class BeanTest {
 
 	public class AddressFactory extends AbstractFactory {
 		@Override
-		public boolean createObject(JXPathContext context, Pointer pointer,
-				Object parent, String name, int index) {
+		public boolean createObject(final JXPathContext context, final Pointer pointer,
+				final Object parent, final String name, final int index) {
 			final PropertyUtilsBean propertyUtilsBean = new PropertyUtilsBean();
 			try {
 				final PropertyDescriptor descr = propertyUtilsBean.getPropertyDescriptor(parent, name);
@@ -43,13 +43,12 @@ public class BeanTest {
 				BeanUtils.setProperty(parent, name, spawnedClass);
 				return true;
 			} catch (final Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return false;
 		}
 
-		private Object spawnClass(Class<?> _returnType) throws InstantiationException, IllegalAccessException {
+		private Object spawnClass(final Class<?> _returnType) throws InstantiationException, IllegalAccessException {
 
 			return _returnType.newInstance();
 		}
