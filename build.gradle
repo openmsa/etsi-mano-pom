@@ -31,6 +31,7 @@ configurations.all {
 	exclude group: 'log4j', module: 'log4j'
 	exclude group: 'org.hibernate.validator', module: 'hibernate-validator'
 	exclude group: 'org.hibernate', module: 'ejb3-persistence'
+	exclude group: 'quartz', module: 'quartz'
 }
 test {
 	useJUnitPlatform() {
