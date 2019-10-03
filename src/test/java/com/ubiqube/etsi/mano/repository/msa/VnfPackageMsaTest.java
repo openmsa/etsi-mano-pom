@@ -35,7 +35,7 @@ public class VnfPackageMsaTest {
 		final JsonFilter jsonFilter = new JsonFilter(new JsonBeanUtil());
 		final ObjectMapper mapper = new ObjectMapper();
 		final RepositoryServiceEjb repositoryService = new RepositoryServiceEjb(new JndiWrapper(new PropertiesConfiguration()));
-		vnfPackageMsa = new VnfPackageMsa(mapper, repositoryService, jsonFilter);
+		vnfPackageMsa = new VnfPackageMsa(mapper, repositoryService, jsonFilter, null, null);
 	}
 
 	@Test

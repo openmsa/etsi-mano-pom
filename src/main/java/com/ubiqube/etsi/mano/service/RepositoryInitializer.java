@@ -23,6 +23,7 @@ public class RepositoryInitializer {
 	protected static final String REPOSITORY_VNF_INSTANCE_DATAFILE_BASE_PATH = NVFO_DATAFILE_BASE_PATH + "/vnf_instances";
 	protected static final String REPOSITORY_NS_INSTANCE_DATAFILE_BASE_PATH = NVFO_DATAFILE_BASE_PATH + "/ns_instances";
 	protected static final String REPOSITORY_LCM_OP_OCCS_DATAFILE_BASE_PATH = NVFO_DATAFILE_BASE_PATH + "/lcm-op-occs";
+	protected static final String REPOSITORY_VNF_LCM_OP_OCCS_DATAFILE_BASE_PATH = NVFO_DATAFILE_BASE_PATH + "/vnf-lcm-op-occs";
 	/** EJB Instance. */
 
 	private final RepositoryService repositoryService;
@@ -71,6 +72,9 @@ public class RepositoryInitializer {
 		}
 		if (!repositoryService.exists(REPOSITORY_LCM_OP_OCCS_DATAFILE_BASE_PATH)) {
 			repositoryService.addDirectory(REPOSITORY_LCM_OP_OCCS_DATAFILE_BASE_PATH, "", MANO, NCROOT);
+		}
+		if (!repositoryService.exists(REPOSITORY_VNF_LCM_OP_OCCS_DATAFILE_BASE_PATH)) {
+			repositoryService.addDirectory(REPOSITORY_VNF_LCM_OP_OCCS_DATAFILE_BASE_PATH, "", MANO, NCROOT);
 		}
 	}
 
