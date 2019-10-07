@@ -94,14 +94,14 @@ public final class Constants {
 		}
 	}
 
-	public static void ensureNotInstantiated(final NsInstancesNsInstance nsInstance) {
-		if (NsStateEnum.INSTANTIATED == NsStateEnum.fromValue(nsInstance.getNsState())) {
+	public static void ensureNotInstantiated(final NsInstance nsInstance) {
+		if (InstantiationStateEnum.INSTANTIATED == InstantiationStateEnum.fromValue(nsInstance.getNsState())) {
 			throw new ConflictException("The Ns instance " + nsInstance.getId() + " is instantiated.");
 		}
 	}
 
-	public static void ensureInstantiated(final NsInstancesNsInstance nsInstance) {
-		if (NsStateEnum.INSTANTIATED != NsStateEnum.fromValue(nsInstance.getNsState())) {
+	public static void ensureInstantiated(final NsInstance nsInstance) {
+		if (InstantiationStateEnum.INSTANTIATED != InstantiationStateEnum.fromValue(nsInstance.getNsState())) {
 			throw new GenericException("The Ns Instance " + nsInstance.getId() + " is instantiated.");
 		}
 	}
