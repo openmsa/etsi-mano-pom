@@ -13,7 +13,7 @@ public class NfvoRest extends AbstractRest {
 	private final String url;
 
 	public NfvoRest(final Configuration _conf) {
-		url = _conf.get("nfvo.url").notNull().build();
+		url = _conf.build("nfvo.url").notNull().build();
 		Assert.notNull(url, "nfvo.url is not declared in property file.");
 	}
 

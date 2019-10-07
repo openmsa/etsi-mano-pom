@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -24,12 +25,18 @@ public class UbiRest {
 	private static final Logger LOG = LoggerFactory.getLogger(UbiRest.class);
 
 	private final String url;
-
+	private final MultiValueMap<String, String> httpHeaders = new HttpHeaders();
 	private final RestTemplate restTemplate;
 
-	public UbiRest(final Configuration conf) {
+	public UbiRest(final Configuration _conf) {
 		restTemplate = new RestTemplate();
-		url = conf.get("remote.http.url");
+		url = _conf.get("msa.rest-api.url");
+		final String user = _conf.get("msa.rest-api.user");
+		if (null != user) {
+			final String password = _conf.build("msa.rest-api.password").withDefault("").build();
+			final String toEncode = user + ':' + password;
+			httpHeaders.add("Authorization", "Basic " + Base64.getEncoder().encodeToString(toEncode.getBytes()));
+		}
 		LOG.info("MSA REST client against {}", url);
 	}
 
