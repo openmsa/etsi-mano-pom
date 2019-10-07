@@ -21,7 +21,7 @@ import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.grammar.JsonBeanUtil;
 import com.ubiqube.etsi.mano.grammar.JsonFilter;
 import com.ubiqube.etsi.mano.model.lcmgrant.sol003.Grant;
-import com.ubiqube.etsi.mano.model.nslcm.sol005.NsInstancesCreateNsRequest;
+import com.ubiqube.etsi.mano.model.nsd.NsdPkgInstance;
 import com.ubiqube.etsi.mano.model.vnf.sol005.VnfPkgInfo;
 import com.ubiqube.etsi.mano.repository.DefaultNamingStrategy;
 import com.ubiqube.etsi.mano.repository.JndiWrapper;
@@ -95,7 +95,7 @@ public class VnfPackageMsaTest {
 	@Test
 	public void testLoadObjectError() {
 		assertThrows(NotFoundException.class, () -> {
-			vnfPackageMsa.loadObject("BAD", "grant", NsInstancesCreateNsRequest.class);
+			vnfPackageMsa.loadObject("BAD", "grant", NsdPkgInstance.class);
 		});
 	}
 
