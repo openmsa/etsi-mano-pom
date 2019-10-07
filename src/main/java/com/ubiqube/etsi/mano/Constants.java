@@ -84,25 +84,25 @@ public final class Constants {
 	}
 
 	public static void ensureIsOnboarded(final NsDescriptorsNsdInfo nsd) {
-		if (NsdOnboardingStateEnum.ONBOARDED.value().equals(nsd.getNsdOnboardingState())) {
+		if (NsdOnboardingStateEnum.ONBOARDED != NsdOnboardingStateEnum.fromValue(nsd.getNsdOnboardingState())) {
 			throw new ConflictException("The NSD package " + nsd.getId() + "is already ONBOARDED state.");
 		}
 	}
 
 	public static void ensureNotOnboarded(final NsDescriptorsNsdInfo nsd) {
-		if (!NsdOnboardingStateEnum.ONBOARDED.value().equals(nsd.getNsdOnboardingState())) {
+		if (NsdOnboardingStateEnum.ONBOARDED == NsdOnboardingStateEnum.fromValue(nsd.getNsdOnboardingState())) {
 			throw new ConflictException("The NSD package " + nsd.getId() + "is already ONBOARDED state.");
 		}
 	}
 
 	public static void ensureNotInstantiated(final NsInstancesNsInstance nsInstance) {
-		if (NsStateEnum.INSTANTIATED.value().equals(nsInstance.getNsState())) {
+		if (NsStateEnum.INSTANTIATED == NsStateEnum.fromValue(nsInstance.getNsState())) {
 			throw new ConflictException("The Ns instance " + nsInstance.getId() + " is instantiated.");
 		}
 	}
 
 	public static void ensureInstantiated(final NsInstancesNsInstance nsInstance) {
-		if (NsStateEnum.INSTANTIATED.value().equals(nsInstance.getNsState())) {
+		if (NsStateEnum.INSTANTIATED != NsStateEnum.fromValue(nsInstance.getNsState())) {
 			throw new GenericException("The Ns Instance " + nsInstance.getId() + " is instantiated.");
 		}
 	}
