@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<!--
+	 - Note Copy this file into SOL00X API folder.
+	-->
+
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.ubiqube</groupId>
@@ -12,30 +16,21 @@
 
         <plugins>
             <plugin>
-                <!--
-                <groupId>io.swagger.codegen.v3</groupId>
-                -->
                 <groupId>io.swagger</groupId>
                 <artifactId>swagger-codegen-maven-plugin</artifactId>
                 <version>2.4.4</version>
-<!--
-                <groupId>io.swagger</groupId>
-                <artifactId>swagger-codegen-maven-plugin</artifactId>
-                <version>2.4.4</version>
--->
                 <executions>
                     <execution>
                         <goals>
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <!--<inputSpec>${basedir}/src/main/resources/swagger/SOL005-NSFaultManagement-API.json</inputSpec>-->
-                            <inputSpec>SOL002-SOL003/src/SOL003/VNFLifecycleManagement/VNFLifecycleManagement.yaml</inputSpec>
-			<!--	<inputSpec>SOL005/src/SOL005/VNFPackageManagement/VNFPackageManagement.yaml</inputSpec>-->
-                            <!--<language>jaxrs-spec</language>-->
-                            <!--<language>jaxrs</language>-->
-                            <language>jaxrs</language>
-                            <!--<language>java</language>-->
+                            <!--<inputSpec>./SOL005-NSFaultManagement-API.json</inputSpec>-->
+                            <!--<inputSpec>./VNFLifecycleManagement.yaml</inputSpec>-->
+                            <inputSpec>./VNFLifecycleOperationGranting.yaml</inputSpec>
+				<!--	<inputSpec>./VNFPackageManagement.yaml</inputSpec>-->
+                            <language>spring</language>
+			    <additionalProperties>dateLibrary=java8</additionalProperties>
                             <configOptions>
                                 <!--<library>jaxrs-cxf</library>-->
 				<sourceFolder>SOL002-SOL003/src</sourceFolder>
