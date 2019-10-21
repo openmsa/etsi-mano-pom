@@ -70,7 +70,7 @@ public class VnfPackageMsaTest {
 	@Test
 	public void testStoreError() {
 		assertThrows(NotFoundException.class, () -> {
-			vnfPackageMsa.storeObject("BAD", new Grant(), "grant");
+			vnfPackageMsa.storeObject("BAD", "grant", new Grant());
 		});
 	}
 
@@ -80,15 +80,15 @@ public class VnfPackageMsaTest {
 		vnfPackageMsa.save(entity);
 		assertNotNull(entity.getId());
 
-		vnfPackageMsa.storeObject(entity.getId(), new Grant(), "grant");
-		vnfPackageMsa.loadObject(entity.getId(), Grant.class, "grant");
+		vnfPackageMsa.storeObject(entity.getId(), "grant", new Grant());
+		vnfPackageMsa.loadObject(entity.getId(), "grant", Grant.class);
 		vnfPackageMsa.delete(entity.getId());
 	}
 
 	@Test
 	public void testLoadObjectError() {
 		assertThrows(NotFoundException.class, () -> {
-			vnfPackageMsa.loadObject("BAD", NsInstancesCreateNsRequest.class, "grant");
+			vnfPackageMsa.loadObject("BAD", "grant", NsInstancesCreateNsRequest.class);
 		});
 	}
 
@@ -99,7 +99,7 @@ public class VnfPackageMsaTest {
 		assertNotNull(entity.getId());
 
 		final InputStream stream = new FileInputStream("src/test/resources/pack.zip");
-		vnfPackageMsa.storeBinary(entity.getId(), stream, "file");
+		vnfPackageMsa.storeBinary(entity.getId(), "file", stream);
 
 		byte[] bytes = vnfPackageMsa.getBinary(entity.getId(), "file");
 		final MessageDigest md5 = MessageDigest.getInstance("MD5");
