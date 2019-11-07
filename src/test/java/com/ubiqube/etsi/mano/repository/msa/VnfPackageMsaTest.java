@@ -23,7 +23,11 @@ import com.ubiqube.etsi.mano.grammar.JsonFilter;
 import com.ubiqube.etsi.mano.model.lcmgrant.sol003.Grant;
 import com.ubiqube.etsi.mano.model.nslcm.sol005.NsInstancesCreateNsRequest;
 import com.ubiqube.etsi.mano.model.vnf.sol005.VnfPkgInfo;
+import com.ubiqube.etsi.mano.repository.DefaultNamingStrategy;
 import com.ubiqube.etsi.mano.repository.JndiWrapper;
+import com.ubiqube.etsi.mano.repository.Low;
+import com.ubiqube.etsi.mano.repository.NamingStrategy;
+import com.ubiqube.etsi.mano.service.Configuration;
 import com.ubiqube.etsi.mano.service.PropertiesConfiguration;
 import com.ubiqube.etsi.mano.service.RepositoryServiceEjb;
 
@@ -35,7 +39,10 @@ public class VnfPackageMsaTest {
 		final JsonFilter jsonFilter = new JsonFilter(new JsonBeanUtil());
 		final ObjectMapper mapper = new ObjectMapper();
 		final RepositoryServiceEjb repositoryService = new RepositoryServiceEjb(new JndiWrapper(new PropertiesConfiguration()));
-		vnfPackageMsa = new VnfPackageMsa(mapper, repositoryService, jsonFilter);
+		final Low low = new LowMsa(repositoryService);
+		final Configuration configuration = new PropertiesConfiguration();
+		final NamingStrategy namingStrategy = new DefaultNamingStrategy(configuration);
+		vnfPackageMsa = new VnfPackageMsa(mapper, jsonFilter, low, namingStrategy);
 	}
 
 	@Test
