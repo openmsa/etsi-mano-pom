@@ -30,4 +30,9 @@ public class ContentManagerMsa implements ContentManager {
 		return new ByteArrayInputStream(bytes);
 	}
 
+	@Override
+	public void mkdir(final Path _path) {
+		lowDriver.mkdir(_path.toString());
+	}
+
 }
