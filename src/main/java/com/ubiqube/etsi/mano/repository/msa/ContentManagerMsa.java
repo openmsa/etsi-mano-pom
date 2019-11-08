@@ -25,8 +25,8 @@ public class ContentManagerMsa implements ContentManager {
 	}
 
 	@Override
-	public InputStream load(final Path _filename, final int min, final Long max) {
-		final byte[] bytes = lowDriver.get(_filename.toString(), min, max);
+	public InputStream load(final Path _filename, final int start, final Long end) {
+		final byte[] bytes = lowDriver.get(_filename.toString(), start, end);
 		return new ByteArrayInputStream(bytes);
 	}
 
