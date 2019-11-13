@@ -84,7 +84,7 @@ public final class Constants {
 
 	public static void ensureIsOnboarded(final NsDescriptorsNsdInfo nsd) {
 		if (NsdOnboardingStateEnum.ONBOARDED != NsdOnboardingStateEnum.fromValue(nsd.getNsdOnboardingState())) {
-			throw new ConflictException("The NSD package " + nsd.getId() + "is already ONBOARDED state.");
+			throw new ConflictException("The NSD package " + nsd.getId() + " is not in ONBOARDED state.");
 		}
 	}
 
