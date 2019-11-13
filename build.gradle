@@ -10,7 +10,6 @@ plugins {
 	id 'net.researchgate.release' version '2.8.1'
 }
 
-
 repositories {
 	
 	maven {
@@ -34,6 +33,7 @@ configurations.all {
 	exclude group: 'org.hibernate', module: 'ejb3-persistence'
 	exclude group: 'quartz', module: 'quartz'
 	exclude group: 'org.jboss.logging', module: 'jboss-logging-spi'
+	exclude group: 'javassist', module: 'javassist'
 }
 test {
 	useJUnitPlatform() {
@@ -44,6 +44,7 @@ test {
 sonarqube {
 	properties {
 		property "sonar.projectName", "etsi-mano"
+		property "sonar.host.url", "http://localhost:9011/"
 	}
 }
 
