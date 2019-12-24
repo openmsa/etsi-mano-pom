@@ -8,7 +8,7 @@ import com.ubiqube.api.exception.ServiceException;
 import com.ubiqube.api.exception.configuration.ConfigurationException;
 import com.ubiqube.api.interfaces.configuration.ConfigurationService;
 import com.ubiqube.api.ws.interfaces.configuration.template.ConfigurationTemplateWSInterface.TemplateOrder;
-import com.ubiqube.etsi.mano.repository.JndiWrapper;
+import com.ubiqube.etsi.mano.service.ejb.JndiWrapper;
 
 public class ConfigurationServiceEjb implements ConfigurationService {
 	private final ConfigurationService configurationService;

@@ -1,4 +1,4 @@
-package com.ubiqube.etsi.mano.repository;
+package com.ubiqube.etsi.mano.service.ejb;
 
 import java.util.Properties;
 
@@ -6,12 +6,9 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import org.springframework.stereotype.Service;
-
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.service.Configuration;
 
-@Service
 public class JndiWrapper {
 	private final InitialContext context;
 

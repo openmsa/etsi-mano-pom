@@ -1,4 +1,4 @@
-package com.ubiqube.etsi.mano.service;
+package com.ubiqube.etsi.mano.service.ejb;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -16,7 +16,6 @@ import com.ubiqube.api.exception.ServiceException;
 import com.ubiqube.api.exception.configuration.ConfigurationException;
 import com.ubiqube.api.exception.repository.RepositoryException;
 import com.ubiqube.api.interfaces.repository.RepositoryService;
-import com.ubiqube.etsi.mano.repository.JndiWrapper;
 
 /**
  * Implementation of a Device service thru remote EJB call. NOTE it's just a
@@ -32,8 +31,8 @@ public class RepositoryServiceEjb implements RepositoryService {
 	/**
 	 * Constructor.
 	 */
-	public RepositoryServiceEjb(final JndiWrapper _jndiWrapper) {
-		repositoryService = (RepositoryService) _jndiWrapper.lookup("ubi-jentreprise/RepositoryManagerBean/remote-com.ubiqube.api.interfaces.repository.RepositoryService");
+	public RepositoryServiceEjb(final EjbProvider ejbn) {
+		repositoryService = ejbn.getEjbService("RepositoryManagerBean", RepositoryService.class);
 	}
 
 	@Override

@@ -6,7 +6,7 @@ import java.util.Map;
 import com.ubiqube.api.entities.configuration.object.ConfigurationObject;
 import com.ubiqube.api.exception.ServiceException;
 import com.ubiqube.api.interfaces.configuration.object.ConfigurationObjectService;
-import com.ubiqube.etsi.mano.repository.JndiWrapper;
+import com.ubiqube.etsi.mano.service.ejb.JndiWrapper;
 
 public class ConfigurationObjectServiceEjb implements ConfigurationObjectService {
 

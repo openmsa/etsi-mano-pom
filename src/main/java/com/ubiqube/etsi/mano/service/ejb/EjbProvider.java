@@ -1,0 +1,54 @@
+package com.ubiqube.etsi.mano.service.ejb;
+
+import java.util.Properties;
+
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import com.ubiqube.etsi.mano.exception.GenericException;
+import com.ubiqube.etsi.mano.service.Configuration;
+
+@Service
+public class EjbProvider {
+
+	private static final Logger LOG = LoggerFactory.getLogger(EjbProvider.class);
+	private EjbNamingConvention ejbNamingConvention;
+	private final String appName;
+	private final String moduleName;
+	private final Configuration configuration;
+
+	public EjbProvider(final Configuration _configuration) {
+		configuration = _configuration;
+		final String version = _configuration.build("remote.ejb.version").withDefault("jboss").build();
+		appName = _configuration.build("remote.ejb.appname").withDefault("ubi-jentreprise").build();
+		moduleName = _configuration.build("remote.ejb.modulename").withDefault("ubi-api-ejb").build();
+		LOG.info("EJB version: {}, appName: {}, moduleName: {}", version, appName, moduleName);
+		if ("jboss".contentEquals(version)) {
+			ejbNamingConvention = new JbossNamingConvention();
+		} else {
+			ejbNamingConvention = new WildFlyNamingConvention();
+		}
+	}
+
+	public <T extends Class<?>, U> U getEjbService(final String beanName, final T viewName) {
+		try {
+			final Properties props = ejbNamingConvention.getConnectionProperties(configuration);
+			final InitialContext context = new javax.naming.InitialContext(props);
+			final String ejbUrl = getEjbName(beanName, viewName);
+			LOG.info("EJB URL: {}", ejbUrl);
+			return (U) context.lookup(ejbUrl);
+		} catch (final NamingException e) {
+			throw new GenericException(e);
+		}
+
+	}
+
+	private String getEjbName(final String beanName, final Class viewName) {
+		return ejbNamingConvention.getEjbName(appName, moduleName, beanName, viewName);
+	}
+
+}
