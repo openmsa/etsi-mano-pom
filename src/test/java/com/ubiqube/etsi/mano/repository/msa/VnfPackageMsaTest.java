@@ -24,12 +24,12 @@ import com.ubiqube.etsi.mano.model.lcmgrant.sol003.Grant;
 import com.ubiqube.etsi.mano.model.nsd.NsdPkgInstance;
 import com.ubiqube.etsi.mano.model.vnf.sol005.VnfPkgInfo;
 import com.ubiqube.etsi.mano.repository.DefaultNamingStrategy;
-import com.ubiqube.etsi.mano.repository.JndiWrapper;
 import com.ubiqube.etsi.mano.repository.Low;
 import com.ubiqube.etsi.mano.repository.NamingStrategy;
 import com.ubiqube.etsi.mano.service.Configuration;
 import com.ubiqube.etsi.mano.service.PropertiesConfiguration;
-import com.ubiqube.etsi.mano.service.RepositoryServiceEjb;
+import com.ubiqube.etsi.mano.service.ejb.EjbProvider;
+import com.ubiqube.etsi.mano.service.ejb.RepositoryServiceEjb;
 
 public class VnfPackageMsaTest {
 
@@ -38,7 +38,7 @@ public class VnfPackageMsaTest {
 	public VnfPackageMsaTest() {
 		final JsonFilter jsonFilter = new JsonFilter(new JsonBeanUtil());
 		final ObjectMapper mapper = new ObjectMapper();
-		final RepositoryServiceEjb repositoryService = new RepositoryServiceEjb(new JndiWrapper(new PropertiesConfiguration()));
+		final RepositoryServiceEjb repositoryService = new RepositoryServiceEjb(new EjbProvider(new PropertiesConfiguration()));
 		final Low low = new LowMsa(repositoryService);
 		final Configuration configuration = new PropertiesConfiguration();
 		final NamingStrategy namingStrategy = new DefaultNamingStrategy(configuration);

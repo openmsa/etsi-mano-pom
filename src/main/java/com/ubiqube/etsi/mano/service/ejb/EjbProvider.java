@@ -20,6 +20,7 @@ public class EjbProvider {
 	private final String appName;
 	private final String moduleName;
 	private final Configuration configuration;
+	private InitialContext context;
 
 	public EjbProvider(final Configuration _configuration) {
 		configuration = _configuration;
@@ -32,12 +33,16 @@ public class EjbProvider {
 		} else {
 			ejbNamingConvention = new WildFlyNamingConvention();
 		}
+		final Properties props = ejbNamingConvention.getConnectionProperties(configuration);
+		try {
+			context = new javax.naming.InitialContext(props);
+		} catch (final NamingException e) {
+			throw new GenericException(e);
+		}
 	}
 
 	public <T extends Class<?>, U> U getEjbService(final String beanName, final T viewName) {
 		try {
-			final Properties props = ejbNamingConvention.getConnectionProperties(configuration);
-			final InitialContext context = new javax.naming.InitialContext(props);
 			final String ejbUrl = getEjbName(beanName, viewName);
 			LOG.info("EJB URL: {}", ejbUrl);
 			return (U) context.lookup(ejbUrl);
