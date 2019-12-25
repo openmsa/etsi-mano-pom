@@ -10,7 +10,7 @@ public class JbossNamingConvention implements EjbNamingConvention {
 
 	// ubi-jentreprise/DeviceBean/remote-com.ubiqube.api.interfaces.device.DeviceService
 	@Override
-	public String getEjbName(final String appName, final String moduleName, final String beanName, final Class viewName) {
+	public String getEjbName(final String appName, final String moduleName, final String beanName, final Class<?> viewName) {
 		final StringBuilder sb = new StringBuilder();
 		sb.append(appName).append('/');
 		sb.append(beanName).append('/');

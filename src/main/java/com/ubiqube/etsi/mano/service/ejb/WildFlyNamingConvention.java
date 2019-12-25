@@ -14,7 +14,7 @@ public class WildFlyNamingConvention implements EjbNamingConvention {
 	private static final Logger LOG = LoggerFactory.getLogger(WildFlyNamingConvention.class);
 
 	@Override
-	public String getEjbName(final String appName, final String moduleName, final String beanName, final Class viewName) {
+	public String getEjbName(final String appName, final String moduleName, final String beanName, final Class<?> viewName) {
 		final StringBuilder sb = new StringBuilder();
 		sb.append(appName).append('/');
 		sb.append(moduleName).append('/');
@@ -32,7 +32,7 @@ public class WildFlyNamingConvention implements EjbNamingConvention {
 		props.put(Context.SECURITY_PRINCIPAL, _configuration.build("remote.ejb.user").withDefault("ncroot").build());
 		props.put(Context.SECURITY_CREDENTIALS, _configuration.build("remote.ejb.password").withDefault("ubiqube").build());
 
-		props.put("jboss.naming.client.ejb.context", true);
+		props.put("jboss.naming.client.ejb.context", Boolean.TRUE);
 		LOG.debug("Properties: {}", props);
 		return props;
 	}
