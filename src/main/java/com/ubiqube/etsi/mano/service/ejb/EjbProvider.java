@@ -41,18 +41,18 @@ public class EjbProvider {
 		}
 	}
 
-	public <T extends Class<?>, U> U getEjbService(final String beanName, final T viewName) {
+	public <T> T getEjbService(final String beanName, final Class<T> viewName) {
 		try {
 			final String ejbUrl = getEjbName(beanName, viewName);
 			LOG.info("EJB URL: {}", ejbUrl);
-			return (U) context.lookup(ejbUrl);
+			return (T) context.lookup(ejbUrl);
 		} catch (final NamingException e) {
 			throw new GenericException(e);
 		}
 
 	}
 
-	private String getEjbName(final String beanName, final Class viewName) {
+	private String getEjbName(final String beanName, final Class<?> viewName) {
 		return ejbNamingConvention.getEjbName(appName, moduleName, beanName, viewName);
 	}
 
