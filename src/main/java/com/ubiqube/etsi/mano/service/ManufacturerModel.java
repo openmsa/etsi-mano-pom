@@ -21,7 +21,7 @@ public class ManufacturerModel {
 	private final DeviceService deviceBean;
 	private final Map<Long, Manufacturer> manufacturers;
 
-	public ManufacturerModel(DeviceService _devicebeService) {
+	public ManufacturerModel(final DeviceService _devicebeService) {
 		deviceBean = _devicebeService;
 		try {
 			manufacturers = deviceBean.getAvailableManufacturers();
@@ -30,16 +30,16 @@ public class ManufacturerModel {
 		}
 	}
 
-	public String getManufacturerById(String _id) {
-		final Manufacturer manufacturer = manufacturers.get(Long.parseLong(_id));
+	public String getManufacturerById(final String _id) {
+		final Manufacturer manufacturer = manufacturers.get(Long.getLong(_id));
 		if (null == manufacturer) {
 			throw new NotFoundException("Manufacturer not found [" + _id + "]");
 		}
 		return manufacturer.getName();
 	}
 
-	public String getModelById(String _manufacturerId, String _modelId) {
-		final Manufacturer manufacturer = manufacturers.get(Long.parseLong(_manufacturerId));
+	public String getModelById(final String _manufacturerId, final String _modelId) {
+		final Manufacturer manufacturer = manufacturers.get(Long.getLong(_manufacturerId));
 		final Model model = manufacturer.getModel(Long.parseLong(_modelId));
 		if (null == model) {
 			throw new NotFoundException("Model not found [" + _modelId + "]");
