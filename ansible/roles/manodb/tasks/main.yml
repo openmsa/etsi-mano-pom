@@ -10,10 +10,6 @@
 - name: Create a new database with name "mano"
   postgresql_db:
     name: mano
-- name: Create a new schema with name acme in mano database
-  postgresql_schema:
-    db: mano
-    name: acme
 - name: create User "mano"
   postgresql_user:
     db: mano
