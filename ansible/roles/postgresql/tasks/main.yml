@@ -32,6 +32,12 @@
   # See: https://github.com/ansible/ansible/issues/16048#issuecomment-229012509
   vars:
     ansible_ssh_pipelining: true
+- name: Listen on '*'
+  lineinfile:
+    dest: "/var/lib/pgsql/data/postgresql.conf"
+    regexp: "^listen_addresses"
+    line: "listen_addresses = '*'" 
+    state: present
 - service:
     name: postgresql
     state: started
