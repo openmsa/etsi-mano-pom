@@ -30,6 +30,8 @@ public class UbiRest {
 	private final MultiValueMap<String, String> httpHeaders = new HttpHeaders();
 	private final RestTemplate restTemplate;
 
+	private String token = "";
+
 	public UbiRest(final Configuration _conf) {
 		restTemplate = new RestTemplate();
 		url = _conf.get("msa.rest-api.url");
@@ -38,8 +40,16 @@ public class UbiRest {
 			final String password = _conf.build("msa.rest-api.password").withDefault("").build();
 			final String toEncode = user + ':' + password;
 			httpHeaders.add("Authorization", "Basic " + Base64.getEncoder().encodeToString(toEncode.getBytes()));
+			token = getToken(user, password);
 		}
 		LOG.info("MSA REST client against {}", url);
+	}
+
+	private String getToken(final String user, final String password) {
+		final Authentificate auth = new Authentificate(user, password);
+		final URI uri = UriComponentsBuilder.fromHttpUrl(url).pathSegment("auth/token").build().toUri();
+		final AuthResponse resp = post(uri, auth, AuthResponse.class);
+		return resp.getToken();
 	}
 
 	public <T> T get(final URI uri, final Class<T> clazz) {
@@ -77,7 +87,7 @@ public class UbiRest {
 		return resp.getBody();
 	}
 
-	private static HttpHeaders getHttpHeaders() {
+	private HttpHeaders getHttpHeaders() {
 		final HttpHeaders httpHeaders = new HttpHeaders();
 
 		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -88,7 +98,9 @@ public class UbiRest {
 			user = (UserDetails) authentication.getPrincipal();
 		}
 		final String basic = user.getUsername() + ":" + user.getPassword();
-		httpHeaders.add("Authorization", "Basic " + Base64.getEncoder().encodeToString(basic.getBytes()));
+		// httpHeaders.add("Authorization", "Basic " +
+		// Base64.getEncoder().encodeToString(basic.getBytes()));
+		httpHeaders.add("Authorization", "Bearer " + token);
 		return httpHeaders;
 	}
 }
