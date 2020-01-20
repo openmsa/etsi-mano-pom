@@ -9,24 +9,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 	id 'net.researchgate.release' version '2.8.1'
 }
-/*
-repositories {
-	
-	maven {
-		url 'http://repo.spring.io/plugins-release/'
-	}
-	
-	maven {
-		url 'https://repository.jboss.org/maven2/'
-	}
-	
-	maven {
-		url 'https://maven.repository.redhat.com/ga/'
-	}
-	
-	mavenCentral()
-}
-*/
+
 configurations.all {
 	exclude group: 'log4j', module: 'log4j'
 	exclude group: 'org.hibernate.validator', module: 'hibernate-validator'
@@ -57,7 +40,32 @@ repositories {
 		dirs 'sharedLib/ubiqube'
 	}
 }
-
+ext {
+	// Use -Penv=wildfly for WildFly other wise jboss is activated.
+	wildflyDeps = {
+		runtimeOnly group: 'org.wildfly', name: 'wildfly-ejb-client-bom', version: '10.0.0.Final'
+	}
+	jbossDeps = {
+		compile(group: 'org.jboss.jbossas', name: 'jboss-as-client', version: '5.1.0.GA') {
+			exclude group: 'javax.security', module: 'jaas'
+			exclude group: 'javax.security', module: 'jacc'
+			exclude group: 'org.slf4j', module: 'slf4j-api'
+			exclude group: 'org.jboss.slf4j', module: 'slf4j-jboss-logging'
+			exclude group: 'org.hibernate', module: 'hibernate-annotations'
+		}
+		compile group: 'org.jboss.naming', name: 'jnp-client', version: '5.0.5.Final'
+		compile group: 'concurrent', name: 'concurrent', version: '1.3.4'
+		compile group: 'commons-io', name: 'commons-io', version: '2.6'
+	}
+	env = findProperty('env') ?: 'jboss'
+}
+if(env == 'wildfly') {
+	dependencies project.wildflyDeps
+	println 'Building: for wildfly'
+} else {
+	dependencies project.jbossDeps
+	println 'Building: for jboss'
+}
 dependencies {
 	testImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
@@ -78,25 +86,9 @@ dependencies {
 	compile group: 'com.github.joschi.jackson', name: 'jackson-datatype-threetenbp', version: '2.10.0'
 	
 	compile group: 'org.antlr', name: 'antlr4-runtime', version: '4.7.2'
-	//antlr  group: 'org.antlr', name: 'antlr4', version: '4.7.2'
 	
 	compile name: 'ubi-api-client'
 	compile name: 'ubi-jcommons'
-		/*
-	compile(group: 'org.jboss.jbossas', name: 'jboss-as-client', version: '5.1.0.GA') {
-		exclude group: 'javax.security', module: 'jaas'
-		exclude group: 'javax.security', module: 'jacc'
-		exclude group: 'org.slf4j', module: 'slf4j-api'
-		exclude group: 'org.jboss.slf4j', module: 'slf4j-jboss-logging'
-		exclude group: 'org.hibernate', module: 'hibernate-annotations'
-		
-	}
-	
-	compile group: 'org.jboss.naming', name: 'jnp-client', version: '5.0.5.Final'
-	compile group: 'concurrent', name: 'concurrent', version: '1.3.4'
-	compile group: 'commons-io', name: 'commons-io', version: '2.6'
-	*/
-	runtimeOnly group: 'org.wildfly', name: 'wildfly-ejb-client-bom', version: '10.0.0.Final'
 	
 	compile("org.springframework.boot:spring-boot-starter-security")
 	compile("org.springframework.boot:spring-boot-starter-web") {
@@ -109,13 +101,8 @@ dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	// implementation 'org.liquibase:liquibase-core'
-	//runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'org.postgresql:postgresql:42.2.9'
 
-	// compile group: 'org.apache.bval', name: 'bval-jsr', version: '1.1.2'
-	// compile group: 'org.apache.bval', name: 'bval-jsr', version: '2.0.3'
-	// compile group: 'org.hibernate', name: 'hibernate-validator', version: '3.0.0.GA'
-	
 	compile 'org.slf4j:log4j-over-slf4j:1.7.26'
 	compile 'org.webjars:swagger-ui:3.24.3'
 	
@@ -124,9 +111,6 @@ dependencies {
 	implementation 'net.rakugakibox.spring.boot:orika-spring-boot-starter:1.9.0'
 	
 	implementation 'org.hibernate:hibernate-search:5.11.4.Final'
-//	compile (group: 'org.apache.helix', name: 'helix-core', version: '0.9.1') {
-//		exclude group: 'org.slf4j', module: 'slf4j-log4j12'
-//	}
 }
 
 springBoot {
