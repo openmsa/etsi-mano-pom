@@ -24,14 +24,15 @@ public class EjbProvider {
 
 	public EjbProvider(final Configuration _configuration) {
 		configuration = _configuration;
-		final String version = _configuration.build("remote.ejb.version").withDefault("jboss").build();
+		final String url = _configuration.build("remote.ejb.url").withDefault("no EJB URL ?").build();
+		final boolean isWildfly = url.startsWith("http-remoting://");
 		appName = _configuration.build("remote.ejb.appname").withDefault("ubi-jentreprise").build();
 		moduleName = _configuration.build("remote.ejb.modulename").withDefault("ubi-api-ejb").build();
-		LOG.info("EJB version: {}, appName: {}, moduleName: {}", version, appName, moduleName);
-		if ("jboss".contentEquals(version)) {
-			ejbNamingConvention = new JbossNamingConvention();
-		} else {
+		LOG.info("EJB wildfly: {}, appName: {}, moduleName: {}", isWildfly, appName, moduleName);
+		if (isWildfly) {
 			ejbNamingConvention = new WildFlyNamingConvention();
+		} else {
+			ejbNamingConvention = new JbossNamingConvention();
 		}
 		final Properties props = ejbNamingConvention.getConnectionProperties(configuration);
 		try {

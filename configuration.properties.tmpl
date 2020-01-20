@@ -1,10 +1,40 @@
-# Put this file in $HOME/.mano/configuration.properties
 #
-#remote.ejb.url=warm64:9199
-#remote.ejb.url=10.30.18.103:1099
-msa.rest-api.url=http://msa/ubi-api-rest
+# Using MSA APIs.
+#
+msa.rest-api.url=http://10.31.1.217/ubi-api-rest
 msa.rest-api.user=ncroot
 msa.rest-api.password=ubiqube
-remote.ejb.url=10.31.1.246:1099
+msa.rest-api.version=1.0
+#
+# EJB call.
+#
+#remote.ejb.url=10.31.1.247:1099
+remote.ejb.url=http-remoting://10.31.1.127:8480
+#
+# Used when NFVO or VNFM mode.
+#
 nfvo.url=http://nfvo:8666/ubi-etsi-mano-api/sol005
 vnfm.url=http://vnfm:8080/sol003
+#
+# Physical driver root path.
+#
+repository.phys.root=/tmp/etsi-test/
+#
+# MSA root path for package storage.
+#
+repository.phys.root=Datafiles/NFVO
+# Jdbc
+#jdbc.url=jdbc:h2:file:~/testdb
+#jdbc.url=jdbc:mysql://localhost:3306/mano
+jdbc.url=jdbc:postgresql://10.31.1.28/mano
+#jdbc.username=mano
+#jdbc.username=SA
+jdbc.username=mano
+#jdbc.password=mano
+jdbc.password=mano
+
+jms.artemis.url=tcp://artemis:61616
+jms.artemis.user=artemis
+jms.artemis.password=simetraehcapa
+
+
