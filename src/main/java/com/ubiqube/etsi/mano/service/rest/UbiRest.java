@@ -1,21 +1,14 @@
 package com.ubiqube.etsi.mano.service.rest;
 
 import java.net.URI;
-import java.util.Base64;
-import java.util.Collections;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.http.client.support.BasicAuthenticationInterceptor;
 import org.springframework.stereotype.Service;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -27,29 +20,26 @@ public class UbiRest {
 	private static final Logger LOG = LoggerFactory.getLogger(UbiRest.class);
 
 	private final String url;
-	private final MultiValueMap<String, String> httpHeaders = new HttpHeaders();
 	private final RestTemplate restTemplate;
 
-	private String token = "";
+	private final boolean isv2;
 
 	public UbiRest(final Configuration _conf) {
 		restTemplate = new RestTemplate();
+
 		url = _conf.get("msa.rest-api.url");
 		final String user = _conf.get("msa.rest-api.user");
+		String password = null;
 		if (null != user) {
-			final String password = _conf.build("msa.rest-api.password").withDefault("").build();
-			final String toEncode = user + ':' + password;
-			httpHeaders.add("Authorization", "Basic " + Base64.getEncoder().encodeToString(toEncode.getBytes()));
-			token = getToken(user, password);
+			password = _conf.build("msa.rest-api.password").withDefault("").build();
+		}
+		isv2 = "2.0".equals(_conf.get("msa.rest-api.version"));
+		if (isv2) {
+			restTemplate.getInterceptors().add(new Msa2ClientHttpRequestInterceptor(url, user, password));
+		} else {
+			restTemplate.getInterceptors().add(new BasicAuthenticationInterceptor(user, password));
 		}
 		LOG.info("MSA REST client against {}", url);
-	}
-
-	private String getToken(final String user, final String password) {
-		final Authentificate auth = new Authentificate(user, password);
-		final URI uri = UriComponentsBuilder.fromHttpUrl(url).pathSegment("auth/token").build().toUri();
-		final AuthResponse resp = post(uri, auth, AuthResponse.class);
-		return resp.getToken();
 	}
 
 	public <T> T get(final URI uri, final Class<T> clazz) {
@@ -69,12 +59,11 @@ public class UbiRest {
 	}
 
 	public <T> T call(final URI uri, final HttpMethod method, final Class<T> clazz) {
-		final HttpEntity<String> request = new HttpEntity<>(getHttpHeaders());
-		return _call(uri, method, request, clazz);
+		return _call(uri, method, null, clazz);
 	}
 
 	public <T> T call(final URI uri, final HttpMethod method, final Object body, final Class<T> clazz) {
-		final HttpEntity<Object> request = new HttpEntity<>(body, getHttpHeaders());
+		final HttpEntity<Object> request = new HttpEntity<>(body);
 		return _call(uri, method, request, clazz);
 	}
 
@@ -85,22 +74,5 @@ public class UbiRest {
 	private <T, Tbody> T _call(final URI uri, final HttpMethod method, final HttpEntity<Tbody> request, final Class<T> clazz) {
 		final ResponseEntity<T> resp = restTemplate.exchange(uri, method, request, clazz);
 		return resp.getBody();
-	}
-
-	private HttpHeaders getHttpHeaders() {
-		final HttpHeaders httpHeaders = new HttpHeaders();
-
-		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		UserDetails user;
-		if (null == authentication) {
-			user = new User("ncroot", "ubiqube", Collections.EMPTY_LIST);
-		} else {
-			user = (UserDetails) authentication.getPrincipal();
-		}
-		final String basic = user.getUsername() + ":" + user.getPassword();
-		// httpHeaders.add("Authorization", "Basic " +
-		// Base64.getEncoder().encodeToString(basic.getBytes()));
-		httpHeaders.add("Authorization", "Bearer " + token);
-		return httpHeaders;
 	}
 }
