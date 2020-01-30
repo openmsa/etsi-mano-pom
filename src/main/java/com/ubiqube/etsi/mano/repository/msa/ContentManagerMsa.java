@@ -35,4 +35,9 @@ public class ContentManagerMsa implements ContentManager {
 		lowDriver.mkdir(_path.toString());
 	}
 
+	@Override
+	public void delete(final Path _path) {
+		lowDriver.delete(_path.toString());
+	}
+
 }
