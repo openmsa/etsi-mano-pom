@@ -8,7 +8,7 @@ plugins {
 	id 'org.sonarqube' version '2.8'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'net.researchgate.release' version '2.8.1'
-	id 'com.peterabeles.gversion' version '1.6.2'
+	id 'com.gorylenko.gradle-git-properties' version '2.2.0'
 }
 
 configurations.all {
@@ -33,20 +33,15 @@ sonarqube {
 	}
 }
 
-gversion {
-	srcDir       = 'src/main/java/'
-	classPackage = 'com.ubiqube.etsi.mano.config'
-	className    = "Version"
-	dateFormat   = "yyyy-MM-dd'T'HH:mm:ss'Z'"
-	timeZone     = 'UTC'
-	debug        = false
-	language     = 'java'
-	explicitType = true
+gitProperties {
+	gitPropertiesName = 'git.properties'
+	dateFormat = "yyyy-MM-dd'T'HH:mmZ"
+	dateFormatTimeZone = 'UTC'
 }
 
 group = 'com.ubiqube'
 sourceCompatibility = 1.8
-project.compileJava.dependsOn(createVersionFile)
+project.compileJava.dependsOn(generateGitProperties)
 
 repositories {
 	mavenCentral()
@@ -112,7 +107,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-quartz'
 	// https://github.com/vromero/activemq-artemis-docker
 	implementation 'org.springframework.boot:spring-boot-starter-artemis'
-
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	// implementation 'org.liquibase:liquibase-core'
 	runtimeOnly 'org.postgresql:postgresql:42.2.9'
@@ -133,8 +128,8 @@ springBoot {
 	mainClassName = 'com.ubiqube.etsi.mano.Application'
 }
 generateGrammarSource {
-    maxHeapSize = "64m"
-    arguments += ["-visitor", "-long-messages"]
+	maxHeapSize = "64m"
+	arguments += ["-visitor", "-long-messages"]
 }
 
 task copyDependencies(type: Copy) {
