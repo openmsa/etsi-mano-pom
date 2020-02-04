@@ -3,15 +3,22 @@ package com.ubiqube.etsi.mano.service.ejb;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ExecutionException;
 
 import org.springframework.stereotype.Service;
 
+import com.netcelo.commun.entites.EntitesException;
 import com.netcelo.ses.entities.actor.Actor;
 import com.ubiqube.api.commons.id.ManagerId;
+import com.ubiqube.api.entities.orchestration.microservices.MicroserviceDetails;
+import com.ubiqube.api.entities.orchestration.objectDefinition.ObjectDefinition;
+import com.ubiqube.api.entities.orchestration.objectDefinition.variables.Variables;
 import com.ubiqube.api.entities.repository.RepositoryElement;
 import com.ubiqube.api.entities.repository.RepositoryElement.RepositoryElementType;
 import com.ubiqube.api.entities.repository.RepositoryElementUpload;
+import com.ubiqube.api.exception.ObjectNotFoundException;
 import com.ubiqube.api.exception.ServiceException;
 import com.ubiqube.api.exception.configuration.ConfigurationException;
 import com.ubiqube.api.exception.repository.RepositoryException;
@@ -288,5 +295,65 @@ public class RepositoryServiceEjb implements RepositoryService {
 	@Override
 	public StringBuffer yangFilecompilation(final String _arg0) {
 		return repositoryService.yangFilecompilation(_arg0);
+	}
+
+	@Override
+	public void deleteRepositoryResource(final String arg0, final String arg1) throws ObjectNotFoundException {
+		//
+
+	}
+
+	@Override
+	public List<MicroserviceDetails> getMicroserviceDetailsListByActor(final String arg0, final String arg1, final String arg2, final Long arg3, final Long arg4) throws ServiceException, ExecutionException {
+		//
+		return null;
+	}
+
+	@Override
+	public ObjectDefinition getObjectDefinition(final String arg0) throws IOException, ObjectNotFoundException {
+		//
+		return null;
+	}
+
+	@Override
+	public List<String> getProcessNames(final String arg0, final List<String> arg1) throws ServiceException, IOException, EntitesException {
+		//
+		return null;
+	}
+
+	@Override
+	public String getRepositoryRoot() {
+		//
+		return null;
+	}
+
+	@Override
+	public Variables getResourceVariables(final String arg0) throws IOException, ObjectNotFoundException {
+		//
+		return null;
+	}
+
+	@Override
+	public Map<String, String> getUsageNames(final long arg0, final long arg1, final String arg2) throws ConfigurationException {
+		//
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> loadVariableExtendedParamatersMapFromFile(final String arg0) throws IOException {
+		//
+		return null;
+	}
+
+	@Override
+	public void removeRepositoryFile(final String arg0, final String arg1) throws ServiceException {
+		//
+
+	}
+
+	@Override
+	public void saveRepositoryResourceConfiguration(final ObjectDefinition arg0) throws IOException {
+		//
+
 	}
 }

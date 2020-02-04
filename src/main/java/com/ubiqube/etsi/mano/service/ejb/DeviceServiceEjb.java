@@ -21,6 +21,7 @@ import com.netcelo.ses.entities.device.Manufacturer;
 import com.netcelo.ses.entities.device.Model;
 import com.netcelo.ses.entities.device.Model.Flag;
 import com.netcelo.ses.entities.device.ProductPartNumber;
+import com.netcelo.ses.entities.device.Sd.DeviceNature;
 import com.netcelo.ses.entities.device.SdRoute;
 import com.netcelo.ses.entities.device.SdType;
 import com.netcelo.ses.entities.device.Site;
@@ -39,6 +40,7 @@ import com.ubiqube.api.commons.id.ManagerId;
 import com.ubiqube.api.entities.configuration.FileBasedConfiguration;
 import com.ubiqube.api.entities.configuration.FileBasedConfiguration.SortFileType;
 import com.ubiqube.api.entities.device.SimpleDevice;
+import com.ubiqube.api.exception.DatabaseServiceException;
 import com.ubiqube.api.exception.DatabaseSystemException;
 import com.ubiqube.api.exception.DuplicateReferenceException;
 import com.ubiqube.api.exception.IllegalRebootDateException;
@@ -48,6 +50,7 @@ import com.ubiqube.api.exception.ProvisioningException;
 import com.ubiqube.api.exception.ServiceException;
 import com.ubiqube.api.interfaces.device.DeviceService;
 import com.ubiqube.api.secEngine.result.SecEngineResult;
+import com.ubiqube.api.ws.entities.device.TemplateManagedDevice;
 import com.ubiqube.common.ftp.FtpAccount;
 
 import net.sf.json.JSONObject;
@@ -642,16 +645,6 @@ public class DeviceServiceEjb implements DeviceService {
 	}
 
 	@Override
-	public List<Asset> listDeviceAssetDetailsByCustomer(final long _arg0, final String _arg1) throws ServiceException {
-		return deviceService.listDeviceAssetDetailsByCustomer(_arg0, _arg1);
-	}
-
-	@Override
-	public List<Site> listDeviceByManager(final long _arg0, final String _arg1, final String _arg2) throws ServiceException {
-		return deviceService.listDeviceByManager(_arg0, _arg1, _arg2);
-	}
-
-	@Override
 	public List<Site> listDeviceByManager(final long _arg0) throws ServiceException, DataBaseFailureException {
 		return deviceService.listDeviceByManager(_arg0);
 	}
@@ -929,6 +922,137 @@ public class DeviceServiceEjb implements DeviceService {
 	@Override
 	public DeviceId updateNATRouterAddress(final long _arg0, final String _arg1, final String _arg2) throws ServiceException, ObjectNotFoundException {
 		return deviceService.updateNATRouterAddress(_arg0, _arg1, _arg2);
+	}
+
+	@Override
+	public void applyConfigurationToManagedEntity(final long arg0, final String arg1) throws ServiceException {
+		//
+	}
+
+	@Override
+	public TemplateManagedDevice convertSiteToTemplateManagedDevice(final Site arg0) throws ServiceException {
+		//
+		return null;
+	}
+
+	@Override
+	public int countManagedEntitiesByStatusWithOptionalFilters(final long arg0, final String arg1, final String arg2, final long arg3, final String arg4, final int arg5) throws DatabaseServiceException {
+		//
+		return 0;
+	}
+
+	@Override
+	public Site createTemplateManagedDevice(final String arg0, final long arg1, final String arg2, final String arg3, final int arg4, final int arg5, final String arg6, final String arg7, final String arg8, final boolean arg9, final boolean arg10, final boolean arg11, final boolean arg12, final boolean arg13, final String arg14, final String arg15) throws ServiceException, DuplicateReferenceException, IllegalSdRouteCreationException {
+		//
+		return null;
+	}
+
+	@Override
+	public Site createTemplateManagedDevice(final String arg0, final long arg1, final String arg2, final String arg3, final int arg4, final int arg5, final String arg6, final String arg7, final String arg8, final boolean arg9, final boolean arg10, final boolean arg11, final boolean arg12, final boolean arg13, final String arg14, final String arg15, final int arg16) throws ServiceException, DuplicateReferenceException, IllegalSdRouteCreationException {
+		//
+		return null;
+	}
+
+	@Override
+	public void doFirmwareUpdateByDeviceId(final long arg0, final String arg1, final long arg2) throws ServiceException, ObjectNotFoundException {
+		//
+
+	}
+
+	@Override
+	public SecEngineResult doUpdateConfiguration(final long arg0, final long arg1) throws ServiceException, ObjectNotFoundException {
+		//
+		return null;
+	}
+
+	@Override
+	public List<Long> getDevicesByNature(final DeviceNature arg0) throws ServiceException {
+		//
+		return null;
+	}
+
+	@Override
+	public List<Long> getDevicesByNature(final String arg0) throws ServiceException {
+		//
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> getManagedEntityStatusReport(final long arg0, final long arg1, final long arg2, final String arg3, final int arg4, final int arg5, final String arg6) throws ServiceException {
+		//
+		return null;
+	}
+
+	@Override
+	public int getManagedEntityTotalCount(final long arg0, final Long arg1, final Long arg2) throws DatabaseServiceException, ObjectNotFoundException {
+		//
+		return 0;
+	}
+
+	@Override
+	public List<Asset> listDeviceAssetDetailsByCustomer(final long arg0, final String arg1, final String arg2) throws ServiceException {
+		//
+		return null;
+	}
+
+	@Override
+	public List<Site> listDeviceByManager(final long arg0, final boolean arg1, final String arg2, final String arg3) throws ServiceException {
+		//
+		return null;
+	}
+
+	@Override
+	public List<Site> listDevicePingStatusByManagerOptionalCustomerTenantFilter(final long arg0, final long arg1, final String arg2) throws ServiceException {
+		//
+		return null;
+	}
+
+	@Override
+	public List<Site> listDevicePingStatusByTenant(final long arg0, final long arg1) throws DatabaseServiceException {
+		//
+		return null;
+	}
+
+	@Override
+	public void markAsProvisionedByDeviceId(final long arg0, final long arg1) throws ServiceException {
+		//
+
+	}
+
+	@Override
+	public SecEngineResult pushConfigurationToManagedEntity(final DeviceId arg0, final String arg1) throws ServiceException {
+		//
+		return null;
+	}
+
+	@Override
+	public DeviceNature readDeviceNature(final long arg0) throws ServiceException {
+		//
+		return null;
+	}
+
+	@Override
+	public void sendDataFiles(final long arg0, final long arg1) throws ServiceException, ObjectNotFoundException {
+		//
+
+	}
+
+	@Override
+	public void updateDeviceNature(final long arg0, final DeviceNature arg1) throws ServiceException {
+		//
+
+	}
+
+	@Override
+	public void updateDeviceNature(final long arg0, final String arg1) throws ServiceException {
+		//
+
+	}
+
+	@Override
+	public TemplateManagedDevice updateManagedDevice(final String arg0, final long arg1, final TemplateManagedDevice arg2) throws ServiceException {
+		//
+		return null;
 	}
 
 }

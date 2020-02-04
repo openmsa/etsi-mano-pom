@@ -2,15 +2,19 @@ package com.ubiqube.etsi.mano.service.rest;
 
 import java.io.IOException;
 import java.net.URI;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.netcelo.commun.entites.EntitesException;
 import com.ubiqube.api.commons.id.ManagerId;
 import com.ubiqube.api.commons.id.UbiqubeId;
+import com.ubiqube.api.entities.device.ConfigurationVariableDefinitionFactory;
 import com.ubiqube.api.entities.orchestration.DashBoardProcessCount;
+import com.ubiqube.api.entities.orchestration.OrchestrationDeltaContext;
 import com.ubiqube.api.entities.orchestration.OrchestrationScheduling;
 import com.ubiqube.api.entities.orchestration.OrchestrationTaskExec;
 import com.ubiqube.api.entities.orchestration.ProcessDefinition;
@@ -19,7 +23,11 @@ import com.ubiqube.api.entities.orchestration.ProcessStatus;
 import com.ubiqube.api.entities.orchestration.ServiceId;
 import com.ubiqube.api.entities.orchestration.TaskDefinition;
 import com.ubiqube.api.entities.orchestration.definition.OrchestrationDefinition;
+import com.ubiqube.api.entities.orchestration.workflow.Workflow;
+import com.ubiqube.api.entities.orchestration.workflow.WorkflowProcess;
+import com.ubiqube.api.entities.orchestration.workflow.WorkflowProcessStatus;
 import com.ubiqube.api.exception.DatabaseSystemException;
+import com.ubiqube.api.exception.InvalidIdException;
 import com.ubiqube.api.exception.ObjectNotFoundException;
 import com.ubiqube.api.exception.ServiceException;
 import com.ubiqube.api.interfaces.orchestration.OrchestrationService;
@@ -120,12 +128,6 @@ public class OrchestrationServiceRest implements OrchestrationService {
 
 	@Override
 	public void deleteAllArchivedServiceInstance(final UbiqubeId arg0, final String arg1) throws ServiceException {
-		//
-
-	}
-
-	@Override
-	public void deleteAllServiceVariablesLikeName(final long arg0, final String arg1) {
 		//
 
 	}
@@ -240,12 +242,6 @@ public class OrchestrationServiceRest implements OrchestrationService {
 
 	@Override
 	public List<ProcessInstance> listLastProcesses(final UbiqubeId arg0, final long arg1, final long arg2) throws ServiceException {
-		//
-		return null;
-	}
-
-	@Override
-	public Map<String, String> listMergedServiceVariables(final long arg0) throws ServiceException {
 		//
 		return null;
 	}
@@ -407,12 +403,6 @@ public class OrchestrationServiceRest implements OrchestrationService {
 	}
 
 	@Override
-	public void updateProcessScriptDetails(final long arg0, final String arg1, final long arg2, final long arg3) throws ServiceException {
-		//
-
-	}
-
-	@Override
 	public void updateServiceInstanceReference(final long arg0, final String arg1) throws ServiceException {
 		//
 
@@ -422,5 +412,185 @@ public class OrchestrationServiceRest implements OrchestrationService {
 	public void updateServiceVariable(final long arg0, final String arg1, final String arg2) throws DatabaseSystemException {
 		//
 
+	}
+
+	@Override
+	public void clearOrchestrationDefinitionCache() {
+		//
+
+	}
+
+	@Override
+	public OrchestrationScheduling createScheduling(final String arg0, final String arg1, final String arg2, final int arg3) throws ServiceException {
+		//
+		return null;
+	}
+
+	@Override
+	public List<Workflow> getAllWorkflows() {
+		//
+		return null;
+	}
+
+	@Override
+	public OrchestrationDeltaContext getDelta(final Map<String, String> arg0, final Map<String, String> arg1) throws ServiceException {
+		//
+		return null;
+	}
+
+	@Override
+	public int getMaxPoolNumber() {
+		//
+		return 0;
+	}
+
+	@Override
+	public ProcessDefinition getProcessDefinition(final String arg0, final String arg1) throws ServiceException {
+		//
+		return null;
+	}
+
+	@Override
+	public String getProcessInstanceExecutorUsername(final long arg0) throws ServiceException {
+		//
+		return null;
+	}
+
+	@Override
+	public List<ProcessInstance> getProcessInstancesByDates(final String arg0, final String arg1, final String arg2, final int arg3, final int arg4) throws ServiceException {
+		//
+		return null;
+	}
+
+	@Override
+	public Map<String, Map<String, Integer>> getProcessStatusCountPerStatus(final Long arg0, final String arg1) throws SQLException, ServiceException, IOException, EntitesException {
+		//
+		return null;
+	}
+
+	@Override
+	public Map<String, String> getServiceInstanceExecutorInfo(final long arg0) throws ServiceException {
+		//
+		return null;
+	}
+
+	@Override
+	public List<Workflow> getWorkflowByManagerCustomers(final long arg0) {
+		//
+		return null;
+	}
+
+	@Override
+	public List<Workflow> getWorkflowByManagerTenants(final long arg0) {
+		//
+		return null;
+	}
+
+	@Override
+	public int getWorkflowProcessCount(final String arg0, final String arg1, final String arg2) throws ServiceException {
+		//
+		return 0;
+	}
+
+	@Override
+	public Map<WorkflowProcessStatus, Integer> getWorkflowProcessCountByStatus(final long arg0) throws ServiceException {
+		//
+		return null;
+	}
+
+	@Override
+	public List<WorkflowProcess> getWorkflowProcessesByExecutionStartDate(final Long[] arg0, final int arg1) throws ServiceException {
+		//
+		return null;
+	}
+
+	@Override
+	public List<String> listAllServiceDefinitions(final UbiqubeId arg0) throws InvalidIdException {
+		//
+		return null;
+	}
+
+	@Override
+	public OrchestrationDefinition readOrchestrationDefinition(final String arg0, final ConfigurationVariableDefinitionFactory arg1) throws ServiceException {
+		//
+		return null;
+	}
+
+	@Override
+	public void refreshOrchestrationDefinitionCache(final String arg0) {
+		//
+
+	}
+
+	@Override
+	public void restartTask(final String arg0, final long arg1, final long arg2, final Map<String, String> arg3, final SecEngineProcessStatus arg4) throws ServiceException {
+		//
+
+	}
+
+	@Override
+	public ProcessInstance scheduleImmediateModeByReference(final long arg0, final String arg1, final String arg2, final String arg3, final String arg4, final Map<String, String> arg5) throws ServiceException {
+		//
+		return null;
+	}
+
+	@Override
+	public ProcessInstance scheduleServiceImmediateMode(final long arg0, final String arg1, final long arg2, final String arg3, final String arg4, final Map<String, String> arg5) throws ServiceException {
+		//
+		return null;
+	}
+
+	@Override
+	public ProcessInstance scheduleServiceImmediateModeByShortServiceName(final String arg0, final int arg1, final String arg2, final String arg3, final Map<String, String> arg4) throws ServiceException {
+		//
+		return null;
+	}
+
+	@Override
+	public ProcessInstance scheduleServiceImmediateModeByShortServiceName(final String arg0, final String arg1, final String arg2, final String arg3, final Map<String, String> arg4) throws ServiceException {
+		//
+		return null;
+	}
+
+	@Override
+	public ProcessInstance scheduleServiceImmediateModeByShortServiceName(final long arg0, final String arg1, final int arg2, final String arg3, final String arg4, final Map<String, String> arg5) throws ServiceException {
+		//
+		return null;
+	}
+
+	@Override
+	public ProcessInstance scheduleServiceImmediateModeByShortServiceName(final long arg0, final String arg1, final String arg2, final String arg3, final String arg4, final Map<String, String> arg5) throws ServiceException {
+		//
+		return null;
+	}
+
+	@Override
+	public ProcessInstance scheduleSubProcessImmediateMode(final String arg0, final long arg1, final String arg2, final String arg3, final Map<String, String> arg4) throws ServiceException {
+		//
+		return null;
+	}
+
+	@Override
+	public void updateProcessExecutorInfo(final long arg0, final long arg1) throws ServiceException {
+		//
+
+	}
+
+	@Override
+	public void updateProcessTaskComment(final long arg0, final String arg1, final long arg2, final long arg3) throws ServiceException {
+		//
+
+	}
+
+	@Override
+	public void updateProcessTaskStatus(final long arg0, final long arg1, final SecEngineProcessStatus arg2) throws ServiceException {
+		//
+
+	}
+
+	@Override
+	public ProcessInstance waitUntilProcessIsStarted(final OrchestrationScheduling arg0) throws ServiceException {
+		//
+		return null;
 	}
 }

@@ -96,8 +96,10 @@ dependencies {
 
 	compile group: 'org.antlr', name: 'antlr4-runtime', version: '4.7.2'
 
-	compile name: 'ubi-api-client'
-	compile name: 'ubi-jcommons'
+	compile ('com.ubiqube:ubi-api-client:20.0.0-SNAPSHOT') {
+		exclude group: 'org.eclipse.birt.runtime', module: 'org.eclipse.birt.runtime'
+		exclude group: 'javax.servlet', module: 'servlet-api'
+	}
 
 	compile("org.springframework.boot:spring-boot-starter-security")
 	compile("org.springframework.boot:spring-boot-starter-web") {
@@ -137,3 +139,11 @@ task copyDependencies(type: Copy) {
    into 'dependencies'
 }
 
+publishing {
+	publications {
+		maven(MavenPublication) {
+			groupId = 'com.ubiqube.mano'
+			from components.java
+		}
+	}
+}
