@@ -3,12 +3,12 @@ plugins {
 	id 'antlr'
 	id 'eclipse-wtp'
 	id 'jacoco'
-	id "com.github.ben-manes.versions" version  '0.27.0'
+	id "com.github.ben-manes.versions" version  '0.28.0'
 	id 'org.springframework.boot' version '2.2.4.RELEASE'
 	id 'org.sonarqube' version '2.8'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'net.researchgate.release' version '2.8.1'
-	id 'com.gorylenko.gradle-git-properties' version '2.2.0'
+	id 'com.gorylenko.gradle-git-properties' version '2.2.2'
 }
 
 configurations.all {
@@ -43,12 +43,6 @@ group = 'com.ubiqube'
 sourceCompatibility = 1.8
 project.compileJava.dependsOn(generateGitProperties)
 
-repositories {
-	mavenCentral()
-	flatDir {
-		dirs 'sharedLib/ubiqube'
-	}
-}
 ext {
 	// Use -Penv=wildfly for WildFly other wise jboss is activated.
 	wildflyDeps = {
@@ -68,6 +62,7 @@ ext {
 	}
 	env = findProperty('env') ?: 'wildfly'
 }
+
 if(env == 'wildfly') {
 	dependencies project.wildflyDeps
 	println 'Building: for wildfly'
@@ -80,6 +75,7 @@ dependencies {
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('org.springframework.security:spring-security-test')
 	testCompile group: 'commons-jxpath', name: 'commons-jxpath', version: '1.3'
+	testCompile 'com.h2database:h2'
 
 	implementation 'com.google.code.findbugs:jsr305:2.0.1'
 	implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.11'
@@ -112,18 +108,19 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	// implementation 'org.liquibase:liquibase-core'
-	runtimeOnly 'org.postgresql:postgresql:42.2.9'
+	runtimeOnly 'org.postgresql:postgresql:42.2.10'
 
-	compile 'org.slf4j:log4j-over-slf4j:1.7.26'
-	compile 'org.webjars:swagger-ui:3.24.3'
+	compile 'org.slf4j:log4j-over-slf4j:1.7.30'
 
-	implementation 'org.jgrapht:jgrapht-core:1.3.1'
+	implementation 'org.jgrapht:jgrapht-core:1.4.0'
 	// https://github.com/akihyro/orika-spring-boot-starter
 	implementation 'net.rakugakibox.spring.boot:orika-spring-boot-starter:1.9.0'
 
-	implementation 'org.hibernate:hibernate-search:5.11.4.Final'
+	implementation 'org.hibernate:hibernate-search:5.11.5.Final'
 
 	compile 'org.eclipse.jdt:org.eclipse.jdt.annotation:2.2.400'
+
+	compile 'com.ubiqube.mano:package-parser:0.0.1-SNAPSHOT'
 }
 
 springBoot {
