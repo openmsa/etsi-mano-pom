@@ -2,7 +2,7 @@ package com.ubiqube.etsi.mano.service.rest;
 
 public class AuthResponse {
 
-	String token;
+	private String token;
 
 	public String getToken() {
 		return token;
