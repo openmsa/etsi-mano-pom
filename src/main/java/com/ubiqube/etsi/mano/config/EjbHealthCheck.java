@@ -2,6 +2,8 @@ package com.ubiqube.etsi.mano.config;
 
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.stereotype.Component;
@@ -11,6 +13,9 @@ import com.ubiqube.etsi.mano.service.ejb.RepositoryServiceEjb;
 
 @Component
 public class EjbHealthCheck implements HealthIndicator {
+
+	private static final Logger LOG = LoggerFactory.getLogger(EjbHealthCheck.class);
+
 	private static final String STATUS = "status";
 	private final RepositoryServiceEjb ejb;
 
@@ -26,6 +31,7 @@ public class EjbHealthCheck implements HealthIndicator {
 				return Health.down().withDetail(STATUS, "Element /Process/ETSI-MANO/composer.json not found.").build();
 			}
 		} catch (final Exception e) {
+			LOG.debug("Error", e);
 			return Health.down().withDetail(STATUS, e.getMessage()).build();
 		}
 		return Health.up().withDetail(STATUS, "EJB services online.").build();
