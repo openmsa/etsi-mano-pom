@@ -18,6 +18,7 @@ configurations.all {
 	exclude group: 'quartz', module: 'quartz'
 	exclude group: 'org.jboss.logging', module: 'jboss-logging-spi'
 	exclude group: 'javassist', module: 'javassist'
+	resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 
 test {
