@@ -356,4 +356,10 @@ public class RepositoryServiceEjb implements RepositoryService {
 		//
 
 	}
+
+	@Override
+	public String createBPMNdatafolders(final long arg0, final String arg1) throws ServiceException, ObjectNotFoundException, IOException {
+		//
+		return null;
+	}
 }

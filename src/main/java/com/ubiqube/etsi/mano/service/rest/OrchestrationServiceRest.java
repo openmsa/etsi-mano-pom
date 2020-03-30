@@ -593,4 +593,40 @@ public class OrchestrationServiceRest implements OrchestrationService {
 		//
 		return null;
 	}
+
+	@Override
+	public List<Workflow> getAllWorkflowsServiceInstancesReport(final List<String> arg0, final Long arg1) {
+		//
+		return null;
+	}
+
+	@Override
+	public String getProcessExecutorName(final long arg0) throws ServiceException {
+		//
+		return null;
+	}
+
+	@Override
+	public String getServiceExecutorName(final long arg0) throws ServiceException {
+		//
+		return null;
+	}
+
+	@Override
+	public boolean isUserAllowedForService(final String arg0, final long arg1) throws ServiceException {
+		//
+		return false;
+	}
+
+	@Override
+	public Map<ServiceId, Map<String, String>> listServiceVariablesOnSearch(final UbiqubeId arg0, final String arg1, final Map<String, String> arg2, final int arg3, final int arg4) throws ServiceException {
+		//
+		return null;
+	}
+
+	@Override
+	public Map<ServiceId, ProcessStatus> listUnarchivedServiceStatus(final UbiqubeId arg0, final String arg1, final List<String> arg2, final List<Long> arg3, final boolean arg4) throws ServiceException {
+		//
+		return null;
+	}
 }

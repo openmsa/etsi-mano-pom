@@ -1,10 +1,13 @@
 package com.ubiqube.etsi.mano.service.ejb;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.naming.NamingException;
 
 import org.springframework.stereotype.Service;
 
@@ -39,6 +42,7 @@ import com.ubiqube.api.commons.id.DeviceId;
 import com.ubiqube.api.commons.id.ManagerId;
 import com.ubiqube.api.entities.configuration.FileBasedConfiguration;
 import com.ubiqube.api.entities.configuration.FileBasedConfiguration.SortFileType;
+import com.ubiqube.api.entities.configuration.object.ConfigurationObject;
 import com.ubiqube.api.entities.device.SimpleDevice;
 import com.ubiqube.api.exception.DatabaseServiceException;
 import com.ubiqube.api.exception.DatabaseSystemException;
@@ -1051,6 +1055,18 @@ public class DeviceServiceEjb implements DeviceService {
 
 	@Override
 	public TemplateManagedDevice updateManagedDevice(final String arg0, final long arg1, final TemplateManagedDevice arg2) throws ServiceException {
+		//
+		return null;
+	}
+
+	@Override
+	public Object readExtendedAttribute(final long arg0, final String arg1) throws ServiceException {
+		//
+		return null;
+	}
+
+	@Override
+	public Map<String, List<ConfigurationObject>> synchronize(final long arg0, final String arg1) throws ServiceException, InterruptedException, NamingException, IOException {
 		//
 		return null;
 	}
