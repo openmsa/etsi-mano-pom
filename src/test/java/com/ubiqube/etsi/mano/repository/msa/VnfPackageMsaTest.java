@@ -17,12 +17,12 @@ import javax.xml.bind.DatatypeConverter;
 import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.grammar.JsonBeanUtil;
 import com.ubiqube.etsi.mano.grammar.JsonFilter;
 import com.ubiqube.etsi.mano.model.lcmgrant.sol003.Grant;
 import com.ubiqube.etsi.mano.model.nsd.NsdPkgInstance;
-import com.ubiqube.etsi.mano.model.vnf.sol005.VnfPkgInfo;
 import com.ubiqube.etsi.mano.repository.DefaultNamingStrategy;
 import com.ubiqube.etsi.mano.repository.Low;
 import com.ubiqube.etsi.mano.repository.NamingStrategy;
@@ -48,19 +48,19 @@ public class VnfPackageMsaTest {
 	@Test
 	void testName() throws Exception {
 
-		VnfPkgInfo entity = new VnfPkgInfo();
+		VnfPackage entity = new VnfPackage();
 		vnfPackageMsa.save(entity);
 		assertNotNull(entity.getId());
 
-		entity = vnfPackageMsa.get(entity.getId());
+		entity = vnfPackageMsa.get(entity.getId().toString());
 		assertNotNull(entity);
 
-		List<VnfPkgInfo> res = vnfPackageMsa.query(null);
+		List<VnfPackage> res = vnfPackageMsa.query(null);
 		assertNotNull(res);
 		final int num = res.size();
 		assertTrue(num >= 1);
 
-		vnfPackageMsa.delete(entity.getId());
+		vnfPackageMsa.delete(entity.getId().toString());
 
 		res = vnfPackageMsa.query(null);
 		assertNotNull(res);
@@ -83,13 +83,13 @@ public class VnfPackageMsaTest {
 
 	@Test
 	public void testStoreScenario() {
-		final VnfPkgInfo entity = new VnfPkgInfo();
+		final VnfPackage entity = new VnfPackage();
 		vnfPackageMsa.save(entity);
 		assertNotNull(entity.getId());
 
-		vnfPackageMsa.storeObject(entity.getId(), "grant", new Grant());
-		vnfPackageMsa.loadObject(entity.getId(), "grant", Grant.class);
-		vnfPackageMsa.delete(entity.getId());
+		vnfPackageMsa.storeObject(entity.getId().toString(), "grant", new Grant());
+		vnfPackageMsa.loadObject(entity.getId().toString(), "grant", Grant.class);
+		vnfPackageMsa.delete(entity.getId().toString());
 	}
 
 	@Test
@@ -101,24 +101,24 @@ public class VnfPackageMsaTest {
 
 	@Test
 	public void testBinaryScenario() throws FileNotFoundException, NoSuchAlgorithmException {
-		final VnfPkgInfo entity = new VnfPkgInfo();
+		final VnfPackage entity = new VnfPackage();
 		vnfPackageMsa.save(entity);
 		assertNotNull(entity.getId());
 
 		final InputStream stream = new FileInputStream("src/test/resources/pack.zip");
-		vnfPackageMsa.storeBinary(entity.getId(), "file", stream);
+		vnfPackageMsa.storeBinary(entity.getId().toString(), "file", stream);
 
-		byte[] bytes = vnfPackageMsa.getBinary(entity.getId(), "file");
+		byte[] bytes = vnfPackageMsa.getBinary(entity.getId().toString(), "file");
 		final MessageDigest md5 = MessageDigest.getInstance("MD5");
 		md5.update(bytes);
 		assertEquals("4d251f6f44b12f8e6a0b2e9e7e69e603", DatatypeConverter.printHexBinary(md5.digest()).toLowerCase());
 
-		bytes = vnfPackageMsa.getBinary(entity.getId(), "file", 0, 2L);
+		bytes = vnfPackageMsa.getBinary(entity.getId().toString(), "file", 0, 2L);
 
 		assertEquals(2, bytes.length);
 		assertEquals('P', bytes[0]);
 		assertEquals('K', bytes[1]);
-		vnfPackageMsa.delete(entity.getId());
+		vnfPackageMsa.delete(entity.getId().toString());
 	}
 
 }
