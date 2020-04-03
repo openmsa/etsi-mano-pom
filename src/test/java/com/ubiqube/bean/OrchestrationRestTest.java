@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -26,7 +25,6 @@ public class OrchestrationRestTest {
 		httpHeaders.add("Authorization", "Basic bmNyb290OnViaXF1YmU=");
 	}
 
-	@Test
 	public void testName01() throws Exception {
 		final String ubiqubeId = "TMAA6";
 		final String serviceId = "";
