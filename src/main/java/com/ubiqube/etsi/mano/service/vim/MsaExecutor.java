@@ -152,8 +152,11 @@ public class MsaExecutor implements Vim {
 					return createResult(LcmOperationStateType.FAILED, res.toString());
 				}
 				Thread.sleep(15 * 1000L);
-			} catch (NumberFormatException | ServiceException | InterruptedException e) {
+			} catch (NumberFormatException | ServiceException e) {
 				throw new GenericException(e);
+			} catch (final InterruptedException e) {
+				Thread.currentThread().interrupt();
+				LOG.warn("MSA Vim have been interrupted.");
 			}
 		}
 
@@ -181,7 +184,7 @@ public class MsaExecutor implements Vim {
 
 	@Override
 	public void allocateResources(final VimConnectionInformation vimConnectionInformation, final GrantInformation grantInformation) {
-		System.out.println("");
+		//
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -25,7 +26,7 @@ public class OrchestrationRestTest {
 		httpHeaders.add("Authorization", "Basic bmNyb290OnViaXF1YmU=");
 	}
 
-	@org.junit.jupiter.api.Test
+	@Test
 	public void testName01() throws Exception {
 		final String ubiqubeId = "TMAA6";
 		final String serviceId = "";
@@ -43,13 +44,13 @@ public class OrchestrationRestTest {
 		post(uri, "{}", ProcessInstance.class);
 	}
 
-	private <T> T get(URI uri, HttpMethod method, Class<T> clazz) {
+	private <T> T get(final URI uri, final HttpMethod method, final Class<T> clazz) {
 		final HttpEntity<String> request = new HttpEntity<>(httpHeaders);
 		final ResponseEntity<T> resp = restTemplate.exchange(uri, method, request, clazz);
 		return resp.getBody();
 	}
 
-	private <T> T post(URI uri, Object body, Class<T> clazz) {
+	private <T> T post(final URI uri, final Object body, final Class<T> clazz) {
 		final HttpEntity<Object> request = new HttpEntity<>(body, httpHeaders);
 		final ResponseEntity<T> resp = restTemplate.exchange(uri, HttpMethod.POST, request, clazz);
 		return resp.getBody();
