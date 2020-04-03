@@ -10,6 +10,7 @@ plugins {
 	id 'net.researchgate.release' version '2.8.1'
 	id 'com.gorylenko.gradle-git-properties' version '2.2.2'
 }
+apply plugin: 'jacoco'
 
 configurations.all {
 	exclude group: 'log4j', module: 'log4j'
