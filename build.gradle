@@ -115,16 +115,20 @@ dependencies {
 	compile 'org.slf4j:log4j-over-slf4j:1.7.30'
 
 	implementation 'org.jgrapht:jgrapht-core:1.4.0'
+	compile group: 'org.jgrapht', name: 'jgrapht-io', version: '1.4.0'
 	// https://github.com/akihyro/orika-spring-boot-starter
 	implementation 'net.rakugakibox.spring.boot:orika-spring-boot-starter:1.9.0'
 
 	implementation 'org.hibernate:hibernate-search:5.11.5.Final'
 
 	compile 'org.eclipse.jdt:org.eclipse.jdt.annotation:2.2.400'
-
-	compile 'com.ubiqube.mano:package-parser:0.0.1-SNAPSHOT'
+	// Demo stuff
+	compile 'com.ubiqube.mano:tosca-vnfd-class:0.0.1-SNAPSHOT'
 	
 	compile group: 'org.pacesys', name: 'openstack4j', version: '3.2.0'
+	compile group: 'guru.nidi', name: 'graphviz-java', version: '0.15.1'
+	//
+	compile group: 'com.github.dexecutor', name: 'dexecutor-core', version: '2.1.1'
 }
 
 springBoot {
