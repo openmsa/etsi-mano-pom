@@ -14,6 +14,7 @@ import java.util.List;
 
 import javax.xml.bind.DatatypeConverter;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,6 +34,7 @@ import com.ubiqube.etsi.mano.service.PropertiesConfiguration;
 import com.ubiqube.etsi.mano.service.ejb.EjbProvider;
 import com.ubiqube.etsi.mano.service.ejb.RepositoryServiceEjb;
 
+@Tag("Remote")
 public class VnfPackageGenTest {
 
 	private final VnfPackageRepository vnfPackage;
