@@ -32,6 +32,7 @@ sonarqube {
 	properties {
 		property "sonar.projectName", "etsi-mano"
 		property "sonar.host.url", "http://localhost:9011/"
+		property "sonar.scm.provider", "git"
 	}
 }
 
@@ -123,7 +124,7 @@ dependencies {
 
 	compile 'org.eclipse.jdt:org.eclipse.jdt.annotation:2.2.400'
 	// Demo stuff
-	compile 'com.ubiqube.mano:tosca-vnfd-class:0.0.1-SNAPSHOT'
+	compile 'com.ubiqube.mano:tosca-vnfd-class:0.0.2-SNAPSHOT'
 	
 	compile group: 'com.github.openstack4j.core', name: 'openstack4j', version: '3.6'
 	compile group: 'guru.nidi', name: 'graphviz-java', version: '0.16.0'
