@@ -3,6 +3,7 @@ package com.ubiqube.etsi.mano.service.rest;
 import java.io.IOException;
 import java.net.URI;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +27,6 @@ import com.ubiqube.api.entities.orchestration.definition.OrchestrationDefinition
 import com.ubiqube.api.entities.orchestration.workflow.Workflow;
 import com.ubiqube.api.entities.orchestration.workflow.WorkflowProcess;
 import com.ubiqube.api.entities.orchestration.workflow.WorkflowProcessStatus;
-import com.ubiqube.api.exception.DatabaseSystemException;
 import com.ubiqube.api.exception.InvalidIdException;
 import com.ubiqube.api.exception.ObjectNotFoundException;
 import com.ubiqube.api.exception.ServiceException;
@@ -105,7 +105,7 @@ public class OrchestrationServiceRest implements OrchestrationService {
 	@Override
 	public List<DashBoardProcessCount> countLastProcesses(final UbiqubeId arg0, final int arg1) throws ServiceException {
 		//
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
@@ -159,19 +159,19 @@ public class OrchestrationServiceRest implements OrchestrationService {
 	@Override
 	public List<String> extractProcessVariables(final ProcessDefinition arg0) throws ServiceException {
 		//
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
-	public Map<String, List<Map<String, String>>> extractProcessVariablesWithTypeFromTask(final ProcessDefinition arg0) throws IllegalStateException, IOException {
+	public Map<String, List<Map<String, String>>> extractProcessVariablesWithTypeFromTask(final ProcessDefinition arg0) throws IOException {
 		//
-		return null;
+		return new HashMap<>();
 	}
 
 	@Override
-	public List<Map<String, String>> extractVariablesFromTaskWithType(final TaskDefinition arg0) throws IllegalStateException, IOException {
+	public List<Map<String, String>> extractVariablesFromTaskWithType(final TaskDefinition arg0) throws IOException {
 		//
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
@@ -231,55 +231,55 @@ public class OrchestrationServiceRest implements OrchestrationService {
 	@Override
 	public List<ServiceId> listArchivedServiceIds(final UbiqubeId arg0, final String arg1, final long arg2) throws ServiceException {
 		//
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
 	public List<String> listAvailServiceDefinitions(final UbiqubeId arg0) throws ServiceException {
 		//
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
 	public List<ProcessInstance> listLastProcesses(final UbiqubeId arg0, final long arg1, final long arg2) throws ServiceException {
 		//
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
 	public List<OrchestrationScheduling> listProcessActivity(final UbiqubeId arg0, final List<String> arg1) throws ServiceException {
 		//
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
 	public List<ProcessInstance> listProcessInstance(final long arg0) throws ServiceException {
 		//
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
 	public List<ProcessInstance> listProcessInstance(final long arg0, final String arg1) throws ServiceException {
 		//
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
 	public List<ProcessInstance> listProcessInstance(final UbiqubeId arg0, final String arg1, final String arg2) throws ServiceException {
 		//
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
 	public List<ProcessInstance> listProcessInstanceWithoutSteps(final long arg0, final List<String> arg1, final long arg2) throws ServiceException {
 		//
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
 	public List<ProcessInstance> listProcessInstanceWithoutSteps(final UbiqubeId arg0, final String arg1, final List<String> arg2) throws ServiceException {
 		//
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
@@ -291,7 +291,7 @@ public class OrchestrationServiceRest implements OrchestrationService {
 	@Override
 	public List<ServiceId> listServiceInstance(final UbiqubeId arg0) throws ServiceException {
 		//
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
@@ -315,13 +315,13 @@ public class OrchestrationServiceRest implements OrchestrationService {
 	@Override
 	public List<OrchestrationTaskExec> listTaskActivity(final UbiqubeId arg0, final List<String> arg1) throws ServiceException {
 		//
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
 	public List<ServiceId> listUnarchivedServiceInstances(final UbiqubeId arg0, final int arg1) throws ServiceException {
 		//
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
@@ -361,7 +361,7 @@ public class OrchestrationServiceRest implements OrchestrationService {
 	}
 
 	@Override
-	public String readServiceVariable(final long arg0, final String arg1) throws DatabaseSystemException, ObjectNotFoundException {
+	public String readServiceVariable(final long arg0, final String arg1) throws ObjectNotFoundException {
 		//
 		return null;
 	}
@@ -409,7 +409,7 @@ public class OrchestrationServiceRest implements OrchestrationService {
 	}
 
 	@Override
-	public void updateServiceVariable(final long arg0, final String arg1, final String arg2) throws DatabaseSystemException {
+	public void updateServiceVariable(final long arg0, final String arg1, final String arg2) {
 		//
 
 	}
@@ -429,7 +429,7 @@ public class OrchestrationServiceRest implements OrchestrationService {
 	@Override
 	public List<Workflow> getAllWorkflows() {
 		//
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
@@ -459,7 +459,7 @@ public class OrchestrationServiceRest implements OrchestrationService {
 	@Override
 	public List<ProcessInstance> getProcessInstancesByDates(final String arg0, final String arg1, final String arg2, final int arg3, final int arg4) throws ServiceException {
 		//
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
@@ -477,13 +477,13 @@ public class OrchestrationServiceRest implements OrchestrationService {
 	@Override
 	public List<Workflow> getWorkflowByManagerCustomers(final long arg0) {
 		//
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
 	public List<Workflow> getWorkflowByManagerTenants(final long arg0) {
 		//
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
@@ -501,13 +501,13 @@ public class OrchestrationServiceRest implements OrchestrationService {
 	@Override
 	public List<WorkflowProcess> getWorkflowProcessesByExecutionStartDate(final Long[] arg0, final int arg1) throws ServiceException {
 		//
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
 	public List<String> listAllServiceDefinitions(final UbiqubeId arg0) throws InvalidIdException {
 		//
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
@@ -597,7 +597,7 @@ public class OrchestrationServiceRest implements OrchestrationService {
 	@Override
 	public List<Workflow> getAllWorkflowsServiceInstancesReport(final List<String> arg0, final Long arg1) {
 		//
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
