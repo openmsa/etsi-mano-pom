@@ -298,68 +298,63 @@ public class RepositoryServiceEjb implements RepositoryService {
 	}
 
 	@Override
-	public void deleteRepositoryResource(final String arg0, final String arg1) throws ObjectNotFoundException {
-		//
+	public String createBPMNdatafolders(final long arg0, final String arg1) throws ServiceException, ObjectNotFoundException, IOException {
+		return repositoryService.createBPMNdatafolders(arg0, arg1);
+	}
 
+	@Override
+	public void deleteRepositoryResource(final String arg0, final String arg1) throws ObjectNotFoundException {
+		repositoryService.deleteRepositoryResource(arg0, arg1);
 	}
 
 	@Override
 	public List<MicroserviceDetails> getMicroserviceDetailsListByActor(final String arg0, final String arg1, final String arg2, final Long arg3, final Long arg4) throws ServiceException, ExecutionException {
-		//
-		return null;
+		return repositoryService.getMicroserviceDetailsListByActor(arg0, arg1, arg2, arg3, arg4);
 	}
 
 	@Override
 	public ObjectDefinition getObjectDefinition(final String arg0) throws IOException, ObjectNotFoundException {
-		//
-		return null;
+		return repositoryService.getObjectDefinition(arg0);
 	}
 
 	@Override
 	public List<String> getProcessNames(final String arg0, final List<String> arg1) throws ServiceException, IOException, EntitesException {
-		//
-		return null;
+		return repositoryService.getProcessNames(arg0, arg1);
 	}
 
 	@Override
 	public String getRepositoryRoot() {
-		//
-		return null;
+		return repositoryService.getRepositoryRoot();
 	}
 
 	@Override
 	public Variables getResourceVariables(final String arg0) throws IOException, ObjectNotFoundException {
-		//
-		return null;
+		return repositoryService.getResourceVariables(arg0);
 	}
 
 	@Override
 	public Map<String, String> getUsageNames(final long arg0, final long arg1, final String arg2) throws ConfigurationException {
-		//
-		return null;
+		return repositoryService.getUsageNames(arg0, arg1, arg2);
 	}
 
 	@Override
 	public Map<String, Object> loadVariableExtendedParamatersMapFromFile(final String arg0) throws IOException {
-		//
-		return null;
+		return repositoryService.loadVariableExtendedParamatersMapFromFile(arg0);
 	}
 
 	@Override
 	public void removeRepositoryFile(final String arg0, final String arg1) throws ServiceException {
-		//
-
+		repositoryService.removeRepositoryFile(arg0, arg1);
 	}
 
 	@Override
 	public void saveRepositoryResourceConfiguration(final ObjectDefinition arg0) throws IOException {
-		//
-
+		repositoryService.saveRepositoryResourceConfiguration(arg0);
 	}
 
 	@Override
-	public String createBPMNdatafolders(final long arg0, final String arg1) throws ServiceException, ObjectNotFoundException, IOException {
-		//
-		return null;
+	public Map<String, Map<String, String>> saveWorkflowResourceConfiguration(final ObjectDefinition arg0) throws IOException {
+		return repositoryService.saveWorkflowResourceConfiguration(arg0);
 	}
+
 }

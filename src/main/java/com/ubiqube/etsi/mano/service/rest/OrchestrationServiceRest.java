@@ -541,30 +541,6 @@ public class OrchestrationServiceRest implements OrchestrationService {
 	}
 
 	@Override
-	public ProcessInstance scheduleServiceImmediateModeByShortServiceName(final String arg0, final int arg1, final String arg2, final String arg3, final Map<String, String> arg4) throws ServiceException {
-		//
-		return null;
-	}
-
-	@Override
-	public ProcessInstance scheduleServiceImmediateModeByShortServiceName(final String arg0, final String arg1, final String arg2, final String arg3, final Map<String, String> arg4) throws ServiceException {
-		//
-		return null;
-	}
-
-	@Override
-	public ProcessInstance scheduleServiceImmediateModeByShortServiceName(final long arg0, final String arg1, final int arg2, final String arg3, final String arg4, final Map<String, String> arg5) throws ServiceException {
-		//
-		return null;
-	}
-
-	@Override
-	public ProcessInstance scheduleServiceImmediateModeByShortServiceName(final long arg0, final String arg1, final String arg2, final String arg3, final String arg4, final Map<String, String> arg5) throws ServiceException {
-		//
-		return null;
-	}
-
-	@Override
 	public ProcessInstance scheduleSubProcessImmediateMode(final String arg0, final long arg1, final String arg2, final String arg3, final Map<String, String> arg4) throws ServiceException {
 		//
 		return null;

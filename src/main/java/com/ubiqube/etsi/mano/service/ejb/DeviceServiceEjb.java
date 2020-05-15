@@ -42,7 +42,6 @@ import com.ubiqube.api.commons.id.DeviceId;
 import com.ubiqube.api.commons.id.ManagerId;
 import com.ubiqube.api.entities.configuration.FileBasedConfiguration;
 import com.ubiqube.api.entities.configuration.FileBasedConfiguration.SortFileType;
-import com.ubiqube.api.entities.configuration.object.ConfigurationObject;
 import com.ubiqube.api.entities.device.SimpleDevice;
 import com.ubiqube.api.exception.DatabaseServiceException;
 import com.ubiqube.api.exception.DatabaseSystemException;
@@ -929,146 +928,123 @@ public class DeviceServiceEjb implements DeviceService {
 	}
 
 	@Override
-	public void applyConfigurationToManagedEntity(final long arg0, final String arg1) throws ServiceException {
-		//
+	public void applyConfigurationToManagedEntity(final long arg0, final String arg1) throws ServiceException, InterruptedException, NamingException, IOException {
+		deviceService.applyConfigurationToManagedEntity(arg0, arg1);
 	}
 
 	@Override
 	public TemplateManagedDevice convertSiteToTemplateManagedDevice(final Site arg0) throws ServiceException {
-		//
-		return null;
+		return deviceService.convertSiteToTemplateManagedDevice(arg0);
 	}
 
 	@Override
 	public int countManagedEntitiesByStatusWithOptionalFilters(final long arg0, final String arg1, final String arg2, final long arg3, final String arg4, final int arg5) throws DatabaseServiceException {
-		//
-		return 0;
+		return deviceService.countManagedEntitiesByStatusWithOptionalFilters(arg0, arg1, arg2, arg3, arg4, arg5);
+	}
+
+	@Override
+	public Site createTemplateManagedDevice(final String arg0, final long arg1, final String arg2, final String arg3, final int arg4, final int arg5, final String arg6, final String arg7, final String arg8, final boolean arg9, final boolean arg10, final boolean arg11, final boolean arg12, final boolean arg13, final String arg14, final String arg15, final int arg16, final String arg17, final int arg18, final int arg19) throws ServiceException, DuplicateReferenceException, IllegalSdRouteCreationException {
+		return deviceService.createTemplateManagedDevice(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15, arg16, arg17, arg18, arg19);
 	}
 
 	@Override
 	public Site createTemplateManagedDevice(final String arg0, final long arg1, final String arg2, final String arg3, final int arg4, final int arg5, final String arg6, final String arg7, final String arg8, final boolean arg9, final boolean arg10, final boolean arg11, final boolean arg12, final boolean arg13, final String arg14, final String arg15) throws ServiceException, DuplicateReferenceException, IllegalSdRouteCreationException {
-		//
-		return null;
-	}
-
-	@Override
-	public Site createTemplateManagedDevice(final String arg0, final long arg1, final String arg2, final String arg3, final int arg4, final int arg5, final String arg6, final String arg7, final String arg8, final boolean arg9, final boolean arg10, final boolean arg11, final boolean arg12, final boolean arg13, final String arg14, final String arg15, final int arg16) throws ServiceException, DuplicateReferenceException, IllegalSdRouteCreationException {
-		//
-		return null;
+		return deviceService.createTemplateManagedDevice(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15);
 	}
 
 	@Override
 	public void doFirmwareUpdateByDeviceId(final long arg0, final String arg1, final long arg2) throws ServiceException, ObjectNotFoundException {
-		//
-
+		deviceService.doFirmwareUpdateByDeviceId(arg0, arg1, arg2);
 	}
 
 	@Override
 	public SecEngineResult doUpdateConfiguration(final long arg0, final long arg1) throws ServiceException, ObjectNotFoundException {
-		//
-		return null;
+		return deviceService.doUpdateConfiguration(arg0, arg1);
 	}
 
 	@Override
 	public List<Long> getDevicesByNature(final DeviceNature arg0) throws ServiceException {
-		//
-		return null;
+		return deviceService.getDevicesByNature(arg0);
 	}
 
 	@Override
 	public List<Long> getDevicesByNature(final String arg0) throws ServiceException {
-		//
-		return null;
+		return deviceService.getDevicesByNature(arg0);
 	}
 
 	@Override
 	public Map<String, Object> getManagedEntityStatusReport(final long arg0, final long arg1, final long arg2, final String arg3, final int arg4, final int arg5, final String arg6) throws ServiceException {
-		//
-		return null;
+		return deviceService.getManagedEntityStatusReport(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
 	}
 
 	@Override
 	public int getManagedEntityTotalCount(final long arg0, final Long arg1, final Long arg2) throws DatabaseServiceException, ObjectNotFoundException {
-		//
-		return 0;
+		return deviceService.getManagedEntityTotalCount(arg0, arg1, arg2);
 	}
 
 	@Override
 	public List<Asset> listDeviceAssetDetailsByCustomer(final long arg0, final String arg1, final String arg2) throws ServiceException {
-		//
-		return null;
+		return deviceService.listDeviceAssetDetailsByCustomer(arg0, arg1, arg2);
 	}
 
 	@Override
 	public List<Site> listDeviceByManager(final long arg0, final boolean arg1, final String arg2, final String arg3) throws ServiceException {
-		//
-		return null;
+		return deviceService.listDeviceByManager(arg0, arg1, arg2, arg3);
 	}
 
 	@Override
 	public List<Site> listDevicePingStatusByManagerOptionalCustomerTenantFilter(final long arg0, final long arg1, final String arg2) throws ServiceException {
-		//
-		return null;
+		return deviceService.listDevicePingStatusByManagerOptionalCustomerTenantFilter(arg0, arg1, arg2);
 	}
 
 	@Override
 	public List<Site> listDevicePingStatusByTenant(final long arg0, final long arg1) throws DatabaseServiceException {
-		//
-		return null;
+		return deviceService.listDevicePingStatusByTenant(arg0, arg1);
 	}
 
 	@Override
 	public void markAsProvisionedByDeviceId(final long arg0, final long arg1) throws ServiceException {
-		//
-
+		deviceService.markAsProvisionedByDeviceId(arg0, arg1);
 	}
 
 	@Override
 	public SecEngineResult pushConfigurationToManagedEntity(final DeviceId arg0, final String arg1) throws ServiceException {
-		//
-		return null;
+		return deviceService.pushConfigurationToManagedEntity(arg0, arg1);
 	}
 
 	@Override
 	public DeviceNature readDeviceNature(final long arg0) throws ServiceException {
-		//
-		return null;
-	}
-
-	@Override
-	public void sendDataFiles(final long arg0, final long arg1) throws ServiceException, ObjectNotFoundException {
-		//
-
-	}
-
-	@Override
-	public void updateDeviceNature(final long arg0, final DeviceNature arg1) throws ServiceException {
-		//
-
-	}
-
-	@Override
-	public void updateDeviceNature(final long arg0, final String arg1) throws ServiceException {
-		//
-
-	}
-
-	@Override
-	public TemplateManagedDevice updateManagedDevice(final String arg0, final long arg1, final TemplateManagedDevice arg2) throws ServiceException {
-		//
-		return null;
+		return deviceService.readDeviceNature(arg0);
 	}
 
 	@Override
 	public Object readExtendedAttribute(final long arg0, final String arg1) throws ServiceException {
-		//
-		return null;
+		return deviceService.readExtendedAttribute(arg0, arg1);
 	}
 
 	@Override
-	public Map<String, List<ConfigurationObject>> synchronize(final long arg0, final String arg1) throws ServiceException, InterruptedException, NamingException, IOException {
-		//
-		return null;
+	public void sendDataFiles(final long arg0, final long arg1) throws ServiceException, ObjectNotFoundException {
+		deviceService.sendDataFiles(arg0, arg1);
+	}
+
+	@Override
+	public Map<String, Map<String, Object>> synchronize(final long arg0, final String arg1) throws ServiceException, InterruptedException, NamingException, IOException {
+		return deviceService.synchronize(arg0, arg1);
+	}
+
+	@Override
+	public void updateDeviceNature(final long arg0, final DeviceNature arg1) throws ServiceException {
+		deviceService.updateDeviceNature(arg0, arg1);
+	}
+
+	@Override
+	public void updateDeviceNature(final long arg0, final String arg1) throws ServiceException {
+		deviceService.updateDeviceNature(arg0, arg1);
+	}
+
+	@Override
+	public TemplateManagedDevice updateManagedDevice(final String arg0, final long arg1, final TemplateManagedDevice arg2) throws ServiceException {
+		return deviceService.updateManagedDevice(arg0, arg1, arg2);
 	}
 
 }
