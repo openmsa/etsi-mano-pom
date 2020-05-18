@@ -3,7 +3,6 @@ package com.ubiqube.etsi.mano.repository.msa;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -19,11 +18,9 @@ import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
-import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.grammar.JsonBeanUtil;
 import com.ubiqube.etsi.mano.grammar.JsonFilter;
 import com.ubiqube.etsi.mano.model.lcmgrant.sol003.Grant;
-import com.ubiqube.etsi.mano.model.nsd.NsdPkgInstance;
 import com.ubiqube.etsi.mano.repository.DefaultNamingStrategy;
 import com.ubiqube.etsi.mano.repository.Low;
 import com.ubiqube.etsi.mano.repository.NamingStrategy;
@@ -54,7 +51,7 @@ public class VnfPackageMsaTest {
 		vnfPackageMsa.save(entity);
 		assertNotNull(entity.getId());
 
-		entity = vnfPackageMsa.get(entity.getId().toString());
+		entity = vnfPackageMsa.get(entity.getId());
 		assertNotNull(entity);
 
 		List<VnfPackage> res = vnfPackageMsa.query(null);
@@ -62,25 +59,11 @@ public class VnfPackageMsaTest {
 		final int num = res.size();
 		assertTrue(num >= 1);
 
-		vnfPackageMsa.delete(entity.getId().toString());
+		vnfPackageMsa.delete(entity.getId());
 
 		res = vnfPackageMsa.query(null);
 		assertNotNull(res);
 		assertEquals(num - 1, res.size());
-	}
-
-	@Test
-	void testNotFound() throws Exception {
-		assertThrows(NotFoundException.class, () -> {
-			vnfPackageMsa.get("DEADBEEF");
-		});
-	}
-
-	@Test
-	public void testStoreError() {
-		assertThrows(NotFoundException.class, () -> {
-			vnfPackageMsa.storeObject("BAD", "grant", new Grant());
-		});
 	}
 
 	@Test
@@ -89,16 +72,9 @@ public class VnfPackageMsaTest {
 		vnfPackageMsa.save(entity);
 		assertNotNull(entity.getId());
 
-		vnfPackageMsa.storeObject(entity.getId().toString(), "grant", new Grant());
-		vnfPackageMsa.loadObject(entity.getId().toString(), "grant", Grant.class);
-		vnfPackageMsa.delete(entity.getId().toString());
-	}
-
-	@Test
-	public void testLoadObjectError() {
-		assertThrows(NotFoundException.class, () -> {
-			vnfPackageMsa.loadObject("BAD", "grant", NsdPkgInstance.class);
-		});
+		vnfPackageMsa.storeObject(entity.getId(), "grant", new Grant());
+		vnfPackageMsa.loadObject(entity.getId(), "grant", Grant.class);
+		vnfPackageMsa.delete(entity.getId());
 	}
 
 	@Test
@@ -108,19 +84,19 @@ public class VnfPackageMsaTest {
 		assertNotNull(entity.getId());
 
 		final InputStream stream = new FileInputStream("src/test/resources/pack.zip");
-		vnfPackageMsa.storeBinary(entity.getId().toString(), "file", stream);
+		vnfPackageMsa.storeBinary(entity.getId(), "file", stream);
 
-		byte[] bytes = vnfPackageMsa.getBinary(entity.getId().toString(), "file");
+		byte[] bytes = vnfPackageMsa.getBinary(entity.getId(), "file");
 		final MessageDigest md5 = MessageDigest.getInstance("MD5");
 		md5.update(bytes);
 		assertEquals("4d251f6f44b12f8e6a0b2e9e7e69e603", DatatypeConverter.printHexBinary(md5.digest()).toLowerCase());
 
-		bytes = vnfPackageMsa.getBinary(entity.getId().toString(), "file", 0, 2L);
+		bytes = vnfPackageMsa.getBinary(entity.getId(), "file", 0, 2L);
 
 		assertEquals(2, bytes.length);
 		assertEquals('P', bytes[0]);
 		assertEquals('K', bytes[1]);
-		vnfPackageMsa.delete(entity.getId().toString());
+		vnfPackageMsa.delete(entity.getId());
 	}
 
 }
