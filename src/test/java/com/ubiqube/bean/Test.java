@@ -9,6 +9,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import org.junit.jupiter.api.Tag;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.api.entities.orchestration.ProcessInstance;
 import com.ubiqube.api.interfaces.orchestration.OrchestrationService;
@@ -18,7 +20,7 @@ public class Test {
 
 	@org.junit.Test
 	public void testName() throws Exception {
-		final Hashtable<String, String> props = new Hashtable<String, String>();
+		final Hashtable<String, String> props = new Hashtable<>();
 
 		props.put(Context.INITIAL_CONTEXT_FACTORY, "org.jnp.interfaces.NamingContextFactory");
 		props.put(Context.URL_PKG_PREFIXES, "org.jboss.naming:org.jnp.interfaces");
@@ -40,4 +42,9 @@ public class Test {
 		}
 	}
 
+	@org.junit.jupiter.api.Test
+	void testMultiMap() throws Exception {
+		final MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+		System.out.println("" + map.get("aaa"));
+	}
 }
