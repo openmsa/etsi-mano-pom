@@ -6,12 +6,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import com.ubiqube.api.entities.repository.RepositoryElement;
 import com.ubiqube.etsi.mano.service.ejb.RepositoryServiceEjb;
 
 @Component
+@Profile("!offline")
 public class EjbHealthCheck implements HealthIndicator {
 
 	private static final Logger LOG = LoggerFactory.getLogger(EjbHealthCheck.class);
