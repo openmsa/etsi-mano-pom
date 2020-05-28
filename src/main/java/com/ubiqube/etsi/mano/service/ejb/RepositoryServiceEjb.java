@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import com.netcelo.commun.entites.EntitesException;
@@ -32,6 +33,7 @@ import com.ubiqube.api.interfaces.repository.RepositoryService;
  *
  */
 @Service
+@Profile("!offline")
 public class RepositoryServiceEjb implements RepositoryService {
 	private final RepositoryService repositoryService;
 
