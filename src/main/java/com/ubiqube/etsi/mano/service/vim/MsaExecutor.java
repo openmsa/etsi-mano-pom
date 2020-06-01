@@ -329,4 +329,10 @@ public class MsaExecutor implements Vim {
 		return null;
 	}
 
+	@Override
+	public Map<String, String> getPublicNetworks(final VimConnectionInformation vimConnectionInformation) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
