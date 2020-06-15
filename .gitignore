@@ -10,3 +10,4 @@ dependencies
 build
 .idea
 com.ubiqube.etsi.mano.dao.mano*/
+*.csar
