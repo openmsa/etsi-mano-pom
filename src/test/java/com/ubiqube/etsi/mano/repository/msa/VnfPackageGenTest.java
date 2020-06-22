@@ -17,7 +17,6 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ubiqube.api.interfaces.repository.RepositoryService;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.grammar.JsonBeanUtil;
 import com.ubiqube.etsi.mano.grammar.JsonFilter;
@@ -25,11 +24,10 @@ import com.ubiqube.etsi.mano.model.lcmgrant.sol003.Grant;
 import com.ubiqube.etsi.mano.repository.DefaultNamingStrategy;
 import com.ubiqube.etsi.mano.repository.NamingStrategy;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
+import com.ubiqube.etsi.mano.repository.phys.LowPhys;
 import com.ubiqube.etsi.mano.repository.phys.VnfPackagePhys;
 import com.ubiqube.etsi.mano.service.Configuration;
 import com.ubiqube.etsi.mano.service.PropertiesConfiguration;
-import com.ubiqube.etsi.mano.service.ejb.EjbProvider;
-import com.ubiqube.etsi.mano.service.ejb.RepositoryServiceEjb;
 
 @Tag("Remote")
 public class VnfPackageGenTest {
@@ -40,12 +38,8 @@ public class VnfPackageGenTest {
 		final JsonFilter jsonFilter = new JsonFilter(new JsonBeanUtil());
 		final ObjectMapper mapper = new ObjectMapper();
 		final Configuration conf = new PropertiesConfiguration();
-		final EjbProvider ejbProvider = new EjbProvider(conf);
-		final RepositoryService _repositoryService = new RepositoryServiceEjb(ejbProvider);
 		final NamingStrategy namingStrategy = new DefaultNamingStrategy(conf);
-		vnfPackage = new VnfPackagePhys(mapper, jsonFilter, new LowMsa(_repositoryService), namingStrategy);
-		// vnfPackage = new VnfPackagePhys(mapper, jsonFilter, new LowPhys(),
-		// namingStrategy);
+		vnfPackage = new VnfPackagePhys(mapper, jsonFilter, new LowPhys(), namingStrategy);
 	}
 
 	@Test

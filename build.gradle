@@ -23,11 +23,12 @@ configurations.all {
 	exclude group: 'javassist', module: 'javassist'
 	resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
-
+/*
 java {
 	withJavadocJar()
 	withSourcesJar()
 }
+*/
 test {
 	useJUnitPlatform() {
 		excludeTags 'Remote'
@@ -49,40 +50,14 @@ gitProperties {
 }
 
 group = 'com.ubiqube'
-sourceCompatibility = 1.8
+sourceCompatibility = 11
 project.compileJava.dependsOn(generateGitProperties)
 
-ext {
-	// Use -Penv=wildfly for WildFly other wise jboss is activated.
-	wildflyDeps = {
-		runtimeOnly group: 'org.wildfly', name: 'wildfly-ejb-client-bom', version: '11.0.0.Final'
-	}
-	jbossDeps = {
-		compile(group: 'org.jboss.jbossas', name: 'jboss-as-client', version: '5.1.0.GA') {
-			exclude group: 'javax.security', module: 'jaas'
-			exclude group: 'javax.security', module: 'jacc'
-			exclude group: 'org.slf4j', module: 'slf4j-api'
-			exclude group: 'org.jboss.slf4j', module: 'slf4j-jboss-logging'
-			exclude group: 'org.hibernate', module: 'hibernate-annotations'
-		}
-		compile group: 'org.jboss.naming', name: 'jnp-client', version: '5.0.5.Final'
-		compile group: 'concurrent', name: 'concurrent', version: '1.3.4'
-		compile group: 'commons-io', name: 'commons-io', version: '2.6'
-	}
-	env = findProperty('env') ?: 'wildfly'
-	
+ext {	
 	//mainUrl = 'jdbc:postgresql://10.31.1.28/mano'
 	mainUrl = 'jdbc:postgresql://192.168.1.14/mano'
 	mainUsername = 'mano'
 	mainPassword = 'mano'
-}
-
-if(env == 'wildfly') {
-	dependencies project.wildflyDeps
-	println 'Building: for wildfly'
-} else {
-	dependencies project.jbossDeps
-	println 'Building: for jboss'
 }
 
 liquibase {
@@ -128,11 +103,6 @@ dependencies {
 
 	compile group: 'org.antlr', name: 'antlr4-runtime', version: '4.7.2'
 
-	compile ('com.ubiqube:ubi-api-client:20.0.0-SNAPSHOT') {
-		exclude group: 'org.eclipse.birt.runtime', module: 'org.eclipse.birt.runtime'
-		exclude group: 'javax.servlet', module: 'servlet-api'
-	}
-
 	compile("org.springframework.boot:spring-boot-starter-security")
 	compile("org.springframework.boot:spring-boot-starter-web") {
 		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
@@ -155,7 +125,7 @@ dependencies {
 
 	implementation 'org.hibernate:hibernate-search:5.11.5.Final'
 
-	compile 'org.eclipse.jdt:org.eclipse.jdt.annotation:2.2.400'
+	// compile 'org.eclipse.jdt:org.eclipse.jdt.annotation:2.2.400'
 	// Demo stuff
 	compile 'com.ubiqube.mano:tosca-vnfd-class:0.1.0-SNAPSHOT'
 	compile 'com.ubiqube.mano:tosca-nsd-class:0.1.0-SNAPSHOT'
