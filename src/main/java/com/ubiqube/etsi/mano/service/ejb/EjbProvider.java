@@ -7,12 +7,14 @@ import javax.naming.NamingException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.service.Configuration;
 
 @Service
+@Profile("!offline")
 public class EjbProvider {
 
 	private static final Logger LOG = LoggerFactory.getLogger(EjbProvider.class);
