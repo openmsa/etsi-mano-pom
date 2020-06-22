@@ -17,8 +17,7 @@ import com.ubiqube.api.interfaces.orchestration.OrchestrationService;
 
 @Tag("Remote")
 public class Test {
-
-	@org.junit.Test
+	@org.junit.jupiter.api.Test
 	public void testName() throws Exception {
 		final Hashtable<String, String> props = new Hashtable<>();
 
@@ -47,4 +46,5 @@ public class Test {
 		final MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
 		System.out.println("" + map.get("aaa"));
 	}
+
 }
