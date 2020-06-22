@@ -2,6 +2,8 @@
 .gradle/
 .project
 .settings/
+.sts4-cache/
+.cache/
 bin/
 dist/
 target
