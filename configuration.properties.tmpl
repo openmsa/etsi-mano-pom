@@ -1,16 +1,4 @@
 #
-# Using MSA APIs.
-#
-msa.rest-api.url=http://10.31.1.217/ubi-api-rest
-msa.rest-api.user=ncroot
-msa.rest-api.password=ubiqube
-msa.rest-api.version=1.0
-#
-# EJB call.
-#
-#remote.ejb.url=10.31.1.247:1099
-remote.ejb.url=http-remoting://10.31.1.127:8480
-#
 # Used when NFVO or VNFM mode.
 #
 nfvo.url=http://nfvo:8666/ubi-etsi-mano-api/sol005
@@ -18,22 +6,14 @@ vnfm.url=http://vnfm:8080/sol003
 #
 # Physical driver root path.
 #
-repository.phys.root=/tmp/etsi-test/
-#
-# MSA root path for package storage.
-#
-repository.phys.root=Datafiles/NFVO
+repository.phys.root=/opt/etsi/package/
 # Jdbc
 #jdbc.url=jdbc:h2:file:~/testdb
-#jdbc.url=jdbc:mysql://localhost:3306/mano
-jdbc.url=jdbc:postgresql://10.31.1.28/mano
-#jdbc.username=mano
-#jdbc.username=SA
+jdbc.url=jdbc:postgresql://mano-db/mano
 jdbc.username=mano
-#jdbc.password=mano
 jdbc.password=mano
 
-jms.artemis.url=tcp://artemis:61616
+jms.artemis.url=tcp://mano-artemis:61616
 jms.artemis.user=artemis
 jms.artemis.password=simetraehcapa
 
