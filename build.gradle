@@ -125,7 +125,7 @@ dependencies {
 
 	implementation 'org.hibernate:hibernate-search:5.11.5.Final'
 
-	// compile 'org.eclipse.jdt:org.eclipse.jdt.annotation:2.2.400'
+	compile 'org.eclipse.jdt:org.eclipse.jdt.annotation:2.2.400'
 	// Demo stuff
 	compile 'com.ubiqube.mano:tosca-vnfd-class:0.1.0-SNAPSHOT'
 	compile 'com.ubiqube.mano:tosca-nsd-class:0.1.0-SNAPSHOT'
