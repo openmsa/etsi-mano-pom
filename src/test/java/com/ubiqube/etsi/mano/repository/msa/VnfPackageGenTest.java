@@ -71,7 +71,6 @@ public class VnfPackageGenTest {
 		assertNotNull(entity.getId());
 
 		vnfPackage.storeObject(entity.getId(), "grant", new Grant());
-		vnfPackage.loadObject(entity.getId(), "grant", Grant.class);
 		vnfPackage.delete(entity.getId());
 	}
 
