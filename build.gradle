@@ -153,6 +153,17 @@ task copyDependencies(type: Copy) {
    into 'dependencies'
 }
 
+
+jacocoTestReport {
+	dependsOn test
+	reports {
+		xml.enabled true
+		csv.enabled false
+		html.destination file("${buildDir}/jacocoHtml")
+	}
+}
+
+
 publishing {
 	publications {
 		maven(MavenPublication) {
