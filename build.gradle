@@ -142,6 +142,7 @@ dependencies {
     compile group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.66'
     
     compile group: 'com.ubiqube.mano', name: 'etsi-model-common-261', version: '1.0-SNAPSHOT'
+    compile group: 'com.ubiqube.mano', name: 'etsi-model-261', version: '1.0-SNAPSHOT'
 }
 
 springBoot {
