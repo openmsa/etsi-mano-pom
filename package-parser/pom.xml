@@ -13,6 +13,7 @@
 		<module>tosca-vnfd-class</module>
 		<module>tosca-pnfd-class</module>
 		<module>tosca-nsd-class</module>
+		<module>yang</module>
 	</modules>
 	<distributionManagement>
 		<snapshotRepository>
