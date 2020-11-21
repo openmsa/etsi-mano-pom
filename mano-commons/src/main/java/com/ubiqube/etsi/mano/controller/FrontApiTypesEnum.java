@@ -15,7 +15,7 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.ubiqube.etsi.mano.common.v261.model;
+package com.ubiqube.etsi.mano.controller;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
