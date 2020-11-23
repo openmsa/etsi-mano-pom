@@ -1,20 +1,28 @@
 #
 # Used when NFVO or VNFM mode.
 #
-nfvo.url=http://nfvo:8666/ubi-etsi-mano-api/sol005
-vnfm.url=http://vnfm:8080/sol003
+mano.msa.nfvo-url=http://nfvo:8666/ubi-etsi-mano-api/sol005
+mano.msa.vnfm.url=http://vnfm:8080/ubi-etsi-mano-api/sol003
 #
 # Physical driver root path.
 #
-repository.phys.root=/opt/etsi/package/
-# Jdbc
-#jdbc.url=jdbc:h2:file:~/testdb
-jdbc.url=jdbc:postgresql://mano-db/mano
-jdbc.username=mano
-jdbc.password=mano
+repository.phys.root=/opt/etsi-mano-data/
 
-jms.artemis.url=tcp://mano-artemis:61616
-jms.artemis.user=artemis
-jms.artemis.password=simetraehcapa
-
-
+# Apache Artemis
+spring.artemis.mode=native
+spring.artemis.host=mano-artemis
+spring.artemis.port=61616
+spring.artemis.user=artemis
+spring.artemis.password=simetraehcapa
+jms.queue.destination=demoQueue
+# Database
+spring.liquibase.enabled=false
+spring.jpa.hibernate.ddl-auto=update
+# Postgreql
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQL93Dialect
+spring.datasource.url=jdbc:postgresql://mano-db/mano
+spring.datasource.username=mano
+spring.datasource.password=mano
+# MySql / MariaDB
+#spring.datasource.url=jdbc:mysql://localhost/mano
+#spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MariaDB103Dialect
