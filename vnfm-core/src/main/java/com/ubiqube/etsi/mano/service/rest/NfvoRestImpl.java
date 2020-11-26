@@ -23,18 +23,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.MultiValueMap;
 
-import com.ubiqube.etsi.mano.config.properties.ManoVnfmProperties;
+import com.ubiqube.etsi.mano.config.properties.NfvoConnectionProperties;
 
+/**
+ * HTTP way to exchange with NFVO.
+ *
+ * @author Olivier Vignaud <ovi@ubiqube.com>
+ *
+ */
 @Service
 public class NfvoRestImpl extends AbstractRest {
 	private final String url;
 	private final MultiValueMap<String, String> auth = new HttpHeaders();
 
-	public NfvoRestImpl(final ManoVnfmProperties props) {
-		url = props.getNfvoUrl();
-		final String user = props.getNfvoUser();
+	public NfvoRestImpl(final NfvoConnectionProperties props) {
+		url = props.getUrl();
+		final String user = props.getUsername();
 		if (null != user) {
-			final String password = Optional.of(props.getNfvoPassword()).orElse("");
+			final String password = Optional.of(props.getPassword()).orElse("");
 			auth.add("Authorization", authBasic(user, password));
 		}
 		Assert.notNull(url, "nfvo.url is not declared in property file.");
@@ -46,7 +52,7 @@ public class NfvoRestImpl extends AbstractRest {
 	}
 
 	@Override
-	protected MultiValueMap<String, String> getAutorization() {
+	public MultiValueMap<String, String> getAutorization() {
 		return auth;
 	}
 
