@@ -20,9 +20,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -34,6 +34,7 @@ import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubiqube.etsi.mano.common.v261.model.lcmgrant.Grant;
+import com.ubiqube.etsi.mano.config.properties.ManoRepositoryProperties;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.grammar.JsonBeanUtil;
 import com.ubiqube.etsi.mano.grammar.JsonFilter;
@@ -42,8 +43,7 @@ import com.ubiqube.etsi.mano.repository.NamingStrategy;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 import com.ubiqube.etsi.mano.repository.phys.LowPhys;
 import com.ubiqube.etsi.mano.repository.phys.VnfPackagePhys;
-import com.ubiqube.etsi.mano.service.Configuration;
-import com.ubiqube.etsi.mano.service.PropertiesConfiguration;
+import com.ubiqube.etsi.mano.test.TestTools;
 
 @Tag("Remote")
 public class VnfPackageGenTest {
@@ -53,7 +53,8 @@ public class VnfPackageGenTest {
 	public VnfPackageGenTest() {
 		final JsonFilter jsonFilter = new JsonFilter(new JsonBeanUtil());
 		final ObjectMapper mapper = new ObjectMapper();
-		final Configuration conf = new PropertiesConfiguration();
+		final ManoRepositoryProperties conf = new ManoRepositoryProperties();
+		conf.setPhysRoot("/tmp/");
 		final NamingStrategy namingStrategy = new DefaultNamingStrategy(conf);
 		vnfPackage = new VnfPackagePhys(mapper, jsonFilter, new LowPhys(), namingStrategy);
 	}
@@ -91,13 +92,19 @@ public class VnfPackageGenTest {
 	}
 
 	@Test
-	public void testBinaryScenario() throws FileNotFoundException, NoSuchAlgorithmException {
+	public void testBinaryScenario() throws NoSuchAlgorithmException, IOException {
 		final VnfPackage entity = new VnfPackage();
 		vnfPackage.save(entity);
 		assertNotNull(entity.getId());
 
-		final InputStream stream = new FileInputStream("src/test/resources/pack.zip");
-		vnfPackage.storeBinary(entity.getId(), "file", stream);
+		final String path = "/pack.zip";
+		final URL url = TestTools.class.getResource(path);
+		if (null == url) {
+			throw new RuntimeException("Could not find path: " + path);
+		}
+		try (InputStream is = url.openStream()) {
+			vnfPackage.storeBinary(entity.getId(), "file", is);
+		}
 
 		byte[] bytes = vnfPackage.getBinary(entity.getId(), "file");
 		final MessageDigest md5 = MessageDigest.getInstance("MD5");
