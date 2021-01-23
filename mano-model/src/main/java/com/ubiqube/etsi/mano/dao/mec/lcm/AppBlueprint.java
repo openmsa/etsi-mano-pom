@@ -21,6 +21,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -32,6 +33,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.Valid;
 
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
@@ -40,7 +42,9 @@ import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmb
 
 import com.ubiqube.etsi.mano.dao.mano.AuditListener;
 import com.ubiqube.etsi.mano.dao.mano.BlueZoneGroupInformation;
+import com.ubiqube.etsi.mano.dao.mano.ExtManagedVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.OperateChanges;
+import com.ubiqube.etsi.mano.dao.mano.VimBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.ZoneInfoEntity;
 import com.ubiqube.etsi.mano.dao.mano.v2.AbstractBlueprint;
@@ -58,8 +62,9 @@ import lombok.Setter;
 @Getter
 @Entity
 @Indexed
+@Table(schema = "mec_meo")
 @EntityListeners(AuditListener.class)
-public class AppBluePrint extends AbstractBlueprint<AppTask> {
+public class AppBlueprint extends AbstractBlueprint<AppTask> implements VimBlueprint<AppTask> {
 	/** Serial. */
 	private static final long serialVersionUID = 1L;
 
@@ -73,7 +78,7 @@ public class AppBluePrint extends AbstractBlueprint<AppTask> {
 
 	@Valid
 	@ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
-	@JoinColumn
+	@CollectionTable(schema = "mec_meo")
 	private Set<VimConnectionInformation> vimConnections = null;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "grants")
@@ -95,7 +100,13 @@ public class AppBluePrint extends AbstractBlueprint<AppTask> {
 	@IndexedEmbedded
 	private OperateChanges operateChanges = new OperateChanges();
 
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@CollectionTable(schema = "mec_meo")
 	private Set<AppTask> tasks;
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@CollectionTable(schema = "mec_meo")
+	private Set<ExtManagedVirtualLinkDataEntity> extManagedVirtualLinks;
 
 	@Override
 	public void addTask(final AppTask task) {
