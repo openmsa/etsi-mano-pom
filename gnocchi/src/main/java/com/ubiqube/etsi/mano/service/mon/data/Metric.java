@@ -14,22 +14,25 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service.mon.jms;
+package com.ubiqube.etsi.mano.service.mon.data;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.jms.annotation.JmsListener;
-import org.springframework.stereotype.Service;
+import lombok.Getter;
+import lombok.Setter;
 
-import com.ubiqube.etsi.mano.dao.mano.mon.TelemetryMetricsResult;
+@Setter
+@Getter
+public class Metric {
+	private String name;
+	private MetricFunction func;
 
-@Service
-public class DataListener {
-
-	private static final Logger LOG = LoggerFactory.getLogger(DataListener.class);
-
-	@JmsListener(destination = "mano.monitoring.gnocchi.data", subscription = "mano.monitoring.gnocchi.data", concurrency = "1", containerFactory = "gnocchiDataFactory")
-	public void onGnocchiData(final TelemetryMetricsResult action) {
-		LOG.info("Receive: {}", action);
+	public Metric() {
+		// Nothing.
 	}
+
+	public Metric(final String name, final MetricFunction func) {
+		super();
+		this.name = name;
+		this.func = func;
+	}
+
 }

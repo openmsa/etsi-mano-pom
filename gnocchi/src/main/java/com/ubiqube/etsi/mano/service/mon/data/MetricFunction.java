@@ -14,31 +14,39 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service.mon.jms;
+package com.ubiqube.etsi.mano.service.mon.data;
 
-import org.springframework.jms.core.JmsTemplate;
-import org.springframework.stereotype.Service;
-
-import com.ubiqube.etsi.mano.service.mon.MonitoringEventManager;
-import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-@Service
-public class JmsMonitoringEventManager implements MonitoringEventManager {
-	private final JmsTemplate jmsQueueTemplate;
+public enum MetricFunction {
+	PEAK("peak"),
+	MEAN("mean");
 
-	public JmsMonitoringEventManager(final JmsTemplate jmsQueueTemplate) {
-		this.jmsQueueTemplate = jmsQueueTemplate;
+	private String value;
+
+	MetricFunction(final String value) {
+		this.value = value;
 	}
 
 	@Override
-	public void sendGetDataEvent(final BatchPollingJob pmJob) {
-		// PmType controller ?
-		jmsQueueTemplate.convertAndSend("mano.monitoring.gnocchi.data-polling", pmJob);
+	@JsonValue
+	public String toString() {
+		return String.valueOf(value);
 	}
 
+	@JsonCreator
+	public static MetricFunction fromValue(final String text) {
+		for (final MetricFunction b : MetricFunction.values()) {
+			if (String.valueOf(b.value).equals(text)) {
+				return b;
+			}
+		}
+		return null;
+	}
 }

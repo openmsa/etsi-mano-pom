@@ -14,22 +14,33 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service.mon.jms;
+package com.ubiqube.etsi.mano.service.mon.data;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.jms.annotation.JmsListener;
-import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.UUID;
 
-import com.ubiqube.etsi.mano.dao.mano.mon.TelemetryMetricsResult;
+import lombok.Getter;
+import lombok.Setter;
 
-@Service
-public class DataListener {
+@Setter
+@Getter
+public class BatchPollingJob {
 
-	private static final Logger LOG = LoggerFactory.getLogger(DataListener.class);
+	private UUID id;
+	private List<String> hosts;
+	private List<Metric> metrics;
+	private UUID vimId;
 
-	@JmsListener(destination = "mano.monitoring.gnocchi.data", subscription = "mano.monitoring.gnocchi.data", concurrency = "1", containerFactory = "gnocchiDataFactory")
-	public void onGnocchiData(final TelemetryMetricsResult action) {
-		LOG.info("Receive: {}", action);
+	public BatchPollingJob() {
+		// Nothing.
 	}
+
+	public BatchPollingJob(final UUID id, final List<String> hosts, final List<Metric> metrics, final UUID vimId) {
+		super();
+		this.id = id;
+		this.hosts = hosts;
+		this.metrics = metrics;
+		this.vimId = vimId;
+	}
+
 }
