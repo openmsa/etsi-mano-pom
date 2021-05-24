@@ -47,12 +47,12 @@ import ma.glasnost.orika.MapperFacade;
  *
  */
 @RestController
-public class VnfLcmOpOccs271Sol0à3Controller implements VnfLcmOpOccs271Sol003Api {
+public class VnfLcmOpOccs271Sol003Controller implements VnfLcmOpOccs271Sol003Api {
 	private final VnfLcmOpOccGenericFrontController frontController;
 
 	private final MapperFacade mapper;
 
-	public VnfLcmOpOccs271Sol0à3Controller(final VnfLcmOpOccGenericFrontController frontController, final MapperFacade _mapper) {
+	public VnfLcmOpOccs271Sol003Controller(final VnfLcmOpOccGenericFrontController frontController, final MapperFacade _mapper) {
 		super();
 		this.frontController = frontController;
 		mapper = _mapper;
@@ -60,7 +60,7 @@ public class VnfLcmOpOccs271Sol0à3Controller implements VnfLcmOpOccs271Sol003Ap
 
 	@Override
 	public ResponseEntity<String> vnfLcmOpOccsGet(final MultiValueMap<String, String> requestParams, @Valid final String nextpageOpaqueMarker) {
-		return frontController.search(requestParams, VnfLcmOpOcc.class, VnfLcmOpOccs271Sol0à3Controller::makeLinks);
+		return frontController.search(requestParams, VnfLcmOpOcc.class, VnfLcmOpOccs271Sol003Controller::makeLinks);
 	}
 
 	@Override
