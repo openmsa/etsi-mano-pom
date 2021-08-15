@@ -4,6 +4,7 @@
 .settings/
 .sts4-cache/
 .cache/
+.vscode/
 bin/
 dist/
 target
@@ -13,4 +14,8 @@ build
 .idea
 com.ubiqube.etsi.mano.dao.mano*/
 *.csar
+*.dot
 .groovy/
+.factorypath
+src/test/java/com/ubiqube/ejb/
+log
