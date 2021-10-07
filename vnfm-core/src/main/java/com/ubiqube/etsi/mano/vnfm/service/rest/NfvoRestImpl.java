@@ -16,10 +16,21 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.rest;
 
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.X509Certificate;
 import java.util.Optional;
 
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
+import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
+import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsResourceDetails;
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
+import org.springframework.security.oauth2.common.AuthenticationScheme;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.LinkedMultiValueMap;
@@ -28,6 +39,7 @@ import org.springframework.util.MultiValueMap;
 import com.ubiqube.etsi.mano.config.properties.NfvoConnectionProperties;
 import com.ubiqube.etsi.mano.config.properties.NfvoConnectionProperties.Basic;
 import com.ubiqube.etsi.mano.config.properties.NfvoConnectionProperties.Oauth2;
+import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.service.rest.AbstractRest;
 
 /**
@@ -45,13 +57,9 @@ public class NfvoRestImpl extends AbstractRest {
 		url = props.getUrl();
 		if (null != props.getOauth2()) {
 			final Oauth2 oauth = props.getOauth2();
-			final var resource = new ResourceOwnerPasswordResourceDetails();
-			resource.setClientId(oauth.getClientId());
-			resource.setClientSecret(oauth.getClientSecret());
-			resource.setAccessTokenUri(oauth.getOauthUrl());
-			resource.setUsername(oauth.getUsername());
-			resource.setPassword(oauth.getPassword());
+			final OAuth2ProtectedResourceDetails resource = getResourceDetails(oauth);
 			final var oauth2 = new OAuth2RestTemplate(resource);
+			disableSsl(oauth2);
 			setRestTemplate(oauth2);
 		}
 		if (props.getBasic() != null) {
@@ -63,6 +71,56 @@ public class NfvoRestImpl extends AbstractRest {
 			}
 		}
 		Assert.notNull(url, "nfvo.url is not declared in property file.");
+	}
+
+	private static final TrustManager[] UNQUESTIONING_TRUST_MANAGER = {
+			new X509TrustManager() {
+				@Override
+				public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+					return null;
+				}
+
+				@Override
+				public void checkClientTrusted(final X509Certificate[] certs, final String authType) {
+					//
+				}
+
+				@Override
+				public void checkServerTrusted(final X509Certificate[] certs, final String authType) {
+					//
+				}
+			}
+	};
+
+	private void disableSsl(final OAuth2RestTemplate oauth2) {
+		try {
+			final SSLContext sc = SSLContext.getInstance("SSL");
+			sc.init(null, UNQUESTIONING_TRUST_MANAGER, null);
+			HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+		} catch (KeyManagementException | NoSuchAlgorithmException e) {
+			throw new GenericException(e);
+		}
+	}
+
+	private OAuth2ProtectedResourceDetails getResourceDetails(final Oauth2 oauth) {
+		if ("passsword".equals(oauth.getGrantType())) {
+			final var resource = new ResourceOwnerPasswordResourceDetails();
+			resource.setClientId(oauth.getClientId());
+			resource.setClientSecret(oauth.getClientSecret());
+			resource.setAccessTokenUri(oauth.getOauthUrl());
+			resource.setUsername(oauth.getUsername());
+			resource.setPassword(oauth.getPassword());
+			return resource;
+		}
+		if ("client_credentials".equals(oauth.getGrantType())) {
+			final var resource = new ClientCredentialsResourceDetails();
+			resource.setClientId(oauth.getClientId());
+			resource.setClientSecret(oauth.getClientSecret());
+			resource.setAccessTokenUri(oauth.getOauthUrl());
+			resource.setClientAuthenticationScheme(AuthenticationScheme.form);
+			return resource;
+		}
+		throw new GenericException("Unable to find correct grant type: " + oauth.getGrantType());
 	}
 
 	@Override
