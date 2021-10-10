@@ -92,7 +92,7 @@ public class NfvoRestImpl extends AbstractRest {
 			}
 	};
 
-	private void disableSsl(final OAuth2RestTemplate oauth2) {
+	private static void disableSsl(final OAuth2RestTemplate oauth2) {
 		try {
 			final SSLContext sc = SSLContext.getInstance("SSL");
 			sc.init(null, UNQUESTIONING_TRUST_MANAGER, null);
@@ -102,7 +102,7 @@ public class NfvoRestImpl extends AbstractRest {
 		}
 	}
 
-	private OAuth2ProtectedResourceDetails getResourceDetails(final Oauth2 oauth) {
+	private static OAuth2ProtectedResourceDetails getResourceDetails(final Oauth2 oauth) {
 		if ("passsword".equals(oauth.getGrantType())) {
 			final var resource = new ResourceOwnerPasswordResourceDetails();
 			resource.setClientId(oauth.getClientId());
