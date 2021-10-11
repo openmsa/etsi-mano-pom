@@ -26,6 +26,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
 import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsResourceDetails;
@@ -60,6 +61,7 @@ public class NfvoRestImpl extends AbstractRest {
 			final OAuth2ProtectedResourceDetails resource = getResourceDetails(oauth);
 			final var oauth2 = new OAuth2RestTemplate(resource);
 			disableSsl(oauth2);
+			oauth2.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
 			setRestTemplate(oauth2);
 		}
 		if (props.getBasic() != null) {
