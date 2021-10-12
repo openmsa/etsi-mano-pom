@@ -17,15 +17,20 @@
 package com.ubiqube.etsi.mano.vnfm.service.rest;
 
 import java.security.KeyManagementException;
+import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
 import java.util.Optional;
 
-import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.ssl.TrustStrategy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
@@ -51,6 +56,9 @@ import com.ubiqube.etsi.mano.service.rest.AbstractRest;
  */
 @Service
 public class NfvoRestImpl extends AbstractRest {
+
+	private static final Logger LOG = LoggerFactory.getLogger(NfvoRestImpl.class);
+
 	private final String url;
 	private final MultiValueMap<String, String> auth = new LinkedMultiValueMap<>();
 
@@ -61,7 +69,6 @@ public class NfvoRestImpl extends AbstractRest {
 			final OAuth2ProtectedResourceDetails resource = getResourceDetails(oauth);
 			final var oauth2 = new OAuth2RestTemplate(resource);
 			disableSsl(oauth2);
-			oauth2.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
 			setRestTemplate(oauth2);
 		}
 		if (props.getBasic() != null) {
@@ -75,33 +82,28 @@ public class NfvoRestImpl extends AbstractRest {
 		Assert.notNull(url, "nfvo.url is not declared in property file.");
 	}
 
-	private static final TrustManager[] UNQUESTIONING_TRUST_MANAGER = {
-			new X509TrustManager() {
-				@Override
-				public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-					return null;
-				}
+	private void disableSsl(final OAuth2RestTemplate oauth2) {
+		final TrustStrategy acceptingTrustStrategy = (final X509Certificate[] chain, final String authType) -> true;
 
-				@Override
-				public void checkClientTrusted(final X509Certificate[] certs, final String authType) {
-					//
-				}
-
-				@Override
-				public void checkServerTrusted(final X509Certificate[] certs, final String authType) {
-					//
-				}
-			}
-	};
-
-	private static void disableSsl(final OAuth2RestTemplate oauth2) {
+		SSLContext sslContext;
 		try {
-			final SSLContext sc = SSLContext.getInstance("SSL");
-			sc.init(null, UNQUESTIONING_TRUST_MANAGER, null);
-			HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-		} catch (KeyManagementException | NoSuchAlgorithmException e) {
+			sslContext = org.apache.http.ssl.SSLContexts.custom()
+					.loadTrustMaterial(null, acceptingTrustStrategy)
+					.build();
+		} catch (KeyManagementException | NoSuchAlgorithmException | KeyStoreException e) {
 			throw new GenericException(e);
 		}
+
+		final SSLConnectionSocketFactory csf = new SSLConnectionSocketFactory(sslContext, new NoopHostnameVerifier());
+
+		final CloseableHttpClient httpClient = HttpClients.custom()
+				.setSSLSocketFactory(csf)
+				.build();
+
+		final HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
+
+		requestFactory.setHttpClient(httpClient);
+		oauth2.setRequestFactory(requestFactory);
 	}
 
 	private static OAuth2ProtectedResourceDetails getResourceDetails(final Oauth2 oauth) {
