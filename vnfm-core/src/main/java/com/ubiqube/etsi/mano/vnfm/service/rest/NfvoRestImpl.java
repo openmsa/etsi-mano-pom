@@ -48,6 +48,7 @@ import com.ubiqube.etsi.mano.config.properties.NfvoConnectionProperties.Basic;
 import com.ubiqube.etsi.mano.config.properties.NfvoConnectionProperties.Oauth2;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.service.rest.AbstractRest;
+import com.ubiqube.etsi.mano.service.rest.ClientCredentialsAccessTokenProviderNoSsl;
 
 /**
  * HTTP way to exchange with NFVO.
