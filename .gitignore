@@ -19,3 +19,4 @@ com.ubiqube.etsi.mano.dao.mano*/
 .factorypath
 src/test/java/com/ubiqube/ejb/
 log
+*.img
