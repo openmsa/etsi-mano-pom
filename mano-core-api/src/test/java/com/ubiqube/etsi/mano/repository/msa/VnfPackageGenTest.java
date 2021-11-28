@@ -31,11 +31,13 @@ import javax.xml.bind.DatatypeConverter;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.mano.grammar.v1.Grammarv1Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubiqube.etsi.mano.common.v261.model.lcmgrant.Grant;
 import com.ubiqube.etsi.mano.config.properties.ManoRepositoryProperties;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+import com.ubiqube.etsi.mano.grammar.GrammarParser;
 import com.ubiqube.etsi.mano.grammar.JsonBeanUtil;
 import com.ubiqube.etsi.mano.grammar.JsonFilter;
 import com.ubiqube.etsi.mano.repository.DefaultNamingStrategy;
@@ -49,6 +51,7 @@ import com.ubiqube.etsi.mano.test.TestTools;
 public class VnfPackageGenTest {
 
 	private final VnfPackageRepository vnfPackage;
+	private final GrammarParser gp = new Grammarv1Service();
 
 	public VnfPackageGenTest() {
 		final JsonFilter jsonFilter = new JsonFilter(new JsonBeanUtil());
@@ -56,7 +59,7 @@ public class VnfPackageGenTest {
 		final ManoRepositoryProperties conf = new ManoRepositoryProperties();
 		conf.setPhysRoot("/tmp/");
 		final NamingStrategy namingStrategy = new DefaultNamingStrategy(conf);
-		vnfPackage = new VnfPackagePhys(mapper, jsonFilter, new LowPhys(), namingStrategy);
+		vnfPackage = new VnfPackagePhys(mapper, jsonFilter, new LowPhys(), namingStrategy, gp);
 	}
 
 	@Test
