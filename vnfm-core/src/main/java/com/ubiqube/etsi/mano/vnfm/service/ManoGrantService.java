@@ -35,7 +35,7 @@ import ma.glasnost.orika.MapperFacade;
 @Transactional(TxType.NEVER)
 public class ManoGrantService extends AbstractGrantService {
 
-	public ManoGrantService(final MapperFacade _mapper, final VnfResourceAllocate _nfvo) {
-		super(_mapper, _nfvo);
+	public ManoGrantService(final MapperFacade mapper, final VnfResourceAllocate nfvo) {
+		super(mapper, nfvo);
 	}
 }
