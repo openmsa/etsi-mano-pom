@@ -14,8 +14,25 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.parser.tosca.annotations;
+package com.ubiqube.parser.tosca;
 
-public interface Range {
+import java.util.Map;
 
+import lombok.Getter;
+import lombok.Setter;
+
+/**
+ *
+ * @author Olivier Vignaud <ovi@ubiqube.com>
+ *
+ */
+@Getter
+@Setter
+public class MetaProperties {
+	private String name;
+	private String type;
+	private String description;
+	private Map<String, String> metadata;
+	// Normally it should be a ToscaProperties.
+	private Map<String, Object> properties;
 }
