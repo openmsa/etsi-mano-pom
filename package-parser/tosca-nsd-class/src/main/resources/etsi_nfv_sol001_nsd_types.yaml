@@ -9,7 +9,6 @@ imports:
      - https://forge.etsi.org/rep/nfv/SOL001/raw/v3.5.1/etsi_nfv_sol001_common_types.yaml
      - https://forge.etsi.org/rep/nfv/SOL001/raw/v3.5.1/etsi_nfv_sol001_vnfd_types.yaml
      - https://forge.etsi.org/rep/nfv/SOL001/raw/v3.5.1/etsi_nfv_sol001_pnfd_types.yaml
-     - file:tosca-nsd-class/src/main/resources/fix_ubiqube.yaml
 # editor's note: During the development of the SOL001ed351 GS, to enable this file to be verified by a TOSCA parser, the imports statement has to be replaced with a reference to a local copy of the common definitions YAML file
 
 data_types:
@@ -185,10 +184,6 @@ data_types:
         type: string
         description: Specifies the CIDR (Classless Inter-Domain Routing) of this L3 protocol. The value may be overridden at run-time.
         required: true  
-      dhcp_enabled:
-        type: boolean
-        description: Indicates whether DHCP (Dynamic Host Configuration Protocol) is enabled or disabled for this L3 protocol. The value may be overridden at run-time.
-        required: false
       ip_allocation_pools:
         type: list
         description: Specifies the allocation pools with start and end IP addresses for this L3 protocol. The value may be overridden at run-time.
