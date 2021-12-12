@@ -31,7 +31,6 @@ import javax.xml.bind.DatatypeConverter;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.mano.grammar.v1.Grammarv1Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubiqube.etsi.mano.common.v261.model.lcmgrant.Grant;
@@ -40,6 +39,7 @@ import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.grammar.GrammarParser;
 import com.ubiqube.etsi.mano.grammar.JsonBeanUtil;
 import com.ubiqube.etsi.mano.grammar.JsonFilter;
+import com.ubiqube.etsi.mano.grammar.v1.Grammarv1Service;
 import com.ubiqube.etsi.mano.repository.DefaultNamingStrategy;
 import com.ubiqube.etsi.mano.repository.NamingStrategy;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;

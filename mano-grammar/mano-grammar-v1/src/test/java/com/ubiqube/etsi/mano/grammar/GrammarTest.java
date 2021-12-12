@@ -35,9 +35,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.mano.grammar.v1.Grammarv1Service;
 
 import com.ubiqube.etsi.mano.grammar.Node.Operand;
+import com.ubiqube.etsi.mano.grammar.v1.Grammarv1Service;
 
 class GrammarTest {
 	private final Grammarv1Service grammarv1Service = new Grammarv1Service();
