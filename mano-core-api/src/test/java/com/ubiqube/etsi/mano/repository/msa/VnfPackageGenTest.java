@@ -48,8 +48,7 @@ import com.ubiqube.etsi.mano.repository.phys.VnfPackagePhys;
 import com.ubiqube.etsi.mano.test.TestTools;
 
 @Tag("Remote")
-public class VnfPackageGenTest {
-
+class VnfPackageGenTest {
 	private final VnfPackageRepository vnfPackage;
 	private final GrammarParser gp = new Grammarv1Service();
 
