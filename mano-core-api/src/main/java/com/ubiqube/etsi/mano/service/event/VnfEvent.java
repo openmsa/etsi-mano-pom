@@ -31,8 +31,6 @@ import com.ubiqube.etsi.mano.service.SubscriptionService;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
 
 /**
- * TODO: we cannot use the MANO filter query language, instead of this use AST
- * node directly.
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
