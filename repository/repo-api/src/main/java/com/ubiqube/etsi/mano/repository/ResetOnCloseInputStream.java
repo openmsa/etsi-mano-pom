@@ -16,22 +16,42 @@
  */
 package com.ubiqube.etsi.mano.repository;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Path;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public interface ContentManager {
+public class ResetOnCloseInputStream extends InputStream {
 
-	void store(Path filename, InputStream stream);
+	private static final Logger LOG = LoggerFactory.getLogger(ResetOnCloseInputStream.class);
 
-	ManoResource load(Path filename);
+	private final InputStream decorated;
 
-	void mkdir(Path path);
+	public ResetOnCloseInputStream(final InputStream anInputStream) {
+		if (!anInputStream.markSupported()) {
+			LOG.warn("Packing {} into a buffered InputStream", anInputStream);
+			final BufferedInputStream bis = new BufferedInputStream(anInputStream);
+			this.decorated = bis;
+		} else {
+			this.decorated = anInputStream;
+		}
+		anInputStream.mark(1 << 24);
+	}
 
-	void delete(Path path);
+	@Override
+	public void close() throws IOException {
+		decorated.reset();
+	}
 
+	@Override
+	public int read() throws IOException {
+		return decorated.read();
+	}
 }
