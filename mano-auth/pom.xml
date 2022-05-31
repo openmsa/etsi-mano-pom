@@ -17,5 +17,6 @@
 		<module>auth-api</module>
 		<module>auth-basic</module>
 		<module>auth-keycloak</module>
+		<module>auth-cert</module>
 	</modules>
 </project>
