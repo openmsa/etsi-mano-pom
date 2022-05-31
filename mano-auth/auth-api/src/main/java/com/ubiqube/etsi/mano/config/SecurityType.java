@@ -25,5 +25,6 @@ public enum SecurityType {
 	NONE,
 	OAUTH2,
 	BASIC,
+	CERT,
 	DIGEST,
 }
