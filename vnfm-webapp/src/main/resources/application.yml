@@ -20,7 +20,7 @@ logging:
     org:
       apache:
         http:
-          wire: DEBUG
+          wire: INFO
         activemq:
           audit: WARN
       hibernate:
@@ -34,7 +34,8 @@ logging:
         jms: INFO
         security: INFO
         web:
-          filter: DEBUG
+          filter: INFO
+
 
 management:
   endpoint:
@@ -49,7 +50,7 @@ management:
       mode: full
 
 mano:
-  frontend-url: http://10.8.0.1:8090/ubi-etsi-mano/sol003
+  frontend-url: http://mano-vnfm:8090/ubi-etsi-mano/sol003
   swagger-o-auth2: https://auth.mano.ubiqube.com/auth/realms/mano-realm/protocol/openid-connect/token
   election:
     script-path: /tmp/etsi-mano/election/groovy
@@ -58,6 +59,7 @@ mano:
 
 server:
   error:
+    include-binding-errors: always
     whitelabel:
       enabled: false
   port: 8090
@@ -78,7 +80,7 @@ spring:
               name: admin
               password: admin
         password: admin
-        url: http://localhost:8081
+        url: http://monitoring.mano.ubiqube.com/monitoring/
         username: admin
   data:
     rest:
@@ -150,3 +152,4 @@ spring:
     multipart:
       max-file-size: 1024MB
       max-request-size: 1024MB
+
