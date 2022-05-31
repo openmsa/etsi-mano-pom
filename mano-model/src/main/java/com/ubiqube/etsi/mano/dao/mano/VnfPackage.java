@@ -59,6 +59,7 @@ import com.ubiqube.etsi.mano.dao.mano.pkg.UploadUriParameters;
 import com.ubiqube.etsi.mano.dao.mano.pkg.VirtualCp;
 import com.ubiqube.etsi.mano.dao.mano.pkg.VnfProfile;
 import com.ubiqube.etsi.mano.dao.mano.vnfi.VimCapability;
+import com.ubiqube.etsi.mano.dao.mano.vnfm.McIops;
 import com.ubiqube.etsi.mano.utils.ToStringIgnore;
 import com.ubiqube.etsi.mano.utils.ToStringUtil;
 
@@ -280,6 +281,9 @@ public class VnfPackage implements PackageBase, Auditable {
 	 */
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<VirtualCp> virtualCp;
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<McIops> mciops;
 
 	/**
 	 * Name of internal package provider/parser class.

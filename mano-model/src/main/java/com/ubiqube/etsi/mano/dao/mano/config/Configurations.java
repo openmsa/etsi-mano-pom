@@ -14,44 +14,38 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.dao.mano.vnfi;
+package com.ubiqube.etsi.mano.dao.mano.config;
 
-import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.persistence.Embeddable;
+import com.ubiqube.etsi.mano.utils.ColumnEncryptor;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Information missing from Sol001/ osContainer
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-@Embeddable
-public class CnfInformations implements Serializable {
-	/** Serial. */
-	private static final long serialVersionUID = 1L;
+@Entity
+public class Configurations {
 
-	private String masterFlavorId;
+	@NotNull
+	@Id
+	private String id;
 
-	@Nonnull
-	private String clusterTemplate;
-
-	@Nullable
-	private String dnsServer;
-
-	@Nullable
-	private String keyPair;
-
-	@Nullable
-	private String networkDriver = "flannel";
-
-	@Nullable
-	private VmServerType serverType = VmServerType.VM;
+	@Column(length = 5000)
+	@Convert(converter = ColumnEncryptor.class)
+	private String value;
 }

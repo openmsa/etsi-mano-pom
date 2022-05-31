@@ -14,22 +14,15 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.dao.mano.v2.vnfm;
+package com.ubiqube.etsi.mano.dao.mano.vnfm;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-
-import com.ubiqube.etsi.mano.dao.mano.AuditListener;
-import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainerDeployableUnit;
-import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -40,10 +33,9 @@ import lombok.Setter;
  *
  */
 @Entity
-@EntityListeners(AuditListener.class)
 @Getter
 @Setter
-public class OsContainerDeployableTask extends VnfTask {
+public class CnfImage implements Serializable {
 	/** Serial. */
 	private static final long serialVersionUID = 1L;
 
@@ -51,22 +43,9 @@ public class OsContainerDeployableTask extends VnfTask {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
 
-	/**
-	 * The Openstack magnum template ID.
-	 */
-	private String templateId;
+	private String toscaName;
 
-	/**
-	 * Openstack keypair name.
-	 */
-	private String keypair;
+	private String type;
 
-	/**
-	 * Openstack network ID.
-	 */
-	private String network;
-
-	@ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
-	private OsContainerDeployableUnit osContainerDeployableUnit;
-
+	private String url;
 }

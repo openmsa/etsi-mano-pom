@@ -14,44 +14,20 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.dao.mano.vnfi;
-
-import java.io.Serializable;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.persistence.Embeddable;
-
-import lombok.Getter;
-import lombok.Setter;
+package com.ubiqube.etsi.mano.utils;
 
 /**
- * Information missing from Sol001/ osContainer
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-@Getter
-@Setter
-@Embeddable
-public class CnfInformations implements Serializable {
+public class DatabaseException extends RuntimeException {
+
 	/** Serial. */
 	private static final long serialVersionUID = 1L;
 
-	private String masterFlavorId;
+	public DatabaseException(final Throwable e) {
+		super(e);
+	}
 
-	@Nonnull
-	private String clusterTemplate;
-
-	@Nullable
-	private String dnsServer;
-
-	@Nullable
-	private String keyPair;
-
-	@Nullable
-	private String networkDriver = "flannel";
-
-	@Nullable
-	private VmServerType serverType = VmServerType.VM;
 }

@@ -18,18 +18,15 @@ package com.ubiqube.etsi.mano.dao.mano.v2.vnfm;
 
 import java.util.UUID;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 
 import com.ubiqube.etsi.mano.dao.mano.AuditListener;
-import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainerDeployableUnit;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
+import com.ubiqube.etsi.mano.dao.mano.vnfm.McIops;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -43,7 +40,7 @@ import lombok.Setter;
 @EntityListeners(AuditListener.class)
 @Getter
 @Setter
-public class OsContainerDeployableTask extends VnfTask {
+public class MciopTask extends VnfTask {
 	/** Serial. */
 	private static final long serialVersionUID = 1L;
 
@@ -51,22 +48,8 @@ public class OsContainerDeployableTask extends VnfTask {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
 
-	/**
-	 * The Openstack magnum template ID.
-	 */
-	private String templateId;
+	private McIops mciop;
 
-	/**
-	 * Openstack keypair name.
-	 */
-	private String keypair;
-
-	/**
-	 * Openstack network ID.
-	 */
-	private String network;
-
-	@ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
-	private OsContainerDeployableUnit osContainerDeployableUnit;
+	private String parentVdu;
 
 }
