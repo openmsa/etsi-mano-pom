@@ -14,7 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.nfvo.repository.jpa;
+package com.ubiqube.etsi.mano.jpa;
 
 import javax.annotation.Nonnull;
 import javax.persistence.EntityManager;
@@ -25,7 +25,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.PackageUsageState;
 import com.ubiqube.etsi.mano.grammar.GrammarParser;
-import com.ubiqube.etsi.mano.nfvo.jpa.NsdPackageJpa;
 import com.ubiqube.etsi.mano.repository.ContentManager;
 import com.ubiqube.etsi.mano.repository.NamingStrategy;
 import com.ubiqube.etsi.mano.repository.NsdRepository;

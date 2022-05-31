@@ -26,7 +26,7 @@ import com.ubiqube.etsi.mano.dao.mano.NsdPackageNsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackageVnfPackage;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
-import com.ubiqube.etsi.mano.nfvo.jpa.NsdPackageJpa;
+import com.ubiqube.etsi.mano.jpa.NsdPackageJpa;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsdPackageNsdPackageJpa;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsdPackageVnfPackageJpa;
 

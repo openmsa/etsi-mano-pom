@@ -37,11 +37,11 @@ import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVnfTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsdTask;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.grammar.GrammarParser;
+import com.ubiqube.etsi.mano.jpa.NsdPackageJpa;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsLiveInstanceJpa;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsVirtualLinkJpa;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsVnfPackageJpa;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsdInstanceJpa;
-import com.ubiqube.etsi.mano.nfvo.jpa.NsdPackageJpa;
 import com.ubiqube.etsi.mano.repository.jpa.SearchQueryer;
 
 @Service

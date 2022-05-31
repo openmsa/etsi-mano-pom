@@ -25,7 +25,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVnfInstantiateTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVnfTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.VnfContextExtractorTask;
 import com.ubiqube.etsi.mano.exception.GenericException;
-import com.ubiqube.etsi.mano.nfvo.jpa.NsdPackageJpa;
+import com.ubiqube.etsi.mano.jpa.NsdPackageJpa;
 import com.ubiqube.etsi.mano.nfvo.service.graph.nfvo.VnfContextExtractorUow;
 import com.ubiqube.etsi.mano.nfvo.service.graph.nfvo.VnfCreateUow;
 import com.ubiqube.etsi.mano.nfvo.service.graph.nfvo.VnfInstantiateUow;

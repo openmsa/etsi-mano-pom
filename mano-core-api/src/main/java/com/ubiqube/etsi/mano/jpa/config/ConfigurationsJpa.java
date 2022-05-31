@@ -14,25 +14,17 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.nfvo.jpa;
+package com.ubiqube.etsi.mano.jpa.config;
 
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+import com.ubiqube.etsi.mano.dao.mano.config.Configurations;
 
-import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
-
-public interface NsdPackageJpa extends CrudRepository<NsdPackage, UUID> {
-	Optional<NsdPackage> findByNsdInvariantId(String nsdInvariantId);
-
-	@Query("select child \n" +
-			" from NsdPackageNsdPackage nsdpackage0_\n" +
-			" left outer join NsdPackage child on nsdpackage0_.child = child \n" +
-			" where parent_id = ?1 ")
-	Set<NsdPackage> findByNestedNsdInfoIds_Parent(NsdPackage nsdPackage);
-
-	Optional<NsdPackage> findByNsdId(String nsdId);
+/**
+ *
+ * @author Olivier Vignaud <ovi@ubiqube.com>
+ *
+ */
+public interface ConfigurationsJpa extends PagingAndSortingRepository<Configurations, String> {
+	// Nothing.
 }
