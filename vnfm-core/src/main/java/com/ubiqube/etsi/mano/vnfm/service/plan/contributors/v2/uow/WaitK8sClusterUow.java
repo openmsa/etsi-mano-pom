@@ -16,14 +16,17 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.uow;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
-import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainerDeployableUnit;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerDeployableTask;
+import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.orchestrator.Context;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerDeployableNode;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerNode;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
+import com.ubiqube.etsi.mano.service.vim.K8sStatus;
+import com.ubiqube.etsi.mano.service.vim.StatusType;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 
 /**
@@ -31,31 +34,41 @@ import com.ubiqube.etsi.mano.service.vim.Vim;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public class OsContainerDeployableUow2 extends AbstractUowV2<OsContainerDeployableTask> {
-	private final Vim vim;
-	private final VimConnectionInformation vci;
-	private final VirtualTask<OsContainerDeployableTask> task;
+public class WaitK8sClusterUow extends AbstractUowV2<OsContainerDeployableTask> {
 
-	public OsContainerDeployableUow2(final VirtualTask<OsContainerDeployableTask> task, final Vim vim, final VimConnectionInformation vimConnectionInformation) {
+	private static final Logger LOG = LoggerFactory.getLogger(WaitK8sClusterUow.class);
+
+	private final VimConnectionInformation vimConnectionInformation;
+	private final Vim vim;
+	private final String toscaName;
+
+	protected WaitK8sClusterUow(final VirtualTask<OsContainerDeployableTask> task, final Vim vim, final VimConnectionInformation vimConnectionInformation) {
 		super(task, OsContainerDeployableNode.class);
 		this.vim = vim;
-		this.vci = vimConnectionInformation;
-		this.task = task;
+		this.vimConnectionInformation = vimConnectionInformation;
+		this.toscaName = task.getName();
 	}
 
 	@Override
 	public String execute(final Context context) {
-		final OsContainerDeployableTask p = task.getParameters();
-		final String clusterTemplateId = context.get(OsContainerNode.class, p.getTemplateId());
-		final String network = context.get(Network.class, p.getNetwork());
-		final OsContainerDeployableUnit du = p.getOsContainerDeployableUnit();
-		//
-		return vim.cnf(vci).startK8s(clusterTemplateId, p.getKeypair(), du.getVduProfile().getMinNumberOfInstances(), task.getAlias(), du.getVduProfile().getMinNumberOfInstances(), network);
+		final String id = context.get(OsContainerDeployableNode.class, toscaName);
+		K8sStatus st = vim.cnf(vimConnectionInformation).k8sStatus(id);
+		// XXX
+		while (st.getStatus() != StatusType.ADOPT_COMPLETE) {
+			try {
+				Thread.sleep(1_000L);
+			} catch (final InterruptedException e) {
+				Thread.currentThread().interrupt();
+				throw new GenericException(e);
+			}
+			st = vim.cnf(vimConnectionInformation).k8sStatus(id);
+		}
+		return null;
 	}
 
 	@Override
 	public String rollback(final Context context) {
-		vim.cnf(vci).deleteK8s(task.getParameters().getVimResourceId());
+		// TODO Auto-generated method stub
 		return null;
 	}
 

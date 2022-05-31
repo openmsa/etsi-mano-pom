@@ -17,10 +17,13 @@
 package com.ubiqube.etsi.mano.dao.mano.k8s;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,7 +31,10 @@ import javax.persistence.ManyToOne;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -37,6 +43,9 @@ import lombok.Setter;
  *
  */
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class K8sServers implements Serializable {
@@ -52,9 +61,25 @@ public class K8sServers implements Serializable {
 
 	private String toscaName;
 
+	/**
+	 * ca.crt
+	 */
 	@Column(length = 5000)
 	private String caPem;
 
+	/**
+	 * User CRT.
+	 */
 	@Column(length = 5000)
 	private String userCrt;
+
+	private String apiAddress;
+
+	/**
+	 * Uniq identifier in VIM. (Mainly the cluster ID).
+	 */
+	private String vimResourceId;
+
+	@ElementCollection(fetch = FetchType.EAGER)
+	private List<String> masterAddresses;
 }

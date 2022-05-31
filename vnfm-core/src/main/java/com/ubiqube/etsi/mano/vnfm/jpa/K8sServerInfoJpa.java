@@ -14,45 +14,23 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service.vim;
+package com.ubiqube.etsi.mano.vnfm.jpa;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import java.util.Optional;
+import java.util.UUID;
+
+import org.springframework.data.repository.CrudRepository;
+
+import com.ubiqube.etsi.mano.dao.mano.k8s.K8sServers;
 
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-@Builder
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class CnfK8sParams {
+public interface K8sServerInfoJpa extends CrudRepository<K8sServers, UUID> {
 
-	private String clusterTemplate;
+	Optional<K8sServers> findByVimResourceId(String id);
 
-	private String dnsServer;
-
-	private Integer volumeSize;
-
-	private String externalNetworkId;
-
-	private String flavorId;
-
-	private String imageId;
-
-	private String keypair;
-
-	private String masterFlavor;
-
-	private String name;
-
-	private String networkDriver;
-
-	private String serverType;
+	void deleteByVimResourceId(String id);
 }

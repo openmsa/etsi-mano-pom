@@ -16,46 +16,53 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.uow;
 
+import java.util.Optional;
+
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
-import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainerDeployableUnit;
+import com.ubiqube.etsi.mano.dao.mano.k8s.K8sServers;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerDeployableTask;
 import com.ubiqube.etsi.mano.orchestrator.Context;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerDeployableNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsK8sInformationsNode;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
 import com.ubiqube.etsi.mano.service.vim.Vim;
+import com.ubiqube.etsi.mano.vnfm.jpa.K8sServerInfoJpa;
 
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public class OsContainerDeployableUow2 extends AbstractUowV2<OsContainerDeployableTask> {
-	private final Vim vim;
-	private final VimConnectionInformation vci;
-	private final VirtualTask<OsContainerDeployableTask> task;
+public class OsK8sClusterUow extends AbstractUowV2<OsContainerDeployableTask> {
 
-	public OsContainerDeployableUow2(final VirtualTask<OsContainerDeployableTask> task, final Vim vim, final VimConnectionInformation vimConnectionInformation) {
-		super(task, OsContainerDeployableNode.class);
+	private final VimConnectionInformation vimConnectionInformation;
+	private final Vim vim;
+	private final OsContainerDeployableTask task;
+	private K8sServerInfoJpa serverInfoJpa;
+
+	public OsK8sClusterUow(final VirtualTask<OsContainerDeployableTask> task, final Vim vim, final VimConnectionInformation vimConnectionInformation) {
+		super(task, OsK8sInformationsNode.class);
 		this.vim = vim;
-		this.vci = vimConnectionInformation;
-		this.task = task;
+		this.vimConnectionInformation = vimConnectionInformation;
+		this.task = task.getParameters();
 	}
 
 	@Override
 	public String execute(final Context context) {
-		final OsContainerDeployableTask p = task.getParameters();
-		final String clusterTemplateId = context.get(OsContainerNode.class, p.getTemplateId());
-		final String network = context.get(Network.class, p.getNetwork());
-		final OsContainerDeployableUnit du = p.getOsContainerDeployableUnit();
-		//
-		return vim.cnf(vci).startK8s(clusterTemplateId, p.getKeypair(), du.getVduProfile().getMinNumberOfInstances(), task.getAlias(), du.getVduProfile().getMinNumberOfInstances(), network);
+		final String srv = context.get(OsContainerNode.class, task.getAlias());
+		final Optional<K8sServers> obj = serverInfoJpa.findByVimResourceId(srv);
+		if (obj.isPresent()) {
+			return obj.get().getId().toString();
+		}
+		final K8sServers status = vim.cnf(vimConnectionInformation).getClusterInformations(srv);
+		status.setToscaName(task.getToscaName());
+		final K8sServers n = serverInfoJpa.save(status);
+		return n.getId().toString();
 	}
 
 	@Override
 	public String rollback(final Context context) {
-		vim.cnf(vci).deleteK8s(task.getParameters().getVimResourceId());
+		serverInfoJpa.deleteByVimResourceId(task.getVimResourceId());
 		return null;
 	}
 

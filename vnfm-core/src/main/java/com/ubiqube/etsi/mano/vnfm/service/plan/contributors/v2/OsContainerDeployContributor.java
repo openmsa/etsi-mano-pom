@@ -34,6 +34,7 @@ import com.ubiqube.etsi.mano.orchestrator.Bundle;
 import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerDeployableNode;
 import com.ubiqube.etsi.mano.service.VnfInstanceGatewayService;
+import com.ubiqube.etsi.mano.vnfm.config.CnfProperties;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceService;
 import com.ubiqube.etsi.mano.vnfm.service.graph.VduNamingStrategy;
@@ -52,13 +53,16 @@ public class OsContainerDeployContributor extends AbstractContributorV2Base<OsCo
 	private final VnfLiveInstanceJpa vnfLiveInstanceJpa;
 	private final VduNamingStrategy vduNamingStrategy;
 	private final VnfInstanceService vnfInstanceService;
+	private final CnfProperties conf;
 
-	public OsContainerDeployContributor(final VnfInstanceGatewayService vnfInstanceGatewayService, final VnfLiveInstanceJpa vnfLiveInstanceJpa, final VduNamingStrategy vduNamingStrategy, final VnfInstanceService vnfInstanceService) {
+	public OsContainerDeployContributor(final VnfInstanceGatewayService vnfInstanceGatewayService, final VnfLiveInstanceJpa vnfLiveInstanceJpa, final VduNamingStrategy vduNamingStrategy,
+			final VnfInstanceService vnfInstanceService, final CnfProperties conf) {
 		super();
 		this.vnfInstanceGatewayService = vnfInstanceGatewayService;
 		this.vnfLiveInstanceJpa = vnfLiveInstanceJpa;
 		this.vduNamingStrategy = vduNamingStrategy;
 		this.vnfInstanceService = vnfInstanceService;
+		this.conf = conf;
 	}
 
 	@Override
@@ -106,6 +110,7 @@ public class OsContainerDeployContributor extends AbstractContributorV2Base<OsCo
 			task.setType(ResourceTypeEnum.CNF);
 			task.setToscaName(alias);
 			task.setAlias(alias);
+			task.setTemplateId(conf.getOsTemplate());
 			ret.add(new OsContainerDeployableVt(task));
 		}
 	}
@@ -120,8 +125,14 @@ public class OsContainerDeployContributor extends AbstractContributorV2Base<OsCo
 		t.setOsContainerDeployableUnit(x);
 		t.setAlias(vduNamingStrategy.getOsContainerAlias(vnfInstance, x.getName()));
 		t.setToscaName(x.getName());
+		mapEnv(t);
 		t.setType(ResourceTypeEnum.CNF);
 		return t;
+	}
+
+	private void mapEnv(final OsContainerDeployableTask t) {
+		t.setTemplateId(conf.getOsTemplate());
+		t.setKeypair(conf.getKeypair());
 	}
 
 	private List<OsContainerDeployableVt> doTerminatePlan(final VnfInstance vnfInstance) {

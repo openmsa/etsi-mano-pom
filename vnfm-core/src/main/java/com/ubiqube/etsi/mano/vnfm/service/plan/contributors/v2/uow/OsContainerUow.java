@@ -19,6 +19,7 @@ package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.uow;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainer;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerTask;
+import com.ubiqube.etsi.mano.dao.mano.vnfi.CnfInformations;
 import com.ubiqube.etsi.mano.orchestrator.Context;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerNode;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
@@ -44,6 +45,7 @@ public class OsContainerUow extends AbstractUowV2<OsContainerTask> {
 
 	@Override
 	public String execute(final Context context) {
+		final CnfInformations cnfi = vimConnectionInformation.getCnfInfo();
 		final OsContainer osc = task.getParameters().getOsContainer();
 		osc.getCpuResourceLimit();
 		osc.getEphemeralStorageResourceLimit();
@@ -54,25 +56,23 @@ public class OsContainerUow extends AbstractUowV2<OsContainerTask> {
 		osc.getRequestedEphemeralStorageResources();
 		osc.getRequestedMemoryResources();
 		final CnfK8sParams params = CnfK8sParams.builder()
-				.clusterDistro("")
-				.dnsServer("")
+				.clusterTemplate(cnfi.getClusterTemplate())
+				.dnsServer(cnfi.getDnsServer())
 				.externalNetworkId("")
-				.flavorId("")
-				.imageId("")
-				.keypair("")
-				.masterFlavor("")
-				.name("")
+				.keypair(cnfi.getKeyPair())
+				.masterFlavor(cnfi.getMasterFlavorId())
+				.name(task.getAlias())
 				.networkDriver("flannel")
 				.serverType("vm")
-				.volumeSize(volumeSize)
+				.volumeSize(10)
 				.build();
-		vim.cnf(vimConnectionInformation).createK8sTemplate(params);
+		vim.cnf(vimConnectionInformation).createContainer(params);
 		return null;
 	}
 
 	@Override
 	public String rollback(final Context context) {
-		// TODO Auto-generated method stub
+		vim.cnf(vimConnectionInformation).deleteContainer(task.getParameters().getVimResourceId());
 		return null;
 	}
 
