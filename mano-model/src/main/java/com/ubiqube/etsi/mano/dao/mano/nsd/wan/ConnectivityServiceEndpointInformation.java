@@ -23,6 +23,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -35,6 +36,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
+@Table(name = "conn_srv_endpoint_info")
 public class ConnectivityServiceEndpointInformation implements Serializable {
 	/** Serial. */
 	private static final long serialVersionUID = 1L;

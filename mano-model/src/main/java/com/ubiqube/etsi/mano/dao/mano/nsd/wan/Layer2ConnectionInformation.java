@@ -19,6 +19,7 @@ package com.ubiqube.etsi.mano.dao.mano.nsd.wan;
 import java.io.Serializable;
 import java.util.Map;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
@@ -57,5 +58,6 @@ public class Layer2ConnectionInformation implements Serializable {
 
 	private LagInterfaceData lagInterfaceData;
 	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "map_l2_cp")
 	private Map<String, String> layer2ControlProtocol;
 }

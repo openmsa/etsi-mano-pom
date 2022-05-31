@@ -20,27 +20,33 @@ import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import lombok.Data;
 
 @Data
 @Entity
+@Table(name = "perf_info_available_notif")
 public class PerformanceInformationAvailableNotification {
 	/**
-	 * Identifier of this notification. If a notification is sent multiple times due to multiple subscriptions, the "id" attribute of all these notifications shall have the same value.
+	 * Identifier of this notification. If a notification is sent multiple times due
+	 * to multiple subscriptions, the "id" attribute of all these notifications
+	 * shall have the same value.
 	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
 
 	/**
-	 * Discriminator for the different notification types. Shall be set to "PerformanceInformationAvailableNotification" for this notification type.
+	 * Discriminator for the different notification types. Shall be set to
+	 * "PerformanceInformationAvailableNotification" for this notification type.
 	 */
 	private String notificationType;
 
@@ -55,18 +61,26 @@ public class PerformanceInformationAvailableNotification {
 	private UUID pmJobId;
 
 	/**
-	 * Type of the measured object. The applicable measured object type for a measurement is defined in clause 7.2 of ETSI GS NFV-IFA 027 [5].
+	 * Type of the measured object. The applicable measured object type for a
+	 * measurement is defined in clause 7.2 of ETSI GS NFV-IFA 027 [5].
 	 */
 	private String objectType;
 
 	/**
-	 * Identifier of the measured object instance as per clause 6.2 of ETSI GS NFV-IFA 027 [5].
+	 * Identifier of the measured object instance as per clause 6.2 of ETSI GS
+	 * NFV-IFA 027 [5].
 	 */
 	private UUID objectInstanceId;
 
 	/**
-	 * Identifiers of the sub-object instances of the measured object instance for which the measurements have been taken. Shall be present if the related PM job has been set up to measure only a subset of all sub-object instances of the measured object instance and a sub-object is defined in clause 6.2 of ETSI GS NFV-IFA 027 [5] for the related measured object type. Shall be absent otherwise.
+	 * Identifiers of the sub-object instances of the measured object instance for
+	 * which the measurements have been taken. Shall be present if the related PM
+	 * job has been set up to measure only a subset of all sub-object instances of
+	 * the measured object instance and a sub-object is defined in clause 6.2 of
+	 * ETSI GS NFV-IFA 027 [5] for the related measured object type. Shall be absent
+	 * otherwise.
 	 */
 	@ElementCollection(fetch = FetchType.EAGER)
-	Set<UUID> subObjectInstanceIds;
+	@CollectionTable(name = "sub_object_inst_ids")
+	private Set<UUID> subObjectInstanceIds;
 }
