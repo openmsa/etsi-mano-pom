@@ -53,12 +53,12 @@
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-commons</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-vim-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
@@ -73,7 +73,7 @@
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-core-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>ma.glasnost.orika</groupId>
@@ -148,12 +148,17 @@
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>orchestration-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>vnfm-front-controller</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.tngtech.archunit</groupId>
+			<artifactId>archunit-junit5</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>

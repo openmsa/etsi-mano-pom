@@ -147,21 +147,21 @@ public class OrikaMapperVnfm331 implements OrikaMapperFactoryConfigurer {
 						chk.setHash(img.getChecksum().getHash());
 						ret.setChecksum(chk);
 						if (null != img.getContainerFormat()) {
-							ret.setContainerFormat(ContainerFormatEnum.fromValue(img.getContainerFormat()));
+							ret.setContainerFormat(ContainerFormatEnum.fromValue(img.getContainerFormat().toString()));
 						}
 						// ret.setCreatedAt(img.get);
 						if (null != img.getDiskFormat()) {
-							ret.setDiskFormat(DiskFormatEnum.valueOf(img.getDiskFormat()));
+							ret.setDiskFormat(DiskFormatEnum.valueOf(img.getDiskFormat().toString()));
 						}
 						if (null != img.getId()) {
 							ret.setId(img.getId().toString());
 						}
 						ret.setImagePath(img.getImagePath());
-						ret.setMinDisk(Long.valueOf(img.getMinDisk()).intValue());
-						ret.setMinRam(Long.valueOf(img.getMinRam()).intValue());
+						ret.setMinDisk(img.getMinDisk());
+						ret.setMinRam(img.getMinRam());
 						ret.setName(img.getName());
 						ret.setProvider(img.getProvider());
-						ret.setSize(Long.valueOf(img.getSize()).intValue());
+						ret.setSize(img.getSize());
 						// ret.setUserMetadata(img.get);
 						ret.setVersion(img.getVersion());
 						ret.setCreatedAt(img.getAudit().getCreatedOn());

@@ -31,6 +31,7 @@ import com.ubiqube.etsi.mano.common.v261.model.vnf.VnfPackageSoftwareImageInfo;
 import com.ubiqube.etsi.mano.common.v261.model.vnf.VnfPkgInfo;
 import com.ubiqube.etsi.mano.dao.mano.AdditionalArtifact;
 import com.ubiqube.etsi.mano.dao.mano.Audit;
+import com.ubiqube.etsi.mano.dao.mano.ContainerFormatType;
 import com.ubiqube.etsi.mano.dao.mano.PkgChecksum;
 import com.ubiqube.etsi.mano.dao.mano.SoftwareImage;
 import com.ubiqube.etsi.mano.dao.mano.VnfCompute;
@@ -106,7 +107,7 @@ public class VnfPackageTest {
 		checksum.setHash("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 		softwareImage1.setAudit(new Audit());
 		softwareImage1.setChecksum(checksum);
-		softwareImage1.setContainerFormat("BARE");
+		softwareImage1.setContainerFormat(ContainerFormatType.fromValue("BARE"));
 		softwareImage1.setChecksum(checksum);
 		compute.setSoftwareImage(softwareImage1);
 		vnfCompute.add(compute);
