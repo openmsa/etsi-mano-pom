@@ -16,39 +16,45 @@
  */
 package com.ubiqube.etsi.mano.config;
 
-import org.springframework.context.annotation.Bean;
+import java.security.Security;
+
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
+import org.springframework.stereotype.Component;
+
+import com.ubiqube.etsi.mano.config.properties.ManoProperties;
+
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.security.SecurityScheme.Type;
 
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public class Auth2Certs extends WebSecurityConfigurerAdapter {
-	@Override
-	protected void configure(final HttpSecurity http) throws Exception {
-		http.authorizeRequests().anyRequest().authenticated()
-				.and()
-				.x509()
-				.subjectPrincipalRegex("CN=(.*?)(?:,|$)")
-				.userDetailsService(userDetailsService());
+@Component
+public class Auth2Certs implements SecutiryConfig {
+
+	static {
+		Security.addProvider(new BouncyCastleProvider());
 	}
 
 	@Override
-	@Bean
-	public UserDetailsService userDetailsService() {
-		return username -> {
-			if (username.equals("Bob")) {
-				return new User(username, "",
-						AuthorityUtils
-								.commaSeparatedStringToAuthorityList("ROLE_USER"));
-			}
-			throw new UsernameNotFoundException("User not found!");
-		};
+	public void configure(final ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry http) throws Exception {
+		http.and()
+				.x509()
+				.subjectPrincipalRegex("CN=(.*?)(?:,|$)")
+				.authenticationUserDetailsService(new UserDetailSsl());
+	}
+
+	@Override
+	public SecurityScheme getSwaggerSecurityScheme(final ManoProperties oauth2Params) {
+		return new SecurityScheme().type(Type.MUTUALTLS).scheme("Mutual");
+	}
+
+	@Override
+	public SecurityType getSecurityType() {
+		return SecurityType.CERT;
 	}
 }

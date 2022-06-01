@@ -22,6 +22,7 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,5 +65,12 @@ public class AdminController {
 			}
 		});
 		return ResponseEntity.accepted().build();
+	}
+
+	@SuppressWarnings("static-method")
+	@GetMapping("/whoami")
+	public ResponseEntity<Object> whoami() {
+		final Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		return ResponseEntity.ok(obj);
 	}
 }
