@@ -20,9 +20,11 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.context.annotation.Conditional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ubiqube.etsi.mano.SingleControllerCondition;
 import com.ubiqube.etsi.mano.vnfm.v331.model.vrqan.VrQuotaAvailSubscription;
 import com.ubiqube.etsi.mano.vnfm.v331.model.vrqan.VrQuotaAvailSubscriptionRequest;
 
@@ -32,6 +34,7 @@ import com.ubiqube.etsi.mano.vnfm.v331.model.vrqan.VrQuotaAvailSubscriptionReque
  *
  */
 @RestController
+@Conditional(SingleControllerCondition.class)
 public class VrQanSubscriptions331Sol003Controller implements VrQanSubscriptions331Sol003Api {
 
 	@Override
