@@ -75,7 +75,7 @@ public class ColumnEncryptor implements AttributeConverter<String, String> {
 		}
 	}
 
-	GCMParameterSpec createParamSpec() {
+	private static GCMParameterSpec createParamSpec() {
 		return new GCMParameterSpec(GCM_TAG_LENGTH * 8, GCM_IV);
 	}
 }
