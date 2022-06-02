@@ -39,8 +39,9 @@ public class ColumnEncryptor implements AttributeConverter<String, String> {
 
 	private static final String AES = "AES/GCM/NoPadding";
 	private static final String SECRET = "YL,Ke.LHrxjt/ub,6KrH(Kq6376ZC%.P";
-	public static final int GCM_TAG_LENGTH = 16;
-	public static final byte[] GCM_IV = { 53, 25, -105, 34, -59, -79, 4, -75, -13, -54, 61, -126 };
+
+	private static final int GCM_TAG_LENGTH = 16;
+	private static final byte[] GCM_IV = { 53, 25, -105, 34, -59, -79, 4, -75, -13, -54, 61, -126 };
 
 	private final Key key;
 	private final Cipher cipher;
