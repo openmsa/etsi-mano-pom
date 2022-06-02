@@ -37,6 +37,7 @@ import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfStorage;
 import com.ubiqube.etsi.mano.dao.mano.VnfVl;
+import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainerDeployableUnit;
 import com.ubiqube.etsi.mano.dao.mano.v2.ExternalCpTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
@@ -205,6 +206,12 @@ public class VnfInstanceServiceImpl extends SearchableService implements VnfInst
 	@Override
 	public List<VnfLiveInstance> findByResourceIdIn(final List<String> objectInstanceIds) {
 		return vnfLiveInstanceJpa.findByResourceIdIn(objectInstanceIds);
+	}
+
+	@Override
+	public Deque<VnfLiveInstance> getLiveOsContainerOf(final VnfBlueprint plan, final OsContainerDeployableUnit ocdu) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
