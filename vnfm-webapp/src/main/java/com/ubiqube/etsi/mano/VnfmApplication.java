@@ -17,6 +17,9 @@
 
 package com.ubiqube.etsi.mano;
 
+import java.security.Security;
+
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
@@ -35,6 +38,7 @@ public class VnfmApplication extends SpringBootServletInitializer {
 		System.setProperty(OrikaSystemProperties.COMPILER_STRATEGY, EclipseJdtCompilerStrategy.class.getName());
 		System.setProperty(OrikaSystemProperties.WRITE_SOURCE_FILES, "true");
 		System.setProperty(OrikaSystemProperties.WRITE_SOURCE_FILES_TO_PATH, "/tmp/orika-vnfm");
+		Security.addProvider(new BouncyCastleProvider());
 		SpringApplication.run(VnfmApplication.class, args);
 	}
 
