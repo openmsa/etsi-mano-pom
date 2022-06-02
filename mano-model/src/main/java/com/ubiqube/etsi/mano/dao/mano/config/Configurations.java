@@ -47,5 +47,5 @@ public class Configurations {
 
 	@Column(length = 5000)
 	@Convert(converter = ColumnEncryptor.class)
-	private String value;
+	private String walue;
 }

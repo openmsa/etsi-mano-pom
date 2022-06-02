@@ -63,7 +63,7 @@ public class K8sPkService {
 		final Optional<Configurations> conf = configurations.findById(K8S_PRIVATE_KEY);
 		if (conf.isPresent()) {
 			LOG.info("K8s private key already exist (skipping)");
-			this.privateKey = conf.get().getValue();
+			this.privateKey = conf.get().getWalue();
 			return;
 		}
 		LOG.info("Creating a Private key for K8s communications.");
@@ -74,7 +74,7 @@ public class K8sPkService {
 			pw.flush();
 			final Configurations cf = new Configurations(K8S_PRIVATE_KEY, out.toString());
 			configurations.save(cf);
-			this.privateKey = cf.getValue();
+			this.privateKey = cf.getWalue();
 		} catch (final IOException e) {
 			throw new GenericException(e);
 		}
