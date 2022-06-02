@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.utils;
 
+import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
@@ -25,6 +26,7 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import javax.persistence.AttributeConverter;
 
@@ -35,8 +37,10 @@ import javax.persistence.AttributeConverter;
  */
 public class ColumnEncryptor implements AttributeConverter<String, String> {
 
-	private static final String AES = "AES";
+	private static final String AES = "AES/GCM/NoPadding";
 	private static final String SECRET = "YL,Ke.LHrxjt/ub,6KrH(Kq6376ZC%.P";
+	public static final int GCM_TAG_LENGTH = 16;
+	public static final byte[] GCM_IV = { 53, 25, -105, 34, -59, -79, 4, -75, -13, -54, 61, -126 };
 
 	private final Key key;
 	private final Cipher cipher;
@@ -53,9 +57,9 @@ public class ColumnEncryptor implements AttributeConverter<String, String> {
 	@Override
 	public String convertToDatabaseColumn(final String attribute) {
 		try {
-			cipher.init(Cipher.ENCRYPT_MODE, key);
+			cipher.init(Cipher.ENCRYPT_MODE, key, createParamSpec());
 			return Base64.getEncoder().encodeToString(cipher.doFinal(attribute.getBytes()));
-		} catch (IllegalBlockSizeException | BadPaddingException | InvalidKeyException e) {
+		} catch (IllegalBlockSizeException | BadPaddingException | InvalidKeyException | InvalidAlgorithmParameterException e) {
 			throw new DatabaseException(e);
 		}
 	}
@@ -63,11 +67,14 @@ public class ColumnEncryptor implements AttributeConverter<String, String> {
 	@Override
 	public String convertToEntityAttribute(final String dbData) {
 		try {
-			cipher.init(Cipher.DECRYPT_MODE, key);
+			cipher.init(Cipher.DECRYPT_MODE, key, createParamSpec());
 			return new String(cipher.doFinal(Base64.getDecoder().decode(dbData)));
-		} catch (InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {
+		} catch (InvalidKeyException | BadPaddingException | IllegalBlockSizeException | InvalidAlgorithmParameterException e) {
 			throw new IllegalStateException(e);
 		}
 	}
 
+	GCMParameterSpec createParamSpec() {
+		return new GCMParameterSpec(GCM_TAG_LENGTH * 8, GCM_IV);
+	}
 }
