@@ -19,5 +19,6 @@
 		<module>auth-keycloak</module>
 		<module>auth-cert</module>
 		<module>cert-common</module>
+		<module>auth-cert-proxy</module>
 	</modules>
 </project>
