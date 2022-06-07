@@ -30,9 +30,14 @@ import com.ubiqube.etsi.mano.dao.mano.VnfExtCp;
 import com.ubiqube.etsi.mano.dao.mano.VnfLinkPort;
 import com.ubiqube.etsi.mano.dao.mano.VnfStorage;
 import com.ubiqube.etsi.mano.dao.mano.VnfVl;
+import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainer;
+import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainerDeployableUnit;
+import com.ubiqube.etsi.mano.dao.mano.pkg.VirtualCp;
 import com.ubiqube.etsi.mano.service.pkg.ToscaException;
+import com.ubiqube.etsi.mano.service.pkg.bean.AffinityRuleAdapater;
 import com.ubiqube.etsi.mano.service.pkg.bean.InstantiationLevels;
 import com.ubiqube.etsi.mano.service.pkg.bean.ProviderData;
+import com.ubiqube.etsi.mano.service.pkg.bean.SecurityGroupAdapter;
 import com.ubiqube.etsi.mano.service.pkg.bean.VduInitialDelta;
 import com.ubiqube.etsi.mano.service.pkg.bean.VduInstantiationLevels;
 import com.ubiqube.etsi.mano.service.pkg.bean.VduScalingAspectDeltas;
@@ -121,6 +126,60 @@ public class K8sPodReader implements VnfPackageReader {
 	@Override
 	public List<VduScalingAspectDeltas> getVduScalingAspectDeltas(final Map<String, String> parameters) {
 		return new ArrayList<>();
+	}
+
+	@Override
+	public void close() throws IOException {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public Set<AffinityRuleAdapater> getAffinityRules(final Map<String, String> userDefinedData) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<SecurityGroupAdapter> getSecurityGroups(final Map<String, String> userData) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getImports() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getManifestContent() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public byte[] getFileContent(final String fileName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<OsContainer> getOsContainer(final Map<String, String> parameters) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<OsContainerDeployableUnit> getOsContainerDeployableUnit(final Map<String, String> parameters) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<VirtualCp> getVirtualCp(final Map<String, String> parameters) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
