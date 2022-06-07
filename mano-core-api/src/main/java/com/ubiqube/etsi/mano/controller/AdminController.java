@@ -70,7 +70,8 @@ public class AdminController {
 	@SuppressWarnings("static-method")
 	@GetMapping("/whoami")
 	public ResponseEntity<Object> whoami() {
-		final Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		return ResponseEntity.ok(obj);
+		final Object p = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		final Object a = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+		return ResponseEntity.ok(Map.of("principal", p, "roles", a));
 	}
 }
