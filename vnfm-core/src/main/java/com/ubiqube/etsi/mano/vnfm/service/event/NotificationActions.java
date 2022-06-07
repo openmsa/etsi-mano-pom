@@ -72,7 +72,7 @@ public class NotificationActions {
 			final Path file = Files.createTempFile(Paths.get("/tmp/"), "mano", "vnfm");
 			vnfmVersionManager.getPackageContent(localPackage.getNfvoId(), file);
 			try (FileInputStream fis = new FileInputStream(file.toFile())) {
-				vnfPackageRepository.storeBinary(localPackage.getId(), "vnfd", fis);
+				vnfPackageRepository.storeBinary(localPackage.getId(), "vnf-package", fis);
 			}
 			Files.delete(file);
 		} catch (final IOException e) {
