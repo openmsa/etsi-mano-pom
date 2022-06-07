@@ -16,15 +16,17 @@
  */
 package com.ubiqube.etsi.mano.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.SecurityFilterChain;
+
+import com.ubiqube.etsi.mano.AuthException;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig {
 
 	private final SecutiryConfig secutiryConfig;
 
@@ -33,33 +35,33 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		this.secutiryConfig = secutiryConfig;
 	}
 
-	@Override
-	protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
-		secutiryConfig.configure(auth);
-	}
-
 	/**
 	 * All request must be authenticated, No login page.
 	 */
-	@Override
-	protected void configure(final HttpSecurity http) throws Exception {
-		http.headers().frameOptions().sameOrigin();
-		http.csrf().disable();
-		final var res = http.authorizeRequests()
-				.antMatchers("/").permitAll()
-				.antMatchers("/api/**").permitAll()
-				.antMatchers("/ui/**").permitAll()
-				.antMatchers("/webjars/**").permitAll()
-				.antMatchers("/npm/**").permitAll()
-				.antMatchers("/error").permitAll()
-				.antMatchers("/h2-console/**").permitAll()
-				.antMatchers("/download/**").permitAll()
-				.antMatchers("/actuator/**").permitAll()
-				.antMatchers("/swagger-ui.html").permitAll()
-				.antMatchers("/swagger-ui/**").permitAll()
-				.antMatchers("/api-docs/**").permitAll()
-				.antMatchers("/v3/**").permitAll()
-				.anyRequest().authenticated();
-		secutiryConfig.configure(res);
+	@Bean
+	public SecurityFilterChain configure(final HttpSecurity http) {
+		try {
+			http.headers().frameOptions().sameOrigin();
+			http.csrf().disable();
+			final var res = http.authorizeRequests()
+					.antMatchers("/").permitAll()
+					.antMatchers("/api/**").permitAll()
+					.antMatchers("/ui/**").permitAll()
+					.antMatchers("/webjars/**").permitAll()
+					.antMatchers("/npm/**").permitAll()
+					.antMatchers("/error").permitAll()
+					.antMatchers("/h2-console/**").permitAll()
+					.antMatchers("/download/**").permitAll()
+					.antMatchers("/actuator/**").permitAll()
+					.antMatchers("/swagger-ui.html").permitAll()
+					.antMatchers("/swagger-ui/**").permitAll()
+					.antMatchers("/api-docs/**").permitAll()
+					.antMatchers("/v3/**").permitAll()
+					.anyRequest().authenticated();
+			secutiryConfig.configure(res);
+			return http.build();
+		} catch (final Exception e) {
+			throw new AuthException(e);
+		}
 	}
 }

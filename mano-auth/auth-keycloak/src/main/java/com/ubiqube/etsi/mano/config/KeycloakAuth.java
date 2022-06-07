@@ -24,6 +24,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.stereotype.Service;
 
+import com.ubiqube.etsi.mano.AuthException;
 import com.ubiqube.etsi.mano.config.properties.ManoProperties;
 
 import io.swagger.v3.oas.models.security.OAuthFlow;
@@ -47,11 +48,15 @@ public class KeycloakAuth implements SecutiryConfig {
 	 * @throws Exception
 	 */
 	@Override
-	public void configure(final ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry http) throws Exception {
-		http.and()
-				.oauth2ResourceServer()
-				.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
-				.authenticationEntryPoint(http403EntryPoint);
+	public void configure(final ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry http) {
+		try {
+			http.and()
+					.oauth2ResourceServer()
+					.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
+					.authenticationEntryPoint(http403EntryPoint);
+		} catch (final Exception e) {
+			throw new AuthException(e);
+		}
 	}
 
 	private static Converter<Jwt, ? extends AbstractAuthenticationToken> jwtAuthenticationConverter() {

@@ -5,12 +5,16 @@
 		<artifactId>mano-auth-aggregator</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>auth-cert</artifactId>
+	<artifactId>cert-common</artifactId>
 	<dependencies>
 		<dependency>
 			<groupId>com.ubiqube.mano.auth</groupId>
-			<artifactId>cert-common</artifactId>
+			<artifactId>auth-api</artifactId>
 			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcpkix-jdk18on</artifactId>
 		</dependency>
 	</dependencies>
 </project>

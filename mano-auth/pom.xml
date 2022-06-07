@@ -18,5 +18,6 @@
 		<module>auth-basic</module>
 		<module>auth-keycloak</module>
 		<module>auth-cert</module>
+		<module>cert-common</module>
 	</modules>
 </project>

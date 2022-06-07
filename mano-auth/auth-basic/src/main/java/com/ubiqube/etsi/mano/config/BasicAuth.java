@@ -16,11 +16,11 @@
  */
 package com.ubiqube.etsi.mano.config;
 
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.stereotype.Service;
 
+import com.ubiqube.etsi.mano.AuthException;
 import com.ubiqube.etsi.mano.config.properties.ManoProperties;
 
 import io.swagger.v3.oas.models.security.SecurityScheme;
@@ -40,20 +40,17 @@ public class BasicAuth implements SecutiryConfig {
 		this.http403EntryPoint = http403EntryPoint;
 	}
 
-	@Override
-	public void configure(final AuthenticationManagerBuilder auth) throws Exception {
-		final PassthroughUserProvider passthroughUserProvider = new PassthroughUserProvider();
-		auth.eraseCredentials(false);
-		auth.authenticationProvider(passthroughUserProvider);
-	}
-
 	/**
 	 * All request must be authenticated, No login page.
 	 */
 	@Override
-	public void configure(final ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry http) throws Exception {
-		http.and().httpBasic().authenticationEntryPoint(http403EntryPoint)
-				.and().csrf().disable();
+	public void configure(final ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry http) {
+		try {
+			http.and().httpBasic().authenticationEntryPoint(http403EntryPoint)
+					.and().csrf().disable();
+		} catch (final Exception e) {
+			throw new AuthException(e);
+		}
 	}
 
 	@Override

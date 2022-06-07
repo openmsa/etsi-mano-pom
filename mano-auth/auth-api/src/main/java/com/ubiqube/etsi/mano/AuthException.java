@@ -14,30 +14,23 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.config;
-
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
-
-import com.ubiqube.etsi.mano.config.properties.ManoProperties;
-
-import io.swagger.v3.oas.models.security.SecurityScheme;
+package com.ubiqube.etsi.mano;
 
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-@SuppressWarnings("unused")
-public interface SecutiryConfig {
+public class AuthException extends RuntimeException {
+	/** Serial. */
+	private static final long serialVersionUID = 1L;
 
-	default void configure(final ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry http) {
-		// Nothing.
+	public AuthException(final String string) {
+		super(string);
 	}
 
-	default SecurityScheme getSwaggerSecurityScheme(final ManoProperties oauth2Params) {
-		return null;
+	public AuthException(final Throwable e) {
+		super(e);
 	}
 
-	SecurityType getSecurityType();
 }

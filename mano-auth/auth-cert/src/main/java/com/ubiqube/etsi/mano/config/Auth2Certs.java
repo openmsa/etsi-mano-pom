@@ -23,6 +23,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.stereotype.Component;
 
+import com.ubiqube.etsi.mano.AuthException;
 import com.ubiqube.etsi.mano.config.properties.ManoProperties;
 
 import io.swagger.v3.oas.models.security.SecurityScheme;
@@ -41,11 +42,15 @@ public class Auth2Certs implements SecutiryConfig {
 	}
 
 	@Override
-	public void configure(final ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry http) throws Exception {
-		http.and()
-				.x509()
-				.subjectPrincipalRegex("CN=(.*?)(?:,|$)")
-				.authenticationUserDetailsService(new UserDetailSsl());
+	public void configure(final ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry http) {
+		try {
+			http.and()
+					.x509()
+					.subjectPrincipalRegex("CN=(.*?)(?:,|$)")
+					.authenticationUserDetailsService(new UserDetailSsl());
+		} catch (final Exception e) {
+			throw new AuthException(e);
+		}
 	}
 
 	@Override
