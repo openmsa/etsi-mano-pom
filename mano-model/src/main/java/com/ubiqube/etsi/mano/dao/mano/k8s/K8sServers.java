@@ -30,6 +30,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
+import com.ubiqube.etsi.mano.dao.mano.vnfi.StatusType;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -82,4 +83,6 @@ public class K8sServers implements Serializable {
 
 	@ElementCollection(fetch = FetchType.EAGER)
 	private List<String> masterAddresses;
+
+	private StatusType status;
 }
