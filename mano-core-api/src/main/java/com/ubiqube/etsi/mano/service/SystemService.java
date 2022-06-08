@@ -116,6 +116,10 @@ public class SystemService {
 		sc.setVimType("VNF-CREATE");
 		sc.setId(null);
 		sys.add(sc);
+		sc = mapper.map(vimConnectionInformation, SystemConnections.class);
+		sc.setVimType("CNF");
+		sc.setId(null);
+		sys.add(sc);
 		return systemJpa.save(sys);
 	}
 
