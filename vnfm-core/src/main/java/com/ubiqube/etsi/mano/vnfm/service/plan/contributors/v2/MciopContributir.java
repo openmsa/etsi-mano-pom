@@ -69,7 +69,7 @@ public class MciopContributir extends AbstractContributorV2Base<MciopTask, Mciop
 		vnfPackage.getMciops().stream()
 				.forEach(x -> {
 					final int c = vnfLiveInstanceJpa.countByVnfInstanceAndTaskToscaName(vnfInstance, x.getToscaName());
-					if (0 == c) {
+					if (c > 0) {
 						return;
 					}
 					final MciopTask inst = createInstances(x, blueprint);

@@ -18,11 +18,15 @@ package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.uow;
 
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.k8s.K8sServers;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerDeployableTask;
+import com.ubiqube.etsi.mano.dao.mano.vnfi.StatusType;
 import com.ubiqube.etsi.mano.orchestrator.Context;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerDeployableNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsK8sInformationsNode;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
 import com.ubiqube.etsi.mano.service.vim.Vim;
@@ -35,26 +39,40 @@ import com.ubiqube.etsi.mano.vnfm.jpa.K8sServerInfoJpa;
  */
 public class OsK8sClusterUow extends AbstractUowV2<OsContainerDeployableTask> {
 
+	private static final Logger LOG = LoggerFactory.getLogger(OsK8sClusterUow.class);
+
 	private final VimConnectionInformation vimConnectionInformation;
 	private final Vim vim;
 	private final OsContainerDeployableTask task;
-	private K8sServerInfoJpa serverInfoJpa;
+	private final K8sServerInfoJpa serverInfoJpa;
 
-	public OsK8sClusterUow(final VirtualTask<OsContainerDeployableTask> task, final Vim vim, final VimConnectionInformation vimConnectionInformation) {
+	public OsK8sClusterUow(final VirtualTask<OsContainerDeployableTask> task, final Vim vim, final VimConnectionInformation vimConnectionInformation,
+			final K8sServerInfoJpa serverInfoJpa) {
 		super(task, OsK8sInformationsNode.class);
 		this.vim = vim;
 		this.vimConnectionInformation = vimConnectionInformation;
 		this.task = task.getParameters();
+		this.serverInfoJpa = serverInfoJpa;
 	}
 
 	@Override
 	public String execute(final Context context) {
-		final String srv = context.get(OsContainerNode.class, task.getAlias());
+		final String srv = context.get(OsContainerDeployableNode.class, task.getToscaName());
 		final Optional<K8sServers> obj = serverInfoJpa.findByVimResourceId(srv);
 		if (obj.isPresent()) {
 			return obj.get().getId().toString();
 		}
-		final K8sServers status = vim.cnf(vimConnectionInformation).getClusterInformations(srv);
+		K8sServers status = vim.cnf(vimConnectionInformation).getClusterInformations(srv);
+		while (status.getStatus() == StatusType.CREATE_IN_PROGRESS) {
+			try {
+				Thread.sleep(1_000L);
+			} catch (final InterruptedException e) {
+				LOG.error("", e);
+				Thread.currentThread().interrupt();
+			}
+			status = vim.cnf(vimConnectionInformation).getClusterInformations(srv);
+			LOG.debug("Fetched OsContainer status: {} / {}", task.getToscaName(), status.getStatus());
+		}
 		status.setToscaName(task.getToscaName());
 		final K8sServers n = serverInfoJpa.save(status);
 		return n.getId().toString();
@@ -62,7 +80,10 @@ public class OsK8sClusterUow extends AbstractUowV2<OsContainerDeployableTask> {
 
 	@Override
 	public String rollback(final Context context) {
-		serverInfoJpa.deleteByVimResourceId(task.getVimResourceId());
+		final Optional<K8sServers> obj = serverInfoJpa.findByVimResourceId(task.getVimResourceId());
+		if (obj.isPresent()) {
+			serverInfoJpa.deleteById(obj.get().getId());
+		}
 		return null;
 	}
 

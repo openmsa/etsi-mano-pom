@@ -19,10 +19,10 @@ package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.uow;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainerDeployableUnit;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerDeployableTask;
+import com.ubiqube.etsi.mano.dao.mano.vnfi.CnfInformations;
 import com.ubiqube.etsi.mano.orchestrator.Context;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerDeployableNode;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerNode;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 
@@ -46,11 +46,10 @@ public class OsContainerDeployableUow2 extends AbstractUowV2<OsContainerDeployab
 	@Override
 	public String execute(final Context context) {
 		final OsContainerDeployableTask p = task.getParameters();
-		final String clusterTemplateId = context.get(OsContainerNode.class, p.getTemplateId());
 		final String network = context.get(Network.class, p.getNetwork());
 		final OsContainerDeployableUnit du = p.getOsContainerDeployableUnit();
-		//
-		return vim.cnf(vci).startK8s(clusterTemplateId, p.getKeypair(), du.getVduProfile().getMinNumberOfInstances(), task.getAlias(), du.getVduProfile().getMinNumberOfInstances(), network);
+		final CnfInformations ci = vci.getCnfInfo();
+		return vim.cnf(vci).startK8s(ci.getClusterTemplate(), ci.getKeyPair(), du.getVduProfile().getMinNumberOfInstances(), task.getName(), du.getVduProfile().getMinNumberOfInstances(), network);
 	}
 
 	@Override

@@ -27,6 +27,7 @@ import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
 import com.ubiqube.etsi.mano.service.system.AbstractVimSystem;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
+import com.ubiqube.etsi.mano.vnfm.jpa.K8sServerInfoJpa;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.uow.OsContainerDeployableUow2;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.uow.OsK8sClusterUow;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.OsK8sClusterVt;
@@ -40,10 +41,12 @@ import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.OsK8sClusterVt
 public class OsContainerDeployableSystem extends AbstractVimSystem<OsContainerDeployableTask> {
 
 	private final Vim vim;
+	private final K8sServerInfoJpa serverInfoJpa;
 
-	protected OsContainerDeployableSystem(final Vim vim, final VimManager vimManager) {
+	protected OsContainerDeployableSystem(final Vim vim, final VimManager vimManager, final K8sServerInfoJpa serverInfoJpa) {
 		super(vimManager);
 		this.vim = vim;
+		this.serverInfoJpa = serverInfoJpa;
 	}
 
 	@Override
@@ -55,7 +58,7 @@ public class OsContainerDeployableSystem extends AbstractVimSystem<OsContainerDe
 	protected SystemBuilder<UnitOfWork<OsContainerDeployableTask>> getImplementation(final OrchestrationService<OsContainerDeployableTask> orchestrationService, final VirtualTask<OsContainerDeployableTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
 		final SystemBuilder builder = orchestrationService.createEmptySystemBuilder();
 		final OsContainerDeployableUow2 left = new OsContainerDeployableUow2(virtualTask, vim, vimConnectionInformation);
-		final OsK8sClusterUow right = new OsK8sClusterUow(new OsK8sClusterVt(virtualTask.getParameters()), vim, vimConnectionInformation);
+		final OsK8sClusterUow right = new OsK8sClusterUow(new OsK8sClusterVt(virtualTask.getParameters()), vim, vimConnectionInformation, serverInfoJpa);
 		builder.add(left, right);
 		return builder;
 	}

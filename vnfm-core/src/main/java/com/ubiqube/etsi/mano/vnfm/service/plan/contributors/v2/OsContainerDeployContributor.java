@@ -107,6 +107,7 @@ public class OsContainerDeployContributor extends AbstractContributorV2Base<OsCo
 			task.setType(ResourceTypeEnum.CNF);
 			task.setToscaName(alias);
 			task.setAlias(alias);
+			task.setVimResourceId(inst.getResourceId());
 			ret.add(new OsContainerDeployableVt(task));
 		}
 	}
@@ -131,6 +132,7 @@ public class OsContainerDeployContributor extends AbstractContributorV2Base<OsCo
 			final OsContainerDeployableTask task = createDeleteTask(OsContainerDeployableTask::new, x);
 			task.setType(ResourceTypeEnum.CNF);
 			task.setOsContainerDeployableUnit(((OsContainerDeployableTask) x.getTask()).getOsContainerDeployableUnit());
+			task.setVimResourceId(x.getResourceId());
 			return new OsContainerDeployableVt(task);
 		}).toList();
 	}

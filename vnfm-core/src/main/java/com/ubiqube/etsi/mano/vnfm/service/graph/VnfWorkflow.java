@@ -43,6 +43,7 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Compute;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.DnsZone;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Monitoring;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerDeployableNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SecurityGroupNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Storage;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SubNetwork;
@@ -136,6 +137,9 @@ public class VnfWorkflow implements Workflow<VnfPackage, VnfBlueprint, VnfReport
 				break;
 			case SECURITY_GROUP:
 				context.add(SecurityGroupNode.class, x.getTask().getToscaName(), x.getResourceId());
+				break;
+			case CNF:
+				context.add(OsContainerDeployableNode.class, x.getTask().getToscaName(), x.getResourceId());
 				break;
 			default:
 				throw new GenericException(x.getTask().getType() + " is not handled.");
