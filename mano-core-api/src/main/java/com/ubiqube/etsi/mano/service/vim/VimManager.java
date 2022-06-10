@@ -37,14 +37,19 @@ import org.hibernate.search.mapper.orm.Search;
 import org.hibernate.search.mapper.orm.common.EntityReference;
 import org.hibernate.search.mapper.orm.search.loading.dsl.SearchLoadingOptionsStep;
 import org.hibernate.search.mapper.orm.session.SearchSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.SoftwareImage;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
+import com.ubiqube.etsi.mano.dao.mano.cnf.CnfServer;
 import com.ubiqube.etsi.mano.dao.mano.common.GeoPoint;
+import com.ubiqube.etsi.mano.dao.mano.vnfi.CnfInformations;
 import com.ubiqube.etsi.mano.dao.mano.vnfi.VimCapability;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
+import com.ubiqube.etsi.mano.jpa.CnfServerJpa;
 import com.ubiqube.etsi.mano.jpa.VimConnectionInformationJpa;
 import com.ubiqube.etsi.mano.service.SystemService;
 import com.ubiqube.etsi.mano.vim.dto.SwImage;
@@ -57,6 +62,8 @@ import com.ubiqube.etsi.mano.vim.dto.SwImage;
 @Service
 public class VimManager {
 
+	private static final Logger LOG = LoggerFactory.getLogger(VimManager.class);
+
 	private final List<Vim> vims;
 
 	private final VimConnectionInformationJpa vimConnectionInformationJpa;
@@ -67,12 +74,16 @@ public class VimManager {
 
 	private final SystemService systemService;
 
-	public VimManager(final List<Vim> vims, final VimConnectionInformationJpa vimConnectionInformationJpa, final EntityManager entityManager, final SystemService systemService) {
+	private final CnfServerJpa cnfServerJpa;
+
+	public VimManager(final List<Vim> vims, final VimConnectionInformationJpa vimConnectionInformationJpa, final EntityManager entityManager, final SystemService systemService,
+			final CnfServerJpa cnfServerJpa) {
 		this.vims = vims;
 		this.vimAssociation = new HashMap<>();
 		this.vimConnectionInformationJpa = vimConnectionInformationJpa;
 		this.entityManager = entityManager;
 		this.systemService = systemService;
+		this.cnfServerJpa = cnfServerJpa;
 		init();
 	}
 
@@ -173,10 +184,28 @@ public class VimManager {
 
 	private VimConnectionInformation registerVim(final VimConnectionInformation vci) {
 		extractCapabilities(vci);
+		mergeCnf(vci);
 		final VimConnectionInformation n = vimConnectionInformationJpa.save(vci);
 		systemService.registerVim(n);
 		init();
 		return n;
+	}
+
+	private void mergeCnf(final VimConnectionInformation vci) {
+		final Optional<CnfServer> cnfServer = cnfServerJpa.findById(UUID.fromString(vci.getVimId()));
+		if (cnfServer.isEmpty()) {
+			LOG.info("No CNF information for vim: {}", vci.getVimId());
+			return;
+		}
+		final CnfInformations cnfi = cnfServer.get().getInfo();
+		final CnfInformations cni = new CnfInformations();
+		cni.setClusterTemplate(cnfi.getClusterTemplate());
+		cni.setDnsServer(cnfi.getDnsServer());
+		cni.setKeyPair(cnfi.getKeyPair());
+		cni.setMasterFlavorId(cnfi.getMasterFlavorId());
+		cni.setNetworkDriver(cnfi.getNetworkDriver());
+		cni.setServerType(cnfi.getServerType());
+		vci.setCnfInfo(cni);
 	}
 
 	private void extractCapabilities(final VimConnectionInformation vci) {
