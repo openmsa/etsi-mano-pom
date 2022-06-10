@@ -20,12 +20,14 @@ import java.io.Serializable;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -51,5 +53,6 @@ public class McIops implements Serializable {
 	@ElementCollection(fetch = FetchType.EAGER)
 	private Set<String> associatedVdu;
 
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private CnfImage image;
 }
