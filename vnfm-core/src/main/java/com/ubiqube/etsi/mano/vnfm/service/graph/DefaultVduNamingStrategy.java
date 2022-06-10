@@ -52,13 +52,12 @@ public class DefaultVduNamingStrategy implements VduNamingStrategy {
 
 	@Override
 	public String osContainerName(final VnfInstance vnfInstance, final String name) {
-		return vnfInstance.getId() + "-" + name;
+		return vnfInstance.getId().toString().substring(0, 8) + "-" + name;
 	}
 
 	@Override
 	public String getOsContainerAlias(final VnfInstance vnfInstance, final String name) {
-		// TODO Auto-generated method stub
-		return null;
+		return osContainerName(vnfInstance, name);
 	}
 
 }
