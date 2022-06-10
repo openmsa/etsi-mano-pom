@@ -70,6 +70,7 @@ public class VnfNotificationService {
 	}
 
 	public void onChange(final VnfPackageChangeNotification event, final String version) {
+		LOG.info("Receiver Change event {}", event);
 		final Optional<RemoteSubscription> subscription = remoteSubscriptionJpa.findByRemoteSubscriptionId(event.getSubscriptionId());
 		if (subscription.isEmpty()) {
 			LOG.warn("Unable to find change event {} in database.", event.getSubscriptionId());

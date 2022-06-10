@@ -18,85 +18,33 @@ package com.ubiqube.etsi.mano.dao.mano;
 
 import java.time.OffsetDateTime;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+/**
+ *
+ * @author Olivier Vignaud <ovi@ubiqube.com>
+ *
+ */
+@Getter
+@Setter
+@ToString
 public class VnfPackageChangeNotification {
-	private String id = null;
+	private String id;
 
-	private String notificationType = null;
+	private String notificationType;
 
-	private String subscriptionId = null;
+	private String subscriptionId;
 
-	private OffsetDateTime timeStamp = null;
+	private OffsetDateTime timeStamp;
 
-	private String vnfPkgId = null;
+	private String vnfPkgId;
 
-	private String vnfdId = null;
+	private String vnfdId;
 
-	private PackageChangeType changeType = null;
+	private PackageChangeType changeType;
 
-	private PackageOperationalStateType operationalState = null;
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(final String id) {
-		this.id = id;
-	}
-
-	public String getNotificationType() {
-		return notificationType;
-	}
-
-	public void setNotificationType(final String notificationType) {
-		this.notificationType = notificationType;
-	}
-
-	public String getSubscriptionId() {
-		return subscriptionId;
-	}
-
-	public void setSubscriptionId(final String subscriptionId) {
-		this.subscriptionId = subscriptionId;
-	}
-
-	public OffsetDateTime getTimeStamp() {
-		return timeStamp;
-	}
-
-	public void setTimeStamp(final OffsetDateTime timeStamp) {
-		this.timeStamp = timeStamp;
-	}
-
-	public String getVnfPkgId() {
-		return vnfPkgId;
-	}
-
-	public void setVnfPkgId(final String vnfPkgId) {
-		this.vnfPkgId = vnfPkgId;
-	}
-
-	public String getVnfdId() {
-		return vnfdId;
-	}
-
-	public void setVnfdId(final String vnfdId) {
-		this.vnfdId = vnfdId;
-	}
-
-	public PackageChangeType getChangeType() {
-		return changeType;
-	}
-
-	public void setChangeType(final PackageChangeType changeType) {
-		this.changeType = changeType;
-	}
-
-	public PackageOperationalStateType getOperationalState() {
-		return operationalState;
-	}
-
-	public void setOperationalState(final PackageOperationalStateType operationalState) {
-		this.operationalState = operationalState;
-	}
+	private PackageOperationalStateType operationalState;
 
 }
