@@ -33,6 +33,7 @@ import com.ubiqube.etsi.mano.dao.mano.VnfVl;
 import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainer;
 import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainerDeployableUnit;
 import com.ubiqube.etsi.mano.dao.mano.pkg.VirtualCp;
+import com.ubiqube.etsi.mano.dao.mano.vnfm.McIops;
 import com.ubiqube.etsi.mano.service.pkg.bean.AffinityRuleAdapater;
 import com.ubiqube.etsi.mano.service.pkg.bean.InstantiationLevels;
 import com.ubiqube.etsi.mano.service.pkg.bean.ProviderData;
@@ -158,6 +159,11 @@ public class DefaultVnfPackageReader implements VnfPackageReader {
 
 	@Override
 	public Set<VirtualCp> getVirtualCp(final Map<String, String> parameters) {
+		return Set.of();
+	}
+
+	@Override
+	public Set<McIops> getMciops(final Map<String, String> userDefinedData) {
 		return Set.of();
 	}
 

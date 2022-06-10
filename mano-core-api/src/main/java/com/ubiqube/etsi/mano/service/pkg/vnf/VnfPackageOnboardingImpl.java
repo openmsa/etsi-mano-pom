@@ -46,6 +46,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.Constants;
+import com.ubiqube.etsi.mano.dao.mano.AdditionalArtifact;
 import com.ubiqube.etsi.mano.dao.mano.AffinityRule;
 import com.ubiqube.etsi.mano.dao.mano.OnboardingStateType;
 import com.ubiqube.etsi.mano.dao.mano.PackageOperationalState;
@@ -226,7 +227,9 @@ public class VnfPackageOnboardingImpl {
 	private static void onboardCnfElements(final VnfPackageReader vnfPackageReader, final VnfPackage vnfPackage) {
 		vnfPackage.setOsContainer(vnfPackageReader.getOsContainer(vnfPackage.getUserDefinedData()));
 		vnfPackage.setOsContainerDeployableUnits(vnfPackageReader.getOsContainerDeployableUnit(vnfPackage.getUserDefinedData()));
+		vnfPackage.setMciops(vnfPackageReader.getMciops(vnfPackage.getUserDefinedData()));
 		vnfPackage.setVirtualCp(vnfPackageReader.getVirtualCp(vnfPackage.getUserDefinedData()));
+		final Set<AdditionalArtifact> arte = vnfPackageReader.getAdditionalArtefacts(Map.of());
 	}
 
 	private void buildSoftwareImage(final VnfPackage vnfPackage) {
