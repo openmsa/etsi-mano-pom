@@ -16,11 +16,13 @@
  */
 package com.ubiqube.etsi.mano.service.rest;
 
+import java.io.InputStream;
 import java.net.URI;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import org.springframework.core.ParameterizedTypeReference;
@@ -164,6 +166,11 @@ public class ManoQueryBuilder {
 		final HttpGateway httpGateway = server.httpGateway();
 		final String version = httpGateway.getHeaderVersion(client.getQueryType()).orElse(null);
 		server.rest().download(uri, file, version);
+	}
+
+	public void download(final Path url, final Consumer<InputStream> tgt) {
+		final ServerAdapter server = client.getServer();
+		server.rest().doDownload(url.toString(), tgt);
 	}
 
 	public void upload(final Path path, final String accept) {

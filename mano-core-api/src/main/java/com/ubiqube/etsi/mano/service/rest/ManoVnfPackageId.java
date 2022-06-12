@@ -16,9 +16,11 @@
  */
 package com.ubiqube.etsi.mano.service.rest;
 
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -93,6 +95,10 @@ public class ManoVnfPackageId {
 				.setWireOutClass(HttpGateway::getVnfPackageClass)
 				.setOutClass(VnfPackage.class)
 				.patch(ifMatch, patch);
+	}
+
+	public void downloadArtefact(final Path url, final Consumer<InputStream> tgt) {
+		client.createQuery().download(url, tgt);
 	}
 
 }
