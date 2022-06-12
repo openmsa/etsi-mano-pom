@@ -16,12 +16,19 @@
  */
 package com.ubiqube.etsi.mano.service.rest;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
 import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import javax.net.ssl.SSLException;
 
@@ -51,6 +58,7 @@ import org.springframework.security.oauth2.client.web.reactive.function.client.S
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunctions;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClient.Builder;
@@ -66,7 +74,9 @@ import com.ubiqube.etsi.mano.exception.GenericException;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.publisher.SignalType;
 import reactor.netty.http.client.HttpClient;
 
 /**
@@ -289,4 +299,71 @@ public class FluxRest {
 				.toEntity(clazz);
 		return getBlockingResult(resp, null, version);
 	}
+
+	public void doDownload(final String url, final Consumer<InputStream> target) {
+		final ExceptionHandler eh = new ExceptionHandler();
+		try (final PipedOutputStream osPipe = new PipedOutputStream();
+				final PipedInputStream isPipe = new PipedInputStream(osPipe)) {
+			final Flux<DataBuffer> wc = webClient
+					.get()
+					.uri(url)
+					.accept(MediaType.APPLICATION_OCTET_STREAM, MediaType.ALL)
+					.retrieve()
+					.onRawStatus(i -> i != 200, exepctionFunction(osPipe))
+					.bodyToFlux(DataBuffer.class);
+
+			DataBufferUtils.write(wc, osPipe)
+					.doFinally(onComplete(osPipe))
+					.onErrorResume(Throwable.class, e -> {
+						eh.setE(e);
+						eh.setMessage(e.getMessage());
+						return Mono.error(e);
+					})
+					.subscribe(DataBufferUtils.releaseConsumer());
+			target.accept(isPipe);
+		} catch (final IOException e) {
+			LOG.error("", e);
+		}
+	}
+
+	private static Consumer<SignalType> onComplete(final PipedOutputStream osPipe) {
+		return s -> closePipe(osPipe);
+	}
+
+	private static Function<ClientResponse, Mono<? extends Throwable>> exepctionFunction(final PipedOutputStream osPipe) {
+		return response -> {
+			closePipe(osPipe);
+			throw new GenericException("An error occured." + response.rawStatusCode());
+		};
+	}
+
+	private static void closePipe(final OutputStream osPipe) {
+		try (osPipe) {
+			//
+		} catch (final IOException e) {
+			throw new GenericException(e);
+		}
+	}
+
+	private class ExceptionHandler {
+		private String message;
+		private Throwable e;
+
+		public String getMessage() {
+			return message;
+		}
+
+		public void setMessage(final String message) {
+			this.message = message;
+		}
+
+		public Throwable getE() {
+			return e;
+		}
+
+		public void setE(final Throwable e) {
+			this.e = e;
+		}
+	}
+
 }
