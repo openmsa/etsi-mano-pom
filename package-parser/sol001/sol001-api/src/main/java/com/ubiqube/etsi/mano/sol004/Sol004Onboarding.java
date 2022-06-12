@@ -281,4 +281,8 @@ public class Sol004Onboarding {
 		return new FileSystemAdapter(new DirectZipMr(vnfd));
 	}
 
+	public InputStream getFileInputStream(final String path) {
+		return csar.getInputStream(path);
+	}
+
 }

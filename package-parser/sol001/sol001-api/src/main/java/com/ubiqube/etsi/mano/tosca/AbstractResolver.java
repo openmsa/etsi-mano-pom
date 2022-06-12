@@ -113,19 +113,21 @@ public abstract class AbstractResolver implements IResolver {
 				throw new Sol004Exception(e);
 			}
 		}
-		if (!url.startsWith("/")) {
-			final File f = new File(url);
-			if (null != parent) {
-				final File p = new File(parent, url);
-				if (exist(p.toString())) {
-					parent = f.getParentFile();
-					return handleContent(p.toString());
-				}
-			}
-			if (exist(f.toString())) {
+		if (url.startsWith("/")) {
+			final String tmp = url.substring(1);
+			return handleContent(tmp);
+		}
+		final File f = new File(url);
+		if (null != parent) {
+			final File p = new File(parent, url);
+			if (exist(p.toString())) {
 				parent = f.getParentFile();
-				return handleContent(url);
+				return handleContent(p.toString());
 			}
+		}
+		if (exist(f.toString())) {
+			parent = f.getParentFile();
+			return handleContent(url);
 		}
 		return null;
 	}

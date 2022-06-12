@@ -131,6 +131,10 @@ public class ToscaParser {
 		return mode;
 	}
 
+	public InputStream getFileInputStream(final String path) {
+		return onboarding.getFileInputStream(path);
+	}
+
 	public InputStream getCsarInputStream() {
 		if (mode != CsarModeEnum.DOUBLE_ZIP) {
 			throw new ParseException("Could not get a csar file in a non double sol004 archive.");
