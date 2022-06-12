@@ -73,4 +73,11 @@ public class AdditionalArtifact implements Serializable {
 
 	@ElementCollection(fetch = FetchType.EAGER)
 	private Map<String, String> metadata;
+
+	private String repository;
+
+	private String signature;
+
+	private String certificate;
+
 }

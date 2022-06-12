@@ -20,22 +20,26 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
 
 import org.springframework.stereotype.Service;
 
+import com.github.javaparser.utils.Log;
+import com.ubiqube.etsi.mano.Constants;
 import com.ubiqube.etsi.mano.dao.mano.OnboardingStateType;
 import com.ubiqube.etsi.mano.dao.mano.PackageOperationalState;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackageOnboardingNotification;
+import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.jpa.VnfPackageJpa;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
+import com.ubiqube.etsi.mano.service.ServerService;
 import com.ubiqube.etsi.mano.service.pkg.vnf.VnfPackageOnboardingImpl;
+import com.ubiqube.etsi.mano.utils.TemporaryFileSentry;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfPackageOnboardingNotificationJpa;
 import com.ubiqube.etsi.mano.vnfm.service.VnfmVersionManager;
 
@@ -46,15 +50,18 @@ public class NotificationActions {
 	private final VnfmVersionManager vnfmVersionManager;
 	private final VnfPackageRepository vnfPackageRepository;
 	private final VnfPackageOnboardingImpl vnfPackageOnboarding;
+	private final ServerService serverService;
 
 	public NotificationActions(final VnfPackageJpa vnfPackageJpa, final VnfPackageOnboardingNotificationJpa vnfPackageOnboardingNotificationJpa,
-			final VnfmVersionManager vnfmVersionManager, final VnfPackageRepository vnfPackageRepository, final VnfPackageOnboardingImpl vnfPackageOnboarding) {
+			final VnfmVersionManager vnfmVersionManager, final VnfPackageRepository vnfPackageRepository, final VnfPackageOnboardingImpl vnfPackageOnboarding,
+			final ServerService serverService) {
 		super();
 		this.vnfPackageJpa = vnfPackageJpa;
 		this.vnfPackageOnboardingNotificationJpa = vnfPackageOnboardingNotificationJpa;
 		this.vnfmVersionManager = vnfmVersionManager;
 		this.vnfPackageRepository = vnfPackageRepository;
 		this.vnfPackageOnboarding = vnfPackageOnboarding;
+		this.serverService = serverService;
 	}
 
 	public void onPkgOnbarding(@NotNull final UUID objectId) {
@@ -62,17 +69,24 @@ public class NotificationActions {
 		final String pkgId = event.getVnfPkgId();
 		final VnfPackage vnfPkg = vnfmVersionManager.findVnfPkgById(pkgId);
 		VnfPackage localPackage = getPackage(vnfPkg);
+		final Servers server = serverService.findById(UUID.fromString(event.getNfvoId()));
+		localPackage.setServer(server);
 		localPackage = vnfPackageJpa.save(localPackage);
-		downloadToTmpFile(localPackage);
-		vnfPackageOnboarding.vnfPackagesVnfPkgIdPackageContentPut(localPackage.getId().toString());
+		try {
+			downloadToTmpFile(localPackage);
+			vnfPackageOnboarding.vnfPackagesVnfPkgIdPackageContentPut(localPackage.getId().toString());
+		} catch (final RuntimeException e) {
+			Log.error(e);
+			vnfPackageJpa.delete(localPackage);
+		}
 	}
 
 	private void downloadToTmpFile(final VnfPackage localPackage) {
-		try {
-			final Path file = Files.createTempFile(Paths.get("/tmp/"), "mano", "vnfm");
+		try (TemporaryFileSentry tfs = new TemporaryFileSentry()) {
+			final Path file = tfs.get();
 			vnfmVersionManager.getPackageContent(localPackage.getNfvoId(), file);
 			try (FileInputStream fis = new FileInputStream(file.toFile())) {
-				vnfPackageRepository.storeBinary(localPackage.getId(), "vnf-package", fis);
+				vnfPackageRepository.storeBinary(localPackage.getId(), Constants.REPOSITORY_FILENAME_PACKAGE, fis);
 			}
 			Files.delete(file);
 		} catch (final IOException e) {

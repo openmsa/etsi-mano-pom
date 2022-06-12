@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -109,14 +111,14 @@ public class DownloaderService {
 		return null;
 	}
 
-	private String doDownload(final SoftwareImage si, final UUID vnfPkgId) {
+	public Path doDownload(final UUID vnfPkgId, final String url, final String target) {
 		final ExceptionHandler eh = new ExceptionHandler();
-		final WebClient webclient = createWebClien();
+		final WebClient webclient = createWebClient();
 		try (final PipedOutputStream osPipe = new PipedOutputStream();
 				final PipedInputStream isPipe = new PipedInputStream(osPipe)) {
 			final Flux<DataBuffer> wc = webclient
 					.get()
-					.uri(si.getImagePath())
+					.uri(url)
 					.accept(MediaType.APPLICATION_OCTET_STREAM, MediaType.ALL)
 					.retrieve()
 					.onRawStatus(i -> i != 200, exepctionFunction(osPipe))
@@ -130,15 +132,17 @@ public class DownloaderService {
 						return Mono.error(e);
 					})
 					.subscribe(DataBufferUtils.releaseConsumer());
-			si.setNfvoPath(UUID.randomUUID().toString());
-			packageRepository.storeBinary(vnfPkgId, si.getNfvoPath(), isPipe);
+			packageRepository.storeBinary(vnfPkgId, target, isPipe);
+			return Paths.get(target);
 		} catch (final IOException e) {
 			LOG.error("", e);
 			return null;
 		}
-		if (eh.getE() != null) {
-			throw new GenericException(eh.getMessage(), eh.getE());
-		}
+	}
+
+	private String doDownload(final SoftwareImage si, final UUID vnfPkgId) {
+		si.setNfvoPath(UUID.randomUUID().toString());
+		doDownload(vnfPkgId, si.getImagePath(), si.getNfvoPath());
 		LOG.error("OK");
 		return "OK";
 	}
@@ -149,9 +153,9 @@ public class DownloaderService {
 		};
 	}
 
-	private static WebClient createWebClien() {
+	private static WebClient createWebClient() {
 		return WebClient.builder()
-				.clientConnector(new ReactorClientHttpConnector(HttpClient.create().followRedirect(false)))
+				.clientConnector(new ReactorClientHttpConnector(HttpClient.create().followRedirect(true)))
 				.build();
 	}
 

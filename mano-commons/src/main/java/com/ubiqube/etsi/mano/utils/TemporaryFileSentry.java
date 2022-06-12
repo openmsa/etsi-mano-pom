@@ -14,40 +14,43 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.dao.mano.vnfm;
+package com.ubiqube.etsi.mano.utils;
 
-import java.io.Serializable;
-import java.util.UUID;
+import java.io.Closeable;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-import lombok.Getter;
-import lombok.Setter;
+import com.ubiqube.etsi.mano.exception.GenericException;
 
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-@Entity
-@Getter
-@Setter
-public class CnfImage implements Serializable {
-	/** Serial. */
-	private static final long serialVersionUID = 1L;
+public class TemporaryFileSentry implements Closeable {
+	private final Path file;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id;
+	public TemporaryFileSentry() {
+		try {
+			file = Files.createTempFile(Paths.get("/tmp/"), "mano", "vnfm");
+		} catch (final IOException e) {
+			throw new GenericException(e);
+		}
+	}
 
-	private String toscaName;
+	public Path get() {
+		return file;
+	}
 
-	private String type;
+	@Override
+	public void close() {
+		try {
+			Files.delete(file);
+		} catch (final IOException e) {
+			throw new GenericException(e);
+		}
+	}
 
-	private String url;
-
-	private String localPath;
 }

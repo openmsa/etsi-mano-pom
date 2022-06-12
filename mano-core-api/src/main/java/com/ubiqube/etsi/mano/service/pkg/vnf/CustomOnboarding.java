@@ -14,40 +14,16 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.dao.mano.vnfm;
+package com.ubiqube.etsi.mano.service.pkg.vnf;
 
-import java.io.Serializable;
-import java.util.UUID;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-import lombok.Getter;
-import lombok.Setter;
+import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-@Entity
-@Getter
-@Setter
-public class CnfImage implements Serializable {
-	/** Serial. */
-	private static final long serialVersionUID = 1L;
+public interface CustomOnboarding {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id;
-
-	private String toscaName;
-
-	private String type;
-
-	private String url;
-
-	private String localPath;
+	void handleArtifacts(VnfPackage vnfPackage, VnfPackageReader vnfPackageReader);
 }

@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.service.pkg.vnf;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -165,6 +166,12 @@ public class DefaultVnfPackageReader implements VnfPackageReader {
 	@Override
 	public Set<McIops> getMciops(final Map<String, String> userDefinedData) {
 		return Set.of();
+	}
+
+	@Override
+	public InputStream getFileInputStream(final String path) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

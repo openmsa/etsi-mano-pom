@@ -82,9 +82,11 @@ public class VnfPackageOnboardingImpl {
 
 	private final List<OnboardingPostProcessorVisitor> postProcessors;
 
+	private final CustomOnboarding customOnboarding;
+
 	public VnfPackageOnboardingImpl(final VnfPackageRepository vnfPackageRepository, final EventManager eventManager, final VnfPackageManager packageManager,
 			final MapperFacade mapper, final VnfPackageService vnfPackageService, final List<OnboardVisitor> onboardVisitors,
-			final List<OnboardingPostProcessorVisitor> postProcessors) {
+			final List<OnboardingPostProcessorVisitor> postProcessors, final CustomOnboarding customOnboarding) {
 		this.vnfPackageRepository = vnfPackageRepository;
 		this.eventManager = eventManager;
 		this.packageManager = packageManager;
@@ -92,6 +94,7 @@ public class VnfPackageOnboardingImpl {
 		this.vnfPackageService = vnfPackageService;
 		this.onboardVisitors = onboardVisitors;
 		this.postProcessors = postProcessors;
+		this.customOnboarding = customOnboarding;
 	}
 
 	public VnfPackage vnfPackagesVnfPkgIdPackageContentPut(@Nonnull final String vnfPkgId) {
@@ -168,6 +171,7 @@ public class VnfPackageOnboardingImpl {
 		final Map<String, String> userData = vnfPackage.getUserDefinedData();
 		onboardVisitors.forEach(x -> x.visit(vnfPackage, vnfPackageReader, userData));
 		postProcessors.forEach(x -> x.visit(vnfPackage));
+		customOnboarding.handleArtifacts(vnfPackage, vnfPackageReader);
 	}
 
 	private static void additionalMapping(final ProviderData pd, final VnfPackage vnfPackage) {

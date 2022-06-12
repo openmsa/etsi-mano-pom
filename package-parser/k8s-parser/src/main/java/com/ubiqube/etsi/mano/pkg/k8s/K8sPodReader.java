@@ -15,6 +15,7 @@
 package com.ubiqube.etsi.mano.pkg.k8s;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -33,6 +34,7 @@ import com.ubiqube.etsi.mano.dao.mano.VnfVl;
 import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainer;
 import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainerDeployableUnit;
 import com.ubiqube.etsi.mano.dao.mano.pkg.VirtualCp;
+import com.ubiqube.etsi.mano.dao.mano.vnfm.McIops;
 import com.ubiqube.etsi.mano.service.pkg.ToscaException;
 import com.ubiqube.etsi.mano.service.pkg.bean.AffinityRuleAdapater;
 import com.ubiqube.etsi.mano.service.pkg.bean.InstantiationLevels;
@@ -178,6 +180,18 @@ public class K8sPodReader implements VnfPackageReader {
 
 	@Override
 	public Set<VirtualCp> getVirtualCp(final Map<String, String> parameters) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<McIops> getMciops(final Map<String, String> userDefinedData) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public InputStream getFileInputStream(final String path) {
 		// TODO Auto-generated method stub
 		return null;
 	}
