@@ -85,6 +85,16 @@ public final class Constants {
 	 */
 	public static final String REPOSITORY_FILENAME_PACKAGE = "vnf-package";
 
+	/**
+	 * Path where artifacts are stored on onboarding.
+	 */
+	public static final String REPOSITORY_FOLDER_ARTIFACTS = "artifacts";
+
+	/**
+	 * Artifact archive name.
+	 */
+	public static final @NotNull String REPOSITORY_ZIP_ARTIFACT = "artifacts.zip";
+
 	private Constants() {
 		// Nothing.
 	}
