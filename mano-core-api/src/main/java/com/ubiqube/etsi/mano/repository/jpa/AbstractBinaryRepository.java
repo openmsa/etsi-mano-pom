@@ -65,7 +65,16 @@ public abstract class AbstractBinaryRepository implements BinaryRepository {
 		final Path dir = namingStrategy.getRoot(getFrontClass(), id);
 		dir.toFile().mkdirs();
 		final Path path = namingStrategy.getRoot(getFrontClass(), id, filename);
+		mkdirs(path);
 		contentManager.store(path, stream);
+	}
+
+	private static void mkdirs(final Path path) {
+		final Path p = path.getParent();
+		if (null == p) {
+			return;
+		}
+		p.toFile().mkdirs();
 	}
 
 	@Override
