@@ -47,7 +47,6 @@ import com.ubiqube.etsi.mano.dao.mano.common.FailureDetails;
 import com.ubiqube.etsi.mano.dao.mano.pkg.UploadUriParameters;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.repository.ManoResource;
-import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.utils.SpringUtils;
 
 import ma.glasnost.orika.MapperFacade;
@@ -63,16 +62,12 @@ public class VnfPackageFrontControllerImpl implements VnfPackageFrontController 
 
 	private final VnfPackageController vnfPackageController;
 
-	private final VnfPackageService vnfPackageService;
-
 	private final MapperFacade mapper;
 
-	public VnfPackageFrontControllerImpl(final VnfPackageManagement vnfManagement, final VnfPackageController vnfPackageController, final VnfPackageService vnfPackageService,
-			final MapperFacade mapper) {
+	public VnfPackageFrontControllerImpl(final VnfPackageManagement vnfManagement, final VnfPackageController vnfPackageController, final MapperFacade mapper) {
 		super();
 		this.vnfManagement = vnfManagement;
 		this.vnfPackageController = vnfPackageController;
-		this.vnfPackageService = vnfPackageService;
 		this.mapper = mapper;
 	}
 
