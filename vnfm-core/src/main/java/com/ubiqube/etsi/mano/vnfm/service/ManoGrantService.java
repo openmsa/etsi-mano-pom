@@ -52,7 +52,7 @@ public class ManoGrantService extends AbstractGrantService {
 	@Override
 	protected void check(final Blueprint plan) {
 		plan.getTasks().stream()
-				.filter(x -> x.getClass().isAssignableFrom(VnfPortTask.class))
+				.filter(VnfPortTask.class::isInstance)
 				.map(VnfPortTask.class::cast)
 				.forEach(x -> {
 					final VnfPortTask t = (VnfPortTask) x;

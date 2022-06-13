@@ -64,6 +64,7 @@ public class NotificationsImpl implements Notifications {
 
 	private static void sendRequest(final String _content, final ServerAdapter server, final String _uri) {
 		final var rest = server.rest();
+		LOG.info("Sending to {}", _uri);
 		rest.post(URI.create(_uri), _content, Void.class, null);
 	}
 

@@ -19,6 +19,8 @@ package com.ubiqube.etsi.mano.service.event.jms;
 import java.util.Map;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +32,9 @@ import com.ubiqube.etsi.mano.service.event.EventManager;
 
 @Service
 public class JmsEventManager implements EventManager {
+
+	private static final Logger LOG = LoggerFactory.getLogger(JmsEventManager.class);
+
 	private final JmsTemplate jmsTemplate;
 	private final EventMessageJpa eventMessageJpa;
 
@@ -43,6 +48,7 @@ public class JmsEventManager implements EventManager {
 	public void sendNotification(final NotificationEvent notificationEvent, final UUID objectId, final Map<String, String> additionalParameters) {
 		EventMessage msg = new EventMessage(notificationEvent, objectId, additionalParameters);
 		msg = eventMessageJpa.save(msg);
+		LOG.info("Sending notification {}", msg);
 		jmsTemplate.convertAndSend("system.notifications", msg);
 	}
 

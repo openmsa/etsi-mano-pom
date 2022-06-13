@@ -43,7 +43,6 @@ import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.grammar.GrammarParser;
 import com.ubiqube.etsi.mano.repository.ManoResource;
-import com.ubiqube.etsi.mano.repository.ResetOnCloseInputStream;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 import com.ubiqube.etsi.mano.service.ManoSearchResponseService;
 import com.ubiqube.etsi.mano.service.SearchableService;
@@ -111,7 +110,6 @@ public class VnfManagement extends SearchableService implements VnfPackageManage
 					continue;
 				}
 				if (entry.getName().equals(artifactPath)) {
-					final ResetOnCloseInputStream is = new ResetOnCloseInputStream(zis);
 					final MetaStreamResource res = new MetaStreamResource(content);
 					return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT)
 							.contentType(MediaTypeFactory.getMediaType(res).orElse(MediaType.APPLICATION_OCTET_STREAM))
