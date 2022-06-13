@@ -321,6 +321,7 @@ public class FluxRest {
 					})
 					.subscribe(DataBufferUtils.releaseConsumer());
 			target.accept(isPipe);
+			wc.blockLast();
 		} catch (final IOException e) {
 			LOG.error("", e);
 		}
