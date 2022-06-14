@@ -16,7 +16,7 @@
 	<name>mano-super-pom</name>
 	<description>ETSI-MANO super pom</description>
 	<scm>
-		<developerConnection>scm:git:ssh://git@ubibucket.ubiqube.com:7999/ubi/ubi-etsi-mano.git</developerConnection>
+		<developerConnection>scm:git:https://github.com/openmsa/etsi-mano-java.git</developerConnection>
 	</scm>
 	<distributionManagement>
 		<snapshotRepository>

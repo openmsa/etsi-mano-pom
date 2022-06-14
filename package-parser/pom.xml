@@ -12,8 +12,7 @@
 		<module>sol001</module>
 	</modules>
 	<scm>
-		<developerConnection>scm:git:ssh://git@ubibucket.ubiqube.com:7999/~ovi/parser.git</developerConnection>
-		<tag>2.0.0</tag>
+		<developerConnection>scm:git:https://github.com/openmsa/etsi-mano-java.git</developerConnection>
 	</scm>
 	<distributionManagement>
 		<snapshotRepository>
