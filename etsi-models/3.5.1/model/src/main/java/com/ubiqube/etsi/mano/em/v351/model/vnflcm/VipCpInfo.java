@@ -62,7 +62,7 @@ public class VipCpInfo {
 
 	@JsonProperty("metadata")
 	@Valid
-	private List<Map<String, String>> metadata = null;
+	private Map<String, String> metadata = null;
 
 	public VipCpInfo cpInstanceId(final String cpInstanceId) {
 		this.cpInstanceId = cpInstanceId;
@@ -204,16 +204,8 @@ public class VipCpInfo {
 		this.vnfLinkPortId = vnfLinkPortId;
 	}
 
-	public VipCpInfo metadata(final List<Map<String, String>> metadata) {
+	public VipCpInfo metadata(final Map<String, String> metadata) {
 		this.metadata = metadata;
-		return this;
-	}
-
-	public VipCpInfo addMetadataItem(final Map<String, String> metadataItem) {
-		if (this.metadata == null) {
-			this.metadata = new ArrayList<>();
-		}
-		this.metadata.add(metadataItem);
 		return this;
 	}
 
@@ -224,11 +216,11 @@ public class VipCpInfo {
 	 **/
 	@Schema(description = "Metadata about this VIP CP. ")
 	@Valid
-	public List<Map<String, String>> getMetadata() {
+	public Map<String, String> getMetadata() {
 		return metadata;
 	}
 
-	public void setMetadata(final List<Map<String, String>> metadata) {
+	public void setMetadata(final Map<String, String> metadata) {
 		this.metadata = metadata;
 	}
 
