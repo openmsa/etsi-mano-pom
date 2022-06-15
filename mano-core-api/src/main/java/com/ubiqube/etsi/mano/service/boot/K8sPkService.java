@@ -25,13 +25,17 @@ import java.security.Key;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
-import java.security.interfaces.RSAPrivateKey;
+import java.security.PrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Optional;
 
+import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
 import org.bouncycastle.asn1.x500.X500Name;
+import org.bouncycastle.openssl.PEMException;
+import org.bouncycastle.openssl.PEMKeyPair;
 import org.bouncycastle.openssl.PEMParser;
 import org.bouncycastle.openssl.jcajce.JcaMiscPEMGenerator;
+import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
 import org.bouncycastle.operator.ContentSigner;
 import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
@@ -83,16 +87,44 @@ public class K8sPkService {
 
 	private boolean loadKeys() {
 		final Optional<Configurations> privDbOpt = configurations.findById(K8S_PRIVATE_KEY);
-		final Optional<Configurations> pubDbOpt = configurations.findById(K8S_PUBLIC_KEY);
-		if (privDbOpt.isEmpty() || pubDbOpt.isEmpty()) {
+		if (privDbOpt.isEmpty()) {
 			return false;
 		}
-		final String privDb = privDbOpt.get().getWalue();
+		final Object o = decodePem(privDbOpt.get().getWalue());
+		if (o instanceof final PEMKeyPair pkp) {
+			keyPair = convert(pkp);
+			return true;
+		}
+		if (!(o instanceof final PrivateKeyInfo pki)) {
+			throw new GenericException("Could not load private key of type :" + o.getClass());
+		}
+		final Optional<Configurations> pubDbOpt = configurations.findById(K8S_PUBLIC_KEY);
+		if (pubDbOpt.isEmpty()) {
+			return false;
+		}
 		final String pubDb = pubDbOpt.get().getWalue();
-		final RSAPrivateKey priv = decodePem(privDb);
 		final RSAPublicKey pub = decodePem(pubDb);
-		keyPair = new KeyPair(pub, priv);
+		final PrivateKey privKey = converter(pki);
+		keyPair = new KeyPair(pub, privKey);
 		return true;
+	}
+
+	private static PrivateKey converter(final PrivateKeyInfo pki) {
+		final JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
+		try {
+			return converter.getPrivateKey(pki);
+		} catch (final PEMException e) {
+			throw new GenericException(e);
+		}
+	}
+
+	private static KeyPair convert(final PEMKeyPair pkp) {
+		final JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
+		try {
+			return converter.getKeyPair(pkp);
+		} catch (final PEMException e) {
+			throw new GenericException(e);
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -139,9 +171,6 @@ public class K8sPkService {
 	}
 
 	public String createCsr(final String object) {
-		final X500Name subject = new X500Name(object);
-		final PKCS10CertificationRequestBuilder original = new JcaPKCS10CertificationRequestBuilder(subject, keyPair.getPublic());
-		final PKCS10CertificationRequestBuilder rq = new PKCS10CertificationRequestBuilder(original);
 		final JcaContentSignerBuilder csBuilder = new JcaContentSignerBuilder("SHA256withRSA");
 		ContentSigner signer;
 		try {
@@ -149,6 +178,9 @@ public class K8sPkService {
 		} catch (final OperatorCreationException e) {
 			throw new GenericException(e);
 		}
+		final X500Name subject = new X500Name(object);
+		final PKCS10CertificationRequestBuilder original = new JcaPKCS10CertificationRequestBuilder(subject, keyPair.getPublic());
+		final PKCS10CertificationRequestBuilder rq = new PKCS10CertificationRequestBuilder(original);
 		final PKCS10CertificationRequest csr = rq.build(signer);
 		return pemEncode(csr);
 	}
