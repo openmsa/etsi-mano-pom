@@ -44,23 +44,18 @@ public class ColumnEncryptor implements AttributeConverter<String, String> {
 	private static final byte[] GCM_IV = { 53, 25, -105, 34, -59, -79, 4, -75, -13, -54, 61, -126 };
 
 	private final Key key;
-	private final Cipher cipher;
 
 	public ColumnEncryptor() {
 		key = new SecretKeySpec(SECRET.getBytes(), AES);
-		try {
-			cipher = Cipher.getInstance(AES);
-		} catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
-			throw new DatabaseException(e);
-		}
 	}
 
 	@Override
 	public String convertToDatabaseColumn(final String attribute) {
 		try {
+			final Cipher cipher = Cipher.getInstance(AES);
 			cipher.init(Cipher.ENCRYPT_MODE, key, createParamSpec());
 			return Base64.getEncoder().encodeToString(cipher.doFinal(attribute.getBytes()));
-		} catch (IllegalBlockSizeException | BadPaddingException | InvalidKeyException | InvalidAlgorithmParameterException e) {
+		} catch (NoSuchPaddingException | NoSuchAlgorithmException | IllegalBlockSizeException | BadPaddingException | InvalidKeyException | InvalidAlgorithmParameterException e) {
 			throw new DatabaseException(e);
 		}
 	}
@@ -68,9 +63,10 @@ public class ColumnEncryptor implements AttributeConverter<String, String> {
 	@Override
 	public String convertToEntityAttribute(final String dbData) {
 		try {
+			final Cipher cipher = Cipher.getInstance(AES);
 			cipher.init(Cipher.DECRYPT_MODE, key, createParamSpec());
 			return new String(cipher.doFinal(Base64.getDecoder().decode(dbData)));
-		} catch (InvalidKeyException | BadPaddingException | IllegalBlockSizeException | InvalidAlgorithmParameterException e) {
+		} catch (InvalidKeyException | BadPaddingException | IllegalBlockSizeException | InvalidAlgorithmParameterException | NoSuchAlgorithmException | NoSuchPaddingException e) {
 			throw new IllegalStateException(e);
 		}
 	}
