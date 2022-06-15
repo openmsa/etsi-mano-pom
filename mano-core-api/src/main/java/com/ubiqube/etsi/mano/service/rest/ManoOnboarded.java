@@ -16,11 +16,11 @@
  */
 package com.ubiqube.etsi.mano.service.rest;
 
-import java.util.List;
-import java.util.Map;
+import java.io.InputStream;
+import java.nio.file.Paths;
 import java.util.UUID;
+import java.util.function.Consumer;
 
-import com.ubiqube.etsi.mano.dao.mano.Subscription;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.common.ApiVersionType;
 import com.ubiqube.etsi.mano.service.HttpGateway;
@@ -30,44 +30,40 @@ import com.ubiqube.etsi.mano.service.HttpGateway;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public class ManoVnfPackage {
+public class ManoOnboarded {
 	private final ManoClient client;
 
-	public ManoVnfPackage(final ManoClient manoClient, final UUID id) {
-		this.client = manoClient;
-		client.setObjectId(id);
+	public ManoOnboarded(final ManoClient client, final UUID vnfdId) {
+		this.client = client;
+		client.setObjectId(vnfdId);
 		client.setQueryType(ApiVersionType.SOL003_VNFPKGM);
-		client.setFragment("/vnf_packages");
+		client.setFragment("/onboarded_vnf_packages/{id}");
 	}
 
-	public ManoVnfPackage(final ManoClient manoClient) {
-		this(manoClient, null);
-	}
-
-	public List<VnfPackage> list() {
+	public VnfPackage find() {
 		return client.createQuery()
-				.setInClassList(HttpGateway::getVnfPackageClassList)
-				.setOutClass(VnfPackage.class)
-				.getList();
-	}
-
-	public Subscription subscribe(final Subscription subscription) {
-		client.setFragment("/subscriptions");
-		return client.createQuery()
-				.setWireInClass(HttpGateway::getPkgmSubscriptionRequest)
-				.setWireOutClass(HttpGateway::getVnfPackageSubscriptionClass)
-				.setOutClass(Subscription.class)
-				.post(subscription);
-	}
-
-	public VnfPackage create(final Map<String, String> userDefinedData) {
-		return client.createQuery(httpGateway -> httpGateway.createVnfPackageRequest(userDefinedData))
 				.setWireOutClass(HttpGateway::getVnfPackageClass)
 				.setOutClass(VnfPackage.class)
-				.post();
+				.getSingle();
 	}
 
-	public ManoOnboarded onboarded(final UUID vnfdId) {
-		return new ManoOnboarded(client, vnfdId);
+	public void vnfd(final Consumer<InputStream> tgt) {
+		client.createQuery()
+				.download(Paths.get("vnfd"), tgt);
+	}
+
+	public void packageContent(final Consumer<InputStream> tgt) {
+		client.createQuery()
+				.download(Paths.get("package_content"), tgt);
+	}
+
+	public void manifest(final Consumer<InputStream> tgt) {
+		client.createQuery()
+				.download(Paths.get("manifest"), tgt);
+	}
+
+	public void artifacts(final Consumer<InputStream> tgt, final String artifacts) {
+		client.createQuery()
+				.download(Paths.get("artifacts", artifacts), tgt);
 	}
 }
