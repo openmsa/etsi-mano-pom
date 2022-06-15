@@ -18,15 +18,15 @@ package com.ubiqube.etsi.mano.vnfm.service.event;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.github.javaparser.utils.Log;
 import com.ubiqube.etsi.mano.Constants;
 import com.ubiqube.etsi.mano.dao.mano.OnboardingStateType;
 import com.ubiqube.etsi.mano.dao.mano.PackageOperationalState;
@@ -45,6 +45,9 @@ import com.ubiqube.etsi.mano.vnfm.service.VnfmVersionManager;
 
 @Service
 public class NotificationActions {
+
+	private static final Logger LOG = LoggerFactory.getLogger(NotificationActions.class);
+
 	private final VnfPackageJpa vnfPackageJpa;
 	private final VnfPackageOnboardingNotificationJpa vnfPackageOnboardingNotificationJpa;
 	private final VnfmVersionManager vnfmVersionManager;
@@ -68,15 +71,15 @@ public class NotificationActions {
 		final VnfPackageOnboardingNotification event = vnfPackageOnboardingNotificationJpa.findById(objectId).orElseThrow();
 		final String pkgId = event.getVnfPkgId();
 		final VnfPackage vnfPkg = vnfmVersionManager.findVnfPkgById(pkgId);
-		VnfPackage localPackage = getPackage(vnfPkg);
-		final Servers server = serverService.findById(UUID.fromString(event.getNfvoId()));
+		VnfPackage localPackage = createPackage(vnfPkg);
+		final Servers server = serverService.findById(event.getNfvoId());
 		localPackage.setServer(server);
 		localPackage = vnfPackageJpa.save(localPackage);
 		try {
 			downloadToTmpFile(localPackage);
 			vnfPackageOnboarding.vnfPackagesVnfPkgIdPackageContentPut(localPackage.getId().toString());
 		} catch (final RuntimeException e) {
-			Log.error(e);
+			LOG.error("", e);
 			vnfPackageJpa.delete(localPackage);
 		}
 	}
@@ -88,13 +91,18 @@ public class NotificationActions {
 			try (FileInputStream fis = new FileInputStream(file.toFile())) {
 				vnfPackageRepository.storeBinary(localPackage.getId(), Constants.REPOSITORY_FILENAME_PACKAGE, fis);
 			}
-			Files.delete(file);
 		} catch (final IOException e) {
 			throw new GenericException(e);
 		}
 	}
 
-	private static VnfPackage getPackage(final VnfPackage vnfPkg) {
+	/**
+	 * Copy Original informations into a brand new VnfPackage entity.
+	 *
+	 * @param vnfPkg The original {@link VnfPackage}
+	 * @return a new {@link VnfPackage}
+	 */
+	private static VnfPackage createPackage(final VnfPackage vnfPkg) {
 		final VnfPackage localPackage = new VnfPackage();
 		localPackage.setNfvoId(vnfPkg.getId().toString());
 		localPackage.setUserDefinedData(vnfPkg.getUserDefinedData());

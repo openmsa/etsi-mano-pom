@@ -64,6 +64,7 @@ public class VnfNotificationService {
 			LOG.warn("Unable to find notification event {} in database.", event.getSubscriptionId());
 			throw new NotFoundException("Unable to find notification event " + event.getSubscriptionId());
 		}
+		event.setNfvoId(subscription.get().getRemoteServerId());
 		final VnfPackageOnboardingNotification newEvent = vnfPackageOnboardingNotificationJpa.save(event);
 		LOG.info("Event received: {} => Id: {}", newEvent.getNfvoId(), newEvent.getId());
 		eventManager.sendActionVnfm(ActionType.VNF_PKG_ONBOARD_DOWNLOAD, newEvent.getId(), new HashMap<>());

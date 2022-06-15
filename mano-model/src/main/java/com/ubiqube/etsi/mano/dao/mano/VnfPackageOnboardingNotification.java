@@ -36,7 +36,7 @@ public class VnfPackageOnboardingNotification {
 
 	private UUID id = null;
 
-	private String nfvoId;
+	private UUID nfvoId;
 
 	private String notificationType = null;
 
