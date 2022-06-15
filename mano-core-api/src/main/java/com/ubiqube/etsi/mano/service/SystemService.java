@@ -120,6 +120,10 @@ public class SystemService {
 		sc.setVimType("CNF");
 		sc.setId(null);
 		sys.add(sc);
+		sc = mapper.map(vimConnectionInformation, SystemConnections.class);
+		sc.setVimType("HELM");
+		sc.setId(null);
+		sys.add(sc);
 		return systemJpa.save(sys);
 	}
 
