@@ -21,6 +21,7 @@
  */
 package com.ubiqube.etsi.mano.vnfm.v351.controller.vnflcm;
 
+import javax.annotation.Nonnull;
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 
@@ -81,7 +82,7 @@ public interface VnfInstances351Sol003Api {
 			@ApiResponse(responseCode = "503", description = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", content = @Content(schema = @Schema(implementation = ProblemDetails2.class))),
 			@ApiResponse(responseCode = "504", description = "504 GATEWAY TIMEOUT If the API producer encounters a timeout while waiting for a response from an upstream server (i.e. a server that the API producer communicates with when fulfilling a request), it should respond with this response code. ", content = @Content(schema = @Schema(implementation = ProblemDetails2.class))) })
 	@RequestMapping(produces = { "application/json" }, method = RequestMethod.GET)
-	ResponseEntity<String> vnfInstancesGet(final MultiValueMap<String, String> requestParams,
+	ResponseEntity<String> vnfInstancesGet(@Nonnull @RequestParam final MultiValueMap<String, String> requestParams,
 			@Parameter(in = ParameterIn.QUERY, description = "Marker to obtain the next page of a paged response. Shall be supported by the VNFM if the entity supports alternative 2 (paging) according to clause 5.4.2.1 of ETSI GS NFV-SOL 013 for this resource. ", schema = @Schema()) @Valid @RequestParam(value = "nextpage_opaque_marker", required = false) final String nextpageOpaqueMarker);
 
 	@Operation(summary = "", description = "The POST method creates a new VNF instance resource based on a VNF package that is onboarded and in \"ENABLED\" state. See clause 5.4.2.3.1. ", tags = {})
