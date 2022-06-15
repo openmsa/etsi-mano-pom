@@ -49,7 +49,7 @@ public class MciopVt extends VnfVtBase<MciopTask> {
 
 	@Override
 	public String getFactoryProviderId() {
-		return "CNF";
+		return "HELM";
 	}
 
 	@Override

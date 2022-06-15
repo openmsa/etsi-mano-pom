@@ -14,22 +14,15 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.vim.k8s;
+package com.ubiqube.etsi.mano.orchestrator.nodes.vnfm;
+
+import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
 
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public interface K8sService {
-
-	/**
-	 *
-	 * @param bearer
-	 * @param username
-	 * @param host
-	 * @return
-	 */
-	K8sClient createClient(String bearer, String username, String masterUrl);
-
+public interface MciopUser extends Node {
+	// Nothing.
 }

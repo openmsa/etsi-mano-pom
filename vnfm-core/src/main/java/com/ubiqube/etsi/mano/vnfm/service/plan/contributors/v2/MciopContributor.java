@@ -43,11 +43,11 @@ import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.MciopVt;
  *
  */
 @Service
-public class MciopContributir extends AbstractContributorV2Base<MciopTask, MciopVt> {
+public class MciopContributor extends AbstractContributorV2Base<MciopTask, MciopVt> {
 	private final VnfInstanceGatewayService vnfInstanceGatewayService;
 	private final VnfLiveInstanceJpa vnfLiveInstanceJpa;
 
-	public MciopContributir(final VnfInstanceGatewayService vnfInstanceGatewayService, final VnfLiveInstanceJpa vnfLiveInstanceJpa) {
+	public MciopContributor(final VnfInstanceGatewayService vnfInstanceGatewayService, final VnfLiveInstanceJpa vnfLiveInstanceJpa) {
 		super();
 		this.vnfInstanceGatewayService = vnfInstanceGatewayService;
 		this.vnfLiveInstanceJpa = vnfLiveInstanceJpa;
@@ -72,8 +72,11 @@ public class MciopContributir extends AbstractContributorV2Base<MciopTask, Mciop
 					if (c > 0) {
 						return;
 					}
-					final MciopTask inst = createInstances(x, blueprint);
-					ret.add(new MciopVt(inst));
+					x.getAssociatedVdu().forEach(y -> {
+						final MciopTask inst = createInstances(x, blueprint);
+						inst.setParentVdu(y);
+						ret.add(new MciopVt(inst));
+					});
 				});
 		return ret;
 	}
