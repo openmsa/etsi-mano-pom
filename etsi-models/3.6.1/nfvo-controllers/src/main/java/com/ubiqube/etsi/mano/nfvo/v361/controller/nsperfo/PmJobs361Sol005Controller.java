@@ -14,7 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.vnfm.v361.controller.vnffm;
+package com.ubiqube.etsi.mano.nfvo.v361.controller.nsperfo;
 
 import java.util.Optional;
 
@@ -28,14 +28,14 @@ import com.ubiqube.etsi.mano.SingleControllerCondition;
 
 @RestController
 @Conditional(SingleControllerCondition.class)
-public class VnfFmSubscriptions361Sol003Controller implements VnfFmSubscriptions361Sol003Api {
+public class PmJobs361Sol005Controller implements PmJobs361Sol005Api {
 
 	private final ObjectMapper objectMapper;
 
 	private final HttpServletRequest request;
 
 	@org.springframework.beans.factory.annotation.Autowired
-	public VnfFmSubscriptions361Sol003Controller(final ObjectMapper objectMapper, final HttpServletRequest request) {
+	public PmJobs361Sol005Controller(final ObjectMapper objectMapper, final HttpServletRequest request) {
 		this.objectMapper = objectMapper;
 		this.request = request;
 	}

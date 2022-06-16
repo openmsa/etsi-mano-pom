@@ -46,8 +46,8 @@ public class DuplicateClassTest {
 			final List<Path> v = x.getValue();
 			v.remove(0);
 			v.forEach(y -> {
-				// System.out.println(" - " + y);
-				y.toFile().delete();
+				System.out.println(" - " + y);
+				// y.toFile().delete();
 			});
 
 		});

@@ -14,25 +14,35 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.vnfm.v361.controller;
+package com.ubiqube.etsi.mano.vnfm.v361;
 
-import org.springdoc.core.GroupedOpenApi;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import java.time.OffsetDateTime;
+
+import org.springframework.stereotype.Service;
+
+import com.ubiqube.etsi.mano.controller.AbstractEtsiImplementation;
 
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-@Configuration
-public class VnfmSwaggerDocumentationConfig361 {
-	@SuppressWarnings("static-method")
-	@Bean
-	public GroupedOpenApi customImplementationVnfm361() {
-		return GroupedOpenApi.builder()
-				.group("vnfm-etsi-mano-3.6.1")
-				.packagesToScan("com.ubiqube.etsi.mano.vnfm.v361")
-				.build();
+@Service
+public class Vnfm361Implementation extends AbstractEtsiImplementation {
+
+	@Override
+	public String getVersion() {
+		return "3.6.1";
 	}
+
+	@Override
+	public boolean isDeprecated() {
+		return false;
+	}
+
+	@Override
+	public OffsetDateTime getRetirementDate() {
+		return null;
+	}
+
 }

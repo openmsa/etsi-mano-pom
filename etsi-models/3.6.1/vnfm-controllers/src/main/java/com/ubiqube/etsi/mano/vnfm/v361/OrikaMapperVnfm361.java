@@ -14,7 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.vnfm.v361.controller;
+package com.ubiqube.etsi.mano.vnfm.v361;
 
 import java.util.Optional;
 import java.util.Set;
