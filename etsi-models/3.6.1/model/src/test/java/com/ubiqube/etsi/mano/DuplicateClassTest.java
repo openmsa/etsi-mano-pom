@@ -22,7 +22,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-import org.junit.jupiter.api.Test;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -31,9 +30,8 @@ import org.springframework.util.MultiValueMap;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public class DuplicateClassTest {
+class DuplicateClassTest {
 
-	@Test
 	void scanDuplicatedClasses() throws IOException {
 		final MultiValueMap<Path, Path> all = new LinkedMultiValueMap<>();
 		Files.walk(Paths.get("/home/olivier/workspace/workspace17.1.1/ubi-etsi-mano/etsi-models/3.6.1"))
