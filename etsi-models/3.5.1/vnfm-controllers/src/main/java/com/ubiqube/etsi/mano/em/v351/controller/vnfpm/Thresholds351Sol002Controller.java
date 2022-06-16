@@ -21,10 +21,12 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import javax.validation.Valid;
 
+import org.springframework.context.annotation.Conditional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ubiqube.etsi.mano.SingleControllerCondition;
 import com.ubiqube.etsi.mano.em.v351.model.lcmcoord.Link;
 import com.ubiqube.etsi.mano.em.v351.model.vnfpm.CreateThresholdRequest;
 import com.ubiqube.etsi.mano.em.v351.model.vnfpm.Threshold;
@@ -38,6 +40,7 @@ import com.ubiqube.etsi.mano.vnfm.fc.vnfpm.VnfmThresholdFrontController;
  *
  */
 @RestController
+@Conditional(SingleControllerCondition.class)
 public class Thresholds351Sol002Controller implements Thresholds351Sol002Api {
 	private final VnfmThresholdFrontController vnfmThresholdFrontController;
 

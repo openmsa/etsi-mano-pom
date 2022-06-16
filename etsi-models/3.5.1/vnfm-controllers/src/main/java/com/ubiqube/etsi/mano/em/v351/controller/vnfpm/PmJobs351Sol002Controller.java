@@ -23,10 +23,12 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
+import org.springframework.context.annotation.Conditional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ubiqube.etsi.mano.SingleControllerCondition;
 import com.ubiqube.etsi.mano.em.v351.model.lcmcoord.Link;
 import com.ubiqube.etsi.mano.em.v351.model.vnfpm.CreatePmJobRequest;
 import com.ubiqube.etsi.mano.em.v351.model.vnfpm.PerformanceReport;
@@ -41,6 +43,7 @@ import com.ubiqube.etsi.mano.vnfm.fc.vnfpm.VnfmPmGenericFrontController;
  *
  */
 @RestController
+@Conditional(SingleControllerCondition.class)
 public class PmJobs351Sol002Controller implements PmJobs351Sol002Api {
 
 	private final VnfmPmGenericFrontController vnfmPmGenericFrontController;

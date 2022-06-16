@@ -18,9 +18,11 @@ package com.ubiqube.etsi.mano.em.v351.controller.vnfconfig;
 
 import javax.validation.Valid;
 
+import org.springframework.context.annotation.Conditional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ubiqube.etsi.mano.SingleControllerCondition;
 import com.ubiqube.etsi.mano.em.v351.model.vnfconfig.VnfConfigModifications;
 import com.ubiqube.etsi.mano.em.v351.model.vnfconfig.VnfConfiguration;
 import com.ubiqube.etsi.mano.vnfm.fc.vnfconfig.VnfConfigurationFrontController;
@@ -31,6 +33,7 @@ import com.ubiqube.etsi.mano.vnfm.fc.vnfconfig.VnfConfigurationFrontController;
  *
  */
 @RestController
+@Conditional(SingleControllerCondition.class)
 public class Configuration351Sol002Controller implements Configuration351Sol002Api {
 	private VnfConfigurationFrontController vnfConfigurationFrontController;
 

@@ -48,7 +48,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
  *
  */
 @Validated
-@RequestMapping(value = "/sol002/vnfconfig/v1/configuration", headers = "Version=1.2.1")
+@RequestMapping(value = "/sol002/vnfconfig/v1/configuration", headers = "Version=1.2.0")
 @RolesAllowed({ "ROLE_EM" })
 public interface Configuration351Sol002Api {
 
