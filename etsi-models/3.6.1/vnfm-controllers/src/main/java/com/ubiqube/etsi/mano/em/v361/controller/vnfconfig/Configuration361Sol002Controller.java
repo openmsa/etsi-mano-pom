@@ -16,38 +16,35 @@
  */
 package com.ubiqube.etsi.mano.em.v361.controller.vnfconfig;
 
-import java.util.Optional;
-
-import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.context.annotation.Conditional;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubiqube.etsi.mano.SingleControllerCondition;
+import com.ubiqube.etsi.mano.em.v361.model.vnfconfig.VnfConfigModifications;
+import com.ubiqube.etsi.mano.em.v361.model.vnfconfig.VnfConfiguration;
+import com.ubiqube.etsi.mano.vnfm.fc.vnfconfig.VnfConfigurationFrontController;
 
+/**
+ *
+ * @author Olivier Vignaud <ovi@ubiqube.com>
+ *
+ */
 @RestController
 @Conditional(SingleControllerCondition.class)
 public class Configuration361Sol002Controller implements Configuration361Sol002Api {
+	private VnfConfigurationFrontController vnfConfigurationFrontController;
 
-	private final ObjectMapper objectMapper;
-
-	private final HttpServletRequest request;
-
-	@org.springframework.beans.factory.annotation.Autowired
-	public Configuration361Sol002Controller(final ObjectMapper objectMapper, final HttpServletRequest request) {
-		this.objectMapper = objectMapper;
-		this.request = request;
+	@Override
+	public ResponseEntity<VnfConfiguration> configurationGet() {
+		return vnfConfigurationFrontController.find();
 	}
 
 	@Override
-	public Optional<ObjectMapper> getObjectMapper() {
-		return Optional.ofNullable(objectMapper);
-	}
-
-	@Override
-	public Optional<HttpServletRequest> getRequest() {
-		return Optional.ofNullable(request);
+	public ResponseEntity<VnfConfigModifications> configurationPatch(@Valid final VnfConfigModifications body) {
+		return vnfConfigurationFrontController.modify(body);
 	}
 
 }

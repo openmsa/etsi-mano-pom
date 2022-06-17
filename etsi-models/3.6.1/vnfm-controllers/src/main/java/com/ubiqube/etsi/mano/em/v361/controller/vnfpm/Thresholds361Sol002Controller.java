@@ -16,38 +16,78 @@
  */
 package com.ubiqube.etsi.mano.em.v361.controller.vnfpm;
 
-import java.util.Optional;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.context.annotation.Conditional;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubiqube.etsi.mano.SingleControllerCondition;
+import com.ubiqube.etsi.mano.em.v361.model.vnflcm.Link;
+import com.ubiqube.etsi.mano.em.v361.model.vnfpm.CreateThresholdRequest;
+import com.ubiqube.etsi.mano.em.v361.model.vnfpm.Threshold;
+import com.ubiqube.etsi.mano.em.v361.model.vnfpm.ThresholdLinks;
+import com.ubiqube.etsi.mano.em.v361.model.vnfpm.ThresholdModifications;
+import com.ubiqube.etsi.mano.vnfm.fc.vnfpm.VnfmThresholdFrontController;
 
+/**
+ *
+ * @author Olivier Vignaud <ovi@ubiqube.com>
+ *
+ */
 @RestController
 @Conditional(SingleControllerCondition.class)
 public class Thresholds361Sol002Controller implements Thresholds361Sol002Api {
+	private final VnfmThresholdFrontController vnfmThresholdFrontController;
 
-	private final ObjectMapper objectMapper;
-
-	private final HttpServletRequest request;
-
-	@org.springframework.beans.factory.annotation.Autowired
-	public Thresholds361Sol002Controller(final ObjectMapper objectMapper, final HttpServletRequest request) {
-		this.objectMapper = objectMapper;
-		this.request = request;
+	public Thresholds361Sol002Controller(final VnfmThresholdFrontController vnfmThresholdFrontController) {
+		this.vnfmThresholdFrontController = vnfmThresholdFrontController;
 	}
 
 	@Override
-	public Optional<ObjectMapper> getObjectMapper() {
-		return Optional.ofNullable(objectMapper);
+	public ResponseEntity<Threshold> thresholdsPost(@Valid final CreateThresholdRequest createThresholdRequest) {
+		return vnfmThresholdFrontController.thresholdsCreate(createThresholdRequest, Threshold.class, Thresholds361Sol002Controller::makeLinks, Thresholds361Sol002Controller::getSelfLink);
 	}
 
 	@Override
-	public Optional<HttpServletRequest> getRequest() {
-		return Optional.ofNullable(request);
+	public ResponseEntity<Void> thresholdsThresholdIdDelete(final String thresholdId) {
+		return vnfmThresholdFrontController.deleteById(thresholdId);
+	}
+
+	@Override
+	public ResponseEntity<Threshold> thresholdsThresholdIdGet(final String thresholdId) {
+		return vnfmThresholdFrontController.findById(thresholdId, Threshold.class, Thresholds361Sol002Controller::makeLinks);
+	}
+
+	@Override
+	public ResponseEntity<String> thresholdsGet(final MultiValueMap<String, String> requestParams, final String nextpageOpaqueMarker) {
+		return vnfmThresholdFrontController.search(requestParams, nextpageOpaqueMarker, Threshold.class, Thresholds361Sol002Controller::makeLinks);
+	}
+
+	@Override
+	public ResponseEntity<ThresholdModifications> thresholdsThresholdIdPatch(final String thresholdId, final ThresholdModifications body) {
+		return vnfmThresholdFrontController.patch(thresholdId, body, ThresholdModifications.class);
+	}
+
+	private static void makeLinks(final Threshold x) {
+		final ThresholdLinks links = new ThresholdLinks();
+		Link link = new Link();
+		link.setHref(linkTo(methodOn(Thresholds361Sol002Api.class).thresholdsThresholdIdGet(x.getId())).withSelfRel().getHref());
+		links.setSelf(link);
+
+		link = new Link();
+		link.setHref("");
+		// links.setObjects(link);
+
+		x.setLinks(links);
+	}
+
+	private static String getSelfLink(final Threshold threshold) {
+		return linkTo(methodOn(Thresholds361Sol002Api.class).thresholdsThresholdIdGet(threshold.getId().toString())).withSelfRel().getHref();
 	}
 
 }
