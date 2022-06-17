@@ -16,39 +16,66 @@
  */
 package com.ubiqube.etsi.mano.nfvo.v361.controller.nsd;
 
-import java.util.Optional;
+import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubiqube.etsi.mano.nfvo.v361.model.nsd.CreatePnfdInfoRequest;
 import com.ubiqube.etsi.mano.nfvo.v361.model.nsd.PnfdInfo;
+import com.ubiqube.etsi.mano.nfvo.v361.model.nsd.PnfdInfoModifications;
 
 @RestController
 public class PnfDescriptors361Sol005Controller implements PnfDescriptors361Sol005Api {
 
-	private final ObjectMapper objectMapper;
-
-	private final HttpServletRequest request;
-
-	@org.springframework.beans.factory.annotation.Autowired
-	public PnfDescriptors361Sol005Controller(final ObjectMapper objectMapper, final HttpServletRequest request) {
-		this.objectMapper = objectMapper;
-		this.request = request;
+	@Override
+	public ResponseEntity<List<PnfdInfo>> pnfDescriptorsGet(@Valid final String filter, @Valid final String nextpageOpaqueMarker) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public Optional<ObjectMapper> getObjectMapper() {
-		return Optional.ofNullable(objectMapper);
+	public ResponseEntity<Void> pnfDescriptorsPnfdInfoIdArtifactsArtifactPathGet(final String pnfdInfoId, final String artifactPath, @Valid final String includeSignatures) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public Optional<HttpServletRequest> getRequest() {
-		return Optional.ofNullable(request);
+	public ResponseEntity<Void> pnfDescriptorsPnfdInfoIdDelete(final String pnfdInfoId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResponseEntity<PnfdInfo> pnfDescriptorsPnfdInfoIdGet(final String pnfdInfoId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResponseEntity<Void> pnfDescriptorsPnfdInfoIdManifestGet(final String pnfdInfoId, @Valid final String includeSignatures) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResponseEntity<PnfdInfoModifications> pnfDescriptorsPnfdInfoIdPatch(final String pnfdInfoId, @Valid final PnfdInfoModifications body) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResponseEntity<Void> pnfDescriptorsPnfdInfoIdPnfdContentGet(final String pnfdInfoId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResponseEntity<Void> pnfDescriptorsPnfdInfoIdPnfdContentPut(final String pnfdInfoId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override

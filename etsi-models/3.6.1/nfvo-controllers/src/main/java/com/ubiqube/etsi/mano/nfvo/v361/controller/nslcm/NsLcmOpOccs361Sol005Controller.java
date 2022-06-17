@@ -16,32 +16,84 @@
  */
 package com.ubiqube.etsi.mano.nfvo.v361.controller.nslcm;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.web.bind.annotation.RestController;
-import javax.servlet.http.HttpServletRequest;
-import java.util.Optional;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import javax.validation.constraints.NotNull;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.ubiqube.etsi.mano.controller.nslcm.NsLcmGenericFrontController;
+import com.ubiqube.etsi.mano.em.v361.model.vnflcm.Link;
+import com.ubiqube.etsi.mano.nfvo.v361.model.nslcm.NsLcmOpOcc;
+import com.ubiqube.etsi.mano.nfvo.v361.model.nslcm.NsLcmOpOccLinks;
+
+/**
+ *
+ * @author Olivier Vignaud <ovi@ubiqube.com>
+ *
+ */
 @RestController
 public class NsLcmOpOccs361Sol005Controller implements NsLcmOpOccs361Sol005Api {
 
-    private final ObjectMapper objectMapper;
+	private final NsLcmGenericFrontController nsLcmGenericFrontController;
 
-    private final HttpServletRequest request;
+	public NsLcmOpOccs361Sol005Controller(final NsLcmGenericFrontController nsLcmGenericFrontController) {
+		super();
+		this.nsLcmGenericFrontController = nsLcmGenericFrontController;
+	}
 
-    @org.springframework.beans.factory.annotation.Autowired
-    public NsLcmOpOccs361Sol005Controller(ObjectMapper objectMapper, HttpServletRequest request) {
-        this.objectMapper = objectMapper;
-        this.request = request;
-    }
+	@Override
+	public ResponseEntity<String> nsLcmOpOccsGet(final MultiValueMap<String, String> requestParams, final String nextpageOpaqueMarker) {
+		return nsLcmGenericFrontController.search(requestParams, NsLcmOpOcc.class, nextpageOpaqueMarker, NsLcmOpOccs361Sol005Controller::makeLinks);
+	}
 
-    @Override
-    public Optional<ObjectMapper> getObjectMapper() {
-        return Optional.ofNullable(objectMapper);
-    }
+	@Override
+	public ResponseEntity<Void> nsLcmOpOccsNsLcmOpOccIdContinuePost(final String nsLcmOpOccId) {
+		return nsLcmGenericFrontController.continu(nsLcmOpOccId);
+	}
 
-    @Override
-    public Optional<HttpServletRequest> getRequest() {
-        return Optional.ofNullable(request);
-    }
+	@Override
+	public ResponseEntity<NsLcmOpOcc> nsLcmOpOccsNsLcmOpOccIdGet(final String nsLcmOpOccId) {
+		return nsLcmGenericFrontController.findById(nsLcmOpOccId, NsLcmOpOcc.class, NsLcmOpOccs361Sol005Controller::makeLinks);
+	}
+
+	@Override
+	public ResponseEntity<Void> nsLcmOpOccsNsLcmOpOccIdRetryPost(final String nsLcmOpOccId) {
+		return nsLcmGenericFrontController.retry(nsLcmOpOccId);
+	}
+
+	@Override
+	public ResponseEntity<Void> nsLcmOpOccsNsLcmOpOccIdRollbackPost(final String nsLcmOpOccId) {
+		return nsLcmGenericFrontController.rollback(nsLcmOpOccId);
+	}
+
+	public static void makeLinks(@NotNull final NsLcmOpOcc nsLcmOpOccs) {
+		final String id = nsLcmOpOccs.getId();
+		final NsLcmOpOccLinks nsLcmOpOccLinks = new NsLcmOpOccLinks();
+
+		final Link _continue = new Link();
+		_continue.setHref(linkTo(methodOn(NsLcmOpOccs361Sol005Api.class).nsLcmOpOccsNsLcmOpOccIdContinuePost(id)).withSelfRel().getHref());
+		nsLcmOpOccLinks.setContinue(_continue);
+
+		final Link nsInstance = new Link();
+		nsInstance.setHref(linkTo(methodOn(NsInstances361Sol005Api.class).nsInstancesNsInstanceIdGet(nsLcmOpOccs.getNsInstanceId().toString())).withSelfRel().getHref());
+		nsLcmOpOccLinks.setNsInstance(nsInstance);
+
+		final Link retry = new Link();
+		retry.setHref(linkTo(methodOn(NsLcmOpOccs361Sol005Api.class).nsLcmOpOccsNsLcmOpOccIdRetryPost(id)).withSelfRel().getHref());
+		nsLcmOpOccLinks.setRetry(retry);
+
+		final Link rollback = new Link();
+		rollback.setHref(linkTo(methodOn(NsLcmOpOccs361Sol005Api.class).nsLcmOpOccsNsLcmOpOccIdRollbackPost(id)).withSelfRel().getHref());
+		nsLcmOpOccLinks.setRollback(rollback);
+
+		final Link self = new Link();
+		self.setHref(linkTo(methodOn(NsLcmOpOccs361Sol005Api.class).nsLcmOpOccsNsLcmOpOccIdGet(id)).withSelfRel().getHref());
+		nsLcmOpOccLinks.setSelf(self);
+		nsLcmOpOccs.setLinks(nsLcmOpOccLinks);
+	}
 
 }

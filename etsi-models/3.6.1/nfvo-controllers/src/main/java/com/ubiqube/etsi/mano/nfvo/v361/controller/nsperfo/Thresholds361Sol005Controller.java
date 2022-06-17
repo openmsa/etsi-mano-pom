@@ -16,38 +16,55 @@
  */
 package com.ubiqube.etsi.mano.nfvo.v361.controller.nsperfo;
 
-import java.util.Optional;
+import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.context.annotation.Conditional;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubiqube.etsi.mano.SingleControllerCondition;
+import com.ubiqube.etsi.mano.em.v361.model.vnfpm.CreateThresholdRequest;
+import com.ubiqube.etsi.mano.em.v361.model.vnfpm.Threshold;
+import com.ubiqube.etsi.mano.em.v361.model.vnfpm.ThresholdModifications;
 
+/**
+ *
+ * @author Olivier Vignaud <ovi@ubiqube.com>
+ *
+ */
 @RestController
 @Conditional(SingleControllerCondition.class)
 public class Thresholds361Sol005Controller implements Thresholds361Sol005Api {
 
-	private final ObjectMapper objectMapper;
-
-	private final HttpServletRequest request;
-
-	@org.springframework.beans.factory.annotation.Autowired
-	public Thresholds361Sol005Controller(final ObjectMapper objectMapper, final HttpServletRequest request) {
-		this.objectMapper = objectMapper;
-		this.request = request;
+	@Override
+	public ResponseEntity<List<Threshold>> thresholdsGet(@Valid final String filter, @Valid final String nextpageOpaqueMarker) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public Optional<ObjectMapper> getObjectMapper() {
-		return Optional.ofNullable(objectMapper);
+	public ResponseEntity<Threshold> thresholdsPost(@Valid final CreateThresholdRequest body) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
-	public Optional<HttpServletRequest> getRequest() {
-		return Optional.ofNullable(request);
+	public ResponseEntity<Void> thresholdsThresholdIdDelete(final String thresholdId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
+	@Override
+	public ResponseEntity<Threshold> thresholdsThresholdIdGet(final String thresholdId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResponseEntity<ThresholdModifications> thresholdsThresholdIdPatch(final String thresholdId, @Valid final ThresholdModifications body) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
