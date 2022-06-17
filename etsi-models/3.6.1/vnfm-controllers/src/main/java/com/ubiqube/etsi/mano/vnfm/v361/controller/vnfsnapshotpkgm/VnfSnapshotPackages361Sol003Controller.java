@@ -16,38 +16,67 @@
  */
 package com.ubiqube.etsi.mano.vnfm.v361.controller.vnfsnapshotpkgm;
 
-import java.util.Optional;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+
+import javax.validation.Valid;
 
 import org.springframework.context.annotation.Conditional;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubiqube.etsi.mano.SingleControllerCondition;
+import com.ubiqube.etsi.mano.em.v361.model.vnflcm.Link;
+import com.ubiqube.etsi.mano.nfvo.v361.model.vnfsnapshotpkgm.VnfSnapshotPkgInfo;
+import com.ubiqube.etsi.mano.nfvo.v361.model.vnfsnapshotpkgm.VnfSnapshotPkgInfoLinks;
+import com.ubiqube.etsi.mano.vnfm.fc.vnflcm.VnfSnapshotsFrontController;
 
+/**
+ *
+ * @author Olivier Vignaud <ovi@ubiqube.com>
+ *
+ */
 @Conditional(SingleControllerCondition.class)
 @RestController
 public class VnfSnapshotPackages361Sol003Controller implements VnfSnapshotPackages361Sol003Api {
 
-	private final ObjectMapper objectMapper;
+	private final VnfSnapshotsFrontController vnfSnapshotsFrontController;
 
-	private final HttpServletRequest request;
-
-	@org.springframework.beans.factory.annotation.Autowired
-	public VnfSnapshotPackages361Sol003Controller(final ObjectMapper objectMapper, final HttpServletRequest request) {
-		this.objectMapper = objectMapper;
-		this.request = request;
+	public VnfSnapshotPackages361Sol003Controller(final VnfSnapshotsFrontController vnfSnapshotsFrontController) {
+		super();
+		this.vnfSnapshotsFrontController = vnfSnapshotsFrontController;
 	}
 
 	@Override
-	public Optional<ObjectMapper> getObjectMapper() {
-		return Optional.ofNullable(objectMapper);
+	public ResponseEntity<List<VnfSnapshotPkgInfo>> vnfSnapshotPackagesGet(final MultiValueMap<String, String> requestParams, @Valid final String nextpageOpaqueMarker) {
+		return vnfSnapshotsFrontController.search(requestParams, nextpageOpaqueMarker, VnfSnapshotPkgInfo.class, VnfSnapshotPackages361Sol003Controller::makeLinks);
 	}
 
 	@Override
-	public Optional<HttpServletRequest> getRequest() {
-		return Optional.ofNullable(request);
+	public ResponseEntity<VnfSnapshotPkgInfo> vnfSnapshotPackagesVnfSnapshotPkgIdGet(final String vnfSnapshotInfoId) {
+		return vnfSnapshotsFrontController.findById(vnfSnapshotInfoId, VnfSnapshotPkgInfo.class, VnfSnapshotPackages361Sol003Controller::makeLinks);
+	}
+
+	@Override
+	public ResponseEntity<Resource> vnfSnapshotPackagesVnfSnapshotPkgIdPackageContentGet(final String vnfSnapshotInfoId) {
+		return vnfSnapshotsFrontController.fetch(vnfSnapshotInfoId, null);
+	}
+
+	@Override
+	public ResponseEntity<Resource> vnfSnapshotPackagesVnfSnapshotPkgIdArtifactsArtifactPathGet(final String vnfSnapshotPkgId, final String artifactPath) {
+		return vnfSnapshotsFrontController.fetchArtifact(vnfSnapshotPkgId, artifactPath);
+	}
+
+	private static void makeLinks(final VnfSnapshotPkgInfo subscription) {
+		final VnfSnapshotPkgInfoLinks links = new VnfSnapshotPkgInfoLinks();
+		final Link link = new Link();
+		link.setHref(linkTo(methodOn(VnfSnapshotPackages361Sol003Api.class).vnfSnapshotPackagesVnfSnapshotPkgIdGet(subscription.getId())).withSelfRel().getHref());
+		links.setSelf(link);
+		subscription.setLinks(links);
 	}
 
 }

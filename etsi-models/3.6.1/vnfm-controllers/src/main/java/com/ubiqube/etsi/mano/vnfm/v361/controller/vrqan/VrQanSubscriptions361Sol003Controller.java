@@ -16,38 +16,71 @@
  */
 package com.ubiqube.etsi.mano.vnfm.v361.controller.vrqan;
 
-import java.util.Optional;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+
+import javax.validation.Valid;
 
 import org.springframework.context.annotation.Conditional;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubiqube.etsi.mano.SingleControllerCondition;
+import com.ubiqube.etsi.mano.controller.SubscriptionFrontController;
+import com.ubiqube.etsi.mano.dao.mano.subs.SubscriptionType;
+import com.ubiqube.etsi.mano.em.v361.model.vnflcm.Link;
+import com.ubiqube.etsi.mano.vnfm.v361.model.vrqan.VrQuotaAvailSubscription;
+import com.ubiqube.etsi.mano.vnfm.v361.model.vrqan.VrQuotaAvailSubscriptionLinks;
+import com.ubiqube.etsi.mano.vnfm.v361.model.vrqan.VrQuotaAvailSubscriptionRequest;
 
+/**
+ *
+ * @author Olivier Vignaud <ovi@ubiqube.com>
+ *
+ */
 @RestController
 @Conditional(SingleControllerCondition.class)
 public class VrQanSubscriptions361Sol003Controller implements VrQanSubscriptions361Sol003Api {
+	private final SubscriptionFrontController subscriptionService;
 
-	private final ObjectMapper objectMapper;
-
-	private final HttpServletRequest request;
-
-	@org.springframework.beans.factory.annotation.Autowired
-	public VrQanSubscriptions361Sol003Controller(final ObjectMapper objectMapper, final HttpServletRequest request) {
-		this.objectMapper = objectMapper;
-		this.request = request;
+	public VrQanSubscriptions361Sol003Controller(final SubscriptionFrontController subscriptionService) {
+		super();
+		this.subscriptionService = subscriptionService;
 	}
 
 	@Override
-	public Optional<ObjectMapper> getObjectMapper() {
-		return Optional.ofNullable(objectMapper);
+	public ResponseEntity<List<VrQuotaAvailSubscription>> subscriptionsGet(final MultiValueMap<String, String> requestParams, final String nextpageOpaqueMarker) {
+		return subscriptionService.search(requestParams, VrQuotaAvailSubscription.class, VrQanSubscriptions361Sol003Controller::makeLinks, SubscriptionType.VRQAN);
 	}
 
 	@Override
-	public Optional<HttpServletRequest> getRequest() {
-		return Optional.ofNullable(request);
+	public ResponseEntity<VrQuotaAvailSubscription> subscriptionsPost(@Valid final VrQuotaAvailSubscriptionRequest vrQuotaAvailSubscriptionRequest) {
+		return subscriptionService.create(vrQuotaAvailSubscriptionRequest, VrQuotaAvailSubscription.class, VrQanSubscriptions361Sol003Controller::makeLinks, VrQanSubscriptions361Sol003Controller::makeSelf, SubscriptionType.VRQAN);
+	}
+
+	@Override
+	public ResponseEntity<Void> subscriptionsSubscriptionIdDelete(final String subscriptionId) {
+		return subscriptionService.deleteById(subscriptionId, SubscriptionType.VRQAN);
+	}
+
+	@Override
+	public ResponseEntity<VrQuotaAvailSubscription> subscriptionsSubscriptionIdGet(final String subscriptionId) {
+		return subscriptionService.findById(subscriptionId, VrQuotaAvailSubscription.class, VrQanSubscriptions361Sol003Controller::makeLinks, SubscriptionType.VRQAN);
+	}
+
+	private static String makeSelf(final VrQuotaAvailSubscription subscription) {
+		return linkTo(methodOn(VrQanSubscriptions361Sol003Api.class).subscriptionsSubscriptionIdGet(subscription.getId())).withSelfRel().getHref();
+	}
+
+	private static void makeLinks(final VrQuotaAvailSubscription subscription) {
+		final VrQuotaAvailSubscriptionLinks links = new VrQuotaAvailSubscriptionLinks();
+		final Link link = new Link();
+		link.setHref(linkTo(methodOn(VrQanSubscriptions361Sol003Api.class).subscriptionsSubscriptionIdGet(subscription.getId())).withSelfRel().getHref());
+		links.setSelf(link);
+		subscription.setLinks(links);
 	}
 
 }

@@ -16,38 +16,59 @@
  */
 package com.ubiqube.etsi.mano.vnfm.v361.controller.vnfind;
 
-import java.util.Optional;
+import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.context.annotation.Conditional;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubiqube.etsi.mano.SingleControllerCondition;
+import com.ubiqube.etsi.mano.controller.SubscriptionFrontController;
+import com.ubiqube.etsi.mano.dao.mano.subs.SubscriptionType;
+import com.ubiqube.etsi.mano.em.v361.model.vnfind.VnfIndicatorSubscription;
+import com.ubiqube.etsi.mano.em.v361.model.vnfind.VnfIndicatorSubscriptionLinks;
+import com.ubiqube.etsi.mano.em.v361.model.vnfind.VnfIndicatorSubscriptionRequest;
+import com.ubiqube.etsi.mano.em.v361.model.vnflcm.Link;
 
+/**
+ *
+ * @author Olivier Vignaud <ovi@ubiqube.com>
+ *
+ */
 @RestController
 @Conditional(SingleControllerCondition.class)
 public class VnfIndSubscriptions361Sol003Controller implements VnfIndSubscriptions361Sol003Api {
+	private final SubscriptionFrontController subscriptionService;
 
-	private final ObjectMapper objectMapper;
-
-	private final HttpServletRequest request;
-
-	@org.springframework.beans.factory.annotation.Autowired
-	public VnfIndSubscriptions361Sol003Controller(final ObjectMapper objectMapper, final HttpServletRequest request) {
-		this.objectMapper = objectMapper;
-		this.request = request;
+	public VnfIndSubscriptions361Sol003Controller(final SubscriptionFrontController subscriptionService) {
+		super();
+		this.subscriptionService = subscriptionService;
 	}
 
 	@Override
-	public Optional<ObjectMapper> getObjectMapper() {
-		return Optional.ofNullable(objectMapper);
+	public ResponseEntity<List<VnfIndicatorSubscription>> subscriptionsGet(final MultiValueMap<String, String> requestParams, @Valid final String nextpageOpaqueMarker) {
+		return subscriptionService.search(requestParams, VnfIndicatorSubscription.class, VnfIndSubscriptions361Sol003Controller::makeLinks, SubscriptionType.VNFIND);
 	}
 
 	@Override
-	public Optional<HttpServletRequest> getRequest() {
-		return Optional.ofNullable(request);
+	public ResponseEntity<VnfIndicatorSubscription> subscriptionsPost(@Valid final VnfIndicatorSubscriptionRequest vnfIndicatorSubscriptionRequest) {
+		return subscriptionService.create(vnfIndicatorSubscriptionRequest, VnfIndicatorSubscription.class, VnfIndSubscriptions361Sol003Controller::makeLinks, VnfIndSubscriptions361Sol003Controller::makeSelf, SubscriptionType.VNFPM);
+	}
+
+	private static String makeSelf(final VnfIndicatorSubscription subscription) {
+		// linkTo(methodOn(VnfIndSubscriptions361Sol003Api.class).subscriptionsSubscriptionIdGet(subscription.getId())).withSelfRel().getHref();
+		return "";
+	}
+
+	private static void makeLinks(final VnfIndicatorSubscription subscription) {
+		final VnfIndicatorSubscriptionLinks links = new VnfIndicatorSubscriptionLinks();
+		final Link link = new Link();
+		// link.setHref(linkTo(methodOn(VnfIndSubscriptions361Sol003Api.class).subscriptionsSubscriptionIdGet(subscription.getId())).withSelfRel().getHref());
+		links.setSelf(link);
+		subscription.setLinks(links);
 	}
 
 }

@@ -16,32 +16,69 @@
  */
 package com.ubiqube.etsi.mano.vnfm.v361.controller.vnflcm;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.web.bind.annotation.RestController;
-import javax.servlet.http.HttpServletRequest;
-import java.util.Optional;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import java.util.List;
+
+import javax.validation.Valid;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.ubiqube.etsi.mano.em.v361.model.vnflcm.LccnSubscription;
+import com.ubiqube.etsi.mano.em.v361.model.vnflcm.LccnSubscriptionLinks;
+import com.ubiqube.etsi.mano.em.v361.model.vnflcm.LccnSubscriptionRequest;
+import com.ubiqube.etsi.mano.em.v361.model.vnflcm.Link;
+import com.ubiqube.etsi.mano.vnfm.fc.vnflcm.VnfLcmSubscriptionFrontController;
+
+/**
+ *
+ * @author Olivier Vignaud <ovi@ubiqube.com>
+ *
+ */
 @RestController
 public class VnfLcmSubscriptions361Sol003Controller implements VnfLcmSubscriptions361Sol003Api {
 
-    private final ObjectMapper objectMapper;
+	private final VnfLcmSubscriptionFrontController frontController;
 
-    private final HttpServletRequest request;
+	public VnfLcmSubscriptions361Sol003Controller(final VnfLcmSubscriptionFrontController frontController) {
+		super();
+		this.frontController = frontController;
+	}
 
-    @org.springframework.beans.factory.annotation.Autowired
-    public VnfLcmSubscriptions361Sol003Controller(ObjectMapper objectMapper, HttpServletRequest request) {
-        this.objectMapper = objectMapper;
-        this.request = request;
-    }
+	@Override
+	public ResponseEntity<List<LccnSubscription>> subscriptionsGet(final MultiValueMap<String, String> requestParams, @Valid final String nextpageOpaqueMarker) {
+		return frontController.search(requestParams, nextpageOpaqueMarker, LccnSubscription.class, VnfLcmSubscriptions361Sol003Controller::makeLinks);
+	}
 
-    @Override
-    public Optional<ObjectMapper> getObjectMapper() {
-        return Optional.ofNullable(objectMapper);
-    }
+	@Override
+	public ResponseEntity<LccnSubscription> subscriptionsPost(@Valid final LccnSubscriptionRequest body) {
+		return frontController.create(body, LccnSubscription.class, VnfLcmSubscriptions361Sol003Controller::makeLinks, VnfLcmSubscriptions361Sol003Controller::getSelfLink);
+	}
 
-    @Override
-    public Optional<HttpServletRequest> getRequest() {
-        return Optional.ofNullable(request);
-    }
+	@Override
+	public ResponseEntity<Void> subscriptionsSubscriptionIdDelete(final String subscriptionId) {
+		return frontController.deleteById(subscriptionId);
+	}
+
+	@Override
+	public ResponseEntity<LccnSubscription> subscriptionsSubscriptionIdGet(final String subscriptionId) {
+		return frontController.findById(subscriptionId, LccnSubscription.class, VnfLcmSubscriptions361Sol003Controller::makeLinks);
+	}
+
+	private static String getSelfLink(final LccnSubscription subscription) {
+		return linkTo(methodOn(VnfLcmSubscriptions361Sol003Api.class).subscriptionsSubscriptionIdGet(subscription.getId())).withSelfRel().getHref();
+	}
+
+	private static void makeLinks(final LccnSubscription subs) {
+		final LccnSubscriptionLinks links = new LccnSubscriptionLinks();
+		final Link self = new Link();
+		self.setHref(linkTo(methodOn(VnfLcmSubscriptions361Sol003Api.class).subscriptionsSubscriptionIdGet(subs.getId())).withSelfRel().getHref());
+		links.setSelf(self);
+
+		subs.setLinks(links);
+	}
 
 }

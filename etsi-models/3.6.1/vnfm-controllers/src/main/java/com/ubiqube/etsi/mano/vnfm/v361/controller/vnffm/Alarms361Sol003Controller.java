@@ -16,38 +16,66 @@
  */
 package com.ubiqube.etsi.mano.vnfm.v361.controller.vnffm;
 
-import java.util.Optional;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.context.annotation.Conditional;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubiqube.etsi.mano.SingleControllerCondition;
+import com.ubiqube.etsi.mano.dao.mano.alarm.AckState;
+import com.ubiqube.etsi.mano.em.v361.model.vnffm.Alarm;
+import com.ubiqube.etsi.mano.em.v361.model.vnffm.AlarmLinks;
+import com.ubiqube.etsi.mano.em.v361.model.vnffm.AlarmModifications;
+import com.ubiqube.etsi.mano.em.v361.model.vnflcm.Link;
+import com.ubiqube.etsi.mano.vnfm.fc.vnffm.AlarmFrontController;
 
+/**
+ *
+ * @author Olivier Vignaud <ovi@ubiqube.com>
+ *
+ */
 @RestController
 @Conditional(SingleControllerCondition.class)
 public class Alarms361Sol003Controller implements Alarms361Sol003Api {
 
-	private final ObjectMapper objectMapper;
+	private final AlarmFrontController alarmFrontController;
 
-	private final HttpServletRequest request;
-
-	@org.springframework.beans.factory.annotation.Autowired
-	public Alarms361Sol003Controller(final ObjectMapper objectMapper, final HttpServletRequest request) {
-		this.objectMapper = objectMapper;
-		this.request = request;
+	public Alarms361Sol003Controller(final AlarmFrontController alarmFrontController) {
+		super();
+		this.alarmFrontController = alarmFrontController;
 	}
 
 	@Override
-	public Optional<ObjectMapper> getObjectMapper() {
-		return Optional.ofNullable(objectMapper);
+	public ResponseEntity<Alarm> alarmsAlarmIdGet(final String alarmId) {
+		return alarmFrontController.findById(alarmId, Alarm.class, Alarms361Sol003Controller::makeLinks);
 	}
 
 	@Override
-	public Optional<HttpServletRequest> getRequest() {
-		return Optional.ofNullable(request);
+	public ResponseEntity<AlarmModifications> alarmsAlarmIdPatch(final String alarmId, final AlarmModifications alarmModifications, final String ifMatch) {
+		return alarmFrontController.patch(alarmId, AckState.valueOf(alarmModifications.getAckState().toString()), ifMatch, AlarmModifications.class);
+	}
+
+	@Override
+	public ResponseEntity<String> alarmsGet(final MultiValueMap<String, String> requestParams, @Valid final String nextpageOpaqueMarker) {
+		return alarmFrontController.search(requestParams, Alarm.class, Alarms361Sol003Controller::makeLinks);
+	}
+
+	private static void makeLinks(final Alarm alarm) {
+		final AlarmLinks links = new AlarmLinks();
+		Link link = new Link();
+		link.setHref(linkTo(methodOn(Alarms361Sol003Api.class).alarmsAlarmIdGet(alarm.getId())).withSelfRel().getHref());
+		links.setSelf(link);
+
+		link = new Link();
+		link.setHref(linkTo(methodOn(Alarms361Sol003Api.class).alarmsAlarmIdGet(alarm.getId())).withSelfRel().getHref());
+		links.setObjectInstance(link);
+
+		alarm.setLinks(links);
 	}
 
 }
