@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.dao.mano;
 
 import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -53,6 +54,7 @@ public class VnfLiveInstance implements BaseEntity, Auditable {
 	/**
 	 * VIM resourceId.
 	 */
+	@Column(length = 9_000)
 	private String resourceId;
 
 	private String vimConnectionId;
