@@ -14,25 +14,28 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.vnfm.v261.controller.vnflcm.sol003;
+package com.ubiqube.etsi.mano.vnfm;
 
+import com.ubiqube.etsi.mano.em.v351.model.vnflcm.ChangeCurrentVnfPkgRequest;
+import com.ubiqube.etsi.mano.em.v351.model.vnflcm.ChangeExtVnfConnectivityRequest;
+import com.ubiqube.etsi.mano.em.v351.model.vnflcm.ChangeVnfFlavourRequest;
+import com.ubiqube.etsi.mano.em.v351.model.vnflcm.CreateVnfSnapshotRequest;
+import com.ubiqube.etsi.mano.em.v351.model.vnflcm.HealVnfRequest;
+import com.ubiqube.etsi.mano.em.v351.model.vnflcm.InstantiateVnfRequest;
+import com.ubiqube.etsi.mano.em.v351.model.vnflcm.OperateVnfRequest;
+import com.ubiqube.etsi.mano.em.v351.model.vnflcm.RevertToVnfSnapshotRequest;
+import com.ubiqube.etsi.mano.em.v351.model.vnflcm.ScaleVnfRequest;
+import com.ubiqube.etsi.mano.em.v351.model.vnflcm.ScaleVnfToLevelRequest;
+import com.ubiqube.etsi.mano.em.v351.model.vnflcm.TerminateVnfRequest;
+import com.ubiqube.etsi.mano.em.v351.model.vnflcm.VnfInfoModificationRequest;
 import com.ubiqube.etsi.mano.vnfm.fc.vnflcm.VnfLcmClassMaping;
-import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.ChangeExtVnfConnectivityRequest;
-import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.ChangeVnfFlavourRequest;
-import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.HealVnfRequest;
-import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.InstantiateVnfRequest;
-import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.OperateVnfRequest;
-import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.ScaleVnfRequest;
-import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.ScaleVnfToLevelRequest;
-import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.TerminateVnfRequest;
-import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.VnfInfoModificationRequest;
 
 /**
  *
- * @author Olivier Vignaud {@literal <ovi@ubiqube.com>}
+ * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public class VnfLcmClassMaping261 implements VnfLcmClassMaping {
+public class VnfLcmClassMaping351 implements VnfLcmClassMaping {
 
 	@Override
 	public Class<?> getInstantiateVnfRequest() {
@@ -81,17 +84,17 @@ public class VnfLcmClassMaping261 implements VnfLcmClassMaping {
 
 	@Override
 	public Class<?> getCreateVnfSnapshotRequest() {
-		return null;
+		return CreateVnfSnapshotRequest.class;
 	}
 
 	@Override
 	public Class<?> getRevertToVnfSnapshotRequest() {
-		return null;
+		return RevertToVnfSnapshotRequest.class;
 	}
 
 	@Override
 	public Class<?> getChangeCurrentVnfPkgRequest() {
-		return null;
+		return ChangeCurrentVnfPkgRequest.class;
 	}
 
 }

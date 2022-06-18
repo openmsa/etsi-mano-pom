@@ -14,28 +14,25 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.em.v351.controller.vnflcm;
+package com.ubiqube.etsi.mano.vnfm;
 
-import com.ubiqube.etsi.mano.em.v351.model.vnflcm.ChangeCurrentVnfPkgRequest;
-import com.ubiqube.etsi.mano.em.v351.model.vnflcm.ChangeExtVnfConnectivityRequest;
-import com.ubiqube.etsi.mano.em.v351.model.vnflcm.ChangeVnfFlavourRequest;
-import com.ubiqube.etsi.mano.em.v351.model.vnflcm.CreateVnfSnapshotRequest;
-import com.ubiqube.etsi.mano.em.v351.model.vnflcm.HealVnfRequest;
-import com.ubiqube.etsi.mano.em.v351.model.vnflcm.InstantiateVnfRequest;
-import com.ubiqube.etsi.mano.em.v351.model.vnflcm.OperateVnfRequest;
-import com.ubiqube.etsi.mano.em.v351.model.vnflcm.RevertToVnfSnapshotRequest;
-import com.ubiqube.etsi.mano.em.v351.model.vnflcm.ScaleVnfRequest;
-import com.ubiqube.etsi.mano.em.v351.model.vnflcm.ScaleVnfToLevelRequest;
-import com.ubiqube.etsi.mano.em.v351.model.vnflcm.TerminateVnfRequest;
-import com.ubiqube.etsi.mano.em.v351.model.vnflcm.VnfInfoModificationRequest;
+import com.ubiqube.etsi.mano.em.v271.model.vnflcm.ChangeExtVnfConnectivityRequest;
+import com.ubiqube.etsi.mano.em.v271.model.vnflcm.ChangeVnfFlavourRequest;
+import com.ubiqube.etsi.mano.em.v271.model.vnflcm.HealVnfRequest;
+import com.ubiqube.etsi.mano.em.v271.model.vnflcm.InstantiateVnfRequest;
+import com.ubiqube.etsi.mano.em.v271.model.vnflcm.OperateVnfRequest;
+import com.ubiqube.etsi.mano.em.v271.model.vnflcm.ScaleVnfRequest;
+import com.ubiqube.etsi.mano.em.v271.model.vnflcm.ScaleVnfToLevelRequest;
+import com.ubiqube.etsi.mano.em.v271.model.vnflcm.TerminateVnfRequest;
+import com.ubiqube.etsi.mano.em.v271.model.vnflcm.VnfInfoModificationRequest;
 import com.ubiqube.etsi.mano.vnfm.fc.vnflcm.VnfLcmClassMaping;
 
 /**
  *
- * @author Olivier Vignaud <ovi@ubiqube.com>
+ * @author ncuser
  *
  */
-public class VnfLcmClassMaping351 implements VnfLcmClassMaping {
+public class VnfLcmClassMaping271 implements VnfLcmClassMaping {
 
 	@Override
 	public Class<?> getInstantiateVnfRequest() {
@@ -84,17 +81,17 @@ public class VnfLcmClassMaping351 implements VnfLcmClassMaping {
 
 	@Override
 	public Class<?> getCreateVnfSnapshotRequest() {
-		return CreateVnfSnapshotRequest.class;
+		return null;
 	}
 
 	@Override
 	public Class<?> getRevertToVnfSnapshotRequest() {
-		return RevertToVnfSnapshotRequest.class;
+		return null;
 	}
 
 	@Override
 	public Class<?> getChangeCurrentVnfPkgRequest() {
-		return ChangeCurrentVnfPkgRequest.class;
+		return null;
 	}
 
 }

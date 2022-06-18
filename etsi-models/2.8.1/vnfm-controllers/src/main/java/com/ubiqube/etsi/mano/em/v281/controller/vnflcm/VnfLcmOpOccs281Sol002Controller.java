@@ -32,6 +32,7 @@ import com.ubiqube.etsi.mano.em.v281.model.vnflcm.CancelMode;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.Link;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.VnfLcmOpOcc;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.VnfLcmOpOccLinks;
+import com.ubiqube.etsi.mano.vnfm.VnfLcmClassMaping281;
 import com.ubiqube.etsi.mano.vnfm.fc.vnflcm.VnfLcmOpOccGenericFrontController;
 
 /**

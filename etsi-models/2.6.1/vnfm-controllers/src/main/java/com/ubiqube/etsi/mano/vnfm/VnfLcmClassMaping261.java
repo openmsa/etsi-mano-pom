@@ -14,25 +14,25 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.em.v271.controller.vnflcm;
+package com.ubiqube.etsi.mano.vnfm;
 
-import com.ubiqube.etsi.mano.em.v271.model.vnflcm.ChangeExtVnfConnectivityRequest;
-import com.ubiqube.etsi.mano.em.v271.model.vnflcm.ChangeVnfFlavourRequest;
-import com.ubiqube.etsi.mano.em.v271.model.vnflcm.HealVnfRequest;
-import com.ubiqube.etsi.mano.em.v271.model.vnflcm.InstantiateVnfRequest;
-import com.ubiqube.etsi.mano.em.v271.model.vnflcm.OperateVnfRequest;
-import com.ubiqube.etsi.mano.em.v271.model.vnflcm.ScaleVnfRequest;
-import com.ubiqube.etsi.mano.em.v271.model.vnflcm.ScaleVnfToLevelRequest;
-import com.ubiqube.etsi.mano.em.v271.model.vnflcm.TerminateVnfRequest;
-import com.ubiqube.etsi.mano.em.v271.model.vnflcm.VnfInfoModificationRequest;
 import com.ubiqube.etsi.mano.vnfm.fc.vnflcm.VnfLcmClassMaping;
+import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.ChangeExtVnfConnectivityRequest;
+import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.ChangeVnfFlavourRequest;
+import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.HealVnfRequest;
+import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.InstantiateVnfRequest;
+import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.OperateVnfRequest;
+import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.ScaleVnfRequest;
+import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.ScaleVnfToLevelRequest;
+import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.TerminateVnfRequest;
+import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.VnfInfoModificationRequest;
 
 /**
  *
- * @author ncuser
+ * @author Olivier Vignaud {@literal <ovi@ubiqube.com>}
  *
  */
-public class VnfLcmClassMaping271 implements VnfLcmClassMaping {
+public class VnfLcmClassMaping261 implements VnfLcmClassMaping {
 
 	@Override
 	public Class<?> getInstantiateVnfRequest() {
