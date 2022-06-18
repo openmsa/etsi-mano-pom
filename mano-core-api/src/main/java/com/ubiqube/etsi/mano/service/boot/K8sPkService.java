@@ -170,6 +170,10 @@ public class K8sPkService {
 		}
 	}
 
+	public String getPrivateKey() {
+		return pemEncode(keyPair.getPrivate());
+	}
+
 	public String createCsr(final String object) {
 		final JcaContentSignerBuilder csBuilder = new JcaContentSignerBuilder("SHA256withRSA");
 		ContentSigner signer;

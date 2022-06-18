@@ -75,6 +75,7 @@ public class MciopContributor extends AbstractContributorV2Base<MciopTask, Mciop
 					x.getAssociatedVdu().forEach(y -> {
 						final MciopTask inst = createInstances(x, blueprint);
 						inst.setParentVdu(y);
+						inst.setVnfPackageId(vnfPackage.getId());
 						ret.add(new MciopVt(inst));
 					});
 				});
@@ -98,6 +99,7 @@ public class MciopContributor extends AbstractContributorV2Base<MciopTask, Mciop
 					final MciopTask task = createDeleteTask(MciopTask::new, x);
 					task.setType(ResourceTypeEnum.CNF);
 					task.setMciop(((MciopTask) x.getTask()).getMciop());
+					task.setVimResourceId(null);
 					return new MciopVt(task);
 				})
 				.toList();

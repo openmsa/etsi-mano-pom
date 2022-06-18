@@ -17,14 +17,16 @@
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.uow;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.k8s.K8sServers;
-import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerDeployableTask;
+import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.K8sInformationsTask;
 import com.ubiqube.etsi.mano.dao.mano.vnfi.StatusType;
+import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.orchestrator.Context;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerDeployableNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsK8sInformationsNode;
@@ -37,16 +39,16 @@ import com.ubiqube.etsi.mano.vnfm.jpa.K8sServerInfoJpa;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public class OsK8sClusterUow extends AbstractUowV2<OsContainerDeployableTask> {
+public class OsK8sClusterUow extends AbstractUowV2<K8sInformationsTask> {
 
 	private static final Logger LOG = LoggerFactory.getLogger(OsK8sClusterUow.class);
 
 	private final VimConnectionInformation vimConnectionInformation;
 	private final Vim vim;
-	private final OsContainerDeployableTask task;
+	private final K8sInformationsTask task;
 	private final K8sServerInfoJpa serverInfoJpa;
 
-	public OsK8sClusterUow(final VirtualTask<OsContainerDeployableTask> task, final Vim vim, final VimConnectionInformation vimConnectionInformation,
+	public OsK8sClusterUow(final VirtualTask<K8sInformationsTask> task, final Vim vim, final VimConnectionInformation vimConnectionInformation,
 			final K8sServerInfoJpa serverInfoJpa) {
 		super(task, OsK8sInformationsNode.class);
 		this.vim = vim;
@@ -74,7 +76,11 @@ public class OsK8sClusterUow extends AbstractUowV2<OsContainerDeployableTask> {
 			LOG.debug("Fetched OsContainer status: {} / {}", task.getToscaName(), status.getStatus());
 		}
 		status.setToscaName(task.getToscaName());
+		status.setId(UUID.fromString(srv));
 		final K8sServers n = serverInfoJpa.save(status);
+		if (status.getStatus() == StatusType.CREATE_FAILED) {
+			throw new GenericException("Create Failed: " + task.getToscaName());
+		}
 		return n.getId().toString();
 	}
 

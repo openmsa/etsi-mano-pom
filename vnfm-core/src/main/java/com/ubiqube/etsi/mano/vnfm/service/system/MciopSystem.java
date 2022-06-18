@@ -24,6 +24,7 @@ import com.ubiqube.etsi.mano.orchestrator.OrchestrationService;
 import com.ubiqube.etsi.mano.orchestrator.SystemBuilder;
 import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWork;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
+import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 import com.ubiqube.etsi.mano.service.boot.K8sPkService;
 import com.ubiqube.etsi.mano.service.system.AbstractVimSystem;
 import com.ubiqube.etsi.mano.service.vim.Vim;
@@ -44,13 +45,16 @@ public class MciopSystem extends AbstractVimSystem<MciopTask> {
 	private final K8sServerInfoJpa serverInfoJpa;
 	private final Vim vim;
 	private final K8sPkService k8sPkService;
+	private final VnfPackageRepository repo;
 
-	protected MciopSystem(final VimManager vimManager, final Vim vim, final K8sClient client, final K8sServerInfoJpa serverInfoJpa, final K8sPkService k8sPkService) {
+	protected MciopSystem(final VimManager vimManager, final Vim vim, final K8sClient client, final K8sServerInfoJpa serverInfoJpa, final K8sPkService k8sPkService,
+			final VnfPackageRepository repo) {
 		super(vimManager);
 		this.vim = vim;
 		this.client = client;
 		this.serverInfoJpa = serverInfoJpa;
 		this.k8sPkService = k8sPkService;
+		this.repo = repo;
 	}
 
 	@Override
@@ -61,8 +65,9 @@ public class MciopSystem extends AbstractVimSystem<MciopTask> {
 	@Override
 	protected SystemBuilder getImplementation(final OrchestrationService<MciopTask> orchestrationService, final VirtualTask<MciopTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
 		final String crt = k8sPkService.createCsr("CN=mano-user,O=cluster-admin");
+		final String pk = k8sPkService.getPrivateKey();
 		final UnitOfWork<MciopTask> createUser = new McioUserUow(virtualTask, vim, vimConnectionInformation, serverInfoJpa, crt);
-		final UnitOfWork<MciopTask> uow = new HelmDeployUow(virtualTask, client, serverInfoJpa, crt);
+		final UnitOfWork<MciopTask> uow = new HelmDeployUow(virtualTask, client, serverInfoJpa, repo, pk);
 		return orchestrationService.systemBuilderOf(createUser, uow);
 	}
 

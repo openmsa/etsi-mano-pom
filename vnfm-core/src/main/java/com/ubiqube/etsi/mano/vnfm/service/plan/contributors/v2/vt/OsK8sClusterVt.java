@@ -19,7 +19,7 @@ package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt;
 import java.util.Arrays;
 import java.util.List;
 
-import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerDeployableTask;
+import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.K8sInformationsTask;
 import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerDeployableNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsK8sInformationsNode;
@@ -29,11 +29,11 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsK8sInformationsNode;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public class OsK8sClusterVt extends VnfVtBase<OsContainerDeployableTask> {
+public class OsK8sClusterVt extends VnfVtBase<K8sInformationsTask> {
 
-	private final OsContainerDeployableTask p;
+	private final K8sInformationsTask p;
 
-	public OsK8sClusterVt(final OsContainerDeployableTask nt) {
+	public OsK8sClusterVt(final K8sInformationsTask nt) {
 		super(nt);
 		this.p = nt;
 	}
@@ -50,7 +50,7 @@ public class OsK8sClusterVt extends VnfVtBase<OsContainerDeployableTask> {
 
 	@Override
 	public String getFactoryProviderId() {
-		return "CNF";
+		return "CNF-INFO";
 	}
 
 	@Override

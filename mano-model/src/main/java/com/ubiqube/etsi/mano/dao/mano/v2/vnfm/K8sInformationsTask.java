@@ -14,26 +14,20 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.dao.mano.k8s;
+package com.ubiqube.etsi.mano.dao.mano.v2.vnfm;
 
-import java.io.Serializable;
-import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.EntityListeners;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 
-import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
-import com.ubiqube.etsi.mano.dao.mano.vnfi.StatusType;
+import com.ubiqube.etsi.mano.dao.mano.AuditListener;
+import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -42,44 +36,15 @@ import lombok.Setter;
  *
  */
 @Entity
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@EntityListeners(AuditListener.class)
 @Getter
 @Setter
-public class K8sServers implements Serializable {
+public class K8sInformationsTask extends VnfTask {
 	/** Serial. */
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
 
-	@ManyToOne
-	private VnfInstance vnfInstance;
-
-	private String toscaName;
-
-	/**
-	 * ca.crt
-	 */
-	@Column(length = 5000)
-	private String caPem;
-
-	/**
-	 * User CRT.
-	 */
-	@Column(length = 5000)
-	private String userCrt;
-
-	private String apiAddress;
-
-	/**
-	 * Uniq identifier in VIM. (Mainly the cluster ID).
-	 */
-	private String vimResourceId;
-
-	@ElementCollection(fetch = FetchType.EAGER)
-	private List<String> masterAddresses;
-
-	private StatusType status;
 }

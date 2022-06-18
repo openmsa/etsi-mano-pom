@@ -83,7 +83,7 @@ public class VnfOrchestrationAdapter implements OrchestrationAdapter<VnfTask, Vn
 
 	@Override
 	public void deleteLiveInstance(final UUID removedLiveInstance) {
-		final VnfLiveInstance vli = vnfInstancesService.findLiveInstanceById(removedLiveInstance).orElseThrow();
+		final VnfLiveInstance vli = vnfInstancesService.findLiveInstanceById(removedLiveInstance).orElseThrow(() -> new GenericException("Unable to find live instance: " + removedLiveInstance));
 		vnfInstancesService.deleteLiveInstanceById(vli.getId());
 	}
 

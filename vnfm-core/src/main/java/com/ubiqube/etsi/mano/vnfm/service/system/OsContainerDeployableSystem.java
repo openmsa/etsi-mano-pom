@@ -18,11 +18,12 @@ package com.ubiqube.etsi.mano.vnfm.service.system;
 
 import org.springframework.stereotype.Service;
 
+import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
+import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.K8sInformationsTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerDeployableTask;
 import com.ubiqube.etsi.mano.orchestrator.OrchestrationService;
 import com.ubiqube.etsi.mano.orchestrator.SystemBuilder;
-import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWork;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
 import com.ubiqube.etsi.mano.service.system.AbstractVimSystem;
 import com.ubiqube.etsi.mano.service.vim.Vim;
@@ -55,12 +56,26 @@ public class OsContainerDeployableSystem extends AbstractVimSystem<OsContainerDe
 	}
 
 	@Override
-	protected SystemBuilder<UnitOfWork<OsContainerDeployableTask>> getImplementation(final OrchestrationService<OsContainerDeployableTask> orchestrationService, final VirtualTask<OsContainerDeployableTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
+	protected SystemBuilder getImplementation(final OrchestrationService<OsContainerDeployableTask> orchestrationService, final VirtualTask<OsContainerDeployableTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
 		final SystemBuilder builder = orchestrationService.createEmptySystemBuilder();
 		final OsContainerDeployableUow2 left = new OsContainerDeployableUow2(virtualTask, vim, vimConnectionInformation);
-		final OsK8sClusterUow right = new OsK8sClusterUow(new OsK8sClusterVt(virtualTask.getParameters()), vim, vimConnectionInformation, serverInfoJpa);
+		final K8sInformationsTask k8sInfo = createTask(virtualTask.getParameters());
+		final OsK8sClusterUow right = new OsK8sClusterUow(new OsK8sClusterVt(k8sInfo), vim, vimConnectionInformation, serverInfoJpa);
 		builder.add(left, right);
 		return builder;
+	}
+
+	private static K8sInformationsTask createTask(final OsContainerDeployableTask p) {
+		final K8sInformationsTask k8sInfo = new K8sInformationsTask();
+		k8sInfo.setAlias("k8s-info-" + p.getAlias());
+		k8sInfo.setToscaName(p.getToscaName());
+		k8sInfo.setBlueprint(p.getBlueprint());
+		k8sInfo.setChangeType(p.getChangeType());
+		k8sInfo.setRemovedLiveInstance(p.getRemovedLiveInstance());
+		k8sInfo.setType(ResourceTypeEnum.CNF_INFO);
+		k8sInfo.setVimConnectionId(p.getVimConnectionId());
+		k8sInfo.setVimResourceId(p.getVimResourceId());
+		return k8sInfo;
 	}
 
 }
