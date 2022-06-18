@@ -69,6 +69,7 @@ public class TestHelper {
 		converterFactory.registerConverter(new OffsetDateTimeToDateConverter());
 		podam = new PodamFactoryImpl();
 		podam.getStrategy().addOrReplaceTypeManufacturer(String.class, new UUIDManufacturer());
+		podam.getStrategy().setDefaultNumberOfCollectionElements(2);
 		complex.add(String.class);
 		complex.add(UUID.class);
 		complex.add(Long.class);
