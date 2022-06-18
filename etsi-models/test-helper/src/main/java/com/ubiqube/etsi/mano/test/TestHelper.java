@@ -175,6 +175,10 @@ public class TestHelper {
 				if (null == dl) {
 					continue;
 				}
+				if (sl.size() != dl.size()) {
+					LOG.warn("");
+					continue;
+				}
 				for (int i = 0; i < sl.size(); i++) {
 					final Object els = sl.get(i);
 					final Object eld = dl.get(i);
