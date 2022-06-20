@@ -64,7 +64,7 @@ public class MciopSystem extends AbstractVimSystem<MciopTask> {
 
 	@Override
 	protected SystemBuilder getImplementation(final OrchestrationService<MciopTask> orchestrationService, final VirtualTask<MciopTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
-		final String crt = k8sPkService.createCsr("CN=mano-user,O=cluster-admin");
+		final String crt = k8sPkService.createCsr("CN=kubernetes-admin,O=system:masters");
 		final String pk = k8sPkService.getPrivateKey();
 		final UnitOfWork<MciopTask> createUser = new McioUserUow(virtualTask, vim, vimConnectionInformation, serverInfoJpa, crt);
 		final UnitOfWork<MciopTask> uow = new HelmDeployUow(virtualTask, client, serverInfoJpa, repo, pk);
