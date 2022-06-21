@@ -214,6 +214,9 @@ public class VnfPackage implements PackageBase, Auditable {
 	private List<String> compatibleSpecificationVersions;
 	// 2.7.1
 	private FailureDetails onboardingFailureDetails = null;
+	// 2.7.1
+	@ElementCollection(fetch = FetchType.EAGER)
+	private Set<String> nonManoArtifactSetId;
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<SoftwareImage> softwareImages;
