@@ -251,7 +251,7 @@ public class CommonActionController {
 					.clientSecret(env.getProperty("keycloak.credentials.secret"))
 					.tokenEndpoint(env.getProperty("mano.swagger-o-auth2"))
 					.build();
-			auth.setAuthParamOath2(oauth2);
+			auth.setAuthParamOauth2(oauth2);
 			auth.setAuthType(List.of(AuthType.OAUTH2_CLIENT_CREDENTIALS));
 		} else {
 			final AuthParamBasic basic = AuthParamBasic.builder()

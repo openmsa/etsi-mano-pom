@@ -99,7 +99,7 @@ public class OrikaConfigurationNfvo271 implements OrikaMapperFactoryConfigurer {
 		orikaMapperFactory.classMap(PkgmSubscriptionRequest.class, Subscription.class)
 				.fieldMap("filter", "filters").converter("filterConverter").add()
 				.field("authentication.paramsBasic", "authentication.authParamBasic")
-				.field("authentication.paramsOauth2ClientCredentials", "authentication.authParamOath2")
+				.field("authentication.paramsOauth2ClientCredentials", "authentication.authParamOauth2")
 				.field("authentication.authType", "authentication.authType")
 				.byDefault()
 				.register();
@@ -111,7 +111,7 @@ public class OrikaConfigurationNfvo271 implements OrikaMapperFactoryConfigurer {
 		orikaMapperFactory.classMap(NsdmSubscriptionRequest.class, Subscription.class)
 				.fieldMap("filter", "filters").converter("filterConverter").add()
 				.field("authentication.paramsBasic", "authentication.authParamBasic")
-				.field("authentication.paramsOauth2ClientCredentials", "authentication.authParamOath2")
+				.field("authentication.paramsOauth2ClientCredentials", "authentication.authParamOauth2")
 				.field("authentication.authType", "authentication.authType")
 				.byDefault()
 				.register();
@@ -123,7 +123,7 @@ public class OrikaConfigurationNfvo271 implements OrikaMapperFactoryConfigurer {
 		orikaMapperFactory.classMap(LccnSubscriptionRequest.class, Subscription.class)
 				.fieldMap("filter", "filters").converter("filterConverter").add()
 				.field("authentication.paramsBasic", "authentication.authParamBasic")
-				.field("authentication.paramsOauth2ClientCredentials", "authentication.authParamOath2")
+				.field("authentication.paramsOauth2ClientCredentials", "authentication.authParamOauth2")
 				.field("authentication.authType", "authentication.authType")
 				.byDefault()
 				.register();

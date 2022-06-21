@@ -63,7 +63,7 @@ public class FluxRequestor implements HttpRequestor, Closeable {
 					.grantType(OAuth2GrantType.CLIENT_CREDENTIAL)
 					.tokenEndpoint(oAuth2.getTokenEndpoint())
 					.build();
-			authentification = authentificationBuilder.authParamOath2(authParamOath2).build();
+			authentification = authentificationBuilder.authParamOauth2(authParamOath2).build();
 		}
 		if (params.getAuthType() == AuthType.BASIC) {
 			final AuthentificationInformationsBuilder authentificationBuilder = AuthentificationInformations.builder();

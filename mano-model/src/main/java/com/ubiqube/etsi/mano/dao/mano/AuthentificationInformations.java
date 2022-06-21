@@ -54,7 +54,7 @@ public class AuthentificationInformations implements Serializable {
 	private List<AuthType> authType;
 
 	private AuthParamBasic authParamBasic;
-	private AuthParamOauth2 authParamOath2;
+	private AuthParamOauth2 authParamOauth2;
 
 	@Column(length = 5000)
 	private String authTlsCert;
