@@ -51,6 +51,7 @@ import com.ubiqube.etsi.mano.model.v271.sol003.vnf.VnfPkgInfo;
 import com.ubiqube.etsi.mano.model.v271.sol005.nsd.CreateNsdInfoRequest;
 import com.ubiqube.etsi.mano.model.v271.sol005.nsd.NsdInfo;
 import com.ubiqube.etsi.mano.service.AbstractHttpGateway;
+import com.ubiqube.etsi.mano.utils.Version;
 
 import ma.glasnost.orika.MapperFacade;
 
@@ -189,8 +190,8 @@ public class HttpGateway271 extends AbstractHttpGateway {
 	}
 
 	@Override
-	public String getVersion() {
-		return "2.7.1";
+	public Version getVersion() {
+		return new Version("2.7.1");
 	}
 
 	@Override

@@ -14,27 +14,26 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.nfvo.v271.services;
+package com.ubiqube.etsi.mano.utils;
 
-import java.util.UUID;
-
-import com.ubiqube.etsi.mano.nfvo.v271.model.vnf.PkgmLinks;
+import java.util.Comparator;
 
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public class Sol005Linkable {
+public class VersionComparator implements Comparator<Version> {
 
-	public PkgmLinks createVnfPackageOnboardingNotificationLinks(final UUID vnfPkgId, final UUID subscriptionId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	@Override
+	public int compare(final Version o1, final Version o2) {
+		if (o1 == null || o2 == null) {
+			return 0;
+		}
+		if (o1.getMajor() != o1.getMajor()) {
 
-	public PkgmLinks createNotificationLink(final UUID vnfPkgId, final UUID subscriptionId) {
-		// TODO Auto-generated method stub
-		return null;
+		}
+		return 0;
 	}
 
 }

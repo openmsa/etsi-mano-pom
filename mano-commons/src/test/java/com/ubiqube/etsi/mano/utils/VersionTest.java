@@ -14,27 +14,25 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.nfvo.v271.services;
+package com.ubiqube.etsi.mano.utils;
 
-import java.util.UUID;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.ubiqube.etsi.mano.nfvo.v271.model.vnf.PkgmLinks;
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
 
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public class Sol005Linkable {
+public class VersionTest {
 
-	public PkgmLinks createVnfPackageOnboardingNotificationLinks(final UUID vnfPkgId, final UUID subscriptionId) {
-		// TODO Auto-generated method stub
-		return null;
+	@Test
+	void testName() throws Exception {
+		final List<Version> versions = List.of(new Version("3.5.1"), new Version("2.6.1"), new Version("3.3.1"), new Version("2.7.1"), new Version("2.8.1"), new Version("2.6.5"));
+		final List<Version> sorted = versions.stream().sorted().toList();
+		assertEquals("2.6.1", sorted.get(0).toString());
 	}
-
-	public PkgmLinks createNotificationLink(final UUID vnfPkgId, final UUID subscriptionId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

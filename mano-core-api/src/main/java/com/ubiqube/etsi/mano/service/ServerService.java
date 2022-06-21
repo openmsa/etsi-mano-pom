@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.service;
 
 import java.io.File;
 import java.net.URI;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -60,7 +61,7 @@ public class ServerService {
 		super();
 		this.serversJpa = serversJpa;
 		this.eventManager = eventManager;
-		this.httpGateway = httpGateway;
+		this.httpGateway = httpGateway.stream().sorted(Comparator.comparing(HttpGateway::getVersion)).toList();
 	}
 
 	public Page<Servers> findAll(final Pageable pageable) {

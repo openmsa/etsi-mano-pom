@@ -14,27 +14,12 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.nfvo.v271.services;
+package com.ubiqube.etsi.mano.c331.services;
 
-import java.util.UUID;
+import com.ubiqube.etsi.mano.vnfm.v331.model.grant.GrantRequest;
 
-import com.ubiqube.etsi.mano.nfvo.v271.model.vnf.PkgmLinks;
+public interface VnfmFactory {
 
-/**
- *
- * @author Olivier Vignaud <ovi@ubiqube.com>
- *
- */
-public class Sol005Linkable {
-
-	public PkgmLinks createVnfPackageOnboardingNotificationLinks(final UUID vnfPkgId, final UUID subscriptionId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public PkgmLinks createNotificationLink(final UUID vnfPkgId, final UUID subscriptionId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	void makeGrantRequestLink(GrantRequest grant);
 
 }

@@ -27,7 +27,7 @@ import com.ubiqube.etsi.mano.exception.GenericException;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public class Version {
+public class Version implements Comparable<Version> {
 	private final int major;
 	private final int minor;
 	private final int patch;
@@ -76,14 +76,25 @@ public class Version {
 		if (this == obj) {
 			return true;
 		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
+		if (obj == null || getClass() != obj.getClass()) {
 			return false;
 		}
 		final Version other = (Version) obj;
 		return major == other.major && minor == other.minor && patch == other.patch;
+	}
+
+	@Override
+	public int compareTo(final Version o) {
+		if (o.getMajor() != major) {
+			return Integer.compare(major, o.getMajor());
+		}
+		if (o.getMinor() != minor) {
+			return Integer.compare(minor, o.getMinor());
+		}
+		if (o.getPatch() != patch) {
+			return Integer.compare(patch, o.getPatch());
+		}
+		return 0;
 	}
 
 }

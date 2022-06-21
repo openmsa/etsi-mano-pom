@@ -16,13 +16,20 @@
  */
 package com.ubiqube.etsi.mano.vnfm.v281.controller.vnf;
 
-import java.util.Optional;
+import static com.ubiqube.etsi.mano.Constants.getSafeUUID;
 
+import javax.annotation.Nonnull;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ubiqube.etsi.mano.controller.vnf.VnfPackageFrontController;
+import com.ubiqube.etsi.mano.nfvo.v281.Linkable;
+import com.ubiqube.etsi.mano.nfvo.v281.Sol003Linkable;
+import com.ubiqube.etsi.mano.nfvo.v281.model.vnf.VnfPkgInfo;
 
 /**
  *
@@ -32,24 +39,44 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RestController
 public class VnfPackages281Sol003Controller implements VnfPackages281Sol003Api {
 
-	private final ObjectMapper objectMapper;
+	private final VnfPackageFrontController frontController;
+	@Nonnull
+	private final Linkable links = new Sol003Linkable();
 
-	private final HttpServletRequest request;
-
-	@org.springframework.beans.factory.annotation.Autowired
-	public VnfPackages281Sol003Controller(final ObjectMapper objectMapper, final HttpServletRequest request) {
-		this.objectMapper = objectMapper;
-		this.request = request;
+	public VnfPackages281Sol003Controller(final VnfPackageFrontController frontController) {
+		super();
+		this.frontController = frontController;
 	}
 
 	@Override
-	public Optional<ObjectMapper> getObjectMapper() {
-		return Optional.ofNullable(objectMapper);
+	public ResponseEntity<Resource> vnfPackagesVnfPkgIdArtifactsArtifactPathGet(final HttpServletRequest request, final String vnfPkgId, @Valid final String includeSignature) {
+		return frontController.getArtifactPath(request, getSafeUUID(vnfPkgId), includeSignature);
 	}
 
 	@Override
-	public Optional<HttpServletRequest> getRequest() {
-		return Optional.ofNullable(request);
+	public ResponseEntity<Resource> vnfPackagesVnfPkgIdArtifactsGet(@Nonnull final HttpServletRequest request, final String vnfPkgId, final String excludeAllManoArtifacts,
+			final String excludeAllNonManoArtifacts, final String includeExternalArtifacts, final String selectNonManoArtifactSets, final String includeSignatures) {
+		return frontController.getSelectArtifacts(request, getSafeUUID(vnfPkgId));
+	}
+
+	@Override
+	public ResponseEntity<VnfPkgInfo> vnfPackagesVnfPkgIdGet(final String vnfPkgId, @Valid final String includeSignature) {
+		return frontController.findByIdReadOnly(getSafeUUID(vnfPkgId), VnfPkgInfo.class, links::makeLinks);
+	}
+
+	@Override
+	public ResponseEntity<Resource> vnfPackagesVnfPkgIdManifestGet(final String vnfPkgId, @Valid final String includeSignature) {
+		return frontController.getManifest(getSafeUUID(vnfPkgId), includeSignature);
+	}
+
+	@Override
+	public ResponseEntity<Resource> vnfPackagesVnfPkgIdPackageContentGet(final String vnfPkgId) {
+		return frontController.getContent(getSafeUUID(vnfPkgId));
+	}
+
+	@Override
+	public ResponseEntity<Resource> vnfPackagesVnfPkgIdVnfdGet(final String vnfPkgId, @Valid final String includeSignature) {
+		return frontController.getVfnd(getSafeUUID(vnfPkgId), null, includeSignature);
 	}
 
 }

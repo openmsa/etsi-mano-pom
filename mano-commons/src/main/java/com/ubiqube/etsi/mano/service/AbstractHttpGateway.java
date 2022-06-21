@@ -44,7 +44,7 @@ public abstract class AbstractHttpGateway implements HttpGateway {
 	private List<Protocol> protocols;
 
 	protected AbstractHttpGateway() {
-		final Path path = Paths.get("/", getVersion(), "mano-versions.json");
+		final Path path = Paths.get("/", getVersion().toString(), "mano-versions.json");
 		try (final InputStream in = this.getClass().getResourceAsStream(path.toString())) {
 			final TypeReference<List<Protocol>> tr = new TypeReference<>() {
 				//

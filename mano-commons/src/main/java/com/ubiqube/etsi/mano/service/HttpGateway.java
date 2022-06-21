@@ -27,6 +27,7 @@ import com.ubiqube.etsi.mano.dao.mano.CancelModeTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.GrantInterface;
 import com.ubiqube.etsi.mano.dao.mano.common.ApiVersionType;
 import com.ubiqube.etsi.mano.model.EventMessage;
+import com.ubiqube.etsi.mano.utils.Version;
 
 /**
  *
@@ -81,7 +82,7 @@ public interface HttpGateway {
 
 	Object createEvent(UUID uuid, EventMessage event);
 
-	String getVersion();
+	Version getVersion();
 
 	Optional<String> getHeaderVersion(final ApiVersionType apiVersionType);
 

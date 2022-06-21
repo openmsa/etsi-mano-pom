@@ -22,6 +22,7 @@ import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 
@@ -48,6 +49,7 @@ import com.ubiqube.etsi.mano.nfvo.v351.model.vnf.PkgmSubscription;
 import com.ubiqube.etsi.mano.nfvo.v351.model.vnf.PkgmSubscriptionRequest;
 import com.ubiqube.etsi.mano.nfvo.v351.model.vnf.VnfPkgInfo;
 import com.ubiqube.etsi.mano.service.AbstractHttpGateway;
+import com.ubiqube.etsi.mano.utils.Version;
 import com.ubiqube.etsi.mano.vnfm.v351.model.grant.Grant;
 import com.ubiqube.etsi.mano.vnfm.v351.model.grant.GrantRequest;
 import com.ubiqube.etsi.mano.vnfm.v351.model.grant.GrantRequestLinks;
@@ -61,10 +63,12 @@ import ma.glasnost.orika.MapperFacade;
  */
 @Service
 public class HttpGateway351 extends AbstractHttpGateway {
+	private final NfvoFactory nfvoFactory;
 	private final MapperFacade mapper;
 
-	public HttpGateway351(final MapperFacade mapper) {
+	public HttpGateway351(final ObjectProvider<NfvoFactory> nfvoFactory, final MapperFacade mapper) {
 		super();
+		this.nfvoFactory = nfvoFactory.getIfAvailable();
 		this.mapper = mapper;
 	}
 
@@ -194,9 +198,11 @@ public class HttpGateway351 extends AbstractHttpGateway {
 
 	@Override
 	public Object createEvent(final UUID subscriptionId, final EventMessage event) {
-		// return nfvoFactory.createVnfPackageChangeNotification(subscriptionId,
-		// vnfPkgId);
-		return null;
+		return switch (event.getNotificationEvent()) {
+		case VNF_PKG_ONCHANGE, VNF_PKG_ONDELETION -> nfvoFactory.createVnfPackageChangeNotification(subscriptionId, event);
+		case VNF_PKG_ONBOARDING -> nfvoFactory.createNotificationVnfPackageOnboardingNotification(subscriptionId, event);
+		default -> null;
+		};
 	}
 
 	@Override
@@ -208,8 +214,8 @@ public class HttpGateway351 extends AbstractHttpGateway {
 	}
 
 	@Override
-	public String getVersion() {
-		return "3.5.1";
+	public Version getVersion() {
+		return new Version("3.5.1");
 	}
 
 	@Override

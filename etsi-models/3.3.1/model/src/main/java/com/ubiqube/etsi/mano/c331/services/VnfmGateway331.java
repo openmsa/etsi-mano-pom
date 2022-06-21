@@ -14,7 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.nfvo.v261.services;
+package com.ubiqube.etsi.mano.c331.services;
 
 import java.util.List;
 import java.util.Map;
@@ -26,50 +26,48 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.common.v261.model.Link;
-import com.ubiqube.etsi.mano.common.v261.model.lcmgrant.Grant;
-import com.ubiqube.etsi.mano.common.v261.model.nslcm.VnfInstance;
-import com.ubiqube.etsi.mano.common.v261.model.vnf.PkgmSubscription;
-import com.ubiqube.etsi.mano.common.v261.model.vnf.PkgmSubscriptionRequest;
-import com.ubiqube.etsi.mano.common.v261.model.vnf.VnfPkgInfo;
 import com.ubiqube.etsi.mano.dao.mano.CancelModeTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.GrantInterface;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+import com.ubiqube.etsi.mano.em.v331.model.vnflcm.ChangeExtVnfConnectivityRequest;
+import com.ubiqube.etsi.mano.em.v331.model.vnflcm.CreateVnfRequest;
+import com.ubiqube.etsi.mano.em.v331.model.vnflcm.InstantiateVnfRequest;
+import com.ubiqube.etsi.mano.em.v331.model.vnflcm.Link;
+import com.ubiqube.etsi.mano.em.v331.model.vnflcm.OperateVnfRequest;
+import com.ubiqube.etsi.mano.em.v331.model.vnflcm.ScaleVnfRequest;
+import com.ubiqube.etsi.mano.em.v331.model.vnflcm.ScaleVnfToLevelRequest;
+import com.ubiqube.etsi.mano.em.v331.model.vnflcm.TerminateVnfRequest;
+import com.ubiqube.etsi.mano.em.v331.model.vnflcm.TerminateVnfRequest.TerminationTypeEnum;
+import com.ubiqube.etsi.mano.em.v331.model.vnflcm.VnfInstance;
+import com.ubiqube.etsi.mano.em.v331.model.vnflcm.VnfLcmOpOcc;
 import com.ubiqube.etsi.mano.model.EventMessage;
-import com.ubiqube.etsi.mano.nfvo.v261.model.lcmgrant.GrantRequest;
-import com.ubiqube.etsi.mano.nfvo.v261.model.lcmgrant.GrantRequestLinks;
-import com.ubiqube.etsi.mano.nfvo.v261.model.nsd.sol005.CreateNsdInfoRequest;
-import com.ubiqube.etsi.mano.nfvo.v261.model.nsd.sol005.NsdInfo;
-import com.ubiqube.etsi.mano.nfvo.v261.model.vnf.CreateVnfPkgInfoRequest;
+import com.ubiqube.etsi.mano.nfvo.v331.model.nsd.CreateNsdInfoRequest;
+import com.ubiqube.etsi.mano.nfvo.v331.model.nsd.NsdInfo;
+import com.ubiqube.etsi.mano.nfvo.v331.model.vnf.CreateVnfPkgInfoRequest;
+import com.ubiqube.etsi.mano.nfvo.v331.model.vnf.PkgmSubscription;
+import com.ubiqube.etsi.mano.nfvo.v331.model.vnf.PkgmSubscriptionRequest;
+import com.ubiqube.etsi.mano.nfvo.v331.model.vnf.VnfPkgInfo;
 import com.ubiqube.etsi.mano.service.AbstractHttpGateway;
-import com.ubiqube.etsi.mano.service.NfvoFactory;
-import com.ubiqube.etsi.mano.service.VnfmFactory;
 import com.ubiqube.etsi.mano.utils.Version;
-import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.ChangeExtVnfConnectivityRequest;
-import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.CreateVnfRequest;
-import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.InstantiateVnfRequest;
-import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.OperateVnfRequest;
-import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.ScaleVnfRequest;
-import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.ScaleVnfToLevelRequest;
-import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.TerminateVnfRequest;
-import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.TerminateVnfRequest.TerminationTypeEnum;
-import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.VnfLcmOpOcc;
+import com.ubiqube.etsi.mano.vnfm.v331.model.grant.Grant;
+import com.ubiqube.etsi.mano.vnfm.v331.model.grant.GrantRequest;
+import com.ubiqube.etsi.mano.vnfm.v331.model.grant.GrantRequestLinks;
 
 import ma.glasnost.orika.MapperFacade;
 
 /**
  *
- * @author Olivier Vignaud {@literal <ovi@ubiqube.com>}
+ * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
 @Service
-public class VnfmGateway261 extends AbstractHttpGateway {
+public class VnfmGateway331 extends AbstractHttpGateway {
 
 	private final NfvoFactory nfvoFactory;
 	private final VnfmFactory vnfmFactory;
 	private final MapperFacade mapper;
 
-	public VnfmGateway261(final ObjectProvider<VnfmFactory> vnfmFactory, final ObjectProvider<NfvoFactory> nfvoFactory, final MapperFacade mapper) {
+	public VnfmGateway331(final ObjectProvider<VnfmFactory> vnfmFactory, final ObjectProvider<NfvoFactory> nfvoFactory, final MapperFacade mapper) {
 		this.vnfmFactory = vnfmFactory.getIfAvailable();
 		this.nfvoFactory = nfvoFactory.getIfAvailable();
 		this.mapper = mapper;
@@ -194,7 +192,7 @@ public class VnfmGateway261 extends AbstractHttpGateway {
 
 	@Override
 	public Version getVersion() {
-		return new Version("2.6.1");
+		return new Version("3.3.1");
 	}
 
 	@Override
@@ -231,4 +229,5 @@ public class VnfmGateway261 extends AbstractHttpGateway {
 		g.setLinks(links);
 		return g;
 	}
+
 }

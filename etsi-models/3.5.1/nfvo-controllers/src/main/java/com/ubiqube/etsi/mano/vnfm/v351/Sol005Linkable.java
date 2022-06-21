@@ -14,11 +14,11 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.nfvo.v271.services;
+package com.ubiqube.etsi.mano.vnfm.v351;
 
 import java.util.UUID;
 
-import com.ubiqube.etsi.mano.nfvo.v271.model.vnf.PkgmLinks;
+import com.ubiqube.etsi.mano.nfvo.v351.model.vnf.PkgmLinks;
 
 /**
  *
