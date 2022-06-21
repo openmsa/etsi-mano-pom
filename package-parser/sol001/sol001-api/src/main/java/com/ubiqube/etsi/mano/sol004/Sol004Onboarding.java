@@ -16,10 +16,13 @@
  */
 package com.ubiqube.etsi.mano.sol004;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -262,7 +265,30 @@ public class Sol004Onboarding {
 	}
 
 	public byte[] getFileContent(final String fileName) {
+		final URL remote = getRemote(fileName);
+		if (null != remote) {
+			return toArray(remote);
+		}
 		return csar.getContent(fileName);
+	}
+
+	private static byte[] toArray(final URL remote) {
+		try (InputStream s = remote.openStream();
+				ByteArrayOutputStream bis = new ByteArrayOutputStream()) {
+			s.transferTo(bis);
+			return bis.toByteArray();
+		} catch (final IOException e) {
+			throw new Sol004Exception(e);
+		}
+	}
+
+	private static URL getRemote(final String fileName) {
+		try {
+			return new URL(fileName);
+		} catch (final MalformedURLException e) {
+			LOG.trace("", e);
+			return null;
+		}
 	}
 
 	public @NotNull List<ArtefactInformations> getFiles() {
