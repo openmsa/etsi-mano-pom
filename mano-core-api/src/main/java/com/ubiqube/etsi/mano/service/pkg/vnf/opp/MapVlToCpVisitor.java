@@ -33,6 +33,7 @@ public class MapVlToCpVisitor implements OnboardingPostProcessorVisitor {
 	@Override
 	public void visit(final VnfPackage vnfPackage) {
 		vnfPackage.getVnfCompute().stream()
+				.filter(x -> x.getPorts() != null)
 				.flatMap(x -> x.getPorts().stream())
 				.filter(x -> x.getVirtualLink() == null)
 				.forEach(x -> x.setVirtualLink(VisitorUtils.findVl(x.getToscaName(), vnfPackage.getVirtualLinks())));
