@@ -54,8 +54,8 @@ public class SoftwareImageVisitor implements OnboardingPostProcessorVisitor {
 
 	@Override
 	public void visit(final VnfPackage vnfPackage) {
-		final Map<ImageKey, SoftwareImage> mvnf = vnfPackage.getVnfCompute().stream().map(VnfCompute::getSoftwareImage).filter(Objects::nonNull).collect(Collectors.toMap(ImageKey::new, x -> x));
-		final Map<ImageKey, SoftwareImage> msto = vnfPackage.getVnfStorage().stream().map(VnfStorage::getSoftwareImage).filter(Objects::nonNull).collect(Collectors.toMap(ImageKey::new, x -> x));
+		final Map<ImageKey, SoftwareImage> mvnf = vnfPackage.getVnfCompute().stream().map(VnfCompute::getSoftwareImage).filter(Objects::nonNull).collect(Collectors.toMap(ImageKey::new, x -> x, (k1, k2) -> k1));
+		final Map<ImageKey, SoftwareImage> msto = vnfPackage.getVnfStorage().stream().map(VnfStorage::getSoftwareImage).filter(Objects::nonNull).collect(Collectors.toMap(ImageKey::new, x -> x, (k1, k2) -> k1));
 		final HashMap<ImageKey, SoftwareImage> mall = new HashMap<>(mvnf);
 		mall.putAll(msto);
 		final List<SoftwareImage> toUpload = mall.entrySet().stream().map(Entry::getValue).filter(x -> isRemote(x.getImagePath())).toList();
