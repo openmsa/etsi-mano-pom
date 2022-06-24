@@ -58,7 +58,6 @@ public class ServerService {
 	private final List<HttpGateway> httpGateway;
 
 	public ServerService(final ServersJpa serversJpa, final EventManager eventManager, final List<HttpGateway> httpGateway) {
-		super();
 		this.serversJpa = serversJpa;
 		this.eventManager = eventManager;
 		this.httpGateway = httpGateway.stream().sorted(Comparator.comparing(HttpGateway::getVersion)).toList();
@@ -144,7 +143,7 @@ public class ServerService {
 
 	private HttpGateway filterServer(final Servers servers) {
 		return httpGateway.stream()
-				.filter(x -> x.getVersion().equals(servers.getVersion()))
+				.filter(x -> x.getVersion().toString().equals(servers.getVersion()))
 				.findAny()
 				.orElseThrow(() -> new GenericException("Unable to find version " + servers.getVersion()));
 	}
