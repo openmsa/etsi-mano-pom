@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.service.rest;
 
+import java.util.Map;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -23,7 +24,9 @@ import org.slf4j.LoggerFactory;
 
 import com.ubiqube.etsi.mano.dao.mano.CancelModeTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
+import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.common.ApiVersionType;
+import com.ubiqube.etsi.mano.dao.mano.nsd.upd.ChangeVnfFlavourData;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.vnfi.ChangeExtVnfConnRequest;
 import com.ubiqube.etsi.mano.model.VnfInstantiate;
@@ -119,6 +122,22 @@ public class ManoVnfInstanceId {
 				.setWireOutClass(HttpGateway::getVnfInstanceClass)
 				.setOutClass(VnfInstance.class)
 				.getSingle();
+	}
+
+	public VnfBlueprint changeFlavour(final ChangeVnfFlavourData req) {
+		client.setFragment("vnf_instances/{id}/change_flavour");
+		return client.createQuery()
+				.setWireInClass(HttpGateway::getVnfInstanceOperateRequest)
+				.setWireOutClass(HttpGateway::getVnfLcmOpOccs)
+				.setOutClass(VnfBlueprint.class)
+				.post(req);
+	}
+
+	public Object patch(final Map<String, Object> patchData) {
+		return client.createQuery()
+				.setWireOutClass(HttpGateway::getVnfPackageClass)
+				.setOutClass(VnfPackage.class)
+				.patch(null, patchData);
 	}
 
 }
