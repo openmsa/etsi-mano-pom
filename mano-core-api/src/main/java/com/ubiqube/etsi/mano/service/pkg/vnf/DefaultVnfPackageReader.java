@@ -170,7 +170,6 @@ public class DefaultVnfPackageReader implements VnfPackageReader {
 
 	@Override
 	public InputStream getFileInputStream(final String path) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

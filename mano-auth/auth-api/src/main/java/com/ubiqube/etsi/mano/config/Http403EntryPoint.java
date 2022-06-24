@@ -31,6 +31,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ubiqube.etsi.mano.model.ProblemDetails;
 
 /**
  * Landing JSON page in case of login error.
@@ -51,7 +52,6 @@ public class Http403EntryPoint implements AuthenticationEntryPoint {
 	 * @param _mapper JSON Object mapper.
 	 */
 	public Http403EntryPoint(final ObjectMapper mapper) {
-		super();
 		this.mapper = mapper;
 	}
 

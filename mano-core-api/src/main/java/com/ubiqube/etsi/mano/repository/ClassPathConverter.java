@@ -51,8 +51,6 @@ public class ClassPathConverter {
 		path.put(VnfInstance.class, "vnf-instances");
 
 		path.put(PnfDescriptor.class, "pnfd");
-
-		// path.put(AppPkg.class, "appd");
 	}
 
 	public Set<Class<?>> getList() {

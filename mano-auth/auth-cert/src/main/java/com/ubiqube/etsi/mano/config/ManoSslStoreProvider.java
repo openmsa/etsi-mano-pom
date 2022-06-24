@@ -41,6 +41,7 @@ public class ManoSslStoreProvider implements SslStoreProvider {
 
 	@Override
 	public KeyStore getKeyStore() throws Exception {
+		ds.getClass();
 		LOG.error("=============================> getstore");
 		return null;
 	}

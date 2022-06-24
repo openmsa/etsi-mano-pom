@@ -16,7 +16,6 @@
  */
 package com.ubiqube.etsi.mano.repository.jpa;
 
-import java.nio.file.Path;
 import java.util.UUID;
 
 import javax.persistence.EntityManager;
@@ -39,22 +38,14 @@ import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 @Service
 public class VnfPackageDb extends AbstractDirectJpa<VnfPackage> implements VnfPackageRepository {
 
-	private final NamingStrategy namingStrategy;
-
 	public VnfPackageDb(final EntityManager em, final CrudRepository<VnfPackage, UUID> repository, final ContentManager contentManager, final ObjectMapper jsonMapper,
 			final NamingStrategy namingStrategy, final GrammarParser grammarParser) {
 		super(em, repository, contentManager, jsonMapper, namingStrategy, grammarParser);
-		this.namingStrategy = namingStrategy;
 	}
 
 	@Override
 	protected Class<VnfPackage> getFrontClass() {
 		return VnfPackage.class;
-	}
-
-	@Override
-	public Path getPathByVnfdId(final UUID fromString) {
-		return namingStrategy.getRoot(VnfPackage.class, fromString, "vnfd");
 	}
 
 }

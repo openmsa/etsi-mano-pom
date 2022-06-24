@@ -44,7 +44,7 @@ public class NsVnffgPostVt extends NsVtBase<NsSfcTask> {
 		final NsSfcTask task = getParameters();
 		final List<CpPair> cpPairs = task.getVnffg().getNfpd()
 				.stream()
-				.flatMap(x -> x.getInstancces().stream())
+				.flatMap(x -> x.getInstances().stream())
 				.flatMap(x -> x.getPairs().stream())
 				.toList();
 		cpPairs.forEach(x -> {

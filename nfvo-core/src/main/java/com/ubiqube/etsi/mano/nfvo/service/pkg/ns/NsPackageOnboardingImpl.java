@@ -103,7 +103,6 @@ public class NsPackageOnboardingImpl {
 
 	public NsPackageOnboardingImpl(final EventManager eventManager, final NsPackageManager packageManager, final MapperFacade mapper, final NsdRepository nsdRepository,
 			final NsdPackageJpa nsdPackageJpa, final VnfPackageService vnfPackageService) {
-		super();
 		this.eventManager = eventManager;
 		this.packageManager = packageManager;
 		this.mapper = mapper;
@@ -209,7 +208,7 @@ public class NsPackageOnboardingImpl {
 			return null;
 		}
 		final List<NfpDescriptor> nfpds = vnffg.getNfpd();
-		final List<VnffgInstance> insts = nfpds.get(nfpds.size() - 1).getInstancces();
+		final List<VnffgInstance> insts = nfpds.get(nfpds.size() - 1).getInstances();
 		if (insts.isEmpty()) {
 			return null;
 		}
@@ -228,7 +227,7 @@ public class NsPackageOnboardingImpl {
 		if (vnffg.getNfpd().isEmpty()) {
 			return null;
 		}
-		final List<VnffgInstance> insts = vnffg.getNfpd().get(0).getInstancces();
+		final List<VnffgInstance> insts = vnffg.getNfpd().get(0).getInstances();
 		if (insts.isEmpty()) {
 			return null;
 		}
@@ -325,7 +324,7 @@ public class NsPackageOnboardingImpl {
 
 	private static void rebuildConnectivity(final Set<VnffgDescriptor> vnffg, final NsdPackage nsPackage) {
 		vnffg.stream().flatMap(x -> x.getNfpd().stream())
-				.flatMap(x -> x.getInstancces().stream())
+				.flatMap(x -> x.getInstances().stream())
 				.flatMap(x -> x.getPairs().stream())
 				.forEach(x -> {
 					if (null != x.getEgressVl()) {

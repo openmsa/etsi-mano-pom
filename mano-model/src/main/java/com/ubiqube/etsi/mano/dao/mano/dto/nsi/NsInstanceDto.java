@@ -48,16 +48,6 @@ public class NsInstanceDto {
 
 	private List<VnfInstanceDto> vnfInstance = new ArrayList<>();
 
-	// private final List<PnfInfo> pnfInfo = null;
-
 	private List<NsVirtualLinkInfoDto> virtualLinkInfo = new ArrayList<>();
-
-	// private final List<VnffgInfo> vnffgInfo = null;
-
-	// private final List<SapInfo> sapInfo = null;
-
-	// private final List<String> nestedNsInstanceId = null;
-
-	// private final List<String> vnfSnapshotInfoIds = null;
 
 }

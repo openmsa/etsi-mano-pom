@@ -87,7 +87,7 @@ public abstract class AbstractHttpGateway implements HttpGateway {
 
 	@Override
 	public Optional<String> getHeaderVersion(final ApiVersionType apiVersionType) {
-		if ("2.6.1".equals(getVersion())) {
+		if ("2.6.1".equals(getVersion().toString())) {
 			return Optional.empty();
 		}
 		final BiFunction<String, String, MajorFragment> func = MajorFragment::new;

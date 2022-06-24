@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.dao.mano.nsd.upd;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +32,10 @@ import lombok.Data;
  *
  */
 @Data
-public class ChangeVnfPackageData {
+public class ChangeVnfPackageData implements Serializable {
+	/** Serial. */
+	private static final long serialVersionUID = 1L;
+
 	@JsonProperty("vnfInstanceId")
 	private String vnfInstanceId = null;
 

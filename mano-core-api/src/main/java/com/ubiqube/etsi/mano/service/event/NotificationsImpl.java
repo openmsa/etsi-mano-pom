@@ -58,7 +58,7 @@ public class NotificationsImpl implements Notifications {
 		} catch (final JsonProcessingException e) {
 			throw new GenericException(e);
 		}
-
+		LOG.debug("Message :\n{}", content);
 		sendRequest(content, server, _uri);
 	}
 
@@ -66,6 +66,7 @@ public class NotificationsImpl implements Notifications {
 		final var rest = server.rest();
 		LOG.info("Sending to {}", _uri);
 		rest.post(URI.create(_uri), _content, Void.class, null);
+		LOG.debug("Event Sent to {}", _uri);
 	}
 
 	@Override

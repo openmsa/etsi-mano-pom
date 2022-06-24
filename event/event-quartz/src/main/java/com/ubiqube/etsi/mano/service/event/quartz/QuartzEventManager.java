@@ -34,7 +34,6 @@ import org.springframework.stereotype.Service;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.model.EventMessage;
 import com.ubiqube.etsi.mano.model.NotificationEvent;
-import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 import com.ubiqube.etsi.mano.service.event.ActionType;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 
@@ -52,12 +51,11 @@ public class QuartzEventManager implements EventManager {
 	private final Scheduler scheduler;
 	private final EventMessageJpa eventMessageJpa;
 
-	public QuartzEventManager(final Scheduler scheduler, final VnfPackageRepository vnfPackageRepository, final EventMessageJpa eventMessageJpa) {
-		super();
+	public QuartzEventManager(final Scheduler scheduler, final EventMessageJpa eventMessageJpa) {
 		this.scheduler = scheduler;
 		this.eventMessageJpa = eventMessageJpa;
 		try {
-			this.scheduler.getListenerManager().addJobListener(new UriUploadListener(vnfPackageRepository));
+			this.scheduler.getListenerManager().addJobListener(new UriUploadListener());
 		} catch (final SchedulerException e) {
 			throw new GenericException(e);
 		}

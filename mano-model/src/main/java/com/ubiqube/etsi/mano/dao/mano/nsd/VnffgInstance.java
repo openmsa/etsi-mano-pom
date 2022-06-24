@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.dao.mano.nsd;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
@@ -40,7 +41,10 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class VnffgInstance {
+public class VnffgInstance implements Serializable {
+	/** Serial. */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;

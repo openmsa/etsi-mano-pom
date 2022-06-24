@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.service.event.images;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -28,12 +29,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.ubiqube.etsi.mano.Constants;
 import com.ubiqube.etsi.mano.dao.mano.SoftwareImage;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
+import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.common.Checksum;
 import com.ubiqube.etsi.mano.repository.ManoResource;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
+import com.ubiqube.etsi.mano.service.pkg.PackageDescriptor;
 import com.ubiqube.etsi.mano.service.pkg.vnf.VnfPackageManager;
+import com.ubiqube.etsi.mano.service.pkg.vnf.VnfPackageReader;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 
@@ -49,6 +54,8 @@ class SoftwareImageTest {
 	private VnfPackageRepository repository;
 	@Mock
 	private VnfPackageManager packageManager;
+	@Mock
+	private PackageDescriptor<VnfPackageReader> pdesc;
 
 	private static SoftwareImage withHash256Si() {
 		final SoftwareImage si = new SoftwareImage();
@@ -86,6 +93,8 @@ class SoftwareImageTest {
 		final List<SoftwareImage> sws = List.of(withHash256Si());
 		final SoftwareImage swIn = noAlg384Si();
 		final VimConnectionInformation vimConn = new VimConnectionInformation();
+		when(repository.get(any())).thenReturn(new VnfPackage());
+		when(repository.getBinary(any(), Constants.REPOSITORY_FILENAME_PACKAGE)).thenReturn(mr);
 		final SoftwareImage img = sis.getImage(sws, swIn, vimConn, UUID.randomUUID());
 		assertNotNull(img);
 	}
@@ -107,6 +116,8 @@ class SoftwareImageTest {
 		final SoftwareImage swIn = noAlg384Si();
 		final VimConnectionInformation vimConn = new VimConnectionInformation();
 		// Mock
+		when(packageManager.getProviderFor(anyString())).thenReturn(pdesc);
+		when(repository.get(any())).thenReturn(new VnfPackage());
 		when(repository.getBinary(any(), any())).thenReturn(mr);
 		when(vimManager.getVimById(any())).thenReturn(vim);
 		final SoftwareImage img = sis.getImage(sws, swIn, vimConn, UUID.randomUUID());

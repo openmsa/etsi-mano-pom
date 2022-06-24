@@ -50,6 +50,6 @@ public class NfpDescriptor implements Serializable {
 	private String toscaName;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private List<VnffgInstance> instancces;
+	private List<VnffgInstance> instances;
 
 }

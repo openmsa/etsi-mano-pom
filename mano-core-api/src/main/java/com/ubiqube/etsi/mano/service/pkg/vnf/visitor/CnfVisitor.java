@@ -17,11 +17,9 @@
 package com.ubiqube.etsi.mano.service.pkg.vnf.visitor;
 
 import java.util.Map;
-import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.dao.mano.AdditionalArtifact;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.service.pkg.vnf.OnboardVisitor;
 import com.ubiqube.etsi.mano.service.pkg.vnf.VnfPackageReader;
@@ -40,7 +38,6 @@ public class CnfVisitor implements OnboardVisitor {
 		vnfPackage.setOsContainerDeployableUnits(vnfPackageReader.getOsContainerDeployableUnit(vnfPackage.getUserDefinedData()));
 		vnfPackage.setMciops(vnfPackageReader.getMciops(vnfPackage.getUserDefinedData()));
 		vnfPackage.setVirtualCp(vnfPackageReader.getVirtualCp(vnfPackage.getUserDefinedData()));
-		final Set<AdditionalArtifact> arte = vnfPackageReader.getAdditionalArtefacts(Map.of());
 	}
 
 }

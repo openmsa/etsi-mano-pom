@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.dao.mano.nsd.upd;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -31,7 +32,10 @@ import lombok.Data;
  *
  */
 @Data
-public class SapData {
+public class SapData implements Serializable {
+	/** Serial. */
+	private static final long serialVersionUID = 1L;
+
 	@JsonProperty("sapdId")
 	private String sapdId = null;
 

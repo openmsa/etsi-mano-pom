@@ -44,8 +44,6 @@ public class VnfcResourceInfoDto {
 
 	private String reservationId;
 
-	// private List<VnfcResourceInfoVnfcCpInfo> vnfcCpInfo ;
-
 	private Map<String, String> metadata;
 
 }

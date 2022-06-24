@@ -42,19 +42,11 @@ public class VnfInstanceInstantiatedVnfInfoDto {
 
 	private List<VnfScaleInfo> maxScaleLevels;
 
-	// private List<VnfExtCpInfo> extCpInfo = new ArrayList<>();
-
-	// private List<ExtVirtualLinkInfo> extVirtualLinkInfo ;
-
-	// private List<ExtManagedVirtualLinkInfo> extManagedVirtualLinkInfo;
-
 	private List<VnfMonitoringParameter> monitoringParameters;
 
 	private String localizationLanguage;
 
 	private List<VnfcResourceInfoDto> vnfcResourceInfo;
-
-	// private List<VnfVirtualLinkResourceInfo> virtualLinkResourceInfo ;
 
 	private List<VirtualStorageResourceInfo> virtualStorageResourceInfo;
 

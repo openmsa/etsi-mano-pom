@@ -43,7 +43,6 @@ import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.VnfCompute;
 import com.ubiqube.etsi.mano.dao.mano.VnfStorage;
 import com.ubiqube.etsi.mano.exception.GenericException;
-import com.ubiqube.etsi.mano.service.vim.VimManager;
 
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
@@ -56,11 +55,9 @@ public class GroovyElection implements VimElection {
 
 	private static final Logger LOG = LoggerFactory.getLogger(GroovyElection.class);
 
-	private final VimManager vimManager;
 	private final ManoElectionProperties properties;
 
-	public GroovyElection(final VimManager vimManager, final ManoElectionProperties properties) {
-		this.vimManager = vimManager;
+	public GroovyElection(final ManoElectionProperties properties) {
 		this.properties = properties;
 	}
 

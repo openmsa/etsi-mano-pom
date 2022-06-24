@@ -152,7 +152,6 @@ public class NsBlueprint extends AbstractBlueprint<NsTask, NsdInstance> {
 
 	@Override
 	public void addExtVirtualLinks(final Set<ExtVirtualLinkDataEntity> extVirtualLinks) {
-		// TODO Auto-generated method stub
-
+		// Nothing.
 	}
 }

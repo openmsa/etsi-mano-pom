@@ -80,6 +80,9 @@ public class CollectHashMapListener implements BeanListener {
 		final BeanInfo beanInfo = getIntrospector(curr.clazz);
 		final PropertyDescriptor[] propDescs = beanInfo.getPropertyDescriptors();
 		final PropertyDescriptor props = find(name, propDescs);
+		if (props == null) {
+			throw new GenericException("Unable to find property [" + name + "] on " + curr.clazz);
+		}
 		final Class<?> ret = props.getPropertyType();
 		ClassTypeHolder newVal = new ClassTypeHolder(ret, null);
 		if (ret.isAssignableFrom(Map.class) || ret.isAssignableFrom(List.class)) {

@@ -16,7 +16,6 @@
  */
 package com.ubiqube.etsi.mano.service;
 
-import java.nio.file.Path;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -90,11 +89,6 @@ public class VnfPackageServiceImpl extends SearchableService implements VnfPacka
 	@Override
 	public void delete(final UUID id) {
 		vnfPackageJpa.deleteById(id);
-	}
-
-	@Override
-	public Path getPathByVnfdId(final UUID fromString) {
-		return vnfPackageRepository.getPathByVnfdId(fromString);
 	}
 
 }

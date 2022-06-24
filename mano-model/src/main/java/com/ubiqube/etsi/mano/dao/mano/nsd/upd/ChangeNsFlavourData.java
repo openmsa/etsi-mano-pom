@@ -16,6 +16,8 @@
  */
 package com.ubiqube.etsi.mano.dao.mano.nsd.upd;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
@@ -26,7 +28,9 @@ import lombok.Data;
  *
  */
 @Data
-public class ChangeNsFlavourData {
+public class ChangeNsFlavourData implements Serializable {
+	/** Serial. */
+	private static final long serialVersionUID = 1L;
 	@JsonProperty("newNsFlavourId")
 	private String newNsFlavourId = null;
 

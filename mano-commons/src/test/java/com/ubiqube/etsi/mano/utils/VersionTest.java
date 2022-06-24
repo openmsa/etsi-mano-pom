@@ -27,10 +27,11 @@ import org.junit.jupiter.api.Test;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public class VersionTest {
+@SuppressWarnings("static-method")
+class VersionTest {
 
 	@Test
-	void testName() throws Exception {
+	void testName() {
 		final List<Version> versions = List.of(new Version("3.5.1"), new Version("2.6.1"), new Version("3.3.1"), new Version("2.7.1"), new Version("2.8.1"), new Version("2.6.5"));
 		final List<Version> sorted = versions.stream().sorted().toList();
 		assertEquals("2.6.1", sorted.get(0).toString());

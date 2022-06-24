@@ -68,7 +68,6 @@ public class DownloaderService {
 	private final VnfPackageRepository packageRepository;
 
 	public DownloaderService(final VnfPackageRepository packageRepository) {
-		super();
 		this.packageRepository = packageRepository;
 	}
 
@@ -148,9 +147,7 @@ public class DownloaderService {
 	}
 
 	private static Consumer<SignalType> onComplete(final PipedOutputStream osPipe) {
-		return s -> {
-			closePipe(osPipe);
-		};
+		return s -> closePipe(osPipe);
 	}
 
 	private static WebClient createWebClient() {
@@ -174,7 +171,7 @@ public class DownloaderService {
 		}
 	}
 
-	private class ExceptionHandler {
+	private static class ExceptionHandler {
 		private String message;
 		private Throwable e;
 

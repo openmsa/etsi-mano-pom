@@ -28,10 +28,11 @@ import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 public interface NsdPackageJpa extends CrudRepository<NsdPackage, UUID> {
 	Optional<NsdPackage> findByNsdInvariantId(String nsdInvariantId);
 
-	@Query("select child \n" +
-			" from NsdPackageNsdPackage nsdpackage0_\n" +
-			" left outer join NsdPackage child on nsdpackage0_.child = child \n" +
-			" where parent_id = ?1 ")
+	@Query("""
+			select child
+			from NsdPackageNsdPackage nsdpackage0_
+			left outer join NsdPackage child on nsdpackage0_.child = child
+			where parent_id = ?1 """)
 	Set<NsdPackage> findByNestedNsdInfoIds_Parent(NsdPackage nsdPackage);
 
 	Optional<NsdPackage> findByNsdId(String nsdId);

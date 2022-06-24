@@ -39,6 +39,4 @@ public class NsVirtualLinkInfoDto {
 
 	private List<ResourceHandle> resourceHandle;
 
-	// private List<NsLinkPortInfo> linkPort ;
-
 }

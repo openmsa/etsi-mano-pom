@@ -16,7 +16,6 @@
  */
 package com.ubiqube.etsi.mano.service;
 
-import java.nio.file.Path;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -40,7 +39,5 @@ public interface VnfPackageService {
 	VnfPackage findByVnfdId(final UUID id);
 
 	void delete(UUID id);
-
-	Path getPathByVnfdId(UUID fromString);
 
 }

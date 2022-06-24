@@ -80,7 +80,7 @@ public class VnfContextExtractorUow extends AbstractUnitOfWork<VnfContextExtract
 	private String forwardToVl(final String net) {
 		return pack.getVnffgs().stream()
 				.flatMap(x -> x.getNfpd().stream())
-				.flatMap(x -> x.getInstancces().stream())
+				.flatMap(x -> x.getInstances().stream())
 				.flatMap(x -> x.getPairs().stream())
 				.map(x -> {
 					if (x.getEgress().equals(net)) {
@@ -105,7 +105,7 @@ public class VnfContextExtractorUow extends AbstractUnitOfWork<VnfContextExtract
 		if (!m.matches()) {
 			throw new GenericException("Unable to match 'virtual_link_' in " + cpdId);
 		}
-		return Integer.valueOf(m.group("idx"));
+		return Integer.parseInt(m.group("idx"));
 	}
 
 	private NsdPackageVnfPackage findVnfd(final String vnfdId) {

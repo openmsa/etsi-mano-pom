@@ -22,8 +22,6 @@ import org.quartz.JobListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
-
 /**
  * A kind of VNF rollback. We need to kepp track of the state while uploading.
  * This service will switch back the VNF state on failure.
@@ -34,12 +32,6 @@ import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 public class UriUploadListener implements JobListener {
 
 	private static final Logger LOG = LoggerFactory.getLogger(UriUploadListener.class);
-	private final VnfPackageRepository vnfPackageRepository;
-
-	public UriUploadListener(final VnfPackageRepository vnfPackageRepository) {
-		super();
-		this.vnfPackageRepository = vnfPackageRepository;
-	}
 
 	@Override
 	public String getName() {
@@ -59,7 +51,7 @@ public class UriUploadListener implements JobListener {
 
 	@Override
 	public void jobWasExecuted(final JobExecutionContext context, final JobExecutionException jobException) {
-		if (null == jobException || jobException.getMessage().isEmpty()) {
+		if ((null == jobException) || jobException.getMessage().isEmpty()) {
 			return;
 		}
 		LOG.info("Rollback successfull.");

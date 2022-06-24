@@ -43,7 +43,6 @@ public class JsonFilter {
 	private final JsonBeanUtil jsonBeanUtil;
 
 	public JsonFilter(final JsonBeanUtil jsonBeanUtil) {
-		super();
 		this.jsonBeanUtil = jsonBeanUtil;
 	}
 
@@ -94,7 +93,7 @@ public class JsonFilter {
 					return status;
 				}
 			} else {
-				// TODO: ???
+				// ???
 			}
 		}
 		// Normally we should have the latest value.

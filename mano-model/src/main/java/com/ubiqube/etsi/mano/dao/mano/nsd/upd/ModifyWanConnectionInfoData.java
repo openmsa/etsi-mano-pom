@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.dao.mano.nsd.upd;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -32,7 +33,10 @@ import lombok.Data;
  *
  */
 @Data
-public class ModifyWanConnectionInfoData {
+public class ModifyWanConnectionInfoData implements Serializable {
+	/** Serial. */
+	private static final long serialVersionUID = 1L;
+
 	@JsonProperty("wanConnectionInfoId")
 	private String wanConnectionInfoId = null;
 

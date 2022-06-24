@@ -102,7 +102,7 @@ public class VnfContributor extends AbstractNsContributor<NsVnfTask, NsVtBase<Ns
 		final Set<ExternalPortRecord> ret = new HashSet<>();
 		vnffg.stream()
 				.flatMap(x -> x.getNfpd().stream())
-				.flatMap(x -> x.getInstancces().stream())
+				.flatMap(x -> x.getInstances().stream())
 				.flatMap(x -> x.getPairs().stream()).forEach(x -> {
 					if (null != x.getEgressVl()) {
 						ret.add(new ExternalPortRecord(x.getEgressVl(), null));
