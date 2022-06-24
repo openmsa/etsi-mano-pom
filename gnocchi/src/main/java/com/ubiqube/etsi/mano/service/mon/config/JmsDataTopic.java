@@ -39,7 +39,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 public class JmsDataTopic {
 
 	@Bean
-	public JmsListenerContainerFactory<?> gnocchiDataFactory(final ConnectionFactory connectionFactory, final DefaultJmsListenerContainerFactoryConfigurer configurer) {
+	public JmsListenerContainerFactory gnocchiDataFactory(final ConnectionFactory connectionFactory, final DefaultJmsListenerContainerFactoryConfigurer configurer) {
 		final DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
 		// This provides all boot's default to this factory, including the message
 		// converter
