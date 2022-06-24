@@ -24,6 +24,7 @@ import javax.transaction.Transactional;
 
 import com.ubiqube.etsi.mano.dao.mano.ChangeType;
 import com.ubiqube.etsi.mano.dao.mano.NsLiveInstance;
+import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.ToscaEntity;
 import com.ubiqube.etsi.mano.dao.mano.v2.PlanStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
@@ -76,12 +77,27 @@ public abstract class AbstractNsContributor<U extends NsTask, T extends VirtualT
 	@Transactional
 	@Override
 	public final List<T> contribute(final Bundle bundle, final NsBlueprint blueprint) {
-		final List<T> r = nsContribute((NsBundleAdapter) bundle, blueprint);
+		final List<T> r = switch (blueprint.getOperation()) {
+		case TERMINATE -> onTerminate(blueprint.getInstance());
+		case INSTANTIATE -> onInstantiate((NsBundleAdapter) bundle, blueprint);
+		case SCALE, SCALE_TO_LEVEL -> onScale((NsBundleAdapter) bundle, blueprint);
+		case UPDATE -> onUpdate((NsBundleAdapter) bundle, blueprint);
+		default -> onOther((NsBundleAdapter) bundle, blueprint);
+		};
 		final List<U> rr = r.stream().map(VirtualTask::getParameters).toList();
 		blueprint.getTasks().addAll(rr);
 		return r;
 	}
 
-	protected abstract List<T> nsContribute(final NsBundleAdapter bundle, final NsBlueprint blueprint);
+	protected abstract List<T> onScale(NsBundleAdapter bundle, NsBlueprint blueprint);
 
+	protected abstract List<T> onInstantiate(NsBundleAdapter bundle, NsBlueprint blueprint);
+
+	protected abstract List<T> onOther(NsBundleAdapter bundle, NsBlueprint blueprint);
+
+	protected abstract List<T> onTerminate(NsdInstance instance);
+
+	protected List<T> onUpdate(final NsBundleAdapter bundle, final NsBlueprint blueprint) {
+		return List.of();
+	}
 }

@@ -111,7 +111,7 @@ public class GrantAction extends AbstractGrantAction {
 	private VimConnectionInformation electVim(final String vnfPackageVimId, final GrantResponse grantResponse, final VnfPackage vnfPackage) {
 		final Set<VimConnectionInformation> vimConns = grantResponse.getVimConnections();
 		String vimId;
-		if (null != vimConns && !vimConns.isEmpty()) {
+		if ((null != vimConns) && !vimConns.isEmpty()) {
 			LOG.info("Selecting vim via Given one.");
 			vimId = vimConns.iterator().next().getVimId();
 			return vimManager.findVimByVimId(vimId);
@@ -181,7 +181,7 @@ public class GrantAction extends AbstractGrantAction {
 	@Override
 	protected void getUnmanagedNetworks(final GrantResponse grants, final Vim vim, final VimConnectionInformation vimConnectionInformation) {
 		final String vnfInstanceId = grants.getVnfInstanceId();
-		final NsLiveInstance res = nsLiveInstanceJpa.findByResourceId(vnfInstanceId);
+		final NsLiveInstance res = nsLiveInstanceJpa.findByResourceIdAndNsInstanceId(vnfInstanceId, getSafeUUID(vnfInstanceId));
 		if (null == res) {
 			LOG.warn("No NS instance found {}", vnfInstanceId);
 			return;

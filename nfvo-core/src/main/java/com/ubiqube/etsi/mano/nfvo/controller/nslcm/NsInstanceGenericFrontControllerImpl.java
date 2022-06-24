@@ -37,10 +37,10 @@ import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.dto.CreateNsInstance;
 import com.ubiqube.etsi.mano.dao.mano.dto.nsi.NsInstanceDto;
 import com.ubiqube.etsi.mano.dao.mano.dto.nsi.NsInstantiate;
+import com.ubiqube.etsi.mano.dao.mano.nsd.upd.UpdateRequest;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.NsHeal;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.NsScale;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
-import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 
 import ma.glasnost.orika.MapperFacade;
@@ -126,7 +126,6 @@ public class NsInstanceGenericFrontControllerImpl implements NsInstanceGenericFr
 	public <U> ResponseEntity<U> terminate(final String nsInstanceId, final Object request, final Function<NsBlueprint, String> getSelfLink) {
 		final UUID nsInstanceUuid = UUID.fromString(nsInstanceId);
 		final NsBlueprint lcm = this.nsInstanceControllerService.terminate(nsInstanceUuid, OffsetDateTime.now());
-
 		final String link = getSelfLink.apply(lcm);
 		return ResponseEntity.accepted().header(LOCATION, link).build();
 	}
@@ -134,8 +133,10 @@ public class NsInstanceGenericFrontControllerImpl implements NsInstanceGenericFr
 	@Override
 	public <U> ResponseEntity<U> update(final String nsInstanceId, final Object request, final Function<NsBlueprint, String> getSelfLink) {
 		final UUID nsInstanceUuid = UUID.fromString(nsInstanceId);
-		nsLcmController.nsInstancesNsInstanceIdUpdatePost(nsInstanceUuid);
-		throw new GenericException("TODO");
+		final UpdateRequest req = mapper.map(request, UpdateRequest.class);
+		final NsBlueprint lcm = nsLcmController.nsInstancesNsInstanceIdUpdatePost(nsInstanceUuid, req);
+		final String link = getSelfLink.apply(lcm);
+		return ResponseEntity.accepted().header(LOCATION, link).build();
 	}
 
 	@Override

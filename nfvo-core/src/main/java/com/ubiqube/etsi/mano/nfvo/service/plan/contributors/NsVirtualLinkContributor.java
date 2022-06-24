@@ -26,7 +26,6 @@ import com.ubiqube.etsi.mano.dao.mano.ChangeType;
 import com.ubiqube.etsi.mano.dao.mano.NsLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
-import com.ubiqube.etsi.mano.dao.mano.v2.PlanOperationType;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVirtualLink;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVirtualLinkTask;
@@ -48,12 +47,12 @@ public class NsVirtualLinkContributor extends AbstractNsContributor<NsVirtualLin
 	private final NsLiveInstanceJpa nsLiveInstanceJpa;
 
 	public NsVirtualLinkContributor(final NsBlueprintService blueprintService, final NsLiveInstanceJpa nsLiveInstanceJpa) {
-		super();
 		this.blueprintService = blueprintService;
 		this.nsLiveInstanceJpa = nsLiveInstanceJpa;
 	}
 
-	private List<NsVirtualLinkVt> doTerminate(final NsdInstance instance) {
+	@Override
+	protected List<NsVirtualLinkVt> onTerminate(final NsdInstance instance) {
 		final List<NsVirtualLinkVt> ret = new ArrayList<>();
 		final List<NsLiveInstance> insts = nsLiveInstanceJpa.findByNsdInstanceAndClass(instance, NsVirtualLinkTask.class.getSimpleName());
 		insts.stream().forEach(x -> {
@@ -70,26 +69,33 @@ public class NsVirtualLinkContributor extends AbstractNsContributor<NsVirtualLin
 		return Network.class;
 	}
 
+	private static String buildAlias(final NsBlueprint plan, final String toscaName, final int count) {
+		final String vnfInstanceId = plan.getInstance().getId().toString();
+		return vnfInstanceId.substring(0, 8) + '-' + toscaName + '-' + String.format("%04d", count);
+	}
+
 	@Override
-	protected List<NsVirtualLinkVt> nsContribute(final NsBundleAdapter bundle, final NsBlueprint plan) {
-		if (plan.getOperation() == PlanOperationType.TERMINATE) {
-			return doTerminate(plan.getInstance());
-		}
+	protected List<NsVirtualLinkVt> onScale(final NsBundleAdapter bundle, final NsBlueprint blueprint) {
+		return onInstantiate(bundle, blueprint);
+	}
+
+	@Override
+	protected List<NsVirtualLinkVt> onInstantiate(final NsBundleAdapter bundle, final NsBlueprint blueprint) {
 		final Set<NsVirtualLink> vlss = bundle.nsPackage().getNsVirtualLinks();
 		return vlss.stream()
-				.filter(x -> 0 == blueprintService.getNumberOfLiveVl(plan.getNsInstance(), x))
+				.filter(x -> 0 == blueprintService.getNumberOfLiveVl(blueprint.getNsInstance(), x))
 				.map(x -> {
 					final NsVirtualLinkTask nsVl = createTask(NsVirtualLinkTask::new, x);
 					nsVl.setChangeType(ChangeType.ADDED);
 					nsVl.setNsVirtualLink(x);
 					nsVl.setType(ResourceTypeEnum.VL);
-					nsVl.setAlias(buildAlias(plan, nsVl.getToscaName(), 0));
+					nsVl.setAlias(buildAlias(blueprint, nsVl.getToscaName(), 0));
 					return new NsVirtualLinkVt(nsVl);
 				}).toList();
 	}
 
-	private static String buildAlias(final NsBlueprint plan, final String toscaName, final int count) {
-		final String vnfInstanceId = plan.getInstance().getId().toString();
-		return vnfInstanceId.substring(0, 8) + '-' + toscaName + '-' + String.format("%04d", count);
+	@Override
+	protected List<NsVirtualLinkVt> onOther(final NsBundleAdapter bundle, final NsBlueprint blueprint) {
+		return onInstantiate(bundle, blueprint);
 	}
 }

@@ -28,7 +28,6 @@ import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackageNsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
-import com.ubiqube.etsi.mano.dao.mano.v2.PlanOperationType;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVnfTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsdTask;
@@ -59,7 +58,8 @@ public class NsdConributor extends AbstractNsContributor<NsdTask, NsVtBase<NsdTa
 		this.nsScaleStrategy = nsScaleStrategy;
 	}
 
-	private List<NsVtBase<NsdTask>> doTerminate(final NsdInstance instance) {
+	@Override
+	protected List<NsVtBase<NsdTask>> onTerminate(final NsdInstance instance) {
 		final List<NsVtBase<NsdTask>> ret = new ArrayList<>();
 		final List<NsLiveInstance> insts = nsLiveInstanceJpa.findByNsdInstanceAndClass(instance, NsdTask.class.getSimpleName());
 		insts.stream().forEach(x -> {
@@ -72,28 +72,6 @@ public class NsdConributor extends AbstractNsContributor<NsdTask, NsVtBase<NsdTa
 	@Override
 	public Class<? extends Node> getNode() {
 		return NsdInstantiateNode.class;
-	}
-
-	@Override
-	protected List<NsVtBase<NsdTask>> nsContribute(final NsBundleAdapter bundle, final NsBlueprint blueprint) {
-		if (blueprint.getOperation() == PlanOperationType.TERMINATE) {
-			return doTerminate(blueprint.getInstance());
-		}
-
-		final Set<NsdPackage> nsds = nsInstanceService.findNestedNsdByNsInstance(bundle.nsPackage());
-		final List<NsVtBase<NsdTask>> ret = new ArrayList<>();
-		nsds.stream()
-				.forEach(x -> {
-					final NsdPackageNsdPackage nsPackageNsPackage = find(x, bundle.nsPackage().getNestedNsdInfoIds());
-					final int curr = nsInstanceService.countLiveInstanceOfNsd(blueprint.getNsInstance(), x.getNsdName());
-					final int inst = nsScaleStrategy.getNumberOfInstances(nsPackageNsPackage, blueprint);
-					if (curr > inst) {
-						remove(curr - inst, blueprint.getInstance(), ret);
-					} else if (curr < inst) {
-						add(inst - curr, x, nsPackageNsPackage, ret);
-					}
-				});
-		return ret;
 	}
 
 	private static void add(final int cnt, final NsdPackage pkg, final NsdPackageNsdPackage nsPackageNsPackage, final List<NsVtBase<NsdTask>> ret) {
@@ -123,6 +101,34 @@ public class NsdConributor extends AbstractNsContributor<NsdTask, NsVtBase<NsdTa
 				.filter(x -> x.getChild().getId().compareTo(nsPackage.getId()) == 0)
 				.findFirst()
 				.orElseThrow(() -> new NotFoundException("NSD Package not found: " + nsPackage.getId()));
+	}
+
+	@Override
+	protected List<NsVtBase<NsdTask>> onScale(final NsBundleAdapter bundle, final NsBlueprint blueprint) {
+		return onInstantiate(bundle, blueprint);
+	}
+
+	@Override
+	protected List<NsVtBase<NsdTask>> onInstantiate(final NsBundleAdapter bundle, final NsBlueprint blueprint) {
+		final Set<NsdPackage> nsds = nsInstanceService.findNestedNsdByNsInstance(bundle.nsPackage());
+		final List<NsVtBase<NsdTask>> ret = new ArrayList<>();
+		nsds.stream()
+				.forEach(x -> {
+					final NsdPackageNsdPackage nsPackageNsPackage = find(x, bundle.nsPackage().getNestedNsdInfoIds());
+					final int curr = nsInstanceService.countLiveInstanceOfNsd(blueprint.getNsInstance(), x.getNsdName());
+					final int inst = nsScaleStrategy.getNumberOfInstances(nsPackageNsPackage, blueprint);
+					if (curr > inst) {
+						remove(curr - inst, blueprint.getInstance(), ret);
+					} else if (curr < inst) {
+						add(inst - curr, x, nsPackageNsPackage, ret);
+					}
+				});
+		return ret;
+	}
+
+	@Override
+	protected List<NsVtBase<NsdTask>> onOther(final NsBundleAdapter bundle, final NsBlueprint blueprint) {
+		return onInstantiate(bundle, blueprint);
 	}
 
 }

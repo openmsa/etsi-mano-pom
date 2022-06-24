@@ -20,6 +20,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -31,6 +32,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 import javax.validation.Valid;
 
+import org.hibernate.annotations.Type;
+
 import com.ubiqube.etsi.mano.dao.mano.ExtCpInfo;
 import com.ubiqube.etsi.mano.dao.mano.ExtManagedVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.ExtVirtualLinkDataEntity;
@@ -41,6 +44,7 @@ import com.ubiqube.etsi.mano.dao.mano.VirtualLinkInfo;
 import com.ubiqube.etsi.mano.dao.mano.VirtualStorageResourceInfo;
 import com.ubiqube.etsi.mano.dao.mano.VnfMonitoringParameter;
 import com.ubiqube.etsi.mano.dao.mano.VnfcResourceInfoEntity;
+import com.ubiqube.etsi.mano.dao.mano.nsd.upd.UpdateRequest;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.NsHeal;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.NsScale;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.NsScaleInfo;
@@ -212,4 +216,8 @@ public class BlueprintParameters implements Serializable {
 	 */
 	@Transient
 	private Set<VirtualLinkInfo> virtualLinkResourceInfo;
+
+	@Type(type = "jsonb")
+	@Column(columnDefinition = "json")
+	private UpdateRequest updData;
 }

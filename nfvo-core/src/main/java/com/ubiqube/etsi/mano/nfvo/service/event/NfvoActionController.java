@@ -40,11 +40,14 @@ public class NfvoActionController {
 
 	private final VnfPackageOnboardingImpl vnfPackageOnboarding;
 
-	public NfvoActionController(final NfvoActions nfvoActions, final NsPackageOnboardingImpl nsPackagingManager, final VnfPackageOnboardingImpl vnfPackageOnboarding) {
-		super();
+	private final NsUpadteManager nsUpdateManager;
+
+	public NfvoActionController(final NfvoActions nfvoActions, final NsPackageOnboardingImpl nsPackagingManager, final VnfPackageOnboardingImpl vnfPackageOnboarding,
+			final NsUpadteManager nsUpdateManager) {
 		this.nfvoActions = nfvoActions;
 		this.nsPackagingManager = nsPackagingManager;
 		this.vnfPackageOnboarding = vnfPackageOnboarding;
+		this.nsUpdateManager = nsUpdateManager;
 	}
 
 	public void dispatch(final ActionType eventType, @NotNull final UUID objectId, final Map<String, Object> parameters) {
@@ -56,6 +59,7 @@ public class NfvoActionController {
 		case NS_TERMINATE -> nfvoActions.terminate(objectId);
 		case NS_HEAL -> nfvoActions.heal(objectId);
 		case NS_SCALE -> nfvoActions.scale(objectId);
+		case NS_UPDATE -> nsUpdateManager.update(objectId);
 		default -> LOG.warn("Unknown event: {}", eventType);
 		}
 	}

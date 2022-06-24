@@ -23,9 +23,9 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.ChangeType;
+import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.nsd.VnffgDescriptor;
-import com.ubiqube.etsi.mano.dao.mano.v2.PlanOperationType;
 import com.ubiqube.etsi.mano.dao.mano.v2.PlanStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsSfcTask;
@@ -49,21 +49,21 @@ public class VnffgContributor extends AbstractNsContributor<NsSfcTask, NsVtBase<
 	}
 
 	@Override
-	protected List<NsVtBase<NsSfcTask>> nsContribute(final NsBundleAdapter bundle, final NsBlueprint blueprint) {
-		final Set<VnffgDescriptor> vnffgs = bundle.nsPackage().getVnffgs();
-		if (vnffgs == null || vnffgs.isEmpty()) {
-			return List.of();
-		}
-		if (blueprint.getOperation() == PlanOperationType.TERMINATE) {
-			return doTerminatePlan(blueprint);
-		}
-		if (blueprint.getOperation() == PlanOperationType.INSTANTIATE || blueprint.getOperation() == PlanOperationType.SCALE) {
-			return doInstantiatePlan(vnffgs, blueprint);
-		}
+	protected List<NsVtBase<NsSfcTask>> onTerminate(final NsdInstance blueprint) {
 		return List.of();
 	}
 
-	private static List<NsVtBase<NsSfcTask>> doInstantiatePlan(final Set<VnffgDescriptor> vnffgs, final NsBlueprint blueprint) {
+	@Override
+	protected List<NsVtBase<NsSfcTask>> onScale(final NsBundleAdapter bundle, final NsBlueprint blueprint) {
+		return onInstantiate(bundle, blueprint);
+	}
+
+	@Override
+	protected List<NsVtBase<NsSfcTask>> onInstantiate(final NsBundleAdapter bundle, final NsBlueprint blueprint) {
+		final Set<VnffgDescriptor> vnffgs = bundle.nsPackage().getVnffgs();
+		if ((vnffgs == null) || vnffgs.isEmpty()) {
+			return List.of();
+		}
 		return vnffgs.stream().map(x -> {
 			final NsSfcTask task = new NsSfcTask();
 			task.setToscaName(x.getName());
@@ -76,9 +76,9 @@ public class VnffgContributor extends AbstractNsContributor<NsSfcTask, NsVtBase<
 		}).collect(Collectors.toList());
 	}
 
-	private List<NsVtBase<NsSfcTask>> doTerminatePlan(final NsBlueprint blueprint) {
-		// TODO Auto-generated method stub
-		return List.of();
+	@Override
+	protected List<NsVtBase<NsSfcTask>> onOther(final NsBundleAdapter bundle, final NsBlueprint blueprint) {
+		return onInstantiate(bundle, blueprint);
 	}
 
 }

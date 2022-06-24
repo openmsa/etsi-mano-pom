@@ -26,7 +26,6 @@ import com.ubiqube.etsi.mano.dao.mano.ChangeType;
 import com.ubiqube.etsi.mano.dao.mano.NsLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.NsSap;
 import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
-import com.ubiqube.etsi.mano.dao.mano.v2.PlanOperationType;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsSapTask;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsLiveInstanceJpa;
@@ -51,7 +50,8 @@ public class SapContributor extends AbstractNsContributor<NsSapTask, NsSapVt> {
 		this.nsLiveInstanceJpa = nsLiveInstanceJpa;
 	}
 
-	private List<NsSapVt> doTerminate(final NsdInstance instance) {
+	@Override
+	protected List<NsSapVt> onTerminate(final NsdInstance instance) {
 		final List<NsSapVt> ret = new ArrayList<>();
 		final List<NsLiveInstance> insts = nsLiveInstanceJpa.findByNsdInstanceAndClass(instance, NsSapTask.class.getSimpleName());
 		insts.stream().forEach(x -> {
@@ -68,19 +68,26 @@ public class SapContributor extends AbstractNsContributor<NsSapTask, NsSapVt> {
 	}
 
 	@Override
-	protected List<NsSapVt> nsContribute(final NsBundleAdapter bundle, final NsBlueprint plan) {
-		if (plan.getOperation() == PlanOperationType.TERMINATE) {
-			return doTerminate(plan.getInstance());
-		}
+	protected List<NsSapVt> onScale(final NsBundleAdapter bundle, final NsBlueprint blueprint) {
+		return onInstantiate(bundle, blueprint);
+	}
+
+	@Override
+	protected List<NsSapVt> onInstantiate(final NsBundleAdapter bundle, final NsBlueprint blueprint) {
 		final Set<NsSap> saps = bundle.nsPackage().getNsSaps();
 		return saps.stream()
-				.filter(x -> 0 == blueprintService.getNumberOfLiveSap(plan.getNsInstance(), x))
+				.filter(x -> 0 == blueprintService.getNumberOfLiveSap(blueprint.getNsInstance(), x))
 				.map(x -> {
 					final NsSapTask sap = createTask(NsSapTask::new, x);
 					sap.setNsSap(x);
 					sap.setChangeType(ChangeType.ADDED);
 					return new NsSapVt(sap);
 				}).toList();
+	}
+
+	@Override
+	protected List<NsSapVt> onOther(final NsBundleAdapter bundle, final NsBlueprint blueprint) {
+		return onInstantiate(bundle, blueprint);
 	}
 
 }

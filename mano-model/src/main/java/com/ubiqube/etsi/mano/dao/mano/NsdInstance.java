@@ -36,6 +36,7 @@ import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 import com.ubiqube.etsi.mano.dao.mano.dto.ParamsForNestedNsd;
 import com.ubiqube.etsi.mano.dao.mano.nfvo.NsVnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.nfvo.ParamsForVnf;
+import com.ubiqube.etsi.mano.dao.mano.nsd.NsdVnfPackageCopy;
 import com.ubiqube.etsi.mano.dao.mano.nsd.wan.WanConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 
@@ -111,6 +112,9 @@ public class NsdInstance extends Instance {
 	private Set<String> vnfSnapshotInfoIds;
 	// 3.5.1
 	private BigDecimal priority;
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Set<NsdVnfPackageCopy> vnfPkgIds;
 
 	public void addNestedNsInstance(final NsdInstance nsIn) {
 		if (null == nestedNsInstance) {

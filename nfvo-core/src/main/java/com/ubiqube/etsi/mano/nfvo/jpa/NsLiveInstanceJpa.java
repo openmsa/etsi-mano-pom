@@ -52,6 +52,8 @@ public interface NsLiveInstanceJpa extends CrudRepository<NsLiveInstance, UUID> 
 
 	long countByNsInstance(NsdInstance nsInstance);
 
-	NsLiveInstance findByResourceId(@NotNull String safeUUID);
+	List<NsLiveInstance> findByResourceId(@NotNull String safeUUID);
+
+	NsLiveInstance findByResourceIdAndNsInstanceId(@NotNull String safeUUID, UUID nsInstanceId);
 
 }

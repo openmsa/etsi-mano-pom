@@ -20,6 +20,7 @@ import static com.ubiqube.etsi.mano.Constants.ensureInstantiated;
 import static com.ubiqube.etsi.mano.Constants.ensureNotInstantiated;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -35,6 +36,7 @@ import com.ubiqube.etsi.mano.dao.mano.alarm.ResourceHandle;
 import com.ubiqube.etsi.mano.dao.mano.dto.nsi.NsInstanceDto;
 import com.ubiqube.etsi.mano.dao.mano.dto.nsi.NsVirtualLinkInfoDto;
 import com.ubiqube.etsi.mano.dao.mano.dto.nsi.VnfInstanceDto;
+import com.ubiqube.etsi.mano.dao.mano.nsd.upd.UpdateRequest;
 import com.ubiqube.etsi.mano.dao.mano.v2.PlanOperationType;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVirtualLinkTask;
@@ -46,6 +48,7 @@ import com.ubiqube.etsi.mano.nfvo.service.NsInstanceService;
 import com.ubiqube.etsi.mano.nfvo.service.NsdPackageService;
 import com.ubiqube.etsi.mano.service.NsBlueprintService;
 import com.ubiqube.etsi.mano.service.VnfInstanceGatewayService;
+import com.ubiqube.etsi.mano.service.event.ActionType;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 
 import ma.glasnost.orika.MapperFacade;
@@ -136,11 +139,13 @@ public class NsInstanceControllerImpl implements NsInstanceController {
 	}
 
 	@Override
-	public void nsInstancesNsInstanceIdUpdatePost(final UUID id) {
+	public NsBlueprint nsInstancesNsInstanceIdUpdatePost(final UUID id, final UpdateRequest req) {
 		final NsdInstance nsInstanceDb = nsInstanceService.findById(id);
 		ensureInstantiated(nsInstanceDb);
 		final NsBlueprint lcmOpOccs = LcmFactory.createNsLcmOpOcc(nsInstanceDb, PlanOperationType.UPDATE);
+		lcmOpOccs.getParameters().setUpdData(req);
 		blueprintService.save(lcmOpOccs);
-		throw new GenericException("TODO");
+		eventManager.sendActionNfvo(ActionType.NS_UPDATE, lcmOpOccs.getId(), new HashMap<>());
+		return lcmOpOccs;
 	}
 }

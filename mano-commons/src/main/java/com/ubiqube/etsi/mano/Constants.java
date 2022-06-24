@@ -105,7 +105,7 @@ public final class Constants {
 			return null;
 		}
 		final List<String> params = bag.get(parameter);
-		if (null == params || params.isEmpty()) {
+		if ((null == params) || params.isEmpty()) {
 			return null;
 		}
 		if (params.size() > 1) {
@@ -194,7 +194,7 @@ public final class Constants {
 
 	public static void ensureInstantiated(final NsdInstance nsInstance) {
 		if (InstantiationState.INSTANTIATED != nsInstance.getInstantiationState()) {
-			throw new ConflictException("The Ns Instance " + nsInstance.getId() + " is instantiated.");
+			throw new ConflictException("The Ns Instance " + nsInstance.getId() + " is not instantiated.");
 		}
 	}
 
@@ -205,7 +205,7 @@ public final class Constants {
 	}
 
 	public static void ensureLockedByMyself(final Instance vnfInstance, final UUID lcmOpOccsId) {
-		if (vnfInstance.getLockedBy() != null && vnfInstance.getLockedBy().equals(lcmOpOccsId)) {
+		if ((vnfInstance.getLockedBy() != null) && vnfInstance.getLockedBy().equals(lcmOpOccsId)) {
 			throw new ConflictException("The Instance " + vnfInstance.getId() + " is locked by LCMopOcc: " + vnfInstance.getLockedBy() + ".");
 		}
 	}

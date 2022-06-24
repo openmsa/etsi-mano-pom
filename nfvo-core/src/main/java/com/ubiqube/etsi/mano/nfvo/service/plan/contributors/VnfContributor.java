@@ -41,8 +41,11 @@ import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
 import com.ubiqube.etsi.mano.dao.mano.config.ServerType;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.dao.mano.nsd.CpPair;
+import com.ubiqube.etsi.mano.dao.mano.nsd.NsdVnfPackageCopy;
 import com.ubiqube.etsi.mano.dao.mano.nsd.VnffgDescriptor;
-import com.ubiqube.etsi.mano.dao.mano.v2.PlanOperationType;
+import com.ubiqube.etsi.mano.dao.mano.nsd.upd.UpdateRequest;
+import com.ubiqube.etsi.mano.dao.mano.nsd.upd.UpdateTypeEnum;
+import com.ubiqube.etsi.mano.dao.mano.v2.BlueprintParameters;
 import com.ubiqube.etsi.mano.dao.mano.v2.PlanStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.ExternalPortRecord;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
@@ -57,6 +60,7 @@ import com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt.NsVnfCreateVt;
 import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfInstantiateNode;
 import com.ubiqube.etsi.mano.service.NsScaleStrategy;
+import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.graph.vt.NsVtBase;
 
 /**
@@ -73,13 +77,15 @@ public class VnfContributor extends AbstractNsContributor<NsVnfTask, NsVtBase<Ns
 	private final NsLiveInstanceJpa nsLiveInstanceJpa;
 	private final ServersJpa serversJpa;
 	private final NsScaleStrategy nsScaleStrategy;
+	private final VnfPackageService vnfPackageService;
 	private final Random rand = new Random();
 
-	public VnfContributor(final NsInstanceService nsInstanceService, final NsLiveInstanceJpa nsLiveInstanceJpa, final ServersJpa serversJpa, final NsScaleStrategy nsScaleStrategy) {
+	public VnfContributor(final NsInstanceService nsInstanceService, final NsLiveInstanceJpa nsLiveInstanceJpa, final ServersJpa serversJpa, final NsScaleStrategy nsScaleStrategy, final VnfPackageService vnfPackageService) {
 		this.nsInstanceService = nsInstanceService;
 		this.nsLiveInstanceJpa = nsLiveInstanceJpa;
 		this.serversJpa = serversJpa;
 		this.nsScaleStrategy = nsScaleStrategy;
+		this.vnfPackageService = vnfPackageService;
 	}
 
 	private static Set<ExternalPortRecord> getNetworks(final VnfPackage vnfPackage) {
@@ -108,28 +114,36 @@ public class VnfContributor extends AbstractNsContributor<NsVnfTask, NsVtBase<Ns
 		return List.of();
 	}
 
-	private List<NsVtBase<NsVnfTask>> doTerminatePlan(final NsdInstance instance) {
+	@Override
+	protected List<NsVtBase<NsVnfTask>> onTerminate(final NsdInstance instance) {
 		final List<NsVtBase<NsVnfTask>> ret = new ArrayList<>();
 		final List<NsLiveInstance> insts = nsLiveInstanceJpa.findByNsdInstanceAndClass(instance, NsVnfTask.class.getSimpleName());
 		int i = 0;
 		for (final NsLiveInstance nsLiveInstance : insts) {
 			final NsVnfTask task = (NsVnfTask) nsLiveInstance.getNsTask();
-			final NsVnfTask nt = createDeleteTask(NsVnfTask::new, nsLiveInstance);
-			final Set<ExternalPortRecord> nets = task.getNsPackageVnfPackage().getVirtualLinks().stream()
-					.filter(x -> x.getValue() != null)
-					.map(x -> new ExternalPortRecord(x.getValue(), null))
-					.collect(Collectors.toSet());
-			nt.setExternalNetworks(nets);
-			nt.setVimResourceId(nsLiveInstance.getResourceId());
-			nt.setServer(task.getServer());
-			nt.setAlias(getToscaName(insts.get(i).getNsTask().getToscaName(), i));
-			nt.setToscaName(getToscaName(nsLiveInstance.getNsTask().getAlias(), i++));
-			nt.setType(ResourceTypeEnum.VNF);
-			nt.setNsdId(instance.getNsdInfo().getId());
-			nt.setNsPackageVnfPackage(task.getNsPackageVnfPackage());
+			final String toscaName = getToscaName(nsLiveInstance.getNsTask().getAlias(), i++);
+			final String aliasName = getToscaName(insts.get(i).getNsTask().getToscaName(), i);
+			final NsVnfTask nt = createVnfDeleteTask(nsLiveInstance, task, instance, toscaName, aliasName);
 			ret.add(new NsVnfCreateVt(nt));
 		}
 		return ret;
+	}
+
+	public static NsVnfTask createVnfDeleteTask(final NsLiveInstance nsLiveInstance, final NsVnfTask task, final NsdInstance instance, final String toscaName, final String aliasName) {
+		final NsVnfTask nt = createDeleteTask(NsVnfTask::new, nsLiveInstance);
+		final Set<ExternalPortRecord> nets = task.getNsPackageVnfPackage().getVirtualLinks().stream()
+				.filter(x -> x.getValue() != null)
+				.map(x -> new ExternalPortRecord(x.getValue(), null))
+				.collect(Collectors.toSet());
+		nt.setExternalNetworks(nets);
+		nt.setVimResourceId(nsLiveInstance.getResourceId());
+		nt.setServer(task.getServer());
+		nt.setAlias(toscaName);
+		nt.setToscaName(aliasName);
+		nt.setType(ResourceTypeEnum.VNF);
+		nt.setNsdId(instance.getNsdInfo().getId());
+		nt.setNsPackageVnfPackage(task.getNsPackageVnfPackage());
+		return nt;
 	}
 
 	private static NsdPackageVnfPackage find(final VnfPackage vnfPackage, final Set<NsdPackageVnfPackage> vnfPkgIds) {
@@ -143,64 +157,55 @@ public class VnfContributor extends AbstractNsContributor<NsVnfTask, NsVtBase<Ns
 		return VnfInstantiateNode.class;
 	}
 
-	@Override
-	protected List<NsVtBase<NsVnfTask>> nsContribute(final NsBundleAdapter bundle, final NsBlueprint blueprint) {
-		if (blueprint.getOperation() == PlanOperationType.TERMINATE) {
-			return doTerminatePlan(blueprint.getInstance());
-		}
-		final Set<VnfPackage> vnfs = nsInstanceService.findVnfPackageByNsInstance(bundle.nsPackage());
-		final List<NsVtBase<NsVnfTask>> ret = new ArrayList<>();
-		vnfs.stream()
-				.forEach(x -> {
-					final NsdPackageVnfPackage nsPackageVnfPackage = find(x, bundle.nsPackage().getVnfPkgIds());
-					final int curr = nsInstanceService.countLiveInstanceOfVnf(blueprint.getNsInstance(), nsPackageVnfPackage.getToscaName() + "%");
-					final int inst = nsScaleStrategy.getNumberOfInstances(nsPackageVnfPackage, blueprint);
-					LOG.info("VNF curr: {} <=> inst: {}", curr, inst);
-					if (curr > inst) {
-						remove(curr - inst, blueprint.getInstance(), ret);
-					} else if (curr < inst) {
-						add(curr, inst, x, nsPackageVnfPackage, ret, bundle.nsPackage().getVnffgs(), bundle.nsPackage().getId());
-					}
-				});
-		return ret;
-	}
-
 	private void remove(final int cnt, final NsdInstance instance, final List<NsVtBase<NsVnfTask>> ret) {
 		final List<NsLiveInstance> insts = nsLiveInstanceJpa.findByNsdInstanceAndClass(instance, NsVnfTask.class.getSimpleName());
 		for (int i = 0; i < cnt; i++) {
 			final NsVnfTask task = (NsVnfTask) insts.get(i).getNsTask();
-			final NsVnfTask nt = createDeleteTask(NsVnfTask::new, insts.get(i));
-			final Set<ExternalPortRecord> nets = getNetworks(task.getNsPackageVnfPackage().getVnfPackage());
-			nt.setExternalNetworks(nets);
-			nt.setVimResourceId(insts.get(i).getResourceId());
-			nt.setToscaName(getToscaName(insts.get(i).getNsTask().getToscaName(), i));
-			nt.setAlias(getToscaName(insts.get(i).getNsTask().getToscaName(), i));
-			nt.setServer(task.getServer());
-			nt.setNsdId(instance.getNsdInfo().getId());
+			final NsLiveInstance linst = insts.get(i);
+			final String toscaName = getToscaName(linst.getNsTask().getToscaName(), i);
+			final String aliasName = getToscaName(linst.getNsTask().getToscaName(), i);
+			final NsVnfTask nt = createDeleteTask(instance, linst, task, toscaName, aliasName);
 			ret.add(new NsVnfCreateVt(nt));
 		}
+	}
+
+	private static NsVnfTask createDeleteTask(final NsdInstance instance, final NsLiveInstance insts, final NsVnfTask task, final String toscaName, final String aliasName) {
+		final NsVnfTask nt = createDeleteTask(NsVnfTask::new, insts);
+		final Set<ExternalPortRecord> nets = getNetworks(task.getNsPackageVnfPackage().getVnfPackage());
+		nt.setExternalNetworks(nets);
+		nt.setVimResourceId(insts.getResourceId());
+		nt.setToscaName(toscaName);
+		nt.setAlias(aliasName);
+		nt.setServer(task.getServer());
+		nt.setNsdId(instance.getNsdInfo().getId());
+		return nt;
 	}
 
 	private void add(final int curr, final int cnt, final VnfPackage vnfPkg, final NsdPackageVnfPackage nsPackageVnfPackage, final List<NsVtBase<NsVnfTask>> ret, final Set<VnffgDescriptor> vnffg, final UUID nsdId) {
 		for (int i = curr; i < cnt; i++) {
 			final String newName = getToscaName(nsPackageVnfPackage.getToscaName(), i);
 			LOG.debug("VNF inst Creating: {}", newName);
-			final NsVnfTask vnf = createTask(NsVnfTask::new);
-			vnf.setChangeType(ChangeType.ADDED);
-			final Set<ExternalPortRecord> nets = getNetworks(vnfPkg);
-			nets.addAll(getVl(nsPackageVnfPackage));
-			vnf.setExternalNetworks(nets);
-			vnf.setNsPackageVnfPackage(nsPackageVnfPackage);
-			final Servers server = selectServer(vnfPkg);
-			vnf.setServer(server);
-			vnf.setAlias(newName);
-			vnf.setToscaName(newName);
-			vnf.setFlavourId("flavour");
-			vnf.setVnfdId(nsPackageVnfPackage.getVnfPackage().getVnfdId());
-			vnf.setType(ResourceTypeEnum.VNF);
-			vnf.setNsdId(nsdId);
+			final NsVnfTask vnf = createTask(vnfPkg, nsPackageVnfPackage, nsdId, newName);
 			ret.add(new NsVnfCreateVt(vnf));
 		}
+	}
+
+	private NsVnfTask createTask(final VnfPackage vnfPkg, final NsdPackageVnfPackage nsPackageVnfPackage, final UUID nsdId, final String newName) {
+		final NsVnfTask vnf = createTask(NsVnfTask::new);
+		vnf.setChangeType(ChangeType.ADDED);
+		final Set<ExternalPortRecord> nets = getNetworks(vnfPkg);
+		nets.addAll(getVl(nsPackageVnfPackage));
+		vnf.setExternalNetworks(nets);
+		vnf.setNsPackageVnfPackage(nsPackageVnfPackage);
+		final Servers server = selectServer(vnfPkg);
+		vnf.setServer(server);
+		vnf.setAlias(newName);
+		vnf.setToscaName(newName);
+		vnf.setFlavourId("flavour");
+		vnf.setVnfdId(nsPackageVnfPackage.getVnfPackage().getVnfdId());
+		vnf.setType(ResourceTypeEnum.VNF);
+		vnf.setNsdId(nsdId);
+		return vnf;
 	}
 
 	private static Set<ExternalPortRecord> getVl(final NsdPackageVnfPackage nsPackageVnfPackage) {
@@ -240,6 +245,56 @@ public class VnfContributor extends AbstractNsContributor<NsVnfTask, NsVtBase<Ns
 			throw new GenericException("No VNFM server found for the following requirements: " + vnfmInfos);
 		}
 		return available.get(rand.nextInt(available.size()));
+	}
+
+	@Override
+	protected List<NsVtBase<NsVnfTask>> onScale(final NsBundleAdapter bundle, final NsBlueprint blueprint) {
+		return onInstantiate(bundle, blueprint);
+	}
+
+	@Override
+	protected List<NsVtBase<NsVnfTask>> onInstantiate(final NsBundleAdapter bundle, final NsBlueprint blueprint) {
+		final Set<NsdVnfPackageCopy> vnfsCopy = blueprint.getInstance().getVnfPkgIds();
+		final List<VnfPackage> vnfs = vnfsCopy.stream().map(x -> vnfPackageService.findByDescriptorId(x.getVnfdId()).orElseThrow()).toList();
+		final List<NsVtBase<NsVnfTask>> ret = new ArrayList<>();
+		vnfs.stream()
+				.forEach(x -> {
+					final NsdPackageVnfPackage nsPackageVnfPackage = find(x, bundle.nsPackage().getVnfPkgIds());
+					final int curr = nsInstanceService.countLiveInstanceOfVnf(blueprint.getNsInstance(), nsPackageVnfPackage.getToscaName() + "%");
+					final int inst = nsScaleStrategy.getNumberOfInstances(nsPackageVnfPackage, blueprint);
+					LOG.info("VNF curr: {} <=> inst: {}", curr, inst);
+					if (curr > inst) {
+						remove(curr - inst, blueprint.getInstance(), ret);
+					} else if (curr < inst) {
+						add(curr, inst, x, nsPackageVnfPackage, ret, bundle.nsPackage().getVnffgs(), bundle.nsPackage().getId());
+					}
+				});
+		return ret;
+	}
+
+	@Override
+	protected List<NsVtBase<NsVnfTask>> onOther(final NsBundleAdapter bundle, final NsBlueprint blueprint) {
+		return onInstantiate(bundle, blueprint);
+	}
+
+	@Override
+	protected List<NsVtBase<NsVnfTask>> onUpdate(final NsBundleAdapter bundle, final NsBlueprint blueprint) {
+		final BlueprintParameters p = blueprint.getParameters();
+		final NsdInstance inst = blueprint.getInstance();
+		final UpdateRequest updData = p.getUpdData();
+		if (updData.getUpdateType() != UpdateTypeEnum.REMOVE_VNF) {
+			return List.of();
+		}
+		final List<NsVtBase<NsVnfTask>> ret = new ArrayList<>();
+		p.getUpdData().getRealVnfInstanceToRemove().stream()
+				.forEach(x -> {
+					final NsLiveInstance linst = nsLiveInstanceJpa.findById(x).orElseThrow();
+					final String toscaName = getToscaName(linst.getNsTask().getToscaName(), 0);
+					final String aliasName = getToscaName(linst.getNsTask().getToscaName(), 0);
+					final NsVnfTask t = createDeleteTask(inst, null, null, toscaName, aliasName);
+					ret.add(new NsVnfCreateVt(t));
+				});
+		return ret;
 	}
 
 }

@@ -35,19 +35,25 @@ import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 
+import org.eclipse.jdt.annotation.NonNull;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.InstantiationState;
 import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
+import com.ubiqube.etsi.mano.dao.mano.NsdPackageVnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.PackageUsageState;
 import com.ubiqube.etsi.mano.dao.mano.ScaleInfo;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
 import com.ubiqube.etsi.mano.dao.mano.dto.nsi.NsInstantiate;
 import com.ubiqube.etsi.mano.dao.mano.nfvo.NsVnfInstance;
+import com.ubiqube.etsi.mano.dao.mano.nsd.ForwarderMapping;
+import com.ubiqube.etsi.mano.dao.mano.nsd.NsdVnfPackageCopy;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.NsHeal;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.NsScale;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.NsVnfScalingStepMapping;
+import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.VnfScalingLevelMapping;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.VnfScalingStepMapping;
 import com.ubiqube.etsi.mano.dao.mano.v2.PlanOperationType;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
@@ -109,7 +115,51 @@ public class NsInstanceControllerServiceImpl extends SearchableService implement
 			nsInstanceTmp.addNestedNsInstance(nsIn);
 		});
 		nsInstanceTmp.setVnfInstance(vnfInstances);
+		copyVnfInstances(nsd, nsInstanceTmp);
 		return nsInstanceService.save(nsInstanceTmp);
+	}
+
+	private void copyVnfInstances(final NsdPackage nsd, final NsdInstance nsInstanceTmp) {
+		final Set<NsdVnfPackageCopy> r = nsd.getVnfPkgIds().stream().map(this::copy).collect(Collectors.toSet());
+		nsInstanceTmp.setVnfPkgIds(r);
+	}
+
+	private NsdVnfPackageCopy copy(final NsdPackageVnfPackage o) {
+		final NsdVnfPackageCopy n = new NsdVnfPackageCopy();
+		n.setForwardMapping(copyForwardMapping(o.getForwardMapping()));
+		n.setLevelMapping(copyLevelMapping(o.getLevelMapping()));
+		n.setStepMapping(copyStepMapping(o.getStepMapping()));
+		n.setToscaId(o.getToscaId());
+		n.setToscaName(o.getToscaName());
+		n.setVirtualLinks(copyVirtualLinks(o.getVirtualLinks()));
+		n.setVnfdId(o.getVnfPackage().getVnfdId());
+		n.setForwardMapping(copyForwardMapping(o.getForwardMapping()));
+		n.setNsdPackage(o.getNsdPackage());
+		return n;
+	}
+
+	private Set<ListKeyPair> copyVirtualLinks(final Set<ListKeyPair> virtualLinks) {
+		final List<ListKeyPair> tmp = virtualLinks.stream().map(x -> mapper.map(x, ListKeyPair.class)).toList();
+		tmp.forEach(x -> x.setId(null));
+		return tmp.stream().collect(Collectors.toSet());
+	}
+
+	private Set<VnfScalingStepMapping> copyStepMapping(final Set<VnfScalingStepMapping> stepMapping) {
+		final List<VnfScalingStepMapping> tmp = stepMapping.stream().map(x -> mapper.map(x, VnfScalingStepMapping.class)).toList();
+		tmp.forEach(x -> x.setId(null));
+		return tmp.stream().collect(Collectors.toSet());
+	}
+
+	private Set<VnfScalingLevelMapping> copyLevelMapping(final Set<VnfScalingLevelMapping> levelMapping) {
+		final List<VnfScalingLevelMapping> tmp = levelMapping.stream().map(x -> mapper.map(x, VnfScalingLevelMapping.class)).toList();
+		tmp.forEach(x -> x.setId(null));
+		return tmp.stream().collect(Collectors.toSet());
+	}
+
+	private Set<ForwarderMapping> copyForwardMapping(final Set<ForwarderMapping> forwardMapping) {
+		final List<@NonNull ForwarderMapping> tmp = forwardMapping.stream().map(x -> mapper.map(x, ForwarderMapping.class)).toList();
+		tmp.forEach(x -> x.setId(null));
+		return tmp.stream().collect(Collectors.toSet());
 	}
 
 	@Override

@@ -21,6 +21,8 @@ import java.util.UUID;
 
 import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.dto.nsi.NsInstanceDto;
+import com.ubiqube.etsi.mano.dao.mano.nsd.upd.UpdateRequest;
+import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 
 /**
  * Merge with {@link NsInstanceControllerService}
@@ -40,6 +42,6 @@ public interface NsInstanceController {
 
 	NsdInstance nsInstancesNsInstanceIdScalePost(UUID id);
 
-	void nsInstancesNsInstanceIdUpdatePost(UUID id);
+	NsBlueprint nsInstancesNsInstanceIdUpdatePost(UUID id, UpdateRequest req);
 
 }
