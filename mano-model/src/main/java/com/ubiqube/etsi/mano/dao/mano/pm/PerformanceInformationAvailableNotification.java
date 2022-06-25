@@ -29,6 +29,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.ubiqube.etsi.mano.utils.ToStringUtil;
+
 import lombok.Data;
 
 @Data
@@ -83,4 +85,10 @@ public class PerformanceInformationAvailableNotification {
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "sub_object_inst_ids")
 	private Set<UUID> subObjectInstanceIds;
+
+	@Override
+	public String toString() {
+		return ToStringUtil.toString(this);
+	}
+
 }

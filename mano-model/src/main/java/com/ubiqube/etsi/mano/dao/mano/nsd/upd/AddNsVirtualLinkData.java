@@ -19,6 +19,7 @@ package com.ubiqube.etsi.mano.dao.mano.nsd.upd;
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ubiqube.etsi.mano.utils.ToStringUtil;
 
 import lombok.Data;
 
@@ -34,5 +35,10 @@ public class AddNsVirtualLinkData implements Serializable {
 
 	@JsonProperty("nsVirtualLinkProfileId")
 	private String nsVirtualLinkProfileId = null;
+
+	@Override
+	public String toString() {
+		return ToStringUtil.toString(this);
+	}
 
 }

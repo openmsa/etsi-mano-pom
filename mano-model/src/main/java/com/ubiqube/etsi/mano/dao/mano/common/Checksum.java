@@ -20,6 +20,8 @@ import java.io.Serializable;
 
 import javax.persistence.Embeddable;
 
+import com.ubiqube.etsi.mano.utils.ToStringUtil;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -46,4 +48,10 @@ public class Checksum implements Serializable {
 	private String hash;
 
 	private String md5;
+
+	@Override
+	public String toString() {
+		return ToStringUtil.toString(this);
+	}
+
 }

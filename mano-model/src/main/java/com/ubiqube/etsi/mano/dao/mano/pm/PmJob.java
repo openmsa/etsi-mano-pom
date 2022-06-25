@@ -40,6 +40,7 @@ import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
 import com.ubiqube.etsi.mano.dao.mano.AuthentificationInformations;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
+import com.ubiqube.etsi.mano.utils.ToStringUtil;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -115,4 +116,10 @@ public class PmJob {
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH, optional = false)
 	private VimConnectionInformation vimConnectionInformation;
+
+	@Override
+	public String toString() {
+		return ToStringUtil.toString(this);
+	}
+
 }

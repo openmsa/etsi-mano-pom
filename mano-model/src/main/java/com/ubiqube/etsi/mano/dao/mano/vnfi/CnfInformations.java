@@ -22,6 +22,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.persistence.Embeddable;
 
+import com.ubiqube.etsi.mano.utils.ToStringUtil;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -54,4 +56,10 @@ public class CnfInformations implements Serializable {
 
 	@Nullable
 	private VmServerType serverType = VmServerType.VM;
+
+	@Override
+	public String toString() {
+		return ToStringUtil.toString(this);
+	}
+
 }

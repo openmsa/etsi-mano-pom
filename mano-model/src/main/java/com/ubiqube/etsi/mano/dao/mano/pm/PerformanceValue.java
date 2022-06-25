@@ -26,6 +26,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.ubiqube.etsi.mano.utils.ToStringUtil;
+
 import lombok.Data;
 
 @Data
@@ -41,13 +43,23 @@ public class PerformanceValue {
 	LocalDateTime timestamp;
 
 	/**
-	 * Value of the metric collected. The type of this attribute shall correspond to the related "Measurement Unit" as defined in clause 7.2 of ETSI GS NFV-IFA 027 [5].
+	 * Value of the metric collected. The type of this attribute shall correspond to
+	 * the related "Measurement Unit" as defined in clause 7.2 of ETSI GS NFV-IFA
+	 * 027 [5].
 	 */
 	Double value;
 
 	/**
-	 * Measurement context information related to the measured value. The set of applicable keys is defined per measurement in the related "Measurement Context" in clause 7.2 of ETSI GS NFV-IFA 027 [5].
+	 * Measurement context information related to the measured value. The set of
+	 * applicable keys is defined per measurement in the related "Measurement
+	 * Context" in clause 7.2 of ETSI GS NFV-IFA 027 [5].
 	 */
 	@ElementCollection
 	Map<String, String> context;
+
+	@Override
+	public String toString() {
+		return ToStringUtil.toString(this);
+	}
+
 }

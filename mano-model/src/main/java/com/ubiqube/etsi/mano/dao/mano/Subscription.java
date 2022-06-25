@@ -37,6 +37,7 @@ import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextFi
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
 import com.ubiqube.etsi.mano.dao.mano.subs.SubscriptionType;
+import com.ubiqube.etsi.mano.utils.ToStringUtil;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -82,5 +83,10 @@ public class Subscription implements BaseEntity {
 	private List<FilterAttributes> filters;
 
 	private String version;
+
+	@Override
+	public String toString() {
+		return ToStringUtil.toString(this);
+	}
 
 }

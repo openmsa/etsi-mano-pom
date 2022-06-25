@@ -34,6 +34,7 @@ import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
 import com.ubiqube.etsi.mano.dao.mano.common.Checksum;
 import com.ubiqube.etsi.mano.dao.mano.pkg.ArtifactClassificationType;
+import com.ubiqube.etsi.mano.utils.ToStringUtil;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -79,5 +80,10 @@ public class AdditionalArtifact implements Serializable {
 	private String signature;
 
 	private String certificate;
+
+	@Override
+	public String toString() {
+		return ToStringUtil.toString(this);
+	}
 
 }

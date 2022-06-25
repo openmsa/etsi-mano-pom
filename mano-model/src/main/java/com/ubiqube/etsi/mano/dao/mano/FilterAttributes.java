@@ -23,6 +23,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.ubiqube.etsi.mano.utils.ToStringUtil;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -56,7 +58,7 @@ public class FilterAttributes {
 
 	@Override
 	public String toString() {
-		return "FilterAttributes [id=" + id + ", attribute=" + attribute + ", value=" + value + "]";
+		return ToStringUtil.toString(this);
 	}
 
 }

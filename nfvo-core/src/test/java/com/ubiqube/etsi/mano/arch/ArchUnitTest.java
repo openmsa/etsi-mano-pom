@@ -14,34 +14,20 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.dao.mano.nsd.upd;
+package com.ubiqube.etsi.mano.arch;
 
-import java.io.Serializable;
+import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ubiqube.etsi.mano.utils.ToStringUtil;
+import com.tngtech.archunit.core.importer.ImportOption;
+import com.tngtech.archunit.junit.AnalyzeClasses;
+import com.tngtech.archunit.junit.ArchTest;
+import com.tngtech.archunit.lang.ArchRule;
 
-import lombok.Data;
-
-/**
- *
- * @author olivier
- *
- */
-@Data
-public class DeleteVnfSnapshotData implements Serializable {
-	/** Serial. */
-	private static final long serialVersionUID = 1L;
-
-	@JsonProperty("vnfInstanceId")
-	private String vnfInstanceId = null;
-
-	@JsonProperty("vnfSnapshotInfoId")
-	private String vnfSnapshotInfoId = null;
-
-	@Override
-	public String toString() {
-		return ToStringUtil.toString(this);
-	}
+@AnalyzeClasses(packages = { "com.ubiqube.etsi.mano" }, importOptions = ImportOption.DoNotIncludeTests.class)
+public class ArchUnitTest {
+	@ArchTest
+	public static final ArchRule ensure_rest_controller_dont_use_jpa = noClasses()
+			.that().resideInAPackage("..controller..")
+			.should().accessClassesThat().resideInAPackage("..jpa..");
 
 }

@@ -37,7 +37,9 @@ import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
 import com.ubiqube.etsi.mano.nfvo.config.NfvoOrikaConfiguration;
 
 import ma.glasnost.orika.MapperFacade;
+import ma.glasnost.orika.OrikaSystemProperties;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
+import ma.glasnost.orika.impl.generator.EclipseJdtCompilerStrategy;
 
 class TaskToGrantTest {
 
@@ -45,8 +47,11 @@ class TaskToGrantTest {
 	private final MapperFacade mapper;
 
 	public TaskToGrantTest() {
+		System.setProperty(OrikaSystemProperties.COMPILER_STRATEGY, EclipseJdtCompilerStrategy.class.getName());
+		System.setProperty(OrikaSystemProperties.WRITE_SOURCE_FILES, "true");
+		System.setProperty(OrikaSystemProperties.WRITE_SOURCE_FILES_TO_PATH, "/tmp/orika-test");
+		mapperFactory = new DefaultMapperFactory.Builder().compilerStrategy(new EclipseJdtCompilerStrategy()).build();
 		final NfvoOrikaConfiguration orikaConfiguration = new NfvoOrikaConfiguration();
-		mapperFactory = new DefaultMapperFactory.Builder().build();
 		orikaConfiguration.configure(mapperFactory);
 		mapper = mapperFactory.getMapperFacade();
 	}

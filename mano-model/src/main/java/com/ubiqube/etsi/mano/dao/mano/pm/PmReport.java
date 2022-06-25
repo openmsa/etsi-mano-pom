@@ -24,6 +24,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.ubiqube.etsi.mano.utils.ToStringUtil;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -49,4 +51,10 @@ public class PmReport {
 	 * The size of the report file in bytes, if known.
 	 */
 	long fileSize;
+
+	@Override
+	public String toString() {
+		return ToStringUtil.toString(this);
+	}
+
 }

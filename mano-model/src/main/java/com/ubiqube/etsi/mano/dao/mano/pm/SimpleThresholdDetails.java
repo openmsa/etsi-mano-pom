@@ -19,6 +19,8 @@ package com.ubiqube.etsi.mano.dao.mano.pm;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
 
+import com.ubiqube.etsi.mano.utils.ToStringUtil;
+
 import lombok.Data;
 
 @Data
@@ -31,10 +33,24 @@ public class SimpleThresholdDetails {
 	private Double thresholdValue;
 
 	/**
-	 * The hysteresis of the threshold. Shall be represented as a non-negative floating point number. A notification with crossing direction "UP" will be generated if the measured value reaches or exceeds "thresholdValue" + "hysteresis". A notification with crossing direction "DOWN" will be generated if the measured value reaches or undercuts "thresholdValue" - "hysteresis". See note.
+	 * The hysteresis of the threshold. Shall be represented as a non-negative
+	 * floating point number. A notification with crossing direction "UP" will be
+	 * generated if the measured value reaches or exceeds "thresholdValue" +
+	 * "hysteresis". A notification with crossing direction "DOWN" will be generated
+	 * if the measured value reaches or undercuts "thresholdValue" - "hysteresis".
+	 * See note.
 	 *
-	 * NOTE The hysteresis is defined to prevent storms of threshold crossing notifications. When processing a request to create a threshold, implementations should enforce a suitable minimum value for this attribute (e.g. override the value or reject the request). 
+	 * NOTE The hysteresis is defined to prevent storms of threshold crossing
+	 * notifications. When processing a request to create a threshold,
+	 * implementations should enforce a suitable minimum value for this attribute
+	 * (e.g. override the value or reject the request).
 	 */
 	@NotNull
 	private Double hysteresis;
+
+	@Override
+	public String toString() {
+		return ToStringUtil.toString(this);
+	}
+
 }

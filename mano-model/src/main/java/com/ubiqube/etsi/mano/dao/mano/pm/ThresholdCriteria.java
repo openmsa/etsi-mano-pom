@@ -19,27 +19,47 @@ package com.ubiqube.etsi.mano.dao.mano.pm;
 import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
 
+import com.ubiqube.etsi.mano.utils.ToStringUtil;
+
 import lombok.Data;
 
 @Embeddable
 @Data
 public class ThresholdCriteria {
 	/**
-	 * Defines the performance metric associated with the threshold. Valid values are specified as "Measurement Name" values in clause 7.2 of ETSI GS NFV-IFA 027 [5].
+	 * Defines the performance metric associated with the threshold. Valid values
+	 * are specified as "Measurement Name" values in clause 7.2 of ETSI GS NFV-IFA
+	 * 027 [5].
 	 */
 	String performanceMetric;
 
 	/**
-	 * Type of threshold. This attribute determines which other attributes are present in the data structure. Permitted values: •SIMPLE: Single-valued static threshold.
-	 * 
-	 * NOTE: In the present document, simple thresholds are defined. The definition of additional threshold types is left for future specification.
+	 * Type of threshold. This attribute determines which other attributes are
+	 * present in the data structure. Permitted values: •SIMPLE: Single-valued
+	 * static threshold.
+	 *
+	 * NOTE: In the present document, simple thresholds are defined. The definition
+	 * of additional threshold types is left for future specification.
 	 */
 	ThresholdType thresholdType;
 
 	/**
-	 * The hysteresis of the threshold. Shall be represented as a non-negative floating point number. A notification with crossing direction "UP" will be generated if the measured value reaches or exceeds "thresholdValue" + "hysteresis". A notification with crossing direction "DOWN" will be generated if the measured value reaches or undercuts "thresholdValue" - "hysteresis". 
-	 * NOTE: The hysteresis is defined to prevent storms of threshold crossing notifications. When processing a request to create a threshold, implementations should enforce a suitable minimum value for this attribute (e.g. override the value or reject the request).
+	 * The hysteresis of the threshold. Shall be represented as a non-negative
+	 * floating point number. A notification with crossing direction "UP" will be
+	 * generated if the measured value reaches or exceeds "thresholdValue" +
+	 * "hysteresis". A notification with crossing direction "DOWN" will be generated
+	 * if the measured value reaches or undercuts "thresholdValue" - "hysteresis".
+	 * NOTE: The hysteresis is defined to prevent storms of threshold crossing
+	 * notifications. When processing a request to create a threshold,
+	 * implementations should enforce a suitable minimum value for this attribute
+	 * (e.g. override the value or reject the request).
 	 */
 	@Embedded
 	SimpleThresholdDetails simpleThresholdDetails;
+
+	@Override
+	public String toString() {
+		return ToStringUtil.toString(this);
+	}
+
 }

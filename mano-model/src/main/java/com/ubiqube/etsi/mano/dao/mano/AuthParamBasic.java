@@ -20,6 +20,8 @@ import java.io.Serializable;
 
 import javax.persistence.Embeddable;
 
+import com.ubiqube.etsi.mano.utils.ToStringUtil;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -37,5 +39,10 @@ public class AuthParamBasic implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String userName;
 	private String password;
+
+	@Override
+	public String toString() {
+		return ToStringUtil.toString(this);
+	}
 
 }

@@ -25,6 +25,8 @@ import javax.persistence.FetchType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
+import com.ubiqube.etsi.mano.utils.ToStringUtil;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -81,4 +83,10 @@ public class PmJobCriteria {
 	 */
 	@Null
 	private LocalDateTime reportingBoundary;
+
+	@Override
+	public String toString() {
+		return ToStringUtil.toString(this);
+	}
+
 }

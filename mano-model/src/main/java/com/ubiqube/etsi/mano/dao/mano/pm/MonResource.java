@@ -23,6 +23,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.ubiqube.etsi.mano.utils.ToStringUtil;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -43,4 +45,10 @@ public class MonResource {
 	 * Monitoring key Entry. (vim Id.)
 	 */
 	private UUID systemId;
+
+	@Override
+	public String toString() {
+		return ToStringUtil.toString(this);
+	}
+
 }

@@ -28,6 +28,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Null;
 
+import com.ubiqube.etsi.mano.utils.ToStringUtil;
+
 import lombok.Data;
 
 @Data
@@ -69,5 +71,10 @@ public class PerformanceReport {
 	 */
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	Set<PerformanceValue> performanceValues;
+
+	@Override
+	public String toString() {
+		return ToStringUtil.toString(this);
+	}
 
 }

@@ -40,6 +40,7 @@ import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 import com.ubiqube.etsi.mano.dao.mano.common.GeoPoint;
 import com.ubiqube.etsi.mano.dao.mano.vnfi.CnfInformations;
 import com.ubiqube.etsi.mano.dao.mano.vnfi.VimCapability;
+import com.ubiqube.etsi.mano.utils.ToStringUtil;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -98,5 +99,10 @@ public class VimConnectionInformation implements Auditable {
 	private long version;
 
 	private Audit audit;
+
+	@Override
+	public String toString() {
+		return ToStringUtil.toString(this);
+	}
 
 }

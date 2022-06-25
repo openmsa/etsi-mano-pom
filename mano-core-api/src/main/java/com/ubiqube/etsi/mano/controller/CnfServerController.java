@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.cnf.CnfServer;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
-import com.ubiqube.etsi.mano.jpa.CnfServerJpa;
+import com.ubiqube.etsi.mano.service.CnfServerService;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 
 /**
@@ -42,36 +42,35 @@ import com.ubiqube.etsi.mano.service.vim.VimManager;
 @RestController
 @RequestMapping("/admin/cnf")
 public class CnfServerController {
-	private final CnfServerJpa cnfServerJpa;
+	private final CnfServerService cnfServerService;
 	private final VimManager vimManager;
 
-	public CnfServerController(final CnfServerJpa cnfServerJpa, final VimManager vimManager) {
-		super();
-		this.cnfServerJpa = cnfServerJpa;
+	public CnfServerController(final CnfServerService cnfServerService, final VimManager vimManager) {
+		this.cnfServerService = cnfServerService;
 		this.vimManager = vimManager;
 	}
 
 	@GetMapping
 	public ResponseEntity<Iterable<CnfServer>> listCnfServer() {
-		final Iterable<CnfServer> resp = cnfServerJpa.findAll();
+		final Iterable<CnfServer> resp = cnfServerService.findAll();
 		return ResponseEntity.ok(resp);
 	}
 
 	@PostMapping
 	public ResponseEntity<CnfServer> createCnfServer(@Valid @NotNull @RequestBody final CnfServer in) {
-		final CnfServer resp = cnfServerJpa.save(in);
+		final CnfServer resp = cnfServerService.save(in);
 		return ResponseEntity.ok(resp);
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<CnfServer> findCnfServer(final UUID id) {
-		final CnfServer resp = cnfServerJpa.findById(id).orElseThrow(() -> new NotFoundException("Could not find cnf server: " + id));
+		final CnfServer resp = cnfServerService.findById(id).orElseThrow(() -> new NotFoundException("Could not find cnf server: " + id));
 		return ResponseEntity.ok(resp);
 	}
 
 	@GetMapping("/{id}/merge")
 	public ResponseEntity<VimConnectionInformation> mergeCnfServer(final UUID id) {
-		final CnfServer resp = cnfServerJpa.findById(id).orElseThrow(() -> new NotFoundException("Could not find cnf server: " + id));
+		final CnfServer resp = cnfServerService.findById(id).orElseThrow(() -> new NotFoundException("Could not find cnf server: " + id));
 		final VimConnectionInformation vim = vimManager.findVimById(id);
 		vim.setCnfInfo(resp.getInfo());
 		final VimConnectionInformation newVim = vimManager.save(vim);

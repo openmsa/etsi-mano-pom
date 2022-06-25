@@ -14,34 +14,42 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.dao.mano.nsd.upd;
+package com.ubiqube.etsi.mano.service;
 
-import java.io.Serializable;
+import java.util.Optional;
+import java.util.UUID;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ubiqube.etsi.mano.utils.ToStringUtil;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
-import lombok.Data;
+import org.springframework.stereotype.Service;
+
+import com.ubiqube.etsi.mano.dao.mano.cnf.CnfServer;
+import com.ubiqube.etsi.mano.jpa.CnfServerJpa;
 
 /**
  *
  * @author olivier
  *
  */
-@Data
-public class DeleteVnfSnapshotData implements Serializable {
-	/** Serial. */
-	private static final long serialVersionUID = 1L;
+@Service
+public class CnfServerService {
+	private final CnfServerJpa cnfServerJpa;
 
-	@JsonProperty("vnfInstanceId")
-	private String vnfInstanceId = null;
+	public CnfServerService(final CnfServerJpa cnfServerJpa) {
+		this.cnfServerJpa = cnfServerJpa;
+	}
 
-	@JsonProperty("vnfSnapshotInfoId")
-	private String vnfSnapshotInfoId = null;
+	public Iterable<CnfServer> findAll() {
+		return cnfServerJpa.findAll();
+	}
 
-	@Override
-	public String toString() {
-		return ToStringUtil.toString(this);
+	public CnfServer save(@Valid @NotNull final CnfServer in) {
+		return cnfServerJpa.save(in);
+	}
+
+	public Optional<CnfServer> findById(final UUID id) {
+		return cnfServerJpa.findById(id);
 	}
 
 }

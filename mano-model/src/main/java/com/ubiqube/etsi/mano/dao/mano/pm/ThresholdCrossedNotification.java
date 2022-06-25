@@ -28,6 +28,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Null;
 
+import com.ubiqube.etsi.mano.utils.ToStringUtil;
+
 import lombok.Data;
 
 @Data
@@ -102,5 +104,10 @@ public class ThresholdCrossedNotification {
 	 */
 	@ElementCollection(fetch = FetchType.EAGER)
 	private Map<String, String> context;
+
+	@Override
+	public String toString() {
+		return ToStringUtil.toString(this);
+	}
 
 }

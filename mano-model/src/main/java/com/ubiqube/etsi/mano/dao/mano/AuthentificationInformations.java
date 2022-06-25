@@ -27,6 +27,8 @@ import javax.persistence.Enumerated;
 
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 
+import com.ubiqube.etsi.mano.utils.ToStringUtil;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -58,5 +60,10 @@ public class AuthentificationInformations implements Serializable {
 
 	@Column(length = 5000)
 	private String authTlsCert;
+
+	@Override
+	public String toString() {
+		return ToStringUtil.toString(this);
+	}
 
 }

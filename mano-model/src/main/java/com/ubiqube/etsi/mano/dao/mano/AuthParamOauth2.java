@@ -23,6 +23,8 @@ import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
+import com.ubiqube.etsi.mano.utils.ToStringUtil;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -48,4 +50,10 @@ public class AuthParamOauth2 implements Serializable {
 	private OAuth2GrantType grantType;
 	@Column(length = 5000)
 	private String o2AuthTlsCert;
+
+	@Override
+	public String toString() {
+		return ToStringUtil.toString(this);
+	}
+
 }

@@ -19,8 +19,10 @@ package com.ubiqube.etsi.mano.service.event.quartz;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
+import com.ubiqube.etsi.mano.service.VnfmService;
 import com.ubiqube.etsi.mano.service.event.ActionMessage;
 import com.ubiqube.etsi.mano.service.event.VnfmActionComtroller;
 
@@ -31,6 +33,7 @@ import com.ubiqube.etsi.mano.service.event.VnfmActionComtroller;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
+@ConditionalOnClass(VnfmService.class)
 public class ActionJob extends QuartzJobBean {
 	private final VnfmActionComtroller actionController;
 

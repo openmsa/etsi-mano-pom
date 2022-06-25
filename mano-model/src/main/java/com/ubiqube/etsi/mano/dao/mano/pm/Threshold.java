@@ -33,6 +33,7 @@ import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextFi
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
 import com.ubiqube.etsi.mano.dao.mano.AuthentificationInformations;
+import com.ubiqube.etsi.mano.utils.ToStringUtil;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -47,19 +48,26 @@ public class Threshold {
 	private UUID id;
 
 	/**
-	 * Type of the measured object. The applicable measured object type for a measurement is defined in clause 7.2 of ETSI GS NFV-IFA 027 [5].
+	 * Type of the measured object. The applicable measured object type for a
+	 * measurement is defined in clause 7.2 of ETSI GS NFV-IFA 027 [5].
 	 */
 	@FullTextField
 	private String objectType;
 
 	/**
-	 * Identifier of the measured object (i.e. VNF instance) associated with the threshold.
+	 * Identifier of the measured object (i.e. VNF instance) associated with the
+	 * threshold.
 	 */
 	@FullTextField
 	private UUID objectInstanceId;
 
 	/**
-	 * Identifiers of the sub-object instances of the measured object instance associated with the threshold. May be present if a sub-object is defined in clause 6.2 of ETSI GS NFV-IFA 027 [5] for the related measurement type. If this attribute is absent and a sub-object is defined in clause 6.2 of ETSI GS NFV-IFA 027 [5] for the measured object type, measurements will be taken for all sub-object instances of the measured object instance.
+	 * Identifiers of the sub-object instances of the measured object instance
+	 * associated with the threshold. May be present if a sub-object is defined in
+	 * clause 6.2 of ETSI GS NFV-IFA 027 [5] for the related measurement type. If
+	 * this attribute is absent and a sub-object is defined in clause 6.2 of ETSI GS
+	 * NFV-IFA 027 [5] for the measured object type, measurements will be taken for
+	 * all sub-object instances of the measured object instance.
 	 */
 	@OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	private Set<MonResource> subObjectInstanceIds;
@@ -77,4 +85,10 @@ public class Threshold {
 
 	@Embedded
 	private AuthentificationInformations subscription;
+
+	@Override
+	public String toString() {
+		return ToStringUtil.toString(this);
+	}
+
 }

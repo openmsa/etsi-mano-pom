@@ -24,6 +24,7 @@ import java.util.UUID;
 import javax.validation.Valid;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ubiqube.etsi.mano.utils.ToStringUtil;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -155,5 +156,10 @@ public class UpdateRequest implements Serializable {
 	@JsonProperty("deleteNsVirtualLinkId")
 	@Valid
 	private List<String> deleteNsVirtualLinkId;
+
+	@Override
+	public String toString() {
+		return ToStringUtil.toString(this);
+	}
 
 }

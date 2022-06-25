@@ -72,7 +72,7 @@ public class ToStringUtil {
 
 	private static boolean ignorable(final PropertyDescriptor pd, final Object o) throws SecurityException {
 		final ToStringIgnore[] ann = pd.getReadMethod().getAnnotationsByType(ToStringIgnore.class);
-		if (ann.length > 0) {
+		if ((ann.length > 0) || pd.getName().equals("class")) {
 			return true;
 		}
 		Field field;
@@ -98,7 +98,7 @@ public class ToStringUtil {
 			}
 			final StringBuilder sb = new StringBuilder("[\n    ");
 			l.forEach(x -> {
-				if (x.getClass().isPrimitive() || x.getClass() == String.class) {
+				if (x.getClass().isPrimitive() || (x.getClass() == String.class)) {
 					sb.append(toIndentedString(x));
 				} else {
 					sb.append(toIndentedString(toString(x)));

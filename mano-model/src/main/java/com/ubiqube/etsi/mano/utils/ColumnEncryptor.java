@@ -20,6 +20,7 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
+import java.security.Security;
 import java.util.Base64;
 
 import javax.crypto.BadPaddingException;
@@ -29,6 +30,8 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import javax.persistence.AttributeConverter;
+
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 /**
  *
@@ -46,6 +49,7 @@ public class ColumnEncryptor implements AttributeConverter<String, String> {
 	private final Key key;
 
 	public ColumnEncryptor() {
+		Security.addProvider(new BouncyCastleProvider());
 		key = new SecretKeySpec(SECRET.getBytes(), AES);
 	}
 
