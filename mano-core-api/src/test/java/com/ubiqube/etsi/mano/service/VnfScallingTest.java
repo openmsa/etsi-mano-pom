@@ -14,10 +14,11 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.mano.scale;
+package com.ubiqube.etsi.mano.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -37,15 +38,29 @@ import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.VnfScalingStepMapping;
 import com.ubiqube.etsi.mano.dao.mano.v2.BlueprintParameters;
 import com.ubiqube.etsi.mano.dao.mano.v2.PlanOperationType;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
-import com.ubiqube.etsi.mano.service.NsScaleStrategy;
 
 /**
  *
- * @author Olivier Vignaud <ovi@ubiqube.com>
+ * @author olivier
  *
  */
-@SuppressWarnings("static-method")
 class VnfScallingTest {
+
+	@Test
+	void testName() throws Exception {
+		final NsScaleStrategy scale = new NsScaleStrategy();
+		final NsBlueprint nsBlueprint = new NsBlueprint();
+		nsBlueprint.setOperation(PlanOperationType.INSTANTIATE);
+		nsBlueprint.setNsInstantiationLevelId("level");
+		final NsdInstance inst = new NsdInstance();
+		inst.setNsInstantiationLevelId("level2");
+		nsBlueprint.setNsInstance(inst);
+		final NsdPackageVnfPackage nsPackage = new NsdPackageVnfPackage();
+		final Set<VnfScalingLevelMapping> levelMapping = new HashSet<>();
+		final VnfScalingLevelMapping l0 = new VnfScalingLevelMapping("", "", 1);
+		nsPackage.setLevelMapping(levelMapping);
+		scale.getNumberOfInstances(nsPackage, nsBlueprint);
+	}
 
 	private static Set<VnfScalingLevelMapping> getLevelMapping() {
 		final VnfScalingLevelMapping sm1 = new VnfScalingLevelMapping("name", "aspect", 1);
@@ -222,4 +237,5 @@ class VnfScallingTest {
 		final int x = nss.getNumberOfInstances(nsPackageVnfPackage, blueprint);
 		assertEquals(2, x);
 	}
+
 }
