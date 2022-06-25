@@ -16,7 +16,6 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service.graph;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -30,7 +29,6 @@ import com.ubiqube.etsi.mano.dao.mano.InstantiationState;
 import com.ubiqube.etsi.mano.dao.mano.NsLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.PackageBase;
-import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.Task;
@@ -41,13 +39,10 @@ import com.ubiqube.etsi.mano.model.NotificationEvent;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsLiveInstanceJpa;
 import com.ubiqube.etsi.mano.nfvo.service.NsInstanceService;
 import com.ubiqube.etsi.mano.nfvo.service.NsdPackageService;
-import com.ubiqube.etsi.mano.nfvo.service.graph.nfvo.NsParameters;
 import com.ubiqube.etsi.mano.service.NsBlueprintService;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.event.OrchestrationAdapter;
-import com.ubiqube.etsi.mano.service.graph.GenericExecParams;
 import com.ubiqube.etsi.mano.service.graph.WorkflowEvent;
-import com.ubiqube.etsi.mano.service.vim.Vim;
 
 /**
  *
@@ -63,7 +58,6 @@ public class NsOrchestrationAdapter implements OrchestrationAdapter<NsTask, NsdI
 	private final EventManager eventManager;
 
 	public NsOrchestrationAdapter(final NsLiveInstanceJpa nsLiveInstanceJpa, final NsBlueprintService nsBlueprintService, final NsInstanceService nsInstanceService, final NsdPackageService nsdPackageService, final EventManager eventManager) {
-		super();
 		this.liveInstanceJpa = nsLiveInstanceJpa;
 		this.blueprintService = nsBlueprintService;
 		this.instanceService = nsInstanceService;
@@ -115,11 +109,6 @@ public class NsOrchestrationAdapter implements OrchestrationAdapter<NsTask, NsdI
 		final long c = liveInstanceJpa.countByNsInstance(nsi);
 		nsi.setInstantiationState(c > 0 ? InstantiationState.INSTANTIATED : InstantiationState.NOT_INSTANTIATED);
 		return instanceService.save(nsi);
-	}
-
-	@Override
-	public GenericExecParams createParameter(final VimConnectionInformation vimConnection, final Vim vim, final HashMap<String, String> hashMap, final Object object) {
-		return new NsParameters(vim, vimConnection, hashMap, null);
 	}
 
 	@Override

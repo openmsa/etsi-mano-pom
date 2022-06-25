@@ -21,7 +21,6 @@ import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.Task;
 import com.ubiqube.etsi.mano.orchestrator.OrchExecutionResults;
 import com.ubiqube.etsi.mano.orchestrator.PreExecutionGraph;
-import com.ubiqube.etsi.mano.service.graph.GenericExecParams;
 
 /**
  *
@@ -33,10 +32,6 @@ import com.ubiqube.etsi.mano.service.graph.GenericExecParams;
 public interface Workflow<P extends PackageBase, B extends Blueprint, R extends Report, T extends Task> {
 
 	PreExecutionGraph<T> setWorkflowBlueprint(P bundle, B blueprint);
-
-	R execDelete(B localPlan, GenericExecParams params);
-
-	R execCreate(B localPlan, GenericExecParams params);
 
 	OrchExecutionResults<T> execute(final PreExecutionGraph<T> plan, final B parameters);
 

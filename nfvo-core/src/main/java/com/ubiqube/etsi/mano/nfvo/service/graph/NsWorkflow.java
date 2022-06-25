@@ -21,13 +21,10 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import org.jgrapht.ListenableGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.github.dexecutor.core.task.ExecutionResults;
-import com.ubiqube.etsi.mano.dao.mano.ChangeType;
 import com.ubiqube.etsi.mano.dao.mano.NsLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
@@ -35,10 +32,6 @@ import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsLiveInstanceJpa;
-import com.ubiqube.etsi.mano.nfvo.service.graph.nfvo.NsParameters;
-import com.ubiqube.etsi.mano.nfvo.service.graph.nfvo.UowNsTaskCreateProvider;
-import com.ubiqube.etsi.mano.nfvo.service.graph.nfvo.UowNsTaskDeleteProvider;
-import com.ubiqube.etsi.mano.nfvo.service.plan.NsPlanner;
 import com.ubiqube.etsi.mano.nfvo.service.plan.contributors.AbstractNsContributor;
 import com.ubiqube.etsi.mano.orchestrator.Context;
 import com.ubiqube.etsi.mano.orchestrator.ExecutionGraph;
@@ -46,16 +39,12 @@ import com.ubiqube.etsi.mano.orchestrator.OrchExecutionResults;
 import com.ubiqube.etsi.mano.orchestrator.OrchestrationService;
 import com.ubiqube.etsi.mano.orchestrator.Planner;
 import com.ubiqube.etsi.mano.orchestrator.PreExecutionGraph;
-import com.ubiqube.etsi.mano.orchestrator.nodes.ConnectivityEdge;
 import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.NsdCreateNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfCreateNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
 import com.ubiqube.etsi.mano.service.event.Workflow;
-import com.ubiqube.etsi.mano.service.graph.GenericExecParams;
-import com.ubiqube.etsi.mano.service.graph.GraphTools;
-import com.ubiqube.etsi.mano.service.graph.vnfm.UnitOfWork;
 
 /**
  *
@@ -67,21 +56,16 @@ public class NsWorkflow implements Workflow<NsdPackage, NsBlueprint, NsReport, N
 
 	private static final Logger LOG = LoggerFactory.getLogger(NsWorkflow.class);
 
-	private final NsPlanner planner;
 	private final Planner<NsBlueprint, NsTask, NsTask> planv2;
-	private final NsPlanExecutor executor;
 	private final List<AbstractNsContributor> planContributors;
 	private final OrchestrationService<?> orchestrationService;
 	private final NsLiveInstanceJpa nsLiveInstanceJpa;
 
-	public NsWorkflow(final Planner<NsBlueprint, NsTask, NsTask> planv2, final NsPlanExecutor executor, final List<AbstractNsContributor> planContributors,
-			final OrchestrationService<?> orchestrationService, final NsPlanner planner, final NsLiveInstanceJpa nsLiveInstanceJpa) {
-		super();
+	public NsWorkflow(final Planner<NsBlueprint, NsTask, NsTask> planv2, final List<AbstractNsContributor> planContributors,
+			final OrchestrationService<?> orchestrationService, final NsLiveInstanceJpa nsLiveInstanceJpa) {
 		this.planv2 = planv2;
-		this.executor = executor;
 		this.planContributors = planContributors;
 		this.orchestrationService = orchestrationService;
-		this.planner = planner;
 		this.nsLiveInstanceJpa = nsLiveInstanceJpa;
 	}
 
@@ -95,22 +79,6 @@ public class NsWorkflow implements Workflow<NsdPackage, NsBlueprint, NsReport, N
 		final PreExecutionGraph<NsTask> plan = planv2.makePlan(new NsBundleAdapter(bundle), planConstituent, blueprint);
 		plan.getPreTasks().stream().map(VirtualTask::getParameters).forEach(blueprint::addTask);
 		return plan;
-	}
-
-	@Override
-	public NsReport execDelete(final NsBlueprint blueprint, final GenericExecParams vparams) {
-		final ListenableGraph<UnitOfWork<NsTask, NsParameters>, ConnectivityEdge<UnitOfWork<NsTask, NsParameters>>> graph = planner.convertToExecution(blueprint, ChangeType.REMOVED);
-		GraphTools.exportGraph(graph, "vnf-del.dot");
-		final ExecutionResults<UnitOfWork<NsTask, NsParameters>, String> removeResults = executor.execDelete(graph, () -> new UowNsTaskDeleteProvider<>((NsParameters) vparams));
-		return new NsReport(removeResults);
-	}
-
-	@Override
-	public NsReport execCreate(final NsBlueprint plan, final GenericExecParams params) {
-		final ListenableGraph<UnitOfWork<NsTask, NsParameters>, ConnectivityEdge<UnitOfWork<NsTask, NsParameters>>> createPlan = planner.convertToExecution(plan, ChangeType.ADDED);
-		GraphTools.exportGraph(createPlan, "vnf-added.dot");
-		final ExecutionResults<UnitOfWork<NsTask, NsParameters>, String> createResults = executor.execCreate(createPlan, () -> new UowNsTaskCreateProvider<>((NsParameters) params));
-		return new NsReport(createResults);
 	}
 
 	@Override

@@ -19,11 +19,8 @@ package com.ubiqube.etsi.mano.vnfm.service.graph;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jgrapht.ListenableGraph;
 import org.springframework.stereotype.Service;
 
-import com.github.dexecutor.core.task.ExecutionResults;
-import com.ubiqube.etsi.mano.dao.mano.ChangeType;
 import com.ubiqube.etsi.mano.dao.mano.VnfLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
@@ -36,7 +33,6 @@ import com.ubiqube.etsi.mano.orchestrator.OrchExecutionResults;
 import com.ubiqube.etsi.mano.orchestrator.OrchestrationService;
 import com.ubiqube.etsi.mano.orchestrator.Planner;
 import com.ubiqube.etsi.mano.orchestrator.PreExecutionGraph;
-import com.ubiqube.etsi.mano.orchestrator.nodes.ConnectivityEdge;
 import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.AffinityRuleNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Compute;
@@ -50,14 +46,7 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SubNetwork;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfExtCp;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
 import com.ubiqube.etsi.mano.service.event.Workflow;
-import com.ubiqube.etsi.mano.service.graph.GenericExecParams;
-import com.ubiqube.etsi.mano.service.graph.GraphTools;
-import com.ubiqube.etsi.mano.service.graph.vnfm.UnitOfWork;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
-import com.ubiqube.etsi.mano.vnfm.service.graph.vnfm.UowTaskCreateProvider;
-import com.ubiqube.etsi.mano.vnfm.service.graph.vnfm.UowTaskDeleteProvider;
-import com.ubiqube.etsi.mano.vnfm.service.graph.vnfm.VnfParameters;
-import com.ubiqube.etsi.mano.vnfm.service.plan.VnfPlanner;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.AbstractContributorV2Base;
 
 /**
@@ -67,18 +56,14 @@ import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.AbstractContribut
  */
 @Service
 public class VnfWorkflow implements Workflow<VnfPackage, VnfBlueprint, VnfReport, VnfTask> {
-	private final VnfPlanner planner;
 	private final Planner<VnfBlueprint, VnfTask, VnfTask> planv2;
-	private final VnfPlanExecutor executor;
 	private final List<AbstractContributorV2Base> planContributors;
 	private final OrchestrationService<?> orchestrationService;
 	private final VnfLiveInstanceJpa vnfInstanceJpa;
 
-	public VnfWorkflow(final VnfPlanner planner, final VnfPlanExecutor executor, final List<AbstractContributorV2Base> planContributors,
+	public VnfWorkflow(final List<AbstractContributorV2Base> planContributors,
 			final Planner<VnfBlueprint, VnfTask, VnfTask> planv2,
 			final OrchestrationService<?> orchestrationService, final VnfLiveInstanceJpa vnfInstanceJpa) {
-		this.planner = planner;
-		this.executor = executor;
 		this.planContributors = planContributors;
 		this.planv2 = planv2;
 		this.orchestrationService = orchestrationService;
@@ -145,22 +130,6 @@ public class VnfWorkflow implements Workflow<VnfPackage, VnfBlueprint, VnfReport
 				throw new GenericException(x.getTask().getType() + " is not handled.");
 			}
 		});
-	}
-
-	@Override
-	public VnfReport execCreate(final VnfBlueprint plan, final GenericExecParams params) {
-		final ListenableGraph<UnitOfWork<VnfTask, VnfParameters>, ConnectivityEdge<UnitOfWork<VnfTask, VnfParameters>>> createPlan = planner.convertToExecution(plan, ChangeType.ADDED);
-		GraphTools.exportGraph(createPlan, "vnf-added.dot");
-		final ExecutionResults<UnitOfWork<VnfTask, VnfParameters>, String> createResults = executor.execCreate(createPlan, () -> new UowTaskCreateProvider<>((VnfParameters) params));
-		return new VnfReport(createResults);
-	}
-
-	@Override
-	public VnfReport execDelete(final VnfBlueprint blueprint, final GenericExecParams vparams) {
-		final ListenableGraph<UnitOfWork<VnfTask, VnfParameters>, ConnectivityEdge<UnitOfWork<VnfTask, VnfParameters>>> graph = planner.convertToExecution(blueprint, ChangeType.REMOVED);
-		GraphTools.exportGraph(graph, "vnf-del.dot");
-		final ExecutionResults<UnitOfWork<VnfTask, VnfParameters>, String> removeResults = executor.execDelete(graph, () -> new UowTaskDeleteProvider<>((VnfParameters) vparams));
-		return new VnfReport(removeResults);
 	}
 
 	@Override

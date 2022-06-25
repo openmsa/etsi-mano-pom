@@ -28,7 +28,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.dao.mano.ExtManagedVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.ExtVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.Instance;
 import com.ubiqube.etsi.mano.dao.mano.OperationalStateType;
@@ -39,7 +38,6 @@ import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.service.NsScaleStrategy;
 import com.ubiqube.etsi.mano.service.event.AbstractGenericAction;
-import com.ubiqube.etsi.mano.service.graph.GenericExecParams;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
@@ -48,7 +46,6 @@ import com.ubiqube.etsi.mano.vnfm.service.VnfBlueprintService;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceService;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceServiceVnfm;
 import com.ubiqube.etsi.mano.vnfm.service.graph.VnfWorkflow;
-import com.ubiqube.etsi.mano.vnfm.service.graph.vnfm.VnfParameters;
 
 /**
  *
@@ -71,9 +68,9 @@ public class VnfmActions extends AbstractGenericAction {
 	private final VnfInstanceServiceVnfm vnfInstanceServiceVnfm;
 
 	public VnfmActions(final VimManager vimManager, final VnfOrchestrationAdapter orchestrationAdapter, final VnfInstanceService vnfInstancesService,
-			final VnfWorkflow planner, final VnfBlueprintService blueprintService, final ManoGrantService vimResourceService, final VnfLiveInstanceJpa vnfLiveInstanceJpa,
-			final VnfInstanceServiceVnfm vnfInstanceServiceVnfm) {
-		super(planner, vimResourceService, orchestrationAdapter, new NsScaleStrategy());
+			final VnfBlueprintService blueprintService, final ManoGrantService vimResourceService, final VnfLiveInstanceJpa vnfLiveInstanceJpa,
+			final VnfInstanceServiceVnfm vnfInstanceServiceVnfm, final VnfWorkflow workflow) {
+		super(workflow, vimResourceService, orchestrationAdapter, new NsScaleStrategy());
 		this.vimManager = vimManager;
 		this.vnfInstancesService = vnfInstancesService;
 		this.blueprintService = blueprintService;
@@ -101,15 +98,6 @@ public class VnfmActions extends AbstractGenericAction {
 		final List<VnfLiveInstance> res = vnfInstancesService.getLiveVirtualLinkInstanceOf(vnfInstance);
 		return res.stream()
 				.collect(Collectors.toMap(x -> x.getTask().getToscaName(), x -> x.getTask().getVimResourceId()));
-	}
-
-	@Override
-	protected GenericExecParams buildContext(final VimConnectionInformation vimConnection, final Vim vim, final Blueprint blueprint, final Instance vnfInstance) {
-		final Map<String, String> context = blueprint.getParameters().getExtManagedVirtualLinks().stream()
-				.collect(Collectors.toMap(ExtManagedVirtualLinkDataEntity::getVnfVirtualLinkDescId, ExtManagedVirtualLinkDataEntity::getResourceId));
-		// Add all present VL if any.
-		context.putAll(getLiveVl((VnfInstance) vnfInstance));
-		return new VnfParameters(vimConnection, vim, vnfLiveInstanceJpa, context, null);
 	}
 
 	public void vnfChangeVnfConn(@NotNull final UUID blueprintId) {

@@ -35,7 +35,6 @@ import com.ubiqube.etsi.mano.dao.mano.Instance;
 import com.ubiqube.etsi.mano.dao.mano.PackageBase;
 import com.ubiqube.etsi.mano.dao.mano.ScaleInfo;
 import com.ubiqube.etsi.mano.dao.mano.ScaleTypeEnum;
-import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.common.FailureDetails;
 import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
@@ -45,9 +44,7 @@ import com.ubiqube.etsi.mano.orchestrator.OrchExecutionResults;
 import com.ubiqube.etsi.mano.orchestrator.PreExecutionGraph;
 import com.ubiqube.etsi.mano.service.NsScaleStrategy;
 import com.ubiqube.etsi.mano.service.VimResourceService;
-import com.ubiqube.etsi.mano.service.graph.GenericExecParams;
 import com.ubiqube.etsi.mano.service.graph.WorkflowEvent;
-import com.ubiqube.etsi.mano.service.vim.Vim;
 
 public abstract class AbstractGenericAction {
 
@@ -62,7 +59,6 @@ public abstract class AbstractGenericAction {
 	private final NsScaleStrategy nsScaleStrategy;
 
 	protected AbstractGenericAction(final Workflow vnfWorkflow, final VimResourceService vimResourceService, final OrchestrationAdapter<?, ?> orchestrationAdapter, final NsScaleStrategy nsScaleStrategy) {
-		super();
 		this.vnfWorkflow = vnfWorkflow;
 		this.vimResourceService = vimResourceService;
 		this.orchestrationAdapter = orchestrationAdapter;
@@ -114,8 +110,6 @@ public abstract class AbstractGenericAction {
 		vnfInstance.setVimConnectionInfo(new LinkedHashSet<>());
 		localPlan.getVimConnections().forEach(vnfInstance::addVimConnectionInfo);
 	}
-
-	protected abstract GenericExecParams buildContext(VimConnectionInformation vimConnection, Vim vim, Blueprint<?, ?> localPlan, Instance instance);
 
 	/**
 	 * Move this function to scale strategy.

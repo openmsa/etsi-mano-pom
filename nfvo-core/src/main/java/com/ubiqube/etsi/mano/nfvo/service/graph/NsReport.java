@@ -22,10 +22,9 @@ import com.github.dexecutor.core.task.ExecutionResult;
 import com.github.dexecutor.core.task.ExecutionResults;
 import com.ubiqube.etsi.mano.dao.mano.v2.Task;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
-import com.ubiqube.etsi.mano.nfvo.service.graph.nfvo.NsParameters;
+import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWork;
 import com.ubiqube.etsi.mano.service.event.Report;
 import com.ubiqube.etsi.mano.service.event.ReportItem;
-import com.ubiqube.etsi.mano.service.graph.vnfm.UnitOfWork;
 
 /**
  *
@@ -34,13 +33,13 @@ import com.ubiqube.etsi.mano.service.graph.vnfm.UnitOfWork;
  */
 public class NsReport implements Report {
 
-	private final ExecutionResults<UnitOfWork<NsTask, NsParameters>, String> results;
+	private final ExecutionResults<UnitOfWork<NsTask>, String> results;
 
-	public NsReport(final ExecutionResults<UnitOfWork<NsTask, NsParameters>, String> results) {
+	public NsReport(final ExecutionResults<UnitOfWork<NsTask>, String> results) {
 		this.results = results;
 	}
 
-	public List<ExecutionResult<UnitOfWork<NsTask, NsParameters>, String>> getSkipped() {
+	public List<ExecutionResult<UnitOfWork<NsTask>, String>> getSkipped() {
 		return results.getSkipped();
 	}
 
@@ -54,12 +53,12 @@ public class NsReport implements Report {
 		return results.getErrored().stream().map(this::map).toList();
 	}
 
-	public List<ExecutionResult<UnitOfWork<NsTask, NsParameters>, String>> getAll() {
+	public List<ExecutionResult<UnitOfWork<NsTask>, String>> getAll() {
 		return results.getAll();
 	}
 
-	private ReportItem map(final ExecutionResult<UnitOfWork<NsTask, NsParameters>, String> er) {
-		final Task part = er.getId().getTaskEntity();
+	private ReportItem map(final ExecutionResult<UnitOfWork<NsTask>, String> er) {
+		final Task part = er.getId().getTask().getParameters();
 		return new ReportItem(part);
 	}
 

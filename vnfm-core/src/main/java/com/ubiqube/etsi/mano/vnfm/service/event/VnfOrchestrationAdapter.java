@@ -16,7 +16,6 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.event;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -28,7 +27,6 @@ import org.springframework.stereotype.Service;
 import com.ubiqube.etsi.mano.dao.mano.Instance;
 import com.ubiqube.etsi.mano.dao.mano.InstantiationState;
 import com.ubiqube.etsi.mano.dao.mano.PackageBase;
-import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
@@ -41,14 +39,11 @@ import com.ubiqube.etsi.mano.model.NotificationEvent;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.event.OrchestrationAdapter;
-import com.ubiqube.etsi.mano.service.graph.GenericExecParams;
 import com.ubiqube.etsi.mano.service.graph.WorkflowEvent;
-import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
 import com.ubiqube.etsi.mano.vnfm.service.VnfBlueprintService;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceService;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceServiceVnfm;
-import com.ubiqube.etsi.mano.vnfm.service.graph.vnfm.VnfParameters;
 
 /**
  *
@@ -66,7 +61,6 @@ public class VnfOrchestrationAdapter implements OrchestrationAdapter<VnfTask, Vn
 
 	public VnfOrchestrationAdapter(final VnfInstanceService vnfInstancesService, final VnfBlueprintService blueprintService, final VnfLiveInstanceJpa vnfLiveInstanceJpa,
 			final EventManager eventManager, final VnfPackageService vnfPackageService, final VnfInstanceServiceVnfm vnfInstanceServiceVnfm) {
-		super();
 		this.vnfInstancesService = vnfInstancesService;
 		this.blueprintService = blueprintService;
 		this.vnfLiveInstanceJpa = vnfLiveInstanceJpa;
@@ -119,11 +113,6 @@ public class VnfOrchestrationAdapter implements OrchestrationAdapter<VnfTask, Vn
 		final long c = vnfLiveInstanceJpa.countByVnfInstance(vnfInstance);
 		vnfInstance.setInstantiationState(c > 0 ? InstantiationState.INSTANTIATED : InstantiationState.NOT_INSTANTIATED);
 		return vnfInstancesService.save((VnfInstance) vnfInstance);
-	}
-
-	@Override
-	public GenericExecParams createParameter(final VimConnectionInformation vimConnection, final Vim vim, final HashMap<String, String> hashMap, final Object object) {
-		return new VnfParameters(vimConnection, vim, vnfLiveInstanceJpa, new HashMap<>(), null);
 	}
 
 	@Override
