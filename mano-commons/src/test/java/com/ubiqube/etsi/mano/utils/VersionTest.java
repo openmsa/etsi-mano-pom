@@ -36,4 +36,20 @@ class VersionTest {
 		final List<Version> sorted = versions.stream().sorted().toList();
 		assertEquals("2.6.1", sorted.get(0).toString());
 	}
+
+	@Test
+	void testEqual() {
+		final Version v1 = new Version("2.6.1");
+		final Version v2 = new Version("2.6.1");
+		assertEquals(0, v1.compareTo(v2));
+		assertEquals(true, v1.equals(v2));
+		assertEquals(true, v1.equals(v1));
+		assertEquals(false, v1.equals(""));
+		assertEquals(false, v1.equals(null));
+		assertEquals(false, v1.equals(new Version("3.3.4")));
+		assertEquals(false, v1.equals(new Version("2.3.4")));
+		assertEquals(false, v1.equals(new Version("2.6.4")));
+		assertEquals(false, v1.equals(new Version(3, 3, 4)));
+		v1.hashCode();
+	}
 }

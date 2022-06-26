@@ -39,7 +39,6 @@ public class SystemService {
 	private final SystemsJpa systemJpa;
 
 	public SystemService(final MapperFacade mapper, final SystemsJpa systemJpa) {
-		super();
 		this.mapper = mapper;
 		this.systemJpa = systemJpa;
 	}
@@ -60,71 +59,32 @@ public class SystemService {
 	private Systems registerOpenStask(final VimConnectionInformation vimConnectionInformation) {
 		final Systems sys = new Systems();
 		sys.setVimOrigin(vimConnectionInformation.getId());
-		SystemConnections sc = mapper.map(vimConnectionInformation, SystemConnections.class);
-		sc.setVimType("COMPUTE");
-		sc.setId(null);
-		sys.add(sc);
-		sc = mapper.map(vimConnectionInformation, SystemConnections.class);
-		sc.setVimType("NETWORK");
-		sc.setId(null);
-		sys.add(sc);
-		sc = mapper.map(vimConnectionInformation, SystemConnections.class);
-		sc.setVimType("DNS");
-		sc.setId(null);
-		sys.add(sc);
-		sc = mapper.map(vimConnectionInformation, SystemConnections.class);
-		sc.setVimType("MONITORING");
-		sc.setId(null);
-		sys.add(sc);
-		sc = mapper.map(vimConnectionInformation, SystemConnections.class);
-		sc.setVimType("VNFEXTCP");
-		sc.setId(null);
-		sys.add(sc);
-		sc = mapper.map(vimConnectionInformation, SystemConnections.class);
-		sc.setVimType("PORT");
-		sc.setId(null);
-		sys.add(sc);
-		sc = mapper.map(vimConnectionInformation, SystemConnections.class);
-		sc.setVimType("STORAGE");
-		sc.setId(null);
-		sys.add(sc);
-		sc = mapper.map(vimConnectionInformation, SystemConnections.class);
-		sc.setVimType("AFFINITY");
-		sc.setId(null);
-		sys.add(sc);
-		sc = mapper.map(vimConnectionInformation, SystemConnections.class);
-		sc.setVimType("SECURITY-GROUP");
-		sc.setId(null);
-		sys.add(sc);
-		sc = mapper.map(vimConnectionInformation, SystemConnections.class);
-		sc.setVimType("NSD");
-		sc.setId(null);
-		sys.add(sc);
-		sc = mapper.map(vimConnectionInformation, SystemConnections.class);
-		sc.setVimType("SAP");
-		sc.setId(null);
-		sys.add(sc);
-		sc = mapper.map(vimConnectionInformation, SystemConnections.class);
-		sc.setVimType("NSNETWORK");
-		sc.setId(null);
-		sys.add(sc);
-		sc = mapper.map(vimConnectionInformation, SystemConnections.class);
-		sc.setVimType("VNF");
-		sc.setId(null);
-		sys.add(sc);
-		sc = mapper.map(vimConnectionInformation, SystemConnections.class);
-		sc.setVimType("VNF-CREATE");
-		sc.setId(null);
-		sys.add(sc);
-		sc = mapper.map(vimConnectionInformation, SystemConnections.class);
-		sc.setVimType("CNF");
-		sc.setId(null);
-		sys.add(sc);
-		sc = mapper.map(vimConnectionInformation, SystemConnections.class);
-		sc.setVimType("HELM");
-		sc.setId(null);
-		sys.add(sc);
+		final String[] sysDtr = { "COMPUTE", "NETWORK",
+				"DNS",
+				"MONITORING",
+				"VNFEXTCP",
+				"PORT",
+				"STORAGE",
+				"AFFINITY",
+				"SECURITY-GROUP",
+				"NSD",
+				"SAP",
+				"NSNETWORK",
+				"VNF",
+				"VNF-CREATE",
+				"CNF",
+				"HELM" };
+		for (final String string : sysDtr) {
+			sys.add(createSystem(string, vimConnectionInformation));
+		}
 		return systemJpa.save(sys);
+	}
+
+	private SystemConnections createSystem(final String string, final VimConnectionInformation vimConnectionInformation) {
+		final SystemConnections sc = mapper.map(vimConnectionInformation, SystemConnections.class);
+		sc.setVimType(string);
+		sc.setId(null);
+		return sc;
 	}
 
 	public Iterable<Systems> findAll() {

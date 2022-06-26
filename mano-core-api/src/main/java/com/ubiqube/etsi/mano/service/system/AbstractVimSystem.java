@@ -35,7 +35,6 @@ public abstract class AbstractVimSystem<U> implements System<U> {
 	private final VimManager vimManager;
 
 	protected AbstractVimSystem(final VimManager vimManager) {
-		super();
 		this.vimManager = vimManager;
 	}
 

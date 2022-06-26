@@ -51,7 +51,6 @@ public class VnfNotificationService {
 	private final VnfPackageJpa vnfPackageJpa;
 
 	public VnfNotificationService(final VnfPackageOnboardingNotificationJpa vnfPackageOnboardingNotificationJpa, final EventManager eventManager, final RemoteSubscriptionJpa remoteSubscriptionJpa, final VnfPackageJpa vnfPackageJpa) {
-		super();
 		this.vnfPackageOnboardingNotificationJpa = vnfPackageOnboardingNotificationJpa;
 		this.eventManager = eventManager;
 		this.remoteSubscriptionJpa = remoteSubscriptionJpa;
@@ -59,7 +58,7 @@ public class VnfNotificationService {
 	}
 
 	public void onNotification(final VnfPackageOnboardingNotification event, final String version) {
-		final Optional<RemoteSubscription> subscription = remoteSubscriptionJpa.findByRemoteSubscriptionId(event.getSubscriptionId().toString());
+		final Optional<RemoteSubscription> subscription = remoteSubscriptionJpa.findByRemoteSubscriptionId(event.getSubscriptionId());
 		if (subscription.isEmpty()) {
 			LOG.warn("Unable to find notification event {} in database.", event.getSubscriptionId());
 			throw new NotFoundException("Unable to find notification event " + event.getSubscriptionId());

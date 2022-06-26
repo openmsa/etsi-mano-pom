@@ -30,50 +30,51 @@
  */
 package com.ubiqube.etsi.mano.grammar.v25;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.Lexer;
+import org.antlr.v4.runtime.Parser;
+import org.antlr.v4.runtime.tree.ParseTreeListener;
 import org.springframework.stereotype.Service;
 
 import com.mano.etsi.mano.grammar.v25.EtsiFilterV25;
 import com.mano.etsi.mano.grammar.v25.EtsiLexerV25;
-import com.ubiqube.etsi.mano.grammar.GrammarException;
 import com.ubiqube.etsi.mano.grammar.GrammarParser;
 import com.ubiqube.etsi.mano.grammar.Node;
+import com.ubiqube.etsi.mano.grammar.antlr.AbstractAntlrGrammar;
 
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
+@SuppressWarnings("unchecked")
 @Service
-public class Grammar25Service implements GrammarParser {
+public class Grammar25Service extends AbstractAntlrGrammar<TreeBuilderV25> implements GrammarParser {
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public List<Node<String>> parse(final String query) {
-		List<Node<String>> nodes = new ArrayList<>();
-		final TreeBuilderV25 treeBuilder = new TreeBuilderV25();
-		if (null != query && !query.isEmpty()) {
-			final EtsiLexerV25 el = new EtsiLexerV25(CharStreams.fromString(query));
-			final CommonTokenStream tokens = new CommonTokenStream(el);
-			final EtsiFilterV25 parser = new EtsiFilterV25(tokens);
-			parser.addParseListener(treeBuilder);
-			parser.filterExpr();
-			nodes = treeBuilder.getListNode();
-			checkNodes(nodes);
-		}
-		return nodes;
+	protected Parser createParser(final CommonTokenStream tokens, final ParseTreeListener treeBuilder) {
+		final EtsiFilterV25 parser = new EtsiFilterV25(tokens);
+		parser.addParseListener(treeBuilder);
+		parser.filterExpr();
+		return parser;
 	}
 
-	private static void checkNodes(final List<Node<String>> nodes) {
-		nodes.forEach(x -> {
-			if (null == x.getOp()) {
-				throw new GrammarException("Bad filter: " + x);
-			}
-		});
+	@Override
+	protected TreeBuilderV25 createTreeBuilder() {
+		return new TreeBuilderV25();
+	}
+
+	@Override
+	protected List<Node<String>> getNodes(final TreeBuilderV25 treeBuilder) {
+		return treeBuilder.getListNode();
+	}
+
+	@Override
+	protected Lexer createLexer(final String query) {
+		return new EtsiLexerV25(CharStreams.fromString(query));
 	}
 
 }

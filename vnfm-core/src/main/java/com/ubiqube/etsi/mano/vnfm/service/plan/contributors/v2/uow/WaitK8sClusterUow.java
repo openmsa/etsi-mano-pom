@@ -16,9 +16,6 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.uow;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerDeployableTask;
 import com.ubiqube.etsi.mano.dao.mano.vnfi.StatusType;
@@ -35,8 +32,6 @@ import com.ubiqube.etsi.mano.service.vim.Vim;
  *
  */
 public class WaitK8sClusterUow extends AbstractUowV2<OsContainerDeployableTask> {
-
-	private static final Logger LOG = LoggerFactory.getLogger(WaitK8sClusterUow.class);
 
 	private final VimConnectionInformation vimConnectionInformation;
 	private final Vim vim;

@@ -43,4 +43,8 @@ public class MinaResult implements Result {
 		return err;
 	}
 
+	public int getStatus() {
+		return status;
+	}
+
 }

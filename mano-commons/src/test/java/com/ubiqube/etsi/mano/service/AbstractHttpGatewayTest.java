@@ -14,37 +14,38 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.mano.remote;
+package com.ubiqube.etsi.mano.service;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.util.Properties;
+import java.util.Optional;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import com.jcraft.jsch.ChannelExec;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.Session;
+import com.ubiqube.etsi.mano.dao.mano.common.ApiVersionType;
+import com.ubiqube.etsi.mano.exception.GenericException;
 
 /**
  *
  * @author olivier
  *
  */
-class JschTest {
-
-	private final JSch jsch = new JSch();
+class AbstractHttpGatewayTest {
 
 	@Test
 	void testName() throws Exception {
-		final Session sess = jsch.getSession("ncuser", "10.31.1.29");
-		final Properties config = new Properties();
-		config.put("StrictHostKeyChecking", "no");
-		sess.setConfig(config);
-		sess.connect();
-		final ChannelExec ec = (ChannelExec) sess.openChannel("exec");
-		ec.setCommand("ls -la");
-		ec.connect();
-		assertTrue(true);
+		Assertions.assertThrows(GenericException.class, HttpGatewayBad::new);
 	}
+
+	@Test
+	void testName002() throws Exception {
+		final HttpGatewayGood res = new HttpGatewayGood();
+		final Object r2 = res.getUrlFor(ApiVersionType.SOL003_GRANT);
+		assertNotNull(r2);
+		final Optional<String> r3 = res.getHeaderVersion(ApiVersionType.SOL003_GRANT);
+		assertEquals("1.4.0", r3.get());
+	}
+
 }

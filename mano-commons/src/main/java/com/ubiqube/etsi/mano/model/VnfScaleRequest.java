@@ -22,6 +22,7 @@ import java.util.Set;
 import com.ubiqube.etsi.mano.dao.mano.ScaleInfo;
 import com.ubiqube.etsi.mano.dao.mano.ScaleTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.ScaleByStepData;
+import com.ubiqube.etsi.mano.utils.ToStringUtil;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -55,6 +56,11 @@ public class VnfScaleRequest {
 
 	public static VnfScaleRequest of(final ScaleTypeEnum scaleType, final ScaleByStepData scaleData, final Set<ScaleInfo> scaleInfo) {
 		return new VnfScaleRequest(scaleType, scaleData.getAspectId(), scaleData.getNumberOfSteps(), Map.of(), scaleData.getAspectId(), scaleInfo);
+	}
+
+	@Override
+	public String toString() {
+		return ToStringUtil.toString(this);
 	}
 
 }

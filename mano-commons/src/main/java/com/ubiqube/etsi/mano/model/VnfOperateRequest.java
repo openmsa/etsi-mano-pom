@@ -20,6 +20,7 @@ import java.util.Map;
 
 import com.ubiqube.etsi.mano.dao.mano.OperationalStateType;
 import com.ubiqube.etsi.mano.dao.mano.nsd.upd.StopType;
+import com.ubiqube.etsi.mano.utils.ToStringUtil;
 
 import lombok.Data;
 
@@ -38,5 +39,10 @@ public class VnfOperateRequest {
 	private Map<String, String> additionalParams;
 
 	private StopType stopType;
+
+	@Override
+	public String toString() {
+		return ToStringUtil.toString(this);
+	}
 
 }

@@ -15,5 +15,6 @@
 		<module>mano-grammar-v1</module>
 		<module>mano-grammar25</module>
 		<module>mano-grammar-api</module>
+		<module>mano-grammar-antlr</module>
 	</modules>
 </project>

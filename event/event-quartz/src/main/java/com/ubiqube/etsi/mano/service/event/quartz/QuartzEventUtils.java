@@ -35,6 +35,8 @@ import com.ubiqube.etsi.mano.service.event.ActionType;
  */
 public class QuartzEventUtils {
 
+	private static final String OBJECT_ID = "objectId";
+	private static final String EVENT_TYPE = "eventType";
 	private static final Logger LOG = LoggerFactory.getLogger(QuartzEventUtils.class);
 
 	private QuartzEventUtils() {
@@ -44,14 +46,14 @@ public class QuartzEventUtils {
 	public static <U> JobDataMap createJobMap(final UUID id, final String actionType, final UUID objectId, final Map<String, U> parameters) {
 		final JobDataMap jobDataMap = new JobDataMap();
 		jobDataMap.put("id", id);
-		jobDataMap.put("eventType", actionType);
-		jobDataMap.put("objectId", objectId);
+		jobDataMap.put(EVENT_TYPE, actionType);
+		jobDataMap.put(OBJECT_ID, objectId);
 		return jobDataMap;
 	}
 
 	public static ActionMessage createActionMessage(final JobDataMap jobDataMap) {
-		final ActionType eventType = ActionType.valueOf(jobDataMap.getString("eventType"));
-		final UUID objectId = (UUID) jobDataMap.get("objectId");
+		final ActionType eventType = ActionType.valueOf(jobDataMap.getString(EVENT_TYPE));
+		final UUID objectId = (UUID) jobDataMap.get(OBJECT_ID);
 		LOG.info("Quartz event start {} / {}", eventType, objectId);
 		if (null == objectId) {
 			throw new IllegalArgumentException("Event received With no ObjectId.");
@@ -60,8 +62,8 @@ public class QuartzEventUtils {
 	}
 
 	public static EventMessage createEventMessage(final JobDataMap jobDataMap) {
-		final NotificationEvent eventType = NotificationEvent.valueOf(jobDataMap.getString("eventType"));
-		final UUID objectId = (UUID) jobDataMap.get("objectId");
+		final NotificationEvent eventType = NotificationEvent.valueOf(jobDataMap.getString(EVENT_TYPE));
+		final UUID objectId = (UUID) jobDataMap.get(OBJECT_ID);
 		final EventMessage ev = new EventMessage(eventType, objectId, Map.of());
 		ev.setId((UUID) jobDataMap.get("id"));
 		return ev;

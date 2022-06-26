@@ -55,7 +55,7 @@ import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.AbstractContribut
  *
  */
 @Service
-public class VnfWorkflow implements Workflow<VnfPackage, VnfBlueprint, VnfReport, VnfTask> {
+public class VnfWorkflow implements Workflow<VnfPackage, VnfBlueprint, VnfTask> {
 	private final Planner<VnfBlueprint, VnfTask, VnfTask> planv2;
 	private final List<AbstractContributorV2Base> planContributors;
 	private final OrchestrationService<?> orchestrationService;

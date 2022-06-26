@@ -46,6 +46,11 @@ public class ResetOnCloseInputStream extends InputStream {
 	}
 
 	@Override
+	public int read(final byte[] b, final int off, final int len) throws IOException {
+		return decorated.read(b, off, len);
+	}
+
+	@Override
 	public void close() throws IOException {
 		decorated.reset();
 	}

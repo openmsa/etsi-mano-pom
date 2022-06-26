@@ -29,14 +29,13 @@ import ma.glasnost.orika.impl.generator.EclipseJdtCompilerStrategy;
 
 @SpringBootTest
 @ContextConfiguration(classes = { VnfmApplication.class })
-public class VnfmApplicationTest {
+class VnfmApplicationTest {
 	static {
 		System.setProperty(OrikaSystemProperties.COMPILER_STRATEGY, EclipseJdtCompilerStrategy.class.getName());
 		System.setProperty(OrikaSystemProperties.WRITE_SOURCE_FILES, "true");
 		System.setProperty(OrikaSystemProperties.WRITE_SOURCE_FILES_TO_PATH, "/tmp/okika");
 	}
 
-	@SuppressWarnings("static-method")
 	@Test
 	void contextLoads() {
 		assertTrue(true);

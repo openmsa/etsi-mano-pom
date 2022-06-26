@@ -46,6 +46,9 @@ public abstract class AbstractHttpGateway implements HttpGateway {
 	protected AbstractHttpGateway() {
 		final Path path = Paths.get("/", getVersion().toString(), "mano-versions.json");
 		try (final InputStream in = this.getClass().getResourceAsStream(path.toString())) {
+			if (null == in) {
+				throw new GenericException("Could not find " + path);
+			}
 			final TypeReference<List<Protocol>> tr = new TypeReference<>() {
 				//
 			};

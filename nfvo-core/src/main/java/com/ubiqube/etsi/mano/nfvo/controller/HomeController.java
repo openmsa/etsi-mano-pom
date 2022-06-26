@@ -65,6 +65,11 @@ public class HomeController {
 		return ResponseEntity.ok(vnfPackage);
 	}
 
+	/**
+	 * @deprecated Use admin controller.
+	 * @param body
+	 * @return
+	 */
 	@PostMapping(value = "/registerVim")
 	@Deprecated(forRemoval = true, since = "24/01/2022")
 	public ResponseEntity<VimConnectionInformation> registerVim(@RequestBody final VimConnectionInformation body) {

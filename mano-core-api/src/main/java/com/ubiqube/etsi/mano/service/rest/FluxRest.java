@@ -346,25 +346,4 @@ public class FluxRest {
 		}
 	}
 
-	private class ExceptionHandler {
-		private String message;
-		private Throwable e;
-
-		public String getMessage() {
-			return message;
-		}
-
-		public void setMessage(final String message) {
-			this.message = message;
-		}
-
-		public Throwable getE() {
-			return e;
-		}
-
-		public void setE(final Throwable e) {
-			this.e = e;
-		}
-	}
-
 }

@@ -52,7 +52,7 @@ import com.ubiqube.etsi.mano.service.event.Workflow;
  *
  */
 @Service
-public class NsWorkflow implements Workflow<NsdPackage, NsBlueprint, NsReport, NsTask> {
+public class NsWorkflow implements Workflow<NsdPackage, NsBlueprint, NsTask> {
 
 	private static final Logger LOG = LoggerFactory.getLogger(NsWorkflow.class);
 

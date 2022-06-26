@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.jgroups.Address;
 import org.jgroups.JChannel;
+import org.jgroups.Message;
 import org.jgroups.Receiver;
 import org.jgroups.View;
 import org.slf4j.Logger;
@@ -64,6 +65,12 @@ public class JGroupReceiver implements Receiver {
 			exMembers.forEach(x -> LOG.debug("{}", x));
 		}
 		lastView = newView;
+	}
+
+	@Override
+	public void receive(final Message msg) {
+		LOG.debug("Messsage: {}", msg);
+		Receiver.super.receive(msg);
 	}
 
 	//

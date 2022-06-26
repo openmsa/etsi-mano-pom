@@ -36,6 +36,7 @@ class JgroupsTest {
 		assertTrue(true);
 	}
 
+	@Test
 	void testName2() throws Exception {
 		final InputStream is = getClass().getResourceAsStream("/udp.xml");
 		final JChannel channel = new JChannel(is);
@@ -61,7 +62,7 @@ class JgroupsTest {
 		final View view = channel.getView();
 		final List<Address> address = view.getMembers();
 		System.out.println("============================");
-		address.forEach(System.out::println);
+		address.forEach(x -> System.out.println(x));
 
 	}
 }

@@ -48,6 +48,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import com.ubiqube.etsi.mano.dao.mano.SoftwareImage;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
+import com.ubiqube.etsi.mano.service.rest.ExceptionHandler;
 import com.ubiqube.etsi.mano.service.vim.VimException;
 
 import reactor.core.publisher.Flux;
@@ -169,27 +170,5 @@ public class DownloaderService {
 		} catch (final IOException e) {
 			throw new GenericException(e);
 		}
-	}
-
-	private static class ExceptionHandler {
-		private String message;
-		private Throwable e;
-
-		public String getMessage() {
-			return message;
-		}
-
-		public void setMessage(final String message) {
-			this.message = message;
-		}
-
-		public Throwable getE() {
-			return e;
-		}
-
-		public void setE(final Throwable e) {
-			this.e = e;
-		}
-
 	}
 }

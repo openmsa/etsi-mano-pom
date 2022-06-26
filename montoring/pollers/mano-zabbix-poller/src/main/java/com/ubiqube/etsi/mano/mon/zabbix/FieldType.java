@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.mon.zabbix;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.ubiqube.etsi.mano.exception.GenericException;
 
 public enum FieldType {
 
@@ -48,7 +49,7 @@ public enum FieldType {
 				return b;
 			}
 		}
-		throw new RuntimeException("" + text);
+		throw new GenericException("" + text);
 	}
 
 }

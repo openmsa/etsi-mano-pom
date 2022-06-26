@@ -52,19 +52,18 @@ public class ScalingStrategyV2 implements ScalingStrategy {
 	private final VnfBlueprintService planService;
 
 	public ScalingStrategyV2(final VnfBlueprintService planService) {
-		super();
 		this.planService = planService;
 	}
 
 	@Override
 	public NumberOfCompute getNumberOfCompute(final VnfBlueprint plan, final VnfPackage vnfPackage, final Set<ScaleInfo> scaling, final VnfCompute compute, final VnfInstance instance) {
 		if (plan.getOperation() == PlanOperationType.INSTANTIATE) {
-			return handleInstantiate(plan, vnfPackage, instance, compute);
+			return handleInstantiate(plan, vnfPackage, compute);
 		}
 		return handleScale(plan, vnfPackage, compute, instance);
 	}
 
-	private NumberOfCompute handleInstantiate(final VnfBlueprint plan, final VnfPackage vnfPackage, final VnfInstance instance, final VnfCompute compute) {
+	private static NumberOfCompute handleInstantiate(final VnfBlueprint plan, final VnfPackage vnfPackage, final VnfCompute compute) {
 		final String level = Optional.ofNullable(plan.getParameters().getInstantiationLevelId()).orElseGet(vnfPackage::getDefaultInstantiationLevel);
 		final Optional<VduInstantiationLevel> newLevel = compute.getInstantiationLevel().stream().filter(x -> x.getLevelName().equals(level)).findFirst();
 		if (newLevel.isPresent()) {
@@ -76,9 +75,9 @@ public class ScalingStrategyV2 implements ScalingStrategy {
 	private NumberOfCompute handleScale(final VnfBlueprint plan, final VnfPackage vnfPackage, final VnfCompute compute, final VnfInstance vnfInstance) {
 		switch (getScalingType(plan.getParameters())) {
 		case NS_SCALE_LEVEL_INST_LEVEL:
-			return handleInstantiationLevel(plan.getParameters().getInstantiationLevelId(), vnfPackage, compute);
+			return handleInstantiationLevel(plan.getParameters().getInstantiationLevelId(), compute);
 		case NS_SCALE_LEVEL_SCALE_INFO:
-			return handleScaleInfo(plan.getParameters().getScaleStatus(), vnfPackage, compute);
+			return handleScaleInfo(plan.getParameters().getScaleStatus(), compute);
 		case NS_SCALE_STEP:
 			return handleStep(plan.getParameters(), vnfPackage, compute, vnfInstance);
 		default:
@@ -129,7 +128,7 @@ public class ScalingStrategyV2 implements ScalingStrategy {
 		return base + param.getNumberOfSteps();
 	}
 
-	private static NumberOfCompute handleScaleInfo(final Set<ScaleInfo> scaleStatus, final VnfPackage vnfPackage, final VnfCompute compute) {
+	private static NumberOfCompute handleScaleInfo(final Set<ScaleInfo> scaleStatus, final VnfCompute compute) {
 		final List<ScaleInfo> aspect = scaleStatus.stream()
 				.filter(x -> contains(x, compute.getScalingAspectDeltas()))
 				.toList();
@@ -149,7 +148,7 @@ public class ScalingStrategyV2 implements ScalingStrategy {
 		return scalingAspectDeltas.stream().anyMatch(x -> x.getAspectName().equals(scaleInfo.getAspectId()));
 	}
 
-	private static NumberOfCompute handleInstantiationLevel(final String instantiationLevelId, final VnfPackage bundle, final VnfCompute compute) {
+	private static NumberOfCompute handleInstantiationLevel(final String instantiationLevelId, final VnfCompute compute) {
 		final Optional<VduInstantiationLevel> scaleInfo = compute.getInstantiationLevel().stream().filter(x -> x.getLevelName().equals(instantiationLevelId)).findFirst();
 		if (scaleInfo.isEmpty()) {
 			final Integer s = compute.getInitialNumberOfInstance();

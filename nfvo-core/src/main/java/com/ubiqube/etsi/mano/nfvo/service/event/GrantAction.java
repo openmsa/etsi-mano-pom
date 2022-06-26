@@ -195,9 +195,7 @@ public class GrantAction extends AbstractGrantAction {
 		final List<ForwarderMapping> mappings = findMappingd(fwMapping, vduName);
 		vl.forEach(x -> {
 			final Optional<ForwarderMapping> single = findMapping(mappings, x.getValue());
-			single.ifPresent(y -> {
-				x.setValue(y.getVlName());
-			});
+			single.ifPresent(y -> x.setValue(y.getVlName()));
 		});
 		final List<NetworkObject> vlList = vim.network(vimConnectionInformation)
 				.searchByName(vl.stream()

@@ -53,7 +53,6 @@ import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.model.VnfOperateRequest;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsLiveInstanceJpa;
-import com.ubiqube.etsi.mano.nfvo.service.graph.NsWorkflow;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfCreateNode;
 import com.ubiqube.etsi.mano.service.NsBlueprintService;
 import com.ubiqube.etsi.mano.service.event.ActionType;
@@ -77,20 +76,14 @@ public class NsUpadteManager {
 	private final NsLiveInstanceJpa liveInstanceJpa;
 	private final MapperFacade mapper;
 	private final ManoClientFactory manoClientFactory;
-	private final NfvoActions nfvoActions;
-	private final NsWorkflow nsWorkflow;
-	private final NsBlueprintService nsBlueprintService;
 	private final EventManager eventManager;
 
 	public NsUpadteManager(final NsBlueprintService nsBlueprint, final NsLiveInstanceJpa liveInstanceJpa, final MapperFacade mapper, final ManoClientFactory manoClientFactory,
-			final NfvoActions nfvoActions, final NsWorkflow nsWorkflow, final NsBlueprintService nsBlueprintService, final EventManager eventManager) {
+			final EventManager eventManager) {
 		this.nsBlueprint = nsBlueprint;
 		this.liveInstanceJpa = liveInstanceJpa;
 		this.mapper = mapper;
 		this.manoClientFactory = manoClientFactory;
-		this.nfvoActions = nfvoActions;
-		this.nsWorkflow = nsWorkflow;
-		this.nsBlueprintService = nsBlueprintService;
 		this.eventManager = eventManager;
 	}
 
@@ -114,16 +107,16 @@ public class NsUpadteManager {
 		case ADD_VNF -> addVnf(inst, nb, req.getAddVnfIstance());
 		case CHANGE_EXTERNAL_VNF_CONNECTIVITY -> changeExtVnfConn(inst, req.getChangeExtVnfConnectivityData());
 		case CHANGE_VNF_DF -> changeVnfDf(inst, req.getChangeVnfFlavourData());
-		case INSTANTIATE_VNF -> instantiateVnf(inst, req.getInstantiateVnfData());
+		case INSTANTIATE_VNF -> instantiateVnf(req.getInstantiateVnfData());
 		case MODIFY_VNF_INFORMATION -> modifyVnfInformation(inst, req.getModifyVnfInfoData());
 		case OPERATE_VNF -> vnfOperate(inst, req.getOperateVnfData());
 		case REMOVE_VNF -> removeVnf(inst, req.getRemoveVnfInstanceId(), nb);
-		case MOVE_VNF -> moveVnf(inst, req.getMoveVnfInstanceData());
+		case MOVE_VNF -> moveVnf(req.getMoveVnfInstanceData());
 		default -> throw new GenericException("Unable to find action " + req.getUpdateType());
 		}
 	}
 
-	private Object moveVnf(final NsdInstance inst, final List<MoveVnfInstanceData> moveVnfInstanceData) {
+	private Object moveVnf(final List<MoveVnfInstanceData> moveVnfInstanceData) {
 		moveVnfInstanceData.forEach(x -> {
 
 		});
@@ -205,9 +198,9 @@ public class NsUpadteManager {
 		return liveInst.stream().filter(x -> x.getId().toString().equals(vnfInstanceId)).findFirst().orElseThrow();
 	}
 
-	private Object instantiateVnf(final NsdInstance inst, final List<InstantiateVnfData> instantiateVnfData) {
+	private Object instantiateVnf(final List<InstantiateVnfData> instantiateVnfData) {
 		instantiateVnfData.stream().forEach(x -> {
-			final NsBlueprint nb = mapper.map(x, NsBlueprint.class);
+			mapper.map(x, NsBlueprint.class);
 
 		});
 		return null;

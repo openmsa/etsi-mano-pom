@@ -29,7 +29,7 @@ import com.ubiqube.etsi.mano.orchestrator.PreExecutionGraph;
  * @param <P>
  * @param <B>
  */
-public interface Workflow<P extends PackageBase, B extends Blueprint, R extends Report, T extends Task> {
+public interface Workflow<P extends PackageBase, B extends Blueprint, T extends Task> {
 
 	PreExecutionGraph<T> setWorkflowBlueprint(P bundle, B blueprint);
 

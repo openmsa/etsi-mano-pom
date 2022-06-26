@@ -21,7 +21,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import com.ubiqube.etsi.mano.repository.ManoResource;
+import com.ubiqube.etsi.mano.repository.AbstractBaseResource;
 import com.ubiqube.etsi.mano.repository.RepositoryException;
 
 /**
@@ -29,41 +29,19 @@ import com.ubiqube.etsi.mano.repository.RepositoryException;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public class PhysResource implements ManoResource {
-	private long size;
-	private String fileName;
+public class PhysResource extends AbstractBaseResource {
 
 	public PhysResource(final long size, final String fileName) {
-		super();
-		this.size = size;
-		this.fileName = fileName;
+		super(size, fileName);
 	}
 
 	@Override
 	public InputStream getInputStream() {
 		try {
-			return Files.newInputStream(Paths.get(fileName));
+			return Files.newInputStream(Paths.get(getFileName()));
 		} catch (final IOException e) {
 			throw new RepositoryException(e);
 		}
-	}
-
-	@Override
-	public long getSize() {
-		return size;
-	}
-
-	public void setSize(final long size) {
-		this.size = size;
-	}
-
-	@Override
-	public String getFileName() {
-		return fileName;
-	}
-
-	public void setFileName(final String fileName) {
-		this.fileName = fileName;
 	}
 
 }

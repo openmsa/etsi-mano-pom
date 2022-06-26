@@ -14,23 +14,27 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service.graph;
+package com.ubiqube.etsi.mano.utils;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.nio.file.Path;
+
+import org.junit.jupiter.api.Test;
 
 /**
  *
- * @author Olivier Vignaud <ovi@ubiqube.com>
+ * @author olivier
  *
  */
-public interface UnitOfWorkBase {
-	/**
-	 *
-	 * @return The instance Name.
-	 */
-	String getName();
+class TemporaryFileSentryTest {
 
-	/**
-	 *
-	 * @return The className (vl01 / vl02 / ...).
-	 */
-	String getToscaName();
+	@Test
+	void testName() throws Exception {
+		Path file;
+		try (TemporaryFileSentry tfe = new TemporaryFileSentry()) {
+			file = tfe.get();
+		}
+		assertEquals(false, file.toFile().exists());
+	}
 }

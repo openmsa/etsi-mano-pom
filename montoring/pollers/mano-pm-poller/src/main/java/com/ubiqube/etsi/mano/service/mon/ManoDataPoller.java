@@ -49,9 +49,9 @@ public class ManoDataPoller {
 
 	private Properties props;
 
-	public ManoDataPoller(final MonPmJobJpa _pmJobsJpa, final MonitoringEventManager _monitoringEventManager) {
-		pmJobsJpa = _pmJobsJpa;
-		monitoringEventManager = _monitoringEventManager;
+	public ManoDataPoller(final MonPmJobJpa pmJobsJpa, final MonitoringEventManager monitoringEventManager) {
+		this.pmJobsJpa = pmJobsJpa;
+		this.monitoringEventManager = monitoringEventManager;
 		try (InputStream mappting = this.getClass().getClassLoader().getResourceAsStream("gnocchi-mapping.properties")) {
 			props = new Properties();
 			props.load(mappting);

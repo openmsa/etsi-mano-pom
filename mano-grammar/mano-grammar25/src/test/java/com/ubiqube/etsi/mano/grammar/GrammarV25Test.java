@@ -25,6 +25,11 @@ import org.junit.jupiter.api.Test;
 import com.ubiqube.etsi.mano.grammar.Node.Operand;
 import com.ubiqube.etsi.mano.grammar.v25.Grammar25Service;
 
+/**
+ *
+ * @author olivier
+ *
+ */
 class GrammarV25Test {
 
 	@SuppressWarnings("static-method")

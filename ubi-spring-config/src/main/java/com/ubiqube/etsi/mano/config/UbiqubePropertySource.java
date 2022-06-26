@@ -45,7 +45,7 @@ public class UbiqubePropertySource extends EnumerablePropertySource<Map<String, 
 	public int hashCode() {
 		final int prime = 31;
 		final int result = super.hashCode();
-		return prime * result + (props == null ? 0 : props.hashCode());
+		return (prime * result) + (props == null ? 0 : props.hashCode());
 	}
 
 	@Override
@@ -57,10 +57,7 @@ public class UbiqubePropertySource extends EnumerablePropertySource<Map<String, 
 			return false;
 		}
 		final UbiqubePropertySource other = (UbiqubePropertySource) obj;
-		if (!Objects.equals(props, other.props)) {
-			return false;
-		}
-		return true;
+		return Objects.equals(props, other.props);
 	}
 
 }

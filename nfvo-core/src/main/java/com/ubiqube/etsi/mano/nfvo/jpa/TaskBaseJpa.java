@@ -28,8 +28,9 @@ import com.ubiqube.etsi.mano.dao.mano.v2.Task;
 
 @NoRepositoryBean
 public interface TaskBaseJpa<T extends Task> extends CrudRepository<T, UUID> {
-	@Query("SELECT vib from #{#entityName} vib \n" +
-			" left outer join VnfLiveInstance vli  on vib.id = vli.task \n" +
-			" where vli.vnfInstance =?1")
+	@Query("""
+			SELECT vib from #{#entityName} vib
+			 left outer join VnfLiveInstance vli  on vib.id = vli.task
+			 where vli.vnfInstance =?1""")
 	List<T> findByLiveInstanceOfVnfInstance(VnfInstance vnfInstance);
 }

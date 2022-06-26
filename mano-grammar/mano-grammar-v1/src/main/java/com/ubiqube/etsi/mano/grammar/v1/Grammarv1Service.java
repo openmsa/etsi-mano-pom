@@ -30,50 +30,51 @@
  */
 package com.ubiqube.etsi.mano.grammar.v1;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.Lexer;
+import org.antlr.v4.runtime.Parser;
+import org.antlr.v4.runtime.tree.ParseTreeListener;
 import org.springframework.stereotype.Service;
 
 import com.mano.etsi.grammar.v1.EtsiFilter;
 import com.mano.etsi.grammar.v1.EtsiLexer;
-import com.ubiqube.etsi.mano.grammar.GrammarException;
 import com.ubiqube.etsi.mano.grammar.GrammarParser;
 import com.ubiqube.etsi.mano.grammar.Node;
+import com.ubiqube.etsi.mano.grammar.antlr.AbstractAntlrGrammar;
 
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
+@SuppressWarnings("unchecked")
 @Service
-public class Grammarv1Service implements GrammarParser {
+public class Grammarv1Service extends AbstractAntlrGrammar<TreeBuilder> implements GrammarParser {
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public List<Node<String>> parse(final String query) {
-		List<Node<String>> nodes = new ArrayList<>();
-		final TreeBuilder treeBuilder = new TreeBuilder();
-		if (null != query && !query.isEmpty()) {
-			final EtsiLexer el = new EtsiLexer(CharStreams.fromString(query));
-			final CommonTokenStream tokens = new CommonTokenStream(el);
-			final EtsiFilter parser = new EtsiFilter(tokens);
-			parser.addParseListener(treeBuilder);
-			parser.filterExpr();
-			nodes = treeBuilder.getListNode();
-			checkNodes(nodes);
-		}
-		return nodes;
+	protected Parser createParser(final CommonTokenStream tokens, final ParseTreeListener treeBuilder) {
+		final EtsiFilter parser = new EtsiFilter(tokens);
+		parser.addParseListener(treeBuilder);
+		parser.filterExpr();
+		return parser;
 	}
 
-	private static void checkNodes(final List<Node<String>> nodes) {
-		nodes.forEach(x -> {
-			if (null == x.getOp()) {
-				throw new GrammarException("Bad filter: " + x);
-			}
-		});
+	@Override
+	protected TreeBuilder createTreeBuilder() {
+		return new TreeBuilder();
+	}
+
+	@Override
+	protected List<Node<String>> getNodes(final TreeBuilder treeBuilder) {
+		return treeBuilder.getListNode();
+	}
+
+	@Override
+	protected Lexer createLexer(final String query) {
+		return new EtsiLexer(CharStreams.fromString(query));
 	}
 
 }

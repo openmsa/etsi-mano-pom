@@ -21,6 +21,7 @@ import java.util.Map;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfScaleInfo;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.ScaleToLevelData;
+import com.ubiqube.etsi.mano.utils.ToStringUtil;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -49,6 +50,11 @@ public class VnfScaleToLevelRequest {
 		final List<VnfScaleInfo> l = scaleData.getVnfScaleInfo();
 		final List<CommScaleInfo> scaleInfo = l.stream().map(CommScaleInfo::of).toList();
 		return new VnfScaleToLevelRequest(scaleData.getVnfInstantiationLevelId(), scaleInfo, scaleData.getAdditionalParams());
+	}
+
+	@Override
+	public String toString() {
+		return ToStringUtil.toString(this);
 	}
 
 }

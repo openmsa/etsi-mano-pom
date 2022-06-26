@@ -195,7 +195,7 @@ public class VnfInstanceServiceImpl extends SearchableService implements VnfInst
 
 	@Override
 	public VnfInstance vnfLcmPatch(final VnfInstance vnfInstance, final String body, final String ifMatch) {
-		if (ifMatch != null && !ifMatch.equals(vnfInstance.getVersion() + "")) {
+		if ((ifMatch != null) && !ifMatch.equals(vnfInstance.getVersion() + "")) {
 			throw new PreConditionException(ifMatch + " does not match " + vnfInstance.getVersion());
 		}
 		patcher.patch(body, vnfInstance);
@@ -211,7 +211,7 @@ public class VnfInstanceServiceImpl extends SearchableService implements VnfInst
 	@Override
 	public Deque<VnfLiveInstance> getLiveOsContainerOf(final VnfBlueprint plan, final OsContainerDeployableUnit ocdu) {
 		// TODO Auto-generated method stub
-		return null;
+		return new ArrayDeque<>();
 	}
 
 }

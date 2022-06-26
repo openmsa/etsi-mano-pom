@@ -43,7 +43,7 @@ public class MinaRemoteSession implements RemoteSession {
 	public MinaRemoteSession(final String host, final String username, final int port) {
 		final SshClient client = SshClient.setUpDefaultClient();
 		try {
-			this.session = client.connect("ncuser", "10.31.1.29", 22)
+			this.session = client.connect(username, host, port)
 					.verify(5000)
 					.getSession();
 			session.auth().verify();
