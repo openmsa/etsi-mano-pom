@@ -28,7 +28,12 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-public class ZabbixProbe {
+/**
+ *
+ * @author olivier
+ *
+ */
+class ZabbixProbeTest {
 
 	@Test
 	void testName() throws Exception {
@@ -107,7 +112,7 @@ public class ZabbixProbe {
 		for (int j = 0; j < bytes.length; j++) {
 			final int v = bytes[j] & 0xFF;
 			hexChars[j * 2] = HEX_ARRAY[v >>> 4];
-			hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
+			hexChars[(j * 2) + 1] = HEX_ARRAY[v & 0x0F];
 		}
 		return new String(hexChars);
 	}
@@ -117,9 +122,9 @@ public class ZabbixProbe {
 		final byte[] header = {
 				'Z', 'B', 'X', 'D', '\1',
 				(byte) (data.length & 0xFF),
-				(byte) (data.length >> 8 & 0xFF),
-				(byte) (data.length >> 16 & 0xFF),
-				(byte) (data.length >> 24 & 0xFF),
+				(byte) ((data.length >> 8) & 0xFF),
+				(byte) ((data.length >> 16) & 0xFF),
+				(byte) ((data.length >> 24) & 0xFF),
 				'\0', '\0', '\0', '\0' };
 
 		final byte[] packet = new byte[header.length + data.length];

@@ -47,6 +47,10 @@ import com.ubiqube.etsi.mano.service.mon.data.Metric;
 public class GnocchiSubTelemetry {
 	private static final Logger LOG = LoggerFactory.getLogger(GnocchiSubTelemetry.class);
 
+	private GnocchiSubTelemetry() {
+		// Nothing.
+	}
+
 	public static List<TelemetryMetricsResult> getMetricsForVnfc(final VimConnectionInformation vimConnectionInformation, final String vnfcId, final List<Metric> collectedMetrics, final UUID uuid) {
 		final OSClientV3 os = authenticate(vimConnectionInformation);
 		return getMetrics(uuid, vnfcId, collectedMetrics, os);
