@@ -95,6 +95,11 @@ public final class Constants {
 	 */
 	public static final @NotNull String REPOSITORY_ZIP_ARTIFACT = "artifacts.zip";
 
+	/**
+	 * Uniq value around the cluster.
+	 */
+	public static final String CONF_CLUSTER_ID = "clusterId";
+
 	private Constants() {
 		// Nothing.
 	}
