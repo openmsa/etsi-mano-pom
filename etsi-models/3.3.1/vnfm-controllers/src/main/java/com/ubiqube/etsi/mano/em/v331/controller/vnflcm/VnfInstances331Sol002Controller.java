@@ -16,9 +16,9 @@
  */
 package com.ubiqube.etsi.mano.em.v331.controller.vnflcm;
 
+import static com.ubiqube.etsi.mano.uri.ManoWebMvcLinkBuilder.linkTo;
+import static com.ubiqube.etsi.mano.uri.ManoWebMvcLinkBuilder.methodOn;
 import static com.ubiqube.etsi.mano.vnfm.fc.Constants.getSafeUUID;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import java.util.HashMap;
 

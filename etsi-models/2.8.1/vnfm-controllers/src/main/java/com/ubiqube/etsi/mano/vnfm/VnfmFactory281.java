@@ -16,8 +16,8 @@
  */
 package com.ubiqube.etsi.mano.vnfm;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import static com.ubiqube.etsi.mano.uri.ManoWebMvcLinkBuilder.linkTo;
+import static com.ubiqube.etsi.mano.uri.ManoWebMvcLinkBuilder.methodOn;
 
 import com.ubiqube.etsi.mano.em.v281.controller.vnflcm.VnfInstances281Sol002Api;
 import com.ubiqube.etsi.mano.em.v281.controller.vnflcm.VnfInstances281Sol002Controller;
