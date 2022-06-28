@@ -16,10 +16,14 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service.graph.nfvo;
 
+import java.util.UUID;
+import java.util.function.BiFunction;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ubiqube.etsi.mano.controller.vnflcm.VnfInstanceLcm;
+import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsdTask;
@@ -43,32 +47,13 @@ public class NsUow extends AbstractUnitOfWork<NsdTask> {
 
 	private final VnfInstanceLcm nsLcmOpOccsService;
 
+	private final BiFunction<Servers, UUID, VnfBlueprint> func;
+
 	public NsUow(final VirtualTask<NsdTask> task, final VnfInstanceLcm nsLcmOpOccsService) {
 		super(task, NsdInstantiateNode.class);
 		this.nsdTask = task.getParameters();
 		this.nsLcmOpOccsService = nsLcmOpOccsService;
-	}
-
-	private VnfBlueprint waitLcmCompletion(final VnfBlueprint lcm) {
-		VnfBlueprint tmp = lcm;
-		OperationStatusType state = tmp.getOperationStatus();
-		while (state == OperationStatusType.PROCESSING || OperationStatusType.STARTING == state) {
-			tmp = nsLcmOpOccsService.vnfLcmOpOccsGet(nsdTask.getServer(), lcm.getId());
-			state = tmp.getOperationStatus();
-			sleepSeconds(1);
-		}
-		LOG.info("VNF Lcm complete with state: {}", state);
-		return tmp;
-	}
-
-	private static void sleepSeconds(final long seconds) {
-		try {
-			Thread.sleep(seconds * 1000L);
-		} catch (final InterruptedException e) {
-			LOG.warn("Interrupted exception.", e);
-			Thread.currentThread().interrupt();
-		}
-
+		func = nsLcmOpOccsService::vnfLcmOpOccsGet;
 	}
 
 	@Override
@@ -79,7 +64,7 @@ public class NsUow extends AbstractUnitOfWork<NsdTask> {
 		instantiateRequest.setLocalizationLanguage(nsdTask.getLocalizationLanguage());
 		instantiateRequest.setVimConnectionInfo(nsdTask.getVimConnectionInformations().stream().toList());
 		final VnfBlueprint lcm = nsLcmOpOccsService.instantiate(nsdTask.getServer(), nsdTask.getNsInstanceId(), instantiateRequest);
-		final VnfBlueprint result = waitLcmCompletion(lcm);
+		final VnfBlueprint result = UowUtils.waitLcmCompletion(lcm, func, nsdTask.getServer());
 		if (OperationStatusType.COMPLETED != result.getOperationStatus()) {
 			throw new GenericException("NSD LCM Failed: " + result.getError().getDetail());
 		}
@@ -100,7 +85,7 @@ public class NsUow extends AbstractUnitOfWork<NsdTask> {
 	@Override
 	public String rollback(final Context context) {
 		final VnfBlueprint lcm = nsLcmOpOccsService.terminate(nsdTask.getServer(), nsdTask.getNsInstanceId(), null, 0);
-		final VnfBlueprint result = waitLcmCompletion(lcm);
+		final VnfBlueprint result = UowUtils.waitLcmCompletion(lcm, func, nsdTask.getServer());
 		if (OperationStatusType.COMPLETED != result.getOperationStatus()) {
 			throw new GenericException("NSD LCM Failed: " + result.getError().getDetail());
 		}

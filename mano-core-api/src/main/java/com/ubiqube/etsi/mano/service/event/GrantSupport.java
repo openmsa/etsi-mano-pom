@@ -14,41 +14,35 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.dao.mano;
+package com.ubiqube.etsi.mano.service.event;
 
-import java.io.Serializable;
-import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.annotation.Nonnull;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
+import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
+import com.ubiqube.etsi.mano.dao.mano.VnfCompute;
+import com.ubiqube.etsi.mano.dao.mano.VnfStorage;
+import com.ubiqube.etsi.mano.service.vim.Vim;
 
 /**
  *
  * @author olivier
  *
  */
-@Entity
-@Getter
-@Setter
-public class ZoneGroupInformation implements Serializable {
+public interface GrantSupport {
+	@Nonnull
+	Set<VnfCompute> getVnfCompute(UUID objectId);
 
-	/** Serial. */
-	private static final long serialVersionUID = 1L;
+	@Nonnull
+	Set<VnfStorage> getVnfStorage(UUID objectId);
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id;
+	List<VimConnectionInformation> getVims(GrantResponse grants);
 
-	@ElementCollection(fetch = FetchType.EAGER)
-	private Set<String> zoneId = new LinkedHashSet<>();
+	void getUnmanagedNetworks(GrantResponse grants, Vim vim, VimConnectionInformation vimInfo);
 
+	UUID convertVnfdToId(String vnfdId);
 }

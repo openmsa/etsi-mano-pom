@@ -17,17 +17,17 @@
 package com.ubiqube.etsi.mano.nfvo.controller.nsd;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
+import java.util.function.Consumer;
 
-import javax.persistence.EntityManager;
-
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.dao.mano.PnfDescriptor;
-import com.ubiqube.etsi.mano.grammar.GrammarParser;
 import com.ubiqube.etsi.mano.nfvo.factory.PnfFactory;
 import com.ubiqube.etsi.mano.repository.PnfdInfoRepository;
-import com.ubiqube.etsi.mano.service.ManoSearchResponseService;
 import com.ubiqube.etsi.mano.service.SearchableService;
 
 /**
@@ -36,12 +36,13 @@ import com.ubiqube.etsi.mano.service.SearchableService;
  *
  */
 @Service
-public class PnfdControllerImpl extends SearchableService implements PnfdController {
+public class PnfdControllerImpl implements PnfdController {
 	private final PnfdInfoRepository pnfdInfoRepository;
+	private final SearchableService searchableService;
 
-	public PnfdControllerImpl(final PnfdInfoRepository pnfdInfoRepository, final EntityManager em, final ManoSearchResponseService searchService, final GrammarParser grammarParser) {
-		super(searchService, em, PnfDescriptor.class, grammarParser);
+	public PnfdControllerImpl(final PnfdInfoRepository pnfdInfoRepository, final SearchableService searchableService) {
 		this.pnfdInfoRepository = pnfdInfoRepository;
+		this.searchableService = searchableService;
 	}
 
 	@Override
@@ -58,5 +59,10 @@ public class PnfdControllerImpl extends SearchableService implements PnfdControl
 	public PnfDescriptor pnfDescriptorsPost(final Map<String, Object> userDefinedData) {
 		final PnfDescriptor pnfdDb = PnfFactory.createPnfDescriptorsPnfdInfo(userDefinedData);
 		return pnfdInfoRepository.save(pnfdDb);
+	}
+
+	@Override
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink) {
+		return searchableService.search(requestParams, clazz, excludeDefaults, mandatoryFields, makeLink);
 	}
 }

@@ -14,41 +14,23 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.dao.mano;
+package com.ubiqube.etsi.mano.service.event;
 
-import java.io.Serializable;
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.UUID;
-
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  *
  * @author olivier
  *
  */
-@Entity
-@Getter
-@Setter
-public class ZoneGroupInformation implements Serializable {
-
-	/** Serial. */
-	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id;
-
-	@ElementCollection(fetch = FetchType.EAGER)
-	private Set<String> zoneId = new LinkedHashSet<>();
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class QuotaNeeded {
+	private int disk = 0;
+	private int vcpu = 0;
+	private int ram = 0;
 
 }

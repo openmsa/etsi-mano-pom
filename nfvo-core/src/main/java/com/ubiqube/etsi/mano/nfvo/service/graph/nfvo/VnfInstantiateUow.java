@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.BiFunction;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +29,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import com.ubiqube.etsi.mano.dao.mano.InstantiationState;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.common.FailureDetails;
+import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.ExternalPortRecord;
@@ -56,39 +58,13 @@ public class VnfInstantiateUow extends AbstractUnitOfWork<NsVnfInstantiateTask> 
 
 	private final NsVnfInstantiateTask task;
 
+	private final BiFunction<Servers, UUID, VnfBlueprint> func;
+
 	public VnfInstantiateUow(final VirtualTask<NsVnfInstantiateTask> task, final VnfmInterface vnfm) {
 		super(task, VnfInstantiateNode.class);
 		this.task = task.getParameters();
 		this.vnfm = vnfm;
-	}
-
-	/**
-	 * XXX We should add a Max wait.
-	 *
-	 * @param vnfLcmOpOccs
-	 * @param vnfm
-	 * @return
-	 */
-	private VnfBlueprint waitLcmCompletion(final VnfBlueprint vnfLcmOpOccs, final VnfmInterface vnfm) {
-		VnfBlueprint tmp = vnfLcmOpOccs;
-		OperationStatusType state = OperationStatusType.PROCESSING;
-		while (state == OperationStatusType.PROCESSING || OperationStatusType.STARTING == state) {
-			tmp = vnfm.vnfLcmOpOccsGet(task.getServer(), vnfLcmOpOccs.getId());
-			state = tmp.getOperationStatus();
-			LOG.debug("Instantiate polling: {} => {}", tmp.getId(), state);
-			sleepSeconds(3);
-		}
-		LOG.info("VNF Lcm complete with state: {}", state);
-		return tmp;
-	}
-
-	private static void sleepSeconds(final long seconds) {
-		try {
-			Thread.sleep(seconds * 1000L);
-		} catch (final InterruptedException e) {
-			LOG.warn("Interrupted exception.", e);
-			Thread.currentThread().interrupt();
-		}
+		func = vnfm::vnfLcmOpOccsGet;
 	}
 
 	@Override
@@ -107,7 +83,7 @@ public class VnfInstantiateUow extends AbstractUnitOfWork<NsVnfInstantiateTask> 
 		final VnfInstantiate request = createRequest();
 		request.setExtManagedVirtualLinks(net);
 		final VnfBlueprint res = vnfm.vnfInstatiate(task.getServer(), inst, request);
-		final VnfBlueprint result = waitLcmCompletion(res, vnfm);
+		final VnfBlueprint result = UowUtils.waitLcmCompletion(res, func, task.getServer());
 		if (OperationStatusType.COMPLETED != result.getOperationStatus()) {
 			final String details = Optional.ofNullable(result.getError()).map(FailureDetails::getDetail).orElse("[No content]");
 			throw new GenericException("VNF LCM Failed: " + details + " With state:  " + result.getOperationStatus());
@@ -152,7 +128,7 @@ public class VnfInstantiateUow extends AbstractUnitOfWork<NsVnfInstantiateTask> 
 		if (lcm == null) {
 			return null;
 		}
-		final VnfBlueprint result = waitLcmCompletion(lcm, vnfm);
+		final VnfBlueprint result = UowUtils.waitLcmCompletion(lcm, func, task.getServer());
 		if (OperationStatusType.COMPLETED != result.getOperationStatus()) {
 			throw new GenericException("VNF LCM Failed: " + result.getError().getDetail());
 		}

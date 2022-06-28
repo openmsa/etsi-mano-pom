@@ -42,13 +42,12 @@ public class NfvoActions extends AbstractGenericAction {
 	}
 
 	public void heal(@NotNull final UUID objectId) {
-		// TODO Auto-generated method stub
+		//
 	}
 
 	@Override
 	protected void mergeVirtualLinks(final Instance vnfInstance, final Blueprint<?, ?> localPlan) {
-		// TODO Auto-generated method stub
-
+		// Nothing to merge.
 	}
 
 }

@@ -16,18 +16,18 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service;
 
+import java.util.Set;
 import java.util.UUID;
+import java.util.function.Consumer;
 
-import javax.persistence.EntityManager;
-
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.controller.nspm.NfvoThresholdController;
 import com.ubiqube.etsi.mano.dao.mano.pm.Threshold;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
-import com.ubiqube.etsi.mano.grammar.GrammarParser;
 import com.ubiqube.etsi.mano.jpa.ThresholdJpa;
-import com.ubiqube.etsi.mano.service.ManoSearchResponseService;
 import com.ubiqube.etsi.mano.service.SearchableService;
 
 /**
@@ -36,12 +36,13 @@ import com.ubiqube.etsi.mano.service.SearchableService;
  *
  */
 @Service
-public class NfvoThresholdControllerImpl extends SearchableService implements NfvoThresholdController {
+public class NfvoThresholdControllerImpl implements NfvoThresholdController {
 
 	private final ThresholdJpa thresholdJpa;
+	private final SearchableService searchableService;
 
-	public NfvoThresholdControllerImpl(final ManoSearchResponseService searchService, final EntityManager em, final ThresholdJpa thresholdJpa, final GrammarParser grammarParser) {
-		super(searchService, em, Threshold.class, grammarParser);
+	public NfvoThresholdControllerImpl(final SearchableService searchableService, final ThresholdJpa thresholdJpa) {
+		this.searchableService = searchableService;
 		this.thresholdJpa = thresholdJpa;
 	}
 
@@ -59,6 +60,11 @@ public class NfvoThresholdControllerImpl extends SearchableService implements Nf
 	@Override
 	public Threshold findById(final UUID id) {
 		return thresholdJpa.findById(id).orElseThrow(() -> new NotFoundException("Could not find Threshold: " + id));
+	}
+
+	@Override
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink) {
+		return searchableService.search(requestParams, clazz, excludeDefaults, mandatoryFields, makeLink);
 	}
 
 }

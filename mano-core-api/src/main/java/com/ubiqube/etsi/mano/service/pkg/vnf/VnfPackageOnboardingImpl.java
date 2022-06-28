@@ -21,12 +21,9 @@ import java.io.InputStream;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
@@ -40,7 +37,6 @@ import com.ubiqube.etsi.mano.dao.mano.PackageOperationalState;
 import com.ubiqube.etsi.mano.dao.mano.PkgChecksum;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.common.FailureDetails;
-import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
 import com.ubiqube.etsi.mano.dao.mano.pkg.UploadUriParameters;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.model.NotificationEvent;
@@ -51,8 +47,6 @@ import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.pkg.PackageDescriptor;
 import com.ubiqube.etsi.mano.service.pkg.bean.ProviderData;
-
-import ma.glasnost.orika.MapperFacade;
 
 /**
  *
@@ -72,29 +66,19 @@ public class VnfPackageOnboardingImpl {
 
 	private final VnfPackageManager packageManager;
 
-	private final MapperFacade mapper;
-
 	private final VnfPackageService vnfPackageService;
 
 	private final VnfPackageRepository vnfPackageRepository;
 
-	private final List<OnboardVisitor> onboardVisitors;
-
-	private final List<OnboardingPostProcessorVisitor> postProcessors;
-
-	private final CustomOnboarding customOnboarding;
+	private final VnfOnboardingMapperService onboardingMapper;
 
 	public VnfPackageOnboardingImpl(final VnfPackageRepository vnfPackageRepository, final EventManager eventManager, final VnfPackageManager packageManager,
-			final MapperFacade mapper, final VnfPackageService vnfPackageService, final List<OnboardVisitor> onboardVisitors,
-			final List<OnboardingPostProcessorVisitor> postProcessors, final CustomOnboarding customOnboarding) {
+			final VnfPackageService vnfPackageService, final VnfOnboardingMapperService onboardingMapper) {
 		this.vnfPackageRepository = vnfPackageRepository;
 		this.eventManager = eventManager;
 		this.packageManager = packageManager;
-		this.mapper = mapper;
 		this.vnfPackageService = vnfPackageService;
-		this.onboardVisitors = onboardVisitors;
-		this.postProcessors = postProcessors;
-		this.customOnboarding = customOnboarding;
+		this.onboardingMapper = onboardingMapper;
 	}
 
 	public VnfPackage vnfPackagesVnfPkgIdPackageContentPut(@Nonnull final String vnfPkgId) {
@@ -166,28 +150,7 @@ public class VnfPackageOnboardingImpl {
 		optPackage.ifPresent(x -> {
 			throw new GenericException("Package " + x.getDescriptorId() + " already onboarded in " + x.getId() + ".");
 		});
-		mapper.map(pd, vnfPackage);
-		additionalMapping(pd, vnfPackage);
-		final Map<String, String> userData = vnfPackage.getUserDefinedData();
-		onboardVisitors.forEach(x -> x.visit(vnfPackage, vnfPackageReader, userData));
-		postProcessors.forEach(x -> x.visit(vnfPackage));
-		customOnboarding.handleArtifacts(vnfPackage, vnfPackageReader);
-	}
-
-	private static void additionalMapping(final ProviderData pd, final VnfPackage vnfPackage) {
-		vnfPackage.addVirtualLink(pd.getVirtualLinkReq());
-		vnfPackage.addVirtualLink(pd.getVirtualLink1Req());
-		vnfPackage.addVirtualLink(pd.getVirtualLink2Req());
-		vnfPackage.addVirtualLink(pd.getVirtualLink3Req());
-		vnfPackage.addVirtualLink(pd.getVirtualLink4Req());
-		vnfPackage.addVirtualLink(pd.getVirtualLink5Req());
-		vnfPackage.addVirtualLink(pd.getVirtualLink6Req());
-		vnfPackage.addVirtualLink(pd.getVirtualLink7Req());
-		vnfPackage.addVirtualLink(pd.getVirtualLink8Req());
-		vnfPackage.addVirtualLink(pd.getVirtualLink9Req());
-		vnfPackage.addVirtualLink(pd.getVirtualLink10Req());
-		final Set<ListKeyPair> nl = vnfPackage.getVirtualLinks().stream().filter(x -> x.getValue() != null).collect(Collectors.toSet());
-		vnfPackage.setVirtualLinks(nl);
+		onboardingMapper.mapper(vnfPackageReader, vnfPackage, pd);
 	}
 
 	private static PkgChecksum getChecksum(final DigestInputStream digest) {

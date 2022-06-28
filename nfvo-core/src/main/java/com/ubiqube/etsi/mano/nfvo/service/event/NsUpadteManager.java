@@ -118,7 +118,7 @@ public class NsUpadteManager {
 
 	private Object moveVnf(final List<MoveVnfInstanceData> moveVnfInstanceData) {
 		moveVnfInstanceData.forEach(x -> {
-
+			//
 		});
 		return null;
 	}
@@ -199,10 +199,7 @@ public class NsUpadteManager {
 	}
 
 	private Object instantiateVnf(final List<InstantiateVnfData> instantiateVnfData) {
-		instantiateVnfData.stream().forEach(x -> {
-			mapper.map(x, NsBlueprint.class);
-
-		});
+		instantiateVnfData.stream().forEach(x -> mapper.map(x, NsBlueprint.class));
 		return null;
 	}
 

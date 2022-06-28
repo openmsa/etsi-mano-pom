@@ -18,16 +18,19 @@ package com.ubiqube.etsi.mano.vnfm.controller.vnflcm;
 
 import static com.ubiqube.etsi.mano.Constants.ensureFailedTemp;
 
+import java.util.Set;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 import javax.persistence.EntityManager;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
-import com.ubiqube.etsi.mano.grammar.GrammarParser;
 import com.ubiqube.etsi.mano.service.ManoSearchResponseService;
 import com.ubiqube.etsi.mano.service.SearchableService;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceService;
@@ -39,15 +42,16 @@ import com.ubiqube.etsi.mano.vnfm.service.VnfLcmService;
  *
  */
 @Service
-public class VnfLcmControllerImpl extends SearchableService implements VnfLcmController {
+public class VnfLcmControllerImpl implements VnfLcmController {
 	private final VnfLcmService vnfLcmOpOccsRepository;
 	private final VnfInstanceService vnfInstanceService;
+	private final SearchableService searchableService;
 
 	public VnfLcmControllerImpl(final VnfLcmService vnfLcmOpOccsRepository, final EntityManager em, final ManoSearchResponseService searchService,
-			final VnfInstanceService vnfInstanceService, final GrammarParser grammarParser) {
-		super(searchService, em, VnfBlueprint.class, grammarParser);
+			final VnfInstanceService vnfInstanceService, final SearchableService searchableService) {
 		this.vnfLcmOpOccsRepository = vnfLcmOpOccsRepository;
 		this.vnfInstanceService = vnfInstanceService;
+		this.searchableService = searchableService;
 	}
 
 	@Override
@@ -64,5 +68,10 @@ public class VnfLcmControllerImpl extends SearchableService implements VnfLcmCon
 		vnfInstanceService.save(instance);
 		lcm.setOperationStatus(OperationStatusType.FAILED);
 		vnfLcmOpOccsRepository.save(lcm);
+	}
+
+	@Override
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink) {
+		return searchableService.search(requestParams, clazz, excludeDefaults, mandatoryFields, makeLink);
 	}
 }

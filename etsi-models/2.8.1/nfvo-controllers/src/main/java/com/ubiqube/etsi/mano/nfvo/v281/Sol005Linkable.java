@@ -32,21 +32,21 @@ import com.ubiqube.etsi.mano.nfvo.v281.model.vnfconfig.PkgmLinks;
  *
  */
 public class Sol005Linkable {
-	public PkgmLinks createNotificationLink(final UUID _vnfPkgId, final UUID _subscriptionId) {
+	public PkgmLinks createNotificationLink(final UUID vnfPkgId, final UUID subscriptionId) {
 		final PkgmLinks ret = new PkgmLinks();
 		final NotificationLink subscription = createVnfPackagesVnfPkgInfoLinksSelf(
-				linkTo(methodOn(VnfSubscriptions281Sol005Api.class).subscriptionsSubscriptionIdGet(_subscriptionId.toString())).withSelfRel().getHref());
+				linkTo(methodOn(VnfSubscriptions281Sol005Api.class).subscriptionsSubscriptionIdGet(subscriptionId.toString())).withSelfRel().getHref());
 		ret.setSubscription(subscription);
 
 		final NotificationLink vnfPackage = createVnfPackagesVnfPkgInfoLinksSelf(
-				linkTo(methodOn(VnfPackages281Sol005Api.class).vnfPackagesVnfPkgIdGet(_vnfPkgId.toString())).withSelfRel().getHref());
+				linkTo(methodOn(VnfPackages281Sol005Api.class).vnfPackagesVnfPkgIdGet(vnfPkgId.toString())).withSelfRel().getHref());
 		ret.setVnfPackage(vnfPackage);
 		return ret;
 	}
 
-	private static NotificationLink createVnfPackagesVnfPkgInfoLinksSelf(final String _href) {
+	private static NotificationLink createVnfPackagesVnfPkgInfoLinksSelf(final String href) {
 		final NotificationLink link = new NotificationLink();
-		link.setHref(_href);
+		link.setHref(href);
 		return link;
 	}
 

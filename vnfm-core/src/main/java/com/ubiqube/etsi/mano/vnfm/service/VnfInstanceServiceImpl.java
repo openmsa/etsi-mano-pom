@@ -21,13 +21,16 @@ import java.util.Deque;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.dao.mano.ExtVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
@@ -42,11 +45,8 @@ import com.ubiqube.etsi.mano.dao.mano.v2.ExternalCpTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.exception.PreConditionException;
-import com.ubiqube.etsi.mano.grammar.GrammarParser;
 import com.ubiqube.etsi.mano.jpa.VnfInstanceJpa;
 import com.ubiqube.etsi.mano.model.NotificationEvent;
-import com.ubiqube.etsi.mano.repository.jpa.SearchQueryer;
-import com.ubiqube.etsi.mano.service.ManoSearchResponseService;
 import com.ubiqube.etsi.mano.service.Patcher;
 import com.ubiqube.etsi.mano.service.SearchableService;
 import com.ubiqube.etsi.mano.service.event.EventManager;
@@ -59,7 +59,7 @@ import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
  *
  */
 @Service
-public class VnfInstanceServiceImpl extends SearchableService implements VnfInstanceService {
+public class VnfInstanceServiceImpl implements VnfInstanceService {
 
 	private final ExtVirtualLinkDataEntityJpa extVirtualLinkDataEntityJpa;
 
@@ -67,24 +67,20 @@ public class VnfInstanceServiceImpl extends SearchableService implements VnfInst
 
 	private final VnfLiveInstanceJpa vnfLiveInstanceJpa;
 
-	private final EntityManager entityManager;
-
 	private final Patcher patcher;
 
 	private final EventManager eventManager;
 
-	private final GrammarParser grammarParser;
+	private final SearchableService searchableService;
 
 	public VnfInstanceServiceImpl(final ExtVirtualLinkDataEntityJpa extVirtualLinkDataEntityJpa, final VnfInstanceJpa vnfInstanceJpa, final VnfLiveInstanceJpa vnfLiveInstance,
-			final EntityManager entityManager, final Patcher patcher, final EventManager eventManager, final ManoSearchResponseService searchService, final GrammarParser grammarParser) {
-		super(searchService, entityManager, VnfInstance.class, grammarParser);
+			final Patcher patcher, final EventManager eventManager, final SearchableService searchableService) {
 		this.extVirtualLinkDataEntityJpa = extVirtualLinkDataEntityJpa;
 		this.vnfInstanceJpa = vnfInstanceJpa;
 		this.vnfLiveInstanceJpa = vnfLiveInstance;
-		this.entityManager = entityManager;
 		this.patcher = patcher;
 		this.eventManager = eventManager;
-		this.grammarParser = grammarParser;
+		this.searchableService = searchableService;
 	}
 
 	@Override
@@ -184,8 +180,7 @@ public class VnfInstanceServiceImpl extends SearchableService implements VnfInst
 
 	@Override
 	public List<VnfInstance> query(final String filter) {
-		final SearchQueryer sq = new SearchQueryer(entityManager, grammarParser);
-		return sq.getCriteria(filter, VnfInstance.class);
+		return searchableService.query(VnfInstance.class, filter);
 	}
 
 	@Override
@@ -212,6 +207,11 @@ public class VnfInstanceServiceImpl extends SearchableService implements VnfInst
 	public Deque<VnfLiveInstance> getLiveOsContainerOf(final VnfBlueprint plan, final OsContainerDeployableUnit ocdu) {
 		// TODO Auto-generated method stub
 		return new ArrayDeque<>();
+	}
+
+	@Override
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink) {
+		return searchableService.search(requestParams, clazz, excludeDefaults, mandatoryFields, makeLink);
 	}
 
 }

@@ -28,7 +28,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import lombok.Getter;
+import lombok.Setter;
+
+/**
+ *
+ * @author olivier
+ *
+ */
 @Entity
+@Getter
+@Setter
 public class BlueZoneGroupInformation implements Serializable {
 
 	/** Serial. */
@@ -40,21 +50,5 @@ public class BlueZoneGroupInformation implements Serializable {
 
 	@ElementCollection(fetch = FetchType.EAGER)
 	private Set<String> zoneId = new LinkedHashSet<>();
-
-	public UUID getId() {
-		return id;
-	}
-
-	public void setId(final UUID id) {
-		this.id = id;
-	}
-
-	public Set<String> getZoneId() {
-		return zoneId;
-	}
-
-	public void setZoneId(final Set<String> zoneId) {
-		this.zoneId = zoneId;
-	}
 
 }

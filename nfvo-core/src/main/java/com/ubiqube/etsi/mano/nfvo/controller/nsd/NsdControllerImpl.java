@@ -24,43 +24,43 @@ import static com.ubiqube.etsi.mano.Constants.ensureNotOnboarded;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
-
-import javax.persistence.EntityManager;
+import java.util.function.Consumer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.OnboardingStateType;
 import com.ubiqube.etsi.mano.dao.mano.PackageOperationalState;
 import com.ubiqube.etsi.mano.dao.mano.PackageUsageState;
 import com.ubiqube.etsi.mano.exception.PreConditionException;
-import com.ubiqube.etsi.mano.grammar.GrammarParser;
 import com.ubiqube.etsi.mano.model.NotificationEvent;
 import com.ubiqube.etsi.mano.repository.ManoResource;
 import com.ubiqube.etsi.mano.repository.NsdRepository;
-import com.ubiqube.etsi.mano.service.ManoSearchResponseService;
 import com.ubiqube.etsi.mano.service.Patcher;
 import com.ubiqube.etsi.mano.service.SearchableService;
 import com.ubiqube.etsi.mano.service.event.ActionType;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 
 @Service
-public class NsdControllerImpl extends SearchableService implements NsdController {
+public class NsdControllerImpl implements NsdController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(NsdControllerImpl.class);
 	private final NsdRepository nsdRepository;
 	private final Patcher patcher;
 	private final EventManager eventManager;
+	private final SearchableService searchableService;
 
-	public NsdControllerImpl(final NsdRepository nsdRepository, final Patcher patcher, final EventManager eventManager, final EntityManager em,
-			final ManoSearchResponseService searchService, final GrammarParser grammarParser) {
-		super(searchService, em, NsdPackage.class, grammarParser);
+	public NsdControllerImpl(final NsdRepository nsdRepository, final Patcher patcher, final EventManager eventManager, final SearchableService searchableService) {
 		this.nsdRepository = nsdRepository;
 		this.patcher = patcher;
 		this.eventManager = eventManager;
+		this.searchableService = searchableService;
 		LOG.info("Starting NSD Management SOL005 Controller.");
 	}
 
@@ -97,7 +97,7 @@ public class NsdControllerImpl extends SearchableService implements NsdControlle
 	public NsdPackage nsDescriptorsNsdInfoIdPatch(final UUID id, final String body, final String ifMatch) {
 		final NsdPackage nsdPkgInfo = nsdRepository.get(id);
 		ensureIsOnboarded(nsdPkgInfo);
-		if (ifMatch != null && !ifMatch.equals(nsdPkgInfo.getVersion() + "")) {
+		if ((ifMatch != null) && !ifMatch.equals(nsdPkgInfo.getVersion() + "")) {
 			throw new PreConditionException(ifMatch + " does not match " + nsdPkgInfo.getVersion());
 		}
 		patcher.patch(body, nsdPkgInfo);
@@ -113,5 +113,10 @@ public class NsdControllerImpl extends SearchableService implements NsdControlle
 		nsdPackage.setNsdOperationalState(PackageOperationalState.DISABLED);
 		nsdPackage.setNsdUsageState(PackageUsageState.NOT_IN_USE);
 		return nsdRepository.save(nsdPackage);
+	}
+
+	@Override
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink) {
+		return searchableService.search(requestParams, clazz, excludeDefaults, mandatoryFields, makeLink);
 	}
 }

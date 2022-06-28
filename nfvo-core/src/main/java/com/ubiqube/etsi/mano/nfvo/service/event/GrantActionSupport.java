@@ -50,11 +50,9 @@ import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.jpa.GrantsResponseJpa;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsLiveInstanceJpa;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
-import com.ubiqube.etsi.mano.service.event.AbstractGrantAction;
+import com.ubiqube.etsi.mano.service.event.GrantSupport;
 import com.ubiqube.etsi.mano.service.event.PreVimSelection;
-import com.ubiqube.etsi.mano.service.event.elect.VimElection;
-import com.ubiqube.etsi.mano.service.event.flavor.FlavorManager;
-import com.ubiqube.etsi.mano.service.event.images.SoftwareImageService;
+import com.ubiqube.etsi.mano.service.event.QuotaNeeded;
 import com.ubiqube.etsi.mano.service.vim.NetworkObject;
 import com.ubiqube.etsi.mano.service.vim.ResourceQuota;
 import com.ubiqube.etsi.mano.service.vim.Vim;
@@ -66,9 +64,9 @@ import com.ubiqube.etsi.mano.service.vim.VimManager;
  *
  */
 @Service
-public class GrantAction extends AbstractGrantAction {
+public class GrantActionSupport implements GrantSupport {
 
-	private static final Logger LOG = LoggerFactory.getLogger(GrantAction.class);
+	private static final Logger LOG = LoggerFactory.getLogger(GrantActionSupport.class);
 
 	private final GrantsResponseJpa grantJpa;
 
@@ -82,10 +80,8 @@ public class GrantAction extends AbstractGrantAction {
 
 	private final PreVimSelection preVimSelection;
 
-	public GrantAction(final GrantsResponseJpa grantJpa, final VimManager vimManager, final VimElection vimElection, final VnfPackageService vnfPackageService,
-			final NsLiveInstanceJpa nsLiveInstanceJpa, final SoftwareImageService imageService, final FlavorManager flavorManager,
-			final PreVimSelection preVimSelection) {
-		super(grantJpa, vimManager, vimElection, imageService, flavorManager);
+	public GrantActionSupport(final GrantsResponseJpa grantJpa, final VimManager vimManager, final VnfPackageService vnfPackageService,
+			final NsLiveInstanceJpa nsLiveInstanceJpa, final PreVimSelection preVimSelection) {
 		this.grantJpa = grantJpa;
 		this.vimManager = vimManager;
 		this.vnfPackageService = vnfPackageService;
@@ -95,14 +91,14 @@ public class GrantAction extends AbstractGrantAction {
 	}
 
 	@Override
-	protected Set<VnfCompute> getVnfCompute(final UUID objectId) {
+	public Set<VnfCompute> getVnfCompute(final UUID objectId) {
 		final GrantResponse grant = grantJpa.findById(objectId).orElseThrow();
 		final VnfPackage pkg = vnfPackageService.findByVnfdId(UUID.fromString(grant.getVnfdId()));
 		return pkg.getVnfCompute();
 	}
 
 	@Override
-	protected Set<VnfStorage> getVnfStorage(final UUID objectId) {
+	public Set<VnfStorage> getVnfStorage(final UUID objectId) {
 		final GrantResponse grant = grantJpa.findById(objectId).orElseThrow();
 		final VnfPackage pkg = vnfPackageService.findByVnfdId(UUID.fromString(grant.getVnfdId()));
 		return pkg.getVnfStorage();
@@ -153,7 +149,7 @@ public class GrantAction extends AbstractGrantAction {
 		return vimsSelected.get(rnd.nextInt(vimsSelected.size()));
 	}
 
-	private QuotaNeeded summarizeResources(final GrantResponse grantResponse, final VnfPackage vnfPackage) {
+	private static QuotaNeeded summarizeResources(final GrantResponse grantResponse, final VnfPackage vnfPackage) {
 		final Set<GrantInformationExt> adds = grantResponse.getAddResources();
 		int disk = 0;
 		int vcpu = 0;
@@ -179,7 +175,7 @@ public class GrantAction extends AbstractGrantAction {
 	}
 
 	@Override
-	protected void getUnmanagedNetworks(final GrantResponse grants, final Vim vim, final VimConnectionInformation vimConnectionInformation) {
+	public void getUnmanagedNetworks(final GrantResponse grants, final Vim vim, final VimConnectionInformation vimConnectionInformation) {
 		final String vnfInstanceId = grants.getVnfInstanceId();
 		final NsLiveInstance res = nsLiveInstanceJpa.findByResourceIdAndNsInstanceId(vnfInstanceId, getSafeUUID(vnfInstanceId));
 		if (null == res) {
@@ -262,12 +258,12 @@ public class GrantAction extends AbstractGrantAction {
 	}
 
 	@Override
-	protected UUID convertVnfdToId(final String vnfdId) {
+	public UUID convertVnfdToId(final String vnfdId) {
 		return vnfPackageService.findByVnfdId(UUID.fromString(vnfdId)).getId();
 	}
 
 	@Override
-	protected List<VimConnectionInformation> getVims(final GrantResponse grants) {
+	public List<VimConnectionInformation> getVims(final GrantResponse grants) {
 		final VnfPackage vnfPackage = vnfPackageService.findByVnfdId(getSafeUUID(grants.getVnfdId()));
 		final QuotaNeeded needed = summarizeResources(grants, vnfPackage);
 		return preVimSelection.selectVims(vnfPackage, grants, needed);

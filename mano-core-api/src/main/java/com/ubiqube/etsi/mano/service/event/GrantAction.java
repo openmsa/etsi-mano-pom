@@ -33,10 +33,9 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.ExtManagedVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
@@ -65,9 +64,10 @@ import com.ubiqube.etsi.mano.service.vim.VimManager;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public abstract class AbstractGrantAction {
+@Service
+public class GrantAction {
 
-	private static final Logger LOG = LoggerFactory.getLogger(AbstractGrantAction.class);
+	private static final Logger LOG = LoggerFactory.getLogger(GrantAction.class);
 
 	private final GrantsResponseJpa grantJpa;
 
@@ -79,20 +79,17 @@ public abstract class AbstractGrantAction {
 
 	private final FlavorManager flavorManager;
 
-	protected AbstractGrantAction(final GrantsResponseJpa grantJpa, final VimManager vimManager, final VimElection vimElection,
-			final SoftwareImageService imageService, final FlavorManager flavorManager) {
+	private final GrantSupport grantSupport;
+
+	protected GrantAction(final GrantsResponseJpa grantJpa, final VimManager vimManager, final VimElection vimElection,
+			final SoftwareImageService imageService, final FlavorManager flavorManager, final GrantSupport grantSupport) {
 		this.vimManager = vimManager;
 		this.vimElection = vimElection;
 		this.grantJpa = grantJpa;
 		this.imageService = imageService;
 		this.flavorManager = flavorManager;
+		this.grantSupport = grantSupport;
 	}
-
-	@Nonnull
-	protected abstract Set<VnfCompute> getVnfCompute(UUID objectId);
-
-	@Nonnull
-	protected abstract Set<VnfStorage> getVnfStorage(UUID objectId);
 
 	public final void grantRequest(final UUID objectId) {
 		try {
@@ -103,12 +100,12 @@ public abstract class AbstractGrantAction {
 		}
 	}
 
-	public final void grantRequestException(final UUID objectId) {
+	private final void grantRequestException(final UUID objectId) {
 		LOG.info("Evaluating grant {}", objectId);
 		final GrantResponse grants = getGrant(objectId);
 		removeResources(grants);
-		final List<VimConnectionInformation> vims = getVims(grants);
-		final VimConnectionInformation vimInfo = vimElection.doElection(vims, null, getVnfCompute(objectId), getVnfStorage(objectId));
+		final List<VimConnectionInformation> vims = grantSupport.getVims(grants);
+		final VimConnectionInformation vimInfo = vimElection.doElection(vims, null, grantSupport.getVnfCompute(objectId), grantSupport.getVnfStorage(objectId));
 		if (vimInfo == null) {
 			throw new GenericException("No suitable VIM after election.");
 		}
@@ -119,8 +116,6 @@ public abstract class AbstractGrantAction {
 		grantJpa.save(grants);
 		LOG.info("Grant {} Available.", grants.getId());
 	}
-
-	protected abstract List<VimConnectionInformation> getVims(GrantResponse grants);
 
 	private void removeResources(final GrantResponse grants) {
 		grants.getRemoveResources().forEach(x -> {
@@ -195,7 +190,7 @@ public abstract class AbstractGrantAction {
 			extVl.setGrants(grants);
 			grants.addExtManagedVl(extVl);
 		});
-		getUnmanagedNetworks(grants, vim, vimInfo);
+		grantSupport.getUnmanagedNetworks(grants, vim, vimInfo);
 		final String zoneId = futureZone.get();
 		final ZoneGroupInformation zgi = futureSg.get();
 		// XXX It depends on Grant policy GRANT_RESERVE_SINGLE.
@@ -208,8 +203,6 @@ public abstract class AbstractGrantAction {
 		});
 
 	}
-
-	protected abstract void getUnmanagedNetworks(GrantResponse grants, Vim vim, VimConnectionInformation vimInfo);
 
 	private static ZoneInfoEntity mapZone(final String zoneId, final VimConnectionInformation vimInfo) {
 		final ZoneInfoEntity zoneInfoEntity = new ZoneInfoEntity();
@@ -226,7 +219,7 @@ public abstract class AbstractGrantAction {
 	}
 
 	private List<VimComputeResourceFlavourEntity> getFlavors(final VimConnectionInformation vimConnectionInformation, final UUID id) {
-		final Set<VnfCompute> comp = getVnfCompute(id);
+		final Set<VnfCompute> comp = grantSupport.getVnfCompute(id);
 		return flavorManager.getFlavors(vimConnectionInformation, comp);
 	}
 
@@ -240,10 +233,10 @@ public abstract class AbstractGrantAction {
 	}
 
 	private Set<VimSoftwareImageEntity> getSoftwareImage(final VimConnectionInformation vimInfo, final Vim vim, final GrantResponse grants) {
-		final UUID vnfPkgId = convertVnfdToId(grants.getVnfdId());
+		final UUID vnfPkgId = grantSupport.convertVnfdToId(grants.getVnfdId());
 		final List<SoftwareImage> vimImgs = imageService.getFullDetailImageList(vimInfo);
-		final Set<VimSoftwareImageEntity> ret = new LinkedHashSet<>(getImage(getVnfCompute(grants.getId()), vimImgs, vimInfo, vim, vnfPkgId));
-		final Set<VnfStorage> storage = getVnfStorage(grants.getId());
+		final Set<VimSoftwareImageEntity> ret = new LinkedHashSet<>(getImage(grantSupport.getVnfCompute(grants.getId()), vimImgs, vimInfo, vim, vnfPkgId));
+		final Set<VnfStorage> storage = grantSupport.getVnfStorage(grants.getId());
 		ret.addAll(getImage(storage, vimImgs, vimInfo, vim, vnfPkgId));
 		return ret;
 	}
@@ -259,8 +252,6 @@ public abstract class AbstractGrantAction {
 				.collect(Collectors.toSet());
 	}
 
-	protected abstract UUID convertVnfdToId(String vnfdId);
-
 	private static VimSoftwareImageEntity mapSoftwareImage(final SoftwareImage softwareImage, final String vduId, final VimConnectionInformation vimInfo, final Vim vim) {
 		final VimSoftwareImageEntity vsie = new VimSoftwareImageEntity();
 		vsie.setVimSoftwareImageId(softwareImage.getVimId());
@@ -268,44 +259,6 @@ public abstract class AbstractGrantAction {
 		vsie.setVimConnectionId(vimInfo.getVimId());
 		vsie.setResourceProviderId(vim.getType());
 		return vsie;
-	}
-
-	public class QuotaNeeded {
-		private int disk = 0;
-		private int vcpu = 0;
-		private int ram = 0;
-
-		public int getDisk() {
-			return disk;
-		}
-
-		public void setDisk(final int disk) {
-			this.disk = disk;
-		}
-
-		public int getVcpu() {
-			return vcpu;
-		}
-
-		public void setVcpu(final int vcpu) {
-			this.vcpu = vcpu;
-		}
-
-		public int getRam() {
-			return ram;
-		}
-
-		public void setRam(final int ram) {
-			this.ram = ram;
-		}
-
-		public QuotaNeeded(final int disk, final int vcpu, final int ram) {
-			super();
-			this.disk = disk;
-			this.vcpu = vcpu;
-			this.ram = ram;
-		}
-
 	}
 
 	private Callable<String> getZone(final VimConnectionInformation vimInfo, final GrantResponse grants) {

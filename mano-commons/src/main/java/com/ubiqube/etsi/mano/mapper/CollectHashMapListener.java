@@ -23,16 +23,13 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import com.ubiqube.etsi.mano.exception.GenericException;
 
-public class CollectHashMapListener implements BeanListener {
-	private final LinkedList<AttrNode> stack = new LinkedList<>();
-	private final List<AttrHolder> attrs = new ArrayList<>();
+public class CollectHashMapListener extends AbstractCollectListener {
 	private final LinkedList<ClassTypeHolder> obj = new LinkedList<>();
 
 	public CollectHashMapListener(final Class<?> obj) {
@@ -40,40 +37,15 @@ public class CollectHashMapListener implements BeanListener {
 	}
 
 	@Override
-	public void addProperty(final Object source) {
-		final AttrHolder ah = new AttrHolder();
-		ah.setStack((LinkedList<AttrNode>) stack.clone());
-		ah.setValue(source);
-		if (null != source) {
-			attrs.add(ah);
-		}
-	}
-
-	@Override
-	public void startList(final String name) {
-		stack.push(new ListAttrNode(name));
-	}
-
-	@Override
-	public void endList() {
-		stack.pop();
-	}
-
-	@Override
-	public void listElementStart(final int i) {
-		stack.push(new IndiceAttrNode(i));
-	}
-
-	@Override
 	public void complexStart(final String name) {
 		final ClassTypeHolder curr = obj.getFirst();
 		if (curr.clazz.isAssignableFrom(Map.class)) {
-			stack.push(new AttrMapEntryNode(name));
+			getStack().push(new AttrMapEntryNode(name));
 			obj.push(new ClassTypeHolder(curr.param, null));
 			return;
 		}
 		if (curr.clazz.isAssignableFrom(List.class)) {
-			stack.push(new NamedAttrNode(name));
+			getStack().push(new NamedAttrNode(name));
 			obj.push(new ClassTypeHolder(curr.param, null));
 			return;
 		}
@@ -90,7 +62,7 @@ public class CollectHashMapListener implements BeanListener {
 			newVal = new ClassTypeHolder(ret, subClass);
 		}
 		obj.push(newVal);
-		stack.push(new NamedAttrNode(name));
+		getStack().push(new NamedAttrNode(name));
 	}
 
 	private static Class<?> extractInnerListType(final PropertyDescriptor propertyDescriptor) {
@@ -119,37 +91,8 @@ public class CollectHashMapListener implements BeanListener {
 
 	@Override
 	public void complexEnd() {
-		stack.pop();
+		getStack().pop();
 		obj.pop();
-	}
-
-	@Override
-	public void listElementEnd() {
-		stack.pop();
-	}
-
-	public List<AttrHolder> getAttrs() {
-		return attrs;
-	}
-
-	@Override
-	public void startMap(final String name) {
-		stack.push(new NamedAttrNode(name));
-	}
-
-	@Override
-	public void mapStartEntry(final String key) {
-		stack.push(new AttrMapEntryNode(key));
-	}
-
-	@Override
-	public void mapEndEntry(final String key) {
-		stack.pop();
-	}
-
-	@Override
-	public void endMap(final String name) {
-		stack.pop();
 	}
 
 	record ClassTypeHolder(Class<?> clazz, Class<?> param) {

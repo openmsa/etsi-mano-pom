@@ -37,7 +37,7 @@ import com.ubiqube.etsi.mano.repository.jpa.SearchQueryer;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public class SearchableService {
+public final class SearchableService {
 	private final ManoSearchResponseService searchService;
 
 	private final EntityManager em;
@@ -46,7 +46,6 @@ public class SearchableService {
 	private final GrammarParser grammarParser;
 
 	public SearchableService(final ManoSearchResponseService searchService, final EntityManager em, final Class<?> clazz, final GrammarParser grammarParser) {
-		super();
 		this.searchService = searchService;
 		this.em = em;
 		this.clazz = clazz;
@@ -66,4 +65,8 @@ public class SearchableService {
 		return sq.getCriteria((List<Node<?>>) (Object) nodes, clazz);
 	}
 
+	public <U> List<U> query(final Class<U> clazz, final String filter) {
+		final SearchQueryer sq = new SearchQueryer(em, grammarParser);
+		return sq.getCriteria(filter, clazz);
+	}
 }

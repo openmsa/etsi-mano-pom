@@ -31,12 +31,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-import javax.persistence.EntityManager;
-
 import org.eclipse.jdt.annotation.NonNull;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.dao.mano.InstantiationState;
 import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
@@ -57,11 +58,9 @@ import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.VnfScalingLevelMapping;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.VnfScalingStepMapping;
 import com.ubiqube.etsi.mano.dao.mano.v2.PlanOperationType;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
-import com.ubiqube.etsi.mano.grammar.GrammarParser;
 import com.ubiqube.etsi.mano.nfvo.factory.LcmFactory;
 import com.ubiqube.etsi.mano.nfvo.service.NsInstanceService;
 import com.ubiqube.etsi.mano.nfvo.service.NsdPackageService;
-import com.ubiqube.etsi.mano.service.ManoSearchResponseService;
 import com.ubiqube.etsi.mano.service.NsBlueprintService;
 import com.ubiqube.etsi.mano.service.SearchableService;
 import com.ubiqube.etsi.mano.service.event.ActionType;
@@ -70,7 +69,7 @@ import com.ubiqube.etsi.mano.service.event.EventManager;
 import ma.glasnost.orika.MapperFacade;
 
 @Service
-public class NsInstanceControllerServiceImpl extends SearchableService implements NsInstanceControllerService {
+public class NsInstanceControllerServiceImpl implements NsInstanceControllerService {
 
 	private final NsdPackageService nsdPackageService;
 
@@ -79,17 +78,19 @@ public class NsInstanceControllerServiceImpl extends SearchableService implement
 	private final EventManager eventManager;
 
 	private final MapperFacade mapper;
+
 	private final NsBlueprintService nsBlueprintService;
 
+	private final SearchableService searchableService;
+
 	public NsInstanceControllerServiceImpl(final NsdPackageService nsdPackageService, final NsInstanceService nsInstanceService, final EventManager eventManager,
-			final MapperFacade mapper, final NsBlueprintService nsBlueprintService, final EntityManager em, final ManoSearchResponseService searchService,
-			final GrammarParser grammarParser) {
-		super(searchService, em, NsdInstance.class, grammarParser);
+			final MapperFacade mapper, final NsBlueprintService nsBlueprintService, final SearchableService searchableService) {
 		this.nsdPackageService = nsdPackageService;
 		this.nsInstanceService = nsInstanceService;
 		this.eventManager = eventManager;
 		this.mapper = mapper;
 		this.nsBlueprintService = nsBlueprintService;
+		this.searchableService = searchableService;
 	}
 
 	@Override
@@ -230,5 +231,10 @@ public class NsInstanceControllerServiceImpl extends SearchableService implement
 		ensureInstantiated(nsInstanceDb);
 		ensureNotLocked(nsInstanceDb);
 		return LcmFactory.createNsLcmOpOcc(nsInstanceDb, pt);
+	}
+
+	@Override
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink) {
+		return searchableService.search(requestParams, clazz, excludeDefaults, mandatoryFields, makeLink);
 	}
 }

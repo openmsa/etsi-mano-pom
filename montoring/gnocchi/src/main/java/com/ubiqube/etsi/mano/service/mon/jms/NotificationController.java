@@ -52,8 +52,6 @@ public class NotificationController {
 				.flatMap(x -> gnocchiSubTelemetry.getMetricsForVnfc(vimManager.findVimById(job.getVimId()), x, job.getMetrics(), job.getId()).stream())
 				.toList();
 		// Now we have a batch of metrics. Send to data poller.
-		allHostMetrics.forEach(x -> {
-			jmsTopicTemplate.convertAndSend("mano.monitoring.gnocchi.data", x);
-		});
+		allHostMetrics.forEach(x -> jmsTopicTemplate.convertAndSend("mano.monitoring.gnocchi.data", x));
 	}
 }

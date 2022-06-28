@@ -16,17 +16,17 @@
  */
 package com.ubiqube.etsi.mano.vnfm.controller.vnfpm;
 
+import java.util.Set;
 import java.util.UUID;
+import java.util.function.Consumer;
 
-import javax.persistence.EntityManager;
-
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.dao.mano.pm.PerformanceReport;
 import com.ubiqube.etsi.mano.dao.mano.pm.PmJob;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
-import com.ubiqube.etsi.mano.grammar.GrammarParser;
-import com.ubiqube.etsi.mano.service.ManoSearchResponseService;
 import com.ubiqube.etsi.mano.service.SearchableService;
 import com.ubiqube.etsi.mano.vnfm.service.PmJobsService;
 
@@ -36,12 +36,13 @@ import com.ubiqube.etsi.mano.vnfm.service.PmJobsService;
  *
  */
 @Service
-public class VnfmPmControllerImpl extends SearchableService implements VnfmPmController {
+public class VnfmPmControllerImpl implements VnfmPmController {
 	private final PmJobsService pmJobsJpa;
+	private final SearchableService searchableService;
 
-	public VnfmPmControllerImpl(final PmJobsService pmJobsJpa, final EntityManager em, final ManoSearchResponseService searchService, final GrammarParser grammarParser) {
-		super(searchService, em, PmJob.class, grammarParser);
+	public VnfmPmControllerImpl(final PmJobsService pmJobsJpa, final SearchableService searchableService) {
 		this.pmJobsJpa = pmJobsJpa;
+		this.searchableService = searchableService;
 	}
 
 	@Override
@@ -64,6 +65,11 @@ public class VnfmPmControllerImpl extends SearchableService implements VnfmPmCon
 	@Override
 	public PmJob save(final PmJob res) {
 		return pmJobsJpa.save(res);
+	}
+
+	@Override
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink) {
+		return searchableService.search(requestParams, clazz, excludeDefaults, mandatoryFields, makeLink);
 	}
 
 }

@@ -22,8 +22,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-import javax.persistence.EntityManager;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
@@ -31,8 +29,6 @@ import org.springframework.util.MultiValueMap;
 import com.ubiqube.etsi.mano.dao.mano.policy.Policies;
 import com.ubiqube.etsi.mano.dao.mano.policy.PolicyVersion;
 import com.ubiqube.etsi.mano.exception.GenericException;
-import com.ubiqube.etsi.mano.grammar.GrammarParser;
-import com.ubiqube.etsi.mano.service.ManoSearchResponseService;
 import com.ubiqube.etsi.mano.service.PolicyService;
 import com.ubiqube.etsi.mano.service.SearchableService;
 
@@ -42,13 +38,14 @@ import com.ubiqube.etsi.mano.service.SearchableService;
  *
  */
 @Service
-public class PolicyControllerImpl extends SearchableService implements PolicyController {
+public class PolicyControllerImpl implements PolicyController {
 
 	private final PolicyService policyService;
+	private final SearchableService searchableService;
 
-	public PolicyControllerImpl(final EntityManager em, final ManoSearchResponseService searchService, final PolicyService policyService, final GrammarParser grammarParser) {
-		super(searchService, em, Policies.class, grammarParser);
+	public PolicyControllerImpl(final PolicyService policyService, final SearchableService searchableService) {
 		this.policyService = policyService;
+		this.searchableService = searchableService;
 	}
 
 	@Override
@@ -119,7 +116,7 @@ public class PolicyControllerImpl extends SearchableService implements PolicyCon
 
 	@Override
 	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final Consumer<U> makeLinks) {
-		return search(requestParams, clazz, null, null, makeLinks);
+		return searchableService.search(requestParams, clazz, null, null, makeLinks);
 	}
 
 }

@@ -19,11 +19,12 @@ package com.ubiqube.etsi.mano.nfvo.controller.vnf;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
+import java.util.function.Consumer;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import javax.persistence.EntityManager;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -34,6 +35,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.MediaTypeFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.Constants;
 import com.ubiqube.etsi.mano.controller.MetaStreamResource;
@@ -41,10 +43,8 @@ import com.ubiqube.etsi.mano.controller.vnf.VnfPackageManagement;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
-import com.ubiqube.etsi.mano.grammar.GrammarParser;
 import com.ubiqube.etsi.mano.repository.ManoResource;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
-import com.ubiqube.etsi.mano.service.ManoSearchResponseService;
 import com.ubiqube.etsi.mano.service.SearchableService;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
 
@@ -57,19 +57,19 @@ import ma.glasnost.orika.MapperFacade;
  *
  */
 @Service
-public class VnfManagement extends SearchableService implements VnfPackageManagement {
+public class VnfManagement implements VnfPackageManagement {
 	private static final Logger LOG = LoggerFactory.getLogger(VnfManagement.class);
 
 	private final VnfPackageRepository vnfPackageRepository;
 	private final VnfPackageService vnfPackageService;
 	private final MapperFacade mapper;
+	private final SearchableService searchableService;
 
-	public VnfManagement(final VnfPackageRepository vnfPackageRepository, final MapperFacade mapper, final VnfPackageService vnfPackageService, final EntityManager em,
-			final ManoSearchResponseService searchService, final GrammarParser grammarParser) {
-		super(searchService, em, VnfPackage.class, grammarParser);
+	public VnfManagement(final VnfPackageRepository vnfPackageRepository, final MapperFacade mapper, final VnfPackageService vnfPackageService, final SearchableService searchableService) {
 		this.vnfPackageRepository = vnfPackageRepository;
 		this.mapper = mapper;
 		this.vnfPackageService = vnfPackageService;
+		this.searchableService = searchableService;
 		LOG.info("Starting VNF Package Management For NFVO+VNFM or NFVO Only Management.");
 	}
 
@@ -188,5 +188,10 @@ public class VnfManagement extends SearchableService implements VnfPackageManage
 	public <U> U vnfPackagesVnfPkgVnfdIdGet(final UUID vnfdId, final Class<U> clazz) {
 		final VnfPackage vnfPackage = vnfPackageService.findByVnfdId(vnfdId);
 		return mapper.map(vnfPackage, clazz);
+	}
+
+	@Override
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink) {
+		return searchableService.search(requestParams, clazz, excludeDefaults, mandatoryFields, makeLink);
 	}
 }

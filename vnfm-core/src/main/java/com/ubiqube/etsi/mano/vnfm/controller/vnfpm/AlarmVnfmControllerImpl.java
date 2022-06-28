@@ -17,13 +17,16 @@
 package com.ubiqube.etsi.mano.vnfm.controller.vnfpm;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
+import java.util.function.Consumer;
 
-import javax.persistence.EntityManager;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.dao.mano.alarm.AckState;
 import com.ubiqube.etsi.mano.dao.mano.alarm.Alarms;
@@ -31,9 +34,7 @@ import com.ubiqube.etsi.mano.dao.mano.alarm.PerceivedSeverityType;
 import com.ubiqube.etsi.mano.exception.ConflictException;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.exception.PreConditionException;
-import com.ubiqube.etsi.mano.grammar.GrammarParser;
 import com.ubiqube.etsi.mano.service.AlarmVnfmController;
-import com.ubiqube.etsi.mano.service.ManoSearchResponseService;
 import com.ubiqube.etsi.mano.service.SearchableService;
 import com.ubiqube.etsi.mano.vnfm.service.AlarmService;
 
@@ -43,12 +44,13 @@ import com.ubiqube.etsi.mano.vnfm.service.AlarmService;
  *
  */
 @Service
-public class AlarmVnfmControllerImpl extends SearchableService implements AlarmVnfmController {
+public class AlarmVnfmControllerImpl implements AlarmVnfmController {
 
 	private final AlarmService alarmsJpa;
+	private final SearchableService searchableService;
 
-	public AlarmVnfmControllerImpl(final EntityManager em, final AlarmService alarmsJpa, final ManoSearchResponseService searchService, final GrammarParser grammarParser) {
-		super(searchService, em, Alarms.class, grammarParser);
+	public AlarmVnfmControllerImpl(final SearchableService searchableService, final AlarmService alarmsJpa) {
+		this.searchableService = searchableService;
 		this.alarmsJpa = alarmsJpa;
 	}
 
@@ -67,7 +69,7 @@ public class AlarmVnfmControllerImpl extends SearchableService implements AlarmV
 	@Override
 	public Alarms modify(final UUID id, final AckState acknowledged, final String ifMatch) {
 		final Alarms alarm = findById(id);
-		if (ifMatch != null && !ifMatch.equals(alarm.getVersion() + "")) {
+		if ((ifMatch != null) && !ifMatch.equals(alarm.getVersion() + "")) {
 			throw new PreConditionException(ifMatch + " does not match " + alarm.getVersion());
 		}
 		if (alarm.getAckState() == acknowledged) {
@@ -76,6 +78,11 @@ public class AlarmVnfmControllerImpl extends SearchableService implements AlarmV
 		alarm.setAckState(acknowledged);
 		alarm.setAlarmAcknowledgedTime(LocalDateTime.now());
 		return alarmsJpa.save(alarm);
+	}
+
+	@Override
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink) {
+		return searchableService.search(requestParams, clazz, excludeDefaults, mandatoryFields, makeLink);
 	}
 
 }

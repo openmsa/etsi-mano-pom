@@ -23,6 +23,7 @@ import javax.transaction.Transactional.TxType;
 
 import org.springframework.stereotype.Service;
 
+import com.ubiqube.etsi.mano.service.event.GrantAction;
 import com.ubiqube.etsi.mano.service.event.GrantActionDispatcher;
 
 /**
@@ -36,7 +37,6 @@ public class GrantActionDispatcherImpl implements GrantActionDispatcher {
 	private final GrantAction grantAction;
 
 	public GrantActionDispatcherImpl(final GrantAction grantAction) {
-		super();
 		this.grantAction = grantAction;
 	}
 

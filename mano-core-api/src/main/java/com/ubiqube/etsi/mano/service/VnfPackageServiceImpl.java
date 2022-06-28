@@ -19,15 +19,12 @@ package com.ubiqube.etsi.mano.service;
 import java.util.Optional;
 import java.util.UUID;
 
-import javax.persistence.EntityManager;
-
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.OnboardingStateType;
 import com.ubiqube.etsi.mano.dao.mano.PackageUsageState;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
-import com.ubiqube.etsi.mano.grammar.GrammarParser;
 import com.ubiqube.etsi.mano.jpa.VnfInstanceJpa;
 import com.ubiqube.etsi.mano.jpa.VnfPackageJpa;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
@@ -38,19 +35,21 @@ import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
  *
  */
 @Service
-public class VnfPackageServiceImpl extends SearchableService implements VnfPackageService {
+public class VnfPackageServiceImpl implements VnfPackageService {
 	private final VnfPackageRepository vnfPackageRepository;
 
 	private final VnfPackageJpa vnfPackageJpa;
 
 	private final VnfInstanceJpa vnfInstanceJpa;
 
-	public VnfPackageServiceImpl(final VnfPackageJpa vnfPackageJpa, final EntityManager em, final ManoSearchResponseService searchService, final VnfInstanceJpa vnfInstanceJpa,
-			final GrammarParser grammarParser, final VnfPackageRepository vnfPackageRepository) {
-		super(searchService, em, VnfPackage.class, grammarParser);
+	private final SearchableService searchableService;
+
+	public VnfPackageServiceImpl(final VnfPackageJpa vnfPackageJpa, final VnfInstanceJpa vnfInstanceJpa,
+			final VnfPackageRepository vnfPackageRepository, final SearchableService searchableService) {
 		this.vnfPackageJpa = vnfPackageJpa;
 		this.vnfInstanceJpa = vnfInstanceJpa;
 		this.vnfPackageRepository = vnfPackageRepository;
+		this.searchableService = searchableService;
 	}
 
 	@Override

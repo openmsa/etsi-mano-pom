@@ -17,20 +17,19 @@
 package com.ubiqube.etsi.mano.vnfm.service;
 
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
+import java.util.function.Consumer;
 
-import javax.persistence.EntityManager;
-
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 
-import com.ubiqube.etsi.mano.dao.mano.pm.PmJob;
 import com.ubiqube.etsi.mano.dao.mano.pm.Threshold;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
-import com.ubiqube.etsi.mano.grammar.GrammarParser;
 import com.ubiqube.etsi.mano.jpa.ThresholdJpa;
-import com.ubiqube.etsi.mano.service.ManoSearchResponseService;
 import com.ubiqube.etsi.mano.service.SearchableService;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
@@ -44,7 +43,7 @@ import com.ubiqube.etsi.mano.vnfm.jpa.VnfBlueprintJpa;
  *
  */
 @Service
-public class VnfmThresholdControllerDirectVim extends SearchableService implements VnfmThresholdController {
+public class VnfmThresholdControllerDirectVim implements VnfmThresholdController {
 
 	private final ThresholdJpa thresholdJpa;
 
@@ -52,12 +51,13 @@ public class VnfmThresholdControllerDirectVim extends SearchableService implemen
 
 	private final VimManager vimManager;
 
-	public VnfmThresholdControllerDirectVim(final EntityManager em, final ThresholdJpa thresholdJpa, final ManoSearchResponseService searchService, final VnfBlueprintJpa vnfBlueprintJpa,
-			final VimManager vimManager, final GrammarParser grammarParser) {
-		super(searchService, em, PmJob.class, grammarParser);
+	private final SearchableService searchableService;
+
+	public VnfmThresholdControllerDirectVim(final ThresholdJpa thresholdJpa, final VnfBlueprintJpa vnfBlueprintJpa, final VimManager vimManager, final SearchableService searchableService) {
 		this.thresholdJpa = thresholdJpa;
 		this.vnfBlueprintJpa = vnfBlueprintJpa;
 		this.vimManager = vimManager;
+		this.searchableService = searchableService;
 	}
 
 	@Override
@@ -90,6 +90,11 @@ public class VnfmThresholdControllerDirectVim extends SearchableService implemen
 	@Override
 	public Threshold findById(final UUID id) {
 		return thresholdJpa.findById(id).orElseThrow(() -> new NotFoundException("Could not find Threshold: " + id));
+	}
+
+	@Override
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink) {
+		return searchableService.search(requestParams, clazz, excludeDefaults, mandatoryFields, makeLink);
 	}
 
 }

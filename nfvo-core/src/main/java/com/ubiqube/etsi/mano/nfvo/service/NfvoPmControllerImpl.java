@@ -16,19 +16,19 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service;
 
+import java.util.Set;
 import java.util.UUID;
+import java.util.function.Consumer;
 
-import javax.persistence.EntityManager;
-
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.controller.nspm.NfvoPmController;
 import com.ubiqube.etsi.mano.dao.mano.pm.PerformanceReport;
 import com.ubiqube.etsi.mano.dao.mano.pm.PmJob;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
-import com.ubiqube.etsi.mano.grammar.GrammarParser;
 import com.ubiqube.etsi.mano.jpa.PmJobsJpa;
-import com.ubiqube.etsi.mano.service.ManoSearchResponseService;
 import com.ubiqube.etsi.mano.service.SearchableService;
 
 /**
@@ -37,11 +37,12 @@ import com.ubiqube.etsi.mano.service.SearchableService;
  *
  */
 @Service
-public class NfvoPmControllerImpl extends SearchableService implements NfvoPmController {
+public class NfvoPmControllerImpl implements NfvoPmController {
 	private final PmJobsJpa pmJobsJpa;
+	private final SearchableService searchableService;
 
-	public NfvoPmControllerImpl(final ManoSearchResponseService searchService, final EntityManager em, final PmJobsJpa pmJobsJpa, final GrammarParser grammarParser) {
-		super(searchService, em, PmJob.class, grammarParser);
+	public NfvoPmControllerImpl(final SearchableService searchableService, final PmJobsJpa pmJobsJpa) {
+		this.searchableService = searchableService;
 		this.pmJobsJpa = pmJobsJpa;
 	}
 
@@ -66,6 +67,11 @@ public class NfvoPmControllerImpl extends SearchableService implements NfvoPmCon
 	@Override
 	public PmJob save(final PmJob res) {
 		return pmJobsJpa.save(res);
+	}
+
+	@Override
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink) {
+		return searchableService.search(requestParams, clazz, excludeDefaults, mandatoryFields, makeLink);
 	}
 
 }

@@ -41,13 +41,13 @@ public interface Linkable {
 	 */
 	void makeLinks(VnfPkgInfo vnfPkgInfo);
 
-	String getSelfLink(VnfPkgInfo _vnfPkgInfo);
+	String getSelfLink(VnfPkgInfo vnfPkgInfo);
 
-	PkgmLinks createNotificationLink(@Nonnull UUID _vnfPkgId, UUID _subscriptionId);
+	PkgmLinks createNotificationLink(@Nonnull UUID vnfPkgId, UUID subscriptionId);
 
-	PkgmLinks createVnfPackageOnboardingNotificationLinks(@Nonnull UUID _vnfPkgId, UUID _subscriptionId);
+	PkgmLinks createVnfPackageOnboardingNotificationLinks(@Nonnull UUID vnfPkgId, UUID subscriptionId);
 
-	PkgmSubscriptionLinks createSubscriptionsPkgmSubscriptionLinks(@Nonnull String _subscriptionId);
+	PkgmSubscriptionLinks createSubscriptionsPkgmSubscriptionLinks(@Nonnull String subscriptionId);
 
 	void makeSubscriptionLink(final PkgmSubscription pkgmSubscription);
 }

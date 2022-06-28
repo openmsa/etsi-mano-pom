@@ -19,17 +19,18 @@ package com.ubiqube.etsi.mano.service.graph;
 import org.jgrapht.ListenableGraph;
 import org.jgrapht.graph.DefaultListenableGraph;
 import org.jgrapht.graph.DirectedAcyclicGraph;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.ubiqube.etsi.mano.orchestrator.nodes.ConnectivityEdge;
 import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
 import com.ubiqube.etsi.mano.orchestrator.nodes.NodeConnectivity;
 import com.ubiqube.etsi.mano.service.graph.vnfm.EdgeListener;
 
+/**
+ *
+ * @author olivier
+ *
+ */
 public class GraphTools {
-
-	private static final Logger LOG = LoggerFactory.getLogger(GraphTools.class);
 
 	private GraphTools() {
 		// Nothing.

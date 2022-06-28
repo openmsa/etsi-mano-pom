@@ -17,11 +17,13 @@
 package com.ubiqube.etsi.mano.nfvo.service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.function.Consumer;
 
-import javax.persistence.EntityManager;
-
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.dao.mano.NsLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.NsSap;
@@ -32,10 +34,8 @@ import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVirtualLink;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
-import com.ubiqube.etsi.mano.grammar.GrammarParser;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsBlueprintJpa;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsLiveInstanceJpa;
-import com.ubiqube.etsi.mano.service.ManoSearchResponseService;
 import com.ubiqube.etsi.mano.service.NsBlueprintService;
 import com.ubiqube.etsi.mano.service.SearchableService;
 
@@ -45,17 +45,18 @@ import com.ubiqube.etsi.mano.service.SearchableService;
  *
  */
 @Service
-public class NsBlueprintServiceImpl extends SearchableService implements NsBlueprintService {
+public class NsBlueprintServiceImpl implements NsBlueprintService {
 
 	private final NsBlueprintJpa nsBlueprintJpa;
 
 	private final NsLiveInstanceJpa nsLiveInstanceJpa;
 
-	public NsBlueprintServiceImpl(final NsBlueprintJpa nsBlueprintJpa, final NsLiveInstanceJpa nsLiveInstanceJpa, final EntityManager em, final ManoSearchResponseService searchService,
-			final GrammarParser grammarParser) {
-		super(searchService, em, NsBlueprint.class, grammarParser);
+	private final SearchableService searchableService;
+
+	public NsBlueprintServiceImpl(final NsBlueprintJpa nsBlueprintJpa, final NsLiveInstanceJpa nsLiveInstanceJpa, final SearchableService searchableService) {
 		this.nsBlueprintJpa = nsBlueprintJpa;
 		this.nsLiveInstanceJpa = nsLiveInstanceJpa;
+		this.searchableService = searchableService;
 	}
 
 	@Override
@@ -94,6 +95,11 @@ public class NsBlueprintServiceImpl extends SearchableService implements NsBluep
 	@Override
 	public long countByNsInstance(final NsdInstance ret) {
 		return nsLiveInstanceJpa.countByNsInstance(ret);
+	}
+
+	@Override
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink) {
+		return searchableService.search(requestParams, clazz, excludeDefaults, mandatoryFields, makeLink);
 	}
 
 }
