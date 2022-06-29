@@ -24,7 +24,6 @@ import com.ubiqube.etsi.mano.common.v261.VnfSubscriptionFactory261;
 import com.ubiqube.etsi.mano.common.v261.model.vnf.PackageOperationalStateType;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.model.EventMessage;
-import com.ubiqube.etsi.mano.nfvo.v261.services.Sol003Linkable;
 import com.ubiqube.etsi.mano.nfvo.v261.services.Sol005Linkable;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 import com.ubiqube.etsi.mano.service.NfvoFactory;
@@ -39,16 +38,13 @@ public class NfvoFactory261Nfvo implements NfvoFactory {
 	private final VnfPackageRepository vnfPackageRepository;
 
 	public NfvoFactory261Nfvo(final VnfPackageRepository vnfPackageRepository) {
-		super();
 		this.vnfPackageRepository = vnfPackageRepository;
 	}
 
 	@Override
 	public Object createNotificationVnfPackageOnboardingNotification(final UUID subcriptionId, final EventMessage event) {
 		final VnfPackage vnfPkg = vnfPackageRepository.get(event.getObjectId());
-		final var obj = VnfSubscriptionFactory261.createNotificationVnfPackageOnboardingNotification(event.getId(), subcriptionId, event.getObjectId(), vnfPkg.getVnfdId(), new Sol003Linkable());
-		obj.setLinks(new Sol005Linkable().createVnfPackageOnboardingNotificationLinks(vnfPkg.getId(), subcriptionId));
-		return obj;
+		return VnfSubscriptionFactory261.createNotificationVnfPackageOnboardingNotification(event.getId(), subcriptionId, event.getObjectId(), vnfPkg.getVnfdId(), new Sol005Linkable());
 	}
 
 	@Override
@@ -59,10 +55,8 @@ public class NfvoFactory261Nfvo implements NfvoFactory {
 		} catch (final RuntimeException e) {
 			deleted = true;
 		}
-		final var obj = VnfSubscriptionFactory261.createVnfPackageChangeNotification(deleted, subscriptionId, event.getId(), event.getObjectId(), event.getAdditionalParameters().get("vnfdId"),
-				PackageOperationalStateType.fromValue(event.getAdditionalParameters().get("state")), new Sol003Linkable());
-		obj.setLinks(new Sol005Linkable().createNotificationLink(event.getObjectId(), subscriptionId));
-		return obj;
+		return VnfSubscriptionFactory261.createVnfPackageChangeNotification(deleted, subscriptionId, event.getId(), event.getObjectId(), event.getAdditionalParameters().get("vnfdId"),
+				PackageOperationalStateType.fromValue(event.getAdditionalParameters().get("state")), new Sol005Linkable());
 	}
 
 }

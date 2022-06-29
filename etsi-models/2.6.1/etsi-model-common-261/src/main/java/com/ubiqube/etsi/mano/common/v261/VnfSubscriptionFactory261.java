@@ -54,7 +54,7 @@ public class VnfSubscriptionFactory261 {
 		ret.setTimeStamp(OffsetDateTime.now());
 		ret.setVnfdId(vnfdId);
 		ret.setVnfPkgId(vnfPkgId.toString());
-		ret.setLinks(links.createNotificationLink(vnfPkgId, subscriptionId));
+		ret.setLinks(links.createVnfPackageOnboardingNotificationLinks(vnfPkgId, vnfdId, subscriptionId));
 		return ret;
 	}
 
@@ -67,7 +67,7 @@ public class VnfSubscriptionFactory261 {
 		ret.setSubscriptionId(subscriptionId.toString());
 		ret.setVnfPkgId(vnfPkgId.toString());
 		ret.setVnfdId(vnfdId);
-		ret.setLinks(links.createVnfPackageOnboardingNotificationLinks(vnfPkgId, subscriptionId));
+		ret.setLinks(links.createVnfPackageOnboardingNotificationLinks(vnfPkgId, vnfdId, subscriptionId));
 		return ret;
 	}
 }

@@ -52,7 +52,7 @@ public class Sol003Linkable implements Linkable {
 	}
 
 	@Override
-	public PkgmLinks createNotificationLink(final UUID vnfPkgId, final UUID subscriptionId) {
+	public PkgmLinks createVnfPackageOnboardingNotificationLinks(final UUID vnfPkgId, final String vnfdId, final UUID subscriptionId) {
 		final PkgmLinks ret = new PkgmLinks();
 		final Link subscription = createVnfPackagesVnfPkgInfoLinksSelf(
 				linkTo(methodOn(VnfSubscription261Sol003Api.class).subscriptionsSubscriptionIdGet(subscriptionId.toString())).withSelfRel().getHref());
@@ -61,21 +61,11 @@ public class Sol003Linkable implements Linkable {
 		final Link vnfPackage = createVnfPackagesVnfPkgInfoLinksSelf(
 				linkTo(methodOn(VnfPackage261Sol003Api.class).vnfPackagesVnfPkgIdGet(vnfPkgId.toString())).withSelfRel().getHref());
 		ret.setVnfPackage(vnfPackage);
+
+		final Link vnfVnfdId = createVnfPackagesVnfPkgInfoLinksSelf(
+				linkTo(methodOn(VnfPackage261Sol003Api.class).vnfPackagesVnfPkgIdVnfdGet(vnfdId, null)).withSelfRel().getHref());
+		ret.setVnfPackageByVnfdId(vnfVnfdId);
 		return ret;
-	}
-
-	@Override
-	public PkgmLinks createVnfPackageOnboardingNotificationLinks(final UUID vnfPkgId, final UUID subscriptionId) {
-		final PkgmLinks vnfPackageOnboardingNotificationLinks = new PkgmLinks();
-		final Link subscription = createVnfPackagesVnfPkgInfoLinksSelf(
-				linkTo(methodOn(VnfSubscription261Sol003Api.class).subscriptionsSubscriptionIdGet(subscriptionId.toString())).withSelfRel().getHref());
-		vnfPackageOnboardingNotificationLinks.setSubscription(subscription);
-
-		final Link vnfPackage = createVnfPackagesVnfPkgInfoLinksSelf(
-				linkTo(methodOn(VnfPackage261Sol003Api.class).vnfPackagesVnfPkgIdGet(vnfPkgId.toString())).withSelfRel().getHref());
-		vnfPackageOnboardingNotificationLinks.setVnfPackage(vnfPackage);
-
-		return null;
 	}
 
 	private static Link createVnfPackagesVnfPkgInfoLinksSelf(final String href) {

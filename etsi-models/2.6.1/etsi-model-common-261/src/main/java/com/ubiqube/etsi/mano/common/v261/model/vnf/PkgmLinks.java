@@ -29,16 +29,19 @@ import com.ubiqube.etsi.mano.common.v261.model.Link;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-
 /**
  * This type represents the links to resources that a VNF package management
  * notification can contain.
  */
-@Schema(description = "This type represents the links to resources that a VNF package management notification can contain.   ")
+@Schema(description = "This type represents the links to resources that a VNF package management notification can contain. ")
 @Validated
+
 public class PkgmLinks {
 	@JsonProperty("vnfPackage")
 	private Link vnfPackage = null;
+
+	@JsonProperty("vnfPackageByVnfdId")
+	private Link vnfPackageByVnfdId = null;
 
 	@JsonProperty("subscription")
 	private Link subscription = null;
@@ -49,17 +52,14 @@ public class PkgmLinks {
 	}
 
 	/**
-	 * Link to the resource representing the VNF package to which the notified
-	 * change applies, i.e. the individual on boarded VNF package resource that
-	 * represents the VNF package.
+	 * Get vnfPackage
 	 *
 	 * @return vnfPackage
 	 **/
-	@Schema(required = true, description = "Link to the resource representing the VNF package to which the notified change applies, i.e. the individual on boarded VNF package resource that represents the VNF package. ")
+	@Schema(required = true, description = "")
 	@NotNull
 
 	@Valid
-
 	public Link getVnfPackage() {
 		return vnfPackage;
 	}
@@ -68,21 +68,41 @@ public class PkgmLinks {
 		this.vnfPackage = vnfPackage;
 	}
 
+	public PkgmLinks vnfPackageByVnfdId(final Link vnfPackageByVnfdId) {
+		this.vnfPackageByVnfdId = vnfPackageByVnfdId;
+		return this;
+	}
+
+	/**
+	 * Get vnfPackageByVnfdId
+	 *
+	 * @return vnfPackageByVnfdId
+	 **/
+	@Schema(description = "")
+
+	@Valid
+	public Link getVnfPackageByVnfdId() {
+		return vnfPackageByVnfdId;
+	}
+
+	public void setVnfPackageByVnfdId(final Link vnfPackageByVnfdId) {
+		this.vnfPackageByVnfdId = vnfPackageByVnfdId;
+	}
+
 	public PkgmLinks subscription(final Link subscription) {
 		this.subscription = subscription;
 		return this;
 	}
 
 	/**
-	 * Link to the related subscription.
+	 * Get subscription
 	 *
 	 * @return subscription
 	 **/
-	@Schema(required = true, description = "Link to the related subscription. ")
+	@Schema(required = true, description = "")
 	@NotNull
 
 	@Valid
-
 	public Link getSubscription() {
 		return subscription;
 	}
@@ -101,12 +121,13 @@ public class PkgmLinks {
 		}
 		final PkgmLinks pkgmLinks = (PkgmLinks) o;
 		return Objects.equals(this.vnfPackage, pkgmLinks.vnfPackage) &&
+				Objects.equals(this.vnfPackageByVnfdId, pkgmLinks.vnfPackageByVnfdId) &&
 				Objects.equals(this.subscription, pkgmLinks.subscription);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(vnfPackage, subscription);
+		return Objects.hash(vnfPackage, vnfPackageByVnfdId, subscription);
 	}
 
 	@Override
@@ -115,6 +136,7 @@ public class PkgmLinks {
 		sb.append("class PkgmLinks {\n");
 
 		sb.append("    vnfPackage: ").append(toIndentedString(vnfPackage)).append("\n");
+		sb.append("    vnfPackageByVnfdId: ").append(toIndentedString(vnfPackageByVnfdId)).append("\n");
 		sb.append("    subscription: ").append(toIndentedString(subscription)).append("\n");
 		sb.append("}");
 		return sb.toString();
