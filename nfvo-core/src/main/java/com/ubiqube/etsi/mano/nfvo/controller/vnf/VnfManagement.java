@@ -192,6 +192,6 @@ public class VnfManagement implements VnfPackageManagement {
 
 	@Override
 	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink) {
-		return searchableService.search(requestParams, clazz, excludeDefaults, mandatoryFields, makeLink);
+		return searchableService.search(VnfPackage.class, requestParams, clazz, excludeDefaults, mandatoryFields, makeLink);
 	}
 }
