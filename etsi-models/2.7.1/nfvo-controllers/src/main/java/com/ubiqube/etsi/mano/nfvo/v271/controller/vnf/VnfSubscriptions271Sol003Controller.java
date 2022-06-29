@@ -37,11 +37,11 @@ import com.ubiqube.etsi.mano.model.v271.sol003.vnf.PkgmSubscriptionRequest;
  */
 @RestController
 public class VnfSubscriptions271Sol003Controller implements VnfSubscriptions271Sol003Api {
-	private final VnfSubscriptionSol003FrontController vnfSubscriptionSol03FrontController;
+	private final VnfSubscriptionSol003FrontController vnfSubscriptionSol003FrontController;
 
 	public VnfSubscriptions271Sol003Controller(final VnfSubscriptionSol003FrontController vnfSubscriptionSol03FrontController) {
 		super();
-		this.vnfSubscriptionSol03FrontController = vnfSubscriptionSol03FrontController;
+		this.vnfSubscriptionSol003FrontController = vnfSubscriptionSol03FrontController;
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class VnfSubscriptions271Sol003Controller implements VnfSubscriptions271S
 	 */
 	@Override
 	public ResponseEntity<List<PkgmSubscription>> subscriptionsGet(final String filter) {
-		return vnfSubscriptionSol03FrontController.search(filter, PkgmSubscription.class, VnfSubscriptions271Sol003Controller::makeLinks);
+		return vnfSubscriptionSol003FrontController.search(filter, PkgmSubscription.class, VnfSubscriptions271Sol003Controller::makeLinks);
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class VnfSubscriptions271Sol003Controller implements VnfSubscriptions271S
 	 */
 	@Override
 	public ResponseEntity<PkgmSubscription> subscriptionsPost(final PkgmSubscriptionRequest subscriptionsPostQuery) {
-		return vnfSubscriptionSol03FrontController.create(subscriptionsPostQuery, PkgmSubscription.class, VnfSubscriptions271Sol003Controller::makeLinks);
+		return vnfSubscriptionSol003FrontController.create(subscriptionsPostQuery, PkgmSubscription.class, VnfSubscriptions271Sol003Controller::makeLinks);
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class VnfSubscriptions271Sol003Controller implements VnfSubscriptions271S
 	 */
 	@Override
 	public ResponseEntity<Void> subscriptionsSubscriptionIdDelete(final String subscriptionId) {
-		return vnfSubscriptionSol03FrontController.delete(subscriptionId);
+		return vnfSubscriptionSol003FrontController.delete(subscriptionId);
 	}
 
 	/**
@@ -102,7 +102,7 @@ public class VnfSubscriptions271Sol003Controller implements VnfSubscriptions271S
 	 */
 	@Override
 	public ResponseEntity<PkgmSubscription> subscriptionsSubscriptionIdGet(final String subscriptionId) {
-		return vnfSubscriptionSol03FrontController.findById(subscriptionId, PkgmSubscription.class, VnfSubscriptions271Sol003Controller::makeLinks);
+		return vnfSubscriptionSol003FrontController.findById(subscriptionId, PkgmSubscription.class, VnfSubscriptions271Sol003Controller::makeLinks);
 	}
 
 	public static void makeLinks(final PkgmSubscription pkgmSubscription) {
