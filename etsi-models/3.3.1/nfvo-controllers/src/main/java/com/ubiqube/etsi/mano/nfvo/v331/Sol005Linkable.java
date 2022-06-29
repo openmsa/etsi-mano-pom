@@ -16,10 +16,16 @@
  */
 package com.ubiqube.etsi.mano.nfvo.v331;
 
+import static com.ubiqube.etsi.mano.uri.ManoWebMvcLinkBuilder.linkTo;
+import static com.ubiqube.etsi.mano.uri.ManoWebMvcLinkBuilder.methodOn;
+
 import java.util.UUID;
 
 import com.ubiqube.etsi.mano.c331.services.Linkable;
 import com.ubiqube.etsi.mano.controller.FrontApiTypesEnum;
+import com.ubiqube.etsi.mano.nfvo.v331.controller.vnf.VnfPackages331Sol005Api;
+import com.ubiqube.etsi.mano.nfvo.v331.controller.vnf.VnfSubscriptions331Sol005Api;
+import com.ubiqube.etsi.mano.nfvo.v331.model.vnf.NotificationLink;
 import com.ubiqube.etsi.mano.nfvo.v331.model.vnf.PkgmLinks;
 import com.ubiqube.etsi.mano.nfvo.v331.model.vnf.PkgmSubscriptionLinks;
 import com.ubiqube.etsi.mano.nfvo.v331.model.vnf.VnfPkgInfo;
@@ -28,13 +34,13 @@ import com.ubiqube.etsi.mano.nfvo.v331.model.vnf.VnfPkgInfoLinks;
 public class Sol005Linkable implements Linkable {
 
 	@Override
-	public VnfPkgInfoLinks getVnfLinks(String vnfPkgId) {
+	public VnfPkgInfoLinks getVnfLinks(final String vnfPkgId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public PkgmSubscriptionLinks createSubscriptionsPkgmSubscriptionLinks(String subscriptionId) {
+	public PkgmSubscriptionLinks createSubscriptionsPkgmSubscriptionLinks(final String subscriptionId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -46,27 +52,38 @@ public class Sol005Linkable implements Linkable {
 	}
 
 	@Override
-	public void makeLinks(VnfPkgInfo vnfPkgInfo) {
+	public void makeLinks(final VnfPkgInfo vnfPkgInfo) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public String getSelfLink(VnfPkgInfo vnfPkgInfo) {
+	public String getSelfLink(final VnfPkgInfo vnfPkgInfo) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public PkgmLinks createNotificationLink(UUID vnfPkgId, UUID subscriptionId) {
-		// TODO Auto-generated method stub
-		return null;
+	public PkgmLinks createVnfPackageOnboardingNotificationLinks(final UUID vnfPkgId, final String vnfdId, final UUID subscriptionId) {
+		final PkgmLinks ret = new PkgmLinks();
+		final NotificationLink subscription = createVnfPackagesVnfPkgInfoLinksSelf(
+				linkTo(methodOn(VnfSubscriptions331Sol005Api.class).subscriptionsSubscriptionIdGet(subscriptionId.toString())).withSelfRel().getHref());
+		ret.setSubscription(subscription);
+
+		final NotificationLink vnfPackage = createVnfPackagesVnfPkgInfoLinksSelf(
+				linkTo(methodOn(VnfPackages331Sol005Api.class).vnfPackagesVnfPkgIdGet(vnfPkgId.toString())).withSelfRel().getHref());
+		ret.setVnfPackage(vnfPackage);
+
+		final NotificationLink vnfVnfdId = createVnfPackagesVnfPkgInfoLinksSelf(
+				linkTo(methodOn(VnfPackages331Sol005Api.class).vnfPackagesVnfPkgIdVnfdGet(vnfdId, null, null)).withSelfRel().getHref());
+		ret.setVnfPackageByVnfdId(vnfVnfdId);
+		return ret;
 	}
 
-	@Override
-	public PkgmLinks createVnfPackageOnboardingNotificationLinks(UUID vnfPkgId, UUID subscriptionId) {
-		// TODO Auto-generated method stub
-		return null;
+	private static NotificationLink createVnfPackagesVnfPkgInfoLinksSelf(final String _href) {
+		final NotificationLink link = new NotificationLink();
+		link.setHref(_href);
+		return link;
 	}
 
 }

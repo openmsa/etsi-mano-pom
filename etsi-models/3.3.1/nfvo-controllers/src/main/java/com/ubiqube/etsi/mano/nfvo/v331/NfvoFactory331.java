@@ -24,8 +24,6 @@ import com.ubiqube.etsi.mano.c331.services.NfvoFactory;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.model.EventMessage;
 import com.ubiqube.etsi.mano.nfvo.v331.model.vnf.PackageOperationalStateType;
-import com.ubiqube.etsi.mano.nfvo.v331.model.vnf.VnfPackageChangeNotification;
-import com.ubiqube.etsi.mano.nfvo.v331.model.vnf.VnfPackageOnboardingNotification;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 
 /**
@@ -38,16 +36,13 @@ public class NfvoFactory331 implements NfvoFactory {
 	private final VnfPackageRepository vnfPackageRepository;
 
 	public NfvoFactory331(final VnfPackageRepository vnfPackageRepository) {
-		super();
 		this.vnfPackageRepository = vnfPackageRepository;
 	}
 
 	@Override
 	public Object createNotificationVnfPackageOnboardingNotification(final UUID subscriptionId, final EventMessage event) {
 		final VnfPackage vnfPkg = vnfPackageRepository.get(event.getObjectId());
-		final VnfPackageOnboardingNotification obj = VnfSubscriptionFactory331.createNotificationVnfPackageOnboardingNotification(subscriptionId, event.getObjectId(), vnfPkg.getVnfdId(), new Sol003Linkable());
-		obj.setLinks(new Sol005Linkable().createVnfPackageOnboardingNotificationLinks(event.getObjectId(), subscriptionId));
-		return obj;
+		return VnfSubscriptionFactory331.createNotificationVnfPackageOnboardingNotification(subscriptionId, event.getObjectId(), vnfPkg.getVnfdId(), new Sol003Linkable());
 	}
 
 	@Override
@@ -58,10 +53,8 @@ public class NfvoFactory331 implements NfvoFactory {
 		} catch (final RuntimeException e) {
 			deleted = true;
 		}
-		final VnfPackageChangeNotification obj = VnfSubscriptionFactory331.createVnfPackageChangeNotification(deleted, subscriptionId, event.getObjectId(), event.getAdditionalParameters().get("vnfdId"),
+		return VnfSubscriptionFactory331.createVnfPackageChangeNotification(deleted, subscriptionId, event.getObjectId(), event.getAdditionalParameters().get("vnfdId"),
 				PackageOperationalStateType.fromValue(event.getAdditionalParameters().get("state")), new Sol003Linkable());
-		obj.setLinks(new Sol005Linkable().createNotificationLink(event.getObjectId(), subscriptionId));
-		return obj;
 	}
 
 }
