@@ -128,6 +128,7 @@ public class ServerService {
 		final Servers server = Servers.builder()
 				.authentification(subscription.getAuthentication())
 				.url(subscription.getCallbackUri())
+				.version(subscription.getVersion())
 				.build();
 		if (null == server.getVersion()) {
 			return new ServerAdapter(httpGateway.get(0), server);
