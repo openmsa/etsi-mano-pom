@@ -26,6 +26,7 @@ import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.grammar.GrammarParser;
@@ -37,29 +38,28 @@ import com.ubiqube.etsi.mano.repository.jpa.SearchQueryer;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public final class SearchableService {
+@Service
+public class SearchableService {
 	private final ManoSearchResponseService searchService;
 
 	private final EntityManager em;
 
-	private final Class<?> clazz;
 	private final GrammarParser grammarParser;
 
-	public SearchableService(final ManoSearchResponseService searchService, final EntityManager em, final Class<?> clazz, final GrammarParser grammarParser) {
+	public SearchableService(final ManoSearchResponseService searchService, final EntityManager em, final GrammarParser grammarParser) {
 		this.searchService = searchService;
 		this.em = em;
-		this.clazz = clazz;
 		this.grammarParser = grammarParser;
 	}
 
 	@Transactional
 	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink) {
 		final String filter = getSingleField(requestParams, "filter");
-		final List<?> result = queryDb(filter);
+		final List<?> result = queryDb(filter, clazz);
 		return searchService.search(requestParams, clazz, excludeDefaults, mandatoryFields, result, clazz, makeLink);
 	}
 
-	private List<?> queryDb(final String filter) {
+	private List<?> queryDb(final String filter, final Class<?> clazz) {
 		final SearchQueryer sq = new SearchQueryer(em, grammarParser);
 		final List<Node<String>> nodes = grammarParser.parse(filter);
 		return sq.getCriteria((List<Node<?>>) (Object) nodes, clazz);
