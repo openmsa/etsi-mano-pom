@@ -46,7 +46,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
-@RequestMapping(value = "/sol003/vnfpkgm/v2/onboarded_vnf_packages", headers = "Version=2.3.0")
+@RequestMapping(value = "/sol003/vnfpkgm/v2/", headers = "Version=2.3.0")
 @RolesAllowed({ "ROLE_VNFM" })
 @Validated
 public interface VnfPackages361Sol003Api {

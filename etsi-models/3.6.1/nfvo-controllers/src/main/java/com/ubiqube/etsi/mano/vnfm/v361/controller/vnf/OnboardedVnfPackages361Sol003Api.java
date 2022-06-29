@@ -52,7 +52,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-@RequestMapping(value = "/sol003/vnfpkgm/v2/onboarded_vnf_packages", headers = "Version=2.3.0")
+@RequestMapping(value = "/sol003/vnfpkgm/v2/", headers = "Version=2.3.0")
 @RolesAllowed({ "ROLE_VNFM" })
 @Validated
 public interface OnboardedVnfPackages361Sol003Api {
