@@ -89,4 +89,6 @@ public interface HttpGateway {
 	Class<?> getNsdPackageClass();
 
 	Object createNsdPackageRequest(Map<String, Object> userDefinedData);
+
+	boolean isMatching(final ApiVersionType verType, String version);
 }

@@ -107,16 +107,28 @@ public abstract class AbstractHttpGateway implements HttpGateway {
 		//
 	}
 
-	private String getProtocols(final String major, final String fragment) {
-		final Optional<Version> version = protocols.stream()
+	private Optional<Version> getMatchingProtocols(final String major, final String fragment) {
+		return protocols.stream()
 				.filter(x -> x.getProto().equals(major))
 				.flatMap(x -> x.getProtocols().stream())
 				.filter(x -> x.getFragment().equals(fragment))
 				.map(Protocols::getVersion)
 				.map(Version::new)
 				.findFirst();
+	}
+
+	private String getProtocols(final String major, final String fragment) {
+		final Optional<Version> version = getMatchingProtocols(major, fragment);
 		return version.map(x -> new File(fragment, "v" + x.getMajor()).toString())
 				.orElse(new File(fragment, "v1").toString());
 	}
 
+	@Override
+	public boolean isMatching(final ApiVersionType verType, final String version) {
+		final Optional<Version> matching = getUrlFor(verType, this::getMatchingProtocols);
+		if (matching.isEmpty()) {
+			return false;
+		}
+		return matching.get().toString().equals(version);
+	}
 }

@@ -20,8 +20,10 @@ import java.io.File;
 import java.net.URI;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
+import javax.annotation.Nullable;
 import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
@@ -41,6 +43,7 @@ import com.ubiqube.etsi.mano.service.event.ActionType;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.rest.FluxRest;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
+import com.ubiqube.etsi.mano.utils.Version;
 
 /**
  *
@@ -149,4 +152,11 @@ public class ServerService {
 				.orElseThrow(() -> new GenericException("Unable to find version " + servers.getVersion()));
 	}
 
+	public String convertFeVersionToMano(final ApiVersionType verType, @Nullable final String version) {
+		if (version == null) {
+			return null;
+		}
+		final Optional<Version> res = httpGateway.stream().filter(x -> x.isMatching(verType, version)).map(HttpGateway::getVersion).findFirst();
+		return res.map(Version::toString).orElse(null);
+	}
 }

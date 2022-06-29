@@ -30,7 +30,9 @@ import com.ubiqube.etsi.mano.controller.vnf.VnfSubscriptionManagement;
 import com.ubiqube.etsi.mano.controller.vnf.VnfSubscriptionSol005FrontController;
 import com.ubiqube.etsi.mano.dao.mano.ApiTypesEnum;
 import com.ubiqube.etsi.mano.dao.mano.Subscription;
+import com.ubiqube.etsi.mano.dao.mano.common.ApiVersionType;
 import com.ubiqube.etsi.mano.dao.mano.subs.SubscriptionType;
+import com.ubiqube.etsi.mano.service.ServerService;
 
 import ma.glasnost.orika.MapperFacade;
 
@@ -46,9 +48,12 @@ public class VnfSubscriptionSol005FrontControllerImpl implements VnfSubscription
 
 	private final MapperFacade mapper;
 
-	public VnfSubscriptionSol005FrontControllerImpl(final VnfSubscriptionManagement vnfSubscriptionManagement, final MapperFacade mapper) {
+	private final ServerService serverService;
+
+	public VnfSubscriptionSol005FrontControllerImpl(final VnfSubscriptionManagement vnfSubscriptionManagement, final MapperFacade mapper, final ServerService serverService) {
 		this.vnfSubscriptionManagement = vnfSubscriptionManagement;
 		this.mapper = mapper;
+		this.serverService = serverService;
 	}
 
 	@Override
@@ -63,7 +68,8 @@ public class VnfSubscriptionSol005FrontControllerImpl implements VnfSubscription
 	public <U> ResponseEntity<U> create(final Object subscriptionsPostQuery, final Class<?> version, final Class<U> clazz, final Consumer<U> makeLinks) {
 		Subscription subscription = mapper.map(subscriptionsPostQuery, Subscription.class);
 		final String v = extractVersion(version);
-		subscription.setVersion(v);
+		final String nv = serverService.convertFeVersionToMano(ApiVersionType.SOL005_VNFPKGM, v);
+		subscription.setVersion(nv);
 		subscription = vnfSubscriptionManagement.subscriptionsPost(subscription, ApiTypesEnum.SOL005);
 		final U pkgmSubscription = mapper.map(subscription, clazz);
 		makeLinks.accept(pkgmSubscription);

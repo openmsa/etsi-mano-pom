@@ -20,15 +20,21 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.ubiqube.etsi.mano.controller.vnf.VnfSubscriptionManagement;
 import com.ubiqube.etsi.mano.controller.vnf.VnfSubscriptionSol003FrontController;
 import com.ubiqube.etsi.mano.dao.mano.ApiTypesEnum;
 import com.ubiqube.etsi.mano.dao.mano.Subscription;
+import com.ubiqube.etsi.mano.dao.mano.common.ApiVersionType;
 import com.ubiqube.etsi.mano.dao.mano.subs.SubscriptionType;
+import com.ubiqube.etsi.mano.service.ServerService;
 
 import ma.glasnost.orika.MapperFacade;
 
@@ -44,9 +50,12 @@ public class VnfSubscriptionSol003FrontControllerImpl implements VnfSubscription
 
 	private final MapperFacade mapper;
 
-	public VnfSubscriptionSol003FrontControllerImpl(final VnfSubscriptionManagement vnfSubscriptionManagement, final MapperFacade mapper) {
+	private final ServerService serverService;
+
+	public VnfSubscriptionSol003FrontControllerImpl(final VnfSubscriptionManagement vnfSubscriptionManagement, final MapperFacade mapper, final ServerService serverService) {
 		this.vnfSubscriptionManagement = vnfSubscriptionManagement;
 		this.mapper = mapper;
+		this.serverService = serverService;
 	}
 
 	@Override
@@ -60,7 +69,13 @@ public class VnfSubscriptionSol003FrontControllerImpl implements VnfSubscription
 	@Override
 	public <U> ResponseEntity<U> create(final Object subscriptionsPostQuery, final Class<U> clazz, final Consumer<U> makeLinks) {
 		final Subscription subscription = mapper.map(subscriptionsPostQuery, Subscription.class);
-		final Subscription ns = vnfSubscriptionManagement.subscriptionsPost(subscription, ApiTypesEnum.SOL005);
+		final Object rch = RequestContextHolder.getRequestAttributes();
+		if (rch instanceof final ServletRequestAttributes sra) {
+			final HttpServletRequest req = sra.getRequest();
+			final String manoVer = serverService.convertFeVersionToMano(ApiVersionType.SOL003_VNFPKGM, req.getHeader("Version"));
+			subscription.setVersion(manoVer);
+		}
+		final Subscription ns = vnfSubscriptionManagement.subscriptionsPost(subscription, ApiTypesEnum.SOL003);
 		final U pkgmSubscription = mapper.map(ns, clazz);
 		makeLinks.accept(pkgmSubscription);
 		return new ResponseEntity<>(pkgmSubscription, HttpStatus.CREATED);
@@ -78,7 +93,6 @@ public class VnfSubscriptionSol003FrontControllerImpl implements VnfSubscription
 		final U pkgmSubscription = mapper.map(subscription, clazz);
 		makeLinks.accept(pkgmSubscription);
 		return new ResponseEntity<>(pkgmSubscription, HttpStatus.OK);
-
 	}
 
 	@Override
