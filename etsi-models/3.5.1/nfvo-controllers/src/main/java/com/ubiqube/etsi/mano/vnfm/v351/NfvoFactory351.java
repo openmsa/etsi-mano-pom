@@ -38,7 +38,6 @@ public class NfvoFactory351 implements NfvoFactory {
 	private final VnfPackageRepository vnfPackageRepository;
 
 	public NfvoFactory351(final VnfPackageRepository vnfPackageRepository) {
-		super();
 		this.vnfPackageRepository = vnfPackageRepository;
 	}
 
@@ -46,7 +45,7 @@ public class NfvoFactory351 implements NfvoFactory {
 	public Object createNotificationVnfPackageOnboardingNotification(final UUID subscriptionId, final EventMessage event) {
 		final VnfPackage vnfPkg = vnfPackageRepository.get(event.getObjectId());
 		final VnfPackageOnboardingNotification obj = VnfSubscriptionFactory351.createNotificationVnfPackageOnboardingNotification(subscriptionId, event.getObjectId(), vnfPkg.getVnfdId(), new Sol003Linkable());
-		obj.setLinks(new Sol005Linkable().createVnfPackageOnboardingNotificationLinks(event.getObjectId(), subscriptionId));
+		obj.setLinks(new Sol005Linkable().createVnfPackageOnboardingNotificationLinks(event.getObjectId(), vnfPkg.getVnfdId(), subscriptionId));
 		return obj;
 	}
 
@@ -60,7 +59,7 @@ public class NfvoFactory351 implements NfvoFactory {
 		}
 		final VnfPackageChangeNotification obj = VnfSubscriptionFactory351.createVnfPackageChangeNotification(deleted, subscriptionId, event.getObjectId(), event.getAdditionalParameters().get("vnfdId"),
 				PackageOperationalStateType.fromValue(event.getAdditionalParameters().get("state")), new Sol003Linkable());
-		obj.setLinks(new Sol005Linkable().createNotificationLink(event.getObjectId(), subscriptionId));
+		obj.setLinks(new Sol005Linkable().createVnfPackageOnboardingNotificationLinks(event.getObjectId(), event.getAdditionalParameters().get("vnfdId"), subscriptionId));
 		return obj;
 	}
 

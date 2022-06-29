@@ -38,6 +38,9 @@ public class PkgmLinks {
 	@JsonProperty("vnfPackage")
 	private NotificationLink vnfPackage = null;
 
+	@JsonProperty("vnfPackageByVnfdId")
+	private NotificationLink vnfPackageByVnfdId = null;
+
 	@JsonProperty("subscription")
 	private NotificationLink subscription = null;
 
@@ -61,6 +64,27 @@ public class PkgmLinks {
 
 	public void setVnfPackage(final NotificationLink vnfPackage) {
 		this.vnfPackage = vnfPackage;
+	}
+
+	public PkgmLinks vnfPackageByVnfdId(final NotificationLink vnfPackageByVnfdId) {
+		this.vnfPackageByVnfdId = vnfPackageByVnfdId;
+		return this;
+	}
+
+	/**
+	 * Get vnfPackageByVnfdId
+	 *
+	 * @return vnfPackageByVnfdId
+	 **/
+	@Schema(description = "")
+
+	@Valid
+	public NotificationLink getVnfPackageByVnfdId() {
+		return vnfPackageByVnfdId;
+	}
+
+	public void setVnfPackageByVnfdId(final NotificationLink vnfPackageByVnfdId) {
+		this.vnfPackageByVnfdId = vnfPackageByVnfdId;
 	}
 
 	public PkgmLinks subscription(final NotificationLink subscription) {
@@ -90,17 +114,18 @@ public class PkgmLinks {
 		if (this == o) {
 			return true;
 		}
-		if (o == null || getClass() != o.getClass()) {
+		if ((o == null) || (getClass() != o.getClass())) {
 			return false;
 		}
 		final PkgmLinks pkgmLinks = (PkgmLinks) o;
 		return Objects.equals(this.vnfPackage, pkgmLinks.vnfPackage) &&
+				Objects.equals(this.vnfPackageByVnfdId, pkgmLinks.vnfPackageByVnfdId) &&
 				Objects.equals(this.subscription, pkgmLinks.subscription);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(vnfPackage, subscription);
+		return Objects.hash(vnfPackage, vnfPackageByVnfdId, subscription);
 	}
 
 	@Override
@@ -109,6 +134,7 @@ public class PkgmLinks {
 		sb.append("class PkgmLinks {\n");
 
 		sb.append("    vnfPackage: ").append(toIndentedString(vnfPackage)).append("\n");
+		sb.append("    vnfPackageByVnfdId: ").append(toIndentedString(vnfPackageByVnfdId)).append("\n");
 		sb.append("    subscription: ").append(toIndentedString(subscription)).append("\n");
 		sb.append("}");
 		return sb.toString();
