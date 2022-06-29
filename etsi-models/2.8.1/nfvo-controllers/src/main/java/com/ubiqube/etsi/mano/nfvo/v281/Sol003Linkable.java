@@ -23,11 +23,13 @@ import java.util.UUID;
 
 import com.ubiqube.etsi.mano.controller.FrontApiTypesEnum;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.Link;
+import com.ubiqube.etsi.mano.em.v281.model.vnflcm.NotificationLink;
 import com.ubiqube.etsi.mano.nfvo.v281.model.vnf.PkgmSubscriptionLinks;
 import com.ubiqube.etsi.mano.nfvo.v281.model.vnf.VnfPkgInfo;
 import com.ubiqube.etsi.mano.nfvo.v281.model.vnf.VnfPkgInfoLinks;
 import com.ubiqube.etsi.mano.nfvo.v281.model.vnfconfig.PkgmLinks;
 import com.ubiqube.etsi.mano.vnfm.v281.controller.vnf.VnfPackages281Sol003Api;
+import com.ubiqube.etsi.mano.vnfm.v281.controller.vnf.VnfSubscriptions281Sol003Api;
 
 /**
  *
@@ -76,14 +78,26 @@ public class Sol003Linkable implements Linkable {
 	}
 
 	@Override
-	public PkgmLinks createNotificationLink(final UUID vnfPkgId, final UUID subscriptionId) {
-		// TODO Auto-generated method stub
-		return null;
+	public PkgmLinks createVnfPackageOnboardingNotificationLinks(final UUID vnfPkgId, final String vnfdId, final UUID subscriptionId) {
+		final PkgmLinks ret = new PkgmLinks();
+		final NotificationLink subscription = createVnfPackagesVnfPkgInfoLinksSelf(
+				linkTo(methodOn(VnfSubscriptions281Sol003Api.class).subscriptionsSubscriptionIdGet(subscriptionId.toString())).withSelfRel().getHref());
+		ret.setSubscription(subscription);
+
+		final NotificationLink vnfPackage = createVnfPackagesVnfPkgInfoLinksSelf(
+				linkTo(methodOn(VnfPackages281Sol003Api.class).vnfPackagesVnfPkgIdGet(vnfPkgId.toString(), null)).withSelfRel().getHref());
+		ret.setVnfPackage(vnfPackage);
+
+		final NotificationLink vnfVnfdId = createVnfPackagesVnfPkgInfoLinksSelf(
+				linkTo(methodOn(VnfPackages281Sol003Api.class).vnfPackagesVnfPkgIdVnfdGet(vnfdId, null)).withSelfRel().getHref());
+		ret.setVnfPackageByVnfdId(vnfVnfdId);
+		return ret;
 	}
 
-	@Override
-	public PkgmLinks createVnfPackageOnboardingNotificationLinks(final UUID vnfPkgId, final UUID subscriptionId) {
-		// TODO Auto-generated method stub
-		return null;
+	private static NotificationLink createVnfPackagesVnfPkgInfoLinksSelf(final String _href) {
+		final NotificationLink link = new NotificationLink();
+		link.setHref(_href);
+		return link;
 	}
+
 }

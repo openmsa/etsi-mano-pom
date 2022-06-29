@@ -27,7 +27,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.NotificationLink;
 
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This type represents the links to resources that a VNF package management
@@ -40,6 +40,9 @@ public class PkgmLinks {
 	@JsonProperty("vnfPackage")
 	private NotificationLink vnfPackage = null;
 
+	@JsonProperty("vnfPackageByVnfdId")
+	private NotificationLink vnfPackageByVnfdId = null;
+
 	@JsonProperty("subscription")
 	private NotificationLink subscription = null;
 
@@ -49,17 +52,14 @@ public class PkgmLinks {
 	}
 
 	/**
-	 * Link to the resource representing the VNF package to which the notified
-	 * change applies, i.e. the \"Individual VNF package\" resource that represents
-	 * the VNF package.
+	 * Get vnfPackage
 	 *
 	 * @return vnfPackage
 	 **/
-	@ApiModelProperty(required = true, value = "Link to the resource representing the VNF package to which the notified change applies, i.e. the \"Individual  VNF package\" resource that represents the VNF package. ")
+	@Schema(required = true, description = "")
 	@NotNull
 
 	@Valid
-
 	public NotificationLink getVnfPackage() {
 		return vnfPackage;
 	}
@@ -68,21 +68,41 @@ public class PkgmLinks {
 		this.vnfPackage = vnfPackage;
 	}
 
+	public PkgmLinks vnfPackageByVnfdId(final NotificationLink vnfPackageByVnfdId) {
+		this.vnfPackageByVnfdId = vnfPackageByVnfdId;
+		return this;
+	}
+
+	/**
+	 * Get vnfPackageByVnfdId
+	 *
+	 * @return vnfPackageByVnfdId
+	 **/
+	@Schema(description = "")
+
+	@Valid
+	public NotificationLink getVnfPackageByVnfdId() {
+		return vnfPackageByVnfdId;
+	}
+
+	public void setVnfPackageByVnfdId(final NotificationLink vnfPackageByVnfdId) {
+		this.vnfPackageByVnfdId = vnfPackageByVnfdId;
+	}
+
 	public PkgmLinks subscription(final NotificationLink subscription) {
 		this.subscription = subscription;
 		return this;
 	}
 
 	/**
-	 * Link to the related subscription.
+	 * Get subscription
 	 *
 	 * @return subscription
 	 **/
-	@ApiModelProperty(required = true, value = "Link to the related subscription. ")
+	@Schema(required = true, description = "")
 	@NotNull
 
 	@Valid
-
 	public NotificationLink getSubscription() {
 		return subscription;
 	}
@@ -96,17 +116,18 @@ public class PkgmLinks {
 		if (this == o) {
 			return true;
 		}
-		if (o == null || getClass() != o.getClass()) {
+		if ((o == null) || (getClass() != o.getClass())) {
 			return false;
 		}
 		final PkgmLinks pkgmLinks = (PkgmLinks) o;
 		return Objects.equals(this.vnfPackage, pkgmLinks.vnfPackage) &&
+				Objects.equals(this.vnfPackageByVnfdId, pkgmLinks.vnfPackageByVnfdId) &&
 				Objects.equals(this.subscription, pkgmLinks.subscription);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(vnfPackage, subscription);
+		return Objects.hash(vnfPackage, vnfPackageByVnfdId, subscription);
 	}
 
 	@Override
@@ -115,6 +136,7 @@ public class PkgmLinks {
 		sb.append("class PkgmLinks {\n");
 
 		sb.append("    vnfPackage: ").append(toIndentedString(vnfPackage)).append("\n");
+		sb.append("    vnfPackageByVnfdId: ").append(toIndentedString(vnfPackageByVnfdId)).append("\n");
 		sb.append("    subscription: ").append(toIndentedString(subscription)).append("\n");
 		sb.append("}");
 		return sb.toString();

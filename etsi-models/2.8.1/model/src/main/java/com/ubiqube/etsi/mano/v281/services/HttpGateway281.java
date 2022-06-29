@@ -191,7 +191,7 @@ public class HttpGateway281 extends AbstractHttpGateway {
 
 	@Override
 	public Version getVersion() {
-		return new Version("2.7.1");
+		return new Version("2.8.1");
 	}
 
 	@Override
