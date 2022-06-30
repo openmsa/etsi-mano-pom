@@ -64,7 +64,7 @@ public class LcmGrantsFrontControllerImpl implements LcmGrantsFrontController {
 		final GrantResponse resp = grantManagement.post(obj);
 		final U res = mapper.map(resp, clazz);
 		final URI location = URI.create(getSelfLink.apply(res));
-		return ResponseEntity.created(location).build();
+		return ResponseEntity.accepted().location(location).build();
 	}
 
 }
