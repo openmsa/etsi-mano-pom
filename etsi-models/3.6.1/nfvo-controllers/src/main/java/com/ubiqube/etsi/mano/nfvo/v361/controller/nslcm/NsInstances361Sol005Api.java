@@ -55,7 +55,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-@RequestMapping(value = "/sol005/nslcm/v2", headers = { "Version=2.2.1" })
+@RequestMapping(value = "/sol005/nslcm/v2", headers = { "Version=2.2.0" })
 @RolesAllowed({ "ROLE_OSSBSS" })
 public interface NsInstances361Sol005Api {
 
@@ -75,7 +75,7 @@ public interface NsInstances361Sol005Api {
 			@ApiResponse(responseCode = "504", description = "504 GATEWAY TIMEOUT If the API producer encounters a timeout while waiting for a response from an upstream server (i.e. a server that the API producer communicates with when fulfilling a request), it should respond with this response code. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))) })
 	@RequestMapping(value = "/ns_instances", produces = { "application/json" }, method = RequestMethod.GET)
 	ResponseEntity<String> nsInstancesGet(
-			@Parameter(in = ParameterIn.QUERY, description = "Attribute-based filtering expression according to clause 5.2 of ETSI GS NFV SOL 013. The NFVO shall support receiving this parameter as part of the URI query string.  The OSS/BSS may supply this parameter. All attribute names that appear in the NsInstance and in data types referenced from  it shall be supported by the NFVO in the filter expression. ", schema = @Schema()) MultiValueMap<String, String> requestParams,
+			@Parameter(in = ParameterIn.QUERY, description = "Attribute-based filtering expression according to clause 5.2 of ETSI GS NFV SOL 013. The NFVO shall support receiving this parameter as part of the URI query string.  The OSS/BSS may supply this parameter. All attribute names that appear in the NsInstance and in data types referenced from  it shall be supported by the NFVO in the filter expression. ", schema = @Schema()) @RequestParam MultiValueMap<String, String> requestParams,
 			@Parameter(in = ParameterIn.QUERY, description = "Marker to obtain the next page of a paged response. Shall be supported by the NFVO if the NFVO supports alternative 2  (paging) according to clause 5.4.2.1 of ETSI GS NFV-SOL 013 for this resource. ", schema = @Schema()) @Valid @RequestParam(value = "nextpage_opaque_marker", required = false) final String nextpageOpaqueMarker);
 
 	@Operation(summary = "", description = "This method deletes an \"Individual NS instance\" resource. See clause 6.4.3.3.5. ", tags = {})

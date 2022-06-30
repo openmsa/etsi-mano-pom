@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.em.v361.model.vnflcm;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import javax.validation.Valid;
@@ -26,7 +27,6 @@ import javax.validation.constraints.NotNull;
 import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.Map;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -70,7 +70,7 @@ public class VipCpInfo {
 
 	@JsonProperty("metadata")
 	@Valid
-	private List<Map<String, String>> metadata = null;
+	private Map<String, String> metadata = null;
 
 	public VipCpInfo cpInstanceId(final String cpInstanceId) {
 		this.cpInstanceId = cpInstanceId;
@@ -232,16 +232,8 @@ public class VipCpInfo {
 		this.vnfLinkPortId = vnfLinkPortId;
 	}
 
-	public VipCpInfo metadata(final List<Map<String, String>> metadata) {
+	public VipCpInfo metadata(final Map<String, String> metadata) {
 		this.metadata = metadata;
-		return this;
-	}
-
-	public VipCpInfo addMetadataItem(final Map<String, String> metadataItem) {
-		if (this.metadata == null) {
-			this.metadata = new ArrayList<>();
-		}
-		this.metadata.add(metadataItem);
 		return this;
 	}
 
@@ -252,11 +244,11 @@ public class VipCpInfo {
 	 **/
 	@Schema(description = "Metadata about this VIP CP. ")
 	@Valid
-	public List<Map<String, String>> getMetadata() {
+	public Map<String, String> getMetadata() {
 		return metadata;
 	}
 
-	public void setMetadata(final List<Map<String, String>> metadata) {
+	public void setMetadata(final Map<String, String> metadata) {
 		this.metadata = metadata;
 	}
 
@@ -265,7 +257,7 @@ public class VipCpInfo {
 		if (this == o) {
 			return true;
 		}
-		if (o == null || getClass() != o.getClass()) {
+		if ((o == null) || (getClass() != o.getClass())) {
 			return false;
 		}
 		final VipCpInfo vipCpInfo = (VipCpInfo) o;

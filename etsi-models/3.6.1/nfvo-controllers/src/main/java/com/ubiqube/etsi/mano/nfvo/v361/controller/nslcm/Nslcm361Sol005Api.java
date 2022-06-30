@@ -47,7 +47,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-@RequestMapping(value = "/sol005/nslcm/v2", headers = { "Version=2.2.1" })
+@RequestMapping(value = "/sol005/nslcm/v2", headers = { "Version=2.2.0" })
 @RolesAllowed({ "ROLE_OSSBSS" })
 public interface Nslcm361Sol005Api {
 
