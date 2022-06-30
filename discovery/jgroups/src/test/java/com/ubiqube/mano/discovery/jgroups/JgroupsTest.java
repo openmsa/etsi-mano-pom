@@ -36,7 +36,6 @@ class JgroupsTest {
 		assertTrue(true);
 	}
 
-	@Test
 	void testName2() throws Exception {
 		final InputStream is = getClass().getResourceAsStream("/udp.xml");
 		final JChannel channel = new JChannel(is);
