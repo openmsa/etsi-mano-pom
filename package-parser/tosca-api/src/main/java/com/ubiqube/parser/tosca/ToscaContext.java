@@ -261,7 +261,18 @@ public class ToscaContext {
 				interfaceTypes.putAll(context.getInterfaceTypes());
 			}
 		}
+		mergeTopologies(context.getTopologies());
+	}
 
+	private void mergeTopologies(final TopologyTemplate topologies2) {
+		if (null == topologies2) {
+			return;
+		}
+		if (null == topologies) {
+			topologies = topologies2;
+			return;
+		}
+		topologies.putAll(topologies2);
 	}
 
 	private static void mergeHash(final Map<String, ToscaClass> dst, final Map<String, ToscaClass> src) {
@@ -299,7 +310,7 @@ public class ToscaContext {
 		for (final Entry<String, ToscaClass> entry : entries) {
 			final ToscaClass clazz = entry.getValue();
 			final String derived = clazz.getDerivedFrom();
-			if (null != derived && !nodeType.containsKey(derived)) {
+			if ((null != derived) && !nodeType.containsKey(derived)) {
 				// Throw exception unresolvable external/.
 				LOG.warn("{} not a Node Type.", derived);
 			} else if (derived != null) {
@@ -334,7 +345,7 @@ public class ToscaContext {
 			final NodeTemplate nodeTmpl = entry.getValue();
 			final String type = nodeTmpl.getType();
 			final ToscaClassHolder tch = classHierarchy.get(type);
-			if (null == tch && !onClassPath(type)) {
+			if ((null == tch) && !onClassPath(type)) {
 				throw new ParseException("Unable to find implementation of: " + type + " in: " + entry.getKey());
 			}
 		}
@@ -417,12 +428,12 @@ public class ToscaContext {
 			return res;
 		}
 		final PolicyType policy = policiesType.get(source);
-		if (null != policy && source.equalsIgnoreCase(clazz)) {
+		if ((null != policy) && source.equalsIgnoreCase(clazz)) {
 			return true;
 		}
 
 		final GroupType group = groupType.get(source);
-		if (null != group && source.equalsIgnoreCase(clazz)) {
+		if ((null != group) && source.equalsIgnoreCase(clazz)) {
 			return true;
 		}
 		LOG.debug("Not found: {}", source);
