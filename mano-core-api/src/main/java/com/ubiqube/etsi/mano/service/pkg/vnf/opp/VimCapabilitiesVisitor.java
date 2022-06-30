@@ -48,6 +48,7 @@ public class VimCapabilitiesVisitor implements OnboardingPostProcessorVisitor {
 
 	private static <U> void addIfNeeded(final VimCapability vc, final Set<VimCapability> svc, final VnfPackage vnfPackage, final Function<VlProtocolData, U> tr, final Predicate<U> p) {
 		vnfPackage.getVnfVl().stream()
+				.filter(x -> x.getVlProfileEntity().getVirtualLinkProtocolData() != null)
 				.flatMap(x -> x.getVlProfileEntity().getVirtualLinkProtocolData().stream())
 				.map(tr)
 				.filter(Objects::nonNull)
