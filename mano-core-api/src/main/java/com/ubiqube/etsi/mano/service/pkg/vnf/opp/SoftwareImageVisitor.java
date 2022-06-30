@@ -48,7 +48,6 @@ public class SoftwareImageVisitor implements OnboardingPostProcessorVisitor {
 	private final DownloaderService downloaderService;
 
 	public SoftwareImageVisitor(final DownloaderService downloaderService) {
-		super();
 		this.downloaderService = downloaderService;
 	}
 
@@ -82,7 +81,7 @@ public class SoftwareImageVisitor implements OnboardingPostProcessorVisitor {
 
 		@Override
 		public int hashCode() {
-			if (si.getChecksum() != null || null != si.getChecksum().getHash()) {
+			if ((si.getChecksum() != null) && (null != si.getChecksum().getHash())) {
 				return Objects.hash(si.getChecksum().getHash());
 			}
 			return Objects.hash(si.getName());
@@ -93,11 +92,11 @@ public class SoftwareImageVisitor implements OnboardingPostProcessorVisitor {
 			if (this == obj) {
 				return true;
 			}
-			if (obj == null || !(obj instanceof final ImageKey ik)) {
+			if ((obj == null) || !(obj instanceof final ImageKey ik)) {
 				return false;
 			}
 			final SoftwareImage si2 = ik.si;
-			if (si2.getChecksum() == null || si.getChecksum() == null) {
+			if ((si2.getChecksum() == null) || (si.getChecksum() == null)) {
 				return si.getName().equals(si2.getName());
 			}
 			return Objects.equals(si.getChecksum().getHash(), si2.getChecksum().getHash());
