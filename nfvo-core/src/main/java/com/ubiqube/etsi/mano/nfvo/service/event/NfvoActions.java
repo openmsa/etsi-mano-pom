@@ -50,4 +50,8 @@ public class NfvoActions extends AbstractGenericAction {
 		// Nothing to merge.
 	}
 
+	public void update(@NotNull final UUID objectId) {
+		instantiate(objectId);
+	}
+
 }

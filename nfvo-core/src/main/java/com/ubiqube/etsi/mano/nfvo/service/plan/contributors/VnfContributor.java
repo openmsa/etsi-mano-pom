@@ -121,6 +121,11 @@ public class VnfContributor extends AbstractNsContributor<NsVnfTask, NsVtBase<Ns
 		int i = 0;
 		for (final NsLiveInstance nsLiveInstance : insts) {
 			final NsVnfTask task = (NsVnfTask) nsLiveInstance.getNsTask();
+			final List<NsLiveInstance> ress = nsLiveInstanceJpa.findByResourceId(nsLiveInstance.getResourceId());
+			if (ress.size() > 1) {
+				nsLiveInstanceJpa.delete(nsLiveInstance);
+				continue;
+			}
 			final String toscaName = getToscaName(nsLiveInstance.getNsTask().getAlias(), i++);
 			final String aliasName = getToscaName(insts.get(i).getNsTask().getToscaName(), i);
 			final NsVnfTask nt = createVnfDeleteTask(nsLiveInstance, task, instance, toscaName, aliasName);
@@ -291,7 +296,7 @@ public class VnfContributor extends AbstractNsContributor<NsVnfTask, NsVtBase<Ns
 					final NsLiveInstance linst = nsLiveInstanceJpa.findById(x).orElseThrow();
 					final String toscaName = getToscaName(linst.getNsTask().getToscaName(), 0);
 					final String aliasName = getToscaName(linst.getNsTask().getToscaName(), 0);
-					final NsVnfTask t = createDeleteTask(inst, null, null, toscaName, aliasName);
+					final NsVnfTask t = createDeleteTask(inst, linst, (NsVnfTask) linst.getNsTask(), toscaName, aliasName);
 					ret.add(new NsVnfCreateVt(t));
 				});
 		return ret;

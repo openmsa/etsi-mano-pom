@@ -60,6 +60,7 @@ public class NfvoActionController {
 		case NS_HEAL -> nfvoActions.heal(objectId);
 		case NS_SCALE -> nfvoActions.scale(objectId);
 		case NS_UPDATE -> nsUpdateManager.update(objectId);
+		case NS_UPDATE_ACTION -> nfvoActions.update(objectId);
 		default -> LOG.warn("Unknown event: {}", eventType);
 		}
 	}

@@ -135,7 +135,7 @@ public class NsUpadteManager {
 			inst.getVnfPkgIds().remove(cp);
 			// Check if some one use it.
 			final List<NsLiveInstance> allInst = liveInstanceJpa.findByResourceId(x);
-			if (allInst.isEmpty()) {
+			if (allInst.size() == 1) {
 				ret.add(liveInst.getId());
 			}
 		});
@@ -143,7 +143,7 @@ public class NsUpadteManager {
 			return;
 		}
 		nsBlueprint.save(nb);
-		eventManager.sendAction(ActionType.NS_UPDATE, nb.getId());
+		eventManager.sendActionNfvo(ActionType.NS_UPDATE_ACTION, nb.getId(), Map.of());
 	}
 
 	private static NsdVnfPackageCopy find(final Set<NsdVnfPackageCopy> vnfPkgIds, final String toscaName) {
