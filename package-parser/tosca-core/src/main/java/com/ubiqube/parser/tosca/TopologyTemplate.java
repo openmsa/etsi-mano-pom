@@ -16,7 +16,9 @@
  */
 package com.ubiqube.parser.tosca;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -40,7 +42,7 @@ public class TopologyTemplate {
 	private Map<String, GroupDefinition> groups = new LinkedHashMap<>();
 	@JsonProperty("substitution_mappings")
 	private SubstitutionMapping substitutionMapping;
-	private Map<String, PolicyDefinition> policies;
+	private List<Map<String, PolicyDefinition>> policies = new ArrayList<>();
 
 	@Override
 	public String toString() {
@@ -50,6 +52,8 @@ public class TopologyTemplate {
 	public void putAll(final TopologyTemplate topologyTemplate) {
 		nodeTemplate.putAll(topologyTemplate.getNodeTemplate());
 		groups.putAll(topologyTemplate.getGroups());
+		inputs.putAll(topologyTemplate.getInputs());
+		policies.addAll(topologyTemplate.getPolicies());
 		Optional.ofNullable(topologyTemplate.getSubstitutionMapping()).ifPresent(x -> this.substitutionMapping = x);
 	}
 
