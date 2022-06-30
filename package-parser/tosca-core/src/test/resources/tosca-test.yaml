@@ -104,50 +104,50 @@ topology_template:
         description: My placement group.
   
   policies:
-    instantiation_levels:
-      type: tosca.policies.nfv.InstantiationLevels
-      properties:
-        levels:
-          demo:
-            description: Default instantiation level.
-            scale_info:
-              left_aspect:
-                scale_level: 0
-              right_aspect:
-                scale_level: 0
-              middle_aspect:
-                scale_level: 1
-          premium:
-            description: Premium instantiation level.
-            scale_info:
-              left_aspect:
-                scale_level: 1
-              right_aspect:
-                scale_level: 1
-              middle_aspect:
-                scale_level: 0
-        default_level: demo
- 
-    auto_scale:
-      type: tosca.policies.nfv.VnfIndicator
-      properties:
-        source: vnf
-      triggers:
-        scale_out:
-          event: tosca.interfaces.nfv.VnfIndicator.utilization # full name of a notification in the VnfIndicator interface
-          condition:
-            - utilization_vnf_indicator: [ { greater_or_equal: 60.0 } ]
-            - call_proc_scale_level: [ { less_than: 3 } ]
-          action :
-            - call_operation:
-                operation: Vnflcm.scale
-                inputs:
-                  type:
-                    value: scale_out
-                  aspect:
-                    value: call_proc
-                  number_of_steps:
-                    value: 1 # optional
+    - instantiation_levels:
+        type: tosca.policies.nfv.InstantiationLevels
+        properties:
+          levels:
+            demo:
+              description: Default instantiation level.
+              scale_info:
+                left_aspect:
+                  scale_level: 0
+                right_aspect:
+                  scale_level: 0
+                middle_aspect:
+                  scale_level: 1
+            premium:
+              description: Premium instantiation level.
+              scale_info:
+                left_aspect:
+                  scale_level: 1
+                right_aspect:
+                  scale_level: 1
+                middle_aspect:
+                  scale_level: 0
+          default_level: demo
+
+    - auto_scale:
+        type: tosca.policies.nfv.VnfIndicator
+        properties:
+          source: vnf
+        triggers:
+          scale_out:
+            event: tosca.interfaces.nfv.VnfIndicator.utilization # full name of a notification in the VnfIndicator interface
+            condition:
+              - utilization_vnf_indicator: [ { greater_or_equal: 60.0 } ]
+              - call_proc_scale_level: [ { less_than: 3 } ]
+            action :
+              - call_operation:
+                  operation: Vnflcm.scale
+                  inputs:
+                    type:
+                      value: scale_out
+                    aspect:
+                      value: call_proc
+                    number_of_steps:
+                      value: 1 # optional
 
 
  
