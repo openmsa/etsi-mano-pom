@@ -196,7 +196,7 @@ public class ContextResolver {
 		logClass(clazz.getName(), propsDescr);
 		if (null != caps) {
 			stack.push("capabilities");
-			handleMap((Map<String, Object>) caps, clazz, propsDescr, cls, null, stack);
+			handleMap((Map<String, Object>) caps, clazz, propsDescr, cls, null, stack, true);
 			stack.pop();
 		}
 		final Map<String, Object> props = node.getProperties();
@@ -207,7 +207,7 @@ public class ContextResolver {
 		}
 		Optional.ofNullable(node.getArtifacts()).ifPresent(x -> handleArtifacts(x, propsDescr, cls, stack));
 		final RequirementDefinition req = node.getRequirements();
-		if (null != req && null != req.getRequirements()) {
+		if ((null != req) && (null != req.getRequirements())) {
 			handleRequirements(req.getRequirements(), propsDescr, cls, stack);
 		}
 		Optional.ofNullable(node.getInterfaces()).ifPresent(x -> handleInterfaces(x, propsDescr, cls, stack));
@@ -228,6 +228,9 @@ public class ContextResolver {
 			setProperty2(cls, mw, newObj);
 			final InterfaceDefinition obj = x.getValue();
 			final Map ops = obj.getOperations();
+			if (null == ops) {
+				return;
+			}
 			final Class generic = null;
 			final PropertyDescriptor[] propsNewObj = getPropertyDescriptor(mrr);
 			handleMap(ops, mrr, propsNewObj, newObj, generic, stack);
@@ -247,7 +250,12 @@ public class ContextResolver {
 		optProps.get().entrySet().stream()
 				.filter(x -> x.getValue().getRequired())
 				.forEach(x -> {
-					final PropertyDescriptor prop = findProperty(props, x.getKey()).orElseThrow(() -> new ParseException("Could not find property " + x.getKey() + " on class: " + cls.getClass()));
+					final Optional<PropertyDescriptor> optProp = findProperty(props, x.getKey());
+					if (optProp.isEmpty()) {
+						LOG.warn("Ignoring property; {} on class {}", x.getKey(), cls.getClass());
+						return;
+					}
+					final PropertyDescriptor prop = optProp.get();
 					final Method mr = prop.getReadMethod();
 					final Object res = safeInvoke(mr, cls);
 					if (null != res) {
@@ -270,7 +278,7 @@ public class ContextResolver {
 
 	private static void applySubstitutionMapping(final NodeTemplate node, final Object cls, final ToscaContext root2) {
 		final SubstitutionMapping subst = root2.getTopologies().getSubstitutionMapping();
-		if (null == subst || !subst.getNodeType().equals(node.getType())) {
+		if ((null == subst) || !subst.getNodeType().equals(node.getType())) {
 			return;
 		}
 		final Map<String, RequirementMapping> req = subst.getRequirements();
@@ -334,7 +342,8 @@ public class ContextResolver {
 			try {
 				clazz = Class.forName(ClassUtils.toscaToJava(type));
 			} catch (final ClassNotFoundException e) {
-				throwException("Unable to find class " + type, stack, e);
+				LOG.warn("Ignoring missing class: {}", type);
+				return;
 			}
 			final Object res = newInstance(clazz);
 			final PropertyDescriptor[] propsDescrNew = getPropertyDescriptor(clazz);
@@ -406,6 +415,10 @@ public class ContextResolver {
 	}
 
 	private Object handleMap(final Map<String, Object> caps, final Class<?> clazz, final PropertyDescriptor[] props, final Object cls, final Class generic, final Deque<String> stack) {
+		return handleMap(caps, clazz, props, cls, generic, stack, false);
+	}
+
+	private Object handleMap(final Map<String, Object> caps, final Class<?> clazz, final PropertyDescriptor[] props, final Object cls, final Class generic, final Deque<String> stack, final boolean underCaps) {
 		if (clazz.isAssignableFrom(Map.class)) {
 			LOG.debug("Handling map of {}", generic);
 			final Map map = (Map) cls;
@@ -415,16 +428,31 @@ public class ContextResolver {
 		caps.entrySet().forEach(x -> {
 			final Optional<PropertyDescriptor> propo = findProperty(props, x.getKey());
 			if (!propo.isPresent()) {
-				throwException("Unable to find property: " + x.getKey() + " on object :" + clazz.getName(), stack);
+				LOG.warn("Unable to find property: {} on object: {}", x.getKey(), clazz.getName());
+				return;
 			}
 			stack.push(x.getKey());
 			final Object v = x.getValue();
 			if (v != null) {
-				handleCaps(v, propo.get(), props, cls, stack);
+				Object v2 = v;
+				if (underCaps) {
+					v2 = stripProperties(v);
+				}
+				handleCaps(v2, propo.get(), props, cls, stack);
 			}
 			stack.pop();
 		});
 		return cls;
+	}
+
+	private Object stripProperties(final Object v) {
+		final Map<String, Object> res = (Map<String, Object>) v;
+		final Object prop = res.get(PROPERTIES);
+		if (prop == null) {
+			LOG.warn("No property node on {}", v);
+			return v;
+		}
+		return prop;
 	}
 
 	private static Optional<PropertyDescriptor> findProperty(final PropertyDescriptor[] props, final String propertyName) {
