@@ -18,9 +18,10 @@ package tosca.datatypes.nfv;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import jakarta.validation.Valid;
 import tosca.datatypes.Root;
 
 /**

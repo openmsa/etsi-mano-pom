@@ -16,11 +16,12 @@
  */
 package tosca.datatypes.nfv;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.scalar.Time;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import tosca.datatypes.Root;
 
 /**

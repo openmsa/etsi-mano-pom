@@ -19,13 +19,14 @@ package tosca.nodes.nfv;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.annotations.Capability;
 import com.ubiqube.parser.tosca.annotations.Occurence;
 import com.ubiqube.parser.tosca.annotations.Relationship;
 import com.ubiqube.parser.tosca.api.ToscaInernalBase;
 
-import jakarta.validation.constraints.NotNull;
 import tosca.datatypes.nfv.ScaleInfo;
 import tosca.datatypes.nfv.VnfLcmOperationsConfiguration;
 import tosca.datatypes.nfv.VnfMonitoringParameter;

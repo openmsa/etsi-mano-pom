@@ -22,6 +22,8 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 import org.apache.commons.io.IOUtils;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -33,8 +35,6 @@ import com.ubiqube.etsi.mano.sol004.Sol004Onboarding;
 import com.ubiqube.etsi.mano.tosca.ArtefactInformations;
 import com.ubiqube.etsi.mano.tosca.IResolver;
 import com.ubiqube.etsi.mano.tosca.ToscaVersion;
-
-import jakarta.validation.constraints.NotNull;
 
 /**
  * Tosca parser entry point.
@@ -91,7 +91,7 @@ public class ToscaParser {
 		if (tv == null) {
 			return "TOSCA_definition_1_0.yaml";
 		}
-		if (tv == ToscaVersion.TOSCA_SIMPLE_YAML_1_0 || tv == ToscaVersion.TOSCA_SIMPLE_YAML_1_3 || tv == ToscaVersion.TOSCA_SIMPLE_YAML_1_2) {
+		if ((tv == ToscaVersion.TOSCA_SIMPLE_YAML_1_0) || (tv == ToscaVersion.TOSCA_SIMPLE_YAML_1_3) || (tv == ToscaVersion.TOSCA_SIMPLE_YAML_1_2)) {
 			return "TOSCA_definition_1_3.yaml";
 		}
 		throw new ParseException("Unknown tosca version " + tv);

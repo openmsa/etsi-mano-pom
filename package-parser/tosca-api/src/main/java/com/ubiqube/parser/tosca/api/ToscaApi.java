@@ -20,16 +20,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import com.ubiqube.parser.tosca.GroupDefinition;
 import com.ubiqube.parser.tosca.NodeTemplate;
+import com.ubiqube.parser.tosca.ParseException;
 import com.ubiqube.parser.tosca.PolicyDefinition;
 import com.ubiqube.parser.tosca.ToscaContext;
-
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.Validation;
-import jakarta.validation.Validator;
-import jakarta.validation.ValidatorFactory;
 
 /**
  * Main front API around tosca files.
@@ -58,17 +60,26 @@ public class ToscaApi {
 		final ContextResolver contextResolver = new ContextResolver(root, parameters);
 		final List<NodeTemplate> nodes = getNodeMatching(root, destination);
 		if (!nodes.isEmpty()) {
-			return contextResolver.mapToscaToClass(nodes, destination);
+			return getAndValidate(() -> contextResolver.mapToscaToClass(nodes, destination));
 		}
 		final List<GroupDefinition> groups = getGroupsMatching(root, destination);
 		if (!groups.isEmpty()) {
-			return contextResolver.mapGroupsToClass(groups, destination);
+			return getAndValidate(() -> contextResolver.mapGroupsToClass(groups, destination));
 		}
 		final List<PolicyDefinition> policies = getPoliciesMatching(root, destination);
 		if (!policies.isEmpty()) {
-			return contextResolver.mapPoliciesToClass(policies, destination);
+			return getAndValidate(() -> contextResolver.mapPoliciesToClass(policies, destination));
 		}
 		return new ArrayList<>();
+	}
+
+	private static <T> List<T> getAndValidate(final Supplier<List<T>> sup) {
+		final List<T> tmp = sup.get();
+		final Set<ConstraintViolation<List<T>>> res = validate(tmp);
+		if (res.isEmpty()) {
+			return tmp;
+		}
+		throw new ParseException("SOL001 file contain the following errors: " + res);
 	}
 
 	public static <U> Set<ConstraintViolation<U>> validate(final U object) {

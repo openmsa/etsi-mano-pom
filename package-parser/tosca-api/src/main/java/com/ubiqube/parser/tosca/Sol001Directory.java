@@ -28,11 +28,11 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.stream.Stream;
 
+import javax.validation.constraints.NotNull;
+
 import com.ubiqube.etsi.mano.tosca.ArtefactInformations;
 import com.ubiqube.etsi.mano.tosca.IResolver;
 import com.ubiqube.etsi.mano.tosca.Resolver;
-
-import jakarta.validation.constraints.NotNull;
 
 /**
  *

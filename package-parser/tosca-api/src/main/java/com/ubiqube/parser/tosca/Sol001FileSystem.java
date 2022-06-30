@@ -18,11 +18,11 @@ package com.ubiqube.parser.tosca;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 import com.ubiqube.etsi.mano.tosca.ArtefactInformations;
 import com.ubiqube.etsi.mano.tosca.IResolver;
 import com.ubiqube.etsi.mano.tosca.ToscaVersion;
-
-import jakarta.validation.constraints.NotNull;
 
 /**
  *

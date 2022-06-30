@@ -16,13 +16,13 @@
  */
 package tosca.capabilities;
 
+import javax.validation.Valid;
+import javax.validation.constraints.DecimalMin;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.api.ToscaInernalBase;
 import com.ubiqube.parser.tosca.scalar.Frequency;
 import com.ubiqube.parser.tosca.scalar.Size;
-
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.DecimalMin;
 
 public class Compute extends ToscaInernalBase {
 	@Valid
