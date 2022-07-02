@@ -47,7 +47,6 @@ public class FlavorManager {
 	private final VimManager vimManager;
 
 	public FlavorManager(final VimManager vimManager) {
-		super();
 		this.vimManager = vimManager;
 	}
 
@@ -81,7 +80,7 @@ public class FlavorManager {
 		if (str.isPresent()) {
 			return str.get().getKey();
 		}
-		final List<Flavor> basicFlavor = findByBasicAttribute(flavors, vCpu, vMem, comp.getDiskSize(), exactMatch);
+		final List<Flavor> basicFlavor = findByBasicAttribute(vimConnectionInformation, flavors, vCpu, vMem, comp.getDiskSize(), exactMatch);
 		if (basicFlavor.isEmpty()) {
 			final String flv = createFlavor(vimConnectionInformation, vCpu, vMem, comp.getToscaName(), disk);
 			cache.put(flv, comp);
@@ -109,7 +108,7 @@ public class FlavorManager {
 	}
 
 	private static boolean isEqual(final VirtualMemory virtualMemory, final VirtualMemory vMem) {
-		if (!Objects.equals(virtualMemory.getNumaEnabled(), vMem.getNumaEnabled()) || virtualMemory.getVirtualMemSize() != vMem.getVirtualMemSize()) {
+		if (!Objects.equals(virtualMemory.getNumaEnabled(), vMem.getNumaEnabled()) || (virtualMemory.getVirtualMemSize() != vMem.getVirtualMemSize())) {
 			return false;
 		}
 		final Map<String, String> a = virtualMemory.getVduMemRequirements();
@@ -159,7 +158,7 @@ public class FlavorManager {
 		}
 		for (final Entry<String, String> entry : add.entrySet()) {
 			final String k = entry.getKey();
-			if (cpuReq.get(k) == null && null == memReq.get(k)) {
+			if ((cpuReq.get(k) == null) && (null == memReq.get(k))) {
 				return false;
 			}
 		}
@@ -167,23 +166,28 @@ public class FlavorManager {
 	}
 
 	private static boolean haveAdditinalRequirement(final VirtualCpu vCpu, final VirtualMemory vMem) {
-		final boolean vCpuReq = vCpu.getVduCpuRequirements() != null && !vCpu.getVduCpuRequirements().isEmpty();
-		final boolean memReq = vMem.getVduMemRequirements() != null && !vMem.getVduMemRequirements().isEmpty();
+		final boolean vCpuReq = (vCpu.getVduCpuRequirements() != null) && !vCpu.getVduCpuRequirements().isEmpty();
+		final boolean memReq = (vMem.getVduMemRequirements() != null) && !vMem.getVduMemRequirements().isEmpty();
 		return vCpuReq || memReq;
 	}
 
-	private static List<Flavor> findByBasicAttribute(final List<Flavor> flavors, final VirtualCpu vCpu, final VirtualMemory vMem, final long diskSize, final boolean exactMatch) {
+	private List<Flavor> findByBasicAttribute(final VimConnectionInformation vimConnectionInformation, final List<Flavor> flavors, final VirtualCpu vCpu, final VirtualMemory vMem, final long diskSize, final boolean exactMatch) {
 		if (exactMatch) {
-			return flavors.stream().filter(exactMatch(vCpu, vMem, diskSize)).toList();
+			return flavors.stream().filter(exactMatch(vimConnectionInformation, vCpu, vMem, diskSize)).toList();
 		}
 		return flavors.stream().filter(nearestMatch(vCpu, vMem, diskSize)).toList();
 	}
 
 	private static Predicate<? super Flavor> nearestMatch(final VirtualCpu vCpu, final VirtualMemory vMem, final long diskSize) {
-		return x -> (vCpu.getNumVirtualCpu() <= x.getVcpus() || vMem.getVirtualMemSize() <= x.getRam() /* || diskSize <= x.getDisk() */);
+		return x -> ((vCpu.getNumVirtualCpu() <= x.getVcpus()) || (vMem.getVirtualMemSize() <= x.getRam() /* || diskSize <= x.getDisk() */));
 	}
 
-	private static Predicate<? super Flavor> exactMatch(final VirtualCpu vCpu, final VirtualMemory vMem, final long diskSize) {
-		return x -> (vCpu.getNumVirtualCpu() == x.getVcpus() && vMem.getVirtualMemSize() == x.getRam() /* && diskSize == x.getDisk() */);
+	private Predicate<? super Flavor> exactMatch(final VimConnectionInformation vc, final VirtualCpu vCpu, final VirtualMemory vMem, final long diskSize) {
+		return x -> ((vCpu.getNumVirtualCpu() == x.getVcpus()) && isMatching(vc, vMem.getVirtualMemSize(), x.getRam() /* && diskSize == x.getDisk() */));
+	}
+
+	boolean isMatching(final VimConnectionInformation vc, final long tosca, final long vimMem) {
+		final Vim vim = vimManager.getVimById(vc.getId());
+		return vim.isEqualMemFlavor(tosca, vimMem);
 	}
 }
