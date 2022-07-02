@@ -66,7 +66,6 @@ public class OnboardedPackageFrontControllerImpl implements OnboardedPackageFron
 	private final VnfPackageRepository vnfPackageRepository;
 
 	public OnboardedPackageFrontControllerImpl(final VnfPackageManagement vnfManagement, final VnfPackageService vnfPackageService, final VnfPackageRepository vnfPackageRepository) {
-		super();
 		this.vnfManagement = vnfManagement;
 		this.vnfPackageService = vnfPackageService;
 		this.vnfPackageRepository = vnfPackageRepository;
@@ -156,7 +155,7 @@ public class OnboardedPackageFrontControllerImpl implements OnboardedPackageFron
 	@Override
 	public <U> ResponseEntity<U> onboardedFindById(final UUID vnfdId, final Class<U> clazz, final Consumer<U> makeLinks) {
 		final UUID vnfPkgId = vnfPackageService.findByVnfdId(vnfdId).getId();
-		final U vnfPkgInfo = vnfManagement.vnfPackagesVnfPkgVnfdIdGet(vnfPkgId, clazz);
+		final U vnfPkgInfo = vnfManagement.vnfPackagesVnfPkgVnfdIdGet(vnfdId, clazz);
 		makeLinks.accept(vnfPkgInfo);
 		return new ResponseEntity<>(vnfPkgInfo, HttpStatus.OK);
 	}
