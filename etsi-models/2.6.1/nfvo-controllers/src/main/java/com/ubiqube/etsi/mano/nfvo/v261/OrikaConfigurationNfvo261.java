@@ -131,11 +131,15 @@ public class OrikaConfigurationNfvo261 implements OrikaMapperFactoryConfigurer {
 				.byDefault()
 				.register();
 
+		/**
+		 * No default !
+		 */
 		orikaMapperFactory.classMap(ResourceDefinition.class, GrantInformationExt.class)
 				.exclude("id")
 				.field("id", "resourceDefinitionId")
 				.field("type", "type")
 				.field("vduId", "vduId")
+				.field("resourceTemplateId", "resourceTemplateId")
 				.field("resource.vimConnectionId", "vimConnectionId")
 				.field("resource.resourceProviderId", "resourceProviderId")
 				.register();
