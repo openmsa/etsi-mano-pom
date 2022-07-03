@@ -64,7 +64,7 @@ public class VnfPackageControllerImpl implements VnfPackageController {
 		final VnfPackage vnfPackage = vnfPackageService.findById(id);
 		ensureDisabled(vnfPackage);
 		ensureNotInUse(vnfPackage);
-		vnfPackageService.delete(id);
+		vnfPackageRepository.delete(id);
 		if (null != vnfPackage.getVnfdId()) {
 			eventManager.sendNotification(NotificationEvent.VNF_PKG_ONDELETION, id, Map.of("vnfdId", vnfPackage.getVnfdId()));
 		}
@@ -73,7 +73,7 @@ public class VnfPackageControllerImpl implements VnfPackageController {
 	@Override
 	public VnfPackage vnfPackagesVnfPkgIdPatch(final UUID id, final String body, final String ifMatch) {
 		final VnfPackage vnfPackage = vnfPackageService.findById(id);
-		if (ifMatch != null && !ifMatch.equals(vnfPackage.getVersion() + "")) {
+		if ((ifMatch != null) && !ifMatch.equals(vnfPackage.getVersion() + "")) {
 			throw new PreConditionException(ifMatch + " does not match " + vnfPackage.getVersion());
 		}
 		patcher.patch(body, vnfPackage);
