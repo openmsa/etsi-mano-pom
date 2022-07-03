@@ -219,6 +219,7 @@ public class ToscaContext {
 			value.setResolved(resolv);
 			final String content = resolver.getContent(value.getResolved());
 			if (null == content) {
+				LOG.warn("Failed to resolv {}", value);
 				continue;
 			}
 			final ToscaParser main = new ToscaParser(content, resolver);
@@ -259,6 +260,13 @@ public class ToscaContext {
 				interfaceTypes = context.getInterfaceTypes();
 			} else {
 				interfaceTypes.putAll(context.getInterfaceTypes());
+			}
+		}
+		if (null != context.getImports()) {
+			if (imports == null) {
+				imports = context.getImports();
+			} else {
+				imports.putAll(context.getImports());
 			}
 		}
 		mergeTopologies(context.getTopologies());

@@ -173,4 +173,9 @@ public class DefaultVnfPackageReader implements VnfPackageReader {
 		return null;
 	}
 
+	@Override
+	public List<String> getVnfdFiles(final boolean includeSignatures) {
+		return List.of();
+	}
+
 }

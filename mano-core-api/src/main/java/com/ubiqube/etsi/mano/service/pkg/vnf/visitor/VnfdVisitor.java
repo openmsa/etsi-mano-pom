@@ -44,24 +44,13 @@ public class VnfdVisitor implements OnboardVisitor {
 	private final VnfPackageRepository vnfPackageRepository;
 
 	public VnfdVisitor(final VnfPackageRepository vnfPackageRepository) {
-		super();
 		this.vnfPackageRepository = vnfPackageRepository;
 	}
 
 	@Override
 	public void visit(final VnfPackage vnfPackage, final VnfPackageReader vnfPackageReader, final Map<String, String> userData) {
-		final List<String> imports = vnfPackageReader.getImports();
-		if (imports.isEmpty()) {
-			return;
-		}
-		final List<FileEntry> ret = convertToFileEntry(vnfPackageReader, imports);
-		if (ret.size() == 1) {
-			final FileEntry fileEntry = ret.get(0);
-			final ByteArrayInputStream stream = new ByteArrayInputStream(fileEntry.content());
-			vnfPackageRepository.storeBinary(vnfPackage.getId(), Constants.REPOSITORY_FILENAME_VNFD, stream);
-			vnfPackage.setVnfdContentType("text/plain");
-			return;
-		}
+		final List<String> files = vnfPackageReader.getVnfdFiles(true);
+		final List<FileEntry> ret = convertToFileEntry(vnfPackageReader, files);
 		final byte[] newZip = buildZip(ret);
 		final ByteArrayInputStream stream = new ByteArrayInputStream(newZip);
 		vnfPackageRepository.storeBinary(vnfPackage.getId(), Constants.REPOSITORY_FILENAME_VNFD, stream);

@@ -88,7 +88,7 @@ public abstract class AbstractResolver implements IResolver {
 		if (imported.contains(path) || isUrl(path)) {
 			return path;
 		}
-		if (!path.startsWith("/") && null != parent) {
+		if (!path.startsWith("/") && (null != parent)) {
 			final File f = new File(parent, path);
 			if (exist(f.toString())) {
 				return f.toString();
@@ -118,16 +118,16 @@ public abstract class AbstractResolver implements IResolver {
 			return handleContent(tmp);
 		}
 		final File f = new File(url);
+		if (exist(f.toString())) {
+			parent = f.getParentFile();
+			return handleContent(url);
+		}
 		if (null != parent) {
 			final File p = new File(parent, url);
 			if (exist(p.toString())) {
 				parent = f.getParentFile();
 				return handleContent(p.toString());
 			}
-		}
-		if (exist(f.toString())) {
-			parent = f.getParentFile();
-			return handleContent(url);
 		}
 		return null;
 	}

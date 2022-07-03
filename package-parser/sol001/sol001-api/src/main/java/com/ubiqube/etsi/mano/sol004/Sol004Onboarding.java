@@ -158,7 +158,7 @@ public class Sol004Onboarding {
 	private static String findCsarFile(final String filename) {
 		try (ZipFile zip = new ZipFile(filename)) {
 			final List<String> l = zip.stream().filter(x -> x.getName().endsWith(DOT_CSAR)).map(ZipEntry::getName).toList();
-			if (l.isEmpty() || l.size() > 1) {
+			if (l.isEmpty() || (l.size() > 1)) {
 				throw new Sol004Exception("Could not find csar file " + l.size());
 			}
 			return l.get(0);
