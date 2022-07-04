@@ -31,6 +31,7 @@ import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -49,9 +50,10 @@ public class ManoErrorController extends AbstractErrorController {
 	public ResponseEntity<ProblemDetails> getError(final HttpServletRequest request, final HttpServletResponse response) {
 		final Integer status = (Integer) request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 		final Map<String, Object> ea = getErrorAttributes(request, ErrorAttributeOptions.of(Include.EXCEPTION, Include.MESSAGE, Include.BINDING_ERRORS));
+		final String message = buildMessage(ea);
 		LOG.trace("Error controller: {} => {}", status, ea);
 		if (status != null) {
-			final ProblemDetails problemDetail = new ProblemDetails(status, (String) ea.get("message"));
+			final ProblemDetails problemDetail = new ProblemDetails(status, message);
 			return ResponseEntity.status(status)
 					.contentType(MediaType.APPLICATION_PROBLEM_JSON)
 					.body(problemDetail);
@@ -61,5 +63,15 @@ public class ManoErrorController extends AbstractErrorController {
 				.status(500)
 				.contentType(MediaType.APPLICATION_PROBLEM_JSON)
 				.body(problemDetail);
+	}
+
+	private String buildMessage(final Map<String, Object> ea) {
+		String message = (String) ea.get("message");
+		final String ex = (String) ea.get("exception");
+		if (MethodArgumentNotValidException.class.getName().equals(ex)) {
+			final Object c = ea.get("errors");
+			message = message + " " + c;
+		}
+		return message;
 	}
 }
