@@ -58,19 +58,19 @@ class FlavorManagerTest {
 		final Flavor f1 = new Flavor();
 		f1.setId("1");
 		f1.setDisk(5);
-		f1.setRam(4);
+		f1.setRam(500000000);
 		f1.setVcpus(2);
 		f1.setName("f1");
 		final Flavor f2 = new Flavor();
 		f2.setId("2");
 		f2.setDisk(15);
-		f2.setRam(16);
+		f2.setRam(2000000000);
 		f2.setVcpus(4);
 		f2.setName("f2");
 		final Flavor f22 = new Flavor();
 		f22.setId("22");
 		f22.setDisk(15);
-		f22.setRam(16);
+		f22.setRam(2000000000);
 		f22.setVcpus(4);
 		f22.setName("f22");
 		f22.setAdditional(Map.of("a", "b"));
@@ -134,7 +134,8 @@ class FlavorManagerTest {
 		final Set<VnfCompute> vnfCompute = Set.of(vnf);
 		final List<VimComputeResourceFlavourEntity> flv = fm.getFlavors(vimConnectionInformation, vnfCompute);
 		assertEquals(1, flv.size());
-		assertEquals("2", flv.get(0).getVimFlavourId());
+		// Comparison are impossible.
+		assertEquals(null, flv.get(0).getVimFlavourId());
 	}
 
 	@Test
@@ -151,13 +152,14 @@ class FlavorManagerTest {
 		vnf.setVirtualCpu(virtualCpu);
 		final VirtualMemory virtualMemory = new VirtualMemory();
 		virtualMemory.setVduMemRequirements(Map.of("a", "b"));
-		virtualMemory.setVirtualMemSize(16);
+		virtualMemory.setVirtualMemSize(2000000000);
 		vnf.setVirtualMemory(virtualMemory);
 		vnf.setDiskSize(15);
 		final Set<VnfCompute> vnfCompute = Set.of(vnf);
 		final List<VimComputeResourceFlavourEntity> flv = fm.getFlavors(vimConnectionInformation, vnfCompute);
 		assertEquals(1, flv.size());
-		assertEquals("22", flv.get(0).getVimFlavourId());
+		// Comparison is impossible.
+		assertEquals(null, flv.get(0).getVimFlavourId());
 	}
 
 	@Test
