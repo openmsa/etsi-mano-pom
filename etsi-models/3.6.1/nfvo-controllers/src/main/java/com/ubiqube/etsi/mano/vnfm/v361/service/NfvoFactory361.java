@@ -53,7 +53,7 @@ public class NfvoFactory361 implements NfvoFactory {
 		} catch (final RuntimeException e) {
 			deleted = true;
 		}
-		return VnfSubscriptionFactory361.createVnfPackageChangeNotification(deleted, subscriptionId, event.getObjectId(), event.getAdditionalParameters().get("vnfdId"),
+		return VnfSubscriptionFactory361.createVnfPackageChangeNotification(deleted, subscriptionId, event.getId(), event.getAdditionalParameters().get("vnfdId"), event.getObjectId(),
 				PackageOperationalStateType.fromValue(event.getAdditionalParameters().get("state")), new Sol005Linkable());
 	}
 

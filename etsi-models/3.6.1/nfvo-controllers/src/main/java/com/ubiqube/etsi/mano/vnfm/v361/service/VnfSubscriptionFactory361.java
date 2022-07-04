@@ -39,13 +39,14 @@ public class VnfSubscriptionFactory361 {
 	}
 
 	@Nonnull
-	public static VnfPackageChangeNotification createVnfPackageChangeNotification(final boolean deleted, final UUID subscriptionId, @Nonnull final UUID vnfPkgId, final String vnfdId, final PackageOperationalStateType state, final Linkable links) {
+	public static VnfPackageChangeNotification createVnfPackageChangeNotification(final boolean deleted, final UUID subscriptionId, @Nonnull final UUID vnfPkgId, final String vnfdId, final UUID eventId, final PackageOperationalStateType state, final Linkable links) {
 		final VnfPackageChangeNotification ret = new VnfPackageChangeNotification();
 		if (deleted) {
 			ret.setChangeType(PackageChangeType.PKG_DELETE);
 		} else {
 			ret.setChangeType(PackageChangeType.OP_STATE_CHANGE);
 		}
+		ret.setId(eventId.toString());
 		ret.setNotificationType("VnfPackageChangeNotification");
 		ret.setOperationalState(state);
 		ret.setSubscriptionId(subscriptionId.toString());
