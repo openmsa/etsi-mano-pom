@@ -60,6 +60,7 @@ import ma.glasnost.orika.converter.ConverterFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 import ma.glasnost.orika.impl.generator.EclipseJdtCompilerStrategy;
 
+@SuppressWarnings("static-method")
 class ManoClientTest {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ManoClientTest.class);
@@ -125,7 +126,6 @@ class ManoClientTest {
 		assertTrue(true);
 	}
 
-	@Test
 	void testName() throws URISyntaxException {
 		setupOrika();
 		final HttpGateway httpGateway = new VnfmGateway261(vnfmFactory, nfvoFactory, mapperFactory.getMapperFacade());
@@ -164,7 +164,7 @@ class ManoClientTest {
 								.build())
 				.build();
 		final FluxRest fr = new FluxRest(server);
-		fr.get(new URI("https://web.mano.ubiqube.com/"), Servers.class, "2.6.1"); //need to set "10.31.1.245  web.mano.ubiqube.com" in /etc/hosts
+		fr.get(new URI("https://web.mano.ubiqube.com/"), Servers.class, "2.6.1"); // need to set "10.31.1.245 web.mano.ubiqube.com" in /etc/hosts
 		final ServerAdapter serverAdapter = new ServerAdapter(httpGateway, server);
 		final MapperFacade mapper = mapperFactory.getMapperFacade();
 		final ManoClient mc = new ManoClient(mapper, serverAdapter);
@@ -262,6 +262,26 @@ class ManoClientTest {
 			LOG.info("Finish to copy.");
 		};
 		mc.vnfPackage().onboarded(id).artifacts(tgt, "Artifacts/Images/lbimage");
+	}
+
+	/**
+	 * Make sure all other certificates works normally.
+	 *
+	 * @throws URISyntaxException
+	 */
+	@Test
+	void testGitHttps() throws URISyntaxException {
+		final AuthParamOauth2 authParamOath2 = getNfvoAuth();
+		final Servers server = Servers.builder()
+				.url("https://github.com/")
+				.authentification(
+						AuthentificationInformations.builder()
+								.authParamOauth2(authParamOath2)
+								.build())
+				.build();
+		final FluxRest fr = new FluxRest(server);
+		fr.get(new URI("https://google.com/"), String.class, "2.6.1");
+		assertTrue(true);
 	}
 
 	@Test

@@ -39,7 +39,6 @@ import java.util.function.Function;
 import javax.net.ssl.SSLException;
 import javax.net.ssl.TrustManagerFactory;
 
-import org.apache.commons.lang3.StringUtils;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,10 +74,12 @@ import org.springframework.web.reactive.function.client.WebClient.RequestHeaders
 import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.ubiqube.etsi.mano.dao.mano.AuthParamOauth2;
 import com.ubiqube.etsi.mano.dao.mano.AuthentificationInformations;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.exception.GenericException;
 
+import io.netty.handler.logging.LogLevel;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
@@ -86,6 +87,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.SignalType;
 import reactor.netty.http.client.HttpClient;
+import reactor.netty.transport.logging.AdvancedByteBufFormat;
 
 /**
  *
@@ -107,14 +109,40 @@ public class FluxRest {
 
 	private WebClient createWebClient(final Servers server) {
 		final Builder wcb = WebClient.builder();
+		final SslContext sslContext = buildSslContext(server);
+		final ClientHttpConnector conn = new ReactorClientHttpConnector(getHttpClient(sslContext));
+		wcb.clientConnector(conn);
 		createAuthPart(wcb, server.getAuthentification());
-		if (server.isIgnoreSsl()) {
-			wcb.clientConnector(new ReactorClientHttpConnector(getHttpClient()));
-		} else {
-			wcb.clientConnector(new ReactorClientHttpConnector(getHttpClient(server.getTlsCert())));
-		}
 		wcb.baseUrl(rootUrl);
 		return wcb.build();
+	}
+
+	private static SslContext buildSslContext(final Servers server) {
+		if (server.isIgnoreSsl()) {
+			return bypassAllSsl();
+		}
+		if (server.getTlsCert() != null) {
+			return allowSslOneCert(server.getTlsCert());
+		}
+		return defaultSslContext();
+	}
+
+	private static SslContext buildSslContext(final AuthParamOauth2 oAuth) {
+		if (oAuth.getO2IgnoreSsl()) {
+			return bypassAllSsl();
+		}
+		if (oAuth.getO2AuthTlsCert() != null) {
+			return allowSslOneCert(oAuth.getO2AuthTlsCert());
+		}
+		return defaultSslContext();
+	}
+
+	private static SslContext defaultSslContext() {
+		try {
+			return SslContextBuilder.forClient().build();
+		} catch (final SSLException e) {
+			throw new GenericException(e);
+		}
 	}
 
 	private void createAuthPart(final Builder wcb, final AuthentificationInformations auth) {
@@ -126,15 +154,16 @@ public class FluxRest {
 			final AuthorizedClientServiceReactiveOAuth2AuthorizedClientManager authorizedClientManager = new AuthorizedClientServiceReactiveOAuth2AuthorizedClientManager(
 					getRegistration(x.getTokenEndpoint(), x.getClientId(), x.getClientSecret(), "openid"),
 					new InMemoryReactiveOAuth2AuthorizedClientService(getRegistration(x.getTokenEndpoint(), x.getClientId(), x.getClientSecret(), "openid")));
-			Optional.ofNullable(x.getO2IgnoreSsl()).filter(Boolean::booleanValue).ifPresent(y -> authorizedClientManager.setAuthorizedClientProvider(getAuthorizedClientProvider()));
+			Optional.ofNullable(x.getO2IgnoreSsl()).filter(Boolean::booleanValue).ifPresent(y -> authorizedClientManager.setAuthorizedClientProvider(getAuthorizedClientProvider(auth)));
 			final ServerOAuth2AuthorizedClientExchangeFilterFunction oauth2 = new ServerOAuth2AuthorizedClientExchangeFilterFunction(authorizedClientManager);
 			oauth2.setDefaultClientRegistrationId(id);
 			wcb.filter(oauth2);
 		});
 	}
 
-	private static ReactiveOAuth2AuthorizedClientProvider getAuthorizedClientProvider() {
-		final ClientHttpConnector httpConnector = new ReactorClientHttpConnector(getHttpClient());
+	private ReactiveOAuth2AuthorizedClientProvider getAuthorizedClientProvider(final AuthentificationInformations auth) {
+		final SslContext sslContext = buildSslContext(auth.getAuthParamOauth2());
+		final ClientHttpConnector httpConnector = new ReactorClientHttpConnector(getHttpClient(sslContext));
 		final WebClientReactiveClientCredentialsTokenResponseClient accessTokenResponseClient = new WebClientReactiveClientCredentialsTokenResponseClient();
 		accessTokenResponseClient.setWebClient(WebClient.builder().clientConnector(httpConnector).build());
 		return ReactiveOAuth2AuthorizedClientProviderBuilder
@@ -142,43 +171,38 @@ public class FluxRest {
 				.clientCredentials(c -> c.accessTokenResponseClient(accessTokenResponseClient)).build();
 	}
 
-	private static HttpClient getHttpClient(final String tlsCert) {
-		SslContext context;		
+	private static SslContext allowSslOneCert(final String tlsCert) {
 		try {
-			if (StringUtils.isNotBlank(tlsCert)) {
-				KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
-				trustStore.load(null,null);
-				
-				trustStore.setCertificateEntry(UUID.randomUUID().toString(),
-						CertificateFactory.getInstance("X.509")
-						.generateCertificate(new ByteArrayInputStream(tlsCert.getBytes())));
+			final KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+			trustStore.load(null, null);
+			trustStore.setCertificateEntry(UUID.randomUUID().toString(),
+					CertificateFactory.getInstance("X.509")
+							.generateCertificate(new ByteArrayInputStream(tlsCert.getBytes())));
 
-				TrustManagerFactory trustManagerFactory = TrustManagerFactory
+			final TrustManagerFactory trustManagerFactory = TrustManagerFactory
 					.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-				trustManagerFactory.init(trustStore);
-	
-				context = SslContextBuilder.forClient()
-						.trustManager(trustManagerFactory)
-						.build();
-			} else {
-				context = SslContextBuilder.forClient().build();
-			}
+			trustManagerFactory.init(trustStore);
+
+			return SslContextBuilder.forClient()
+					.trustManager(trustManagerFactory)
+					.build();
 		} catch (final IOException | KeyStoreException | CertificateException | NoSuchAlgorithmException e) {
 			throw new GenericException(e);
 		}
-		return HttpClient.create().secure(t -> t.sslContext(context));
 	}
 
-	private static HttpClient getHttpClient() {
-		SslContext context;
+	private static SslContext bypassAllSsl() {
 		try {
-			context = SslContextBuilder.forClient()
+			return SslContextBuilder.forClient()
 					.trustManager(InsecureTrustManagerFactory.INSTANCE)
 					.build();
 		} catch (final SSLException e) {
 			throw new GenericException(e);
 		}
-		return HttpClient.create().secure(t -> t.sslContext(context));
+	}
+
+	private HttpClient getHttpClient(final SslContext context) {
+		return HttpClient.create().wiretap(this.getClass().getCanonicalName(), LogLevel.DEBUG, AdvancedByteBufFormat.TEXTUAL).secure(t -> t.sslContext(context));
 	}
 
 	private ReactiveClientRegistrationRepository getRegistration(final String tokenUri, final String clientId, final String clientSecret, final String scope) {
