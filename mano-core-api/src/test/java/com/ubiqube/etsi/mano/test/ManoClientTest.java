@@ -22,6 +22,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.util.Map;
 import java.util.UUID;
@@ -48,6 +50,7 @@ import com.ubiqube.etsi.mano.nfvo.v261.services.VnfmGateway261;
 import com.ubiqube.etsi.mano.service.HttpGateway;
 import com.ubiqube.etsi.mano.service.NfvoFactory;
 import com.ubiqube.etsi.mano.service.VnfmFactory;
+import com.ubiqube.etsi.mano.service.rest.FluxRest;
 import com.ubiqube.etsi.mano.service.rest.ManoClient;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
 
@@ -122,18 +125,46 @@ class ManoClientTest {
 		assertTrue(true);
 	}
 
-	void testName() {
+	@Test
+	void testName() throws URISyntaxException {
 		setupOrika();
 		final HttpGateway httpGateway = new VnfmGateway261(vnfmFactory, nfvoFactory, mapperFactory.getMapperFacade());
 		final AuthParamOauth2 authParamOath2 = getNfvoAuth();
 		final Servers server = Servers.builder()
 				.url("http://localhost:8100/ubi-etsi-mano/sol005")
 				.version("2.6.1")
+				.tlsCert("-----BEGIN CERTIFICATE-----\n"
+						+ "MIIEPTCCAyWgAwIBAgIIFNYoTdjPHuIwDQYJKoZIhvcNAQELBQAwgY0xCzAJBgNV\n"
+						+ "BAYTAkZSMQ4wDAYDVQQIEwVJU0VSRTERMA8GA1UEBxMIR1JFTk9CTEUxHTAbBgNV\n"
+						+ "BAoTFHdlYi5tYW5vLnViaXF1YmUuY29tMR0wGwYDVQQLExR3ZWIubWFuby51Ymlx\n"
+						+ "dWJlLmNvbTEdMBsGA1UEAxMUd2ViLm1hbm8udWJpcXViZS5jb20wHhcNMjExMDIy\n"
+						+ "MDg0MzAwWhcNMjIxMDIyMDg0MzAwWjCBhzELMAkGA1UEBhMCRlIxDjAMBgNVBAgT\n"
+						+ "BUlTRVJFMREwDwYDVQQHEwhHUkVOT0JMRTEbMBkGA1UECgwSKi5tYW5vLnViaXF1\n"
+						+ "YmUuY29tMRswGQYDVQQLDBIqLm1hbm8udWJpcXViZS5jb20xGzAZBgNVBAMMEiou\n"
+						+ "bWFuby51YmlxdWJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEB\n"
+						+ "ANHy4SnXHsQUzpi0cgPPWKk0j5OdVigNTtULCrSrP/yyO47r9DWFWlkHfGGAK6G4\n"
+						+ "LcEcvg8cZfcJFy9g0qS0R1QtpF0lPw9IFo4s5UBUjp6me8MZTLpxchQ1zviKJ2TM\n"
+						+ "yk1P1tfRbFqaFTHNVyXZ7QCWl9gd5nb8ASrlPGIlkRiERYBXoFaTByoX/q9dj1i6\n"
+						+ "LqNOm1VY+aGPqj2ON9X7U5A03YZBz5C0A30hcrEuDxlrdeFtwFxosyC7XmZQKiim\n"
+						+ "Yl/eVz0vgezCS4oJQ1vPKZOkAMefWVYepgUgJi3ZXxsMytcDHXZIB7Q2iI1oNqNw\n"
+						+ "zHwAF7xxYYPmIFIA9qM/bUcCAwEAAaOBpDCBoTAMBgNVHRMBAf8EAjAAMB0GA1Ud\n"
+						+ "DgQWBBSkwiPmKrKXWEKjeoz+vGe5cO3G5zALBgNVHQ8EBAMCA+gwEwYDVR0lBAww\n"
+						+ "CgYIKwYBBQUHAwEwHQYDVR0RBBYwFIISKi5tYW5vLnViaXF1YmUuY29tMBEGCWCG\n"
+						+ "SAGG+EIBAQQEAwIGQDAeBglghkgBhvhCAQ0EERYPeGNhIGNlcnRpZmljYXRlMA0G\n"
+						+ "CSqGSIb3DQEBCwUAA4IBAQAfxsM5XAfCBV4sDByJbYdNWx52kkzbbo79a3dE4nhi\n"
+						+ "D+VvnB0TVDxXITSZ4pVbG/f+RxQ1rek4VWfCdpG66fqLSr/6sg5gefsPAISy0eJh\n"
+						+ "lzvWCaqcR+7GHyk2I9ymjnt6zeaI6EmL3CfcIKr0Mv543K8b6wZgGfpNhjhXpEvV\n"
+						+ "pAHGGQWQpTLABcrVLitDrBj+8amyLzqoMCs29CgUkDjYTnKQQ9iuyz1jG0ajPdwn\n"
+						+ "5tdEDcBOGj90Xl2MnuMwH4T0QYWN/njW1h+i7rHbEeAfJ+Rr2rxerJFf33HSC1RX\n"
+						+ "3bN4KgYJvPQwSU2zGpm6wW3po1jHZnmUFRUEp+H3aA5j\r\n"
+						+ "-----END CERTIFICATE-----")
 				.authentification(
 						AuthentificationInformations.builder()
 								.authParamOauth2(authParamOath2)
 								.build())
 				.build();
+		final FluxRest fr = new FluxRest(server);
+		fr.get(new URI("https://web.mano.ubiqube.com/"), Servers.class, "2.6.1"); //need to set "10.31.1.245  web.mano.ubiqube.com" in /etc/hosts
 		final ServerAdapter serverAdapter = new ServerAdapter(httpGateway, server);
 		final MapperFacade mapper = mapperFactory.getMapperFacade();
 		final ManoClient mc = new ManoClient(mapper, serverAdapter);

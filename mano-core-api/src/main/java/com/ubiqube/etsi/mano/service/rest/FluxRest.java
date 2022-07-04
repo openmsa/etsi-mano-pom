@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.service.rest;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -24,6 +25,11 @@ import java.io.PipedOutputStream;
 import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -31,7 +37,9 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 import javax.net.ssl.SSLException;
+import javax.net.ssl.TrustManagerFactory;
 
+import org.apache.commons.lang3.StringUtils;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -102,6 +110,8 @@ public class FluxRest {
 		createAuthPart(wcb, server.getAuthentification());
 		if (server.isIgnoreSsl()) {
 			wcb.clientConnector(new ReactorClientHttpConnector(getHttpClient()));
+		} else {
+			wcb.clientConnector(new ReactorClientHttpConnector(getHttpClient(server.getTlsCert())));
 		}
 		wcb.baseUrl(rootUrl);
 		return wcb.build();
@@ -130,6 +140,33 @@ public class FluxRest {
 		return ReactiveOAuth2AuthorizedClientProviderBuilder
 				.builder()
 				.clientCredentials(c -> c.accessTokenResponseClient(accessTokenResponseClient)).build();
+	}
+
+	private static HttpClient getHttpClient(final String tlsCert) {
+		SslContext context;		
+		try {
+			if (StringUtils.isNotBlank(tlsCert)) {
+				KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+				trustStore.load(null,null);
+				
+				trustStore.setCertificateEntry(UUID.randomUUID().toString(),
+						CertificateFactory.getInstance("X.509")
+						.generateCertificate(new ByteArrayInputStream(tlsCert.getBytes())));
+
+				TrustManagerFactory trustManagerFactory = TrustManagerFactory
+					.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+				trustManagerFactory.init(trustStore);
+	
+				context = SslContextBuilder.forClient()
+						.trustManager(trustManagerFactory)
+						.build();
+			} else {
+				context = SslContextBuilder.forClient().build();
+			}
+		} catch (final IOException | KeyStoreException | CertificateException | NoSuchAlgorithmException e) {
+			throw new GenericException(e);
+		}
+		return HttpClient.create().secure(t -> t.sslContext(context));
 	}
 
 	private static HttpClient getHttpClient() {
