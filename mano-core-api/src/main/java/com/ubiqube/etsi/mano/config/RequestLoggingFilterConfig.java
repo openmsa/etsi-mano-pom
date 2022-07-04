@@ -29,12 +29,13 @@ import org.springframework.web.filter.CommonsRequestLoggingFilter;
 public class RequestLoggingFilterConfig {
 	@SuppressWarnings("static-method")
 	@Bean
-	public CommonsRequestLoggingFilter logFilter() {
+	CommonsRequestLoggingFilter logFilter() {
 		final CommonsRequestLoggingFilter filter = new CommonsRequestLoggingFilter();
 		filter.setIncludeQueryString(true);
 		filter.setIncludePayload(true);
 		filter.setMaxPayloadLength(10000);
 		filter.setIncludeHeaders(true);
+		filter.setHeaderPredicate(x -> !x.equals("authorization"));
 		filter.setAfterMessagePrefix("REQUEST DATA : ");
 		return filter;
 	}
