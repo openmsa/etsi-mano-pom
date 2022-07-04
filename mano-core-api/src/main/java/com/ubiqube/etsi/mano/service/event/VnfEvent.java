@@ -56,7 +56,7 @@ public class VnfEvent {
 		final HttpGateway httpGateway = server.httpGateway();
 		final Object object = httpGateway.createEvent(subscription.getId(), event);
 		if (object == null) {
-			LOG.warn("Skippping event {}", event);
+			LOG.warn("Skippping event {}, for {}", event, httpGateway.getClass().getSimpleName());
 			return;
 		}
 		final var callbackUri = subscription.getCallbackUri();
