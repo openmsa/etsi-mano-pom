@@ -18,7 +18,6 @@ package com.ubiqube.etsi.mano.sol004;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
@@ -95,7 +94,7 @@ class VfsManoResourceTest {
 		assertEquals(1, zmr.getFileMatching(".*.mf").size());
 		assertEquals(3, zmr.getMetaInfo("manifest.mf").size());
 		final IResolver resolver = zmr.getResolver();
-		assertNull(resolver.resolvePath("bad"));
+		assertEquals("bad", resolver.resolvePath("bad"));
 	}
 
 	@Test

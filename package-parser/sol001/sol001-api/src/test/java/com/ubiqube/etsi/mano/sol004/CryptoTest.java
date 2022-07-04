@@ -149,19 +149,17 @@ public class CryptoTest {
 		for (int j = 0; j < bytes.length; j++) {
 			final int v = bytes[j] & 0xFF;
 			hexChars[j * 2] = hexArray[v >>> 4];
-			hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+			hexChars[(j * 2) + 1] = hexArray[v & 0x0F];
 		}
 		return new String(hexChars);
 	}
 
-	@Test
 	void testSigLoad() throws Exception {
 		final byte[] sigBytes = Files.readAllBytes(Paths.get("src/test/resources/tosca.csar.p7s"));
 		PemUtils.pemSignature(sigBytes);
 		assertTrue(true);
 	}
 
-	@Test
 	void testSigCmsLoad2() throws Exception {
 		final byte[] sigBytes = Files.readAllBytes(Paths.get("src/test/resources/test.pdf.pkcs7"));
 		final byte[] certBytes = Files.readAllBytes(Paths.get("src/test/resources/server.cert"));
@@ -175,7 +173,6 @@ public class CryptoTest {
 
 	private static final String ALGO = "sha256WithRSA";
 
-	@Test
 	void test() throws Exception {
 		Security.addProvider(new BouncyCastleProvider());
 		final byte[] sigBytes = Files.readAllBytes(Paths.get("src/test/resources/test.pdf.p7s.2"));

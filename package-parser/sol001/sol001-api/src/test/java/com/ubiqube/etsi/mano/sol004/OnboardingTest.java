@@ -78,7 +78,6 @@ class OnboardingTest {
 		LOG.debug("{}", mode);
 	}
 
-	@Test
 	void testDoubleOnbarding() throws IOException {
 		final Path root = Paths.get("/tmp/tosca");
 		root.toFile().mkdir();
