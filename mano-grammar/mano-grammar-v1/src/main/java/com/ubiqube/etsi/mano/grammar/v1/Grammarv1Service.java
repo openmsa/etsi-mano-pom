@@ -50,7 +50,6 @@ import com.ubiqube.etsi.mano.grammar.antlr.AbstractAntlrGrammar;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-@SuppressWarnings("unchecked")
 @Service
 public class Grammarv1Service extends AbstractAntlrGrammar<TreeBuilder> implements GrammarParser {
 

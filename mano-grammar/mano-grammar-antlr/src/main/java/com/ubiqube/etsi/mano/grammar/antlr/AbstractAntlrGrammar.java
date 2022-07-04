@@ -25,10 +25,12 @@ import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 import com.ubiqube.etsi.mano.grammar.GrammarException;
+import com.ubiqube.etsi.mano.grammar.GrammarParser;
 import com.ubiqube.etsi.mano.grammar.Node;
 
-public abstract class AbstractAntlrGrammar<T extends ParseTreeListener> {
+public abstract class AbstractAntlrGrammar<T extends ParseTreeListener> implements GrammarParser {
 
+	@Override
 	public final List<Node<String>> parse(final String query) {
 		List<Node<String>> nodes = new ArrayList<>();
 		final T treeBuilder = createTreeBuilder();
