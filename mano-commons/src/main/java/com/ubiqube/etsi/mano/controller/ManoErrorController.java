@@ -20,7 +20,6 @@ import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +46,7 @@ public class ManoErrorController extends AbstractErrorController {
 	}
 
 	@RequestMapping("/error")
-	public ResponseEntity<ProblemDetails> getError(final HttpServletRequest request, final HttpServletResponse response) {
+	public ResponseEntity<ProblemDetails> getError(final HttpServletRequest request) {
 		final Integer status = (Integer) request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 		final Map<String, Object> ea = getErrorAttributes(request, ErrorAttributeOptions.of(Include.EXCEPTION, Include.MESSAGE, Include.BINDING_ERRORS));
 		final String message = buildMessage(ea);
@@ -65,13 +64,13 @@ public class ManoErrorController extends AbstractErrorController {
 				.body(problemDetail);
 	}
 
-	private String buildMessage(final Map<String, Object> ea) {
-		String message = (String) ea.get("message");
+	private static String buildMessage(final Map<String, Object> ea) {
+		final StringBuilder message = new StringBuilder().append((String) ea.get("message"));
 		final String ex = (String) ea.get("exception");
 		if (MethodArgumentNotValidException.class.getName().equals(ex)) {
 			final Object c = ea.get("errors");
-			message = message + " " + c;
+			message.append(" ").append(c);
 		}
-		return message;
+		return message.toString();
 	}
 }

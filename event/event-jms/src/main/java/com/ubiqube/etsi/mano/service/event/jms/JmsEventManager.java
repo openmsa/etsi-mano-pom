@@ -29,6 +29,7 @@ import com.ubiqube.etsi.mano.model.NotificationEvent;
 import com.ubiqube.etsi.mano.service.event.ActionMessage;
 import com.ubiqube.etsi.mano.service.event.ActionType;
 import com.ubiqube.etsi.mano.service.event.EventManager;
+import com.ubiqube.etsi.mano.service.event.SubscriptionEvent;
 
 @Service
 public class JmsEventManager implements EventManager {
@@ -39,7 +40,6 @@ public class JmsEventManager implements EventManager {
 	private final EventMessageJpa eventMessageJpa;
 
 	public JmsEventManager(final JmsTemplate jmsTemplate, final EventMessageJpa eventMessageJpa) {
-		super();
 		this.jmsTemplate = jmsTemplate;
 		this.eventMessageJpa = eventMessageJpa;
 	}
@@ -74,5 +74,10 @@ public class JmsEventManager implements EventManager {
 	public void sendAction(final ActionType actionType, final UUID objectId) {
 		final ActionMessage msg = new ActionMessage(actionType, objectId, Map.of());
 		jmsTemplate.convertAndSend("system.actions.common", msg);
+	}
+
+	@Override
+	public void notificationSender(final SubscriptionEvent se) {
+		jmsTemplate.convertAndSend("system.notifications.sender", se);
 	}
 }

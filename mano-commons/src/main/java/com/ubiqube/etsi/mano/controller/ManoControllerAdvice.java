@@ -39,6 +39,7 @@ public class ManoControllerAdvice {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ManoControllerAdvice.class);
 
+	@SuppressWarnings("static-method")
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<ProblemDetails> handleValidationExceptions(final MethodArgumentNotValidException ex) {

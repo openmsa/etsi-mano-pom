@@ -14,35 +14,36 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.nfvo.service.event;
+package com.ubiqube.etsi.mano.service.event.jms;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.model.EventMessage;
 import com.ubiqube.etsi.mano.service.event.NotificationController;
 import com.ubiqube.etsi.mano.service.event.SubscriptionEvent;
-import com.ubiqube.etsi.mano.service.event.VnfEvent;
 
 /**
  *
- * @author Olivier Vignaud <ovi@ubiqube.com>
+ * @author olivier
  *
  */
 @Service
-public class NotificationsController implements NotificationController {
-	private final VnfEvent vnfEvent;
+public class EventSender {
 
-	public NotificationsController(final VnfEvent vnfEvent) {
-		this.vnfEvent = vnfEvent;
+	private static final Logger LOG = LoggerFactory.getLogger(EventSender.class);
+
+	private final NotificationController notificationController;
+
+	public EventSender(final NotificationController notificationController) {
+		this.notificationController = notificationController;
 	}
 
-	@Override
-	public void onEvent(final EventMessage ev) {
-		vnfEvent.onEvent(ev);
-	}
-
-	@Override
+	@JmsListener(destination = "system.notifications.sender", concurrency = "2-4")
 	public void onNotificationSender(final SubscriptionEvent se) {
-		vnfEvent.sendNotification(se.getSubscription(), se.getEvent());
+		LOG.info("Notification Controller Received event: {}", se);
+		notificationController.onNotificationSender(se);
 	}
+
 }

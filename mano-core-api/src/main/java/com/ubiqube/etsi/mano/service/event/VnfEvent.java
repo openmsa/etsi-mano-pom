@@ -43,15 +43,17 @@ public class VnfEvent {
 	private final ServerService serverService;
 	private final SubscriptionService subscriptionService;
 	private final Notifications notifications;
+	private final EventManager eventManager;
 
-	public VnfEvent(final SubscriptionService subscriptionRepository, final Notifications notifications, final ServerService serverService) {
-		super();
+	public VnfEvent(final SubscriptionService subscriptionRepository, final Notifications notifications, final ServerService serverService,
+			final EventManager eventManager) {
 		this.subscriptionService = subscriptionRepository;
 		this.notifications = notifications;
 		this.serverService = serverService;
+		this.eventManager = eventManager;
 	}
 
-	private void sendNotification(final Subscription subscription, final EventMessage event) {
+	public void sendNotification(final Subscription subscription, final EventMessage event) {
 		final ServerAdapter server = serverService.buildServerAdapter(subscription);
 		final HttpGateway httpGateway = server.httpGateway();
 		final Object object = httpGateway.createEvent(subscription.getId(), event);
@@ -68,7 +70,8 @@ public class VnfEvent {
 		LOG.info("Event received: {}/{} with {} elements.", ev.getNotificationEvent(), ev.getObjectId(), res.size());
 		res.stream().forEach(x -> {
 			try {
-				sendNotification(x, ev);
+				final SubscriptionEvent se = SubscriptionEvent.builder().event(ev).subscription(x).build();
+				eventManager.notificationSender(se);
 			} catch (final RuntimeException e) {
 				LOG.error("Could not send notfication {}", x.getCallbackUri(), e);
 			}

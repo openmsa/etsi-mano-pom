@@ -36,6 +36,7 @@ import com.ubiqube.etsi.mano.model.EventMessage;
 import com.ubiqube.etsi.mano.model.NotificationEvent;
 import com.ubiqube.etsi.mano.service.event.ActionType;
 import com.ubiqube.etsi.mano.service.event.EventManager;
+import com.ubiqube.etsi.mano.service.event.SubscriptionEvent;
 
 /**
  * Simple implementation using Quartz.
@@ -64,7 +65,7 @@ public class QuartzEventManager implements EventManager {
 	@Override
 	public void sendNotification(final NotificationEvent notificationEvent, final UUID objectId, final Map<String, String> additionalParameters) {
 		LOG.info("Starting notification : {}/{}", notificationEvent, objectId);
-		EventMessage msg = new EventMessage(notificationEvent, objectId, Map.of());
+		EventMessage msg = new EventMessage(notificationEvent, objectId, additionalParameters);
 		msg = eventMessageJpa.save(msg);
 		createJob(msg.getId(), additionalParameters, notificationEvent.value(), objectId, NotificationJob.class);
 	}
@@ -100,6 +101,10 @@ public class QuartzEventManager implements EventManager {
 
 	private <U> void createJob(final UUID id, final Map<String, U> parameters, final String actionType, final UUID objectId, final Class<? extends QuartzJobBean> controllers) {
 		final JobDataMap jobDataMap = QuartzEventUtils.createJobMap(id, actionType, objectId, parameters);
+		launchJob(actionType, controllers, jobDataMap);
+	}
+
+	private void launchJob(final String actionType, final Class<? extends QuartzJobBean> controllers, final JobDataMap jobDataMap) {
 		final JobDetail jobDetail = JobBuilder.newJob(controllers)
 				.withIdentity(UUID.randomUUID().toString(), actionType + "-jobs")
 				.withDescription("Action ETSI-MANO")
@@ -116,5 +121,11 @@ public class QuartzEventManager implements EventManager {
 		} catch (final SchedulerException e) {
 			throw new GenericException(e);
 		}
+	}
+
+	@Override
+	public void notificationSender(final SubscriptionEvent se) {
+		final JobDataMap jobDataMap = QuartzEventUtils.createSubscriptionEvent(se);
+		launchJob("subscription-send", SendSubscriptionJob.class, jobDataMap);
 	}
 }

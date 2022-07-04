@@ -16,15 +16,27 @@
  */
 package com.ubiqube.etsi.mano.service.event;
 
+import com.ubiqube.etsi.mano.dao.mano.Subscription;
 import com.ubiqube.etsi.mano.model.EventMessage;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  *
- * @author Olivier Vignaud <ovi@ubiqube.com>
+ * @author olivier
  *
  */
-public interface NotificationController {
-	void onEvent(final EventMessage ev);
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Getter
+@Setter
+public class SubscriptionEvent {
+	private Subscription subscription;
 
-	void onNotificationSender(SubscriptionEvent se);
+	private EventMessage event;
 }

@@ -73,4 +73,11 @@ public interface EventManager {
 	 * @param parameters Additional parameters if any.
 	 */
 	void sendGrant(@NotNull final UUID objectId, final @NotNull Map<String, Object> parameters);
+
+	/**
+	 * Send the real notification.
+	 *
+	 * @param se
+	 */
+	void notificationSender(SubscriptionEvent se);
 }

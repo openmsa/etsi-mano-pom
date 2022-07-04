@@ -14,35 +14,33 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.nfvo.service.event;
+package com.ubiqube.etsi.mano.service.event.quartz;
 
-import org.springframework.stereotype.Service;
+import org.quartz.JobDataMap;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+import org.springframework.scheduling.quartz.QuartzJobBean;
 
-import com.ubiqube.etsi.mano.model.EventMessage;
 import com.ubiqube.etsi.mano.service.event.NotificationController;
 import com.ubiqube.etsi.mano.service.event.SubscriptionEvent;
-import com.ubiqube.etsi.mano.service.event.VnfEvent;
 
 /**
  *
- * @author Olivier Vignaud <ovi@ubiqube.com>
+ * @author olivier
  *
  */
-@Service
-public class NotificationsController implements NotificationController {
-	private final VnfEvent vnfEvent;
+public class SendSubscriptionJob extends QuartzJobBean {
+	private final NotificationController notificationController;
 
-	public NotificationsController(final VnfEvent vnfEvent) {
-		this.vnfEvent = vnfEvent;
+	public SendSubscriptionJob(final NotificationController notificationController) {
+		this.notificationController = notificationController;
 	}
 
 	@Override
-	public void onEvent(final EventMessage ev) {
-		vnfEvent.onEvent(ev);
+	protected void executeInternal(final JobExecutionContext context) throws JobExecutionException {
+		final JobDataMap jobDataMap = context.getMergedJobDataMap();
+		final SubscriptionEvent se = QuartzEventUtils.toSubscriptionEvent(jobDataMap);
+		notificationController.onNotificationSender(se);
 	}
 
-	@Override
-	public void onNotificationSender(final SubscriptionEvent se) {
-		vnfEvent.sendNotification(se.getSubscription(), se.getEvent());
-	}
 }

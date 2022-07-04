@@ -23,10 +23,14 @@ import org.quartz.JobDataMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.model.EventMessage;
 import com.ubiqube.etsi.mano.model.NotificationEvent;
 import com.ubiqube.etsi.mano.service.event.ActionMessage;
 import com.ubiqube.etsi.mano.service.event.ActionType;
+import com.ubiqube.etsi.mano.service.event.SubscriptionEvent;
 
 /**
  *
@@ -48,6 +52,7 @@ public class QuartzEventUtils {
 		jobDataMap.put("id", id);
 		jobDataMap.put(EVENT_TYPE, actionType);
 		jobDataMap.put(OBJECT_ID, objectId);
+		jobDataMap.put("params", parameters);
 		return jobDataMap;
 	}
 
@@ -64,8 +69,29 @@ public class QuartzEventUtils {
 	public static EventMessage createEventMessage(final JobDataMap jobDataMap) {
 		final NotificationEvent eventType = NotificationEvent.valueOf(jobDataMap.getString(EVENT_TYPE));
 		final UUID objectId = (UUID) jobDataMap.get(OBJECT_ID);
-		final EventMessage ev = new EventMessage(eventType, objectId, Map.of());
+		final EventMessage ev = new EventMessage(eventType, objectId, (Map) jobDataMap.get("params"));
 		ev.setId((UUID) jobDataMap.get("id"));
 		return ev;
+	}
+
+	public static JobDataMap createSubscriptionEvent(final SubscriptionEvent se) {
+		final JobDataMap jobDataMap = new JobDataMap();
+		final ObjectMapper obj = new ObjectMapper();
+		try {
+			jobDataMap.put("data", obj.writeValueAsString(se));
+		} catch (final JsonProcessingException e) {
+			throw new GenericException(e);
+		}
+		return jobDataMap;
+	}
+
+	public static SubscriptionEvent toSubscriptionEvent(final JobDataMap jobDataMap) {
+		final ObjectMapper obj = new ObjectMapper();
+		try {
+			final String data = (String) jobDataMap.get("data");
+			return obj.readValue(data, SubscriptionEvent.class);
+		} catch (final JsonProcessingException e) {
+			throw new GenericException(e);
+		}
 	}
 }
