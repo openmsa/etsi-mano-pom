@@ -22,6 +22,8 @@ import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
@@ -64,6 +66,8 @@ import ma.glasnost.orika.MapperFacade;
  */
 @Service
 public class VnfmGateway261 extends AbstractHttpGateway {
+
+	private static final Logger LOG = LoggerFactory.getLogger(VnfmGateway261.class);
 
 	private final NfvoFactory nfvoFactory;
 	private final VnfmFactory vnfmFactory;
@@ -180,7 +184,10 @@ public class VnfmGateway261 extends AbstractHttpGateway {
 		return switch (event.getNotificationEvent()) {
 		case VNF_PKG_ONCHANGE, VNF_PKG_ONDELETION -> nfvoFactory.createVnfPackageChangeNotification(subscriptionId, event);
 		case VNF_PKG_ONBOARDING -> nfvoFactory.createNotificationVnfPackageOnboardingNotification(subscriptionId, event);
-		default -> null;
+		default -> {
+			LOG.warn("Could not find event.");
+			yield null;
+		}
 		};
 	}
 
