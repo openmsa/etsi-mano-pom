@@ -17,9 +17,9 @@
 package com.ubiqube.parser.tosca.deserializer;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -44,7 +44,7 @@ public class ImportDeserializer extends StdDeserializer<Imports> {
 
 	@Override
 	public Imports deserialize(final JsonParser p, final DeserializationContext ctxt) throws IOException {
-		final Map<String, Import> imports = new HashMap<>();
+		final Map<String, Import> imports = new ConcurrentHashMap<>();
 		final ArrayNode value = p.getCodec().readTree(p);
 		for (final JsonNode jsonNode : value) {
 			if (jsonNode.isObject()) {
