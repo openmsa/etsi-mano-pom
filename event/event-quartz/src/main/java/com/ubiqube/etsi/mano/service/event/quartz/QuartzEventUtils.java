@@ -69,7 +69,7 @@ public class QuartzEventUtils {
 	public static EventMessage createEventMessage(final JobDataMap jobDataMap) {
 		final NotificationEvent eventType = NotificationEvent.valueOf(jobDataMap.getString(EVENT_TYPE));
 		final UUID objectId = (UUID) jobDataMap.get(OBJECT_ID);
-		final EventMessage ev = new EventMessage(eventType, objectId, (Map) jobDataMap.get("params"));
+		final EventMessage ev = new EventMessage(eventType, objectId, (Map<String, String>) jobDataMap.get("params"));
 		ev.setId((UUID) jobDataMap.get("id"));
 		return ev;
 	}
