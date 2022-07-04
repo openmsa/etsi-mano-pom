@@ -3,7 +3,7 @@ description: >
   Sample VNF for integration testing.
 
 imports:
-  - https://forge.etsi.org/rep/nfv/SOL001/raw/master/etsi_nfv_sol001_vnfd_types.yaml
+  - etsi_nfv_sol001_vnfd_types.yaml
 
 topology_template:
   inputs:
@@ -127,33 +127,19 @@ topology_template:
       description: A node.
       artifacts:
         sw_image:
-          type: tosca.artifacts.deployment.image.vm.QCOW2
+          type: tosca.artifacts.nfv.SwImage
           file: myFile.qcow2
           deploy_path: deploy path
-          checksum: 1234
-          checksum_algorithm: ssh512
+          checksum: 
+            algorithm: ssh256
+            hash: c41ce7bc2f4ab27a3597b3e160fc8b01c56a6b58e1046a4a23b8518fb9e9a61f
           description: desc
           repository: repo
-          vim_type: vimtype
-          artifact_version: 1.0.0
-          properties:
-            key: value
+          #vim_type: vimtype
+          #artifact_version: 1.0.0
+          #properties:
+          #  key: value
       properties:
-        sw_image_data:
-          name: cirros
-          provider: provider
-          version: 1.0.0
-          supported_virtualisation_environments:
-            - test
-          checksum:
-            hash: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
-            algorithm: SHA-256
-          container_format: BARE
-          disk_format: QCOW2
-          size: 1 Gib
-          min_disk: 6 GiB
-          min_ram: 2 GiB
-          operating_system: centos8
         nfvi_constraints:
           key: value
         monitoring_parameters: # tosca.datatypes.nfv.VnfMonitoringParameter
@@ -227,21 +213,24 @@ topology_template:
       type: tosca.nodes.nfv.Vdu.Compute
       name: Right instance
       description: A node.
+      artifacts:
+        sw_image:
+          type: tosca.artifacts.nfv.SwImage
+          file: myFile.qcow2
+          deploy_path: deploy path
+          checksum: 
+            algorithm: ssh256
+            hash: c41ce7bc2f4ab27a3597b3e160fc8b01c56a6b58e1046a4a23b8518fb9e9a61f
+          description: desc
+          repository: repo
+          #vim_type: vimtype
+          #artifact_version: 1.0.0
+          #properties:
+          #  key: value
       properties:
         vdu_profile:
           min_number_of_instances: 1
           max_number_of_instances: 2
-        sw_image_data:
-          name: cirros
-          version: 1.0.0
-          checksum:
-            hash: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
-            algorithm: SHA-256
-          container_format: BARE
-          disk_format: QCOW2
-          min_disk: 6 GB
-          min_ram: 2 GB
-          operating_system: centos8
       capabilities:
         virtual_compute:
           virtual_memory:
@@ -257,22 +246,20 @@ topology_template:
           size_of_storage: 6 GB
           vdu_storage_requirements:
             key: value
-        sw_image_data:
-          name: cirros
-          provider: prov
-          size: 1 Gib
-          version: 1.0.0
-          checksum:
-            hash: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
-            algorithm: SHA-256
-          container_format: BARE
-          disk_format: QCOW2
-          min_disk: 6 GB
-          min_ram: 2 GB
-          operating_system: centos8
-          supported_virtualisation_environments:
-            - openstack
-            - glance
+      artifacts:
+        sw_image:
+          type: tosca.artifacts.nfv.SwImage
+          file: myFile.qcow2
+          deploy_path: deploy path
+          checksum: 
+            algorithm: ssh256
+            hash: c41ce7bc2f4ab27a3597b3e160fc8b01c56a6b58e1046a4a23b8518fb9e9a61f
+          description: desc
+          repository: repo
+          #vim_type: vimtype
+          #artifact_version: 1.0.0
+          #properties:
+          #  key: value
       capabilities:
         virtual_storage: # tosca.capabilities.nfv.VirtualStorage
           internal_name: test
