@@ -79,7 +79,6 @@ import com.ubiqube.etsi.mano.dao.mano.AuthentificationInformations;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.exception.GenericException;
 
-import io.netty.handler.logging.LogLevel;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
@@ -87,7 +86,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.SignalType;
 import reactor.netty.http.client.HttpClient;
-import reactor.netty.transport.logging.AdvancedByteBufFormat;
 
 /**
  *
@@ -202,7 +200,7 @@ public class FluxRest {
 	}
 
 	private HttpClient getHttpClient(final SslContext context) {
-		return HttpClient.create().wiretap(this.getClass().getCanonicalName(), LogLevel.DEBUG, AdvancedByteBufFormat.TEXTUAL).secure(t -> t.sslContext(context));
+		return HttpClient.create().doOnRequest((h, c) -> c.addHandlerFirst(new ManoLoggingHandler())).secure(t -> t.sslContext(context));
 	}
 
 	private ReactiveClientRegistrationRepository getRegistration(final String tokenUri, final String clientId, final String clientSecret, final String scope) {
