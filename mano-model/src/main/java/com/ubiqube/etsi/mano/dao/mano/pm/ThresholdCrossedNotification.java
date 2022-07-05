@@ -39,6 +39,10 @@ public class ThresholdCrossedNotification {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
 
+	private UUID nfvoId;
+
+	private String subscriptionId;
+
 	/**
 	 * Discriminator for the different notification types. Shall be set to
 	 * "ThresholdCrossedNotification" for this notification type.

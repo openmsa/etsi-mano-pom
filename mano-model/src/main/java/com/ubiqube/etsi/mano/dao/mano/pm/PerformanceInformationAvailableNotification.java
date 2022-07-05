@@ -46,6 +46,10 @@ public class PerformanceInformationAvailableNotification {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
 
+	private UUID nfvoId;
+
+	private String subscriptionId;
+
 	/**
 	 * Discriminator for the different notification types. Shall be set to
 	 * "PerformanceInformationAvailableNotification" for this notification type.
