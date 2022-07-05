@@ -1,4 +1,4 @@
-package com.ubiqube.etsi.mano.vnfm.v361.controller.vnfind;
+package com.ubiqube.etsi.mano.vnfm.v261.controller.vnfind;
 
 import javax.validation.Valid;
 
@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ubiqube.etsi.mano.controller.vnfind.VnfIndicatorNotificationFrontController;
-import com.ubiqube.etsi.mano.vnfm.v361.model.vnfind.VnfIndicatorValueChangeNotification;
+import com.ubiqube.etsi.mano.vnfm.v261.model.vnfind.VnfIndicatorValueChangeNotification;
 
 /**
  *
@@ -14,10 +14,10 @@ import com.ubiqube.etsi.mano.vnfm.v361.model.vnfind.VnfIndicatorValueChangeNotif
  *
  */
 @RestController
-public class VnfIndNotification361Sol003Controller implements VnfIndNotification361Sol003Api {
+public class VnfIndNotification261Sol003Controller implements VnfIndNotification261Sol003Api {
 	private final VnfIndicatorNotificationFrontController fc;
 
-	public VnfIndNotification361Sol003Controller(final VnfIndicatorNotificationFrontController fc) {
+	public VnfIndNotification261Sol003Controller(final VnfIndicatorNotificationFrontController fc) {
 		this.fc = fc;
 	}
 

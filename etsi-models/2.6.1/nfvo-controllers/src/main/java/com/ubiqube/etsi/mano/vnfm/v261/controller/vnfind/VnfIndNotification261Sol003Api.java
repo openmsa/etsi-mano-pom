@@ -3,7 +3,7 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-package com.ubiqube.etsi.mano.vnfm.v361.controller.vnfind;
+package com.ubiqube.etsi.mano.vnfm.v261.controller.vnfind;
 
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.ubiqube.etsi.mano.em.v361.model.vnfconfig.ProblemDetails;
-import com.ubiqube.etsi.mano.vnfm.v361.model.vnfind.VnfIndicatorValueChangeNotification;
+import com.ubiqube.etsi.mano.model.ProblemDetails;
+import com.ubiqube.etsi.mano.vnfm.v261.model.vnfind.VnfIndicatorValueChangeNotification;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -30,10 +30,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
  * @author olivier
  *
  */
-@RequestMapping(value = "/sol003/vnfind/v1/notification/", headers = { "Version=1.3.1" })
-@RolesAllowed({ "ROLE_NFVO" })
-public interface VnfIndNotification361Sol003Api {
-
+@RequestMapping("/sol003/vnfind/v1/notification/")
+@RolesAllowed({ "ROLE_VNFM" })
+public interface VnfIndNotification261Sol003Api {
 	@Operation(summary = "", description = "The GET method allows the API producer to test the notification endpoint that is provided by the API consumer, e.g. during subscription. See clause 8.4.7.3.2. ", tags = {})
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "204", description = "204 NO CONTENT Shall be returned to indicate that the notification endpoint has been tested successfully. The response body shall be empty. "),

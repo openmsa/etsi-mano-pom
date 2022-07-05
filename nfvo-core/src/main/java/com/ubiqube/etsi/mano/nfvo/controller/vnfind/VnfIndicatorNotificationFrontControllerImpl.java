@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.nfvo.controller.vnfind;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.controller.vnfind.VnfIndicatorNotificationFrontController;
 import com.ubiqube.etsi.mano.dao.mano.ind.VnfIndiValueChangeNotification;
@@ -29,6 +30,7 @@ import ma.glasnost.orika.MapperFacade;
  * @author olivier
  *
  */
+@Service
 public class VnfIndicatorNotificationFrontControllerImpl implements VnfIndicatorNotificationFrontController {
 	private final MapperFacade mapper;
 	private final VnfIndicatorNotificationService vnfNotificationService;
