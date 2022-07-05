@@ -17,7 +17,7 @@
 package com.ubiqube.etsi.mano.mapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
 
@@ -30,7 +30,12 @@ import ma.glasnost.orika.impl.DefaultMapperFactory;
 import ma.glasnost.orika.impl.generator.EclipseJdtCompilerStrategy;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
-public class GrantInformationTest {
+/**
+ *
+ * @author olivier
+ *
+ */
+class GrantInformationTest {
 	private final DefaultMapperFactory mapperFactory;
 	private final PodamFactoryImpl podam;
 
@@ -48,7 +53,7 @@ public class GrantInformationTest {
 		final MapperFacade mapper = mapperFactory.getMapperFacade();
 		final ResourceDefinition avc = podam.manufacturePojo(ResourceDefinition.class);
 		final GrantInformationExt avcDb = mapper.map(avc, GrantInformationExt.class);
-		assertNull(avcDb.getId());
+		assertNotNull(avcDb.getId());
 		assertEquals(avc.getResource().getVimConnectionId(), avcDb.getVimConnectionId());
 	}
 }
