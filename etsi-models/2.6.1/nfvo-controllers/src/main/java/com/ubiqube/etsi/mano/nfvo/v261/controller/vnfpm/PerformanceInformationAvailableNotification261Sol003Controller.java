@@ -1,4 +1,4 @@
-package com.ubiqube.etsi.mano.vnfm.v261.controller.vnfpm;
+package com.ubiqube.etsi.mano.nfvo.v261.controller.vnfpm;
 
 import javax.validation.Valid;
 

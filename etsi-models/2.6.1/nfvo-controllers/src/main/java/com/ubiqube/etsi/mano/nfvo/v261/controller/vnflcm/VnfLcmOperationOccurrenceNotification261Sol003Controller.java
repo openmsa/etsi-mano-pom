@@ -14,26 +14,31 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.vnfm.v261.controller.vnflcm;
+package com.ubiqube.etsi.mano.nfvo.v261.controller.vnflcm;
 
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ubiqube.etsi.mano.vnfm.v261.model.vnflcm.VnfIdentifierCreationNotification;
+import com.ubiqube.etsi.mano.vnfm.v261.model.vnflcm.VnfLcmOperationOccurrenceNotification;
 
+/**
+ *
+ * @author Olivier Vignaud {@literal <ovi@ubiqube.com>}
+ *
+ */
 @RestController
-public class VnfIdentifierCreationNotification261Sol003Controller implements VnfIdentifierCreationNotification261Sol003Api {
+public class VnfLcmOperationOccurrenceNotification261Sol003Controller implements VnfLcmOperationOccurrenceNotification261Sol003Api {
 
 	@Override
-	public ResponseEntity<Void> vnfIdentifierCreationNotificationGet() {
+	public ResponseEntity<Void> vnfLcmOperationOccurrenceNotificationGet() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ResponseEntity<Void> vnfIdentifierCreationNotificationPost(@Valid final VnfIdentifierCreationNotification body) {
+	public ResponseEntity<Void> vnfLcmOperationOccurrenceNotificationPost(@Valid final VnfLcmOperationOccurrenceNotification body) {
 		// TODO Auto-generated method stub
 		return null;
 	}
