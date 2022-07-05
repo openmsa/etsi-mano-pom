@@ -16,6 +16,8 @@
  */
 package com.ubiqube.etsi.mano;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -31,7 +33,7 @@ import org.springframework.util.MultiValueMap;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public class DuplicateClassTest {
+class DuplicateClassTest {
 
 	@Test
 	void scanDuplicatedClasses() throws IOException {
@@ -49,7 +51,11 @@ public class DuplicateClassTest {
 				System.out.println("   - " + y);
 				// y.toFile().delete();
 			});
-
 		});
+	}
+
+	@Test
+	void testName() throws Exception {
+		assertTrue(true);
 	}
 }
