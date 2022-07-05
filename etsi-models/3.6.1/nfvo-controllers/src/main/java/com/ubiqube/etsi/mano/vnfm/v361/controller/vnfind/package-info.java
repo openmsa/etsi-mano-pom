@@ -1,1 +1,0 @@
-package com.ubiqube.etsi.mano.vnfm.v361.controller.vnfind;
