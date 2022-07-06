@@ -248,26 +248,26 @@ topology_template:
         - virtual_link: vl01
 
   policies:
-    nfp_rule: # classifier
-      type: tosca.policies.nfv.NfpRule
-      properties:
-        ether_destination_address:
-        ether_source_address:
-        ether_type: ipv4
-        vlan_tag:
-          - srt
-          - str2
-        protocol:
-        dscp:
-        source_port_range: 0 - 22
-        source_ip_address_prefix:
-        destination_ip_address_prefix:
-        extended_criteria: # tosca.datatypes.nfv.Mask
-          - starting_point: 1
-            length: 7
-            value: string
-      targets:
-        - nfp_1 # tosca.nodes.nfv.NFP
+    - nfp_rule: # classifier
+        type: tosca.policies.nfv.NfpRule
+        properties:
+          ether_destination_address:
+          ether_source_address:
+          ether_type: ipv4
+          vlan_tag:
+            - srt
+            - str2
+          protocol:
+          dscp:
+          source_port_range: 0 - 22
+          source_ip_address_prefix:
+          destination_ip_address_prefix:
+          extended_criteria: # tosca.datatypes.nfv.Mask
+            - starting_point: 1
+              length: 7
+              value: string
+        targets:
+          - nfp_1 # tosca.nodes.nfv.NFP
 
   groups:
     vnffg_1:
@@ -276,36 +276,6 @@ topology_template:
         description: descr
       members:  [ nfp_1, vnf_left, vnf_right, vnf_middle, internal, element_1, element_2, element_3 ]
   
-
-groups:
-  vnffg_1:
-    type: tosca.groups.nfv.VNFFG
-    properties:
-      description: descr
-    members:  [ nfp_1, vnf_left, vnf_right, vnf_middle, internal, element_1, element_2, element_3 ]
-  
-
-policies:
-  nfp_rule: # classifier
-    type: tosca.policies.nfv.NfpRule
-    properties:
-      ether_destination_address:
-      ether_source_address:
-      ether_type: ipv4
-      vlan_tag:
-        - srt
-        - str2
-      protocol: TCP
-      dscp:
-      source_port_range: 0 - 22
-      source_ip_address_prefix:
-      destination_ip_address_prefix:
-      extended_criteria: # tosca.datatypes.nfv.Mask
-        - starting_point: 1
-          length: 7
-          value: string
-    targets:
-      - nfp_1 # tosca.nodes.nfv.NFP
 
 
 
