@@ -16,104 +16,48 @@
  */
 package com.ubiqube.etsi.mano.dao.mano;
 
-import java.util.List;
-import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
+@Entity
+@Getter
+@Setter
 public class LcmAffectedVnfc {
 	@Id
-	private String id = null;
+	private UUID id;
 
 	// Probably a vdu instance.
-	private String vduId = null;
+	private String vduId;
 
 	@Enumerated(EnumType.STRING)
-	private ChangeType changeType = null;
+	private ChangeType changeType;
 
-	private VimResource computeResource = null;
+	private VimResource computeResource;
 
-	@JsonProperty("metadata")
-	private Map<String, String> metadata = null;
+	// private Map<String, String> metadata;
 
 	// Those are also instances.
-	private List<String> affectedVnfcCpIds = null;
+	@ElementCollection
+	private Set<String> affectedVnfcCpIds;
 
-	private List<String> addedStorageResourceIds = null;
+	@ElementCollection
+	private Set<String> addedStorageResourceIds;
 
-	private List<String> removedStorageResourceIds = null;
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(final String id) {
-		this.id = id;
-	}
-
-	public String getVduId() {
-		return vduId;
-	}
-
-	public void setVduId(final String vduId) {
-		this.vduId = vduId;
-	}
-
-	public ChangeType getChangeType() {
-		return changeType;
-	}
-
-	public void setChangeType(final ChangeType changeType) {
-		this.changeType = changeType;
-	}
-
-	public VimResource getComputeResource() {
-		return computeResource;
-	}
-
-	public void setComputeResource(final VimResource computeResource) {
-		this.computeResource = computeResource;
-	}
-
-	public Map<String, String> getMetadata() {
-		return metadata;
-	}
-
-	public void setMetadata(final Map<String, String> metadata) {
-		this.metadata = metadata;
-	}
-
-	public List<String> getAffectedVnfcCpIds() {
-		return affectedVnfcCpIds;
-	}
-
-	public void setAffectedVnfcCpIds(final List<String> affectedVnfcCpIds) {
-		this.affectedVnfcCpIds = affectedVnfcCpIds;
-	}
-
-	public List<String> getAddedStorageResourceIds() {
-		return addedStorageResourceIds;
-	}
-
-	public void setAddedStorageResourceIds(final List<String> addedStorageResourceIds) {
-		this.addedStorageResourceIds = addedStorageResourceIds;
-	}
-
-	public List<String> getRemovedStorageResourceIds() {
-		return removedStorageResourceIds;
-	}
-
-	public void setRemovedStorageResourceIds(final List<String> removedStorageResourceIds) {
-		this.removedStorageResourceIds = removedStorageResourceIds;
-	}
+	@ElementCollection
+	private Set<String> removedStorageResourceIds;
 
 }

@@ -26,7 +26,12 @@ import com.ubiqube.etsi.mano.nfvo.v261.model.nsperfo.ThresholdCrossedNotificatio
  * SOL005 - NS Performance Management Interface
  *
  * <p>
- * SOL005 - NS Performance Management Interface IMPORTANT: Please note that this file might be not aligned to the current version of the ETSI Group Specification it refers to and has not been approved by the ETSI NFV ISG. In case of discrepancies the published ETSI Group Specification takes precedence. Please report bugs to https://forge.etsi.org/bugzilla/buglist.cgi?component=Nfv-Openapis
+ * SOL005 - NS Performance Management Interface IMPORTANT: Please note that this
+ * file might be not aligned to the current version of the ETSI Group
+ * Specification it refers to and has not been approved by the ETSI NFV ISG. In
+ * case of discrepancies the published ETSI Group Specification takes
+ * precedence. Please report bugs to
+ * https://forge.etsi.org/bugzilla/buglist.cgi?component=Nfv-Openapis
  *
  */
 @RestController
@@ -35,11 +40,13 @@ public class NsPmNotification261Sol005Controller implements NsPmNotification261S
 	/**
 	 * Notify about PM related events
 	 *
-	 * The POST method delivers a notification regarding a performance management event from the server to the client. This method shall follow the provisions specified in the Tables 7.4.9.3.1-1 and 7.4.9.3.1-2 for URI query parameters,
+	 * The POST method delivers a notification regarding a performance management
+	 * event from the server to the client. This method shall follow the provisions
+	 * specified in the Tables 7.4.9.3.1-1 and 7.4.9.3.1-2 for URI query parameters,
 	 *
 	 */
 	@Override
-	public void uRIIsProvidedByTheClientWhenCreatingTheSubscriptionPerformanceInformationAvailableNotificationPost(final PerformanceInformationAvailableNotification performanceInformationAvailableNotification, final String accept, final String contentType) {
+	public void availableNotificationPost(final PerformanceInformationAvailableNotification performanceInformationAvailableNotification, final String accept, final String contentType) {
 		// TODO: Implement...
 
 	}
@@ -47,11 +54,14 @@ public class NsPmNotification261Sol005Controller implements NsPmNotification261S
 	/**
 	 * Test the notification endpoint
 	 *
-	 * The GET method allows the server to test the notification endpoint that is provided by the client, e.g. during subscription. This method shall follow the provisions specified in the Tables 7.4.9.3.2-1 and 7.4.9.3.2-2 for URI query parameters, request and response data structures, and response codes.
+	 * The GET method allows the server to test the notification endpoint that is
+	 * provided by the client, e.g. during subscription. This method shall follow
+	 * the provisions specified in the Tables 7.4.9.3.2-1 and 7.4.9.3.2-2 for URI
+	 * query parameters, request and response data structures, and response codes.
 	 *
 	 */
 	@Override
-	public void uRIIsProvidedByTheClientWhenCreatingTheSubscriptionThresholdCrossedNotificationGet(final String accept) {
+	public void thresholdCrossedCheck(final String accept) {
 		// TODO: Implement...
 
 	}
@@ -59,12 +69,20 @@ public class NsPmNotification261Sol005Controller implements NsPmNotification261S
 	/**
 	 * Notify about PM related events
 	 *
-	 * The POST method delivers a notification regarding a performance management event from the server to the client. This method shall follow the provisions specified in the Tables 7.4.9.3.1-1 and 7.4.9.3.1-2 for URI query parameters,
+	 * The POST method delivers a notification regarding a performance management
+	 * event from the server to the client. This method shall follow the provisions
+	 * specified in the Tables 7.4.9.3.1-1 and 7.4.9.3.1-2 for URI query parameters,
 	 *
 	 */
 	@Override
-	public void uRIIsProvidedByTheClientWhenCreatingTheSubscriptionThresholdCrossedNotificationPost(final ThresholdCrossedNotification thresholdCrossedNotification, final String accept, final String contentType) {
+	public void thresholdCrossedNotificationPost(final ThresholdCrossedNotification thresholdCrossedNotification, final String accept, final String contentType) {
 		// TODO: Implement...
+
+	}
+
+	@Override
+	public void availableCheck() {
+		// TODO Auto-generated method stub
 
 	}
 

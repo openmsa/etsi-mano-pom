@@ -21,6 +21,7 @@ import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ubiqube.etsi.mano.controller.vnflcm.VnfLcmNotificationFrontController;
 import com.ubiqube.etsi.mano.vnfm.v261.model.vnflcm.VnfIdentifierDeletionNotification;
 
 /**
@@ -30,17 +31,20 @@ import com.ubiqube.etsi.mano.vnfm.v261.model.vnflcm.VnfIdentifierDeletionNotific
  */
 @RestController
 public class VnfIdentifierDeletionNotification261Sol003Controller implements VnfIdentifierDeletionNotification261Sol003Api {
+	private final VnfLcmNotificationFrontController fc;
+
+	public VnfIdentifierDeletionNotification261Sol003Controller(final VnfLcmNotificationFrontController fc) {
+		this.fc = fc;
+	}
 
 	@Override
 	public ResponseEntity<Void> vnfIdentifierDeletionNotificationGet() {
-		// TODO Auto-generated method stub
-		return null;
+		return fc.deletionCheck();
 	}
 
 	@Override
 	public ResponseEntity<Void> vnfIdentifierDeletionNotificationPost(@Valid final VnfIdentifierDeletionNotification body) {
-		// TODO Auto-generated method stub
-		return null;
+		return fc.deletionNotification(body, "2.6.1");
 	}
 
 }

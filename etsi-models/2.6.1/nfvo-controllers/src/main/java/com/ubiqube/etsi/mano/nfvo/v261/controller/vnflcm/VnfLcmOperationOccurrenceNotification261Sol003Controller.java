@@ -21,6 +21,7 @@ import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ubiqube.etsi.mano.controller.vnflcm.VnfLcmNotificationFrontController;
 import com.ubiqube.etsi.mano.vnfm.v261.model.vnflcm.VnfLcmOperationOccurrenceNotification;
 
 /**
@@ -30,17 +31,20 @@ import com.ubiqube.etsi.mano.vnfm.v261.model.vnflcm.VnfLcmOperationOccurrenceNot
  */
 @RestController
 public class VnfLcmOperationOccurrenceNotification261Sol003Controller implements VnfLcmOperationOccurrenceNotification261Sol003Api {
+	private final VnfLcmNotificationFrontController fc;
+
+	public VnfLcmOperationOccurrenceNotification261Sol003Controller(final VnfLcmNotificationFrontController fc) {
+		this.fc = fc;
+	}
 
 	@Override
 	public ResponseEntity<Void> vnfLcmOperationOccurrenceNotificationGet() {
-		// TODO Auto-generated method stub
-		return null;
+		return fc.vnflcmopoccCheck();
 	}
 
 	@Override
 	public ResponseEntity<Void> vnfLcmOperationOccurrenceNotificationPost(@Valid final VnfLcmOperationOccurrenceNotification body) {
-		// TODO Auto-generated method stub
-		return null;
+		return fc.vnflcmopoccNotification(body, "2.6.1");
 	}
 
 }
