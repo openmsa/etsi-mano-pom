@@ -16,13 +16,13 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Integer;
-import java.lang.String;
 import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
@@ -30,22 +30,26 @@ import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
  */
 public class ScalingAspect extends Root {
 	/**
-	 * List of scaling deltas to be applied for the different subsequent scaling steps of this aspect. The first entry in the array shall correspond to the first scaling step (between scale levels 0 to 1) and the last entry in the array shall correspond to the last scaling step (between maxScaleLevel-1 and maxScaleLevel)
+	 * List of scaling deltas to be applied for the different subsequent scaling
+	 * steps of this aspect. The first entry in the array shall correspond to the
+	 * first scaling step (between scale levels 0 to 1) and the last entry in the
+	 * array shall correspond to the last scaling step (between maxScaleLevel-1 and
+	 * maxScaleLevel)
 	 */
 	@Valid
 	@JsonProperty("step_deltas")
 	private List<String> stepDeltas;
 
 	/**
-	 * Total number of scaling steps that can be applied w.r.t. this aspect. The value of this property corresponds to the number of scaling steps can be applied to this aspect when scaling it from the minimum scale level (i.e. 0) to the maximum scale level defined by this property
+	 * Total number of scaling steps that can be applied w.r.t. this aspect. The
+	 * value of this property corresponds to the number of scaling steps can be
+	 * applied to this aspect when scaling it from the minimum scale level (i.e. 0)
+	 * to the maximum scale level defined by this property
 	 */
 	@Valid
 	@NotNull
 	@JsonProperty("max_scale_level")
-	@DecimalMin(
-			value = "0",
-			inclusive = true
-	)
+	@DecimalMin(value = "0", inclusive = true)
 	private Integer maxScaleLevel;
 
 	/**

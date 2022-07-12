@@ -16,13 +16,13 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.nodes;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.annotations.Capability;
 import com.ubiqube.parser.tosca.annotations.Node;
 import com.ubiqube.parser.tosca.annotations.Relationship;
-import java.lang.String;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import com.ubiqube.parser.tosca.objects.tosca.capabilities.Endpoint;
 
 public class WebApplication extends Root {

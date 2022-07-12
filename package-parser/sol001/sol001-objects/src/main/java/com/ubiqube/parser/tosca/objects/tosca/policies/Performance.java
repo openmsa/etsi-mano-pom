@@ -16,12 +16,13 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.policies;
 
-import java.lang.String;
 import java.util.List;
+
 import javax.validation.Valid;
 
 /**
- * The TOSCA Policy Type definition that is used to declare performance requirements for TOSCA nodes or groups of nodes.
+ * The TOSCA Policy Type definition that is used to declare performance
+ * requirements for TOSCA nodes or groups of nodes.
  */
 public class Performance extends Root {
 	@Valid

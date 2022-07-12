@@ -16,16 +16,21 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.groups.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ubiqube.parser.tosca.annotations.Members;
-import java.lang.String;
 import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ubiqube.parser.tosca.annotations.Members;
 import com.ubiqube.parser.tosca.objects.tosca.groups.Root;
 
 /**
- * PlacementGroup is used for describing the affinity or anti-affinity relationship applicable between the virtualization containers to be created based on different VDUs, or between internal VLs to be created based on different VnfVirtualLinkDesc(s) or between the workloads being deployed based on different Mciops
+ * PlacementGroup is used for describing the affinity or anti-affinity
+ * relationship applicable between the virtualization containers to be created
+ * based on different VDUs, or between internal VLs to be created based on
+ * different VnfVirtualLinkDesc(s) or between the workloads being deployed based
+ * on different Mciops
  */
 public class PlacementGroup extends Root {
 	/**
@@ -52,10 +57,12 @@ public class PlacementGroup extends Root {
 		this.description = description;
 	}
 
+	@Override
 	public List<String> getMembers() {
 		return this.members;
 	}
 
+	@Override
 	public void setMembers(final List<String> members) {
 		this.members = members;
 	}

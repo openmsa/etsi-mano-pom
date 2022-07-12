@@ -16,10 +16,10 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Boolean;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
@@ -27,7 +27,8 @@ import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
  */
 public class VnfScaleOperationConfiguration extends Root {
 	/**
-	 * Signals whether passing a value larger than one in the numScalingSteps parameter of the ScaleVnf operation is supported by this VNF.
+	 * Signals whether passing a value larger than one in the numScalingSteps
+	 * parameter of the ScaleVnf operation is supported by this VNF.
 	 */
 	@Valid
 	@NotNull

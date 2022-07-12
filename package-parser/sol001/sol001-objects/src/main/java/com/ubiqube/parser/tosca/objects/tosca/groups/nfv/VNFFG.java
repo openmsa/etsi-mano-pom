@@ -16,16 +16,19 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.groups.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ubiqube.parser.tosca.annotations.Members;
-import java.lang.String;
 import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ubiqube.parser.tosca.annotations.Members;
 import com.ubiqube.parser.tosca.objects.tosca.groups.Root;
 
 /**
- * the VNFFG group type describes a topology of the NS or a portion of the NS, and optionally forwarding rules, applicable to the traffic conveyed over this topology
+ * the VNFFG group type describes a topology of the NS or a portion of the NS,
+ * and optionally forwarding rules, applicable to the traffic conveyed over this
+ * topology
  */
 public class VNFFG extends Root {
 	/**
@@ -54,10 +57,12 @@ public class VNFFG extends Root {
 		this.description = description;
 	}
 
+	@Override
 	public List<String> getMembers() {
 		return this.members;
 	}
 
+	@Override
 	public void setMembers(final List<String> members) {
 		this.members = members;
 	}

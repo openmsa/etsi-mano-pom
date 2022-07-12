@@ -16,11 +16,12 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.String;
 import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
@@ -28,7 +29,10 @@ import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
  */
 public class ConnectivityType extends Root {
 	/**
-	 * Identifies the protocol a virtualLink gives access to (ethernet, mpls, odu2, ipv4, ipv6, pseudo-wire).The top layer protocol of the virtualLink protocol stack shall always be provided. The lower layer protocols may be included when there are specific requirements on these layers.
+	 * Identifies the protocol a virtualLink gives access to (ethernet, mpls, odu2,
+	 * ipv4, ipv6, pseudo-wire).The top layer protocol of the virtualLink protocol
+	 * stack shall always be provided. The lower layer protocols may be included
+	 * when there are specific requirements on these layers.
 	 */
 	@Valid
 	@NotNull

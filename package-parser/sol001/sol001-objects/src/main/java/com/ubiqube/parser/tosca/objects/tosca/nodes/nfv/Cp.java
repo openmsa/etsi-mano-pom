@@ -16,12 +16,12 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.nodes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Boolean;
-import java.lang.String;
 import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.CpProtocolData;
 import com.ubiqube.parser.tosca.objects.tosca.nodes.Root;
 
@@ -30,14 +30,19 @@ import com.ubiqube.parser.tosca.objects.tosca.nodes.Root;
  */
 public class Cp extends Root {
 	/**
-	 * Provides information on the addresses to be assigned to the connection point(s) instantiated from this Connection Point Descriptor
+	 * Provides information on the addresses to be assigned to the connection
+	 * point(s) instantiated from this Connection Point Descriptor
 	 */
 	@Valid
 	@JsonProperty("protocol")
 	private List<CpProtocolData> protocol;
 
 	/**
-	 * Provides information about whether the CP instantiated from this Cp is in Trunk mode (802.1Q or other), When operating in "trunk mode", the Cp is capable of carrying traffic for several VLANs. Absence of this property implies that trunkMode is not configured for the Cp i.e. It is equivalent to boolean value "false".
+	 * Provides information about whether the CP instantiated from this Cp is in
+	 * Trunk mode (802.1Q or other), When operating in "trunk mode", the Cp is
+	 * capable of carrying traffic for several VLANs. Absence of this property
+	 * implies that trunkMode is not configured for the Cp i.e. It is equivalent to
+	 * boolean value "false".
 	 */
 	@Valid
 	@JsonProperty("trunk_mode")
@@ -52,7 +57,8 @@ public class Cp extends Root {
 	private List<String> layerProtocols;
 
 	/**
-	 * Identifies the role of the port in the context of the traffic flow patterns in the VNF or parent NS
+	 * Identifies the role of the port in the context of the traffic flow patterns
+	 * in the VNF or parent NS
 	 */
 	@Valid
 	@JsonProperty("role")

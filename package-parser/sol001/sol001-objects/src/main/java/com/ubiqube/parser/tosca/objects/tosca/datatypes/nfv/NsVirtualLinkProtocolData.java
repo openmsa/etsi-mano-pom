@@ -16,18 +16,21 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.String;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
- * describes one protocol layer and associated protocol data for a given virtual link used in a specific NS deployment flavour
+ * describes one protocol layer and associated protocol data for a given virtual
+ * link used in a specific NS deployment flavour
  */
 public class NsVirtualLinkProtocolData extends Root {
 	/**
-	 * Identifies one of the protocols a virtualLink gives access to (ethernet, mpls, odu2, ipv4, ipv6, pseudo-wire) as specified by the connectivity_type property.
+	 * Identifies one of the protocols a virtualLink gives access to (ethernet,
+	 * mpls, odu2, ipv4, ipv6, pseudo-wire) as specified by the connectivity_type
+	 * property.
 	 */
 	@Valid
 	@NotNull
@@ -35,14 +38,18 @@ public class NsVirtualLinkProtocolData extends Root {
 	private String associatedLayerProtocol;
 
 	/**
-	 * Specifies the L2 protocol data for a virtual link. Shall be present when the associatedLayerProtocol attribute indicates a L2 protocol and shall be absent otherwise.
+	 * Specifies the L2 protocol data for a virtual link. Shall be present when the
+	 * associatedLayerProtocol attribute indicates a L2 protocol and shall be absent
+	 * otherwise.
 	 */
 	@Valid
 	@JsonProperty("l2_protocol_data")
 	private NsL2ProtocolData l2ProtocolData;
 
 	/**
-	 * Specifies the L3 protocol data for this virtual link. Shall be present when the associatedLayerProtocol attribute indicates a L3 protocol and shall be absent otherwise.
+	 * Specifies the L3 protocol data for this virtual link. Shall be present when
+	 * the associatedLayerProtocol attribute indicates a L3 protocol and shall be
+	 * absent otherwise.
 	 */
 	@Valid
 	@JsonProperty("l3_protocol_data")

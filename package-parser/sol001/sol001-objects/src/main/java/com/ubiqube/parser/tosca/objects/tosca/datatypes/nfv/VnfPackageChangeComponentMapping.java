@@ -16,18 +16,22 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.String;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
- * A mapping between the identifier of a components or property in the source VNFD and the identifier of the corresponding component or property in the destination VNFD.
+ * A mapping between the identifier of a components or property in the source
+ * VNFD and the identifier of the corresponding component or property in the
+ * destination VNFD.
  */
 public class VnfPackageChangeComponentMapping extends Root {
 	/**
-	 * The type of component or property. Possible values differentiate whether changes concern to some VNF component (e.g. VDU, internal VLD, etc.) or property (e.g. a Scaling Aspect, etc.).
+	 * The type of component or property. Possible values differentiate whether
+	 * changes concern to some VNF component (e.g. VDU, internal VLD, etc.) or
+	 * property (e.g. a Scaling Aspect, etc.).
 	 */
 	@Valid
 	@NotNull

@@ -16,9 +16,9 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.nodes.storage;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.String;
 import javax.validation.Valid;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.capabilities.Attachment;
 import com.ubiqube.parser.tosca.objects.tosca.nodes.Abstract.Storage;
 

@@ -16,15 +16,20 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.policies.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.String;
 import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.policies.Root;
 
 /**
- * The LcmCoordinationAction type is a policy type representing the LCM coordination actions supported by a VNF and/or expected to be supported by its EM for a particular VNF LCM operation. This policy concerns the whole VNF (deployment flavour) represented by the topology_template and thus has no explicit target list.
+ * The LcmCoordinationAction type is a policy type representing the LCM
+ * coordination actions supported by a VNF and/or expected to be supported by
+ * its EM for a particular VNF LCM operation. This policy concerns the whole VNF
+ * (deployment flavour) represented by the topology_template and thus has no
+ * explicit target list.
  */
 public class LcmCoordinationAction extends Root {
 	/**

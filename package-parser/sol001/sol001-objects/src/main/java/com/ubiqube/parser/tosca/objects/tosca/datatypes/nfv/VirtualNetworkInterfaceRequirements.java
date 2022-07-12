@@ -16,12 +16,12 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Boolean;
-import java.lang.String;
 import java.util.Map;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
@@ -29,7 +29,9 @@ import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
  */
 public class VirtualNetworkInterfaceRequirements extends Root {
 	/**
-	 * The network interface requirements. A map of strings that contain a set of key-value pairs that describes the hardware platform specific  network interface deployment requirements.
+	 * The network interface requirements. A map of strings that contain a set of
+	 * key-value pairs that describes the hardware platform specific network
+	 * interface deployment requirements.
 	 */
 	@Valid
 	@NotNull
@@ -44,7 +46,8 @@ public class VirtualNetworkInterfaceRequirements extends Root {
 	private String name;
 
 	/**
-	 * Indicates whether fulfilling the constraint is mandatory (TRUE) for successful operation or desirable (FALSE).
+	 * Indicates whether fulfilling the constraint is mandatory (TRUE) for
+	 * successful operation or desirable (FALSE).
 	 */
 	@Valid
 	@NotNull
@@ -59,7 +62,11 @@ public class VirtualNetworkInterfaceRequirements extends Root {
 	private String description;
 
 	/**
-	 * references (couples) the CP with any logical node I/O requirements (for network devices) that may have been created. Linking these attributes is necessary so that so that I/O requirements that need to be articulated at the logical node level can be associated with the network interface requirements associated with the CP.
+	 * references (couples) the CP with any logical node I/O requirements (for
+	 * network devices) that may have been created. Linking these attributes is
+	 * necessary so that so that I/O requirements that need to be articulated at the
+	 * logical node level can be associated with the network interface requirements
+	 * associated with the CP.
 	 */
 	@Valid
 	@JsonProperty("nic_io_requirements")

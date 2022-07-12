@@ -16,10 +16,10 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.capabilities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Integer;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Scalable extends Root {
 	@Valid

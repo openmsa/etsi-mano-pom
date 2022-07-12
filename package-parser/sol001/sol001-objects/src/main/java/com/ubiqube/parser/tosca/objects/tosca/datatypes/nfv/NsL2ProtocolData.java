@@ -16,20 +16,21 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Boolean;
-import java.lang.Integer;
-import java.lang.String;
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
- * describes L2 protocol data for a given virtual link used in a specific NS deployment flavour.
+ * describes L2 protocol data for a given virtual link used in a specific NS
+ * deployment flavour.
  */
 public class NsL2ProtocolData extends Root {
 	/**
-	 * Specifies a specific virtualised network segment, which depends on the network type. For e.g., VLAN ID for VLAN network type and tunnel ID for GRE/VXLAN network types
+	 * Specifies a specific virtualised network segment, which depends on the
+	 * network type. For e.g., VLAN ID for VLAN network type and tunnel ID for
+	 * GRE/VXLAN network types
 	 */
 	@Valid
 	@JsonProperty("segmentation_id")
@@ -50,7 +51,8 @@ public class NsL2ProtocolData extends Root {
 	private Boolean vlanTransparent = false;
 
 	/**
-	 * Specifies the network type for this L2 protocol. The value may be overridden at run-time.
+	 * Specifies the network type for this L2 protocol. The value may be overridden
+	 * at run-time.
 	 */
 	@Valid
 	@JsonProperty("network_type")

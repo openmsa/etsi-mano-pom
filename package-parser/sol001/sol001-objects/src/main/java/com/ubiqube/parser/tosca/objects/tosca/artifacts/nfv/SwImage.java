@@ -16,17 +16,20 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.artifacts.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ubiqube.parser.tosca.scalar.Size;
-import java.lang.String;
 import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.artifacts.deployment.Image;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.ChecksumData;
+import com.ubiqube.parser.tosca.scalar.Size;
 
 /**
- * describes the software image which is directly loaded on the virtualisation container realizing of the VDU or is to be loaded on a virtual storage resource
+ * describes the software image which is directly loaded on the virtualisation
+ * container realizing of the VDU or is to be loaded on a virtual storage
+ * resource
  */
 public class SwImage extends Image {
 	/**
@@ -68,7 +71,8 @@ public class SwImage extends Image {
 	private ChecksumData checksum;
 
 	/**
-	 * The disk format of a software image is the format of the underlying disk image
+	 * The disk format of a software image is the format of the underlying disk
+	 * image
 	 */
 	@Valid
 	@JsonProperty("disk_format")
@@ -90,7 +94,8 @@ public class SwImage extends Image {
 	private String version;
 
 	/**
-	 * The container format describes the container file format in which software image is provided
+	 * The container format describes the container file format in which software
+	 * image is provided
 	 */
 	@Valid
 	@NotNull
@@ -98,7 +103,8 @@ public class SwImage extends Image {
 	private String containerFormat;
 
 	/**
-	 * Identifies the virtualisation environments (e.g. hypervisor) compatible with this software image
+	 * Identifies the virtualisation environments (e.g. hypervisor) compatible with
+	 * this software image
 	 */
 	@Valid
 	@JsonProperty("supported_virtualisation_environments")

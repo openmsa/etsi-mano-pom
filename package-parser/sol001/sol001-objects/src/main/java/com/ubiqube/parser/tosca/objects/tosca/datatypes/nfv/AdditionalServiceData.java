@@ -16,15 +16,17 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.String;
 import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
- * describes the additional service data of the VirtualCp used to expose properties of the VirtualCp to NFV-MANO.
+ * describes the additional service data of the VirtualCp used to expose
+ * properties of the VirtualCp to NFV-MANO.
  */
 public class AdditionalServiceData extends Root {
 	/**

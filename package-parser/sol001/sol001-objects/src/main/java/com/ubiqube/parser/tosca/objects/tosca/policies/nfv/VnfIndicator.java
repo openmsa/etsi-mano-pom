@@ -16,15 +16,19 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.policies.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.String;
 import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.policies.Root;
 
 /**
- * The VnfIndicator policy type is a base policy type for defining VNF indicator specific policies that define the conditions to assess and the action to perform when a VNF indicator changes value as defined in ETSI GS NFV-IFA 011 [1].tosca.nodes.nfv.VNF
+ * The VnfIndicator policy type is a base policy type for defining VNF indicator
+ * specific policies that define the conditions to assess and the action to
+ * perform when a VNF indicator changes value as defined in ETSI GS NFV-IFA 011
+ * [1].tosca.nodes.nfv.VNF
  */
 public class VnfIndicator extends Root {
 	/**

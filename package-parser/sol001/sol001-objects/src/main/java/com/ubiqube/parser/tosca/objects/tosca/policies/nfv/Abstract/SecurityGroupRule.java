@@ -16,21 +16,22 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.policies.nfv.Abstract;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Integer;
-import java.lang.String;
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.policies.Root;
 
 /**
- * The Abstract.SecurityGroupRule type represents an abstract policy type without any target requirements
+ * The Abstract.SecurityGroupRule type represents an abstract policy type
+ * without any target requirements
  */
 public class SecurityGroupRule extends Root {
 	/**
-	 * Indicates the protocol carried over the IP layer. Permitted values include any protocol defined in the IANA protocol registry, e.g. TCP, UDP, ICMP, etc.
+	 * Indicates the protocol carried over the IP layer. Permitted values include
+	 * any protocol defined in the IANA protocol registry, e.g. TCP, UDP, ICMP, etc.
 	 */
 	@Valid
 	@NotNull
@@ -53,20 +54,22 @@ public class SecurityGroupRule extends Root {
 	private String description;
 
 	/**
-	 * Indicates maximum port number in the range that is matched by the security group rule. If a value is provided at design-time, this value may be overridden at run-time based on other deployment requirements or constraints.
+	 * Indicates maximum port number in the range that is matched by the security
+	 * group rule. If a value is provided at design-time, this value may be
+	 * overridden at run-time based on other deployment requirements or constraints.
 	 */
 	@Valid
 	@NotNull
 	@JsonProperty("port_range_max")
-	@DecimalMin(
-			value = "0",
-			inclusive = true
-	)
+	@DecimalMin(value = "0", inclusive = true)
 	@DecimalMax("65535")
 	private Integer portRangeMax = 65535;
 
 	/**
-	 * The direction in which the security group rule is applied. The direction of 'ingress' or 'egress' is specified against the associated CP. I.e., 'ingress' means the packets entering a CP, while 'egress' means the packets sent out of a CP.
+	 * The direction in which the security group rule is applied. The direction of
+	 * 'ingress' or 'egress' is specified against the associated CP. I.e., 'ingress'
+	 * means the packets entering a CP, while 'egress' means the packets sent out of
+	 * a CP.
 	 */
 	@Valid
 	@NotNull
@@ -74,15 +77,14 @@ public class SecurityGroupRule extends Root {
 	private String direction = "ingress";
 
 	/**
-	 * Indicates minimum port number in the range that is matched by the security group rule. If a value is provided at design-time, this value may be overridden at run-time based on other deployment requirements or constraints.
+	 * Indicates minimum port number in the range that is matched by the security
+	 * group rule. If a value is provided at design-time, this value may be
+	 * overridden at run-time based on other deployment requirements or constraints.
 	 */
 	@Valid
 	@NotNull
 	@JsonProperty("port_range_min")
-	@DecimalMin(
-			value = "0",
-			inclusive = true
-	)
+	@DecimalMin(value = "0", inclusive = true)
 	@DecimalMax("65535")
 	private Integer portRangeMin = 0;
 

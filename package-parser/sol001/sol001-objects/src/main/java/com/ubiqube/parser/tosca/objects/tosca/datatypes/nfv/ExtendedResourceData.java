@@ -16,17 +16,18 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Integer;
-import java.lang.String;
 import java.util.Map;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
- * Supports the specification of requirements related to extended resources of a container.
+ * Supports the specification of requirements related to extended resources of a
+ * container.
  */
 public class ExtendedResourceData extends Root {
 	/**
@@ -38,17 +39,15 @@ public class ExtendedResourceData extends Root {
 	private Integer amount;
 
 	/**
-	 * The hardware platform specific extended resource. A map of string that contains one single key-value pair that describes one hardware platform specific container requirement.
+	 * The hardware platform specific extended resource. A map of string that
+	 * contains one single key-value pair that describes one hardware platform
+	 * specific container requirement.
 	 */
 	@Valid
 	@NotNull
 	@JsonProperty("extended_resource")
-	@Size(
-			min = 1
-	)
-	@Size(
-			max = 1
-	)
+	@Size(min = 1)
+	@Size(max = 1)
 	private Map<String, String> extendedResource;
 
 	@NotNull

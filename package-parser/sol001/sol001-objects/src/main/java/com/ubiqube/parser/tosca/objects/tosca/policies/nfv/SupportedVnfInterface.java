@@ -16,16 +16,19 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.policies.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.String;
 import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.InterfaceDetails;
 import com.ubiqube.parser.tosca.objects.tosca.policies.Root;
 
 /**
- * this policy type represents interfaces produced by a VNF, the details to access them and the applicable connection points to use to access these interfacestosca.nodes.nfv.VnfExtCptosca.nodes.nfv.VduCp
+ * this policy type represents interfaces produced by a VNF, the details to
+ * access them and the applicable connection points to use to access these
+ * interfacestosca.nodes.nfv.VnfExtCptosca.nodes.nfv.VduCp
  */
 public class SupportedVnfInterface extends Root {
 	/**

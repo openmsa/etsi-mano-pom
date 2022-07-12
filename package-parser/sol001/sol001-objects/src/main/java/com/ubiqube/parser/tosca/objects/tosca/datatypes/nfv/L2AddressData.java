@@ -16,18 +16,21 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Boolean;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
- * Describes the information on the MAC addresses to be assigned to a connection point.
+ * Describes the information on the MAC addresses to be assigned to a connection
+ * point.
  */
 public class L2AddressData extends Root {
 	/**
-	 * Specifies if the address assignment is the responsibility of management and orchestration function or not. If it is set to True, it is the management and orchestration function responsibility
+	 * Specifies if the address assignment is the responsibility of management and
+	 * orchestration function or not. If it is set to True, it is the management and
+	 * orchestration function responsibility
 	 */
 	@Valid
 	@NotNull

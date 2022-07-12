@@ -16,22 +16,24 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ubiqube.parser.tosca.scalar.Frequency;
-import java.lang.Integer;
-import java.lang.String;
 import java.util.Map;
+
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
+import com.ubiqube.parser.tosca.scalar.Frequency;
 
 /**
- * Supports the specification of requirements related to virtual CPU(s) of a virtual compute resource
+ * Supports the specification of requirements related to virtual CPU(s) of a
+ * virtual compute resource
  */
 public class VirtualCpu extends Root {
 	/**
-	 * CPU core oversubscription policy e.g. the relation of virtual CPU cores to physical CPU cores/threads.
+	 * CPU core oversubscription policy e.g. the relation of virtual CPU cores to
+	 * physical CPU cores/threads.
 	 */
 	@Valid
 	@JsonProperty("virtual_cpu_oversubscription_policy")
@@ -52,7 +54,9 @@ public class VirtualCpu extends Root {
 	private Frequency virtualCpuClock;
 
 	/**
-	 * The hardware platform specific VDU CPU requirements. A map of strings that contains a set of key-value pairs describing VDU CPU specific hardware platform requirements.
+	 * The hardware platform specific VDU CPU requirements. A map of strings that
+	 * contains a set of key-value pairs describing VDU CPU specific hardware
+	 * platform requirements.
 	 */
 	@Valid
 	@JsonProperty("vdu_cpu_requirements")

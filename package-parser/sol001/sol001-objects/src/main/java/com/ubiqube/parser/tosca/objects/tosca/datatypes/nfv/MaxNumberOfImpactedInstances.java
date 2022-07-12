@@ -16,25 +16,30 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Integer;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
- * Specifies the maximum number of instances of a given Vdu.Compute node or VnfVirtualLink node that may be impacted simultaneously without impacting the functionality of the group of a given size.
+ * Specifies the maximum number of instances of a given Vdu.Compute node or
+ * VnfVirtualLink node that may be impacted simultaneously without impacting the
+ * functionality of the group of a given size.
  */
 public class MaxNumberOfImpactedInstances extends Root {
 	/**
-	 * Determines the size of the group for which the max_number_of_impacted_instances is specified. If not present the size is not limited.
+	 * Determines the size of the group for which the
+	 * max_number_of_impacted_instances is specified. If not present the size is not
+	 * limited.
 	 */
 	@Valid
 	@JsonProperty("group_size")
 	private Integer groupSize;
 
 	/**
-	 * The maximum number of instances that can be impacted simultaneously within the group of the specified size.
+	 * The maximum number of instances that can be impacted simultaneously within
+	 * the group of the specified size.
 	 */
 	@Valid
 	@NotNull

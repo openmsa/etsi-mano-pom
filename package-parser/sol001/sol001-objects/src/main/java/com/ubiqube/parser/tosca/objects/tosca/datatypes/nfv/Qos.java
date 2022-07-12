@@ -16,14 +16,14 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ubiqube.parser.tosca.scalar.Time;
-import java.lang.Float;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
+import com.ubiqube.parser.tosca.scalar.Time;
 
 /**
  * describes QoS data for a given VL used in a VNF deployment flavour

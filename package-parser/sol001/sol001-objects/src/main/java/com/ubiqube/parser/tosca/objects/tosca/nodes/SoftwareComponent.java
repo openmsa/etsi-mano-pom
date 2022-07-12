@@ -16,14 +16,14 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.nodes;
 
+import javax.validation.Valid;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.annotations.Capability;
 import com.ubiqube.parser.tosca.annotations.Node;
 import com.ubiqube.parser.tosca.annotations.Relationship;
-import com.ubiqube.parser.tosca.scalar.Version;
-import java.lang.String;
-import javax.validation.Valid;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Credential;
+import com.ubiqube.parser.tosca.scalar.Version;
 
 public class SoftwareComponent extends Root {
 	@Valid

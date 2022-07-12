@@ -16,24 +16,26 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.nodes.nfv;
 
+import java.util.List;
+
+import javax.validation.Valid;
+import javax.validation.constraints.DecimalMin;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.annotations.Capability;
 import com.ubiqube.parser.tosca.annotations.Occurence;
 import com.ubiqube.parser.tosca.annotations.Relationship;
-import java.lang.Integer;
-import java.lang.String;
-import java.util.List;
-import javax.validation.Valid;
-import javax.validation.constraints.DecimalMin;
 import com.ubiqube.parser.tosca.objects.tosca.capabilities.nfv.TrunkBindable;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.VirtualNetworkInterfaceRequirements;
 
 /**
- * describes network connectivity between a VNFC instance based on this VDU and an internal VL
+ * describes network connectivity between a VNFC instance based on this VDU and
+ * an internal VL
  */
 public class VduCp extends Cp {
 	/**
-	 * Specifies requirements on a virtual network interface realising  the CPs instantiated from this CPD
+	 * Specifies requirements on a virtual network interface realising the CPs
+	 * instantiated from this CPD
 	 */
 	@Valid
 	@JsonProperty("virtual_network_interface_requirements")
@@ -44,14 +46,12 @@ public class VduCp extends Cp {
 	 */
 	@Valid
 	@JsonProperty("bitrate_requirement")
-	@DecimalMin(
-			value = "0",
-			inclusive = true
-	)
+	@DecimalMin(value = "0", inclusive = true)
 	private Integer bitrateRequirement;
 
 	/**
-	 * Describes the type of the virtual network interface realizing the CPs instantiated from this CPD
+	 * Describes the type of the virtual network interface realizing the CPs
+	 * instantiated from this CPD
 	 */
 	@Valid
 	@JsonProperty("vnic_type")
@@ -62,10 +62,7 @@ public class VduCp extends Cp {
 	 */
 	@Valid
 	@JsonProperty("order")
-	@DecimalMin(
-			value = "0",
-			inclusive = true
-	)
+	@DecimalMin(value = "0", inclusive = true)
 	private Integer order;
 
 	/**

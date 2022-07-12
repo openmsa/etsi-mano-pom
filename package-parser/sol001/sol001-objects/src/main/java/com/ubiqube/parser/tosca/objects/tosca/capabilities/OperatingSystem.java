@@ -16,10 +16,10 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.capabilities;
 
+import javax.validation.Valid;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.scalar.Version;
-import java.lang.String;
-import javax.validation.Valid;
 
 public class OperatingSystem extends Root {
 	@Valid

@@ -16,25 +16,26 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.vdu;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.annotations.Capability;
 import com.ubiqube.parser.tosca.annotations.Occurence;
 import com.ubiqube.parser.tosca.annotations.Relationship;
-import java.lang.Boolean;
-import java.lang.String;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import com.ubiqube.parser.tosca.objects.tosca.capabilities.nfv.VirtualStorage;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.NfviMaintenanceInfo;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.VirtualFileStorageData;
 import com.ubiqube.parser.tosca.objects.tosca.nodes.Root;
 
 /**
- * This node type describes the specifications of requirements related to virtual file storage resources
+ * This node type describes the specifications of requirements related to
+ * virtual file storage resources
  */
 public class VirtualFileStorage extends Root {
 	/**
-	 * Indicates whether the virtual storage descriptor shall be instantiated per VNFC instance.
+	 * Indicates whether the virtual storage descriptor shall be instantiated per
+	 * VNFC instance.
 	 */
 	@Valid
 	@NotNull
@@ -42,7 +43,7 @@ public class VirtualFileStorage extends Root {
 	private Boolean perVnfcInstance = true;
 
 	/**
-	 * Describes the file  storage characteristics.
+	 * Describes the file storage characteristics.
 	 */
 	@Valid
 	@NotNull
@@ -50,7 +51,9 @@ public class VirtualFileStorage extends Root {
 	private VirtualFileStorageData virtualFileStorageData;
 
 	/**
-	 * Provides information on the rules to be observed when an instance based on this VirtualFileStorage is impacted during NFVI operation and maintenance (e.g. NFVI resource upgrades).
+	 * Provides information on the rules to be observed when an instance based on
+	 * this VirtualFileStorage is impacted during NFVI operation and maintenance
+	 * (e.g. NFVI resource upgrades).
 	 */
 	@Valid
 	@JsonProperty("nfvi_maintenance_info")

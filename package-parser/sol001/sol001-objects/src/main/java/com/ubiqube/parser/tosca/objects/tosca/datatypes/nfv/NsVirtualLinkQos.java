@@ -16,24 +16,22 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Integer;
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * describes QoS data for a given VL used in a VNF deployment flavour
  */
 public class NsVirtualLinkQos extends Qos {
 	/**
-	 * Specifies the priority level in case of congestion on the underlying physical links
+	 * Specifies the priority level in case of congestion on the underlying physical
+	 * links
 	 */
 	@Valid
 	@JsonProperty("priority")
-	@DecimalMin(
-			value = "0",
-			inclusive = true
-	)
+	@DecimalMin(value = "0", inclusive = true)
 	private Integer priority;
 
 	public Integer getPriority() {

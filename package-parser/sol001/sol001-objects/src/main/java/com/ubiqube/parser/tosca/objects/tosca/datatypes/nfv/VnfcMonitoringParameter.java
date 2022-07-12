@@ -16,26 +16,28 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ubiqube.parser.tosca.scalar.Time;
-import java.lang.String;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
+import com.ubiqube.parser.tosca.scalar.Time;
 
 /**
- * Represents information on virtualised resource related performance metrics applicable to the VNF.
+ * Represents information on virtualised resource related performance metrics
+ * applicable to the VNF.
  */
 public class VnfcMonitoringParameter extends Root {
 	/**
-	 * Describes the  periodicity at which to collect the performance information.
+	 * Describes the periodicity at which to collect the performance information.
 	 */
 	@Valid
 	@JsonProperty("collection_period")
 	private Time collectionPeriod;
 
 	/**
-	 * Identifies a performance metric to be monitored, according to ETSI GS NFV-IFA 027.
+	 * Identifies a performance metric to be monitored, according to ETSI GS NFV-IFA
+	 * 027.
 	 */
 	@Valid
 	@NotNull

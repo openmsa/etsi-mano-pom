@@ -16,23 +16,25 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.nodes.nfv;
 
+import java.util.List;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.annotations.Capability;
 import com.ubiqube.parser.tosca.annotations.Node;
 import com.ubiqube.parser.tosca.annotations.Occurence;
 import com.ubiqube.parser.tosca.annotations.Relationship;
-import java.lang.Boolean;
-import java.lang.String;
-import java.util.List;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
 /**
  * Describes a connection point to allocate one or a set of virtual IP addresses
  */
 public class VipCp extends Cp {
 	/**
-	 * Indicates whether the VIP address shall be different from the addresses allocated to all associated VduCp instances or shall be the same as one of them.
+	 * Indicates whether the VIP address shall be different from the addresses
+	 * allocated to all associated VduCp instances or shall be the same as one of
+	 * them.
 	 */
 	@Valid
 	@NotNull
@@ -40,7 +42,11 @@ public class VipCp extends Cp {
 	private Boolean dedicatedIpAddress = true;
 
 	/**
-	 * Indicates the function the virtual IP address is used for: high availability or load balancing. When used for high availability, only one of the internal VDU CP instances or VNF external CP instances that share the virtual IP is bound to the VIP address at a time. When used for load balancing purposes all CP instances that share the virtual IP are bound to it.
+	 * Indicates the function the virtual IP address is used for: high availability
+	 * or load balancing. When used for high availability, only one of the internal
+	 * VDU CP instances or VNF external CP instances that share the virtual IP is
+	 * bound to the VIP address at a time. When used for load balancing purposes all
+	 * CP instances that share the virtual IP are bound to it.
 	 */
 	@Valid
 	@NotNull

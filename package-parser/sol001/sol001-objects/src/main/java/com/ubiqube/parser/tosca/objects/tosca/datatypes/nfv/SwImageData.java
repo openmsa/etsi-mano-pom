@@ -16,16 +16,17 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ubiqube.parser.tosca.scalar.Size;
-import java.lang.String;
 import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
+import com.ubiqube.parser.tosca.scalar.Size;
 
 /**
- * describes information  related to a software image artifact
+ * describes information related to a software image artifact
  */
 public class SwImageData extends Root {
 	/**
@@ -68,7 +69,8 @@ public class SwImageData extends Root {
 	private ChecksumData checksum;
 
 	/**
-	 * The disk format of a software image is the format of the underlying disk image
+	 * The disk format of a software image is the format of the underlying disk
+	 * image
 	 */
 	@Valid
 	@NotNull
@@ -91,7 +93,8 @@ public class SwImageData extends Root {
 	private String version;
 
 	/**
-	 * The container format describes the container file format in which software image is provided
+	 * The container format describes the container file format in which software
+	 * image is provided
 	 */
 	@Valid
 	@NotNull
@@ -99,7 +102,8 @@ public class SwImageData extends Root {
 	private String containerFormat;
 
 	/**
-	 * Identifies the virtualisation environments (e.g. hypervisor) compatible with this software image
+	 * Identifies the virtualisation environments (e.g. hypervisor) compatible with
+	 * this software image
 	 */
 	@Valid
 	@JsonProperty("supported_virtualisation_environments")

@@ -20,7 +20,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.annotations.Capability;
 import com.ubiqube.parser.tosca.annotations.Node;
 import com.ubiqube.parser.tosca.annotations.Relationship;
-import java.lang.String;
 import com.ubiqube.parser.tosca.objects.tosca.nodes.Root;
 
 public class Application extends Root {

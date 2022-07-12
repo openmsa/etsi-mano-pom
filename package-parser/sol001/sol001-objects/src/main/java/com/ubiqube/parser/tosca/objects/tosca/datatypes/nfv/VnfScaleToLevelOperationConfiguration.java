@@ -16,18 +16,20 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Boolean;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
- * represents information that affect the invocation of the ScaleVnfToLevel operation
+ * represents information that affect the invocation of the ScaleVnfToLevel
+ * operation
  */
 public class VnfScaleToLevelOperationConfiguration extends Root {
 	/**
-	 * Signals whether scaling according to the parameter "scaleInfo" is supported by this VNF
+	 * Signals whether scaling according to the parameter "scaleInfo" is supported
+	 * by this VNF
 	 */
 	@Valid
 	@NotNull

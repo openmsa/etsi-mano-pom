@@ -16,21 +16,24 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.nodes.nfv;
 
+import java.util.List;
+
+import javax.validation.Valid;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.annotations.Capability;
 import com.ubiqube.parser.tosca.annotations.Occurence;
 import com.ubiqube.parser.tosca.annotations.Relationship;
-import java.lang.String;
-import java.util.List;
-import javax.validation.Valid;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.VirtualNetworkInterfaceRequirements;
 
 /**
- * Describes a logical external connection point, exposed by the VNF enabling connection with an external Virtual Link
+ * Describes a logical external connection point, exposed by the VNF enabling
+ * connection with an external Virtual Link
  */
 public class VnfExtCp extends Cp {
 	/**
-	 * The actual virtual NIC requirements that is been assigned when instantiating the connection point
+	 * The actual virtual NIC requirements that is been assigned when instantiating
+	 * the connection point
 	 */
 	@Valid
 	@JsonProperty("virtual_network_interface_requirements")

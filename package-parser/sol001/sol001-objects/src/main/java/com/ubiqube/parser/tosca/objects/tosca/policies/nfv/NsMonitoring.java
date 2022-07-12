@@ -16,29 +16,31 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.policies.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.String;
 import java.util.List;
 import java.util.Map;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.NsMonitoringParameter;
 import com.ubiqube.parser.tosca.objects.tosca.policies.Root;
 
 /**
- * Policy type is used to identify information to be monitored during the lifetime of a network service instance as defined in ETSI GS NFV-IFA 014 [2].tosca.nodes.nfv.NS
+ * Policy type is used to identify information to be monitored during the
+ * lifetime of a network service instance as defined in ETSI GS NFV-IFA 014
+ * [2].tosca.nodes.nfv.NS
  */
 public class NsMonitoring extends Root {
 	/**
-	 * Specifies a virtualised resource related performance metric to be monitored on the NS level.
+	 * Specifies a virtualised resource related performance metric to be monitored
+	 * on the NS level.
 	 */
 	@Valid
 	@NotNull
 	@JsonProperty("ns_monitoring_parameters")
-	@Size(
-			min = 1
-	)
+	@Size(min = 1)
 	private Map<String, NsMonitoringParameter> nsMonitoringParameters;
 
 	@Valid

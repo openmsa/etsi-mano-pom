@@ -16,18 +16,25 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.String;
 import java.util.Map;
+
 import javax.validation.Valid;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
- * Describes compute, memory and I/O requirements associated with a particular VDU.
+ * Describes compute, memory and I/O requirements associated with a particular
+ * VDU.
  */
 public class LogicalNodeData extends Root {
 	/**
-	 * The logical node-level compute, memory and I/O requirements. A map  of strings that contains a set of key-value pairs that describes hardware platform specific deployment requirements, including the number of CPU cores on this logical node, a memory configuration specific to a logical node  or a requirement related to the association of an I/O device with the logical node.
+	 * The logical node-level compute, memory and I/O requirements. A map of strings
+	 * that contains a set of key-value pairs that describes hardware platform
+	 * specific deployment requirements, including the number of CPU cores on this
+	 * logical node, a memory configuration specific to a logical node or a
+	 * requirement related to the association of an I/O device with the logical
+	 * node.
 	 */
 	@Valid
 	@JsonProperty("logical_node_requirements")

@@ -16,12 +16,13 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.nodes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.String;
 import java.util.List;
 import java.util.Map;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.capabilities.nfv.VirtualLinkable;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.ConnectivityType;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.NfviMaintenanceInfo;
@@ -49,7 +50,9 @@ public class VnfVirtualLink extends Root {
 	private Map<String, VirtualLinkMonitoringParameter> monitoringParameters;
 
 	/**
-	 * Provides information on the rules to be observed when an instance based on this VnfVirtualLink is impacted during NFVI operation and maintenance (e.g. NFVI resource upgrades).
+	 * Provides information on the rules to be observed when an instance based on
+	 * this VnfVirtualLink is impacted during NFVI operation and maintenance (e.g.
+	 * NFVI resource upgrades).
 	 */
 	@Valid
 	@JsonProperty("nfvi_maintenance_info")
@@ -70,7 +73,8 @@ public class VnfVirtualLink extends Root {
 	private List<String> testAccess;
 
 	/**
-	 * Specifies the protocol exposed by the VL and the flow pattern supported by the VL
+	 * Specifies the protocol exposed by the VL and the flow pattern supported by
+	 * the VL
 	 */
 	@Valid
 	@NotNull

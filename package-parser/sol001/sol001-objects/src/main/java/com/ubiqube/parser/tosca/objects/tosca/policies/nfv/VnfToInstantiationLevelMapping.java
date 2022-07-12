@@ -16,18 +16,20 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.policies.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Integer;
-import java.lang.String;
 import java.util.List;
 import java.util.Map;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.policies.Root;
 
 /**
- * The VnfToInstantiationLevelMapping type is a policy type representing the number of VNF instances to be deployed at each NS instantiation level, as defined in ETSI GS NFV-IFA 014 [2]tosca.nodes.nfv.VNF
+ * The VnfToInstantiationLevelMapping type is a policy type representing the
+ * number of VNF instances to be deployed at each NS instantiation level, as
+ * defined in ETSI GS NFV-IFA 014 [2]tosca.nodes.nfv.VNF
  */
 public class VnfToInstantiationLevelMapping extends Root {
 	/**
@@ -36,9 +38,7 @@ public class VnfToInstantiationLevelMapping extends Root {
 	@Valid
 	@NotNull
 	@JsonProperty("number_of_instances")
-	@Size(
-			min = 1
-	)
+	@Size(min = 1)
 	private Map<String, Integer> numberOfInstances;
 
 	@Valid

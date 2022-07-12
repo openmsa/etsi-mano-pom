@@ -16,14 +16,15 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.nodes.nfv;
 
+import java.util.List;
+
+import javax.validation.Valid;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.annotations.Capability;
 import com.ubiqube.parser.tosca.annotations.Node;
 import com.ubiqube.parser.tosca.annotations.Occurence;
 import com.ubiqube.parser.tosca.annotations.Relationship;
-import java.lang.String;
-import java.util.List;
-import javax.validation.Valid;
 import com.ubiqube.parser.tosca.objects.tosca.capabilities.nfv.Forwarding;
 import com.ubiqube.parser.tosca.objects.tosca.nodes.Root;
 
@@ -32,7 +33,8 @@ import com.ubiqube.parser.tosca.objects.tosca.nodes.Root;
  */
 public class NfpPosition extends Root {
 	/**
-	 * Identifies a rule to apply to forward traffic to CP or SAP instances corresponding to the referenced NfpPositionElement(s).
+	 * Identifies a rule to apply to forward traffic to CP or SAP instances
+	 * corresponding to the referenced NfpPositionElement(s).
 	 */
 	@Valid
 	@JsonProperty("forwarding_behaviour")

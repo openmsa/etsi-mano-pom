@@ -16,15 +16,13 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.nodes.network;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ubiqube.parser.tosca.annotations.Capability;
-import com.ubiqube.parser.tosca.annotations.Relationship;
-import java.lang.Boolean;
-import java.lang.Integer;
-import java.lang.String;
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ubiqube.parser.tosca.annotations.Capability;
+import com.ubiqube.parser.tosca.annotations.Relationship;
 import com.ubiqube.parser.tosca.objects.tosca.nodes.Root;
 
 public class Port extends Root {
@@ -47,10 +45,7 @@ public class Port extends Root {
 	@Valid
 	@NotNull
 	@JsonProperty("order")
-	@DecimalMin(
-			value = "0",
-			inclusive = true
-	)
+	@DecimalMin(value = "0", inclusive = true)
 	private Integer order = 0;
 
 	@Capability("tosca.capabilities.network.Linkable")

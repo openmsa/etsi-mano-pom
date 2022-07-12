@@ -16,26 +16,31 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.String;
 import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
- * describes L3 protocol data for a given virtual link used in a specific NS deployment flavour.
+ * describes L3 protocol data for a given virtual link used in a specific NS
+ * deployment flavour.
  */
 public class NsL3ProtocolData extends Root {
 	/**
-	 * Specifies the allocation pools with start and end IP addresses for this L3 protocol. The value may be overridden at run-time.
+	 * Specifies the allocation pools with start and end IP addresses for this L3
+	 * protocol. The value may be overridden at run-time.
 	 */
 	@Valid
 	@JsonProperty("ip_allocation_pools")
 	private List<NsIpAllocationPool> ipAllocationPools;
 
 	/**
-	 * Specifies IP version of this L3 protocol. The value of the ip_version property shall be consistent with the value of the layer_protocol in the connectivity_type property of the virtual link node.
+	 * Specifies IP version of this L3 protocol. The value of the ip_version
+	 * property shall be consistent with the value of the layer_protocol in the
+	 * connectivity_type property of the virtual link node.
 	 */
 	@Valid
 	@NotNull
@@ -50,7 +55,8 @@ public class NsL3ProtocolData extends Root {
 	private String name;
 
 	/**
-	 * Specifies the CIDR (Classless Inter-Domain Routing) of this L3 protocol. The value may be overridden at run-time.
+	 * Specifies the CIDR (Classless Inter-Domain Routing) of this L3 protocol. The
+	 * value may be overridden at run-time.
 	 */
 	@Valid
 	@NotNull

@@ -16,15 +16,14 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.capabilities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Boolean;
-import java.lang.Integer;
-import java.lang.String;
 import java.util.Map;
+
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.network.PortSpec;
 
 public class Endpoint extends Root {
@@ -55,9 +54,7 @@ public class Endpoint extends Root {
 
 	@Valid
 	@JsonProperty("ports")
-	@Size(
-			min = 1
-	)
+	@Size(min = 1)
 	private Map<String, PortSpec> ports;
 
 	@Valid

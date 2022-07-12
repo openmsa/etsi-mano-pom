@@ -16,11 +16,12 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.nodes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.String;
 import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.capabilities.nfv.VirtualLinkable;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.ConnectivityType;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.NsVlProfile;
@@ -31,7 +32,8 @@ import com.ubiqube.parser.tosca.objects.tosca.nodes.Root;
  */
 public class NsVirtualLink extends Root {
 	/**
-	 * Specifies instantiation parameters for a virtual link of a particular NS deployment flavour.
+	 * Specifies instantiation parameters for a virtual link of a particular NS
+	 * deployment flavour.
 	 */
 	@Valid
 	@NotNull
@@ -46,7 +48,8 @@ public class NsVirtualLink extends Root {
 	private List<String> testAccess;
 
 	/**
-	 * Human readable information on the purpose of the virtual link (e.g. VL for control plane traffic).
+	 * Human readable information on the purpose of the virtual link (e.g. VL for
+	 * control plane traffic).
 	 */
 	@Valid
 	@JsonProperty("description")

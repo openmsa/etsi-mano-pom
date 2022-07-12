@@ -16,11 +16,9 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.nodes.network;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Boolean;
-import java.lang.Integer;
-import java.lang.String;
 import javax.validation.Valid;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.capabilities.network.Linkable;
 import com.ubiqube.parser.tosca.objects.tosca.nodes.Root;
 

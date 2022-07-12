@@ -16,10 +16,11 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.String;
 import java.util.Map;
+
 import javax.validation.Valid;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
@@ -27,14 +28,16 @@ import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
  */
 public class InterfaceDetails extends Root {
 	/**
-	 * Provides additional details that are specific to the type of interface considered.
+	 * Provides additional details that are specific to the type of interface
+	 * considered.
 	 */
 	@Valid
 	@JsonProperty("interface_specific_data")
 	private Map<String, String> interfaceSpecificData;
 
 	/**
-	 * Provides components to build a Uniform Ressource Identifier (URI) where to access the interface end point.
+	 * Provides components to build a Uniform Ressource Identifier (URI) where to
+	 * access the interface end point.
 	 */
 	@Valid
 	@JsonProperty("uri_components")

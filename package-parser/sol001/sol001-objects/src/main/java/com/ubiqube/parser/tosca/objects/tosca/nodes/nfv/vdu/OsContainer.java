@@ -16,25 +16,26 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.vdu;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ubiqube.parser.tosca.scalar.Size;
-import java.lang.Integer;
-import java.lang.String;
 import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.capabilities.nfv.ContainerDeployable;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.ExtendedResourceData;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.Hugepages;
 import com.ubiqube.parser.tosca.objects.tosca.nodes.Root;
+import com.ubiqube.parser.tosca.scalar.Size;
 
 /**
  * Describes the resources of a single OS container within a VDU
  */
 public class OsContainer extends Root {
 	/**
-	 * Size of ephemeral storage resources the OS container can maximum use (e.g. in GB).
+	 * Size of ephemeral storage resources the OS container can maximum use (e.g. in
+	 * GB).
 	 */
 	@Valid
 	@JsonProperty("ephemeral_storage_resource_limit")
@@ -55,18 +56,17 @@ public class OsContainer extends Root {
 	private Size memoryResourceLimit;
 
 	/**
-	 * Number of CPU resources the OS container can maximally use (e.g. in milli-CPU).
+	 * Number of CPU resources the OS container can maximally use (e.g. in
+	 * milli-CPU).
 	 */
 	@Valid
 	@JsonProperty("cpu_resource_limit")
-	@DecimalMin(
-			value = "0",
-			inclusive = true
-	)
+	@DecimalMin(value = "0", inclusive = true)
 	private Integer cpuResourceLimit;
 
 	/**
-	 * The requirement for huge pages resources. Each element in the list indicates a hugepage size and the total memory requested for hugepages of that size.
+	 * The requirement for huge pages resources. Each element in the list indicates
+	 * a hugepage size and the total memory requested for hugepages of that size.
 	 */
 	@Valid
 	@JsonProperty("huge_pages_resources")
@@ -85,10 +85,7 @@ public class OsContainer extends Root {
 	 */
 	@Valid
 	@JsonProperty("requested_cpu_resources")
-	@DecimalMin(
-			value = "0",
-			inclusive = true
-	)
+	@DecimalMin(value = "0", inclusive = true)
 	private Integer requestedCpuResources;
 
 	/**
@@ -104,13 +101,12 @@ public class OsContainer extends Root {
 	 */
 	@Valid
 	@JsonProperty("extended_resource_requests")
-	@javax.validation.constraints.Size(
-			min = 1
-	)
+	@javax.validation.constraints.Size(min = 1)
 	private List<ExtendedResourceData> extendedResourceRequests;
 
 	/**
-	 * Size of ephemeral storage resources requested for the OS container (e.g. in GB).
+	 * Size of ephemeral storage resources requested for the OS container (e.g. in
+	 * GB).
 	 */
 	@Valid
 	@JsonProperty("requested_ephemeral_storage_resources")

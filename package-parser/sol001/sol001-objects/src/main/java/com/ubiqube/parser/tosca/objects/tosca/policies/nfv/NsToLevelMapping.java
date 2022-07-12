@@ -16,18 +16,20 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.policies.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Integer;
-import java.lang.String;
 import java.util.List;
 import java.util.Map;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.policies.Root;
 
 /**
- * The NsToLevelMapping type is a policy type representing the number of NS instances of a nested NS to be deployed at each NS level of the composite NS, as defined in ETSI GS NFV-IFA 014 [2]tosca.nodes.nfv.NS
+ * The NsToLevelMapping type is a policy type representing the number of NS
+ * instances of a nested NS to be deployed at each NS level of the composite NS,
+ * as defined in ETSI GS NFV-IFA 014 [2]tosca.nodes.nfv.NS
  */
 public class NsToLevelMapping extends Root {
 	/**
@@ -39,14 +41,13 @@ public class NsToLevelMapping extends Root {
 	private String aspect;
 
 	/**
-	 * Number of NS instances of a nested NS to be deployed for each NS level of the composite NS.
+	 * Number of NS instances of a nested NS to be deployed for each NS level of the
+	 * composite NS.
 	 */
 	@Valid
 	@NotNull
 	@JsonProperty("number_of_instances")
-	@Size(
-			min = 1
-	)
+	@Size(min = 1)
 	private Map<String, Integer> numberOfInstances;
 
 	@Valid

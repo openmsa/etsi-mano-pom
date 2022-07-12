@@ -16,21 +16,25 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ubiqube.parser.tosca.scalar.Size;
-import java.lang.Boolean;
-import java.lang.String;
 import java.util.Map;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
+import com.ubiqube.parser.tosca.scalar.Size;
 
 /**
- * VirtualBlockStorageData describes block storage requirements associated with compute resources in a particular VDU, either as a local disk or as virtual attached storage
+ * VirtualBlockStorageData describes block storage requirements associated with
+ * compute resources in a particular VDU, either as a local disk or as virtual
+ * attached storage
  */
 public class VirtualBlockStorageData extends Root {
 	/**
-	 * The hardware platform specific storage requirements. A map of strings that contains a set of key-value pairs that represents the hardware platform specific storage deployment requirements
+	 * The hardware platform specific storage requirements. A map of strings that
+	 * contains a set of key-value pairs that represents the hardware platform
+	 * specific storage deployment requirements
 	 */
 	@Valid
 	@JsonProperty("vdu_storage_requirements")

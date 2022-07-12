@@ -16,21 +16,23 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ubiqube.parser.tosca.scalar.Size;
-import java.lang.Boolean;
-import java.lang.String;
 import java.util.Map;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
+import com.ubiqube.parser.tosca.scalar.Size;
 
 /**
- * supports the specification of requirements related to virtual memory of a virtual compute resource
+ * supports the specification of requirements related to virtual memory of a
+ * virtual compute resource
  */
 public class VirtualMemory extends Root {
 	/**
-	 * It specifies the memory allocation to be cognisant of the relevant process/core allocation.
+	 * It specifies the memory allocation to be cognisant of the relevant
+	 * process/core allocation.
 	 */
 	@Valid
 	@NotNull
@@ -46,14 +48,17 @@ public class VirtualMemory extends Root {
 	private Size virtualMemSize;
 
 	/**
-	 * The hardware platform specific VDU memory requirements. A map of strings that contains a set of key-value pairs that describes hardware platform specific VDU memory requirements.
+	 * The hardware platform specific VDU memory requirements. A map of strings that
+	 * contains a set of key-value pairs that describes hardware platform specific
+	 * VDU memory requirements.
 	 */
 	@Valid
 	@JsonProperty("vdu_mem_requirements")
 	private Map<String, String> vduMemRequirements;
 
 	/**
-	 * The memory core oversubscription policy in terms of virtual memory to physical memory on the platform.
+	 * The memory core oversubscription policy in terms of virtual memory to
+	 * physical memory on the platform.
 	 */
 	@Valid
 	@JsonProperty("virtual_mem_oversubscription_policy")

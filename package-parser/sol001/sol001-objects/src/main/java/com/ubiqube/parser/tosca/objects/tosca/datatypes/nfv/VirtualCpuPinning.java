@@ -16,25 +16,32 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.String;
 import java.util.List;
+
 import javax.validation.Valid;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
- * Supports the specification of requirements related to the virtual CPU pinning configuration of a virtual compute resource
+ * Supports the specification of requirements related to the virtual CPU pinning
+ * configuration of a virtual compute resource
  */
 public class VirtualCpuPinning extends Root {
 	/**
-	 * Indicates the policy for CPU pinning. The policy can take values of "static" or "dynamic". In case of "dynamic" the allocation of virtual CPU cores to logical CPU cores is decided by the VIM. (e.g. SMT (Simultaneous Multi-Threading) requirements). In case of "static" the allocation is requested to be according to the virtual_cpu_pinning_rule.
+	 * Indicates the policy for CPU pinning. The policy can take values of "static"
+	 * or "dynamic". In case of "dynamic" the allocation of virtual CPU cores to
+	 * logical CPU cores is decided by the VIM. (e.g. SMT (Simultaneous
+	 * Multi-Threading) requirements). In case of "static" the allocation is
+	 * requested to be according to the virtual_cpu_pinning_rule.
 	 */
 	@Valid
 	@JsonProperty("virtual_cpu_pinning_policy")
 	private String virtualCpuPinningPolicy;
 
 	/**
-	 * Provides the list of rules for allocating virtual CPU cores to logical  CPU cores/threads
+	 * Provides the list of rules for allocating virtual CPU cores to logical CPU
+	 * cores/threads
 	 */
 	@Valid
 	@JsonProperty("virtual_cpu_pinning_rule")

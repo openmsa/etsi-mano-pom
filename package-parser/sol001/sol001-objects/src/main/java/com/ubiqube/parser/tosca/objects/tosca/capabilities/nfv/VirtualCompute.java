@@ -16,12 +16,13 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.capabilities.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.String;
 import java.util.List;
 import java.util.Map;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.capabilities.Node;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.LogicalNodeData;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.RequestedAdditionalCapability;
@@ -42,7 +43,8 @@ public class VirtualCompute extends Node {
 	private VirtualMemory virtualMemory;
 
 	/**
-	 * A list of virtual system disks created and destroyed as part of the VM lifecycle
+	 * A list of virtual system disks created and destroyed as part of the VM
+	 * lifecycle
 	 */
 	@Valid
 	@JsonProperty("virtual_local_storage")

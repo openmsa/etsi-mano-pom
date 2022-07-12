@@ -16,12 +16,12 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Boolean;
-import java.lang.String;
 import java.util.Map;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
@@ -36,7 +36,8 @@ public class RequestedAdditionalCapability extends Root {
 	private String preferredRequestedAdditionalCapabilityVersion;
 
 	/**
-	 * Identifies specific attributes, dependent on the requested additional capability type.
+	 * Identifies specific attributes, dependent on the requested additional
+	 * capability type.
 	 */
 	@Valid
 	@NotNull
@@ -52,7 +53,8 @@ public class RequestedAdditionalCapability extends Root {
 	private String requestedAdditionalCapabilityName;
 
 	/**
-	 * Indicates whether the requested additional capability is mandatory for successful operation.
+	 * Indicates whether the requested additional capability is mandatory for
+	 * successful operation.
 	 */
 	@Valid
 	@NotNull

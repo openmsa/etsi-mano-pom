@@ -16,16 +16,16 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.vdu;
 
+import java.util.List;
+import java.util.Map;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.annotations.Capability;
 import com.ubiqube.parser.tosca.annotations.Occurence;
 import com.ubiqube.parser.tosca.annotations.Relationship;
-import java.lang.Boolean;
-import java.lang.String;
-import java.util.List;
-import java.util.Map;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import com.ubiqube.parser.tosca.objects.tosca.capabilities.nfv.VirtualBindable;
 import com.ubiqube.parser.tosca.objects.tosca.capabilities.nfv.VirtualCompute;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.BootData;
@@ -34,11 +34,14 @@ import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.VnfcMonitoringParame
 import com.ubiqube.parser.tosca.objects.tosca.nodes.Root;
 
 /**
- * Describes the virtual compute part of a VDU which is a construct  supporting the description of the deployment and operational behavior of a VNFC
+ * Describes the virtual compute part of a VDU which is a construct supporting
+ * the description of the deployment and operational behavior of a VNFC
  */
 public class Compute extends Root {
 	/**
-	 * Contains the information used to customize a virtualised compute resource at boot time. The bootData may contain variable parts that are replaced by deployment specific values before being sent to the VIM.
+	 * Contains the information used to customize a virtualised compute resource at
+	 * boot time. The bootData may contain variable parts that are replaced by
+	 * deployment specific values before being sent to the VIM.
 	 */
 	@Valid
 	@JsonProperty("boot_data")
@@ -53,14 +56,16 @@ public class Compute extends Root {
 	private String name;
 
 	/**
-	 * Describes constraints on the NFVI for the VNFC instance(s) created from this VDU. This property is reserved for future use in the present document.
+	 * Describes constraints on the NFVI for the VNFC instance(s) created from this
+	 * VDU. This property is reserved for future use in the present document.
 	 */
 	@Valid
 	@JsonProperty("nfvi_constraints")
 	private Map<String, String> nfviConstraints;
 
 	/**
-	 * Describes monitoring parameters applicable to a VNFC instantiated from this VDU
+	 * Describes monitoring parameters applicable to a VNFC instantiated from this
+	 * VDU
 	 */
 	@Valid
 	@JsonProperty("monitoring_parameters")
@@ -75,7 +80,9 @@ public class Compute extends Root {
 	private String description;
 
 	/**
-	 * indicates whether the order of the virtual_storage requirements is used as the boot index (the first requirement represents the lowest index and defines highest boot priority)
+	 * indicates whether the order of the virtual_storage requirements is used as
+	 * the boot index (the first requirement represents the lowest index and defines
+	 * highest boot priority)
 	 */
 	@Valid
 	@NotNull

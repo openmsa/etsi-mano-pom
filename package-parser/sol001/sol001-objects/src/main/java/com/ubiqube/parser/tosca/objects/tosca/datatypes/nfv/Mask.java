@@ -16,12 +16,11 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Integer;
-import java.lang.String;
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 public class Mask extends Root {
@@ -31,10 +30,7 @@ public class Mask extends Root {
 	@Valid
 	@NotNull
 	@JsonProperty("length")
-	@DecimalMin(
-			value = "1",
-			inclusive = true
-	)
+	@DecimalMin(value = "1", inclusive = true)
 	private Integer length;
 
 	/**
@@ -46,15 +42,13 @@ public class Mask extends Root {
 	private String value;
 
 	/**
-	 * Indicates the offset between the last bit of the source mac address and the first bit of the sequence of bits to be matched.
+	 * Indicates the offset between the last bit of the source mac address and the
+	 * first bit of the sequence of bits to be matched.
 	 */
 	@Valid
 	@NotNull
 	@JsonProperty("starting_point")
-	@DecimalMin(
-			value = "1",
-			inclusive = true
-	)
+	@DecimalMin(value = "1", inclusive = true)
 	private Integer startingPoint;
 
 	@NotNull

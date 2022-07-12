@@ -16,20 +16,22 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Integer;
-import java.lang.String;
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
- * describes a profile for instantiating NSs of a particular NS DF according to a specific NSD and NS DF.
+ * describes a profile for instantiating NSs of a particular NS DF according to
+ * a specific NSD and NS DF.
  */
 public class NsProfile extends Root {
 	/**
-	 * Identifier of the instantiation level of the NS DF to be used for instantiation. If not present, the default instantiation level as declared in the NSD shall be used.
+	 * Identifier of the instantiation level of the NS DF to be used for
+	 * instantiation. If not present, the default instantiation level as declared in
+	 * the NSD shall be used.
 	 */
 	@Valid
 	@JsonProperty("ns_instantiation_level")
@@ -44,27 +46,23 @@ public class NsProfile extends Root {
 	private String flavourId;
 
 	/**
-	 * Minimum number of instances of the NS based on this NSD that is permitted to exist for this NsProfile.
+	 * Minimum number of instances of the NS based on this NSD that is permitted to
+	 * exist for this NsProfile.
 	 */
 	@Valid
 	@NotNull
 	@JsonProperty("min_number_of_instances")
-	@DecimalMin(
-			value = "0",
-			inclusive = true
-	)
+	@DecimalMin(value = "0", inclusive = true)
 	private Integer minNumberOfInstances;
 
 	/**
-	 * Maximum number of instances of the NS based on this NSD that is permitted to exist for this NsProfile.
+	 * Maximum number of instances of the NS based on this NSD that is permitted to
+	 * exist for this NsProfile.
 	 */
 	@Valid
 	@NotNull
 	@JsonProperty("max_number_of_instances")
-	@DecimalMin(
-			value = "0",
-			inclusive = true
-	)
+	@DecimalMin(value = "0", inclusive = true)
 	private Integer maxNumberOfInstances;
 
 	public String getNsInstantiationLevel() {

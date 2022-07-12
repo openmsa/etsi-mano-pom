@@ -16,10 +16,10 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.String;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
@@ -27,7 +27,8 @@ import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
  */
 public class IpAllocationPool extends Root {
 	/**
-	 * The IP address to be used as the first one in a pool of addresses derived from the cidr block full IP range
+	 * The IP address to be used as the first one in a pool of addresses derived
+	 * from the cidr block full IP range
 	 */
 	@Valid
 	@NotNull
@@ -35,7 +36,8 @@ public class IpAllocationPool extends Root {
 	private String startIpAddress;
 
 	/**
-	 * The IP address to be used as the last one in a pool of addresses derived from the cidr block full IP range
+	 * The IP address to be used as the last one in a pool of addresses derived from
+	 * the cidr block full IP range
 	 */
 	@Valid
 	@NotNull

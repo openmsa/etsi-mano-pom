@@ -16,33 +16,32 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.nodes.nfv;
 
+import javax.validation.Valid;
+import javax.validation.constraints.DecimalMin;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.annotations.Capability;
 import com.ubiqube.parser.tosca.annotations.Node;
 import com.ubiqube.parser.tosca.annotations.Occurence;
 import com.ubiqube.parser.tosca.annotations.Relationship;
-import java.lang.Integer;
-import java.lang.String;
-import javax.validation.Valid;
-import javax.validation.constraints.DecimalMin;
 
 /**
- * describes network connectivity between a VNFC instance based on this VDU and an internal VL through a trunk port
+ * describes network connectivity between a VNFC instance based on this VDU and
+ * an internal VL through a trunk port
  */
 public class VduSubCp extends VduCp {
 	/**
-	 * Specifies the segmentation ID for the subport, which is used to differentiate the traffics on different networks coming in and out of the trunk port.
+	 * Specifies the segmentation ID for the subport, which is used to differentiate
+	 * the traffics on different networks coming in and out of the trunk port.
 	 */
 	@Valid
 	@JsonProperty("segmentation_id")
-	@DecimalMin(
-			value = "0",
-			inclusive = true
-	)
+	@DecimalMin(value = "0", inclusive = true)
 	private Integer segmentationId;
 
 	/**
-	 * Specifies the encapsulation type for the traffics coming in and out of the trunk subport.
+	 * Specifies the encapsulation type for the traffics coming in and out of the
+	 * trunk subport.
 	 */
 	@Valid
 	@JsonProperty("segmentation_type")

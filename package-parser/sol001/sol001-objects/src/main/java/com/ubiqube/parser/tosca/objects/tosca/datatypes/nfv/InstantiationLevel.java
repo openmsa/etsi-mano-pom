@@ -16,15 +16,18 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.String;
 import java.util.Map;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
- * Describes the scale level for each aspect that corresponds to a given level of resources to be instantiated within a deployment flavour in term of the number VNFC instances
+ * Describes the scale level for each aspect that corresponds to a given level
+ * of resources to be instantiated within a deployment flavour in term of the
+ * number VNFC instances
  */
 public class InstantiationLevel extends Root {
 	/**
@@ -36,7 +39,8 @@ public class InstantiationLevel extends Root {
 	private String description;
 
 	/**
-	 * Represents for each aspect the scale level that corresponds to this instantiation level. scale_info shall be present if the VNF supports scaling.
+	 * Represents for each aspect the scale level that corresponds to this
+	 * instantiation level. scale_info shall be present if the VNF supports scaling.
 	 */
 	@Valid
 	@JsonProperty("scale_info")

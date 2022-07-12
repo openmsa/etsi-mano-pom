@@ -16,10 +16,10 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.capabilities.endpoint;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Boolean;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.capabilities.Endpoint;
 
 public class Admin extends Endpoint {
@@ -28,11 +28,13 @@ public class Admin extends Endpoint {
 	@JsonProperty("secure")
 	private Boolean secure = true;
 
+	@Override
 	@NotNull
 	public Boolean getSecure() {
 		return this.secure;
 	}
 
+	@Override
 	public void setSecure(@NotNull final Boolean secure) {
 		this.secure = secure;
 	}

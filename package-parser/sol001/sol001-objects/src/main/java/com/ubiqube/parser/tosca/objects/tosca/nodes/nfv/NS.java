@@ -16,17 +16,17 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.nodes.nfv;
 
+import java.util.Map;
+
+import javax.validation.Valid;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.annotations.Capability;
 import com.ubiqube.parser.tosca.annotations.Node;
 import com.ubiqube.parser.tosca.annotations.Occurence;
 import com.ubiqube.parser.tosca.annotations.Relationship;
-import java.lang.Integer;
-import java.lang.String;
-import java.util.Map;
-import javax.validation.Valid;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotNull;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.NsProfile;
 import com.ubiqube.parser.tosca.objects.tosca.interfaces.nfv.Nslcm;
 import com.ubiqube.parser.tosca.objects.tosca.nodes.Root;
@@ -41,7 +41,8 @@ public class NS extends Root {
 	private String descriptorId;
 
 	/**
-	 * Identifies an NSD in a version independent manner. This attribute is invariant across versions of NSD
+	 * Identifies an NSD in a version independent manner. This attribute is
+	 * invariant across versions of NSD
 	 */
 	@Valid
 	@NotNull
@@ -49,7 +50,8 @@ public class NS extends Root {
 	private String invariantId;
 
 	/**
-	 * Specifies a profile of a NS, when this NS is used as nested NS within another NS.
+	 * Specifies a profile of a NS, when this NS is used as nested NS within another
+	 * NS.
 	 */
 	@Valid
 	@JsonProperty("ns_profile")
@@ -68,10 +70,7 @@ public class NS extends Root {
 	 */
 	@Valid
 	@JsonProperty("service_availability_level")
-	@DecimalMin(
-			value = "1",
-			inclusive = true
-	)
+	@DecimalMin(value = "1", inclusive = true)
 	private Integer serviceAvailabilityLevel;
 
 	/**
@@ -91,14 +90,12 @@ public class NS extends Root {
 	private String designer;
 
 	/**
-	 * Specifies the priority for the NS instance. Examples for the usage of priority include conflict resolution in case of resource shortage.
+	 * Specifies the priority for the NS instance. Examples for the usage of
+	 * priority include conflict resolution in case of resource shortage.
 	 */
 	@Valid
 	@JsonProperty("priority")
-	@DecimalMin(
-			value = "0",
-			inclusive = true
-	)
+	@DecimalMin(value = "0", inclusive = true)
 	private Integer priority;
 
 	/**
@@ -110,7 +107,8 @@ public class NS extends Root {
 	private String version;
 
 	/**
-	 * Scale status of the NS, one entry per aspect. Represents for every scaling aspect how "big" the NS has been scaled w.r.t. that aspect.
+	 * Scale status of the NS, one entry per aspect. Represents for every scaling
+	 * aspect how "big" the NS has been scaled w.r.t. that aspect.
 	 */
 	@Valid
 	@NotNull

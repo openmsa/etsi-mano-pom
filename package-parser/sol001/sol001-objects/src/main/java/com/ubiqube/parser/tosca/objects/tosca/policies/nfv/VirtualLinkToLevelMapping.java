@@ -16,18 +16,22 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.policies.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.String;
 import java.util.List;
 import java.util.Map;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.LinkBitrateRequirements;
 import com.ubiqube.parser.tosca.objects.tosca.policies.Root;
 
 /**
- * The VirtualLinkToLevelMapping type is a policy type representing the number of NS instances of a nested NS to be deployed at each NS level of the composite NS, as defined in ETSI GS NFV-IFA 014 [2]tosca.nodes.nfv.NsVirtualLink
+ * The VirtualLinkToLevelMapping type is a policy type representing the number
+ * of NS instances of a nested NS to be deployed at each NS level of the
+ * composite NS, as defined in ETSI GS NFV-IFA 014
+ * [2]tosca.nodes.nfv.NsVirtualLink
  */
 public class VirtualLinkToLevelMapping extends Root {
 	/**
@@ -36,9 +40,7 @@ public class VirtualLinkToLevelMapping extends Root {
 	@Valid
 	@NotNull
 	@JsonProperty("bit_rate_requirements")
-	@Size(
-			min = 1
-	)
+	@Size(min = 1)
 	private Map<String, LinkBitrateRequirements> bitRateRequirements;
 
 	/**

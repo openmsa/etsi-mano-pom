@@ -16,15 +16,16 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ubiqube.parser.tosca.scalar.Time;
-import java.lang.String;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
+import com.ubiqube.parser.tosca.scalar.Time;
 
 /**
- * Represents information on virtualised resource related performance metrics applicable to the VNF.
+ * Represents information on virtualised resource related performance metrics
+ * applicable to the VNF.
  */
 public class VirtualLinkMonitoringParameter extends Root {
 	/**

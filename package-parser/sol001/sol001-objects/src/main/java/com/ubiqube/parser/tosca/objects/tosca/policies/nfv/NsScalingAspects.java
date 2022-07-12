@@ -16,29 +16,30 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.policies.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.String;
 import java.util.List;
 import java.util.Map;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.NsScalingAspect;
 import com.ubiqube.parser.tosca.objects.tosca.policies.Root;
 
 /**
- * The ScalingAspects type is a policy type representing the scaling aspects used for horizontal scaling as defined in ETSI GS NFV-IFA 014 [2]
+ * The ScalingAspects type is a policy type representing the scaling aspects
+ * used for horizontal scaling as defined in ETSI GS NFV-IFA 014 [2]
  */
 public class NsScalingAspects extends Root {
 	/**
-	 * Describe the details of a particular aspect including the corresponding NS levels.
+	 * Describe the details of a particular aspect including the corresponding NS
+	 * levels.
 	 */
 	@Valid
 	@NotNull
 	@JsonProperty("aspects")
-	@Size(
-			min = 1
-	)
+	@Size(min = 1)
 	private Map<String, NsScalingAspect> aspects;
 
 	@Valid

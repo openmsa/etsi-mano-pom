@@ -16,45 +16,58 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Boolean;
 import javax.validation.Valid;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
- * indicates configuration properties for a given VNF (e.g. related to auto scaling and auto healing).
+ * indicates configuration properties for a given VNF (e.g. related to auto
+ * scaling and auto healing).
  */
 public class VnfConfigurableProperties extends Root {
 	/**
-	 * Contains information enabling access to the NFV-MANO interfaces produced by the VNFM (e.g. URIs and credentials), If the property is not present, then configuring this VNF property is not supported.
+	 * Contains information enabling access to the NFV-MANO interfaces produced by
+	 * the VNFM (e.g. URIs and credentials), If the property is not present, then
+	 * configuring this VNF property is not supported.
 	 */
 	@Valid
 	@JsonProperty("vnfm_interface_info")
 	private VnfmInterfaceInfo vnfmInterfaceInfo;
 
 	/**
-	 * It permits to enable (TRUE)/disable (FALSE) the auto-scaling functionality. If the property is not present, then configuring this VNF property is not supported
+	 * It permits to enable (TRUE)/disable (FALSE) the auto-scaling functionality.
+	 * If the property is not present, then configuring this VNF property is not
+	 * supported
 	 */
 	@Valid
 	@JsonProperty("is_autoscale_enabled")
 	private Boolean isAutoscaleEnabled;
 
 	/**
-	 * Contains information to enable discovery of the authorization server protecting access to VNFM interfaces. If the property is not present, then configuring this VNF property is not supported.
+	 * Contains information to enable discovery of the authorization server
+	 * protecting access to VNFM interfaces. If the property is not present, then
+	 * configuring this VNF property is not supported.
 	 */
 	@Valid
 	@JsonProperty("vnfm_oauth_server_info")
 	private OauthServerInfo vnfmOauthServerInfo;
 
 	/**
-	 * It permits to enable (TRUE)/disable (FALSE) the auto-healing functionality. If the property is not present, then configuring this VNF property is not supported
+	 * It permits to enable (TRUE)/disable (FALSE) the auto-healing functionality.
+	 * If the property is not present, then configuring this VNF property is not
+	 * supported
 	 */
 	@Valid
 	@JsonProperty("is_autoheal_enabled")
 	private Boolean isAutohealEnabled;
 
 	/**
-	 * Contains information to enable discovery of the authorization server to validate the access tokens provided by the VNFM when  the VNFM accesses the VNF interfaces, if that functionality (token introspection) is supported by the authorization server. If the property is not present, then configuring this VNF property is not supported.
+	 * Contains information to enable discovery of the authorization server to
+	 * validate the access tokens provided by the VNFM when the VNFM accesses the
+	 * VNF interfaces, if that functionality (token introspection) is supported by
+	 * the authorization server. If the property is not present, then configuring
+	 * this VNF property is not supported.
 	 */
 	@Valid
 	@JsonProperty("vnf_oauth_server_info")

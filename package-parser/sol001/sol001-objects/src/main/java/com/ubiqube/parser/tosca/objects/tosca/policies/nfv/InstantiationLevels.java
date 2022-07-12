@@ -16,18 +16,22 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.policies.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.String;
 import java.util.List;
 import java.util.Map;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.InstantiationLevel;
 import com.ubiqube.parser.tosca.objects.tosca.policies.Root;
 
 /**
- * The InstantiationLevels type is a policy type representing all the instantiation levels of resources to be instantiated within a deployment flavour and including default instantiation level in term of the number of VNFC instances to be created as defined in ETSI GS NFV-IFA 011 [1].
+ * The InstantiationLevels type is a policy type representing all the
+ * instantiation levels of resources to be instantiated within a deployment
+ * flavour and including default instantiation level in term of the number of
+ * VNFC instances to be created as defined in ETSI GS NFV-IFA 011 [1].
  */
 public class InstantiationLevels extends Root {
 	/**
@@ -38,14 +42,13 @@ public class InstantiationLevels extends Root {
 	private String defaultLevel;
 
 	/**
-	 * Describes the various levels of resources that can be used to instantiate the VNF using this flavour.
+	 * Describes the various levels of resources that can be used to instantiate the
+	 * VNF using this flavour.
 	 */
 	@Valid
 	@NotNull
 	@JsonProperty("levels")
-	@Size(
-			min = 1
-	)
+	@Size(min = 1)
 	private Map<String, InstantiationLevel> levels;
 
 	@Valid

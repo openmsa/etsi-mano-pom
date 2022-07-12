@@ -16,15 +16,16 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.vdu;
 
+import java.util.List;
+import java.util.Map;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.annotations.Capability;
 import com.ubiqube.parser.tosca.annotations.Occurence;
 import com.ubiqube.parser.tosca.annotations.Relationship;
-import java.lang.String;
-import java.util.List;
-import java.util.Map;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import com.ubiqube.parser.tosca.objects.tosca.capabilities.nfv.AssociableVdu;
 import com.ubiqube.parser.tosca.objects.tosca.capabilities.nfv.VirtualBindable;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.LogicalNodeData;
@@ -33,7 +34,9 @@ import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.VduProfile;
 import com.ubiqube.parser.tosca.objects.tosca.nodes.Root;
 
 /**
- * Describes the aggregate of container of a VDU (when realized as OS containers) which supporting the description of the deployment and operational behavior of a VNFC
+ * Describes the aggregate of container of a VDU (when realized as OS
+ * containers) which supporting the description of the deployment and
+ * operational behavior of a VNFC
  */
 public class OsContainerDeployableUnit extends Root {
 	/**
@@ -44,7 +47,9 @@ public class OsContainerDeployableUnit extends Root {
 	private Map<String, RequestedAdditionalCapability> requestedAdditionalCapabilities;
 
 	/**
-	 * Defines the parameter names for constraints expected to be assigned to MCIOs realizing this Vdu.OsContainerDeployableUnit. The value specifies the standardized semantical context of the MCIO constraints.
+	 * Defines the parameter names for constraints expected to be assigned to MCIOs
+	 * realizing this Vdu.OsContainerDeployableUnit. The value specifies the
+	 * standardized semantical context of the MCIO constraints.
 	 */
 	@Valid
 	@JsonProperty("mcio_constraint_params")
@@ -59,7 +64,8 @@ public class OsContainerDeployableUnit extends Root {
 	private String name;
 
 	/**
-	 * Describes constraints on the NFVI for the VNFC instance(s) created from this VDU. This property is reserved for future use in the present document.
+	 * Describes constraints on the NFVI for the VNFC instance(s) created from this
+	 * VDU. This property is reserved for future use in the present document.
 	 */
 	@Valid
 	@JsonProperty("nfvi_constraints")
@@ -81,7 +87,8 @@ public class OsContainerDeployableUnit extends Root {
 	private Map<String, LogicalNodeData> logicalNode;
 
 	/**
-	 * Defines additional instantiation data for the Vdu.OsContainerDeployableUnit node
+	 * Defines additional instantiation data for the Vdu.OsContainerDeployableUnit
+	 * node
 	 */
 	@Valid
 	@NotNull

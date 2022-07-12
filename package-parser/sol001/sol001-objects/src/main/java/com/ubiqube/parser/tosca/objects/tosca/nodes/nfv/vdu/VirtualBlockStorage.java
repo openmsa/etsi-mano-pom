@@ -16,21 +16,23 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.vdu;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Boolean;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.capabilities.nfv.VirtualStorage;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.NfviMaintenanceInfo;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.VirtualBlockStorageData;
 import com.ubiqube.parser.tosca.objects.tosca.nodes.Root;
 
 /**
- * This node type describes the specifications of requirements related to virtual block storage resources
+ * This node type describes the specifications of requirements related to
+ * virtual block storage resources
  */
 public class VirtualBlockStorage extends Root {
 	/**
-	 * Indicates whether the virtual storage descriptor shall be instantiated per VNFC instance.
+	 * Indicates whether the virtual storage descriptor shall be instantiated per
+	 * VNFC instance.
 	 */
 	@Valid
 	@NotNull
@@ -38,7 +40,9 @@ public class VirtualBlockStorage extends Root {
 	private Boolean perVnfcInstance = true;
 
 	/**
-	 * Provides information on the rules to be observed when an instance based on this VirtualBlockStorage is impacted during NFVI operation and maintenance (e.g. NFVI resource upgrades).
+	 * Provides information on the rules to be observed when an instance based on
+	 * this VirtualBlockStorage is impacted during NFVI operation and maintenance
+	 * (e.g. NFVI resource upgrades).
 	 */
 	@Valid
 	@JsonProperty("nfvi_maintenance_info")

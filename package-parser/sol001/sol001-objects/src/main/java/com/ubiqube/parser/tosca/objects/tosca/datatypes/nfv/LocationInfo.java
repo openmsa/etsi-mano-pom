@@ -16,11 +16,12 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.String;
 import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
@@ -36,7 +37,8 @@ public class LocationInfo extends Root {
 	private String countryCode;
 
 	/**
-	 * Geographic coordinates (e.g. Altitude, Longitude, Latitude) where the PNF is deployed.
+	 * Geographic coordinates (e.g. Altitude, Longitude, Latitude) where the PNF is
+	 * deployed.
 	 */
 	@Valid
 	@JsonProperty("geographic_coordinates")

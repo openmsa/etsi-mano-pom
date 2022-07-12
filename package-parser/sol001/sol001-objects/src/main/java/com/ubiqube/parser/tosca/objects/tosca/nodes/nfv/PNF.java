@@ -16,13 +16,13 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.nodes.nfv;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.annotations.Capability;
 import com.ubiqube.parser.tosca.annotations.Occurence;
 import com.ubiqube.parser.tosca.annotations.Relationship;
-import java.lang.String;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.LocationInfo;
 import com.ubiqube.parser.tosca.objects.tosca.nodes.Root;
 
@@ -44,7 +44,8 @@ public class PNF extends Root {
 	private String provider;
 
 	/**
-	 * Identifier of this PNFD in a version independent manner. This attribute is invariant across versions of PNFD.
+	 * Identifier of this PNFD in a version independent manner. This attribute is
+	 * invariant across versions of PNFD.
 	 */
 	@Valid
 	@NotNull
@@ -60,7 +61,8 @@ public class PNF extends Root {
 	private String name;
 
 	/**
-	 * Provides information about the geographical location (e.g. geographic coordinates or address of the building, etc.) of the PNF
+	 * Provides information about the geographical location (e.g. geographic
+	 * coordinates or address of the building, etc.) of the PNF
 	 */
 	@Valid
 	@JsonProperty("geographical_location_info")

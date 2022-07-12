@@ -16,12 +16,12 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.nodes.nfv;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.annotations.Capability;
 import com.ubiqube.parser.tosca.annotations.Occurence;
 import com.ubiqube.parser.tosca.annotations.Relationship;
-import java.lang.String;
-import java.util.List;
 import com.ubiqube.parser.tosca.objects.tosca.capabilities.nfv.Forwarding;
 import com.ubiqube.parser.tosca.objects.tosca.nodes.Root;
 

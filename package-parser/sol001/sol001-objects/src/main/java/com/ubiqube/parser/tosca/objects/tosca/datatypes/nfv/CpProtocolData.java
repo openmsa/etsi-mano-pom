@@ -16,15 +16,17 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.String;
 import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
- * Describes and associates the protocol layer that a CP uses together with other protocol and connection point information
+ * Describes and associates the protocol layer that a CP uses together with
+ * other protocol and connection point information
  */
 public class CpProtocolData extends Root {
 	/**

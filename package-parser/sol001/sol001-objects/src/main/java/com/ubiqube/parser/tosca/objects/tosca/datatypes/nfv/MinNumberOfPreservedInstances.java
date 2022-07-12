@@ -16,25 +16,29 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Integer;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
- * Specifies the minimum number of instances of a given Vdu.Compute node or VnfVirtualLink node which need to be preserved simultaneously.
+ * Specifies the minimum number of instances of a given Vdu.Compute node or
+ * VnfVirtualLink node which need to be preserved simultaneously.
  */
 public class MinNumberOfPreservedInstances extends Root {
 	/**
-	 * Determines the size of the group for which the min_number_of_preserved_instances is specified. If not present the size is not limited.
+	 * Determines the size of the group for which the
+	 * min_number_of_preserved_instances is specified. If not present the size is
+	 * not limited.
 	 */
 	@Valid
 	@JsonProperty("group_size")
 	private Integer groupSize;
 
 	/**
-	 * The minimum number of instances which need to be preserved simultaneously within the group of the specified size.
+	 * The minimum number of instances which need to be preserved simultaneously
+	 * within the group of the specified size.
 	 */
 	@Valid
 	@NotNull

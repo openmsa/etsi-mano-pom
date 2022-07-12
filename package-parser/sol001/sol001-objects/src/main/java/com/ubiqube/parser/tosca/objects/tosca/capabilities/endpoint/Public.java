@@ -16,16 +16,16 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.capabilities.endpoint;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Boolean;
-import java.lang.String;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.capabilities.Endpoint;
 
 public class Public extends Endpoint {
 	/**
-	 * indicates that the public address should be allocated from a pool of floating IPs that are associated with the network.
+	 * indicates that the public address should be allocated from a pool of floating
+	 * IPs that are associated with the network.
 	 */
 	@Valid
 	@NotNull
@@ -53,11 +53,13 @@ public class Public extends Endpoint {
 		this.floating = floating;
 	}
 
+	@Override
 	@NotNull
 	public String getNetworkName() {
 		return this.networkName;
 	}
 
+	@Override
 	public void setNetworkName(@NotNull final String networkName) {
 		this.networkName = networkName;
 	}

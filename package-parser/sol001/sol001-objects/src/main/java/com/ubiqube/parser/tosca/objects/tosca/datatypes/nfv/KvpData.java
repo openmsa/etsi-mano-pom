@@ -16,18 +16,21 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.String;
 import java.util.Map;
+
 import javax.validation.Valid;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
- * describes a set of key-value pairs information used to customize a virtualised compute resource at boot time by using only key-value pairs data.
+ * describes a set of key-value pairs information used to customize a
+ * virtualised compute resource at boot time by using only key-value pairs data.
  */
 public class KvpData extends Root {
 	/**
-	 * A map of strings that contains a set of key-value pairs that describes the information for configuring the virtualised compute resource.
+	 * A map of strings that contains a set of key-value pairs that describes the
+	 * information for configuring the virtualised compute resource.
 	 */
 	@Valid
 	@JsonProperty("data")

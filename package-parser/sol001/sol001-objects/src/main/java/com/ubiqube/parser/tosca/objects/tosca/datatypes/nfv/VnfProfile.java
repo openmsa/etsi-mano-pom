@@ -16,58 +16,54 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Integer;
-import java.lang.String;
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
- * describes a profile for instantiating VNFs of a particular NS DF according to a specific VNFD and VNF DF.
+ * describes a profile for instantiating VNFs of a particular NS DF according to
+ * a specific VNFD and VNF DF.
  */
 public class VnfProfile extends Root {
 	/**
-	 * Identifier of the instantiation level of the VNF DF to be used for instantiation. If not present, the default instantiation level as declared in the VNFD shall be used.
+	 * Identifier of the instantiation level of the VNF DF to be used for
+	 * instantiation. If not present, the default instantiation level as declared in
+	 * the VNFD shall be used.
 	 */
 	@Valid
 	@JsonProperty("instantiation_level")
 	private String instantiationLevel;
 
 	/**
-	 * Specifies the service availability level for the VNF instance created from this profile.
+	 * Specifies the service availability level for the VNF instance created from
+	 * this profile.
 	 */
 	@Valid
 	@JsonProperty("service_availability_level")
-	@DecimalMin(
-			value = "1",
-			inclusive = true
-	)
+	@DecimalMin(value = "1", inclusive = true)
 	private Integer serviceAvailabilityLevel;
 
 	/**
-	 * Minimum number of instances of the VNF based on this VNFD that is permitted to exist for this VnfProfile.
+	 * Minimum number of instances of the VNF based on this VNFD that is permitted
+	 * to exist for this VnfProfile.
 	 */
 	@Valid
 	@NotNull
 	@JsonProperty("min_number_of_instances")
-	@DecimalMin(
-			value = "0",
-			inclusive = true
-	)
+	@DecimalMin(value = "0", inclusive = true)
 	private Integer minNumberOfInstances;
 
 	/**
-	 * Maximum number of instances of the VNF based on this VNFD that is permitted to exist for this VnfProfile.
+	 * Maximum number of instances of the VNF based on this VNFD that is permitted
+	 * to exist for this VnfProfile.
 	 */
 	@Valid
 	@NotNull
 	@JsonProperty("max_number_of_instances")
-	@DecimalMin(
-			value = "0",
-			inclusive = true
-	)
+	@DecimalMin(value = "0", inclusive = true)
 	private Integer maxNumberOfInstances;
 
 	public String getInstantiationLevel() {

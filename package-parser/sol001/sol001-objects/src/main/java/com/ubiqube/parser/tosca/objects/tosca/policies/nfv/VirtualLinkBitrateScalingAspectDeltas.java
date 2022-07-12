@@ -16,18 +16,21 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.policies.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.String;
 import java.util.List;
 import java.util.Map;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.VirtualLinkBitrateLevel;
 import com.ubiqube.parser.tosca.objects.tosca.policies.Root;
 
 /**
- * The VirtualLinkBitrateScalingAspectDeltas type is a policy type representing the VnfVirtualLink detail of an aspect deltas used for horizontal scaling, as defined in ETSI GS NFV-IFA 011 [1].tosca.nodes.nfv.VnfVirtualLink
+ * The VirtualLinkBitrateScalingAspectDeltas type is a policy type representing
+ * the VnfVirtualLink detail of an aspect deltas used for horizontal scaling, as
+ * defined in ETSI GS NFV-IFA 011 [1].tosca.nodes.nfv.VnfVirtualLink
  */
 public class VirtualLinkBitrateScalingAspectDeltas extends Root {
 	/**
@@ -39,14 +42,13 @@ public class VirtualLinkBitrateScalingAspectDeltas extends Root {
 	private String aspect;
 
 	/**
-	 * Describes the VnfVirtualLink scaling deltas to be applied for every scaling steps of a particular aspect.
+	 * Describes the VnfVirtualLink scaling deltas to be applied for every scaling
+	 * steps of a particular aspect.
 	 */
 	@Valid
 	@NotNull
 	@JsonProperty("deltas")
-	@Size(
-			min = 1
-	)
+	@Size(min = 1)
 	private Map<String, VirtualLinkBitrateLevel> deltas;
 
 	@Valid

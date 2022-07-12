@@ -16,14 +16,15 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.String;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
- * data type describes the source and destination VNFDs as well as source deployment flavour for a change current VNF Package.
+ * data type describes the source and destination VNFDs as well as source
+ * deployment flavour for a change current VNF Package.
  */
 public class VnfPackageChangeSelector extends Root {
 	/**
@@ -35,7 +36,8 @@ public class VnfPackageChangeSelector extends Root {
 	private String sourceDescriptorId;
 
 	/**
-	 * Identifier of the deployment flavour in the source VNF package for which this data type applies.
+	 * Identifier of the deployment flavour in the source VNF package for which this
+	 * data type applies.
 	 */
 	@Valid
 	@NotNull

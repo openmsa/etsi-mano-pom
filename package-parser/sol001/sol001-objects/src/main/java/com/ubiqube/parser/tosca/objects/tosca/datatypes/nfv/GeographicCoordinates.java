@@ -16,14 +16,15 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.String;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
- * Represents an element of a geographic coordinate location as specified in IETF RFC?6225.
+ * Represents an element of a geographic coordinate location as specified in
+ * IETF RFC?6225.
  */
 public class GeographicCoordinates extends Root {
 	/**

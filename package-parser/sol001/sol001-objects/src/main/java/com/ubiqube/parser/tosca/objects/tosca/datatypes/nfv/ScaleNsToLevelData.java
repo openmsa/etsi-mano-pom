@@ -16,11 +16,11 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Integer;
-import java.lang.String;
 import java.util.Map;
+
 import javax.validation.Valid;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
@@ -28,14 +28,18 @@ import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
  */
 public class ScaleNsToLevelData extends Root {
 	/**
-	 * Identifier of the target instantiation level of the current deployment flavour to which the NS is requested to be scaled. Either instantiation_level or ns_scale_info shall be provided.
+	 * Identifier of the target instantiation level of the current deployment
+	 * flavour to which the NS is requested to be scaled. Either instantiation_level
+	 * or ns_scale_info shall be provided.
 	 */
 	@Valid
 	@JsonProperty("instantiation_level")
 	private String instantiationLevel;
 
 	/**
-	 * For each scaling aspect of the current deployment flavour, indicates the target scale level to which the NS is to be scaled. Either instantiation_level or ns_scale_info shall be provided.
+	 * For each scaling aspect of the current deployment flavour, indicates the
+	 * target scale level to which the NS is to be scaled. Either
+	 * instantiation_level or ns_scale_info shall be provided.
 	 */
 	@Valid
 	@JsonProperty("ns_scale_info")

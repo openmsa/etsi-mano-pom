@@ -16,19 +16,24 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.policies.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.String;
 import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.policies.Root;
 
 /**
- * The LcmCoordinationsForLcmOperation type is a policy type representing supported LCM coordination actions associated to a VNF LCM operation. This policy concerns the whole VNF (deployment flavour) represented by the topology_template and thus has no explicit target list.
+ * The LcmCoordinationsForLcmOperation type is a policy type representing
+ * supported LCM coordination actions associated to a VNF LCM operation. This
+ * policy concerns the whole VNF (deployment flavour) represented by the
+ * topology_template and thus has no explicit target list.
  */
 public class LcmCoordinationsForLcmOperation extends Root {
 	/**
-	 * List of names of coordination actions not specified within this VNFD as a TOSCA policy of a type derived from tosca.policies.nfv.LcmCoordinationAction.
+	 * List of names of coordination actions not specified within this VNFD as a
+	 * TOSCA policy of a type derived from tosca.policies.nfv.LcmCoordinationAction.
 	 */
 	@Valid
 	@JsonProperty("referenced_coordination_actions")
@@ -43,7 +48,9 @@ public class LcmCoordinationsForLcmOperation extends Root {
 	private String vnfLcmOperation;
 
 	/**
-	 * List of applicable supported LCM coordination action names (action_name) specified in this VNFD as a TOSCA policy of a type derived from tosca.policies.nfv.LcmCoordinationAction.
+	 * List of applicable supported LCM coordination action names (action_name)
+	 * specified in this VNFD as a TOSCA policy of a type derived from
+	 * tosca.policies.nfv.LcmCoordinationAction.
 	 */
 	@Valid
 	@JsonProperty("actions")

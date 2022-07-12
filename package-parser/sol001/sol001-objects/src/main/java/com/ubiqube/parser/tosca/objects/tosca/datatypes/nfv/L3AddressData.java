@@ -16,22 +16,29 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Boolean;
-import java.lang.Integer;
-import java.lang.String;
 import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
- * Provides information about Layer 3 level addressing scheme and parameters applicable to a CP
+ * Provides information about Layer 3 level addressing scheme and parameters
+ * applicable to a CP
  */
 public class L3AddressData extends Root {
 	/**
-	 * Method of IP address assignment in case the IP configuration is not provided using the NFV MANO interfaces towards the VNFM. Description of the valid values (1) dynamic the VNF gets an IP address dynamically from the NFVI (i.e., using DHCP), (2) vnf_pkg, an IP address defined by the VNF provider is assigned by means included as part of the VNF package (e.g., LCM script); (3) external, an IP address is provided by an external management entity (such as EM) directly towards the VNF.Shall be present in case the ip_address_assignment property is set to False and shall be absent otherwise.
+	 * Method of IP address assignment in case the IP configuration is not provided
+	 * using the NFV MANO interfaces towards the VNFM. Description of the valid
+	 * values (1) dynamic the VNF gets an IP address dynamically from the NFVI
+	 * (i.e., using DHCP), (2) vnf_pkg, an IP address defined by the VNF provider is
+	 * assigned by means included as part of the VNF package (e.g., LCM script); (3)
+	 * external, an IP address is provided by an external management entity (such as
+	 * EM) directly towards the VNF.Shall be present in case the
+	 * ip_address_assignment property is set to False and shall be absent otherwise.
 	 */
 	@Valid
 	@JsonProperty("ip_address_assignment_subtype")
@@ -46,14 +53,25 @@ public class L3AddressData extends Root {
 	private Integer numberOfIpAddress;
 
 	/**
-	 * Fixed IP addresses to be assigned to the internal CP instance. This property enables the VNF provider to define fixed IP addresses for internal CP instances to be assigned by the VNFM or the NFVO. This property is only permitted for Cpds without external connectivity, i.e. connectivity outside the VNF. If present, it shall be compatible with the values of the L3ProtocolData of the VnfVirtualLink referred to by the Cp, if L3ProtocolData is included in the VnfVirtualLink
+	 * Fixed IP addresses to be assigned to the internal CP instance. This property
+	 * enables the VNF provider to define fixed IP addresses for internal CP
+	 * instances to be assigned by the VNFM or the NFVO. This property is only
+	 * permitted for Cpds without external connectivity, i.e. connectivity outside
+	 * the VNF. If present, it shall be compatible with the values of the
+	 * L3ProtocolData of the VnfVirtualLink referred to by the Cp, if L3ProtocolData
+	 * is included in the VnfVirtualLink
 	 */
 	@Valid
 	@JsonProperty("fixed_ip_address")
 	private List<String> fixedIpAddress;
 
 	/**
-	 * Specify which mode is used for the IP address assignment. If it is set to True, IP configuration information shall be provided for the VNF by a management entity using the NFV MANO interfaces towards the VNFM. If it is set to False, the value of the ip_address_assignment_subtype property defines the method of IP address assignment. Shall be present if the fixed_ip_address property is not present and should be absent otherwise. See note
+	 * Specify which mode is used for the IP address assignment. If it is set to
+	 * True, IP configuration information shall be provided for the VNF by a
+	 * management entity using the NFV MANO interfaces towards the VNFM. If it is
+	 * set to False, the value of the ip_address_assignment_subtype property defines
+	 * the method of IP address assignment. Shall be present if the fixed_ip_address
+	 * property is not present and should be absent otherwise. See note
 	 */
 	@Valid
 	@NotNull
@@ -61,14 +79,16 @@ public class L3AddressData extends Root {
 	private Boolean ipAddressAssignment;
 
 	/**
-	 * Defines address type. The address type should be aligned with the address type supported by the layer_protocols properties of the connetion point
+	 * Defines address type. The address type should be aligned with the address
+	 * type supported by the layer_protocols properties of the connetion point
 	 */
 	@Valid
 	@JsonProperty("ip_address_type")
 	private String ipAddressType;
 
 	/**
-	 * Specifies if the floating IP scheme is activated on the Connection Point or not
+	 * Specifies if the floating IP scheme is activated on the Connection Point or
+	 * not
 	 */
 	@Valid
 	@NotNull

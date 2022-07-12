@@ -16,15 +16,17 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.String;
 import java.util.Map;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
- * describes the VIM specific information used for selecting VIM specific capabilities when setting the boot data.
+ * describes the VIM specific information used for selecting VIM specific
+ * capabilities when setting the boot data.
  */
 public class BootDataVimSpecificProperties extends Root {
 	/**
@@ -36,7 +38,8 @@ public class BootDataVimSpecificProperties extends Root {
 	private String vimType;
 
 	/**
-	 * Properties used for selecting VIM specific capabilities when setting the boot data
+	 * Properties used for selecting VIM specific capabilities when setting the boot
+	 * data
 	 */
 	@Valid
 	@NotNull

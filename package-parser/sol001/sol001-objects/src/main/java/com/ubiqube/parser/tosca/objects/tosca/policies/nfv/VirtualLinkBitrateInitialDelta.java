@@ -16,16 +16,19 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.policies.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.String;
 import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.VirtualLinkBitrateLevel;
 import com.ubiqube.parser.tosca.objects.tosca.policies.Root;
 
 /**
- * The VirtualLinkBitrateInitialDelta type is a policy type representing the VnfVirtualLink detail of an initial deltas used for horizontal scaling, as defined in ETSI GS NFV-IFA 011 [1].tosca.nodes.nfv.VnfVirtualLink
+ * The VirtualLinkBitrateInitialDelta type is a policy type representing the
+ * VnfVirtualLink detail of an initial deltas used for horizontal scaling, as
+ * defined in ETSI GS NFV-IFA 011 [1].tosca.nodes.nfv.VnfVirtualLink
  */
 public class VirtualLinkBitrateInitialDelta extends Root {
 	/**

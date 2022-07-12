@@ -16,13 +16,14 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.nodes;
 
+import java.util.List;
+
+import javax.validation.Valid;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.annotations.Capability;
 import com.ubiqube.parser.tosca.annotations.Occurence;
 import com.ubiqube.parser.tosca.annotations.Relationship;
-import java.lang.String;
-import java.util.List;
-import javax.validation.Valid;
 import com.ubiqube.parser.tosca.objects.tosca.capabilities.endpoint.Public;
 
 public class LoadBalancer extends Root {

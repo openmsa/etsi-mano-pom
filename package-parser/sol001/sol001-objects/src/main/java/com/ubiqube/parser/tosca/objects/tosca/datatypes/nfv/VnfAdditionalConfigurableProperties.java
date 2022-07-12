@@ -16,18 +16,23 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Boolean;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
- * is an empty base type for deriving data types for describing additional configurable properties for a given VNF
+ * is an empty base type for deriving data types for describing additional
+ * configurable properties for a given VNF
  */
 public class VnfAdditionalConfigurableProperties extends Root {
 	/**
-	 * It specifies whether these additional configurable properties are writeable (TRUE) at any time (i.e. prior to / at instantiation time as well as after instantiation).or (FALSE) only prior to / at instantiation time. If this property is not present, the additional configurable properties are writable anytime.
+	 * It specifies whether these additional configurable properties are writeable
+	 * (TRUE) at any time (i.e. prior to / at instantiation time as well as after
+	 * instantiation).or (FALSE) only prior to / at instantiation time. If this
+	 * property is not present, the additional configurable properties are writable
+	 * anytime.
 	 */
 	@Valid
 	@NotNull

@@ -16,18 +16,20 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.nodes.nfv;
 
+import java.util.List;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.annotations.Capability;
 import com.ubiqube.parser.tosca.annotations.Occurence;
 import com.ubiqube.parser.tosca.annotations.Relationship;
-import java.lang.String;
-import java.util.List;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.AdditionalServiceData;
 
 /**
- * Describes a virtual connection point allowing access to a number of VNFC instances (based on their respective VDUs).
+ * Describes a virtual connection point allowing access to a number of VNFC
+ * instances (based on their respective VDUs).
  */
 public class VirtualCp extends Cp {
 	/**

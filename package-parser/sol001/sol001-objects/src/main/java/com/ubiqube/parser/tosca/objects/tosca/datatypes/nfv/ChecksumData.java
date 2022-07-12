@@ -16,18 +16,20 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.String;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
- * Describes information about the result of performing a checksum operation over some arbitrary data
+ * Describes information about the result of performing a checksum operation
+ * over some arbitrary data
  */
 public class ChecksumData extends Root {
 	/**
-	 * Contains the result of applying the algorithm indicated by the algorithm property to the data to which this ChecksumData refers
+	 * Contains the result of applying the algorithm indicated by the algorithm
+	 * property to the data to which this ChecksumData refers
 	 */
 	@Valid
 	@NotNull

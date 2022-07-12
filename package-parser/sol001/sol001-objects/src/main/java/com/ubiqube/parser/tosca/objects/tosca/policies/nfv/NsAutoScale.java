@@ -16,13 +16,15 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.policies.nfv;
 
-import java.lang.String;
 import java.util.List;
+
 import javax.validation.Valid;
+
 import com.ubiqube.parser.tosca.objects.tosca.policies.Root;
 
 /**
- * The NsAutoScale policy type is a base policy type for defining NS auto-scale specific policies as defined in ETSI GS NFV-IFA 014 [2].tosca.nodes.nfv.NS
+ * The NsAutoScale policy type is a base policy type for defining NS auto-scale
+ * specific policies as defined in ETSI GS NFV-IFA 014 [2].tosca.nodes.nfv.NS
  */
 public class NsAutoScale extends Root {
 	@Valid

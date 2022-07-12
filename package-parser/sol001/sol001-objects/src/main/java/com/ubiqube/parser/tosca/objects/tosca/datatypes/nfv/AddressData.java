@@ -16,18 +16,21 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.String;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
- * Describes information about the addressing scheme and parameters applicable to a CP
+ * Describes information about the addressing scheme and parameters applicable
+ * to a CP
  */
 public class AddressData extends Root {
 	/**
-	 * Describes the type of the address to be assigned to a connection point. The content type shall be aligned with the address type supported by the layerProtocol property of the connection point
+	 * Describes the type of the address to be assigned to a connection point. The
+	 * content type shall be aligned with the address type supported by the
+	 * layerProtocol property of the connection point
 	 */
 	@Valid
 	@NotNull
@@ -35,14 +38,16 @@ public class AddressData extends Root {
 	private String addressType;
 
 	/**
-	 * Provides the information on the MAC addresses to be assigned to a connection point.
+	 * Provides the information on the MAC addresses to be assigned to a connection
+	 * point.
 	 */
 	@Valid
 	@JsonProperty("l2_address_data")
 	private L2AddressData l2AddressData;
 
 	/**
-	 * Provides the information on the IP addresses to be assigned to a connection point
+	 * Provides the information on the IP addresses to be assigned to a connection
+	 * point
 	 */
 	@Valid
 	@JsonProperty("l3_address_data")

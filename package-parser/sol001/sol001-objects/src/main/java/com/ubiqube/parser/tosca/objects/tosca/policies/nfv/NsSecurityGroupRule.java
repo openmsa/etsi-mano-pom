@@ -16,13 +16,16 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.policies.nfv;
 
-import java.lang.String;
 import java.util.List;
+
 import javax.validation.Valid;
+
 import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.Abstract.SecurityGroupRule;
 
 /**
- * The NsSecurityGroupRule type is a policy type specified the matching criteria for the ingress and/or egress traffic to/from visited SAPs.tosca.nodes.nfv.Sap
+ * The NsSecurityGroupRule type is a policy type specified the matching criteria
+ * for the ingress and/or egress traffic to/from visited
+ * SAPs.tosca.nodes.nfv.Sap
  */
 public class NsSecurityGroupRule extends SecurityGroupRule {
 	@Valid

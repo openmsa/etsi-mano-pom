@@ -16,16 +16,20 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.groups.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ubiqube.parser.tosca.annotations.Members;
-import java.lang.String;
 import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ubiqube.parser.tosca.annotations.Members;
 import com.ubiqube.parser.tosca.objects.tosca.groups.Root;
 
 /**
- * NsPlacementGroup is used for describing the affinity or anti-affinity relationship applicable between VNF instances created using different VNFDs, the Virtual Link instances created using different VLDs or the nested NS instances created using different NSDs when used in a NSD.
+ * NsPlacementGroup is used for describing the affinity or anti-affinity
+ * relationship applicable between VNF instances created using different VNFDs,
+ * the Virtual Link instances created using different VLDs or the nested NS
+ * instances created using different NSDs when used in a NSD.
  */
 public class NsPlacementGroup extends Root {
 	/**
@@ -51,10 +55,12 @@ public class NsPlacementGroup extends Root {
 		this.description = description;
 	}
 
+	@Override
 	public List<String> getMembers() {
 		return this.members;
 	}
 
+	@Override
 	public void setMembers(final List<String> members) {
 		this.members = members;
 	}

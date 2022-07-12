@@ -16,36 +16,44 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.policies.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ubiqube.parser.tosca.scalar.Range;
-import java.lang.String;
 import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.Mask;
 import com.ubiqube.parser.tosca.objects.tosca.policies.Root;
+import com.ubiqube.parser.tosca.scalar.Range;
 
 /**
  * policy definition of NfpRuletosca.nodes.nfv.NFP
  */
 public class NfpRule extends Root {
 	/**
-	 * Indicates a VLAN identifier in an IEEE 802.1Q-2014 tag [14]. Multiple tags can be included for QinQ stacking.
+	 * Indicates a VLAN identifier in an IEEE 802.1Q-2014 tag [14]. Multiple tags
+	 * can be included for QinQ stacking.
 	 */
 	@Valid
 	@JsonProperty("vlan_tag")
 	private List<String> vlanTag;
 
 	/**
-	 * Indicates the L4 protocol, For IPv4 [15] this corresponds to the field called "Protocol" to identify the next level protocol. For IPv6 [16] this corresponds to the field is called the "Next Header" field. Permitted values: Any keyword defined in the IANA [17] protocol registry.
+	 * Indicates the L4 protocol, For IPv4 [15] this corresponds to the field called
+	 * "Protocol" to identify the next level protocol. For IPv6 [16] this
+	 * corresponds to the field is called the "Next Header" field. Permitted values:
+	 * Any keyword defined in the IANA [17] protocol registry.
 	 */
 	@Valid
 	@JsonProperty("protocol")
 	private String protocol;
 
 	/**
-	 * For IPv4 [15] a string of "0" and "1" digits that corresponds to the 6-bit Differentiated Services Code Point (DSCP) field of the IP header. For IPv6 [16] a string of "0" and "1" digits that corresponds to the 6 differentiated services bits of the traffic class header field.
+	 * For IPv4 [15] a string of "0" and "1" digits that corresponds to the 6-bit
+	 * Differentiated Services Code Point (DSCP) field of the IP header. For IPv6
+	 * [16] a string of "0" and "1" digits that corresponds to the 6 differentiated
+	 * services bits of the traffic class header field.
 	 */
 	@Valid
 	@JsonProperty("dscp")

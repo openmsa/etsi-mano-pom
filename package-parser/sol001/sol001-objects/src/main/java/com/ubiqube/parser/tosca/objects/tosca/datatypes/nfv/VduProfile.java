@@ -16,46 +16,48 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Integer;
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
- * describes additional instantiation data for a given Vdu.Compute (for VM based VDU) or Vdu.OsContainerDeployableUnit node (for Oscontainer based VDU) used in a specific deployment flavour.
+ * describes additional instantiation data for a given Vdu.Compute (for VM based
+ * VDU) or Vdu.OsContainerDeployableUnit node (for Oscontainer based VDU) used
+ * in a specific deployment flavour.
  */
 public class VduProfile extends Root {
 	/**
-	 * Provides information on the impact tolerance and rules to be observed when instance(s) of the Vdu.Compute (for VM based VDU) are impacted during NFVI operation and maintenance (e.g. NFVI resource upgrades).
+	 * Provides information on the impact tolerance and rules to be observed when
+	 * instance(s) of the Vdu.Compute (for VM based VDU) are impacted during NFVI
+	 * operation and maintenance (e.g. NFVI resource upgrades).
 	 */
 	@Valid
 	@JsonProperty("nfvi_maintenance_info")
 	private NfviMaintenanceInfo nfviMaintenanceInfo;
 
 	/**
-	 * Minimum number of instances of the VNFC based on this Vdu.Compute (for VM based VDU) or Vdu.OsContainerDeployableUnit node (for Oscontainer based VDU) that is permitted to exist for a particular VNF deployment flavour.
+	 * Minimum number of instances of the VNFC based on this Vdu.Compute (for VM
+	 * based VDU) or Vdu.OsContainerDeployableUnit node (for Oscontainer based VDU)
+	 * that is permitted to exist for a particular VNF deployment flavour.
 	 */
 	@Valid
 	@NotNull
 	@JsonProperty("min_number_of_instances")
-	@DecimalMin(
-			value = "0",
-			inclusive = true
-	)
+	@DecimalMin(value = "0", inclusive = true)
 	private Integer minNumberOfInstances;
 
 	/**
-	 * Maximum number of instances of the VNFC based on this Vdu.Compute (for VM based VDU) or Vdu.OsContainerDeployableUnit node (for Oscontainer based VDU) that is permitted to exist for a particular VNF deployment flavour.
+	 * Maximum number of instances of the VNFC based on this Vdu.Compute (for VM
+	 * based VDU) or Vdu.OsContainerDeployableUnit node (for Oscontainer based VDU)
+	 * that is permitted to exist for a particular VNF deployment flavour.
 	 */
 	@Valid
 	@NotNull
 	@JsonProperty("max_number_of_instances")
-	@DecimalMin(
-			value = "0",
-			inclusive = true
-	)
+	@DecimalMin(value = "0", inclusive = true)
 	private Integer maxNumberOfInstances;
 
 	public NfviMaintenanceInfo getNfviMaintenanceInfo() {

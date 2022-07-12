@@ -16,11 +16,11 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Integer;
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
@@ -28,26 +28,23 @@ import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
  */
 public class LinkBitrateRequirements extends Root {
 	/**
-	 * Specifies the throughput requirement in bits per second of the link (e.g. bitrate of E-Line, root bitrate of E-Tree, aggregate capacity of E-LAN).
+	 * Specifies the throughput requirement in bits per second of the link (e.g.
+	 * bitrate of E-Line, root bitrate of E-Tree, aggregate capacity of E-LAN).
 	 */
 	@Valid
 	@NotNull
 	@JsonProperty("root")
-	@DecimalMin(
-			value = "0",
-			inclusive = true
-	)
+	@DecimalMin(value = "0", inclusive = true)
 	private Integer root;
 
 	/**
-	 * Specifies the throughput requirement in bits per second of leaf connections to the link when applicable to the connectivity type (e.g. for E-Tree and E LAN branches).
+	 * Specifies the throughput requirement in bits per second of leaf connections
+	 * to the link when applicable to the connectivity type (e.g. for E-Tree and E
+	 * LAN branches).
 	 */
 	@Valid
 	@JsonProperty("leaf")
-	@DecimalMin(
-			value = "0",
-			inclusive = true
-	)
+	@DecimalMin(value = "0", inclusive = true)
 	private Integer leaf;
 
 	@NotNull

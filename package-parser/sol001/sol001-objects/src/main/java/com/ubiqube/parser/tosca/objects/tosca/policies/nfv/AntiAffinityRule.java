@@ -16,16 +16,19 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.policies.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.String;
 import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.NfviMaintenanceInfo;
 import com.ubiqube.parser.tosca.objects.tosca.policies.Placement;
 
 /**
- * The AntiAffinityRule describes the anti-affinity rules applicable for the defined targetstosca.nodes.nfv.Vdu.Computetosca.nodes.nfv.VnfVirtualLinktosca.groups.nfv.PlacementGrouptosca.nodes.nfv.Mcioptosca.nodes.nfv.Vdu.OsContainerDeployableUnit
+ * The AntiAffinityRule describes the anti-affinity rules applicable for the
+ * defined
+ * targetstosca.nodes.nfv.Vdu.Computetosca.nodes.nfv.VnfVirtualLinktosca.groups.nfv.PlacementGrouptosca.nodes.nfv.Mcioptosca.nodes.nfv.Vdu.OsContainerDeployableUnit
  */
 public class AntiAffinityRule extends Placement {
 	/**
@@ -37,7 +40,9 @@ public class AntiAffinityRule extends Placement {
 	private String scope;
 
 	/**
-	 * Provides information on the impact tolerance and rules to be observed when a group of instances based on the same Vdu.Compute node is impacted during NFVI operation and maintenance (e.g. NFVI resource upgrades).
+	 * Provides information on the impact tolerance and rules to be observed when a
+	 * group of instances based on the same Vdu.Compute node is impacted during NFVI
+	 * operation and maintenance (e.g. NFVI resource upgrades).
 	 */
 	@Valid
 	@JsonProperty("nfvi_maintenance_group_info")
@@ -63,10 +68,12 @@ public class AntiAffinityRule extends Placement {
 		this.nfviMaintenanceGroupInfo = nfviMaintenanceGroupInfo;
 	}
 
+	@Override
 	public List<String> getTargets() {
 		return this.targets;
 	}
 
+	@Override
 	public void setTargets(final List<String> targets) {
 		this.targets = targets;
 	}

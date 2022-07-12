@@ -16,16 +16,16 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Integer;
-import java.lang.String;
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
- * describes the information needed to scale an NS instance by one or more scaling steps, with respect to a particular NS scaling aspect
+ * describes the information needed to scale an NS instance by one or more
+ * scaling steps, with respect to a particular NS scaling aspect
  */
 public class ScaleNsByStepsData extends Root {
 	/**

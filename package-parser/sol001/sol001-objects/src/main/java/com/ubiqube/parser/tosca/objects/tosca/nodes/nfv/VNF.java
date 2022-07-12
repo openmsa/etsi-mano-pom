@@ -16,15 +16,16 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.nodes.nfv;
 
+import java.util.List;
+import java.util.Map;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.annotations.Capability;
 import com.ubiqube.parser.tosca.annotations.Occurence;
 import com.ubiqube.parser.tosca.annotations.Relationship;
-import java.lang.String;
-import java.util.List;
-import java.util.Map;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.ScaleInfo;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.VnfLcmOperationsConfiguration;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.VnfMonitoringParameter;
@@ -33,11 +34,14 @@ import com.ubiqube.parser.tosca.objects.tosca.interfaces.nfv.Vnflcm;
 import com.ubiqube.parser.tosca.objects.tosca.nodes.Root;
 
 /**
- * The generic abstract type from which all VNF specific node types shall be derived to form, together with other node types, the TOSCA service template(s) representing the VNFD
+ * The generic abstract type from which all VNF specific node types shall be
+ * derived to form, together with other node types, the TOSCA service
+ * template(s) representing the VNFD
  */
 public class VNF extends Root {
 	/**
-	 * Describes a profile for instantiating VNFs of a particular NS DF according to a specific VNFD and VNF DF
+	 * Describes a profile for instantiating VNFs of a particular NS DF according to
+	 * a specific VNFD and VNF DF
 	 */
 	@Valid
 	@JsonProperty("vnf_profile")
@@ -51,7 +55,8 @@ public class VNF extends Root {
 	private String productInfoName;
 
 	/**
-	 * Default localization language that is instantiated if no information about selected localization language is available
+	 * Default localization language that is instantiated if no information about
+	 * selected localization language is available
 	 */
 	@Valid
 	@JsonProperty("default_localization_language")
@@ -89,7 +94,8 @@ public class VNF extends Root {
 	private String productName;
 
 	/**
-	 * Identifier of this VNFD information element. This attribute shall be globally unique
+	 * Identifier of this VNFD information element. This attribute shall be globally
+	 * unique
 	 */
 	@Valid
 	@NotNull
@@ -150,7 +156,8 @@ public class VNF extends Root {
 	private List<String> localizationLanguages;
 
 	/**
-	 * Scale status of the VNF, one entry per aspect. Represents for every scaling aspect how "big" the VNF has been scaled w.r.t. that aspect.
+	 * Scale status of the VNF, one entry per aspect. Represents for every scaling
+	 * aspect how "big" the VNF has been scaled w.r.t. that aspect.
 	 */
 	@Valid
 	@NotNull

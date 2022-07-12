@@ -16,21 +16,17 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.capabilities;
 
+import javax.validation.Valid;
+import javax.validation.constraints.DecimalMin;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.scalar.Frequency;
 import com.ubiqube.parser.tosca.scalar.Size;
-import java.lang.Integer;
-import java.lang.String;
-import javax.validation.Valid;
-import javax.validation.constraints.DecimalMin;
 
 public class Compute extends Container {
 	@Valid
 	@JsonProperty("num_cpus")
-	@DecimalMin(
-			value = "1",
-			inclusive = true
-	)
+	@DecimalMin(value = "1", inclusive = true)
 	private Integer numCpus;
 
 	@Valid

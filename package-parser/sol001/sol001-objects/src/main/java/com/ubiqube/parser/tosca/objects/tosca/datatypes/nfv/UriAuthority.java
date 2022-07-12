@@ -16,13 +16,14 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.String;
 import javax.validation.Valid;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
- * information that corresponds to the authority component of a URI as specified in IETF RFC 3986 [8]
+ * information that corresponds to the authority component of a URI as specified
+ * in IETF RFC 3986 [8]
  */
 public class UriAuthority extends Root {
 	/**

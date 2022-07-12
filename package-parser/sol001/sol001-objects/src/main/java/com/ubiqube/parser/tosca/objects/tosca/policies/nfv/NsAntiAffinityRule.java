@@ -16,15 +16,18 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.policies.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.String;
 import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.policies.Placement;
 
 /**
- * The NsAntiAffinityRule describes the anti-affinity rules applicable for the defined targetstosca.nodes.nfv.VNFtosca.nodes.nfv.NsVirtualLinktosca.nodes.nfv.NStosca.groups.nfv.NsPlacementGroup
+ * The NsAntiAffinityRule describes the anti-affinity rules applicable for the
+ * defined
+ * targetstosca.nodes.nfv.VNFtosca.nodes.nfv.NsVirtualLinktosca.nodes.nfv.NStosca.groups.nfv.NsPlacementGroup
  */
 public class NsAntiAffinityRule extends Placement {
 	/**
@@ -47,10 +50,12 @@ public class NsAntiAffinityRule extends Placement {
 		this.scope = scope;
 	}
 
+	@Override
 	public List<String> getTargets() {
 		return this.targets;
 	}
 
+	@Override
 	public void setTargets(final List<String> targets) {
 		this.targets = targets;
 	}

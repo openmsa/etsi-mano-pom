@@ -16,15 +16,16 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ubiqube.parser.tosca.scalar.Size;
-import java.lang.String;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
+import com.ubiqube.parser.tosca.scalar.Size;
 
 /**
- * VirtualFileStorageData describes file storage requirements associated with compute resources in a particular VDU
+ * VirtualFileStorageData describes file storage requirements associated with
+ * compute resources in a particular VDU
  */
 public class VirtualFileStorageData extends Root {
 	/**

@@ -16,38 +16,40 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Integer;
 import java.util.List;
+
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
- * Describes additional instantiation data for a given NsVirtualLink used in a specific NS deployment flavour.
+ * Describes additional instantiation data for a given NsVirtualLink used in a
+ * specific NS deployment flavour.
  */
 public class NsVlProfile extends Root {
 	/**
-	 * Specifies the QoS requirements of a VL instantiated according to this profile.
+	 * Specifies the QoS requirements of a VL instantiated according to this
+	 * profile.
 	 */
 	@Valid
 	@JsonProperty("qos")
 	private NsVirtualLinkQos qos;
 
 	/**
-	 * Specifies the service availability level for the VL instance created from this profile
+	 * Specifies the service availability level for the VL instance created from
+	 * this profile
 	 */
 	@Valid
 	@JsonProperty("service_availability_level")
-	@DecimalMin(
-			value = "1",
-			inclusive = true
-	)
+	@DecimalMin(value = "1", inclusive = true)
 	private Integer serviceAvailabilityLevel;
 
 	/**
-	 * Specifies the minimum bitrate requirements for a VL instantiated according to this profile.
+	 * Specifies the minimum bitrate requirements for a VL instantiated according to
+	 * this profile.
 	 */
 	@Valid
 	@NotNull
@@ -62,7 +64,8 @@ public class NsVlProfile extends Root {
 	private List<NsVirtualLinkProtocolData> virtualLinkProtocolData;
 
 	/**
-	 * Specifies the maximum bitrate requirements for a VL instantiated according to this profile.
+	 * Specifies the maximum bitrate requirements for a VL instantiated according to
+	 * this profile.
 	 */
 	@Valid
 	@NotNull

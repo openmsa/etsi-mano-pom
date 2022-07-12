@@ -16,15 +16,16 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.Integer;
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**
- * Indicates for a given Vdu.Compute in a given level the number of instances to deploy
+ * Indicates for a given Vdu.Compute in a given level the number of instances to
+ * deploy
  */
 public class VduLevel extends Root {
 	/**
@@ -33,10 +34,7 @@ public class VduLevel extends Root {
 	@Valid
 	@NotNull
 	@JsonProperty("number_of_instances")
-	@DecimalMin(
-			value = "0",
-			inclusive = true
-	)
+	@DecimalMin(value = "0", inclusive = true)
 	private Integer numberOfInstances;
 
 	@NotNull

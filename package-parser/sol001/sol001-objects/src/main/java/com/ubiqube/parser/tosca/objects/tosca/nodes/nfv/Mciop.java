@@ -16,17 +16,19 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.nodes.nfv;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.annotations.Capability;
 import com.ubiqube.parser.tosca.annotations.Node;
 import com.ubiqube.parser.tosca.annotations.Occurence;
 import com.ubiqube.parser.tosca.annotations.Relationship;
-import java.lang.String;
-import java.util.List;
 import com.ubiqube.parser.tosca.objects.tosca.nodes.Root;
 
 /**
- * Representation of the object described by the mciop artifact, capable of being profiled by the properties of the MciopProfile information element defined in ETSI GS NFV-IFA 011 [1].
+ * Representation of the object described by the mciop artifact, capable of
+ * being profiled by the properties of the MciopProfile information element
+ * defined in ETSI GS NFV-IFA 011 [1].
  */
 public class Mciop extends Root {
 	@Occurence({ "1", "UNBOUNDED" })
