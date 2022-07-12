@@ -19,7 +19,7 @@ package com.ubiqube.etsi.mano.sol004.builder;
 public class SingleZipBuilder {
 
 	public SingleZipBuilder(final CsarBuilder csarBuilder) {
-		// TODO Auto-generated constructor stub
+		// Zip builder.
 	}
 
 }

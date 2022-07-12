@@ -29,7 +29,7 @@ public class OrikaMapperImpl implements OrikaMapper {
 
 	@Override
 	public void configureMapper(final MapperFactory mapper) {
-		// TODO Auto-generated method stub
+		// Mapping
 
 	}
 

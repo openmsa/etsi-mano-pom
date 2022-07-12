@@ -47,28 +47,28 @@ import com.ubiqube.parser.tosca.ZipUtil.Entry;
 import com.ubiqube.parser.tosca.api.ToscaApi;
 import com.ubiqube.parser.tosca.convert.ConvertApi;
 import com.ubiqube.parser.tosca.convert.SizeConverter;
+import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.NFP;
+import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.NS;
+import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.NfpPosition;
+import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.NfpPositionElement;
+import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.NsVirtualLink;
+import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.Sap;
+import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.NfpRule;
+import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.NsAutoScale;
+import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.NsInstantiationLevels;
+import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.NsScalingAspects;
+import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.NsToInstantiationLevelMapping;
+import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.NsToLevelMapping;
+import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.VirtualLinkToInstantiationLevelMapping;
+import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.VirtualLinkToLevelMapping;
+import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.VnfToInstantiationLevelMapping;
+import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.VnfToLevelMapping;
 import com.ubiqube.parser.tosca.scalar.Frequency;
 import com.ubiqube.parser.tosca.scalar.Size;
 import com.ubiqube.parser.tosca.scalar.Time;
 
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
-import tosca.nodes.nfv.NFP;
-import tosca.nodes.nfv.NS;
-import tosca.nodes.nfv.NfpPosition;
-import tosca.nodes.nfv.NfpPositionElement;
-import tosca.nodes.nfv.NsVirtualLink;
-import tosca.nodes.nfv.Sap;
-import tosca.policies.nfv.NfpRule;
-import tosca.policies.nfv.NsAutoScale;
-import tosca.policies.nfv.NsInstantiationLevels;
-import tosca.policies.nfv.NsScalingAspects;
-import tosca.policies.nfv.NsToInstantiationLevelMapping;
-import tosca.policies.nfv.NsToLevelMapping;
-import tosca.policies.nfv.VirtualLinkToInstantiationLevelMapping;
-import tosca.policies.nfv.VirtualLinkToLevelMapping;
-import tosca.policies.nfv.VnfToInstantiationLevelMapping;
-import tosca.policies.nfv.VnfToLevelMapping;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
 class ToscaApiTest {

@@ -24,6 +24,6 @@ package com.ubiqube.etsi.mano.csar.cli;
 public class Main {
 
 	public static void main(final String[] args) {
-
+		// Because SOL004 is very complex we will need a tool to build tosca files.
 	}
 }

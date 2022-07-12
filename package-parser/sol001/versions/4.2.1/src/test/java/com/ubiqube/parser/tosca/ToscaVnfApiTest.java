@@ -47,28 +47,28 @@ import com.ubiqube.parser.tosca.ZipUtil.Entry;
 import com.ubiqube.parser.tosca.api.ToscaApi;
 import com.ubiqube.parser.tosca.convert.ConvertApi;
 import com.ubiqube.parser.tosca.convert.SizeConverter;
+import com.ubiqube.parser.tosca.objects.tosca.groups.nfv.PlacementGroup;
+import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.VNF;
+import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.VduCp;
+import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.VnfExtCp;
+import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.VnfVirtualLink;
+import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.vdu.Compute;
+import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.vdu.VirtualBlockStorage;
+import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.vdu.VirtualObjectStorage;
+import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.AffinityRule;
+import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.ScalingAspects;
+import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.SecurityGroupRule;
+import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.SupportedVnfInterface;
+import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.VduInitialDelta;
+import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.VduInstantiationLevels;
+import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.VduScalingAspectDeltas;
+import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.VirtualLinkBitrateInitialDelta;
 import com.ubiqube.parser.tosca.scalar.Frequency;
 import com.ubiqube.parser.tosca.scalar.Size;
 import com.ubiqube.parser.tosca.scalar.Time;
 
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
-import tosca.groups.nfv.PlacementGroup;
-import tosca.nodes.Compute;
-import tosca.nodes.nfv.VNF;
-import tosca.nodes.nfv.VduCp;
-import tosca.nodes.nfv.VnfExtCp;
-import tosca.nodes.nfv.VnfVirtualLink;
-import tosca.nodes.nfv.vdu.VirtualBlockStorage;
-import tosca.nodes.nfv.vdu.VirtualObjectStorage;
-import tosca.policies.nfv.AffinityRule;
-import tosca.policies.nfv.ScalingAspects;
-import tosca.policies.nfv.SecurityGroupRule;
-import tosca.policies.nfv.SupportedVnfInterface;
-import tosca.policies.nfv.VduInitialDelta;
-import tosca.policies.nfv.VduInstantiationLevels;
-import tosca.policies.nfv.VduScalingAspectDeltas;
-import tosca.policies.nfv.VirtualLinkBitrateInitialDelta;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
 class ToscaVnfApiTest {
