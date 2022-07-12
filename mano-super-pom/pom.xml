@@ -41,6 +41,7 @@
 		<com.ubiqube.mockito.version>4.5.1</com.ubiqube.mockito.version>
 		<com.ubiqube.elasticsearch.version>8.2.2</com.ubiqube.elasticsearch.version>
 		<com.ubiqube.springdoc.version>1.6.9</com.ubiqube.springdoc.version>
+		<com.ubiqube.orika.version>1.5.5-SNAPSHOT</com.ubiqube.orika.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -98,12 +99,12 @@
 			<dependency>
 				<groupId>ma.glasnost.orika</groupId>
 				<artifactId>orika-core</artifactId>
-				<version>1.5.5-SNAPSHOT</version>
+				<version>${com.ubiqube.orika.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>ma.glasnost.orika</groupId>
 				<artifactId>orika-eclipse-tools</artifactId>
-				<version>1.5.5-SNAPSHOT</version>
+				<version>${com.ubiqube.orika.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.github.dexecutor</groupId>

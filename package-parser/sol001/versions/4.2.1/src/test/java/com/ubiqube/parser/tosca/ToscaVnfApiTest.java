@@ -51,6 +51,8 @@ import com.ubiqube.parser.tosca.scalar.Frequency;
 import com.ubiqube.parser.tosca.scalar.Size;
 import com.ubiqube.parser.tosca.scalar.Time;
 
+import ma.glasnost.orika.MapperFactory;
+import ma.glasnost.orika.impl.DefaultMapperFactory;
 import tosca.groups.nfv.PlacementGroup;
 import tosca.nodes.Compute;
 import tosca.nodes.nfv.VNF;
@@ -77,6 +79,8 @@ class ToscaVnfApiTest {
 	private final Map<String, String> parameters = new HashMap<>();
 	private final Set<Class<?>> complex = new HashSet<>();
 
+	private final ToscaApi toscaApi;
+
 	public ToscaVnfApiTest() {
 		conv.register(Size.class.getCanonicalName(), new SizeConverter());
 		complex.add(String.class);
@@ -88,6 +92,8 @@ class ToscaVnfApiTest {
 		complex.add(Size.class);
 		complex.add(Frequency.class);
 		complex.add(Time.class);
+		final MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
+		toscaApi = new ToscaApi(this.getClass().getClassLoader(), mapperFactory.getMapperFacade());
 	}
 
 	@SuppressWarnings("static-method")
@@ -100,7 +106,7 @@ class ToscaVnfApiTest {
 	void testName() {
 		final ToscaParser tp = new ToscaParser(new File("src/test/resources/web_mysql_tosca.yaml"));
 		final ToscaContext root = tp.getContext();
-		final List<Compute> res = ToscaApi.getObjects(root, parameters, Compute.class);
+		final List<Compute> res = toscaApi.getObjects(root, parameters, Compute.class);
 		LOG.debug("{}", res);
 	}
 
@@ -134,7 +140,7 @@ class ToscaVnfApiTest {
 	}
 
 	private <U> List<U> testToscaClass(final int i, final ToscaContext root, final Map<String, String> parameters2, final Class<U> clazz) throws IllegalArgumentException, InvocationTargetException, IllegalAccessException, IntrospectionException {
-		final List<U> listVsad = ToscaApi.getObjects(root, parameters, clazz);
+		final List<U> listVsad = toscaApi.getObjects(root, parameters, clazz);
 		assertEquals(i, listVsad.size());
 		checknull(listVsad.get(0));
 		return listVsad;
@@ -176,7 +182,7 @@ class ToscaVnfApiTest {
 				stack.pop();
 				continue;
 			}
-			if (src instanceof Map || src instanceof Set) {
+			if ((src instanceof Map) || (src instanceof Set)) {
 				stack.pop();
 				continue;
 			}

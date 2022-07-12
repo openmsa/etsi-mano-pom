@@ -31,7 +31,16 @@ import org.junit.jupiter.params.provider.ValueSource;
 import com.ubiqube.parser.tosca.api.ContextResolver;
 import com.ubiqube.parser.tosca.api.ToscaApi;
 
+import ma.glasnost.orika.MapperFactory;
+import ma.glasnost.orika.impl.DefaultMapperFactory;
+
 class ToscaParserTest {
+	private final ToscaApi toscaApi;
+
+	public ToscaParserTest() {
+		final MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
+		toscaApi = new ToscaApi(this.getClass().getClassLoader(), mapperFactory.getMapperFacade());
+	}
 
 	/// Remote URL use some tosca 1.0 @Test
 	@SuppressWarnings("static-method")
@@ -39,7 +48,7 @@ class ToscaParserTest {
 		final ToscaParser tp = new ToscaParser(new File("src/test/resources/web_mysql_tosca.yaml"));
 		final ToscaContext root = tp.getContext();
 		assertNotNull(root);
-		ToscaApi.getObjects(root, new HashMap<>(), String.class);
+		toscaApi.getObjects(root, new HashMap<>(), String.class);
 		final ContextResolver ctx = new ContextResolver(root, new HashMap<String, String>());
 		final List<PolicyDefinition> policies = new ArrayList<>();
 		policies.add(new PolicyDefinition());

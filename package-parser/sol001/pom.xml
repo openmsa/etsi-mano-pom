@@ -14,5 +14,6 @@
 		<module>versions</module>
 		<module>sol001-api</module>
 		<module>archive-creator</module>
+		<module>sol001-objects</module>
 	</modules>
 </project>

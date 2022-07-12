@@ -31,6 +31,8 @@ import org.slf4j.LoggerFactory;
 import com.ubiqube.parser.tosca.ZipUtil.Entry;
 import com.ubiqube.parser.tosca.api.ToscaApi;
 
+import ma.glasnost.orika.MapperFactory;
+import ma.glasnost.orika.impl.DefaultMapperFactory;
 import tosca.nodes.nfv.VnfExtCp;
 import tosca.nodes.nfv.VnfVirtualLink;
 import tosca.nodes.nfv.vdu.Compute;
@@ -43,6 +45,13 @@ class UbiVnfToscaTest {
 
 	private final Map<String, String> parameters = new HashMap<>();
 
+	private final ToscaApi toscaApi;
+
+	public UbiVnfToscaTest() {
+		final MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
+		toscaApi = new ToscaApi(this.getClass().getClassLoader(), mapperFactory.getMapperFacade());
+	}
+
 	@Test
 	void testUbiCsar() throws Exception {
 		ZipUtil.makeToscaZip("/tmp/ubi-tosca.csar", Entry.of("ubi-tosca/Definitions/tosca_ubi.yaml", "Definitions/tosca_ubi.yaml"),
@@ -52,13 +61,13 @@ class UbiVnfToscaTest {
 		final ToscaParser toscaParser = new ToscaParser(new File("/tmp/ubi-tosca.csar"));
 		final ToscaContext root = toscaParser.getContext();
 
-		final List<VnfVirtualLink> list = ToscaApi.getObjects(root, parameters, VnfVirtualLink.class);
+		final List<VnfVirtualLink> list = toscaApi.getObjects(root, parameters, VnfVirtualLink.class);
 		assertEquals(3, list.size());
 		final VnfVirtualLink elem = list.get(0);
 		assertEquals("leftVl01", elem.getInternalName());
 		assertEquals("192.168.0.100", elem.getVlProfile().getVirtualLinkProtocolData().get(0).getL3ProtocolData().getIpAllocationPools().get(0).getStartIpAddress());
 
-		final List<VnfIndicator> l2 = ToscaApi.getObjects(root, parameters, VnfIndicator.class);
+		final List<VnfIndicator> l2 = toscaApi.getObjects(root, parameters, VnfIndicator.class);
 		assertEquals(2, l2.size());
 	}
 
@@ -71,11 +80,11 @@ class UbiVnfToscaTest {
 		final ToscaParser toscaParser = new ToscaParser(new File("/tmp/ubi-tosca.csar"));
 		final ToscaContext root = toscaParser.getContext();
 
-		final List<Compute> list = ToscaApi.getObjects(root, parameters, Compute.class);
+		final List<Compute> list = toscaApi.getObjects(root, parameters, Compute.class);
 		LOG.debug("{}", list);
-		final List<VnfExtCp> extCp = ToscaApi.getObjects(root, parameters, VnfExtCp.class);
+		final List<VnfExtCp> extCp = toscaApi.getObjects(root, parameters, VnfExtCp.class);
 		LOG.debug("{}", extCp);
-		final List<VduScalingAspectDeltas> vsad = ToscaApi.getObjects(root, parameters, VduScalingAspectDeltas.class);
+		final List<VduScalingAspectDeltas> vsad = toscaApi.getObjects(root, parameters, VduScalingAspectDeltas.class);
 		LOG.debug("vsad {}", vsad);
 		assertNotNull(vsad);
 	}

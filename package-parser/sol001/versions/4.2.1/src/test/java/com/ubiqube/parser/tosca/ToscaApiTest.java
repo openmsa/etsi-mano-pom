@@ -51,6 +51,8 @@ import com.ubiqube.parser.tosca.scalar.Frequency;
 import com.ubiqube.parser.tosca.scalar.Size;
 import com.ubiqube.parser.tosca.scalar.Time;
 
+import ma.glasnost.orika.MapperFactory;
+import ma.glasnost.orika.impl.DefaultMapperFactory;
 import tosca.nodes.nfv.NFP;
 import tosca.nodes.nfv.NS;
 import tosca.nodes.nfv.NfpPosition;
@@ -77,6 +79,8 @@ class ToscaApiTest {
 	private final Map<String, String> parameters = new HashMap<>();
 	private final Set<Class<?>> complex = new HashSet<>();
 
+	private final ToscaApi toscaApi;
+
 	public ToscaApiTest() {
 		conv.register(Size.class.getCanonicalName(), new SizeConverter());
 		complex.add(String.class);
@@ -88,16 +92,18 @@ class ToscaApiTest {
 		complex.add(Size.class);
 		complex.add(Frequency.class);
 		complex.add(Time.class);
+		final MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
+		toscaApi = new ToscaApi(this.getClass().getClassLoader(), mapperFactory.getMapperFacade());
 	}
 
 	@Test
 	void testUbiCsar() throws Exception {
 		ZipUtil.makeToscaZip("/tmp/ubi-tosca.csar",
 				Entry.of("ubi-nsd/Definitions/nsd_ubi.yaml", "Definitions/nsd_ubi.yaml"),
-				Entry.of("ubi-nsd/Definitions/etsi_nfv_sol001_nsd_types.yaml", "Definitions/etsi_nfv_sol001_nsd_types.yaml"),
-				Entry.of("ubi-nsd/Definitions/etsi_nfv_sol001_vnfd_types.yaml", "Definitions/etsi_nfv_sol001_vnfd_types.yaml"),
-				Entry.of("ubi-nsd/Definitions/etsi_nfv_sol001_pnfd_types.yaml", "Definitions/etsi_nfv_sol001_pnfd_types.yaml"),
-				Entry.of("ubi-nsd/Definitions/etsi_nfv_sol001_common_types.yaml", "Definitions/etsi_nfv_sol001_common_types.yaml"),
+				Entry.of("etsi_nfv_sol001_nsd_types.yaml", "Definitions/etsi_nfv_sol001_nsd_types.yaml"),
+				Entry.of("etsi_nfv_sol001_vnfd_types.yaml", "Definitions/etsi_nfv_sol001_vnfd_types.yaml"),
+				Entry.of("etsi_nfv_sol001_pnfd_types.yaml", "Definitions/etsi_nfv_sol001_pnfd_types.yaml"),
+				Entry.of("etsi_nfv_sol001_common_types.yaml", "Definitions/etsi_nfv_sol001_common_types.yaml"),
 				Entry.of("ubi-nsd/TOSCA-Metadata/TOSCA.meta", "TOSCA-Metadata/TOSCA.meta"));
 		final ToscaParser tp = new ToscaParser(new File("/tmp/ubi-tosca.csar"));
 		final ToscaContext root = tp.getContext();
@@ -122,7 +128,7 @@ class ToscaApiTest {
 	}
 
 	private <U> List<U> testToscaClass(final int i, final ToscaContext root, final Map<String, String> parameters2, final Class<U> clazz) throws IllegalArgumentException, InvocationTargetException, IllegalAccessException, IntrospectionException {
-		final List<U> listVsad = ToscaApi.getObjects(root, parameters, clazz);
+		final List<U> listVsad = toscaApi.getObjects(root, parameters, clazz);
 		assertEquals(i, listVsad.size());
 		checknull(listVsad.get(0));
 		return listVsad;
@@ -164,7 +170,7 @@ class ToscaApiTest {
 				stack.pop();
 				continue;
 			}
-			if (src instanceof Map || src instanceof Set) {
+			if ((src instanceof Map) || (src instanceof Set)) {
 				stack.pop();
 				continue;
 			}

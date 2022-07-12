@@ -37,13 +37,13 @@ import com.ubiqube.etsi.mano.dao.mano.pkg.VirtualCp;
 import com.ubiqube.etsi.mano.dao.mano.vnfm.McIops;
 import com.ubiqube.etsi.mano.service.pkg.ToscaException;
 import com.ubiqube.etsi.mano.service.pkg.bean.AffinityRuleAdapater;
-import com.ubiqube.etsi.mano.service.pkg.bean.InstantiationLevels;
 import com.ubiqube.etsi.mano.service.pkg.bean.ProviderData;
 import com.ubiqube.etsi.mano.service.pkg.bean.SecurityGroupAdapter;
-import com.ubiqube.etsi.mano.service.pkg.bean.VduInitialDelta;
-import com.ubiqube.etsi.mano.service.pkg.bean.VduInstantiationLevels;
-import com.ubiqube.etsi.mano.service.pkg.bean.VduScalingAspectDeltas;
 import com.ubiqube.etsi.mano.service.pkg.vnf.VnfPackageReader;
+import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.InstantiationLevels;
+import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.VduInitialDelta;
+import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.VduInstantiationLevels;
+import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.VduScalingAspectDeltas;
 
 import io.kubernetes.client.openapi.models.V1Pod;
 
@@ -139,19 +139,19 @@ public class K8sPodReader implements VnfPackageReader {
 	@Override
 	public Set<AffinityRuleAdapater> getAffinityRules(final Map<String, String> userDefinedData) {
 		// TODO Auto-generated method stub
-		return null;
+		return Set.of();
 	}
 
 	@Override
 	public Set<SecurityGroupAdapter> getSecurityGroups(final Map<String, String> userData) {
 		// TODO Auto-generated method stub
-		return null;
+		return Set.of();
 	}
 
 	@Override
 	public List<String> getImports() {
 		// TODO Auto-generated method stub
-		return null;
+		return List.of();
 	}
 
 	@Override
@@ -169,29 +169,35 @@ public class K8sPodReader implements VnfPackageReader {
 	@Override
 	public Set<OsContainer> getOsContainer(final Map<String, String> parameters) {
 		// TODO Auto-generated method stub
-		return null;
+		return Set.of();
 	}
 
 	@Override
 	public Set<OsContainerDeployableUnit> getOsContainerDeployableUnit(final Map<String, String> parameters) {
 		// TODO Auto-generated method stub
-		return null;
+		return Set.of();
 	}
 
 	@Override
 	public Set<VirtualCp> getVirtualCp(final Map<String, String> parameters) {
 		// TODO Auto-generated method stub
-		return null;
+		return Set.of();
 	}
 
 	@Override
 	public Set<McIops> getMciops(final Map<String, String> userDefinedData) {
 		// TODO Auto-generated method stub
-		return null;
+		return Set.of();
 	}
 
 	@Override
 	public InputStream getFileInputStream(final String path) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getVnfdFiles(final boolean includeSignatures) {
 		// TODO Auto-generated method stub
 		return null;
 	}

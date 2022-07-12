@@ -16,8 +16,10 @@
  */
 package com.ubiqube.parser.tosca;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
@@ -26,6 +28,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ubiqube.etsi.mano.tosca.IResolver;
 
 public class ToscaContext {
@@ -55,6 +58,11 @@ public class ToscaContext {
 
 	private Map<String, InterfaceType> interfaceTypes;
 
+	private Map<String, String> metadata;
+
+	@JsonIgnore
+	private final List<ToscaContext> childContext = new ArrayList<>();
+
 	public ToscaContext(final ToscaRoot root, final IResolver inResolver) {
 		artifacts = root.getArtifactTypes();
 		capabilities = root.getCapabilityTypes();
@@ -65,6 +73,7 @@ public class ToscaContext {
 		topologies = root.getTopologyTemplate();
 		version = root.getVersion();
 		interfaceTypes = root.getInterfaceTypes();
+		metadata = root.getMetadata();
 		if (null != root.getDataTypes()) {
 			dataTypes = root.getDataTypes();
 		}
@@ -171,6 +180,10 @@ public class ToscaContext {
 		return interfaceTypes;
 	}
 
+	public Map<String, String> getMetadata() {
+		return metadata;
+	}
+
 	@Override
 	public String toString() {
 		final StringBuilder sb = new StringBuilder();
@@ -233,6 +246,14 @@ public class ToscaContext {
 	}
 
 	private void mergeContext(final ToscaContext context) {
+		childContext.add(context);
+		if (null != context.getMetadata()) {
+			if (null == metadata) {
+				metadata = context.getMetadata();
+			} else {
+				metadata.putAll(context.getMetadata());
+			}
+		}
 		mergeHash(artifacts, context.getArtifacts());
 		if (null != context.getCapabilities()) {
 			capabilities.putAll(context.getCapabilities());
@@ -415,6 +436,7 @@ public class ToscaContext {
 		policies = assign(root2.getPolicies(), policies);
 		policiesType = assign(root2.getPolicyTypes(), policiesType);
 		interfaceTypes = assign(root2.getInterfaceTypes(), interfaceTypes);
+		metadata = assign(root2.getMetadata(), metadata);
 	}
 
 	private static <K, V> Map<K, V> assign(final Map<K, V> in, final Map<K, V> here) {

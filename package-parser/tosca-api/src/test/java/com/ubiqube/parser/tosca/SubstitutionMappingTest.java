@@ -27,8 +27,10 @@ import org.junit.jupiter.api.Test;
 
 import com.ubiqube.parser.tosca.api.ContextResolver;
 import com.ubiqube.parser.tosca.api.ToscaApi;
+import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.NS;
 
-import tosca.nodes.nfv.NS;
+import ma.glasnost.orika.MapperFactory;
+import ma.glasnost.orika.impl.DefaultMapperFactory;
 
 /**
  *
@@ -36,13 +38,19 @@ import tosca.nodes.nfv.NS;
  *
  */
 class SubstitutionMappingTest {
+	private final ToscaApi toscaApi;
+
+	public SubstitutionMappingTest() {
+		final MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
+		toscaApi = new ToscaApi(this.getClass().getClassLoader(), mapperFactory.getMapperFacade());
+	}
 
 	@Test
 	void testSubstitutionMapping() throws Exception {
 		final ToscaParser tp = new ToscaParser(new File("src/test/resources/substitution-mapping.yml"));
 		final ToscaContext root = tp.getContext();
 		assertNotNull(root);
-		final List<NS> obj = ToscaApi.getObjects(root, new HashMap<>(), NS.class);
+		final List<NS> obj = toscaApi.getObjects(root, new HashMap<>(), NS.class);
 		final ContextResolver ctx = new ContextResolver(root, new HashMap<String, String>());
 		ctx.resolvValue("");
 		assertEquals(1, obj.size());

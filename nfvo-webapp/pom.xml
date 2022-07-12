@@ -127,6 +127,12 @@
 			<artifactId>etsi-nfvo-351-controllers</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+			<dependency>
+			<groupId>com.ubiqube.mano</groupId>
+			<artifactId>etsi-nfvo-361-controllers</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>etsi-sol012-341</artifactId>
@@ -223,7 +229,7 @@
 		-->
 		<dependency>
 			<groupId>com.ubiqube.mano.event</groupId>
-			<artifactId>event-quartz</artifactId>
+			<artifactId>event-jms</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
@@ -237,6 +243,44 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-tosca</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/target/classes/</outputDirectory>
+							<artifactItems>
+								<artifactItem>
+									<groupId>com.ubiqube.mano.sol001</groupId>
+									<artifactId>tosca-class-331</artifactId>
+									<version>2.0.0-SNAPSHOT</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>com.ubiqube.mano.sol001</groupId>
+									<artifactId>tosca-class-351</artifactId>
+									<version>2.0.0-SNAPSHOT</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>com.ubiqube.mano.sol001</groupId>
+									<artifactId>tosca-class-361</artifactId>
+									<version>2.0.0-SNAPSHOT</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>com.ubiqube.mano.sol001</groupId>
+									<artifactId>tosca-class-421</artifactId>
+									<version>2.0.0-SNAPSHOT</version>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

@@ -30,14 +30,14 @@ import com.ubiqube.etsi.mano.dao.mano.VnfComputeAspectDelta;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstantiationLevels;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.exception.GenericException;
-import com.ubiqube.etsi.mano.service.pkg.bean.InstantiationLevels;
-import com.ubiqube.etsi.mano.service.pkg.bean.VduInitialDelta;
-import com.ubiqube.etsi.mano.service.pkg.bean.VduInstantiationLevels;
-import com.ubiqube.etsi.mano.service.pkg.bean.VduLevel;
-import com.ubiqube.etsi.mano.service.pkg.bean.VduScalingAspectDeltas;
 import com.ubiqube.etsi.mano.service.pkg.vnf.OnboardVisitor;
 import com.ubiqube.etsi.mano.service.pkg.vnf.VisitorUtils;
 import com.ubiqube.etsi.mano.service.pkg.vnf.VnfPackageReader;
+import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.VduLevel;
+import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.InstantiationLevels;
+import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.VduInitialDelta;
+import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.VduInstantiationLevels;
+import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.VduScalingAspectDeltas;
 
 /**
  *

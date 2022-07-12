@@ -33,6 +33,8 @@ import com.ubiqube.parser.tosca.ParseException;
 import com.ubiqube.parser.tosca.PolicyDefinition;
 import com.ubiqube.parser.tosca.ToscaContext;
 
+import ma.glasnost.orika.MapperFacade;
+
 /**
  * Main front API around tosca files.
  *
@@ -40,12 +42,12 @@ import com.ubiqube.parser.tosca.ToscaContext;
  *
  */
 public class ToscaApi {
+	private final ClassLoader loader;
+	private final MapperFacade toscaMapper;
 
-	/**
-	 * Constructor.
-	 */
-	private ToscaApi() {
-		// Nothing.
+	public ToscaApi(final ClassLoader loader, final MapperFacade toscaMapper) {
+		this.loader = loader;
+		this.toscaMapper = toscaMapper;
 	}
 
 	/**
@@ -56,28 +58,34 @@ public class ToscaApi {
 	 * @param destination Destination class.
 	 * @return A List of populated object.
 	 */
-	public static <T> List<T> getObjects(final ToscaContext root, final Map<String, String> parameters, final Class<T> destination) {
+	public <T> List<T> getObjects(final ToscaContext root, final Map<String, String> parameters, final Class<T> toscaClass) {
+		final Class<T> destination;
+		try {
+			destination = getVersionizedClass(loader, toscaClass);
+		} catch (final ClassNotFoundException e) {
+			return List.of();
+		}
 		final ContextResolver contextResolver = new ContextResolver(root, parameters);
 		final List<NodeTemplate> nodes = getNodeMatching(root, destination);
 		if (!nodes.isEmpty()) {
-			return getAndValidate(() -> contextResolver.mapToscaToClass(nodes, destination));
+			return getAndValidate(toscaClass, () -> contextResolver.mapToscaToClass(nodes, destination));
 		}
 		final List<GroupDefinition> groups = getGroupsMatching(root, destination);
 		if (!groups.isEmpty()) {
-			return getAndValidate(() -> contextResolver.mapGroupsToClass(groups, destination));
+			return getAndValidate(toscaClass, () -> contextResolver.mapGroupsToClass(groups, destination));
 		}
 		final List<PolicyDefinition> policies = getPoliciesMatching(root, destination);
 		if (!policies.isEmpty()) {
-			return getAndValidate(() -> contextResolver.mapPoliciesToClass(policies, destination));
+			return getAndValidate(toscaClass, () -> contextResolver.mapPoliciesToClass(policies, destination));
 		}
 		return new ArrayList<>();
 	}
 
-	private static <T> List<T> getAndValidate(final Supplier<List<T>> sup) {
+	private <T> List<T> getAndValidate(final Class<T> manoClass, final Supplier<List<T>> sup) {
 		final List<T> tmp = sup.get();
 		final Set<ConstraintViolation<List<T>>> res = validate(tmp);
 		if (res.isEmpty()) {
-			return tmp;
+			return toscaMapper.mapAsList(tmp, manoClass);
 		}
 		throw new ParseException("SOL001 file contain the following errors: " + res);
 	}
@@ -145,4 +153,14 @@ public class ToscaApi {
 				})
 				.toList();
 	}
+
+	@SuppressWarnings("unchecked")
+	private static <T> Class<T> getVersionizedClass(final ClassLoader loader, final Class<T> manoClass) throws ClassNotFoundException {
+		if (!manoClass.getName().startsWith("com.ubiqube.parser.tosca.objects.")) {
+			throw new ParseException("Class: " + manoClass.getName() + " is not a Mano class.");
+		}
+		final String tName = manoClass.getName().substring("com.ubiqube.parser.tosca.objects.".length());
+		return (Class<T>) loader.loadClass(tName);
+	}
+
 }

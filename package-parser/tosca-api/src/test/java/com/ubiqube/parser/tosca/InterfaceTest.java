@@ -27,17 +27,26 @@ import org.junit.jupiter.api.Test;
 
 import com.ubiqube.parser.tosca.api.ContextResolver;
 import com.ubiqube.parser.tosca.api.ToscaApi;
+import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.VNF;
 
-import tosca.nodes.nfv.VNF;
+import ma.glasnost.orika.MapperFactory;
+import ma.glasnost.orika.impl.DefaultMapperFactory;
 
 class InterfaceTest {
+
+	private final ToscaApi toscaApi;
+
+	public InterfaceTest() {
+		final MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
+		toscaApi = new ToscaApi(this.getClass().getClassLoader(), mapperFactory.getMapperFacade());
+	}
 
 	@Test
 	void testName() throws Exception {
 		final ToscaParser tp = new ToscaParser(new File("src/test/resources/interfaces.yaml"));
 		final ToscaContext root = tp.getContext();
 		assertNotNull(root);
-		final List<VNF> obj = ToscaApi.getObjects(root, new HashMap<>(), VNF.class);
+		final List<VNF> obj = toscaApi.getObjects(root, new HashMap<>(), VNF.class);
 		final ContextResolver ctx = new ContextResolver(root, new HashMap<String, String>());
 		ctx.resolvValue("");
 		assertEquals(1, obj.size());

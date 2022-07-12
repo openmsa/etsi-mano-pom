@@ -23,6 +23,10 @@ logging:
           wire: INFO
         activemq:
           audit: WARN
+      elasticsearch:
+        client:
+          sniff:
+            Sniffer: OFF
       hibernate:
         SQL: INFO
       keycloak: INFO
