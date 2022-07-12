@@ -33,9 +33,9 @@ public class Frequency {
 
 		final Matcher m = FREQUENCY_PATTERN.matcher(value);
 		if (!m.find()) {
-			throw new ParseException("Size scalr: Unable to find a match for: " + value);
+			throw new ParseException("Frequency scalr: Unable to find a match for: " + value);
 		}
-		freq = Long.parseLong(m.group("freq"));
+		freq = Float.parseFloat(m.group("freq"));
 		unit = m.group("unit");
 	}
 

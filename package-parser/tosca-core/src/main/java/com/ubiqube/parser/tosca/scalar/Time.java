@@ -34,7 +34,7 @@ public class Time {
 
 		final Matcher m = TIME_PATTERN.matcher(value);
 		if (!m.find()) {
-			throw new ParseException("Size scalr: Unable to find a match for: " + value);
+			throw new ParseException("Time scalr: Unable to find a match for: " + value);
 		}
 		ltime = Long.parseLong(m.group("time"));
 		unit = m.group("unit");
@@ -42,6 +42,11 @@ public class Time {
 
 	public Time(final Long _time) {
 		ltime = _time.longValue();
+		unit = "ns";
+	}
+
+	public Time(final BigDecimal in) {
+		ltime = in.longValue();
 		unit = "ns";
 	}
 
