@@ -68,7 +68,6 @@ import com.ubiqube.parser.tosca.scalar.Size;
 import com.ubiqube.parser.tosca.scalar.Time;
 
 import ma.glasnost.orika.MapperFactory;
-import ma.glasnost.orika.impl.DefaultMapperFactory;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
 class ToscaApiTest {
@@ -92,7 +91,7 @@ class ToscaApiTest {
 		complex.add(Size.class);
 		complex.add(Frequency.class);
 		complex.add(Time.class);
-		final MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
+		final MapperFactory mapperFactory = Utils.createMapperFactory();
 		toscaApi = new ToscaApi(this.getClass().getClassLoader(), mapperFactory.getMapperFacade());
 	}
 

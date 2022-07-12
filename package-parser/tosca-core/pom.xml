@@ -35,7 +35,10 @@
 			<version>1.18.22</version>
 			<optional>true</optional>
 		</dependency>
-
+		<dependency>
+			<groupId>ma.glasnost.orika</groupId>
+			<artifactId>orika-core</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter</artifactId>

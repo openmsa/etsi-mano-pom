@@ -17,6 +17,7 @@
 package com.ubiqube.parser.tosca.api;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -98,13 +99,17 @@ public class ToscaApi {
 	}
 
 	private static <T> List<PolicyDefinition> getPoliciesMatching(final ToscaContext root, final Class<T> destination) {
-		final Map<String, PolicyDefinition> policies = root.getPolicies();
-		if (null == policies) {
-			return new ArrayList<>();
+		final Map<String, PolicyDefinition> policies = new HashMap<>();
+		final List<Map<String, PolicyDefinition>> p2 = root.getTopologies().getPolicies();
+		final Map<String, PolicyDefinition> p1 = root.getPolicies();
+		if (null != p1) {
+			policies.putAll(p1);
+		}
+		if (null != p2) {
+			p2.forEach(x -> policies.putAll(x));
 		}
 		final String clazzname = destination.getName();
-		return policies.entrySet()
-				.stream()
+		return policies.entrySet().stream()
 				.filter(x -> root.isAssignableFor(x.getValue().getType(), clazzname))
 				.map(x -> {
 					final PolicyDefinition val = x.getValue();

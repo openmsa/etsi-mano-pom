@@ -29,6 +29,7 @@
 		<maven.compiler.source>17</maven.compiler.source>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.version.jackson.databind>2.13.3</project.version.jackson.databind>
+		<ubiqube.orika.version>1.5.5-SNAPSHOT</ubiqube.orika.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -107,7 +108,12 @@
 			<dependency>
 				<groupId>ma.glasnost.orika</groupId>
 				<artifactId>orika-core</artifactId>
-				<version>1.5.5-SNAPSHOT</version>
+				<version>${ubiqube.orika.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>ma.glasnost.orika</groupId>
+				<artifactId>orika-eclipse-tools</artifactId>
+				<version>${ubiqube.orika.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.google.guava</groupId>

@@ -137,6 +137,7 @@ topology_template:
                   mac_address_assignment: true
                 l3_address_data: # tosca.datatypes.nfv.L3AddressData
                   ip_address_assignment: true
+                  ip_address_assignment_subtype: true
                   floating_ip_activated: true
                   ip_address_type: ipv4
                   number_of_ip_address: 10

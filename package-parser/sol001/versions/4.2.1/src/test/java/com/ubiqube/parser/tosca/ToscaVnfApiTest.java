@@ -68,7 +68,6 @@ import com.ubiqube.parser.tosca.scalar.Size;
 import com.ubiqube.parser.tosca.scalar.Time;
 
 import ma.glasnost.orika.MapperFactory;
-import ma.glasnost.orika.impl.DefaultMapperFactory;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
 class ToscaVnfApiTest {
@@ -92,7 +91,7 @@ class ToscaVnfApiTest {
 		complex.add(Size.class);
 		complex.add(Frequency.class);
 		complex.add(Time.class);
-		final MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
+		final MapperFactory mapperFactory = Utils.createMapperFactory();
 		toscaApi = new ToscaApi(this.getClass().getClassLoader(), mapperFactory.getMapperFacade());
 	}
 
@@ -136,7 +135,7 @@ class ToscaVnfApiTest {
 		testToscaClass(1, root, parameters, SupportedVnfInterface.class);
 		testToscaClass(1, root, parameters, AffinityRule.class);
 		testToscaClass(1, root, parameters, VirtualLinkBitrateInitialDelta.class);
-		testToscaClass(2, root, parameters, tosca.nodes.nfv.vdu.Compute.class);
+		testToscaClass(2, root, parameters, Compute.class);
 	}
 
 	private <U> List<U> testToscaClass(final int i, final ToscaContext root, final Map<String, String> parameters2, final Class<U> clazz) throws IllegalArgumentException, InvocationTargetException, IllegalAccessException, IntrospectionException {
@@ -246,6 +245,8 @@ class ToscaVnfApiTest {
 		ignore.add("getOperateStart");
 		ignore.add("getRevertToSnapshotStart");
 		ignore.add("getRevertToSnapshot");
+		//
+		ignore.add("getIpAddressAssignmentSubtype");
 		checknullInternal(avcDb, ignore, err, new Stack<>());
 		if (!err.isEmpty()) {
 			final String str = err.stream().collect(Collectors.joining("\n"));
