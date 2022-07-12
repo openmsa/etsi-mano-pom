@@ -35,6 +35,7 @@ import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.ExtManagedVirtualLinkDataEntity;
@@ -52,6 +53,7 @@ import com.ubiqube.etsi.mano.dao.mano.ZoneInfoEntity;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.jpa.GrantsResponseJpa;
+import com.ubiqube.etsi.mano.service.NfvoService;
 import com.ubiqube.etsi.mano.service.event.elect.VimElection;
 import com.ubiqube.etsi.mano.service.event.flavor.FlavorManager;
 import com.ubiqube.etsi.mano.service.event.images.SoftwareImageService;
@@ -65,6 +67,7 @@ import com.ubiqube.etsi.mano.service.vim.VimManager;
  *
  */
 @Service
+@ConditionalOnBean(value = NfvoService.class)
 public class GrantAction {
 
 	private static final Logger LOG = LoggerFactory.getLogger(GrantAction.class);
