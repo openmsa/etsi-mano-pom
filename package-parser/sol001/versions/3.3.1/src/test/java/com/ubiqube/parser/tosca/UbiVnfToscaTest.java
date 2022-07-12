@@ -30,14 +30,13 @@ import org.slf4j.LoggerFactory;
 
 import com.ubiqube.parser.tosca.ZipUtil.Entry;
 import com.ubiqube.parser.tosca.api.ToscaApi;
+import com.ubiqube.parser.tosca.objects.tosca.interfaces.nfv.VnfIndicator;
+import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.VnfExtCp;
+import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.VnfVirtualLink;
+import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.vdu.Compute;
+import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.VduScalingAspectDeltas;
 
 import ma.glasnost.orika.MapperFactory;
-import ma.glasnost.orika.impl.DefaultMapperFactory;
-import tosca.nodes.nfv.VnfExtCp;
-import tosca.nodes.nfv.VnfVirtualLink;
-import tosca.nodes.nfv.vdu.Compute;
-import tosca.policies.nfv.VduScalingAspectDeltas;
-import tosca.policies.nfv.VnfIndicator;
 
 class UbiVnfToscaTest {
 
@@ -48,7 +47,7 @@ class UbiVnfToscaTest {
 	private final ToscaApi toscaApi;
 
 	public UbiVnfToscaTest() {
-		final MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
+		final MapperFactory mapperFactory = Utils.createMapperFactory();
 		toscaApi = new ToscaApi(this.getClass().getClassLoader(), mapperFactory.getMapperFacade());
 	}
 

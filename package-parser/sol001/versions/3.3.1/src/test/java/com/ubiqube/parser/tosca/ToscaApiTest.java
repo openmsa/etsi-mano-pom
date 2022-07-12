@@ -47,19 +47,18 @@ import com.ubiqube.parser.tosca.ZipUtil.Entry;
 import com.ubiqube.parser.tosca.api.ToscaApi;
 import com.ubiqube.parser.tosca.convert.ConvertApi;
 import com.ubiqube.parser.tosca.convert.SizeConverter;
+import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.NFP;
+import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.NS;
+import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.NfpPosition;
+import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.NfpPositionElement;
+import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.NsVirtualLink;
+import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.Sap;
+import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.NfpRule;
 import com.ubiqube.parser.tosca.scalar.Frequency;
 import com.ubiqube.parser.tosca.scalar.Size;
 import com.ubiqube.parser.tosca.scalar.Time;
 
 import ma.glasnost.orika.MapperFactory;
-import ma.glasnost.orika.impl.DefaultMapperFactory;
-import tosca.nodes.nfv.NFP;
-import tosca.nodes.nfv.NS;
-import tosca.nodes.nfv.NfpPosition;
-import tosca.nodes.nfv.NfpPositionElement;
-import tosca.nodes.nfv.NsVirtualLink;
-import tosca.nodes.nfv.Sap;
-import tosca.policies.nfv.NfpRule;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
 class ToscaApiTest {
@@ -83,7 +82,7 @@ class ToscaApiTest {
 		complex.add(Size.class);
 		complex.add(Frequency.class);
 		complex.add(Time.class);
-		final MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
+		final MapperFactory mapperFactory = Utils.createMapperFactory();
 		toscaApi = new ToscaApi(this.getClass().getClassLoader(), mapperFactory.getMapperFacade());
 	}
 
@@ -195,6 +194,13 @@ class ToscaApiTest {
 		ignore.add("getTerminate");
 		ignore.add("getTerminateStart");
 		ignore.add("getScaleStart");
+		// NS 4.2.1
+		ignore.add("getScaleStatus");
+		ignore.add("getPriority");
+		// NS VL 4.2.1
+		ignore.add("getVirtualLinkProtocolData");
+		ignore.add("getFixedIpAddress");
+		ignore.add("getIpAddressAssignmentSubtype");
 		checknullInternal(avcDb, ignore, err, new Stack<>());
 		if (!err.isEmpty()) {
 			final String str = err.stream().collect(Collectors.joining("\n"));
