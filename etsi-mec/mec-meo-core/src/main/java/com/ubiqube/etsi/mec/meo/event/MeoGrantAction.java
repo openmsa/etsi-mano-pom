@@ -31,7 +31,6 @@ import com.ubiqube.etsi.mano.dao.mano.VnfStorage;
 import com.ubiqube.etsi.mano.dao.mec.lcm.AppInstance;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.jpa.GrantsResponseJpa;
-import com.ubiqube.etsi.mano.service.event.AbstractGrantAction;
 import com.ubiqube.etsi.mano.service.event.elect.VimElection;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 import com.ubiqube.etsi.mec.repositories.AppInstanceJpa;
@@ -43,7 +42,7 @@ import com.ubiqube.etsi.mec.repositories.AppPkgJpa;
  *
  */
 @Service
-public class MeoGrantAction extends AbstractGrantAction {
+public class MeoGrantAction {
 
 	private final GrantsResponseJpa grantJpa;
 
@@ -53,26 +52,23 @@ public class MeoGrantAction extends AbstractGrantAction {
 
 	protected MeoGrantAction(final GrantsResponseJpa grantJpa, final VimManager vimManager, final VimElection vimElection, final AppInstanceJpa appInstanceJpa,
 			final AppPkgJpa appPkgJpa) {
-		super(grantJpa, vimManager, vimElection);
+		// super(grantJpa, vimManager, vimElection);
 		this.grantJpa = grantJpa;
 		this.appInstanceJpa = appInstanceJpa;
 		this.appPkgJpa = appPkgJpa;
 	}
 
-	@Override
 	protected Set<VnfCompute> getVnfCompute(final UUID id) {
 		final GrantResponse grant = grantJpa.findById(id).orElseThrow();
 		final AppInstance appInstance = appInstanceJpa.findById(UUID.fromString(grant.getVnfInstanceId())).orElseThrow(() -> new NotFoundException("Could not find App Instance: " + grant.getVnfInstanceId()));
 		return Collections.singleton(appInstance.getAppPkg().getVirtualComputeDescriptor());
 	}
 
-	@Override
 	protected Set<VnfStorage> getVnfStorage(final UUID id) {
 		// XXX No storage in specs?
 		return new HashSet<>();
 	}
 
-	@Override
 	protected InputStream findImage(final SoftwareImage softwareImage, final String vnfdId) {
 		// TODO Auto-generated method stub
 		return null;

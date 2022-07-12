@@ -37,6 +37,7 @@ import com.ubiqube.etsi.mano.dao.mano.OperationalStateType;
 import com.ubiqube.etsi.mano.dao.mano.PackageOperationalState;
 import com.ubiqube.etsi.mano.dao.mec.pkg.AppPkg;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
+import com.ubiqube.etsi.mano.repository.ManoResource;
 import com.ubiqube.etsi.mano.repository.jpa.SearchQueryer;
 import com.ubiqube.etsi.mano.service.event.ActionType;
 import com.ubiqube.etsi.mec.meo.event.MeoEventManager;
@@ -87,8 +88,8 @@ public class AppPackageMeoControllerImpl implements AppPackageMeoController {
 
 	@Override
 	public ResponseEntity<Resource> getPackage(final UUID fromString) {
-		final byte[] content = appPackageRepository.getBinary(fromString, "appd");
-		final InputStreamResource resource = new InputStreamResource(new ByteArrayInputStream(content));
+		final ManoResource content = appPackageRepository.getBinary(fromString, "appd");
+		final InputStreamResource resource = new InputStreamResource(content.getInputStream());
 		final BodyBuilder bodyBuilder = ResponseEntity.ok();
 		return bodyBuilder.body(resource);
 	}

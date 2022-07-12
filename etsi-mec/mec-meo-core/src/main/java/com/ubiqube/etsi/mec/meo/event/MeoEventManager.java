@@ -22,8 +22,8 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.validation.constraints.NotNull;
 
+import com.ubiqube.etsi.mano.model.NotificationEvent;
 import com.ubiqube.etsi.mano.service.event.ActionType;
-import com.ubiqube.etsi.mano.service.event.NotificationEvent;
 
 /**
  *
@@ -36,5 +36,5 @@ public interface MeoEventManager {
 
 	void sendNotification(final NotificationEvent notificationEvent, final UUID objectId);
 
-	void sendGrant(@NotNull UUID id, @NotNull Map<String, Object> parameters);
+	// void sendGrant(@NotNull UUID id, @NotNull Map<String, Object> parameters);
 }

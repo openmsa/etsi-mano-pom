@@ -16,7 +16,6 @@
  */
 package com.ubiqube.etsi.mec.controller.grant;
 
-import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -64,7 +63,7 @@ public class AppGrantMeoController implements AppGrantController {
 		grants.setAvailable(Boolean.FALSE);
 		final GrantResponse grantsDb = grantsResponseJpa.save(grants);
 		LOG.debug("MEO: Sending grants {}", grantsDb.getId());
-		eventManager.sendGrant(grantsDb.getId(), new HashMap<>());
+		// eventManager.sendGrant(grantsDb.getId(), new HashMap<>());
 		LOG.info("MEO: Grant request {} sent.", grantsDb.getId());
 		return grantsDb;
 	}

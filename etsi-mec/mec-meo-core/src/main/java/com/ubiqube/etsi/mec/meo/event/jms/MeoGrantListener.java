@@ -44,6 +44,6 @@ public class MeoGrantListener {
 	@Transactional(TxType.NEVER)
 	@org.springframework.transaction.annotation.Transactional(propagation = Propagation.NEVER)
 	public void onEvent(final GrantMessage ev) {
-		meoGrantAction.grantRequest(ev.getObjectId());
+		// meoGrantAction.grantRequest(ev.getObjectId());
 	}
 }
