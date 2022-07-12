@@ -39,13 +39,13 @@ import com.ubiqube.parser.tosca.GroupType;
 import com.ubiqube.parser.tosca.InterfaceType;
 import com.ubiqube.parser.tosca.OperationDefinition;
 import com.ubiqube.parser.tosca.ParseException;
-import com.ubiqube.parser.tosca.PolicyDefinition;
 import com.ubiqube.parser.tosca.PolicyType;
 import com.ubiqube.parser.tosca.Requirement;
 import com.ubiqube.parser.tosca.RequirementDefinition;
 import com.ubiqube.parser.tosca.ToscaClass;
 import com.ubiqube.parser.tosca.ToscaContext;
 import com.ubiqube.parser.tosca.ToscaParser;
+import com.ubiqube.parser.tosca.TriggerDefinition;
 import com.ubiqube.parser.tosca.ValueObject;
 import com.ubiqube.parser.tosca.annotations.Capability;
 import com.ubiqube.parser.tosca.annotations.Members;
@@ -174,7 +174,7 @@ public class ToscaWalker {
 	private void createPolicyRoot(final ToscaListener listener) {
 		startClass(TOSCA_POLICIES_ROOT, null, listener);
 
-		listener.startField("triggers", ValueObject.mapOf(PolicyDefinition.class.getName()));
+		listener.startField("triggers", ValueObject.mapOf(TriggerDefinition.class.getName()));
 		listener.onFieldTerminate();
 
 		cache.add(TOSCA_POLICIES_ROOT);
@@ -403,7 +403,7 @@ public class ToscaWalker {
 	private void handleContainer(final ValueObject valueObject, final ToscaListener listener) {
 		final String subType = valueObject.getEntrySchema().getType();
 		final Class<?> jTy = GenericConverters.convert(subType);
-		if (null != jTy || cache.contains(subType)) {
+		if ((null != jTy) || cache.contains(subType)) {
 			return;
 		}
 		final DataType dType = root.getDataTypes().get(subType);
@@ -463,10 +463,10 @@ public class ToscaWalker {
 			if (!cache.contains(y.getType()) && !classExistOnClassPath(y.getType())) {
 				generateClass(y.getType(), caps, listener);
 			}
-			if (y.getAttributes() != null && !y.getAttributes().isEmpty()) {
+			if ((y.getAttributes() != null) && !y.getAttributes().isEmpty()) {
 				throw new ParseException("Unable to handle Attributes in " + x + '=' + y.getType());
 			}
-			if (y.getProperties() != null && !y.getProperties().getProperties().isEmpty()) {
+			if ((y.getProperties() != null) && !y.getProperties().getProperties().isEmpty()) {
 				throw new ParseException("Unable to handle properties in " + x + '=' + y.getType());
 			}
 			final String fieldName = fieldCamelCase(x);
@@ -518,11 +518,11 @@ public class ToscaWalker {
 	}
 
 	private static boolean isList(final List<String> occ) {
-		if (null == occ || occ.size() < 2) {
+		if ((null == occ) || (occ.size() < 2)) {
 			return false;
 		}
 		final String indice = occ.get(1);
-		return "UNBOUNDED".equals(indice) || Integer.parseInt(indice) > 1;
+		return "UNBOUNDED".equals(indice) || (Integer.parseInt(indice) > 1);
 	}
 
 	private static String fieldCamelCase(final String key) {

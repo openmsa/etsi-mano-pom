@@ -20,18 +20,18 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
-import com.ubiqube.parser.tosca.PolicyDefinition;
+import com.ubiqube.parser.tosca.TriggerDefinition;
 import com.ubiqube.parser.tosca.api.ToscaInernalBase;
 
 public class Root extends ToscaInernalBase {
 	@Valid
-	private Map<String, PolicyDefinition> triggers;
+	private Map<String, TriggerDefinition> triggers;
 
-	public Map<String, PolicyDefinition> getTriggers() {
+	public Map<String, TriggerDefinition> getTriggers() {
 		return this.triggers;
 	}
 
-	public void setTriggers(final Map<String, PolicyDefinition> triggers) {
+	public void setTriggers(final Map<String, TriggerDefinition> triggers) {
 		this.triggers = triggers;
 	}
 }
