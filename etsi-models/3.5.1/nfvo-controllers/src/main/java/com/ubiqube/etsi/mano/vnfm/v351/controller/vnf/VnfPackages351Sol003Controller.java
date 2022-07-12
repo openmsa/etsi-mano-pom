@@ -18,7 +18,6 @@ package com.ubiqube.etsi.mano.vnfm.v351.controller.vnf;
 
 import static com.ubiqube.etsi.mano.nfvo.fc.controller.NfvoConstants.getSafeUUID;
 
-import javax.annotation.Nonnull;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -42,7 +41,6 @@ public class VnfPackages351Sol003Controller implements VnfPackages351Sol003Api {
 	private final VnfPackageFrontController frontController;
 
 	public VnfPackages351Sol003Controller(final VnfPackageFrontController frontController) {
-		super();
 		this.frontController = frontController;
 	}
 
@@ -52,7 +50,7 @@ public class VnfPackages351Sol003Controller implements VnfPackages351Sol003Api {
 	}
 
 	@Override
-	public ResponseEntity<Resource> vnfPackagesVnfPkgIdArtifactsGet(@Nonnull final HttpServletRequest request, final String vnfPkgId) {
+	public ResponseEntity<Resource> vnfPackagesVnfPkgIdArtifactsGet(final HttpServletRequest request, final String vnfPkgId) {
 		return frontController.getSelectArtifacts(request, getSafeUUID(vnfPkgId));
 	}
 

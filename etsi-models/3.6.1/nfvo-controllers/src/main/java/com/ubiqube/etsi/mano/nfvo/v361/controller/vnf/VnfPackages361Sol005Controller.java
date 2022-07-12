@@ -47,12 +47,11 @@ public class VnfPackages361Sol005Controller implements VnfPackages361Sol005Api {
 	private final VnfPackageFrontController frontController;
 
 	public VnfPackages361Sol005Controller(final VnfPackageFrontController frontController) {
-		super();
 		this.frontController = frontController;
 	}
 
 	@Override
-	public ResponseEntity<String> vnfPackagesGet(final MultiValueMap<String, String> requestParams, @Valid final String nextpageOpaqueMarker) {
+	public ResponseEntity<String> vnfPackagesGet(final MultiValueMap<String, String> requestParams, final String nextpageOpaqueMarker) {
 		return frontController.search(requestParams, VnfPkgInfo.class, VnfPackages361Sol005Controller::makeLinks);
 	}
 

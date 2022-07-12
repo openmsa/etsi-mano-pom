@@ -44,7 +44,6 @@ public class VnfPackages271Sol003Controller implements VnfPackages271Sol003Api {
 	private final Linkable links = new Sol003Linkable();
 
 	public VnfPackages271Sol003Controller(final VnfPackageFrontController frontController) {
-		super();
 		this.frontController = frontController;
 	}
 
@@ -54,7 +53,7 @@ public class VnfPackages271Sol003Controller implements VnfPackages271Sol003Api {
 	}
 
 	@Override
-	public ResponseEntity<Resource> vnfPackagesVnfPkgIdArtifactsGet(@Nonnull final HttpServletRequest request, final String vnfPkgId, final String range) {
+	public ResponseEntity<Resource> vnfPackagesVnfPkgIdArtifactsGet(final HttpServletRequest request, final String vnfPkgId, final String range) {
 		return frontController.getSelectArtifacts(request, getSafeUUID(vnfPkgId));
 	}
 

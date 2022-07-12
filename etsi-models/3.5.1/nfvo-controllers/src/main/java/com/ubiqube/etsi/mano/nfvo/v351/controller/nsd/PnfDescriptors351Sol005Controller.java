@@ -21,7 +21,6 @@ import static com.ubiqube.etsi.mano.uri.ManoWebMvcLinkBuilder.methodOn;
 
 import java.util.function.Consumer;
 
-import javax.annotation.Nonnull;
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
@@ -45,7 +44,6 @@ public class PnfDescriptors351Sol005Controller implements PnfDescriptors351Sol00
 	private final PnfFrontController pnfFrontController;
 
 	public PnfDescriptors351Sol005Controller(final PnfFrontController pnfFrontController) {
-		super();
 		this.pnfFrontController = pnfFrontController;
 	}
 
@@ -57,7 +55,7 @@ public class PnfDescriptors351Sol005Controller implements PnfDescriptors351Sol00
 	 *
 	 */
 	@Override
-	public ResponseEntity<String> pnfDescriptorsGet(@Nonnull final MultiValueMap<String, String> requestParams) {
+	public ResponseEntity<String> pnfDescriptorsGet(final MultiValueMap<String, String> requestParams) {
 		final Consumer<PnfdInfo> setLink = x -> x.setLinks(makeLinks(x));
 		return pnfFrontController.search(requestParams, PnfdInfo.class, setLink);
 	}
