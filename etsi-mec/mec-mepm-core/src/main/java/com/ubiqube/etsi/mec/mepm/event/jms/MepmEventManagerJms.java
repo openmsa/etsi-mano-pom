@@ -22,10 +22,10 @@ import java.util.UUID;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
+import com.ubiqube.etsi.mano.model.EventMessage;
+import com.ubiqube.etsi.mano.model.NotificationEvent;
+import com.ubiqube.etsi.mano.service.event.ActionMessage;
 import com.ubiqube.etsi.mano.service.event.ActionType;
-import com.ubiqube.etsi.mano.service.event.NotificationEvent;
-import com.ubiqube.etsi.mano.service.event.jms.ActionMessage;
-import com.ubiqube.etsi.mano.service.event.jms.EventMessage;
 import com.ubiqube.etsi.mec.mepm.event.MepmEventManager;
 
 /**
