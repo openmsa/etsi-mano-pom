@@ -16,6 +16,8 @@
  */
 package com.ubiqube.etsi.mano.mapping;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,7 +33,7 @@ import com.ubiqube.etsi.mano.test.TestHelper;
 import com.ubiqube.etsi.mano.vnfm.v331.OrikaMapperVnfm331;
 import com.ubiqube.etsi.mano.vnfm.v331.model.grant.GrantRequest;
 
-public class MappingTest extends TestHelper {
+class MappingTest extends TestHelper {
 
 	public MappingTest() {
 		super(new OrikaMapperVnfm331());
@@ -44,6 +46,7 @@ public class MappingTest extends TestHelper {
 		ignore.add("getLinks");
 		ignore.add("getChecksum");
 		doTest(VnfPkgInfo.class, VnfPackage.class, ignore);
+		assertTrue(true);
 	}
 
 	@Test
@@ -52,6 +55,7 @@ public class MappingTest extends TestHelper {
 		ignore.add("getLinks");
 		ignore.add("getExtLinkPortId");
 		doTest(VnfInstance.class, com.ubiqube.etsi.mano.dao.mano.VnfInstance.class, ignore);
+		assertTrue(true);
 	}
 
 	@Test
@@ -62,6 +66,7 @@ public class MappingTest extends TestHelper {
 		ignore.add("getChangedExtConnectivity");
 		ignore.add("getResourceChanges");
 		doTest(VnfLcmOpOcc.class, VnfBlueprint.class, ignore);
+		assertTrue(true);
 	}
 
 	@Test
@@ -69,5 +74,6 @@ public class MappingTest extends TestHelper {
 		final Set<String> ignore = new HashSet<>();
 		ignore.add("getLinks");
 		doTest(GrantRequest.class, GrantResponse.class, ignore);
+		assertTrue(true);
 	}
 }

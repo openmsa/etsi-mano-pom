@@ -16,6 +16,8 @@
  */
 package com.ubiqube.etsi.mano.mapping;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -48,6 +50,7 @@ class MappingTest extends TestHelper {
 		ignore.add("getLinks");
 		ignore.add("getChecksum");
 		doTest(VnfPkgInfo.class, VnfPackage.class, ignore);
+		assertTrue(true);
 	}
 
 	@Test
@@ -58,6 +61,7 @@ class MappingTest extends TestHelper {
 		ignore.add("getExtManagedVirtualLinkInfo");
 		ignore.add("getInstantiatedVnfInfo");
 		doTest(VnfInstance.class, com.ubiqube.etsi.mano.dao.mano.VnfInstance.class, ignore);
+		assertTrue(true);
 	}
 
 	@Test
@@ -70,6 +74,7 @@ class MappingTest extends TestHelper {
 		ignore.add("getAffectedVipCps");
 		ignore.add("getVnfVirtualLinkDescId");
 		doTest(VnfLcmOpOcc.class, VnfBlueprint.class, ignore);
+		assertTrue(true);
 	}
 
 	@Test
@@ -77,6 +82,7 @@ class MappingTest extends TestHelper {
 		final Set<String> ignore = new HashSet<>();
 		ignore.add("getLinks");
 		doTest(GrantRequest.class, GrantResponse.class, ignore);
+		assertTrue(true);
 	}
 
 }

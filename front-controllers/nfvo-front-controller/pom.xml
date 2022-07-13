@@ -28,6 +28,9 @@
 			<artifactId>javax.servlet-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		<!--
+		Require: NsBlueprint, CancelModeTypeEnum, VnfInstance
+		-->
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-model</artifactId>

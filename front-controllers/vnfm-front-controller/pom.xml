@@ -31,6 +31,9 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
 		</dependency>
+		<!-- 
+		Required for Alarm.PerceivedSeverityType, Alarm.AckState, VnfInstance.CancelModeTypeEnum, VnfBlueprint
+		-->
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-model</artifactId>
