@@ -37,6 +37,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.ubiqube.etsi.mano.controller.MetaStreamResource;
 import com.ubiqube.etsi.mano.controller.vnf.VnfPackageFrontController;
@@ -65,7 +66,6 @@ public class VnfPackageFrontControllerImpl implements VnfPackageFrontController 
 	private final MapperFacade mapper;
 
 	public VnfPackageFrontControllerImpl(final VnfPackageManagement vnfManagement, final VnfPackageController vnfPackageController, final MapperFacade mapper) {
-		super();
 		this.vnfManagement = vnfManagement;
 		this.vnfPackageController = vnfPackageController;
 		this.mapper = mapper;
@@ -81,7 +81,7 @@ public class VnfPackageFrontControllerImpl implements VnfPackageFrontController 
 	public <U> ResponseEntity<U> findById(final UUID vnfPkgId, final Class<U> clazz, final Consumer<U> makeLinks) {
 		final VnfPackage vnfPackage = vnfManagement.vnfPackagesVnfPkgIdGet(vnfPkgId);
 		final FailureDetails error = vnfPackage.getOnboardingFailureDetails();
-		if (null != error && error.getStatus() == 0) {
+		if ((null != error) && (error.getStatus() == 0)) {
 			vnfPackage.setOnboardingFailureDetails(null);
 		}
 		final U vnfPkgInfo = mapper.map(vnfPackage, clazz);
@@ -160,6 +160,9 @@ public class VnfPackageFrontControllerImpl implements VnfPackageFrontController 
 
 	@Override
 	public ResponseEntity<Void> putContent(final UUID id, final String accept, final MultipartFile file) {
+		if (null == file) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "'file' multi part parameter MUST be present.");
+		}
 		try (InputStream is = file.getInputStream()) {
 			vnfPackageController.vnfPackagesVnfPkgIdPackageContentPut(id, is, accept);
 		} catch (final IOException e) {
@@ -171,7 +174,7 @@ public class VnfPackageFrontControllerImpl implements VnfPackageFrontController 
 	@Override
 	public <U> ResponseEntity<Void> uploadFromUri(final U body, final UUID id, final String contentType) {
 		final UploadUriParameters params = mapper.map(body, UploadUriParameters.class);
-		if (null == params.getAuthType() && params.getUsername() != null) {
+		if ((null == params.getAuthType()) && (params.getUsername() != null)) {
 			params.setAuthType(AuthType.BASIC);
 		}
 		vnfPackageController.vnfPackagesVnfPkgIdPackageContentUploadFromUriPost(id, contentType, params);
