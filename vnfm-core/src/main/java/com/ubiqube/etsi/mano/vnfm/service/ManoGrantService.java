@@ -21,6 +21,7 @@ import javax.transaction.Transactional.TxType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.ExtManagedVirtualLinkDataEntity;
@@ -28,6 +29,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfPortTask;
 import com.ubiqube.etsi.mano.service.AbstractGrantService;
+import com.ubiqube.etsi.mano.service.NfvoService;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 
 import ma.glasnost.orika.MapperFacade;
@@ -40,6 +42,7 @@ import ma.glasnost.orika.MapperFacade;
 // Not VNFM
 @Service
 @Transactional(TxType.NEVER)
+@ConditionalOnMissingBean(value = NfvoService.class)
 public class ManoGrantService extends AbstractGrantService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ManoGrantService.class);

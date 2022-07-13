@@ -22,11 +22,13 @@ import java.io.InputStream;
 import java.nio.file.Paths;
 import java.util.function.Consumer;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.Constants;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
+import com.ubiqube.etsi.mano.service.NfvoService;
 import com.ubiqube.etsi.mano.service.pkg.vnf.CustomOnboarding;
 import com.ubiqube.etsi.mano.service.pkg.vnf.VnfPackageReader;
 import com.ubiqube.etsi.mano.service.rest.ManoClient;
@@ -38,12 +40,12 @@ import com.ubiqube.etsi.mano.service.rest.ManoClientFactory;
  *
  */
 @Service
+@ConditionalOnMissingBean(value = NfvoService.class)
 public class VnfmCustomOnboarding implements CustomOnboarding {
 	private final VnfPackageRepository repo;
 	private final ManoClientFactory factory;
 
 	public VnfmCustomOnboarding(final VnfPackageRepository repo, final ManoClientFactory factory) {
-		super();
 		this.repo = repo;
 		this.factory = factory;
 	}
