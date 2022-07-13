@@ -106,7 +106,7 @@ public class ToscaApi {
 			policies.putAll(p1);
 		}
 		if (null != p2) {
-			p2.forEach(x -> policies.putAll(x));
+			p2.forEach(policies::putAll);
 		}
 		final String clazzname = destination.getName();
 		return policies.entrySet().stream()
@@ -120,9 +120,14 @@ public class ToscaApi {
 	}
 
 	private static <T> List<GroupDefinition> getGroupsMatching(final ToscaContext root, final Class<T> destination) {
-		final Map<String, GroupDefinition> groups = root.getGroupDefinition();
-		if (null == groups) {
-			return new ArrayList<>();
+		final Map<String, GroupDefinition> groups = new HashMap<>();
+		final Map<String, GroupDefinition> p1 = root.getTopologies().getGroups();
+		if (null != p1) {
+			groups.putAll(p1);
+		}
+		final Map<String, GroupDefinition> p2 = root.getGroupDefinition();
+		if (null != p2) {
+			groups.putAll(p2);
 		}
 		final String clazzname = destination.getName();
 		return groups.entrySet()
