@@ -1,6 +1,6 @@
 [
 	{
-		"version": "3.5.1",
+		"version": "3.6.1",
 		"protocol": "sol003",
 		"protocols": [
 			{
@@ -38,7 +38,7 @@
 		]
 	},
 	{
-		"version": "3.5.1",
+		"version": "3.6.1",
 		"protocol": "sol005",
 		"protocols": [
 			{
