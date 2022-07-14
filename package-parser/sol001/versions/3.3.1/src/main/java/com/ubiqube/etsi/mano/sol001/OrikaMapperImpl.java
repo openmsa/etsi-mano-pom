@@ -16,12 +16,19 @@
  */
 package com.ubiqube.etsi.mano.sol001;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import com.ubiqube.parser.tosca.Artifact;
 import com.ubiqube.parser.tosca.api.OrikaMapper;
 import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.VNF;
 import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.VnfVirtualLink;
 import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.vdu.Compute;
 
+import ma.glasnost.orika.CustomMapper;
 import ma.glasnost.orika.MapperFactory;
+import ma.glasnost.orika.MappingContext;
+import tosca.datatypes.nfv.SwImageData;
 
 public class OrikaMapperImpl implements OrikaMapper {
 
@@ -40,6 +47,32 @@ public class OrikaMapperImpl implements OrikaMapper {
 		mapper.classMap(Compute.class, tosca.nodes.nfv.vdu.Compute.class)
 				.field("monitoringParameters{value}", "monitoringParameters{}")
 				.field("monitoringParameters{key}", "monitoringParameters{name}")
+				.byDefault()
+				.register();
+		mapper.classMap(Compute.class, tosca.nodes.nfv.vdu.Compute.class)
+				.customize(new CustomMapper<Compute, tosca.nodes.nfv.vdu.Compute>() {
+					@Override
+					public void mapBtoA(final tosca.nodes.nfv.vdu.Compute b, final Compute a, final MappingContext context) {
+						if (null == a.getArtifacts()) {
+							a.setArtifacts(new HashMap<>());
+						}
+						final Map<String, Artifact> tgt = a.getArtifacts();
+						if (b.getArtifacts() != null) {
+							tgt.putAll(b.getArtifacts());
+						}
+						if (null != b.getSwImageData()) {
+							final SwImageData swid = b.getSwImageData();
+							if (tgt.get(swid.getName()) != null) {
+								return;
+							}
+							final ArtifactConverter cnv = new ArtifactConverter();
+							final Artifact res = cnv.convertTo(swid, null, context);
+							tgt.put(swid.getName(), res);
+						}
+						super.mapBtoA(b, a, context);
+					}
+
+				})
 				.byDefault()
 				.register();
 	}

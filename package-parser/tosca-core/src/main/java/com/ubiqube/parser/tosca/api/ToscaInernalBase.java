@@ -16,6 +16,11 @@
  */
 package com.ubiqube.parser.tosca.api;
 
+/**
+ *
+ * @author olivier
+ *
+ */
 public class ToscaInernalBase {
 	private String internalName;
 	private String internalDescription;

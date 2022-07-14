@@ -17,8 +17,19 @@
 package com.ubiqube.parser.tosca;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ubiqube.parser.tosca.api.ToscaInernalBase;
 
-public class Artifact {
+import lombok.Getter;
+import lombok.Setter;
+
+/**
+ *
+ * @author olivier
+ *
+ */
+@Getter
+@Setter
+public class Artifact extends ToscaInernalBase {
 	private String file;
 	private String type;
 	private String repository;
@@ -27,81 +38,9 @@ public class Artifact {
 	private String deployPath;
 	@JsonProperty("artifact_version")
 	private String artifactVersion;
-	private String checksum;
+	// private String checksum;
 	@JsonProperty("checksum_algorithm")
 	private String checksumAlgorithm;
 	private Object properties;
-
-	public String getFile() {
-		return file;
-	}
-
-	public void setFile(final String file) {
-		this.file = file;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(final String type) {
-		this.type = type;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(final String description) {
-		this.description = description;
-	}
-
-	public String getDeployPath() {
-		return deployPath;
-	}
-
-	public void setDeployPath(final String deployPath) {
-		this.deployPath = deployPath;
-	}
-
-	public String getArtifactVersion() {
-		return artifactVersion;
-	}
-
-	public void setArtifactVersion(final String artifactVersion) {
-		this.artifactVersion = artifactVersion;
-	}
-
-	public String getChecksum() {
-		return checksum;
-	}
-
-	public void setChecksum(final String checksum) {
-		this.checksum = checksum;
-	}
-
-	public String getChecksumAlgorithm() {
-		return checksumAlgorithm;
-	}
-
-	public void setChecksumAlgorithm(final String checksumAlgorithm) {
-		this.checksumAlgorithm = checksumAlgorithm;
-	}
-
-	public Object getProperties() {
-		return properties;
-	}
-
-	public void setProperties(final Object properties) {
-		this.properties = properties;
-	}
-
-	public String getRepository() {
-		return repository;
-	}
-
-	public void setRepository(final String repository) {
-		this.repository = repository;
-	}
 
 }

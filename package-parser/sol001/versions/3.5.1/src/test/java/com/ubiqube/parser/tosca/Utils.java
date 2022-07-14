@@ -20,6 +20,7 @@ import com.ubiqube.etsi.mano.service.pkg.tosca.Frequency2Converter;
 import com.ubiqube.etsi.mano.service.pkg.tosca.Range2Converter;
 import com.ubiqube.etsi.mano.service.pkg.tosca.Size2Converter;
 import com.ubiqube.etsi.mano.service.pkg.tosca.Time2Converter;
+import com.ubiqube.etsi.mano.sol001.OrikaMapperImpl;
 
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.OrikaSystemProperties;
@@ -38,6 +39,8 @@ public class Utils {
 		System.setProperty(OrikaSystemProperties.WRITE_SOURCE_FILES, "true");
 		System.setProperty(OrikaSystemProperties.WRITE_SOURCE_FILES_TO_PATH, "/tmp/orika-tests");
 		final DefaultMapperFactory mapper = new DefaultMapperFactory.Builder().build();
+		final OrikaMapperImpl om = new OrikaMapperImpl();
+		om.configureMapper(mapper);
 		final ConverterFactory conv = mapper.getConverterFactory();
 		conv.registerConverter(new Size2Converter());
 		conv.registerConverter(new Frequency2Converter());

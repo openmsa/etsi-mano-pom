@@ -572,11 +572,11 @@ topology_template:
         type: tosca.policies.nfv.VduInstantiationLevels
         targets: [ "leftVdu01" ]
         properties:
-        levels:
-            small_vdu_left:
-            number_of_instances: 1
-            big_vdu_left:
-            number_of_instances: 2
+          levels:
+              small_vdu_left:
+              number_of_instances: 1
+              big_vdu_left:
+              number_of_instances: 2
         triggers:
         trigger_name:
             description: Trigger desc.

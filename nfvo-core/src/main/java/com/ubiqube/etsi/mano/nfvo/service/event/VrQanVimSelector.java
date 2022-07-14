@@ -37,6 +37,7 @@ import com.ubiqube.etsi.mano.service.event.QuotaNeeded;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 
 /**
+ * Vim selection based on VRQan informations.
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *

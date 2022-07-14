@@ -68,6 +68,11 @@ class UbiVnfToscaTest {
 
 		final List<VnfIndicator> l2 = toscaApi.getObjects(root, parameters, VnfIndicator.class);
 		assertEquals(2, l2.size());
+		final List<Compute> lComp = toscaApi.getObjects(root, parameters, Compute.class);
+		assertEquals(2, lComp.size());
+		lComp.stream().forEach(x -> {
+			assertEquals(1, x.getArtifacts().size());
+		});
 	}
 
 	@Test

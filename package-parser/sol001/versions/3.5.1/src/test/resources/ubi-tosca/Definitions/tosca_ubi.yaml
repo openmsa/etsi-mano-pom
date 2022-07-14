@@ -148,12 +148,13 @@ topology_template:
       name: leftVdu01
       description: A node.
       artifacts:
-        sw_image:
-          type: tosca.artifacts.deployment.image.vm.QCOW2
+        cirros:
+          type: tosca.artifacts.nfv.SwImage
           file: myFile.qcow2
           deploy_path: deploy path
-          checksum: 1234
-          checksum_algorithm: ssh512
+          checksum:
+            hash: abcdef0987654321
+            algorithm: SHA-512
           description: desc
           repository: repo
           vim_type: vimtype
@@ -265,6 +266,21 @@ topology_template:
       name: Right instance
       description: A node.
       properties:
+        sw_image_data:
+          name: cirros
+          version: 1.0.0
+          checksum:
+            hash: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
+            algorithm: SHA-256
+          container_format: BARE
+          disk_format: QCOW2
+          min_disk: 1 GiB
+          min_ram: 512 Mib
+          operating_system: centos8
+          provider: provider
+          size: 3 Gib
+          supported_virtualisation_environments:
+            - a
         vdu_profile:
           min_number_of_instances: 1
           max_number_of_instances: 2
