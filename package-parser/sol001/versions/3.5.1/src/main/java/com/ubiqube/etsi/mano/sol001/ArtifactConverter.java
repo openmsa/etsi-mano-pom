@@ -16,13 +16,16 @@
  */
 package com.ubiqube.etsi.mano.sol001;
 
+import javax.validation.constraints.NotNull;
+
 import com.ubiqube.parser.tosca.Artifact;
 import com.ubiqube.parser.tosca.ParseException;
+import com.ubiqube.parser.tosca.objects.tosca.artifacts.nfv.SwImage;
+import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.ChecksumData;
 
 import ma.glasnost.orika.MappingContext;
 import ma.glasnost.orika.converter.BidirectionalConverter;
 import ma.glasnost.orika.metadata.Type;
-import tosca.artifacts.nfv.SwImage;
 import tosca.datatypes.nfv.SwImageData;
 
 /**
@@ -35,7 +38,7 @@ public class ArtifactConverter extends BidirectionalConverter<SwImageData, Artif
 	@Override
 	public Artifact convertTo(final SwImageData s, final Type<Artifact> destinationType, final MappingContext mappingContext) {
 		final SwImage sw = new SwImage();
-		sw.setChecksum(s.getChecksum());
+		sw.setChecksum(map(s.getChecksum()));
 		sw.setContainerFormat(s.getContainerFormat());
 		sw.setDiskFormat(s.getDiskFormat());
 		sw.setMinDisk(s.getMinDisk());
@@ -47,6 +50,13 @@ public class ArtifactConverter extends BidirectionalConverter<SwImageData, Artif
 		sw.setSupportedVirtualisationEnvironments(s.getSupportedVirtualisationEnvironments());
 		sw.setVersion(s.getVersion());
 		return sw;
+	}
+
+	private static ChecksumData map(final tosca.datatypes.nfv.@NotNull ChecksumData checksum) {
+		final ChecksumData ck = new ChecksumData();
+		ck.setAlgorithm(checksum.getAlgorithm());
+		ck.setHash(checksum.getHash());
+		return ck;
 	}
 
 	@Override

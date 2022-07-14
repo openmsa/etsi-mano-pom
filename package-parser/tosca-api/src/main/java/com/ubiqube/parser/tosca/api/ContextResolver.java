@@ -340,7 +340,7 @@ public class ContextResolver {
 			final String type = Optional.ofNullable(sub.get("type")).map(String.class::cast).orElseThrow(() -> new ParseException("Artefact must have a type. " + stack));
 			Class<?> clazz = null;
 			try {
-				clazz = Class.forName(ClassUtils.toscaToJava(type));
+				clazz = Class.forName(ClassUtils.toscaToJava(buildName(type)));
 			} catch (final ClassNotFoundException e) {
 				LOG.warn("Ignoring missing class: {}", type);
 				return;
@@ -353,6 +353,10 @@ public class ContextResolver {
 		});
 		final Method rm = findWriteMethod(propsDescr, "artifacts");
 		methodInvoke(rm, cls, stack, ret);
+	}
+
+	private String buildName(final String type) {
+		return "com.ubiqube.parser.tosca.objects." + type;
 	}
 
 	private static void setProperty2(final Object cls, final Method write, final Object value) {

@@ -17,9 +17,10 @@
 package com.ubiqube.etsi.mano.sol001;
 
 import com.ubiqube.parser.tosca.api.OrikaMapper;
+import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.vdu.Compute;
+import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.vdu.VirtualBlockStorage;
 
 import ma.glasnost.orika.MapperFactory;
-import tosca.nodes.nfv.VNF;
 
 /**
  *
@@ -30,10 +31,14 @@ public class OrikaMapper421Impl implements OrikaMapper {
 
 	@Override
 	public void configureMapper(final MapperFactory mapper) {
-		mapper.classMap(VNF.class, com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.VNF.class)
+		mapper.classMap(Compute.class, tosca.nodes.nfv.vdu.Compute.class)
+				.customize(new ArtifactMapper())
 				.byDefault()
 				.register();
-
+		mapper.classMap(VirtualBlockStorage.class, tosca.nodes.nfv.vdu.VirtualBlockStorage.class)
+				.customize(new BllockStorageMapper())
+				.byDefault()
+				.register();
 	}
 
 }
