@@ -26,14 +26,14 @@ import tosca.nodes.nfv.VNF;
  * @author olivier
  *
  */
-public class OrikaMapperImpl implements OrikaMapper {
+public class OrikaMapper421Impl implements OrikaMapper {
 
 	@Override
 	public void configureMapper(final MapperFactory mapper) {
 		mapper.classMap(VNF.class, com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.VNF.class)
-				.field("bad", "bad")
 				.byDefault()
 				.register();
 
 	}
+
 }

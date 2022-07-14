@@ -19,9 +19,9 @@ package com.ubiqube.parser.tosca.objects.tosca.artifacts;
 import javax.validation.Valid;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ubiqube.parser.tosca.api.ToscaInernalBase;
+import com.ubiqube.parser.tosca.Artifact;
 
-public class Root extends ToscaInernalBase {
+public class Root extends Artifact {
 	@Valid
 	private String description;
 
@@ -46,58 +46,72 @@ public class Root extends ToscaInernalBase {
 	@JsonProperty("checksum_algorithm")
 	private String checksumAlgorithm;
 
+	@Override
 	public String getDescription() {
 		return this.description;
 	}
 
+	@Override
 	public void setDescription(final String description) {
 		this.description = description;
 	}
 
+	@Override
 	public String getFile() {
 		return this.file;
 	}
 
+	@Override
 	public void setFile(final String file) {
 		this.file = file;
 	}
 
+	@Override
 	public String getRepository() {
 		return this.repository;
 	}
 
+	@Override
 	public void setRepository(final String repository) {
 		this.repository = repository;
 	}
 
+	@Override
 	public String getDeployPath() {
 		return this.deployPath;
 	}
 
+	@Override
 	public void setDeployPath(final String deployPath) {
 		this.deployPath = deployPath;
 	}
 
+	@Override
 	public String getArtifactVersion() {
 		return this.artifactVersion;
 	}
 
+	@Override
 	public void setArtifactVersion(final String artifactVersion) {
 		this.artifactVersion = artifactVersion;
 	}
 
+	@Override
 	public String getType() {
 		return this.type;
 	}
 
+	@Override
 	public void setType(final String type) {
 		this.type = type;
 	}
 
+	@Override
 	public String getChecksumAlgorithm() {
 		return this.checksumAlgorithm;
 	}
 
+	@Override
 	public void setChecksumAlgorithm(final String checksumAlgorithm) {
 		this.checksumAlgorithm = checksumAlgorithm;
 	}

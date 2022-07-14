@@ -21,8 +21,6 @@ import java.util.Map;
 
 import com.ubiqube.parser.tosca.Artifact;
 import com.ubiqube.parser.tosca.api.OrikaMapper;
-import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.VNF;
-import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.VnfVirtualLink;
 import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.vdu.Compute;
 
 import ma.glasnost.orika.CustomMapper;
@@ -30,25 +28,14 @@ import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.MappingContext;
 import tosca.datatypes.nfv.SwImageData;
 
-public class OrikaMapperImpl implements OrikaMapper {
-
+/**
+ *
+ * @author olivier
+ *
+ */
+public class OrikaMapper351Impl implements OrikaMapper {
 	@Override
 	public void configureMapper(final MapperFactory mapper) {
-		mapper.classMap(VnfVirtualLink.class, tosca.nodes.nfv.VnfVirtualLink.class)
-				.field("monitoringParameters{value}", "monitoringParameters{}")
-				.field("monitoringParameters{key}", "monitoringParameters{name}")
-				.byDefault()
-				.register();
-		mapper.classMap(VNF.class, tosca.nodes.nfv.VNF.class)
-				.field("monitoringParameters{value}", "monitoringParameters{}")
-				.field("monitoringParameters{key}", "monitoringParameters{name}")
-				.byDefault()
-				.register();
-		mapper.classMap(Compute.class, tosca.nodes.nfv.vdu.Compute.class)
-				.field("monitoringParameters{value}", "monitoringParameters{}")
-				.field("monitoringParameters{key}", "monitoringParameters{name}")
-				.byDefault()
-				.register();
 		mapper.classMap(Compute.class, tosca.nodes.nfv.vdu.Compute.class)
 				.customize(new CustomMapper<Compute, tosca.nodes.nfv.vdu.Compute>() {
 					@Override
@@ -71,10 +58,10 @@ public class OrikaMapperImpl implements OrikaMapper {
 						}
 						super.mapBtoA(b, a, context);
 					}
-
 				})
 				.byDefault()
 				.register();
+		// SwImage
 	}
 
 }
