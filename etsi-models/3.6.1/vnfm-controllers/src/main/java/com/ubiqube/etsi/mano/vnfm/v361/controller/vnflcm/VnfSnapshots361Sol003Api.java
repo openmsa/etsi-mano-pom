@@ -56,7 +56,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
-@RequestMapping(value = "/sol003/vnflcm/v2/vnf_instances", headers = "Version=2.2.0")
+@RequestMapping(value = "/sol003/vnflcm/v2", headers = "Version=2.2.0")
 @RolesAllowed({ "ROLE_NFVO" })
 public interface VnfSnapshots361Sol003Api {
 	Logger log = LoggerFactory.getLogger(VnfSnapshots361Sol003Api.class);
