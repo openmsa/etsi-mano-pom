@@ -65,7 +65,7 @@ public class ManoDataPoller {
 		final Iterable<PmJob> ite = pmJobsJpa.findAll();
 		LOG.trace("Polling data");
 		for (final PmJob pmJob : ite) {
-			LOG.info(" - {}", pmJob);
+			LOG.trace(" - {}", pmJob);
 			monitoringEventManager.sendGetDataEvent(map(pmJob));
 		}
 
