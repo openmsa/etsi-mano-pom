@@ -22,6 +22,7 @@ import java.util.Map;
 import com.ubiqube.parser.tosca.Artifact;
 import com.ubiqube.parser.tosca.api.OrikaMapper;
 import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.vdu.Compute;
+import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.vdu.VirtualBlockStorage;
 
 import ma.glasnost.orika.CustomMapper;
 import ma.glasnost.orika.MapperFactory;
@@ -60,6 +61,10 @@ public class OrikaMapper351Impl implements OrikaMapper {
 				.byDefault()
 				.register();
 		// SwImage
+		mapper.classMap(VirtualBlockStorage.class, tosca.nodes.nfv.vdu.VirtualBlockStorage.class)
+				.customize(new BlockDeviceMapper())
+				.byDefault()
+				.register();
 	}
 
 }
