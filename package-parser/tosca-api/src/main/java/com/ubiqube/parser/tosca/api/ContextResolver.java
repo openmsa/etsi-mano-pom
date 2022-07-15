@@ -38,6 +38,7 @@ import java.util.Optional;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BiFunction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -107,31 +108,23 @@ public class ContextResolver {
 	}
 
 	public <T> List<T> mapPoliciesToClass(final List<PolicyDefinition> policies, final Class<T> destination) {
-		final Deque<String> stack = new ArrayDeque<>();
-		try {
-			return policies.stream().map(x -> handlePolicy(x, destination, stack)).toList();
-		} catch (final RuntimeException e) {
-			throwException("Policies: Runtime error.", stack, e);
-		}
-		return new ArrayList<>();
+		return genericMap(policies, (x, y) -> handlePolicy(x, destination, y), "Policies");
 	}
 
 	public <T> List<T> mapGroupsToClass(final List<GroupDefinition> groups, final Class<T> destination) {
-		final Deque<String> stack = new ArrayDeque<>();
-		try {
-			return (List<T>) groups.stream().map(x -> handleGroup(x, destination, stack)).toList();
-		} catch (final RuntimeException e) {
-			throwException("Groups: Runtime error.", stack, e);
-		}
-		return new ArrayList<>();
+		return (List<T>) genericMap(groups, (x, y) -> handleGroup(x, destination, y), "Groups");
 	}
 
 	public <T> List<T> mapToscaToClass(final List<NodeTemplate> nodes, final Class<T> destination) {
+		return genericMap(nodes, (x, y) -> handleObject(x, destination, y), "Nodes");
+	}
+
+	private static <S, T> List<T> genericMap(final List<S> list, final BiFunction<S, Deque<String>, T> func, final String element) {
 		final Deque<String> stack = new ArrayDeque<>();
 		try {
-			return nodes.stream().map(x -> handleObject(x, destination, stack)).toList();
+			return list.stream().map(x -> func.apply(x, stack)).toList();
 		} catch (final RuntimeException e) {
-			throwException("Nodes: Runtime error.", stack, e);
+			throwException(element + ": Runtime error.", stack, e);
 		}
 		return new ArrayList<>();
 	}
@@ -342,6 +335,7 @@ public class ContextResolver {
 			try {
 				clazz = Class.forName(ClassUtils.toscaToJava(buildName(type)));
 			} catch (final ClassNotFoundException e) {
+				LOG.trace("", e);
 				LOG.warn("Ignoring missing class: {}", type);
 				return;
 			}
@@ -355,7 +349,7 @@ public class ContextResolver {
 		methodInvoke(rm, cls, stack, ret);
 	}
 
-	private String buildName(final String type) {
+	private static String buildName(final String type) {
 		return "com.ubiqube.parser.tosca.objects." + type;
 	}
 
@@ -449,7 +443,7 @@ public class ContextResolver {
 		return cls;
 	}
 
-	private Object stripProperties(final Object v) {
+	private static Object stripProperties(final Object v) {
 		final Map<String, Object> res = (Map<String, Object>) v;
 		final Object prop = res.get(PROPERTIES);
 		if (prop == null) {
