@@ -29,6 +29,9 @@ import org.springframework.jms.support.converter.MappingJackson2MessageConverter
 import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.jms.support.converter.MessageType;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
 @org.springframework.context.annotation.Configuration
 public class ManoArtemisConfiguration {
 
@@ -40,6 +43,9 @@ public class ManoArtemisConfiguration {
 		final MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
 		converter.setTargetType(MessageType.TEXT);
 		converter.setTypeIdPropertyName("_type");
+		final ObjectMapper o = new ObjectMapper();
+		o.registerModule(new JavaTimeModule());
+		converter.setObjectMapper(o);
 		return converter;
 	}
 
