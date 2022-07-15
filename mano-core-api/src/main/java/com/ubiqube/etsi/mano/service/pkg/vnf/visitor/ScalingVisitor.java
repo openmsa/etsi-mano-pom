@@ -95,6 +95,9 @@ public class ScalingVisitor implements OnboardVisitor {
 			int numInst = init.getInitialDelta().getNumberOfInstances();
 			final ScalingAspect aspect = scalingAspects.stream().filter(z -> z.getName().equals(x.getAspect())).findFirst().orElse(new ScalingAspect());
 			vnfc.addScalingAspectDeltas(new VnfComputeAspectDelta(x.getAspect(), "initial_delta", init.getInitialDelta().getNumberOfInstances(), 0, aspect.getMaxScaleLevel(), y, numInst));
+			if (null == aspect.getStepDeltas()) {
+				return;
+			}
 			// Missing 0 => initial inst level.
 			for (final String delta : aspect.getStepDeltas()) {
 				final VduLevel step = x.getDeltas().get(delta);
