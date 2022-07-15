@@ -40,6 +40,7 @@ import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
 import com.ubiqube.etsi.mano.dao.mano.AuthentificationInformations;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
+import com.ubiqube.etsi.mano.utils.ToStringIgnore;
 import com.ubiqube.etsi.mano.utils.ToStringUtil;
 
 import lombok.AllArgsConstructor;
@@ -90,6 +91,7 @@ public class PmJob {
 	 * related measured object type, measurements will be taken for all sub-object
 	 * instances of the measured object instance.
 	 */
+	@ToStringIgnore
 	@ElementCollection // (fetch = FetchType.EAGER)
 	private List<String> subObjectInstanceIds;
 
@@ -108,12 +110,15 @@ public class PmJob {
 	/**
 	 * Information about available reports collected by this PM job.
 	 */
+	@ToStringIgnore
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<PmReport> reports;
 
+	@ToStringIgnore
 	@Embedded
 	private AuthentificationInformations subscription;
 
+	@ToStringIgnore
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH, optional = false)
 	private VimConnectionInformation vimConnectionInformation;
 
