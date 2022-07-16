@@ -52,6 +52,9 @@ import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.TerminateVnfRequest;
 @RestController
 public class VnfLcm261Sol003Controller implements VnfLcm261Sol003Api {
 	private static final Logger LOG = LoggerFactory.getLogger(VnfLcm261Sol003Controller.class);
+	private static final OperateVnfRequest OPERATE_REQUEST = new OperateVnfRequest();
+	private static final InstantiateVnfRequest INSTANTIATE_REQUEST = new InstantiateVnfRequest();
+	private static final HealVnfRequest HEAL_REQUEST = new HealVnfRequest();
 
 	private final VnfInstanceGenericFrontController frontController;
 
@@ -144,10 +147,10 @@ public class VnfLcm261Sol003Controller implements VnfLcm261Sol003Api {
 		final String id = vnfInstance.getId();
 		final String hrefScaleToLevel = linkTo(methodOn(VnfLcm261Sol002Api.class).vnfInstancesVnfInstanceIdScaleToLevelPost(id, null)).withSelfRel().getHref();
 		final String hrefScale = linkTo(methodOn(VnfLcm261Sol002Api.class).vnfInstancesVnfInstanceIdScalePost(id, null)).withSelfRel().getHref();
-		final String hrefOperate = linkTo(methodOn(VnfLcm261Sol002Api.class).vnfInstancesVnfInstanceIdOperatePost(id, null)).withSelfRel().getHref();
-		final String hrefInstanciate = linkTo(methodOn(VnfLcm261Sol002Api.class).vnfInstancesVnfInstanceIdInstantiatePost(id, null)).withSelfRel().getHref();
+		final String hrefOperate = linkTo(methodOn(VnfLcm261Sol002Api.class).vnfInstancesVnfInstanceIdOperatePost(id, OPERATE_REQUEST)).withSelfRel().getHref();
+		final String hrefInstanciate = linkTo(methodOn(VnfLcm261Sol002Api.class).vnfInstancesVnfInstanceIdInstantiatePost(id, INSTANTIATE_REQUEST)).withSelfRel().getHref();
 		final String hrefIndicators = "";
-		final String hrefHeal = linkTo(methodOn(VnfLcm261Sol002Api.class).vnfInstancesVnfInstanceIdHealPost(id, null)).withSelfRel().getHref();
+		final String hrefHeal = linkTo(methodOn(VnfLcm261Sol002Api.class).vnfInstancesVnfInstanceIdHealPost(id, HEAL_REQUEST)).withSelfRel().getHref();
 		final String hrefChangeFlavor = linkTo(methodOn(VnfLcm261Sol002Api.class).vnfInstancesVnfInstanceIdChangeFlavourPost(id, null)).withSelfRel().getHref();
 		final String hrefChangeExtConn = linkTo(methodOn(VnfLcm261Sol002Api.class).vnfInstancesVnfInstanceIdChangeExtConnPost(id, null)).withSelfRel().getHref();
 		final String hrefSelf = linkTo(methodOn(VnfLcm261Sol002Api.class).vnfInstancesVnfInstanceIdGet(id)).withSelfRel().getHref();
