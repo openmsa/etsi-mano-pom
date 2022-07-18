@@ -30,6 +30,8 @@ import com.ubiqube.etsi.mano.dao.mano.CancelModeTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.GrantInterface;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.common.ApiVersionType;
+import com.ubiqube.etsi.mano.dao.mano.pm.PmJob;
+import com.ubiqube.etsi.mano.dao.mano.pm.Threshold;
 import com.ubiqube.etsi.mano.em.v351.model.lcmcoord.Link;
 import com.ubiqube.etsi.mano.em.v351.model.vnflcm.ChangeExtVnfConnectivityRequest;
 import com.ubiqube.etsi.mano.em.v351.model.vnflcm.CreateVnfRequest;
@@ -41,6 +43,8 @@ import com.ubiqube.etsi.mano.em.v351.model.vnflcm.TerminateVnfRequest;
 import com.ubiqube.etsi.mano.em.v351.model.vnflcm.TerminateVnfRequest.TerminationTypeEnum;
 import com.ubiqube.etsi.mano.em.v351.model.vnflcm.VnfInstance;
 import com.ubiqube.etsi.mano.em.v351.model.vnflcm.VnfLcmOpOcc;
+import com.ubiqube.etsi.mano.em.v351.model.vnfpm.CreatePmJobRequest;
+import com.ubiqube.etsi.mano.em.v351.model.vnfpm.CreateThresholdRequest;
 import com.ubiqube.etsi.mano.model.EventMessage;
 import com.ubiqube.etsi.mano.nfvo.v351.model.nsd.CreateNsdInfoRequest;
 import com.ubiqube.etsi.mano.nfvo.v351.model.nsd.NsdInfo;
@@ -67,7 +71,6 @@ public class HttpGateway351 extends AbstractHttpGateway {
 	private final MapperFacade mapper;
 
 	public HttpGateway351(final ObjectProvider<NfvoFactory> nfvoFactory, final MapperFacade mapper) {
-		super();
 		this.nfvoFactory = nfvoFactory.getIfAvailable();
 		this.mapper = mapper;
 	}
@@ -252,4 +255,20 @@ public class HttpGateway351 extends AbstractHttpGateway {
 		g.setLinks(links);
 		return g;
 	}
+
+	@Override
+	public Class<?> getVnfPmJobClass() {
+		return PmJob.class;
+	}
+
+	@Override
+	public Object createVnfPmJobRequest(final PmJob pmJob) {
+		return mapper.map(pmJob, CreatePmJobRequest.class);
+	}
+
+	@Override
+	public Object createVnfThresholdRequest(final Threshold reqIn) {
+		return mapper.map(reqIn, CreateThresholdRequest.class);
+	}
+
 }

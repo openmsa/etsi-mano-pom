@@ -26,6 +26,8 @@ import org.springframework.core.ParameterizedTypeReference;
 import com.ubiqube.etsi.mano.dao.mano.CancelModeTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.GrantInterface;
 import com.ubiqube.etsi.mano.dao.mano.common.ApiVersionType;
+import com.ubiqube.etsi.mano.dao.mano.pm.PmJob;
+import com.ubiqube.etsi.mano.dao.mano.pm.Threshold;
 import com.ubiqube.etsi.mano.model.EventMessage;
 import com.ubiqube.etsi.mano.utils.Version;
 
@@ -91,4 +93,10 @@ public interface HttpGateway {
 	Object createNsdPackageRequest(Map<String, Object> userDefinedData);
 
 	boolean isMatching(final ApiVersionType verType, String version);
+
+	Class<?> getVnfPmJobClass();
+
+	Object createVnfPmJobRequest(PmJob pmJob);
+
+	Object createVnfThresholdRequest(Threshold req);
 }

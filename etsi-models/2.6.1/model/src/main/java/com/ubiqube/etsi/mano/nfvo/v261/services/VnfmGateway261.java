@@ -37,11 +37,14 @@ import com.ubiqube.etsi.mano.common.v261.model.vnf.VnfPkgInfo;
 import com.ubiqube.etsi.mano.dao.mano.CancelModeTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.GrantInterface;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+import com.ubiqube.etsi.mano.dao.mano.pm.PmJob;
+import com.ubiqube.etsi.mano.dao.mano.pm.Threshold;
 import com.ubiqube.etsi.mano.model.EventMessage;
 import com.ubiqube.etsi.mano.nfvo.v261.model.lcmgrant.GrantRequest;
 import com.ubiqube.etsi.mano.nfvo.v261.model.lcmgrant.GrantRequestLinks;
 import com.ubiqube.etsi.mano.nfvo.v261.model.nsd.sol005.CreateNsdInfoRequest;
 import com.ubiqube.etsi.mano.nfvo.v261.model.nsd.sol005.NsdInfo;
+import com.ubiqube.etsi.mano.nfvo.v261.model.nsperfo.PmJobsCreatePmJobRequest;
 import com.ubiqube.etsi.mano.nfvo.v261.model.vnf.CreateVnfPkgInfoRequest;
 import com.ubiqube.etsi.mano.service.AbstractHttpGateway;
 import com.ubiqube.etsi.mano.service.NfvoFactory;
@@ -56,6 +59,7 @@ import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.ScaleVnfToLevelRequest;
 import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.TerminateVnfRequest;
 import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.TerminateVnfRequest.TerminationTypeEnum;
 import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.VnfLcmOpOcc;
+import com.ubiqube.etsi.mano.vnfm.v261.model.nsperfo.CreateThresholdRequest;
 
 import ma.glasnost.orika.MapperFacade;
 
@@ -237,5 +241,20 @@ public class VnfmGateway261 extends AbstractHttpGateway {
 		links.setVnfLcmOpOcc(link);
 		g.setLinks(links);
 		return g;
+	}
+
+	@Override
+	public Class<?> getVnfPmJobClass() {
+		return PmJob.class;
+	}
+
+	@Override
+	public Object createVnfPmJobRequest(final PmJob pmJob) {
+		return mapper.map(pmJob, PmJobsCreatePmJobRequest.class);
+	}
+
+	@Override
+	public Object createVnfThresholdRequest(final Threshold reqIn) {
+		return mapper.map(reqIn, CreateThresholdRequest.class);
 	}
 }

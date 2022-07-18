@@ -134,4 +134,12 @@ public class ManoClient {
 	public ManoAdmin admin() {
 		return new ManoAdmin(this);
 	}
+
+	public ManoVnfPm vnfPm() {
+		return new ManoVnfPm(this);
+	}
+
+	public ManoThreshold vnfThreshold() {
+		return new ManoThreshold(this);
+	}
 }

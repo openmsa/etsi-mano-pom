@@ -29,6 +29,10 @@ import org.springframework.stereotype.Service;
 import com.ubiqube.etsi.mano.dao.mano.CancelModeTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.GrantInterface;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+import com.ubiqube.etsi.mano.dao.mano.pm.PmJob;
+import com.ubiqube.etsi.mano.dao.mano.pm.Threshold;
+import com.ubiqube.etsi.mano.em.v271.model.vnfind.CreatePmJobRequest;
+import com.ubiqube.etsi.mano.em.v271.model.vnfind.CreateThresholdRequest;
 import com.ubiqube.etsi.mano.em.v271.model.vnflcm.ChangeExtVnfConnectivityRequest;
 import com.ubiqube.etsi.mano.em.v271.model.vnflcm.CreateVnfRequest;
 import com.ubiqube.etsi.mano.em.v271.model.vnflcm.InstantiateVnfRequest;
@@ -229,6 +233,21 @@ public class HttpGateway271 extends AbstractHttpGateway {
 		links.setVnfLcmOpOcc(vnfLink);
 		g.setLinks(links);
 		return g;
+	}
+
+	@Override
+	public Class<?> getVnfPmJobClass() {
+		return PmJob.class;
+	}
+
+	@Override
+	public Object createVnfPmJobRequest(final PmJob pmJob) {
+		return mapper.map(pmJob, CreatePmJobRequest.class);
+	}
+
+	@Override
+	public Object createVnfThresholdRequest(final Threshold reqIn) {
+		return mapper.map(reqIn, CreateThresholdRequest.class);
 	}
 
 }
