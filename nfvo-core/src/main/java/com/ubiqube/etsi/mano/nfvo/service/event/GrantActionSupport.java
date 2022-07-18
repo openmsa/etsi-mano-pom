@@ -156,7 +156,7 @@ public class GrantActionSupport implements GrantSupport {
 		int ram = 0;
 		for (final GrantInformationExt grantInformationExt : adds) {
 			if (grantInformationExt.getType() == ResourceTypeEnum.COMPUTE) {
-				final VnfCompute compute = findCompute(vnfPackage, grantInformationExt.getVduId());
+				final VnfCompute compute = findCompute(vnfPackage, grantInformationExt.getResourceTemplateId());
 				disk += compute.getDiskSize();
 				vcpu += compute.getVirtualCpu().getNumVirtualCpu();
 				ram += compute.getVirtualMemory().getVirtualMemSize();
