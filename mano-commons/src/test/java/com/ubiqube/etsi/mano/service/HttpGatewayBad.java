@@ -24,6 +24,8 @@ import org.springframework.core.ParameterizedTypeReference;
 
 import com.ubiqube.etsi.mano.dao.mano.CancelModeTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.GrantInterface;
+import com.ubiqube.etsi.mano.dao.mano.pm.PmJob;
+import com.ubiqube.etsi.mano.dao.mano.pm.Threshold;
 import com.ubiqube.etsi.mano.model.EventMessage;
 import com.ubiqube.etsi.mano.utils.Version;
 
@@ -179,6 +181,24 @@ public class HttpGatewayBad extends AbstractHttpGateway {
 
 	@Override
 	public Object createNsdPackageRequest(final Map<String, Object> userDefinedData) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Class<?> getVnfPmJobClass() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object createVnfPmJobRequest(final PmJob pmJob) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object createVnfThresholdRequest(final Threshold req) {
 		// TODO Auto-generated method stub
 		return null;
 	}
