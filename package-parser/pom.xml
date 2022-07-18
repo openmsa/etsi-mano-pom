@@ -10,6 +10,7 @@
 		<module>tosca-api</module>
 		<module>tosca-class-generator-maven-plugin</module>
 		<module>sol001</module>
+		<module>k8s-parser</module>
 	</modules>
 	<scm>
 		<developerConnection>scm:git:https://github.com/openmsa/etsi-mano-java.git</developerConnection>
