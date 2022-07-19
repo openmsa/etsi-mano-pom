@@ -23,27 +23,29 @@ import javax.validation.Valid;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import lombok.Data;
-
 /**
  *
  * @author olivier
  *
  */
-@Data
-public class UpdateVnffgData implements Serializable {
+public class NfpData implements Serializable {
 	/** Serial. */
 	private static final long serialVersionUID = 1L;
 
-	@JsonProperty("vnffgInfoId")
-	private String vnffgInfoId;
-
-	@JsonProperty("nfp")
-	@Valid
-	private List<NfpData> nfp;
-
 	@JsonProperty("nfpInfoId")
+	private String nfpInfoId;
+
+	@JsonProperty("nfpName")
+	private String nfpName;
+
+	@JsonProperty("description")
+	private String description;
+
+	@JsonProperty("cpGroup")
 	@Valid
-	private List<String> nfpInfoId;
+	private List<CpGroupInfo> cpGroup;
+
+	@JsonProperty("nfpRule")
+	private NfpRule nfpRule;
 
 }

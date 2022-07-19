@@ -16,34 +16,18 @@
  */
 package com.ubiqube.etsi.mano.dao.mano.nsd.upd;
 
-import java.io.Serializable;
-import java.util.List;
-
-import javax.validation.Valid;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import lombok.Data;
 
 /**
  *
  * @author olivier
  *
  */
-@Data
-public class UpdateVnffgData implements Serializable {
-	/** Serial. */
-	private static final long serialVersionUID = 1L;
+public class PortRange {
+	@JsonProperty("lowerPort")
+	private Integer lowerPort;
 
-	@JsonProperty("vnffgInfoId")
-	private String vnffgInfoId;
-
-	@JsonProperty("nfp")
-	@Valid
-	private List<NfpData> nfp;
-
-	@JsonProperty("nfpInfoId")
-	@Valid
-	private List<String> nfpInfoId;
+	@JsonProperty("upperPort")
+	private Integer upperPort;
 
 }
