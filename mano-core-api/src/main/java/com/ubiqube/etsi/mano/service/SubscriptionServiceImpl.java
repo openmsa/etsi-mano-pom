@@ -57,7 +57,6 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 	private final ServerService serverService;
 
 	public SubscriptionServiceImpl(final SubscriptionJpa repository, final EntityManager em, final GrammarParser grammarParser, final Notifications notifications, final ServerService serverService) {
-		super();
 		this.subscriptionJpa = repository;
 		this.em = em;
 		this.grammarParser = grammarParser;
@@ -128,6 +127,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 		case VNF_INSTANCE_DELETE -> "VnfIdentifierDeletionNotification";
 		case VNF_INSTANCE_CREATE -> "VnfIdentifierCreationNotification";
 		case VNF_INSTANCE_CHANGED -> "VnfLcmOperationOccurrenceNotification";
+		case VRQAN -> "VrQuotaAvailNotification";
 		default -> {
 			LOG.warn("Unexpected value: {}", notificationEvent);
 			yield null;
