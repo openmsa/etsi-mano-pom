@@ -83,10 +83,10 @@ public class VnfCompute implements ImageServiceAware, ToscaEntity, Auditable {
 	private String sourcePath;
 	private String destinationPath;
 
-	@Embedded
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private VirtualCpu virtualCpu = new VirtualCpu();
 
-	@Embedded
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private VirtualMemory virtualMemory = new VirtualMemory();
 
 	@GenericField

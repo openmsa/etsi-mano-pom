@@ -153,8 +153,10 @@ public class FlavorManager {
 		final Map<String, String> add = flv.getAdditional();
 		final Map<String, String> cpuReq = Optional.ofNullable(vCpu.getVduCpuRequirements()).orElse(Map.of());
 		final Map<String, String> memReq = Optional.ofNullable(vMem.getVduMemRequirements()).orElse(Map.of());
-		if (null == add) {
-			return cpuReq.isEmpty() && memReq.isEmpty();
+		final Map<String, String> allReq = new HashMap<>(cpuReq);
+		allReq.putAll(memReq);
+		if ((null == add) || add.isEmpty()) {
+			return allReq.isEmpty();
 		}
 		for (final Entry<String, String> entry : add.entrySet()) {
 			final String k = entry.getKey();
