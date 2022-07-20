@@ -44,6 +44,9 @@ public class OrikaMapper351Impl implements OrikaMapper {
 						if (null == a.getArtifacts()) {
 							a.setArtifacts(new HashMap<>());
 						}
+						if (null == b.getArtifacts()) {
+							b.setArtifacts(new HashMap<>());
+						}
 						final Map<String, Artifact> tgt = a.getArtifacts();
 						tgt.putAll(b.getArtifacts());
 						if (null != b.getSwImageData()) {
