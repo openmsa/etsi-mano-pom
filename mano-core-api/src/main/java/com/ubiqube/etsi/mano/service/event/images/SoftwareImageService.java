@@ -102,13 +102,13 @@ public class SoftwareImageService {
 	}
 
 	private static boolean checksumComparable(final Checksum checksum, final Checksum checksum2) {
-		return null != checksum && checksum2 != null;
+		return (null != checksum) && (checksum2 != null);
 	}
 
 	private static boolean checkHash(final Checksum checksum, final Checksum checksum2) {
 		final String alg1 = checksum.getAlgorithm();
 		final String alg2 = checksum2.getAlgorithm();
-		if (alg1 == null || alg2 == null || !alg1.equals(alg2)) {
+		if ((alg1 == null) || (alg2 == null) || !alg1.equalsIgnoreCase(alg2)) {
 			return false;
 		}
 		return checksum.getHash().equals(checksum2.getHash());
