@@ -21,6 +21,7 @@
  */
 package com.ubiqube.etsi.mano.vnfm.v361.controller.vnflcm;
 
+import javax.annotation.Nonnull;
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 
@@ -65,7 +66,7 @@ public interface VnfLcmOpOccs361Sol003Api {
 			@ApiResponse(responseCode = "504", description = "504 GATEWAY TIMEOUT If the API producer encounters a timeout while waiting for a response from an upstream server (i.e. a server that the API producer communicates with when fulfilling a request), it should respond with this response code. ", content = @Content(schema = @Schema(implementation = ProblemDetails2.class))) })
 	@RequestMapping(value = "/vnf_lcm_op_occs", produces = { "application/json" }, method = RequestMethod.GET)
 	ResponseEntity<String> vnfLcmOpOccsGet(
-			@Parameter(in = ParameterIn.QUERY, description = "Attribute-based filtering expression according to clause 5.2 of ETSI GS NFV-SOL 013 [8]. The VNFM shall support receiving this parameter as part of the URI query string. The NFVO may supply this parameter. All attribute names that appear in the VnfLcmOpOcc and in data types referenced from it shall be supported by the VNFM in the filter expression. ", schema = @Schema()) final MultiValueMap<String, String> requestParams,
+			@Parameter(in = ParameterIn.QUERY, description = "Attribute-based filtering expression according to clause 5.2 of ETSI GS NFV-SOL 013 [8]. The VNFM shall support receiving this parameter as part of the URI query string. The NFVO may supply this parameter. All attribute names that appear in the VnfLcmOpOcc and in data types referenced from it shall be supported by the VNFM in the filter expression. ", schema = @Schema()) @Nonnull @RequestParam final MultiValueMap<String, String> requestParams,
 			@Parameter(in = ParameterIn.QUERY, description = "Marker to obtain the next page of a paged response. Shall be supported by the VNFM if the VNFM supports alternative 2 (paging) according to clause 5.4.2.1 of ETSI GS NFV-SOL 013 [8] for this resource. ", schema = @Schema()) @Valid @RequestParam(value = "nextpage_opaque_marker", required = false) final String nextpageOpaqueMarker);
 
 	@Operation(summary = "", description = "The POST method initiates cancelling an ongoing VNF lifecycle operation while it is being executed or rolled back, i.e. the related \"Individual VNF LCM operation occurrence\" resource is either in \"STARTING\" or \"PROCESSING\" or \"ROLLING_BACK\" state. See clause 5.4.17.3.1. ", tags = {})
