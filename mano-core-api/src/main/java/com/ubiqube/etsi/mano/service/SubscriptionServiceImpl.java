@@ -124,6 +124,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 		case NS_PKG_ONDELETION -> "NsdDeletionNotification";
 		case NS_INSTANCE_CREATE -> "NsIdentifierCreationNotification";
 		case NS_INSTANCE_DELETE -> "NsIdentifierDeletionNotification";
+		case NS_INSTANTIATE -> "NsLcmOperationOccurrenceNotification";
+		case NS_TERMINATE -> "NsLcmOperationOccurrenceNotification";
 		case VNF_INSTANCE_DELETE -> "VnfIdentifierDeletionNotification";
 		case VNF_INSTANCE_CREATE -> "VnfIdentifierCreationNotification";
 		case VNF_INSTANCE_CHANGED -> "VnfLcmOperationOccurrenceNotification";
