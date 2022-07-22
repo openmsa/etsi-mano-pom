@@ -14,20 +14,25 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service.pkg.vnf;
+package com.ubiqube.etsi.mano.nfvo.service.pkg.ns.visitor;
 
+import java.util.Map;
+import java.util.Set;
+
+import org.springframework.stereotype.Service;
+
+import com.ubiqube.etsi.mano.dao.mano.NsSap;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
-import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+import com.ubiqube.etsi.mano.nfvo.service.pkg.ns.NsOnboardingVisitor;
 import com.ubiqube.etsi.mano.service.pkg.ns.NsPackageProvider;
 
-/**
- *
- * @author Olivier Vignaud <ovi@ubiqube.com>
- *
- */
-public interface CustomOnboarding {
+@Service
+public class SapVisitor implements NsOnboardingVisitor {
 
-	void handleArtifacts(VnfPackage vnfPackage, VnfPackageReader vnfPackageReader);
+	@Override
+	public void visit(final NsdPackage nsPackage, final NsPackageProvider packageProvider, final Map<String, String> userData) {
+		final Set<NsSap> nsSap = packageProvider.getNsSap(userData);
+		nsPackage.setNsSaps(nsSap);
+	}
 
-	void handleArtifacts(NsdPackage pkg, NsPackageProvider packageReader);
 }

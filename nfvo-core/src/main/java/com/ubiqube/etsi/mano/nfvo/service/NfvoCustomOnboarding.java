@@ -31,9 +31,11 @@ import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.Constants;
 import com.ubiqube.etsi.mano.dao.mano.AdditionalArtifact;
+import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
+import com.ubiqube.etsi.mano.service.pkg.ns.NsPackageProvider;
 import com.ubiqube.etsi.mano.service.pkg.vnf.CustomOnboarding;
 import com.ubiqube.etsi.mano.service.pkg.vnf.VnfPackageReader;
 
@@ -68,12 +70,12 @@ public class NfvoCustomOnboarding implements CustomOnboarding {
 		final UUID id = vnfPackage.getId();
 		addEntry(zipOut, artifact.getArtifactPath());
 		copyFile(zipOut, vnfPackageReader, id, artifact.getArtifactPath());
-		if (artifact.getSignature() != null && !cache.contains(artifact.getSignature())) {
+		if ((artifact.getSignature() != null) && !cache.contains(artifact.getSignature())) {
 			cache.add(artifact.getSignature());
 			addEntry(zipOut, artifact.getSignature());
 			copyFile(zipOut, vnfPackageReader, id, artifact.getSignature());
 		}
-		if (artifact.getCertificate() != null && !cache.contains(artifact.getCertificate())) {
+		if ((artifact.getCertificate() != null) && !cache.contains(artifact.getCertificate())) {
 			cache.add(artifact.getCertificate());
 			addEntry(zipOut, artifact.getCertificate());
 			copyFile(zipOut, vnfPackageReader, id, artifact.getCertificate());
@@ -108,6 +110,11 @@ public class NfvoCustomOnboarding implements CustomOnboarding {
 		} catch (final IOException e) {
 			throw new GenericException("Problem adding " + artifactPath + " to zip.", e);
 		}
+	}
+
+	@Override
+	public void handleArtifacts(final NsdPackage pkg, final NsPackageProvider packageReader) {
+		// Probably nothing to do.
 	}
 
 }

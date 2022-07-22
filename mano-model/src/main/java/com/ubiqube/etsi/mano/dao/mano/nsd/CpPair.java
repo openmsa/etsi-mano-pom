@@ -46,8 +46,15 @@ public class CpPair implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
 	private String toscaName;
+
+	/**
+	 * VNF toscanme on witch this element is pointing.
+	 */
+	private String vnf;
+
 	private String ingress;
 	private String ingressVl;
+
 	private String egress;
 	private String egressVl;
 

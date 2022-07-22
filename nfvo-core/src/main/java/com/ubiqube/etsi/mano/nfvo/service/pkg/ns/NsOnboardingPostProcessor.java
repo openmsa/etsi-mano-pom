@@ -14,20 +14,15 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service.pkg.vnf;
+package com.ubiqube.etsi.mano.nfvo.service.pkg.ns;
 
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
-import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
-import com.ubiqube.etsi.mano.service.pkg.ns.NsPackageProvider;
 
 /**
  *
- * @author Olivier Vignaud <ovi@ubiqube.com>
+ * @author olivier.vignaud
  *
  */
-public interface CustomOnboarding {
-
-	void handleArtifacts(VnfPackage vnfPackage, VnfPackageReader vnfPackageReader);
-
-	void handleArtifacts(NsdPackage pkg, NsPackageProvider packageReader);
+public interface NsOnboardingPostProcessor {
+	void visit(NsdPackage nsPackage);
 }
