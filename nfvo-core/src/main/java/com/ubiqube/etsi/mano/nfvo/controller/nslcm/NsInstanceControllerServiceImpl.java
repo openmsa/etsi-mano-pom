@@ -34,6 +34,12 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import javax.persistence.CascadeType;
+import javax.persistence.ElementCollection;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
 import org.eclipse.jdt.annotation.NonNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -49,8 +55,13 @@ import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
 import com.ubiqube.etsi.mano.dao.mano.dto.nsi.NsInstantiate;
 import com.ubiqube.etsi.mano.dao.mano.nfvo.NsVnfInstance;
+import com.ubiqube.etsi.mano.dao.mano.nsd.Classifier;
+import com.ubiqube.etsi.mano.dao.mano.nsd.CpPair;
 import com.ubiqube.etsi.mano.dao.mano.nsd.ForwarderMapping;
+import com.ubiqube.etsi.mano.dao.mano.nsd.NfpDescriptor;
 import com.ubiqube.etsi.mano.dao.mano.nsd.NsdVnfPackageCopy;
+import com.ubiqube.etsi.mano.dao.mano.nsd.VnffgDescriptor;
+import com.ubiqube.etsi.mano.dao.mano.nsd.VnffgInstance;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.NsHeal;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.NsScale;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.NsVnfScalingStepMapping;
@@ -123,8 +134,10 @@ public class NsInstanceControllerServiceImpl implements NsInstanceControllerServ
 	private void copyVnfInstances(final NsdPackage nsd, final NsdInstance nsInstanceTmp) {
 		final Set<NsdVnfPackageCopy> r = nsd.getVnfPkgIds().stream().map(this::copy).collect(Collectors.toSet());
 		nsInstanceTmp.setVnfPkgIds(r);
+		final Set<VnffgDescriptor> r1 = nsd.getVnffgs().stream().map(this::copyVnffg).collect(Collectors.toSet());
+		nsInstanceTmp.setVnffgs(r1);
 	}
-
+	
 	private NsdVnfPackageCopy copy(final NsdPackageVnfPackage o) {
 		final NsdVnfPackageCopy n = new NsdVnfPackageCopy();
 		n.setForwardMapping(copyForwardMapping(o.getForwardMapping()));
@@ -161,6 +174,45 @@ public class NsInstanceControllerServiceImpl implements NsInstanceControllerServ
 		final List<@NonNull ForwarderMapping> tmp = forwardMapping.stream().map(x -> mapper.map(x, ForwarderMapping.class)).toList();
 		tmp.forEach(x -> x.setId(null));
 		return tmp.stream().collect(Collectors.toSet());
+	}
+	private VnffgDescriptor copyVnffg(final VnffgDescriptor o) {
+		final VnffgDescriptor n = new VnffgDescriptor();
+		n.setId(null);
+		n.setName(o.getName());
+		n.setDescription(o.getDescription());
+		final Classifier c = mapper.map(o.getClassifier(), Classifier.class);
+		c.setId(null);
+		n.setClassifier(c);
+		n.setVnfProfileId(o.getVnfProfileId());
+		n.setPnfProfileId(o.getPnfProfileId());
+		n.setNestedNsProfileId(o.getNestedNsProfileId());
+		n.setVirtualLinkProfileId(o.getVirtualLinkProfileId());
+
+		n.setNfpd(copyNfpd(o.getNfpd()));
+		return n;
+	}
+	private List<NfpDescriptor> copyNfpd(final List<NfpDescriptor> nfpd) {
+		final List<NfpDescriptor> tmp = nfpd.stream().map(x -> mapper.map(x, NfpDescriptor.class)).toList();
+		tmp.forEach(x -> {
+			x.setId(null);
+			x.setInstances(copyVnffgInstance(x.getInstances()));
+		});
+		return tmp.stream().toList();
+	}
+	private List<VnffgInstance> copyVnffgInstance (final List<VnffgInstance> instance) {
+		final List<VnffgInstance> tmp = instance.stream().map(x -> mapper.map(x, VnffgInstance.class)).toList();
+		tmp.forEach(x -> {
+			x.setId(null);
+			x.setPairs(copyCpPair(x.getPairs()));
+		});
+		return tmp.stream().toList();
+	}
+	private List<CpPair> copyCpPair (final List<CpPair> pair) {
+		final List<CpPair> tmp = pair.stream().map(x -> mapper.map(x, CpPair.class)).toList();
+		tmp.forEach(x -> {
+			x.setId(null);
+		});
+		return tmp.stream().toList();
 	}
 
 	@Override

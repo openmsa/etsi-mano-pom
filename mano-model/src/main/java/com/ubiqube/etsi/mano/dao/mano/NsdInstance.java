@@ -37,6 +37,7 @@ import com.ubiqube.etsi.mano.dao.mano.dto.ParamsForNestedNsd;
 import com.ubiqube.etsi.mano.dao.mano.nfvo.NsVnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.nfvo.ParamsForVnf;
 import com.ubiqube.etsi.mano.dao.mano.nsd.NsdVnfPackageCopy;
+import com.ubiqube.etsi.mano.dao.mano.nsd.VnffgDescriptor;
 import com.ubiqube.etsi.mano.dao.mano.nsd.wan.WanConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 
@@ -115,6 +116,9 @@ public class NsdInstance extends Instance {
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<NsdVnfPackageCopy> vnfPkgIds;
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Set<VnffgDescriptor> vnffgs;
 
 	public void addNestedNsInstance(final NsdInstance nsIn) {
 		if (null == nestedNsInstance) {
