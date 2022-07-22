@@ -16,9 +16,12 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.uow;
 
+import java.util.List;
+
 import com.ubiqube.etsi.mano.dao.mano.SubNetworkTask;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.orchestrator.Context;
+import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SubNetwork;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
@@ -32,18 +35,19 @@ import com.ubiqube.etsi.mano.service.vim.Vim;
 public class VnfSubnetworkUowV2 extends AbstractUowV2<SubNetworkTask> {
 	private final Vim vim;
 	private final VimConnectionInformation vimConnectionInformation;
+	private final SubNetworkTask task;
 
 	public VnfSubnetworkUowV2(final VirtualTask<SubNetworkTask> task, final Vim vim, final VimConnectionInformation vimConnectionInformation) {
 		super(task, SubNetwork.class);
 		this.vim = vim;
 		this.vimConnectionInformation = vimConnectionInformation;
+		this.task = task.getParameters();
 	}
 
 	@Override
 	public String execute(final Context context) {
-		final SubNetworkTask params = getTask().getParameters();
-		final String networkId = context.get(Network.class, params.getParentName());
-		return vim.network(vimConnectionInformation).createSubnet(params.getL3Data(), params.getIpPool(), networkId);
+		final String networkId = context.get(Network.class, task.getParentName());
+		return vim.network(vimConnectionInformation).createSubnet(task.getL3Data(), task.getIpPool(), networkId);
 	}
 
 	@Override
@@ -51,6 +55,16 @@ public class VnfSubnetworkUowV2 extends AbstractUowV2<SubNetworkTask> {
 		// params.getVim().deleteSubnet(params.getVimConnectionInformation(),
 		// params.getVimResourceId());
 		return null;
+	}
+
+	@Override
+	public List<NamedDependency> getNameDependencies() {
+		return List.of(new NamedDependency(Network.class, task.getParentName()));
+	}
+
+	@Override
+	public List<NamedDependency> getNamedProduced() {
+		return List.of(new NamedDependency(SubNetwork.class, task.getToscaName()));
 	}
 
 }

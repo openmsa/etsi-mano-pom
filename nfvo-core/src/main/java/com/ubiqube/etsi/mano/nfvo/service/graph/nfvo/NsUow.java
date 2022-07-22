@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service.graph.nfvo;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.function.BiFunction;
 
@@ -30,7 +31,9 @@ import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsdTask;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.model.VnfInstantiate;
 import com.ubiqube.etsi.mano.orchestrator.Context;
+import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.NsdInstantiateNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfInstantiateNode;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
 import com.ubiqube.etsi.mano.service.graph.AbstractUnitOfWork;
 
@@ -90,6 +93,16 @@ public class NsUow extends AbstractUnitOfWork<NsdTask> {
 			throw new GenericException("NSD LCM Failed: " + result.getError().getDetail());
 		}
 		return lcm.getId().toString();
+	}
+
+	@Override
+	public List<NamedDependency> getNameDependencies() {
+		return List.of();
+	}
+
+	@Override
+	public List<NamedDependency> getNamedProduced() {
+		return List.of(new NamedDependency(VnfInstantiateNode.class, nsdTask.getAlias()));
 	}
 
 }

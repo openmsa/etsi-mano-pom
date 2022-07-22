@@ -92,7 +92,7 @@ public class VnfContributor extends AbstractNsContributor<NsVnfTask, NsVtBase<Ns
 		final Set<ExternalPortRecord> ret = new HashSet<>();
 		final Set<ExternalPortRecord> n = vnfPackage.getVnfCompute().stream()
 				.flatMap(y -> y.getNetworks().stream())
-				.map(y -> new ExternalPortRecord(y, null))
+				.map(y -> new ExternalPortRecord(y, null, null))
 				.collect(Collectors.toSet());
 		ret.addAll(n);
 		return ret;
@@ -105,10 +105,10 @@ public class VnfContributor extends AbstractNsContributor<NsVnfTask, NsVtBase<Ns
 				.flatMap(x -> x.getInstances().stream())
 				.flatMap(x -> x.getPairs().stream()).forEach(x -> {
 					if (null != x.getEgressVl()) {
-						ret.add(new ExternalPortRecord(x.getEgressVl(), null));
+						ret.add(new ExternalPortRecord(x.getEgressVl(), null, x.getEgressVl()));
 					}
 					if (null != x.getIngressVl()) {
-						ret.add(new ExternalPortRecord(x.getIngressVl(), null));
+						ret.add(new ExternalPortRecord(x.getIngressVl(), null, x.getIngressVl()));
 					}
 				});
 		return List.of();
@@ -126,9 +126,10 @@ public class VnfContributor extends AbstractNsContributor<NsVnfTask, NsVtBase<Ns
 				nsLiveInstanceJpa.delete(nsLiveInstance);
 				continue;
 			}
-			final String toscaName = getToscaName(nsLiveInstance.getNsTask().getAlias(), i++);
+			final String toscaName = getToscaName(nsLiveInstance.getNsTask().getAlias(), i);
 			final String aliasName = getToscaName(insts.get(i).getNsTask().getToscaName(), i);
 			final NsVnfTask nt = createVnfDeleteTask(nsLiveInstance, task, instance, toscaName, aliasName);
+			i++;
 			ret.add(new NsVnfCreateVt(nt));
 		}
 		return ret;
@@ -138,7 +139,7 @@ public class VnfContributor extends AbstractNsContributor<NsVnfTask, NsVtBase<Ns
 		final NsVnfTask nt = createDeleteTask(NsVnfTask::new, nsLiveInstance);
 		final Set<ExternalPortRecord> nets = task.getNsPackageVnfPackage().getVirtualLinks().stream()
 				.filter(x -> x.getValue() != null)
-				.map(x -> new ExternalPortRecord(x.getValue(), null))
+				.map(x -> new ExternalPortRecord(x.getValue(), null, null))
 				.collect(Collectors.toSet());
 		nt.setExternalNetworks(nets);
 		nt.setVimResourceId(nsLiveInstance.getResourceId());
@@ -148,6 +149,7 @@ public class VnfContributor extends AbstractNsContributor<NsVnfTask, NsVtBase<Ns
 		nt.setType(ResourceTypeEnum.VNF);
 		nt.setNsdId(instance.getNsdInfo().getId());
 		nt.setNsPackageVnfPackage(task.getNsPackageVnfPackage());
+		nt.setVnfdId(task.getVnfdId());
 		return nt;
 	}
 
@@ -216,7 +218,7 @@ public class VnfContributor extends AbstractNsContributor<NsVnfTask, NsVtBase<Ns
 	private static Set<ExternalPortRecord> getVl(final NsdPackageVnfPackage nsPackageVnfPackage) {
 		return nsPackageVnfPackage.getVirtualLinks().stream()
 				.filter(x -> x.getValue() != null)
-				.map(x -> new ExternalPortRecord(x.getValue(), getVlName(x)))
+				.map(x -> new ExternalPortRecord(x.getValue(), getVlName(x), null))
 				.collect(Collectors.toSet());
 	}
 

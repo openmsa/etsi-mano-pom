@@ -64,6 +64,7 @@ public class NsVnfCreateSystem extends AbstractVimSystem<NsVnfTask> {
 		final NsVnfInstantiateTask nt = new NsVnfInstantiateTask();
 		final NsVnfTask p = virtualTask.getParameters();
 		nt.setAlias(p.getAlias());
+		nt.setVnfPackage(p.getNsPackageVnfPackage());
 		nt.setChangeType(p.getChangeType());
 		nt.setExternalNetworks(p.getExternalNetworks());
 		nt.setFlavourId(p.getFlavourId());

@@ -16,9 +16,12 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.uow;
 
+import java.util.List;
+
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.SecurityGroupTask;
 import com.ubiqube.etsi.mano.orchestrator.Context;
+import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SecurityGroupNode;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
 import com.ubiqube.etsi.mano.service.vim.Vim;
@@ -31,11 +34,11 @@ import com.ubiqube.etsi.mano.service.vim.Vim;
 public class SecurityGroupUowV2 extends AbstractUowV2<SecurityGroupTask> {
 	private final Vim vim;
 	private final VimConnectionInformation vimConnectionInformation;
-	private final VirtualTask<SecurityGroupTask> task;
+	private final SecurityGroupTask task;
 
 	public SecurityGroupUowV2(final VirtualTask<SecurityGroupTask> task, final Vim vim, final VimConnectionInformation vimConnectionInformation) {
 		super(task, SecurityGroupNode.class);
-		this.task = task;
+		this.task = task.getParameters();
 		this.vim = vim;
 		this.vimConnectionInformation = vimConnectionInformation;
 	}
@@ -47,8 +50,18 @@ public class SecurityGroupUowV2 extends AbstractUowV2<SecurityGroupTask> {
 
 	@Override
 	public String rollback(final Context context) {
-		vim.network(vimConnectionInformation).deleteSecurityGroup(task.getParameters().getVimResourceId());
+		vim.network(vimConnectionInformation).deleteSecurityGroup(task.getVimResourceId());
 		return null;
+	}
+
+	@Override
+	public List<NamedDependency> getNameDependencies() {
+		return List.of();
+	}
+
+	@Override
+	public List<NamedDependency> getNamedProduced() {
+		return List.of(new NamedDependency(getNode(), task.getToscaName()));
 	}
 
 }

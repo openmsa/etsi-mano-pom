@@ -16,9 +16,12 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.uow;
 
+import java.util.List;
+
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.v2.StorageTask;
 import com.ubiqube.etsi.mano.orchestrator.Context;
+import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Storage;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
 import com.ubiqube.etsi.mano.service.vim.Vim;
@@ -31,17 +34,18 @@ import com.ubiqube.etsi.mano.service.vim.Vim;
 public class VnfStorageUowV2 extends AbstractUowV2<StorageTask> {
 	private final Vim vim;
 	private final VimConnectionInformation vimConnectionInformation;
+	private final StorageTask task;
 
 	public VnfStorageUowV2(final VirtualTask<StorageTask> task, final Vim vim, final VimConnectionInformation vimConnectionInformation) {
 		super(task, Storage.class);
 		this.vim = vim;
 		this.vimConnectionInformation = vimConnectionInformation;
+		this.task = task.getParameters();
 	}
 
 	@Override
 	public String execute(final Context context) {
-		final StorageTask params = getTask().getParameters();
-		return vim.storage(vimConnectionInformation).createStorage(params.getVnfStorage(), params.getAlias());
+		return vim.storage(vimConnectionInformation).createStorage(task.getVnfStorage(), task.getAlias());
 	}
 
 	@Override
@@ -49,6 +53,16 @@ public class VnfStorageUowV2 extends AbstractUowV2<StorageTask> {
 		final StorageTask params = getTask().getParameters();
 		vim.storage(vimConnectionInformation).deleteStorage(params.getVimResourceId());
 		return null;
+	}
+
+	@Override
+	public List<NamedDependency> getNameDependencies() {
+		return List.of();
+	}
+
+	@Override
+	public List<NamedDependency> getNamedProduced() {
+		return List.of(new NamedDependency(getNode(), task.getToscaName()));
 	}
 
 }

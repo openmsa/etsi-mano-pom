@@ -47,9 +47,11 @@ public class ExternalPortRecord implements Serializable {
 	private UUID id;
 	private String toscaName;
 	private String virtualLinkPort;
+	private String virtualLink;
 
-	public ExternalPortRecord(final String toscaName, final String virtualLink) {
+	public ExternalPortRecord(final String toscaName, final String virtualLinkPort, final String virtualLink) {
 		this.toscaName = toscaName;
-		this.virtualLinkPort = virtualLink;
+		this.virtualLinkPort = virtualLinkPort;
+		this.virtualLink = virtualLink;
 	}
 }

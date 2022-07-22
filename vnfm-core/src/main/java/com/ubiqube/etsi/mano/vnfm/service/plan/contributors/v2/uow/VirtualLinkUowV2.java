@@ -16,10 +16,13 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.uow;
 
+import java.util.List;
+
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.VlProtocolData;
 import com.ubiqube.etsi.mano.dao.mano.v2.NetworkTask;
 import com.ubiqube.etsi.mano.orchestrator.Context;
+import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.DnsZone;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
@@ -34,19 +37,20 @@ public class VirtualLinkUowV2 extends AbstractUowV2<NetworkTask> {
 	private final Vim vim;
 	private final VimConnectionInformation vimConnectionInformation;
 	private final VlProtocolData vlProtocolData;
+	private final NetworkTask task;
 
 	public VirtualLinkUowV2(final VirtualTask<NetworkTask> task, final Vim vim, final VimConnectionInformation vimConnectionInformation) {
 		super(task, Network.class);
 		this.vim = vim;
 		this.vimConnectionInformation = vimConnectionInformation;
+		this.task = task.getParameters();
 		vlProtocolData = task.getParameters().getVnfVl().getVlProfileEntity().getVirtualLinkProtocolData().iterator().next();
 	}
 
 	@Override
 	public String execute(final Context context) {
-		final NetworkTask params = getTask().getParameters();
 		final String domainName = context.get(DnsZone.class, getTask().getParameters().getToscaName());
-		return vim.network(vimConnectionInformation).createNetwork(vlProtocolData, params.getAlias(), domainName, params.getQosPolicy());
+		return vim.network(vimConnectionInformation).createNetwork(vlProtocolData, task.getAlias(), domainName, task.getQosPolicy());
 	}
 
 	@Override
@@ -54,6 +58,16 @@ public class VirtualLinkUowV2 extends AbstractUowV2<NetworkTask> {
 		final NetworkTask params = getTask().getParameters();
 		vim.network(vimConnectionInformation).deleteVirtualLink(params.getVimResourceId());
 		return null;
+	}
+
+	@Override
+	public List<NamedDependency> getNameDependencies() {
+		return List.of();
+	}
+
+	@Override
+	public List<NamedDependency> getNamedProduced() {
+		return List.of(new NamedDependency(getNode(), task.getToscaName()));
 	}
 
 }

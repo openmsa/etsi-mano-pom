@@ -16,11 +16,14 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.uow;
 
+import java.util.List;
+
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainer;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerTask;
 import com.ubiqube.etsi.mano.dao.mano.vnfi.CnfInformations;
 import com.ubiqube.etsi.mano.orchestrator.Context;
+import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerNode;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
 import com.ubiqube.etsi.mano.service.vim.CnfK8sParams;
@@ -34,19 +37,19 @@ import com.ubiqube.etsi.mano.service.vim.Vim;
 public class OsContainerUow extends AbstractUowV2<OsContainerTask> {
 	private final Vim vim;
 	private final VimConnectionInformation vimConnectionInformation;
-	private final VirtualTask<OsContainerTask> task;
+	private final OsContainerTask task;
 
 	public OsContainerUow(final VirtualTask<OsContainerTask> task, final Vim vim, final VimConnectionInformation vimConnectionInformation) {
 		super(task, OsContainerNode.class);
 		this.vim = vim;
 		this.vimConnectionInformation = vimConnectionInformation;
-		this.task = task;
+		this.task = task.getParameters();
 	}
 
 	@Override
 	public String execute(final Context context) {
 		final CnfInformations cnfi = vimConnectionInformation.getCnfInfo();
-		final OsContainer osc = task.getParameters().getOsContainer();
+		final OsContainer osc = task.getOsContainer();
 		osc.getCpuResourceLimit();
 		osc.getEphemeralStorageResourceLimit();
 		osc.getExtendedResourceRequests();
@@ -72,8 +75,18 @@ public class OsContainerUow extends AbstractUowV2<OsContainerTask> {
 
 	@Override
 	public String rollback(final Context context) {
-		vim.cnf(vimConnectionInformation).deleteContainer(task.getParameters().getVimResourceId());
+		vim.cnf(vimConnectionInformation).deleteContainer(task.getVimResourceId());
 		return null;
+	}
+
+	@Override
+	public List<NamedDependency> getNameDependencies() {
+		return List.of();
+	}
+
+	@Override
+	public List<NamedDependency> getNamedProduced() {
+		return List.of(new NamedDependency(getNode(), task.getToscaName()));
 	}
 
 }

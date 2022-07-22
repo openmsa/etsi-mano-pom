@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.uow;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -23,8 +24,10 @@ import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.VnfLinkPort;
 import com.ubiqube.etsi.mano.dao.mano.v2.ComputeTask;
 import com.ubiqube.etsi.mano.orchestrator.Context;
+import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.AffinityRuleNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Compute;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.DnsHost;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SecurityGroupNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Storage;
@@ -42,46 +45,46 @@ public class VnfComputeUowV2 extends AbstractUowV2<ComputeTask> {
 
 	private final Vim vim;
 	private final VimConnectionInformation vimConnectionInformation;
+	private final ComputeTask task;
 
 	public VnfComputeUowV2(final VirtualTask<ComputeTask> task, final Vim vim, final VimConnectionInformation vimConnectionInformation) {
 		super(task, Compute.class);
 		this.vim = vim;
 		this.vimConnectionInformation = vimConnectionInformation;
+		this.task = task.getParameters();
 	}
 
 	@Override
 	public String execute(final Context context) {
-		final ComputeTask t = getTask().getParameters();
-
-		final List<String> storages = getTask().getParameters().getVnfCompute().getStorages().stream()
+		final List<String> storages = task.getVnfCompute().getStorages().stream()
 				.map(x -> context.getParent(Storage.class, x + "-" + getTask().getAlias()))
 				.flatMap(List::stream)
 				.toList();
-		final List<String> net = t.getVnfCompute().getNetworks().stream()
+		final List<String> net = task.getVnfCompute().getNetworks().stream()
 				.map(x -> context.getParent(Network.class, x))
 				.flatMap(List::stream)
 				.toList();
-		final List<String> affinity = t.getVnfCompute().getAffinityRule().stream()
+		final List<String> affinity = task.getVnfCompute().getAffinityRule().stream()
 				.map(x -> context.getParent(AffinityRuleNode.class, x))
 				.flatMap(List::stream)
 				.toList();
-		final List<String> security = t.getVnfCompute().getSecurityGroup().stream()
+		final List<String> security = task.getVnfCompute().getSecurityGroup().stream()
 				.map(x -> context.getParent(SecurityGroupNode.class, x))
 				.flatMap(List::stream)
 				.toList();
-		final List<String> ports = t.getVnfCompute().getPorts().stream()
+		final List<String> ports = task.getVnfCompute().getPorts().stream()
 				.sorted(Comparator.comparingInt(VnfLinkPort::getInterfaceOrder))
 				.map(x -> context.getParent(VnfPortNode.class, x.getToscaName() + "-" + getTask().getAlias()))
 				.flatMap(List::stream)
 				.toList();
 		final ComputeParameters computeParams = ComputeParameters.builder()
 				.vimConnectionInformation(vimConnectionInformation)
-				.instanceName(t.getAlias())
-				.flavorId(t.getFlavorId())
-				.imageId(t.getImageId())
+				.instanceName(task.getAlias())
+				.flavorId(task.getFlavorId())
+				.imageId(task.getImageId())
 				.networks(net)
 				.storages(storages)
-				.cloudInitData(t.getVnfCompute().getCloudInit())
+				.cloudInitData(task.getVnfCompute().getCloudInit())
 				.securityGroup(security)
 				.affinityRules(affinity)
 				.portsId(ports)
@@ -94,6 +97,34 @@ public class VnfComputeUowV2 extends AbstractUowV2<ComputeTask> {
 		final ComputeTask t = getTask().getParameters();
 		vim.deleteCompute(vimConnectionInformation, t.getVimResourceId());
 		return null;
+	}
+
+	@Override
+	public List<NamedDependency> getNameDependencies() {
+		final List<NamedDependency> ret = new ArrayList<>();
+		task.getVnfCompute().getStorages().stream()
+				.map(x -> new NamedDependency(Storage.class, x + "-" + getTask().getAlias()))
+				.forEach(ret::add);
+		task.getVnfCompute().getNetworks().stream()
+				.map(x -> new NamedDependency(Network.class, x))
+				.forEach(ret::add);
+		task.getVnfCompute().getAffinityRule().stream()
+				.map(x -> new NamedDependency(AffinityRuleNode.class, x))
+				.forEach(ret::add);
+		task.getVnfCompute().getSecurityGroup().stream()
+				.map(x -> new NamedDependency(SecurityGroupNode.class, x))
+				.forEach(ret::add);
+		task.getVnfCompute().getPorts().stream()
+				.sorted(Comparator.comparingInt(VnfLinkPort::getInterfaceOrder))
+				.map(x -> new NamedDependency(VnfPortNode.class, x.getToscaName() + "-" + getTask().getAlias()))
+				.forEach(ret::add);
+		ret.add(new NamedDependency(DnsHost.class, task.getToscaName()));
+		return ret;
+	}
+
+	@Override
+	public List<NamedDependency> getNamedProduced() {
+		return List.of(new NamedDependency(getNode(), task.getAlias()));
 	}
 
 }

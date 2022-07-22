@@ -16,6 +16,8 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service.graph.nfvo;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -29,8 +31,10 @@ import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.VnfContextExtractorTask;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.orchestrator.Context;
+import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
 import com.ubiqube.etsi.mano.orchestrator.nodes.mec.VnfContextExtractorNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfCreateNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfInstantiateNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfPortNode;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
 import com.ubiqube.etsi.mano.service.VnfmInterface;
@@ -43,14 +47,16 @@ import com.ubiqube.etsi.mano.service.graph.AbstractUnitOfWork;
  *
  */
 public class VnfContextExtractorUow extends AbstractUnitOfWork<VnfContextExtractorTask> {
-	Pattern pVl = Pattern.compile("virtual_link_(?<idx>\\d+)");
+	private static final Pattern pVl = Pattern.compile("virtual_link_(?<idx>\\d+)");
 	private final VnfmInterface vnfm;
 	private final NsdPackage pack;
+	private final VnfContextExtractorTask task;
 
 	public VnfContextExtractorUow(final VirtualTask<VnfContextExtractorTask> task, final VnfmInterface vnfm, final NsdPackage pack) {
 		super(task, VnfContextExtractorNode.class);
 		this.vnfm = vnfm;
 		this.pack = pack;
+		this.task = task.getParameters();
 	}
 
 	@Override
@@ -118,6 +124,24 @@ public class VnfContextExtractorUow extends AbstractUnitOfWork<VnfContextExtract
 	public String rollback(final Context context) {
 		// Nothing.
 		return null;
+	}
+
+	@Override
+	public List<NamedDependency> getNameDependencies() {
+		return List.of(new NamedDependency(VnfInstantiateNode.class, task.getToscaName()));
+	}
+
+	@Override
+	public List<NamedDependency> getNamedProduced() {
+		final List<NamedDependency> ret = new ArrayList<>();
+		final NsdPackageVnfPackage vnfd = findVnfd(task.getVnfdId());
+		vnfd.getVirtualLinks().stream()
+				.map(ListKeyPair::getValue)
+				.filter(Objects::nonNull)
+				.map(x -> new NamedDependency(VnfPortNode.class, x))
+				.forEach(ret::add);
+		ret.add(new NamedDependency(VnfInstantiateNode.class, task.getToscaName()));
+		return ret;
 	}
 
 }

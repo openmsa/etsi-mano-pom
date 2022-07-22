@@ -31,7 +31,6 @@ public abstract class AbstractUowV2<U> implements UnitOfWork<U> {
 	private final Class<? extends Node> node;
 
 	protected AbstractUowV2(final VirtualTask<U> task, final Class<? extends Node> node) {
-		super();
 		this.task = task;
 		this.node = node;
 	}
@@ -44,5 +43,10 @@ public abstract class AbstractUowV2<U> implements UnitOfWork<U> {
 	@Override
 	public final Class<? extends Node> getNode() {
 		return node;
+	}
+
+	@Override
+	public String toString() {
+		return task.getName() + " " + node.getSimpleName();
 	}
 }

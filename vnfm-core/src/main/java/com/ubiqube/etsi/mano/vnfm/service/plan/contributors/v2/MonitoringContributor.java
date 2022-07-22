@@ -49,7 +49,6 @@ public class MonitoringContributor extends AbstractContributorV2Base<MonitoringT
 	private final VnfLiveInstanceJpa vnfLiveInstanceJpa;
 
 	public MonitoringContributor(final VnfLiveInstanceJpa vnfLiveInstanceJpa) {
-		super();
 		this.vnfLiveInstanceJpa = vnfLiveInstanceJpa;
 	}
 
@@ -85,8 +84,8 @@ public class MonitoringContributor extends AbstractContributorV2Base<MonitoringT
 			}
 			final MonitoringTask task = createTask(MonitoringTask::new);
 			task.setType(ResourceTypeEnum.MONITORING);
-			task.setToscaName(x.getToscaName() + "-" + x.getAlias());
-			task.setAlias(x.getToscaName() + "-" + x.getAlias());
+			task.setToscaName("mon-" + x.getAlias());
+			task.setAlias("mon-" + x.getAlias());
 			task.setParentAlias(x.getAlias());
 			task.setMonitoringParams(y);
 			task.setVnfCompute(x.getVnfCompute());
@@ -98,7 +97,7 @@ public class MonitoringContributor extends AbstractContributorV2Base<MonitoringT
 		final List<VnfLiveInstance> vs = vnfLiveInstanceJpa.findByVnfInstanceIdAndClass(vnfInstance, MonitoringTask.class.getSimpleName());
 		int i = 0;
 		for (final VnfLiveInstance vnfLiveInstance : vs) {
-			if (vnfLiveInstance.getTask()instanceof final MonitoringTask t && t.getParentAlias().equals(alias)) {
+			if (vnfLiveInstance.getTask() instanceof final MonitoringTask t && t.getParentAlias().equals(alias)) {
 				i++;
 			}
 		}
@@ -112,6 +111,7 @@ public class MonitoringContributor extends AbstractContributorV2Base<MonitoringT
 			task.setType(ResourceTypeEnum.MONITORING);
 			task.setRemovedLiveInstance(x.getId());
 			task.setVnfCompute(computeTask.getVnfCompute());
+			task.setParentAlias(x.getTask().getAlias());
 			ret.add(new MonitoringVt(task));
 		});
 
@@ -135,6 +135,7 @@ public class MonitoringContributor extends AbstractContributorV2Base<MonitoringT
 			task.setRemovedLiveInstance(x.getId());
 			final MonitoringTask mt = (MonitoringTask) x.getTask();
 			task.setVnfCompute(mt.getVnfCompute());
+			task.setParentAlias(x.getTask().getAlias());
 			return new MonitoringVt(task);
 		}).toList();
 	}

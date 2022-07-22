@@ -16,11 +16,14 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.uow;
 
+import java.util.List;
+
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerDeployableTask;
 import com.ubiqube.etsi.mano.dao.mano.vnfi.StatusType;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.orchestrator.Context;
+import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerDeployableNode;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
 import com.ubiqube.etsi.mano.service.vim.K8sStatus;
@@ -36,12 +39,14 @@ public class WaitK8sClusterUow extends AbstractUowV2<OsContainerDeployableTask> 
 	private final VimConnectionInformation vimConnectionInformation;
 	private final Vim vim;
 	private final String toscaName;
+	private final OsContainerDeployableTask task;
 
 	protected WaitK8sClusterUow(final VirtualTask<OsContainerDeployableTask> task, final Vim vim, final VimConnectionInformation vimConnectionInformation) {
 		super(task, OsContainerDeployableNode.class);
 		this.vim = vim;
 		this.vimConnectionInformation = vimConnectionInformation;
 		this.toscaName = task.getName();
+		this.task = task.getParameters();
 	}
 
 	@Override
@@ -63,8 +68,18 @@ public class WaitK8sClusterUow extends AbstractUowV2<OsContainerDeployableTask> 
 
 	@Override
 	public String rollback(final Context context) {
-		// TODO Auto-generated method stub
+		// Nothing.
 		return null;
+	}
+
+	@Override
+	public List<NamedDependency> getNameDependencies() {
+		return List.of(new NamedDependency(OsContainerDeployableNode.class, toscaName));
+	}
+
+	@Override
+	public List<NamedDependency> getNamedProduced() {
+		return List.of(new NamedDependency(getNode(), toscaName));
 	}
 
 }

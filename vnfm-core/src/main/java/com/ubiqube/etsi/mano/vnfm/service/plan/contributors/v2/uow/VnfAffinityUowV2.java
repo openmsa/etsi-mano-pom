@@ -16,10 +16,13 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.uow;
 
+import java.util.List;
+
 import com.ubiqube.etsi.mano.dao.mano.AffinityRule;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.AffinityRuleTask;
 import com.ubiqube.etsi.mano.orchestrator.Context;
+import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.AffinityRuleNode;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
 import com.ubiqube.etsi.mano.service.vim.Vim;
@@ -34,25 +37,35 @@ public class VnfAffinityUowV2 extends AbstractUowV2<AffinityRuleTask> {
 	private final Vim vim;
 	private final VimConnectionInformation vimConnectionInformation;
 
-	private final VirtualTask<AffinityRuleTask> task;
+	private final AffinityRuleTask task;
 
 	public VnfAffinityUowV2(final VirtualTask<AffinityRuleTask> task, final Vim vim, final VimConnectionInformation vimConnectionInformation) {
 		super(task, AffinityRuleNode.class);
 		this.vim = vim;
 		this.vimConnectionInformation = vimConnectionInformation;
-		this.task = task;
+		this.task = task.getParameters();
 	}
 
 	@Override
 	public String execute(final Context context) {
-		final AffinityRule affinityRule = task.getParameters().getAffinityRule();
+		final AffinityRule affinityRule = task.getAffinityRule();
 		return vim.createServerGroup(vimConnectionInformation, affinityRule);
 	}
 
 	@Override
 	public String rollback(final Context context) {
-		vim.deleteServerGroup(vimConnectionInformation, task.getParameters().getVimResourceId());
+		vim.deleteServerGroup(vimConnectionInformation, task.getVimResourceId());
 		return null;
+	}
+
+	@Override
+	public List<NamedDependency> getNameDependencies() {
+		return List.of();
+	}
+
+	@Override
+	public List<NamedDependency> getNamedProduced() {
+		return List.of(new NamedDependency(getNode(), task.getToscaName()));
 	}
 
 }

@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service.graph.nfvo;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -30,6 +31,7 @@ import com.ubiqube.etsi.mano.dao.mano.InstantiationState;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.common.FailureDetails;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
+import com.ubiqube.etsi.mano.dao.mano.nsd.ForwarderMapping;
 import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.ExternalPortRecord;
@@ -38,6 +40,8 @@ import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.model.ExternalManagedVirtualLink;
 import com.ubiqube.etsi.mano.model.VnfInstantiate;
 import com.ubiqube.etsi.mano.orchestrator.Context;
+import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
+import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.PortPairNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfCreateNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfInstantiateNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
@@ -133,5 +137,29 @@ public class VnfInstantiateUow extends AbstractUnitOfWork<NsVnfInstantiateTask> 
 			throw new GenericException("VNF LCM Failed: " + result.getError().getDetail());
 		}
 		return result.getId().toString();
+	}
+
+	@Override
+	public List<NamedDependency> getNameDependencies() {
+		final List<NamedDependency> ret = new ArrayList<>();
+		ret.add(new NamedDependency(VnfCreateNode.class, task.getAlias()));
+		task.getExternalNetworks().stream().forEach(x -> {
+			ret.add(new NamedDependency(PortPairNode.class, x.getToscaName()));
+			ret.add(new NamedDependency(Network.class, resolvName(x.getToscaName())));
+		});
+		return ret;
+	}
+
+	@Override
+	public List<NamedDependency> getNamedProduced() {
+		return List.of(new NamedDependency(getNode(), task.getAlias()));
+	}
+
+	private String resolvName(final String toscaName) {
+		return task.getVnfPackage().getForwardMapping().stream()
+				.filter(x -> x.getForwardingName().equals(toscaName))
+				.findFirst()
+				.map(ForwarderMapping::getVlName)
+				.orElse(toscaName);
 	}
 }

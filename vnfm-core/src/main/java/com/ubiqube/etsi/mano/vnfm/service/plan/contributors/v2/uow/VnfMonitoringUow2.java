@@ -21,6 +21,7 @@ import java.util.List;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.v2.MonitoringTask;
 import com.ubiqube.etsi.mano.orchestrator.Context;
+import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Compute;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Monitoring;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
@@ -34,19 +35,20 @@ import com.ubiqube.etsi.mano.vnfm.service.VnfMonitoringService;
 public class VnfMonitoringUow2 extends AbstractUowV2<MonitoringTask> {
 	private final VnfMonitoringService vnfMonitoringService;
 	private final VimConnectionInformation vimConnectionInformation;
+	private final MonitoringTask task;
 
 	public VnfMonitoringUow2(final VirtualTask<MonitoringTask> task, final VnfMonitoringService vnfMonitoringService, final VimConnectionInformation vimConnectionInformation) {
 		super(task, Monitoring.class);
 		this.vnfMonitoringService = vnfMonitoringService;
 		this.vimConnectionInformation = vimConnectionInformation;
+		this.task = task.getParameters();
 	}
 
 	@Override
 	public String execute(final Context context) {
-		final MonitoringTask params = getTask().getParameters();
-		final List<String> l = context.getParent(Compute.class, params.getVnfCompute().getToscaName());
+		final List<String> l = context.getParent(Compute.class, task.getVnfCompute().getToscaName());
 		final String instanceId = l.get(0);
-		return vnfMonitoringService.registerMonitoring(instanceId, params.getMonitoringParams(), vimConnectionInformation);
+		return vnfMonitoringService.registerMonitoring(instanceId, task.getMonitoringParams(), vimConnectionInformation);
 	}
 
 	@Override
@@ -54,6 +56,16 @@ public class VnfMonitoringUow2 extends AbstractUowV2<MonitoringTask> {
 		final MonitoringTask params = getTask().getParameters();
 		vnfMonitoringService.unregister(params.getVimResourceId());
 		return null;
+	}
+
+	@Override
+	public List<NamedDependency> getNameDependencies() {
+		return List.of(new NamedDependency(Compute.class, task.getParentAlias()));
+	}
+
+	@Override
+	public List<NamedDependency> getNamedProduced() {
+		return List.of(new NamedDependency(getNode(), task.getToscaName()));
 	}
 
 }

@@ -16,9 +16,13 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.uow;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.v2.ExternalCpTask;
 import com.ubiqube.etsi.mano.orchestrator.Context;
+import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfExtCp;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
@@ -32,19 +36,21 @@ import com.ubiqube.etsi.mano.service.vim.Vim;
 public class VnfExtCpUowV2 extends AbstractUowV2<ExternalCpTask> {
 	private final Vim vim;
 	private final VimConnectionInformation vimConnectionInformation;
+	private final ExternalCpTask task;
 
 	public VnfExtCpUowV2(final VirtualTask<ExternalCpTask> task, final Vim vim, final VimConnectionInformation vimConnectionInformation) {
 		super(task, VnfExtCp.class);
 		this.vim = vim;
 		this.vimConnectionInformation = vimConnectionInformation;
+		this.task = task.getParameters();
 	}
 
 	@Override
 	public String execute(final Context context) {
-		final com.ubiqube.etsi.mano.dao.mano.VnfExtCp extCp = getTask().getParameters().getVnfExtCp();
+		final com.ubiqube.etsi.mano.dao.mano.VnfExtCp extCp = task.getVnfExtCp();
 		final String networkId = context.get(Network.class, extCp.getInternalVirtualLink());
 		final String extNetwork = context.get(Network.class, extCp.getExternalVirtualLink());
-		return vim.network(vimConnectionInformation).createRouter(getTask().getParameters().getAlias(), networkId, extNetwork);
+		return vim.network(vimConnectionInformation).createRouter(task.getAlias(), networkId, extNetwork);
 	}
 
 	@Override
@@ -52,6 +58,20 @@ public class VnfExtCpUowV2 extends AbstractUowV2<ExternalCpTask> {
 		final ExternalCpTask param = getTask().getParameters();
 		vim.network(vimConnectionInformation).deleteRouter(param.getVimResourceId());
 		return null;
+	}
+
+	@Override
+	public List<NamedDependency> getNameDependencies() {
+		final com.ubiqube.etsi.mano.dao.mano.VnfExtCp extCp = task.getVnfExtCp();
+		final List<NamedDependency> ret = new ArrayList<>();
+		ret.add(new NamedDependency(Network.class, extCp.getInternalVirtualLink()));
+		ret.add(new NamedDependency(Network.class, extCp.getExternalVirtualLink()));
+		return ret;
+	}
+
+	@Override
+	public List<NamedDependency> getNamedProduced() {
+		return List.of(new NamedDependency(getNode(), task.getAlias()));
 	}
 
 }

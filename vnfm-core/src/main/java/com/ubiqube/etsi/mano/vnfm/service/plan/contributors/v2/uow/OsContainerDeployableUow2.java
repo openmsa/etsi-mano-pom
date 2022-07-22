@@ -16,11 +16,14 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.uow;
 
+import java.util.List;
+
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainerDeployableUnit;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerDeployableTask;
 import com.ubiqube.etsi.mano.dao.mano.vnfi.CnfInformations;
 import com.ubiqube.etsi.mano.orchestrator.Context;
+import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerDeployableNode;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
@@ -34,28 +37,37 @@ import com.ubiqube.etsi.mano.service.vim.Vim;
 public class OsContainerDeployableUow2 extends AbstractUowV2<OsContainerDeployableTask> {
 	private final Vim vim;
 	private final VimConnectionInformation vci;
-	private final VirtualTask<OsContainerDeployableTask> task;
+	private final OsContainerDeployableTask task;
 
 	public OsContainerDeployableUow2(final VirtualTask<OsContainerDeployableTask> task, final Vim vim, final VimConnectionInformation vimConnectionInformation) {
 		super(task, OsContainerDeployableNode.class);
 		this.vim = vim;
 		this.vci = vimConnectionInformation;
-		this.task = task;
+		this.task = task.getParameters();
 	}
 
 	@Override
 	public String execute(final Context context) {
-		final OsContainerDeployableTask p = task.getParameters();
-		final String network = context.get(Network.class, p.getNetwork());
-		final OsContainerDeployableUnit du = p.getOsContainerDeployableUnit();
+		final String network = context.get(Network.class, task.getNetwork());
+		final OsContainerDeployableUnit du = task.getOsContainerDeployableUnit();
 		final CnfInformations ci = vci.getCnfInfo();
-		return vim.cnf(vci).startK8s(ci.getClusterTemplate(), ci.getKeyPair(), du.getVduProfile().getMinNumberOfInstances(), task.getName(), du.getVduProfile().getMinNumberOfInstances(), network);
+		return vim.cnf(vci).startK8s(ci.getClusterTemplate(), ci.getKeyPair(), du.getVduProfile().getMinNumberOfInstances(), task.getToscaName(), du.getVduProfile().getMinNumberOfInstances(), network);
 	}
 
 	@Override
 	public String rollback(final Context context) {
-		vim.cnf(vci).deleteK8s(task.getParameters().getVimResourceId());
+		vim.cnf(vci).deleteK8s(task.getVimResourceId());
 		return null;
+	}
+
+	@Override
+	public List<NamedDependency> getNameDependencies() {
+		return List.of(new NamedDependency(Network.class, task.getNetwork()));
+	}
+
+	@Override
+	public List<NamedDependency> getNamedProduced() {
+		return List.of(new NamedDependency(getNode(), task.getToscaName()));
 	}
 
 }

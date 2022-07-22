@@ -24,6 +24,7 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.ubiqube.etsi.mano.dao.mano.NsdPackageVnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 
@@ -58,4 +59,7 @@ public class NsVnfInstantiateTask extends NsTask {
 	private String localizationLanguage;
 
 	private Set<ListKeyPair> virtualLinks;
+
+	@OneToOne(fetch = FetchType.EAGER)
+	private NsdPackageVnfPackage vnfPackage;
 }
