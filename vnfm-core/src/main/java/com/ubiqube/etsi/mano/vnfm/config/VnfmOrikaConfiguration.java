@@ -108,6 +108,8 @@ public class VnfmOrikaConfiguration implements OrikaMapperFactoryConfigurer {
 				.register();
 		orikaMapperFactory.classMap(VnfInstantiate.class, VnfBlueprint.class)
 				.field("vimConnectionInfo", "vimConnections")
+				.field("extManagedVirtualLinks", "parameters.extManagedVirtualLinks")
+				.field("extVirtualLinks", "parameters.extVirtualLinkInfo")
 				.byDefault()
 				.register();
 		orikaMapperFactory.classMap(GrantResponse.class, VnfBlueprint.class)
