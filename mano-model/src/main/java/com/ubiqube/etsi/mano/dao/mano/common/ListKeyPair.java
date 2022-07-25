@@ -53,6 +53,10 @@ public class ListKeyPair implements Serializable {
 		this.idx = idx;
 	}
 
+	public static ListKeyPair of(final String value, final int i) {
+		return new ListKeyPair(value, i);
+	}
+
 	@Override
 	public String toString() {
 		return ToStringUtil.toString(this);
