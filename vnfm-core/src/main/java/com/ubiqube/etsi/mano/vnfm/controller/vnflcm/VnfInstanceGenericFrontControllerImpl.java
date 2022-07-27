@@ -64,7 +64,6 @@ public class VnfInstanceGenericFrontControllerImpl implements VnfInstanceGeneric
 
 	public VnfInstanceGenericFrontControllerImpl(final VnfInstanceLcmImpl vnfInstanceLcm, final VnfInstanceService vnfInstancesService, final MapperFacade mapper,
 			final VnfInstanceServiceVnfm vnfInstanceServiceVnfm) {
-		super();
 		this.vnfInstanceLcm = vnfInstanceLcm;
 		this.vnfInstancesService = vnfInstancesService;
 		this.mapper = mapper;
@@ -137,7 +136,7 @@ public class VnfInstanceGenericFrontControllerImpl implements VnfInstanceGeneric
 		final VnfInstance vnfInstanceDb = vnfInstanceServiceVnfm.findById(vnfInstanceId);
 		final U vnfInstance = mapper.map(vnfInstanceDb, clazz);
 		makeLink.accept(vnfInstance);
-		return ResponseEntity.created(URI.create(instanceSelfLink)).body(vnfInstance);
+		return ResponseEntity.ok(vnfInstance);
 	}
 
 	@Override
