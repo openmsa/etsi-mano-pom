@@ -74,14 +74,14 @@ public class Classifier implements Serializable {
 	/**
 	 * Indicates a range of source ports.
 	 */
-	private long sourcePortRangeMin;
-	private long sourcePortRangeMax;
+	private Long sourcePortRangeMin;
+	private Long sourcePortRangeMax;
 
 	/**
 	 * Indicates a range of destination ports.
 	 */
-	private long destinationPortRangeMin;
-	private long destinationPortRangeMax;
+	private Long destinationPortRangeMin;
+	private Long destinationPortRangeMax;
 	/**
 	 * Indicates the source IP address range in CIDR format.
 	 */
