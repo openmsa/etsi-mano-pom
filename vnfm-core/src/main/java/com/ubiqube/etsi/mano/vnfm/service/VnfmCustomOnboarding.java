@@ -26,9 +26,11 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.Constants;
+import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 import com.ubiqube.etsi.mano.service.NfvoService;
+import com.ubiqube.etsi.mano.service.pkg.ns.NsPackageProvider;
 import com.ubiqube.etsi.mano.service.pkg.vnf.CustomOnboarding;
 import com.ubiqube.etsi.mano.service.pkg.vnf.VnfPackageReader;
 import com.ubiqube.etsi.mano.service.rest.ManoClient;
@@ -60,6 +62,12 @@ public class VnfmCustomOnboarding implements CustomOnboarding {
 							.onboarded(getSafeUUID(vnfPackage.getVnfdId()))
 							.artifacts(tgt, x.getArtifactPath());
 				});
+	}
+
+	@Override
+	public void handleArtifacts(final NsdPackage pkg, final NsPackageProvider packageReader) {
+		// TODO Auto-generated method stub
+
 	}
 
 }
