@@ -257,7 +257,7 @@ topology_template:
           vlan_tag:
             - srt
             - str2
-          protocol:
+          protocol: TCP
           dscp:
           source_port_range: 0 - 22
           source_ip_address_prefix:
