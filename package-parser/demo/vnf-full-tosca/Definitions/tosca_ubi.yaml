@@ -126,13 +126,13 @@ topology_template:
       name: leftVdu01
       description: A node.
       artifacts:
-        sw_image:
+        cirros-0.5.2:
           type: tosca.artifacts.nfv.SwImage
           file: myFile.qcow2
           deploy_path: deploy path
           checksum: 
-            algorithm: ssh256
-            hash: c41ce7bc2f4ab27a3597b3e160fc8b01c56a6b58e1046a4a23b8518fb9e9a61f
+            algorithm: sha-512
+            hash: 6b813aa46bb90b4da216a4d19376593fa3f4fc7e617f03a92b7fe11e9a3981cbe8f0959dbebe36225e5f53dc4492341a4863cac4ed1ee0909f3fc78ef9c3e869
           description: desc
           repository: repo
           #vim_type: vimtype
@@ -214,13 +214,13 @@ topology_template:
       name: Right instance
       description: A node.
       artifacts:
-        sw_image:
+         cirros-0.5.2:
           type: tosca.artifacts.nfv.SwImage
           file: myFile.qcow2
           deploy_path: deploy path
           checksum: 
-            algorithm: ssh256
-            hash: c41ce7bc2f4ab27a3597b3e160fc8b01c56a6b58e1046a4a23b8518fb9e9a61f
+            algorithm: sha-512
+            hash: 6b813aa46bb90b4da216a4d19376593fa3f4fc7e617f03a92b7fe11e9a3981cbe8f0959dbebe36225e5f53dc4492341a4863cac4ed1ee0909f3fc78ef9c3e869
           description: desc
           repository: repo
           #vim_type: vimtype
@@ -247,13 +247,13 @@ topology_template:
           vdu_storage_requirements:
             key: value
       artifacts:
-        sw_image:
+         cirros-0.5.2:
           type: tosca.artifacts.nfv.SwImage
           file: myFile.qcow2
           deploy_path: deploy path
           checksum: 
-            algorithm: ssh256
-            hash: c41ce7bc2f4ab27a3597b3e160fc8b01c56a6b58e1046a4a23b8518fb9e9a61f
+            algorithm: sha-512
+            hash: 6b813aa46bb90b4da216a4d19376593fa3f4fc7e617f03a92b7fe11e9a3981cbe8f0959dbebe36225e5f53dc4492341a4863cac4ed1ee0909f3fc78ef9c3e869
           description: desc
           repository: repo
           #vim_type: vimtype
@@ -299,8 +299,8 @@ topology_template:
             - associated_layer_protocol: ipv4
               l2_protocol_data: # tosca.datatypes.nfv.L2ProtocolData
                 name: vl01L2
-                vlan_transparent: true
-                network_type: flat
+                vlan_transparent: false
+                #network_type: flat
                 mtu: 1442
                 segmentation_id: a
               l3_protocol_data: # tosca.datatypes.nfv.L3ProtocolData
@@ -343,8 +343,8 @@ topology_template:
           virtual_link_protocol_data:
             - l2_protocol_data:
                 name: vl01L2
-                vlan_transparent: true
-                network_type: VXLAN
+                vlan_transparent: false
+                #network_type: flat
                 mtu: 1442
               l3_protocol_data:
                 dhcp_enabled: true
@@ -380,8 +380,8 @@ topology_template:
           virtual_link_protocol_data:
             - l2_protocol_data:
                 name: vl01L2
-                vlan_transparent: true
-                network_type: flat
+                vlan_transparent: false
+                #network_type: flat
                 mtu: 1442
               l3_protocol_data:
                 dhcp_enabled: true
@@ -714,7 +714,7 @@ policies:
                   value: scale_in
                 aspect:
                   value: call_proc
-    targets: [SunshineDB ]
+        targets: [SunshineDB ]
 
   auto_heal:
     type: tosca.policies.nfv.VnfIndicator
