@@ -118,6 +118,9 @@ public class VrQanVimSelector implements PreVimSelection {
 
 	private boolean checkQuota(final VimConnectionInformation x, final QuotaNeeded needed) {
 		final Optional<VrQan> ovq = vrQanService.findByVimId(x.getId());
+		if (ovq.isEmpty()) {
+			return true;
+		}
 		// If not get it on vim
 		final VrQan vrQan = ovq.get();
 		if (vrQan.getRamFree() < needed.getRam()) {
