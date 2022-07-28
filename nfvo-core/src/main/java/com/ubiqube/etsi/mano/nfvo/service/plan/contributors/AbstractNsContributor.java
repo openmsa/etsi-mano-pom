@@ -17,10 +17,13 @@
 package com.ubiqube.etsi.mano.nfvo.service.plan.contributors;
 
 import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Supplier;
 
 import javax.transaction.Transactional;
+import javax.validation.constraints.NotNull;
 
 import com.ubiqube.etsi.mano.dao.mano.ChangeType;
 import com.ubiqube.etsi.mano.dao.mano.NsLiveInstance;
@@ -53,6 +56,7 @@ public abstract class AbstractNsContributor<U extends NsTask, T extends VirtualT
 		return task;
 	}
 
+	@NotNull
 	protected static <U extends NsTask> U createTask(final Supplier<U> newInstance) {
 		final U task = newInstance.get();
 		task.setStartDate(LocalDateTime.now());
@@ -76,6 +80,7 @@ public abstract class AbstractNsContributor<U extends NsTask, T extends VirtualT
 
 	@Transactional
 	@Override
+	@NotNull
 	public final List<T> contribute(final Bundle bundle, final NsBlueprint blueprint) {
 		final List<T> r = switch (blueprint.getOperation()) {
 		case TERMINATE -> onTerminate(blueprint.getInstance());
@@ -85,18 +90,25 @@ public abstract class AbstractNsContributor<U extends NsTask, T extends VirtualT
 		default -> onOther((NsBundleAdapter) bundle, blueprint);
 		};
 		final List<U> rr = r.stream().map(VirtualTask::getParameters).toList();
-		blueprint.getTasks().addAll(rr);
+		final Set<NsTask> nTask = new LinkedHashSet<>(blueprint.getTasks());
+		nTask.addAll(rr);
+		blueprint.setTasks(nTask);
 		return r;
 	}
 
+	@NotNull
 	protected abstract List<T> onScale(NsBundleAdapter bundle, NsBlueprint blueprint);
 
+	@NotNull
 	protected abstract List<T> onInstantiate(NsBundleAdapter bundle, NsBlueprint blueprint);
 
+	@NotNull
 	protected abstract List<T> onOther(NsBundleAdapter bundle, NsBlueprint blueprint);
 
+	@NotNull
 	protected abstract List<T> onTerminate(NsdInstance instance);
 
+	@NotNull
 	protected List<T> onUpdate(final NsBundleAdapter bundle, final NsBlueprint blueprint) {
 		return List.of();
 	}

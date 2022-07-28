@@ -22,6 +22,11 @@ import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.nsd.ForwarderMapping;
 import com.ubiqube.etsi.mano.nfvo.service.pkg.ns.NsOnboardingPostProcessor;
 
+/**
+ *
+ * @author olivier
+ *
+ */
 @Service
 public class ResolvEndpoint implements NsOnboardingPostProcessor {
 

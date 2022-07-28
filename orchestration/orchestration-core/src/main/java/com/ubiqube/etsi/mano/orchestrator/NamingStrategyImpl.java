@@ -14,39 +14,21 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.dao.mano.v2.nfvo;
+package com.ubiqube.etsi.mano.orchestrator;
 
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
-
-import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
-import com.ubiqube.etsi.mano.dao.mano.config.Servers;
-
-import lombok.Getter;
-import lombok.Setter;
+import org.springframework.stereotype.Service;
 
 /**
  *
- * @author Olivier Vignaud <ovi@ubiqube.com>
+ * @author olivier
  *
  */
-@Getter
-@Setter
-public class VnfContextExtractorTask extends NsTask {
+@Service
+public class NamingStrategyImpl implements OrchestratorNamingStrategy {
 
-	/** Serial. */
-	private static final long serialVersionUID = 1L;
+	@Override
+	public String dimensional(final String prefix, final String toscaName, final int i) {
+		return String.format("%s-%s-%04d", prefix, toscaName, i);
+	}
 
-	/**
-	 * VNFM to use if any.
-	 */
-	@OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
-	private Servers server;
-
-	private NsdPackage nsdPackage;
-
-	private String vnfdId;
-
-	private String vnfInstanceName;
 }

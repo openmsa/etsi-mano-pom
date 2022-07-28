@@ -34,8 +34,10 @@ import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfLinkPort;
 import com.ubiqube.etsi.mano.dao.mano.VnfLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfMonitoringParameter;
+import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.VnfcResourceInfoEntity;
 import com.ubiqube.etsi.mano.dao.mano.VnfcResourceInfoVnfcCpInfoEntity;
+import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
 import com.ubiqube.etsi.mano.dao.mano.v2.BlueprintParameters;
 import com.ubiqube.etsi.mano.dao.mano.v2.ComputeTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.ExternalCpTask;
@@ -45,6 +47,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.StorageTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfPortTask;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.jpa.VnfInstanceJpa;
+import com.ubiqube.etsi.mano.jpa.VnfPackageJpa;
 import com.ubiqube.etsi.mano.service.VnfInstanceGatewayService;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
 import com.ubiqube.etsi.mano.vnfm.service.graph.DefaultVduNamingStrategy;
@@ -67,11 +70,15 @@ public class VnfInstanceServiceVnfm implements VnfInstanceGatewayService {
 
 	private final DefaultVduNamingStrategy namingStrategy;
 
-	public VnfInstanceServiceVnfm(final VnfInstanceJpa vnfInstanceJpa, final VnfLiveInstanceJpa vnfLiveInstanceJpa, final MapperFacade mapper, final DefaultVduNamingStrategy namingStrategy) {
+	private final VnfPackageJpa vnfPackageJpa;
+
+	public VnfInstanceServiceVnfm(final VnfInstanceJpa vnfInstanceJpa, final VnfLiveInstanceJpa vnfLiveInstanceJpa, final MapperFacade mapper,
+			final DefaultVduNamingStrategy namingStrategy, final VnfPackageJpa vnfPackageJpa) {
 		this.vnfInstanceJpa = vnfInstanceJpa;
 		this.vnfLiveInstanceJpa = vnfLiveInstanceJpa;
 		this.mapper = mapper;
 		this.namingStrategy = namingStrategy;
+		this.vnfPackageJpa = vnfPackageJpa;
 	}
 
 	@Override
@@ -80,7 +87,7 @@ public class VnfInstanceServiceVnfm implements VnfInstanceGatewayService {
 		final BlueprintParameters vnfInfo = inst.getInstantiatedVnfInfo();
 		final List<VnfLiveInstance> vli = vnfLiveInstanceJpa.findByVnfInstance(inst);
 		extractCompute(vnfInfo, vli);
-		extractExtCp(vnfInfo, vli);
+		extractExtCp(vnfInfo, vli, inst);
 		extractStorage(vnfInfo, vli);
 		extractVl(vnfInfo, vli);
 		// This pne will crash if a router is present at terminate time.
@@ -170,7 +177,7 @@ public class VnfInstanceServiceVnfm implements VnfInstanceGatewayService {
 		vnfInfo.setVirtualStorageResourceInfo(storages);
 	}
 
-	private static void extractExtCp(final BlueprintParameters vnfInfo, final List<VnfLiveInstance> vli) {
+	private void extractExtCp(final BlueprintParameters vnfInfo, final List<VnfLiveInstance> vli, final VnfInstance inst) {
 		final List<VnfLiveInstance> portVli = vli.stream().filter(x -> x.getTask() instanceof VnfPortTask).toList();
 		final Set<ExtCpInfo> extCp = portVli.stream().map(x -> {
 			final VnfPortTask vpt = (VnfPortTask) x.getTask();
@@ -180,12 +187,31 @@ public class VnfInstanceServiceVnfm implements VnfInstanceGatewayService {
 			ret.setAssociatedVnfcCpId(null); // This is one
 			ret.setAssociatedVnfVirtualLinkId(getPort(portVli, vlp.getToscaName()));
 			ret.setCpConfigId(null);
-			ret.setCpdId(vlp.getVirtualLink());
+			if (null == vlp.getVirtualLink()) {
+				final VnfPackage vnfPkg = vnfPackageJpa.findById(inst.getVnfPkg().getId()).orElseThrow();
+				setFromExtCp(vnfPkg, ret, vlp.getToscaName());
+			} else {
+				ret.setCpdId(vlp.getVirtualLink());
+			}
 			ret.setCpProtocolInfo(null);
 			ret.setExtLinkPortId(null);
 			return ret;
 		}).collect(Collectors.toSet());
 		vnfInfo.setExtCpInfo(extCp);
+	}
+
+	private static void setFromExtCp(final VnfPackage vnfPkg, final ExtCpInfo ret, final String toscaName) {
+		vnfPkg.getVirtualLinks().stream()
+				.filter(x -> x.getValue().equals(toscaName))
+				.findFirst()
+				.ifPresent(x -> ret.setCpdId(buildVlName(x)));
+	}
+
+	private static String buildVlName(final ListKeyPair x) {
+		if (x.getIdx() == 0) {
+			return "virtual_link";
+		}
+		return "virtual_link_" + x.getIdx();
 	}
 
 	private static String getPort(final List<VnfLiveInstance> portVli, final String toscaName) {

@@ -25,6 +25,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.annotation.Priority;
 import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
@@ -41,6 +42,7 @@ import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
 import com.ubiqube.etsi.mano.dao.mano.config.ServerType;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.dao.mano.nsd.CpPair;
+import com.ubiqube.etsi.mano.dao.mano.nsd.ForwarderMapping;
 import com.ubiqube.etsi.mano.dao.mano.nsd.NsdVnfPackageCopy;
 import com.ubiqube.etsi.mano.dao.mano.nsd.VnffgDescriptor;
 import com.ubiqube.etsi.mano.dao.mano.nsd.upd.UpdateRequest;
@@ -49,6 +51,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.BlueprintParameters;
 import com.ubiqube.etsi.mano.dao.mano.v2.PlanStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.ExternalPortRecord;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
+import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVnfTask;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
@@ -68,6 +71,7 @@ import com.ubiqube.etsi.mano.service.graph.vt.NsVtBase;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
+@Priority(50)
 @Service
 @Transactional
 public class VnfContributor extends AbstractNsContributor<NsVnfTask, NsVtBase<NsVnfTask>> {
@@ -188,16 +192,16 @@ public class VnfContributor extends AbstractNsContributor<NsVnfTask, NsVtBase<Ns
 		return nt;
 	}
 
-	private void add(final int curr, final int cnt, final VnfPackage vnfPkg, final NsdPackageVnfPackage nsPackageVnfPackage, final List<NsVtBase<NsVnfTask>> ret, final Set<VnffgDescriptor> vnffg, final UUID nsdId) {
+	private void add(final int curr, final int cnt, final VnfPackage vnfPkg, final NsdPackageVnfPackage nsPackageVnfPackage, final List<NsVtBase<NsVnfTask>> ret, final UUID nsdId, final NsBlueprint blueprint) {
 		for (int i = curr; i < cnt; i++) {
 			final String newName = getToscaName(nsPackageVnfPackage.getToscaName(), i);
 			LOG.debug("VNF inst Creating: {}", newName);
-			final NsVnfTask vnf = createTask(vnfPkg, nsPackageVnfPackage, nsdId, newName);
+			final NsVnfTask vnf = createTask(vnfPkg, nsPackageVnfPackage, nsdId, newName, blueprint);
 			ret.add(new NsVnfCreateVt(vnf));
 		}
 	}
 
-	private NsVnfTask createTask(final VnfPackage vnfPkg, final NsdPackageVnfPackage nsPackageVnfPackage, final UUID nsdId, final String newName) {
+	private NsVnfTask createTask(final VnfPackage vnfPkg, final NsdPackageVnfPackage nsPackageVnfPackage, final UUID nsdId, final String newName, final NsBlueprint blueprint) {
 		final NsVnfTask vnf = createTask(NsVnfTask::new);
 		vnf.setChangeType(ChangeType.ADDED);
 		final Set<ExternalPortRecord> nets = getNetworks(vnfPkg);
@@ -207,12 +211,27 @@ public class VnfContributor extends AbstractNsContributor<NsVnfTask, NsVtBase<Ns
 		final Servers server = selectServer(vnfPkg);
 		vnf.setServer(server);
 		vnf.setAlias(newName);
-		vnf.setToscaName(newName);
+		final Set<String> nstworks = rebuildVl(nsPackageVnfPackage, blueprint.getTasks());
+		vnf.setVlInstances(nstworks);
+		vnf.setToscaName(nsPackageVnfPackage.getToscaName());
 		vnf.setFlavourId("flavour");
 		vnf.setVnfdId(nsPackageVnfPackage.getVnfPackage().getVnfdId());
 		vnf.setType(ResourceTypeEnum.VNF);
 		vnf.setNsdId(nsdId);
 		return vnf;
+	}
+
+	private static Set<String> rebuildVl(final NsdPackageVnfPackage nsPackageVnfPackage, final Set<NsTask> tasks) {
+		return nsPackageVnfPackage.getVirtualLinks().stream()
+				.map(x -> mapToVl(nsPackageVnfPackage, x))
+				.map(ForwarderMapping::getVlName)
+				.flatMap(x -> tasks.stream().filter(y -> y.getToscaName().equals(x)).collect(Collectors.toSet()).stream())
+				.map(NsTask::getAlias)
+				.collect(Collectors.toSet());
+	}
+
+	private static ForwarderMapping mapToVl(final NsdPackageVnfPackage nsPackageVnfPackage, final ListKeyPair lp) {
+		return nsPackageVnfPackage.getForwardMapping().stream().filter(x -> x.getForwardingName().equals(lp.getValue())).findFirst().orElseThrow();
 	}
 
 	private static Set<ExternalPortRecord> getVl(final NsdPackageVnfPackage nsPackageVnfPackage) {
@@ -273,7 +292,7 @@ public class VnfContributor extends AbstractNsContributor<NsVnfTask, NsVtBase<Ns
 					if (curr > inst) {
 						remove(curr - inst, blueprint.getInstance(), ret);
 					} else if (curr < inst) {
-						add(curr, inst, x, nsPackageVnfPackage, ret, bundle.nsPackage().getVnffgs(), bundle.nsPackage().getId());
+						add(curr, inst, x, nsPackageVnfPackage, ret, bundle.nsPackage().getId(), blueprint);
 					}
 				});
 		return ret;

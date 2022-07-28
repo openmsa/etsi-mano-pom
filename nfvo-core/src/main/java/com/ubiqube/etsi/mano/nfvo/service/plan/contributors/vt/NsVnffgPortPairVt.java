@@ -14,48 +14,48 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service.vim.sfc.vt;
+package com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt;
 
 import java.util.List;
 
+import com.ubiqube.etsi.mano.dao.mano.vnffg.VnffgPortPairTask;
 import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
+import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.PortPairNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfInstantiateNode;
 import com.ubiqube.etsi.mano.service.graph.vt.NsVtBase;
-import com.ubiqube.etsi.mano.service.vim.sfc.enity.SfcPortPairGroupTask;
-import com.ubiqube.etsi.mano.service.vim.sfc.node.PortPairGroupNode;
-import com.ubiqube.etsi.mano.service.vim.sfc.node.PortPairNode;
 
 /**
  *
- * @author Olivier Vignaud <ovi@ubiqube.com>
+ * @author olivier
  *
  */
-public class SfcPortPairGroupVt extends NsVtBase<SfcPortPairGroupTask> {
+public class NsVnffgPortPairVt extends NsVtBase<VnffgPortPairTask> {
 
-	private final SfcPortPairGroupTask task;
+	private final VnffgPortPairTask task;
 
-	public SfcPortPairGroupVt(final SfcPortPairGroupTask pp) {
-		super(pp);
-		this.task = pp;
+	public NsVnffgPortPairVt(final VnffgPortPairTask nt) {
+		super(nt);
+		task = nt;
 	}
 
 	@Override
 	public List<NamedDependency> getNameDependencies() {
-		return task.getPortPair().stream().map(x -> new NamedDependency(PortPairNode.class, x)).toList();
+		return List.of(new NamedDependency(VnfInstantiateNode.class, task.getVnfAlias()));
 	}
 
 	@Override
 	public List<NamedDependency> getNamedProduced() {
-		return List.of(new NamedDependency(PortPairGroupNode.class, task.getToscaName()));
+		return List.of(new NamedDependency(PortPairNode.class, task.getAlias()));
 	}
 
 	@Override
 	public String getFactoryProviderId() {
-		return "SFC-PORT-PAIR-GROUP";
+		return "VNFFG-PORT-PAIR";
 	}
 
 	@Override
 	public String getVimProviderId() {
-		return "OPENSTACK_V3";
+		return "VNFFG-PORT-PAIR";
 	}
 
 }

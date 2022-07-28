@@ -14,37 +14,40 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service.graph;
+package com.ubiqube.etsi.mano.dao.mano.vnffg;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
-import java.util.function.Supplier;
+import java.util.Set;
 
-import com.ubiqube.etsi.mano.dao.mano.ChangeType;
-import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
-import com.ubiqube.etsi.mano.dao.mano.v2.PlanStatusType;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
+import com.ubiqube.etsi.mano.dao.mano.nsd.NfpDescriptor;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
  * @author olivier
  *
  */
-public class TaskUtils {
-	private TaskUtils() {
-		// Nothing.
-	}
+@Entity
+@Getter
+@Setter
+public class VnffgLoadbalancerTask extends NsTask {
+	/** Serial. */
+	private static final long serialVersionUID = 1L;
 
-	public static <U extends NsTask> U createTask(final Supplier<U> newInstance, final NsTask toscaEntity) {
-		final U task = newInstance.get();
-		task.setId(UUID.randomUUID());
-		task.setStartDate(LocalDateTime.now());
-		task.setStatus(PlanStatusType.NOT_STARTED);
-		task.setChangeType(ChangeType.ADDED);
-		task.setToscaName(toscaEntity.getToscaName());
-		task.setAlias(toscaEntity.getToscaName());
-		task.setType(ResourceTypeEnum.VNFFG);
-		return task;
-	}
+	@OneToOne(cascade = CascadeType.DETACH)
+	private NfpDescriptor instances;
 
+	private boolean remove;
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Set<ListKeyPair> constituant;
 }

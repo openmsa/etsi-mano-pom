@@ -16,56 +16,49 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import com.ubiqube.etsi.mano.dao.mano.nsd.CpPair;
-import com.ubiqube.etsi.mano.dao.mano.vnffg.VnffgPostTask;
+import com.ubiqube.etsi.mano.dao.mano.vnffg.VnffgLoadbalancerTask;
 import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
+import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.PortPairNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnffgLoadbalancerNode;
-import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnffgPostNode;
 import com.ubiqube.etsi.mano.service.graph.vt.NsVtBase;
 
 /**
+ * Port pair group in sfc.
  *
- * @author Olivier Vignaud <ovi@ubiqube.com>
+ * @author olivier
  *
  */
-public class NsVnffgPostVt extends NsVtBase<VnffgPostTask> {
+public class VnffgLoadbalancerVt extends NsVtBase<VnffgLoadbalancerTask> {
 
-	public NsVnffgPostVt(final VnffgPostTask nt) {
+	private final VnffgLoadbalancerTask task;
+
+	public VnffgLoadbalancerVt(final VnffgLoadbalancerTask nt) {
 		super(nt);
+		task = nt;
 	}
 
 	@Override
 	public List<NamedDependency> getNameDependencies() {
-		final ArrayList<NamedDependency> ret = new ArrayList<>();
-		final VnffgPostTask task = getParameters();
-		final List<CpPair> cpPairs = task.getVnffg().getNfpd()
-				.stream()
-				.flatMap(x -> x.getInstances().stream())
-				.flatMap(x -> x.getPairs().stream())
+		return task.getInstances().getInstances().stream()
+				.map(x -> new NamedDependency(PortPairNode.class, x.getToscaName()))
 				.toList();
-		cpPairs.forEach(x -> {
-			Optional.ofNullable(x.getToscaName()).ifPresent(y -> ret.add(new NamedDependency(VnffgLoadbalancerNode.class, y)));
-		});
-		return ret;
 	}
 
 	@Override
 	public List<NamedDependency> getNamedProduced() {
-		return List.of(new NamedDependency(VnffgPostNode.class, getName()));
+		return List.of(new NamedDependency(VnffgLoadbalancerNode.class, task.getToscaName()));
 	}
 
 	@Override
 	public String getFactoryProviderId() {
-		return "SFC";
+		return "VNFFG-LOADBALANCER";
 	}
 
 	@Override
 	public String getVimProviderId() {
-		return "NETWORK";
+		return "VNFFG-LOADBALANCER";
 	}
 
 }

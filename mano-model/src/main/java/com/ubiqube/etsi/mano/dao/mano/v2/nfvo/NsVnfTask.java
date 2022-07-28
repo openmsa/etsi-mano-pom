@@ -21,6 +21,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.CascadeType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -75,6 +76,9 @@ public class NsVnfTask extends NsTask {
 	private String localizationLanguage;
 
 	private UUID nsdId;
+
+	@ElementCollection(fetch = FetchType.EAGER)
+	private Set<String> vlInstances;
 
 	@Override
 	public UUID getId() {

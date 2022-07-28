@@ -14,39 +14,26 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.dao.mano.v2.nfvo;
+package com.ubiqube.etsi.mano.orchestrator.model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
+import java.util.List;
 
-import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
-import com.ubiqube.etsi.mano.dao.mano.config.Servers;
-
-import lombok.Getter;
-import lombok.Setter;
+import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
 
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-@Getter
-@Setter
-public class VnfContextExtractorTask extends NsTask {
+public interface ScaleModel {
 
-	/** Serial. */
-	private static final long serialVersionUID = 1L;
+	boolean isSingleNode();
 
-	/**
-	 * VNFM to use if any.
-	 */
-	@OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
-	private Servers server;
+	List<NamedDependency> getDependencies();
 
-	private NsdPackage nsdPackage;
+	int wantedInstance();
 
-	private String vnfdId;
+	ScaleModel clone(int i);
 
-	private String vnfInstanceName;
+	String getName();
 }

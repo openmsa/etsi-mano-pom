@@ -14,39 +14,35 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.dao.mano.v2.nfvo;
+package com.ubiqube.etsi.mano.orchestrator;
 
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
-import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
-import com.ubiqube.etsi.mano.dao.mano.config.Servers;
+public class NamedResource {
 
-import lombok.Getter;
-import lombok.Setter;
+	private final String baseName;
+	private final String[] dim;
 
-/**
- *
- * @author Olivier Vignaud <ovi@ubiqube.com>
- *
- */
-@Getter
-@Setter
-public class VnfContextExtractorTask extends NsTask {
+	public NamedResource(final String baseName, final String[] dim) {
+		this.baseName = baseName;
+		this.dim = dim;
+	}
 
-	/** Serial. */
-	private static final long serialVersionUID = 1L;
+	public static NamedResource of(final String baseNAme, final String... dim) {
+		return new NamedResource(baseNAme, dim);
+	}
 
-	/**
-	 * VNFM to use if any.
-	 */
-	@OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
-	private Servers server;
+	@Override
+	public String toString() {
+		final String dimExpand = Arrays.stream(dim).collect(Collectors.joining("_"));
+		if (dimExpand.isEmpty()) {
+			return baseName;
+		}
+		return baseName + "_" + dimExpand;
+	}
 
-	private NsdPackage nsdPackage;
-
-	private String vnfdId;
-
-	private String vnfInstanceName;
+	public String toBaseName() {
+		return baseName;
+	}
 }

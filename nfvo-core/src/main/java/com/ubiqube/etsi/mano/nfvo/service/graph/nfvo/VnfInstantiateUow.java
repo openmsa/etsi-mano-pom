@@ -44,7 +44,6 @@ import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfCreateNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfInstantiateNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfPortNode;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
 import com.ubiqube.etsi.mano.service.VnfmInterface;
 import com.ubiqube.etsi.mano.service.graph.AbstractUnitOfWork;
@@ -142,11 +141,10 @@ public class VnfInstantiateUow extends AbstractUnitOfWork<NsVnfInstantiateTask> 
 	@Override
 	public List<NamedDependency> getNameDependencies() {
 		final List<NamedDependency> ret = new ArrayList<>();
-		ret.add(new NamedDependency(VnfCreateNode.class, task.getAlias()));
-		task.getExternalNetworks().stream().forEach(x -> {
-			ret.add(new NamedDependency(VnfPortNode.class, x.getToscaName()));
-			ret.add(new NamedDependency(Network.class, resolvName(x.getToscaName())));
-		});
+		ret.add(new NamedDependency(VnfCreateNode.class, task.getVnfInstanceName()));
+		ret.addAll(task.getVlName().stream()
+				.map(x -> new NamedDependency(Network.class, x))
+				.toList());
 		return ret;
 	}
 

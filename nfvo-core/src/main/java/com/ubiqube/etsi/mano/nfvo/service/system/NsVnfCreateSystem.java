@@ -63,7 +63,6 @@ public class NsVnfCreateSystem extends AbstractVimSystem<NsVnfTask> {
 	protected SystemBuilder getImplementation(final OrchestrationService<NsVnfTask> orchestrationService, final VirtualTask<NsVnfTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
 		final NsVnfInstantiateTask nt = new NsVnfInstantiateTask();
 		final NsVnfTask p = virtualTask.getParameters();
-		nt.setAlias(p.getAlias());
 		nt.setVnfPackage(p.getNsPackageVnfPackage());
 		nt.setChangeType(p.getChangeType());
 		nt.setExternalNetworks(p.getExternalNetworks());
@@ -75,7 +74,10 @@ public class NsVnfCreateSystem extends AbstractVimSystem<NsVnfTask> {
 			nt.setVimResourceId(p.getVimResourceId());
 		}
 		nt.setToscaName("inst-" + p.getAlias());
+		nt.setAlias("inst-" + p.getAlias());
+		nt.setVnfInstanceName(virtualTask.getAlias());
 		nt.setType(p.getType());
+		nt.setVlName(p.getVlInstances());
 		if (p.getChangeType() != ChangeType.REMOVED) {
 			nt.setVirtualLinks(p.getNsPackageVnfPackage().getVirtualLinks());
 		}
@@ -84,11 +86,12 @@ public class NsVnfCreateSystem extends AbstractVimSystem<NsVnfTask> {
 		s.add(new VnfCreateUow(virtualTask, vnfm), instantiateUow);
 		final VnfContextExtractorTask contextTask = new VnfContextExtractorTask();
 		final NsdPackage pack = nsdPackageJpa.findById(p.getNsdId()).orElseThrow(() -> new GenericException("Unable to find package [" + p.getNsdId() + "]"));
-		contextTask.setToscaName(p.getToscaName());
-		contextTask.setAlias("ext-" + p.getToscaName());
+		contextTask.setToscaName("extract-" + p.getAlias());
+		contextTask.setAlias("extract-" + p.getAlias());
 		contextTask.setVnfdId(p.getVnfdId());
 		contextTask.setNsdPackage(pack);
 		contextTask.setServer(p.getServer());
+		contextTask.setVnfInstanceName(nt.getAlias());
 		s.add(instantiateUow, new VnfContextExtractorUow(new VnfContextExtractorVt(contextTask), vnfm, pack));
 		return s;
 	}

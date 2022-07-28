@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.Priority;
+
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.ChangeType;
@@ -41,6 +43,7 @@ import com.ubiqube.etsi.mano.service.NsBlueprintService;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
+@Priority(0)
 @Service
 public class NsVirtualLinkContributor extends AbstractNsContributor<NsVirtualLinkTask, NsVirtualLinkVt> {
 	private final NsBlueprintService blueprintService;

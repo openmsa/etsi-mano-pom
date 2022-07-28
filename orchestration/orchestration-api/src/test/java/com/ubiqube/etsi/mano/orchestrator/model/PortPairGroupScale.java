@@ -14,39 +14,44 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.dao.mano.v2.nfvo;
+package com.ubiqube.etsi.mano.orchestrator.model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
+import java.util.List;
 
-import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
-import com.ubiqube.etsi.mano.dao.mano.config.Servers;
+import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
 
-import lombok.Getter;
-import lombok.Setter;
+public class PortPairGroupScale implements ScaleModel {
+	private final String name;
 
-/**
- *
- * @author Olivier Vignaud <ovi@ubiqube.com>
- *
- */
-@Getter
-@Setter
-public class VnfContextExtractorTask extends NsTask {
+	public PortPairGroupScale(final String name) {
+		this.name = name;
+	}
 
-	/** Serial. */
-	private static final long serialVersionUID = 1L;
+	@Override
+	public boolean isSingleNode() {
+		return true;
+	}
 
-	/**
-	 * VNFM to use if any.
-	 */
-	@OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
-	private Servers server;
+	@Override
+	public List<NamedDependency> getDependencies() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-	private NsdPackage nsdPackage;
+	@Override
+	public int wantedInstance() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
-	private String vnfdId;
+	@Override
+	public String getName() {
+		return name;
+	}
 
-	private String vnfInstanceName;
+	@Override
+	public ScaleModel clone(final int i) {
+		return new PortPairGroupScale(name + i);
+	}
+
 }

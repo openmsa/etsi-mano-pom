@@ -20,6 +20,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.ElementCollection;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -60,6 +61,11 @@ public class NsVnfInstantiateTask extends NsTask {
 
 	private Set<ListKeyPair> virtualLinks;
 
+	@ElementCollection(fetch = FetchType.EAGER)
+	private Set<String> vlName;
+
 	@OneToOne(fetch = FetchType.EAGER)
 	private NsdPackageVnfPackage vnfPackage;
+
+	private String vnfInstanceName;
 }

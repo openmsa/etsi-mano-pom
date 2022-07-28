@@ -68,7 +68,7 @@ public class NsVlUow extends AbstractUnitOfWork<NsVirtualLinkTask> {
 
 	@Override
 	public List<NamedDependency> getNamedProduced() {
-		return List.of(new NamedDependency(Network.class, task.getToscaName()));
+		return List.of(new NamedDependency(Network.class, task.getAlias()));
 	}
 
 }

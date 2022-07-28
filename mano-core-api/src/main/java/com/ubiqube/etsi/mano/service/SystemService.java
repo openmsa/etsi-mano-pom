@@ -73,7 +73,9 @@ public class SystemService {
 				"VNF",
 				"VNF-CREATE",
 				"CNF",
-				"HELM" };
+				"HELM",
+				"VNFFG-PORT-PAIR",
+				"VNFFG-LOADBALANCER" };
 		for (final String string : sysDtr) {
 			sys.add(createSystem(string, vimConnectionInformation));
 		}

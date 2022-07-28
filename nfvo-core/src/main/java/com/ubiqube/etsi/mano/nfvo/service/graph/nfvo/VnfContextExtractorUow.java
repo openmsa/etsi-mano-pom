@@ -61,7 +61,6 @@ public class VnfContextExtractorUow extends AbstractUnitOfWork<VnfContextExtract
 
 	@Override
 	public String execute(final Context context) {
-		final VnfContextExtractorTask task = getTask().getParameters();
 		final String vnfInstanceId = context.get(VnfCreateNode.class, task.getToscaName());
 		final VnfInstance inst = vnfm.getVnfInstance(task.getServer(), vnfInstanceId);
 		inst.getInstantiatedVnfInfo().getExtCpInfo().forEach(x -> {
@@ -102,8 +101,7 @@ public class VnfContextExtractorUow extends AbstractUnitOfWork<VnfContextExtract
 				.orElseThrow(() -> new GenericException("Unable to find VL " + net));
 	}
 
-	@SuppressWarnings("boxing")
-	private int toscaNameToVlId(final String cpdId) {
+	private static int toscaNameToVlId(final String cpdId) {
 		if ("virtual_link".equals(cpdId)) {
 			return 0;
 		}
@@ -128,7 +126,7 @@ public class VnfContextExtractorUow extends AbstractUnitOfWork<VnfContextExtract
 
 	@Override
 	public List<NamedDependency> getNameDependencies() {
-		return List.of(new NamedDependency(VnfInstantiateNode.class, task.getToscaName()));
+		return List.of(new NamedDependency(VnfInstantiateNode.class, task.getVnfInstanceName()));
 	}
 
 	@Override
@@ -140,7 +138,7 @@ public class VnfContextExtractorUow extends AbstractUnitOfWork<VnfContextExtract
 				.filter(Objects::nonNull)
 				.map(x -> new NamedDependency(VnfPortNode.class, x))
 				.forEach(ret::add);
-		ret.add(new NamedDependency(VnfInstantiateNode.class, task.getToscaName()));
+		ret.add(new NamedDependency(VnfContextExtractorNode.class, task.getToscaName()));
 		return ret;
 	}
 

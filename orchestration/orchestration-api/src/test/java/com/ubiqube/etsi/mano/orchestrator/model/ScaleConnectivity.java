@@ -14,39 +14,41 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.dao.mano.v2.nfvo;
+package com.ubiqube.etsi.mano.orchestrator.model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
+public class ScaleConnectivity {
 
-import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
-import com.ubiqube.etsi.mano.dao.mano.config.Servers;
+	private ScaleModel source;
+	private ScaleModel target;
 
-import lombok.Getter;
-import lombok.Setter;
+	public ScaleConnectivity() {
+		// Nothing.
+	}
 
-/**
- *
- * @author Olivier Vignaud <ovi@ubiqube.com>
- *
- */
-@Getter
-@Setter
-public class VnfContextExtractorTask extends NsTask {
+	public ScaleConnectivity(final ScaleModel source, final ScaleModel target) {
+		this.source = source;
+		this.target = target;
+	}
 
-	/** Serial. */
-	private static final long serialVersionUID = 1L;
+	public ScaleModel getSource() {
+		return source;
+	}
 
-	/**
-	 * VNFM to use if any.
-	 */
-	@OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
-	private Servers server;
+	public void setSource(final ScaleModel source) {
+		this.source = source;
+	}
 
-	private NsdPackage nsdPackage;
+	public ScaleModel getTarget() {
+		return target;
+	}
 
-	private String vnfdId;
+	public void setTarget(final ScaleModel target) {
+		this.target = target;
+	}
 
-	private String vnfInstanceName;
+	@Override
+	public String toString() {
+		return "ConnectivityEdge [source=" + source + ", target=" + target + "]";
+	}
+
 }
