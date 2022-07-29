@@ -22,7 +22,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Priority;
 import javax.validation.constraints.NotNull;
 
@@ -96,7 +95,7 @@ public class VnffgPortPairContributor extends AbstractNsContributor<VnffgPortPai
 	 * @param bundle
 	 * @return
 	 */
-	private List<@Nonnull NsVnffgPortPairVt> addForScaling(final NsVnfTask vnfTask, final NsdInstance instance, final NsBundleAdapter bundle) {
+	private List<NsVnffgPortPairVt> addForScaling(final NsVnfTask vnfTask, final NsdInstance instance, final NsBundleAdapter bundle) {
 		return bundle.nsPackage().getVnffgs().stream()
 				.flatMap(x -> x.getNfpd().stream())
 				.flatMap(x -> x.getInstances().stream())
