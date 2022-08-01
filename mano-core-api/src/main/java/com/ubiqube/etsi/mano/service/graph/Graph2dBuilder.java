@@ -92,7 +92,7 @@ public class Graph2dBuilder {
 			} else {
 				v = addOrGet(depClass, depName, null);
 			}
-			g.addEdge(v, p).setRelation(depRel);
+			Optional.ofNullable(g.addEdge(v, p)).ifPresent(x -> x.setRelation(depRel));
 		}
 
 		private Vertex2d find(final Class<? extends Node> depClass, final String depName) {
@@ -103,7 +103,7 @@ public class Graph2dBuilder {
 			final Vertex2d p = find(class1, name);
 			final Vertex2d v = new Vertex2d(depClass, depName, null);
 			g.addVertex(v);
-			g.addEdge(p, v).setRelation(depRel);
+			Optional.ofNullable(g.addEdge(p, v)).ifPresent(x -> x.setRelation(depRel));
 		}
 	}
 
