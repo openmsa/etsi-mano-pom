@@ -14,25 +14,31 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.orchestrator;
+package com.ubiqube.etsi.mano.config;
 
-import java.util.List;
+import java.awt.image.BufferedImage;
 
-import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
-import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.BufferedImageHttpMessageConverter;
+import org.springframework.http.converter.HttpMessageConverter;
 
 /**
  *
- * @author Olivier Vignaud <ovi@ubiqube.com>
+ * @author olivier
  *
- * @param <U>
- * @param <T>
- * @param <P>
  */
-public interface PlanContributor<U, T extends VirtualTask<U>, P> {
+@Configuration
+public class GlobalConfiguraton {
 
-	List<T> contribute(Bundle bundle, P parameters);
+	private static final Logger LOG = LoggerFactory.getLogger(GlobalConfiguraton.class);
 
-	Class<? extends Node> getNode();
+	@Bean
+	public HttpMessageConverter<BufferedImage> bufferedImageHttpMessageConverter() {
+		LOG.debug("Registering BufferedImage converter");
+		return new BufferedImageHttpMessageConverter();
+	}
 
 }

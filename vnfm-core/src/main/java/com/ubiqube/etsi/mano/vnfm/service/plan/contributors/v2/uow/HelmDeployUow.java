@@ -33,8 +33,10 @@ import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.MciopTask;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.orchestrator.Context;
 import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
+import com.ubiqube.etsi.mano.orchestrator.NamedDependency2d;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.HelmNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerDeployableNode;
+import com.ubiqube.etsi.mano.orchestrator.uow.Relation;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
 import com.ubiqube.etsi.mano.repository.ManoResource;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
@@ -105,6 +107,11 @@ public class HelmDeployUow extends AbstractUowV2<MciopTask> {
 	@Override
 	public List<NamedDependency> getNamedProduced() {
 		return List.of(new NamedDependency(getNode(), task.getToscaName()));
+	}
+
+	@Override
+	public List<NamedDependency2d> get2dDependencies() {
+		return List.of(new NamedDependency2d(OsContainerDeployableNode.class, task.getParentVdu(), Relation.ONE_TO_ONE));
 	}
 
 }

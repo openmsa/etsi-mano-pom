@@ -41,6 +41,7 @@ import com.ubiqube.etsi.mano.model.ExternalManagedVirtualLink;
 import com.ubiqube.etsi.mano.model.VnfInstantiate;
 import com.ubiqube.etsi.mano.orchestrator.Context;
 import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
+import com.ubiqube.etsi.mano.orchestrator.NamedDependency2d;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfCreateNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfInstantiateNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
@@ -72,7 +73,7 @@ public class VnfInstantiateUow extends AbstractUnitOfWork<NsVnfInstantiateTask> 
 
 	@Override
 	public String execute(final Context context) {
-		final String inst = context.get(VnfCreateNode.class, task.getAlias());
+		final String inst = context.get(VnfCreateNode.class, task.getVnfInstanceName());
 		final List<ExternalManagedVirtualLink> net = task.getExternalNetworks().stream().map(x -> {
 			final String resource = context.get(Network.class, x.getToscaName());
 			if (null == resource) {
@@ -159,5 +160,10 @@ public class VnfInstantiateUow extends AbstractUnitOfWork<NsVnfInstantiateTask> 
 				.findFirst()
 				.map(ForwarderMapping::getVlName)
 				.orElse(toscaName);
+	}
+
+	@Override
+	public List<NamedDependency2d> get2dDependencies() {
+		return List.of(new NamedDependency2d(VnfCreateNode.class, task.getAlias(), null));
 	}
 }

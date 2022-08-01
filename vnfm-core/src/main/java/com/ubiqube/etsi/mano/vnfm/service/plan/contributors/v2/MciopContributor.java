@@ -48,7 +48,6 @@ public class MciopContributor extends AbstractContributorV2Base<MciopTask, Mciop
 	private final VnfLiveInstanceJpa vnfLiveInstanceJpa;
 
 	public MciopContributor(final VnfInstanceGatewayService vnfInstanceGatewayService, final VnfLiveInstanceJpa vnfLiveInstanceJpa) {
-		super();
 		this.vnfInstanceGatewayService = vnfInstanceGatewayService;
 		this.vnfLiveInstanceJpa = vnfLiveInstanceJpa;
 	}
@@ -104,5 +103,4 @@ public class MciopContributor extends AbstractContributorV2Base<MciopTask, Mciop
 				})
 				.toList();
 	}
-
 }

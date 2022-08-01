@@ -25,9 +25,11 @@ import com.ubiqube.etsi.mano.dao.mano.common.NicType;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfPortTask;
 import com.ubiqube.etsi.mano.orchestrator.Context;
 import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
+import com.ubiqube.etsi.mano.orchestrator.NamedDependency2d;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SubNetwork;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfPortNode;
+import com.ubiqube.etsi.mano.orchestrator.uow.Relation;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 
@@ -77,4 +79,9 @@ public class VnfPortUowV2 extends AbstractUowV2<VnfPortTask> {
 		return List.of(new NamedDependency(getNode(), task.getToscaName()));
 	}
 
+	@Override
+	public List<NamedDependency2d> get2dDependencies() {
+		final VnfLinkPort extCp = task.getVnfLinkPort();
+		return List.of(new NamedDependency2d(SubNetwork.class, extCp.getVirtualLink(), Relation.MANY_TO_ONE));
+	}
 }

@@ -22,8 +22,10 @@ import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.v2.MonitoringTask;
 import com.ubiqube.etsi.mano.orchestrator.Context;
 import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
+import com.ubiqube.etsi.mano.orchestrator.NamedDependency2d;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Compute;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Monitoring;
+import com.ubiqube.etsi.mano.orchestrator.uow.Relation;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
 import com.ubiqube.etsi.mano.vnfm.service.VnfMonitoringService;
 
@@ -66,6 +68,11 @@ public class VnfMonitoringUow2 extends AbstractUowV2<MonitoringTask> {
 	@Override
 	public List<NamedDependency> getNamedProduced() {
 		return List.of(new NamedDependency(getNode(), task.getToscaName()));
+	}
+
+	@Override
+	public List<NamedDependency2d> get2dDependencies() {
+		return List.of(new NamedDependency2d(Compute.class, task.getParentAlias(), Relation.ONE_TO_ONE));
 	}
 
 }

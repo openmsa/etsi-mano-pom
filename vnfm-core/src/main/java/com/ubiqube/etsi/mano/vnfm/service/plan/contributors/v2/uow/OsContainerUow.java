@@ -24,6 +24,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerTask;
 import com.ubiqube.etsi.mano.dao.mano.vnfi.CnfInformations;
 import com.ubiqube.etsi.mano.orchestrator.Context;
 import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
+import com.ubiqube.etsi.mano.orchestrator.NamedDependency2d;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerNode;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
 import com.ubiqube.etsi.mano.service.vim.CnfK8sParams;
@@ -87,6 +88,11 @@ public class OsContainerUow extends AbstractUowV2<OsContainerTask> {
 	@Override
 	public List<NamedDependency> getNamedProduced() {
 		return List.of(new NamedDependency(getNode(), task.getToscaName()));
+	}
+
+	@Override
+	public List<NamedDependency2d> get2dDependencies() {
+		return List.of();
 	}
 
 }

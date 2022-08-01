@@ -24,7 +24,9 @@ import com.ubiqube.etsi.mano.dao.mano.vnfi.StatusType;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.orchestrator.Context;
 import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
+import com.ubiqube.etsi.mano.orchestrator.NamedDependency2d;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerDeployableNode;
+import com.ubiqube.etsi.mano.orchestrator.uow.Relation;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
 import com.ubiqube.etsi.mano.service.vim.K8sStatus;
 import com.ubiqube.etsi.mano.service.vim.Vim;
@@ -82,4 +84,8 @@ public class WaitK8sClusterUow extends AbstractUowV2<OsContainerDeployableTask> 
 		return List.of(new NamedDependency(getNode(), toscaName));
 	}
 
+	@Override
+	public List<NamedDependency2d> get2dDependencies() {
+		return List.of(new NamedDependency2d(OsContainerDeployableNode.class, getTask().getName(), Relation.ONE_TO_ONE));
+	}
 }

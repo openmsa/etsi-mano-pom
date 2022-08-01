@@ -55,7 +55,6 @@ public class VnfV2StorageContributor extends AbstractContributorV2Base<StorageTa
 	private final VnfLiveInstanceJpa vnfLiveInstanceJpa;
 
 	public VnfV2StorageContributor(final VnfLiveInstanceJpa vnfLiveInstanceJpa) {
-		super();
 		this.vnfLiveInstanceJpa = vnfLiveInstanceJpa;
 	}
 

@@ -25,6 +25,7 @@ import com.ubiqube.etsi.mano.dao.mano.VnfLinkPort;
 import com.ubiqube.etsi.mano.dao.mano.v2.ComputeTask;
 import com.ubiqube.etsi.mano.orchestrator.Context;
 import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
+import com.ubiqube.etsi.mano.orchestrator.NamedDependency2d;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.AffinityRuleNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Compute;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.DnsHost;
@@ -32,6 +33,7 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SecurityGroupNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Storage;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfPortNode;
+import com.ubiqube.etsi.mano.orchestrator.uow.Relation;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
 import com.ubiqube.etsi.mano.service.vim.ComputeParameters;
 import com.ubiqube.etsi.mano.service.vim.Vim;
@@ -127,4 +129,26 @@ public class VnfComputeUowV2 extends AbstractUowV2<ComputeTask> {
 		return List.of(new NamedDependency(getNode(), task.getAlias()));
 	}
 
+	@Override
+	public List<NamedDependency2d> get2dDependencies() {
+		final List<NamedDependency2d> ret = new ArrayList<>();
+		task.getVnfCompute().getStorages().stream()
+				.map(x -> new NamedDependency2d(Storage.class, x, Relation.ONE_TO_ONE))
+				.forEach(ret::add);
+		task.getVnfCompute().getNetworks().stream()
+				.map(x -> new NamedDependency2d(Network.class, x, Relation.MANY_TO_ONE))
+				.forEach(ret::add);
+		task.getVnfCompute().getAffinityRule().stream()
+				.map(x -> new NamedDependency2d(AffinityRuleNode.class, x, Relation.MANY_TO_ONE))
+				.forEach(ret::add);
+		task.getVnfCompute().getSecurityGroup().stream()
+				.map(x -> new NamedDependency2d(SecurityGroupNode.class, x, Relation.MANY_TO_ONE))
+				.forEach(ret::add);
+		task.getVnfCompute().getPorts().stream()
+				.sorted(Comparator.comparingInt(VnfLinkPort::getInterfaceOrder))
+				.map(x -> new NamedDependency2d(VnfPortNode.class, x.getToscaName(), Relation.ONE_TO_ONE))
+				.forEach(ret::add);
+		ret.add(new NamedDependency2d(DnsHost.class, task.getToscaName(), Relation.ONE_TO_ONE));
+		return ret;
+	}
 }

@@ -32,6 +32,7 @@ import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.model.VnfInstantiate;
 import com.ubiqube.etsi.mano.orchestrator.Context;
 import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
+import com.ubiqube.etsi.mano.orchestrator.NamedDependency2d;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.NsdInstantiateNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfInstantiateNode;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
@@ -103,6 +104,11 @@ public class NsUow extends AbstractUnitOfWork<NsdTask> {
 	@Override
 	public List<NamedDependency> getNamedProduced() {
 		return List.of(new NamedDependency(VnfInstantiateNode.class, nsdTask.getAlias()));
+	}
+
+	@Override
+	public List<NamedDependency2d> get2dDependencies() {
+		return List.of();
 	}
 
 }

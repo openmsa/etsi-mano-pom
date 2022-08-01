@@ -53,7 +53,6 @@ public class VnfV2NetworkContributor extends AbstractContributorV2Base<NetworkTa
 	private final VnfLiveInstanceJpa vnfLiveInstanceJpa;
 
 	public VnfV2NetworkContributor(final VnfBlueprintService planService, final VnfLiveInstanceJpa vnfLiveInstanceJpa) {
-		super();
 		this.planService = planService;
 		this.vnfLiveInstanceJpa = vnfLiveInstanceJpa;
 	}

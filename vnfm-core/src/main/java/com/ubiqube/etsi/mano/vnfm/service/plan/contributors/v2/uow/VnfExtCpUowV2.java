@@ -23,8 +23,10 @@ import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.v2.ExternalCpTask;
 import com.ubiqube.etsi.mano.orchestrator.Context;
 import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
+import com.ubiqube.etsi.mano.orchestrator.NamedDependency2d;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfExtCp;
+import com.ubiqube.etsi.mano.orchestrator.uow.Relation;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 
@@ -72,6 +74,16 @@ public class VnfExtCpUowV2 extends AbstractUowV2<ExternalCpTask> {
 	@Override
 	public List<NamedDependency> getNamedProduced() {
 		return List.of(new NamedDependency(getNode(), task.getAlias()));
+	}
+
+	@Override
+	public List<NamedDependency2d> get2dDependencies() {
+		final com.ubiqube.etsi.mano.dao.mano.VnfExtCp extCp = task.getVnfExtCp();
+		final List<NamedDependency2d> ret = new ArrayList<>();
+		ret.add(new NamedDependency2d(Network.class, extCp.getInternalVirtualLink(), Relation.ONE_TO_ONE));
+		ret.add(new NamedDependency2d(Network.class, extCp.getExternalVirtualLink(), Relation.ONE_TO_ONE));
+		return ret;
+
 	}
 
 }

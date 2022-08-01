@@ -21,6 +21,7 @@ import java.util.List;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
 import com.ubiqube.etsi.mano.orchestrator.Context;
 import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
+import com.ubiqube.etsi.mano.orchestrator.NamedDependency2d;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
 import com.ubiqube.etsi.mano.service.graph.AbstractUnitOfWork;
 
@@ -49,6 +50,11 @@ public class NsStartUow extends AbstractUnitOfWork<NsTask> {
 
 	@Override
 	public List<NamedDependency> getNamedProduced() {
+		return List.of();
+	}
+
+	@Override
+	public List<NamedDependency2d> get2dDependencies() {
 		return List.of();
 	}
 

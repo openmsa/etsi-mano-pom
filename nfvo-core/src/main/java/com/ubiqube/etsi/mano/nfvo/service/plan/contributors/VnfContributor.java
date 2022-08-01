@@ -154,6 +154,7 @@ public class VnfContributor extends AbstractNsContributor<NsVnfTask, NsVtBase<Ns
 		nt.setNsdId(instance.getNsdInfo().getId());
 		nt.setNsPackageVnfPackage(task.getNsPackageVnfPackage());
 		nt.setVnfdId(task.getVnfdId());
+		nt.setVlInstances(task.getVlInstances());
 		return nt;
 	}
 
@@ -189,6 +190,7 @@ public class VnfContributor extends AbstractNsContributor<NsVnfTask, NsVtBase<Ns
 		nt.setAlias(aliasName);
 		nt.setServer(task.getServer());
 		nt.setNsdId(instance.getNsdInfo().getId());
+		nt.setVlInstances(task.getVlInstances());
 		return nt;
 	}
 

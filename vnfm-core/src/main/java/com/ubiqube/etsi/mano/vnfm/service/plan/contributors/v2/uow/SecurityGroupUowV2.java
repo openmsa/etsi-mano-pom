@@ -22,6 +22,7 @@ import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.SecurityGroupTask;
 import com.ubiqube.etsi.mano.orchestrator.Context;
 import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
+import com.ubiqube.etsi.mano.orchestrator.NamedDependency2d;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SecurityGroupNode;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
 import com.ubiqube.etsi.mano.service.vim.Vim;
@@ -64,4 +65,8 @@ public class SecurityGroupUowV2 extends AbstractUowV2<SecurityGroupTask> {
 		return List.of(new NamedDependency(getNode(), task.getToscaName()));
 	}
 
+	@Override
+	public List<NamedDependency2d> get2dDependencies() {
+		return List.of();
+	}
 }
