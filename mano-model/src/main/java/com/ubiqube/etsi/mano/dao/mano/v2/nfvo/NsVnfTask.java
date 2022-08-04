@@ -75,7 +75,7 @@ public class NsVnfTask extends NsTask {
 
 	private String localizationLanguage;
 
-	private UUID nsdId;
+	private String nsdId;
 
 	@ElementCollection(fetch = FetchType.EAGER)
 	private Set<String> vlInstances;

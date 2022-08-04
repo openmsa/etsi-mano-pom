@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service.pkg.ns.visitor;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -28,6 +29,7 @@ import com.ubiqube.etsi.mano.dao.mano.NsdPackageVnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
 import com.ubiqube.etsi.mano.dao.mano.dto.NsVnf;
+import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.ExternalPortRecord;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.nfvo.service.pkg.PackageVersion;
@@ -45,7 +47,6 @@ public class VnfPackageVisitor implements NsOnboardingVisitor {
 	private final VnfPackageService vnfPackageService;
 
 	public VnfPackageVisitor(final VnfPackageService vnfPackageService) {
-		super();
 		this.vnfPackageService = vnfPackageService;
 	}
 
@@ -56,16 +57,44 @@ public class VnfPackageVisitor implements NsOnboardingVisitor {
 					final Optional<VnfPackage> optPackage = getVnfPackage(x.getVnfdId());
 					final VnfPackage vnfPackage = optPackage.orElseThrow(() -> new NotFoundException("Vnfd descriptor_id not found: " + x.getVnfdId()));
 					final NsdPackageVnfPackage nsdPackageVnfPackage = new NsdPackageVnfPackage();
+					mapVirtualLinks(nsdPackageVnfPackage, x);
+					final Set<ExternalPortRecord> nets = getNetworks(vnfPackage);
+					nets.addAll(getVl(nsdPackageVnfPackage));
+					nsdPackageVnfPackage.setNets(nets);
+					nsdPackageVnfPackage.setVnfdId(vnfPackage.getVnfdId());
 					nsdPackageVnfPackage.setNsdPackage(nsPackage);
 					nsdPackageVnfPackage.setToscaName(x.getName());
 					nsdPackageVnfPackage.setVnfPackage(vnfPackage);
-					mapVirtualLinks(nsdPackageVnfPackage, x);
 					vnfPackage.addNsdPackage(nsdPackageVnfPackage);
 					vnfPackageService.save(vnfPackage);
 					return nsdPackageVnfPackage;
 				})
 				.collect(Collectors.toSet());
 		nsPackage.setVnfPkgIds(vnfds);
+	}
+
+	private static Set<ExternalPortRecord> getVl(final NsdPackageVnfPackage nsPackageVnfPackage) {
+		return nsPackageVnfPackage.getVirtualLinks().stream()
+				.filter(x -> x.getValue() != null)
+				.map(x -> new ExternalPortRecord(x.getValue(), getVlName(x), null))
+				.collect(Collectors.toSet());
+	}
+
+	private static String getVlName(final ListKeyPair x) {
+		if (x.getIdx() == 0) {
+			return "virtual_link";
+		}
+		return "virtual_link_" + x.getIdx();
+	}
+
+	private static Set<ExternalPortRecord> getNetworks(final VnfPackage vnfPackage) {
+		final Set<ExternalPortRecord> ret = new HashSet<>();
+		final Set<ExternalPortRecord> n = vnfPackage.getVnfCompute().stream()
+				.flatMap(y -> y.getNetworks().stream())
+				.map(y -> new ExternalPortRecord(y, null, null))
+				.collect(Collectors.toSet());
+		ret.addAll(n);
+		return ret;
 	}
 
 	private static void mapVirtualLinks(final NsdPackageVnfPackage vnfPackage, final NsVnf nsVnf) {

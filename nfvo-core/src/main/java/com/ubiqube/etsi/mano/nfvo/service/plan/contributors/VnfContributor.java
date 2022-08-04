@@ -92,16 +92,6 @@ public class VnfContributor extends AbstractNsContributor<NsVnfTask, NsVtBase<Ns
 		this.vnfPackageService = vnfPackageService;
 	}
 
-	private static Set<ExternalPortRecord> getNetworks(final VnfPackage vnfPackage) {
-		final Set<ExternalPortRecord> ret = new HashSet<>();
-		final Set<ExternalPortRecord> n = vnfPackage.getVnfCompute().stream()
-				.flatMap(y -> y.getNetworks().stream())
-				.map(y -> new ExternalPortRecord(y, null, null))
-				.collect(Collectors.toSet());
-		ret.addAll(n);
-		return ret;
-	}
-
 	private static List<CpPair> getForwarder(final Set<VnffgDescriptor> vnffg) {
 		final Set<ExternalPortRecord> ret = new HashSet<>();
 		vnffg.stream()
@@ -151,7 +141,7 @@ public class VnfContributor extends AbstractNsContributor<NsVnfTask, NsVtBase<Ns
 		nt.setAlias(toscaName);
 		nt.setToscaName(aliasName);
 		nt.setType(ResourceTypeEnum.VNF);
-		nt.setNsdId(instance.getNsdInfo().getId());
+		nt.setNsdId(instance.getNsdInfo().getId().toString());
 		nt.setNsPackageVnfPackage(task.getNsPackageVnfPackage());
 		nt.setVnfdId(task.getVnfdId());
 		nt.setVlInstances(task.getVlInstances());
@@ -183,13 +173,12 @@ public class VnfContributor extends AbstractNsContributor<NsVnfTask, NsVtBase<Ns
 
 	private static NsVnfTask createDeleteTask(final NsdInstance instance, final NsLiveInstance insts, final NsVnfTask task, final String toscaName, final String aliasName) {
 		final NsVnfTask nt = createDeleteTask(NsVnfTask::new, insts);
-		final Set<ExternalPortRecord> nets = getNetworks(task.getNsPackageVnfPackage().getVnfPackage());
-		nt.setExternalNetworks(nets);
+		nt.setExternalNetworks(task.getNsPackageVnfPackage().getNets());
 		nt.setVimResourceId(insts.getResourceId());
 		nt.setToscaName(toscaName);
 		nt.setAlias(aliasName);
 		nt.setServer(task.getServer());
-		nt.setNsdId(instance.getNsdInfo().getId());
+		nt.setNsdId(instance.getNsdInfo().getId().toString());
 		nt.setVlInstances(task.getVlInstances());
 		return nt;
 	}
@@ -206,9 +195,7 @@ public class VnfContributor extends AbstractNsContributor<NsVnfTask, NsVtBase<Ns
 	private NsVnfTask createTask(final VnfPackage vnfPkg, final NsdPackageVnfPackage nsPackageVnfPackage, final UUID nsdId, final String newName, final NsBlueprint blueprint) {
 		final NsVnfTask vnf = createTask(NsVnfTask::new);
 		vnf.setChangeType(ChangeType.ADDED);
-		final Set<ExternalPortRecord> nets = getNetworks(vnfPkg);
-		nets.addAll(getVl(nsPackageVnfPackage));
-		vnf.setExternalNetworks(nets);
+		vnf.setExternalNetworks(nsPackageVnfPackage.getNets());
 		vnf.setNsPackageVnfPackage(nsPackageVnfPackage);
 		final Servers server = selectServer(vnfPkg);
 		vnf.setServer(server);
@@ -217,9 +204,9 @@ public class VnfContributor extends AbstractNsContributor<NsVnfTask, NsVtBase<Ns
 		vnf.setVlInstances(nstworks);
 		vnf.setToscaName(nsPackageVnfPackage.getToscaName());
 		vnf.setFlavourId("flavour");
-		vnf.setVnfdId(nsPackageVnfPackage.getVnfPackage().getVnfdId());
+		vnf.setVnfdId(nsPackageVnfPackage.getVnfdId());
 		vnf.setType(ResourceTypeEnum.VNF);
-		vnf.setNsdId(nsdId);
+		vnf.setNsdId(nsPackageVnfPackage.getNsdPackage().getNsdId());
 		return vnf;
 	}
 
@@ -234,20 +221,6 @@ public class VnfContributor extends AbstractNsContributor<NsVnfTask, NsVtBase<Ns
 
 	private static ForwarderMapping mapToVl(final NsdPackageVnfPackage nsPackageVnfPackage, final ListKeyPair lp) {
 		return nsPackageVnfPackage.getForwardMapping().stream().filter(x -> x.getForwardingName().equals(lp.getValue())).findFirst().orElseThrow();
-	}
-
-	private static Set<ExternalPortRecord> getVl(final NsdPackageVnfPackage nsPackageVnfPackage) {
-		return nsPackageVnfPackage.getVirtualLinks().stream()
-				.filter(x -> x.getValue() != null)
-				.map(x -> new ExternalPortRecord(x.getValue(), getVlName(x), null))
-				.collect(Collectors.toSet());
-	}
-
-	private static String getVlName(final ListKeyPair x) {
-		if (x.getIdx() == 0) {
-			return "virtual_link";
-		}
-		return "virtual_link_" + x.getIdx();
 	}
 
 	private static String getToscaName(final String nsPackageVnfPackage, final int instanceNumber) {

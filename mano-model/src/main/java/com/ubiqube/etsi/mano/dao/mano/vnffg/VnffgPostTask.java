@@ -45,7 +45,7 @@ public class VnffgPostTask extends NsTask {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<ListKeyPair> chain;
 
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
 	private VnffgDescriptor vnffg;
 
 	private String srcPort;
