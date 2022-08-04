@@ -19,6 +19,8 @@ package com.ubiqube.etsi.mano.service.pkg.vnf.visitor;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Priority;
+
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfCompute;
@@ -31,6 +33,7 @@ import com.ubiqube.etsi.mano.service.pkg.vnf.VnfPackageReader;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
+@Priority(0)
 @Service
 public class ComputeVisitor implements OnboardVisitor {
 

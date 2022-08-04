@@ -21,6 +21,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.annotation.Priority;
+
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.ScalingAspect;
@@ -44,6 +46,7 @@ import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.VduScalingAspectDelta
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
+@Priority(100)
 @Service
 public class ScalingVisitor implements OnboardVisitor {
 
