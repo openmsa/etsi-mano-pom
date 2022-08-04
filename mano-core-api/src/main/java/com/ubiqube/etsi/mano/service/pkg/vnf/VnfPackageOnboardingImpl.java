@@ -128,7 +128,7 @@ public class VnfPackageOnboardingImpl {
 		return vnfPackageService.save(vnfPackage);
 	}
 
-	private void mapVnfPackage(final VnfPackage vnfPackage, final ManoResource data, final PackageDescriptor<VnfPackageReader> packageProvider) {
+	public void mapVnfPackage(final VnfPackage vnfPackage, final ManoResource data, final PackageDescriptor<VnfPackageReader> packageProvider) {
 		if (null == packageProvider) {
 			return;
 		}

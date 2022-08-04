@@ -102,7 +102,7 @@ public class NsPackageOnboardingImpl {
 		}
 	}
 
-	private void mapNsPackage(final NsPackageProvider packageProvider, final NsdPackage nsPackage) {
+	public void mapNsPackage(final NsPackageProvider packageProvider, final NsdPackage nsPackage) {
 		nsPackage.setAutoHealEnabled(packageProvider.isAutoHealEnabled());
 		nsOnboardingMapperService.mapper(packageProvider, nsPackage);
 	}
