@@ -51,8 +51,7 @@ public class VnfPackageManagerImpl implements VnfPackageManager {
 				return provider;
 			}
 		}
-		LOG.info("No package support, using default.");
-		return new DefaultVnfPackageProvider();
+		throw new GenericException("No package reader support, while trying readers: " + providers.stream().map(PackageDescriptor::getProviderName).toList());
 	}
 
 	@Override
