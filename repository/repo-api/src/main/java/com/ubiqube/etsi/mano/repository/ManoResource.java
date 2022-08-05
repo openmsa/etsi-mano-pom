@@ -19,6 +19,8 @@ package com.ubiqube.etsi.mano.repository;
 import java.io.InputStream;
 
 /**
+ * The mano resource class that hold a {@link InputStream}. But this
+ * {@link InputStream} must be re-openable.
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
