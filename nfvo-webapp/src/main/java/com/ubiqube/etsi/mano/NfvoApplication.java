@@ -37,7 +37,7 @@ public class NfvoApplication extends SpringBootServletInitializer {
 	public static void main(final String[] args) {
 		System.setProperty(OrikaSystemProperties.COMPILER_STRATEGY, EclipseJdtCompilerStrategy.class.getName());
 		System.setProperty(OrikaSystemProperties.WRITE_SOURCE_FILES, "true");
-		System.setProperty(OrikaSystemProperties.WRITE_SOURCE_FILES_TO_PATH, "/tmp/okika");
+		System.setProperty(OrikaSystemProperties.WRITE_SOURCE_FILES_TO_PATH, "/tmp/orika-nfvo");
 		Security.addProvider(new BouncyCastleProvider());
 		SpringApplication.run(NfvoApplication.class, args);
 	}
