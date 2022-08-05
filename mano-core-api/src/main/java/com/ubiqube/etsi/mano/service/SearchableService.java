@@ -53,16 +53,13 @@ public class SearchableService {
 	}
 
 	@Transactional
-	public <U> ResponseEntity<String> search(final Class<?> dbClass, final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink) {
+	public <U> ResponseEntity<String> search(final Class<?> dbClass, final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink, final List<Node<String>> additionalNodes) {
 		final String filter = getSingleField(requestParams, "filter");
-		final List<?> result = queryDb(filter, dbClass);
-		return searchService.search(requestParams, clazz, excludeDefaults, mandatoryFields, result, clazz, makeLink);
-	}
-
-	private List<?> queryDb(final String filter, final Class<?> clazz) {
-		final SearchQueryer sq = new SearchQueryer(em, grammarParser);
 		final List<Node<String>> nodes = grammarParser.parse(filter);
-		return sq.getCriteria((List<Node<?>>) (Object) nodes, clazz);
+		nodes.addAll(additionalNodes);
+		final SearchQueryer sq = new SearchQueryer(em, grammarParser);
+		final List<?> result = sq.getCriteria((List<Node<?>>) (Object) nodes, dbClass);
+		return searchService.search(requestParams, clazz, excludeDefaults, mandatoryFields, result, clazz, makeLink);
 	}
 
 	public <U> List<U> query(final Class<U> clazz, final String filter) {

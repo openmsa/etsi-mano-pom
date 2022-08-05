@@ -34,12 +34,6 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-import javax.persistence.CascadeType;
-import javax.persistence.ElementCollection;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
 import org.eclipse.jdt.annotation.NonNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -137,7 +131,7 @@ public class NsInstanceControllerServiceImpl implements NsInstanceControllerServ
 		final Set<VnffgDescriptor> r1 = nsd.getVnffgs().stream().map(this::copyVnffg).collect(Collectors.toSet());
 		nsInstanceTmp.setVnffgs(r1);
 	}
-	
+
 	private NsdVnfPackageCopy copy(final NsdPackageVnfPackage o) {
 		final NsdVnfPackageCopy n = new NsdVnfPackageCopy();
 		n.setForwardMapping(copyForwardMapping(o.getForwardMapping()));
@@ -175,6 +169,7 @@ public class NsInstanceControllerServiceImpl implements NsInstanceControllerServ
 		tmp.forEach(x -> x.setId(null));
 		return tmp.stream().collect(Collectors.toSet());
 	}
+
 	private VnffgDescriptor copyVnffg(final VnffgDescriptor o) {
 		final VnffgDescriptor n = new VnffgDescriptor();
 		n.setId(null);
@@ -191,6 +186,7 @@ public class NsInstanceControllerServiceImpl implements NsInstanceControllerServ
 		n.setNfpd(copyNfpd(o.getNfpd()));
 		return n;
 	}
+
 	private List<NfpDescriptor> copyNfpd(final List<NfpDescriptor> nfpd) {
 		final List<NfpDescriptor> tmp = nfpd.stream().map(x -> mapper.map(x, NfpDescriptor.class)).toList();
 		tmp.forEach(x -> {
@@ -199,7 +195,8 @@ public class NsInstanceControllerServiceImpl implements NsInstanceControllerServ
 		});
 		return tmp.stream().toList();
 	}
-	private List<VnffgInstance> copyVnffgInstance (final List<VnffgInstance> instance) {
+
+	private List<VnffgInstance> copyVnffgInstance(final List<VnffgInstance> instance) {
 		final List<VnffgInstance> tmp = instance.stream().map(x -> mapper.map(x, VnffgInstance.class)).toList();
 		tmp.forEach(x -> {
 			x.setId(null);
@@ -207,7 +204,8 @@ public class NsInstanceControllerServiceImpl implements NsInstanceControllerServ
 		});
 		return tmp.stream().toList();
 	}
-	private List<CpPair> copyCpPair (final List<CpPair> pair) {
+
+	private List<CpPair> copyCpPair(final List<CpPair> pair) {
 		final List<CpPair> tmp = pair.stream().map(x -> mapper.map(x, CpPair.class)).toList();
 		tmp.forEach(x -> {
 			x.setId(null);
@@ -287,6 +285,6 @@ public class NsInstanceControllerServiceImpl implements NsInstanceControllerServ
 
 	@Override
 	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink) {
-		return searchableService.search(NsdInstance.class, requestParams, clazz, excludeDefaults, mandatoryFields, makeLink);
+		return searchableService.search(NsdInstance.class, requestParams, clazz, excludeDefaults, mandatoryFields, makeLink, List.of());
 	}
 }

@@ -43,6 +43,8 @@ import com.ubiqube.etsi.mano.controller.vnf.VnfPackageManagement;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
+import com.ubiqube.etsi.mano.grammar.Node;
+import com.ubiqube.etsi.mano.grammar.Node.Operand;
 import com.ubiqube.etsi.mano.repository.ManoResource;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 import com.ubiqube.etsi.mano.service.SearchableService;
@@ -192,6 +194,13 @@ public class VnfManagement implements VnfPackageManagement {
 
 	@Override
 	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink) {
-		return searchableService.search(VnfPackage.class, requestParams, clazz, excludeDefaults, mandatoryFields, makeLink);
+		return searchableService.search(VnfPackage.class, requestParams, clazz, excludeDefaults, mandatoryFields, makeLink, List.of());
+	}
+
+	@Override
+	public <U> ResponseEntity<String> searchOnboarded(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLinks) {
+		final Node<String> onBoardedNode = new Node<>("onboardingState", Operand.EQ, List.of("ONBOARDED"));
+		return searchableService.search(VnfPackage.class, requestParams, clazz, excludeDefaults, mandatoryFields, makeLinks, List.of(onBoardedNode));
+
 	}
 }

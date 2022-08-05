@@ -23,6 +23,7 @@ import static com.ubiqube.etsi.mano.Constants.ensureNotOnboarded;
 
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -117,6 +118,6 @@ public class NsdControllerImpl implements NsdController {
 
 	@Override
 	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink) {
-		return searchableService.search(NsdPackage.class, requestParams, clazz, excludeDefaults, mandatoryFields, makeLink);
+		return searchableService.search(NsdPackage.class, requestParams, clazz, excludeDefaults, mandatoryFields, makeLink, List.of());
 	}
 }

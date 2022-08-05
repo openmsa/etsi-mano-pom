@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -94,7 +95,7 @@ public class VnfmThresholdControllerDirectVim implements VnfmThresholdController
 
 	@Override
 	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink) {
-		return searchableService.search(Threshold.class, requestParams, clazz, excludeDefaults, mandatoryFields, makeLink);
+		return searchableService.search(Threshold.class, requestParams, clazz, excludeDefaults, mandatoryFields, makeLink, List.of());
 	}
 
 }
