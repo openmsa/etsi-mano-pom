@@ -87,7 +87,7 @@ public class Poc {
 		this.nsPlanService = nsPlanService;
 	}
 
-	@GetMapping("/plan/ns/2d/{id}")
+//	@GetMapping("/plan/ns/2d/{id}")
 	public ResponseEntity<BufferedImage> getNs2dPlan(@PathVariable("id") final UUID id) {
 		final ListenableGraph<Vertex2d, Edge2d> g = nsPlanService.getPlanFor(id);
 		return ResponseEntity
@@ -105,7 +105,7 @@ public class Poc {
 				.body(drawGraph2(g));
 	}
 
-	@GetMapping("/plan/vnf/2d/{id}")
+//	@GetMapping("/plan/vnf/2d/{id}")
 	public ResponseEntity<BufferedImage> getVnf2dPlan(@PathVariable("id") final UUID id) {
 		final ListenableGraph<Vertex2d, Edge2d> g = vnfPlanService.getPlanFor(id);
 		return ResponseEntity
@@ -123,7 +123,7 @@ public class Poc {
 				.body(drawGraph2(g));
 	}
 
-	@GetMapping("/ns/lcm-op-occs/{id}")
+//	@GetMapping("/ns/lcm-op-occs/{id}")
 	public ResponseEntity<BufferedImage> getDeployementPicture(@PathVariable("id") final UUID id) {
 		final NsBlueprint blueprint = nsBlueprintJpa.findById(id).orElseThrow();
 		final List<NsLiveInstance> liveInst = nsLiveInstanceJpa.findByNsInstanceId(blueprint.getInstance().getId());
