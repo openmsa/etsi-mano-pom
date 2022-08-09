@@ -65,7 +65,7 @@ public class VnfPlanService {
 			g.from(Network.class, x.getToscaName()).addNext(DnsZone.class, x.getToscaName(), Relation.ONE_TO_ONE);
 			// x.getPlacementGroup()
 			x.getVlProfileEntity().getVirtualLinkProtocolData().stream()
-					.forEach(y -> g.from(Network.class, x.getToscaName()).addNext(SubNetwork.class, y.getL2ProtocolData().getName(), Relation.ONE_TO_ONE));
+					.forEach(y -> g.from(Network.class, x.getToscaName()).addNext(SubNetwork.class, x.getToscaName() + "-" + y.getL2ProtocolData().getName(), Relation.ONE_TO_ONE));
 		});
 		vnfPkg.getVnfStorage().forEach(x -> g.multi(Storage.class, x.getToscaName()));
 		vnfPkg.getVnfCompute().forEach(x -> {
@@ -82,10 +82,11 @@ public class VnfPlanService {
 				g.from(Compute.class, x.getToscaName()).dependency(VnfPortNode.class, y.getToscaName(), Relation.ONE_TO_ONE);
 				vl.getVlProfileEntity().getVirtualLinkProtocolData().stream()
 						.forEach(z -> {
-							g.from(VnfPortNode.class, y.getToscaName()).dependency(SubNetwork.class, z.getL2ProtocolData().getName(), Relation.MANY_TO_ONE);
-							g.single(DnsHost.class, x.getToscaName());
-							g.from(DnsHost.class, x.getToscaName()).addNext(VnfPortNode.class, y.getToscaName(), Relation.ONE_TO_ONE);
-							g.from(DnsHost.class, x.getToscaName()).dependency(DnsZone.class, vl.getToscaName(), Relation.ONE_TO_MANY);
+							g.from(VnfPortNode.class, y.getToscaName()).dependency(SubNetwork.class, vl.getToscaName() + "-" + z.getL2ProtocolData().getName(), Relation.MANY_TO_ONE);
+							final String dnsName = x.getToscaName() + "-" + y.getToscaName();
+							g.single(DnsHost.class, dnsName);
+							g.from(DnsHost.class, dnsName).addNext(VnfPortNode.class, y.getToscaName(), Relation.ONE_TO_ONE);
+							g.from(DnsHost.class, dnsName).dependency(DnsZone.class, vl.getToscaName(), Relation.ONE_TO_MANY);
 						});
 			});
 			x.getPlacementGroup().forEach(y -> g.from(Compute.class, x.getToscaName()).dependency(SecurityGroupNode.class, y.getToscaName(), Relation.MANY_TO_ONE));
