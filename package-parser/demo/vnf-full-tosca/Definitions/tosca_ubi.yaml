@@ -238,6 +238,8 @@ topology_template:
           virtual_cpu:
             cpu_architecture: x86_64
             num_virtual_cpu: 1
+      requirements:
+        - virtual_storage: block01
 
     block01:
       type: tosca.nodes.nfv.Vdu.VirtualBlockStorage
@@ -356,6 +358,22 @@ topology_template:
                 ip_allocation_pools:
                   - start_ip_address: 192.168.10.100
                     end_ip_address: 192.168.10.254
+              associated_layer_protocol: ipv4
+            - l2_protocol_data:
+                name: vl01L2-bis
+                vlan_transparent: false
+                #network_type: flat
+                mtu: 1442
+              l3_protocol_data:
+                dhcp_enabled: true
+                cidr: 192.168.21.0/24
+                gateway_ip: 192.168.21.12
+                ip_version: V4
+                name: vl01L3-bis
+                ipv6_address_mode: anycast
+                ip_allocation_pools:
+                  - start_ip_address: 192.168.21.100
+                    end_ip_address: 192.168.21.254
               associated_layer_protocol: ipv4
 
     rightVl01:
@@ -632,13 +650,13 @@ policies:
 
   affinity_01:
     type: tosca.policies.nfv.AffinityRule
-    targets: [ vdu01, vl02, server_group_1 ]
+    targets: [ rightVdu01, vl02, server_group_1 ]
     properties:
       scope: nfvi_pop
 
   security:
     type: tosca.policies.nfv.SecurityGroupRule
-    targets: [ "" ]
+    targets: [ rightVdu01 ]
     properties:
       description: Descr.
       direction: ingress
