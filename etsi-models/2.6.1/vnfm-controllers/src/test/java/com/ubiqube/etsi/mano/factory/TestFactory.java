@@ -16,6 +16,8 @@
  */
 package com.ubiqube.etsi.mano.factory;
 
+import java.net.URI;
+
 import com.ubiqube.etsi.mano.common.v261.model.vnf.VnfPackageSoftwareImageInfo.ContainerFormatEnum;
 import com.ubiqube.etsi.mano.dao.mano.ContainerFormatType;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
@@ -50,10 +52,10 @@ public class TestFactory {
 	public static ProblemDetails createProblemDetails() {
 		final ProblemDetails pd = new ProblemDetails();
 		pd.setDetail("detail");
-		pd.setInstance("instance");
+		pd.setInstance(URI.create("http://instance"));
 		pd.setStatus(123);
 		pd.setTitle("title");
-		pd.setType("type");
+		pd.setType(URI.create("http://type"));
 		return pd;
 	}
 

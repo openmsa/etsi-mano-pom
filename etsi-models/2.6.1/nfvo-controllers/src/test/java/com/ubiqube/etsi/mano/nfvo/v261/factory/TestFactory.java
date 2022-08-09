@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.nfvo.v261.factory;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -58,10 +59,10 @@ public class TestFactory {
 	public static ProblemDetails createProblemDetails() {
 		final ProblemDetails pd = new ProblemDetails();
 		pd.setDetail("detail");
-		pd.setInstance("instance");
+		pd.setInstance(URI.create("http://instance"));
 		pd.setStatus(123);
 		pd.setTitle("title");
-		pd.setType("type");
+		pd.setType(URI.create("type"));
 		return pd;
 	}
 

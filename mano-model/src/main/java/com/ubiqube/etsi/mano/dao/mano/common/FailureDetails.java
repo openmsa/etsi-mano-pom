@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.dao.mano.common;
 
 import java.io.Serializable;
 import java.net.InetAddress;
+import java.net.URI;
 import java.net.UnknownHostException;
 
 import javax.persistence.Column;
@@ -34,7 +35,7 @@ public class FailureDetails implements Serializable {
 	/** Serial. */
 	private static final long serialVersionUID = 1L;
 
-	private String type;
+	private URI type;
 
 	private String title;
 
@@ -44,7 +45,7 @@ public class FailureDetails implements Serializable {
 	@Column(length = 500)
 	private String detail;
 
-	private String instance;
+	private URI instance;
 
 	public FailureDetails() {
 		// Nothing.
@@ -52,7 +53,7 @@ public class FailureDetails implements Serializable {
 
 	public FailureDetails(final long _status, final String _detail) {
 		try {
-			instance = InetAddress.getLocalHost().getCanonicalHostName();
+			instance = URI.create("http//" + InetAddress.getLocalHost().getCanonicalHostName());
 		} catch (final UnknownHostException e) {
 			LOG.warn("", e);
 		}
@@ -60,11 +61,11 @@ public class FailureDetails implements Serializable {
 		detail = _detail;
 	}
 
-	public String getType() {
+	public URI getType() {
 		return type;
 	}
 
-	public void setType(final String type) {
+	public void setType(final URI type) {
 		this.type = type;
 	}
 
@@ -92,11 +93,11 @@ public class FailureDetails implements Serializable {
 		this.detail = detail;
 	}
 
-	public String getInstance() {
+	public URI getInstance() {
 		return instance;
 	}
 
-	public void setInstance(final String instance) {
+	public void setInstance(final URI instance) {
 		this.instance = instance;
 	}
 
