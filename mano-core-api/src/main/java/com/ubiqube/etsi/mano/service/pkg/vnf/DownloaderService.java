@@ -132,6 +132,9 @@ public class DownloaderService {
 						return Mono.error(e);
 					})
 					.subscribe(DataBufferUtils.releaseConsumer());
+			if (eh.getMessage() != null) {
+				throw new GenericException(eh.getE());
+			}
 			packageRepository.storeBinary(vnfPkgId, target, isPipe);
 			return Paths.get(target);
 		} catch (final IOException e) {
