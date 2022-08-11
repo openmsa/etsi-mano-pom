@@ -68,7 +68,7 @@ topology_template:
             performance_metric: v_disk_usage_peak_vnf
             collection_period: 1 m
       requirements:
-        - virtual_link: public
+        - virtual_link: vl01
 
 
     vl01:
@@ -254,7 +254,7 @@ policies:
       number_of_instances: # map<Integer, Integer>
         1: 2
         2: 1
-    targets: # [ tosca.nodes.nfv.VNF ]
+    targets:  [ frontend ] # [ tosca.nodes.nfv.VNF ]
 
   ns_to_level_map:
     type: tosca.policies.nfv.NsToLevelMapping
@@ -263,7 +263,7 @@ policies:
       number_of_instances: # map<Integer, Integer>
         1: 3
         2: 4
-    targets: # [ tosca.nodes.nfv.NS ]
+    targets: [ database ] # [ tosca.nodes.nfv.NS ]
 
   virt_link_mapping:
     type: tosca.policies.nfv.VirtualLinkToLevelMapping
@@ -273,7 +273,7 @@ policies:
         1:
           root: 12
           leaf: 34
-    targets: # [ tosca.nodes.nfv.NsVirtualLink ]
+    targets: [vl01 ] # [ tosca.nodes.nfv.NsVirtualLink ]
 
   ns instantiation_level:
     type: tosca.policies.nfv.NsInstantiationLevels
@@ -290,14 +290,14 @@ policies:
       number_of_instances: # map<String, Integer>
         inst_lvl: 5
         level_2: 2
-    targets: #[ tosca.nodes.nfv.VNF ]
+    targets: [ frontend ] #[ tosca.nodes.nfv.VNF ]
 
   ns_to_inst_level:
     type: tosca.policies.nfv.NsToInstantiationLevelMapping
     properties:
       number_of_instances: # map<String, Integer>
         inst_lvl: 2
-    targets: #[ tosca.nodes.nfv.NS ]
+    targets: [ database ]  #[ tosca.nodes.nfv.NS ]
 
   vl_to_inst:
     type: tosca.policies.nfv.VirtualLinkToInstantiationLevelMapping
@@ -312,23 +312,6 @@ policies:
     properties:
     targets: #[ tosca.nodes.nfv.NS ]
 
-
-group_types:
-  vnfgg:
-    type: tosca.groups.nfv.VNFFG
-    properties:
-      description: descr
-    members: # [ tosca.nodes.nfv.NFP, tosca.nodes.nfv.VNF, tosca.nodes.nfv.PNF, tosca.nodes.nfv.NS, tosca.nodes.nfv.NsVirtualLink, tosca.nodes.nfv.NfpPositionElement ]
-      - one
-      - two
-
-  placement_group:
-    tpye: tosca.groups.nfv.NsPlacementGroup
-    properties:
-      description: descr.
-
-
-policies:
   nfp_rule: # classifier
     type: tosca.policies.nfv.NfpRule
     properties:
@@ -450,6 +433,21 @@ policies:
   ns_autoscale:
     type: tosca.policies.nfv.NsAutoScale
     targets: [ database ]
+
+
+group_types:
+  vnfgg:
+    type: tosca.groups.nfv.VNFFG
+    properties:
+      description: descr
+    members: # [ tosca.nodes.nfv.NFP, tosca.nodes.nfv.VNF, tosca.nodes.nfv.PNF, tosca.nodes.nfv.NS, tosca.nodes.nfv.NsVirtualLink, tosca.nodes.nfv.NfpPositionElement ]
+      - one
+      - two
+
+  placement_group:
+    tpye: tosca.groups.nfv.NsPlacementGroup
+    properties:
+      description: descr.
 
 
 

@@ -8,7 +8,6 @@ description: >
 
 imports:
   - etsi_nfv_sol001_nsd_types.yaml
-  - fix_ubiqube.yaml
 
 
 topology_template:
@@ -31,15 +30,32 @@ topology_template:
         - virtual_link: # tosca.nodes.nfv.NsVirtualLink
             node: public
 
-
-    ubiqube:
-      type: tosca.nodes.nfv.NsTopology
+    vnf_middle:
+      type:  tosca.nodes.nfv.VNF
       properties:
         flavour_id: flavor01
-        vnfd_invariant:
-          - dcd11fbf-c767-41eb-abc9-cec35dd95bca
-        nested_nsd_invariant:
-          - 65f6fbed-654b-4d68-b730-5d8d72a8b865
+        descriptor_id: dcd11fbf-c767-41eb-abc9-cec35dd95bca
+      requirements:
+        - virtual_link: VNF_middle_forward_3
+        - virtual_link_1: VNF_middle_forward_4
+
+    ns-child:
+      type: tosca.nodes.nfv.NS
+      properties:
+        descriptor_id: 65f6fbed-654b-4d68-b730-5d8d72a8b865
+        designer: ovi@ubiqube.com
+        version: 0.0.1
+        name: First NSD.
+        invariant_id: 65f6fbed-654b-4d68-b730-5d8d72a8b865
+        flavour_id: flavor01
+        ns_profile: # tosca.datatypes.nfv.NsProfile
+          ns_instantiation_level: demo
+          min_number_of_instances: 1
+          max_number_of_instances: 1
+          flavour_id: flavor02
+      requirements:
+        - virtual_link: # tosca.nodes.nfv.NsVirtualLink
+            node: public
 
 
     vl01:
@@ -86,10 +102,8 @@ topology_template:
                   number_of_ip_address: 10
         trunk_mode: false
       requirements:
-        - external_virtual_link:
-          node: extvl
-        - internal_virtual_link: # Must be defined
-          node: int_vl
+        - external_virtual_link: extvl
+        - internal_virtual_link: int_vl
 
 
 policies:
