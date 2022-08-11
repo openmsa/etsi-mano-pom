@@ -20,6 +20,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.annotation.Priority;
+
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
@@ -34,12 +36,12 @@ import com.ubiqube.etsi.mano.service.pkg.ns.NsPackageProvider;
  * @author olivier.vignaud
  *
  */
+@Priority(50)
 @Service
 public class NesteedNsdPackageVisitor implements NsOnboardingVisitor {
 	private final NsdPackageJpa nsdPackageJpa;
 
 	public NesteedNsdPackageVisitor(final NsdPackageJpa nsdPackageJpa) {
-		super();
 		this.nsdPackageJpa = nsdPackageJpa;
 	}
 

@@ -18,6 +18,8 @@ package com.ubiqube.etsi.mano.nfvo.service.pkg.ns.visitor;
 
 import java.util.Map;
 
+import javax.annotation.Priority;
+
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
@@ -27,12 +29,17 @@ import com.ubiqube.etsi.mano.service.pkg.ns.NsPackageProvider;
 
 import ma.glasnost.orika.MapperFacade;
 
+/**
+ *
+ * @author olivier
+ *
+ */
+@Priority(0)
 @Service
 public class NsdVisitor implements NsOnboardingVisitor {
 	private final MapperFacade mapper;
 
 	public NsdVisitor(final MapperFacade mapper) {
-		super();
 		this.mapper = mapper;
 	}
 
