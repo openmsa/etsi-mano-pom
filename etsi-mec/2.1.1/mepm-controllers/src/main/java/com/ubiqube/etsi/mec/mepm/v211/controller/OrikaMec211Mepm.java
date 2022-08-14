@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mec.mepm.v211.controller;
 
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.dao.mano.dto.VnfGrantsRequest;
+import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.dao.mec.lcm.AppInstance;
 import com.ubiqube.etsi.mec.meo.v211.model.grant.GrantRequest;
 import com.ubiqube.etsi.mec.meo.v211.model.lcm.AppInstanceInfo;
@@ -46,7 +46,7 @@ public class OrikaMec211Mepm implements OrikaMapperFactoryConfigurer {
 				.field("appPkgId", "appPkg.id")
 				.byDefault()
 				.register();
-		orikaMapperFactory.classMap(GrantRequest.class, VnfGrantsRequest.class)
+		orikaMapperFactory.classMap(GrantRequest.class, GrantResponse.class)
 				.field("appInstanceId", "vnfInstance.id")
 				.field("appLcmOpOccId", "vnfLcmOpOccs.id")
 				.field("appDId", "vnfdId")
