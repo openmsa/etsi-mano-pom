@@ -30,7 +30,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
- * &#x27;The data type represents a subscription to notification of application package management for the onboarding, or operational state change of application package&#x27;
+ * &#x27;The data type represents a subscription to notification of application
+ * package management for the onboarding, or operational state change of
+ * application package&#x27;
  */
 @ApiModel(description = "'The data type represents a subscription to notification of application package management for the onboarding, or operational state change of application package'")
 @Validated
@@ -131,7 +133,8 @@ public class AppPkgSubscriptionInfo extends WebEntity<AppPkgSubscriptionInfo> {
 	}
 
 	/**
-	 * Convert the given object to string with each line indented by 4 spaces (except the first line).
+	 * Convert the given object to string with each line indented by 4 spaces
+	 * (except the first line).
 	 */
 	private String toIndentedString(final java.lang.Object o) {
 		if (o == null) {
