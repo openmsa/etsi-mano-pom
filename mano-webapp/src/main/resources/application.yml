@@ -141,7 +141,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: https://auth.mano.ubiqube.com/auth/realms/mano-realm
+          issuer-uri: http://auth.mano.ubiqube.com/auth/realms/mano-realm
           jwk-set-uri: http://10.31.1.245:8110/auth/realms/mano-realm/protocol/openid-connect/certs
   servlet:
     multipart:
