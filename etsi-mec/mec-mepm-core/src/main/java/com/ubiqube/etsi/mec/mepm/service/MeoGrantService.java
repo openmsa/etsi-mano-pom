@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mec.mepm.service;
 
 import org.springframework.stereotype.Service;
 
+import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
 import com.ubiqube.etsi.mano.service.AbstractGrantService;
 
 import ma.glasnost.orika.MapperFacade;
@@ -32,6 +33,12 @@ public class MeoGrantService extends AbstractGrantService {
 
 	public MeoGrantService(final MapperFacade mapper, final AppResourceAllocate nfvo) {
 		super(mapper, nfvo, null);
+	}
+
+	@Override
+	protected void check(final Blueprint plan) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

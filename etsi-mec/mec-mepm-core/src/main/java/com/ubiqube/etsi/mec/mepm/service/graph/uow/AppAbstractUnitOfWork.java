@@ -17,15 +17,14 @@
 package com.ubiqube.etsi.mec.mepm.service.graph.uow;
 
 import com.ubiqube.etsi.mano.dao.mec.lcm.AppTask;
-import com.ubiqube.etsi.mano.service.graph.vnfm.UnitOfWork;
-import com.ubiqube.etsi.mec.mepm.service.graph.AppParameters;
+import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWork;
 
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public abstract class AppAbstractUnitOfWork implements UnitOfWork<AppTask, AppParameters> {
+public abstract class AppAbstractUnitOfWork implements UnitOfWork<AppTask> {
 	/** Serial. */
 	private static final long serialVersionUID = 1L;
 
@@ -34,7 +33,6 @@ public abstract class AppAbstractUnitOfWork implements UnitOfWork<AppTask, AppPa
 	private final AppTask task;
 
 	protected AppAbstractUnitOfWork(final String name, final AppTask task) {
-		super();
 		this.name = name;
 		this.task = task;
 	}
@@ -42,23 +40,6 @@ public abstract class AppAbstractUnitOfWork implements UnitOfWork<AppTask, AppPa
 	protected AppAbstractUnitOfWork(final AppTask computeTask) {
 		this.task = computeTask;
 		name = task.getToscaName();
-	}
-
-	@Override
-	public final AppTask getTaskEntity() {
-		return task;
-	}
-
-	@Override
-	public final String getName() {
-		return getPrefix() + "_" + name;
-	}
-
-	protected abstract String getPrefix();
-
-	@Override
-	public final String getToscaName() {
-		return name;
 	}
 
 	@Override

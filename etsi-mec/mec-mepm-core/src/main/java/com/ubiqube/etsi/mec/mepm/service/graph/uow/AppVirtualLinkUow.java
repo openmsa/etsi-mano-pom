@@ -22,11 +22,16 @@ import java.util.List;
 
 import com.ubiqube.etsi.mano.dao.mano.VlProtocolData;
 import com.ubiqube.etsi.mano.dao.mano.VnfVl;
+import com.ubiqube.etsi.mano.dao.mec.lcm.AppTask;
 import com.ubiqube.etsi.mano.dao.mec.tasks.AppNetworkTask;
+import com.ubiqube.etsi.mano.orchestrator.Context;
+import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
+import com.ubiqube.etsi.mano.orchestrator.NamedDependency2d;
+import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
+import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
 import com.ubiqube.etsi.mano.service.graph.WfDependency;
 import com.ubiqube.etsi.mano.service.graph.WfProduce;
-import com.ubiqube.etsi.mec.mepm.service.graph.AppParameters;
 
 /**
  *
@@ -49,18 +54,6 @@ public class AppVirtualLinkUow extends AppAbstractUnitOfWork {
 	}
 
 	@Override
-	public String exec(final AppParameters params) {
-		final String domainName = null; // dnsZone
-		return params.getVim().network(params.getVimConnectionInformation()).createNetwork(vlProtocolData, networkTask.getAlias(), domainName, null);
-	}
-
-	@Override
-	public String rollback(final AppParameters params) {
-		params.getVim().network(params.getVimConnectionInformation()).deleteVirtualLink(params.getVimResourceId());
-		return null;
-	}
-
-	@Override
 	public List<WfDependency> getDependencies() {
 		// May require a DNS zone.
 		return new ArrayList<>();
@@ -72,8 +65,45 @@ public class AppVirtualLinkUow extends AppAbstractUnitOfWork {
 	}
 
 	@Override
-	protected String getPrefix() {
-		return "vl";
+	public VirtualTask<AppTask> getTask() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String execute(final Context context) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String rollback(final Context context) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Class<? extends Node> getNode() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<NamedDependency> getNameDependencies() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<NamedDependency> getNamedProduced() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<NamedDependency2d> get2dDependencies() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

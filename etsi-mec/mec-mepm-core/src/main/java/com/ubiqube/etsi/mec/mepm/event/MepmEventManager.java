@@ -19,8 +19,8 @@ package com.ubiqube.etsi.mec.mepm.event;
 import java.util.Map;
 import java.util.UUID;
 
+import com.ubiqube.etsi.mano.model.NotificationEvent;
 import com.ubiqube.etsi.mano.service.event.ActionType;
-import com.ubiqube.etsi.mano.service.event.NotificationEvent;
 
 /**
  *

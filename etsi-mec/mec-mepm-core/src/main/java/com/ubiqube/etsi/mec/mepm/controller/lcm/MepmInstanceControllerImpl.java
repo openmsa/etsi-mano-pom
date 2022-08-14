@@ -40,10 +40,10 @@ import com.ubiqube.etsi.mano.dao.mec.lcm.AppBlueprint;
 import com.ubiqube.etsi.mano.dao.mec.lcm.AppInstance;
 import com.ubiqube.etsi.mano.dao.mec.pkg.AppPkg;
 import com.ubiqube.etsi.mano.grammar.GrammarParser;
+import com.ubiqube.etsi.mano.model.NotificationEvent;
 import com.ubiqube.etsi.mano.model.VnfOperateRequest;
 import com.ubiqube.etsi.mano.repository.jpa.SearchQueryer;
 import com.ubiqube.etsi.mano.service.event.ActionType;
-import com.ubiqube.etsi.mano.service.event.NotificationEvent;
 import com.ubiqube.etsi.mec.mepm.event.MepmEventManager;
 import com.ubiqube.etsi.mec.mepm.service.AppBlueprintService;
 import com.ubiqube.etsi.mec.mepm.service.AppInstanceService;
@@ -84,7 +84,6 @@ public class MepmInstanceControllerImpl implements MepmInstanceController {
 	public MepmInstanceControllerImpl(final AppInstanceService appInstanceService, final AppPackageRepository appPackageRepository, final MapperFacade mapper,
 			final MepmEventManager eventManager, final AppLcmService appLcmService, final AppBlueprintService planService, final AppPackageService appPackageService,
 			final EntityManager entityManager, final GrammarParser grammarParser) {
-		super();
 		this.appInstanceService = appInstanceService;
 		this.appPackageRepository = appPackageRepository;
 		this.mapper = mapper;

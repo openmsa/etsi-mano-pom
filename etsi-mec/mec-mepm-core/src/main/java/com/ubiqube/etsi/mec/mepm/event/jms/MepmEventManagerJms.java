@@ -43,7 +43,7 @@ public class MepmEventManagerJms implements MepmEventManager {
 
 	@Override
 	public void sendNotification(final NotificationEvent notificationEvent, final UUID objectId) {
-		final EventMessage msg = new EventMessage(notificationEvent, objectId);
+		final EventMessage msg = new EventMessage(notificationEvent, objectId, Map.of());
 		jmsTemplate.convertAndSend("system.notifications", msg);
 	}
 

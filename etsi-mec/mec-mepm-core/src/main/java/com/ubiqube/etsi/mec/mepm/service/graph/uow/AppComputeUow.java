@@ -23,10 +23,16 @@ import java.util.Set;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfCompute;
 import com.ubiqube.etsi.mano.dao.mano.VnfLinkPort;
+import com.ubiqube.etsi.mano.dao.mec.lcm.AppTask;
 import com.ubiqube.etsi.mano.dao.mec.tasks.AppComputeTask;
+import com.ubiqube.etsi.mano.orchestrator.Context;
+import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
+import com.ubiqube.etsi.mano.orchestrator.NamedDependency2d;
+import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Compute;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Storage;
+import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
 import com.ubiqube.etsi.mano.service.graph.WfDependency;
 import com.ubiqube.etsi.mano.service.graph.WfProduce;
 import com.ubiqube.etsi.mec.mepm.service.graph.AppParameters;
@@ -48,7 +54,6 @@ public class AppComputeUow extends AppAbstractUnitOfWork {
 		this.vnfLinkPort = linkPort.stream().toList();
 	}
 
-	@Override
 	public String exec(final AppParameters params) {
 		final List<String> storages = vnfCompute.getStorages().stream().map(x -> params.getContext().get(x)).toList();
 		final List<String> networks = vnfLinkPort.stream()
@@ -59,7 +64,6 @@ public class AppComputeUow extends AppAbstractUnitOfWork {
 		return params.getVim().createCompute(params.getVimConnectionInformation(), task.getAlias(), task.getFlavorId(), task.getImageId(), networks, storages, vnfCompute.getCloudInit(), List.of(), List.of());
 	}
 
-	@Override
 	public String rollback(final AppParameters params) {
 		params.getVim().deleteCompute(params.getVimConnectionInformation(), params.getVimResourceId());
 		return null;
@@ -89,6 +93,48 @@ public class AppComputeUow extends AppAbstractUnitOfWork {
 	@Override
 	protected String getPrefix() {
 		return "app-compute";
+	}
+
+	@Override
+	public VirtualTask<AppTask> getTask() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String execute(final Context context) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String rollback(final Context context) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Class<? extends Node> getNode() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<NamedDependency> getNameDependencies() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<NamedDependency> getNamedProduced() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<NamedDependency2d> get2dDependencies() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

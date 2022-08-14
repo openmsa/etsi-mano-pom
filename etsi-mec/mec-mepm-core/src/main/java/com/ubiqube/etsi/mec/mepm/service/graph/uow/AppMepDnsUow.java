@@ -19,11 +19,16 @@ package com.ubiqube.etsi.mec.mepm.service.graph.uow;
 import java.util.Arrays;
 import java.util.List;
 
+import com.ubiqube.etsi.mano.dao.mec.lcm.AppTask;
+import com.ubiqube.etsi.mano.orchestrator.Context;
+import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
+import com.ubiqube.etsi.mano.orchestrator.NamedDependency2d;
+import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
 import com.ubiqube.etsi.mano.orchestrator.nodes.mec.MepDnsRulesNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Compute;
+import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
 import com.ubiqube.etsi.mano.service.graph.WfDependency;
 import com.ubiqube.etsi.mano.service.graph.WfProduce;
-import com.ubiqube.etsi.mec.mepm.service.graph.AppParameters;
 import com.ubiqube.etsi.mec.mepm.service.graph.mepm.MepDnsRulesTask;
 
 /**
@@ -44,18 +49,6 @@ public class AppMepDnsUow extends AppAbstractUnitOfWork {
 	}
 
 	@Override
-	public String exec(final AppParameters params) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String rollback(final AppParameters params) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public List<WfDependency> getDependencies() {
 		return Arrays.asList(new WfDependency(Compute.class, task.getToscaName()));
 	}
@@ -66,8 +59,45 @@ public class AppMepDnsUow extends AppAbstractUnitOfWork {
 	}
 
 	@Override
-	protected String getPrefix() {
-		return "app-dns";
+	public VirtualTask<AppTask> getTask() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String execute(final Context context) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String rollback(final Context context) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Class<? extends Node> getNode() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<NamedDependency> getNameDependencies() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<NamedDependency> getNamedProduced() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<NamedDependency2d> get2dDependencies() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

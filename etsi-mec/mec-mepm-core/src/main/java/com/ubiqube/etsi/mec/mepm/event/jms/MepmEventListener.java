@@ -25,7 +25,7 @@ import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 
-import com.ubiqube.etsi.mano.service.event.jms.ActionMessage;
+import com.ubiqube.etsi.mano.service.event.ActionMessage;
 import com.ubiqube.etsi.mec.mepm.event.MepmActionController;
 
 /**

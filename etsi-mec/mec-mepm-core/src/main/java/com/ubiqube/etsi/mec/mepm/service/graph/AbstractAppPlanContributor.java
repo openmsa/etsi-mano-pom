@@ -22,15 +22,15 @@ import java.util.function.Supplier;
 import com.ubiqube.etsi.mano.dao.mano.v2.PlanStatusType;
 import com.ubiqube.etsi.mano.dao.mec.lcm.AppBlueprint;
 import com.ubiqube.etsi.mano.dao.mec.lcm.AppTask;
-import com.ubiqube.etsi.mano.dao.mec.pkg.AppPkg;
-import com.ubiqube.etsi.mano.service.plan.contributors.PlanContributor;
+import com.ubiqube.etsi.mano.orchestrator.PlanContributor;
+import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
 
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public abstract class AbstractAppPlanContributor implements PlanContributor<AppPkg, AppBlueprint, AppTask, AppParameters> {
+public abstract class AbstractAppPlanContributor<U extends AppTask, T extends VirtualTask<U>> implements PlanContributor<U, T, AppBlueprint> {
 
 	protected static <U> U createTask(final Supplier<AppTask> newInstance) {
 		final AppTask task = newInstance.get();
