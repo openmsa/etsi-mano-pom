@@ -16,30 +16,44 @@
  */
 package com.ubiqube.etsi.mec.meo.v211.controller.pkg;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
-import org.springframework.hateoas.server.EntityLinks;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
-import com.ubiqube.etsi.mano.controller.AbstractSubscriptionApi;
-import com.ubiqube.etsi.mano.controller.vnf.VnfSubscriptionManagement;
-import com.ubiqube.etsi.mano.dao.mano.subs.SubscriptionType;
 import com.ubiqube.etsi.mec.meo.v211.model.pkg.AppPkgSubscription;
 import com.ubiqube.etsi.mec.meo.v211.model.pkg.AppPkgSubscriptionInfo;
 
-import ma.glasnost.orika.MapperFacade;
-
 @Controller
-public class PkgSubscriptions211MepmApiController extends AbstractSubscriptionApi<AppPkgSubscriptionInfo> implements PkgSubscriptions211MepmApi {
+public class PkgSubscriptions211MepmApiController implements PkgSubscriptions211MepmApi {
 
-	public PkgSubscriptions211MepmApiController(final VnfSubscriptionManagement _vnfSubscriptionManagement, final MapperFacade _mapper, final EntityLinks _entityLinks) {
-		super(_vnfSubscriptionManagement, _mapper, _entityLinks, AppPkgSubscriptionInfo.class, SubscriptionType.MEOPKG);
+	public PkgSubscriptions211MepmApiController() {
+		// Use front controller.
 	}
 
 	@Override
 	public ResponseEntity<AppPkgSubscriptionInfo> subscriptionsPost(@Valid final AppPkgSubscription body) {
-		return subscriptionPost(body);
+		return null; // subscriptionPost(body);
+	}
+
+	@Override
+	public ResponseEntity<Void> subscriptionDelete(final String subscriptionId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResponseEntity<AppPkgSubscriptionInfo> subscriptionGetById(final String subscriptionId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResponseEntity<List<AppPkgSubscriptionInfo>> subscriptionQuery(final String filter) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

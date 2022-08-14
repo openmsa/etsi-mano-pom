@@ -86,8 +86,8 @@ public class AppPackages211MepmApiController implements AppPackages211MepmApi {
 	}
 
 	private void createSelfLink(final AppPkgInfo re) {
-		final Link selfLink = entityLinks.linkToItemResource(AppPkgInfo.class, re.getId());
-		re.add(selfLink);
+		final Link selfLink = entityLinks.linkToItemResource(AppPkgInfo.class, re.getAppDId());
+		// re.add(selfLink);
 	}
 
 	@Override
