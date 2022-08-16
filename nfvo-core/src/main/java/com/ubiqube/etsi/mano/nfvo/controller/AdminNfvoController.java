@@ -69,7 +69,7 @@ import com.ubiqube.etsi.mano.service.pkg.ns.NsPackageProvider;
 import com.ubiqube.etsi.mano.utils.TemporaryFileSentry;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/v3")
 public class AdminNfvoController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(AdminNfvoController.class);
