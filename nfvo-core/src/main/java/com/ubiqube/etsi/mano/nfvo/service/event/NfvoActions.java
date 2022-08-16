@@ -24,11 +24,11 @@ import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.Instance;
 import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
+import com.ubiqube.etsi.mano.nfvo.service.graph.NfvoOrchestrationV3;
 import com.ubiqube.etsi.mano.nfvo.service.graph.NsOrchestrationAdapter;
-import com.ubiqube.etsi.mano.nfvo.service.graph.NsWorkflow;
 import com.ubiqube.etsi.mano.service.NsScaleStrategy;
 import com.ubiqube.etsi.mano.service.VimResourceService;
-import com.ubiqube.etsi.mano.service.event.AbstractGenericAction;
+import com.ubiqube.etsi.mano.service.event.AbstractGenericActionV3;
 
 /**
  *
@@ -36,8 +36,8 @@ import com.ubiqube.etsi.mano.service.event.AbstractGenericAction;
  *
  */
 @Service
-public class NfvoActions extends AbstractGenericAction {
-	public NfvoActions(final NsWorkflow workflow, final VimResourceService vimResourceService, final NsOrchestrationAdapter orchestrationAdapter, final NsScaleStrategy nsScaleStrategy) {
+public class NfvoActions extends AbstractGenericActionV3 {
+	public NfvoActions(final NfvoOrchestrationV3 workflow, final VimResourceService vimResourceService, final NsOrchestrationAdapter orchestrationAdapter, final NsScaleStrategy nsScaleStrategy) {
 		super(workflow, vimResourceService, orchestrationAdapter, nsScaleStrategy);
 	}
 

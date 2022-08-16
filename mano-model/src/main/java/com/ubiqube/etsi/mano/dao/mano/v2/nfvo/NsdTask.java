@@ -26,6 +26,7 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
+import com.ubiqube.etsi.mano.dao.mano.NsdPackageNsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.VnfExtCp;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
@@ -67,4 +68,25 @@ public class NsdTask extends NsTask {
 	private Set<VimConnectionInformation> vimConnectionInformations;
 
 	private String localizationLanguage;
+
+	@OneToOne
+	private NsdPackageNsdPackage nsdParam;
+
+	@Override
+	public NsTask copy() {
+		final NsdTask task = new NsdTask();
+		super.copy(task);
+		task.setNsdId(nsdId);
+		task.setNsInstanceId(nsInstanceId);
+		task.setVirtualLinks(virtualLinks);
+		task.setServer(server);
+		task.setFlavourId(flavourId);
+		task.setInstantiationLevelId(instantiationLevelId);
+		task.setExtCps(extCps);
+		task.setVimConnectionInformations(vimConnectionInformations);
+		task.setLocalizationLanguage(localizationLanguage);
+		task.setNsdParam(nsdParam);
+		return task;
+	}
+
 }

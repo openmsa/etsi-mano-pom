@@ -22,11 +22,11 @@ import com.ubiqube.etsi.mano.controller.vnflcm.VnfInstanceLcm;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsdTask;
 import com.ubiqube.etsi.mano.nfvo.service.graph.nfvo.NsUow;
-import com.ubiqube.etsi.mano.orchestrator.OrchestrationService;
+import com.ubiqube.etsi.mano.orchestrator.OrchestrationServiceV3;
 import com.ubiqube.etsi.mano.orchestrator.SystemBuilder;
-import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWork;
-import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
-import com.ubiqube.etsi.mano.service.system.AbstractVimSystem;
+import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWorkV3;
+import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
+import com.ubiqube.etsi.mano.service.system.AbstractVimSystemV3;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 
 /**
@@ -35,22 +35,22 @@ import com.ubiqube.etsi.mano.service.vim.VimManager;
  *
  */
 @Service
-public class NsNsdSystem extends AbstractVimSystem<NsdTask> {
+public abstract class NsNsdSystem extends AbstractVimSystemV3<NsdTask> {
 	private final VnfInstanceLcm nsLcmOpOccsService;
 
-	public NsNsdSystem(final VnfInstanceLcm nsLcmOpOccsService, final VimManager vimManager) {
+	protected NsNsdSystem(final VnfInstanceLcm nsLcmOpOccsService, final VimManager vimManager) {
 		super(vimManager);
 		this.nsLcmOpOccsService = nsLcmOpOccsService;
 	}
 
 	@Override
-	public String getProviderId() {
-		return "NSD";
+	protected SystemBuilder<UnitOfWorkV3<NsdTask>> getImplementation(final OrchestrationServiceV3<NsdTask> orchestrationService, final VirtualTaskV3<NsdTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
+		return orchestrationService.systemBuilderOf(new NsUow(virtualTask, nsLcmOpOccsService));
 	}
 
 	@Override
-	protected SystemBuilder<UnitOfWork<NsdTask>> getImplementation(final OrchestrationService<NsdTask> orchestrationService, final VirtualTask<NsdTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
-		return orchestrationService.systemBuilderOf(new NsUow(virtualTask, nsLcmOpOccsService));
+	public String getVimType() {
+		return "OPENSTACK_V3";
 	}
 
 }

@@ -50,4 +50,14 @@ public class VnffgLoadbalancerTask extends NsTask {
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<ListKeyPair> constituant;
+
+	@Override
+	public NsTask copy() {
+		final VnffgLoadbalancerTask task = new VnffgLoadbalancerTask();
+		super.copy(task);
+		task.setInstances(instances);
+		task.setRemove(remove);
+		task.setConstituant(constituant);
+		return task;
+	}
 }

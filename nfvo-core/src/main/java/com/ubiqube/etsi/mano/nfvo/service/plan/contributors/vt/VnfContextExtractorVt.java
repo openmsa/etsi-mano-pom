@@ -16,17 +16,8 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
-import com.ubiqube.etsi.mano.dao.mano.NsdPackageVnfPackage;
-import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.VnfContextExtractorTask;
-import com.ubiqube.etsi.mano.exception.GenericException;
-import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
+import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVnfExtractorTask;
 import com.ubiqube.etsi.mano.orchestrator.nodes.mec.VnfExtractorNode;
-import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfInstantiateNode;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfPortNode;
 import com.ubiqube.etsi.mano.service.graph.vt.NsVtBase;
 
 /**
@@ -34,41 +25,14 @@ import com.ubiqube.etsi.mano.service.graph.vt.NsVtBase;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public class VnfContextExtractorVt extends NsVtBase<VnfContextExtractorTask> {
+public class NsVnfExtractorVt extends NsVtBase<NsVnfExtractorTask> {
 
-	private final VnfContextExtractorTask task;
-
-	public VnfContextExtractorVt(final VnfContextExtractorTask nt) {
+	public NsVnfExtractorVt(final NsVnfExtractorTask nt) {
 		super(nt);
-		this.task = nt;
 	}
 
 	@Override
-	public List<NamedDependency> getNameDependencies() {
-		return List.of(new NamedDependency(VnfInstantiateNode.class, getParameters().getAlias()));
+	public Class<?> getType() {
+		return VnfExtractorNode.class;
 	}
-
-	@Override
-	public List<NamedDependency> getNamedProduced() {
-		final List<NamedDependency> l = new ArrayList<>();
-		l.add(new NamedDependency(VnfExtractorNode.class, getParameters().getAlias()));
-		final NsdPackageVnfPackage nsdvnf = findVnfd(task.getNsdPackage(), task.getVnfdId());
-		nsdvnf.getForwardMapping().forEach(x -> l.add(new NamedDependency(VnfPortNode.class, x.getForwardingName())));
-		return l;
-	}
-
-	private static NsdPackageVnfPackage findVnfd(final NsdPackage nsdPackage, final String vnfdId) {
-		return nsdPackage.getVnfPkgIds().stream().filter(x -> x.getVnfPackage().getVnfdId().equals(vnfdId)).findFirst().orElseThrow(() -> new GenericException("Unable to find vnfd [" + vnfdId + "]"));
-	}
-
-	@Override
-	public String getFactoryProviderId() {
-		return "VNF-EXTRACT";
-	}
-
-	@Override
-	public String getVimProviderId() {
-		return "VNF-EXTRACT";
-	}
-
 }

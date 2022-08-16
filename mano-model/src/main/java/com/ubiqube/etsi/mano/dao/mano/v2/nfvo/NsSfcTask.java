@@ -68,4 +68,13 @@ public class NsSfcTask extends NsTask {
 	public ScaleInfo getScaleInfo() {
 		return null;
 	}
+
+	@Override
+	public NsTask copy() {
+		final NsSfcTask task = new NsSfcTask();
+		super.copy(task);
+		task.setVnffg(vnffg);
+		task.setType(getType());
+		return task;
+	}
 }

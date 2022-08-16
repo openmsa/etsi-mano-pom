@@ -16,14 +16,15 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt;
 
-import java.util.Arrays;
-import java.util.List;
-
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVirtualLinkTask;
-import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
 import com.ubiqube.etsi.mano.service.graph.vt.NsVtBase;
 
+/**
+ *
+ * @author olivier
+ *
+ */
 public class NsVirtualLinkVt extends NsVtBase<NsVirtualLinkTask> {
 
 	public NsVirtualLinkVt(final NsVirtualLinkTask nt) {
@@ -31,22 +32,8 @@ public class NsVirtualLinkVt extends NsVtBase<NsVirtualLinkTask> {
 	}
 
 	@Override
-	public List<NamedDependency> getNameDependencies() {
-		return List.of();
+	public Class<?> getType() {
+		return Network.class;
 	}
 
-	@Override
-	public List<NamedDependency> getNamedProduced() {
-		return Arrays.asList(new NamedDependency(Network.class, getParameters().getToscaName()));
-	}
-
-	@Override
-	public String getFactoryProviderId() {
-		return "NSNETWORK";
-	}
-
-	@Override
-	public String getVimProviderId() {
-		return "NSNETWORK";
-	}
 }

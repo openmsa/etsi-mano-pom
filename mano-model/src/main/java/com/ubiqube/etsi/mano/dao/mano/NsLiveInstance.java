@@ -66,6 +66,8 @@ public class NsLiveInstance implements BaseEntity, Auditable {
 	@ManyToOne
 	private NsdInstance nsInstance;
 
+	int rank;
+
 	@Embedded
 	private Audit audit;
 
@@ -74,7 +76,6 @@ public class NsLiveInstance implements BaseEntity, Auditable {
 	}
 
 	public NsLiveInstance(final String vnfInstanceId, final NsTask nsTask, final NsBlueprint nsBlueprint, final NsdInstance nsInstance) {
-		super();
 		this.resourceId = vnfInstanceId;
 		this.nsTask = nsTask;
 		this.nsBlueprint = nsBlueprint;

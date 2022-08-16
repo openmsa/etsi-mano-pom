@@ -16,7 +16,6 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service.graph.nfvo;
 
-import java.util.List;
 import java.util.UUID;
 import java.util.function.BiFunction;
 
@@ -30,12 +29,9 @@ import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsdTask;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.model.VnfInstantiate;
-import com.ubiqube.etsi.mano.orchestrator.Context;
-import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
-import com.ubiqube.etsi.mano.orchestrator.NamedDependency2d;
+import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.NsdInstantiateNode;
-import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfInstantiateNode;
-import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
+import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.graph.AbstractUnitOfWork;
 
 /**
@@ -53,15 +49,15 @@ public class NsUow extends AbstractUnitOfWork<NsdTask> {
 
 	private final BiFunction<Servers, UUID, VnfBlueprint> func;
 
-	public NsUow(final VirtualTask<NsdTask> task, final VnfInstanceLcm nsLcmOpOccsService) {
+	public NsUow(final VirtualTaskV3<NsdTask> task, final VnfInstanceLcm nsLcmOpOccsService) {
 		super(task, NsdInstantiateNode.class);
-		this.nsdTask = task.getParameters();
+		this.nsdTask = task.getTemplateParameters();
 		this.nsLcmOpOccsService = nsLcmOpOccsService;
 		func = nsLcmOpOccsService::vnfLcmOpOccsGet;
 	}
 
 	@Override
-	public String execute(final Context context) {
+	public String execute(final Context3d context) {
 		final VnfInstantiate instantiateRequest = createInstantiateRequest();
 		instantiateRequest.setFlavourId(nsdTask.getFlavourId());
 		instantiateRequest.setInstantiationLevelId(nsdTask.getInstantiationLevelId());
@@ -87,7 +83,7 @@ public class NsUow extends AbstractUnitOfWork<NsdTask> {
 	}
 
 	@Override
-	public String rollback(final Context context) {
+	public String rollback(final Context3d context) {
 		final VnfBlueprint lcm = nsLcmOpOccsService.terminate(nsdTask.getServer(), nsdTask.getNsInstanceId(), null, 0);
 		final VnfBlueprint result = UowUtils.waitLcmCompletion(lcm, func, nsdTask.getServer());
 		if (OperationStatusType.COMPLETED != result.getOperationStatus()) {
@@ -95,20 +91,4 @@ public class NsUow extends AbstractUnitOfWork<NsdTask> {
 		}
 		return lcm.getId().toString();
 	}
-
-	@Override
-	public List<NamedDependency> getNameDependencies() {
-		return List.of();
-	}
-
-	@Override
-	public List<NamedDependency> getNamedProduced() {
-		return List.of(new NamedDependency(VnfInstantiateNode.class, nsdTask.getAlias()));
-	}
-
-	@Override
-	public List<NamedDependency2d> get2dDependencies() {
-		return List.of();
-	}
-
 }

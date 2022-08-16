@@ -16,13 +16,8 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt;
 
-import java.util.Arrays;
-import java.util.List;
-
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsSapTask;
-import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.SapNode;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
 import com.ubiqube.etsi.mano.service.graph.vt.NsVtBase;
 
 public class NsSapVt extends NsVtBase<NsSapTask> {
@@ -32,23 +27,8 @@ public class NsSapVt extends NsVtBase<NsSapTask> {
 	}
 
 	@Override
-	public List<NamedDependency> getNameDependencies() {
-		return Arrays.asList(new NamedDependency(Network.class, getParameters().getNsSap().getInternalVirtualLink()));
-	}
-
-	@Override
-	public List<NamedDependency> getNamedProduced() {
-		return Arrays.asList(new NamedDependency(SapNode.class, getParameters().getToscaName()));
-	}
-
-	@Override
-	public String getFactoryProviderId() {
-		return "SAP";
-	}
-
-	@Override
-	public String getVimProviderId() {
-		return "NETWORK";
+	public Class<?> getType() {
+		return SapNode.class;
 	}
 
 }

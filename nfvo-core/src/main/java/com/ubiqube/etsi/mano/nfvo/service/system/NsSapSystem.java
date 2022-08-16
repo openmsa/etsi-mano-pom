@@ -21,11 +21,11 @@ import org.springframework.stereotype.Service;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsSapTask;
 import com.ubiqube.etsi.mano.nfvo.service.graph.nfvo.NsSapUow;
-import com.ubiqube.etsi.mano.orchestrator.OrchestrationService;
+import com.ubiqube.etsi.mano.orchestrator.OrchestrationServiceV3;
 import com.ubiqube.etsi.mano.orchestrator.SystemBuilder;
-import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWork;
-import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
-import com.ubiqube.etsi.mano.service.system.AbstractVimSystem;
+import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWorkV3;
+import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
+import com.ubiqube.etsi.mano.service.system.AbstractVimSystemV3;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 
 /**
@@ -34,20 +34,20 @@ import com.ubiqube.etsi.mano.service.vim.VimManager;
  *
  */
 @Service
-public class NsSapSystem extends AbstractVimSystem<NsSapTask> {
+public class NsSapSystem extends AbstractVimSystemV3<NsSapTask> {
 
 	public NsSapSystem(final VimManager vimManager) {
 		super(vimManager);
 	}
 
 	@Override
-	public String getProviderId() {
-		return "SAP";
+	protected SystemBuilder<UnitOfWorkV3<NsSapTask>> getImplementation(final OrchestrationServiceV3<NsSapTask> orchestrationService, final VirtualTaskV3<NsSapTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
+		return orchestrationService.systemBuilderOf(new NsSapUow(virtualTask));
 	}
 
 	@Override
-	protected SystemBuilder<UnitOfWork<NsSapTask>> getImplementation(final OrchestrationService<NsSapTask> orchestrationService, final VirtualTask<NsSapTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
-		return orchestrationService.systemBuilderOf(new NsSapUow(virtualTask));
+	public String getVimType() {
+		return "OPENSTACK_V3";
 	}
 
 }

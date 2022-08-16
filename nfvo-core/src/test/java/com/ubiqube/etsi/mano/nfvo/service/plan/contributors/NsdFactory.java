@@ -99,7 +99,7 @@ public final class NsdFactory {
 		task.setChangeType(ChangeType.ADDED);
 		task.setToscaName("vnf01");
 		task.setAlias("vnf01-0001");
-		task.setType(ResourceTypeEnum.VNF);
+		task.setType(ResourceTypeEnum.VNF_CREATE);
 		return task;
 	}
 

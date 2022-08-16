@@ -16,19 +16,15 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service.graph.nfvo;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVnfTask;
-import com.ubiqube.etsi.mano.orchestrator.Context;
-import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
-import com.ubiqube.etsi.mano.orchestrator.NamedDependency2d;
+import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfCreateNode;
-import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
+import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.VnfmInterface;
 import com.ubiqube.etsi.mano.service.graph.AbstractUnitOfWork;
 
@@ -45,21 +41,21 @@ public class VnfCreateUow extends AbstractUnitOfWork<NsVnfTask> {
 
 	private final NsVnfTask task;
 
-	public VnfCreateUow(final VirtualTask<NsVnfTask> task, final VnfmInterface vnfm) {
+	public VnfCreateUow(final VirtualTaskV3<NsVnfTask> task, final VnfmInterface vnfm) {
 		super(task, VnfCreateNode.class);
 		this.vnfm = vnfm;
-		this.task = task.getParameters();
+		this.task = task.getTemplateParameters();
 	}
 
 	@Override
-	public String execute(final Context context) {
+	public String execute(final Context3d context) {
 		final Servers server = task.getServer();
 		final VnfInstance vnfmVnfInstance = vnfm.createVnfInstance(server, task.getVnfdId(), task.getDescription(), task.getToscaName());
 		return vnfmVnfInstance.getId().toString();
 	}
 
 	@Override
-	public String rollback(final Context context) {
+	public String rollback(final Context3d context) {
 		if (null != task.getVimResourceId()) {
 			try {
 				vnfm.delete(task.getServer(), task.getVimResourceId());
@@ -70,20 +66,4 @@ public class VnfCreateUow extends AbstractUnitOfWork<NsVnfTask> {
 		}
 		return null;
 	}
-
-	@Override
-	public List<NamedDependency> getNameDependencies() {
-		return List.of();
-	}
-
-	@Override
-	public List<NamedDependency> getNamedProduced() {
-		return List.of(new NamedDependency(getNode(), task.getAlias()));
-	}
-
-	@Override
-	public List<NamedDependency2d> get2dDependencies() {
-		return List.of();
-	}
-
 }

@@ -16,13 +16,8 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt;
 
-import java.util.Arrays;
-import java.util.List;
-
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsdTask;
-import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.NsdCreateNode;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
 import com.ubiqube.etsi.mano.service.graph.vt.NsVtBase;
 
 /**
@@ -37,23 +32,8 @@ public class NsCreateVt extends NsVtBase<NsdTask> {
 	}
 
 	@Override
-	public List<NamedDependency> getNameDependencies() {
-		return getParameters().getVirtualLinks().stream().map(x -> new NamedDependency(Network.class, x)).toList();
-	}
-
-	@Override
-	public List<NamedDependency> getNamedProduced() {
-		return Arrays.asList(new NamedDependency(NsdCreateNode.class, getParameters().getToscaName()));
-	}
-
-	@Override
-	public String getFactoryProviderId() {
-		return "NSD-CREATE";
-	}
-
-	@Override
-	public String getVimProviderId() {
-		return "NSD-CREATE";
+	public Class<?> getType() {
+		return NsdCreateNode.class;
 	}
 
 }

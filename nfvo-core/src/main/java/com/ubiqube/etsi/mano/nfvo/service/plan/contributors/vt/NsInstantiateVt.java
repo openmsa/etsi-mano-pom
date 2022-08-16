@@ -16,12 +16,7 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt;
 
-import java.util.Arrays;
-import java.util.List;
-
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVnfInstantiateTask;
-import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
-import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.NsdCreateNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.NsdInstantiateNode;
 import com.ubiqube.etsi.mano.service.graph.vt.NsVtBase;
 
@@ -32,23 +27,8 @@ public class NsInstantiateVt extends NsVtBase<NsVnfInstantiateTask> {
 	}
 
 	@Override
-	public List<NamedDependency> getNameDependencies() {
-		return Arrays.asList(new NamedDependency(NsdCreateNode.class, getParameters().getAlias()));
-	}
-
-	@Override
-	public List<NamedDependency> getNamedProduced() {
-		return Arrays.asList(new NamedDependency(NsdInstantiateNode.class, getParameters().getAlias()));
-	}
-
-	@Override
-	public String getFactoryProviderId() {
-		return "NSD-INSTANTIATE";
-	}
-
-	@Override
-	public String getVimProviderId() {
-		return "NSD-INSTANTIATE";
+	public Class<?> getType() {
+		return NsdInstantiateNode.class;
 	}
 
 }

@@ -26,12 +26,17 @@ import javax.persistence.ManyToOne;
 
 import com.ubiqube.etsi.mano.dao.mano.NsSap;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
 @Entity
+@Getter
+@Setter
 public class NsSapTask extends NsTask {
 	/** Serial. */
 	private static final long serialVersionUID = 1L;
@@ -44,21 +49,11 @@ public class NsSapTask extends NsTask {
 	private NsSap nsSap;
 
 	@Override
-	public UUID getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(final UUID id) {
-		this.id = id;
-	}
-
-	public NsSap getNsSap() {
-		return nsSap;
-	}
-
-	public void setNsSap(final NsSap nsSap) {
-		this.nsSap = nsSap;
+	public NsTask copy() {
+		final NsSapTask task = new NsSapTask();
+		super.copy(task);
+		task.setNsSap(nsSap);
+		return task;
 	}
 
 }

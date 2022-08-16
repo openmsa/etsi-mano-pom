@@ -21,7 +21,9 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -37,6 +39,7 @@ import lombok.Setter;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
+@Entity
 @Getter
 @Setter
 public class NsVnfInstantiateTask extends NsTask {
@@ -59,6 +62,7 @@ public class NsVnfInstantiateTask extends NsTask {
 
 	private String localizationLanguage;
 
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<ListKeyPair> virtualLinks;
 
 	@ElementCollection(fetch = FetchType.EAGER)
@@ -68,4 +72,20 @@ public class NsVnfInstantiateTask extends NsTask {
 	private NsdPackageVnfPackage vnfPackage;
 
 	private String vnfInstanceName;
+
+	@Override
+	public NsTask copy() {
+		final NsVnfInstantiateTask task = new NsVnfInstantiateTask();
+		super.copy(task);
+		task.setServer(server);
+		task.setExternalNetworks(externalNetworks);
+		task.setFlavourId(flavourId);
+		task.setInstantiationLevelId(instantiationLevelId);
+		task.setLocalizationLanguage(localizationLanguage);
+		task.setVirtualLinks(virtualLinks);
+		task.setVlName(vlName);
+		task.setVnfPackage(vnfPackage);
+		task.setVnfInstanceName(vnfInstanceName);
+		return task;
+	}
 }

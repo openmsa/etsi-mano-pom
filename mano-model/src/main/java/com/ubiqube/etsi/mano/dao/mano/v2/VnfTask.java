@@ -34,6 +34,7 @@ import com.ubiqube.etsi.mano.dao.mano.ChangeType;
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.ScaleInfo;
 import com.ubiqube.etsi.mano.dao.mano.VimTask;
+import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -76,5 +77,11 @@ public class VnfTask extends AbstractTask implements VimTask {
 	private String resourceProviderId;
 
 	private String vimConnectionId;
+
+	@Override
+	public NsTask copy() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

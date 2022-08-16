@@ -33,6 +33,7 @@ import org.hibernate.search.mapper.pojo.mapping.definition.annotation.GenericFie
 
 import com.ubiqube.etsi.mano.dao.mano.Audit;
 import com.ubiqube.etsi.mano.dao.mano.ChangeType;
+import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -89,5 +90,24 @@ public abstract class AbstractTask implements Task {
 
 	@Version
 	private Long version;
+
+	public abstract NsTask copy();
+
+	public AbstractTask copy(final AbstractTask task) {
+		task.setAlias(alias);
+		task.setAudit(audit);
+		task.setChangeType(changeType);
+		task.setEndDate(endDate);
+		task.setRemovedLiveInstance(removedLiveInstance);
+		task.setResourceProviderId(resourceProviderId);
+		task.setStartDate(startDate);
+		task.setState(state);
+		task.setStatus(status);
+		task.setToscaId(toscaId);
+		task.setToscaName(toscaName);
+		task.setVimConnectionId(vimConnectionId);
+		task.setVimResourceId(vimResourceId);
+		return task;
+	}
 
 }

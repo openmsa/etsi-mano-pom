@@ -16,15 +16,17 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service.system;
 
+import org.springframework.stereotype.Service;
+
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVnfInstantiateTask;
 import com.ubiqube.etsi.mano.nfvo.service.graph.nfvo.VnfInstantiateUow;
-import com.ubiqube.etsi.mano.orchestrator.OrchestrationService;
+import com.ubiqube.etsi.mano.orchestrator.OrchestrationServiceV3;
 import com.ubiqube.etsi.mano.orchestrator.SystemBuilder;
-import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWork;
-import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
+import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWorkV3;
+import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.VnfmInterface;
-import com.ubiqube.etsi.mano.service.system.AbstractVimSystem;
+import com.ubiqube.etsi.mano.service.system.AbstractVimSystemV3;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 
 /**
@@ -32,8 +34,8 @@ import com.ubiqube.etsi.mano.service.vim.VimManager;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-//@Service
-public class NsVnfInstantiateSystem extends AbstractVimSystem<NsVnfInstantiateTask> {
+@Service
+public class NsVnfInstantiateSystem extends AbstractVimSystemV3<NsVnfInstantiateTask> {
 	private final VnfmInterface vnfm;
 
 	public NsVnfInstantiateSystem(final VnfmInterface vnfm, final VimManager vimManager) {
@@ -42,13 +44,13 @@ public class NsVnfInstantiateSystem extends AbstractVimSystem<NsVnfInstantiateTa
 	}
 
 	@Override
-	public String getProviderId() {
-		return "VNF";
+	protected SystemBuilder<UnitOfWorkV3<NsVnfInstantiateTask>> getImplementation(final OrchestrationServiceV3<NsVnfInstantiateTask> orchestrationService, final VirtualTaskV3<NsVnfInstantiateTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
+		return orchestrationService.systemBuilderOf(new VnfInstantiateUow(virtualTask, vnfm));
 	}
 
 	@Override
-	protected SystemBuilder<UnitOfWork<NsVnfInstantiateTask>> getImplementation(final OrchestrationService<NsVnfInstantiateTask> orchestrationService, final VirtualTask<NsVnfInstantiateTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
-		return orchestrationService.systemBuilderOf(new VnfInstantiateUow(virtualTask, vnfm));
+	public String getVimType() {
+		return "OPENSTACK_V3";
 	}
 
 }

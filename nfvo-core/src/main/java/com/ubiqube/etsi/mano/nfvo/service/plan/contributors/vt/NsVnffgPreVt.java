@@ -16,11 +16,8 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt;
 
-import java.util.List;
-
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsSfcTask;
-import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
-import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnffgPreNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.PortPairNode;
 import com.ubiqube.etsi.mano.service.graph.vt.NsVtBase;
 
 /**
@@ -36,23 +33,8 @@ public class NsVnffgPreVt extends NsVtBase<NsSfcTask> {
 	}
 
 	@Override
-	public List<NamedDependency> getNameDependencies() {
-		return List.of();
-	}
-
-	@Override
-	public List<NamedDependency> getNamedProduced() {
-		return List.of(new NamedDependency(VnffgPreNode.class, getName()));
-	}
-
-	@Override
-	public String getFactoryProviderId() {
-		return "SFC";
-	}
-
-	@Override
-	public String getVimProviderId() {
-		return "PRE-NETWORK";
+	public Class<?> getType() {
+		return PortPairNode.class;
 	}
 
 }

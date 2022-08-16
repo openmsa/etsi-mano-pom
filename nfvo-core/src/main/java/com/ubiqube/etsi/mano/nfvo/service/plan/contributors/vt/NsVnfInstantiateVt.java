@@ -16,12 +16,7 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt;
 
-import java.util.Arrays;
-import java.util.List;
-
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVnfInstantiateTask;
-import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
-import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfCreateNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfInstantiateNode;
 import com.ubiqube.etsi.mano.service.graph.vt.NsVtBase;
 
@@ -32,28 +27,13 @@ import com.ubiqube.etsi.mano.service.graph.vt.NsVtBase;
  */
 public class NsVnfInstantiateVt extends NsVtBase<NsVnfInstantiateTask> {
 
-	protected NsVnfInstantiateVt(final NsVnfInstantiateTask nt) {
+	public NsVnfInstantiateVt(final NsVnfInstantiateTask nt) {
 		super(nt);
 	}
 
 	@Override
-	public List<NamedDependency> getNameDependencies() {
-		return Arrays.asList(new NamedDependency(VnfCreateNode.class, getParameters().getAlias()));
-	}
-
-	@Override
-	public List<NamedDependency> getNamedProduced() {
-		return Arrays.asList(new NamedDependency(VnfInstantiateNode.class, getParameters().getToscaName()));
-	}
-
-	@Override
-	public String getFactoryProviderId() {
-		return "VNF-INST";
-	}
-
-	@Override
-	public String getVimProviderId() {
-		return "VNF-INST";
+	public Class<?> getType() {
+		return VnfInstantiateNode.class;
 	}
 
 }

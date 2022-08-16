@@ -51,4 +51,16 @@ public class VnffgPortPairTask extends NsTask {
 
 	@OneToOne(fetch = FetchType.EAGER)
 	private CpPair cpPair;
+
+	@Override
+	public NsTask copy() {
+		final VnffgPortPairTask task = new VnffgPortPairTask();
+		super.copy(task);
+		task.setVnfAlias(vnfAlias);
+		task.setVnf(vnf);
+		task.setRank(rank);
+		task.setVnfToscaName(vnfToscaName);
+		task.setCpPair(cpPair);
+		return task;
+	}
 }

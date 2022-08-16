@@ -21,12 +21,17 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
 @Entity
+@Getter
+@Setter
 public class NsVirtualLinkTask extends NsTask {
 
 	/** Serial. */
@@ -35,12 +40,12 @@ public class NsVirtualLinkTask extends NsTask {
 	@OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
 	private NsVirtualLink nsVirtualLink;
 
-	public NsVirtualLink getNsVirtualLink() {
-		return nsVirtualLink;
-	}
-
-	public void setNsVirtualLink(final NsVirtualLink nsVirtualLink) {
-		this.nsVirtualLink = nsVirtualLink;
+	@Override
+	public NsTask copy() {
+		final NsVirtualLinkTask task = new NsVirtualLinkTask();
+		super.copy(task);
+		task.setNsVirtualLink(nsVirtualLink);
+		return task;
 	}
 
 }

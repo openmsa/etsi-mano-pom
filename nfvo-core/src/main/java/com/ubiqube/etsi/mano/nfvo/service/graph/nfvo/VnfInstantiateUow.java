@@ -16,7 +16,6 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service.graph.nfvo;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -31,7 +30,6 @@ import com.ubiqube.etsi.mano.dao.mano.InstantiationState;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.common.FailureDetails;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
-import com.ubiqube.etsi.mano.dao.mano.nsd.ForwarderMapping;
 import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.ExternalPortRecord;
@@ -39,13 +37,11 @@ import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVnfInstantiateTask;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.model.ExternalManagedVirtualLink;
 import com.ubiqube.etsi.mano.model.VnfInstantiate;
-import com.ubiqube.etsi.mano.orchestrator.Context;
-import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
-import com.ubiqube.etsi.mano.orchestrator.NamedDependency2d;
+import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfCreateNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfInstantiateNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
-import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
+import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.VnfmInterface;
 import com.ubiqube.etsi.mano.service.graph.AbstractUnitOfWork;
 
@@ -64,15 +60,15 @@ public class VnfInstantiateUow extends AbstractUnitOfWork<NsVnfInstantiateTask> 
 
 	private final BiFunction<Servers, UUID, VnfBlueprint> func;
 
-	public VnfInstantiateUow(final VirtualTask<NsVnfInstantiateTask> task, final VnfmInterface vnfm) {
+	public VnfInstantiateUow(final VirtualTaskV3<NsVnfInstantiateTask> task, final VnfmInterface vnfm) {
 		super(task, VnfInstantiateNode.class);
-		this.task = task.getParameters();
+		this.task = task.getTemplateParameters();
 		this.vnfm = vnfm;
 		func = vnfm::vnfLcmOpOccsGet;
 	}
 
 	@Override
-	public String execute(final Context context) {
+	public String execute(final Context3d context) {
 		final String inst = context.get(VnfCreateNode.class, task.getVnfInstanceName());
 		final List<ExternalManagedVirtualLink> net = task.getExternalNetworks().stream().map(x -> {
 			final String resource = context.get(Network.class, x.getToscaName());
@@ -118,7 +114,7 @@ public class VnfInstantiateUow extends AbstractUnitOfWork<NsVnfInstantiateTask> 
 	}
 
 	@Override
-	public String rollback(final Context context) {
+	public String rollback(final Context3d context) {
 		try {
 			final VnfInstance inst = vnfm.getVnfInstance(task.getServer(), task.getVimResourceId());
 			if (inst.getInstantiationState() == InstantiationState.NOT_INSTANTIATED) {
@@ -137,33 +133,5 @@ public class VnfInstantiateUow extends AbstractUnitOfWork<NsVnfInstantiateTask> 
 			throw new GenericException("VNF LCM Failed: " + result.getError().getDetail());
 		}
 		return result.getId().toString();
-	}
-
-	@Override
-	public List<NamedDependency> getNameDependencies() {
-		final List<NamedDependency> ret = new ArrayList<>();
-		ret.add(new NamedDependency(VnfCreateNode.class, task.getVnfInstanceName()));
-		ret.addAll(task.getVlName().stream()
-				.map(x -> new NamedDependency(Network.class, x))
-				.toList());
-		return ret;
-	}
-
-	@Override
-	public List<NamedDependency> getNamedProduced() {
-		return List.of(new NamedDependency(getNode(), task.getAlias()));
-	}
-
-	private String resolvName(final String toscaName) {
-		return task.getVnfPackage().getForwardMapping().stream()
-				.filter(x -> x.getForwardingName().equals(toscaName))
-				.findFirst()
-				.map(ForwarderMapping::getVlName)
-				.orElse(toscaName);
-	}
-
-	@Override
-	public List<NamedDependency2d> get2dDependencies() {
-		return List.of(new NamedDependency2d(VnfCreateNode.class, task.getAlias(), null));
 	}
 }

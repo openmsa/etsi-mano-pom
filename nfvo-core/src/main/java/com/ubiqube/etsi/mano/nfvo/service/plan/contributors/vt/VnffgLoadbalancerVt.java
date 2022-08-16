@@ -16,11 +16,7 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt;
 
-import java.util.List;
-
 import com.ubiqube.etsi.mano.dao.mano.vnffg.VnffgLoadbalancerTask;
-import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
-import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.PortPairNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnffgLoadbalancerNode;
 import com.ubiqube.etsi.mano.service.graph.vt.NsVtBase;
 
@@ -32,33 +28,13 @@ import com.ubiqube.etsi.mano.service.graph.vt.NsVtBase;
  */
 public class VnffgLoadbalancerVt extends NsVtBase<VnffgLoadbalancerTask> {
 
-	private final VnffgLoadbalancerTask task;
-
 	public VnffgLoadbalancerVt(final VnffgLoadbalancerTask nt) {
 		super(nt);
-		task = nt;
 	}
 
 	@Override
-	public List<NamedDependency> getNameDependencies() {
-		return task.getInstances().getInstances().stream()
-				.map(x -> new NamedDependency(PortPairNode.class, x.getToscaName()))
-				.toList();
-	}
-
-	@Override
-	public List<NamedDependency> getNamedProduced() {
-		return List.of(new NamedDependency(VnffgLoadbalancerNode.class, task.getToscaName()));
-	}
-
-	@Override
-	public String getFactoryProviderId() {
-		return "VNFFG-LOADBALANCER";
-	}
-
-	@Override
-	public String getVimProviderId() {
-		return "VNFFG-LOADBALANCER";
+	public Class<?> getType() {
+		return VnffgLoadbalancerNode.class;
 	}
 
 }

@@ -16,8 +16,6 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service.graph.nfvo;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -30,14 +28,11 @@ import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.VnfContextExtractorTask;
 import com.ubiqube.etsi.mano.exception.GenericException;
-import com.ubiqube.etsi.mano.orchestrator.Context;
-import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
-import com.ubiqube.etsi.mano.orchestrator.NamedDependency2d;
+import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.nodes.mec.VnfExtractorNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfCreateNode;
-import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfInstantiateNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfPortNode;
-import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
+import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.VnfmInterface;
 import com.ubiqube.etsi.mano.service.graph.AbstractUnitOfWork;
 
@@ -53,15 +48,15 @@ public class VnfContextExtractorUow extends AbstractUnitOfWork<VnfContextExtract
 	private final NsdPackage pack;
 	private final VnfContextExtractorTask task;
 
-	public VnfContextExtractorUow(final VirtualTask<VnfContextExtractorTask> task, final VnfmInterface vnfm, final NsdPackage pack) {
+	public VnfContextExtractorUow(final VirtualTaskV3<VnfContextExtractorTask> task, final VnfmInterface vnfm, final NsdPackage pack) {
 		super(task, VnfExtractorNode.class);
 		this.vnfm = vnfm;
-		this.pack = pack;
-		this.task = task.getParameters();
+		this.pack = null; // XXX: Supress me
+		this.task = task.getTemplateParameters();
 	}
 
 	@Override
-	public String execute(final Context context) {
+	public String execute(final Context3d context) {
 		final String vnfInstanceId = context.get(VnfCreateNode.class, task.getToscaName());
 		final VnfInstance inst = vnfm.getVnfInstance(task.getServer(), vnfInstanceId);
 		inst.getInstantiatedVnfInfo().getExtCpInfo().forEach(x -> {
@@ -120,32 +115,9 @@ public class VnfContextExtractorUow extends AbstractUnitOfWork<VnfContextExtract
 	}
 
 	@Override
-	public String rollback(final Context context) {
+	public String rollback(final Context3d context) {
 		// Nothing.
 		return null;
-	}
-
-	@Override
-	public List<NamedDependency> getNameDependencies() {
-		return List.of(new NamedDependency(VnfInstantiateNode.class, task.getVnfInstanceName()));
-	}
-
-	@Override
-	public List<NamedDependency> getNamedProduced() {
-		final List<NamedDependency> ret = new ArrayList<>();
-		final NsdPackageVnfPackage vnfd = findVnfd(task.getVnfdId());
-		vnfd.getVirtualLinks().stream()
-				.map(ListKeyPair::getValue)
-				.filter(Objects::nonNull)
-				.map(x -> new NamedDependency(VnfPortNode.class, x))
-				.forEach(ret::add);
-		ret.add(new NamedDependency(VnfExtractorNode.class, task.getToscaName()));
-		return ret;
-	}
-
-	@Override
-	public List<NamedDependency2d> get2dDependencies() {
-		return List.of(new NamedDependency2d(VnfInstantiateNode.class, task.getVnfInstanceName(), null));
 	}
 
 }

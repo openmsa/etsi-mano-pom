@@ -21,11 +21,11 @@ import org.springframework.stereotype.Service;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVirtualLinkTask;
 import com.ubiqube.etsi.mano.nfvo.service.graph.nfvo.NsVlUow;
-import com.ubiqube.etsi.mano.orchestrator.OrchestrationService;
+import com.ubiqube.etsi.mano.orchestrator.OrchestrationServiceV3;
 import com.ubiqube.etsi.mano.orchestrator.SystemBuilder;
-import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWork;
-import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
-import com.ubiqube.etsi.mano.service.system.AbstractVimSystem;
+import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWorkV3;
+import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
+import com.ubiqube.etsi.mano.service.system.AbstractVimSystemV3;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 
@@ -35,7 +35,7 @@ import com.ubiqube.etsi.mano.service.vim.VimManager;
  *
  */
 @Service
-public class NsVirtualLinkSystem extends AbstractVimSystem<NsVirtualLinkTask> {
+public class NsVirtualLinkSystem extends AbstractVimSystemV3<NsVirtualLinkTask> {
 	private final Vim vim;
 
 	public NsVirtualLinkSystem(final Vim vim, final VimManager vimManager) {
@@ -44,13 +44,13 @@ public class NsVirtualLinkSystem extends AbstractVimSystem<NsVirtualLinkTask> {
 	}
 
 	@Override
-	public String getProviderId() {
-		return "NSNETWORK";
+	protected SystemBuilder<UnitOfWorkV3<NsVirtualLinkTask>> getImplementation(final OrchestrationServiceV3<NsVirtualLinkTask> orchestrationService, final VirtualTaskV3<NsVirtualLinkTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
+		return orchestrationService.systemBuilderOf(new NsVlUow(virtualTask, vim, vimConnectionInformation));
 	}
 
 	@Override
-	protected SystemBuilder<UnitOfWork<NsVirtualLinkTask>> getImplementation(final OrchestrationService<NsVirtualLinkTask> orchestrationService, final VirtualTask<NsVirtualLinkTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
-		return orchestrationService.systemBuilderOf(new NsVlUow(virtualTask, vim, vimConnectionInformation));
+	public String getVimType() {
+		return "OPENSTACK_V3";
 	}
 
 }

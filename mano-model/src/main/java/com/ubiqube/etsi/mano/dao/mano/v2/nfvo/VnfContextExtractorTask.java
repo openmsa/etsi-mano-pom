@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.dao.mano.v2.nfvo;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
 
@@ -31,6 +32,7 @@ import lombok.Setter;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
+@Entity
 @Getter
 @Setter
 public class VnfContextExtractorTask extends NsTask {
@@ -44,9 +46,21 @@ public class VnfContextExtractorTask extends NsTask {
 	@OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
 	private Servers server;
 
+	@OneToOne
 	private NsdPackage nsdPackage;
 
 	private String vnfdId;
 
 	private String vnfInstanceName;
+
+	@Override
+	public NsTask copy() {
+		final VnfContextExtractorTask task = new VnfContextExtractorTask();
+		super.copy(task);
+		task.setServer(server);
+		task.setNsdPackage(nsdPackage);
+		task.setVnfdId(vnfdId);
+		task.setVnfInstanceName(vnfInstanceName);
+		return task;
+	}
 }

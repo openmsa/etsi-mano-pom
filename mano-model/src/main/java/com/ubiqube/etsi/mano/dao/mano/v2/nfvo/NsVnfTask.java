@@ -30,8 +30,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import com.ubiqube.etsi.mano.dao.mano.NsdPackageVnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
+import com.ubiqube.etsi.mano.dao.mano.nsd.NsdVnfPackageCopy;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -41,9 +41,9 @@ import lombok.Setter;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
+@Entity
 @Getter
 @Setter
-@Entity
 public class NsVnfTask extends NsTask {
 
 	/** Serial. */
@@ -54,7 +54,7 @@ public class NsVnfTask extends NsTask {
 	private UUID id;
 
 	@OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
-	private NsdPackageVnfPackage nsPackageVnfPackage;
+	private NsdVnfPackageCopy nsPackageVnfPackage;
 
 	private String description;
 
@@ -88,6 +88,23 @@ public class NsVnfTask extends NsTask {
 	@Override
 	public void setId(final UUID id) {
 		this.id = id;
+	}
+
+	@Override
+	public NsTask copy() {
+		final NsVnfTask task = new NsVnfTask();
+		super.copy(task);
+		task.setNsPackageVnfPackage(nsPackageVnfPackage);
+		task.setDescription(description);
+		task.setVnfdId(vnfdId);
+		task.setExternalNetworks(externalNetworks);
+		task.setServer(server);
+		task.setFlavourId(flavourId);
+		task.setInstantiationLevelId(instantiationLevelId);
+		task.setLocalizationLanguage(localizationLanguage);
+		task.setNsdId(nsdId);
+		task.setVlInstances(vlInstances);
+		return task;
 	}
 
 }

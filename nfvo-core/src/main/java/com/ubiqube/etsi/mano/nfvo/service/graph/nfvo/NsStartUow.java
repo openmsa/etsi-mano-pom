@@ -16,46 +16,27 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service.graph.nfvo;
 
-import java.util.List;
-
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
-import com.ubiqube.etsi.mano.orchestrator.Context;
-import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
-import com.ubiqube.etsi.mano.orchestrator.NamedDependency2d;
-import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
+import com.ubiqube.etsi.mano.orchestrator.Context3d;
+import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.graph.AbstractUnitOfWork;
 
 public class NsStartUow extends AbstractUnitOfWork<NsTask> {
 
-	public NsStartUow(final VirtualTask task, final Class node) {
+	public NsStartUow(final VirtualTaskV3 task, final Class node) {
 		super(task, node);
 	}
 
 	@Override
-	public String execute(final Context context) {
+	public String execute(final Context3d context) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String rollback(final Context context) {
+	public String rollback(final Context3d context) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public List<NamedDependency> getNameDependencies() {
-		return List.of();
-	}
-
-	@Override
-	public List<NamedDependency> getNamedProduced() {
-		return List.of();
-	}
-
-	@Override
-	public List<NamedDependency2d> get2dDependencies() {
-		return List.of();
 	}
 
 }

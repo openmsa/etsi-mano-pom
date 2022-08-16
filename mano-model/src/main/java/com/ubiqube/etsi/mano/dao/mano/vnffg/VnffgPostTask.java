@@ -51,4 +51,15 @@ public class VnffgPostTask extends NsTask {
 	private String srcPort;
 
 	private String dstPort;
+
+	@Override
+	public NsTask copy() {
+		final VnffgPostTask task = new VnffgPostTask();
+		super.copy(task);
+		task.setClassifier(classifier);
+		task.setChain(chain);
+		task.setVnffg(vnffg);
+		task.setDstPort(dstPort);
+		return task;
+	}
 }

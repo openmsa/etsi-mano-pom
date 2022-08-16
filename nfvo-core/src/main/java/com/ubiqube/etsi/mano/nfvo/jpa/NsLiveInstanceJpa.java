@@ -56,4 +56,7 @@ public interface NsLiveInstanceJpa extends CrudRepository<NsLiveInstance, UUID> 
 
 	NsLiveInstance findByResourceIdAndNsInstanceId(@NotNull String safeUUID, UUID nsInstanceId);
 
+	@Query("select count(nli) from NsLiveInstance nli join NsTask t on t.id = nli.nsTask where nli.nsInstance = ?1 AND t.class = ?2 AND t.toscaName = ?3 GROUP BY nli.audit.createdOn ORDER BY nli.audit.createdOn DESC")
+	Integer countByNsdInstanceIdAndClassAndToscaName(NsdInstance nsdInstance, String clazz, String toscaName);
+
 }

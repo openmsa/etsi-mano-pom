@@ -48,7 +48,7 @@ import lombok.Setter;
 @Entity
 @EntityListeners(AuditListener.class)
 @Indexed
-public class NsTask extends AbstractTask implements VimTask {
+public abstract class NsTask extends AbstractTask implements VimTask {
 
 	/** Serial. */
 	private static final long serialVersionUID = 1L;
@@ -62,8 +62,6 @@ public class NsTask extends AbstractTask implements VimTask {
 
 	private String resourceProviderId;
 
-	private String vimConnectionId;
-
 	private String vimReservationId;
 
 	private String zoneId;
@@ -73,6 +71,16 @@ public class NsTask extends AbstractTask implements VimTask {
 	@Override
 	public ScaleInfo getScaleInfo() {
 		return null;
+	}
+
+	public NsTask copy(final NsTask task) {
+		super.copy(task);
+		task.setType(type);
+		task.setResourceProviderId(resourceProviderId);
+		task.setVimReservationId(vimReservationId);
+		task.setZoneId(zoneId);
+		task.setResourceGroupId(resourceGroupId);
+		return task;
 	}
 
 }

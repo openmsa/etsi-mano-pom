@@ -16,12 +16,8 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt;
 
-import java.util.List;
-
 import com.ubiqube.etsi.mano.dao.mano.vnffg.VnffgPortPairTask;
-import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.PortPairNode;
-import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfInstantiateNode;
 import com.ubiqube.etsi.mano.service.graph.vt.NsVtBase;
 
 /**
@@ -31,31 +27,12 @@ import com.ubiqube.etsi.mano.service.graph.vt.NsVtBase;
  */
 public class NsVnffgPortPairVt extends NsVtBase<VnffgPortPairTask> {
 
-	private final VnffgPortPairTask task;
-
 	public NsVnffgPortPairVt(final VnffgPortPairTask nt) {
 		super(nt);
-		task = nt;
 	}
 
 	@Override
-	public List<NamedDependency> getNameDependencies() {
-		return List.of(new NamedDependency(VnfInstantiateNode.class, task.getVnfAlias()));
+	public Class<?> getType() {
+		return PortPairNode.class;
 	}
-
-	@Override
-	public List<NamedDependency> getNamedProduced() {
-		return List.of(new NamedDependency(PortPairNode.class, task.getAlias()));
-	}
-
-	@Override
-	public String getFactoryProviderId() {
-		return "VNFFG-PORT-PAIR";
-	}
-
-	@Override
-	public String getVimProviderId() {
-		return "VNFFG-PORT-PAIR";
-	}
-
 }
