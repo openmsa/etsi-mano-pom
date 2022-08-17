@@ -23,6 +23,8 @@ import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsSapTask;
 import com.ubiqube.etsi.mano.nfvo.service.graph.nfvo.NsSapUow;
 import com.ubiqube.etsi.mano.orchestrator.OrchestrationServiceV3;
 import com.ubiqube.etsi.mano.orchestrator.SystemBuilder;
+import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
+import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.SapNode;
 import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWorkV3;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.system.AbstractVimSystemV3;
@@ -50,4 +52,8 @@ public class NsSapSystem extends AbstractVimSystemV3<NsSapTask> {
 		return "OPENSTACK_V3";
 	}
 
+	@Override
+	public Class<? extends Node> getType() {
+		return SapNode.class;
+	}
 }

@@ -23,7 +23,17 @@ import javax.persistence.ManyToOne;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfVl;
 
+import lombok.Getter;
+import lombok.Setter;
+
+/**
+ *
+ * @author olivier
+ *
+ */
 @Entity
+@Getter
+@Setter
 public class DnsZoneTask extends VnfTask {
 
 	/** Serial. */
@@ -34,20 +44,13 @@ public class DnsZoneTask extends VnfTask {
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
 	private VnfVl vnfVl;
 
-	public String getDomainName() {
-		return domainName;
-	}
-
-	public void setDomainName(final String domainName) {
-		this.domainName = domainName;
-	}
-
-	public VnfVl getVnfVl() {
-		return vnfVl;
-	}
-
-	public void setVnfVl(final VnfVl vnfVl) {
-		this.vnfVl = vnfVl;
+	@Override
+	public VnfTask copy() {
+		final DnsZoneTask t = new DnsZoneTask();
+		super.copy(t);
+		t.setDomainName(domainName);
+		t.setVnfVl(vnfVl);
+		return t;
 	}
 
 }

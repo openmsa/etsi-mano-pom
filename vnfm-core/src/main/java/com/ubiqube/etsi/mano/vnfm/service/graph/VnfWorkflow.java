@@ -28,11 +28,11 @@ import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.orchestrator.Context;
+import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.ExecutionGraph;
 import com.ubiqube.etsi.mano.orchestrator.OrchExecutionResults;
-import com.ubiqube.etsi.mano.orchestrator.OrchestrationService;
+import com.ubiqube.etsi.mano.orchestrator.OrchestrationServiceV3;
 import com.ubiqube.etsi.mano.orchestrator.Planner;
-import com.ubiqube.etsi.mano.orchestrator.PreExecutionGraph;
 import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.AffinityRuleNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Compute;
@@ -44,7 +44,8 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SecurityGroupNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Storage;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SubNetwork;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfExtCp;
-import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
+import com.ubiqube.etsi.mano.orchestrator.v3.PreExecutionGraphV3;
+import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.event.Workflow;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.AbstractContributorV2Base;
@@ -58,12 +59,12 @@ import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.AbstractContribut
 public class VnfWorkflow implements Workflow<VnfPackage, VnfBlueprint, VnfTask> {
 	private final Planner<VnfBlueprint, VnfTask, VnfTask> planv2;
 	private final List<AbstractContributorV2Base> planContributors;
-	private final OrchestrationService<?> orchestrationService;
+	private final OrchestrationServiceV3<?> orchestrationService;
 	private final VnfLiveInstanceJpa vnfInstanceJpa;
 
 	public VnfWorkflow(final List<AbstractContributorV2Base> planContributors,
 			final Planner<VnfBlueprint, VnfTask, VnfTask> planv2,
-			final OrchestrationService<?> orchestrationService, final VnfLiveInstanceJpa vnfInstanceJpa) {
+			final OrchestrationServiceV3<?> orchestrationService, final VnfLiveInstanceJpa vnfInstanceJpa) {
 		this.planContributors = planContributors;
 		this.planv2 = planv2;
 		this.orchestrationService = orchestrationService;
@@ -71,22 +72,22 @@ public class VnfWorkflow implements Workflow<VnfPackage, VnfBlueprint, VnfTask> 
 	}
 
 	@Override
-	public PreExecutionGraph<VnfTask> setWorkflowBlueprint(final VnfPackage bundle, final VnfBlueprint blueprint) {
+	public PreExecutionGraphV3<VnfTask> setWorkflowBlueprint(final VnfPackage bundle, final VnfBlueprint blueprint) {
 		final List<Class<? extends Node>> planConstituent = new ArrayList<>();
 		// Doesn't works with jdk17 but fine with eclipse.
 		for (final AbstractContributorV2Base b : planContributors) {
 			planConstituent.add(b.getNode());
 		}
-		final PreExecutionGraph<VnfTask> plan = planv2.makePlan(new VnfBundleAdapter(bundle), planConstituent, blueprint);
-		plan.getPreTasks().stream().map(VirtualTask::getParameters).forEach(blueprint::addTask);
+		final PreExecutionGraphV3<VnfTask> plan = planv2.makePlan(new VnfBundleAdapter(bundle), planConstituent, blueprint);
+		plan.getPreTasks().stream().map(VirtualTaskV3::getTemplateParameters).forEach(blueprint::addTask);
 		return plan;
 	}
 
 	@Override
-	public OrchExecutionResults execute(final PreExecutionGraph<VnfTask> plan, final VnfBlueprint parameters) {
+	public OrchExecutionResults execute(final PreExecutionGraphV3<VnfTask> plan, final VnfBlueprint parameters) {
 		final ExecutionGraph impl = planv2.implement(plan);
-		final Context context = orchestrationService.createEmptyContext();
-		populateExtNetworks(context, parameters);
+		final Context3d context = orchestrationService.createEmptyContext();
+		// populateExtNetworks(context, parameters);
 		return planv2.execute(impl, context, new OrchListenetImpl(parameters, vnfInstanceJpa));
 	}
 
@@ -133,10 +134,10 @@ public class VnfWorkflow implements Workflow<VnfPackage, VnfBlueprint, VnfTask> 
 	}
 
 	@Override
-	public void refresh(final PreExecutionGraph<VnfTask> prePlan, final Blueprint<VnfTask, ?> localPlan) {
+	public void refresh(final PreExecutionGraphV3<VnfTask> prePlan, final Blueprint<VnfTask, ?> localPlan) {
 		prePlan.getPreTasks().forEach(x -> {
-			final VnfTask task = find(x.getParameters().getToscaId(), localPlan);
-			x.setParameters(task);
+			final VnfTask task = find(x.getTemplateParameters().getToscaId(), localPlan);
+			x.setTemplateParameters(task);
 		});
 	}
 

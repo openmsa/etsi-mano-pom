@@ -16,12 +16,8 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt;
 
-import java.util.List;
-
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.MciopTask;
-import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.HelmNode;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerDeployableNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.MciopUser;
 
 /**
  *
@@ -30,31 +26,13 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerDeployableNode;
  */
 public class MciopVt extends VnfVtBase<MciopTask> {
 
-	private final MciopTask p;
-
 	public MciopVt(final MciopTask nt) {
 		super(nt);
-		this.p = nt;
 	}
 
 	@Override
-	public List<NamedDependency> getNameDependencies() {
-		return List.of(new NamedDependency(OsContainerDeployableNode.class, p.getParentVdu()));
-	}
-
-	@Override
-	public List<NamedDependency> getNamedProduced() {
-		return List.of(new NamedDependency(HelmNode.class, p.getToscaName()));
-	}
-
-	@Override
-	public String getFactoryProviderId() {
-		return "HELM";
-	}
-
-	@Override
-	public String getVimProviderId() {
-		return "HELM";
+	public Class<?> getType() {
+		return MciopUser.class;
 	}
 
 }

@@ -81,9 +81,6 @@ public abstract class AbstractGenericActionV3 {
 		final PackageBase vnfPkg = orchestrationAdapter.getPackage(vnfInstance);
 		final Set<ScaleInfo> newScale = merge(blueprint, vnfInstance);
 		final PreExecutionGraphV3<?> prePlan = workflow.setWorkflowBlueprint(vnfPkg, blueprint);
-		if (!System.getenv().isEmpty()) {
-			// throw new GenericException("");
-		}
 		Blueprint<?, ?> localPlan = orchestrationAdapter.save(blueprint);
 		orchestrationAdapter.fireEvent(WorkflowEvent.INSTANTIATE_PROCESSING, vnfInstance.getId());
 		vimResourceService.allocate(localPlan);
@@ -233,14 +230,14 @@ public abstract class AbstractGenericActionV3 {
 	private void setLiveSatus(@NotNull final Blueprint<? extends Task, ? extends Instance> blueprint, @NotNull final Instance vnfInstance, final OrchExecutionResults<Task> res) {
 		LOG.info("Creating / deleting live instances.");
 		res.getSuccess().forEach(x -> {
-			final Task rhe = x.getTask().getTask().getParameters();
+			final Task rhe = x.getTask().getTask().getTemplateParameters();
 			final ChangeType ct = rhe.getChangeType();
 			if (ct == ChangeType.ADDED) {
 				final String il = Optional.ofNullable(rhe.getScaleInfo()).map(ScaleInfo::getAspectId).orElse(null);
 				if ((null != rhe.getId()) && (null != rhe.getVimResourceId())) {
 					// orchestrationAdapter.createLiveInstance(vnfInstance, il, rhe, blueprint);
 				} else {
-					LOG.warn("No vim resource or database id for: {}", x.getTask().getTask().getParameters().getToscaName());
+					LOG.warn("No vim resource or database id for: {}", x.getTask().getTask().getTemplateParameters().getToscaName());
 				}
 			} else if ((ct == ChangeType.REMOVED) && (null != rhe.getId())) {
 				LOG.info("Removing {}", rhe.getId());

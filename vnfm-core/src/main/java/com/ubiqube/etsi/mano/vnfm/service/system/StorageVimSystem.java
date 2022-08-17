@@ -20,14 +20,16 @@ import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.v2.StorageTask;
-import com.ubiqube.etsi.mano.orchestrator.OrchestrationService;
+import com.ubiqube.etsi.mano.orchestrator.OrchestrationServiceV3;
 import com.ubiqube.etsi.mano.orchestrator.SystemBuilder;
-import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWork;
-import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
-import com.ubiqube.etsi.mano.service.system.AbstractVimSystem;
+import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Storage;
+import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWorkV3;
+import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
+import com.ubiqube.etsi.mano.service.system.AbstractVimSystemV3;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.uow.VnfStorageUowV2;
+import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow.VnfStorageUowV3;
 
 /**
  *
@@ -35,7 +37,7 @@ import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.uow.VnfStorageUow
  *
  */
 @Service
-public class StorageVimSystem extends AbstractVimSystem<StorageTask> {
+public class StorageVimSystem extends AbstractVimSystemV3<StorageTask> {
 
 	private final Vim vim;
 
@@ -45,13 +47,17 @@ public class StorageVimSystem extends AbstractVimSystem<StorageTask> {
 	}
 
 	@Override
-	public String getProviderId() {
-		return "STORAGE";
+	protected SystemBuilder<UnitOfWorkV3<StorageTask>> getImplementation(final OrchestrationServiceV3<StorageTask> orchestrationService, final VirtualTaskV3<StorageTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
+		return orchestrationService.systemBuilderOf(new VnfStorageUowV3(virtualTask, vim, vimConnectionInformation));
 	}
 
 	@Override
-	protected SystemBuilder<UnitOfWork<StorageTask>> getImplementation(final OrchestrationService<StorageTask> orchestrationService, final VirtualTask<StorageTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
-		return orchestrationService.systemBuilderOf(new VnfStorageUowV2(virtualTask, vim, vimConnectionInformation));
+	public String getVimType() {
+		return "OPENSTACK_V3";
 	}
 
+	@Override
+	public Class<? extends Node> getType() {
+		return Storage.class;
+	}
 }

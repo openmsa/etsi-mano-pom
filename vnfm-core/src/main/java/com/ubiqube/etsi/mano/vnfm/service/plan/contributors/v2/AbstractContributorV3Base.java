@@ -14,9 +14,10 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3;
+package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 import com.ubiqube.etsi.mano.dao.mano.ChangeType;
@@ -25,21 +26,16 @@ import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.v2.PlanStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
-import com.ubiqube.etsi.mano.orchestrator.TemplateExtractorV3;
 import com.ubiqube.etsi.mano.orchestrator.SclableResources;
+import com.ubiqube.etsi.mano.orchestrator.TemplateExtractorV3;
 import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
 
-/**
- *
- * @author olivier
- *
- */
-public abstract class AbstractContributorV3<U> implements TemplateExtractorV3<U, VnfBlueprint, VnfPackage> {
-	protected final VnfLiveInstanceJpa vnfInstanceJpa;
+public abstract class AbstractContributorV3Base<U> implements TemplateExtractorV3<U, VnfBlueprint, VnfPackage> {
+	private final VnfLiveInstanceJpa vnfLiveInstanceJpa;
 
-	protected AbstractContributorV3(final VnfLiveInstanceJpa vnfInstanceJpa) {
-		this.vnfInstanceJpa = vnfInstanceJpa;
+	protected AbstractContributorV3Base(final VnfLiveInstanceJpa vnfLiveInstanceJpa) {
+		this.vnfLiveInstanceJpa = vnfLiveInstanceJpa;
 	}
 
 	protected static <U extends VnfTask> U createTask(final Supplier<U> newInstance) {
@@ -50,11 +46,13 @@ public abstract class AbstractContributorV3<U> implements TemplateExtractorV3<U,
 		return task;
 	}
 
-	protected int countLive(final VnfInstance vnfInstance, final Class<?> clazz, final String toscaName) {
-		return vnfInstanceJpa.countByVnfInstanceIdAndClassAndToscaName(vnfInstance, clazz.getSimpleName(), toscaName);
+	protected int countLive(final VnfInstance nsdInstance, final Class<?> clazz, final String toscaName) {
+		return Optional.ofNullable(vnfLiveInstanceJpa.countByVnfInstanceIdAndClassAndToscaName(nsdInstance, clazz.getSimpleName(), toscaName))
+				.orElse(0);
 	}
 
 	protected SclableResources<U> create(final Class<? extends Node> clazz, final String toscaName, final int want, final U param, final VnfInstance inst) {
 		return SclableResources.of(clazz, toscaName, countLive(inst, clazz, toscaName), want, param);
 	}
+
 }

@@ -20,14 +20,16 @@ import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.v2.MonitoringTask;
-import com.ubiqube.etsi.mano.orchestrator.OrchestrationService;
+import com.ubiqube.etsi.mano.orchestrator.OrchestrationServiceV3;
 import com.ubiqube.etsi.mano.orchestrator.SystemBuilder;
-import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWork;
-import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
-import com.ubiqube.etsi.mano.service.system.AbstractVimSystem;
+import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Monitoring;
+import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWorkV3;
+import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
+import com.ubiqube.etsi.mano.service.system.AbstractVimSystemV3;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 import com.ubiqube.etsi.mano.vnfm.service.VnfMonitoringService;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.uow.VnfMonitoringUow2;
+import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow.VnfMonitoringUowV3;
 
 /**
  *
@@ -35,7 +37,7 @@ import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.uow.VnfMonitoring
  *
  */
 @Service
-public class MonitoringSystem extends AbstractVimSystem<MonitoringTask> {
+public class MonitoringSystem extends AbstractVimSystemV3<MonitoringTask> {
 	private final VnfMonitoringService vnfMonitoringService;
 
 	public MonitoringSystem(final VnfMonitoringService vnfMonitoringService, final VimManager vimManager) {
@@ -44,13 +46,17 @@ public class MonitoringSystem extends AbstractVimSystem<MonitoringTask> {
 	}
 
 	@Override
-	public String getProviderId() {
-		return "MONITORING";
+	protected SystemBuilder<UnitOfWorkV3<MonitoringTask>> getImplementation(final OrchestrationServiceV3<MonitoringTask> orchestrationService, final VirtualTaskV3<MonitoringTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
+		return orchestrationService.systemBuilderOf(new VnfMonitoringUowV3(virtualTask, vnfMonitoringService, vimConnectionInformation));
 	}
 
 	@Override
-	protected SystemBuilder<UnitOfWork<MonitoringTask>> getImplementation(final OrchestrationService<MonitoringTask> orchestrationService, final VirtualTask<MonitoringTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
-		return orchestrationService.systemBuilderOf(new VnfMonitoringUow2(virtualTask, vnfMonitoringService, vimConnectionInformation));
+	public String getVimType() {
+		return "OPENSTACK_V3";
 	}
 
+	@Override
+	public Class<? extends Node> getType() {
+		return Monitoring.class;
+	}
 }

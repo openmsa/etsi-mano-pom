@@ -16,12 +16,7 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt;
 
-import java.util.Arrays;
-import java.util.List;
-
 import com.ubiqube.etsi.mano.dao.mano.v2.MonitoringTask;
-import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Compute;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Monitoring;
 
 /**
@@ -36,22 +31,7 @@ public class MonitoringVt extends VnfVtBase<MonitoringTask> {
 	}
 
 	@Override
-	public List<NamedDependency> getNameDependencies() {
-		return Arrays.asList(new NamedDependency(Compute.class, getParameters().getVnfCompute().getToscaName()));
-	}
-
-	@Override
-	public List<NamedDependency> getNamedProduced() {
-		return Arrays.asList(new NamedDependency(Monitoring.class, getParameters().getToscaName()));
-	}
-
-	@Override
-	public String getFactoryProviderId() {
-		return "MONITORING";
-	}
-
-	@Override
-	public String getVimProviderId() {
-		return "MONITORING";
+	public Class<?> getType() {
+		return Monitoring.class;
 	}
 }

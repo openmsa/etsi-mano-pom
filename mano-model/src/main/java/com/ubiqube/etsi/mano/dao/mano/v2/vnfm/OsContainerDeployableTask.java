@@ -69,4 +69,15 @@ public class OsContainerDeployableTask extends VnfTask {
 	@ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
 	private OsContainerDeployableUnit osContainerDeployableUnit;
 
+	@Override
+	public VnfTask copy() {
+		final OsContainerDeployableTask t = new OsContainerDeployableTask();
+		super.copy(t);
+		t.setTemplateId(templateId);
+		t.setKeypair(keypair);
+		t.setNetwork(network);
+		t.setOsContainerDeployableUnit(osContainerDeployableUnit);
+		return t;
+	}
+
 }

@@ -29,8 +29,8 @@ import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsLiveInstanceJpa;
 import com.ubiqube.etsi.mano.orchestrator.OrchExecutionListener;
 import com.ubiqube.etsi.mano.orchestrator.Task;
-import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWork;
-import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
+import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWorkV3;
+import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 
 /**
  *
@@ -65,19 +65,19 @@ public class NsOrchListenetImpl implements OrchExecutionListener<NsTask> {
 	}
 
 	@Override
-	public void onStart(final VirtualTask<NsTask> task) {
+	public void onStart(final VirtualTaskV3<NsTask> task) {
 		LOG.info("Starting {}", task);
-		final NsTask resource = task.getParameters();
+		final NsTask resource = task.getTemplateParameters();
 		resource.setStatus(PlanStatusType.STARTED);
 		resource.setEndDate(LocalDateTime.now());
 	}
 
 	@Override
-	public void onTerminate(final UnitOfWork<NsTask> uaow, final String res) {
+	public void onTerminate(final UnitOfWorkV3<NsTask> uaow, final String res) {
 		LOG.info("Terminate {} => {}", uaow.getTask(), res);
-		uaow.getTask().getParameters().setVimResourceId(res);
-		final NsTask resource = uaow.getTask().getParameters();
-		if (resource.getChangeType() == ChangeType.ADDED && res != null && resource.getId() != null) {
+		uaow.getTask().getTemplateParameters().setVimResourceId(res);
+		final NsTask resource = uaow.getTask().getTemplateParameters();
+		if ((resource.getChangeType() == ChangeType.ADDED) && (res != null) && (resource.getId() != null)) {
 			final NsLiveInstance nli = new NsLiveInstance(null, resource, blueprint, blueprint.getInstance());
 			nsLiveInstanceJpa.save(nli);
 		}

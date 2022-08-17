@@ -40,7 +40,7 @@ import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
  *
  */
 @Service
-public class OsContainerContributorV3 extends AbstractContributorV3<Object> {
+public class OsContainerContributorV3 extends AbstractVnfmContributorV3<Object> {
 	protected OsContainerContributorV3(final VnfLiveInstanceJpa vnfInstanceJpa) {
 		super(vnfInstanceJpa);
 	}

@@ -16,11 +16,7 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt;
 
-import java.util.List;
-
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerTask;
-import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerNode;
 
 /**
  *
@@ -34,23 +30,7 @@ public class OsContainerVt extends VnfVtBase<OsContainerTask> {
 	}
 
 	@Override
-	public List<NamedDependency> getNameDependencies() {
-		return List.of();
+	public Class<?> getType() {
+		return OsContainerTask.class;
 	}
-
-	@Override
-	public List<NamedDependency> getNamedProduced() {
-		return List.of(new NamedDependency(OsContainerNode.class, getParameters().getToscaName()));
-	}
-
-	@Override
-	public String getFactoryProviderId() {
-		return "CNF";
-	}
-
-	@Override
-	public String getVimProviderId() {
-		return "CNF";
-	}
-
 }

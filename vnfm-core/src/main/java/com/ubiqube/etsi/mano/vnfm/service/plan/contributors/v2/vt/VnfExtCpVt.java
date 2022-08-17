@@ -16,14 +16,7 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.ubiqube.etsi.mano.dao.mano.v2.ExternalCpTask;
-import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.AffinityRuleNode;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfExtCp;
 
 public class VnfExtCpVt extends VnfVtBase<ExternalCpTask> {
@@ -33,25 +26,7 @@ public class VnfExtCpVt extends VnfVtBase<ExternalCpTask> {
 	}
 
 	@Override
-	public List<NamedDependency> getNameDependencies() {
-		final List<NamedDependency> ret = getParameters().getVnfExtCp().getSecurityGroup().stream().map(x -> new NamedDependency(AffinityRuleNode.class, x)).collect(Collectors.toList());
-		final String ivl = getParameters().getVnfExtCp().getInternalVirtualLink();
-		ret.add(new NamedDependency(Network.class, ivl));
-		return ret;
-	}
-
-	@Override
-	public List<NamedDependency> getNamedProduced() {
-		return Arrays.asList(new NamedDependency(VnfExtCp.class, getParameters().getToscaName()));
-	}
-
-	@Override
-	public String getFactoryProviderId() {
-		return "VNFEXTCP";
-	}
-
-	@Override
-	public String getVimProviderId() {
-		return "NETWORK";
+	public Class<?> getType() {
+		return VnfExtCp.class;
 	}
 }

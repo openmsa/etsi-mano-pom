@@ -16,13 +16,8 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import com.ubiqube.etsi.mano.dao.mano.v2.ExternalCpTask;
-import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Compute;
+import com.ubiqube.parser.tosca.objects.tosca.nodes.network.Port;
 
 /**
  *
@@ -36,22 +31,7 @@ public class PortVt extends VnfVtBase<ExternalCpTask> {
 	}
 
 	@Override
-	public List<NamedDependency> getNameDependencies() {
-		return Arrays.asList(new NamedDependency(Compute.class, getParameters().getVnfExtCp().getInternalVirtualLink()));
-	}
-
-	@Override
-	public List<NamedDependency> getNamedProduced() {
-		return new ArrayList<>();
-	}
-
-	@Override
-	public String getFactoryProviderId() {
-		return "PORT";
-	}
-
-	@Override
-	public String getVimProviderId() {
-		return "NETWORK";
+	public Class<?> getType() {
+		return Port.class;
 	}
 }

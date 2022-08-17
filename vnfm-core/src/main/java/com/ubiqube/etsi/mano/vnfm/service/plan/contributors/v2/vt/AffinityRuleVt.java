@@ -16,11 +16,7 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt;
 
-import java.util.Arrays;
-import java.util.List;
-
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.AffinityRuleTask;
-import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.AffinityRuleNode;
 
 /**
@@ -35,23 +31,8 @@ public class AffinityRuleVt extends VnfVtBase<AffinityRuleTask> {
 	}
 
 	@Override
-	public List<NamedDependency> getNameDependencies() {
-		return List.of();
-	}
-
-	@Override
-	public List<NamedDependency> getNamedProduced() {
-		return Arrays.asList(new NamedDependency(AffinityRuleNode.class, getParameters().getToscaName()));
-	}
-
-	@Override
-	public String getFactoryProviderId() {
-		return "AFFINITY";
-	}
-
-	@Override
-	public String getVimProviderId() {
-		return "COMPUTE";
+	public Class<?> getType() {
+		return AffinityRuleNode.class;
 	}
 
 }

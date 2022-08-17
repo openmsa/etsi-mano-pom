@@ -16,25 +16,19 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2;
 
-import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Priority;
 
 import com.ubiqube.etsi.mano.dao.mano.ChangeType;
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
-import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
-import com.ubiqube.etsi.mano.dao.mano.VnfLiveInstance;
+import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.v2.DnsZoneTask;
-import com.ubiqube.etsi.mano.dao.mano.v2.NetworkTask;
-import com.ubiqube.etsi.mano.dao.mano.v2.PlanOperationType;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
-import com.ubiqube.etsi.mano.orchestrator.Bundle;
-import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
+import com.ubiqube.etsi.mano.orchestrator.SclableResources;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.DnsZone;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
 import com.ubiqube.etsi.mano.vnfm.service.graph.NodeNaming;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.DnsZoneVT;
 
 /**
  *
@@ -43,41 +37,21 @@ import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.DnsZoneVT;
  */
 @Priority(100)
 //@Service
-public class VnfV2DnsZoneContributor extends AbstractContributorV2Base<DnsZoneTask, DnsZoneVT> {
-	private final VnfLiveInstanceJpa vnfLiveInstanceJpa;
+public class VnfV2DnsZoneContributor extends AbstractContributorV3Base<DnsZoneTask> {
 
 	public VnfV2DnsZoneContributor(final VnfLiveInstanceJpa vnfLiveInstanceJpa) {
-		super();
-		this.vnfLiveInstanceJpa = vnfLiveInstanceJpa;
+		super(vnfLiveInstanceJpa);
 	}
 
 	@Override
-	public List<DnsZoneVT> vnfContribute(final Bundle bundle, final VnfBlueprint plan) {
-		if (plan.getOperation() == PlanOperationType.TERMINATE) {
-			return doTerminatePlan(plan.getVnfInstance());
-		}
+	public List<SclableResources<DnsZoneTask>> contribute(final VnfPackage bundle, final VnfBlueprint parameters) {
 		final DnsZoneTask dnsZoneTask = new DnsZoneTask();
 		dnsZoneTask.setToscaName(NodeNaming.dnsZone());
-		dnsZoneTask.setAlias(plan.getVnfInstance().getId() + ".mano.vm");
-		dnsZoneTask.setDomainName(plan.getVnfInstance().getId() + ".mano.vm");
+		dnsZoneTask.setAlias(parameters.getVnfInstance().getId() + ".mano.vm");
+		dnsZoneTask.setDomainName(parameters.getVnfInstance().getId() + ".mano.vm");
 		dnsZoneTask.setChangeType(ChangeType.ADDED);
 		dnsZoneTask.setType(ResourceTypeEnum.DNSZONE);
-		return Arrays.asList(new DnsZoneVT(dnsZoneTask));
-	}
-
-	private List<DnsZoneVT> doTerminatePlan(final VnfInstance vnfInstance) {
-		final List<VnfLiveInstance> instances = vnfLiveInstanceJpa.findByVnfInstanceIdAndClass(vnfInstance, NetworkTask.class.getSimpleName());
-		return instances.stream().map(x -> {
-			final DnsZoneTask dnsZoneTask = createTask(DnsZoneTask::new, x.getTask());
-			dnsZoneTask.setToscaName(NodeNaming.dnsZone());
-			dnsZoneTask.setType(ResourceTypeEnum.DNSZONE);
-			return new DnsZoneVT(dnsZoneTask);
-		}).toList();
-	}
-
-	@Override
-	public Class<? extends Node> getNode() {
-		return DnsZone.class;
+		return List.of(create(DnsZone.class, dnsZoneTask.getToscaName(), 1, dnsZoneTask, parameters.getInstance()));
 	}
 
 }

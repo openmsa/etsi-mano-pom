@@ -16,11 +16,7 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt;
 
-import java.util.Arrays;
-import java.util.List;
-
 import com.ubiqube.etsi.mano.dao.mano.SubNetworkTask;
-import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SubNetwork;
 
 /**
@@ -35,22 +31,7 @@ public class SubNetworkVt extends VnfVtBase<SubNetworkTask> {
 	}
 
 	@Override
-	public List<NamedDependency> getNameDependencies() {
-		return Arrays.asList(new NamedDependency(SubNetwork.class, getParameters().getParentName()));
-	}
-
-	@Override
-	public List<NamedDependency> getNamedProduced() {
-		return Arrays.asList(new NamedDependency(SubNetwork.class, getParameters().getToscaName()));
-	}
-
-	@Override
-	public String getFactoryProviderId() {
-		return "SUBNETWORK";
-	}
-
-	@Override
-	public String getVimProviderId() {
-		return "NETWORK";
+	public Class<?> getType() {
+		return SubNetwork.class;
 	}
 }

@@ -47,4 +47,11 @@ public class K8sInformationsTask extends VnfTask {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
 
+	@Override
+	public VnfTask copy() {
+		final K8sInformationsTask t = new K8sInformationsTask();
+		super.copy(t);
+		return t;
+	}
+
 }

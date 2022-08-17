@@ -35,7 +35,7 @@ import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
  *
  */
 @Service
-public class AffinityRuleContributorV3 extends AbstractContributorV3<AffinityRuleTask> {
+public class AffinityRuleContributorV3 extends AbstractVnfmContributorV3<AffinityRuleTask> {
 
 	protected AffinityRuleContributorV3(final VnfLiveInstanceJpa vnfInstanceJpa) {
 		super(vnfInstanceJpa);

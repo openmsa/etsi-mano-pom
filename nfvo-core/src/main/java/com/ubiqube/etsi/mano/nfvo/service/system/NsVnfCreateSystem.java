@@ -23,6 +23,8 @@ import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVnfTask;
 import com.ubiqube.etsi.mano.nfvo.service.graph.nfvo.VnfCreateUow;
 import com.ubiqube.etsi.mano.orchestrator.OrchestrationServiceV3;
 import com.ubiqube.etsi.mano.orchestrator.SystemBuilder;
+import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
+import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfCreateNode;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.VnfmInterface;
 import com.ubiqube.etsi.mano.service.system.AbstractVimSystemV3;
@@ -83,4 +85,8 @@ public class NsVnfCreateSystem extends AbstractVimSystemV3<NsVnfTask> {
 		return "OPENSTACK_V3";
 	}
 
+	@Override
+	public Class<? extends Node> getType() {
+		return VnfCreateNode.class;
+	}
 }

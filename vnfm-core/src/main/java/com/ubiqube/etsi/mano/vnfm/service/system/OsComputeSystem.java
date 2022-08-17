@@ -20,14 +20,16 @@ import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.v2.ComputeTask;
-import com.ubiqube.etsi.mano.orchestrator.OrchestrationService;
+import com.ubiqube.etsi.mano.orchestrator.OrchestrationServiceV3;
 import com.ubiqube.etsi.mano.orchestrator.SystemBuilder;
-import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWork;
-import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
-import com.ubiqube.etsi.mano.service.system.AbstractVimSystem;
+import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Compute;
+import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWorkV3;
+import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
+import com.ubiqube.etsi.mano.service.system.AbstractVimSystemV3;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.uow.VnfComputeUowV2;
+import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow.VnfComputeUowV3;
 
 /**
  *
@@ -35,7 +37,7 @@ import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.uow.VnfComputeUow
  *
  */
 @Service
-public class OsComputeSystem extends AbstractVimSystem<ComputeTask> {
+public class OsComputeSystem extends AbstractVimSystemV3<ComputeTask> {
 
 	private final Vim vim;
 
@@ -45,13 +47,17 @@ public class OsComputeSystem extends AbstractVimSystem<ComputeTask> {
 	}
 
 	@Override
-	public String getProviderId() {
-		return "COMPUTE";
+	public SystemBuilder<UnitOfWorkV3<ComputeTask>> getImplementation(final OrchestrationServiceV3<ComputeTask> orchestrationService, final VirtualTaskV3<ComputeTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
+		return orchestrationService.systemBuilderOf(new VnfComputeUowV3(virtualTask, vim, vimConnectionInformation));
 	}
 
 	@Override
-	public SystemBuilder<UnitOfWork<ComputeTask>> getImplementation(final OrchestrationService<ComputeTask> orchestrationService, final VirtualTask<ComputeTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
-		return orchestrationService.systemBuilderOf(new VnfComputeUowV2(virtualTask, vim, vimConnectionInformation));
+	public String getVimType() {
+		return "OPENSTACK_V3";
 	}
 
+	@Override
+	public Class<? extends Node> getType() {
+		return Compute.class;
+	}
 }

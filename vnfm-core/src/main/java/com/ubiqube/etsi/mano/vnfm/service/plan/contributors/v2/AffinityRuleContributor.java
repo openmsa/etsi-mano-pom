@@ -16,26 +16,17 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
-import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
-import com.ubiqube.etsi.mano.dao.mano.VnfLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
-import com.ubiqube.etsi.mano.dao.mano.v2.PlanOperationType;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.AffinityRuleTask;
-import com.ubiqube.etsi.mano.orchestrator.Bundle;
-import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
+import com.ubiqube.etsi.mano.orchestrator.SclableResources;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.AffinityRuleNode;
-import com.ubiqube.etsi.mano.service.VnfInstanceGatewayService;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
-import com.ubiqube.etsi.mano.vnfm.service.graph.VduNamingStrategy;
-import com.ubiqube.etsi.mano.vnfm.service.graph.VnfBundleAdapter;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.AffinityRuleVt;
 
 /**
  *
@@ -43,54 +34,22 @@ import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.AffinityRuleVt
  *
  */
 @Service
-public class AffinityRuleContributor extends AbstractContributorV2Base<AffinityRuleTask, AffinityRuleVt> {
-	private final VnfInstanceGatewayService vnfInstanceGatewayService;
-	private final VnfLiveInstanceJpa vnfLiveInstanceJpa;
-	private final VduNamingStrategy vduNamingStrategy;
+public class AffinityRuleContributor extends AbstractContributorV3Base<AffinityRuleTask> {
 
-	public AffinityRuleContributor(final VnfInstanceGatewayService vnfInstanceGatewayService, final VnfLiveInstanceJpa vnfLiveInstanceJpa, final VduNamingStrategy vduNamingStrategy) {
-		this.vnfInstanceGatewayService = vnfInstanceGatewayService;
-		this.vnfLiveInstanceJpa = vnfLiveInstanceJpa;
-		this.vduNamingStrategy = vduNamingStrategy;
+	public AffinityRuleContributor(final VnfLiveInstanceJpa vnfLiveInstanceJpa) {
+		super(vnfLiveInstanceJpa);
 	}
 
 	@Override
-	public Class<? extends Node> getNode() {
-		return AffinityRuleNode.class;
-	}
-
-	@Override
-	protected List<AffinityRuleVt> vnfContribute(final Bundle bundle, final VnfBlueprint blueprint) {
-		if (blueprint.getOperation() == PlanOperationType.TERMINATE) {
-			return doTerminatePlan(blueprint.getVnfInstance());
-		}
-		final VnfPackage vnfPackage = ((VnfBundleAdapter) bundle).vnfPackage();
-		final VnfInstance vnfInstance = vnfInstanceGatewayService.findById(blueprint.getInstance().getId());
-		final List<AffinityRuleVt> ret = new ArrayList<>();
-		vnfPackage.getAffinityRules().forEach(x -> {
-			final int i = vnfLiveInstanceJpa.countByVnfInstanceAndTaskToscaName(vnfInstance, x.getToscaName());
-			if (i > 0) {
-				return;
-			}
+	public List<SclableResources<AffinityRuleTask>> contribute(final VnfPackage bundle, final VnfBlueprint parameters) {
+		return bundle.getAffinityRules().stream().map(x -> {
 			final AffinityRuleTask task = createTask(AffinityRuleTask::new);
-			task.setAlias(vduNamingStrategy.nameSingleResource(blueprint, x.getToscaName()));
 			task.setType(ResourceTypeEnum.AFFINITY_RULE);
 			task.setToscaName(x.getToscaName());
 			task.setAffinityRule(x);
-			ret.add(new AffinityRuleVt(task));
-		});
-		return ret;
-	}
-
-	private List<AffinityRuleVt> doTerminatePlan(final VnfInstance vnfInstance) {
-		final List<VnfLiveInstance> instances = vnfLiveInstanceJpa.findByVnfInstanceIdAndClass(vnfInstance, AffinityRuleTask.class.getSimpleName());
-		return instances.stream().map(x -> {
-			final AffinityRuleTask task = createDeleteTask(AffinityRuleTask::new, x);
-			task.setType(ResourceTypeEnum.AFFINITY_RULE);
-			task.setRemovedLiveInstance(x.getId());
-			task.setVimResourceId(x.getResourceId());
-			return new AffinityRuleVt(task);
-		}).toList();
+			return create(AffinityRuleNode.class, task.getToscaName(), 1, task, parameters.getInstance());
+		})
+				.toList();
 	}
 
 }

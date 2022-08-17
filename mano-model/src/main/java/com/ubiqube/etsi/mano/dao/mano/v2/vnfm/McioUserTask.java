@@ -49,4 +49,12 @@ public class McioUserTask extends VnfTask {
 
 	private String parentVdu;
 
+	@Override
+	public VnfTask copy() {
+		final McioUserTask t = new McioUserTask();
+		super.copy(t);
+		t.setParentVdu(parentVdu);
+		return t;
+	}
+
 }

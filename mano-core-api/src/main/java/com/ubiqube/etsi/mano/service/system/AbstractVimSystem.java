@@ -18,10 +18,13 @@ package com.ubiqube.etsi.mano.service.system;
 
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.orchestrator.OrchestrationService;
+import com.ubiqube.etsi.mano.orchestrator.OrchestrationServiceV3;
 import com.ubiqube.etsi.mano.orchestrator.SystemBuilder;
 import com.ubiqube.etsi.mano.orchestrator.entities.SystemConnections;
 import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWork;
+import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWorkV3;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
+import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.sys.System;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 
@@ -45,4 +48,12 @@ public abstract class AbstractVimSystem<U> implements System<U> {
 	}
 
 	protected abstract SystemBuilder<UnitOfWork<U>> getImplementation(final OrchestrationService<U> orchestrationService, final VirtualTask<U> virtualTask, VimConnectionInformation vimConnectionInformation);
+
+	@Override
+	public SystemBuilder<UnitOfWorkV3<U>> getImplementation(final OrchestrationServiceV3<U> orchestrationServicev3, final VirtualTaskV3<U> virtualTask, final SystemConnections vim) {
+		final VimConnectionInformation vimConn = vimManager.findVimByVimId(vim.getVimId());
+		return getImplementationv3(orchestrationServicev3, virtualTask, vimConn);
+	}
+
+	protected abstract SystemBuilder<UnitOfWorkV3<U>> getImplementationv3(OrchestrationServiceV3<U> orchestrationServicev3, VirtualTaskV3<U> virtualTask, VimConnectionInformation vimConn);
 }

@@ -20,14 +20,16 @@ import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.v2.ExternalCpTask;
-import com.ubiqube.etsi.mano.orchestrator.OrchestrationService;
+import com.ubiqube.etsi.mano.orchestrator.OrchestrationServiceV3;
 import com.ubiqube.etsi.mano.orchestrator.SystemBuilder;
-import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWork;
-import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
-import com.ubiqube.etsi.mano.service.system.AbstractVimSystem;
+import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfExtCp;
+import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWorkV3;
+import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
+import com.ubiqube.etsi.mano.service.system.AbstractVimSystemV3;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.uow.VnfExtCpUowV2;
+import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow.VnfExtCpUowV3;
 
 /**
  *
@@ -35,7 +37,7 @@ import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.uow.VnfExtCpUowV2
  *
  */
 @Service
-public class VnfExtSystem extends AbstractVimSystem<ExternalCpTask> {
+public class VnfExtSystem extends AbstractVimSystemV3<ExternalCpTask> {
 
 	private final Vim vim;
 
@@ -45,13 +47,17 @@ public class VnfExtSystem extends AbstractVimSystem<ExternalCpTask> {
 	}
 
 	@Override
-	public String getProviderId() {
-		return "VNFEXTCP";
+	protected SystemBuilder<UnitOfWorkV3<ExternalCpTask>> getImplementation(final OrchestrationServiceV3<ExternalCpTask> orchestrationService, final VirtualTaskV3<ExternalCpTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
+		return orchestrationService.systemBuilderOf(new VnfExtCpUowV3(virtualTask, vim, vimConnectionInformation));
 	}
 
 	@Override
-	protected SystemBuilder<UnitOfWork<ExternalCpTask>> getImplementation(final OrchestrationService<ExternalCpTask> orchestrationService, final VirtualTask<ExternalCpTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
-		return orchestrationService.systemBuilderOf(new VnfExtCpUowV2(virtualTask, vim, vimConnectionInformation));
+	public String getVimType() {
+		return "OPENSTACK_V3";
 	}
 
+	@Override
+	public Class<? extends Node> getType() {
+		return VnfExtCp.class;
+	}
 }

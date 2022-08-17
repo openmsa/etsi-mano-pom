@@ -46,4 +46,15 @@ public class ExternalCpTask extends VnfTask {
 	 * The vim resource ID if concerning a pre ExtCp.
 	 */
 	private String preExtCpResourceId;
+
+	@Override
+	public VnfTask copy() {
+		final ExternalCpTask t = new ExternalCpTask();
+		super.copy(t);
+		t.setVnfExtCp(vnfExtCp);
+		t.setPort(port);
+		t.setPreExtCpResourceId(preExtCpResourceId);
+		return t;
+	}
+
 }

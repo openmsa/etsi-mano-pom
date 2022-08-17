@@ -19,7 +19,10 @@ package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt;
 import com.ubiqube.etsi.mano.dao.mano.ChangeType;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
 import com.ubiqube.etsi.mano.orchestrator.SystemBuilder;
-import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
+import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
@@ -27,57 +30,55 @@ import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
  *
  * @param <U>
  */
-public abstract class VnfVtBase<U extends VnfTask> implements VirtualTask<U> {
+@Getter
+@Setter
+public abstract class VnfVtBase<U extends VnfTask> implements VirtualTaskV3<U> {
 
-	private U nt;
-	private SystemBuilder db;
+	private int rank;
+	private U templateParameters;
+	private SystemBuilder<U> systemBuilder;
 
 	protected VnfVtBase(final U nt) {
-		this.nt = nt;
+		this.templateParameters = nt;
 	}
 
 	@Override
-	public final U getParameters() {
-		return nt;
+	public void setName(final String name) {
+		templateParameters.setToscaName(name);
 	}
 
 	@Override
-	public void setParameters(final U u) {
-		nt = u;
+	public void setAlias(final String alias) {
+		templateParameters.setAlias(alias);
 	}
 
 	@Override
-	public final void setSystemBuilder(final SystemBuilder db) {
-		this.db = db;
-	}
-
-	@Override
-	public final SystemBuilder getSystemBuilder() {
-		return db;
+	public void setDelete(final boolean del) {
+		templateParameters.setChangeType(ChangeType.REMOVED);
 	}
 
 	@Override
 	public final boolean isDeleteTask() {
-		return nt.getChangeType() == ChangeType.REMOVED;
+		return templateParameters.getChangeType() == ChangeType.REMOVED;
 	}
 
 	@Override
-	public String getVimConnectionId() {
-		return nt.getVimConnectionId();
+	public final String getVimConnectionId() {
+		return templateParameters.getVimConnectionId();
 	}
 
 	@Override
-	public String getName() {
-		return nt.getToscaName();
+	public final String getName() {
+		return templateParameters.getAlias();
 	}
 
 	@Override
-	public String getAlias() {
-		return nt.getAlias();
+	public final String getAlias() {
+		return templateParameters.getAlias();
 	}
 
 	@Override
 	public String toString() {
-		return nt.getToscaName() + " " + nt.getClass().getSimpleName();
+		return this.getClass().getSimpleName() + "(" + getName() + ", " + getAlias() + ")";
 	}
 }

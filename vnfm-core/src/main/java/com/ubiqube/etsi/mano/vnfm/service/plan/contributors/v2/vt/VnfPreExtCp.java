@@ -16,11 +16,8 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt;
 
-import java.util.List;
-
 import com.ubiqube.etsi.mano.dao.mano.v2.ExternalCpTask;
-import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfPortNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfExtCp;
 
 /**
  *
@@ -34,23 +31,7 @@ public class VnfPreExtCp extends VnfVtBase<ExternalCpTask> {
 	}
 
 	@Override
-	public List<NamedDependency> getNameDependencies() {
-		return List.of();
+	public Class<?> getType() {
+		return VnfExtCp.class;
 	}
-
-	@Override
-	public List<NamedDependency> getNamedProduced() {
-		return List.of(new NamedDependency(VnfPortNode.class, getName()));
-	}
-
-	@Override
-	public String getFactoryProviderId() {
-		return "VNFEXTCP";
-	}
-
-	@Override
-	public String getVimProviderId() {
-		return "VNFEXTCP";
-	}
-
 }

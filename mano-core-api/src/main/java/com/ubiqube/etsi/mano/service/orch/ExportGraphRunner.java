@@ -32,7 +32,7 @@ import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.orchestrator.PostPlanRunner;
 import com.ubiqube.etsi.mano.orchestrator.nodes.ConnectivityEdge;
-import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWork;
+import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWorkV3;
 
 /**
  *
@@ -45,12 +45,12 @@ public class ExportGraphRunner<U> implements PostPlanRunner<U> {
 	private static final Logger LOG = LoggerFactory.getLogger(ExportGraphRunner.class);
 
 	@Override
-	public void runCreatePost(final ListenableGraph<UnitOfWork<U>, ConnectivityEdge<UnitOfWork<U>>> createImplementation) {
+	public void runCreatePost(final ListenableGraph<UnitOfWorkV3<U>, ConnectivityEdge<UnitOfWorkV3<U>>> createImplementation) {
 		exportGraph(createImplementation, "orch-added.dot");
 	}
 
-	public static <U> void exportGraph(final ListenableGraph<UnitOfWork<U>, ConnectivityEdge<UnitOfWork<U>>> g, final String fileName) {
-		final DOTExporter<UnitOfWork<U>, ConnectivityEdge<UnitOfWork<U>>> exporter = new DOTExporter<>(x -> "\"" + x.getTask().getName() + "-" + RandomStringUtils.random(5, true, true) + "\"");
+	public static <U> void exportGraph(final ListenableGraph<UnitOfWorkV3<U>, ConnectivityEdge<UnitOfWorkV3<U>>> g, final String fileName) {
+		final DOTExporter<UnitOfWorkV3<U>, ConnectivityEdge<UnitOfWorkV3<U>>> exporter = new DOTExporter<>(x -> "\"" + x.getTask().getName() + "-" + RandomStringUtils.random(5, true, true) + "\"");
 		exporter.setVertexAttributeProvider(x -> {
 			final Map<String, Attribute> map = new LinkedHashMap<>();
 			map.put("label", DefaultAttribute.createAttribute(x.getTask().getAlias() + "\n(" + x.getTask().getClass().getSimpleName() + ")"));
@@ -65,7 +65,7 @@ public class ExportGraphRunner<U> implements PostPlanRunner<U> {
 	}
 
 	@Override
-	public void runDeletePost(final ListenableGraph<UnitOfWork<U>, ConnectivityEdge<UnitOfWork<U>>> deleteImplementation) {
+	public void runDeletePost(final ListenableGraph<UnitOfWorkV3<U>, ConnectivityEdge<UnitOfWorkV3<U>>> deleteImplementation) {
 		// Nothing.
 	}
 }

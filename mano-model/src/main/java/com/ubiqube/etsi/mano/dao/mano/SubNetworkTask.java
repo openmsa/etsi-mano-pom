@@ -21,12 +21,17 @@ import javax.persistence.Entity;
 
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
 @Entity
+@Getter
+@Setter
 public class SubNetworkTask extends VnfTask {
 
 	/** Serial. */
@@ -44,35 +49,20 @@ public class SubNetworkTask extends VnfTask {
 	}
 
 	public SubNetworkTask(final L3Data l3Data, final IpPool ipPool, final String parentName) {
-		super();
 		this.l3Data = l3Data;
 		this.ipPool = ipPool;
 		setToscaName("sub-" + parentName);
 		this.parentName = parentName;
 	}
 
-	public L3Data getL3Data() {
-		return l3Data;
-	}
-
-	public void setL3Data(final L3Data l3Data) {
-		this.l3Data = l3Data;
-	}
-
-	public IpPool getIpPool() {
-		return ipPool;
-	}
-
-	public void setIpPool(final IpPool ipPool) {
-		this.ipPool = ipPool;
-	}
-
-	public String getParentName() {
-		return parentName;
-	}
-
-	public void setParentName(final String parentName) {
-		this.parentName = parentName;
+	@Override
+	public VnfTask copy() {
+		final SubNetworkTask t = new SubNetworkTask();
+		super.copy(t);
+		t.setL3Data(l3Data);
+		t.setIpPool(ipPool);
+		t.setParentName(parentName);
+		return t;
 	}
 
 }

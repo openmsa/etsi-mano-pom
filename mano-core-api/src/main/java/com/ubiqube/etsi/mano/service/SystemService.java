@@ -25,6 +25,27 @@ import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.jpa.SystemsJpa;
 import com.ubiqube.etsi.mano.orchestrator.entities.SystemConnections;
 import com.ubiqube.etsi.mano.orchestrator.entities.Systems;
+import com.ubiqube.etsi.mano.orchestrator.nodes.mec.VnfExtractorNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.NsdCreateNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.PortPairNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.SapNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfCreateNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfInstantiateNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnffgLoadbalancerNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnffgPostNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.AffinityRuleNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Compute;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.DnsHost;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.DnsZone;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.HelmNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Monitoring;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerDeployableNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SecurityGroupNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Storage;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfExtCp;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfPortNode;
 
 import ma.glasnost.orika.MapperFacade;
 
@@ -59,32 +80,40 @@ public class SystemService {
 	private Systems registerOpenStask(final VimConnectionInformation vimConnectionInformation) {
 		final Systems sys = new Systems();
 		sys.setVimOrigin(vimConnectionInformation.getId());
-		final String[] sysDtr = { "COMPUTE", "NETWORK",
-				"DNS",
-				"MONITORING",
-				"VNFEXTCP",
-				"PORT",
-				"STORAGE",
-				"AFFINITY",
-				"SECURITY-GROUP",
-				"NSD",
-				"SAP",
-				"NSNETWORK",
-				"VNF",
-				"VNF-CREATE",
-				"CNF",
-				"HELM",
-				"VNFFG-PORT-PAIR",
-				"VNFFG-LOADBALANCER" };
-		for (final String string : sysDtr) {
-			sys.add(createSystem(string, vimConnectionInformation));
+		sys.setVimId(vimConnectionInformation.getVimId());
+		final Class<?>[] sysDtr = { Compute.class,
+				Network.class,
+				DnsZone.class,
+				DnsHost.class,
+				Monitoring.class,
+				VnfExtCp.class,
+				VnfPortNode.class,
+				Storage.class,
+				AffinityRuleNode.class,
+				SecurityGroupNode.class,
+				NsdCreateNode.class,
+				SapNode.class,
+				VnfCreateNode.class,
+				VnfInstantiateNode.class,
+				VnfExtractorNode.class,
+				OsContainerDeployableNode.class,
+				OsContainerNode.class,
+				HelmNode.class,
+				VnffgLoadbalancerNode.class,
+				VnffgPostNode.class,
+				VnffgPostNode.class,
+				PortPairNode.class,
+		};
+		for (final Class<?> string : sysDtr) {
+			sys.add(createSystem(string.getSimpleName(), vimConnectionInformation));
 		}
 		return systemJpa.save(sys);
 	}
 
-	private SystemConnections createSystem(final String string, final VimConnectionInformation vimConnectionInformation) {
+	private SystemConnections createSystem(final String moduleName, final VimConnectionInformation vimConnectionInformation) {
 		final SystemConnections sc = mapper.map(vimConnectionInformation, SystemConnections.class);
-		sc.setVimType(string);
+		sc.setVimType(vimConnectionInformation.getVimType());
+		sc.setModuleName(moduleName);
 		sc.setId(null);
 		return sc;
 	}

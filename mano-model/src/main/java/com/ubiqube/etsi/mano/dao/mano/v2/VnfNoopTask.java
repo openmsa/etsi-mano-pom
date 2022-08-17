@@ -21,4 +21,11 @@ public class VnfNoopTask extends VnfTask {
 	/** Serial. */
 	private static final long serialVersionUID = 1L;
 
+	@Override
+	public VnfTask copy() {
+		final VnfNoopTask t = new VnfNoopTask();
+		super.copy(t);
+		return t;
+	}
+
 }

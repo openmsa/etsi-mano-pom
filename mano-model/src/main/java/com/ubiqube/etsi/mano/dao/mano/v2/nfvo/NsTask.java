@@ -73,6 +73,8 @@ public abstract class NsTask extends AbstractTask implements VimTask {
 		return null;
 	}
 
+	public abstract NsTask copy();
+
 	public NsTask copy(final NsTask task) {
 		super.copy(task);
 		task.setType(type);

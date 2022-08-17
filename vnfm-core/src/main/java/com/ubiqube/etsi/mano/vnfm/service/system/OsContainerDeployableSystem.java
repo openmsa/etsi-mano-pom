@@ -22,16 +22,18 @@ import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.K8sInformationsTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerDeployableTask;
-import com.ubiqube.etsi.mano.orchestrator.OrchestrationService;
+import com.ubiqube.etsi.mano.orchestrator.OrchestrationServiceV3;
 import com.ubiqube.etsi.mano.orchestrator.SystemBuilder;
-import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
-import com.ubiqube.etsi.mano.service.system.AbstractVimSystem;
+import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerDeployableNode;
+import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
+import com.ubiqube.etsi.mano.service.system.AbstractVimSystemV3;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 import com.ubiqube.etsi.mano.vnfm.jpa.K8sServerInfoJpa;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.uow.OsContainerDeployableUow2;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.uow.OsK8sClusterUow;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.OsK8sClusterVt;
+import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow.OsContainerDeployableUow3;
+import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow.OsK8sClusterUowV3;
 
 /**
  *
@@ -39,7 +41,7 @@ import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.OsK8sClusterVt
  *
  */
 @Service
-public class OsContainerDeployableSystem extends AbstractVimSystem<OsContainerDeployableTask> {
+public class OsContainerDeployableSystem extends AbstractVimSystemV3<OsContainerDeployableTask> {
 
 	private final Vim vim;
 	private final K8sServerInfoJpa serverInfoJpa;
@@ -51,16 +53,11 @@ public class OsContainerDeployableSystem extends AbstractVimSystem<OsContainerDe
 	}
 
 	@Override
-	public String getProviderId() {
-		return "CNF";
-	}
-
-	@Override
-	protected SystemBuilder getImplementation(final OrchestrationService<OsContainerDeployableTask> orchestrationService, final VirtualTask<OsContainerDeployableTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
+	protected SystemBuilder getImplementation(final OrchestrationServiceV3<OsContainerDeployableTask> orchestrationService, final VirtualTaskV3<OsContainerDeployableTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
 		final SystemBuilder builder = orchestrationService.createEmptySystemBuilder();
-		final OsContainerDeployableUow2 left = new OsContainerDeployableUow2(virtualTask, vim, vimConnectionInformation);
-		final K8sInformationsTask k8sInfo = createTask(virtualTask.getParameters());
-		final OsK8sClusterUow right = new OsK8sClusterUow(new OsK8sClusterVt(k8sInfo), vim, vimConnectionInformation, serverInfoJpa);
+		final OsContainerDeployableUow3 left = new OsContainerDeployableUow3(virtualTask, vim, vimConnectionInformation);
+		final K8sInformationsTask k8sInfo = createTask(virtualTask.getTemplateParameters());
+		final OsK8sClusterUowV3 right = new OsK8sClusterUowV3(new OsK8sClusterVt(k8sInfo), vim, vimConnectionInformation, serverInfoJpa);
 		builder.add(left, right);
 		return builder;
 	}
@@ -78,4 +75,13 @@ public class OsContainerDeployableSystem extends AbstractVimSystem<OsContainerDe
 		return k8sInfo;
 	}
 
+	@Override
+	public String getVimType() {
+		return "OPENSTACK_V3";
+	}
+
+	@Override
+	public Class<? extends Node> getType() {
+		return OsContainerDeployableNode.class;
+	}
 }

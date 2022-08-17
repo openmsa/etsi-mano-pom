@@ -34,7 +34,6 @@ import com.ubiqube.etsi.mano.dao.mano.ChangeType;
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.ScaleInfo;
 import com.ubiqube.etsi.mano.dao.mano.VimTask;
-import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -48,7 +47,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @EntityListeners(AuditListener.class)
-public class VnfTask extends AbstractTask implements VimTask {
+public abstract class VnfTask extends AbstractTask implements VimTask {
 	/** Serial. */
 	private static final long serialVersionUID = 1L;
 
@@ -78,10 +77,20 @@ public class VnfTask extends AbstractTask implements VimTask {
 
 	private String vimConnectionId;
 
-	@Override
-	public NsTask copy() {
-		// TODO Auto-generated method stub
-		return null;
+	public VnfTask copy(final VnfTask t) {
+		super.copy(t);
+		t.setVimReservationId(vimReservationId);
+		t.setChangeType(changeType);
+		t.setType(type);
+		t.setZoneId(zoneId);
+		t.setResourceGroupId(resourceGroupId);
+		t.setBlueprint(blueprint);
+		t.setScaleInfo(scaleInfo);
+		t.setResourceProviderId(resourceProviderId);
+		t.setVimConnectionId(vimConnectionId);
+		return t;
 	}
+
+	public abstract VnfTask copy();
 
 }

@@ -19,79 +19,46 @@ package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.ubiqube.etsi.mano.dao.mano.ChangeType;
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
-import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
-import com.ubiqube.etsi.mano.dao.mano.VnfLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
-import com.ubiqube.etsi.mano.dao.mano.v2.PlanOperationType;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerTask;
-import com.ubiqube.etsi.mano.orchestrator.Bundle;
-import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
+import com.ubiqube.etsi.mano.orchestrator.SclableResources;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerNode;
-import com.ubiqube.etsi.mano.service.VnfInstanceGatewayService;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
 import com.ubiqube.etsi.mano.vnfm.service.graph.VduNamingStrategy;
-import com.ubiqube.etsi.mano.vnfm.service.graph.VnfBundleAdapter;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.OsContainerVt;
 
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public class OsContainerContributor extends AbstractContributorV2Base<OsContainerTask, OsContainerVt> {
-	private final VnfInstanceGatewayService vnfInstanceGatewayService;
-	private final VnfLiveInstanceJpa vnfLiveInstanceJpa;
+@Service
+public class OsContainerContributor extends AbstractContributorV3Base<OsContainerTask> {
 	private final VduNamingStrategy vduNamingStrategy;
 
-	public OsContainerContributor(final VnfInstanceGatewayService vnfInstanceGatewayService, final VnfLiveInstanceJpa vnfLiveInstanceJpa, final VduNamingStrategy vduNamingStrategy) {
-		super();
-		this.vnfInstanceGatewayService = vnfInstanceGatewayService;
-		this.vnfLiveInstanceJpa = vnfLiveInstanceJpa;
+	public OsContainerContributor(final VduNamingStrategy vduNamingStrategy, final VnfLiveInstanceJpa vnfLiveInstace) {
+		super(vnfLiveInstace);
 		this.vduNamingStrategy = vduNamingStrategy;
 	}
 
 	@Override
-	public Class<? extends Node> getNode() {
-		return OsContainerNode.class;
-	}
-
-	@Override
-	protected List<OsContainerVt> vnfContribute(final Bundle bundle, final VnfBlueprint blueprint) {
-		if (blueprint.getOperation() == PlanOperationType.TERMINATE) {
-			return doTerminatePlan(blueprint.getVnfInstance());
-		}
-		final VnfPackage vnfPackage = ((VnfBundleAdapter) bundle).vnfPackage();
-		final VnfInstance vnfInstance = vnfInstanceGatewayService.findById(blueprint.getInstance().getId());
-		final List<OsContainerVt> ret = new ArrayList<>();
-		vnfPackage.getOsContainer().forEach(x -> {
-			final int i = vnfLiveInstanceJpa.countByVnfInstanceAndTaskToscaName(vnfInstance, x.getName());
-			if (i > 0) {
-				return;
-			}
+	public List<SclableResources<OsContainerTask>> contribute(final VnfPackage bundle, final VnfBlueprint parameters) {
+		final List<SclableResources<OsContainerTask>> ret = new ArrayList<>();
+		bundle.getOsContainer().forEach(x -> {
 			final OsContainerTask t = createTask(OsContainerTask::new);
-			t.setAlias(vduNamingStrategy.osContainerName(vnfInstance, x.getName()));
+			t.setAlias(vduNamingStrategy.osContainerName(parameters.getInstance(), x.getName()));
 			t.setToscaName(x.getName());
-			t.setBlueprint(blueprint);
+			t.setBlueprint(parameters);
 			t.setType(ResourceTypeEnum.CNF);
 			t.setChangeType(ChangeType.ADDED);
 			t.setOsContainer(x);
-			ret.add(new OsContainerVt(t));
+			ret.add(create(OsContainerNode.class, t.getToscaName(), 1, t, parameters.getInstance()));
 		});
 		return ret;
-	}
-
-	private List<OsContainerVt> doTerminatePlan(final VnfInstance vnfInstance) {
-		final List<VnfLiveInstance> instances = vnfLiveInstanceJpa.findByVnfInstanceIdAndClass(vnfInstance, OsContainerTask.class.getSimpleName());
-		return instances.stream().map(x -> {
-			final OsContainerTask task = createDeleteTask(OsContainerTask::new, x);
-			task.setType(ResourceTypeEnum.CNF);
-			task.setRemovedLiveInstance(x.getId());
-			task.setVimResourceId(x.getResourceId());
-			return new OsContainerVt(task);
-		}).toList();
 	}
 
 }

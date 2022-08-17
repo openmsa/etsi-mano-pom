@@ -28,8 +28,8 @@ import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
 import com.ubiqube.etsi.mano.orchestrator.OrchExecutionListener;
 import com.ubiqube.etsi.mano.orchestrator.Task;
-import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWork;
-import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
+import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWorkV3;
+import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
 
 /**
@@ -44,7 +44,6 @@ public class OrchListenetImpl implements OrchExecutionListener<VnfTask> {
 	private final VnfLiveInstanceJpa vnfLiveInstanceJpa;
 
 	public OrchListenetImpl(final VnfBlueprint blueprint, final VnfLiveInstanceJpa vnfLiveInstanceJpa) {
-		super();
 		this.blueprint = blueprint;
 		this.vnfLiveInstanceJpa = vnfLiveInstanceJpa;
 	}
@@ -66,18 +65,18 @@ public class OrchListenetImpl implements OrchExecutionListener<VnfTask> {
 	}
 
 	@Override
-	public void onStart(final VirtualTask<VnfTask> task) {
+	public void onStart(final VirtualTaskV3<VnfTask> task) {
 		LOG.info("Starting {}", task);
-		final VnfTask resource = task.getParameters();
+		final VnfTask resource = task.getTemplateParameters();
 		resource.setStatus(PlanStatusType.STARTED);
 		resource.setEndDate(LocalDateTime.now());
 	}
 
 	@Override
-	public void onTerminate(final UnitOfWork<VnfTask> uaow, final String res) {
+	public void onTerminate(final UnitOfWorkV3<VnfTask> uaow, final String res) {
 		LOG.info("Terminate {} => {}", uaow.getTask(), res);
-		uaow.getTask().getParameters().setVimResourceId(res);
-		final VnfTask resource = uaow.getTask().getParameters();
+		uaow.getTask().getTemplateParameters().setVimResourceId(res);
+		final VnfTask resource = uaow.getTask().getTemplateParameters();
 		if ((resource.getChangeType() == ChangeType.ADDED) && (res != null) && (resource.getId() != null)) {
 			final VnfLiveInstance vli = new VnfLiveInstance(blueprint.getInstance(), null, resource, blueprint, resource.getVimResourceId(), resource.getVimConnectionId());
 			vnfLiveInstanceJpa.save(vli);

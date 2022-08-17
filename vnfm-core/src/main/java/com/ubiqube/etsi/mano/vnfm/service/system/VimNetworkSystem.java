@@ -24,15 +24,17 @@ import com.ubiqube.etsi.mano.dao.mano.SubNetworkTask;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.VlProtocolData;
 import com.ubiqube.etsi.mano.dao.mano.v2.NetworkTask;
-import com.ubiqube.etsi.mano.orchestrator.OrchestrationService;
+import com.ubiqube.etsi.mano.orchestrator.OrchestrationServiceV3;
 import com.ubiqube.etsi.mano.orchestrator.SystemBuilder;
-import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
-import com.ubiqube.etsi.mano.service.system.AbstractVimSystem;
+import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
+import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
+import com.ubiqube.etsi.mano.service.system.AbstractVimSystemV3;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.uow.VirtualLinkUowV2;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.uow.VnfSubnetworkUowV2;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.SubNetworkVt;
+import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow.VirtualLinkUowV3;
+import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow.VnfSubnetworkUowV3;
 
 /**
  *
@@ -40,7 +42,7 @@ import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.SubNetworkVt;
  *
  */
 @Service
-public class VimNetworkSystem extends AbstractVimSystem<NetworkTask> {
+public class VimNetworkSystem extends AbstractVimSystemV3<NetworkTask> {
 	private final Vim vim;
 
 	public VimNetworkSystem(final Vim vim, final VimManager vimManager) {
@@ -49,21 +51,25 @@ public class VimNetworkSystem extends AbstractVimSystem<NetworkTask> {
 	}
 
 	@Override
-	public String getProviderId() {
-		return "NETWORK";
-	}
-
-	@Override
-	protected SystemBuilder getImplementation(final OrchestrationService<NetworkTask> orchestrationService, final VirtualTask<NetworkTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
-		final VirtualLinkUowV2 net = new VirtualLinkUowV2(virtualTask, vim, vimConnectionInformation);
-		final NetworkTask p = virtualTask.getParameters();
+	protected SystemBuilder getImplementation(final OrchestrationServiceV3<NetworkTask> orchestrationService, final VirtualTaskV3<NetworkTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
+		final VirtualLinkUowV3 net = new VirtualLinkUowV3(virtualTask, vim, vimConnectionInformation);
+		final NetworkTask p = virtualTask.getTemplateParameters();
 		final Set<VlProtocolData> vlp = p.getVnfVl().getVlProfileEntity().getVirtualLinkProtocolData();
 		final SystemBuilder s = orchestrationService.createEmptySystemBuilder();
 		vlp.forEach(x -> x.getIpAllocationPools().forEach(y -> {
-			final SubNetworkTask sn = new SubNetworkTask(x.getL3ProtocolData(), y, virtualTask.getParameters().getToscaName());
-			s.add(net, new VnfSubnetworkUowV2(new SubNetworkVt(sn), vim, vimConnectionInformation));
+			final SubNetworkTask sn = new SubNetworkTask(x.getL3ProtocolData(), y, virtualTask.getTemplateParameters().getToscaName());
+			s.add(net, new VnfSubnetworkUowV3(new SubNetworkVt(sn), vim, vimConnectionInformation));
 		}));
 		return s;
 	}
 
+	@Override
+	public String getVimType() {
+		return "OPENSTACK_V3";
+	}
+
+	@Override
+	public Class<? extends Node> getType() {
+		return Network.class;
+	}
 }

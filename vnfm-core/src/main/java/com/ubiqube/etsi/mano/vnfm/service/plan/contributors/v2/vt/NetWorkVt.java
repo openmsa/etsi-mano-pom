@@ -16,12 +16,7 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt;
 
-import java.util.Arrays;
-import java.util.List;
-
 import com.ubiqube.etsi.mano.dao.mano.v2.NetworkTask;
-import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.AffinityRuleNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
 
 /**
@@ -36,25 +31,7 @@ public class NetWorkVt extends VnfVtBase<NetworkTask> {
 	}
 
 	@Override
-	public List<NamedDependency> getNameDependencies() {
-		return getParameters().getVnfVl().getAffinityRules()
-				.stream()
-				.map(x -> new NamedDependency(AffinityRuleNode.class, x))
-				.toList();
-	}
-
-	@Override
-	public List<NamedDependency> getNamedProduced() {
-		return Arrays.asList(new NamedDependency(Network.class, getParameters().getToscaName()));
-	}
-
-	@Override
-	public String getFactoryProviderId() {
-		return "NETWORK";
-	}
-
-	@Override
-	public String getVimProviderId() {
-		return "NETWORK";
+	public Class<?> getType() {
+		return Network.class;
 	}
 }

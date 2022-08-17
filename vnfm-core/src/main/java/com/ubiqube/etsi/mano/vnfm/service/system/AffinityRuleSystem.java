@@ -20,14 +20,16 @@ import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.AffinityRuleTask;
-import com.ubiqube.etsi.mano.orchestrator.OrchestrationService;
+import com.ubiqube.etsi.mano.orchestrator.OrchestrationServiceV3;
 import com.ubiqube.etsi.mano.orchestrator.SystemBuilder;
-import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWork;
-import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTask;
-import com.ubiqube.etsi.mano.service.system.AbstractVimSystem;
+import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.AffinityRuleNode;
+import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWorkV3;
+import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
+import com.ubiqube.etsi.mano.service.system.AbstractVimSystemV3;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.uow.VnfAffinityUowV2;
+import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow.VnfAffinityUowV3;
 
 /**
  *
@@ -35,7 +37,7 @@ import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.uow.VnfAffinityUo
  *
  */
 @Service
-public class AffinityRuleSystem extends AbstractVimSystem<AffinityRuleTask> {
+public class AffinityRuleSystem extends AbstractVimSystemV3<AffinityRuleTask> {
 	private final Vim vim;
 
 	public AffinityRuleSystem(final Vim vim, final VimManager vimManager) {
@@ -44,13 +46,18 @@ public class AffinityRuleSystem extends AbstractVimSystem<AffinityRuleTask> {
 	}
 
 	@Override
-	public String getProviderId() {
-		return "AFFINITY";
+	public String getVimType() {
+		return "OPENSTACK_V3";
 	}
 
 	@Override
-	protected SystemBuilder<UnitOfWork<AffinityRuleTask>> getImplementation(final OrchestrationService<AffinityRuleTask> orchestrationService, final VirtualTask<AffinityRuleTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
-		return orchestrationService.systemBuilderOf(new VnfAffinityUowV2(virtualTask, vim, vimConnectionInformation));
+	protected SystemBuilder<UnitOfWorkV3<AffinityRuleTask>> getImplementation(final OrchestrationServiceV3<AffinityRuleTask> orchestrationService, final VirtualTaskV3<AffinityRuleTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
+		return orchestrationService.systemBuilderOf(new VnfAffinityUowV3(virtualTask, vim, vimConnectionInformation));
+	}
+
+	@Override
+	public Class<? extends Node> getType() {
+		return AffinityRuleNode.class;
 	}
 
 }

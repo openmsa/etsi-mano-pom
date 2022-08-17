@@ -55,4 +55,13 @@ public class SecurityRuleTask extends VnfTask {
 		this.parentToscaName = parentToscaName;
 	}
 
+	@Override
+	public VnfTask copy() {
+		final SecurityRuleTask t = new SecurityRuleTask();
+		super.copy(t);
+		t.setSecurityGroupRule(securityGroupRule);
+		t.setParentToscaName(parentToscaName);
+		return t;
+	}
+
 }

@@ -35,7 +35,7 @@ import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
  *
  */
 @Service
-public class SecurityContributorV3 extends AbstractContributorV3<SecurityGroupTask> {
+public class SecurityContributorV3 extends AbstractVnfmContributorV3<SecurityGroupTask> {
 
 	protected SecurityContributorV3(final VnfLiveInstanceJpa vnfInstanceJpa) {
 		super(vnfInstanceJpa);

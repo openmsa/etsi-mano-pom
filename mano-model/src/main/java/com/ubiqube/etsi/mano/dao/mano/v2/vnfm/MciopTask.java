@@ -57,4 +57,14 @@ public class MciopTask extends VnfTask {
 	private String parentVdu;
 
 	private UUID vnfPackageId;
+
+	@Override
+	public VnfTask copy() {
+		final MciopTask t = new MciopTask();
+		super.copy(t);
+		t.setMciop(mciop);
+		t.setParentVdu(parentVdu);
+		t.setVnfPackageId(vnfPackageId);
+		return t;
+	}
 }

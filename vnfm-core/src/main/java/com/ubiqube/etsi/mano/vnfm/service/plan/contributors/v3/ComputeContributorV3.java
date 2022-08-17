@@ -56,7 +56,7 @@ import com.ubiqube.etsi.mano.vnfm.service.plan.ScalingStrategy.NumberOfCompute;
  *
  */
 @Service
-public class ComputeContributorV3 extends AbstractContributorV3<Object> {
+public class ComputeContributorV3 extends AbstractVnfmContributorV3<Object> {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ComputeContributorV3.class);
 

@@ -37,7 +37,7 @@ import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
  *
  */
 @Service
-public class NetworkContributor extends AbstractContributorV3<Object> {
+public class NetworkContributor extends AbstractVnfmContributorV3<Object> {
 
 	protected NetworkContributor(final VnfLiveInstanceJpa vnfInstanceJpa) {
 		super(vnfInstanceJpa);

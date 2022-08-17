@@ -33,4 +33,11 @@ public class ObjectStorageTask extends VnfTask {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
 
+	@Override
+	public VnfTask copy() {
+		final ObjectStorageTask t = new ObjectStorageTask();
+		super.copy(t);
+		return t;
+	}
+
 }

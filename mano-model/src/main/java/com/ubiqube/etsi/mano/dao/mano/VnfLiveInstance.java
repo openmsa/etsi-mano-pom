@@ -30,8 +30,13 @@ import javax.persistence.ManyToOne;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
 @EntityListeners(AuditListener.class)
+@Getter
+@Setter
 public class VnfLiveInstance implements BaseEntity, Auditable {
 	/** Serial. */
 	private static final long serialVersionUID = 1L;
@@ -59,6 +64,8 @@ public class VnfLiveInstance implements BaseEntity, Auditable {
 
 	private String vimConnectionId;
 
+	private int rank;
+
 	@Embedded
 	private Audit audit;
 
@@ -68,80 +75,12 @@ public class VnfLiveInstance implements BaseEntity, Auditable {
 
 	public VnfLiveInstance(final VnfInstance vnfInstance, final String instantiationLevel, final VnfTask task, final VnfBlueprint blueprint, final String resourceId,
 			final String vimConnectionId) {
-		super();
 		this.vnfInstance = vnfInstance;
 		this.instantiationLevel = instantiationLevel;
 		this.blueprint = blueprint;
 		this.task = task;
 		this.resourceId = resourceId;
 		this.vimConnectionId = vimConnectionId;
-	}
-
-	@Override
-	public UUID getId() {
-		return id;
-	}
-
-	public void setId(final UUID id) {
-		this.id = id;
-	}
-
-	public VnfInstance getVnfInstance() {
-		return vnfInstance;
-	}
-
-	public void setVnfInstance(final VnfInstance vnfInstance) {
-		this.vnfInstance = vnfInstance;
-	}
-
-	public String getInstantiationLevel() {
-		return instantiationLevel;
-	}
-
-	public void setInstantiationLevel(final String instantiationLevel) {
-		this.instantiationLevel = instantiationLevel;
-	}
-
-	public VnfTask getTask() {
-		return task;
-	}
-
-	public void setTask(final VnfTask task) {
-		this.task = task;
-	}
-
-	public VnfBlueprint getBlueprint() {
-		return blueprint;
-	}
-
-	public void setBlueprint(final VnfBlueprint blueprint) {
-		this.blueprint = blueprint;
-	}
-
-	public String getResourceId() {
-		return resourceId;
-	}
-
-	public void setResourceId(final String resourceId) {
-		this.resourceId = resourceId;
-	}
-
-	public String getVimConnectionId() {
-		return vimConnectionId;
-	}
-
-	public void setVimConnectionId(final String vimConnectionId) {
-		this.vimConnectionId = vimConnectionId;
-	}
-
-	@Override
-	public Audit getAudit() {
-		return audit;
-	}
-
-	@Override
-	public void setAudit(final Audit audit) {
-		this.audit = audit;
 	}
 
 }

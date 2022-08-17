@@ -21,7 +21,17 @@ import javax.persistence.ManyToOne;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfVl;
 
+import lombok.Getter;
+import lombok.Setter;
+
+/**
+ *
+ * @author olivier
+ *
+ */
 @Entity
+@Getter
+@Setter
 public class NetworkTask extends VnfTask {
 
 	/** Serial. */
@@ -34,28 +44,14 @@ public class NetworkTask extends VnfTask {
 
 	private String qosPolicy;
 
-	public VnfVl getVnfVl() {
-		return vnfVl;
-	}
-
-	public void setVnfVl(final VnfVl vnfVl) {
-		this.vnfVl = vnfVl;
-	}
-
-	public String getVimZoneId() {
-		return vimZoneId;
-	}
-
-	public void setVimZoneId(final String vimZoneId) {
-		this.vimZoneId = vimZoneId;
-	}
-
-	public String getQosPolicy() {
-		return qosPolicy;
-	}
-
-	public void setQosPolicy(final String qosPolicy) {
-		this.qosPolicy = qosPolicy;
+	@Override
+	public VnfTask copy() {
+		final NetworkTask t = new NetworkTask();
+		super.copy(t);
+		t.setVnfVl(vnfVl);
+		t.setVimZoneId(vimZoneId);
+		t.setQosPolicy(qosPolicy);
+		return t;
 	}
 
 }

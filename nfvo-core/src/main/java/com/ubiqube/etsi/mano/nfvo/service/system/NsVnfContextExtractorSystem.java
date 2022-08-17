@@ -19,10 +19,12 @@ package com.ubiqube.etsi.mano.nfvo.service.system;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
-import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.VnfContextExtractorTask;
+import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVnfExtractorTask;
 import com.ubiqube.etsi.mano.nfvo.service.graph.nfvo.VnfContextExtractorUow;
 import com.ubiqube.etsi.mano.orchestrator.OrchestrationServiceV3;
 import com.ubiqube.etsi.mano.orchestrator.SystemBuilder;
+import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
+import com.ubiqube.etsi.mano.orchestrator.nodes.mec.VnfExtractorNode;
 import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWorkV3;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.VnfmInterface;
@@ -35,7 +37,7 @@ import com.ubiqube.etsi.mano.service.vim.VimManager;
  *
  */
 @Service
-public class NsVnfContextExtractorSystem extends AbstractVimSystemV3<VnfContextExtractorTask> {
+public class NsVnfContextExtractorSystem extends AbstractVimSystemV3<NsVnfExtractorTask> {
 	private final VnfmInterface vnfm;
 
 	public NsVnfContextExtractorSystem(final VnfmInterface vnfm, final VimManager vimManager) {
@@ -49,8 +51,12 @@ public class NsVnfContextExtractorSystem extends AbstractVimSystemV3<VnfContextE
 	}
 
 	@Override
-	protected SystemBuilder<UnitOfWorkV3<VnfContextExtractorTask>> getImplementation(final OrchestrationServiceV3<VnfContextExtractorTask> orchestrationService, final VirtualTaskV3<VnfContextExtractorTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
+	protected SystemBuilder<UnitOfWorkV3<NsVnfExtractorTask>> getImplementation(final OrchestrationServiceV3<NsVnfExtractorTask> orchestrationService, final VirtualTaskV3<NsVnfExtractorTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
 		return orchestrationService.systemBuilderOf(new VnfContextExtractorUow(virtualTask, vnfm));
 	}
 
+	@Override
+	public Class<? extends Node> getType() {
+		return VnfExtractorNode.class;
+	}
 }

@@ -17,28 +17,18 @@
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2;
 
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
-import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
-import com.ubiqube.etsi.mano.dao.mano.VnfLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainerDeployableUnit;
-import com.ubiqube.etsi.mano.dao.mano.v2.PlanOperationType;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerDeployableTask;
-import com.ubiqube.etsi.mano.orchestrator.Bundle;
-import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
+import com.ubiqube.etsi.mano.orchestrator.SclableResources;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerDeployableNode;
-import com.ubiqube.etsi.mano.service.VnfInstanceGatewayService;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
-import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceService;
-import com.ubiqube.etsi.mano.vnfm.service.graph.VduNamingStrategy;
-import com.ubiqube.etsi.mano.vnfm.service.graph.VnfBundleAdapter;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.OsContainerDeployableVt;
 
 /**
  * This one is in fact an Host with K8S+helm installed
@@ -47,94 +37,29 @@ import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.OsContainerDep
  *
  */
 @Service
-public class OsContainerDeployContributor extends AbstractContributorV2Base<OsContainerDeployableTask, OsContainerDeployableVt> {
-	private final VnfInstanceGatewayService vnfInstanceGatewayService;
-	private final VnfLiveInstanceJpa vnfLiveInstanceJpa;
-	private final VduNamingStrategy vduNamingStrategy;
-	private final VnfInstanceService vnfInstanceService;
+public class OsContainerDeployContributor extends AbstractContributorV3Base<OsContainerDeployableTask> {
 
-	public OsContainerDeployContributor(final VnfInstanceGatewayService vnfInstanceGatewayService, final VnfLiveInstanceJpa vnfLiveInstanceJpa, final VduNamingStrategy vduNamingStrategy,
-			final VnfInstanceService vnfInstanceService) {
-		super();
-		this.vnfInstanceGatewayService = vnfInstanceGatewayService;
-		this.vnfLiveInstanceJpa = vnfLiveInstanceJpa;
-		this.vduNamingStrategy = vduNamingStrategy;
-		this.vnfInstanceService = vnfInstanceService;
+	public OsContainerDeployContributor(final VnfLiveInstanceJpa vnfLiveInstanceJpa) {
+		super(vnfLiveInstanceJpa);
 	}
 
-	@Override
-	public Class<? extends Node> getNode() {
-		return OsContainerDeployableNode.class;
-	}
-
-	@Override
-	protected List<OsContainerDeployableVt> vnfContribute(final Bundle bundle, final VnfBlueprint blueprint) {
-		if (blueprint.getOperation() == PlanOperationType.TERMINATE) {
-			return doTerminatePlan(blueprint.getVnfInstance());
-		}
-		final VnfPackage vnfPackage = ((VnfBundleAdapter) bundle).vnfPackage();
-		final VnfInstance vnfInstance = vnfInstanceGatewayService.findById(blueprint.getInstance().getId());
-		final List<OsContainerDeployableVt> ret = new ArrayList<>();
-		vnfPackage.getOsContainerDeployableUnits().forEach(x -> {
-			final int i = vnfLiveInstanceJpa.countByVnfInstanceAndTaskToscaName(vnfInstance, x.getName());
-			final int wantedInstance = getInstanceNumber(vnfInstance, x);
-			if (i == wantedInstance) {
-				return;
-			}
-			final int delta = wantedInstance - i;
-			if (delta < 0) {
-				removeInstance(ret, delta, x.getName(), blueprint, x);
-			} else {
-				createInstances(ret, x, delta, blueprint, vnfInstance);
-			}
-		});
-		return ret;
-	}
-
-	private void createInstances(final List<OsContainerDeployableVt> ret, final OsContainerDeployableUnit x, final int delta, final VnfBlueprint blueprint, final VnfInstance vnfInstance) {
-		for (int i = 0; i < delta; i++) {
-			final OsContainerDeployableTask t = createTask(blueprint, vnfInstance, x);
-			ret.add(new OsContainerDeployableVt(t));
-		}
-	}
-
-	private void removeInstance(final List<OsContainerDeployableVt> ret, final int delta, final String alias, final VnfBlueprint plan, final OsContainerDeployableUnit oscdu) {
-		final Deque<VnfLiveInstance> instantiated = vnfInstanceService.getLiveOsContainerOf(plan, oscdu);
-		for (int i = 0; i < delta; i++) {
-			final VnfLiveInstance inst = instantiated.pop();
-			final OsContainerDeployableTask task = createDeleteTask(OsContainerDeployableTask::new, inst);
-			task.setOsContainerDeployableUnit(oscdu);
-			task.setType(ResourceTypeEnum.CNF);
-			task.setToscaName(alias);
-			task.setAlias(alias);
-			task.setVimResourceId(inst.getResourceId());
-			ret.add(new OsContainerDeployableVt(task));
-		}
-	}
-
-	private static int getInstanceNumber(final VnfInstance vnfInstance, final OsContainerDeployableUnit x) {
-		return 1;
-	}
-
-	private OsContainerDeployableTask createTask(final VnfBlueprint blueprint, final VnfInstance vnfInstance, final OsContainerDeployableUnit x) {
+	private static OsContainerDeployableTask createTask(final VnfBlueprint blueprint, final OsContainerDeployableUnit x) {
 		final OsContainerDeployableTask t = createTask(OsContainerDeployableTask::new);
 		t.setBlueprint(blueprint);
 		t.setOsContainerDeployableUnit(x);
-		t.setAlias(vduNamingStrategy.getOsContainerAlias(vnfInstance, x.getName()));
 		t.setToscaName(x.getName());
 		t.setType(ResourceTypeEnum.CNF);
 		return t;
 	}
 
-	private List<OsContainerDeployableVt> doTerminatePlan(final VnfInstance vnfInstance) {
-		final List<VnfLiveInstance> instances = vnfLiveInstanceJpa.findByVnfInstanceIdAndClass(vnfInstance, OsContainerDeployableTask.class.getSimpleName());
-		return instances.stream().map(x -> {
-			final OsContainerDeployableTask task = createDeleteTask(OsContainerDeployableTask::new, x);
-			task.setType(ResourceTypeEnum.CNF);
-			task.setOsContainerDeployableUnit(((OsContainerDeployableTask) x.getTask()).getOsContainerDeployableUnit());
-			task.setVimResourceId(x.getResourceId());
-			return new OsContainerDeployableVt(task);
-		}).toList();
+	@Override
+	public List<SclableResources<OsContainerDeployableTask>> contribute(final VnfPackage bundle, final VnfBlueprint parameters) {
+		final List<SclableResources<OsContainerDeployableTask>> ret = new ArrayList<>();
+		bundle.getOsContainerDeployableUnits().forEach(x -> {
+			final OsContainerDeployableTask t = createTask(parameters, x);
+			ret.add(create(OsContainerDeployableNode.class, t.getToscaName(), 1, t, parameters.getInstance()));
+		});
+		return ret;
 	}
 
 }

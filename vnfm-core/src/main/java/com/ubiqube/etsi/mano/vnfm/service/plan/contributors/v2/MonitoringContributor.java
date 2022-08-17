@@ -18,25 +18,19 @@ package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import javax.annotation.Priority;
 
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.dao.mano.ChangeType;
+import com.ubiqube.etsi.mano.dao.mano.MonitoringParams;
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
-import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
-import com.ubiqube.etsi.mano.dao.mano.VnfLiveInstance;
-import com.ubiqube.etsi.mano.dao.mano.v2.ComputeTask;
+import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.v2.MonitoringTask;
-import com.ubiqube.etsi.mano.dao.mano.v2.PlanOperationType;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
-import com.ubiqube.etsi.mano.orchestrator.Bundle;
-import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
+import com.ubiqube.etsi.mano.orchestrator.SclableResources;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Monitoring;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.MonitoringVt;
 
 /**
  *
@@ -45,99 +39,33 @@ import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.MonitoringVt;
  */
 @Priority(200)
 @Service
-public class MonitoringContributor extends AbstractContributorV2Base<MonitoringTask, MonitoringVt> {
-	private final VnfLiveInstanceJpa vnfLiveInstanceJpa;
+public class MonitoringContributor extends AbstractContributorV3Base<MonitoringTask> {
 
 	public MonitoringContributor(final VnfLiveInstanceJpa vnfLiveInstanceJpa) {
-		this.vnfLiveInstanceJpa = vnfLiveInstanceJpa;
+		super(vnfLiveInstanceJpa);
 	}
 
 	@Override
-	public Class<? extends Node> getNode() {
-		return Monitoring.class;
-	}
-
-	@Override
-	protected List<MonitoringVt> vnfContribute(final Bundle bundle, final VnfBlueprint plan) {
-		if (plan.getOperation() == PlanOperationType.TERMINATE) {
-			return doTerminatePlan(plan.getVnfInstance());
-		}
-		final List<MonitoringVt> ret = new ArrayList<>();
-		plan.getTasks().stream()
-				.filter(ComputeTask.class::isInstance)
-				.map(ComputeTask.class::cast)
+	public List<SclableResources<MonitoringTask>> contribute(final VnfPackage bundle, final VnfBlueprint parameters) {
+		final List<SclableResources<MonitoringTask>> ret = new ArrayList<>();
+		bundle.getVnfCompute().stream()
 				.forEach(x -> {
-					if (x.getChangeType() == ChangeType.REMOVED) {
-						removeMonitoring(ret, x, plan.getInstance());
-					} else {
-						createMonitoring(ret, x, plan.getInstance());
-					}
+					x.getMonitoringParameters().stream().forEach(y -> {
+						final MonitoringTask t = createMonitoringTask(y);
+						ret.add(create(Monitoring.class, x.getToscaName(), 1, t, parameters.getInstance()));
+					});
 				});
 		return ret;
 	}
 
-	private void createMonitoring(final List<MonitoringVt> ret, final ComputeTask x, final VnfInstance vnfInstance) {
-		x.getVnfCompute().getMonitoringParameters().forEach(y -> {
-			final int cnt = countVli(vnfInstance, x.getAlias());
-			if (cnt != 0) {
-				return;
-			}
-			final MonitoringTask task = createTask(MonitoringTask::new);
-			task.setType(ResourceTypeEnum.MONITORING);
-			task.setToscaName("mon-" + x.getAlias());
-			task.setAlias("mon-" + x.getAlias());
-			task.setParentAlias(x.getAlias());
-			task.setMonitoringParams(y);
-			task.setVnfCompute(x.getVnfCompute());
-			ret.add(new MonitoringVt(task));
-		});
-	}
-
-	private int countVli(final VnfInstance vnfInstance, final String alias) {
-		final List<VnfLiveInstance> vs = vnfLiveInstanceJpa.findByVnfInstanceIdAndClass(vnfInstance, MonitoringTask.class.getSimpleName());
-		int i = 0;
-		for (final VnfLiveInstance vnfLiveInstance : vs) {
-			if (vnfLiveInstance.getTask() instanceof final MonitoringTask t && t.getParentAlias().equals(alias)) {
-				i++;
-			}
-		}
-		return i;
-	}
-
-	private void removeMonitoring(final List<MonitoringVt> ret, final ComputeTask computeTask, final VnfInstance vnfInstance) {
-		final List<VnfLiveInstance> instances = vnfLiveInstanceJpa.findByVnfInstanceIdAndClass(vnfInstance, MonitoringTask.class.getSimpleName());
-		findMonitoringByName(computeTask.getAlias(), instances).ifPresent(x -> {
-			final MonitoringTask task = createDeleteTask(MonitoringTask::new, x);
-			task.setType(ResourceTypeEnum.MONITORING);
-			task.setRemovedLiveInstance(x.getId());
-			task.setVnfCompute(computeTask.getVnfCompute());
-			task.setParentAlias(x.getTask().getAlias());
-			ret.add(new MonitoringVt(task));
-		});
-
-	}
-
-	private static Optional<VnfLiveInstance> findMonitoringByName(final String alias, final List<VnfLiveInstance> instances) {
-		for (final VnfLiveInstance vnfLiveInstance : instances) {
-			final MonitoringTask t = (MonitoringTask) vnfLiveInstance.getTask();
-			if (t.getToscaName().equals(alias)) {
-				return Optional.of(vnfLiveInstance);
-			}
-		}
-		return Optional.empty();
-	}
-
-	private List<MonitoringVt> doTerminatePlan(final VnfInstance vnfInstance) {
-		final List<VnfLiveInstance> instances = vnfLiveInstanceJpa.findByVnfInstanceIdAndClass(vnfInstance, MonitoringTask.class.getSimpleName());
-		return instances.stream().map(x -> {
-			final MonitoringTask task = createDeleteTask(MonitoringTask::new, x);
-			task.setType(ResourceTypeEnum.MONITORING);
-			task.setRemovedLiveInstance(x.getId());
-			final MonitoringTask mt = (MonitoringTask) x.getTask();
-			task.setVnfCompute(mt.getVnfCompute());
-			task.setParentAlias(x.getTask().getAlias());
-			return new MonitoringVt(task);
-		}).toList();
+	private static MonitoringTask createMonitoringTask(final MonitoringParams param) {
+		final MonitoringTask task = new MonitoringTask();
+		task.setType(ResourceTypeEnum.MONITORING);
+		task.setToscaName(param.getName());
+		// task.setParentAlias(param.getVnfComputeName());
+		task.setMonitoringParams(param);
+		// task.setVnfCompute(param.getVnfCompute());
+		return task;
 	}
 
 }

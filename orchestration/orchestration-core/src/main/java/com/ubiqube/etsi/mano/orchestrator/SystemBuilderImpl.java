@@ -61,8 +61,8 @@ public class SystemBuilderImpl<U> implements SystemBuilder<U> {
 	}
 
 	@Override
-	public UnitOfWork<U> getSingle() {
-		return single;
+	public UnitOfWorkV3<U> getSingle() {
+		return null;// single;
 	}
 
 	@Override
@@ -99,5 +99,11 @@ public class SystemBuilderImpl<U> implements SystemBuilder<U> {
 	@Override
 	public void add(final UnitOfWorkV3<U> src, final UnitOfWorkV3<U> dest) {
 		// Nothing ?
+	}
+
+	@Override
+	public List<UnitOfWorkV3<U>> getVertexV3() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

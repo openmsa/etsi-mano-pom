@@ -55,4 +55,14 @@ public class ComputeTask extends VnfTask {
 	 */
 	private String imageId;
 
+	@Override
+	public VnfTask copy() {
+		final ComputeTask t = new ComputeTask();
+		super.copy(t);
+		t.setVnfCompute(vnfCompute);
+		t.setFlavorId(flavorId);
+		t.setImageId(imageId);
+		return t;
+	}
+
 }

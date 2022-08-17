@@ -42,4 +42,13 @@ public class HelmTask extends VnfTask {
 
 	private String helmArtifact;
 
+	@Override
+	public VnfTask copy() {
+		final HelmTask t = new HelmTask();
+		super.copy(t);
+		t.setParentVdu(parentVdu);
+		t.setHelmArtifact(helmArtifact);
+		return t;
+	}
+
 }

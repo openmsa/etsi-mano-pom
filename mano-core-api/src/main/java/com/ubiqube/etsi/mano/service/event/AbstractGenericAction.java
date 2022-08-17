@@ -41,7 +41,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.PlanOperationType;
 import com.ubiqube.etsi.mano.dao.mano.v2.Task;
 import com.ubiqube.etsi.mano.orchestrator.OrchExecutionResults;
-import com.ubiqube.etsi.mano.orchestrator.PreExecutionGraph;
+import com.ubiqube.etsi.mano.orchestrator.v3.PreExecutionGraphV3;
 import com.ubiqube.etsi.mano.service.NsScaleStrategy;
 import com.ubiqube.etsi.mano.service.VimResourceService;
 import com.ubiqube.etsi.mano.service.graph.WorkflowEvent;
@@ -75,7 +75,7 @@ public abstract class AbstractGenericAction {
 		}
 		final PackageBase vnfPkg = orchestrationAdapter.getPackage(vnfInstance);
 		final Set<ScaleInfo> newScale = merge(blueprint, vnfInstance);
-		final PreExecutionGraph<?> prePlan = vnfWorkflow.setWorkflowBlueprint(vnfPkg, blueprint);
+		final PreExecutionGraphV3<?> prePlan = vnfWorkflow.setWorkflowBlueprint(vnfPkg, blueprint);
 		if (!System.getenv().isEmpty()) {
 			// throw new GenericException("");
 		}
@@ -228,14 +228,14 @@ public abstract class AbstractGenericAction {
 	private void setLiveSatus(@NotNull final Blueprint<? extends Task, ? extends Instance> blueprint, @NotNull final Instance vnfInstance, final OrchExecutionResults<Task> res) {
 		LOG.info("Creating / deleting live instances.");
 		res.getSuccess().forEach(x -> {
-			final Task rhe = x.getTask().getTask().getParameters();
+			final Task rhe = x.getTask().getTask().getTemplateParameters();
 			final ChangeType ct = rhe.getChangeType();
 			if (ct == ChangeType.ADDED) {
 				final String il = Optional.ofNullable(rhe.getScaleInfo()).map(ScaleInfo::getAspectId).orElse(null);
 				if ((null != rhe.getId()) && (null != rhe.getVimResourceId())) {
 					// orchestrationAdapter.createLiveInstance(vnfInstance, il, rhe, blueprint);
 				} else {
-					LOG.warn("No vim resource or database id for: {}", x.getTask().getTask().getParameters().getToscaName());
+					LOG.warn("No vim resource or database id for: {}", x.getTask().getTask().getTemplateParameters().getToscaName());
 				}
 			} else if ((ct == ChangeType.REMOVED) && (null != rhe.getId())) {
 				LOG.info("Removing {}", rhe.getId());

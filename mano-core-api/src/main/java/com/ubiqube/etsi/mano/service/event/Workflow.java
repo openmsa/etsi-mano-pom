@@ -20,7 +20,7 @@ import com.ubiqube.etsi.mano.dao.mano.PackageBase;
 import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.Task;
 import com.ubiqube.etsi.mano.orchestrator.OrchExecutionResults;
-import com.ubiqube.etsi.mano.orchestrator.PreExecutionGraph;
+import com.ubiqube.etsi.mano.orchestrator.v3.PreExecutionGraphV3;
 
 /**
  *
@@ -31,9 +31,9 @@ import com.ubiqube.etsi.mano.orchestrator.PreExecutionGraph;
  */
 public interface Workflow<P extends PackageBase, B extends Blueprint, T extends Task> {
 
-	PreExecutionGraph<T> setWorkflowBlueprint(P bundle, B blueprint);
+	PreExecutionGraphV3<T> setWorkflowBlueprint(P bundle, B blueprint);
 
-	OrchExecutionResults<T> execute(final PreExecutionGraph<T> plan, final B parameters);
+	OrchExecutionResults<T> execute(final PreExecutionGraphV3<T> plan, final B parameters);
 
-	void refresh(PreExecutionGraph<T> prePlan, Blueprint<T, ?> localPlan);
+	void refresh(PreExecutionGraphV3<T> prePlan, Blueprint<T, ?> localPlan);
 }

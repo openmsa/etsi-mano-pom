@@ -44,4 +44,12 @@ public class SecurityGroupTask extends VnfTask {
 
 	@ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
 	private SecurityGroup securityGroup;
+
+	@Override
+	public VnfTask copy() {
+		final SecurityGroupTask t = new SecurityGroupTask();
+		super.copy(t);
+		t.setSecurityGroup(securityGroup);
+		return t;
+	}
 }

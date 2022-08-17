@@ -16,9 +16,7 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.Priority;
 
@@ -26,20 +24,12 @@ import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.ChangeType;
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
-import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
-import com.ubiqube.etsi.mano.dao.mano.VnfLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
-import com.ubiqube.etsi.mano.dao.mano.VnfVl;
 import com.ubiqube.etsi.mano.dao.mano.v2.NetworkTask;
-import com.ubiqube.etsi.mano.dao.mano.v2.PlanOperationType;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
-import com.ubiqube.etsi.mano.orchestrator.Bundle;
-import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
+import com.ubiqube.etsi.mano.orchestrator.SclableResources;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
-import com.ubiqube.etsi.mano.vnfm.service.VnfBlueprintService;
-import com.ubiqube.etsi.mano.vnfm.service.graph.VnfBundleAdapter;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.NetWorkVt;
 
 /**
  *
@@ -48,62 +38,23 @@ import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.NetWorkVt;
  */
 @Priority(100)
 @Service
-public class VnfV2NetworkContributor extends AbstractContributorV2Base<NetworkTask, NetWorkVt> {
-	private final VnfBlueprintService planService;
-	private final VnfLiveInstanceJpa vnfLiveInstanceJpa;
+public class VnfV2NetworkContributor extends AbstractContributorV3Base<NetworkTask> {
 
-	public VnfV2NetworkContributor(final VnfBlueprintService planService, final VnfLiveInstanceJpa vnfLiveInstanceJpa) {
-		this.planService = planService;
-		this.vnfLiveInstanceJpa = vnfLiveInstanceJpa;
+	public VnfV2NetworkContributor(final VnfLiveInstanceJpa vnfLiveInstanceJpa) {
+		super(vnfLiveInstanceJpa);
 	}
 
 	@Override
-	public List<NetWorkVt> vnfContribute(final Bundle bundle, final VnfBlueprint parameters) {
-		if (PlanOperationType.TERMINATE == parameters.getOperation()) {
-			return doTerminatePlan(parameters.getVnfInstance());
-		}
-		final VnfPackage vnfPackage = ((VnfBundleAdapter) bundle).vnfPackage();
-		final Set<VnfVl> vls = vnfPackage.getVnfVl();
-		final List<NetWorkVt> ret = new ArrayList<>();
-		for (final VnfVl vnfVl : vls) {
-			final int num = planService.getNumberOfLiveVl(parameters.getVnfInstance(), vnfVl);
-			if (num == 0) {
-				final NetworkTask networkTask = createTask(NetworkTask::new);
-				networkTask.setAlias(buildAlias(parameters, vnfVl.getToscaName(), 0));
-				networkTask.setChangeType(ChangeType.ADDED);
-				networkTask.setToscaName(vnfVl.getToscaName());
-				networkTask.setType(ResourceTypeEnum.VL);
-				networkTask.setVnfVl(vnfVl);
-				ret.add(new NetWorkVt(networkTask));
-			}
-		}
-		return ret;
-	}
-
-	private List<NetWorkVt> doTerminatePlan(final VnfInstance vnfInstance) {
-		final List<VnfLiveInstance> instances = vnfLiveInstanceJpa.findByVnfInstanceIdAndClass(vnfInstance, NetworkTask.class.getSimpleName());
-		return instances.stream().map(x -> {
-			final NetworkTask networkTask = createDeleteTask(NetworkTask::new, x);
-			networkTask.setAlias(x.getTask().getAlias());
-			networkTask.setChangeType(ChangeType.REMOVED);
-			networkTask.setToscaName(x.getTask().getToscaName());
+	public List<SclableResources<NetworkTask>> contribute(final VnfPackage bundle, final VnfBlueprint parameters) {
+		return bundle.getVnfVl().stream().map(x -> {
+			final NetworkTask networkTask = createTask(NetworkTask::new);
+			networkTask.setChangeType(ChangeType.ADDED);
+			networkTask.setToscaName(x.getToscaName());
 			networkTask.setType(ResourceTypeEnum.VL);
-			networkTask.setRemovedLiveInstance(x.getId());
-			networkTask.setVimResourceId(x.getResourceId());
-			networkTask.setVimConnectionId(x.getVimConnectionId());
-			networkTask.setVnfVl(((NetworkTask) x.getTask()).getVnfVl());
-			return new NetWorkVt(networkTask);
-		}).toList();
-	}
-
-	@Override
-	public Class<? extends Node> getNode() {
-		return Network.class;
-	}
-
-	private static String buildAlias(final VnfBlueprint plan, final String toscaName, final int count) {
-		final String vnfInstanceId = plan.getInstance().getId().toString();
-		return vnfInstanceId.substring(0, 8) + '-' + toscaName + '-' + String.format("%04d", count);
+			networkTask.setVnfVl(x);
+			return create(Network.class, networkTask.getToscaName(), 1, networkTask, parameters.getInstance());
+		})
+				.toList();
 	}
 
 }

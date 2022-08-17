@@ -26,6 +26,7 @@ import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackageVnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
+import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVnfExtractorTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.VnfContextExtractorTask;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.orchestrator.Context3d;
@@ -42,16 +43,16 @@ import com.ubiqube.etsi.mano.service.graph.AbstractUnitOfWork;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public class VnfContextExtractorUow extends AbstractUnitOfWork<VnfContextExtractorTask> {
+public class VnfContextExtractorUow extends AbstractUnitOfWork<NsVnfExtractorTask> {
 	private static final Pattern pVl = Pattern.compile("virtual_link_(?<idx>\\d+)");
 	private final VnfmInterface vnfm;
 	private final NsdPackage pack;
-	private final VnfContextExtractorTask task;
+	private final NsVnfExtractorTask task;
 
 	public VnfContextExtractorUow(final VirtualTaskV3<VnfContextExtractorTask> task, final VnfmInterface vnfm, final NsdPackage pack) {
 		super(task, VnfExtractorNode.class);
 		this.vnfm = vnfm;
-		this.pack = null; // XXX: Supress me
+		this.pack = pack;
 		this.task = task.getTemplateParameters();
 	}
 

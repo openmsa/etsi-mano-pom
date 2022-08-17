@@ -22,7 +22,17 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 
+import lombok.Getter;
+import lombok.Setter;
+
+/**
+ *
+ * @author olivier
+ *
+ */
 @Entity
+@Getter
+@Setter
 public class DnsHostTask extends VnfTask {
 
 	/** Serial. */
@@ -39,46 +49,15 @@ public class DnsHostTask extends VnfTask {
 	@ElementCollection(fetch = FetchType.EAGER)
 	private Set<String> ips;
 
-	public String getHostname() {
-		return hostname;
-	}
-
-	public void setHostname(final String hostname) {
-		this.hostname = hostname;
-	}
-
 	@Override
-	public String getZoneId() {
-		return zoneId;
-	}
-
-	@Override
-	public void setZoneId(final String zoneId) {
-		this.zoneId = zoneId;
-	}
-
-	public String getNetworkName() {
-		return networkName;
-	}
-
-	public void setNetworkName(final String networkName) {
-		this.networkName = networkName;
-	}
-
-	public String getParentAlias() {
-		return parentAlias;
-	}
-
-	public void setParentAlias(final String parentAlias) {
-		this.parentAlias = parentAlias;
-	}
-
-	public Set<String> getIps() {
-		return ips;
-	}
-
-	public void setIps(final Set<String> ips) {
-		this.ips = ips;
+	public VnfTask copy() {
+		final DnsHostTask t = new DnsHostTask();
+		super.copy(t);
+		t.setHostname(hostname);
+		t.setZoneId(zoneId);
+		t.setNetworkName(networkName);
+		t.setParentAlias(parentAlias);
+		return t;
 	}
 
 }

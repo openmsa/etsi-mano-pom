@@ -37,7 +37,7 @@ import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
  *
  */
 @Service
-public class DnsContributorV3 extends AbstractContributorV3<Object> {
+public class DnsContributorV3 extends AbstractVnfmContributorV3<Object> {
 
 	public DnsContributorV3(final VnfLiveInstanceJpa vnfLiveInstanceJpa) {
 		super(vnfLiveInstanceJpa);

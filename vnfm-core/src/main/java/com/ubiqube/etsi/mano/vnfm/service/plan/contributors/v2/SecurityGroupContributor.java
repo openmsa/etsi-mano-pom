@@ -16,26 +16,17 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
-import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
-import com.ubiqube.etsi.mano.dao.mano.VnfLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
-import com.ubiqube.etsi.mano.dao.mano.v2.PlanOperationType;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.SecurityGroupTask;
-import com.ubiqube.etsi.mano.orchestrator.Bundle;
-import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
+import com.ubiqube.etsi.mano.orchestrator.SclableResources;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SecurityGroupNode;
-import com.ubiqube.etsi.mano.service.VnfInstanceGatewayService;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
-import com.ubiqube.etsi.mano.vnfm.service.graph.VduNamingStrategy;
-import com.ubiqube.etsi.mano.vnfm.service.graph.VnfBundleAdapter;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.SecurityGroupVt;
 
 /**
  *
@@ -43,53 +34,20 @@ import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.SecurityGroupV
  *
  */
 @Service
-public class SecurityGroupContributor extends AbstractContributorV2Base<SecurityGroupTask, SecurityGroupVt> {
-	private final VnfInstanceGatewayService vnfInstanceGatewayService;
-	private final VnfLiveInstanceJpa vnfLiveInstanceJpa;
-	private final VduNamingStrategy vduNamingStrategy;
+public class SecurityGroupContributor extends AbstractContributorV3Base<SecurityGroupTask> {
 
-	public SecurityGroupContributor(final VnfInstanceGatewayService vnfInstanceGatewayService, final VnfLiveInstanceJpa vnfLiveInstanceJpa, final VduNamingStrategy vduNamingStrategy) {
-		this.vnfInstanceGatewayService = vnfInstanceGatewayService;
-		this.vnfLiveInstanceJpa = vnfLiveInstanceJpa;
-		this.vduNamingStrategy = vduNamingStrategy;
+	public SecurityGroupContributor(final VnfLiveInstanceJpa vnfLiveInstanceJpa) {
+		super(vnfLiveInstanceJpa);
 	}
 
 	@Override
-	public Class<? extends Node> getNode() {
-		return SecurityGroupNode.class;
-	}
-
-	@Override
-	protected List<SecurityGroupVt> vnfContribute(final Bundle bundle, final VnfBlueprint blueprint) {
-		if (blueprint.getOperation() == PlanOperationType.TERMINATE) {
-			return doTerminatePlan(blueprint.getVnfInstance());
-		}
-		final VnfPackage vnfPackage = ((VnfBundleAdapter) bundle).vnfPackage();
-		final VnfInstance vnfInstance = vnfInstanceGatewayService.findById(blueprint.getInstance().getId());
-		final List<SecurityGroupVt> ret = new ArrayList<>();
-		vnfPackage.getSecurityGroups().forEach(x -> {
-			final int i = vnfLiveInstanceJpa.countByVnfInstanceAndTaskToscaName(vnfInstance, x.getToscaName());
-			if (i > 0) {
-				return;
-			}
+	public List<SclableResources<SecurityGroupTask>> contribute(final VnfPackage bundle, final VnfBlueprint parameters) {
+		return bundle.getSecurityGroups().stream().map(x -> {
 			final SecurityGroupTask task = createTask(SecurityGroupTask::new);
-			task.setAlias(vduNamingStrategy.nameSingleResource(blueprint, x.getToscaName()));
 			task.setType(ResourceTypeEnum.SECURITY_GROUP);
 			task.setToscaName(x.getToscaName());
 			task.setSecurityGroup(x);
-			ret.add(new SecurityGroupVt(task));
-		});
-		return ret;
-	}
-
-	private List<SecurityGroupVt> doTerminatePlan(final VnfInstance vnfInstance) {
-		final List<VnfLiveInstance> instances = vnfLiveInstanceJpa.findByVnfInstanceIdAndClass(vnfInstance, SecurityGroupTask.class.getSimpleName());
-		return instances.stream().map(x -> {
-			final SecurityGroupTask task = createDeleteTask(SecurityGroupTask::new, x);
-			task.setType(ResourceTypeEnum.SECURITY_GROUP);
-			task.setRemovedLiveInstance(x.getId());
-			task.setVimResourceId(x.getResourceId());
-			return new SecurityGroupVt(task);
+			return create(SecurityGroupNode.class, task.getToscaName(), 1, task, parameters.getInstance());
 		}).toList();
 	}
 

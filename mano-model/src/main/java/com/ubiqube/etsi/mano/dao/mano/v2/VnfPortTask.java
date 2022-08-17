@@ -48,4 +48,14 @@ public class VnfPortTask extends VnfTask {
 
 	@ManyToOne
 	private ComputeTask compute;
+
+	@Override
+	public VnfTask copy() {
+		final VnfPortTask t = new VnfPortTask();
+		super.copy(t);
+		t.setVnfLinkPort(vnfLinkPort);
+		t.setExternal(external);
+		t.setCompute(compute);
+		return t;
+	}
 }

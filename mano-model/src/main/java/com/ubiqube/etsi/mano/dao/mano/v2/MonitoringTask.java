@@ -55,4 +55,14 @@ public class MonitoringTask extends VnfTask {
 	private VnfCompute vnfCompute;
 
 	private String parentAlias;
+
+	@Override
+	public VnfTask copy() {
+		final MonitoringTask t = new MonitoringTask();
+		super.copy(t);
+		t.setMonitoringParams(monitoringParams);
+		t.setVnfCompute(vnfCompute);
+		t.setParentAlias(parentAlias);
+		return t;
+	}
 }

@@ -41,4 +41,13 @@ public class StorageTask extends VnfTask {
 
 	private String parentAlias;
 
+	@Override
+	public VnfTask copy() {
+		final StorageTask t = new StorageTask();
+		super.copy(t);
+		t.setVnfStorage(vnfStorage);
+		t.setParentAlias(parentAlias);
+		return t;
+	}
+
 }

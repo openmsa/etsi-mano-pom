@@ -45,4 +45,12 @@ public class VirtualCpTask extends VnfTask {
 	@ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
 	private VirtualCp virtualCp;
 
+	@Override
+	public VnfTask copy() {
+		final VirtualCpTask t = new VirtualCpTask();
+		super.copy(t);
+		t.setVirtualCp(virtualCp);
+		return t;
+	}
+
 }

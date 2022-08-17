@@ -16,14 +16,8 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerDeployableTask;
-import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerDeployableNode;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerNode;
 
 /**
  *
@@ -32,36 +26,13 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerNode;
  */
 public class OsContainerDeployableVt extends VnfVtBase<OsContainerDeployableTask> {
 
-	private final OsContainerDeployableTask p;
-
 	public OsContainerDeployableVt(final OsContainerDeployableTask nt) {
 		super(nt);
-		this.p = nt;
 	}
 
 	@Override
-	public List<NamedDependency> getNameDependencies() {
-		final List<NamedDependency> ret = new ArrayList<>();
-		ret.add(new NamedDependency(OsContainerNode.class, getParameters().getToscaName()));
-		if (p.getNetwork() != null) {
-			ret.add(new NamedDependency(Network.class, p.getNetwork()));
-		}
-		return ret;
-	}
-
-	@Override
-	public List<NamedDependency> getNamedProduced() {
-		return List.of(new NamedDependency(OsContainerDeployableNode.class, getParameters().getToscaName()));
-	}
-
-	@Override
-	public String getFactoryProviderId() {
-		return "CNF";
-	}
-
-	@Override
-	public String getVimProviderId() {
-		return "CNF";
+	public Class<?> getType() {
+		return OsContainerDeployableNode.class;
 	}
 
 }

@@ -45,4 +45,12 @@ public class AffinityRuleTask extends VnfTask {
 	@OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
 	private AffinityRule affinityRule;
 
+	@Override
+	public VnfTask copy() {
+		final AffinityRuleTask t = new AffinityRuleTask();
+		super.copy(t);
+		t.setAffinityRule(affinityRule);
+		return t;
+	}
+
 }
