@@ -33,7 +33,7 @@ import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.orchestrator.Context;
 import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
 import com.ubiqube.etsi.mano.orchestrator.NamedDependency2d;
-import com.ubiqube.etsi.mano.orchestrator.nodes.mec.VnfContextExtractorNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.mec.VnfExtractorNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfCreateNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfInstantiateNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfPortNode;
@@ -54,7 +54,7 @@ public class VnfContextExtractorUow extends AbstractUnitOfWork<VnfContextExtract
 	private final VnfContextExtractorTask task;
 
 	public VnfContextExtractorUow(final VirtualTask<VnfContextExtractorTask> task, final VnfmInterface vnfm, final NsdPackage pack) {
-		super(task, VnfContextExtractorNode.class);
+		super(task, VnfExtractorNode.class);
 		this.vnfm = vnfm;
 		this.pack = pack;
 		this.task = task.getParameters();
@@ -139,7 +139,7 @@ public class VnfContextExtractorUow extends AbstractUnitOfWork<VnfContextExtract
 				.filter(Objects::nonNull)
 				.map(x -> new NamedDependency(VnfPortNode.class, x))
 				.forEach(ret::add);
-		ret.add(new NamedDependency(VnfContextExtractorNode.class, task.getToscaName()));
+		ret.add(new NamedDependency(VnfExtractorNode.class, task.getToscaName()));
 		return ret;
 	}
 

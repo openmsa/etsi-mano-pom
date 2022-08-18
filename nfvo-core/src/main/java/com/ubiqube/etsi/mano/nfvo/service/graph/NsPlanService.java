@@ -27,8 +27,8 @@ import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
 import com.ubiqube.etsi.mano.dao.mano.nsd.ForwarderMapping;
 import com.ubiqube.etsi.mano.nfvo.service.NsdPackageService;
-import com.ubiqube.etsi.mano.orchestrator.nodes.mec.NsdContextExtractorNode;
-import com.ubiqube.etsi.mano.orchestrator.nodes.mec.VnfContextExtractorNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.mec.NsdExtractorNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.mec.VnfExtractorNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.NsdCreateNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.NsdInstantiateNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.PortPairNode;
@@ -67,7 +67,7 @@ public class NsPlanService {
 			x.getVirtualLinks().forEach(y -> {
 				g.from(Network.class, y).addNext(NsdCreateNode.class, x.getToscaName(), Relation.MANY_TO_ONE);
 			});
-			g.from(NsdInstantiateNode.class, x.getToscaName()).addNext(NsdContextExtractorNode.class, x.getToscaName(), Relation.ONE_TO_ONE);
+			g.from(NsdInstantiateNode.class, x.getToscaName()).addNext(NsdExtractorNode.class, x.getToscaName(), Relation.ONE_TO_ONE);
 		});
 		nsd.getVnffgs().forEach(x -> {
 			g.single(VnffgPostNode.class, x.getName());
@@ -77,7 +77,7 @@ public class NsPlanService {
 					g.from(VnffgPostNode.class, x.getName()).dependency(VnffgLoadbalancerNode.class, z.getToscaName(), Relation.MANY_TO_ONE);
 					z.getPairs().forEach(p -> {
 						g.from(VnffgLoadbalancerNode.class, z.getToscaName()).dependency(PortPairNode.class, p.getToscaName(), Relation.MANY_TO_ONE);
-						g.from(PortPairNode.class, p.getToscaName()).dependency(VnfContextExtractorNode.class, p.getVnf(), Relation.ONE_TO_ONE);
+						g.from(PortPairNode.class, p.getToscaName()).dependency(VnfExtractorNode.class, p.getVnf(), Relation.ONE_TO_ONE);
 					});
 				});
 			});
@@ -93,7 +93,7 @@ public class NsPlanService {
 					g.from(Network.class, y.getValue()).addNext(VnfCreateNode.class, x.getToscaName(), Relation.MANY_TO_ONE);
 				}
 			});
-			g.from(VnfInstantiateNode.class, x.getToscaName()).addNext(VnfContextExtractorNode.class, x.getToscaName(), Relation.ONE_TO_ONE);
+			g.from(VnfInstantiateNode.class, x.getToscaName()).addNext(VnfExtractorNode.class, x.getToscaName(), Relation.ONE_TO_ONE);
 		});
 		return g.build();
 	}

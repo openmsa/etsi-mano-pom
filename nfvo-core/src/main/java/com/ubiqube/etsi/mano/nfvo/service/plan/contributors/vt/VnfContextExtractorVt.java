@@ -24,7 +24,7 @@ import com.ubiqube.etsi.mano.dao.mano.NsdPackageVnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.VnfContextExtractorTask;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.orchestrator.NamedDependency;
-import com.ubiqube.etsi.mano.orchestrator.nodes.mec.VnfContextExtractorNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.mec.VnfExtractorNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfInstantiateNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfPortNode;
 import com.ubiqube.etsi.mano.service.graph.vt.NsVtBase;
@@ -51,7 +51,7 @@ public class VnfContextExtractorVt extends NsVtBase<VnfContextExtractorTask> {
 	@Override
 	public List<NamedDependency> getNamedProduced() {
 		final List<NamedDependency> l = new ArrayList<>();
-		l.add(new NamedDependency(VnfContextExtractorNode.class, getParameters().getAlias()));
+		l.add(new NamedDependency(VnfExtractorNode.class, getParameters().getAlias()));
 		final NsdPackageVnfPackage nsdvnf = findVnfd(task.getNsdPackage(), task.getVnfdId());
 		nsdvnf.getForwardMapping().forEach(x -> l.add(new NamedDependency(VnfPortNode.class, x.getForwardingName())));
 		return l;
