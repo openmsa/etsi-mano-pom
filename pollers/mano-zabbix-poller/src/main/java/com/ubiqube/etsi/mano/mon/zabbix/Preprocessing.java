@@ -18,6 +18,8 @@ package com.ubiqube.etsi.mano.mon.zabbix;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,6 +28,8 @@ import lombok.Setter;
 public class Preprocessing {
 	private PreprocessingType type;
 	List<String> parameters;
-	private String error_handler;
-	private String error_handler_params;
+	@JsonProperty("error_handler")
+	private String errorHandler;
+	@JsonProperty("error_handler_params")
+	private String errorHandlerParams;
 }

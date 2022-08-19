@@ -18,6 +18,8 @@ package com.ubiqube.etsi.mano.mon.zabbix;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,7 +32,8 @@ public class Template {
 	private List<Group> groups;
 	private List<Application> applications;
 	private List<Item> items;
-	private List<DiscoveryRule> discovery_rules;
+	@JsonProperty("discovery_rules")
+	private List<DiscoveryRule> discoveryRules;
 	private List<Macro> macros;
 	private List<Dashboard> dashboards;
 }

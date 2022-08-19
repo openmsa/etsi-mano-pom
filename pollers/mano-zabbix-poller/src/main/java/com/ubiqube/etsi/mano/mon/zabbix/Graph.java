@@ -18,6 +18,8 @@ package com.ubiqube.etsi.mano.mon.zabbix;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,5 +27,6 @@ import lombok.Setter;
 @Setter
 public class Graph {
 	private String name;
-	private List<GraphItem> graph_items;
+	@JsonProperty("graph_items")
+	private List<GraphItem> graphItems;
 }

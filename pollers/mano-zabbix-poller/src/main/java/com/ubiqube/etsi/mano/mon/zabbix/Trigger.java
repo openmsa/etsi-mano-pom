@@ -18,6 +18,8 @@ package com.ubiqube.etsi.mano.mon.zabbix;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,6 +30,7 @@ public class Trigger {
 	private String name;
 	private String priority;
 	private String description;
-	private String manual_close;
+	@JsonProperty("manual_close")
+	private String manualClose;
 	private List<Dependency> dependencies;
 }

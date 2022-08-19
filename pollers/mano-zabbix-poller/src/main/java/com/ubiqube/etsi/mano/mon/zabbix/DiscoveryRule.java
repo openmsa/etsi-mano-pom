@@ -18,6 +18,8 @@ package com.ubiqube.etsi.mano.mon.zabbix;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,7 +31,10 @@ public class DiscoveryRule {
 	private String delay;
 	private Filter filter;
 	private String description;
-	private List<ItemPrototype> item_prototypes;
-	private List<TriggerPrototype> trigger_prototypes;
-	private List<GraphPrototype> graph_prototypes;
+	@JsonProperty("item_prototypes")
+	private List<ItemPrototype> itemPrototypes;
+	@JsonProperty("trigger_prototypes")
+	private List<TriggerPrototype> triggerPrototypes;
+	@JsonProperty("graph_prototypes")
+	private List<GraphPrototype> graphPrototypes;
 }

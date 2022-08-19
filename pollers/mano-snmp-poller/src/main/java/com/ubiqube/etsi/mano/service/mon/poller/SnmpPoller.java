@@ -16,6 +16,6 @@
  */
 package com.ubiqube.etsi.mano.service.mon.poller;
 
-public class SnmpPoller {
+public interface SnmpPoller {
 
 }
