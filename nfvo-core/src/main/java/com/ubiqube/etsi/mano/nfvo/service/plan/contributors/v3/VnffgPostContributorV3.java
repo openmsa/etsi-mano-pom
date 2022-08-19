@@ -60,7 +60,7 @@ public class VnffgPostContributorV3 extends AbstractNsdContributorV3<VnffgPostTa
 					task.setVnffg(x);
 					task.setSrcPort(findPort(nsd, task.getClassifier().getLogicalSourcePort()));
 					task.setDstPort(findPort(nsd, task.getClassifier().getLogicalDestinationPort()));
-					return create(VnffgPostNode.class, x.getName(), 1, task, parameters.getInstance());
+					return create(VnffgPostNode.class, task.getClass(), x.getName(), 1, task, parameters.getInstance(), parameters);
 				})
 				.toList();
 	}

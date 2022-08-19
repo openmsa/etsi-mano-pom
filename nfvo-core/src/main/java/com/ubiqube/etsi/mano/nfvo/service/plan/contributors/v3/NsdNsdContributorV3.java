@@ -56,11 +56,11 @@ public class NsdNsdContributorV3 extends AbstractNsdContributorV3<Object> {
 		nsd.getNestedNsdInfoIds().forEach(x -> {
 			final NsdTask task = createVnfTask(x);
 			final int numInst = nsScaleStrategy.getNumberOfInstances(x, parameters);
-			ret.add(create(VnfCreateNode.class, x.getToscaName(), numInst, task, parameters.getInstance()));
+			ret.add(create(VnfCreateNode.class, task.getClass(), x.getToscaName(), numInst, task, parameters.getInstance(), parameters));
 			final NsdInstantiateTask taskInst = createVnfInstantiateTask(x);
-			ret.add(create(VnfInstantiateNode.class, x.getToscaName(), numInst, taskInst, parameters.getInstance()));
+			ret.add(create(VnfInstantiateNode.class, taskInst.getClass(), x.getToscaName(), numInst, taskInst, parameters.getInstance(), parameters));
 			final NsdExtractorTask taskExt = createVnfExtractTask(x);
-			ret.add(create(VnfExtractorNode.class, x.getToscaName(), numInst, taskExt, parameters.getInstance()));
+			ret.add(create(VnfExtractorNode.class, taskExt.getClass(), x.getToscaName(), numInst, taskExt, parameters.getInstance(), parameters));
 		});
 		return ret;
 	}

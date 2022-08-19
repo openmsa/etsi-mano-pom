@@ -82,12 +82,12 @@ public class ComputeContributorV3 extends AbstractVnfmContributorV3<Object> {
 			computeTask.setToscaName(x.getToscaName());
 			final NumberOfCompute numInst = scalingStrategy.getNumberOfCompute(parameters, vnfPackage, scaling, x, parameters.getVnfInstance());
 			LOG.debug("{} -> {}", x.getToscaName(), numInst);
-			ret.add(create(Compute.class, x.getToscaName(), numInst.getWanted(), computeTask, parameters.getInstance()));
+			ret.add(create(Compute.class, x.getToscaName(), numInst.getWanted(), computeTask, parameters.getInstance(), parameters));
 			x.getStorages().forEach(y -> {
 				final StorageTask st = createTask(StorageTask::new);
 				st.setVnfStorage(findVnfStorage(vnfPackage, y));
 				st.setToscaName(x.getToscaName() + "-" + y);
-				ret.add(create(Storage.class, st.getToscaName(), 1, st, parameters.getInstance()));
+				ret.add(create(Storage.class, st.getToscaName(), 1, st, parameters.getInstance(), parameters));
 			});
 			x.getPorts().forEach(y -> {
 				final VnfPortTask pt = createTask(VnfPortTask::new);
@@ -107,7 +107,7 @@ public class ComputeContributorV3 extends AbstractVnfmContributorV3<Object> {
 					}
 					pt.setExternal(external);
 				}
-				ret.add(create(VnfPortNode.class, pt.getToscaName(), 1, pt, parameters.getInstance()));
+				ret.add(create(VnfPortNode.class, pt.getToscaName(), 1, pt, parameters.getInstance(), parameters));
 			});
 			x.getMonitoringParameters().forEach(y -> {
 				final MonitoringTask mt = createTask(MonitoringTask::new);
@@ -116,7 +116,7 @@ public class ComputeContributorV3 extends AbstractVnfmContributorV3<Object> {
 				mt.setParentAlias(x.getToscaName());
 				mt.setMonitoringParams(y);
 				mt.setVnfCompute(x);
-				ret.add(create(Monitoring.class, mt.getToscaName(), 1, mt, parameters.getInstance()));
+				ret.add(create(Monitoring.class, mt.getToscaName(), 1, mt, parameters.getInstance(), parameters));
 			});
 		});
 		return ret;

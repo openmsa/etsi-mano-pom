@@ -21,6 +21,7 @@ import java.util.UUID;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -52,7 +53,7 @@ public class NsLiveInstance implements BaseEntity, Auditable {
 	@ManyToOne
 	private NsTask nsTask;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private NsBlueprint nsBlueprint;
 
 	private String resourceId;
@@ -63,7 +64,7 @@ public class NsLiveInstance implements BaseEntity, Auditable {
 
 	private String vimLevelResourceType;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private NsdInstance nsInstance;
 
 	int rank;

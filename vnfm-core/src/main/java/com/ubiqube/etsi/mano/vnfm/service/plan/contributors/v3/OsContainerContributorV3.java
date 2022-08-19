@@ -56,7 +56,7 @@ public class OsContainerContributorV3 extends AbstractVnfmContributorV3<Object> 
 			t.setType(ResourceTypeEnum.CNF);
 			t.setChangeType(ChangeType.ADDED);
 			t.setOsContainer(x);
-			ret.add(create(OsContainerNode.class, t.getToscaName(), 1, t, parameters.getInstance()));
+			ret.add(create(OsContainerNode.class, t.getToscaName(), 1, t, parameters.getInstance(), parameters));
 		});
 		vnfPackage.getOsContainerDeployableUnits().forEach(x -> {
 			final OsContainerDeployableTask t = createTask(OsContainerDeployableTask::new);
@@ -64,7 +64,7 @@ public class OsContainerContributorV3 extends AbstractVnfmContributorV3<Object> 
 			t.setOsContainerDeployableUnit(x);
 			t.setToscaName(x.getName());
 			t.setType(ResourceTypeEnum.CNF);
-			ret.add(create(OsContainerDeployableNode.class, t.getToscaName(), 1, t, parameters.getInstance()));
+			ret.add(create(OsContainerDeployableNode.class, t.getToscaName(), 1, t, parameters.getInstance(), parameters));
 		});
 		vnfPackage.getMciops().forEach(x -> {
 			x.getAssociatedVdu().forEach(y -> {
@@ -76,7 +76,7 @@ public class OsContainerContributorV3 extends AbstractVnfmContributorV3<Object> 
 				t.setType(ResourceTypeEnum.CNF);
 				t.setParentVdu(y);
 				t.setVnfPackageId(vnfPackage.getId());
-				ret.add(create(HelmNode.class, t.getToscaName(), 1, t, parameters.getInstance()));
+				ret.add(create(HelmNode.class, t.getToscaName(), 1, t, parameters.getInstance(), parameters));
 			});
 		});
 		return ret;

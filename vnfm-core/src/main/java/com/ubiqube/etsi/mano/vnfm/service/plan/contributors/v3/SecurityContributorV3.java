@@ -50,7 +50,7 @@ public class SecurityContributorV3 extends AbstractVnfmContributorV3<SecurityGro
 			task.setType(ResourceTypeEnum.SECURITY_GROUP);
 			task.setToscaName(x.getToscaName());
 			task.setSecurityGroup(x);
-			ret.add(create(SecurityGroupNode.class, task.getToscaName(), 1, task, parameters.getInstance()));
+			ret.add(create(SecurityGroupNode.class, task.getToscaName(), 1, task, parameters.getInstance(), parameters));
 		});
 		return ret;
 	}

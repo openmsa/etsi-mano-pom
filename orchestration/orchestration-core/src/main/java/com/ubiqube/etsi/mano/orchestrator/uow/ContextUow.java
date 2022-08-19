@@ -14,25 +14,46 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt;
+package com.ubiqube.etsi.mano.orchestrator.uow;
 
-import com.ubiqube.etsi.mano.dao.mano.v2.StorageTask;
+import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Storage;
+import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 
-/**
- *
- * @author Olivier Vignaud <ovi@ubiqube.com>
- *
- */
-public class StorageVt extends VnfVtBase<StorageTask> {
+public class ContextUow<U> implements UnitOfWorkV3<U> {
 
-	public StorageVt(final StorageTask nt) {
-		super(nt);
+	private final VirtualTaskV3<U> vt;
+	private String setResource;
+
+	public ContextUow(final VirtualTaskV3<U> vt) {
+		this.vt = vt;
+	}
+
+	@Override
+	public String execute(final Context3d context) {
+		// Nothing.
+		return null;
+	}
+
+	@Override
+	public String rollback(final Context3d context) {
+		// Nothing.
+		return null;
 	}
 
 	@Override
 	public Class<? extends Node> getType() {
-		return Storage.class;
+		return vt.getType();
 	}
+
+	@Override
+	public VirtualTaskV3<U> getTask() {
+		return vt;
+	}
+
+	@Override
+	public void setResource(final String resource) {
+		this.setResource = resource;
+	}
+
 }

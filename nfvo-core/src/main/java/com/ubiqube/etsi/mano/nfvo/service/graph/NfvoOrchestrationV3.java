@@ -55,7 +55,6 @@ import com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt.NsVnfInstantiateV
 import com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt.NsVnffgPortPairVt;
 import com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt.NsVnffgPostVt;
 import com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt.VnffgLoadbalancerVt;
-import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.ContextHolder;
 import com.ubiqube.etsi.mano.orchestrator.ExecutionGraph;
 import com.ubiqube.etsi.mano.orchestrator.OrchExecutionResults;
@@ -126,7 +125,7 @@ public class NfvoOrchestrationV3 implements WorkflowV3<NsdPackage, NsBlueprint, 
 		final List<SclableResources<NsTask>> sr = contributors.stream().flatMap(x -> x.contribute(bundle, blueprint).stream()).toList();
 		final ListenableGraph<Vertex2d, Edge2d> g = planService.getPlanFor(bundle.getId());
 		return blueprintBuilder.buildPlan(sr, g, x -> {
-			LOG.debug("Running for {}={}", x.getType(), x.getToscaName());
+			LOG.trace("Running for {}={}", x.getType(), x.getToscaName());
 			blueprint.addTask(x);
 			final NsTask nc = x.copy();
 			return vts.get(x.getType()).apply(nc);
@@ -153,16 +152,14 @@ public class NfvoOrchestrationV3 implements WorkflowV3<NsdPackage, NsBlueprint, 
 		case VNFFG_PORT_PAIR -> PortPairNode.class;
 		default -> throw new GenericException(x.getNsTask().getType() + " is not handled.");
 		};
-		return new ContextHolder(t, x.getNsTask().getToscaName(), x.getRank(), x.getResourceId());
+		return new ContextHolder(x.getId(), t, x.getNsTask().getToscaName(), x.getRank(), x.getResourceId());
 	}
 
 	@Override
 	public OrchExecutionResults<NsTask> execute(final PreExecutionGraphV3<NsTask> plan, final NsBlueprint parameters) {
-		final Context3d context = orchestrationService.createEmptyContext();
-		populateContext(context, parameters);
 		plan.toDotFile("orch-added.dot");
 		final ExecutionGraph imp = planv2.implement(plan);
-		return planv2.execute(imp, context, new NsOrchListenetImpl(nsLiveInstanceJpa, parameters));
+		return planv2.execute(imp, new NsOrchListenetImpl(nsLiveInstanceJpa, parameters));
 	}
 
 	@Override
@@ -178,19 +175,6 @@ public class NfvoOrchestrationV3 implements WorkflowV3<NsdPackage, NsBlueprint, 
 				.filter(x -> x.getToscaId().equals(id))
 				.findFirst()
 				.orElseThrow(() -> new GenericException("Could not find " + id));
-	}
-
-	private void populateContext(final Context3d context, final NsBlueprint parameters) {
-		final List<NsLiveInstance> live = nsLiveInstanceJpa.findByNsInstanceId(parameters.getInstance().getId());
-		live.forEach(x -> {
-			switch (x.getNsTask().getType()) {
-			case VL -> context.add(Network.class, x.getNsTask().getToscaName(), x.getResourceId());
-			case VNF_CREATE -> context.add(VnfCreateNode.class, x.getNsTask().getToscaName(), x.getResourceId());
-			case NSD_CREATE -> context.add(NsdCreateNode.class, x.getNsTask().getToscaName(), x.getResourceId());
-			case VNFFG -> LOG.debug("");
-			default -> throw new GenericException(x.getNsTask().getType() + " is not handled.");
-			}
-		});
 	}
 
 }

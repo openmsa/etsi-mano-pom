@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt;
 
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVnfTask;
+import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfCreateNode;
 import com.ubiqube.etsi.mano.service.graph.vt.NsVtBase;
 
@@ -32,7 +33,7 @@ public class NsVnfCreateVt extends NsVtBase<NsVnfTask> {
 	}
 
 	@Override
-	public Class<?> getType() {
+	public Class<? extends Node> getType() {
 		return VnfCreateNode.class;
 	}
 

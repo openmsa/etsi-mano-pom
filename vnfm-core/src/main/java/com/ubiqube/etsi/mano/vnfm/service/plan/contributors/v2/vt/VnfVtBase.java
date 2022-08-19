@@ -16,6 +16,8 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt;
 
+import java.util.UUID;
+
 import com.ubiqube.etsi.mano.dao.mano.ChangeType;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
 import com.ubiqube.etsi.mano.orchestrator.SystemBuilder;
@@ -54,7 +56,11 @@ public abstract class VnfVtBase<U extends VnfTask> implements VirtualTaskV3<U> {
 
 	@Override
 	public void setDelete(final boolean del) {
-		templateParameters.setChangeType(ChangeType.REMOVED);
+		if (del) {
+			templateParameters.setChangeType(ChangeType.REMOVED);
+		} else {
+			templateParameters.setChangeType(ChangeType.ADDED);
+		}
 	}
 
 	@Override
@@ -75,6 +81,26 @@ public abstract class VnfVtBase<U extends VnfTask> implements VirtualTaskV3<U> {
 	@Override
 	public final String getAlias() {
 		return templateParameters.getAlias();
+	}
+
+	@Override
+	public void setRemovedLiveInstanceId(final UUID liveInstanceId) {
+		templateParameters.setRemovedLiveInstance(liveInstanceId);
+	}
+
+	@Override
+	public String getVimResourceId() {
+		return templateParameters.getVimResourceId();
+	}
+
+	@Override
+	public void setVimResourceId(final String res) {
+		templateParameters.setVimResourceId(res);
+	}
+
+	@Override
+	public String getToscaName() {
+		return templateParameters.getToscaName();
 	}
 
 	@Override

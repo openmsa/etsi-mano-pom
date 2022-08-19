@@ -73,6 +73,9 @@ public class NsVnfInstantiateTask extends NsTask {
 
 	private String vnfInstanceName;
 
+	@ElementCollection(fetch = FetchType.EAGER)
+	private Set<String> vlInstances;
+
 	@Override
 	public NsTask copy() {
 		final NsVnfInstantiateTask task = new NsVnfInstantiateTask();
@@ -86,6 +89,7 @@ public class NsVnfInstantiateTask extends NsTask {
 		task.setVlName(vlName);
 		task.setVnfPackage(vnfPackage);
 		task.setVnfInstanceName(vnfInstanceName);
+		task.setVlInstances(vlInstances);
 		return task;
 	}
 }

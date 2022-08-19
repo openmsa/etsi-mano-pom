@@ -52,7 +52,7 @@ public class NetworkContributor extends AbstractVnfmContributorV3<Object> {
 			networkTask.setToscaName(x.getToscaName());
 			networkTask.setType(ResourceTypeEnum.VL);
 			networkTask.setVnfVl(x);
-			ret.add(create(Network.class, x.getToscaName(), 1, networkTask, parameters.getInstance()));
+			ret.add(create(Network.class, x.getToscaName(), 1, networkTask, parameters.getInstance(), parameters));
 			x.getVlProfileEntity().getVirtualLinkProtocolData().stream().forEach(y -> {
 				y.getIpAllocationPools().forEach(z -> {
 					final SubNetworkTask sn = createTask(SubNetworkTask::new);
@@ -61,7 +61,7 @@ public class NetworkContributor extends AbstractVnfmContributorV3<Object> {
 					sn.setParentName(x.getToscaName());
 					sn.setL3Data(y.getL3ProtocolData());
 					sn.setIpPool(z);
-					ret.add(create(SubNetwork.class, sn.getToscaName(), 1, sn, parameters.getInstance()));
+					ret.add(create(SubNetwork.class, sn.getToscaName(), 1, sn, parameters.getInstance(), parameters));
 				});
 			});
 		});

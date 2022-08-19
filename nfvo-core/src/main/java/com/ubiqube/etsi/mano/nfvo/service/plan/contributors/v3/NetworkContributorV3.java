@@ -48,7 +48,7 @@ public class NetworkContributorV3 extends AbstractNsdContributorV3<NsVirtualLink
 			task.setType(ResourceTypeEnum.VL);
 			task.setToscaName(x.getToscaName());
 			task.setNsVirtualLink(x);
-			return create(Network.class, x.getToscaName(), 1, task, parameters.getInstance());
+			return create(Network.class, task.getClass(), x.getToscaName(), 1, task, parameters.getInstance(), parameters);
 		})
 				.toList();
 	}

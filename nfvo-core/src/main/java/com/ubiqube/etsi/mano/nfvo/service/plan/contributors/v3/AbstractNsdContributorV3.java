@@ -23,12 +23,13 @@ import java.util.function.Supplier;
 import com.ubiqube.etsi.mano.dao.mano.ChangeType;
 import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
+import com.ubiqube.etsi.mano.dao.mano.v2.PlanOperationType;
 import com.ubiqube.etsi.mano.dao.mano.v2.PlanStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsLiveInstanceJpa;
-import com.ubiqube.etsi.mano.orchestrator.TemplateExtractorV3;
 import com.ubiqube.etsi.mano.orchestrator.SclableResources;
+import com.ubiqube.etsi.mano.orchestrator.TemplateExtractorV3;
 import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
 
 public abstract class AbstractNsdContributorV3<U> implements TemplateExtractorV3<U, NsBlueprint, NsdPackage> {
@@ -51,7 +52,11 @@ public abstract class AbstractNsdContributorV3<U> implements TemplateExtractorV3
 				.orElse(0);
 	}
 
-	protected SclableResources<U> create(final Class<? extends Node> clazz, final String toscaName, final int want, final U param, final NsdInstance inst) {
-		return SclableResources.of(clazz, toscaName, countLive(inst, clazz, toscaName), want, param);
+	protected SclableResources<U> create(final Class<? extends Node> clazz, final Class<?> task, final String toscaName, final int want, final U param, final NsdInstance inst, final NsBlueprint parameters) {
+		int w = want;
+		if (parameters.getOperation() == PlanOperationType.TERMINATE) {
+			w = 0;
+		}
+		return SclableResources.of(clazz, toscaName, countLive(inst, task, toscaName), w, param);
 	}
 }

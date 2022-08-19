@@ -17,7 +17,8 @@
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt;
 
 import com.ubiqube.etsi.mano.dao.mano.v2.ExternalCpTask;
-import com.ubiqube.parser.tosca.objects.tosca.nodes.network.Port;
+import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfPortNode;
 
 /**
  *
@@ -31,7 +32,7 @@ public class PortVt extends VnfVtBase<ExternalCpTask> {
 	}
 
 	@Override
-	public Class<?> getType() {
-		return Port.class;
+	public Class<? extends Node> getType() {
+		return VnfPortNode.class;
 	}
 }

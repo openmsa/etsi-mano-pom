@@ -21,14 +21,17 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
 import com.ubiqube.etsi.mano.dao.mano.config.ServerType;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
+import com.ubiqube.etsi.mano.dao.mano.nsd.ForwarderMapping;
 import com.ubiqube.etsi.mano.dao.mano.nsd.NsdVnfPackageCopy;
 import com.ubiqube.etsi.mano.dao.mano.v2.PlanStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
@@ -78,11 +81,11 @@ public class NsdVnfContributorV3 extends AbstractNsdContributorV3<Object> {
 			final NsdVnfPackageCopy nsPackageVnfPackage = find(x, vnfsCopy);
 			final NsVnfTask task = createVnfCreateTask(nsPackageVnfPackage, x);
 			final int numInst = nsScaleStrategy.getNumberOfInstances(nsPackageVnfPackage, parameters);
-			ret.add(create(VnfCreateNode.class, nsPackageVnfPackage.getToscaName(), numInst, task, parameters.getInstance()));
+			ret.add(create(VnfCreateNode.class, task.getClass(), nsPackageVnfPackage.getToscaName(), numInst, task, parameters.getInstance(), parameters));
 			final NsVnfInstantiateTask taskInst = createVnfInstantiateTask(nsPackageVnfPackage, x);
-			ret.add(create(VnfInstantiateNode.class, nsPackageVnfPackage.getToscaName(), numInst, taskInst, parameters.getInstance()));
+			ret.add(create(VnfInstantiateNode.class, taskInst.getClass(), nsPackageVnfPackage.getToscaName(), numInst, taskInst, parameters.getInstance(), parameters));
 			final NsVnfExtractorTask taskExtractor = createVnfExtractTask(nsPackageVnfPackage, x);
-			ret.add(create(VnfExtractorNode.class, nsPackageVnfPackage.getToscaName(), numInst, taskExtractor, parameters.getInstance()));
+			ret.add(create(VnfExtractorNode.class, taskExtractor.getClass(), nsPackageVnfPackage.getToscaName(), numInst, taskExtractor, parameters.getInstance(), parameters));
 
 		});
 		return ret;
@@ -103,6 +106,11 @@ public class NsdVnfContributorV3 extends AbstractNsdContributorV3<Object> {
 		task.setToscaName(param.getToscaName());
 		final Servers server = selectServer(vnfPkg);
 		task.setServer(server);
+		task.setVnfInstanceName(param.getToscaName());
+		task.setFlavourId("flavour");
+		final Set<String> nstworks = rebuildVl(param);
+		task.setVlInstances(nstworks);
+		task.setExternalNetworks(param.getNets());
 		return task;
 	}
 
@@ -111,9 +119,21 @@ public class NsdVnfContributorV3 extends AbstractNsdContributorV3<Object> {
 		task.setType(ResourceTypeEnum.VNF_CREATE);
 		task.setToscaName(param.getToscaName());
 		task.setNsPackageVnfPackage(param);
+		task.setVnfdId(vnfPkg.getVnfdId());
 		final Servers server = selectServer(vnfPkg);
 		task.setServer(server);
 		return task;
+	}
+
+	private static Set<String> rebuildVl(final NsdVnfPackageCopy nsPackageVnfPackage) {
+		return nsPackageVnfPackage.getVirtualLinks().stream()
+				.map(x -> mapToVl(nsPackageVnfPackage, x))
+				.map(ForwarderMapping::getVlName)
+				.collect(Collectors.toSet());
+	}
+
+	private static ForwarderMapping mapToVl(final NsdVnfPackageCopy nsPackageVnfPackage, final ListKeyPair lp) {
+		return nsPackageVnfPackage.getForwardMapping().stream().filter(x -> x.getForwardingName().equals(lp.getValue())).findFirst().orElseThrow();
 	}
 
 	private Servers selectServer(final VnfPackage vnfPackage) {

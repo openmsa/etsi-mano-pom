@@ -53,11 +53,11 @@ public class Graph2dBuilder {
 	}
 
 	protected Vertex2d addOrGet(final Class<? extends Node> class1, final String name, final Vertex2d parent) {
-		LOG.debug("Asking: {}, {}, {}", class1.getSimpleName(), name, Optional.ofNullable(parent).map(x -> x.toString().replace("\n", "-")));
+		LOG.trace("Asking: {}, {}, {}", class1.getSimpleName(), name, Optional.ofNullable(parent).map(x -> x.toString().replace("\n", "-")));
 		return g.vertexSet().stream().filter(x -> x.match(class1, name, parent)).findFirst().orElseGet(() -> {
 			final Vertex2d v = new Vertex2d(class1, name, parent);
 			g.addVertex(v);
-			LOG.debug("Adding: {}, {}, {}", class1.getSimpleName(), name, Optional.ofNullable(parent).map(x -> x.toString().replace("\n", "-")));
+			LOG.trace("Got: {}, {}, {}", class1.getSimpleName(), name, Optional.ofNullable(parent).map(x -> x.toString().replace("\n", "-")));
 			return v;
 		});
 	}

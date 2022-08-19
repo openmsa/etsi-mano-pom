@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt;
 
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.K8sInformationsTask;
+import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsK8sInformationsNode;
 
 /**
@@ -31,7 +32,7 @@ public class OsK8sClusterVt extends VnfVtBase<K8sInformationsTask> {
 	}
 
 	@Override
-	public Class<?> getType() {
+	public Class<? extends Node> getType() {
 		return OsK8sInformationsNode.class;
 	}
 

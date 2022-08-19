@@ -52,7 +52,7 @@ public class VnffgPortPairContrubutorV3 extends AbstractNsdContributorV3<VnffgPo
 					task.setType(ResourceTypeEnum.VNFFG_PORT_PAIR);
 					task.setToscaName(x.getToscaName());
 					task.setCpPair(x);
-					return create(PortPairNode.class, x.getToscaName(), 1, task, parameters.getInstance());
+					return create(PortPairNode.class, task.getClass(), x.getToscaName(), 1, task, parameters.getInstance(), parameters);
 				})
 				.toList();
 	}

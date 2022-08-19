@@ -39,9 +39,4 @@ public class OrchestrationServiceV3Impl<U> implements OrchestrationServiceV3<U> 
 		return new SystemBuilderV3Impl<>();
 	}
 
-	@Override
-	public Context3d createEmptyContext() {
-		return new Context3dImpl();
-	}
-
 }

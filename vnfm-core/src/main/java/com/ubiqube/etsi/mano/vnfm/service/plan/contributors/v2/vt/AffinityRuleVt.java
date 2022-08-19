@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt;
 
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.AffinityRuleTask;
+import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.AffinityRuleNode;
 
 /**
@@ -31,7 +32,7 @@ public class AffinityRuleVt extends VnfVtBase<AffinityRuleTask> {
 	}
 
 	@Override
-	public Class<?> getType() {
+	public Class<? extends Node> getType() {
 		return AffinityRuleNode.class;
 	}
 

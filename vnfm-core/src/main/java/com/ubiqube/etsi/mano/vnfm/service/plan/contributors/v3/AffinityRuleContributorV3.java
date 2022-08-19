@@ -50,7 +50,7 @@ public class AffinityRuleContributorV3 extends AbstractVnfmContributorV3<Affinit
 			task.setType(ResourceTypeEnum.AFFINITY_RULE);
 			task.setToscaName(x.getToscaName());
 			task.setAffinityRule(x);
-			ret.add(create(AffinityRuleNode.class, x.getToscaName(), 1, task, parameters.getInstance()));
+			ret.add(create(AffinityRuleNode.class, x.getToscaName(), 1, task, parameters.getInstance(), parameters));
 		});
 		return ret;
 	}

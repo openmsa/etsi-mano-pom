@@ -37,6 +37,7 @@ import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.VnfScalingLevelMapping;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.VnfScalingStepMapping;
+import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.ExternalPortRecord;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -78,6 +79,9 @@ public class NsdVnfPackageCopy implements Levelable<VnfScalingStepMapping, VnfSc
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<ForwarderMapping> forwardMapping;
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<ExternalPortRecord> nets;
 
 	public void addStepMapping(final VnfScalingStepMapping scaling) {
 		if (null == stepMapping) {

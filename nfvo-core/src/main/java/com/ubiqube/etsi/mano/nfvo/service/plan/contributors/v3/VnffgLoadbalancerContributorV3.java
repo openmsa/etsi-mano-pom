@@ -50,7 +50,7 @@ public class VnffgLoadbalancerContributorV3 extends AbstractNsdContributorV3<Vnf
 					final VnffgLoadbalancerTask task = createTask(VnffgLoadbalancerTask::new);
 					task.setType(ResourceTypeEnum.VNFFG_LOADBALANCER);
 					task.setToscaName(x.getToscaName());
-					return create(VnffgLoadbalancerNode.class, x.getToscaName(), 1, task, parameters.getInstance());
+					return create(VnffgLoadbalancerNode.class, task.getClass(), x.getToscaName(), 1, task, parameters.getInstance(), parameters);
 				})
 				.toList();
 	}
