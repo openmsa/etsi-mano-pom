@@ -18,6 +18,8 @@ package com.ubiqube.etsi.mano.mon.zabbix;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,11 +33,15 @@ public class ItemPrototype {
 	private String delay;
 	private String history;
 	private String units;
-	private ValueType value_type;
+	@JsonProperty("value_type")
+	private ValueType valueType;
 	private String trends;
 	private ValueMap valuemap;
-	private List<ApplicationPrototype> application_prototypes;
-	private List<TriggerPrototype> trigger_prototypes;
+	@JsonProperty("application_prototypes")
+	private List<ApplicationPrototype> applicationPrototypes;
+	@JsonProperty("trigger_prototypes")
+	private List<TriggerPrototype> triggerPrototypes;
 	List<Preprocessing> preprocessing;
-	private MasterItem master_item;
+	@JsonProperty("master_item")
+	private MasterItem masterItem;
 }

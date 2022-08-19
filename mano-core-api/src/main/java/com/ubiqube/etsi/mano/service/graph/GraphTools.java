@@ -21,8 +21,6 @@ import org.jgrapht.graph.DefaultListenableGraph;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.ubiqube.etsi.mano.orchestrator.nodes.ConnectivityEdge;
-import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
-import com.ubiqube.etsi.mano.orchestrator.nodes.NodeConnectivity;
 import com.ubiqube.etsi.mano.service.graph.vnfm.EdgeListener;
 
 /**
@@ -34,12 +32,6 @@ public class GraphTools {
 
 	private GraphTools() {
 		// Nothing.
-	}
-
-	public static DefaultListenableGraph<Class<? extends Node>, NodeConnectivity> createNodeGraph() {
-		final DefaultListenableGraph<Class<? extends Node>, NodeConnectivity> g = new DefaultListenableGraph<>(new DirectedAcyclicGraph<>(NodeConnectivity.class));
-		g.addGraphListener(new NodeEdgeListener());
-		return g;
 	}
 
 	public static <U> ListenableGraph<U, ConnectivityEdge<U>> createGraph() {

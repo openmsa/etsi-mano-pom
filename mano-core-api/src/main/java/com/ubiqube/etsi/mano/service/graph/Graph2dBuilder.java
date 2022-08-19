@@ -48,8 +48,8 @@ public class Graph2dBuilder {
 		g.addVertex(addOrGet(class1, name, null));
 	}
 
-	public ChildBuilder addChild(final Class<? extends Node> class1, final String name, final Relation rel) {
-		return new ChildBuilder(class1, name, rel, null);
+	public ChildBuilder addChild(final Class<? extends Node> class1, final String name) {
+		return new ChildBuilder(class1, name);
 	}
 
 	protected Vertex2d addOrGet(final Class<? extends Node> class1, final String name, final Vertex2d parent) {
@@ -66,14 +66,10 @@ public class Graph2dBuilder {
 
 		private final Class<? extends Node> class1;
 		private final String name;
-		private final Relation rel;
-		private final Vertex2d parent;
 
-		public ChildBuilder(final Class<? extends Node> class1, final String name, final Relation rel, final Vertex2d vertex2d) {
+		public ChildBuilder(final Class<? extends Node> class1, final String name) {
 			this.class1 = class1;
 			this.name = name;
-			this.rel = rel;
-			this.parent = vertex2d;
 		}
 
 		public void of(final Class<? extends Node> parentClass, final String parentName) {
@@ -117,7 +113,7 @@ public class Graph2dBuilder {
 	}
 
 	public ChildBuilder from(final Class<? extends Node> class1, final String toscaName) {
-		return new ChildBuilder(class1, toscaName, null, null);
+		return new ChildBuilder(class1, toscaName);
 	}
 
 }

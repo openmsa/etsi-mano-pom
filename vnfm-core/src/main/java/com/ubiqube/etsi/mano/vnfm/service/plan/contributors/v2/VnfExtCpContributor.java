@@ -20,8 +20,6 @@ import java.util.List;
 
 import javax.annotation.Priority;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.ChangeType;
@@ -41,8 +39,6 @@ import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
 @Service
 @Priority(100)
 public class VnfExtCpContributor extends AbstractContributorV3Base<ExternalCpTask> {
-
-	private static final Logger LOG = LoggerFactory.getLogger(VnfExtCpContributor.class);
 
 	public VnfExtCpContributor(final VnfLiveInstanceJpa vnfLiveInstanceJpa) {
 		super(vnfLiveInstanceJpa);

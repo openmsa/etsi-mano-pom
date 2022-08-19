@@ -36,12 +36,10 @@ import com.ubiqube.etsi.mano.service.vim.VimManager;
 @Service
 public class NotificationController {
 	private final VimManager vimManager;
-	private final GnocchiSubTelemetry gnocchiSubTelemetry;
 	private final JmsTemplate jmsTopicTemplate;
 
-	public NotificationController(final VimManager vimManager, final GnocchiSubTelemetry gnocchiSubTelemetry, @Qualifier("jmsTopicTemplate") final JmsTemplate jmsTopicTemplate) {
+	public NotificationController(final VimManager vimManager, @Qualifier("jmsTopicTemplate") final JmsTemplate jmsTopicTemplate) {
 		this.vimManager = vimManager;
-		this.gnocchiSubTelemetry = gnocchiSubTelemetry;
 		this.jmsTopicTemplate = jmsTopicTemplate;
 	}
 
@@ -49,7 +47,7 @@ public class NotificationController {
 	public void onGnocchiDataPolling(final BatchPollingJob job) {
 		// Get Gnocchi instances and sub metrics.
 		final List<TelemetryMetricsResult> allHostMetrics = job.getHosts().stream()
-				.flatMap(x -> gnocchiSubTelemetry.getMetricsForVnfc(vimManager.findVimById(job.getVimId()), x, job.getMetrics(), job.getId()).stream())
+				.flatMap(x -> GnocchiSubTelemetry.getMetricsForVnfc(vimManager.findVimById(job.getVimId()), x, job.getMetrics(), job.getId()).stream())
 				.toList();
 		// Now we have a batch of metrics. Send to data poller.
 		allHostMetrics.forEach(x -> jmsTopicTemplate.convertAndSend("mano.monitoring.gnocchi.data", x));

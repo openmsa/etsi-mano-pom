@@ -21,6 +21,6 @@ package libvirt;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public class PlaceHolder {
+public interface PlaceHolder {
 	//
 }

@@ -36,6 +36,9 @@ import com.ubiqube.etsi.mano.nfvo.jpa.VnfLcmNotificationJpa;
 @Service
 public class VnfLcmNotificationService {
 
+	private static final String EVENT_RECEIVED_ID = "Event received: {} => Id: {}";
+	private static final String UNABLE_TO_FIND_NOTIFICATION_EVENT = "Unable to find notification event ";
+	private static final String UNABLE_TO_FIND_NOTIFICATION_EVENT_IN_DATABASE = "Unable to find notification event {} in database.";
 	private static final Logger LOG = LoggerFactory.getLogger(VnfLcmNotificationService.class);
 	private final RemoteSubscriptionJpa remoteSubscriptionJpa;
 
@@ -49,34 +52,34 @@ public class VnfLcmNotificationService {
 	public void onCreationNotification(final VnfLcmNotification event, final String version) {
 		final Optional<RemoteSubscription> subscription = remoteSubscriptionJpa.findByRemoteSubscriptionId(event.getSubscriptionId());
 		if (subscription.isEmpty()) {
-			LOG.warn("Unable to find notification event {} in database.", event.getSubscriptionId());
-			throw new NotFoundException("Unable to find notification event " + event.getSubscriptionId());
+			LOG.warn(UNABLE_TO_FIND_NOTIFICATION_EVENT_IN_DATABASE, event.getSubscriptionId());
+			throw new NotFoundException(UNABLE_TO_FIND_NOTIFICATION_EVENT + event.getSubscriptionId());
 		}
 		event.setNfvoId(subscription.get().getRemoteServerId());
 		final VnfLcmNotification newEvent = vnfLcmJpa.save(event);
-		LOG.info("Event received: {} => Id: {}", newEvent.getNfvoId(), newEvent.getId());
+		LOG.info(EVENT_RECEIVED_ID, newEvent.getNfvoId(), newEvent.getId());
 	}
 
 	public void onDeletionNotification(final VnfLcmNotification event, final String version) {
 		final Optional<RemoteSubscription> subscription = remoteSubscriptionJpa.findByRemoteSubscriptionId(event.getSubscriptionId());
 		if (subscription.isEmpty()) {
-			LOG.warn("Unable to find notification event {} in database.", event.getSubscriptionId());
-			throw new NotFoundException("Unable to find notification event " + event.getSubscriptionId());
+			LOG.warn(UNABLE_TO_FIND_NOTIFICATION_EVENT_IN_DATABASE, event.getSubscriptionId());
+			throw new NotFoundException(UNABLE_TO_FIND_NOTIFICATION_EVENT + event.getSubscriptionId());
 		}
 		event.setNfvoId(subscription.get().getRemoteServerId());
 		final VnfLcmNotification newEvent = vnfLcmJpa.save(event);
-		LOG.info("Event received: {} => Id: {}", newEvent.getNfvoId(), newEvent.getId());
+		LOG.info(EVENT_RECEIVED_ID, newEvent.getNfvoId(), newEvent.getId());
 	}
 
 	public void onVnfLcmOpOccsNotification(final VnfLcmNotification event, final String version) {
 		final Optional<RemoteSubscription> subscription = remoteSubscriptionJpa.findByRemoteSubscriptionId(event.getSubscriptionId());
 		if (subscription.isEmpty()) {
-			LOG.warn("Unable to find notification event {} in database.", event.getSubscriptionId());
-			throw new NotFoundException("Unable to find notification event " + event.getSubscriptionId());
+			LOG.warn(UNABLE_TO_FIND_NOTIFICATION_EVENT_IN_DATABASE, event.getSubscriptionId());
+			throw new NotFoundException(UNABLE_TO_FIND_NOTIFICATION_EVENT + event.getSubscriptionId());
 		}
 		event.setNfvoId(subscription.get().getRemoteServerId());
 		final VnfLcmNotification newEvent = vnfLcmJpa.save(event);
-		LOG.info("Event received: {} => Id: {}", newEvent.getNfvoId(), newEvent.getId());
+		LOG.info(EVENT_RECEIVED_ID, newEvent.getNfvoId(), newEvent.getId());
 	}
 
 }

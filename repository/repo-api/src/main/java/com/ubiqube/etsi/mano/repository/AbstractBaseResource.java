@@ -25,7 +25,7 @@ public abstract class AbstractBaseResource implements ManoResource {
 	private long size;
 	private String fileName;
 
-	public AbstractBaseResource(final long size, final String fileName) {
+	protected AbstractBaseResource(final long size, final String fileName) {
 		this.size = size;
 		this.fileName = fileName;
 	}

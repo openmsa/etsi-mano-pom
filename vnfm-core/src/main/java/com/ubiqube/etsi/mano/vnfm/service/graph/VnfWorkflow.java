@@ -21,34 +21,18 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.dao.mano.VnfLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
-import com.ubiqube.etsi.mano.exception.GenericException;
-import com.ubiqube.etsi.mano.orchestrator.Context;
-import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.ExecutionGraph;
 import com.ubiqube.etsi.mano.orchestrator.OrchExecutionResults;
-import com.ubiqube.etsi.mano.orchestrator.OrchestrationServiceV3;
 import com.ubiqube.etsi.mano.orchestrator.Planner;
 import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.AffinityRuleNode;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Compute;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.DnsZone;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Monitoring;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerDeployableNode;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SecurityGroupNode;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Storage;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SubNetwork;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfExtCp;
 import com.ubiqube.etsi.mano.orchestrator.v3.PreExecutionGraphV3;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
-import com.ubiqube.etsi.mano.service.event.Workflow;
+import com.ubiqube.etsi.mano.service.event.WorkflowV3;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.AbstractContributorV2Base;
 
 /**
  *
@@ -56,18 +40,12 @@ import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.AbstractContribut
  *
  */
 @Service
-public class VnfWorkflow implements Workflow<VnfPackage, VnfBlueprint, VnfTask> {
+public class VnfWorkflow implements WorkflowV3<VnfPackage, VnfBlueprint, VnfTask> {
 	private final Planner<VnfBlueprint, VnfTask, VnfTask> planv2;
-	private final List<AbstractContributorV2Base> planContributors;
-	private final OrchestrationServiceV3<?> orchestrationService;
 	private final VnfLiveInstanceJpa vnfInstanceJpa;
 
-	public VnfWorkflow(final List<AbstractContributorV2Base> planContributors,
-			final Planner<VnfBlueprint, VnfTask, VnfTask> planv2,
-			final OrchestrationServiceV3<?> orchestrationService, final VnfLiveInstanceJpa vnfInstanceJpa) {
-		this.planContributors = planContributors;
+	public VnfWorkflow(final Planner<VnfBlueprint, VnfTask, VnfTask> planv2, final VnfLiveInstanceJpa vnfInstanceJpa) {
 		this.planv2 = planv2;
-		this.orchestrationService = orchestrationService;
 		this.vnfInstanceJpa = vnfInstanceJpa;
 	}
 
@@ -75,9 +53,6 @@ public class VnfWorkflow implements Workflow<VnfPackage, VnfBlueprint, VnfTask> 
 	public PreExecutionGraphV3<VnfTask> setWorkflowBlueprint(final VnfPackage bundle, final VnfBlueprint blueprint) {
 		final List<Class<? extends Node>> planConstituent = new ArrayList<>();
 		// Doesn't works with jdk17 but fine with eclipse.
-		for (final AbstractContributorV2Base b : planContributors) {
-			planConstituent.add(b.getNode());
-		}
 		final PreExecutionGraphV3<VnfTask> plan = planv2.makePlan(new VnfBundleAdapter(bundle), planConstituent, blueprint);
 		plan.getPreTasks().stream().map(VirtualTaskV3::getTemplateParameters).forEach(blueprint::addTask);
 		return plan;
@@ -86,51 +61,8 @@ public class VnfWorkflow implements Workflow<VnfPackage, VnfBlueprint, VnfTask> 
 	@Override
 	public OrchExecutionResults execute(final PreExecutionGraphV3<VnfTask> plan, final VnfBlueprint parameters) {
 		final ExecutionGraph impl = planv2.implement(plan);
-		final Context3d context = orchestrationService.createEmptyContext();
 		// populateExtNetworks(context, parameters);
-		return planv2.execute(impl, context, new OrchListenetImpl(parameters, vnfInstanceJpa));
-	}
-
-	private void populateExtNetworks(final Context context, final VnfBlueprint parameters) {
-		parameters.getParameters().getExtManagedVirtualLinks()
-				.forEach(x -> context.add(Network.class, x.getVnfVirtualLinkDescId(), x.getResourceId()));
-		final List<VnfLiveInstance> l = vnfInstanceJpa.findByVnfInstance(parameters.getInstance());
-		l.forEach(x -> {
-			switch (x.getTask().getType()) {
-			case COMPUTE:
-				context.add(Compute.class, x.getTask().getToscaName(), x.getResourceId());
-				break;
-			case DNSZONE:
-				context.add(DnsZone.class, x.getTask().getToscaName(), x.getResourceId());
-				break;
-			case LINKPORT:
-				context.add(VnfExtCp.class, x.getTask().getToscaName(), x.getResourceId());
-				break;
-			case MONITORING:
-				context.add(Monitoring.class, x.getTask().getToscaName(), x.getResourceId());
-				break;
-			case STORAGE:
-				context.add(Storage.class, x.getTask().getToscaName(), x.getResourceId());
-				break;
-			case SUBNETWORK:
-				context.add(SubNetwork.class, x.getTask().getToscaName(), x.getResourceId());
-				break;
-			case VL:
-				context.add(Network.class, x.getTask().getToscaName(), x.getResourceId());
-				break;
-			case AFFINITY_RULE:
-				context.add(AffinityRuleNode.class, x.getTask().getToscaName(), x.getResourceId());
-				break;
-			case SECURITY_GROUP:
-				context.add(SecurityGroupNode.class, x.getTask().getToscaName(), x.getResourceId());
-				break;
-			case CNF:
-				context.add(OsContainerDeployableNode.class, x.getTask().getToscaName(), x.getResourceId());
-				break;
-			default:
-				throw new GenericException(x.getTask().getType() + " is not handled.");
-			}
-		});
+		return planv2.execute(impl, new OrchListenetImpl(parameters, vnfInstanceJpa));
 	}
 
 	@Override

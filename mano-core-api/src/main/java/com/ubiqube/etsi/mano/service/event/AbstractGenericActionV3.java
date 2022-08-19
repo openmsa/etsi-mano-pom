@@ -18,7 +18,6 @@ package com.ubiqube.etsi.mano.service.event;
 
 import java.time.OffsetDateTime;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -53,7 +52,7 @@ import com.ubiqube.etsi.mano.service.graph.WorkflowEvent;
  */
 public abstract class AbstractGenericActionV3 {
 
-	private static final Logger LOG = LoggerFactory.getLogger(AbstractGenericAction.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AbstractGenericActionV3.class);
 
 	private final WorkflowV3 workflow;
 
@@ -89,7 +88,7 @@ public abstract class AbstractGenericActionV3 {
 		workflow.refresh(prePlan, localPlan);
 		final OrchExecutionResults<Task> res = workflow.execute(prePlan, localPlan);
 		localPlan = orchestrationAdapter.getBluePrint(localPlan.getId());
-		setLiveSatus(localPlan, vnfInstance, res);
+		setLiveSatus(res);
 		//
 		setResultLcmInstance(localPlan, res);
 		if (OperationStatusType.COMPLETED == localPlan.getOperationStatus()) {
@@ -167,17 +166,6 @@ public abstract class AbstractGenericActionV3 {
 		return tmp;
 	}
 
-	private static void removeScaleStatus(final Instance localVnfInstance, final Set<ScaleInfo> newScale) {
-		final Set<ScaleInfo> scales = localVnfInstance.getInstantiatedVnfInfo().getScaleStatus();
-		newScale.stream().forEach(x -> find(scales, x.getAspectId()).ifPresent(scales::remove));
-		final List<ScaleInfo> si = newScale.stream().map(x -> new ScaleInfo(x.getAspectId(), x.getScaleLevel())).toList();
-		newScale.addAll(si);
-	}
-
-	private static Optional<? extends ScaleInfo> find(final Set<? extends ScaleInfo> scales, final String aspectId) {
-		return scales.stream().filter(x -> x.getAspectId().equals(aspectId)).findFirst();
-	}
-
 	private static boolean notIn(final String aspectId, final Set<? extends ScaleInfo> scaleInfos) {
 		return scaleInfos.stream().noneMatch(x -> x.getAspectId().equals(aspectId));
 	}
@@ -227,16 +215,13 @@ public abstract class AbstractGenericActionV3 {
 		orchestrationAdapter.fireEvent(workflowEvent, blueprint.getId());
 	}
 
-	private void setLiveSatus(@NotNull final Blueprint<? extends Task, ? extends Instance> blueprint, @NotNull final Instance vnfInstance, final OrchExecutionResults<Task> res) {
+	private void setLiveSatus(final OrchExecutionResults<Task> res) {
 		LOG.info("Creating / deleting live instances.");
 		res.getSuccess().forEach(x -> {
 			final Task rhe = x.getTask().getTask().getTemplateParameters();
 			final ChangeType ct = rhe.getChangeType();
 			if (ct == ChangeType.ADDED) {
-				final String il = Optional.ofNullable(rhe.getScaleInfo()).map(ScaleInfo::getAspectId).orElse(null);
-				if ((null != rhe.getId()) && (null != rhe.getVimResourceId())) {
-					// Done in OrchListener createLiveInstance
-				} else {
+				if ((null == rhe.getId()) || (null == rhe.getVimResourceId())) {
 					LOG.warn("No vim resource or database id for: {}", x.getTask().getTask().getTemplateParameters().getToscaName());
 				}
 			} else if ((ct == ChangeType.REMOVED) && (null != rhe.getId()) && (null != rhe.getVimResourceId())) {

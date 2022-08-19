@@ -38,7 +38,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.service.NsScaleStrategy;
 import com.ubiqube.etsi.mano.service.VimResourceService;
-import com.ubiqube.etsi.mano.service.event.AbstractGenericAction;
+import com.ubiqube.etsi.mano.service.event.AbstractGenericActionV3;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
@@ -53,7 +53,7 @@ import com.ubiqube.etsi.mano.vnfm.service.graph.VnfWorkflow;
  *
  */
 @Service
-public class VnfmActions extends AbstractGenericAction {
+public class VnfmActions extends AbstractGenericActionV3 {
 
 	private static final Logger LOG = LoggerFactory.getLogger(VnfmActions.class);
 

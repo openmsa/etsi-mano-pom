@@ -19,9 +19,6 @@ package com.ubiqube.etsi.mano.nfvo.service.graph.nfvo;
 import java.util.UUID;
 import java.util.function.BiFunction;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.ubiqube.etsi.mano.controller.vnflcm.VnfInstanceLcm;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
@@ -40,8 +37,6 @@ import com.ubiqube.etsi.mano.service.graph.AbstractUnitOfWork;
  *
  */
 public class NsUow extends AbstractUnitOfWork<NsdTask> {
-
-	private static final Logger LOG = LoggerFactory.getLogger(NsUow.class);
 
 	private final NsdTask nsdTask;
 

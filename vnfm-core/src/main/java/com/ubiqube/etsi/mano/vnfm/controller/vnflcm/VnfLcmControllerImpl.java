@@ -23,8 +23,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-import javax.persistence.EntityManager;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
@@ -32,7 +30,6 @@ import org.springframework.util.MultiValueMap;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
-import com.ubiqube.etsi.mano.service.ManoSearchResponseService;
 import com.ubiqube.etsi.mano.service.SearchableService;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceService;
 import com.ubiqube.etsi.mano.vnfm.service.VnfLcmService;
@@ -48,8 +45,7 @@ public class VnfLcmControllerImpl implements VnfLcmController {
 	private final VnfInstanceService vnfInstanceService;
 	private final SearchableService searchableService;
 
-	public VnfLcmControllerImpl(final VnfLcmService vnfLcmOpOccsRepository, final EntityManager em, final ManoSearchResponseService searchService,
-			final VnfInstanceService vnfInstanceService, final SearchableService searchableService) {
+	public VnfLcmControllerImpl(final VnfLcmService vnfLcmOpOccsRepository, final VnfInstanceService vnfInstanceService, final SearchableService searchableService) {
 		this.vnfLcmOpOccsRepository = vnfLcmOpOccsRepository;
 		this.vnfInstanceService = vnfInstanceService;
 		this.searchableService = searchableService;

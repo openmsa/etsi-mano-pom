@@ -44,6 +44,12 @@ import com.ubiqube.etsi.mano.exception.GenericException;
 
 public final class Constants {
 
+	private static final String THE_NSD_PACKAGE = "The NSD Package ";
+
+	private static final String THE_VNF_INSTANCE = "The VNF Instance ";
+
+	private static final String THE_VNF_PACKAGE = "The VNF Package ";
+
 	public static final String HASH_ALGORITHM = "SHA-512";
 
 	public static final String VNF_SEARCH_DEFAULT_EXCLUDE_FIELDS = "softwareImages,additionalArtifacts,userDefinedData,checksum";
@@ -121,73 +127,73 @@ public final class Constants {
 
 	public static void ensureDisabled(final PackageBase vnfPackage) {
 		if (PackageOperationalState.DISABLED != vnfPackage.getOperationalState()) {
-			throw new ConflictException("The VNF Package " + vnfPackage.getId() + " is ENABLED.");
+			throw new ConflictException(THE_VNF_PACKAGE + vnfPackage.getId() + " is ENABLED.");
 		}
 	}
 
 	public static void ensureIsEnabled(final PackageBase vnfackage) {
 		if (PackageOperationalState.ENABLED != vnfackage.getOperationalState()) {
-			throw new ConflictException("The VNF Package " + vnfackage.getId() + " is not in ENABLED state.");
+			throw new ConflictException(THE_VNF_PACKAGE + vnfackage.getId() + " is not in ENABLED state.");
 		}
 	}
 
 	public static void ensureNotInUse(final PackageBase vnfPackqge) {
 		if (PackageUsageState.NOT_IN_USE != vnfPackqge.getUsageState()) {
-			throw new ConflictException("The VNF Package " + vnfPackqge.getId() + " is Not In Use State.");
+			throw new ConflictException(THE_VNF_PACKAGE + vnfPackqge.getId() + " is Not In Use State.");
 		}
 	}
 
 	public static void ensureIsOnboarded(final PackageBase vnfPackqge) {
 		if (OnboardingStateType.ONBOARDED != vnfPackqge.getOnboardingState()) {
-			throw new ConflictException("The VNF Package " + vnfPackqge.getId() + " is not in ONBOARDED state.");
+			throw new ConflictException(THE_VNF_PACKAGE + vnfPackqge.getId() + " is not in ONBOARDED state.");
 		}
 	}
 
 	public static void ensureNotOnboarded(final PackageBase vnfPackage) {
 		if (OnboardingStateType.ONBOARDED == vnfPackage.getOnboardingState()) {
-			throw new ConflictException("The VNF Package " + vnfPackage.getId() + " is already ONBOARDED");
+			throw new ConflictException(THE_VNF_PACKAGE + vnfPackage.getId() + " is already ONBOARDED");
 		}
 	}
 
 	public static void ensureInstantiated(final Instance vnfInstance) {
 		if (InstantiationState.INSTANTIATED != vnfInstance.getInstantiationState()) {
-			throw new ConflictException("The VNF Instance " + vnfInstance.getId() + " is not in INSTANTIATED state.");
+			throw new ConflictException(THE_VNF_INSTANCE + vnfInstance.getId() + " is not in INSTANTIATED state.");
 		}
 	}
 
 	public static void ensureNotInstantiated(final Instance vnfInstance) {
 		if (InstantiationState.INSTANTIATED == vnfInstance.getInstantiationState()) {
-			throw new ConflictException("The VNF Instance " + vnfInstance.getId() + " is already in INSTANTIATED state.");
+			throw new ConflictException(THE_VNF_INSTANCE + vnfInstance.getId() + " is already in INSTANTIATED state.");
 		}
 	}
 
 	public static void ensureNotInUse(final NsdPackage nsd) {
 		if (PackageUsageState.NOT_IN_USE != nsd.getNsdUsageState()) {
-			throw new ConflictException("The NSD package " + nsd.getId() + " Should be in NOT_IN_USE state.");
+			throw new ConflictException(THE_NSD_PACKAGE + nsd.getId() + " Should be in NOT_IN_USE state.");
 		}
 	}
 
 	public static void ensureDisabled(final NsdPackage nsd) {
 		if (PackageOperationalState.DISABLED != nsd.getNsdOperationalState()) {
-			throw new ConflictException("The NSD package " + nsd.getId() + " Should be in disabled state.");
+			throw new ConflictException(THE_NSD_PACKAGE + nsd.getId() + " Should be in disabled state.");
 		}
 	}
 
 	public static void ensureIsEnabled(final NsdPackage nsd) {
 		if (PackageOperationalState.ENABLED != nsd.getNsdOperationalState()) {
-			throw new ConflictException("The NSD package " + nsd.getId() + " is not in ENABLED state.");
+			throw new ConflictException(THE_NSD_PACKAGE + nsd.getId() + " is not in ENABLED state.");
 		}
 	}
 
 	public static void ensureIsOnboarded(final NsdPackage nsd) {
 		if (OnboardingStateType.ONBOARDED != nsd.getNsdOnboardingState()) {
-			throw new ConflictException("The NSD package " + nsd.getId() + " is not in ONBOARDED state.");
+			throw new ConflictException(THE_NSD_PACKAGE + nsd.getId() + " is not in ONBOARDED state.");
 		}
 	}
 
 	public static void ensureNotOnboarded(final NsdPackage nsd) {
 		if (OnboardingStateType.ONBOARDED == nsd.getNsdOnboardingState()) {
-			throw new ConflictException("The NSD package " + nsd.getId() + "is already ONBOARDED state.");
+			throw new ConflictException(THE_NSD_PACKAGE + nsd.getId() + "is already ONBOARDED state.");
 		}
 	}
 
@@ -205,13 +211,13 @@ public final class Constants {
 
 	public static void ensureNotLocked(final Instance vnfInstance) {
 		if (vnfInstance.getLockedBy() != null) {
-			throw new ConflictException("The Instance " + vnfInstance.getId() + " is locked by LCMopOcc: " + vnfInstance.getLockedBy() + ".");
+			throw new ConflictException(THE_VNF_INSTANCE + vnfInstance.getId() + " is locked by LCMopOcc: " + vnfInstance.getLockedBy() + ".");
 		}
 	}
 
 	public static void ensureLockedByMyself(final Instance vnfInstance, final UUID lcmOpOccsId) {
 		if ((vnfInstance.getLockedBy() != null) && vnfInstance.getLockedBy().equals(lcmOpOccsId)) {
-			throw new ConflictException("The Instance " + vnfInstance.getId() + " is locked by LCMopOcc: " + vnfInstance.getLockedBy() + ".");
+			throw new ConflictException(THE_VNF_INSTANCE + vnfInstance.getId() + " is locked by LCMopOcc: " + vnfInstance.getLockedBy() + ".");
 		}
 	}
 

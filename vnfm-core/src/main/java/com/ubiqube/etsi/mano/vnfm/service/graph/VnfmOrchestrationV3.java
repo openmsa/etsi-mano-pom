@@ -35,7 +35,6 @@ import com.ubiqube.etsi.mano.dao.mano.v2.NetworkTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
 import com.ubiqube.etsi.mano.exception.GenericException;
-import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.ContextHolder;
 import com.ubiqube.etsi.mano.orchestrator.OrchExecutionResults;
 import com.ubiqube.etsi.mano.orchestrator.OrchestrationServiceV3;
@@ -71,19 +70,17 @@ public class VnfmOrchestrationV3 implements WorkflowV3<VnfPackage, VnfBlueprint,
 	private final List<AbstractVnfmContributorV3<VnfTask>> contributors;
 	private final BlueprintBuilder blueprintBuilder;
 	private final VnfPlanService planService;
-	private final OrchestrationServiceV3<?> orchestrationService;
 	private final VnfLiveInstanceJpa vnfLiveInstanceJpa;
 	private final List<Class<? extends Node>> masterVertex;
 	private final Map<ResourceTypeEnum, Function<VnfTask, VirtualTaskV3>> vts;
 
 	public VnfmOrchestrationV3(final List<AbstractVnfmContributorV3<VnfTask>> contributors, final BlueprintBuilder blueprintBuilder, final VnfPlanService planService, final VnfLiveInstanceJpa vnfLiveInstanceJpa,
-			List<Class<? extends Node>> masterVertex, final OrchestrationServiceV3<?> orchestrationService) {
+			List<Class<? extends Node>> masterVertex) {
 		this.contributors = contributors;
 		this.blueprintBuilder = blueprintBuilder;
 		this.planService = planService;
 		this.vnfLiveInstanceJpa = vnfLiveInstanceJpa;
 		this.masterVertex = masterVertex;
-		this.orchestrationService = orchestrationService;
 		vts = new EnumMap<>(ResourceTypeEnum.class);
 		vts.put(ResourceTypeEnum.VL, x -> new NetWorkVt((NetworkTask) x));
 		masterVertex = List.of(Network.class, Compute.class);
@@ -122,12 +119,11 @@ public class VnfmOrchestrationV3 implements WorkflowV3<VnfPackage, VnfBlueprint,
 		case VNFFG_PORT_PAIR -> PortPairNode.class;
 		default -> throw new GenericException(x.getTask().getType() + " is not handled.");
 		};
-		return new ContextHolder(t, x.getTask().getToscaName(), x.getRank(), x.getResourceId());
+		return new ContextHolder(x.getId(), t, x.getTask().getToscaName(), x.getRank(), x.getResourceId());
 	}
 
 	@Override
 	public OrchExecutionResults<VnfTask> execute(final PreExecutionGraphV3<VnfTask> plan, final VnfBlueprint parameters) {
-		final Context3d context = orchestrationService.createEmptyContext();
 		plan.toDotFile("orch-added.dot");
 		return null;
 	}

@@ -27,7 +27,6 @@ import com.ubiqube.etsi.mano.dao.mano.v2.PlanStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
 import com.ubiqube.etsi.mano.orchestrator.OrchExecutionListener;
-import com.ubiqube.etsi.mano.orchestrator.Task;
 import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWorkV3;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
@@ -46,22 +45,6 @@ public class OrchListenetImpl implements OrchExecutionListener<VnfTask> {
 	public OrchListenetImpl(final VnfBlueprint blueprint, final VnfLiveInstanceJpa vnfLiveInstanceJpa) {
 		this.blueprint = blueprint;
 		this.vnfLiveInstanceJpa = vnfLiveInstanceJpa;
-	}
-
-	@Override
-	public void onSuccess(final Task<VnfTask> task) {
-		LOG.info("Sucess {}", task);
-		final VnfTask resource = task.getParameters();
-		resource.setStatus(PlanStatusType.SUCCESS);
-		resource.setEndDate(LocalDateTime.now());
-	}
-
-	@Override
-	public void onError(final Task<VnfTask> task, final Exception exception) {
-		LOG.warn("Error {}", task);
-		final VnfTask resource = task.getParameters();
-		resource.setStatus(PlanStatusType.FAILED);
-		resource.setEndDate(LocalDateTime.now());
 	}
 
 	@Override

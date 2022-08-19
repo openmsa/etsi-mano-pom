@@ -53,17 +53,15 @@ public class NetworkContributor extends AbstractVnfmContributorV3<Object> {
 			networkTask.setType(ResourceTypeEnum.VL);
 			networkTask.setVnfVl(x);
 			ret.add(create(Network.class, x.getToscaName(), 1, networkTask, parameters.getInstance(), parameters));
-			x.getVlProfileEntity().getVirtualLinkProtocolData().stream().forEach(y -> {
-				y.getIpAllocationPools().forEach(z -> {
-					final SubNetworkTask sn = createTask(SubNetworkTask::new);
-					sn.setToscaName(x.getToscaName() + "-" + y.getL2ProtocolData().getName());
-					sn.setType(ResourceTypeEnum.SUBNETWORK);
-					sn.setParentName(x.getToscaName());
-					sn.setL3Data(y.getL3ProtocolData());
-					sn.setIpPool(z);
-					ret.add(create(SubNetwork.class, sn.getToscaName(), 1, sn, parameters.getInstance(), parameters));
-				});
-			});
+			x.getVlProfileEntity().getVirtualLinkProtocolData().stream().forEach(y -> y.getIpAllocationPools().forEach(z -> {
+				final SubNetworkTask sn = createTask(SubNetworkTask::new);
+				sn.setToscaName(x.getToscaName() + "-" + y.getL2ProtocolData().getName());
+				sn.setType(ResourceTypeEnum.SUBNETWORK);
+				sn.setParentName(x.getToscaName());
+				sn.setL3Data(y.getL3ProtocolData());
+				sn.setIpPool(z);
+				ret.add(create(SubNetwork.class, sn.getToscaName(), 1, sn, parameters.getInstance(), parameters));
+			}));
 		});
 		return ret;
 	}

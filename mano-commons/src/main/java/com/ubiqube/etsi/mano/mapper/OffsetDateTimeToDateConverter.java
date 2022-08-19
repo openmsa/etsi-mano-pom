@@ -25,7 +25,6 @@ import ma.glasnost.orika.converter.BidirectionalConverter;
 import ma.glasnost.orika.metadata.Type;
 
 /**
- * TODO: I'm pretty sure that's allready exist in Orika.
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *

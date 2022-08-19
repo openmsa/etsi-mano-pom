@@ -33,12 +33,10 @@ import ma.glasnost.orika.MapperFacade;
 @Service
 public class VnffmNotificationFrontControllerImpl implements VnffmNotificationFrontController {
 	private final MapperFacade mapper;
-	private final VnffmNotificationService ns;
 	private final VnffmNotificationService vnffmNotificationService;
 
 	public VnffmNotificationFrontControllerImpl(final MapperFacade mapper, final VnffmNotificationService ns, final VnffmNotificationService vnffmNotificationService) {
 		this.mapper = mapper;
-		this.ns = ns;
 		this.vnffmNotificationService = vnffmNotificationService;
 	}
 

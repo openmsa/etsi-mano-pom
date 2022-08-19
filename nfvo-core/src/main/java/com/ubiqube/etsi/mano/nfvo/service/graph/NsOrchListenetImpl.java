@@ -28,7 +28,6 @@ import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsLiveInstanceJpa;
 import com.ubiqube.etsi.mano.orchestrator.OrchExecutionListener;
-import com.ubiqube.etsi.mano.orchestrator.Task;
 import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWorkV3;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 
@@ -46,22 +45,6 @@ public class NsOrchListenetImpl implements OrchExecutionListener<NsTask> {
 	public NsOrchListenetImpl(final NsLiveInstanceJpa nsLiveInstanceJpa, final NsBlueprint blueprint) {
 		this.nsLiveInstanceJpa = nsLiveInstanceJpa;
 		this.blueprint = blueprint;
-	}
-
-	@Override
-	public void onSuccess(final Task<NsTask> task) {
-		LOG.info("Sucess {}", task);
-		final NsTask resource = task.getParameters();
-		resource.setStatus(PlanStatusType.SUCCESS);
-		resource.setEndDate(LocalDateTime.now());
-	}
-
-	@Override
-	public void onError(final Task<NsTask> task, final Exception exception) {
-		LOG.warn("Error {}", task);
-		final NsTask resource = task.getParameters();
-		resource.setStatus(PlanStatusType.FAILED);
-		resource.setEndDate(LocalDateTime.now());
 	}
 
 	@Override

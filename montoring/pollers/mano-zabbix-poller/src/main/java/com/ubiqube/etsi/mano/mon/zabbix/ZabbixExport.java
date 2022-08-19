@@ -19,6 +19,8 @@ package com.ubiqube.etsi.mano.mon.zabbix;
 import java.time.OffsetDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,5 +32,6 @@ public class ZabbixExport {
 	private List<Group> groups;
 	private List<Template> templates;
 	private List<Graph> graphs;
-	private List<ValueMapDeclaration> value_maps;
+	@JsonProperty("value_maps")
+	private List<ValueMapDeclaration> valueMaps;
 }

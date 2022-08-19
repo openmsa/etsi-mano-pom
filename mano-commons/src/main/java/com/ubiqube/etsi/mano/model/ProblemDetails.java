@@ -105,18 +105,18 @@ public class ProblemDetails {
 		}
 	}
 
-	public ProblemDetails(final Integer _status, final String _detail) {
+	public ProblemDetails(final Integer status, final String detail) {
 		this();
-		this.status = _status;
-		this.detail = _detail;
+		this.status = status;
+		this.detail = detail;
 	}
 
-	public void setType(final URI _type) {
-		this.type = _type;
+	public void setType(final URI typeIn) {
+		this.type = typeIn;
 	}
 
-	public ProblemDetails type(final URI _type) {
-		this.type = _type;
+	public ProblemDetails type(final URI typeIn) {
+		this.type = typeIn;
 		return this;
 	}
 
@@ -202,8 +202,8 @@ public class ProblemDetails {
 		this.instance = instance;
 	}
 
-	public ProblemDetails instance(final URI _instance) {
-		this.instance = _instance;
+	public ProblemDetails instance(final URI instanceIn) {
+		this.instance = instanceIn;
 		return this;
 	}
 

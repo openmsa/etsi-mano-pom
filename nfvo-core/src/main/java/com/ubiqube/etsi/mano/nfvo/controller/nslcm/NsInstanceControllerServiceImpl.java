@@ -207,9 +207,7 @@ public class NsInstanceControllerServiceImpl implements NsInstanceControllerServ
 
 	private List<CpPair> copyCpPair(final List<CpPair> pair) {
 		final List<CpPair> tmp = pair.stream().map(x -> mapper.map(x, CpPair.class)).toList();
-		tmp.forEach(x -> {
-			x.setId(null);
-		});
+		tmp.forEach(x -> x.setId(null));
 		return tmp.stream().toList();
 	}
 

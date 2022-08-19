@@ -152,7 +152,7 @@ public class ScalingStrategyV2 implements ScalingStrategy {
 		final Optional<VduInstantiationLevel> scaleInfo = compute.getInstantiationLevel().stream().filter(x -> x.getLevelName().equals(instantiationLevelId)).findFirst();
 		if (scaleInfo.isEmpty()) {
 			final Integer s = compute.getInitialNumberOfInstance();
-			return new NumberOfCompute(0, s, new ScaleInfo(scaleInfo.get().getLevelName(), s));
+			return new NumberOfCompute(0, s, new ScaleInfo(instantiationLevelId, s));
 		}
 		final int s = scaleInfo.get().getNumberOfInstances();
 		return new NumberOfCompute(0, s, new ScaleInfo(scaleInfo.get().getLevelName(), s));

@@ -58,7 +58,6 @@ import com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt.VnffgLoadbalancer
 import com.ubiqube.etsi.mano.orchestrator.ContextHolder;
 import com.ubiqube.etsi.mano.orchestrator.ExecutionGraph;
 import com.ubiqube.etsi.mano.orchestrator.OrchExecutionResults;
-import com.ubiqube.etsi.mano.orchestrator.OrchestrationServiceV3;
 import com.ubiqube.etsi.mano.orchestrator.Planner;
 import com.ubiqube.etsi.mano.orchestrator.SclableResources;
 import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
@@ -92,18 +91,16 @@ public class NfvoOrchestrationV3 implements WorkflowV3<NsdPackage, NsBlueprint, 
 	private final List<AbstractNsdContributorV3<NsTask>> contributors;
 	private final BlueprintBuilder blueprintBuilder;
 	private final NsPlanService planService;
-	private final OrchestrationServiceV3<?> orchestrationService;
 	private final NsLiveInstanceJpa nsLiveInstanceJpa;
-	private final Map<ResourceTypeEnum, Function<NsTask, VirtualTaskV3>> vts;
+	private final Map<ResourceTypeEnum, Function<NsTask, VirtualTaskV3<? extends NsTask>>> vts;
 	private final List<Class<? extends Node>> masterVertex;
 	private final Planner<NsBlueprint, NsTask, NsTask> planv2;
 
 	public NfvoOrchestrationV3(final List<AbstractNsdContributorV3<?>> contributors, final BlueprintBuilder blueprintBuilder, final NsPlanService planService,
-			final OrchestrationServiceV3<?> orchestrationService, final NsLiveInstanceJpa nsLiveInstanceJpa, final Planner<NsBlueprint, NsTask, NsTask> planv2) {
+			final NsLiveInstanceJpa nsLiveInstanceJpa, final Planner<NsBlueprint, NsTask, NsTask> planv2) {
 		this.contributors = (List<AbstractNsdContributorV3<NsTask>>) ((Object) contributors);
 		this.blueprintBuilder = blueprintBuilder;
 		this.planService = planService;
-		this.orchestrationService = orchestrationService;
 		this.nsLiveInstanceJpa = nsLiveInstanceJpa;
 		this.planv2 = planv2;
 		vts = new EnumMap<>(ResourceTypeEnum.class);
@@ -128,7 +125,7 @@ public class NfvoOrchestrationV3 implements WorkflowV3<NsdPackage, NsBlueprint, 
 			LOG.trace("Running for {}={}", x.getType(), x.getToscaName());
 			blueprint.addTask(x);
 			final NsTask nc = x.copy();
-			return vts.get(x.getType()).apply(nc);
+			return (VirtualTaskV3<NsTask>) vts.get(x.getType()).apply(nc);
 		}, buildContext(blueprint.getInstance()), masterVertex);
 	}
 

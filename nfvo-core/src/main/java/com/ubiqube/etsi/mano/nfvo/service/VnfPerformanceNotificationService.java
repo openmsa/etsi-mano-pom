@@ -38,7 +38,7 @@ import com.ubiqube.etsi.mano.nfvo.jpa.ThresholdCrossedNotificationJpa;
 @Service
 public class VnfPerformanceNotificationService {
 
-	private static final Logger LOG = LoggerFactory.getLogger(VnfIndicatorNotificationService.class);
+	private static final Logger LOG = LoggerFactory.getLogger(VnfPerformanceNotificationService.class);
 
 	private final RemoteSubscriptionJpa remoteSubscriptionJpa;
 

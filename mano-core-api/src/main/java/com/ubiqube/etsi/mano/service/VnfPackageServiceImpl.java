@@ -42,14 +42,11 @@ public class VnfPackageServiceImpl implements VnfPackageService {
 
 	private final VnfInstanceJpa vnfInstanceJpa;
 
-	private final SearchableService searchableService;
-
 	public VnfPackageServiceImpl(final VnfPackageJpa vnfPackageJpa, final VnfInstanceJpa vnfInstanceJpa,
-			final VnfPackageRepository vnfPackageRepository, final SearchableService searchableService) {
+			final VnfPackageRepository vnfPackageRepository) {
 		this.vnfPackageJpa = vnfPackageJpa;
 		this.vnfInstanceJpa = vnfInstanceJpa;
 		this.vnfPackageRepository = vnfPackageRepository;
-		this.searchableService = searchableService;
 	}
 
 	@Override

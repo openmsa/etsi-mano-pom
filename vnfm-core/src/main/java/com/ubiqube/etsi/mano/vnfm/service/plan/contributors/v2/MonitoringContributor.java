@@ -49,12 +49,10 @@ public class MonitoringContributor extends AbstractContributorV3Base<MonitoringT
 	public List<SclableResources<MonitoringTask>> contribute(final VnfPackage bundle, final VnfBlueprint parameters) {
 		final List<SclableResources<MonitoringTask>> ret = new ArrayList<>();
 		bundle.getVnfCompute().stream()
-				.forEach(x -> {
-					x.getMonitoringParameters().stream().forEach(y -> {
-						final MonitoringTask t = createMonitoringTask(y);
-						ret.add(create(Monitoring.class, x.getToscaName(), 1, t, parameters.getInstance()));
-					});
-				});
+				.forEach(x -> x.getMonitoringParameters().stream().forEach(y -> {
+					final MonitoringTask t = createMonitoringTask(y);
+					ret.add(create(Monitoring.class, x.getToscaName(), 1, t, parameters.getInstance()));
+				}));
 		return ret;
 	}
 

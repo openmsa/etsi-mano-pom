@@ -44,4 +44,8 @@ public abstract class AbstractVnfmUowV3<U> implements UnitOfWorkV3<U> {
 		return node;
 	}
 
+	@Override
+	public void setResource(final String res) {
+		task.setVimResourceId(res);
+	}
 }

@@ -64,23 +64,19 @@ public class NsPlanService {
 		nsd.getNestedNsdInfoIds().forEach(x -> {
 			g.single(NsdCreateNode.class, x.getToscaName());
 			g.from(NsdCreateNode.class, x.getToscaName()).addNext(NsdInstantiateNode.class, x.getToscaName(), Relation.ONE_TO_ONE);
-			x.getVirtualLinks().forEach(y -> {
-				g.from(Network.class, y).addNext(NsdCreateNode.class, x.getToscaName(), Relation.MANY_TO_ONE);
-			});
+			x.getVirtualLinks().forEach(y -> g.from(Network.class, y).addNext(NsdCreateNode.class, x.getToscaName(), Relation.MANY_TO_ONE));
 			g.from(NsdInstantiateNode.class, x.getToscaName()).addNext(NsdExtractorNode.class, x.getToscaName(), Relation.ONE_TO_ONE);
 		});
 		nsd.getVnffgs().forEach(x -> {
 			g.single(VnffgPostNode.class, x.getName());
 			x.getName();
-			x.getNfpd().forEach(y -> {
-				y.getInstances().forEach(z -> {
-					g.from(VnffgPostNode.class, x.getName()).dependency(VnffgLoadbalancerNode.class, z.getToscaName(), Relation.MANY_TO_ONE);
-					z.getPairs().forEach(p -> {
-						g.from(VnffgLoadbalancerNode.class, z.getToscaName()).dependency(PortPairNode.class, p.getToscaName(), Relation.MANY_TO_ONE);
-						g.from(PortPairNode.class, p.getToscaName()).dependency(VnfExtractorNode.class, p.getVnf(), Relation.ONE_TO_ONE);
-					});
+			x.getNfpd().forEach(y -> y.getInstances().forEach(z -> {
+				g.from(VnffgPostNode.class, x.getName()).dependency(VnffgLoadbalancerNode.class, z.getToscaName(), Relation.MANY_TO_ONE);
+				z.getPairs().forEach(p -> {
+					g.from(VnffgLoadbalancerNode.class, z.getToscaName()).dependency(PortPairNode.class, p.getToscaName(), Relation.MANY_TO_ONE);
+					g.from(PortPairNode.class, p.getToscaName()).dependency(VnfExtractorNode.class, p.getVnf(), Relation.ONE_TO_ONE);
 				});
-			});
+			}));
 		});
 		nsd.getVnfPkgIds().forEach(x -> {
 			g.single(VnfCreateNode.class, x.getToscaName());

@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.dao.mano.nsd.upd;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -29,7 +30,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * @author olivier
  *
  */
-public class NfpRule {
+public class NfpRule implements Serializable {
+	/** Serial. */
+	private static final long serialVersionUID = 1L;
 	@JsonProperty("etherDestinationAddress")
 	private String etherDestinationAddress;
 
