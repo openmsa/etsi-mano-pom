@@ -38,6 +38,7 @@ import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.VnfScalingLevelMapping;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.VnfScalingStepMapping;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.ExternalPortRecord;
+import com.ubiqube.etsi.mano.utils.ToStringUtil;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -111,4 +112,8 @@ public class NsdVnfPackageCopy implements Levelable<VnfScalingStepMapping, VnfSc
 		forwardMapping.add(forwarderMapping);
 	}
 
+	@Override
+	public String toString() {
+		return ToStringUtil.toString(this);
+	}
 }

@@ -18,8 +18,11 @@ package com.ubiqube.etsi.mano.nfvo.service.system;
 
 import org.springframework.stereotype.Service;
 
+import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVnfExtractorTask;
+import com.ubiqube.etsi.mano.exception.GenericException;
+import com.ubiqube.etsi.mano.jpa.NsdPackageJpa;
 import com.ubiqube.etsi.mano.nfvo.service.graph.nfvo.VnfContextExtractorUow;
 import com.ubiqube.etsi.mano.orchestrator.OrchestrationServiceV3;
 import com.ubiqube.etsi.mano.orchestrator.SystemBuilder;
@@ -39,10 +42,12 @@ import com.ubiqube.etsi.mano.service.vim.VimManager;
 @Service
 public class NsVnfContextExtractorSystem extends AbstractVimSystemV3<NsVnfExtractorTask> {
 	private final VnfmInterface vnfm;
+	private final NsdPackageJpa nsdPackageJpa;
 
-	public NsVnfContextExtractorSystem(final VnfmInterface vnfm, final VimManager vimManager) {
+	public NsVnfContextExtractorSystem(final VnfmInterface vnfm, final VimManager vimManager, final NsdPackageJpa nsdPackageJpa) {
 		super(vimManager);
 		this.vnfm = vnfm;
+		this.nsdPackageJpa = nsdPackageJpa;
 	}
 
 	@Override
@@ -52,7 +57,9 @@ public class NsVnfContextExtractorSystem extends AbstractVimSystemV3<NsVnfExtrac
 
 	@Override
 	protected SystemBuilder<UnitOfWorkV3<NsVnfExtractorTask>> getImplementation(final OrchestrationServiceV3<NsVnfExtractorTask> orchestrationService, final VirtualTaskV3<NsVnfExtractorTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
-		return orchestrationService.systemBuilderOf(new VnfContextExtractorUow(virtualTask, vnfm));
+		final NsdPackage pack = nsdPackageJpa.findById(virtualTask.getTemplateParameters().getNsdId())
+				.orElseThrow(() -> new GenericException("Unable to find package [" + virtualTask.getTemplateParameters().getNsdId() + "]"));
+		return orchestrationService.systemBuilderOf(new VnfContextExtractorUow(virtualTask, vnfm, pack));
 	}
 
 	@Override

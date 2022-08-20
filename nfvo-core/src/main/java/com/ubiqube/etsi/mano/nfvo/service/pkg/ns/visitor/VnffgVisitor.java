@@ -116,7 +116,14 @@ public class VnffgVisitor implements NsOnboardingVisitor {
 				.filter(y -> Objects.nonNull(y.getValue()))
 				.filter(y -> y.getValue().equals(forwardName))
 				.findFirst()
-				.ifPresent(y -> x.addForwardMapping(new ForwarderMapping(x.getToscaName(), y.getIdx(), forwardName, vlName))));
+				.ifPresent(y -> x.addForwardMapping(new ForwarderMapping(x.getToscaName(), y.getIdx(), forwardName, vlName, getVlName(y)))));
+	}
+
+	private static String getVlName(final ListKeyPair x) {
+		if (x.getIdx() == 0) {
+			return "virtual_link";
+		}
+		return "virtual_link_" + x.getIdx();
 	}
 
 }

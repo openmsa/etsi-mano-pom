@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -83,19 +84,20 @@ public class NsdVnfContributorV3 extends AbstractNsdContributorV3<Object> {
 			ret.add(create(VnfCreateNode.class, task.getClass(), nsPackageVnfPackage.getToscaName(), numInst, task, parameters.getInstance(), parameters));
 			final NsVnfInstantiateTask taskInst = createVnfInstantiateTask(nsPackageVnfPackage, x);
 			ret.add(create(VnfInstantiateNode.class, taskInst.getClass(), nsPackageVnfPackage.getToscaName(), numInst, taskInst, parameters.getInstance(), parameters));
-			final NsVnfExtractorTask taskExtractor = createVnfExtractTask(nsPackageVnfPackage, x);
+			final NsVnfExtractorTask taskExtractor = createVnfExtractTask(nsPackageVnfPackage, x, bundle.getId());
 			ret.add(create(VnfExtractorNode.class, taskExtractor.getClass(), nsPackageVnfPackage.getToscaName(), numInst, taskExtractor, parameters.getInstance(), parameters));
 
 		});
 		return ret;
 	}
 
-	private NsVnfExtractorTask createVnfExtractTask(final NsdVnfPackageCopy param, final VnfPackage vnfPkg) {
+	private NsVnfExtractorTask createVnfExtractTask(final NsdVnfPackageCopy param, final VnfPackage vnfPkg, final UUID nsdId) {
 		final NsVnfExtractorTask task = createTask(NsVnfExtractorTask::new);
 		task.setType(ResourceTypeEnum.VNF_EXTRACTOR);
 		task.setToscaName(param.getToscaName());
 		final Servers server = selectServer(vnfPkg);
 		task.setServer(server);
+		task.setNsdId(nsdId);
 		return task;
 	}
 
@@ -109,7 +111,7 @@ public class NsdVnfContributorV3 extends AbstractNsdContributorV3<Object> {
 		task.setFlavourId("flavour");
 		final Set<String> nstworks = rebuildVl(param);
 		task.setVlInstances(nstworks);
-		task.setExternalNetworks(param.getNets());
+		task.setParam(param);
 		return task;
 	}
 

@@ -56,12 +56,14 @@ public class ForwarderMapping implements Serializable {
 
 	private int vlId;
 
-	public ForwarderMapping(final String vduName, final int vlId, final String forwardingName, final String vlName) {
-		super();
+	private String virtualLinkPort;
+
+	public ForwarderMapping(final String vduName, final int vlId, final String forwardingName, final String vlName, final String virtualLinkPort) {
 		this.vduName = vduName;
 		this.vlId = vlId;
 		this.forwardingName = forwardingName;
 		this.vlName = vlName;
+		this.virtualLinkPort = virtualLinkPort;
 	}
 
 	@Override

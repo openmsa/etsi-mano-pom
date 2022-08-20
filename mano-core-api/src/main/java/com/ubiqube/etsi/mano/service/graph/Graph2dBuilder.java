@@ -26,7 +26,6 @@ import org.slf4j.LoggerFactory;
 
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
-import com.ubiqube.etsi.mano.orchestrator.uow.Relation;
 
 /**
  *

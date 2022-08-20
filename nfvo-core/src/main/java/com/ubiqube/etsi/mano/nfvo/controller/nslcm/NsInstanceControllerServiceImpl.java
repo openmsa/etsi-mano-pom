@@ -62,6 +62,7 @@ import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.NsVnfScalingStepMapping;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.VnfScalingLevelMapping;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.VnfScalingStepMapping;
 import com.ubiqube.etsi.mano.dao.mano.v2.PlanOperationType;
+import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.ExternalPortRecord;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 import com.ubiqube.etsi.mano.nfvo.factory.LcmFactory;
 import com.ubiqube.etsi.mano.nfvo.service.NsInstanceService;
@@ -136,14 +137,26 @@ public class NsInstanceControllerServiceImpl implements NsInstanceControllerServ
 		final NsdVnfPackageCopy n = new NsdVnfPackageCopy();
 		n.setForwardMapping(copyForwardMapping(o.getForwardMapping()));
 		n.setLevelMapping(copyLevelMapping(o.getLevelMapping()));
+		n.setNets(copy(o.getNets()));
+		n.setNsdPackage(o.getNsdPackage());
 		n.setStepMapping(copyStepMapping(o.getStepMapping()));
 		n.setToscaId(o.getToscaId());
 		n.setToscaName(o.getToscaName());
 		n.setVirtualLinks(copyVirtualLinks(o.getVirtualLinks()));
 		n.setVnfdId(o.getVnfPackage().getVnfdId());
-		n.setForwardMapping(copyForwardMapping(o.getForwardMapping()));
-		n.setNsdPackage(o.getNsdPackage());
 		return n;
+	}
+
+	private static Set<ExternalPortRecord> copy(final Set<ExternalPortRecord> nets) {
+		return nets.stream().map(NsInstanceControllerServiceImpl::copy).collect(Collectors.toSet());
+	}
+
+	private static ExternalPortRecord copy(final ExternalPortRecord x) {
+		final ExternalPortRecord epr = new ExternalPortRecord();
+		epr.setToscaName(x.getToscaName());
+		epr.setVirtualLink(x.getVirtualLink());
+		epr.setVirtualLinkPort(x.getVirtualLinkPort());
+		return epr;
 	}
 
 	private Set<ListKeyPair> copyVirtualLinks(final Set<ListKeyPair> virtualLinks) {

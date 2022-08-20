@@ -41,7 +41,7 @@ public class ResolvEndpoint implements NsOnboardingPostProcessor {
 				});
 	}
 
-	private ForwarderMapping findVnfByVl(final NsdPackage nsPackage, final String egress) {
+	private static ForwarderMapping findVnfByVl(final NsdPackage nsPackage, final String egress) {
 		return nsPackage.getVnfPkgIds().stream()
 				.flatMap(x -> x.getForwardMapping().stream())
 				.filter(x -> x.getForwardingName().equals(egress))

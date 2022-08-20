@@ -60,8 +60,8 @@ public class NsVnfTask extends NsTask {
 
 	private String vnfdId;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private Set<ExternalPortRecord> externalNetworks = new LinkedHashSet<>();
+	@OneToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+	private Set<ExternalPortRecord> nsExternalNetworks = new LinkedHashSet<>();
 
 	/**
 	 * VNFM to use if any.
@@ -97,7 +97,7 @@ public class NsVnfTask extends NsTask {
 		task.setNsPackageVnfPackage(nsPackageVnfPackage);
 		task.setDescription(description);
 		task.setVnfdId(vnfdId);
-		task.setExternalNetworks(externalNetworks);
+		task.setNsExternalNetworks(nsExternalNetworks);
 		task.setServer(server);
 		task.setFlavourId(flavourId);
 		task.setInstantiationLevelId(instantiationLevelId);

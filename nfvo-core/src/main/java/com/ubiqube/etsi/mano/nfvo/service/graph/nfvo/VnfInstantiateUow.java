@@ -30,9 +30,9 @@ import com.ubiqube.etsi.mano.dao.mano.InstantiationState;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.common.FailureDetails;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
+import com.ubiqube.etsi.mano.dao.mano.nsd.ForwarderMapping;
 import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
-import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.ExternalPortRecord;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVnfInstantiateTask;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.model.ExternalManagedVirtualLink;
@@ -70,10 +70,10 @@ public class VnfInstantiateUow extends AbstractUnitOfWork<NsVnfInstantiateTask> 
 	@Override
 	public String execute(final Context3d context) {
 		final String inst = context.get(VnfCreateNode.class, task.getVnfInstanceName());
-		final List<ExternalManagedVirtualLink> net = task.getExternalNetworks().stream().map(x -> {
-			final String resource = context.get(Network.class, x.getToscaName());
+		final List<ExternalManagedVirtualLink> net = task.getParam().getForwardMapping().stream().map(x -> {
+			final String resource = context.get(Network.class, x.getVlName());
 			if (null == resource) {
-				LOG.warn("Could not find network resource {} => {}, not released.", x.getToscaName(), context);
+				LOG.warn("Could not find network resource {} => {}, not released.", x.getVlName(), context);
 				return null;
 			}
 			return createExmvl(x, resource);
@@ -88,16 +88,16 @@ public class VnfInstantiateUow extends AbstractUnitOfWork<NsVnfInstantiateTask> 
 			final String details = Optional.ofNullable(result.getError()).map(FailureDetails::getDetail).orElse("[No content]");
 			throw new GenericException("VNF LCM Failed: " + details + " With state:  " + result.getOperationStatus());
 		}
-		return null;
+		return inst;
 	}
 
-	private ExternalManagedVirtualLink createExmvl(final ExternalPortRecord linkId, final String vimResource) {
+	private ExternalManagedVirtualLink createExmvl(final ForwarderMapping x, final String vimResource) {
 		final ExternalManagedVirtualLink ext = new ExternalManagedVirtualLink();
 		ext.setId(UUID.randomUUID());
 		ext.setResourceId(vimResource);
-		ext.setExtManagedVirtualLinkId(linkId.getVirtualLinkPort());
+		ext.setExtManagedVirtualLinkId(x.getVirtualLinkPort());
 		ext.setResourceProviderId("ETSI-MANO-VNFM");
-		ext.setVnfVirtualLinkDescId(linkId.getVirtualLinkPort());
+		ext.setVnfVirtualLinkDescId(x.getVirtualLinkPort());
 		ext.setVimId(task.getServer().getId().toString());
 		return ext;
 	}

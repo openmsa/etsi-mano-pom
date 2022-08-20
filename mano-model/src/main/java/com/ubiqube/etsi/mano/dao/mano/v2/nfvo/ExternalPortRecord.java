@@ -24,6 +24,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.ubiqube.etsi.mano.utils.ToStringUtil;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -45,6 +47,7 @@ public class ExternalPortRecord implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
+
 	private String toscaName;
 	private String virtualLinkPort;
 	private String virtualLink;
@@ -53,5 +56,10 @@ public class ExternalPortRecord implements Serializable {
 		this.toscaName = toscaName;
 		this.virtualLinkPort = virtualLinkPort;
 		this.virtualLink = virtualLink;
+	}
+
+	@Override
+	public String toString() {
+		return ToStringUtil.toString(this);
 	}
 }
