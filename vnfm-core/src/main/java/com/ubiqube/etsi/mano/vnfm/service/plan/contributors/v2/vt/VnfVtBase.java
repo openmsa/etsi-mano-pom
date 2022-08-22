@@ -75,7 +75,7 @@ public abstract class VnfVtBase<U extends VnfTask> implements VirtualTaskV3<U> {
 
 	@Override
 	public final String getName() {
-		return templateParameters.getAlias();
+		return templateParameters.getToscaName();
 	}
 
 	@Override

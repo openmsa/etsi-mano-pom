@@ -100,6 +100,13 @@ public class Graph2dBuilder {
 			g.addVertex(v);
 			Optional.ofNullable(g.addEdge(p, v)).ifPresent(x -> x.setRelation(depRel));
 		}
+
+		public void withSubTask(final Class<? extends Node> depClass, final String depName, final Relation depRel) {
+			final Vertex2d p = find(class1, name);
+			final Vertex2d v = new Vertex2d(depClass, name + "-" + depName, null);
+			g.addVertex(v);
+			Optional.ofNullable(g.addEdge(p, v)).ifPresent(x -> x.setRelation(depRel));
+		}
 	}
 
 	public void multi(final Class<? extends Node> class1, final String toscaName) {

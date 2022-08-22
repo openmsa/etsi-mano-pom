@@ -27,7 +27,7 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.DnsZone;
  */
 public class DnsZoneVt extends VnfVtBase<DnsZoneTask> {
 
-	protected DnsZoneVt(final DnsZoneTask nt) {
+	public DnsZoneVt(final DnsZoneTask nt) {
 		super(nt);
 	}
 

@@ -19,8 +19,6 @@ package com.ubiqube.etsi.mano.vnfm.service.event.jms;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 
@@ -32,12 +30,9 @@ import com.ubiqube.etsi.mano.vnfm.service.event.VnfmActionController;
 @Transactional(TxType.NEVER)
 public class VnfmActionsControllerImpl implements VnfmActionComtroller {
 
-	private static final Logger LOG = LoggerFactory.getLogger(VnfmActionsControllerImpl.class);
-
 	private final VnfmActionController actionController;
 
 	public VnfmActionsControllerImpl(final VnfmActionController actionController) {
-		super();
 		this.actionController = actionController;
 	}
 
@@ -45,9 +40,7 @@ public class VnfmActionsControllerImpl implements VnfmActionComtroller {
 	@Transactional(TxType.NEVER)
 	@org.springframework.transaction.annotation.Transactional(propagation = Propagation.NEVER)
 	public void onEvent(final ActionMessage ev) {
-		LOG.info("JMS ActionController Receiving Action: {}", ev);
 		actionController.dispatch(ev.getActionType(), ev.getObjectId(), ev.getParameters());
-		LOG.info("JMS ActionController Done for event: {}", ev);
 	}
 
 }

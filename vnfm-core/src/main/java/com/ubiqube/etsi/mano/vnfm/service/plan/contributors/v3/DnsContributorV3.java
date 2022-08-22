@@ -52,7 +52,7 @@ public class DnsContributorV3 extends AbstractVnfmContributorV3<Object> {
 			dnsZoneTask.setToscaName(x.getToscaName());
 			dnsZoneTask.setDomainName(x.getToscaName() + ".mano.vm");
 			dnsZoneTask.setType(ResourceTypeEnum.DNSZONE);
-			ret.add(create(DnsZone.class, x.getToscaName(), 1, dnsZoneTask, parameters.getInstance(), parameters));
+			ret.add(create(DnsZone.class, dnsZoneTask.getClass(), x.getToscaName(), 1, dnsZoneTask, parameters.getInstance(), parameters));
 		});
 		vnfPackage.getVnfLinkPort().forEach(x -> {
 			if (null == x.getVirtualLink()) {
@@ -64,7 +64,7 @@ public class DnsContributorV3 extends AbstractVnfmContributorV3<Object> {
 			dht.setNetworkName(x.getVirtualLink());
 			dht.setZoneId(x.getToscaName() + ".mano.vm");
 			dht.setType(ResourceTypeEnum.DNSHOST);
-			ret.add(create(DnsHost.class, dht.getToscaName(), 1, dht, parameters.getInstance(), parameters));
+			ret.add(create(DnsHost.class, dht.getClass(), dht.getToscaName(), 1, dht, parameters.getInstance(), parameters));
 		});
 		return ret;
 	}

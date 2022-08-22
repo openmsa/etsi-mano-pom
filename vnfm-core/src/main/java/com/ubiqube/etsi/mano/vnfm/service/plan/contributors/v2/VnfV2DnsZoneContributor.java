@@ -20,6 +20,8 @@ import java.util.List;
 
 import javax.annotation.Priority;
 
+import org.springframework.stereotype.Service;
+
 import com.ubiqube.etsi.mano.dao.mano.ChangeType;
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
@@ -36,7 +38,7 @@ import com.ubiqube.etsi.mano.vnfm.service.graph.NodeNaming;
  *
  */
 @Priority(100)
-//@Service
+@Service
 public class VnfV2DnsZoneContributor extends AbstractContributorV3Base<DnsZoneTask> {
 
 	public VnfV2DnsZoneContributor(final VnfLiveInstanceJpa vnfLiveInstanceJpa) {

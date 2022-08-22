@@ -18,36 +18,31 @@ package com.ubiqube.etsi.mano.vnfm.service.system;
 
 import org.springframework.stereotype.Service;
 
+import com.ubiqube.etsi.mano.dao.mano.SubNetworkTask;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
-import com.ubiqube.etsi.mano.dao.mano.v2.NetworkTask;
 import com.ubiqube.etsi.mano.orchestrator.OrchestrationServiceV3;
 import com.ubiqube.etsi.mano.orchestrator.SystemBuilder;
 import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SubNetwork;
+import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWorkV3;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.system.AbstractVimSystemV3;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow.VirtualLinkUowV3;
+import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow.VnfSubnetworkUowV3;
 
 /**
  *
- * @author Olivier Vignaud <ovi@ubiqube.com>
+ * @author olivier
  *
  */
 @Service
-public class VimNetworkSystem extends AbstractVimSystemV3<NetworkTask> {
+public class SubNetworkSystem extends AbstractVimSystemV3<SubNetworkTask> {
 	private final Vim vim;
 
-	public VimNetworkSystem(final Vim vim, final VimManager vimManager) {
+	public SubNetworkSystem(final Vim vim, final VimManager vimManager) {
 		super(vimManager);
 		this.vim = vim;
-	}
-
-	@Override
-	protected SystemBuilder getImplementation(final OrchestrationServiceV3<NetworkTask> orchestrationService, final VirtualTaskV3<NetworkTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
-		final VirtualLinkUowV3 net = new VirtualLinkUowV3(virtualTask, vim, vimConnectionInformation);
-		return orchestrationService.systemBuilderOf(net);
 	}
 
 	@Override
@@ -57,6 +52,12 @@ public class VimNetworkSystem extends AbstractVimSystemV3<NetworkTask> {
 
 	@Override
 	public Class<? extends Node> getType() {
-		return Network.class;
+		return SubNetwork.class;
 	}
+
+	@Override
+	protected SystemBuilder<UnitOfWorkV3<SubNetworkTask>> getImplementation(final OrchestrationServiceV3<SubNetworkTask> orchestrationService, final VirtualTaskV3<SubNetworkTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
+		return orchestrationService.systemBuilderOf(new VnfSubnetworkUowV3(virtualTask, vim, vimConnectionInformation));
+	}
+
 }

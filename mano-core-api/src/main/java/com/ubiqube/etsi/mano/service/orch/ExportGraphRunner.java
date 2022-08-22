@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.jgrapht.ListenableGraph;
 import org.jgrapht.nio.Attribute;
 import org.jgrapht.nio.DefaultAttribute;
@@ -50,7 +49,7 @@ public class ExportGraphRunner<U> implements PostPlanRunner<U> {
 	}
 
 	public static <U> void exportGraph(final ListenableGraph<UnitOfWorkV3<U>, ConnectivityEdge<UnitOfWorkV3<U>>> g, final String fileName) {
-		final DOTExporter<UnitOfWorkV3<U>, ConnectivityEdge<UnitOfWorkV3<U>>> exporter = new DOTExporter<>(x -> "\"" + x.getTask().getName() + "-" + RandomStringUtils.random(5, true, true) + "\"");
+		final DOTExporter<UnitOfWorkV3<U>, ConnectivityEdge<UnitOfWorkV3<U>>> exporter = new DOTExporter<>(ExportGraphRunner::toDotName);
 		exporter.setVertexAttributeProvider(x -> {
 			final Map<String, Attribute> map = new LinkedHashMap<>();
 			map.put("label", DefaultAttribute.createAttribute(x.getTask().getAlias() + "\n(" + x.getTask().getClass().getSimpleName() + ")"));
@@ -62,6 +61,11 @@ public class ExportGraphRunner<U> implements PostPlanRunner<U> {
 		} catch (final IOException e) {
 			LOG.trace("Error in graph export", e);
 		}
+	}
+
+	private static String toDotName(final UnitOfWorkV3 task) {
+		final String base = task.getType().getSimpleName() + "_" + task.getTask().getName();
+		return base.replace("/", "_").replace("-", "_").replace("\n", "_").replace(",", "_").replace("(", "_").replace(")", "_");
 	}
 
 	@Override

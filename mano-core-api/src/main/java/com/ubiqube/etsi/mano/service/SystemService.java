@@ -44,6 +44,7 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerDeployableNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SecurityGroupNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Storage;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SubNetwork;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfExtCp;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfPortNode;
 
@@ -103,6 +104,7 @@ public class SystemService {
 				VnffgPostNode.class,
 				VnffgPostNode.class,
 				PortPairNode.class,
+				SubNetwork.class
 		};
 		for (final Class<?> string : sysDtr) {
 			sys.add(createSystem(string.getSimpleName(), vimConnectionInformation));

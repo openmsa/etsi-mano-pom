@@ -51,7 +51,7 @@ public class SecurityGroupSystem extends AbstractVimSystemV3<SecurityGroupTask> 
 	protected SystemBuilder getImplementation(final OrchestrationServiceV3<SecurityGroupTask> orchestrationService, final VirtualTaskV3<SecurityGroupTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
 		final SystemBuilder s = orchestrationService.createEmptySystemBuilder();
 		final SecurityGroupUowV3 src = new SecurityGroupUowV3(virtualTask, vim, vimConnectionInformation);
-		final SecurityRuleTask task = new SecurityRuleTask(virtualTask.getTemplateParameters().getAlias(), virtualTask.getTemplateParameters().getSecurityGroup(), virtualTask.getTemplateParameters().getToscaName());
+		final SecurityRuleTask task = new SecurityRuleTask(virtualTask.getTemplateParameters().getToscaName(), virtualTask.getTemplateParameters().getSecurityGroup(), virtualTask.getTemplateParameters().getToscaName());
 		final SecurityRuleUowV3 dst = new SecurityRuleUowV3(new SecurityRuleVt(task), vim, vimConnectionInformation);
 		s.add(src, dst);
 		return s;

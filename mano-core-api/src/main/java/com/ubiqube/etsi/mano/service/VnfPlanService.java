@@ -34,13 +34,14 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerDeployableNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SecurityGroupNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SecurityRuleNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Storage;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SubNetwork;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfPortNode;
 import com.ubiqube.etsi.mano.service.graph.Edge2d;
 import com.ubiqube.etsi.mano.service.graph.Graph2dBuilder;
-import com.ubiqube.etsi.mano.service.graph.Relation;
 import com.ubiqube.etsi.mano.service.graph.Graph2dBuilder.ChildBuilder;
+import com.ubiqube.etsi.mano.service.graph.Relation;
 import com.ubiqube.etsi.mano.service.graph.Vertex2d;
 
 /**
@@ -50,6 +51,7 @@ import com.ubiqube.etsi.mano.service.graph.Vertex2d;
  */
 @Service
 public class VnfPlanService {
+	private static final String MASTER_ZONE = "master-zone";
 	private final VnfPackageService vnfService;
 
 	public VnfPlanService(final VnfPackageService vnfService) {
@@ -60,20 +62,25 @@ public class VnfPlanService {
 		final Graph2dBuilder g = new Graph2dBuilder();
 		final VnfPackage vnfPkg = vnfService.findById(id);
 		vnfPkg.getAffinityRules().forEach(x -> g.single(AffinityRuleNode.class, x.getToscaName()));
+		vnfPkg.getSecurityGroups().forEach(x -> {
+			g.single(SecurityGroupNode.class, x.getToscaName());
+			g.from(SecurityGroupNode.class, x.getToscaName()).addNext(SecurityRuleNode.class, x.getToscaName(), Relation.ONE_TO_ONE);
+		});
+		g.single(DnsZone.class, MASTER_ZONE);
 		vnfPkg.getVnfVl().forEach(x -> {
 			g.single(Network.class, x.getToscaName());
-			g.from(Network.class, x.getToscaName()).addNext(DnsZone.class, x.getToscaName(), Relation.ONE_TO_ONE);
+			g.from(Network.class, x.getToscaName()).dependency(DnsZone.class, MASTER_ZONE, Relation.ONE_TO_MANY);
 			// x.getPlacementGroup()
 			x.getVlProfileEntity().getVirtualLinkProtocolData().stream()
-					.forEach(y -> g.from(Network.class, x.getToscaName()).addNext(SubNetwork.class, x.getToscaName() + "-" + y.getL2ProtocolData().getName(), Relation.ONE_TO_ONE));
+					.forEach(y -> g.from(Network.class, x.getToscaName()).withSubTask(SubNetwork.class, y.getL2ProtocolData().getName(), Relation.ONE_TO_ONE));
 		});
 		vnfPkg.getVnfStorage().forEach(x -> g.multi(Storage.class, x.getToscaName()));
 		vnfPkg.getVnfCompute().forEach(x -> {
 			g.single(Compute.class, x.getToscaName());
-			x.getStorages().stream().forEach(y -> g.from(Compute.class, x.getToscaName()).dependency(Storage.class, y, Relation.MULTI));
+			x.getStorages().stream().forEach(y -> g.from(Compute.class, x.getToscaName()).dependency(Storage.class, x.getToscaName() + "-" + y, Relation.MULTI));
 			x.getAffinityRule().forEach(y -> g.addChild(AffinityRuleNode.class, y).of(Compute.class, x.getToscaName()));
-			x.getMonitoringParameters().forEach(y -> g.from(Compute.class, x.getToscaName()).addNext(Monitoring.class, y.getName(), Relation.ONE_TO_ONE));
-			x.getSecurityGroup().forEach(y -> g.from(Compute.class, x.getToscaName()).dependency(SecurityGroupNode.class, y, Relation.ONE_TO_ONE));
+			x.getMonitoringParameters().forEach(y -> g.from(Compute.class, x.getToscaName()).withSubTask(Monitoring.class, y.getName(), Relation.ONE_TO_ONE));
+			x.getSecurityGroup().forEach(y -> g.from(Compute.class, x.getToscaName()).dependency(SecurityGroupNode.class, y, Relation.MANY_TO_ONE));
 			x.getPorts().forEach(y -> {
 				if (null == y.getVirtualLink()) {
 					return;
@@ -81,15 +88,12 @@ public class VnfPlanService {
 				final VnfVl vl = vnfPkg.getVnfVl().stream().filter(z -> z.getToscaName().equals(y.getVirtualLink())).findFirst().orElseThrow(() -> new GenericException("Could not find Vl named: " + y.getVirtualLink()));
 				g.from(Compute.class, x.getToscaName()).dependency(VnfPortNode.class, y.getToscaName(), Relation.ONE_TO_ONE);
 				vl.getVlProfileEntity().getVirtualLinkProtocolData().stream()
-						.forEach(z -> {
-							g.from(VnfPortNode.class, y.getToscaName()).dependency(SubNetwork.class, vl.getToscaName() + "-" + z.getL2ProtocolData().getName(), Relation.MANY_TO_ONE);
-							final String dnsName = x.getToscaName() + "-" + y.getToscaName();
-							g.single(DnsHost.class, dnsName);
-							g.from(DnsHost.class, dnsName).addNext(VnfPortNode.class, y.getToscaName(), Relation.ONE_TO_ONE);
-							g.from(DnsHost.class, dnsName).dependency(DnsZone.class, vl.getToscaName(), Relation.ONE_TO_MANY);
-						});
+						.forEach(z -> g.from(VnfPortNode.class, y.getToscaName()).dependency(SubNetwork.class, vl.getToscaName() + "-" + z.getL2ProtocolData().getName(), Relation.MANY_TO_ONE));
 			});
 			x.getPlacementGroup().forEach(y -> g.from(Compute.class, x.getToscaName()).dependency(SecurityGroupNode.class, y.getToscaName(), Relation.MANY_TO_ONE));
+			g.single(DnsHost.class, x.getToscaName());
+			g.from(DnsHost.class, x.getToscaName()).addNext(Compute.class, x.getToscaName(), Relation.ONE_TO_ONE);
+			g.from(DnsHost.class, x.getToscaName()).dependency(DnsZone.class, MASTER_ZONE, Relation.ONE_TO_MANY);
 		});
 		vnfPkg.getOsContainer().forEach(x -> g.single(OsContainerNode.class, x.getName()));
 		vnfPkg.getOsContainerDeployableUnits().forEach(x -> {

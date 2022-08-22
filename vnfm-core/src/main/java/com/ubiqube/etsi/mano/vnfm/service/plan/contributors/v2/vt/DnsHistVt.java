@@ -26,7 +26,7 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
  */
 public class DnsHistVt extends VnfVtBase<DnsHostTask> {
 
-	protected DnsHistVt(final DnsHostTask nt) {
+	public DnsHistVt(final DnsHostTask nt) {
 		super(nt);
 	}
 

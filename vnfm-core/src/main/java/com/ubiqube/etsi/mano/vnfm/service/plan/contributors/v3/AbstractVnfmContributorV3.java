@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 import com.ubiqube.etsi.mano.dao.mano.ChangeType;
@@ -52,14 +53,15 @@ public abstract class AbstractVnfmContributorV3<U> implements TemplateExtractorV
 	}
 
 	protected int countLive(final VnfInstance vnfInstance, final Class<?> clazz, final String toscaName) {
-		return vnfInstanceJpa.countByVnfInstanceIdAndClassAndToscaName(vnfInstance, clazz.getSimpleName(), toscaName);
+		return Optional.ofNullable(vnfInstanceJpa.countByVnfInstanceIdAndClassAndToscaName(vnfInstance, clazz.getSimpleName(), toscaName))
+				.orElse(0);
 	}
 
-	protected SclableResources<U> create(final Class<? extends Node> clazz, final String toscaName, final int want, final U param, final VnfInstance inst, final VnfBlueprint parameters) {
-		int c = 0;
-		if (parameters.getOperation() != PlanOperationType.TERMINATE) {
-			c = countLive(inst, clazz, toscaName);
+	protected SclableResources<U> create(final Class<? extends Node> clazz, final Class<?> task, final String toscaName, final int want, final U param, final VnfInstance inst, final VnfBlueprint parameters) {
+		int w = want;
+		if (parameters.getOperation() == PlanOperationType.TERMINATE) {
+			w = 0;
 		}
-		return SclableResources.of(clazz, toscaName, c, want, param);
+		return SclableResources.of(clazz, toscaName, countLive(inst, task, toscaName), w, param);
 	}
 }

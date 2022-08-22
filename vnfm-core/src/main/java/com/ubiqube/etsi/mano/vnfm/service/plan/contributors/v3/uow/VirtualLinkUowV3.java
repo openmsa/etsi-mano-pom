@@ -41,7 +41,7 @@ public class VirtualLinkUowV3 extends AbstractVnfmUowV3<NetworkTask> {
 
 	@Override
 	public String execute(final Context3d context) {
-		final String domainName = context.get(DnsZone.class, getTask().getTemplateParameters().getToscaName());
+		final String domainName = context.getOptional(DnsZone.class, getTask().getTemplateParameters().getToscaName());
 		return vim.network(vimConnectionInformation).createNetwork(vlProtocolData, task.getAlias(), domainName, task.getQosPolicy());
 	}
 
