@@ -25,7 +25,12 @@ import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.jpa.SystemsJpa;
 import com.ubiqube.etsi.mano.orchestrator.entities.SystemConnections;
 import com.ubiqube.etsi.mano.orchestrator.entities.Systems;
+import com.ubiqube.etsi.mano.orchestrator.nodes.contrail.PortTupleNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.contrail.PtLinkNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.contrail.ServiceInstanceNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.contrail.ServiceTemplateNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.mec.VnfExtractorNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.NetworkPolicyNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.NsdCreateNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.PortPairNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.SapNode;
@@ -104,7 +109,12 @@ public class SystemService {
 				VnffgPostNode.class,
 				VnffgPostNode.class,
 				PortPairNode.class,
-				SubNetwork.class
+				SubNetwork.class,
+				PtLinkNode.class,
+				ServiceInstanceNode.class,
+				ServiceTemplateNode.class,
+				PortTupleNode.class,
+				NetworkPolicyNode.class,
 		};
 		for (final Class<?> string : sysDtr) {
 			sys.add(createSystem(string.getSimpleName(), vimConnectionInformation));

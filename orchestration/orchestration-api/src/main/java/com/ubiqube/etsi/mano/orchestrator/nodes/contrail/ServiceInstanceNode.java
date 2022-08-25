@@ -14,30 +14,10 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service.vim.sfc.vt;
+package com.ubiqube.etsi.mano.orchestrator.nodes.contrail;
 
 import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
-import com.ubiqube.etsi.mano.service.graph.vt.NsVtBase;
-import com.ubiqube.etsi.mano.service.vim.sfc.enity.SfcFlowClassifierTask;
-import com.ubiqube.etsi.mano.service.vim.sfc.node.FlowClassifierNode;
 
-/**
- *
- * @author Olivier Vignaud <ovi@ubiqube.com>
- *
- */
-public class SfcFlowClassifierVt extends NsVtBase<SfcFlowClassifierTask> {
-
-	private final SfcFlowClassifierTask task;
-
-	public SfcFlowClassifierVt(final SfcFlowClassifierTask nt) {
-		super(nt);
-		this.task = nt;
-	}
-
-	@Override
-	public Class<? extends Node> getType() {
-		return FlowClassifierNode.class;
-	}
+public interface ServiceInstanceNode extends Node {
 
 }

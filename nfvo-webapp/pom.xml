@@ -216,13 +216,6 @@
 			<artifactId>mano-repo-fs</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		<!--
-		<dependency>
-			<groupId>com.ubiqube.mano</groupId>
-			<artifactId>mano-vim-contrail</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		-->
 		<dependency>
 			<groupId>com.ubiqube.mano.event</groupId>
 			<artifactId>event-jms</artifactId>

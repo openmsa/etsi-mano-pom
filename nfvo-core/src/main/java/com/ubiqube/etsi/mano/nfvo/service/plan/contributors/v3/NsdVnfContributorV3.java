@@ -97,7 +97,7 @@ public class NsdVnfContributorV3 extends AbstractNsdContributorV3<Object> {
 		task.setToscaName(param.getToscaName());
 		final Servers server = selectServer(vnfPkg);
 		task.setServer(server);
-		task.setNsdId(nsdId);
+		task.setNsdId(nsdId.toString());
 		return task;
 	}
 

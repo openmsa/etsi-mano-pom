@@ -14,30 +14,42 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service.vim.sfc.vt;
+package com.ubiqube.etsi.mano.tf.entities;
 
-import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
-import com.ubiqube.etsi.mano.service.graph.vt.NsVtBase;
-import com.ubiqube.etsi.mano.service.vim.sfc.enity.SfcFlowClassifierTask;
-import com.ubiqube.etsi.mano.service.vim.sfc.node.FlowClassifierNode;
+import java.util.UUID;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public class SfcFlowClassifierVt extends NsVtBase<SfcFlowClassifierTask> {
+@Getter
+@Setter
+@Entity
+public class ServiceTemplateTask extends NsTask {
 
-	private final SfcFlowClassifierTask task;
+	/** Serial. */
+	private static final long serialVersionUID = 1L;
 
-	public SfcFlowClassifierVt(final SfcFlowClassifierTask nt) {
-		super(nt);
-		this.task = nt;
-	}
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private UUID id;
 
 	@Override
-	public Class<? extends Node> getType() {
-		return FlowClassifierNode.class;
+	public NsTask copy() {
+		final ServiceTemplateTask task = new ServiceTemplateTask();
+		super.copy(task);
+		return task;
 	}
 
 }

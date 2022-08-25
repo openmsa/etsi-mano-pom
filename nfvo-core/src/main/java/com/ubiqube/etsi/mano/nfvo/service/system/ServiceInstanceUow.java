@@ -14,47 +14,46 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service.vim.sfc;
+package com.ubiqube.etsi.mano.nfvo.service.system;
 
-import com.ubiqube.etsi.mano.dao.mano.nsd.CpPair;
-import com.ubiqube.etsi.mano.dao.mano.vnffg.VnffgPortPairTask;
 import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.entities.SystemConnections;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfPortNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.contrail.ServiceInstanceNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.contrail.ServiceTemplateNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.graph.AbstractUnitOfWork;
-import com.ubiqube.etsi.mano.service.vim.OsSfc;
-import com.ubiqube.etsi.mano.service.vim.sfc.node.PortPairNode;
+import com.ubiqube.etsi.mano.tf.ContrailApi;
+import com.ubiqube.etsi.mano.tf.entities.ServiceInstanceTask;
 
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public class SfcPortPairUow extends AbstractUnitOfWork<VnffgPortPairTask> {
+public class ServiceInstanceUow extends AbstractUnitOfWork<ServiceInstanceTask> {
 	private final SystemConnections vimConnectionInformation;
-	private final OsSfc sfc;
-	private final VnffgPortPairTask task;
-	private final CpPair cpPair;
+	private final ServiceInstanceTask task;
 
-	public SfcPortPairUow(final VirtualTaskV3<VnffgPortPairTask> task, final SystemConnections vimConnectionInformation) {
-		super(task, PortPairNode.class);
-		this.vimConnectionInformation = vimConnectionInformation;
-		sfc = new OsSfc();
+	public ServiceInstanceUow(final VirtualTaskV3<ServiceInstanceTask> task, final SystemConnections vim) {
+		super(task, ServiceInstanceNode.class);
+		this.vimConnectionInformation = vim;
 		this.task = task.getTemplateParameters();
-		this.cpPair = task.getTemplateParameters().getCpPair();
 	}
 
 	@Override
 	public String execute(final Context3d context) {
-		final String egress = context.get(VnfPortNode.class, cpPair.getEgress());
-		final String igress = context.get(VnfPortNode.class, cpPair.getIngress());
-		return sfc.createPortPair(vimConnectionInformation, task.getToscaName(), egress, igress);
+		final ContrailApi api = new ContrailApi();
+		final String serviceTemplateId = context.get(ServiceTemplateNode.class, task.getServiceTemplateId());
+		final String left = context.get(Network.class, task.getCpPorts().getIngressVl());
+		final String right = context.get(Network.class, task.getCpPorts().getEgressVl());
+		return api.createServiceInstance(vimConnectionInformation, getTask().getTemplateParameters().getToscaName(), serviceTemplateId, left, right);
 	}
 
 	@Override
 	public String rollback(final Context3d context) {
-		sfc.deletePortPair(vimConnectionInformation, task.getVimResourceId());
+		final ContrailApi api = new ContrailApi();
+		api.deleteServiceInstance(vimConnectionInformation, task.getVimResourceId());
 		return null;
 	}
 

@@ -59,7 +59,6 @@ public class SoftwareImageService {
 	private final VnfPackageManager packageManager;
 
 	public SoftwareImageService(final VnfPackageRepository repository, final VimManager vimManager, final VnfPackageManager packageManager) {
-		super();
 		this.repository = repository;
 		this.vimManager = vimManager;
 		this.packageManager = packageManager;
@@ -102,7 +101,15 @@ public class SoftwareImageService {
 	}
 
 	private static boolean checksumComparable(final Checksum checksum, final Checksum checksum2) {
-		return (null != checksum) && (checksum2 != null);
+		if ((null == checksum) || (null == checksum2)) {
+			return false;
+		}
+		final String hash = checksum.getHash();
+		final String hash2 = checksum2.getHash();
+		if ((null == hash) || (null == hash2)) {
+			return false;
+		}
+		return (checksum.getHash().length() == checksum2.getHash().length());
 	}
 
 	private static boolean checkHash(final Checksum checksum, final Checksum checksum2) {

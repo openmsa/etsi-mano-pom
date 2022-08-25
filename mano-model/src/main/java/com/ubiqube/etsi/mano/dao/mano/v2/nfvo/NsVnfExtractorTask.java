@@ -16,8 +16,6 @@
  */
 package com.ubiqube.etsi.mano.dao.mano.v2.nfvo;
 
-import java.util.UUID;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -43,7 +41,7 @@ public class NsVnfExtractorTask extends NsTask {
 	@OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
 	private Servers server;
 
-	private UUID nsdId;
+	private String nsdId;
 
 	@Override
 	public NsTask copy() {

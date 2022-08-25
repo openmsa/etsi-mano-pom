@@ -19,6 +19,7 @@ package com.ubiqube.etsi.mano.nfvo.service.graph;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 import org.jgrapht.ListenableGraph;
@@ -45,6 +46,7 @@ import com.ubiqube.etsi.mano.dao.mano.vnffg.VnffgPostTask;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsLiveInstanceJpa;
 import com.ubiqube.etsi.mano.nfvo.service.plan.contributors.v3.AbstractNsdContributorV3;
+import com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt.NetworkPolicyVt;
 import com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt.NsCreateVt;
 import com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt.NsExtratorVt;
 import com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt.NsInstantiateVt;
@@ -54,6 +56,10 @@ import com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt.NsVnfExtractorVt;
 import com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt.NsVnfInstantiateVt;
 import com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt.NsVnffgPortPairVt;
 import com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt.NsVnffgPostVt;
+import com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt.PortTupleVt;
+import com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt.PtLinkVt;
+import com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt.ServiceInstanceVt;
+import com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt.ServiceTemplateVt;
 import com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt.VnffgLoadbalancerVt;
 import com.ubiqube.etsi.mano.orchestrator.ContextHolder;
 import com.ubiqube.etsi.mano.orchestrator.ExecutionGraph;
@@ -61,8 +67,13 @@ import com.ubiqube.etsi.mano.orchestrator.OrchExecutionResults;
 import com.ubiqube.etsi.mano.orchestrator.Planner;
 import com.ubiqube.etsi.mano.orchestrator.SclableResources;
 import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
+import com.ubiqube.etsi.mano.orchestrator.nodes.contrail.PortTupleNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.contrail.PtLinkNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.contrail.ServiceInstanceNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.contrail.ServiceTemplateNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.mec.NsdExtractorNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.mec.VnfExtractorNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.NetworkPolicyNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.NsdCreateNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.NsdInstantiateNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.PortPairNode;
@@ -77,6 +88,11 @@ import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.event.WorkflowV3;
 import com.ubiqube.etsi.mano.service.graph.Edge2d;
 import com.ubiqube.etsi.mano.service.graph.Vertex2d;
+import com.ubiqube.etsi.mano.tf.entities.NetworkPolicyTask;
+import com.ubiqube.etsi.mano.tf.entities.PortTupleTask;
+import com.ubiqube.etsi.mano.tf.entities.PtLinkTask;
+import com.ubiqube.etsi.mano.tf.entities.ServiceInstanceTask;
+import com.ubiqube.etsi.mano.tf.entities.ServiceTemplateTask;
 
 /**
  *
@@ -114,7 +130,13 @@ public class NfvoOrchestrationV3 implements WorkflowV3<NsdPackage, NsBlueprint, 
 		vts.put(ResourceTypeEnum.VNF_CREATE, x -> new NsVnfCreateVt((NsVnfTask) x));
 		vts.put(ResourceTypeEnum.VNF_INSTANTIATE, x -> new NsVnfInstantiateVt((NsVnfInstantiateTask) x));
 		vts.put(ResourceTypeEnum.VNF_EXTRACTOR, x -> new NsVnfExtractorVt((NsVnfExtractorTask) x));
-		masterVertex = List.of(Network.class, VnfCreateNode.class, NsdCreateNode.class, VnffgPostNode.class, VnffgLoadbalancerNode.class);
+		vts.put(ResourceTypeEnum.TF_NETWORK_POLICY, x -> new NetworkPolicyVt((NetworkPolicyTask) x));
+		vts.put(ResourceTypeEnum.TF_PORT_TUPLE, x -> new PortTupleVt((PortTupleTask) x));
+		vts.put(ResourceTypeEnum.TF_PT_LINK, x -> new PtLinkVt((PtLinkTask) x));
+		vts.put(ResourceTypeEnum.TF_SERVICE_INSTANCE, x -> new ServiceInstanceVt((ServiceInstanceTask) x));
+		vts.put(ResourceTypeEnum.TF_SERVICE_TEMPLATE, x -> new ServiceTemplateVt((ServiceTemplateTask) x));
+		masterVertex = List.of(Network.class, VnfCreateNode.class, NsdCreateNode.class, /* VnffgPostNode.class, VnffgLoadbalancerNode.class */
+				ServiceTemplateNode.class, ServiceInstanceNode.class);
 	}
 
 	@Override
@@ -125,7 +147,7 @@ public class NfvoOrchestrationV3 implements WorkflowV3<NsdPackage, NsBlueprint, 
 			LOG.trace("Running for {}={}", x.getType(), x.getToscaName());
 			blueprint.addTask(x);
 			final NsTask nc = x.copy();
-			return (VirtualTaskV3<NsTask>) vts.get(x.getType()).apply(nc);
+			return (VirtualTaskV3<NsTask>) Optional.ofNullable(vts.get(x.getType())).orElseThrow(() -> new GenericException("Unable to find " + x.getType())).apply(nc);
 		}, buildContext(blueprint.getInstance()), masterVertex);
 	}
 
@@ -147,6 +169,11 @@ public class NfvoOrchestrationV3 implements WorkflowV3<NsdPackage, NsBlueprint, 
 		case VNFFG_LOADBALANCER -> VnffgLoadbalancerNode.class;
 		case VNFFG_POST -> VnffgPostNode.class;
 		case VNFFG_PORT_PAIR -> PortPairNode.class;
+		case TF_NETWORK_POLICY -> NetworkPolicyNode.class;
+		case TF_PORT_TUPLE -> PortTupleNode.class;
+		case TF_PT_LINK -> PtLinkNode.class;
+		case TF_SERVICE_INSTANCE -> ServiceInstanceNode.class;
+		case TF_SERVICE_TEMPLATE -> ServiceTemplateNode.class;
 		default -> throw new GenericException(x.getNsTask().getType() + " is not handled.");
 		};
 		return new ContextHolder(x.getId(), t, x.getNsTask().getToscaName(), x.getRank(), x.getResourceId());

@@ -21,12 +21,15 @@ import java.awt.image.BufferedImage;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+
+import javax.validation.constraints.NotNull;
 
 import org.jgrapht.Graph;
 import org.jgrapht.ListenableGraph;
@@ -43,6 +46,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mxgraph.layout.mxIGraphLayout;
@@ -51,15 +55,24 @@ import com.mxgraph.util.mxCellRenderer;
 import com.mxgraph.util.mxConstants;
 import com.mxgraph.util.mxStyleUtils;
 import com.ubiqube.etsi.mano.dao.mano.NsLiveInstance;
+import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
+import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsBlueprintJpa;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsLiveInstanceJpa;
+import com.ubiqube.etsi.mano.nfvo.service.NsdPackageService;
 import com.ubiqube.etsi.mano.nfvo.service.graph.NsPlanService;
 import com.ubiqube.etsi.mano.orchestrator.nodes.ConnectivityEdge;
+import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
+import com.ubiqube.etsi.mano.orchestrator.nodes.contrail.PtLinkNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.contrail.ServiceInstanceNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.contrail.ServiceTemplateNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.NetworkPolicyNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfCreateNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Compute;
 import com.ubiqube.etsi.mano.orchestrator.scale.ScalingEngine;
+import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.VnfPlanService;
 import com.ubiqube.etsi.mano.service.graph.Edge2d;
 import com.ubiqube.etsi.mano.service.graph.Vertex2d;
@@ -70,24 +83,61 @@ import com.ubiqube.etsi.mano.service.graph.Vertex2d;
  *
  */
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/poc")
 public class Poc {
 
 	private static final Logger LOG = LoggerFactory.getLogger(Poc.class);
+	private final VnfPackageService vnfPackageService;
+	private final NsdPackageService nsdPackageService;
 
 	private final NsLiveInstanceJpa nsLiveInstanceJpa;
 	private final NsBlueprintJpa nsBlueprintJpa;
 	private final VnfPlanService vnfPlanService;
 	private final NsPlanService nsPlanService;
 
-	public Poc(final NsLiveInstanceJpa nsLiveInstanceJpa, final NsBlueprintJpa nsBlueprintJpa, final VnfPlanService vnfPlanService, final NsPlanService nsPlanService) {
+	public Poc(final NsLiveInstanceJpa nsLiveInstanceJpa, final NsBlueprintJpa nsBlueprintJpa, final VnfPlanService vnfPlanService,
+			final NsPlanService nsPlanService, final VnfPackageService vnfPackageService, final NsdPackageService nsdPackageService) {
 		this.nsLiveInstanceJpa = nsLiveInstanceJpa;
 		this.nsBlueprintJpa = nsBlueprintJpa;
 		this.vnfPlanService = vnfPlanService;
 		this.nsPlanService = nsPlanService;
+		this.vnfPackageService = vnfPackageService;
+		this.nsdPackageService = nsdPackageService;
 	}
 
-//	@GetMapping("/plan/ns/2d/{id}")
+	@GetMapping("/vnfpkg/{id}")
+	public ResponseEntity<VnfPackage> getVnfPackage(@PathVariable("id") final UUID id) {
+		return ResponseEntity.ok(vnfPackageService.findById(id));
+	}
+
+	@GetMapping("/nsdpkg/{id}")
+	public ResponseEntity<NsdPackage> getNsdPackage(@PathVariable("id") final UUID id) {
+		return ResponseEntity.ok(nsdPackageService.findById(id));
+	}
+
+	@GetMapping("/plan/vnf/junit/{id}")
+	public ResponseEntity<VertexResult> getDebugJunitVnf(@PathVariable("id") final UUID id) {
+		final ListenableGraph<Vertex2d, Edge2d> g = vnfPlanService.getPlanFor(id);
+		final VertexResult res = new VertexResult();
+		res.setVertices(g.vertexSet());
+		res.setEdges(g.edgeSet().stream().map(x -> new JsonEdge(x.getSource().toString(), x.getTarget().toString(), x.getRelation())).toList());
+		return ResponseEntity
+				.ok().contentType(MediaType.APPLICATION_JSON)
+				.body(res);
+	}
+
+	@GetMapping("/plan/ns/junit/{id}")
+	public ResponseEntity<VertexResult> getDebugJunitNs(@PathVariable("id") final UUID id) {
+		final ListenableGraph<Vertex2d, Edge2d> g = nsPlanService.getPlanFor(id);
+		final VertexResult res = new VertexResult();
+		res.setVertices(g.vertexSet());
+		res.setEdges(g.edgeSet().stream().map(x -> new JsonEdge(x.getSource().toString(), x.getTarget().toString(), x.getRelation())).toList());
+		return ResponseEntity
+				.ok().contentType(MediaType.APPLICATION_JSON)
+				.body(res);
+	}
+
+	@GetMapping("/plan/ns/2d/{id}")
 	public ResponseEntity<BufferedImage> getNs2dPlan(@PathVariable("id") final UUID id) {
 		final ListenableGraph<Vertex2d, Edge2d> g = nsPlanService.getPlanFor(id);
 		return ResponseEntity
@@ -96,16 +146,22 @@ public class Poc {
 	}
 
 	@GetMapping("/plan/ns/3d/{id}")
-	public ResponseEntity<BufferedImage> getNs3dPlan(@PathVariable("id") final UUID id) {
+	public ResponseEntity<BufferedImage> getNs3dPlan(@PathVariable("id") final UUID id, @NotNull @RequestParam("class") final String clazz, @NotNull @RequestParam("name") final String name) {
+		final Map<String, Class<? extends Node>> map = new HashMap<>();
+		map.put("VnfCreateNode", VnfCreateNode.class);
+		map.put("PtLinkNode", PtLinkNode.class);
+		map.put("ServiceTemplateNode", ServiceTemplateNode.class);
+		map.put("ServiceInstanceNode", ServiceInstanceNode.class);
+		map.put("NetworkPolicyNode", NetworkPolicyNode.class);
 		final ListenableGraph<Vertex2d, Edge2d> o = nsPlanService.getPlanFor(id);
 		final ScalingEngine se = new ScalingEngine();
-		final ListenableGraph<Vertex2d, Edge2d> g = se.scale(o, VnfCreateNode.class, "vnf_left");
+		final ListenableGraph<Vertex2d, Edge2d> g = se.scale(o, map.get(clazz), name);
 		return ResponseEntity
 				.ok().contentType(MediaType.IMAGE_PNG)
 				.body(drawGraph2(g));
 	}
 
-//	@GetMapping("/plan/vnf/2d/{id}")
+	@GetMapping("/plan/vnf/2d/{id}")
 	public ResponseEntity<BufferedImage> getVnf2dPlan(@PathVariable("id") final UUID id) {
 		final ListenableGraph<Vertex2d, Edge2d> g = vnfPlanService.getPlanFor(id);
 		return ResponseEntity
@@ -123,7 +179,7 @@ public class Poc {
 				.body(drawGraph2(g));
 	}
 
-//	@GetMapping("/ns/lcm-op-occs/{id}")
+	@GetMapping("/ns/lcm-op-occs/{id}")
 	public ResponseEntity<BufferedImage> getDeployementPicture(@PathVariable("id") final UUID id) {
 		final NsBlueprint blueprint = nsBlueprintJpa.findById(id).orElseThrow();
 		final List<NsLiveInstance> liveInst = nsLiveInstanceJpa.findByNsInstanceId(blueprint.getInstance().getId());

@@ -27,8 +27,13 @@ import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
 import com.ubiqube.etsi.mano.dao.mano.nsd.ForwarderMapping;
 import com.ubiqube.etsi.mano.nfvo.service.NsdPackageService;
+import com.ubiqube.etsi.mano.orchestrator.nodes.contrail.PortTupleNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.contrail.PtLinkNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.contrail.ServiceInstanceNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.contrail.ServiceTemplateNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.mec.NsdExtractorNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.mec.VnfExtractorNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.NetworkPolicyNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.NsdCreateNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.NsdInstantiateNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.PortPairNode;
@@ -64,9 +69,28 @@ public class NsPlanService {
 		nsd.getNestedNsdInfoIds().forEach(x -> {
 			g.single(NsdCreateNode.class, x.getToscaName());
 			g.from(NsdCreateNode.class, x.getToscaName()).addNext(NsdInstantiateNode.class, x.getToscaName(), Relation.ONE_TO_ONE);
-			x.getVirtualLinks().forEach(y -> g.from(Network.class, y).addNext(NsdCreateNode.class, x.getToscaName(), Relation.MANY_TO_ONE));
+			x.getVirtualLinks().forEach(y -> g.from(Network.class, y).addNext(NsdInstantiateNode.class, x.getToscaName(), Relation.MANY_TO_ONE));
 			g.from(NsdInstantiateNode.class, x.getToscaName()).addNext(NsdExtractorNode.class, x.getToscaName(), Relation.ONE_TO_ONE);
 		});
+		// makeSfcPlan(g, nsd);
+		nsd.getVnfPkgIds().forEach(x -> {
+			g.single(VnfCreateNode.class, x.getToscaName());
+			g.from(VnfCreateNode.class, x.getToscaName()).addNext(VnfInstantiateNode.class, x.getToscaName(), Relation.ONE_TO_ONE);
+			x.getVirtualLinks().forEach(y -> {
+				final Optional<ForwarderMapping> fm = findInFm(x.getForwardMapping(), y);
+				if (fm.isPresent()) {
+					g.from(Network.class, fm.get().getVlName()).addNext(VnfInstantiateNode.class, x.getToscaName(), Relation.ONE_TO_MANY);
+				} else {
+					g.from(Network.class, y.getValue()).addNext(VnfInstantiateNode.class, x.getToscaName(), Relation.MANY_TO_ONE);
+				}
+			});
+			g.from(VnfInstantiateNode.class, x.getToscaName()).addNext(VnfExtractorNode.class, x.getToscaName(), Relation.ONE_TO_ONE);
+		});
+		doContrail(nsd, g);
+		return g.build();
+	}
+
+	private void makeSfcPlan(final Graph2dBuilder g, final NsdPackage nsd) {
 		nsd.getVnffgs().forEach(x -> {
 			g.single(VnffgPostNode.class, x.getName());
 			x.getName();
@@ -78,20 +102,32 @@ public class NsPlanService {
 				});
 			}));
 		});
-		nsd.getVnfPkgIds().forEach(x -> {
-			g.single(VnfCreateNode.class, x.getToscaName());
-			g.from(VnfCreateNode.class, x.getToscaName()).addNext(VnfInstantiateNode.class, x.getToscaName(), Relation.ONE_TO_ONE);
-			x.getVirtualLinks().forEach(y -> {
-				final Optional<ForwarderMapping> fm = findInFm(x.getForwardMapping(), y);
-				if (fm.isPresent()) {
-					g.from(Network.class, fm.get().getVlName()).addNext(VnfCreateNode.class, x.getToscaName(), Relation.ONE_TO_MANY);
-				} else {
-					g.from(Network.class, y.getValue()).addNext(VnfCreateNode.class, x.getToscaName(), Relation.MANY_TO_ONE);
-				}
+	}
+
+	private static void doContrail(final NsdPackage nsd, final Graph2dBuilder g) {
+		if (nsd.getVnffgs().isEmpty()) {
+			return;
+		}
+		nsd.getVnffgs().forEach(x -> {
+			g.single(ServiceTemplateNode.class, x.getName());
+			x.getNfpd().stream().flatMap(y -> y.getInstances().stream()).forEach(y -> {
+				g.single(ServiceInstanceNode.class, y.getToscaName());
+				// Add networks for SI
+				g.from(ServiceInstanceNode.class, y.getToscaName()).dependency(ServiceTemplateNode.class, x.getName(), Relation.MANY_TO_ONE);
+				// g.from(ServiceInstanceNode.class, y.getToscaName()).addNext(PolicyRule.class,
+				// y.getToscaName(), Relation.ONE_TO_ONE);
+				g.single(NetworkPolicyNode.class, y.getToscaName());
+				g.from(NetworkPolicyNode.class, y.getToscaName()).dependency(ServiceInstanceNode.class, y.getToscaName(), Relation.ONE_TO_MANY);
+				// Add Networks.
+				y.getPairs().forEach(z -> {
+					g.from(ServiceInstanceNode.class, y.getToscaName()).addNext(PortTupleNode.class, z.getToscaName(), Relation.MANY_TO_ONE);
+					g.from(ServiceInstanceNode.class, y.getToscaName()).dependency(Network.class, z.getIngressVl(), Relation.MANY_TO_ONE);
+					g.from(ServiceInstanceNode.class, y.getToscaName()).dependency(Network.class, z.getEgressVl(), Relation.MANY_TO_ONE);
+					g.from(PortTupleNode.class, z.getToscaName()).addNext(PtLinkNode.class, z.getToscaName(), Relation.ONE_TO_ONE);
+					g.from(VnfExtractorNode.class, z.getVnf()).addNext(PtLinkNode.class, z.getToscaName(), Relation.ONE_TO_ONE);
+				});
 			});
-			g.from(VnfInstantiateNode.class, x.getToscaName()).addNext(VnfExtractorNode.class, x.getToscaName(), Relation.ONE_TO_ONE);
 		});
-		return g.build();
 	}
 
 	private static Optional<ForwarderMapping> findInFm(final Set<ForwarderMapping> forwardMapping, final ListKeyPair lkp) {

@@ -16,6 +16,8 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service.system;
 
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
@@ -57,7 +59,7 @@ public class NsVnfContextExtractorSystem extends AbstractVimSystemV3<NsVnfExtrac
 
 	@Override
 	protected SystemBuilder<UnitOfWorkV3<NsVnfExtractorTask>> getImplementation(final OrchestrationServiceV3<NsVnfExtractorTask> orchestrationService, final VirtualTaskV3<NsVnfExtractorTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
-		final NsdPackage pack = nsdPackageJpa.findById(virtualTask.getTemplateParameters().getNsdId())
+		final NsdPackage pack = nsdPackageJpa.findById(UUID.fromString(virtualTask.getTemplateParameters().getNsdId()))
 				.orElseThrow(() -> new GenericException("Unable to find package [" + virtualTask.getTemplateParameters().getNsdId() + "]"));
 		return orchestrationService.systemBuilderOf(new VnfContextExtractorUow(virtualTask, vnfm, pack));
 	}
