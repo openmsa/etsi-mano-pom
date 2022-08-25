@@ -32,6 +32,7 @@ import com.ubiqube.etsi.mano.service.vim.VimManager;
  */
 public abstract class AbstractVimSystemV3<U> implements SystemV3<U> {
 	private final VimManager vimManager;
+	private SystemConnections systemConnection;
 
 	protected AbstractVimSystemV3(final VimManager vimManager) {
 		this.vimManager = vimManager;
@@ -39,10 +40,14 @@ public abstract class AbstractVimSystemV3<U> implements SystemV3<U> {
 
 	@Override
 	public final SystemBuilder<UnitOfWorkV3<U>> getImplementation(final OrchestrationServiceV3<U> orchestrationService, final VirtualTaskV3<U> virtualTask, final SystemConnections vimConnectionInformation) {
+		this.systemConnection = vimConnectionInformation;
 		final VimConnectionInformation vimConn = vimManager.findVimByVimId(vimConnectionInformation.getVimId());
 		return getImplementation(orchestrationService, virtualTask, vimConn);
 	}
 
 	protected abstract SystemBuilder<UnitOfWorkV3<U>> getImplementation(final OrchestrationServiceV3<U> orchestrationService, final VirtualTaskV3<U> virtualTask, VimConnectionInformation vimConnectionInformation);
 
+	protected SystemConnections getSystemConnections() {
+		return systemConnection;
+	}
 }
