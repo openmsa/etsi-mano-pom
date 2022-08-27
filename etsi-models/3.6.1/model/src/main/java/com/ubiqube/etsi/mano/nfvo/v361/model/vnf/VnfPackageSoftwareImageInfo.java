@@ -173,13 +173,13 @@ public class VnfPackageSoftwareImageInfo {
 	private OffsetDateTime createdAt = null;
 
 	@JsonProperty("minDisk")
-	private Integer minDisk = null;
+	private Long minDisk = null;
 
 	@JsonProperty("minRam")
-	private Integer minRam = null;
+	private Long minRam = null;
 
 	@JsonProperty("size")
-	private Integer size = null;
+	private Long size = null;
 
 	@JsonProperty("userMetadata")
 	private Map<String, String> userMetadata = null;
@@ -393,7 +393,7 @@ public class VnfPackageSoftwareImageInfo {
 		this.createdAt = createdAt;
 	}
 
-	public VnfPackageSoftwareImageInfo minDisk(final Integer minDisk) {
+	public VnfPackageSoftwareImageInfo minDisk(final Long minDisk) {
 		this.minDisk = minDisk;
 		return this;
 	}
@@ -407,15 +407,15 @@ public class VnfPackageSoftwareImageInfo {
 	@NotNull
 
 	@Min(0)
-	public Integer getMinDisk() {
+	public Long getMinDisk() {
 		return minDisk;
 	}
 
-	public void setMinDisk(final Integer minDisk) {
+	public void setMinDisk(final Long minDisk) {
 		this.minDisk = minDisk;
 	}
 
-	public VnfPackageSoftwareImageInfo minRam(final Integer minRam) {
+	public VnfPackageSoftwareImageInfo minRam(final Long minRam) {
 		this.minRam = minRam;
 		return this;
 	}
@@ -429,15 +429,15 @@ public class VnfPackageSoftwareImageInfo {
 	@NotNull
 
 	@Min(0)
-	public Integer getMinRam() {
+	public Long getMinRam() {
 		return minRam;
 	}
 
-	public void setMinRam(final Integer minRam) {
+	public void setMinRam(final Long minRam) {
 		this.minRam = minRam;
 	}
 
-	public VnfPackageSoftwareImageInfo size(final Integer size) {
+	public VnfPackageSoftwareImageInfo size(final Long size) {
 		this.size = size;
 		return this;
 	}
@@ -451,11 +451,11 @@ public class VnfPackageSoftwareImageInfo {
 	@NotNull
 
 	@Min(0)
-	public Integer getSize() {
+	public Long getSize() {
 		return size;
 	}
 
-	public void setSize(final Integer size) {
+	public void setSize(final Long size) {
 		this.size = size;
 	}
 
@@ -539,7 +539,7 @@ public class VnfPackageSoftwareImageInfo {
 		if (this == o) {
 			return true;
 		}
-		if (o == null || getClass() != o.getClass()) {
+		if ((o == null) || (getClass() != o.getClass())) {
 			return false;
 		}
 		final VnfPackageSoftwareImageInfo vnfPackageSoftwareImageInfo = (VnfPackageSoftwareImageInfo) o;
