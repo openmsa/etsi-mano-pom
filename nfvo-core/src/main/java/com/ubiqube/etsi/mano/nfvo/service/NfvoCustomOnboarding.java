@@ -68,6 +68,9 @@ public class NfvoCustomOnboarding implements CustomOnboarding {
 
 	private void handleArtifact(final Set<String> cache, final ZipOutputStream zipOut, final VnfPackage vnfPackage, final VnfPackageReader vnfPackageReader, final AdditionalArtifact artifact) {
 		final UUID id = vnfPackage.getId();
+		if (null == artifact.getArtifactPath()) {
+			return;
+		}
 		addEntry(zipOut, artifact.getArtifactPath());
 		copyFile(zipOut, vnfPackageReader, id, artifact.getArtifactPath());
 		if ((artifact.getSignature() != null) && !cache.contains(artifact.getSignature())) {
