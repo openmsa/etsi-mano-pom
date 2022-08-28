@@ -46,6 +46,7 @@ import com.ubiqube.etsi.mano.em.v361.model.vnflcm.TerminateVnfRequest;
 import com.ubiqube.etsi.mano.em.v361.model.vnflcm.VnfInstance;
 import com.ubiqube.etsi.mano.em.v361.model.vnflcm.VnfInstanceLinks;
 import com.ubiqube.etsi.mano.vnfm.fc.vnflcm.VnfInstanceGenericFrontController;
+import com.ubiqube.etsi.mano.vnfm.v361.controller.vnfind.Indicators361Sol003Api;
 
 /**
  *
@@ -57,7 +58,6 @@ public class VnfInstances361Sol003Controller implements VnfInstances361Sol003Api
 	private final VnfInstanceGenericFrontController frontController;
 
 	public VnfInstances361Sol003Controller(final VnfInstanceGenericFrontController frontController) {
-		super();
 		this.frontController = frontController;
 	}
 
@@ -156,7 +156,7 @@ public class VnfInstances361Sol003Controller implements VnfInstances361Sol003Api
 		final String hrefScale = linkTo(methodOn(VnfInstances361Sol003Api.class).vnfInstancesVnfInstanceIdScalePost(id, null)).withSelfRel().getHref();
 		final String hrefOperate = linkTo(methodOn(VnfInstances361Sol003Api.class).vnfInstancesVnfInstanceIdOperatePost(id, null)).withSelfRel().getHref();
 		final String hrefInstanciate = linkTo(methodOn(VnfInstances361Sol003Api.class).vnfInstancesVnfInstanceIdInstantiatePost(id, null)).withSelfRel().getHref();
-		final String hrefIndicators = "";
+		final String hrefIndicators = linkTo(methodOn(Indicators361Sol003Api.class).indicatorsVnfInstanceIdGet(id, null, null)).withSelfRel().getHref();
 		final String hrefHeal = linkTo(methodOn(VnfInstances361Sol003Api.class).vnfInstancesVnfInstanceIdHealPost(id, null)).withSelfRel().getHref();
 		final String hrefChangeFlavor = linkTo(methodOn(VnfInstances361Sol003Api.class).vnfInstancesVnfInstanceIdChangeFlavourPost(id, null)).withSelfRel().getHref();
 		final String hrefChangeExtConn = linkTo(methodOn(VnfInstances361Sol003Api.class).vnfInstancesVnfInstanceIdChangeExtConnPost(id, null)).withSelfRel().getHref();
