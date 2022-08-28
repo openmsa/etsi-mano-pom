@@ -88,7 +88,7 @@ public class VnfPlanService {
 				final VnfVl vl = vnfPkg.getVnfVl().stream().filter(z -> z.getToscaName().equals(y.getVirtualLink())).findFirst().orElseThrow(() -> new GenericException("Could not find Vl named: " + y.getVirtualLink()));
 				g.from(Compute.class, x.getToscaName()).dependency(VnfPortNode.class, y.getToscaName(), Relation.ONE_TO_ONE);
 				vl.getVlProfileEntity().getVirtualLinkProtocolData().stream()
-						.forEach(z -> g.from(VnfPortNode.class, y.getToscaName()).dependency(SubNetwork.class, vl.getToscaName() + "-" + z.getL2ProtocolData().getName(), Relation.MANY_TO_ONE));
+						.forEach(z -> g.from(VnfPortNode.class, y.getToscaName()).dependency(SubNetwork.class, vl.getToscaName() + "-" + z.getL2ProtocolData().getName(), Relation.ONE_TO_MANY));
 			});
 			x.getPlacementGroup().forEach(y -> g.from(Compute.class, x.getToscaName()).dependency(SecurityGroupNode.class, y.getToscaName(), Relation.MANY_TO_ONE));
 			g.single(DnsHost.class, x.getToscaName());
