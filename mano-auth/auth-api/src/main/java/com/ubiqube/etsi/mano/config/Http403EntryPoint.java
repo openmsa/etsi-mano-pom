@@ -57,7 +57,7 @@ public class Http403EntryPoint implements AuthenticationEntryPoint {
 
 	@Override
 	public void commence(final HttpServletRequest request, final HttpServletResponse response, final AuthenticationException authException) throws IOException, ServletException {
-		LOG.error("Auth failed");
+		LOG.error("Auth failed {}", request.getRemoteAddr());
 		response.setContentType(MediaType.APPLICATION_PROBLEM_JSON.toString());
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		response.addHeader("WWW-Authenticate", "Basic realm=\"ETSI-MANO API Realm\"");
