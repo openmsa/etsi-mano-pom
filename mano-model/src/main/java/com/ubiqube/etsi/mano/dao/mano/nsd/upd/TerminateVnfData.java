@@ -34,15 +34,15 @@ public class TerminateVnfData implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@JsonProperty("vnfInstanceId")
-	private String vnfInstanceId = null;
+	private String vnfInstanceId;
 
 	// @JsonProperty("terminationType")
-	// private TerminationTypeEnum terminationType = null;
+	// private TerminationTypeEnum terminationType = null
 
 	@JsonProperty("gracefulTerminationTimeout")
-	private Integer gracefulTerminationTimeout = null;
+	private Integer gracefulTerminationTimeout;
 
 	@JsonProperty("additionalParams")
-	private Map<String, String> additionalParams = null;
+	private Map<String, String> additionalParams;
 
 }

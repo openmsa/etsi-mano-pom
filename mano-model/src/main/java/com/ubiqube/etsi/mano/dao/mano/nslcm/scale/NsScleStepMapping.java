@@ -27,7 +27,5 @@ public interface NsScleStepMapping {
 
 	String getAspectId();
 
-	// int getNumberOfInstance();
-
 	Set<StepMapping> getLevels();
 }

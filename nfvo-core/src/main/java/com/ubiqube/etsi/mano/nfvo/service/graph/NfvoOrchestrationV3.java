@@ -110,10 +110,10 @@ public class NfvoOrchestrationV3 implements WorkflowV3<NsdPackage, NsBlueprint, 
 	private final NsLiveInstanceJpa nsLiveInstanceJpa;
 	private final Map<ResourceTypeEnum, Function<NsTask, VirtualTaskV3<? extends NsTask>>> vts;
 	private final List<Class<? extends Node>> masterVertex;
-	private final Planner<NsBlueprint, NsTask, NsTask> planv2;
+	private final Planner<NsTask> planv2;
 
 	public NfvoOrchestrationV3(final List<AbstractNsdContributorV3<?>> contributors, final BlueprintBuilder blueprintBuilder, final NsPlanService planService,
-			final NsLiveInstanceJpa nsLiveInstanceJpa, final Planner<NsBlueprint, NsTask, NsTask> planv2) {
+			final NsLiveInstanceJpa nsLiveInstanceJpa, final Planner<NsTask> planv2) {
 		this.contributors = (List<AbstractNsdContributorV3<NsTask>>) ((Object) contributors);
 		this.blueprintBuilder = blueprintBuilder;
 		this.planService = planService;

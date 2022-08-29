@@ -41,7 +41,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.PlanOperationType;
 import com.ubiqube.etsi.mano.dao.mano.v2.Task;
 import com.ubiqube.etsi.mano.orchestrator.OrchExecutionResults;
 import com.ubiqube.etsi.mano.orchestrator.v3.PreExecutionGraphV3;
-import com.ubiqube.etsi.mano.service.NsScaleStrategy;
+import com.ubiqube.etsi.mano.service.NsScaleStrategyV3;
 import com.ubiqube.etsi.mano.service.VimResourceService;
 import com.ubiqube.etsi.mano.service.graph.WorkflowEvent;
 
@@ -60,9 +60,9 @@ public abstract class AbstractGenericActionV3 {
 
 	private final OrchestrationAdapter<?, ?> orchestrationAdapter;
 
-	private final NsScaleStrategy nsScaleStrategy;
+	private final NsScaleStrategyV3 nsScaleStrategy;
 
-	protected AbstractGenericActionV3(final WorkflowV3 workflow, final VimResourceService vimResourceService, final OrchestrationAdapter<?, ?> orchestrationAdapter, final NsScaleStrategy nsScaleStrategy) {
+	protected AbstractGenericActionV3(final WorkflowV3 workflow, final VimResourceService vimResourceService, final OrchestrationAdapter<?, ?> orchestrationAdapter, final NsScaleStrategyV3 nsScaleStrategy) {
 		this.workflow = workflow;
 		this.vimResourceService = vimResourceService;
 		this.orchestrationAdapter = orchestrationAdapter;

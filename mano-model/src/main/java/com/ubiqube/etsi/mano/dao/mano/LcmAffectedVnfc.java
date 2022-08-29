@@ -48,7 +48,7 @@ public class LcmAffectedVnfc {
 
 	private VimResource computeResource;
 
-	// private Map<String, String> metadata;
+	// private metadata
 
 	// Those are also instances.
 	@ElementCollection

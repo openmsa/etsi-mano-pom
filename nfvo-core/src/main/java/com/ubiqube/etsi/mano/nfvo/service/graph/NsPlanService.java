@@ -72,7 +72,7 @@ public class NsPlanService {
 			x.getVirtualLinks().forEach(y -> g.from(Network.class, y).addNext(NsdInstantiateNode.class, x.getToscaName(), Relation.MANY_TO_ONE));
 			g.from(NsdInstantiateNode.class, x.getToscaName()).addNext(NsdExtractorNode.class, x.getToscaName(), Relation.ONE_TO_ONE);
 		});
-		// makeSfcPlan(g, nsd);
+		// makeSfcPlan(g, nsd)
 		nsd.getVnfPkgIds().forEach(x -> {
 			g.single(VnfCreateNode.class, x.getToscaName());
 			g.from(VnfCreateNode.class, x.getToscaName()).addNext(VnfInstantiateNode.class, x.getToscaName(), Relation.ONE_TO_ONE);
@@ -115,7 +115,7 @@ public class NsPlanService {
 				// Add networks for SI
 				g.from(ServiceInstanceNode.class, y.getToscaName()).dependency(ServiceTemplateNode.class, x.getName(), Relation.MANY_TO_ONE);
 				// g.from(ServiceInstanceNode.class, y.getToscaName()).addNext(PolicyRule.class,
-				// y.getToscaName(), Relation.ONE_TO_ONE);
+				// y.getToscaName(), Relation.ONE_TO_ONE)
 				g.single(NetworkPolicyNode.class, y.getToscaName());
 				g.from(NetworkPolicyNode.class, y.getToscaName()).dependency(ServiceInstanceNode.class, y.getToscaName(), Relation.ONE_TO_MANY);
 				// Add Networks.

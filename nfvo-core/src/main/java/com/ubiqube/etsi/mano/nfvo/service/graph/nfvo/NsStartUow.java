@@ -29,13 +29,11 @@ public class NsStartUow extends AbstractUnitOfWork<NsTask> {
 
 	@Override
 	public String execute(final Context3d context) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String rollback(final Context3d context) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

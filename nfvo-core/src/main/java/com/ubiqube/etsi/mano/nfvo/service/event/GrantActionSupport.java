@@ -213,7 +213,7 @@ public class GrantActionSupport implements GrantSupport {
 				extVl.setResourceProviderId(x.getResourceProviderId());
 				extVl.setVimConnectionId(x.getVimConnectionId());
 				extVl.setVimLevelResourceType(x.getVimLevelResourceType());
-				// extVl.setVnfInstance();
+				// extVl.setVnfInstance()
 				extVl.setVnfVirtualLinkDescId(mapToVl(y.getVlId()));
 				grants.getExtManagedVirtualLinks().add(extVl);
 			});

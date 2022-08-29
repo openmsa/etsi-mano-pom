@@ -33,19 +33,19 @@ public class AddPnfData implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@JsonProperty("pnfId")
-	private String pnfId = null;
+	private String pnfId;
 
 	@JsonProperty("pnfName")
-	private String pnfName = null;
+	private String pnfName;
 
 	@JsonProperty("pnfdId")
-	private String pnfdId = null;
+	private String pnfdId;
 
 	@JsonProperty("pnfProfileId")
-	private String pnfProfileId = null;
+	private String pnfProfileId;
 
 	// @JsonProperty("cpData")
 	// @Valid
-	// private List<PnfExtCpData> cpData = null;
+	// private List<PnfExtCpData> cpData
 
 }

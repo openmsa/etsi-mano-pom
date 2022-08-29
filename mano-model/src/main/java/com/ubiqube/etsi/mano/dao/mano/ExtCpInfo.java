@@ -88,9 +88,7 @@ public class ExtCpInfo implements Serializable {
 	 * structure. Shall be present if the CP is associated to a link port. See note
 	 * 2.
 	 *
-	 * @deprecated Duplicate with 271.
 	 */
-	@Deprecated(forRemoval = false)
 	@OneToOne
 	private CpProtocolDataEntity extLinkPortId;
 	// 2.7.1 Type change

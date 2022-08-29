@@ -75,7 +75,10 @@ import com.ubiqube.etsi.mano.orchestrator.scale.ScalingEngine;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.VnfPlanService;
 import com.ubiqube.etsi.mano.service.graph.Edge2d;
+import com.ubiqube.etsi.mano.service.graph.GraphGenerator;
+import com.ubiqube.etsi.mano.service.graph.TaskVertex;
 import com.ubiqube.etsi.mano.service.graph.Vertex2d;
+import com.ubiqube.etsi.mano.service.graph.VertexStatusType;
 
 /**
  *
@@ -206,7 +209,7 @@ public class Poc {
 		g.addEdge(vs.next(), vs.next());
 		return ResponseEntity
 				.ok().contentType(MediaType.IMAGE_PNG)
-				.body(drawGraph(g));
+				.body(GraphGenerator.drawGraph(g));
 	}
 
 	private static TaskVertex toVertex(final NsTask x, final List<NsLiveInstance> liveInst) {
@@ -222,24 +225,6 @@ public class Poc {
 			return VertexStatusType.SUCCESS;
 		}
 		return VertexStatusType.FAILED;
-	}
-
-	public static <V, E> BufferedImage drawGraph(final Graph<V, E> graph) {
-		final JGraphXAdapter<V, E> graphAdapter = new JGraphXAdapter<>(graph);
-		final mxIGraphLayout layout = new mxHierarchicalLayout(graphAdapter);
-		layout.execute(graphAdapter.getDefaultParent());
-		graphAdapter.getVertexToCellMap().entrySet().forEach(x -> {
-			final Object[] lcell = Arrays.asList(x.getValue()).toArray();
-			mxStyleUtils.setCellStyles(graphAdapter.getModel(), lcell, mxConstants.STYLE_ROUNDED, "true");
-			final TaskVertex v = (TaskVertex) x.getValue().getValue();
-			if (v.getStatus() == VertexStatusType.SUCCESS) {
-				graphAdapter.setCellStyle("fillColor=7FFFD4", lcell);
-			} else {
-				graphAdapter.setCellStyle("fillColor=FF4040", lcell);
-				mxStyleUtils.setCellStyles(graphAdapter.getModel(), lcell, mxConstants.STYLE_FONTCOLOR, "F0F0F0");
-			}
-		});
-		return mxCellRenderer.createBufferedImage(graphAdapter, null, 1, new Color(255, 255, 255, 255), true, null);
 	}
 
 	public static <V, E> BufferedImage drawGraph2(final Graph<V, E> graph) {

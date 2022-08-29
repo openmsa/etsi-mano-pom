@@ -30,23 +30,23 @@ public class ExtVirtualLinkData implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@JsonProperty("id")
-	private String id = null;
+	private String id;
 
 	@JsonProperty("vimConnectionId")
-	private String vimConnectionId = null;
+	private String vimConnectionId;
 
 	@JsonProperty("resourceProviderId")
-	private String resourceProviderId = null;
+	private String resourceProviderId;
 
 	@JsonProperty("resourceId")
-	private String resourceId = null;
+	private String resourceId;
 
 	// @JsonProperty("extCps")
 	// @Valid
-	// private List<VnfExtCpData> extCps = new ArrayList<>();
+	// private List<VnfExtCpData> extCps = new ArrayList<>()
 
 	// @JsonProperty("extLinkPorts")
 	// @Valid
-	// private List<ExtLinkPortData> extLinkPorts = null;
+	// private List<ExtLinkPortData> extLinkPorts
 
 }

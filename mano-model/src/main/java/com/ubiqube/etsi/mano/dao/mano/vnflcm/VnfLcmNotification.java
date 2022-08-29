@@ -71,11 +71,11 @@ public class VnfLcmNotification {
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<LcmAffectedVnfc> affectedVnfcs;
 
-	// private List<AffectedVirtualLink> affectedVirtualLinks ;
+	// private List<AffectedVirtualLink> affectedVirtualLinks
 
-	// private List<AffectedVirtualStorage> affectedVirtualStorages ;
+	// private List<AffectedVirtualStorage> affectedVirtualStorages
 
-	// private VnfInfoModifications changedInfo ;
+	// private VnfInfoModifications changedInfo
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<ExtVirtualLinkInfoEntity> changedExtConnectivity;
 

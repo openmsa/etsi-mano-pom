@@ -72,10 +72,6 @@ public class VnfInstantiateUow extends AbstractUnitOfWork<NsVnfInstantiateTask> 
 		final String inst = context.get(VnfCreateNode.class, task.getVnfInstanceName());
 		final List<ExternalManagedVirtualLink> net = task.getParam().getForwardMapping().stream().map(x -> {
 			final String resource = context.get(Network.class, x.getVlName());
-			if (null == resource) {
-				LOG.warn("Could not find network resource {} => {}, not released.", x.getVlName(), context);
-				return null;
-			}
 			return createExmvl(x, resource);
 		})
 				.filter(Objects::nonNull)
@@ -104,12 +100,12 @@ public class VnfInstantiateUow extends AbstractUnitOfWork<NsVnfInstantiateTask> 
 
 	private VnfInstantiate createRequest() {
 		final VnfInstantiate inst = new VnfInstantiate();
-		// inst.setExtManagedVirtualLinks(task.getExternalNetworks());
-		// inst.setExtVirtualLinks(extVirtualLinks);
+		// inst.setExtManagedVirtualLinks(task.getExternalNetworks())
+		// inst.setExtVirtualLinks(extVirtualLinks)
 		inst.setFlavourId(task.getFlavourId());
 		inst.setInstantiationLevelId(task.getInstantiationLevelId());
 		inst.setLocalizationLanguage(task.getLocalizationLanguage());
-		// inst.setVimConnectionInfo(task.getVimConnectionInfo());
+		// inst.setVimConnectionInfo(task.getVimConnectionInfo())
 		return inst;
 	}
 

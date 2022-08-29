@@ -36,7 +36,7 @@ import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
-import com.ubiqube.etsi.mano.service.NsScaleStrategy;
+import com.ubiqube.etsi.mano.service.NsScaleStrategyV3;
 import com.ubiqube.etsi.mano.service.VimResourceService;
 import com.ubiqube.etsi.mano.service.event.AbstractGenericActionV3;
 import com.ubiqube.etsi.mano.service.vim.Vim;
@@ -70,7 +70,7 @@ public class VnfmActions extends AbstractGenericActionV3 {
 	public VnfmActions(final VimManager vimManager, final VnfOrchestrationAdapter orchestrationAdapter, final VnfInstanceService vnfInstancesService,
 			final VnfBlueprintService blueprintService, final VimResourceService vimResourceService, final VnfLiveInstanceJpa vnfLiveInstanceJpa,
 			final VnfInstanceServiceVnfm vnfInstanceServiceVnfm, final VnfWorkflow workflow) {
-		super(workflow, vimResourceService, orchestrationAdapter, new NsScaleStrategy());
+		super(workflow, vimResourceService, orchestrationAdapter, new NsScaleStrategyV3());
 		this.vimManager = vimManager;
 		this.vnfInstancesService = vnfInstancesService;
 		this.blueprintService = blueprintService;

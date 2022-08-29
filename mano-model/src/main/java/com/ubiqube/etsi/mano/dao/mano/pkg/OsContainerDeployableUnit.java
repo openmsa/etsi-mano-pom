@@ -58,7 +58,7 @@ public class OsContainerDeployableUnit implements Serializable {
 	 * It pose serious problems in Orika.
 	 */
 	// @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	// private Set<LogicalNodeData> logicalNode;
+	// private Set<LogicalNodeData> logicalNode
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<RequestedAdditionalCapability> requestedAdditionalCapabilities;

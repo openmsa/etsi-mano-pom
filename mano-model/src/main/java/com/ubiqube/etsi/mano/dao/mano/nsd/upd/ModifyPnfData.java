@@ -33,13 +33,13 @@ public class ModifyPnfData implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@JsonProperty("pnfId")
-	private String pnfId = null;
+	private String pnfId;
 
 	@JsonProperty("pnfName")
-	private String pnfName = null;
+	private String pnfName;
 
 	// @JsonProperty("cpData")
 	// @Valid
-	// private List<PnfExtCpData> cpData = null;
+	// private List<PnfExtCpData> cpData = null
 
 }

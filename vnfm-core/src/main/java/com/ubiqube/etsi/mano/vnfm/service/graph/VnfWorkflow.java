@@ -97,10 +97,10 @@ public class VnfWorkflow implements WorkflowV3<VnfPackage, VnfBlueprint, VnfTask
 	private final List<Class<? extends Node>> masterVertex;
 	private final Map<ResourceTypeEnum, Function<VnfTask, VirtualTaskV3<? extends VnfTask>>> vts;
 
-	private final Planner<VnfBlueprint, VnfTask, VnfTask> planv2;
+	private final Planner<VnfTask> planv2;
 	private final VnfLiveInstanceJpa liveInstanceJpa;
 
-	public VnfWorkflow(final Planner<VnfBlueprint, VnfTask, VnfTask> planv2, final VnfLiveInstanceJpa vnfInstanceJpa,
+	public VnfWorkflow(final Planner<VnfTask> planv2, final VnfLiveInstanceJpa vnfInstanceJpa,
 			final List<AbstractVnfmContributorV3<?>> contributors, final VnfPlanService planService, final BlueprintBuilder blueprintBuilder) {
 		this.planv2 = planv2;
 		this.liveInstanceJpa = vnfInstanceJpa;

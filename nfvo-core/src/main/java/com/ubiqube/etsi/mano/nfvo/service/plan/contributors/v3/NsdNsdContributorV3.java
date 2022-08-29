@@ -33,7 +33,7 @@ import com.ubiqube.etsi.mano.orchestrator.SclableResources;
 import com.ubiqube.etsi.mano.orchestrator.nodes.mec.VnfExtractorNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfCreateNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfInstantiateNode;
-import com.ubiqube.etsi.mano.service.NsScaleStrategy;
+import com.ubiqube.etsi.mano.service.NsScaleStrategyV3;
 
 /**
  *
@@ -42,9 +42,9 @@ import com.ubiqube.etsi.mano.service.NsScaleStrategy;
  */
 @Service
 public class NsdNsdContributorV3 extends AbstractNsdContributorV3<Object> {
-	private final NsScaleStrategy nsScaleStrategy;
+	private final NsScaleStrategyV3 nsScaleStrategy;
 
-	protected NsdNsdContributorV3(final NsLiveInstanceJpa nsLiveInstanceJpa, final NsScaleStrategy nsScaleStrategy) {
+	protected NsdNsdContributorV3(final NsLiveInstanceJpa nsLiveInstanceJpa, final NsScaleStrategyV3 nsScaleStrategy) {
 		super(nsLiveInstanceJpa);
 		this.nsScaleStrategy = nsScaleStrategy;
 	}

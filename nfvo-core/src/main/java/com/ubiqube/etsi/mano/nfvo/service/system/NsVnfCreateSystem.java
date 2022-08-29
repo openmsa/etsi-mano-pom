@@ -25,6 +25,7 @@ import com.ubiqube.etsi.mano.orchestrator.OrchestrationServiceV3;
 import com.ubiqube.etsi.mano.orchestrator.SystemBuilder;
 import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfCreateNode;
+import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWorkV3;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.VnfmInterface;
 import com.ubiqube.etsi.mano.service.system.AbstractVimSystemV3;
@@ -45,38 +46,7 @@ public class NsVnfCreateSystem extends AbstractVimSystemV3<NsVnfTask> {
 	}
 
 	@Override
-	protected SystemBuilder getImplementation(final OrchestrationServiceV3<NsVnfTask> orchestrationService, final VirtualTaskV3<NsVnfTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
-		/**
-		 * final NsVnfInstantiateTask nt = new NsVnfInstantiateTask(); final NsVnfTask p
-		 * = virtualTask.getTemplateParameters(); //
-		 * nt.setVnfPackage(p.getNsPackageVnfPackage());
-		 * nt.setChangeType(p.getChangeType());
-		 * nt.setExternalNetworks(p.getExternalNetworks());
-		 * nt.setFlavourId(p.getFlavourId());
-		 * nt.setInstantiationLevelId(p.getInstantiationLevelId());
-		 * nt.setLocalizationLanguage(p.getLocalizationLanguage());
-		 * nt.setServer(p.getServer()); if (p.getChangeType() == ChangeType.REMOVED) {
-		 * nt.setVimResourceId(p.getVimResourceId()); } nt.setToscaName("inst-" +
-		 * p.getAlias()); nt.setAlias("inst-" + p.getAlias());
-		 * nt.setVnfInstanceName(virtualTask.getAlias()); nt.setType(p.getType());
-		 * nt.setVlName(p.getVlInstances()); if (p.getChangeType() !=
-		 * ChangeType.REMOVED) {
-		 * nt.setVirtualLinks(p.getNsPackageVnfPackage().getVirtualLinks()); }
-		 *
-		 * // final VnfInstantiateUow instantiateUow = new VnfInstantiateUow(new //
-		 * NsInstantiateVt(nt), vnfm); // s.add(new VnfCreateUow(virtualTask, vnfm),
-		 * instantiateUow); // final VnfContextExtractorTask contextTask = new
-		 * VnfContextExtractorTask(); // final NsdPackage pack = //
-		 * nsdPackageJpa.findById(UUID.fromString(p.getNsdId())).orElseThrow(() -> new
-		 * // GenericException("Unable to find package [" + p.getNsdId() + "]")); /*
-		 * contextTask.setToscaName("extract-" + p.getAlias());
-		 * contextTask.setAlias("extract-" + p.getAlias());
-		 * contextTask.setVnfdId(p.getVnfdId()); contextTask.setNsdPackage(pack);
-		 * contextTask.setServer(p.getServer());
-		 * contextTask.setVnfInstanceName(nt.getAlias());
-		 */
-		// s.add(instantiateUow, new VnfContextExtractorUow(new
-		// VnfContextExtractorVt(contextTask), vnfm, pack));
+	protected SystemBuilder<UnitOfWorkV3<NsVnfTask>> getImplementation(final OrchestrationServiceV3<NsVnfTask> orchestrationService, final VirtualTaskV3<NsVnfTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
 		return orchestrationService.systemBuilderOf(new VnfCreateUow(virtualTask, vnfm));
 	}
 

@@ -36,24 +36,24 @@ public class ChangeVnfFlavourData implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@JsonProperty("vnfInstanceId")
-	private String vnfInstanceId = null;
+	private String vnfInstanceId;
 
 	@JsonProperty("newFlavourId")
-	private String newFlavourId = null;
+	private String newFlavourId;
 
 	@JsonProperty("instantiationLevelId")
-	private String instantiationLevelId = null;
+	private String instantiationLevelId;
 
-	// private List<ExtVirtualLinkData> extVirtualLinks = null;
+	// List<ExtVirtualLinkData> extVirtualLinks
 
-	// private List<ExtManagedVirtualLinkData> extManagedVirtualLinks = null;
+	// List<ExtManagedVirtualLinkData> extManagedVirtualLinks
 
 	@JsonProperty("additionalParams")
-	private Map<String, String> additionalParams = null;
+	private Map<String, String> additionalParams;
 
 	@JsonProperty("extensions")
-	private Map<String, String> extensions = null;
+	private Map<String, String> extensions;
 
 	@JsonProperty("vnfConfigurableProperties")
-	private Map<String, String> vnfConfigurableProperties = null;
+	private Map<String, String> vnfConfigurableProperties;
 }

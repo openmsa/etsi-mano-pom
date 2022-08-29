@@ -25,7 +25,7 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
-import com.ubiqube.etsi.mano.dao.mano.NsdPackageVnfPackage;
+import com.ubiqube.etsi.mano.dao.mano.nsd.NsdVnfPackageCopy;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.NsScale;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.NsScaleInfo;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.ScaleNsByStepsData;
@@ -49,14 +49,14 @@ class VnfScallingTest {
 
 	@Test
 	void testName() throws Exception {
-		final NsScaleStrategy scale = new NsScaleStrategy();
+		final NsScaleStrategyV3 scale = new NsScaleStrategyV3();
 		final NsBlueprint nsBlueprint = new NsBlueprint();
 		nsBlueprint.setOperation(PlanOperationType.INSTANTIATE);
 		nsBlueprint.setNsInstantiationLevelId("level");
 		final NsdInstance inst = new NsdInstance();
 		inst.setNsInstantiationLevelId("level2");
 		nsBlueprint.setNsInstance(inst);
-		final NsdPackageVnfPackage nsPackage = new NsdPackageVnfPackage();
+		final NsdVnfPackageCopy nsPackage = new NsdVnfPackageCopy();
 		final Set<VnfScalingLevelMapping> levelMapping = new HashSet<>();
 		final VnfScalingLevelMapping l0 = new VnfScalingLevelMapping("", "", 1);
 		nsPackage.setLevelMapping(levelMapping);
@@ -102,8 +102,8 @@ class VnfScallingTest {
 
 	@Test
 	void testInstantiate() throws Exception {
-		final NsScaleStrategy nss = new NsScaleStrategy();
-		final NsdPackageVnfPackage nsPackageVnfPackage = new NsdPackageVnfPackage();
+		final NsScaleStrategyV3 nss = new NsScaleStrategyV3();
+		final NsdVnfPackageCopy nsPackageVnfPackage = new NsdVnfPackageCopy();
 		nsPackageVnfPackage.setLevelMapping(getLevelMapping());
 		nsPackageVnfPackage.setStepMapping(getVnfScalingStepMapping());
 		final NsBlueprint blueprint = new NsBlueprint();
@@ -117,8 +117,8 @@ class VnfScallingTest {
 
 	@Test
 	void testScaleStep() throws Exception {
-		final NsScaleStrategy nss = new NsScaleStrategy();
-		final NsdPackageVnfPackage nsPackageVnfPackage = new NsdPackageVnfPackage();
+		final NsScaleStrategyV3 nss = new NsScaleStrategyV3();
+		final NsdVnfPackageCopy nsPackageVnfPackage = new NsdVnfPackageCopy();
 		nsPackageVnfPackage.setLevelMapping(getLevelMapping());
 		nsPackageVnfPackage.setStepMapping(getVnfScalingStepMapping());
 		final NsBlueprint blueprint = new NsBlueprint();
@@ -146,8 +146,8 @@ class VnfScallingTest {
 
 	@Test
 	void testScaleStep2() throws Exception {
-		final NsScaleStrategy nss = new NsScaleStrategy();
-		final NsdPackageVnfPackage nsPackageVnfPackage = new NsdPackageVnfPackage();
+		final NsScaleStrategyV3 nss = new NsScaleStrategyV3();
+		final NsdVnfPackageCopy nsPackageVnfPackage = new NsdVnfPackageCopy();
 		nsPackageVnfPackage.setLevelMapping(getLevelMapping());
 		nsPackageVnfPackage.setStepMapping(getVnfScalingStepMapping());
 		final NsBlueprint blueprint = new NsBlueprint();
@@ -173,8 +173,8 @@ class VnfScallingTest {
 
 	@Test
 	void testScaleStep3() throws Exception {
-		final NsScaleStrategy nss = new NsScaleStrategy();
-		final NsdPackageVnfPackage nsPackageVnfPackage = new NsdPackageVnfPackage();
+		final NsScaleStrategyV3 nss = new NsScaleStrategyV3();
+		final NsdVnfPackageCopy nsPackageVnfPackage = new NsdVnfPackageCopy();
 		nsPackageVnfPackage.setLevelMapping(getLevelMapping());
 		nsPackageVnfPackage.setStepMapping(getVnfScalingStepMapping());
 		final NsBlueprint blueprint = new NsBlueprint();
@@ -206,8 +206,8 @@ class VnfScallingTest {
 
 	@Test
 	void testScaleLevel() throws Exception {
-		final NsScaleStrategy nss = new NsScaleStrategy();
-		final NsdPackageVnfPackage nsPackageVnfPackage = new NsdPackageVnfPackage();
+		final NsScaleStrategyV3 nss = new NsScaleStrategyV3();
+		final NsdVnfPackageCopy nsPackageVnfPackage = new NsdVnfPackageCopy();
 		nsPackageVnfPackage.setLevelMapping(getLevelMapping());
 		nsPackageVnfPackage.setStepMapping(getVnfScalingStepMapping());
 		final NsBlueprint blueprint = new NsBlueprint();

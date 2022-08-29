@@ -68,8 +68,8 @@ public class NsUow extends AbstractUnitOfWork<NsdTask> {
 
 	private VnfInstantiate createInstantiateRequest() {
 		final VnfInstantiate inst = new VnfInstantiate();
-		// inst.setExtManagedVirtualLinks(nsdTask.getExtCps());
-		// inst.setExtVirtualLinks(nsdTask.getExtCps());
+		// inst.setExtManagedVirtualLinks(nsdTask.getExtCps())
+		// inst.setExtVirtualLinks(nsdTask.getExtCps())
 		inst.setFlavourId(nsdTask.getFlavourId());
 		inst.setInstantiationLevelId(nsdTask.getInstantiationLevelId());
 		inst.setLocalizationLanguage(nsdTask.getLocalizationLanguage());
