@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.service;
 
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -81,7 +82,8 @@ public abstract class AbstractGrantService implements VimResourceService {
 						grantRequest.addAddResources(obj);
 					} else {
 						final GrantInformationExt obj = mapper.map(x, GrantInformationExt.class);
-						obj.setResourceId(x.getVimResourceId());
+						obj.setResourceId(Objects.requireNonNull(x.getVimResourceId()));
+						obj.setVimConnectionId(Objects.requireNonNull(x.getVimConnectionId()));
 						grantRequest.addRemoveResources(obj);
 					}
 				});
