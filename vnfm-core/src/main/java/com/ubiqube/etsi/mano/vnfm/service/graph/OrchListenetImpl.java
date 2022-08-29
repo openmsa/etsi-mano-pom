@@ -58,12 +58,21 @@ public class OrchListenetImpl implements OrchExecutionListener<VnfTask> {
 	@Override
 	public void onTerminate(final UnitOfWorkV3<VnfTask> uaow, final String res) {
 		LOG.info("Terminate {} => {}", uaow.getTask(), res);
-		uaow.getTask().getTemplateParameters().setVimResourceId(res);
 		final VnfTask resource = uaow.getTask().getTemplateParameters();
+		resource.setVimResourceId(res);
+		resource.setStatus(PlanStatusType.SUCCESS);
+		resource.setEndDate(LocalDateTime.now());
 		if ((resource.getChangeType() == ChangeType.ADDED) && (res != null) && (resource.getId() != null)) {
 			final VnfLiveInstance vli = new VnfLiveInstance(blueprint.getInstance(), null, resource, blueprint, resource.getVimResourceId(), resource.getVimConnectionId());
 			vnfLiveInstanceJpa.save(vli);
 		}
+	}
+
+	@Override
+	public void onError(final UnitOfWorkV3<VnfTask> uaow, final RuntimeException e) {
+		final VnfTask resource = uaow.getTask().getTemplateParameters();
+		resource.setStatus(PlanStatusType.FAILED);
+		resource.setEndDate(LocalDateTime.now());
 	}
 
 }

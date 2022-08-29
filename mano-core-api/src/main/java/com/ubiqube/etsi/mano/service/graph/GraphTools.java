@@ -21,6 +21,7 @@ import org.jgrapht.graph.DefaultListenableGraph;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.ubiqube.etsi.mano.orchestrator.nodes.ConnectivityEdge;
+import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWorkV3;
 import com.ubiqube.etsi.mano.service.graph.vnfm.EdgeListener;
 
 /**
@@ -48,4 +49,10 @@ public class GraphTools {
 		g.edgeSet().forEach(x -> gNew.addEdge(x.getTarget(), x.getSource()));
 		return gNew;
 	}
+
+	public static String toDotName(final UnitOfWorkV3<?> task) {
+		final String base = task.getType().getSimpleName() + "_" + task.getTask().getName();
+		return base.replace("/", "_").replace("-", "_").replace("\n", "_").replace(",", "_").replace("(", "_").replace(")", "_").replace(" ", "_");
+	}
+
 }

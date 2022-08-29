@@ -64,8 +64,6 @@ public class VnfLiveInstance implements BaseEntity, Auditable {
 
 	private String vimConnectionId;
 
-	private int rank;
-
 	@Embedded
 	private Audit audit;
 

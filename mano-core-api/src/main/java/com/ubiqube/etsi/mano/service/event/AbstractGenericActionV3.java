@@ -224,8 +224,8 @@ public abstract class AbstractGenericActionV3 {
 				if ((null == rhe.getId()) || (null == rhe.getVimResourceId())) {
 					LOG.warn("No vim resource or database id for: {}", x.getTask().getTask().getTemplateParameters().getToscaName());
 				}
-			} else if ((ct == ChangeType.REMOVED) && (null != rhe.getId()) && (null != rhe.getVimResourceId())) {
-				LOG.info("Removing {}", rhe.getId());
+			} else if ((ct == ChangeType.REMOVED) && (null != rhe.getId()) && (null != rhe.getRemovedLiveInstance())) {
+				LOG.info("Removing {} = {}", rhe.getAlias(), rhe.getId());
 				orchestrationAdapter.deleteLiveInstance(rhe.getRemovedLiveInstance());
 			}
 		});

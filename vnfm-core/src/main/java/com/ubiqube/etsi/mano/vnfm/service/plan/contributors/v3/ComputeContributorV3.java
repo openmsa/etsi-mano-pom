@@ -92,7 +92,7 @@ public class ComputeContributorV3 extends AbstractVnfmContributorV3<Object> {
 			});
 			x.getPorts().forEach(y -> {
 				final VnfPortTask pt = createTask(VnfPortTask::new);
-				pt.setToscaName(x.getToscaName() + "-" + y.getToscaName());
+				pt.setToscaName(y.getToscaName());
 				pt.setChangeType(ChangeType.ADDED);
 				pt.setType(ResourceTypeEnum.LINKPORT);
 				pt.setVnfLinkPort(y);

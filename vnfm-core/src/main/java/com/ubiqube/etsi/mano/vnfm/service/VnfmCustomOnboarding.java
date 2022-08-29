@@ -56,6 +56,9 @@ public class VnfmCustomOnboarding implements CustomOnboarding {
 	public void handleArtifacts(final VnfPackage vnfPackage, final VnfPackageReader vnfPackageReader) {
 		vnfPackage.getAdditionalArtifacts()
 				.forEach(x -> {
+					if (x.getArtifactPath() == null) {
+						return;
+					}
 					final ManoClient cli = factory.getClient(vnfPackage.getServer());
 					final Consumer<InputStream> tgt = y -> repo.storeBinary(vnfPackage.getId(), Paths.get(Constants.REPOSITORY_FOLDER_ARTIFACTS, x.getArtifactPath()).toString(), y);
 					cli.vnfPackage()

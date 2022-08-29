@@ -71,7 +71,7 @@ import com.ubiqube.etsi.mano.service.graph.Edge2d;
 import com.ubiqube.etsi.mano.service.graph.Vertex2d;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.ComputeVt;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.DnsHistVt;
+import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.DnsHostVt;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.DnsZoneVt;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.MonitoringVt;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.NetWorkVt;
@@ -115,9 +115,9 @@ public class VnfWorkflow implements WorkflowV3<VnfPackage, VnfBlueprint, VnfTask
 		vts.put(ResourceTypeEnum.SECURITY_GROUP, x -> new SecurityGroupVt((SecurityGroupTask) x));
 		vts.put(ResourceTypeEnum.STORAGE, x -> new StorageVt((StorageTask) x));
 		vts.put(ResourceTypeEnum.DNSZONE, x -> new DnsZoneVt((DnsZoneTask) x));
-		vts.put(ResourceTypeEnum.DNSHOST, x -> new DnsHistVt((DnsHostTask) x));
-		vts.put(ResourceTypeEnum.CNF, x -> new DnsHistVt((DnsHostTask) x));
-		vts.put(ResourceTypeEnum.CNF_INFO, x -> new DnsHistVt((DnsHostTask) x));
+		vts.put(ResourceTypeEnum.DNSHOST, x -> new DnsHostVt((DnsHostTask) x));
+		vts.put(ResourceTypeEnum.CNF, x -> new DnsHostVt((DnsHostTask) x));
+		vts.put(ResourceTypeEnum.CNF_INFO, x -> new DnsHostVt((DnsHostTask) x));
 		vts.put(ResourceTypeEnum.MONITORING, x -> new MonitoringVt((MonitoringTask) x));
 		masterVertex = List.of(Network.class, Compute.class);
 	}
@@ -141,8 +141,8 @@ public class VnfWorkflow implements WorkflowV3<VnfPackage, VnfBlueprint, VnfTask
 		return live.stream().map(this::convert).toList();
 	}
 
-	private ContextHolder convert(final VnfLiveInstance x) {
-		final Class<? extends Node> t = switch (x.getTask().getType()) {
+	private ContextHolder convert(final VnfLiveInstance inst) {
+		final Class<? extends Node> type = switch (inst.getTask().getType()) {
 		case VL -> Network.class;
 		case SUBNETWORK -> SubNetwork.class;
 		case COMPUTE -> Compute.class;
@@ -155,9 +155,10 @@ public class VnfWorkflow implements WorkflowV3<VnfPackage, VnfBlueprint, VnfTask
 		case CNF_INFO -> MciopUser.class;
 		case DNSHOST -> DnsHost.class;
 		case DNSZONE -> DnsZone.class;
-		default -> throw new GenericException(x.getTask().getType() + " is not handled.");
+		default -> throw new GenericException(inst.getTask().getType() + " is not handled.");
 		};
-		return new ContextHolder(x.getId(), t, x.getTask().getToscaName(), x.getRank(), x.getResourceId());
+		final VnfTask task = inst.getTask();
+		return new ContextHolder(inst.getId(), type, task.getToscaName(), task.getRank(), inst.getResourceId(), inst.getVimConnectionId());
 	}
 
 	@Override

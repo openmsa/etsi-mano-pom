@@ -16,10 +16,12 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import com.ubiqube.etsi.mano.dao.mano.ChangeType;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
+import com.ubiqube.etsi.mano.orchestrator.ResultType;
 import com.ubiqube.etsi.mano.orchestrator.SystemBuilder;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 
@@ -36,7 +38,6 @@ import lombok.Setter;
 @Setter
 public abstract class VnfVtBase<U extends VnfTask> implements VirtualTaskV3<U> {
 
-	private int rank;
 	private U templateParameters;
 	private SystemBuilder<U> systemBuilder;
 
@@ -106,5 +107,31 @@ public abstract class VnfVtBase<U extends VnfTask> implements VirtualTaskV3<U> {
 	@Override
 	public String toString() {
 		return this.getClass().getSimpleName() + "(" + getName() + ", " + getAlias() + ")";
+	}
+
+	@Override
+	public int getRank() {
+		return templateParameters.getRank();
+	}
+
+	@Override
+	public void setRank(final int rank) {
+		templateParameters.setRank(rank);
+	}
+
+	@Override
+	public void setVimConnectionId(final String conn) {
+		templateParameters.setVimConnectionId(Objects.requireNonNull(conn));
+	}
+
+	@Override
+	public ResultType getStatus() {
+		return switch (templateParameters.getStatus()) {
+		case FAILED -> ResultType.ERRORED;
+		case NOT_STARTED -> ResultType.NOT_STARTED;
+		case SUCCESS -> ResultType.SUCCESS;
+		case STARTED -> ResultType.NOT_STARTED;
+		default -> throw new IllegalArgumentException("Unexpected value: " + templateParameters.getStatus());
+		};
 	}
 }

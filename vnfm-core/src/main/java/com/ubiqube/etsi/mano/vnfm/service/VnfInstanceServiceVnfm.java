@@ -45,6 +45,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.MonitoringTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.NetworkTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.StorageTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfPortTask;
+import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.jpa.VnfInstanceJpa;
 import com.ubiqube.etsi.mano.jpa.VnfPackageJpa;
@@ -244,7 +245,7 @@ public class VnfInstanceServiceVnfm implements VnfInstanceGatewayService {
 		return ct.getVnfCompute().getPorts().stream()
 				.map(x -> {
 					final String livePortName = namingStrategy.nameConnectionPort(x, ct);
-					final VnfLiveInstance vp = findPort(vli, livePortName);
+					final VnfLiveInstance vp = findPort(vli, x.getToscaName(), ct.getRank());
 					final VnfcResourceInfoVnfcCpInfoEntity ret = new VnfcResourceInfoVnfcCpInfoEntity();
 					final VnfPortTask vpt = (VnfPortTask) vp.getTask();
 					ret.setCpdId(vpt.getVnfLinkPort().getToscaName());
@@ -261,8 +262,13 @@ public class VnfInstanceServiceVnfm implements VnfInstanceGatewayService {
 				.collect(Collectors.toSet());
 	}
 
-	private static VnfLiveInstance findPort(final List<VnfLiveInstance> vli, final String livePortName) {
-		return vli.stream().filter(x -> x.getTask().getToscaName().equals(livePortName)).findFirst().orElseThrow();
+	private static VnfLiveInstance findPort(final List<VnfLiveInstance> vli, final String toscaName, final int rank) {
+		return vli.stream()
+				.filter(x -> (x.getTask() instanceof VnfPortTask))
+				.filter(x -> x.getTask().getToscaName().equals(toscaName))
+				.filter(x -> x.getTask().getRank() == rank)
+				.findFirst()
+				.orElseThrow(() -> new GenericException("Could not find port " + toscaName + "-" + String.format("%04d", rank)));
 	}
 
 	private InstantiationState isLive(final UUID id) {
