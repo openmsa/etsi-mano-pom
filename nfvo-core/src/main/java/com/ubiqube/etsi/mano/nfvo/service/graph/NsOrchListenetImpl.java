@@ -68,4 +68,11 @@ public class NsOrchListenetImpl implements OrchExecutionListener<NsTask> {
 		}
 	}
 
+	@Override
+	public void onError(final UnitOfWorkV3<NsTask> uaow, final RuntimeException e) {
+		final NsTask resource = uaow.getTask().getTemplateParameters();
+		resource.setStatus(PlanStatusType.FAILED);
+		resource.setEndDate(LocalDateTime.now());
+	}
+
 }

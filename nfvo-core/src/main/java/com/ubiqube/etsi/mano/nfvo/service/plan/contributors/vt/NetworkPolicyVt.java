@@ -36,4 +36,5 @@ public class NetworkPolicyVt extends NsVtBase<NetworkPolicyTask> {
 	public Class<? extends Node> getType() {
 		return NetworkPolicyNode.class;
 	}
+
 }

@@ -176,7 +176,7 @@ public class NfvoOrchestrationV3 implements WorkflowV3<NsdPackage, NsBlueprint, 
 		case TF_SERVICE_TEMPLATE -> ServiceTemplateNode.class;
 		default -> throw new GenericException(x.getNsTask().getType() + " is not handled.");
 		};
-		return new ContextHolder(x.getId(), t, x.getNsTask().getToscaName(), x.getRank(), x.getResourceId());
+		return new ContextHolder(x.getId(), t, x.getNsTask().getToscaName(), x.getRank(), x.getResourceId(), x.getVimConnectionId());
 	}
 
 	@Override

@@ -25,9 +25,11 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
 
+import org.eclipse.jdt.annotation.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -36,7 +38,10 @@ import com.ubiqube.etsi.mano.dao.mano.NsLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.common.FailureDetails;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
+import com.ubiqube.etsi.mano.dao.mano.nsd.NfpDescriptor;
 import com.ubiqube.etsi.mano.dao.mano.nsd.NsdVnfPackageCopy;
+import com.ubiqube.etsi.mano.dao.mano.nsd.VnffgDescriptor;
+import com.ubiqube.etsi.mano.dao.mano.nsd.upd.AddVnffgData;
 import com.ubiqube.etsi.mano.dao.mano.nsd.upd.ChangeExtVnfConnectivityData;
 import com.ubiqube.etsi.mano.dao.mano.nsd.upd.ChangeVnfFlavourData;
 import com.ubiqube.etsi.mano.dao.mano.nsd.upd.InstantiateVnfData;
@@ -44,6 +49,7 @@ import com.ubiqube.etsi.mano.dao.mano.nsd.upd.ModifyVnfInfoData;
 import com.ubiqube.etsi.mano.dao.mano.nsd.upd.MoveVnfInstanceData;
 import com.ubiqube.etsi.mano.dao.mano.nsd.upd.OperateVnfData;
 import com.ubiqube.etsi.mano.dao.mano.nsd.upd.UpdateRequest;
+import com.ubiqube.etsi.mano.dao.mano.nsd.upd.UpdateVnffgData;
 import com.ubiqube.etsi.mano.dao.mano.nsd.upd.VnfInstanceData;
 import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
@@ -53,6 +59,7 @@ import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.model.VnfOperateRequest;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsLiveInstanceJpa;
+import com.ubiqube.etsi.mano.nfvo.service.NsInstanceService;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfCreateNode;
 import com.ubiqube.etsi.mano.service.NsBlueprintService;
 import com.ubiqube.etsi.mano.service.event.ActionType;
@@ -77,14 +84,16 @@ public class NsUpadteManager {
 	private final MapperFacade mapper;
 	private final ManoClientFactory manoClientFactory;
 	private final EventManager eventManager;
+	private final NsInstanceService nsInstanceService;
 
 	public NsUpadteManager(final NsBlueprintService nsBlueprint, final NsLiveInstanceJpa liveInstanceJpa, final MapperFacade mapper, final ManoClientFactory manoClientFactory,
-			final EventManager eventManager) {
+			final EventManager eventManager, final NsInstanceService nsInstanceService) {
 		this.nsBlueprint = nsBlueprint;
 		this.liveInstanceJpa = liveInstanceJpa;
 		this.mapper = mapper;
 		this.manoClientFactory = manoClientFactory;
 		this.eventManager = eventManager;
+		this.nsInstanceService = nsInstanceService;
 	}
 
 	public void update(@NotNull final UUID objectId) {
@@ -111,16 +120,45 @@ public class NsUpadteManager {
 		case MODIFY_VNF_INFORMATION -> modifyVnfInformation(inst, req.getModifyVnfInfoData());
 		case OPERATE_VNF -> vnfOperate(inst, req.getOperateVnfData());
 		case REMOVE_VNF -> removeVnf(inst, req.getRemoveVnfInstanceId(), nb);
-		case MOVE_VNF -> moveVnf(req.getMoveVnfInstanceData());
+		case MOVE_VNF -> moveVnf(inst, req.getMoveVnfInstanceData());
+		case ADD_VNFFG -> addVnffg(inst, req.getAddVnffg());
+		case REMOVE_VNFFG -> removeVnffg(inst, req.getRemoveVnffgId());
+		case UPDATE_VNFFG -> updateVnffg(inst, req.getUpdateVnffg());
 		default -> throw new GenericException("Unable to find action " + req.getUpdateType());
 		}
 	}
 
-	private Object moveVnf(final List<MoveVnfInstanceData> moveVnfInstanceData) {
+	private void updateVnffg(final NsdInstance inst, final List<UpdateVnffgData> updateVnffg) {
+		updateVnffg.forEach(x -> {
+			final VnffgDescriptor vnffg = inst.getVnffgs().stream().filter(y -> x.getVnffgInfoId().equals(y.getName())).findFirst().orElseThrow(() -> new GenericException("Could not find VNFFGd: " + x.getVnffgInfoId()));
+			final List<NfpDescriptor> notDeleted = vnffg.getNfpd().stream().filter(y -> !x.getNfpInfoId().contains(y.getToscaName())).toList();
+			vnffg.setNfpd(notDeleted);
+			//
+			final List<@NonNull NfpDescriptor> newNfp = mapper.mapAsList(x.getNfp(), NfpDescriptor.class);
+			vnffg.getNfpd().addAll(newNfp);
+		});
+
+	}
+
+	private void removeVnffg(final NsdInstance inst, final List<String> removeVnffgId) {
+		final Set<VnffgDescriptor> newVnffg = inst.getVnffgs().stream().filter(x -> !removeVnffgId.contains(x.getName())).collect(Collectors.toSet());
+		inst.setVnffgs(newVnffg);
+	}
+
+	private void addVnffg(final NsdInstance inst, final List<AddVnffgData> addVnffg) {
+		addVnffg.forEach(x -> {
+			final VnffgDescriptor vnfd = new VnffgDescriptor();
+			vnfd.setDescription(x.getDescription());
+			vnfd.setName(x.getVnffgName());
+			inst.getVnffgs().add(vnfd);
+		});
+		nsInstanceService.save(inst);
+	}
+
+	private void moveVnf(final NsdInstance inst, final List<MoveVnfInstanceData> moveVnfInstanceData) {
 		moveVnfInstanceData.forEach(x -> {
 			//
 		});
-		return null;
 	}
 
 	private void removeVnf(final NsdInstance inst, final List<String> removeVnfInstanceId, final NsBlueprint nb) {
