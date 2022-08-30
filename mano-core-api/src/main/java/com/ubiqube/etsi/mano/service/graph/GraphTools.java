@@ -51,7 +51,7 @@ public class GraphTools {
 	}
 
 	public static String toDotName(final UnitOfWorkV3<?> task) {
-		final String base = task.getType().getSimpleName() + "_" + task.getTask().getName();
+		final String base = task.getType().getSimpleName() + "_" + task.getTask().getName() + "_" + String.format("%04d", task.getTask().getRank());
 		return base.replace("/", "_").replace("-", "_").replace("\n", "_").replace(",", "_").replace("(", "_").replace(")", "_").replace(" ", "_");
 	}
 
