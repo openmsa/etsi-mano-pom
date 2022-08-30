@@ -49,7 +49,7 @@ public class ClusterIdManagerService implements CommandLineRunner {
 		//
 		final Optional<Configurations> res = confRepo.findById(Constants.CONF_CLUSTER_ID);
 		if (res.isPresent()) {
-			LOG.info("Server started with cluster id {}", res.get());
+			LOG.info("Server started with cluster id {}", res.get().getWalue());
 			return;
 		}
 		final Configurations conf = new Configurations(Constants.CONF_CLUSTER_ID, UUID.randomUUID().toString());
