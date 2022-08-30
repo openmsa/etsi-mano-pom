@@ -37,6 +37,7 @@ import com.ubiqube.etsi.mano.common.v261.model.nslcm.VnfInstanceLinks;
 import com.ubiqube.etsi.mano.dao.mano.CancelModeTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.vnfm.fc.vnflcm.VnfInstanceGenericFrontController;
+import com.ubiqube.etsi.mano.vnfm.v261.controller.vnfind.sol003.Indicators261Sol003Api;
 import com.ubiqube.etsi.mano.vnfm.v261.controller.vnflcm.sol002.VnfLcm261Sol002Api;
 import com.ubiqube.etsi.mano.vnfm.v261.controller.vnflcm.sol002.VnfLcmOpOccs261Sol002Api;
 import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.ChangeExtVnfConnectivityRequest;
@@ -149,7 +150,7 @@ public class VnfLcm261Sol003Controller implements VnfLcm261Sol003Api {
 		final String hrefScale = linkTo(methodOn(VnfLcm261Sol002Api.class).vnfInstancesVnfInstanceIdScalePost(id, null)).withSelfRel().getHref();
 		final String hrefOperate = linkTo(methodOn(VnfLcm261Sol002Api.class).vnfInstancesVnfInstanceIdOperatePost(id, OPERATE_REQUEST)).withSelfRel().getHref();
 		final String hrefInstanciate = linkTo(methodOn(VnfLcm261Sol002Api.class).vnfInstancesVnfInstanceIdInstantiatePost(id, INSTANTIATE_REQUEST)).withSelfRel().getHref();
-		final String hrefIndicators = "";
+		final String hrefIndicators = linkTo(methodOn(Indicators261Sol003Api.class).indicatorsVnfInstanceIdGet(id, null, null)).withSelfRel().getHref();
 		final String hrefHeal = linkTo(methodOn(VnfLcm261Sol002Api.class).vnfInstancesVnfInstanceIdHealPost(id, HEAL_REQUEST)).withSelfRel().getHref();
 		final String hrefChangeFlavor = linkTo(methodOn(VnfLcm261Sol002Api.class).vnfInstancesVnfInstanceIdChangeFlavourPost(id, null)).withSelfRel().getHref();
 		final String hrefChangeExtConn = linkTo(methodOn(VnfLcm261Sol002Api.class).vnfInstancesVnfInstanceIdChangeExtConnPost(id, null)).withSelfRel().getHref();
