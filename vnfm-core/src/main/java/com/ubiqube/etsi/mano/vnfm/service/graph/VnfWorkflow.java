@@ -20,6 +20,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Function;
 
 import org.jgrapht.ListenableGraph;
@@ -128,8 +129,9 @@ public class VnfWorkflow implements WorkflowV3<VnfPackage, VnfBlueprint, VnfTask
 		final ListenableGraph<Vertex2d, Edge2d> g = planService.getPlanFor(bundle.getId());
 		return blueprintBuilder.buildPlan(sr, g, x -> {
 			LOG.trace("Running for {}={}", x.getType(), x.getToscaName());
-			blueprint.addTask(x);
 			final VnfTask nc = x.copy();
+			nc.setToscaId(UUID.randomUUID().toString());
+			blueprint.addTask(nc);
 			return (VirtualTaskV3<VnfTask>) Optional.ofNullable(vts.get(x.getType()))
 					.orElseThrow(() -> new GenericException("Unable to find " + x.getType()))
 					.apply(nc);
@@ -170,14 +172,21 @@ public class VnfWorkflow implements WorkflowV3<VnfPackage, VnfBlueprint, VnfTask
 
 	@Override
 	public void refresh(final PreExecutionGraphV3<VnfTask> prePlan, final Blueprint<VnfTask, ?> localPlan) {
-		prePlan.getPreTasks().forEach(x -> {
-			final VnfTask task = find(x.getTemplateParameters().getToscaId(), localPlan);
-			x.setTemplateParameters(task);
-		});
+		prePlan.getPreTasks().stream()
+				.forEach(x -> {
+					final VnfTask task = find(x.getTemplateParameters().getToscaId(), localPlan);
+					if (null == task) {
+						throw new GenericException("Could not find: " + x.getAlias());
+					}
+					x.setTemplateParameters(task);
+				});
 	}
 
 	private static VnfTask find(final String id, final Blueprint<VnfTask, ?> localPlan) {
-		return localPlan.getTasks().stream().filter(x -> x.getToscaId().equals(id)).findFirst().orElseThrow();
+		return localPlan.getTasks().stream()
+				.filter(x -> x.getToscaId().equals(id))
+				.findFirst()
+				.orElse(null);
 	}
 
 }
