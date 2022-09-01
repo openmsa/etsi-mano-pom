@@ -48,6 +48,7 @@ public class NsVnfExtractorTask extends NsTask {
 		final NsVnfExtractorTask task = new NsVnfExtractorTask();
 		super.copy(task);
 		task.setServer(server);
+		task.setNsdId(nsdId);
 		return task;
 	}
 }

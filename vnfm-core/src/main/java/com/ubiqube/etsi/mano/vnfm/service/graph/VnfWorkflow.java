@@ -172,7 +172,7 @@ public class VnfWorkflow implements WorkflowV3<VnfPackage, VnfBlueprint, VnfTask
 
 	@Override
 	public void refresh(final PreExecutionGraphV3<VnfTask> prePlan, final Blueprint<VnfTask, ?> localPlan) {
-		prePlan.getPreTasks().stream()
+		prePlan.getPreTasks()
 				.forEach(x -> {
 					final VnfTask task = find(x.getTemplateParameters().getToscaId(), localPlan);
 					if (null == task) {

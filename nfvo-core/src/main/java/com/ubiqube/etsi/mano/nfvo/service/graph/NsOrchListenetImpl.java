@@ -58,10 +58,10 @@ public class NsOrchListenetImpl implements OrchExecutionListener<NsTask> {
 	@Override
 	public void onTerminate(final UnitOfWorkV3<NsTask> uaow, final String res) {
 		LOG.info("Terminate {} => {}", uaow.getTask(), res);
-		if (null != res) {
-			uaow.getTask().getTemplateParameters().setVimResourceId(res);
-		}
 		final NsTask resource = uaow.getTask().getTemplateParameters();
+		resource.setVimResourceId(res);
+		resource.setStatus(PlanStatusType.SUCCESS);
+		resource.setEndDate(LocalDateTime.now());
 		if ((resource.getChangeType() == ChangeType.ADDED) && (res != null) && (resource.getId() != null)) {
 			final NsLiveInstance nli = new NsLiveInstance(null, resource, blueprint, blueprint.getInstance());
 			nsLiveInstanceJpa.save(nli);

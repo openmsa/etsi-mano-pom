@@ -20,6 +20,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Function;
 
 import org.jgrapht.ListenableGraph;
@@ -145,9 +146,12 @@ public class NfvoOrchestrationV3 implements WorkflowV3<NsdPackage, NsBlueprint, 
 		final ListenableGraph<Vertex2d, Edge2d> g = planService.getPlanFor(bundle.getId());
 		return blueprintBuilder.buildPlan(sr, g, x -> {
 			LOG.trace("Running for {}={}", x.getType(), x.getToscaName());
-			blueprint.addTask(x);
 			final NsTask nc = x.copy();
-			return (VirtualTaskV3<NsTask>) Optional.ofNullable(vts.get(x.getType())).orElseThrow(() -> new GenericException("Unable to find " + x.getType())).apply(nc);
+			nc.setToscaId(UUID.randomUUID().toString());
+			blueprint.addTask(nc);
+			return (VirtualTaskV3<NsTask>) Optional.ofNullable(vts.get(x.getType()))
+					.orElseThrow(() -> new GenericException("Unable to find " + x.getType()))
+					.apply(nc);
 		}, buildContext(blueprint.getInstance()), masterVertex);
 	}
 
@@ -188,17 +192,21 @@ public class NfvoOrchestrationV3 implements WorkflowV3<NsdPackage, NsBlueprint, 
 
 	@Override
 	public void refresh(final PreExecutionGraphV3<NsTask> prePlan, final Blueprint<NsTask, ?> localPlan) {
-		prePlan.getPreTasks().forEach(x -> {
-			final NsTask task = find(x.getTemplateParameters().getToscaId(), localPlan);
-			x.setTemplateParameters(task);
-		});
+		prePlan.getPreTasks()
+				.forEach(x -> {
+					final NsTask task = find(x.getTemplateParameters().getToscaId(), localPlan);
+					if (null == task) {
+						throw new GenericException("Could not find: " + x.getAlias());
+					}
+					x.setTemplateParameters(task);
+				});
 	}
 
 	private static NsTask find(final String id, final Blueprint<NsTask, ?> localPlan) {
 		return localPlan.getTasks().stream()
 				.filter(x -> x.getToscaId().equals(id))
 				.findFirst()
-				.orElseThrow(() -> new GenericException("Could not find " + id));
+				.orElse(null);
 	}
 
 }

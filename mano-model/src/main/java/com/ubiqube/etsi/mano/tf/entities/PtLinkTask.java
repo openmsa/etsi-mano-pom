@@ -54,6 +54,7 @@ public class PtLinkTask extends NsTask {
 	@Override
 	public NsTask copy() {
 		final PtLinkTask task = new PtLinkTask();
+		super.copy(task);
 		task.setLeftPortId(leftPortId);
 		task.setRightPortId(rightPortId);
 		task.setPortTupleName(portTupleName);
