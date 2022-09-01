@@ -57,14 +57,16 @@ public class OsContainerDesc implements Serializable {
 	private Long requestedMemoryResour;
 
 	/**
-	 * Size of ephemeral storage resources ageResources requested for the container (e.g. in GB).
+	 * Size of ephemeral storage resources ageResources requested for the container
+	 * (e.g. in GB).
 	 */
 	private Long requestedEphemeralStor;
 
 	/**
-	 * An array of key-value pairs of extended sts resources required by the container. See note.
+	 * An array of key-value pairs of extended sts resources required by the
+	 * container. See note.
 	 */
-	// private Map<String, String> extendedResourceReque;
+	// private Map<String, String> extendedResourceReque
 
 	/**
 	 * Number of CPU resources the container can maximally use (e.g. in milli-CPU).
@@ -77,28 +79,38 @@ public class OsContainerDesc implements Serializable {
 	private Long memoryResourceLimit;
 
 	/**
-	 * Size of ephemeral storage resources the rceLimit container can maximum use (e.g. in GB).
+	 * Size of ephemeral storage resources the rceLimit container can maximum use
+	 * (e.g. in GB).
 	 */
 	private Long ephemeralStorageResou;
 
 	/**
-	 * Describes the software image realizing (Reference to this OS container. SwImageDesc)
+	 * Describes the software image realizing (Reference to this OS container.
+	 * SwImageDesc)
 	 */
 	private String swImageDesc;
 
 	/**
-	 * Contains a string or a URL to a file contained in the VNF package used to customize a container resource at boot time. The bootData may contain variable parts that are replaced by deployment specific values before being sent.
+	 * Contains a string or a URL to a file contained in the VNF package used to
+	 * customize a container resource at boot time. The bootData may contain
+	 * variable parts that are replaced by deployment specific values before being
+	 * sent.
 	 */
 	// bootData
 
 	/**
-	 * Links to virtualStorageDesc-s of the Vdu. (Reference to The storages represented by the linked VirtualStorageDe VirtualStorageDesc-s are attached to the sc) OS Container as volumes. Shall be present in case the OS container requires storage resources.
+	 * Links to virtualStorageDesc-s of the Vdu. (Reference to The storages
+	 * represented by the linked VirtualStorageDe VirtualStorageDesc-s are attached
+	 * to the sc) OS Container as volumes. Shall be present in case the OS container
+	 * requires storage resources.
 	 */
 	@ElementCollection(fetch = FetchType.EAGER)
 	private Set<String> virtualStorageDesc;
 
 	/**
-	 * MonitoringParam Specifies the virtualised resource related eter performance metrics on the OsContainerDesc level to be tracked by the VNFM. MonitoringParameter is defined in clause 7.1.11.3.
+	 * MonitoringParam Specifies the virtualised resource related eter performance
+	 * metrics on the OsContainerDesc level to be tracked by the VNFM.
+	 * MonitoringParameter is defined in clause 7.1.11.3.
 	 */
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<MonitoringParams> monitoringParameters;

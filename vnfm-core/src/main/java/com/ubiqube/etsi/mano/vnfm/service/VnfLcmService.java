@@ -83,7 +83,7 @@ public class VnfLcmService {
 	}
 
 	public VnfBlueprint createScaleToLevelOpOcc(final VnfInstance vnfInstance, final VnfScaleToLevelRequest scaleVnfToLevelRequest) {
-		final VnfBlueprint lcmOpOccs = VnfLcmFactory.createVnfLcmOpOccs(PlanOperationType.SCALE_TO_LEVEL, vnfInstance.getId());
+		final VnfBlueprint lcmOpOccs = VnfLcmFactory.createVnfBlueprint(PlanOperationType.SCALE_TO_LEVEL, vnfInstance.getId());
 		lcmOpOccs.getParameters().setInstantiationLevelId(scaleVnfToLevelRequest.getInstantiationLevelId());
 		if (scaleVnfToLevelRequest.getScaleInfo() != null) {
 			final Set<ScaleInfo> scaleStatus = scaleVnfToLevelRequest.getScaleInfo().stream()
@@ -95,7 +95,7 @@ public class VnfLcmService {
 	}
 
 	public VnfBlueprint createScaleOpOcc(final VnfInstance vnfInstance, final VnfScaleRequest scaleVnfRequest) {
-		final VnfBlueprint lcmOpOccs = VnfLcmFactory.createVnfLcmOpOccs(PlanOperationType.SCALE, vnfInstance.getId());
+		final VnfBlueprint lcmOpOccs = VnfLcmFactory.createVnfBlueprint(PlanOperationType.SCALE, vnfInstance.getId());
 		lcmOpOccs.getParameters().setNumberOfSteps(scaleVnfRequest.getNumberOfSteps());
 		lcmOpOccs.getParameters().setScaleType(scaleVnfRequest.getType());
 		lcmOpOccs.getParameters().setAspectId(scaleVnfRequest.getAspectId());
@@ -107,7 +107,7 @@ public class VnfLcmService {
 	}
 
 	public VnfBlueprint createOperateOpOcc(final VnfInstance vnfInstance, final VnfOperateRequest operateVnfRequest) {
-		final VnfBlueprint lcmOpOccs = VnfLcmFactory.createVnfLcmOpOccs(PlanOperationType.OPERATE, vnfInstance.getId());
+		final VnfBlueprint lcmOpOccs = VnfLcmFactory.createVnfBlueprint(PlanOperationType.OPERATE, vnfInstance.getId());
 		final OperateChanges opChanges = lcmOpOccs.getOperateChanges();
 		opChanges.setTerminationType(OperationalStateType.fromValue(operateVnfRequest.getChangeStateTo().toString()));
 		opChanges.setGracefulTerminationTimeout(operateVnfRequest.getGracefulStopTimeout());
@@ -129,7 +129,7 @@ public class VnfLcmService {
 	}
 
 	public VnfBlueprint createOperateOpOcc(final VnfInstance vnfInstance, final ChangeExtVnfConnRequest cevcr) {
-		final VnfBlueprint lcmOpOccs = VnfLcmFactory.createVnfLcmOpOccs(PlanOperationType.CHANGE_EXTERNAL_VNF_CONNECTIVITY, vnfInstance.getId());
+		final VnfBlueprint lcmOpOccs = VnfLcmFactory.createVnfBlueprint(PlanOperationType.CHANGE_EXTERNAL_VNF_CONNECTIVITY, vnfInstance.getId());
 		lcmOpOccs.setChangeExtVnfConnRequest(cevcr);
 		return saveLcmOppOcc(lcmOpOccs, vnfInstance);
 	}

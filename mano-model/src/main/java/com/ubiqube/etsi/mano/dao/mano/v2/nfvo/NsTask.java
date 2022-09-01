@@ -31,7 +31,6 @@ import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 import com.ubiqube.etsi.mano.dao.mano.AuditListener;
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.ScaleInfo;
-import com.ubiqube.etsi.mano.dao.mano.VimTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.AbstractTask;
 
 import lombok.Getter;
@@ -48,7 +47,7 @@ import lombok.Setter;
 @Entity
 @EntityListeners(AuditListener.class)
 @Indexed
-public abstract class NsTask extends AbstractTask implements VimTask {
+public abstract class NsTask extends AbstractTask {
 
 	/** Serial. */
 	private static final long serialVersionUID = 1L;

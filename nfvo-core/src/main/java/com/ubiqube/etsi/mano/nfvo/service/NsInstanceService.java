@@ -71,11 +71,6 @@ public class NsInstanceService {
 		this.grammarParser = grammarParser;
 	}
 
-	public int countLiveInstanceOfSap(final NsdInstance nsInstance, final UUID id) {
-		// TODO
-		return 0;
-	}
-
 	public int countLiveInstanceOfVirtualLink(final NsdInstance nsInstance, final String toscaName) {
 		final List<NsLiveInstance> res = nsLiveInstanceJpa.findByNsInstanceAndNsTaskToscaNameAndNsTaskClassGroupByNsTaskAlias(nsInstance, toscaName, NsVirtualLinkTask.class.getSimpleName());
 		return res.size();

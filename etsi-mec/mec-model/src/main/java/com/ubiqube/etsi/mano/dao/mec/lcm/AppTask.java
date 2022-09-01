@@ -34,7 +34,6 @@ import com.ubiqube.etsi.mano.dao.mano.AuditListener;
 import com.ubiqube.etsi.mano.dao.mano.ChangeType;
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.ScaleInfo;
-import com.ubiqube.etsi.mano.dao.mano.VimTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.AbstractTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
 
@@ -46,7 +45,7 @@ import lombok.Setter;
 @Entity
 @Table(schema = "mec_meo")
 @EntityListeners(AuditListener.class)
-public class AppTask extends AbstractTask implements VimTask {
+public class AppTask extends AbstractTask {
 	/** Serial. */
 	private static final long serialVersionUID = 1L;
 
@@ -83,7 +82,6 @@ public class AppTask extends AbstractTask implements VimTask {
 		return removedVnfLiveInstance;
 	}
 
-	@Override
 	public NsTask copy() {
 		// TODO Auto-generated method stub
 		return null;

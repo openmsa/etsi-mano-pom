@@ -27,7 +27,6 @@ import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfLiveInstance;
 
 /**
- * TODO: findByVnfInstanceIdAndClass is the same as *NotNull methods.
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
@@ -40,14 +39,8 @@ public interface VnfLiveInstanceJpa extends CrudRepository<VnfLiveInstance, UUID
 
 	VnfLiveInstance findByTaskId(UUID id);
 
-	@Query("select vli, t from VnfLiveInstance vli join VnfTask t on t.id = vli.task where vli.vnfInstance = ?1 AND vnf_vl_id is not null")
-	List<VnfLiveInstance> findByVnfInstanceAndTaskVnfVlNotNull(VnfInstance vnfLiveInstance);
-
 	@Query("select vli, t from VnfLiveInstance vli join VnfTask t on t.id = vli.task where vli.vnfInstance = ?1 AND vnf_compute_id is not null")
 	List<VnfLiveInstance> findByVnfInstanceAndTaskVnfComputeNotNull(VnfInstance vnfLiveInstance);
-
-	@Query("select vli, t from VnfLiveInstance vli join VnfTask t on t.id = vli.task where vli.vnfInstance = ?1 AND vnf_storage_id is not null")
-	List<VnfLiveInstance> findByVnfInstanceAndTaskVnfStorageIsNotNull(VnfInstance vnfInstance);
 
 	@Query("select vli, t from VnfLiveInstance vli join VnfTask t on t.id = vli.task where vli.vnfInstance = ?1 AND t.toscaName = ?2 ORDER BY vli.audit.createdOn DESC")
 	List<VnfLiveInstance> findByTaskVnfInstanceAndToscaName(VnfInstance vnfInstance, String alias);

@@ -24,33 +24,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.ubiqube.etsi.mano.dao.mano.TemporaryDownload;
 import com.ubiqube.etsi.mano.dao.mano.TemporaryDownload.ObjectType;
-import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
-import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.nfvo.service.TemporaryDownloadService;
 import com.ubiqube.etsi.mano.repository.ManoResource;
-import com.ubiqube.etsi.mano.service.SystemService;
-import com.ubiqube.etsi.mano.service.VimService;
-import com.ubiqube.etsi.mano.service.vim.VimManager;
 
 @Controller
 //@ApiIgnore
 public class HomeController {
-	private final VimService vciJpa;
 	private final TemporaryDownloadService temporaryDownloadService;
-	private final VimManager vimManager;
-	private final SystemService systemService;
 
-	public HomeController(final VimService vciJpa, final TemporaryDownloadService temporaryDownloadService,
-			final VimManager vimManager, final SystemService systemService) {
-		this.vciJpa = vciJpa;
+	public HomeController(final TemporaryDownloadService temporaryDownloadService) {
 		this.temporaryDownloadService = temporaryDownloadService;
-		this.vimManager = vimManager;
-		this.systemService = systemService;
 	}
 
 	@SuppressWarnings("static-method")
@@ -63,23 +50,6 @@ public class HomeController {
 	@GetMapping(value = "/test/{id}")
 	public ResponseEntity<VnfPackage> test(@PathVariable("id") final VnfPackage vnfPackage) {
 		return ResponseEntity.ok(vnfPackage);
-	}
-
-	/**
-	 * @deprecated Use admin controller.
-	 * @param body
-	 * @return
-	 */
-	@PostMapping(value = "/registerVim")
-	@Deprecated(forRemoval = true, since = "24/01/2022")
-	public ResponseEntity<VimConnectionInformation> registerVim(@RequestBody final VimConnectionInformation body) {
-		if (null == body.getVimId()) {
-			throw new GenericException("'vimId' cannot be [null].");
-		}
-		systemService.registerVim(body);
-		final VimConnectionInformation vci = vciJpa.save(body);
-		vimManager.rebuildCache();
-		return ResponseEntity.ok(vci);
 	}
 
 	@GetMapping(value = "/download/{id}")

@@ -25,6 +25,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.ExtManagedVirtualLinkDataEntity;
+import com.ubiqube.etsi.mano.dao.mano.Instance;
+import com.ubiqube.etsi.mano.dao.mano.VimTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfPortTask;
@@ -53,12 +55,12 @@ public class ManoGrantService extends AbstractGrantService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected void check(final Blueprint plan) {
+	protected void check(final Blueprint<? extends VimTask, ? extends Instance> plan) {
 		plan.getTasks().stream()
 				.filter(VnfPortTask.class::isInstance)
 				.map(VnfPortTask.class::cast)
 				.forEach(x -> {
-					final VnfPortTask t = (VnfPortTask) x;
+					final VnfPortTask t = x;
 					final String vl = t.getVnfLinkPort().getVirtualLink();
 					final ExtManagedVirtualLinkDataEntity fVl = findVl((VnfBlueprint) plan, vl);
 					if (null == fVl) {

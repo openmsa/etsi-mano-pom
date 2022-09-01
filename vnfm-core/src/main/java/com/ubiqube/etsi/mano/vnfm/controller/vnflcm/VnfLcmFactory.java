@@ -64,15 +64,14 @@ public class VnfLcmFactory {
 						.toList())
 				.flatMap(List::stream)
 				.distinct()
-				.map(x -> new ScaleInfo(x, Integer.valueOf(0)))
+				.map(x -> new ScaleInfo(x, 0))
 				.collect(Collectors.toSet());
 		instantiatedVnfInfo.setScaleStatus(scaleInfo);
 		return vnfInstance;
 	}
 
-	// TODO: remove one method createVnfLcmOpOccs or createVnfBlueprint.
 	@Nonnull
-	public static VnfBlueprint createVnfLcmOpOccs(final PlanOperationType operation, final UUID vnfInstanceId) {
+	public static VnfBlueprint createVnfBlueprint(final PlanOperationType operation, final UUID vnfInstanceId) {
 		final VnfBlueprint vnfLcmOpOcc = new VnfBlueprint();
 		vnfLcmOpOcc.setOperation(operation);
 		final VnfInstance vnfInstance = new VnfInstance();
@@ -85,21 +84,6 @@ public class VnfLcmFactory {
 		parameters.setState(OperationalStateType.STOPPED);
 		vnfLcmOpOcc.setParameters(parameters);
 		return vnfLcmOpOcc;
-	}
-
-	public static VnfBlueprint createVnfBlueprint(final PlanOperationType operation, final UUID vnfInstanceId) {
-		final VnfBlueprint blueprint = new VnfBlueprint();
-		blueprint.setOperation(operation);
-		final VnfInstance vnfInstance = new VnfInstance();
-		vnfInstance.setId(vnfInstanceId);
-		blueprint.setVnfInstance(vnfInstance);
-		blueprint.setStartTime(OffsetDateTime.now());
-		blueprint.setStateEnteredTime(OffsetDateTime.now());
-		blueprint.setOperationStatus(OperationStatusType.PROCESSING);
-		final BlueprintParameters parameters = new BlueprintParameters();
-		parameters.setState(OperationalStateType.STOPPED);
-		blueprint.setParameters(parameters);
-		return blueprint;
 	}
 
 }

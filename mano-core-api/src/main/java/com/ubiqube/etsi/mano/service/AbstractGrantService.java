@@ -29,12 +29,12 @@ import com.ubiqube.etsi.mano.dao.mano.ChangeType;
 import com.ubiqube.etsi.mano.dao.mano.GrantInformationExt;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.dao.mano.GrantVimAssetsEntity;
+import com.ubiqube.etsi.mano.dao.mano.Instance;
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.VimComputeResourceFlavourEntity;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.VimSoftwareImageEntity;
 import com.ubiqube.etsi.mano.dao.mano.VimTask;
-import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.common.GeoPoint;
 import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.ComputeTask;
@@ -62,10 +62,8 @@ public abstract class AbstractGrantService implements VimResourceService {
 		this.vimManager = vimManager;
 	}
 
-	// @Override
-	@SuppressWarnings("unchecked")
 	@Override
-	public final void allocate(final Blueprint plan) {
+	public final void allocate(final Blueprint<? extends VimTask, ? extends Instance> plan) {
 		final GrantResponse grantRequest = mapper.map(plan, GrantResponse.class);
 		final Predicate<? super VimTask> isManoClass = x -> (x.getType() == ResourceTypeEnum.COMPUTE) ||
 				(x.getType() == ResourceTypeEnum.LINKPORT) ||
@@ -74,8 +72,7 @@ public abstract class AbstractGrantService implements VimResourceService {
 		plan.getTasks().stream()
 				.filter(isManoClass)
 				.map(VimTask.class::cast)
-				.forEach(xx -> {
-					final VimTask x = (VimTask) xx;
+				.forEach(x -> {
 					if (x.getChangeType() == ChangeType.ADDED) {
 						final GrantInformationExt obj = mapper.map(x, GrantInformationExt.class);
 						obj.setResourceTemplateId(x.getToscaName());
@@ -112,7 +109,7 @@ public abstract class AbstractGrantService implements VimResourceService {
 		check(plan);
 	}
 
-	protected abstract void check(Blueprint plan);
+	protected abstract void check(Blueprint<? extends VimTask, ? extends Instance> plan);
 
 	private Set<VimConnectionInformation> fixVimConnections(final Set<VimConnectionInformation> vimConnections) {
 		return vimConnections.stream().map(x -> {
@@ -128,7 +125,7 @@ public abstract class AbstractGrantService implements VimResourceService {
 				.forEach(x -> x.setVimConnectionId(vimConn.getVimId()));
 	}
 
-	private static void mapVimAsset(final Set<VimTask> tasks, final GrantVimAssetsEntity vimAssets) {
+	private static void mapVimAsset(final Set<? extends VimTask> tasks, final GrantVimAssetsEntity vimAssets) {
 		tasks.stream()
 				.filter(ComputeTask.class::isInstance)
 				.filter(x -> x.getChangeType() != ChangeType.REMOVED)
@@ -155,7 +152,7 @@ public abstract class AbstractGrantService implements VimResourceService {
 				.orElseThrow(() -> new NotFoundException("Could not find flavor for vdu: " + vduId));
 	}
 
-	private static VimTask findTask(final Blueprint<VimTask, VnfInstance> plan, final UUID grantUuid) {
+	private static VimTask findTask(final Blueprint<? extends VimTask, ? extends Instance> plan, final UUID grantUuid) {
 		return plan.getTasks().stream()
 				.filter(x -> x.getId().compareTo(grantUuid) == 0)
 				.findFirst()

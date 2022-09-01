@@ -90,7 +90,7 @@ public class NsPlanService {
 		return g.build();
 	}
 
-	private void makeSfcPlan(final Graph2dBuilder g, final NsdPackage nsd) {
+	private static void makeSfcPlan(final Graph2dBuilder g, final NsdPackage nsd) {
 		nsd.getVnffgs().forEach(x -> {
 			g.single(VnffgPostNode.class, x.getName());
 			x.getName();

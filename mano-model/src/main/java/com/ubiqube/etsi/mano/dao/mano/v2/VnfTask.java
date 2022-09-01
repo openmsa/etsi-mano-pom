@@ -33,7 +33,6 @@ import com.ubiqube.etsi.mano.dao.mano.AuditListener;
 import com.ubiqube.etsi.mano.dao.mano.ChangeType;
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.ScaleInfo;
-import com.ubiqube.etsi.mano.dao.mano.VimTask;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -47,7 +46,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @EntityListeners(AuditListener.class)
-public abstract class VnfTask extends AbstractTask implements VimTask {
+public abstract class VnfTask extends AbstractTask {
 	/** Serial. */
 	private static final long serialVersionUID = 1L;
 

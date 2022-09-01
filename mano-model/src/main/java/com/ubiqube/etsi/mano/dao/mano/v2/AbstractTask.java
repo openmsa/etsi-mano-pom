@@ -33,6 +33,7 @@ import org.hibernate.search.mapper.pojo.mapping.definition.annotation.GenericFie
 
 import com.ubiqube.etsi.mano.dao.mano.Audit;
 import com.ubiqube.etsi.mano.dao.mano.ChangeType;
+import com.ubiqube.etsi.mano.dao.mano.VimTask;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -45,7 +46,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @MappedSuperclass
-public abstract class AbstractTask implements Task {
+public abstract class AbstractTask implements VimTask {
 
 	/** Serial. */
 	private static final long serialVersionUID = 1L;

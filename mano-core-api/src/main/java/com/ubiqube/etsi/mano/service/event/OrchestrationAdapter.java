@@ -23,12 +23,13 @@ import javax.validation.constraints.NotNull;
 
 import com.ubiqube.etsi.mano.dao.mano.Instance;
 import com.ubiqube.etsi.mano.dao.mano.PackageBase;
+import com.ubiqube.etsi.mano.dao.mano.VimTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.Task;
 import com.ubiqube.etsi.mano.service.graph.WorkflowEvent;
 
-public interface OrchestrationAdapter<B extends Task, V extends Instance> {
+public interface OrchestrationAdapter<B extends VimTask, V extends Instance> {
 
 	void createLiveInstance(@NotNull Instance instance, String il, Task task, @NotNull Blueprint<? extends Task, ? extends Instance> blueprint);
 
@@ -49,7 +50,7 @@ public interface OrchestrationAdapter<B extends Task, V extends Instance> {
 
 	Instance save(@Nonnull Instance instance);
 
-	Blueprint<B, V> updateState(@Nonnull Blueprint localPlan, OperationStatusType processing);
+	Blueprint<B, V> updateState(@Nonnull Blueprint<B, V> localPlan, OperationStatusType processing);
 
 	void fireEvent(@Nonnull WorkflowEvent instantiateProcessing, @Nonnull UUID id);
 

@@ -34,6 +34,7 @@ import com.ubiqube.etsi.mano.dao.mano.Instance;
 import com.ubiqube.etsi.mano.dao.mano.PackageBase;
 import com.ubiqube.etsi.mano.dao.mano.ScaleInfo;
 import com.ubiqube.etsi.mano.dao.mano.ScaleTypeEnum;
+import com.ubiqube.etsi.mano.dao.mano.VimTask;
 import com.ubiqube.etsi.mano.dao.mano.common.FailureDetails;
 import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
@@ -73,14 +74,14 @@ public abstract class AbstractGenericActionV3 {
 		instantiateShield(blueprintId, WorkflowEvent.INSTANTIATE_SUCCESS, WorkflowEvent.INSTANTIATE_FAILED);
 	}
 
-	private final void instantiateInnerv2(final Blueprint blueprint, final Instance vnfInstance) {
+	private final void instantiateInnerv2(final Blueprint<? extends VimTask, ? extends Instance> blueprint, final Instance vnfInstance) {
 		if (null == blueprint.getParameters().getInstantiationLevelId()) {
 			blueprint.getParameters().setInstantiationLevelId(vnfInstance.getInstantiatedVnfInfo().getInstantiationLevelId());
 		}
 		final PackageBase vnfPkg = orchestrationAdapter.getPackage(vnfInstance);
 		final Set<ScaleInfo> newScale = merge(blueprint, vnfInstance);
 		final PreExecutionGraphV3<?> prePlan = workflow.setWorkflowBlueprint(vnfPkg, blueprint);
-		Blueprint<?, ?> localPlan = orchestrationAdapter.save(blueprint);
+		Blueprint localPlan = orchestrationAdapter.save(blueprint);
 		orchestrationAdapter.fireEvent(WorkflowEvent.INSTANTIATE_PROCESSING, vnfInstance.getId());
 		vimResourceService.allocate(localPlan);
 		localPlan = orchestrationAdapter.updateState(localPlan, OperationStatusType.PROCESSING);
@@ -119,7 +120,7 @@ public abstract class AbstractGenericActionV3 {
 	 * @param localPlan
 	 * @param newScale
 	 */
-	private void setInstanceStatus(final Instance instance, final Blueprint localPlan, final Set<ScaleInfo> newScale) {
+	private void setInstanceStatus(final Instance instance, final Blueprint<? extends VimTask, ? extends Instance> localPlan, final Set<ScaleInfo> newScale) {
 		Optional.ofNullable(localPlan.getParameters().getScaleStatus())
 				.map(x -> x.stream()
 						.map(y -> new ScaleInfo(y.getAspectId(), y.getScaleLevel()))
@@ -157,7 +158,7 @@ public abstract class AbstractGenericActionV3 {
 		return nsStepStatus.stream().map(x -> new ScaleInfo(x.getAspectId(), x.getScaleLevel())).collect(Collectors.toSet());
 	}
 
-	private static Set<ScaleInfo> merge(final Blueprint plan, final Instance instance) {
+	private static Set<ScaleInfo> merge(final Blueprint<? extends VimTask, ? extends Instance> plan, final Instance instance) {
 		final Set<ScaleInfo> tmp = instance.getInstantiatedVnfInfo().getScaleStatus().stream()
 				.filter(x -> notIn(x.getAspectId(), plan.getParameters().getScaleStatus()))
 				.map(x -> new ScaleInfo(x.getAspectId(), x.getScaleLevel()))
@@ -192,7 +193,7 @@ public abstract class AbstractGenericActionV3 {
 	}
 
 	private void instantiateShield(final UUID blueprintId, final WorkflowEvent success, final WorkflowEvent failure) {
-		final Blueprint<?, ?> blueprint = orchestrationAdapter.getBluePrint(blueprintId);
+		final Blueprint<? extends VimTask, ? extends Instance> blueprint = orchestrationAdapter.getBluePrint(blueprintId);
 		final Instance vnfInstance = orchestrationAdapter.getInstance(blueprint.getInstance().getId());
 		try {
 			instantiateInnerv2(blueprint, vnfInstance);

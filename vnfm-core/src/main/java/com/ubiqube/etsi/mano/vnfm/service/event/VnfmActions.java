@@ -17,10 +17,8 @@
 package com.ubiqube.etsi.mano.vnfm.service.event;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
 
@@ -92,12 +90,6 @@ public class VnfmActions extends AbstractGenericActionV3 {
 		});
 		vnfInstance.setLockedBy(null);
 		vnfInstancesService.save(vnfInstance);
-	}
-
-	private Map<String, String> getLiveVl(final VnfInstance vnfInstance) {
-		final List<VnfLiveInstance> res = vnfInstancesService.getLiveVirtualLinkInstanceOf(vnfInstance);
-		return res.stream()
-				.collect(Collectors.toMap(x -> x.getTask().getToscaName(), x -> x.getTask().getVimResourceId()));
 	}
 
 	public void vnfChangeVnfConn(@NotNull final UUID blueprintId) {

@@ -34,12 +34,10 @@ import com.ubiqube.etsi.mano.tf.entities.NetworkPolicyTask;
 public class NetworkPolicyUow extends AbstractUnitOfWork<NetworkPolicyTask> {
 
 	private final SystemConnections vimConnectionInformation;
-	private final NetworkPolicyTask task;
 
 	public NetworkPolicyUow(final VirtualTaskV3<NetworkPolicyTask> task, final SystemConnections vimConnectionInformation) {
 		super(task, NetworkPolicyNode.class);
 		this.vimConnectionInformation = vimConnectionInformation;
-		this.task = task.getTemplateParameters();
 	}
 
 	@Override
