@@ -268,7 +268,7 @@ public class VnfInstanceServiceVnfm implements VnfInstanceGatewayService {
 				.filter(x -> x.getTask().getToscaName().equals(toscaName))
 				.filter(x -> x.getTask().getRank() == rank)
 				.findFirst()
-				.orElseThrow(() -> new GenericException("Could not find port " + toscaName + "-" + String.format("%04d", rank)));
+				.orElseThrow(() -> new GenericException("Could not find port " + toscaName + " with rank: " + String.format("%04d", rank)));
 	}
 
 	private InstantiationState isLive(final UUID id) {
