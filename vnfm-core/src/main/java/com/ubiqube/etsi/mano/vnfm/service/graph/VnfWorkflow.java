@@ -16,12 +16,16 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.graph;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.jgrapht.ListenableGraph;
 import org.slf4j.Logger;
@@ -33,6 +37,7 @@ import com.ubiqube.etsi.mano.dao.mano.SubNetworkTask;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
 import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.ComputeTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.DnsHostTask;
@@ -66,6 +71,7 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfPortNode;
 import com.ubiqube.etsi.mano.orchestrator.v3.BlueprintBuilder;
 import com.ubiqube.etsi.mano.orchestrator.v3.PreExecutionGraphV3;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
+import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.VnfPlanService;
 import com.ubiqube.etsi.mano.service.event.WorkflowV3;
 import com.ubiqube.etsi.mano.service.graph.Edge2d;
@@ -91,6 +97,7 @@ import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.AbstractVnfmContr
 public class VnfWorkflow implements WorkflowV3<VnfPackage, VnfBlueprint, VnfTask> {
 
 	private static final Logger LOG = LoggerFactory.getLogger(VnfWorkflow.class);
+	private static final Pattern pVl = Pattern.compile("virtual_link_(?<idx>\\d+)");
 
 	private final List<AbstractVnfmContributorV3<VnfTask>> contributors;
 	private final VnfPlanService planService;
@@ -100,14 +107,17 @@ public class VnfWorkflow implements WorkflowV3<VnfPackage, VnfBlueprint, VnfTask
 
 	private final Planner<VnfTask> planv2;
 	private final VnfLiveInstanceJpa liveInstanceJpa;
+	private final VnfPackageService vnfPackageService;
 
 	public VnfWorkflow(final Planner<VnfTask> planv2, final VnfLiveInstanceJpa vnfInstanceJpa,
-			final List<AbstractVnfmContributorV3<?>> contributors, final VnfPlanService planService, final BlueprintBuilder blueprintBuilder) {
+			final List<AbstractVnfmContributorV3<?>> contributors, final VnfPlanService planService, final BlueprintBuilder blueprintBuilder,
+			final VnfPackageService vnfPackageService) {
 		this.planv2 = planv2;
 		this.liveInstanceJpa = vnfInstanceJpa;
 		this.contributors = (List<AbstractVnfmContributorV3<VnfTask>>) ((Object) contributors);
 		this.planService = planService;
 		this.blueprintBuilder = blueprintBuilder;
+		this.vnfPackageService = vnfPackageService;
 		vts = new EnumMap<>(ResourceTypeEnum.class);
 		vts.put(ResourceTypeEnum.VL, x -> new NetWorkVt((NetworkTask) x));
 		vts.put(ResourceTypeEnum.SUBNETWORK, x -> new SubNetworkVt((SubNetworkTask) x));
@@ -135,12 +145,38 @@ public class VnfWorkflow implements WorkflowV3<VnfPackage, VnfBlueprint, VnfTask
 			return (VirtualTaskV3<VnfTask>) Optional.ofNullable(vts.get(x.getType()))
 					.orElseThrow(() -> new GenericException("Unable to find " + x.getType()))
 					.apply(nc);
-		}, buildContext(blueprint.getInstance()), masterVertex);
+		}, buildContext(blueprint), masterVertex);
 	}
 
-	private List<ContextHolder> buildContext(final VnfInstance instance) {
+	private List<ContextHolder> buildContext(final VnfBlueprint vnfBlueprint) {
+		final VnfInstance instance = vnfBlueprint.getInstance();
 		final List<VnfLiveInstance> live = liveInstanceJpa.findByVnfInstanceId(instance.getId());
-		return live.stream().map(this::convert).toList();
+		final VnfPackage vnfPkg = vnfPackageService.findById(instance.getVnfPkg().getId());
+		final List<ContextHolder> l = live.stream().map(this::convert).toList();
+		final ArrayList<ContextHolder> ret = new ArrayList<>(l);
+		final List<ContextHolder> lExt = vnfBlueprint.getParameters().getExtManagedVirtualLinks().stream().map(x -> {
+			final ListKeyPair vl = findVl(vnfPkg.getVirtualLinks(), x.getVnfVirtualLinkDescId());
+			return new ContextHolder(null, VnfPortNode.class, vl.getValue(), 0, x.getResourceId(), x.getVimConnectionId());
+		})
+				.toList();
+		ret.addAll(lExt);
+		return ret;
+	}
+
+	private static ListKeyPair findVl(final Set<ListKeyPair> virtualLinks, final String vnfVirtualLinkDescId) {
+		final int idx = vlToPortdx(vnfVirtualLinkDescId);
+		return virtualLinks.stream().filter(x -> x.getIdx() == idx).findFirst().orElseThrow();
+	}
+
+	private static int vlToPortdx(final String vnfVirtualLinkDescId) {
+		if ("virtual_link".equals(vnfVirtualLinkDescId)) {
+			return 0;
+		}
+		final Matcher m = pVl.matcher(vnfVirtualLinkDescId);
+		if (!m.matches()) {
+			throw new GenericException("Unable to match 'virtual_link_' in " + vnfVirtualLinkDescId);
+		}
+		return Integer.parseInt(m.group("idx"));
 	}
 
 	private ContextHolder convert(final VnfLiveInstance inst) {

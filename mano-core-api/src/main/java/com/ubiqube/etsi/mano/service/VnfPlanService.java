@@ -21,8 +21,10 @@ import java.util.UUID;
 import org.jgrapht.ListenableGraph;
 import org.springframework.stereotype.Service;
 
+import com.ubiqube.etsi.mano.dao.mano.VnfLinkPort;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.VnfVl;
+import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.AffinityRuleNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Compute;
@@ -83,6 +85,7 @@ public class VnfPlanService {
 			x.getSecurityGroup().forEach(y -> g.from(Compute.class, x.getToscaName()).dependency(SecurityGroupNode.class, y, Relation.MANY_TO_ONE));
 			x.getPorts().forEach(y -> {
 				if (null == y.getVirtualLink()) {
+					buildExtCp(vnfPkg, y, x.getToscaName(), g);
 					return;
 				}
 				final VnfVl vl = vnfPkg.getVnfVl().stream().filter(z -> z.getToscaName().equals(y.getVirtualLink())).findFirst().orElseThrow(() -> new GenericException("Could not find Vl named: " + y.getVirtualLink()));
@@ -105,5 +108,11 @@ public class VnfPlanService {
 			x.getAssociatedVdu().forEach(y -> g.addChild(HelmNode.class, x.getToscaName()).of(OsContainerDeployableNode.class, y));
 		});
 		return g.build();
+	}
+
+	private static void buildExtCp(final VnfPackage vnfPkg, final VnfLinkPort y, final String computeName, final Graph2dBuilder g) {
+		final ListKeyPair port = vnfPkg.getVirtualLinks().stream().filter(x -> x.getValue().equals(y.getToscaName())).findFirst().orElseThrow();
+		g.from(Compute.class, computeName).dependency(VnfPortNode.class, port.getValue(), Relation.ONE_TO_ONE);
+		//
 	}
 }
