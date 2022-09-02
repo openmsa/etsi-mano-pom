@@ -160,6 +160,9 @@ public class VnfBlueprint extends AbstractBlueprint<VnfTask, VnfInstance> {
 		if (null == parameters.getExtManagedVirtualLinks()) {
 			this.parameters.setExtManagedVirtualLinks(new LinkedHashSet<>());
 		}
+		if (null == extManagedVirtualLinks) {
+			return;
+		}
 		this.parameters.getExtManagedVirtualLinks().addAll(extManagedVirtualLinks);
 	}
 
