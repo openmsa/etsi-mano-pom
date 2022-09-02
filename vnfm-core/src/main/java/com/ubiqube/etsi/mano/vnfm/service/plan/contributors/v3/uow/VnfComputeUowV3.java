@@ -66,7 +66,7 @@ public class VnfComputeUowV3 extends AbstractVnfmUowV3<ComputeTask> {
 				.toList();
 		final List<String> ports = task.getVnfCompute().getPorts().stream()
 				.sorted(Comparator.comparingInt(VnfLinkPort::getInterfaceOrder))
-				.map(x -> context.getParent(VnfPortNode.class, x.getToscaName() + "-" + getTask().getAlias()))
+				.map(x -> context.getParent(VnfPortNode.class, x.getToscaName()))
 				.flatMap(List::stream)
 				.toList();
 		final ComputeParameters computeParams = ComputeParameters.builder()
