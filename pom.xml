@@ -14,7 +14,7 @@
 	<name>mano-build</name>
 	<description>Build document for ETSI-MANO project</description>
 	<modules>
-		<module>ubi-spring-config</module>
+		<module>mano-config</module>
 		<module>nfvo-core</module>
 		<module>nfvo-webapp</module>
 		<module>vnfm-core</module>

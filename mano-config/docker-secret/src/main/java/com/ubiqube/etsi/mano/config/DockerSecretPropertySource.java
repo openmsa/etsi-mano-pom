@@ -18,34 +18,33 @@ package com.ubiqube.etsi.mano.config;
 
 import java.util.Map;
 import java.util.Objects;
-import java.util.Properties;
 
 import org.springframework.core.env.EnumerablePropertySource;
 
-public class UbiqubePropertySource extends EnumerablePropertySource<Map<String, Object>> {
+public class DockerSecretPropertySource extends EnumerablePropertySource<Map<String, Object>> {
 
-	private final Properties props;
+	private final Map<String, Object> secrets;
 
-	protected UbiqubePropertySource(final String name, final Properties props) {
-		super(name);
-		this.props = props;
+	public DockerSecretPropertySource(final Map<String, Object> secrets) {
+		super("Docker secrets");
+		this.secrets = secrets;
 	}
 
 	@Override
 	public String[] getPropertyNames() {
-		return props.keySet().toArray(new String[0]);
+		return secrets.keySet().toArray(new String[0]);
 	}
 
 	@Override
-	public Object getProperty(final String name) {
-		return props.get(name);
+	public Object getProperty(final String nameIn) {
+		return secrets.get(nameIn);
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		final int result = super.hashCode();
-		return (prime * result) + (props == null ? 0 : props.hashCode());
+		return (prime * result) + Objects.hash(secrets);
 	}
 
 	@Override
@@ -56,8 +55,8 @@ public class UbiqubePropertySource extends EnumerablePropertySource<Map<String, 
 		if (!super.equals(obj) || (getClass() != obj.getClass())) {
 			return false;
 		}
-		final UbiqubePropertySource other = (UbiqubePropertySource) obj;
-		return Objects.equals(props, other.props);
+		final DockerSecretPropertySource other = (DockerSecretPropertySource) obj;
+		return Objects.equals(secrets, other.secrets);
 	}
 
 }
