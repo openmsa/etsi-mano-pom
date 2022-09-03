@@ -53,7 +53,7 @@ public final class VisitorUtils {
 		return vlToString(vl);
 	}
 
-	private static String vlToString(final ListKeyPair vl) {
+	public static String vlToString(final ListKeyPair vl) {
 		if (0 == vl.getIdx()) {
 			return "virtual_link";
 		}
