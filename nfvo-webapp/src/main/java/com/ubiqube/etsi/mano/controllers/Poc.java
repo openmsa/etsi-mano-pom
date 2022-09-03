@@ -187,7 +187,7 @@ public class Poc {
 		final NsBlueprint blueprint = nsBlueprintJpa.findById(id).orElseThrow();
 		final List<NsLiveInstance> liveInst = nsLiveInstanceJpa.findByNsInstanceId(blueprint.getInstance().getId());
 		final List<TaskVertex> vertices = blueprint.getTasks().stream().map(x -> toVertex(x, liveInst)).toList();
-		final ListenableGraph<TaskVertex, ConnectivityEdge<TaskVertex>> g = new DefaultListenableGraph<>(new DirectedAcyclicGraph<>(ConnectivityEdge.class));
+		final ListenableGraph<TaskVertex, ConnectivityEdge<TaskVertex>> g = new DefaultListenableGraph(new DirectedAcyclicGraph<>(ConnectivityEdge.class));
 		final DOTExporter<TaskVertex, ConnectivityEdge<TaskVertex>> exporter = new DOTExporter<>();
 		vertices.forEach(g::addVertex);
 		exporter.setVertexAttributeProvider(x -> {
