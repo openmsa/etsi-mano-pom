@@ -85,7 +85,10 @@ public class VnfPlanService {
 			x.getSecurityGroup().forEach(y -> g.from(Compute.class, x.getToscaName()).dependency(SecurityGroupNode.class, y, Relation.MANY_TO_ONE));
 			x.getPorts().forEach(y -> {
 				if (null == y.getVirtualLink()) {
-					buildExtCp(vnfPkg, y, x.getToscaName(), g);
+					final ListKeyPair port = findPort(vnfPkg, y, x.getToscaName(), g);
+					g.single(Network.class, port.getValue());
+					g.from(Compute.class, x.getToscaName()).dependency(VnfPortNode.class, port.getValue(), Relation.ONE_TO_ONE);
+					g.from(VnfPortNode.class, port.getValue()).dependency(Network.class, port.getValue(), Relation.ONE_TO_MANY);
 					return;
 				}
 				final VnfVl vl = vnfPkg.getVnfVl().stream().filter(z -> z.getToscaName().equals(y.getVirtualLink())).findFirst().orElseThrow(() -> new GenericException("Could not find Vl named: " + y.getVirtualLink()));
@@ -110,9 +113,12 @@ public class VnfPlanService {
 		return g.build();
 	}
 
-	private static void buildExtCp(final VnfPackage vnfPkg, final VnfLinkPort y, final String computeName, final Graph2dBuilder g) {
-		final ListKeyPair port = vnfPkg.getVirtualLinks().stream().filter(x -> x.getValue().equals(y.getToscaName())).findFirst().orElseThrow();
-		g.from(Compute.class, computeName).dependency(VnfPortNode.class, port.getValue(), Relation.ONE_TO_ONE);
+	private static ListKeyPair findPort(final VnfPackage vnfPkg, final VnfLinkPort y, final String computeName, final Graph2dBuilder g) {
+		return vnfPkg.getVirtualLinks().stream()
+				.filter(x -> x.getValue().equals(y.getToscaName()))
+				.findFirst()
+				.orElseThrow();
+
 		//
 	}
 }
