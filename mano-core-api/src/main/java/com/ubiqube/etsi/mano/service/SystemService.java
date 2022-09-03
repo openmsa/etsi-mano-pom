@@ -16,12 +16,15 @@
  */
 package com.ubiqube.etsi.mano.service;
 
+import java.util.List;
 import java.util.UUID;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.exception.GenericException;
+import com.ubiqube.etsi.mano.jpa.SysConnectionJps;
 import com.ubiqube.etsi.mano.jpa.SystemsJpa;
 import com.ubiqube.etsi.mano.orchestrator.entities.SystemConnections;
 import com.ubiqube.etsi.mano.orchestrator.entities.Systems;
@@ -64,10 +67,14 @@ import ma.glasnost.orika.MapperFacade;
 public class SystemService {
 	private final MapperFacade mapper;
 	private final SystemsJpa systemJpa;
+	private final SysConnectionJps systemConnectionsJpa;
+	private final Patcher patcher;
 
-	public SystemService(final MapperFacade mapper, final SystemsJpa systemJpa) {
+	public SystemService(final MapperFacade mapper, final SystemsJpa systemJpa, final Patcher patcher, final SysConnectionJps systemConnectionsJpa) {
 		this.mapper = mapper;
 		this.systemJpa = systemJpa;
+		this.patcher = patcher;
+		this.systemConnectionsJpa = systemConnectionsJpa;
 	}
 
 	/**
@@ -136,5 +143,16 @@ public class SystemService {
 
 	public void deleteByVimOrigin(final UUID id) {
 		systemJpa.deleteByVimOrigin(id);
+	}
+
+	public List<Systems> findByModuleName(final UUID id, final String moduleName) {
+		return systemJpa.findByIdAndSubSystemsModuleName(id, moduleName);
+	}
+
+	public ResponseEntity<SystemConnections> patchModule(final UUID id, final String body) {
+		final SystemConnections sc = systemConnectionsJpa.findById(id).orElseThrow();
+		patcher.patch(body, sc);
+		final SystemConnections res = systemConnectionsJpa.save(sc);
+		return ResponseEntity.ok(res);
 	}
 }

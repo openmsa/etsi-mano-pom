@@ -16,21 +16,12 @@
  */
 package com.ubiqube.etsi.mano.jpa;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.ubiqube.etsi.mano.orchestrator.entities.Systems;
+import com.ubiqube.etsi.mano.orchestrator.entities.SystemConnections;
 
-/**
- *
- * @author Olivier Vignaud <ovi@ubiqube.com>
- *
- */
-public interface SystemsJpa extends CrudRepository<Systems, UUID> {
-
-	void deleteByVimOrigin(UUID id);
-
-	List<Systems> findByIdAndSubSystemsModuleName(UUID id, String moduleName);
+public interface SysConnectionJps extends CrudRepository<SystemConnections, UUID> {
+	//
 }
