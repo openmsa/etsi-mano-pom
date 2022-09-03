@@ -159,11 +159,11 @@ public class OrikaMapperVnfm361 implements OrikaMapperFactoryConfigurer {
 							ret.setId(img.getId().toString());
 						}
 						ret.setImagePath(img.getImagePath());
-						ret.setMinDisk(Optional.ofNullable(img.getMinDisk()).map(Long::intValue).orElse(null));
-						ret.setMinRam(Optional.ofNullable(img.getMinRam()).map(Long::intValue).orElse(null));
+						ret.setMinDisk(Optional.ofNullable(img.getMinDisk()).orElse(null));
+						ret.setMinRam(Optional.ofNullable(img.getMinRam()).orElse(null));
 						ret.setName(img.getName());
 						ret.setProvider(img.getProvider());
-						ret.setSize(Optional.ofNullable(img.getSize()).map(Long::intValue).orElse(null));
+						ret.setSize(Optional.ofNullable(img.getSize()).orElse(null));
 						// ret.setUserMetadata(img.get);
 						ret.setVersion(img.getVersion());
 						ret.setCreatedAt(img.getAudit().getCreatedOn());
