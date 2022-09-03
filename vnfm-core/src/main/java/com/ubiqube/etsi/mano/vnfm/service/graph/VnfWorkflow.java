@@ -156,7 +156,7 @@ public class VnfWorkflow implements WorkflowV3<VnfPackage, VnfBlueprint, VnfTask
 		final ArrayList<ContextHolder> ret = new ArrayList<>(l);
 		final List<ContextHolder> lExt = vnfBlueprint.getParameters().getExtManagedVirtualLinks().stream().map(x -> {
 			final ListKeyPair vl = findVl(vnfPkg.getVirtualLinks(), x.getVnfVirtualLinkDescId());
-			return new ContextHolder(null, VnfPortNode.class, vl.getValue(), 0, x.getResourceId(), x.getVimConnectionId());
+			return new ContextHolder(null, Network.class, vl.getValue(), 0, x.getResourceId(), x.getVimConnectionId());
 		})
 				.toList();
 		ret.addAll(lExt);
