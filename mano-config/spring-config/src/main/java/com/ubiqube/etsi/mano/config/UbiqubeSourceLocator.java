@@ -17,10 +17,12 @@
 package com.ubiqube.etsi.mano.config;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.Locale;
+import java.util.Optional;
+import java.util.ResourceBundle;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,18 +34,37 @@ public class UbiqubeSourceLocator implements PropertySourceLocator {
 
 	private static final Logger LOG = LoggerFactory.getLogger(UbiqubeSourceLocator.class);
 
+	private static final File ROOT = new File(System.getProperty("user.home"), ".mano");
+
+	@SuppressWarnings("resource")
 	@Override
 	public PropertySource<?> locate(final Environment environment) {
-		final Properties props = new Properties();
-		final File confDirName = new File(System.getProperty("user.home"), ".mano");
-		final File filename = new File(confDirName, "configuration.properties");
-
-		try (InputStream inStream = new FileInputStream(filename);) {
-			props.load(inStream);
-			LOG.info("Ubiqube Property file loaded.");
-		} catch (final IOException e) {
-			LOG.warn("Unable to find $HOME/.mano/configuration.properties", e);
+		File path = Optional.ofNullable(environment.getProperty("mano.config.folder", File.class)).orElse(ROOT);
+		final Locale locale = Optional.ofNullable(environment.getProperty("mano.config.type", String.class))
+				.map(Locale::new)
+				.orElse(Locale.getDefault());
+		final ClassLoader loader = new URLClassLoader(getUrls(path));
+		try {
+			final ResourceBundle rb = ResourceBundle.getBundle("configuration", locale, loader);
+			return new UbiqubePropertySource("ubiqube", rb);
+		} catch (RuntimeException e) {
+			LOG.trace("", e);
+			LOG.warn("Configuration {} not loaded.", path);
+			return new PropertySource<>("dummy") {
+				public Object getProperty(final String nameIn) {
+					return null;
+				}
+			};
 		}
-		return new UbiqubePropertySource("ubiqube", props);
+	}
+
+	private static URL[] getUrls(File path) {
+		try {
+			final URI uri = path.toURI();
+			return new URL[] { uri.toURL() };
+		} catch (final Exception e) {
+			LOG.warn("", e);
+			return new URL[0];
+		}
 	}
 }
