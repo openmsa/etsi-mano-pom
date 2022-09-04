@@ -41,12 +41,6 @@ public class HomeController {
 	}
 
 	@SuppressWarnings("static-method")
-	@GetMapping(value = "/")
-	public String index() {
-		return "redirect:swagger-ui.html";
-	}
-
-	@SuppressWarnings("static-method")
 	@GetMapping(value = "/test/{id}")
 	public ResponseEntity<VnfPackage> test(@PathVariable("id") final VnfPackage vnfPackage) {
 		return ResponseEntity.ok(vnfPackage);

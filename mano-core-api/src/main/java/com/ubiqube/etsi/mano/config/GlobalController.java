@@ -14,21 +14,18 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-
 package com.ubiqube.etsi.mano.config;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 
-import ma.glasnost.orika.impl.DefaultMapperFactory.MapperFactoryBuilder;
-import ma.glasnost.orika.unenhance.HibernateUnenhanceStrategy;
-import net.rakugakibox.spring.boot.orika.OrikaMapperFactoryBuilderConfigurer;
+@Controller
+public class GlobalController {
 
-@Component
-public class HibernateOrikaMapperFactoryBuilderConfigurer implements OrikaMapperFactoryBuilderConfigurer {
-
-	@Override
-	public void configure(final MapperFactoryBuilder<?, ?> orikaMapperFactoryBuilder) {
-		orikaMapperFactoryBuilder.unenhanceStrategy(new HibernateUnenhanceStrategy());
+	@SuppressWarnings("static-method")
+	@GetMapping(value = "/")
+	public String index() {
+		return "redirect:swagger-ui.html";
 	}
 
 }
