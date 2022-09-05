@@ -69,7 +69,7 @@ public class DockerSecretLocator implements PropertySourceLocator {
 	}
 
 	private static String getBindPath(final Environment environment) {
-		return environment.getProperty("docker-secret.bind-path", DEFAULT_BOND_PATH);
+		return environment.getProperty("mano.config.docker.bind-path", DEFAULT_BOND_PATH);
 	}
 
 }
