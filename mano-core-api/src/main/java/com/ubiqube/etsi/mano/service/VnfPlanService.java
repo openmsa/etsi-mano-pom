@@ -85,7 +85,7 @@ public class VnfPlanService {
 			x.getSecurityGroup().forEach(y -> g.from(Compute.class, x.getToscaName()).dependency(SecurityGroupNode.class, y, Relation.MANY_TO_ONE));
 			x.getPorts().forEach(y -> {
 				if (null == y.getVirtualLink()) {
-					final ListKeyPair port = findPort(vnfPkg, y, x.getToscaName(), g);
+					final ListKeyPair port = findPort(vnfPkg, y);
 					g.single(Network.class, port.getValue());
 					g.from(Compute.class, x.getToscaName()).dependency(VnfPortNode.class, port.getValue(), Relation.ONE_TO_ONE);
 					g.from(VnfPortNode.class, port.getValue()).dependency(Network.class, port.getValue(), Relation.ONE_TO_MANY);
@@ -113,12 +113,10 @@ public class VnfPlanService {
 		return g.build();
 	}
 
-	private static ListKeyPair findPort(final VnfPackage vnfPkg, final VnfLinkPort y, final String computeName, final Graph2dBuilder g) {
+	private static ListKeyPair findPort(final VnfPackage vnfPkg, final VnfLinkPort vnfLinkPort) {
 		return vnfPkg.getVirtualLinks().stream()
-				.filter(x -> x.getValue().equals(y.getToscaName()))
+				.filter(x -> x.getValue().equals(vnfLinkPort.getToscaName()))
 				.findFirst()
 				.orElseThrow();
-
-		//
 	}
 }
