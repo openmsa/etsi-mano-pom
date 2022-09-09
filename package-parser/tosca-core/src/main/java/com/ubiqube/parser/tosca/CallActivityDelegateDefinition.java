@@ -33,10 +33,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Builder
-@AllArgsConstructor
-public class CallActivityDelegateDefinition {
+public class CallActivityDelegateDefinition extends CallActivity{
 	private String workflow;
-	private Map<String, Object> inputs;
 
 	public CallActivityDelegateDefinition(final String textValue) {
 		this.workflow = textValue;
