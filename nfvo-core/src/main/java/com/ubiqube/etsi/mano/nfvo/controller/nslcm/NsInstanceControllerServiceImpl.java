@@ -138,7 +138,7 @@ public class NsInstanceControllerServiceImpl implements NsInstanceControllerServ
 		n.setForwardMapping(copyForwardMapping(o.getForwardMapping()));
 		n.setLevelMapping(copyLevelMapping(o.getLevelMapping()));
 		n.setNets(copy(o.getNets()));
-		n.setNsdPackage(o.getNsdPackage());
+		n.setNsdPackageId(o.getNsdPackage().getId());
 		n.setStepMapping(copyStepMapping(o.getStepMapping()));
 		n.setToscaId(o.getToscaId());
 		n.setToscaName(o.getToscaName());

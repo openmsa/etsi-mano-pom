@@ -28,12 +28,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
 
 import com.ubiqube.etsi.mano.dao.mano.Levelable;
-import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.VnfScalingLevelMapping;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.VnfScalingStepMapping;
@@ -61,8 +59,7 @@ public class NsdVnfPackageCopy implements Levelable<VnfScalingStepMapping, VnfSc
 
 	private String vnfdId;
 
-	@ManyToOne
-	private NsdPackage nsdPackage;
+	private UUID nsdPackageId;
 
 	private String toscaName;
 
