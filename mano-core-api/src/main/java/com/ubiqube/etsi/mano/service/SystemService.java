@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.exception.GenericException;
-import com.ubiqube.etsi.mano.jpa.SysConnectionJps;
+import com.ubiqube.etsi.mano.jpa.SysConnectionJpa;
 import com.ubiqube.etsi.mano.jpa.SystemsJpa;
 import com.ubiqube.etsi.mano.orchestrator.entities.SystemConnections;
 import com.ubiqube.etsi.mano.orchestrator.entities.Systems;
@@ -67,10 +67,10 @@ import ma.glasnost.orika.MapperFacade;
 public class SystemService {
 	private final MapperFacade mapper;
 	private final SystemsJpa systemJpa;
-	private final SysConnectionJps systemConnectionsJpa;
+	private final SysConnectionJpa systemConnectionsJpa;
 	private final Patcher patcher;
 
-	public SystemService(final MapperFacade mapper, final SystemsJpa systemJpa, final Patcher patcher, final SysConnectionJps systemConnectionsJpa) {
+	public SystemService(final MapperFacade mapper, final SystemsJpa systemJpa, final Patcher patcher, final SysConnectionJpa systemConnectionsJpa) {
 		this.mapper = mapper;
 		this.systemJpa = systemJpa;
 		this.patcher = patcher;

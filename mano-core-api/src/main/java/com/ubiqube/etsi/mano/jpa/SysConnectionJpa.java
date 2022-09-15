@@ -22,6 +22,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.ubiqube.etsi.mano.orchestrator.entities.SystemConnections;
 
-public interface SysConnectionJps extends CrudRepository<SystemConnections, UUID> {
+public interface SysConnectionJpa extends CrudRepository<SystemConnections, UUID> {
 	//
 }
