@@ -18,12 +18,14 @@ import org.hibernate.search.mapper.pojo.mapping.definition.annotation.DocumentId
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
 @Indexed
+@NoArgsConstructor
 public class VnfIndicator implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -35,6 +37,10 @@ public class VnfIndicator implements Serializable {
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Map<String, TriggerDefinition> triggers;
+	
+	private String source;
+	
+	private String name;
 	
 	@ElementCollection(targetClass=String.class)
 	private List<String> targets;

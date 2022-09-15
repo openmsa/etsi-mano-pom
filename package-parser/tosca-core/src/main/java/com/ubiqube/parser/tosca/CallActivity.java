@@ -9,6 +9,10 @@ import lombok.Setter;
 @Setter
 public class CallActivity  {
 	
+	String workflow;
+	
+	String operation;
+	
 	private Map<String, ActionInputValue> inputs;
 
 }

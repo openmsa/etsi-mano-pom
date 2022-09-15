@@ -1,17 +1,15 @@
 package com.ubiqube.etsi.mano.dao.mano;
 
-import java.util.List;
+import java.io.Serializable;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.persistence.CascadeType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.DocumentId;
 
@@ -24,17 +22,19 @@ import lombok.Setter;
 @Setter
 @Entity
 @NoArgsConstructor
-public class ConditionListDefintion {
+public class ConditionListDefintion implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@DocumentId
 	private UUID id;
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "conditionListDefintion")
-	private Map<String, Condition> conditionAttributes;
+    private String indicatorName;
 	
-	@ManyToOne
-	private TriggerDefinition triggerDefinition;
+    @ElementCollection(fetch = FetchType.EAGER)
+	private Map<String, String> thresholdValues;
+
 
 }

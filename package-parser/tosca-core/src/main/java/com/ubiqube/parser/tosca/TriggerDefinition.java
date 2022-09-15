@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.ubiqube.parser.tosca.deserializer.JsonConverter;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -38,7 +40,9 @@ public class TriggerDefinition {
 	@JsonProperty("target_filter")
 	private EventFilter targetFilter;
 	// Probably CondictionClause
-	private List<ConditionListDefintion> condition;
+	@JsonDeserialize(converter = JsonConverter.class)
+	private String condition;
 	private List<ActivityListDefinition> action;
+	private List<String> targets;
 
 }
