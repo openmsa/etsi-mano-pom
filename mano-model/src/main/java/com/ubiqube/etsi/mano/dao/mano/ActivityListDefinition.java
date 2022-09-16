@@ -14,26 +14,47 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.parser.tosca;
+package com.ubiqube.etsi.mano.dao.mano;
 
-import lombok.Builder;
+import java.io.Serializable;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.DocumentId;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- *
- * @author Olivier Vignaud <ovi@ubiqube.com>
- *
- */
 @Getter
 @Setter
+@Entity
 @NoArgsConstructor
-@Builder
-public class CallActivityOperationDefinition extends CallActivity{
-	private String operation;
+public class ActivityListDefinition implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 
-	public CallActivityOperationDefinition(final String textValue) {
-		operation = textValue;
-	}
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@DocumentId
+	private UUID id;
+	
+	private String operation;
+	
+	private String workflow;
+	
+	
+	@ElementCollection(fetch = FetchType.EAGER)
+	private Map<String, String> inputs;
+
+	
 }

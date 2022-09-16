@@ -26,9 +26,9 @@ import lombok.Setter;
 @Setter
 @JsonDeserialize(using = ActivityDeserializer.class)
 public class ActivityListDefinition {
-	private Object activity;
+	private CallActivity activity;
 
-	public ActivityListDefinition(final Object activity) {
+	public ActivityListDefinition(final CallActivity activity) {
 		this.activity = activity;
 	}
 }
