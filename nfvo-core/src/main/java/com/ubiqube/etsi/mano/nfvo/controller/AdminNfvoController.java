@@ -51,14 +51,14 @@ import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
 import com.ubiqube.etsi.mano.exception.GenericException;
-import com.ubiqube.etsi.mano.nfvo.jpa.NsBlueprintJpa;
-import com.ubiqube.etsi.mano.nfvo.jpa.NsLiveInstanceJpa;
+import com.ubiqube.etsi.mano.nfvo.service.NsInstanceService;
 import com.ubiqube.etsi.mano.nfvo.service.graph.NsPlanService;
 import com.ubiqube.etsi.mano.nfvo.service.pkg.ns.NsPackageManager;
 import com.ubiqube.etsi.mano.nfvo.service.pkg.ns.NsPackageOnboardingImpl;
 import com.ubiqube.etsi.mano.orchestrator.nodes.ConnectivityEdge;
 import com.ubiqube.etsi.mano.repository.ByteArrayResource;
 import com.ubiqube.etsi.mano.repository.ManoResource;
+import com.ubiqube.etsi.mano.service.NsBlueprintService;
 import com.ubiqube.etsi.mano.service.graph.Edge2d;
 import com.ubiqube.etsi.mano.service.graph.GraphGenerator;
 import com.ubiqube.etsi.mano.service.graph.TaskVertex;
@@ -77,15 +77,15 @@ public class AdminNfvoController {
 	private final NsPackageManager packageManager;
 	private final NsPackageOnboardingImpl nsPackageOnboardingImpl;
 	private final NsPlanService nsPlanService;
-	private final NsLiveInstanceJpa nsLiveInstanceJpa;
-	private final NsBlueprintJpa nsBlueprintJpa;
+	private final NsInstanceService nsLiveInstanceService;
+	private final NsBlueprintService nsBlueprintJpa;
 
 	public AdminNfvoController(final NsPackageManager packageManager, final NsPackageOnboardingImpl nsPackageOnboardingImpl, final NsPlanService nsPlanService,
-			final NsLiveInstanceJpa nsLiveInstanceJpa, final NsBlueprintJpa nsBlueprintJpa) {
+			final NsInstanceService nsLiveInstanceJpa, final NsBlueprintService nsBlueprintJpa) {
 		this.packageManager = packageManager;
 		this.nsPackageOnboardingImpl = nsPackageOnboardingImpl;
 		this.nsPlanService = nsPlanService;
-		this.nsLiveInstanceJpa = nsLiveInstanceJpa;
+		this.nsLiveInstanceService = nsLiveInstanceJpa;
 		this.nsBlueprintJpa = nsBlueprintJpa;
 	}
 
@@ -118,8 +118,8 @@ public class AdminNfvoController {
 
 	@GetMapping("/ns/lcm-op-occs/{id}")
 	public ResponseEntity<BufferedImage> getDeployementPicture(@PathVariable("id") final UUID id) {
-		final NsBlueprint blueprint = nsBlueprintJpa.findById(id).orElseThrow();
-		final List<NsLiveInstance> liveInst = nsLiveInstanceJpa.findByNsInstanceId(blueprint.getInstance().getId());
+		final NsBlueprint blueprint = nsBlueprintJpa.findById(id);
+		final List<NsLiveInstance> liveInst = nsLiveInstanceService.findByNsInstanceId(blueprint.getInstance().getId());
 		final List<TaskVertex> vertices = blueprint.getTasks().stream().map(x -> toVertex(x, liveInst)).toList();
 		final ListenableGraph<TaskVertex, ConnectivityEdge<TaskVertex>> g = new DefaultListenableGraph(new DirectedAcyclicGraph<>(ConnectivityEdge.class));
 		final DOTExporter<TaskVertex, ConnectivityEdge<TaskVertex>> exporter = new DOTExporter<>();

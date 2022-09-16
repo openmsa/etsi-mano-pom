@@ -130,4 +130,8 @@ public class NsInstanceService {
 		return nsdInstanceJpa.findAll();
 	}
 
+	public List<NsLiveInstance> findByNsInstanceId(final UUID id) {
+		return nsLiveInstanceJpa.findByNsInstanceId(id);
+	}
+
 }
