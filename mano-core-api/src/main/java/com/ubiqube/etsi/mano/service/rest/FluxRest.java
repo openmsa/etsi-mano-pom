@@ -126,7 +126,7 @@ public class FluxRest {
 	}
 
 	private static SslContext buildSslContext(final AuthParamOauth2 oAuth) {
-		if (oAuth.getO2IgnoreSsl()) {
+		if (Boolean.TRUE.equals(oAuth.getO2IgnoreSsl())) {
 			return bypassAllSsl();
 		}
 		if (oAuth.getO2AuthTlsCert() != null) {
