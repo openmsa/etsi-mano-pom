@@ -1,7 +1,7 @@
 debug: true
 keycloak:
   realm: mano-realm
-  auth-server-url: http://auth.mano.ubiqube.com/auth/realms/mano-realm/protocol/openid-connect/token
+  auth-server-url: http://mano-auth:8110/auth/realms/mano-realm/protocol/openid-connect/token
   ssl-required: external
   resource: mano-vnfm
   credentials:
@@ -11,6 +11,7 @@ keycloak:
 
 logging:
   level:
+    com.ubiqube.etsi.mano.service.rest.ManoLoggingHandler: DEBUG
     com:
       ubiqube:
         etsi: DEBUG
@@ -68,7 +69,7 @@ mano:
   frontend-url: http://mano-nfvo:8090/ubi-etsi-mano/sol003
   repository:
     phys-root: /tmp/etsi-mano/repository
-  swagger-o-auth2: https://auth.mano.ubiqube.com/auth/realms/mano-realm/protocol/openid-connect/token
+  swagger-o-auth2: http://auth.mano.ubiqube.com/auth/realms/mano-realm/protocol/openid-connect/token
 
 server:
   error:
@@ -99,7 +100,7 @@ spring:
       base-path: /api
   datasource:
     driverClassName: org.h2.Driver
-    url: jdbc:h2:file:~/etsi-mano-nfvo.h2;AUTO_SERVER=TRUE;INIT=CREATE SCHEMA IF NOT EXISTS mec_meo
+    url: jdbc:h2:file:~/etsi-mano-nfvo.h2;MODE=PostgreSQL;AUTO_SERVER=TRUE;INIT=CREATE SCHEMA IF NOT EXISTS mec_meo
     username: sa
     hikari:
       connection-test-query: SELECT 1
@@ -111,7 +112,7 @@ spring:
         web-allow-others: true
   jackson:
     date-format: yyyy-MM-dd'T'HH:mm:ss.SSSXXX
-    #default-property-inclusion: NON_NULL
+    default-property-inclusion: NON_NULL
     generator:
       ignore-unknown: false
     serialization:
@@ -130,7 +131,7 @@ spring:
         search:
           backend:
             directory:
-              root: /tmp/etsi-mano/indexes
+              root: /tmp/etsi-mano-nfvo/indexes
             type: lucene
   liquibase:
     enabled: false
@@ -160,7 +161,7 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: http://mano-auth:8080/auth/realms/mano-realm
-          jwk-set-uri: http://auth.mano.ubiqube.com/auth/realms/mano-realm/protocol/openid-connect/certs
+          jwk-set-uri: http://mano-auth:8110/auth/realms/mano-realm/protocol/openid-connect/certs
   servlet:
     multipart:
       max-file-size: 1024MB
