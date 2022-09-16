@@ -68,7 +68,7 @@ class SoftwareImageTest {
 
 	private static SoftwareImage withHash256Si() {
 		final SoftwareImage si = new SoftwareImage();
-		si.setName("good");
+		si.setName("good1");
 		final Checksum checksum = new Checksum();
 		checksum.setAlgorithm("SHA-256");
 		checksum.setHash("01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b");
