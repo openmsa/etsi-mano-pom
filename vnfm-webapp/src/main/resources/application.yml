@@ -56,7 +56,7 @@ management:
 
 mano:
   frontend-url: http://mano-vnfm:8090/ubi-etsi-mano/sol003
-  swagger-o-auth2: https://auth.mano.ubiqube.com/auth/realms/mano-realm/protocol/openid-connect/token
+  swagger-o-auth2: http://auth.mano.ubiqube.com/auth/realms/mano-realm/protocol/openid-connect/token
   election:
     script-path: /tmp/etsi-mano/election/groovy
   repository:
@@ -123,7 +123,7 @@ spring:
         search:
           backend:
             directory:
-              root: /tmp/etsi-mano/indexes
+              root: /tmp/etsi-mano-vnfm/indexes
             type: lucene
   liquibase:
     enabled: false
