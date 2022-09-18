@@ -53,7 +53,7 @@ public class Resolver implements IResolver {
 		final String cacheFileName = getCacheName(url);
 		final File cacheFile = new File(cacheDir, cacheFileName);
 		if (cacheFile.exists()) {
-			return getContents(cacheFile);
+			// Test w/o cache return getContents(cacheFile)
 		}
 		final URL rUrl = getUrl(url);
 		// Maybe we probably need to store `last`

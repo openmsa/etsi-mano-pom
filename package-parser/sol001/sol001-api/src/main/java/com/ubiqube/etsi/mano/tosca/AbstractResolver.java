@@ -53,7 +53,7 @@ public abstract class AbstractResolver implements IResolver {
 		final String cacheFileName = getCacheName(url);
 		final File cacheFile = new File(cacheDir, cacheFileName);
 		if (cacheFile.exists()) {
-			return cachedContent(cacheFile);
+			// Test w/o cache return cachedContent(cacheFile)
 		}
 		try {
 			final URL realUrl = new URL(url);
