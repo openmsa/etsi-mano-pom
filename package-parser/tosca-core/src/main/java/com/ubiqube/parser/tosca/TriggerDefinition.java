@@ -17,7 +17,6 @@
 package com.ubiqube.parser.tosca;
 
 import java.util.List;
-import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -42,7 +41,8 @@ public class TriggerDefinition {
 	// Probably CondictionClause
 	@JsonDeserialize(converter = JsonConverter.class)
 	private String condition;
-	private List<ActivityListDefinition> action;
+	@JsonDeserialize(converter = JsonConverter.class)
+	private String action;
 	private List<String> targets;
 
 }

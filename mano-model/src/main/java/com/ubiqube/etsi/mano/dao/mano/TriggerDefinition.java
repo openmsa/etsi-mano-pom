@@ -20,14 +20,11 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.DocumentId;
 
@@ -51,17 +48,14 @@ public class TriggerDefinition implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@DocumentId
 	private UUID id;
-	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private List<ConditionListDefintion> conditions;
-	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private List<ActivityListDefinition> actions;
-	
-	@ElementCollection(targetClass=String.class)
+
+	private String condition;
+
+	private String action;
+
+	@ElementCollection(targetClass = String.class)
 	private List<String> targets;
-	
+
 	private String event;
-	
 
 }

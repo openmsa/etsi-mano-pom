@@ -5,15 +5,14 @@ import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 public class ActivityListDefinition extends Root {
 	@JsonProperty("activity")
-	private Object activity;
+	private String activity;
 
-	public Object getActivity() {
+	public String getActivity() {
 		return activity;
 	}
 
-	public void setActivity(Object activity) {
+	public void setActivity(final String activity) {
 		this.activity = activity;
 	}
-   
-	
+
 }
