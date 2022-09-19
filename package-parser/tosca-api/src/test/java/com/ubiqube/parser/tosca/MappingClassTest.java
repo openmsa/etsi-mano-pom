@@ -20,11 +20,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.HashMap;
@@ -35,6 +33,7 @@ import java.util.Properties;
 
 import org.junit.jupiter.api.Test;
 
+import com.ubiqube.parser.test.ArtifactDownloader;
 import com.ubiqube.parser.tosca.api.ContextResolver;
 import com.ubiqube.parser.tosca.api.OrikaMapper;
 import com.ubiqube.parser.tosca.api.ToscaApi;
@@ -52,30 +51,7 @@ import ma.glasnost.orika.impl.generator.EclipseJdtCompilerStrategy;
  *
  */
 class MappingClassTest {
-	private final static String JAR_PATH = "./target/test-classes/tosca-class-%s-2.0.0-SNAPSHOT.jar";
-	private final static String JAR_PATH_JDK = "/tosca-class-%s-2.0.0-SNAPSHOT.jar";
-	private final static String ARTIFACT_NAME = "tosca-class-%s";
-	private final static String ARTIFACT_URL = """
-			http://nexus.ubiqube.com/service/rest/v1/search/assets/download\
-			?sort=version\
-			&repository=maven-snapshots\
-			&maven.groupId=com.ubiqube.mano.sol001\
-			&maven.artifactId=%s\
-			&maven.extension=jar\
-			&maven.classifier=""";
-
-	static void prepareArtifact(final String version) throws MalformedURLException {
-		final String artifact = String.format(ARTIFACT_NAME, version);
-		final String urlStr = String.format(ARTIFACT_URL, artifact);
-		System.out.println(urlStr);
-		final URL url = new URL(urlStr);
-		try (InputStream stream = url.openStream();
-				FileOutputStream fos = new FileOutputStream(String.format(JAR_PATH, version))) {
-			stream.transferTo(fos);
-		} catch (final IOException e) {
-			throw new ParseException(e);
-		}
-	}
+	private static final String JAR_PATH_JDK = "/tosca-class-%s-2.0.0-SNAPSHOT.jar";
 
 	@Test
 	void testName() throws Exception {
@@ -86,7 +62,7 @@ class MappingClassTest {
 		assertNotNull(root);
 		Version v = getVersion(root.getMetadata());
 		v = new Version("3.6.1");
-		prepareArtifact(toJarVersions(v));
+		ArtifactDownloader.prepareArtifact(toJarVersions(v));
 		final URL cls = this.getClass().getResource(String.format(JAR_PATH_JDK, toJarVersions(v)));
 		System.out.println("" + cls);
 		final URLClassLoader inst = URLClassLoader.newInstance(new URL[] { cls }, this.getClass().getClassLoader());
