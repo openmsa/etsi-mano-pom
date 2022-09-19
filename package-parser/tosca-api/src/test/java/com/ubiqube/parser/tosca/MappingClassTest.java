@@ -20,13 +20,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Properties;
 
 import org.junit.jupiter.api.Test;
 
@@ -39,6 +44,7 @@ import com.ubiqube.parser.tosca.scalar.Version;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.OrikaSystemProperties;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
+import ma.glasnost.orika.impl.generator.EclipseJdtCompilerStrategy;
 
 /**
  *
@@ -46,7 +52,30 @@ import ma.glasnost.orika.impl.DefaultMapperFactory;
  *
  */
 class MappingClassTest {
-	private final static String JAR_PATH = "/tosca-class-%s-2.0.0-SNAPSHOT.jar";
+	private final static String JAR_PATH = "./target/test-classes/tosca-class-%s-2.0.0-SNAPSHOT.jar";
+	private final static String JAR_PATH_JDK = "/tosca-class-%s-2.0.0-SNAPSHOT.jar";
+	private final static String ARTIFACT_NAME = "tosca-class-%s";
+	private final static String ARTIFACT_URL = """
+			http://nexus.ubiqube.com/service/rest/v1/search/assets/download\
+			?sort=version\
+			&repository=maven-snapshots\
+			&maven.groupId=com.ubiqube.mano.sol001\
+			&maven.artifactId=%s\
+			&maven.extension=jar\
+			&maven.classifier=""";
+
+	static void prepareArtifact(final String version) throws MalformedURLException {
+		final String artifact = String.format(ARTIFACT_NAME, version);
+		final String urlStr = String.format(ARTIFACT_URL, artifact);
+		System.out.println(urlStr);
+		final URL url = new URL(urlStr);
+		try (InputStream stream = url.openStream();
+				FileOutputStream fos = new FileOutputStream(String.format(JAR_PATH, version))) {
+			stream.transferTo(fos);
+		} catch (final IOException e) {
+			throw new ParseException(e);
+		}
+	}
 
 	@Test
 	void testName() throws Exception {
@@ -57,41 +86,52 @@ class MappingClassTest {
 		assertNotNull(root);
 		Version v = getVersion(root.getMetadata());
 		v = new Version("3.6.1");
-		final String jarPath = String.format(JAR_PATH, toJarVersions(v));
-		System.out.println("" + jarPath);
-		final URL cls = this.getClass().getResource(jarPath);
-		if (null == cls) {
-			throw new ParseException("Unable to find " + jarPath);
-		}
-		final URLClassLoader inst = URLClassLoader.newInstance(new URL[] { cls });
+		prepareArtifact(toJarVersions(v));
+		final URL cls = this.getClass().getResource(String.format(JAR_PATH_JDK, toJarVersions(v)));
+		System.out.println("" + cls);
+		final URLClassLoader inst = URLClassLoader.newInstance(new URL[] { cls }, this.getClass().getClassLoader());
+		final ContextResolver ctx = new ContextResolver(root, new HashMap<String, String>());
+		final MapperFactory mapperFactory = configureMapper(inst);
+		final ToscaApi toscaApi = new ToscaApi(inst, mapperFactory.getMapperFacade());
 		final Class<?> clz = inst.loadClass("tosca.nodes.nfv.VNF");
 		assertNotNull(clz);
-		final ContextResolver ctx = new ContextResolver(root, new HashMap<String, String>());
-		final MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
-		configureMapper(inst, mapperFactory);
-		mapperFactory.getConverterFactory().registerConverter(new OrikaTimeConverter());
-		final ToscaApi toscaApi = new ToscaApi(this.getClass().getClassLoader(), mapperFactory.getMapperFacade());
-		final List<VNF> objs = (List<VNF>) toscaApi.getObjects(root, Map.of(), clz);
-
-		final List<VNF> fin = mapperFactory.getMapperFacade().mapAsList(objs, VNF.class);
+		final List<VNF> objs = toscaApi.getObjects(root, Map.of(), VNF.class);
+		final List<?> fin = mapperFactory.getMapperFacade().mapAsList(objs, clz);
 		assertNotNull(fin);
 		assertEquals(1, fin.size());
-		final VNF vnf = fin.get(0);
+		final Object vnf = fin.get(0);
 		assertNotNull(vnf);
 	}
 
-	private void configureMapper(final URLClassLoader inst, final MapperFactory mapperFactory) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	private static MapperFactory configureMapper(final URLClassLoader inst) throws SecurityException {
+		Thread.currentThread().setContextClassLoader(inst);
+		System.setProperty(OrikaSystemProperties.COMPILER_STRATEGY, EclipseJdtCompilerStrategy.class.getName());
+		System.setProperty(OrikaSystemProperties.WRITE_SOURCE_FILES, "true");
+		System.setProperty(OrikaSystemProperties.WRITE_SOURCE_FILES_TO_PATH, "/tmp/orika-test");
+		final MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
+		mapperFactory.getConverterFactory().registerConverter(new OrikaTimeConverter());
 		// com.ubiqube.etsi.mano.sol001.OrikaMapperImpl
-		final Class<?> clz = inst.loadClass("com.ubiqube.etsi.mano.sol001.OrikaMapperImpl");
-		final OrikaMapper ins = (OrikaMapper) clz.getDeclaredConstructor().newInstance();
+		final OrikaMapper ins = getVersionedMapperMethod(inst);
 		ins.configureMapper(mapperFactory);
+		return mapperFactory;
 	}
 
-	private Object toJarVersions(final Version v) {
+	private static OrikaMapper getVersionedMapperMethod(final URLClassLoader urlLoader) {
+		try (InputStream is = urlLoader.getResourceAsStream("META-INF/tosca-resources.properties")) {
+			final Properties props = new Properties();
+			props.load(is);
+			final Class<?> clz = urlLoader.loadClass(props.getProperty("mapper"));
+			return (OrikaMapper) clz.getDeclaredConstructor().newInstance();
+		} catch (final ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | IOException e) {
+			throw new ParseException(e);
+		}
+	}
+
+	private static String toJarVersions(final Version v) {
 		return v.toString().replace(".", "");
 	}
 
-	private Version getVersion(final Map<String, String> metadata) {
+	private static Version getVersion(final Map<String, String> metadata) {
 		final String author = metadata.get("template_author");
 		if (null == author) {
 			return new Version("2.5.1");

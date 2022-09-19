@@ -59,5 +59,10 @@
 			<artifactId>sol001-objects</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>ma.glasnost.orika</groupId>
+			<artifactId>orika-eclipse-tools</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 </project>
