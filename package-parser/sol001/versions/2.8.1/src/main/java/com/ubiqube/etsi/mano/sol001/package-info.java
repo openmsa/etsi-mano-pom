@@ -1,1 +1,0 @@
-package com.ubiqube.etsi.mano.sol001;
