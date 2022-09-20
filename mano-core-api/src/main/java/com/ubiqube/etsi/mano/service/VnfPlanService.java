@@ -31,10 +31,12 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Compute;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.DnsHost;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.DnsZone;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.HelmNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.MciopUser;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Monitoring;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerDeployableNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsK8sInformationsNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SecurityGroupNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SecurityRuleNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Storage;
@@ -42,7 +44,6 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SubNetwork;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfPortNode;
 import com.ubiqube.etsi.mano.service.graph.Edge2d;
 import com.ubiqube.etsi.mano.service.graph.Graph2dBuilder;
-import com.ubiqube.etsi.mano.service.graph.Graph2dBuilder.ChildBuilder;
 import com.ubiqube.etsi.mano.service.graph.Relation;
 import com.ubiqube.etsi.mano.service.graph.Vertex2d;
 
@@ -101,14 +102,19 @@ public class VnfPlanService {
 			g.from(DnsHost.class, x.getToscaName()).addNext(Compute.class, x.getToscaName(), Relation.ONE_TO_ONE);
 			g.from(DnsHost.class, x.getToscaName()).dependency(DnsZone.class, MASTER_ZONE, Relation.ONE_TO_MANY);
 		});
-		vnfPkg.getOsContainer().forEach(x -> g.single(OsContainerNode.class, x.getName()));
+		vnfPkg.getOsContainer().forEach(x -> {
+			g.single(OsContainerNode.class, x.getName());
+			g.from(OsContainerNode.class, x.getName()).addNext(OsK8sInformationsNode.class, x.getName(), Relation.ONE_TO_ONE);
+			g.from(DnsZone.class, MASTER_ZONE).addNext(OsContainerNode.class, x.getName(), Relation.ONE_TO_MANY);
+		});
 		vnfPkg.getOsContainerDeployableUnits().forEach(x -> {
-			final ChildBuilder v = g.addChild(OsContainerDeployableNode.class, x.getName());
-			x.getContainerRef().forEach(y -> v.of(OsContainerNode.class, y));
+			x.getContainerReq().forEach(y -> g.from(OsK8sInformationsNode.class, y).addNext(OsContainerDeployableNode.class, x.getName(), Relation.ONE_TO_MANY));
+			x.getVirtualStorageReq().forEach(y -> g.from(Storage.class, y).addNext(OsContainerDeployableNode.class, x.getName(), Relation.ONE_TO_ONE));
+			g.from(OsContainerDeployableNode.class, x.getName()).addNext(MciopUser.class, x.getName(), Relation.ONE_TO_ONE);
 		});
 		vnfPkg.getMciops().forEach(x -> {
 			g.single(HelmNode.class, x.getToscaName());
-			x.getAssociatedVdu().forEach(y -> g.addChild(HelmNode.class, x.getToscaName()).of(OsContainerDeployableNode.class, y));
+			x.getAssociatedVdu().forEach(y -> g.from(MciopUser.class, y).addNext(HelmNode.class, x.getToscaName(), Relation.ONE_TO_MANY));
 		});
 		return g.build();
 	}
