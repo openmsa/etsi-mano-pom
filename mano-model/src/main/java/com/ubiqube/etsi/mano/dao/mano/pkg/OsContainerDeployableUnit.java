@@ -72,8 +72,8 @@ public class OsContainerDeployableUnit implements Serializable {
 	private Set<McioConstraint> mcioConstraintParams;
 
 	@ElementCollection(fetch = FetchType.EAGER)
-	private Set<String> virtualStoragesRef;
+	private Set<String> virtualStorageReq;
 
 	@ElementCollection(fetch = FetchType.EAGER)
-	private Set<String> containerRef;
+	private Set<String> containerReq;
 }
