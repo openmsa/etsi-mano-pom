@@ -16,7 +16,6 @@
  */
 package com.ubiqube.etsi.mano.dao.mano.config;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -43,6 +42,7 @@ import com.ubiqube.etsi.mano.dao.mano.common.ApiVersion;
 import com.ubiqube.etsi.mano.dao.mano.common.FailureDetails;
 import com.ubiqube.etsi.mano.dao.mano.subs.SubscriptionType;
 import com.ubiqube.etsi.mano.dao.mano.v2.PlanStatusType;
+import com.ubiqube.etsi.mano.utils.ToStringUtil;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -114,5 +114,10 @@ public class Servers implements Auditable {
 			versions = new HashSet<>();
 		}
 		versions.add(version2);
+	}
+
+	@Override
+	public String toString() {
+		return ToStringUtil.toString(this);
 	}
 }
