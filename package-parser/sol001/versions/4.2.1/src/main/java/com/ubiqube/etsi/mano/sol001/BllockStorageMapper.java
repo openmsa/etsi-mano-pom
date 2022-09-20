@@ -44,6 +44,9 @@ public class BllockStorageMapper extends CustomMapper<VirtualBlockStorage, tosca
 	}
 
 	private void map(final Map<String, Artifact> tgt, final Map<String, Artifact> artifacts) {
+		if (null == artifacts) {
+			return;
+		}
 		artifacts.entrySet().forEach(x -> {
 			final SwImage obj = mapperFacade.map(x.getValue(), SwImage.class);
 			tgt.put(x.getKey(), obj);
