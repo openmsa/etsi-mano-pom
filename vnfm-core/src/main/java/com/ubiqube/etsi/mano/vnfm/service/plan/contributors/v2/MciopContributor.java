@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
-import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.MciopTask;
+import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.HelmTask;
 import com.ubiqube.etsi.mano.orchestrator.SclableResources;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.HelmNode;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
@@ -34,21 +34,21 @@ import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
  *
  */
 @Service
-public class MciopContributor extends AbstractContributorV3Base<MciopTask> {
+public class MciopContributor extends AbstractContributorV3Base<HelmTask> {
 
 	public MciopContributor(final VnfLiveInstanceJpa vnfLiveInstanceJpa) {
 		super(vnfLiveInstanceJpa);
 	}
 
 	@Override
-	public List<SclableResources<MciopTask>> contribute(final VnfPackage bundle, final VnfBlueprint parameters) {
+	public List<SclableResources<HelmTask>> contribute(final VnfPackage bundle, final VnfBlueprint parameters) {
 		return bundle.getMciops().stream().map(x -> {
-			final MciopTask t = createTask(MciopTask::new);
+			final HelmTask t = createTask(HelmTask::new);
 			t.setBlueprint(parameters);
 			t.setMciop(x);
 			t.setAlias(x.getToscaName());
 			t.setToscaName(x.getToscaName());
-			t.setType(ResourceTypeEnum.CNF);
+			t.setType(ResourceTypeEnum.HELM);
 			return create(HelmNode.class, t.getToscaName(), 1, t, parameters.getInstance());
 		})
 				.toList();

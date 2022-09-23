@@ -167,7 +167,10 @@ public class NsInstanceControllerServiceImpl implements NsInstanceControllerServ
 
 	private Set<VnfScalingStepMapping> copyStepMapping(final Set<VnfScalingStepMapping> stepMapping) {
 		final List<VnfScalingStepMapping> tmp = stepMapping.stream().map(x -> mapper.map(x, VnfScalingStepMapping.class)).toList();
-		tmp.forEach(x -> x.setId(null));
+		tmp.forEach(x -> {
+			x.setId(null);
+			x.getLevels().forEach(y -> y.setId(null));
+		});
 		return tmp.stream().collect(Collectors.toSet());
 	}
 

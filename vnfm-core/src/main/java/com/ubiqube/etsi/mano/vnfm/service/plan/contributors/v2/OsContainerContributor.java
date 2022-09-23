@@ -53,7 +53,7 @@ public class OsContainerContributor extends AbstractContributorV3Base<OsContaine
 			t.setAlias(vduNamingStrategy.osContainerName(parameters.getInstance(), x.getName()));
 			t.setToscaName(x.getName());
 			t.setBlueprint(parameters);
-			t.setType(ResourceTypeEnum.CNF);
+			t.setType(ResourceTypeEnum.OS_CONTAINER);
 			t.setChangeType(ChangeType.ADDED);
 			t.setOsContainer(x);
 			ret.add(create(OsContainerNode.class, t.getToscaName(), 1, t, parameters.getInstance()));

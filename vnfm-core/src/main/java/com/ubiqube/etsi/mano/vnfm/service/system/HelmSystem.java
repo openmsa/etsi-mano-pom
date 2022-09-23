@@ -19,7 +19,7 @@ package com.ubiqube.etsi.mano.vnfm.service.system;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
-import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.MciopTask;
+import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.HelmTask;
 import com.ubiqube.etsi.mano.orchestrator.OrchestrationServiceV3;
 import com.ubiqube.etsi.mano.orchestrator.SystemBuilder;
 import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
@@ -34,7 +34,6 @@ import com.ubiqube.etsi.mano.service.vim.VimManager;
 import com.ubiqube.etsi.mano.service.vim.k8s.K8sClient;
 import com.ubiqube.etsi.mano.vnfm.jpa.K8sServerInfoJpa;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow.HelmDeployUowV3;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow.MciopUserUowV3;
 
 /**
  *
@@ -42,14 +41,14 @@ import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow.MciopUserUowV
  *
  */
 @Service
-public class MciopSystem extends AbstractVimSystemV3<MciopTask> {
+public class HelmSystem extends AbstractVimSystemV3<HelmTask> {
 	private final K8sClient client;
 	private final K8sServerInfoJpa serverInfoJpa;
 	private final Vim vim;
 	private final K8sPkService k8sPkService;
 	private final VnfPackageRepository repo;
 
-	protected MciopSystem(final VimManager vimManager, final Vim vim, final K8sClient client, final K8sServerInfoJpa serverInfoJpa, final K8sPkService k8sPkService,
+	protected HelmSystem(final VimManager vimManager, final Vim vim, final K8sClient client, final K8sServerInfoJpa serverInfoJpa, final K8sPkService k8sPkService,
 			final VnfPackageRepository repo) {
 		super(vimManager);
 		this.vim = vim;
@@ -60,12 +59,13 @@ public class MciopSystem extends AbstractVimSystemV3<MciopTask> {
 	}
 
 	@Override
-	protected SystemBuilder getImplementation(final OrchestrationServiceV3<MciopTask> orchestrationService, final VirtualTaskV3<MciopTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
+	protected SystemBuilder getImplementation(final OrchestrationServiceV3<HelmTask> orchestrationService, final VirtualTaskV3<HelmTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
 		final String crt = k8sPkService.createCsr("CN=kubernetes-admin,O=system:masters");
 		final String pk = k8sPkService.getPrivateKey();
-		final UnitOfWorkV3<MciopTask> createUser = new MciopUserUowV3(virtualTask, vim, vimConnectionInformation, serverInfoJpa, crt);
-		final UnitOfWorkV3<MciopTask> uow = new HelmDeployUowV3(virtualTask, client, serverInfoJpa, repo, pk);
-		return orchestrationService.systemBuilderOf(createUser, uow);
+		// final UnitOfWorkV3<MciopTask> createUser = new MciopUserUowV3(virtualTask,
+		// vim, vimConnectionInformation, serverInfoJpa, crt);
+		final UnitOfWorkV3<HelmTask> uow = new HelmDeployUowV3(virtualTask, client, serverInfoJpa, repo, pk);
+		return orchestrationService.systemBuilderOf(uow);
 	}
 
 	@Override

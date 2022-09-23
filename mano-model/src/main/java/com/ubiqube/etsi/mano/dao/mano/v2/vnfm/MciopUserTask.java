@@ -14,26 +14,47 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt;
+package com.ubiqube.etsi.mano.dao.mano.v2.vnfm;
 
-import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.MciopTask;
-import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.MciopUser;
+import java.util.UUID;
+
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+import com.ubiqube.etsi.mano.dao.mano.AuditListener;
+import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public class MciopVt extends VnfVtBase<MciopTask> {
+@Entity
+@EntityListeners(AuditListener.class)
+@Getter
+@Setter
+public class MciopUserTask extends VnfTask {
+	/** Serial. */
+	private static final long serialVersionUID = 1L;
 
-	public MciopVt(final MciopTask nt) {
-		super(nt);
-	}
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private UUID id;
+
+	private String parentVdu;
 
 	@Override
-	public Class<? extends Node> getType() {
-		return MciopUser.class;
+	public VnfTask copy() {
+		final MciopUserTask t = new MciopUserTask();
+		super.copy(t);
+		t.setParentVdu(parentVdu);
+		return t;
 	}
 
 }

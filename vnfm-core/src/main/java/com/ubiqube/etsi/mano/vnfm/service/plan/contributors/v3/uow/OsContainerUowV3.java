@@ -31,7 +31,7 @@ public class OsContainerUowV3 extends AbstractVnfmUowV3<OsContainerTask> {
 	private final VimConnectionInformation vimConnectionInformation;
 	private final OsContainerTask task;
 
-	protected OsContainerUowV3(final VirtualTaskV3<OsContainerTask> task, final Vim vim, final VimConnectionInformation vimConnectionInformation) {
+	public OsContainerUowV3(final VirtualTaskV3<OsContainerTask> task, final Vim vim, final VimConnectionInformation vimConnectionInformation) {
 		super(task, OsContainerNode.class);
 		this.vim = vim;
 		this.vimConnectionInformation = vimConnectionInformation;

@@ -69,7 +69,7 @@ public class OsContainerDeployableSystem extends AbstractVimSystemV3<OsContainer
 		k8sInfo.setBlueprint(p.getBlueprint());
 		k8sInfo.setChangeType(p.getChangeType());
 		k8sInfo.setRemovedLiveInstance(p.getRemovedLiveInstance());
-		k8sInfo.setType(ResourceTypeEnum.CNF_INFO);
+		k8sInfo.setType(ResourceTypeEnum.OS_CONTAINER_INFO);
 		k8sInfo.setVimConnectionId(p.getVimConnectionId());
 		k8sInfo.setVimResourceId(p.getVimResourceId());
 		return k8sInfo;

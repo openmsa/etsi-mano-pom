@@ -28,7 +28,7 @@ import javax.validation.constraints.NotNull;
 
 import com.ubiqube.etsi.mano.Constants;
 import com.ubiqube.etsi.mano.dao.mano.k8s.K8sServers;
-import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.MciopTask;
+import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.HelmTask;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.HelmNode;
@@ -39,14 +39,14 @@ import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 import com.ubiqube.etsi.mano.service.vim.k8s.K8sClient;
 import com.ubiqube.etsi.mano.vnfm.jpa.K8sServerInfoJpa;
 
-public class HelmDeployUowV3 extends AbstractVnfmUowV3<MciopTask> {
+public class HelmDeployUowV3 extends AbstractVnfmUowV3<HelmTask> {
 	private final K8sClient client;
-	private final MciopTask task;
+	private final HelmTask task;
 	private final K8sServerInfoJpa serverInfoJpa;
 	private final VnfPackageRepository vnfRepo;
 	private final String manoKey;
 
-	public HelmDeployUowV3(final VirtualTaskV3<MciopTask> task, final K8sClient client, final K8sServerInfoJpa serverInfoJpa, final VnfPackageRepository vnfRepo,
+	public HelmDeployUowV3(final VirtualTaskV3<HelmTask> task, final K8sClient client, final K8sServerInfoJpa serverInfoJpa, final VnfPackageRepository vnfRepo,
 			final String manoKey) {
 		super(task, HelmNode.class);
 		this.task = task.getTemplateParameters();

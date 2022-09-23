@@ -14,47 +14,26 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.dao.mano.v2.vnfm;
+package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt;
 
-import java.util.UUID;
-
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-import com.ubiqube.etsi.mano.dao.mano.AuditListener;
-import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
-
-import lombok.Getter;
-import lombok.Setter;
+import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.HelmTask;
+import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.HelmNode;
 
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-@Entity
-@EntityListeners(AuditListener.class)
-@Getter
-@Setter
-public class McioUserTask extends VnfTask {
-	/** Serial. */
-	private static final long serialVersionUID = 1L;
+public class HelmVt extends VnfVtBase<HelmTask> {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id;
-
-	private String parentVdu;
+	public HelmVt(final HelmTask nt) {
+		super(nt);
+	}
 
 	@Override
-	public VnfTask copy() {
-		final McioUserTask t = new McioUserTask();
-		super.copy(t);
-		t.setParentVdu(parentVdu);
-		return t;
+	public Class<? extends Node> getType() {
+		return HelmNode.class;
 	}
 
 }

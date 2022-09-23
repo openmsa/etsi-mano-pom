@@ -20,7 +20,7 @@ import java.util.UUID;
 
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.k8s.K8sServers;
-import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.MciopTask;
+import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.MciopUserTask;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.MciopUser;
@@ -29,14 +29,14 @@ import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.vnfm.jpa.K8sServerInfoJpa;
 
-public class MciopUserUowV3 extends AbstractVnfmUowV3<MciopTask> {
-	private final MciopTask task;
+public class MciopUserUowV3 extends AbstractVnfmUowV3<MciopUserTask> {
+	private final MciopUserTask task;
 	private final K8sServerInfoJpa serverInfoJpa;
 	private final Vim vim;
 	private final VimConnectionInformation vci;
 	private final String userCn;
 
-	public MciopUserUowV3(final VirtualTaskV3<MciopTask> task, final Vim vim, final VimConnectionInformation vimConnectionInformation,
+	public MciopUserUowV3(final VirtualTaskV3<MciopUserTask> task, final Vim vim, final VimConnectionInformation vimConnectionInformation,
 			final K8sServerInfoJpa serverInfoJpa, final String userCn) {
 		super(task, MciopUser.class);
 		this.task = task.getTemplateParameters();

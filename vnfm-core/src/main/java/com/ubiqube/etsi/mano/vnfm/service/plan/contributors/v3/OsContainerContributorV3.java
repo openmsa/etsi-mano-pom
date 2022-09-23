@@ -24,14 +24,21 @@ import org.springframework.stereotype.Service;
 import com.ubiqube.etsi.mano.dao.mano.ChangeType;
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+import com.ubiqube.etsi.mano.dao.mano.VnfStorage;
+import com.ubiqube.etsi.mano.dao.mano.v2.StorageTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
-import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.MciopTask;
+import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.K8sInformationsTask;
+import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.HelmTask;
+import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.MciopUserTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerDeployableTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerTask;
 import com.ubiqube.etsi.mano.orchestrator.SclableResources;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.HelmNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.MciopUser;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerDeployableNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsK8sInformationsNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Storage;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
 
 /**
@@ -53,30 +60,51 @@ public class OsContainerContributorV3 extends AbstractVnfmContributorV3<Object> 
 			final OsContainerTask t = createTask(OsContainerTask::new);
 			t.setToscaName(x.getName());
 			t.setBlueprint(parameters);
-			t.setType(ResourceTypeEnum.CNF);
+			t.setType(ResourceTypeEnum.OS_CONTAINER);
 			t.setChangeType(ChangeType.ADDED);
 			t.setOsContainer(x);
 			ret.add(create(OsContainerNode.class, t.getClass(), t.getToscaName(), 1, t, parameters.getInstance(), parameters));
+			final K8sInformationsTask inf = createTask(K8sInformationsTask::new);
+			inf.setToscaName(x.getName());
+			inf.setBlueprint(parameters);
+			inf.setType(ResourceTypeEnum.OS_CONTAINER_INFO);
+			ret.add(create(OsK8sInformationsNode.class, inf.getClass(), inf.getToscaName(), 1, inf, parameters.getInstance(), parameters));
 		});
 		vnfPackage.getOsContainerDeployableUnits().forEach(x -> {
+			x.getVirtualStorageReq().forEach(y -> {
+				final StorageTask st = createTask(StorageTask::new);
+				st.setType(ResourceTypeEnum.STORAGE);
+				st.setVnfStorage(findStorage(vnfPackage, y));
+				st.setToscaName(y);
+				ret.add(create(Storage.class, st.getClass(), st.getToscaName(), 1, st, parameters.getInstance(), parameters));
+			});
 			final OsContainerDeployableTask t = createTask(OsContainerDeployableTask::new);
 			t.setBlueprint(parameters);
 			t.setOsContainerDeployableUnit(x);
 			t.setToscaName(x.getName());
-			t.setType(ResourceTypeEnum.CNF);
+			t.setType(ResourceTypeEnum.OS_CONTAINER_DEPLOYABLE);
 			ret.add(create(OsContainerDeployableNode.class, t.getClass(), t.getToscaName(), 1, t, parameters.getInstance(), parameters));
+			final MciopUserTask mciop = createTask(MciopUserTask::new);
+			mciop.setToscaName(x.getName());
+			mciop.setParentVdu(x.getName());
+			mciop.setType(ResourceTypeEnum.MCIOP_USER);
+			ret.add(create(MciopUser.class, mciop.getClass(), mciop.getToscaName(), 1, mciop, parameters.getInstance(), parameters));
 		});
 		vnfPackage.getMciops().forEach(x -> x.getAssociatedVdu().forEach(y -> {
-			final MciopTask t = createTask(MciopTask::new);
+			final HelmTask t = createTask(HelmTask::new);
 			t.setBlueprint(parameters);
 			t.setMciop(x);
 			t.setAlias(x.getToscaName());
 			t.setToscaName(x.getToscaName());
-			t.setType(ResourceTypeEnum.CNF);
+			t.setType(ResourceTypeEnum.HELM);
 			t.setParentVdu(y);
 			t.setVnfPackageId(vnfPackage.getId());
 			ret.add(create(HelmNode.class, t.getClass(), t.getToscaName(), 1, t, parameters.getInstance(), parameters));
 		}));
 		return ret;
+	}
+
+	private VnfStorage findStorage(final VnfPackage vnfPackage, final String y) {
+		return vnfPackage.getVnfStorage().stream().filter(x -> x.getToscaName().equals(y)).findFirst().orElseThrow();
 	}
 }

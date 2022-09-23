@@ -16,11 +16,20 @@
  */
 package com.ubiqube.etsi.mano.dao.mano.v2.vnfm;
 
+import java.util.UUID;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import com.ubiqube.etsi.mano.dao.mano.AuditListener;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
+import com.ubiqube.etsi.mano.dao.mano.vnfm.McIops;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -38,17 +47,24 @@ public class HelmTask extends VnfTask {
 	/** Serial. */
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private UUID id;
+
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+	private McIops mciop;
+
 	private String parentVdu;
 
-	private String helmArtifact;
+	private UUID vnfPackageId;
 
 	@Override
 	public VnfTask copy() {
 		final HelmTask t = new HelmTask();
 		super.copy(t);
+		t.setMciop(mciop);
 		t.setParentVdu(parentVdu);
-		t.setHelmArtifact(helmArtifact);
+		t.setVnfPackageId(vnfPackageId);
 		return t;
 	}
-
 }

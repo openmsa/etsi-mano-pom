@@ -48,7 +48,7 @@ public class OsContainerDeployContributor extends AbstractContributorV3Base<OsCo
 		t.setBlueprint(blueprint);
 		t.setOsContainerDeployableUnit(x);
 		t.setToscaName(x.getName());
-		t.setType(ResourceTypeEnum.CNF);
+		t.setType(ResourceTypeEnum.OS_CONTAINER_DEPLOYABLE);
 		return t;
 	}
 
