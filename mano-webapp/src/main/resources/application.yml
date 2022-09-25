@@ -1,7 +1,7 @@
 debug: true
 keycloak:
   realm: mano-realm
-  auth-server-url: http://10.31.1.245:8110/auth
+  auth-server-url: http://mano-auth:8110/auth
   ssl-required: external
   resource: mano-nfvo
   credentials:
@@ -14,6 +14,7 @@ logging:
     com:
       ubiqube:
         etsi: DEBUG
+    "[Hibernate Types]": WARN
     ma:
       glasnost:
         orika: INFO
@@ -23,6 +24,10 @@ logging:
           wire: INFO
         activemq:
           audit: WARN
+      elasticsearch:
+        client:
+          sniff:
+            Sniffer: OFF
       hibernate:
         SQL: INFO
       keycloak: INFO
@@ -32,10 +37,14 @@ logging:
           autoconfigure:
             logging:
               ConditionEvaluationReportLoggingListener: INFO
+        context: INFO
+        http: INFO
         jms: INFO
         security: INFO
         web:
           filter: INFO
+          servlet: INFO
+          reactive: INFO
 
 management:
   endpoint:
@@ -50,22 +59,12 @@ management:
       mode: full
 
 mano:
-  frontend-url: http://172.22.33.1:8090/ubi-etsi-mano/sol003
-  swagger-o-auth2: http://10.31.1.245:8110/auth/realms/mano-realm/protocol/openid-connect/token
   election:
     script-path: /tmp/etsi-mano/election/groovy
-  nfvo:
-    vnfm:
-      password: nfv
-      url: http://vnfm:8080/ubi-etsi-mano/sol003
-      username: nfvo
+  frontend-url: http://localhost:8080/ubi-etsi-mano/sol003
   repository:
     phys-root: /tmp/etsi-mano/repository
-  vnfm:
-    nfvo:
-      password: vnfm
-      url: http://nfvo:8110/ubi-etsi-mano/sol005
-      username: vnfm
+  swagger-o-auth2: http://mano-auth:8110/auth/realms/mano-realm/protocol/openid-connect/token
 
 server:
   error:
@@ -83,10 +82,16 @@ spring:
     httpclientfactories:
       ok:
         enabled: false
+  data:
+    rest:
+      base-path: /api
   datasource:
     driverClassName: org.h2.Driver
-    url: jdbc:h2:file:~/etsi-mano.h2;AUTO_SERVER=TRUE;INIT=CREATE SCHEMA IF NOT EXISTS mec_meo
+    url: jdbc:h2:file:~/etsi-mano.h2;AUTO_SERVER=TRUE;MODE=PostgreSQL;INIT=CREATE SCHEMA IF NOT EXISTS mec_meo
     username: sa
+    hikari:
+      connection-test-query: SELECT 1
+      max-lifetime: 600000
   h2:
     console:
       enabled: true
@@ -141,9 +146,10 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://auth.mano.ubiqube.com/auth/realms/mano-realm
-          jwk-set-uri: http://10.31.1.245:8110/auth/realms/mano-realm/protocol/openid-connect/certs
+          issuer-uri: http://mano-auth:8080/auth/realms/mano-realm
+          jwk-set-uri: http://mano-auth:8110/auth/realms/mano-realm/protocol/openid-connect/certs
   servlet:
     multipart:
       max-file-size: 1024MB
       max-request-size: 1024MB
+
