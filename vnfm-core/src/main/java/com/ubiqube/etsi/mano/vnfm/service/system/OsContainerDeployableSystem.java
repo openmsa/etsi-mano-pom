@@ -18,9 +18,7 @@ package com.ubiqube.etsi.mano.vnfm.service.system;
 
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
-import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.K8sInformationsTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerDeployableTask;
 import com.ubiqube.etsi.mano.orchestrator.OrchestrationServiceV3;
 import com.ubiqube.etsi.mano.orchestrator.SystemBuilder;
@@ -31,9 +29,7 @@ import com.ubiqube.etsi.mano.service.system.AbstractVimSystemV3;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 import com.ubiqube.etsi.mano.vnfm.jpa.K8sServerInfoJpa;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.OsK8sClusterVt;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow.OsContainerDeployableUow3;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow.OsK8sClusterUowV3;
 
 /**
  *
@@ -54,25 +50,8 @@ public class OsContainerDeployableSystem extends AbstractVimSystemV3<OsContainer
 
 	@Override
 	protected SystemBuilder getImplementation(final OrchestrationServiceV3<OsContainerDeployableTask> orchestrationService, final VirtualTaskV3<OsContainerDeployableTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
-		final SystemBuilder builder = orchestrationService.createEmptySystemBuilder();
 		final OsContainerDeployableUow3 left = new OsContainerDeployableUow3(virtualTask, vim, vimConnectionInformation);
-		final K8sInformationsTask k8sInfo = createTask(virtualTask.getTemplateParameters());
-		final OsK8sClusterUowV3 right = new OsK8sClusterUowV3(new OsK8sClusterVt(k8sInfo), vim, vimConnectionInformation, serverInfoJpa);
-		builder.add(left, right);
-		return builder;
-	}
-
-	private static K8sInformationsTask createTask(final OsContainerDeployableTask p) {
-		final K8sInformationsTask k8sInfo = new K8sInformationsTask();
-		k8sInfo.setAlias("k8s-info-" + p.getAlias());
-		k8sInfo.setToscaName(p.getToscaName());
-		k8sInfo.setBlueprint(p.getBlueprint());
-		k8sInfo.setChangeType(p.getChangeType());
-		k8sInfo.setRemovedLiveInstance(p.getRemovedLiveInstance());
-		k8sInfo.setType(ResourceTypeEnum.OS_CONTAINER_INFO);
-		k8sInfo.setVimConnectionId(p.getVimConnectionId());
-		k8sInfo.setVimResourceId(p.getVimResourceId());
-		return k8sInfo;
+		return orchestrationService.systemBuilderOf(left);
 	}
 
 	@Override

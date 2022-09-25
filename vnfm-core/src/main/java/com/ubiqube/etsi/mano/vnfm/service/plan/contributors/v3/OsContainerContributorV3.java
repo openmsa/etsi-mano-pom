@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
@@ -25,10 +26,11 @@ import com.ubiqube.etsi.mano.dao.mano.ChangeType;
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.VnfStorage;
+import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainerDeployableUnit;
 import com.ubiqube.etsi.mano.dao.mano.v2.StorageTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
-import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.K8sInformationsTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.HelmTask;
+import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.K8sInformationsTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.MciopUserTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerDeployableTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerTask;
@@ -56,20 +58,6 @@ public class OsContainerContributorV3 extends AbstractVnfmContributorV3<Object> 
 	public List<SclableResources<Object>> contribute(final VnfPackage bundle, final VnfBlueprint parameters) {
 		final List<SclableResources<Object>> ret = new ArrayList<>();
 		final VnfPackage vnfPackage = bundle;
-		vnfPackage.getOsContainer().forEach(x -> {
-			final OsContainerTask t = createTask(OsContainerTask::new);
-			t.setToscaName(x.getName());
-			t.setBlueprint(parameters);
-			t.setType(ResourceTypeEnum.OS_CONTAINER);
-			t.setChangeType(ChangeType.ADDED);
-			t.setOsContainer(x);
-			ret.add(create(OsContainerNode.class, t.getClass(), t.getToscaName(), 1, t, parameters.getInstance(), parameters));
-			final K8sInformationsTask inf = createTask(K8sInformationsTask::new);
-			inf.setToscaName(x.getName());
-			inf.setBlueprint(parameters);
-			inf.setType(ResourceTypeEnum.OS_CONTAINER_INFO);
-			ret.add(create(OsK8sInformationsNode.class, inf.getClass(), inf.getToscaName(), 1, inf, parameters.getInstance(), parameters));
-		});
 		vnfPackage.getOsContainerDeployableUnits().forEach(x -> {
 			x.getVirtualStorageReq().forEach(y -> {
 				final StorageTask st = createTask(StorageTask::new);
@@ -84,12 +72,30 @@ public class OsContainerContributorV3 extends AbstractVnfmContributorV3<Object> 
 			t.setToscaName(x.getName());
 			t.setType(ResourceTypeEnum.OS_CONTAINER_DEPLOYABLE);
 			ret.add(create(OsContainerDeployableNode.class, t.getClass(), t.getToscaName(), 1, t, parameters.getInstance(), parameters));
+			final K8sInformationsTask inf = createTask(K8sInformationsTask::new);
+			inf.setToscaName(x.getName());
+			inf.setBlueprint(parameters);
+			inf.setType(ResourceTypeEnum.OS_CONTAINER_INFO);
+			ret.add(create(OsK8sInformationsNode.class, inf.getClass(), inf.getToscaName(), 1, inf, parameters.getInstance(), parameters));
 			final MciopUserTask mciop = createTask(MciopUserTask::new);
 			mciop.setToscaName(x.getName());
 			mciop.setParentVdu(x.getName());
 			mciop.setType(ResourceTypeEnum.MCIOP_USER);
 			ret.add(create(MciopUser.class, mciop.getClass(), mciop.getToscaName(), 1, mciop, parameters.getInstance(), parameters));
+
 		});
+		vnfPackage.getOsContainer().forEach(x -> {
+			final OsContainerTask t = createTask(OsContainerTask::new);
+			t.setToscaName(x.getName());
+			t.setBlueprint(parameters);
+			t.setType(ResourceTypeEnum.OS_CONTAINER);
+			t.setChangeType(ChangeType.ADDED);
+			t.setOsContainer(x);
+			final String deploy = findDu(vnfPackage.getOsContainerDeployableUnits(), x.getName());
+			t.setDeployableName(deploy);
+			ret.add(create(OsContainerNode.class, t.getClass(), t.getToscaName(), 1, t, parameters.getInstance(), parameters));
+		});
+
 		vnfPackage.getMciops().forEach(x -> x.getAssociatedVdu().forEach(y -> {
 			final HelmTask t = createTask(HelmTask::new);
 			t.setBlueprint(parameters);
@@ -104,7 +110,15 @@ public class OsContainerContributorV3 extends AbstractVnfmContributorV3<Object> 
 		return ret;
 	}
 
-	private VnfStorage findStorage(final VnfPackage vnfPackage, final String y) {
+	private static String findDu(final Set<OsContainerDeployableUnit> osContainerDeployableUnits, final String name) {
+		return osContainerDeployableUnits.stream()
+				.filter(x -> x.getContainerReq().contains(name))
+				.map(OsContainerDeployableUnit::getName)
+				.findFirst()
+				.orElseThrow();
+	}
+
+	private static VnfStorage findStorage(final VnfPackage vnfPackage, final String y) {
 		return vnfPackage.getVnfStorage().stream().filter(x -> x.getToscaName().equals(y)).findFirst().orElseThrow();
 	}
 }

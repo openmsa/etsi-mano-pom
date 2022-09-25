@@ -16,6 +16,8 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow;
 
+import java.util.Optional;
+
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainerDeployableUnit;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerDeployableTask;
@@ -41,10 +43,10 @@ public class OsContainerDeployableUow3 extends AbstractVnfmUowV3<OsContainerDepl
 
 	@Override
 	public String execute(final Context3d context) {
-		final String network = context.get(Network.class, task.getNetwork());
+		final String network = Optional.ofNullable(task.getNetwork()).map(x -> context.get(Network.class, x)).orElse(null);
 		final OsContainerDeployableUnit du = task.getOsContainerDeployableUnit();
 		final CnfInformations ci = vci.getCnfInfo();
-		return vim.cnf(vci).startK8s(ci.getClusterTemplate(), ci.getKeyPair(), du.getVduProfile().getMinNumberOfInstances(), task.getToscaName(), du.getVduProfile().getMinNumberOfInstances(), network);
+		return vim.cnf(vci).createK8sCluster(ci.getClusterTemplate(), ci.getKeyPair(), du.getVduProfile().getMinNumberOfInstances(), task.getToscaName(), du.getVduProfile().getMinNumberOfInstances(), network);
 	}
 
 	@Override

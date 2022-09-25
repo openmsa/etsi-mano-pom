@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.service;
 
+import java.util.Set;
 import java.util.UUID;
 
 import org.jgrapht.ListenableGraph;
@@ -25,6 +26,7 @@ import com.ubiqube.etsi.mano.dao.mano.VnfLinkPort;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.VnfVl;
 import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
+import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainerDeployableUnit;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.AffinityRuleNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Compute;
@@ -102,21 +104,31 @@ public class VnfPlanService {
 			g.from(DnsHost.class, x.getToscaName()).addNext(Compute.class, x.getToscaName(), Relation.ONE_TO_ONE);
 			g.from(DnsHost.class, x.getToscaName()).dependency(DnsZone.class, MASTER_ZONE, Relation.ONE_TO_MANY);
 		});
-		vnfPkg.getOsContainer().forEach(x -> {
-			g.single(OsContainerNode.class, x.getName());
-			g.from(OsContainerNode.class, x.getName()).addNext(OsK8sInformationsNode.class, x.getName(), Relation.ONE_TO_ONE);
-			g.from(DnsZone.class, MASTER_ZONE).addNext(OsContainerNode.class, x.getName(), Relation.ONE_TO_MANY);
-		});
 		vnfPkg.getOsContainerDeployableUnits().forEach(x -> {
-			x.getContainerReq().forEach(y -> g.from(OsK8sInformationsNode.class, y).addNext(OsContainerDeployableNode.class, x.getName(), Relation.ONE_TO_MANY));
-			x.getVirtualStorageReq().forEach(y -> g.from(Storage.class, y).addNext(OsContainerDeployableNode.class, x.getName(), Relation.ONE_TO_ONE));
-			g.from(OsContainerDeployableNode.class, x.getName()).addNext(MciopUser.class, x.getName(), Relation.ONE_TO_ONE);
+			g.single(OsContainerDeployableNode.class, x.getName());
+			g.from(OsContainerDeployableNode.class, x.getName()).addNext(OsK8sInformationsNode.class, x.getName(), Relation.ONE_TO_ONE);
+			x.getVirtualStorageReq().forEach(y -> g.from(Storage.class, y).addNext(OsContainerDeployableNode.class, x.getName(), Relation.MULTI));
+			g.from(OsK8sInformationsNode.class, x.getName()).addNext(MciopUser.class, x.getName(), Relation.ONE_TO_ONE);
+			g.from(DnsZone.class, MASTER_ZONE).addNext(OsContainerDeployableNode.class, x.getName(), Relation.ONE_TO_MANY);
+		});
+		vnfPkg.getOsContainer().forEach(x -> {
+			final String oscdn = find(vnfPkg.getOsContainerDeployableUnits(), x.getName());
+			g.from(OsK8sInformationsNode.class, oscdn).addNext(OsContainerNode.class, x.getName(), Relation.ONE_TO_MANY);
 		});
 		vnfPkg.getMciops().forEach(x -> {
 			g.single(HelmNode.class, x.getToscaName());
-			x.getAssociatedVdu().forEach(y -> g.from(MciopUser.class, y).addNext(HelmNode.class, x.getToscaName(), Relation.ONE_TO_MANY));
+			final String vdu = x.getAssociatedVdu().iterator().next();
+			g.from(MciopUser.class, vdu).addNext(HelmNode.class, x.getToscaName(), Relation.ONE_TO_MANY);
 		});
 		return g.build();
+	}
+
+	private static String find(final Set<OsContainerDeployableUnit> osContainerDeployableUnits, final String name) {
+		return osContainerDeployableUnits.stream()
+				.filter(x -> x.getContainerReq().contains(name))
+				.map(OsContainerDeployableUnit::getName)
+				.findFirst()
+				.orElseThrow();
 	}
 
 	private static ListKeyPair findPort(final VnfPackage vnfPkg, final VnfLinkPort vnfLinkPort) {

@@ -45,11 +45,14 @@ public class OsContainerTask extends VnfTask {
 	@ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
 	private OsContainer osContainer;
 
+	private String deployableName;
+
 	@Override
 	public VnfTask copy() {
 		final OsContainerTask t = new OsContainerTask();
 		super.copy(t);
 		t.setOsContainer(osContainer);
+		t.setDeployableName(deployableName);
 		return t;
 	}
 }

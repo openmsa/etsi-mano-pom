@@ -34,16 +34,16 @@ import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.vnfm.jpa.K8sServerInfoJpa;
 
-public class OsK8sClusterUowV3 extends AbstractVnfmUowV3<K8sInformationsTask> {
+public class OsK8sClusterInfoUowV3 extends AbstractVnfmUowV3<K8sInformationsTask> {
 
-	private static final Logger LOG = LoggerFactory.getLogger(OsK8sClusterUowV3.class);
+	private static final Logger LOG = LoggerFactory.getLogger(OsK8sClusterInfoUowV3.class);
 
 	private final VimConnectionInformation vimConnectionInformation;
 	private final Vim vim;
 	private final K8sInformationsTask task;
 	private final K8sServerInfoJpa serverInfoJpa;
 
-	public OsK8sClusterUowV3(final VirtualTaskV3<K8sInformationsTask> task, final Vim vim, final VimConnectionInformation vimConnectionInformation,
+	public OsK8sClusterInfoUowV3(final VirtualTaskV3<K8sInformationsTask> task, final Vim vim, final VimConnectionInformation vimConnectionInformation,
 			final K8sServerInfoJpa serverInfoJpa) {
 		super(task, OsK8sInformationsNode.class);
 		this.vim = vim;
