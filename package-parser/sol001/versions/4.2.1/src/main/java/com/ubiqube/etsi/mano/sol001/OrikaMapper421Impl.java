@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.sol001;
 
 import com.ubiqube.parser.tosca.api.OrikaMapper;
+import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.Mciop;
 import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.vdu.Compute;
 import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.vdu.OsContainer;
 import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.vdu.VirtualBlockStorage;
@@ -42,6 +43,10 @@ public class OrikaMapper421Impl implements OrikaMapper {
 				.register();
 		mapper.classMap(OsContainer.class, tosca.nodes.nfv.vdu.OsContainer.class)
 				.customize(new ArtifactStorageMapper())
+				.byDefault()
+				.register();
+		mapper.classMap(Mciop.class, tosca.nodes.nfv.Mciop.class)
+				.customize(new MciopArtifactMapper())
 				.byDefault()
 				.register();
 	}
