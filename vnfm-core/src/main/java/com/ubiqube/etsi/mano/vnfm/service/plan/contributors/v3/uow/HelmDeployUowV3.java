@@ -60,7 +60,7 @@ public class HelmDeployUowV3 extends AbstractVnfmUowV3<HelmTask> {
 	public String execute(final Context3d context) {
 		final String server = context.get(OsContainerDeployableNode.class, task.getParentVdu());
 		final K8sServers s = serverInfoJpa.findById(UUID.fromString(server)).orElseThrow(() -> new GenericException("Unable to find erver " + server));
-		final String tmpFile = copyFile(task.getMciop().getImage().getUrl(), task.getVnfPackageId());
+		final String tmpFile = copyFile(task.getMciop().getArtifacts().entrySet().iterator().next().getValue().getImagePath(), task.getVnfPackageId());
 		return client.deploy(s, manoKey, tmpFile);
 	}
 

@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.dao.mano.vnfm;
 
 import java.io.Serializable;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -27,7 +28,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
+
+import com.ubiqube.etsi.mano.dao.mano.SoftwareImage;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -53,6 +56,6 @@ public class McIops implements Serializable {
 	@ElementCollection(fetch = FetchType.EAGER)
 	private Set<String> associatedVdu;
 
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private CnfImage image;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Map<String, SoftwareImage> artifacts;
 }

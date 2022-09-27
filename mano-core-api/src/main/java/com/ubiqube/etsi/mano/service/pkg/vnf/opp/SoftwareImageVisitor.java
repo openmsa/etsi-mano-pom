@@ -32,6 +32,8 @@ import com.ubiqube.etsi.mano.dao.mano.SoftwareImage;
 import com.ubiqube.etsi.mano.dao.mano.VnfCompute;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.VnfStorage;
+import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainer;
+import com.ubiqube.etsi.mano.dao.mano.vnfm.McIops;
 import com.ubiqube.etsi.mano.service.pkg.vnf.DownloaderService;
 import com.ubiqube.etsi.mano.service.pkg.vnf.OnboardingPostProcessorVisitor;
 
@@ -55,8 +57,19 @@ public class SoftwareImageVisitor implements OnboardingPostProcessorVisitor {
 	public void visit(final VnfPackage vnfPackage) {
 		final Map<ImageKey, SoftwareImage> mvnf = vnfPackage.getVnfCompute().stream().map(VnfCompute::getSoftwareImage).filter(Objects::nonNull).collect(Collectors.toMap(ImageKey::new, x -> x, (k1, k2) -> k1));
 		final Map<ImageKey, SoftwareImage> msto = vnfPackage.getVnfStorage().stream().map(VnfStorage::getSoftwareImage).filter(Objects::nonNull).collect(Collectors.toMap(ImageKey::new, x -> x, (k1, k2) -> k1));
+		final Map<ImageKey, SoftwareImage> osco = vnfPackage.getOsContainer().stream().map(OsContainer::getArtifacts)
+				.filter(Objects::nonNull)
+				.flatMap(x -> x.entrySet().stream())
+				.map(Entry::getValue)
+				.collect(Collectors.toMap(ImageKey::new, x -> x, (k1, k2) -> k1));
+		final Map<ImageKey, SoftwareImage> mciop = vnfPackage.getMciops().stream().map(McIops::getArtifacts).filter(Objects::nonNull)
+				.flatMap(x -> x.entrySet().stream())
+				.map(Entry::getValue)
+				.collect(Collectors.toMap(ImageKey::new, x -> x, (k1, k2) -> k1));
 		final HashMap<ImageKey, SoftwareImage> mall = new HashMap<>(mvnf);
 		mall.putAll(msto);
+		mall.putAll(osco);
+		mall.putAll(mciop);
 		final List<SoftwareImage> toUpload = mall.entrySet().stream().map(Entry::getValue).filter(x -> isRemote(x.getImagePath())).toList();
 		downloaderService.doDownload(toUpload, vnfPackage.getId());
 		vnfPackage.setSoftwareImages(mall.entrySet().stream().map(Entry::getValue).collect(Collectors.toSet()));
