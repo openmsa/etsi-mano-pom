@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.dao.mano.pkg;
 
 import java.io.Serializable;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -27,6 +28,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import com.ubiqube.etsi.mano.dao.mano.SoftwareImage;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -69,4 +72,6 @@ public class OsContainer implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Hugepages> hugePagesResources;
 
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Map<String, SoftwareImage> artifacts;
 }
