@@ -31,7 +31,8 @@ public enum ContainerFormatType {
 	BARE("BARE"),
 	DOCKER("DOCKER"),
 	OVA("OVA"),
-	OVF("OVF");
+	OVF("OVF"),
+	HELM("HELM");
 
 	private final String value;
 
