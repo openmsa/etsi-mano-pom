@@ -31,7 +31,7 @@ import ma.glasnost.orika.MappingContext;
  * @author olivier
  *
  */
-public class BllockStorageMapper extends CustomMapper<VirtualBlockStorage, tosca.nodes.nfv.vdu.VirtualBlockStorage> {
+public class BlockStorageMapper extends CustomMapper<VirtualBlockStorage, tosca.nodes.nfv.vdu.VirtualBlockStorage> {
 
 	@Override
 	public void mapBtoA(final tosca.nodes.nfv.vdu.VirtualBlockStorage b, final VirtualBlockStorage a, final MappingContext context) {
