@@ -19,6 +19,7 @@ package com.ubiqube.etsi.mano.dao.mano.v2;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -79,6 +80,7 @@ public abstract class AbstractTask implements VimTask {
 	@FullTextField
 	private PlanStatusType status;
 	@FullTextField
+	@Column(length = 5000)
 	private String vimResourceId;
 
 	private String vimConnectionId;
