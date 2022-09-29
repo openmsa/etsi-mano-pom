@@ -100,7 +100,6 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 	public VnfInstanceLcmImpl(final VnfPackageRepository vnfPackageRepository, final EventManager eventManager, final MapperFacade mapper, final VnfLcmService vnfLcmService,
 			final VnfInstanceService vnfInstanceService, final VimManager vimManager, final VnfBlueprintService planService, final VnfPackageService vnfPackageService,
 			final VnfInstanceServiceVnfm vnfInstanceServiceVnfm, final ManoClientFactory manoClientFactory) {
-		super();
 		this.vnfPackageRepository = vnfPackageRepository;
 		this.eventManager = eventManager;
 		this.mapper = mapper;
@@ -126,6 +125,7 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 		try {
 			vnfPkgInfo = vnfPackageService.findByVnfdId(UUID.fromString(vnfdId));
 		} catch (final NotFoundException e) {
+			LOG.trace("", e);
 			vnfPkgInfo = onboardPackage(vnfdId);
 		}
 		ensureIsOnboarded(vnfPkgInfo);

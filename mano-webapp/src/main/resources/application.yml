@@ -115,6 +115,7 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
+        enable_lazy_load_no_trans: true
         search:
           backend:
             directory:

@@ -130,7 +130,7 @@ public class VnfPackage implements PackageBase, Auditable {
 	@IndexedEmbedded
 	private PkgChecksum checksum;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@Fetch(FetchMode.SELECT)
 	@IndexedEmbedded
 	@IndexingDependency(reindexOnUpdate = ReindexOnUpdate.SHALLOW)
@@ -152,30 +152,30 @@ public class VnfPackage implements PackageBase, Auditable {
 	@Fetch(FetchMode.SELECT)
 	private Map<String, String> userDefinedData;
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@IndexedEmbedded
 	@IndexingDependency(reindexOnUpdate = ReindexOnUpdate.SHALLOW)
 	private Set<VnfCompute> vnfCompute = new LinkedHashSet<>();
-	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@IndexedEmbedded
 	private Set<VnfIndicator> vnfIndicator = new LinkedHashSet<>();
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@IndexedEmbedded
 	private Set<VnfVl> vnfVl = new LinkedHashSet<>();
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn
 	@IndexedEmbedded
 	private Set<VnfStorage> vnfStorage = new LinkedHashSet<>();
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn
 	@IndexedEmbedded
 	private Set<VnfLinkPort> vnfLinkPort = new LinkedHashSet<>();
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn
 	@IndexedEmbedded
 	private Set<VnfExtCp> vnfExtCp = new LinkedHashSet<>();
@@ -184,7 +184,7 @@ public class VnfPackage implements PackageBase, Auditable {
 	@ManyToMany(fetch = FetchType.LAZY)
 	private Set<NsdInstance> nsInstance;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn
 	@IndexedEmbedded
 	private Set<OsContainerDesc> osContainerDesc;
@@ -195,12 +195,12 @@ public class VnfPackage implements PackageBase, Auditable {
 	@Embedded
 	private Audit audit;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@IndexedEmbedded
 	private Set<VnfInstantiationLevels> vnfInstantiationLevels;
 
 	@ToStringIgnore
-	@ManyToMany(cascade = CascadeType.DETACH, mappedBy = "vnfPackage")
+	@ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.LAZY, mappedBy = "vnfPackage")
 	private Set<NsdPackageVnfPackage> nsdPackages;
 
 	// 2.7.1
@@ -222,24 +222,24 @@ public class VnfPackage implements PackageBase, Auditable {
 	@ElementCollection(fetch = FetchType.EAGER)
 	private Set<String> nonManoArtifactSetId;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<SoftwareImage> softwareImages;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<MonitoringParams> monitoringParameters;
 	// Original vnf package id in NFVO.
 	private String nfvoId;
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<SecurityGroup> securityGroups;
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<AffinityRule> affinityRules;
 
 	@Embedded
 	private VnfProfile vnfProfile;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<ScaleInfo> scaleStatus;
 
 	/**
@@ -255,7 +255,7 @@ public class VnfPackage implements PackageBase, Auditable {
 	 */
 	private String vnfdContentType;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private UploadUriParameters uploadUriParameters;
 
 	/**
@@ -266,7 +266,7 @@ public class VnfPackage implements PackageBase, Auditable {
 	 *
 	 * @since 4.2.1
 	 */
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<OsContainer> osContainer;
 
 	/**
@@ -277,7 +277,7 @@ public class VnfPackage implements PackageBase, Auditable {
 	 *
 	 * @since 4.2.1
 	 */
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<OsContainerDeployableUnit> osContainerDeployableUnits;
 
 	/**
@@ -288,10 +288,10 @@ public class VnfPackage implements PackageBase, Auditable {
 	 *
 	 * @Since 4.2.1
 	 */
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<VirtualCp> virtualCp;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<McIops> mciops;
 
 	@ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
