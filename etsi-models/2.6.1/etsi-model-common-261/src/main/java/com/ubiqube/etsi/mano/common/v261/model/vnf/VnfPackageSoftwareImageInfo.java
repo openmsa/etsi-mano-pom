@@ -33,7 +33,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-
 /**
  * This type represents an artifact contained in a VNF package which represents
  * a software image.
@@ -77,7 +76,8 @@ public class VnfPackageSoftwareImageInfo {
 
 		OVA("OVA"),
 
-		OVF("OVF");
+		OVF("OVF"),
+		HELM("DOCKER");
 
 		private final String value;
 

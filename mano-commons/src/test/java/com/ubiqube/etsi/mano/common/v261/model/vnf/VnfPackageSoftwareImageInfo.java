@@ -34,7 +34,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * This type represents an artifact contained in a VNF package which represents a software image.
+ * This type represents an artifact contained in a VNF package which represents
+ * a software image.
  */
 @Schema(description = "This type represents an artifact contained in a VNF package which represents a software image.   ")
 @Validated
@@ -55,7 +56,12 @@ public class VnfPackageSoftwareImageInfo {
 	private Checksum checksum = null;
 
 	/**
-	 * Container format indicates whether the software image is in a file format that also contains meta-data about the actual software. Permitted values: - AKI: a kernel image format - AMI: a machine image format - ARI: a ram disk image format - BARE: the image does not have a container or meta-data envelope - DOCKER: docker container format - OVA: OVF package in a tar file - OVF: OVF container format
+	 * Container format indicates whether the software image is in a file format
+	 * that also contains meta-data about the actual software. Permitted values: -
+	 * AKI: a kernel image format - AMI: a machine image format - ARI: a ram disk
+	 * image format - BARE: the image does not have a container or meta-data
+	 * envelope - DOCKER: docker container format - OVA: OVF package in a tar file -
+	 * OVF: OVF container format
 	 */
 	public enum ContainerFormatEnum {
 		AKI("AKI"),
@@ -67,6 +73,7 @@ public class VnfPackageSoftwareImageInfo {
 		BARE("BARE"),
 
 		DOCKER("DOCKER"),
+		HELM("DOCKER"),
 
 		OVA("OVA"),
 
@@ -99,8 +106,14 @@ public class VnfPackageSoftwareImageInfo {
 	private ContainerFormatEnum containerFormat = null;
 
 	/**
-	 * Disk format of a software image is the format of the underlying disk image. Permitted values: - AKI: a kernel image format - AMI: a machine image format - ARI: a ramdisk image format - ISO: an archive format for the data contents of an optical disc, such as CD-ROM - QCOW2: a common disk image format, which can expand dynamically and supports copy on write - RAW: an unstructured disk image format - VDI: a common disk image format - VHD: a common disk image format - VHDX: enhanced version of
-	 * VHD format - VMDK: a common disk image format
+	 * Disk format of a software image is the format of the underlying disk image.
+	 * Permitted values: - AKI: a kernel image format - AMI: a machine image format
+	 * - ARI: a ramdisk image format - ISO: an archive format for the data contents
+	 * of an optical disc, such as CD-ROM - QCOW2: a common disk image format, which
+	 * can expand dynamically and supports copy on write - RAW: an unstructured disk
+	 * image format - VDI: a common disk image format - VHD: a common disk image
+	 * format - VHDX: enhanced version of VHD format - VMDK: a common disk image
+	 * format
 	 */
 	public enum DiskFormatEnum {
 		AKI("AKI"),
@@ -173,7 +186,8 @@ public class VnfPackageSoftwareImageInfo {
 	}
 
 	/**
-	 * Name of the algorithm used to generate the checksum, as defined in ETSI GS NFV-SOL 004 [5]. For example, SHA-256, SHA-512.
+	 * Name of the algorithm used to generate the checksum, as defined in ETSI GS
+	 * NFV-SOL 004 [5]. For example, SHA-256, SHA-512.
 	 *
 	 * @return id
 	 **/
@@ -280,7 +294,12 @@ public class VnfPackageSoftwareImageInfo {
 	}
 
 	/**
-	 * Container format indicates whether the software image is in a file format that also contains meta-data about the actual software. Permitted values: - AKI: a kernel image format - AMI: a machine image format - ARI: a ram disk image format - BARE: the image does not have a container or meta-data envelope - DOCKER: docker container format - OVA: OVF package in a tar file - OVF: OVF container format
+	 * Container format indicates whether the software image is in a file format
+	 * that also contains meta-data about the actual software. Permitted values: -
+	 * AKI: a kernel image format - AMI: a machine image format - ARI: a ram disk
+	 * image format - BARE: the image does not have a container or meta-data
+	 * envelope - DOCKER: docker container format - OVA: OVF package in a tar file -
+	 * OVF: OVF container format
 	 *
 	 * @return containerFormat
 	 **/
@@ -301,8 +320,14 @@ public class VnfPackageSoftwareImageInfo {
 	}
 
 	/**
-	 * Disk format of a software image is the format of the underlying disk image. Permitted values: - AKI: a kernel image format - AMI: a machine image format - ARI: a ramdisk image format - ISO: an archive format for the data contents of an optical disc, such as CD-ROM - QCOW2: a common disk image format, which can expand dynamically and supports copy on write - RAW: an unstructured disk image format - VDI: a common disk image format - VHD: a common disk image format - VHDX: enhanced version of
-	 * VHD format - VMDK: a common disk image format
+	 * Disk format of a software image is the format of the underlying disk image.
+	 * Permitted values: - AKI: a kernel image format - AMI: a machine image format
+	 * - ARI: a ramdisk image format - ISO: an archive format for the data contents
+	 * of an optical disc, such as CD-ROM - QCOW2: a common disk image format, which
+	 * can expand dynamically and supports copy on write - RAW: an unstructured disk
+	 * image format - VDI: a common disk image format - VHD: a common disk image
+	 * format - VHDX: enhanced version of VHD format - VMDK: a common disk image
+	 * format
 	 *
 	 * @return diskFormat
 	 **/
@@ -434,7 +459,8 @@ public class VnfPackageSoftwareImageInfo {
 	}
 
 	/**
-	 * Path in the VNF package, which identifies the image artifact and also allows to access a copy of the image artifact.
+	 * Path in the VNF package, which identifies the image artifact and also allows
+	 * to access a copy of the image artifact.
 	 *
 	 * @return imagePath
 	 **/
@@ -501,7 +527,8 @@ public class VnfPackageSoftwareImageInfo {
 	}
 
 	/**
-	 * Convert the given object to string with each line indented by 4 spaces (except the first line).
+	 * Convert the given object to string with each line indented by 4 spaces
+	 * (except the first line).
 	 */
 	private String toIndentedString(final java.lang.Object o) {
 		if (o == null) {
