@@ -77,8 +77,7 @@ public class VnfPackageSoftwareImageInfo {
 
 		OVA("OVA"),
 
-		OVF("OVF"),
-		HELM("DOCKER");
+		OVF("OVF");
 
 		private final String value;
 
