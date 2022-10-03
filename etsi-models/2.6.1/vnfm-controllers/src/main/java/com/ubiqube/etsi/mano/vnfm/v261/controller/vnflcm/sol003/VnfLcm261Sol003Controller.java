@@ -61,7 +61,7 @@ public class VnfLcm261Sol003Controller implements VnfLcm261Sol003Api {
 
 	public VnfLcm261Sol003Controller(final VnfInstanceGenericFrontController frontController) {
 		this.frontController = frontController;
-		LOG.info("Starting Ns Instance SOL002 Controller.");
+		LOG.info("Starting VNF Instance SOL003 Controller.");
 	}
 
 	@Override
