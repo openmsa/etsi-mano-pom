@@ -21,20 +21,32 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Paths;
+import java.security.DigestInputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import javax.validation.constraints.NotNull;
+
+import org.apache.commons.io.input.CountingInputStream;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.Constants;
 import com.ubiqube.etsi.mano.dao.mano.AdditionalArtifact;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
+import com.ubiqube.etsi.mano.dao.mano.SoftwareImage;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+import com.ubiqube.etsi.mano.dao.mano.common.Checksum;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
+import com.ubiqube.etsi.mano.service.DownloadResult;
 import com.ubiqube.etsi.mano.service.pkg.ns.NsPackageProvider;
 import com.ubiqube.etsi.mano.service.pkg.vnf.CustomOnboarding;
 import com.ubiqube.etsi.mano.service.pkg.vnf.VnfPackageReader;
@@ -49,7 +61,6 @@ public class NfvoCustomOnboarding implements CustomOnboarding {
 	private final VnfPackageRepository repo;
 
 	public NfvoCustomOnboarding(final VnfPackageRepository repo) {
-		super();
 		this.repo = repo;
 	}
 
@@ -60,19 +71,41 @@ public class NfvoCustomOnboarding implements CustomOnboarding {
 		try (final ZipOutputStream zipOut = new ZipOutputStream(fos)) {
 			vnfPackage.getAdditionalArtifacts()
 					.forEach(x -> handleArtifact(cache, zipOut, vnfPackage, vnfPackageReader, x));
+			vnfPackage.getOsContainer().forEach(x -> handleArtifact(cache, zipOut, vnfPackage, vnfPackageReader, x.getArtifacts()));
+			vnfPackage.getMciops().forEach(x -> handleArtifact(cache, zipOut, vnfPackage, vnfPackageReader, x.getArtifacts()));
 		} catch (final IOException e) {
 			throw new GenericException("Unable to create Zip file.", e);
 		}
-		repo.storeBinary(vnfPackage.getId(), Constants.REPOSITORY_ZIP_ARTIFACT, new ByteArrayInputStream(fos.toByteArray()));
+		repo.storeBinary(Objects.requireNonNull(vnfPackage.getId()), Constants.REPOSITORY_ZIP_ARTIFACT, new ByteArrayInputStream(fos.toByteArray()));
+	}
+
+	private void handleArtifact(final Set<String> cache, final ZipOutputStream zipOut, final VnfPackage vnfPackage, final VnfPackageReader vnfPackageReader, final Map<String, SoftwareImage> artifacts) {
+		if (null == artifacts) {
+			return;
+		}
+		artifacts.entrySet().forEach(x -> handleSw(cache, zipOut, vnfPackage, vnfPackageReader, x.getValue()));
+	}
+
+	private void handleSw(final Set<String> cache, final ZipOutputStream zipOut, final VnfPackage vnfPackage, final VnfPackageReader vnfPackageReader, final SoftwareImage value) {
+		final UUID id = Objects.requireNonNull(vnfPackage.getId());
+		if (cache.contains(value.getImagePath())) {
+			return;
+		}
+		addEntry(zipOut, value.getImagePath());
+		final DownloadResult hash = copyFile(zipOut, vnfPackageReader, id, value.getImagePath());
+		setHash(value, hash);
 	}
 
 	private void handleArtifact(final Set<String> cache, final ZipOutputStream zipOut, final VnfPackage vnfPackage, final VnfPackageReader vnfPackageReader, final AdditionalArtifact artifact) {
-		final UUID id = vnfPackage.getId();
+		final UUID id = Objects.requireNonNull(vnfPackage.getId());
 		if (null == artifact.getArtifactPath()) {
 			return;
 		}
-		addEntry(zipOut, artifact.getArtifactPath());
-		copyFile(zipOut, vnfPackageReader, id, artifact.getArtifactPath());
+		if (cache.contains(artifact.getArtifactPath())) {
+			addEntry(zipOut, artifact.getArtifactPath());
+			final DownloadResult hash = copyFile(zipOut, vnfPackageReader, id, artifact.getArtifactPath());
+			setHash(artifact, hash);
+		}
 		if ((artifact.getSignature() != null) && !cache.contains(artifact.getSignature())) {
 			cache.add(artifact.getSignature());
 			addEntry(zipOut, artifact.getSignature());
@@ -85,6 +118,27 @@ public class NfvoCustomOnboarding implements CustomOnboarding {
 		}
 	}
 
+	private static void setHash(final SoftwareImage value, final DownloadResult hash) {
+		final Checksum chk = Optional.ofNullable(value.getChecksum()).orElseGet(Checksum::new);
+		chk.setMd5(hash.md5String());
+		chk.setSha256(hash.sha256String());
+		chk.setSha512(hash.sha512String());
+		if (null == value.getSize()) {
+			value.setSize(hash.count());
+		} else if (value.getSize().equals(hash.count())) {
+			throw new GenericException("File size for [" + value.getImagePath() + "] doesn't match the given size: " + value.getSize() + ", but found: " + hash.count());
+		}
+		value.setChecksum(chk);
+	}
+
+	private static void setHash(final AdditionalArtifact artifact, final DownloadResult hash) {
+		final Checksum chk = Optional.ofNullable(artifact.getChecksum()).orElseGet(Checksum::new);
+		chk.setMd5(hash.md5String());
+		chk.setSha256(hash.sha256String());
+		chk.setSha512(hash.sha512String());
+		artifact.setChecksum(chk);
+	}
+
 	private static void addEntry(final ZipOutputStream zipOut, final String path) {
 		final ZipEntry zipEntry = new ZipEntry(path);
 		try {
@@ -94,17 +148,22 @@ public class NfvoCustomOnboarding implements CustomOnboarding {
 		}
 	}
 
+	@SuppressWarnings("null")
+	@NotNull
 	private static String mkPath(final String path) {
 		return Paths.get(Constants.REPOSITORY_FOLDER_ARTIFACTS, path).toString();
 	}
 
-	private void copyFile(final ZipOutputStream zipOut, final VnfPackageReader vnfPackageReader, final UUID id, final String artifactPath) {
-		try (final InputStream tgt = vnfPackageReader.getFileInputStream(artifactPath)) {
-			if (null == tgt) {
-				throw new GenericException("Unable to find " + artifactPath);
-			}
+	private DownloadResult copyFile(final ZipOutputStream zipOut, final VnfPackageReader vnfPackageReader, @NotNull final UUID id, final String artifactPath) {
+		DownloadResult ret = new DownloadResult(null, null, null, 0L);
+		try (final InputStream tgtIn = vnfPackageReader.getFileInputStream(artifactPath);
+				final CountingInputStream count = new CountingInputStream(tgtIn);
+				final DigestInputStream inMd5 = new DigestInputStream(count, MessageDigest.getInstance("md5"));
+				final DigestInputStream inSha256 = new DigestInputStream(inMd5, MessageDigest.getInstance("SHA-256"));
+				final DigestInputStream tgt = new DigestInputStream(inSha256, MessageDigest.getInstance("SHA-512"));) {
 			repo.storeBinary(id, mkPath(artifactPath), tgt);
-		} catch (final IOException e) {
+			ret = new DownloadResult(inMd5.getMessageDigest().digest(), inSha256.getMessageDigest().digest(), tgt.getMessageDigest().digest(), count.getByteCount());
+		} catch (final IOException | NoSuchAlgorithmException e) {
 			throw new GenericException("Problem reading " + artifactPath, e);
 		}
 		try (final InputStream tgt = vnfPackageReader.getFileInputStream(artifactPath)) {
@@ -113,6 +172,7 @@ public class NfvoCustomOnboarding implements CustomOnboarding {
 		} catch (final IOException e) {
 			throw new GenericException("Problem adding " + artifactPath + " to zip.", e);
 		}
+		return ret;
 	}
 
 	@Override

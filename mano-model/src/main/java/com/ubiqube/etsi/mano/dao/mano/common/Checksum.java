@@ -49,6 +49,10 @@ public class Checksum implements Serializable {
 
 	private String md5;
 
+	private String sha256;
+
+	private String sha512;
+
 	@Override
 	public String toString() {
 		return ToStringUtil.toString(this);

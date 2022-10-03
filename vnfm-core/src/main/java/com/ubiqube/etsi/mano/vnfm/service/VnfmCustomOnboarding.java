@@ -69,8 +69,7 @@ public class VnfmCustomOnboarding implements CustomOnboarding {
 
 	@Override
 	public void handleArtifacts(final NsdPackage pkg, final NsPackageProvider packageReader) {
-		// TODO Auto-generated method stub
-
+		// Nothing to do for VNFM.
 	}
 
 }
