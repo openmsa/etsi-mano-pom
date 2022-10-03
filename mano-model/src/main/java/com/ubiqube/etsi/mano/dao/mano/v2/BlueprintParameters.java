@@ -117,7 +117,7 @@ public class BlueprintParameters implements Serializable {
 
 	String instantiationLevelId;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn
 	private Set<ScaleInfo> scaleStatus;
 
@@ -127,10 +127,10 @@ public class BlueprintParameters implements Serializable {
 	 * shall be present if the VNF supports scaling. See clause B.2 for an
 	 * explanation of VNF scaling.
 	 */
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<NsScaleInfo> nsScaleStatus;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn
 	private Set<ScaleInfo> nsStepStatus;
 
@@ -139,7 +139,7 @@ public class BlueprintParameters implements Serializable {
 	 * See note 5 and note 6.
 	 */
 	@Valid
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<ExtManagedVirtualLinkDataEntity> extManagedVirtualLinks;
 
 	private Integer numberOfSteps;
@@ -155,10 +155,10 @@ public class BlueprintParameters implements Serializable {
 	 */
 	private String flavourId;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private NsScale nsScale;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private NsHeal nsHeal;
 
 	/**
