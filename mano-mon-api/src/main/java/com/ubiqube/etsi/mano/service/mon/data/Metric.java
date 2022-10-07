@@ -27,6 +27,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class Metric {
+	private String metricName;
 	private String name;
 	private MetricFunction func;
 
@@ -34,8 +35,9 @@ public class Metric {
 		// Nothing.
 	}
 
-	public Metric(final String name, final MetricFunction func) {
+	public Metric(final String metricName, final String name, final MetricFunction func) {
 		super();
+		this.metricName = metricName;
 		this.name = name;
 		this.func = func;
 	}

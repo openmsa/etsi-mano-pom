@@ -23,6 +23,7 @@ import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
+import com.ubiqube.etsi.mano.mon.dao.AllHostMetrics;
 import com.ubiqube.etsi.mano.mon.dao.TelemetryMetricsResult;
 import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
 import com.ubiqube.etsi.mano.service.mon.vim.GnocchiSubTelemetry;
@@ -49,7 +50,8 @@ public class NotificationController {
 		final List<TelemetryMetricsResult> allHostMetrics = job.getHosts().stream()
 				.flatMap(x -> GnocchiSubTelemetry.getMetricsForVnfc(vimManager.findVimById(job.getVimId()), x, job.getMetrics(), job.getId()).stream())
 				.toList();
+		AllHostMetrics metrics = new AllHostMetrics(allHostMetrics, job.getJobType(), job.getMetrics().get(0).getMetricName(), job.getParentObjectId(), job.getId());
 		// Now we have a batch of metrics. Send to data poller.
-		allHostMetrics.forEach(x -> jmsTopicTemplate.convertAndSend("mano.monitoring.gnocchi.data", x));
+		jmsTopicTemplate.convertAndSend("mano.monitoring.gnocchi.data", metrics);
 	}
 }

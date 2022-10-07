@@ -19,6 +19,8 @@ package com.ubiqube.etsi.mano.service.mon.data;
 import java.util.List;
 import java.util.UUID;
 
+import com.ubiqube.etsi.mano.dao.mano.pm.PmType;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,18 +35,22 @@ public class BatchPollingJob {
 
 	private UUID id;
 	private List<String> hosts;
+	private PmType jobType;
 	private List<Metric> metrics;
+	private UUID parentObjectId;
 	private UUID vimId;
 
 	public BatchPollingJob() {
 		// Nothing.
 	}
 
-	public BatchPollingJob(final UUID id, final List<String> hosts, final List<Metric> metrics, final UUID vimId) {
+	public BatchPollingJob(final UUID id, final List<String> hosts, PmType jobType, final List<Metric> metrics, final UUID parentObjectId,  final UUID vimId) {
 		super();
 		this.id = id;
 		this.hosts = hosts;
+		this.jobType = jobType;
 		this.metrics = metrics;
+		this.parentObjectId = parentObjectId;
 		this.vimId = vimId;
 	}
 
