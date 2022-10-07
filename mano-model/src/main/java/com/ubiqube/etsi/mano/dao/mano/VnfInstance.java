@@ -33,7 +33,6 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-@Indexed
 @EntityListeners(AuditListener.class)
 public class VnfInstance extends Instance {
 	/** Serial. */

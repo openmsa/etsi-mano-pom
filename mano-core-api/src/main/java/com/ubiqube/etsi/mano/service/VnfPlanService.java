@@ -43,6 +43,7 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SecurityGroupNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SecurityRuleNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Storage;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SubNetwork;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfIndicator;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfPortNode;
 import com.ubiqube.etsi.mano.service.graph.Edge2d;
 import com.ubiqube.etsi.mano.service.graph.Graph2dBuilder;
@@ -119,6 +120,10 @@ public class VnfPlanService {
 			g.single(HelmNode.class, x.getToscaName());
 			final String vdu = x.getAssociatedVdu().iterator().next();
 			g.from(MciopUser.class, vdu).addNext(HelmNode.class, x.getToscaName(), Relation.ONE_TO_MANY);
+		});
+		vnfPkg.getVnfIndicator().forEach(x -> {
+			g.single(VnfIndicator.class, x.getName());
+			x.getMonitoringParameters().forEach(y -> g.from(VnfIndicator.class, x.getName()).addNext(Monitoring.class, y.getName(), Relation.ONE_TO_ONE));
 		});
 		return g.build();
 	}

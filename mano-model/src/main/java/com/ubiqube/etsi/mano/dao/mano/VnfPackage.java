@@ -76,7 +76,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Indexed
 @EntityListeners(AuditListener.class)
 public class VnfPackage implements PackageBase, Auditable {
 	/** Serial. */

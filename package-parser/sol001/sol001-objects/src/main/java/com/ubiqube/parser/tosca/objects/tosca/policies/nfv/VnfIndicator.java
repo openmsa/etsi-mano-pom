@@ -40,6 +40,11 @@ public class VnfIndicator extends Root {
 	private String source;
 
 	@Valid
+	@NotNull
+	@JsonProperty("name")
+	private String name;
+
+	@Valid
 	@JsonProperty("targets")
 	private List<String> targets;
 
@@ -50,6 +55,15 @@ public class VnfIndicator extends Root {
 
 	public void setSource(@NotNull final String source) {
 		this.source = source;
+	}
+	
+	@NotNull
+	public String getName() {
+		return name;
+	}
+
+	public void setName(@NotNull String name) {
+		this.name = name;
 	}
 
 	public List<String> getTargets() {

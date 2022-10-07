@@ -51,7 +51,7 @@ public class GnocchiSubTelemetry {
 		// Nothing.
 	}
 
-	public static List<TelemetryMetricsResult> getMetricsForVnfc(final VimConnectionInformation vimConnectionInformation, final String vnfcId, final List<Metric> collectedMetrics, final UUID uuid) {
+	public static List<TelemetryMetricsResult> getMetricsForVnfc(final VimConnectionInformation vimConnectionInformation, final String vnfcId,  final List<Metric> collectedMetrics, final UUID uuid) {
 		final OSClientV3 os = authenticate(vimConnectionInformation);
 		return getMetrics(uuid, vnfcId, collectedMetrics, os);
 	}
@@ -67,7 +67,7 @@ public class GnocchiSubTelemetry {
 		return colMeter.stream().map(x -> map(x, vnfcId, uuid, os)).toList();
 	}
 
-	private static TelemetryMetricsResult map(final Entry<String, String> x, final String vnfInstanceId, final UUID id, final OSClientV3 os) {
+	private static TelemetryMetricsResult map(final Entry<String, String> x, final String vnfcId, final UUID id, final OSClientV3 os) {
 		final MeasureFilter mf = new MeasureFilter();
 		mf.start(OffsetDateTime.now().minus(10, ChronoUnit.MINUTES));
 		final List<? extends Measure> res;
@@ -75,15 +75,15 @@ public class GnocchiSubTelemetry {
 			res = os.telemetry().gnocchi().mesures().read(x.getValue(), mf);
 		} catch (final RuntimeException e) {
 			LOG.warn("An error occured.", e);
-			return new TelemetryMetricsResult(id.toString(), vnfInstanceId, x.getKey(), Double.valueOf(0), OffsetDateTime.now(), false);
+			return new TelemetryMetricsResult(id.toString(), vnfcId, x.getKey(), Double.valueOf(0), OffsetDateTime.now(), false);
 		}
 		if (res.isEmpty()) {
 			LOG.warn("Metric {} is empty.", x.getValue());
-			return new TelemetryMetricsResult(id.toString(), vnfInstanceId, x.getKey(), Double.valueOf(0), OffsetDateTime.now(), false);
+			return new TelemetryMetricsResult(id.toString(), vnfcId, x.getKey(), Double.valueOf(0), OffsetDateTime.now(), false);
 		}
 		final Double value = res.get(0).getValue();
 		final OffsetDateTime ts = res.get(res.size() - 1).getTimeStamp();
-		return new TelemetryMetricsResult(id.toString(), vnfInstanceId, x.getKey(), value, ts, true);
+		return new TelemetryMetricsResult(id.toString(), vnfcId, x.getKey(), value, ts, true);
 	}
 
 	private static OSClientV3 authenticate(final VimConnectionInformation vci) {

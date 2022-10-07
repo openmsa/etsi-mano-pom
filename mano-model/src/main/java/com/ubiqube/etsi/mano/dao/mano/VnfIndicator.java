@@ -19,6 +19,7 @@ package com.ubiqube.etsi.mano.dao.mano;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.CascadeType;
@@ -31,6 +32,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.DocumentId;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
 import lombok.Getter;
@@ -56,9 +58,13 @@ public class VnfIndicator implements Serializable {
 	
 	private String source;
 	
+	@FullTextField
 	private String name;
 	
 	@ElementCollection(targetClass=String.class)
 	private List<String> targets;
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Set<MonitoringParams> monitoringParameters;
 
 }
