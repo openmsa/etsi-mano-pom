@@ -223,7 +223,7 @@ public class VnfPackageOnboardingImpl {
 	// MSA-11833
 	public static void ensureNotProcessing(final VnfPackage vnfPackage) {
 		if (OnboardingStateType.PROCESSING == vnfPackage.getOnboardingState()) {
-			throw new ConflictException("THE_VNF_PACKAGE" + vnfPackage.getId() + " is already stared ONBOARDEDING..");
+			throw new ConflictException("THE_VNF_PACKAGE" + vnfPackage.getId() + " is already stared ONBOARDING..");
 		}
 	}
 	
