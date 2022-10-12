@@ -80,7 +80,7 @@ public class NsBlueprint extends AbstractBlueprint<NsTask, NsdInstance> {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn
 	@IndexedEmbedded
 	@IndexingDependency(reindexOnUpdate = ReindexOnUpdate.SHALLOW)
@@ -94,22 +94,22 @@ public class NsBlueprint extends AbstractBlueprint<NsTask, NsdInstance> {
 
 	private String nsFlavourId;
 	// 3.5.1
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<VnfLcmCoordination> lcmCoordinations;
 	// 3.5.1
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<RejectedLcmCoordination> rejectedLcmCoordinations;
 	// 3.5.1
 	@ElementCollection(fetch = FetchType.EAGER)
 	private Set<String> warnings;
 
-	@ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
 	private Set<VimConnectionInformation> vimConnections;
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<BlueZoneGroupInformation> zoneGroups;
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<ZoneInfoEntity> zones;
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<ExtManagedVirtualLinkDataEntity> extManagedVirtualLinks;
 	@Embedded
 	@IndexedEmbedded
