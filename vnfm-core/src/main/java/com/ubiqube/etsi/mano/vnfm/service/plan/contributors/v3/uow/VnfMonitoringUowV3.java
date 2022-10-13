@@ -50,8 +50,7 @@ public class VnfMonitoringUowV3 extends AbstractVnfmUowV3<MonitoringTask> {
 			toscaName = task.getVnfCompute().getToscaName();
 			l = context.getParent(Compute.class, toscaName);
 		} else if(task.getMonitoringParams().getObjectType().equals(PmType.VNF)){
-			toscaName = task.getMonitoringParams().getName();
-			l = context.getParent(Monitoring.class, toscaName);
+			l = context.getParent(Compute.class, "VNF_INDICATOR");
 		}
 		return vnfMonitoringService.registerMonitoring(l, task.getVnfInstance(), task.getMonitoringParams(), vimConnectionInformation);
 	}

@@ -60,6 +60,10 @@ public class Graph2dBuilder {
 			return v;
 		});
 	}
+	
+	public Vertex2d getLast(final Class<? extends Node> class1) {
+		return g.vertexSet().stream().filter(x -> x.getType() == class1).reduce((first, second) -> second).orElse(null);
+	}
 
 	public class ChildBuilder {
 
