@@ -81,6 +81,7 @@ public class VnfPackageSoftwareImageInfo {
 		BARE("BARE"),
 
 		DOCKER("DOCKER"),
+		HELM("DOCKER"),
 
 		OVA("OVA"),
 
