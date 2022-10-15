@@ -216,6 +216,7 @@ public class VnfWorkflow implements WorkflowV3<VnfPackage, VnfBlueprint, VnfTask
 		case OS_CONTAINER -> OsContainerNode.class;
 		case OS_CONTAINER_DEPLOYABLE -> OsContainerDeployableNode.class;
 		case HELM -> HelmNode.class;
+		case VNF_INDICATOR -> VnfIndicator.class;
 		default -> throw new GenericException(inst.getTask().getType() + " is not handled.");
 		};
 		final VnfTask task = inst.getTask();

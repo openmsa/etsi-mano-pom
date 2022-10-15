@@ -5,7 +5,6 @@ import javax.persistence.EntityListeners;
 import javax.persistence.ManyToOne;
 
 import com.ubiqube.etsi.mano.dao.mano.AuditListener;
-import com.ubiqube.etsi.mano.dao.mano.VnfCompute;
 import com.ubiqube.etsi.mano.dao.mano.VnfIndicator;
 
 import lombok.Getter;
@@ -15,20 +14,20 @@ import lombok.Setter;
 @EntityListeners(AuditListener.class)
 @Getter
 @Setter
-public class VnfIndicatorTask extends VnfTask{
-	
+public class VnfIndicatorTask extends VnfTask {
+
 	private String name;
-	
+
 	@ManyToOne
 	private VnfIndicator vnfIndicator;
-	
+
 	@Override
 	public VnfTask copy() {
 		final VnfIndicatorTask t = new VnfIndicatorTask();
 		super.copy(t);
 		t.setName(name);
+		t.setVnfIndicator(vnfIndicator);
 		return t;
 	}
-	
 
 }

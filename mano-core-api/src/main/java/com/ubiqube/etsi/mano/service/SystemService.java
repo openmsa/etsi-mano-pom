@@ -124,6 +124,7 @@ public class SystemService {
 				ServiceTemplateNode.class,
 				PortTupleNode.class,
 				NetworkPolicyNode.class,
+				VnfIndicator.class,
 		};
 		for (final Class<?> string : sysDtr) {
 			sys.add(createSystem(string.getSimpleName(), vimConnectionInformation));
