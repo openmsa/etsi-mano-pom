@@ -24,6 +24,7 @@ import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -44,7 +45,7 @@ import lombok.Setter;
 @Entity
 @Indexed
 @NoArgsConstructor
-public class VnfIndicator implements Serializable {
+public class VnfIndicator implements ToscaEntity, Auditable {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -60,6 +61,16 @@ public class VnfIndicator implements Serializable {
 	
 	@FullTextField
 	private String name;
+	
+	@FullTextField
+	private String toscaName;
+	
+	private String state;
+	
+	private String toscaId;
+	
+	@Embedded
+	private Audit audit;
 	
 	@ElementCollection(targetClass=String.class)
 	private List<String> targets;
