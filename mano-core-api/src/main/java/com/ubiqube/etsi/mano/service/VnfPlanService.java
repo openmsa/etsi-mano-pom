@@ -123,8 +123,11 @@ public class VnfPlanService {
 			g.from(MciopUser.class, vdu).addNext(HelmNode.class, x.getToscaName(), Relation.ONE_TO_MANY);
 		});
 		vnfPkg.getVnfIndicator().forEach(x -> {
-			g.from(Compute.class, g.getLast(Compute.class).getName()).addNext(VnfIndicator.class, x.getName(), Relation.MANY_TO_ONE);
-			x.getMonitoringParameters().forEach(y -> g.from(VnfIndicator.class, x.getName()).addNext(Monitoring.class, y.getName(), Relation.ONE_TO_ONE));
+			g.single(VnfIndicator.class, x.getName());
+			vnfPkg.getVnfCompute().forEach(z -> {
+				g.from(VnfIndicator.class, x.getName()).dependency(Compute.class, z.getToscaName(), Relation.ONE_TO_MANY);
+			});
+			x.getMonitoringParameters().forEach(y -> g.from(VnfIndicator.class, x.getName()).addNext(Monitoring.class, x.getName() +"-"+ y.getName(), Relation.ONE_TO_ONE));
 		});
 		return g.build();
 	}
