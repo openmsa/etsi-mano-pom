@@ -60,10 +60,13 @@ public class DirectZip implements VirtualFileSystem {
 	@Override
 	public byte[] getFileContent(final String fileName) {
 		try (InputStream is = zip.getInputStream(new ZipEntry(fileName))) {
+			if (null == is) {
+				throw new Sol004Exception("Unable to find [" + fileName + "] in csar file.");
+			}
 			resolver.getContent(fileName);
 			return is.readAllBytes();
 		} catch (final IOException e) {
-			throw new Sol004Exception(e);
+			throw new Sol004Exception("Error while opening: [" + fileName + "]", e);
 		}
 	}
 

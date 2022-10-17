@@ -49,7 +49,7 @@ public class VnfComputeUowV3 extends AbstractVnfmUowV3<ComputeTask> {
 	@Override
 	public String execute(final Context3d context) {
 		final List<String> storages = task.getVnfCompute().getStorages().stream()
-				.map(x -> context.getParent(Storage.class, x + "-" + getTask().getAlias()))
+				.map(x -> context.getParent(Storage.class, getTask().getToscaName() + "-" + x))
 				.flatMap(List::stream)
 				.toList();
 		final List<String> net = task.getVnfCompute().getNetworks().stream()

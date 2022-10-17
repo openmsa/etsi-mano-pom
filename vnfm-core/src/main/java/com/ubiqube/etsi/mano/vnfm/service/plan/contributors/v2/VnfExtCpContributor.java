@@ -20,8 +20,6 @@ import java.util.List;
 
 import javax.annotation.Priority;
 
-import org.springframework.stereotype.Service;
-
 import com.ubiqube.etsi.mano.dao.mano.ChangeType;
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
@@ -36,7 +34,6 @@ import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-@Service
 @Priority(100)
 public class VnfExtCpContributor extends AbstractContributorV3Base<ExternalCpTask> {
 

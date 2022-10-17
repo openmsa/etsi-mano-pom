@@ -45,6 +45,7 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SecurityRuleNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Storage;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SubNetwork;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfIndicator;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfExtCp;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfPortNode;
 import com.ubiqube.etsi.mano.service.graph.Edge2d;
 import com.ubiqube.etsi.mano.service.graph.Graph2dBuilder;
@@ -80,6 +81,13 @@ public class VnfPlanService {
 			// x.getPlacementGroup()
 			x.getVlProfileEntity().getVirtualLinkProtocolData().stream()
 					.forEach(y -> g.from(Network.class, x.getToscaName()).withSubTask(SubNetwork.class, y.getL2ProtocolData().getName(), Relation.ONE_TO_ONE));
+		});
+		vnfPkg.getVnfExtCp().forEach(x -> {
+			g.single(VnfExtCp.class, x.getToscaName());
+			final VnfVl vl = findVl(vnfPkg.getVnfVl(), x.getInternalVirtualLink());
+			vl.getVlProfileEntity().getVirtualLinkProtocolData().forEach(y -> {
+				g.from(SubNetwork.class, vl.getToscaName() + "-" + y.getL2ProtocolData().getName()).addNext(VnfExtCp.class, x.getToscaName(), Relation.ONE_TO_ONE);
+			});
 		});
 		vnfPkg.getVnfStorage().forEach(x -> g.multi(Storage.class, x.getToscaName()));
 		vnfPkg.getVnfCompute().forEach(x -> {
@@ -130,6 +138,10 @@ public class VnfPlanService {
 			x.getMonitoringParameters().forEach(y -> g.from(VnfIndicator.class, x.getName()).addNext(Monitoring.class, x.getName() +"-"+ y.getName(), Relation.ONE_TO_ONE));
 		});
 		return g.build();
+	}
+
+	private static VnfVl findVl(final Set<VnfVl> vnfVl, final String internalVirtualLink) {
+		return vnfVl.stream().filter(x -> x.getToscaName().equals(internalVirtualLink)).findFirst().orElseThrow();
 	}
 
 	private static String find(final Set<OsContainerDeployableUnit> osContainerDeployableUnits, final String name) {
