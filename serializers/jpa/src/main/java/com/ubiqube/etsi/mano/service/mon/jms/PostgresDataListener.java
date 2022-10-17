@@ -50,6 +50,9 @@ public class PostgresDataListener {
 
 	@JmsListener(destination = "mano.monitoring.gnocchi.data", subscription = "mano.monitoring.gnocchi.data", concurrency = "1", containerFactory = "gnocchiDataFactory")
 	public void onGnocchiData(final AllHostMetrics allHostMetrics) {
+		if (allHostMetrics == null || allHostMetrics.getTelemetryMetricsResult() == null) {
+			return;
+		}
 		if(allHostMetrics.getPmType().equals(PmType.VNF)) {
 			Double averageValue;
 			Double totalValue = 0.0;
