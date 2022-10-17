@@ -42,6 +42,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.ComputeTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.DnsHostTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.DnsZoneTask;
+import com.ubiqube.etsi.mano.dao.mano.v2.ExternalCpTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.MonitoringTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.NetworkTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.StorageTask;
@@ -75,6 +76,7 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsK8sInformationsNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SecurityGroupNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Storage;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SubNetwork;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfExtCp;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfPortNode;
 import com.ubiqube.etsi.mano.orchestrator.v3.BlueprintBuilder;
 import com.ubiqube.etsi.mano.orchestrator.v3.PreExecutionGraphV3;
@@ -98,6 +100,7 @@ import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.OsK8sClusterVt
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.SecurityGroupVt;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.StorageVt;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.SubNetworkVt;
+import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.VnfExtCpVt;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.VnfPortVt;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.AbstractVnfmContributorV3;
 
@@ -136,6 +139,7 @@ public class VnfWorkflow implements WorkflowV3<VnfPackage, VnfBlueprint, VnfTask
 		vts.put(ResourceTypeEnum.SUBNETWORK, x -> new SubNetworkVt((SubNetworkTask) x));
 		vts.put(ResourceTypeEnum.COMPUTE, x -> new ComputeVt((ComputeTask) x));
 		vts.put(ResourceTypeEnum.LINKPORT, x -> new VnfPortVt((VnfPortTask) x));
+		vts.put(ResourceTypeEnum.VNF_EXTCP, x -> new VnfExtCpVt((ExternalCpTask) x));
 		vts.put(ResourceTypeEnum.SECURITY_GROUP, x -> new SecurityGroupVt((SecurityGroupTask) x));
 		vts.put(ResourceTypeEnum.STORAGE, x -> new StorageVt((StorageTask) x));
 		vts.put(ResourceTypeEnum.DNSZONE, x -> new DnsZoneVt((DnsZoneTask) x));
@@ -203,6 +207,7 @@ public class VnfWorkflow implements WorkflowV3<VnfPackage, VnfBlueprint, VnfTask
 		case STORAGE -> Storage.class;
 		case SECURITY_GROUP -> SecurityGroupNode.class;
 		case LINKPORT -> VnfPortNode.class;
+		case VNF_EXTCP -> VnfExtCp.class;
 		case MONITORING -> Monitoring.class;
 		case AFFINITY_RULE -> AffinityRuleNode.class;
 		case OS_CONTAINER_INFO -> OsK8sInformationsNode.class;
@@ -222,7 +227,14 @@ public class VnfWorkflow implements WorkflowV3<VnfPackage, VnfBlueprint, VnfTask
 	public OrchExecutionResults<VnfTask> execute(final PreExecutionGraphV3<VnfTask> plan, final VnfBlueprint parameters) {
 		plan.toDotFile("orch-added.dot");
 		final ExecutionGraph imp = planv2.implement(plan);
+		populateContext(imp, parameters);
 		return planv2.execute(imp, new OrchListenetImpl(parameters, liveInstanceJpa));
+	}
+
+	private static void populateContext(final ExecutionGraph imp, final VnfBlueprint parameters) {
+		parameters.getParameters().getExtManagedVirtualLinks().forEach(x -> {
+			imp.add(Network.class, x.getVnfVirtualLinkDescId(), x.getResourceId());
+		});
 	}
 
 	@Override
