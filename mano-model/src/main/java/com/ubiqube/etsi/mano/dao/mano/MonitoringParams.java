@@ -22,9 +22,14 @@ import java.util.UUID;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+import com.ubiqube.etsi.mano.dao.mano.pm.PmType;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -55,9 +60,11 @@ public class MonitoringParams implements Auditable {
 	private Long collectionPeriod;
 
 	private String performanceMetric;
+	
+	@Enumerated(EnumType.STRING)
+	private PmType objectType = PmType.VNFC;
 
 	private String vnfComputeName;
 	@Embedded
 	private Audit audit;
-
 }

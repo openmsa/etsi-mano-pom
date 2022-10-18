@@ -40,6 +40,7 @@ import javax.persistence.Version;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
+import com.ubiqube.etsi.mano.dao.mano.pm.PmJob;
 import com.ubiqube.etsi.mano.dao.mano.v2.BlueprintParameters;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 
@@ -159,6 +160,9 @@ public class Instance implements BaseEntity, Auditable {
 	 */
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "vnfInstance")
 	private Set<ExtManagedVirtualLinkDataEntity> extManagedVirtualLinks;
+	
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "vnfInstance")
+	private Set<PmJob> pmJobs;
 
 	@Version
 	private long version;

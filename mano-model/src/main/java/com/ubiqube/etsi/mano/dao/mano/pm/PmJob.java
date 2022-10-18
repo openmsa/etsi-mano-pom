@@ -39,7 +39,9 @@ import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextFi
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
 import com.ubiqube.etsi.mano.dao.mano.AuthentificationInformations;
+import com.ubiqube.etsi.mano.dao.mano.Instance;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
+import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.utils.ToStringIgnore;
 import com.ubiqube.etsi.mano.utils.ToStringUtil;
 
@@ -80,6 +82,9 @@ public class PmJob {
 	 */
 	@ElementCollection(fetch = FetchType.EAGER)
 	private List<String> objectInstanceIds;
+	
+	@ManyToOne
+	private VnfInstance vnfInstance;
 
 	/**
 	 * Identifiers of the sub-object instances of the measured object instance for

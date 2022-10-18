@@ -28,7 +28,7 @@ import lombok.Data;
 
 @Data
 @Entity
-public class VnfIndicators implements Serializable{
+public class VnfIndicatorValues implements Serializable{
 	/** Serial. */
 	private static final long serialVersionUID = 1L;
 

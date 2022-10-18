@@ -54,6 +54,7 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SecurityGroupNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Storage;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SubNetwork;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfExtCp;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfIndicator;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfPortNode;
 
 import ma.glasnost.orika.MapperFacade;
@@ -96,6 +97,7 @@ public class SystemService {
 		sys.setVimId(vimConnectionInformation.getVimId());
 		final Class<?>[] sysDtr = { Compute.class,
 				Network.class,
+				VnfIndicator.class,
 				DnsZone.class,
 				DnsHost.class,
 				Monitoring.class,
@@ -122,6 +124,7 @@ public class SystemService {
 				ServiceTemplateNode.class,
 				PortTupleNode.class,
 				NetworkPolicyNode.class,
+				VnfIndicator.class,
 		};
 		for (final Class<?> string : sysDtr) {
 			sys.add(createSystem(string.getSimpleName(), vimConnectionInformation));

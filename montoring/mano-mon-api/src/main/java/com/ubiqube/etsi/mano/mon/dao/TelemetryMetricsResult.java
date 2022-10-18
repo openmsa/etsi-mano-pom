@@ -36,7 +36,7 @@ public class TelemetryMetricsResult {
 	@NotNull
 	private String masterJobId;
 
-	private String vnfInstanceId;
+	private String vnfcId;
 
 	private String key;
 
@@ -50,10 +50,10 @@ public class TelemetryMetricsResult {
 		// Nothing.
 	}
 
-	public TelemetryMetricsResult(@NotNull final String masterJobId, final String vnfInstanceId, final String key, final Double value, final OffsetDateTime timestamp, final boolean status) {
+	public TelemetryMetricsResult(@NotNull final String masterJobId, final String vnfcId, final String key, final Double value, final OffsetDateTime timestamp, final boolean status) {
 		super();
 		this.masterJobId = masterJobId;
-		this.vnfInstanceId = vnfInstanceId;
+		this.vnfcId = vnfcId;
 		this.key = key;
 		this.value = value;
 		this.timestamp = timestamp;

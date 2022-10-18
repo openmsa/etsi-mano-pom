@@ -47,6 +47,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.MonitoringTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.NetworkTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.StorageTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
+import com.ubiqube.etsi.mano.dao.mano.v2.VnfIndicatorTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfPortTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.HelmTask;
@@ -76,6 +77,7 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsK8sInformationsNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SecurityGroupNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Storage;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SubNetwork;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfIndicator;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfExtCp;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfPortNode;
 import com.ubiqube.etsi.mano.orchestrator.v3.BlueprintBuilder;
@@ -100,6 +102,7 @@ import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.OsK8sClusterVt
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.SecurityGroupVt;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.StorageVt;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.SubNetworkVt;
+import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.VnfIndicatorVt;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.VnfExtCpVt;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.VnfPortVt;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.AbstractVnfmContributorV3;
@@ -150,7 +153,8 @@ public class VnfWorkflow implements WorkflowV3<VnfPackage, VnfBlueprint, VnfTask
 		vts.put(ResourceTypeEnum.MCIOP_USER, x -> new MciopUserVt((MciopUserTask) x));
 		vts.put(ResourceTypeEnum.HELM, x -> new HelmVt((HelmTask) x));
 		vts.put(ResourceTypeEnum.MONITORING, x -> new MonitoringVt((MonitoringTask) x));
-		masterVertex = List.of(Network.class, Compute.class, OsContainerNode.class, OsContainerDeployableNode.class, HelmNode.class);
+		vts.put(ResourceTypeEnum.VNF_INDICATOR, x -> new VnfIndicatorVt((VnfIndicatorTask) x));
+		masterVertex = List.of(Network.class, Compute.class, OsContainerNode.class, OsContainerDeployableNode.class, HelmNode.class, VnfIndicator.class);
 	}
 
 	@Override
@@ -217,6 +221,7 @@ public class VnfWorkflow implements WorkflowV3<VnfPackage, VnfBlueprint, VnfTask
 		case OS_CONTAINER -> OsContainerNode.class;
 		case OS_CONTAINER_DEPLOYABLE -> OsContainerDeployableNode.class;
 		case HELM -> HelmNode.class;
+		case VNF_INDICATOR -> VnfIndicator.class;
 		default -> throw new GenericException(inst.getTask().getType() + " is not handled.");
 		};
 		final VnfTask task = inst.getTask();

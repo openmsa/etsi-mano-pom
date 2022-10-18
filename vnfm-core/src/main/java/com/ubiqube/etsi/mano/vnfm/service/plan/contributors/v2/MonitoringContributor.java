@@ -53,6 +53,13 @@ public class MonitoringContributor extends AbstractContributorV3Base<MonitoringT
 					final MonitoringTask t = createMonitoringTask(y);
 					ret.add(create(Monitoring.class, x.getToscaName(), 1, t, parameters.getInstance()));
 				}));
+		bundle.getVnfIndicator().stream()
+		.forEach(x -> x.getMonitoringParameters().stream().forEach(y -> {
+			final MonitoringTask t = createMonitoringTask(y);
+			t.setVnfInstance(parameters.getInstance());
+			String toscaName = parameters.getInstance().getId().toString()+"-vnf_indicator";
+			ret.add(create(Monitoring.class, toscaName, 1, t, parameters.getInstance()));
+		}));
 		return ret;
 	}
 

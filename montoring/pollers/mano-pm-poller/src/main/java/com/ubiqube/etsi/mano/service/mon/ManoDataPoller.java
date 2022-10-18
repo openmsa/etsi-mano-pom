@@ -73,7 +73,7 @@ public class ManoDataPoller {
 
 	private BatchPollingJob map(final PmJob pmJob) {
 		final List<Metric> mettrics = pmJob.getCriteria().getPerformanceMetric().stream().map(this::map).toList();
-		return new BatchPollingJob(pmJob.getId(), pmJob.getObjectInstanceIds(), mettrics, pmJob.getVimConnectionInformation().getId());
+		return new BatchPollingJob(pmJob.getId(), pmJob.getObjectInstanceIds(), pmJob.getObjectType(), mettrics, pmJob.getVnfInstance().getId(), pmJob.getVimConnectionInformation().getId());
 	}
 
 	private Metric map(final String x) {
@@ -85,7 +85,7 @@ public class ManoDataPoller {
 		if (metric.length != 2) {
 			throw new MonGenericException("bad mapping key : " + x + "/" + prop + ". Should have one ','");
 		}
-		return new Metric(metric[0], MetricFunction.fromValue(metric[1]));
+		return new Metric(x, metric[0], MetricFunction.fromValue(metric[1]));
 	}
 
 }

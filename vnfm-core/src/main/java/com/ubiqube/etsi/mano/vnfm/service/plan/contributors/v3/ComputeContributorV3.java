@@ -29,6 +29,7 @@ import org.springframework.stereotype.Service;
 import com.ubiqube.etsi.mano.dao.mano.ChangeType;
 import com.ubiqube.etsi.mano.dao.mano.ExtManagedVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.Instance;
+import com.ubiqube.etsi.mano.dao.mano.MonitoringParams;
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.ScaleInfo;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
@@ -39,11 +40,13 @@ import com.ubiqube.etsi.mano.dao.mano.v2.ComputeTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.MonitoringTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.StorageTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
+import com.ubiqube.etsi.mano.dao.mano.v2.VnfIndicatorTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfPortTask;
 import com.ubiqube.etsi.mano.orchestrator.SclableResources;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Compute;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Monitoring;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Storage;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfIndicator;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfPortNode;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceServiceVnfm;
@@ -117,9 +120,30 @@ public class ComputeContributorV3 extends AbstractVnfmContributorV3<Object> {
 				mt.setParentAlias(x.getToscaName());
 				mt.setMonitoringParams(y);
 				mt.setVnfCompute(x);
+				mt.setVnfInstance(parameters.getInstance());
 				ret.add(create(Monitoring.class, mt.getClass(), mt.getToscaName(), 1, mt, parameters.getInstance(), parameters));
 			});
 		});
+		
+		for(com.ubiqube.etsi.mano.dao.mano.VnfIndicator vnfIndicator : bundle.getVnfIndicator()) {
+			final VnfIndicatorTask vnfIndicatorTask = createTask(VnfIndicatorTask::new);
+			vnfIndicatorTask.setVnfIndicator(vnfIndicator);
+			vnfIndicatorTask.setType(ResourceTypeEnum.VNF_INDICATOR);
+			vnfIndicatorTask.setToscaName(vnfIndicator.getName());
+			vnfIndicatorTask.setName(vnfIndicator.getName());
+			ret.add(create(VnfIndicator.class, vnfIndicatorTask.getClass(), vnfIndicatorTask.getName(), 1, vnfIndicatorTask, parameters.getInstance(), parameters));
+			
+			for(MonitoringParams monitoringParams : vnfIndicator.getMonitoringParameters()) {
+				final MonitoringTask mt = createTask(MonitoringTask::new);
+				mt.setType(ResourceTypeEnum.MONITORING);
+				mt.setToscaName(vnfIndicator.getName() + "-" + monitoringParams.getName());
+				mt.setParentAlias(vnfIndicator.getName());
+				mt.setVnfIndicator(vnfIndicator);
+				mt.setMonitoringParams(monitoringParams);
+				mt.setVnfInstance(parameters.getInstance());
+				ret.add(create(Monitoring.class, mt.getClass(), mt.getToscaName(), 1, mt, parameters.getInstance(), parameters));
+			}
+		}
 		return ret;
 	}
 

@@ -27,6 +27,9 @@ import javax.persistence.ManyToOne;
 
 import com.ubiqube.etsi.mano.dao.mano.MonitoringParams;
 import com.ubiqube.etsi.mano.dao.mano.VnfCompute;
+import com.ubiqube.etsi.mano.dao.mano.VnfIndicator;
+import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
+import com.ubiqube.etsi.mano.dao.mano.VnfLiveInstance;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -53,6 +56,12 @@ public class MonitoringTask extends VnfTask {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	private VnfCompute vnfCompute;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	private VnfIndicator vnfIndicator;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	private VnfInstance vnfInstance;
 
 	private String parentAlias;
 
@@ -62,7 +71,9 @@ public class MonitoringTask extends VnfTask {
 		super.copy(t);
 		t.setMonitoringParams(monitoringParams);
 		t.setVnfCompute(vnfCompute);
+		t.setVnfIndicator(vnfIndicator);
 		t.setParentAlias(parentAlias);
+		t.setVnfInstance(vnfInstance);
 		return t;
 	}
 }

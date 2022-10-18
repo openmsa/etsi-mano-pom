@@ -22,6 +22,7 @@ import java.util.UUID;
 import org.jgrapht.ListenableGraph;
 import org.springframework.stereotype.Service;
 
+import com.ubiqube.etsi.mano.dao.mano.VnfCompute;
 import com.ubiqube.etsi.mano.dao.mano.VnfLinkPort;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.VnfVl;
@@ -43,6 +44,7 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SecurityGroupNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SecurityRuleNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Storage;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SubNetwork;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfIndicator;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfExtCp;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfPortNode;
 import com.ubiqube.etsi.mano.service.graph.Edge2d;
@@ -127,6 +129,13 @@ public class VnfPlanService {
 			g.single(HelmNode.class, x.getToscaName());
 			final String vdu = x.getAssociatedVdu().iterator().next();
 			g.from(MciopUser.class, vdu).addNext(HelmNode.class, x.getToscaName(), Relation.ONE_TO_MANY);
+		});
+		vnfPkg.getVnfIndicator().forEach(x -> {
+			g.single(VnfIndicator.class, x.getName());
+			vnfPkg.getVnfCompute().forEach(z -> {
+				g.from(VnfIndicator.class, x.getName()).dependency(Compute.class, z.getToscaName(), Relation.ONE_TO_MANY);
+			});
+			x.getMonitoringParameters().forEach(y -> g.from(VnfIndicator.class, x.getName()).addNext(Monitoring.class, x.getName() +"-"+ y.getName(), Relation.ONE_TO_ONE));
 		});
 		return g.build();
 	}
