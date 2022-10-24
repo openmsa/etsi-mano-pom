@@ -359,7 +359,7 @@ public class FluxRest {
 		return getBlockingResult(resp, null, version);
 	}
 
-	public void doDownload(final String url, final Consumer<InputStream> target) {
+	public void doDownload(final String url, final Consumer<InputStream> target, final String version) {
 		final ExceptionHandler eh = new ExceptionHandler();
 		try (final PipedOutputStream osPipe = new PipedOutputStream();
 				final PipedInputStream isPipe = new PipedInputStream(osPipe)) {
@@ -367,6 +367,7 @@ public class FluxRest {
 					.get()
 					.uri(url)
 					.accept(MediaType.APPLICATION_OCTET_STREAM, MediaType.ALL)
+					.header(VERSION, version)
 					.retrieve()
 					.onRawStatus(i -> i != 200, exepctionFunction(osPipe))
 					.bodyToFlux(DataBuffer.class);

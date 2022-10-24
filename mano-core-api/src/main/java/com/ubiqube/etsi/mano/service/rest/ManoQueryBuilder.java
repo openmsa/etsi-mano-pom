@@ -171,7 +171,9 @@ public class ManoQueryBuilder {
 	public void download(final Path url, final Consumer<InputStream> tgt) {
 		final ServerAdapter server = client.getServer();
 		final URI uri = buildUri(server);
-		server.rest().doDownload(uri.toString() + "/" + url, tgt);
+		final HttpGateway httpGateway = server.httpGateway();
+		final String version = httpGateway.getHeaderVersion(client.getQueryType()).orElse(null);
+		server.rest().doDownload(uri.toString() + "/" + url, tgt, version);
 	}
 
 	public void upload(final Path path, final String accept) {
