@@ -46,10 +46,12 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Compute;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.DnsHost;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.DnsZone;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.HelmNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.MciopUser;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Monitoring;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerDeployableNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsK8sInformationsNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SecurityGroupNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Storage;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SubNetwork;
@@ -113,6 +115,8 @@ public class SystemService {
 				VnfExtractorNode.class,
 				OsContainerDeployableNode.class,
 				OsContainerNode.class,
+				OsK8sInformationsNode.class,
+				MciopUser.class,
 				HelmNode.class,
 				VnffgLoadbalancerNode.class,
 				VnffgPostNode.class,

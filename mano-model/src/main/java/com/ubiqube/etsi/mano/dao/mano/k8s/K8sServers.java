@@ -23,6 +23,8 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -81,5 +83,6 @@ public class K8sServers implements Serializable {
 	@ElementCollection(fetch = FetchType.EAGER)
 	private List<String> masterAddresses;
 
+	@Enumerated(EnumType.STRING)
 	private StatusType status;
 }

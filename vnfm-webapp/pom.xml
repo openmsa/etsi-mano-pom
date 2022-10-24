@@ -13,12 +13,15 @@
 	<packaging>war</packaging>
 	<name>vnfm-webapp</name>
 	<description>Demo project for Spring Boot</description>
+	<properties>
+		<spring-cloud.version>2021.0.3</spring-cloud.version>
+	</properties>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>2021.0.3</version>
+				<version>${spring-cloud.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -41,12 +44,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-hateoas</artifactId>
 		</dependency>
-		<!--
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-quartz</artifactId>
-		</dependency>
-		-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -96,9 +93,12 @@
 			<artifactId>spring-cloud-context</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.ubiqube.mano</groupId>
-			<artifactId>k8s-parser</artifactId>
-			<version>2.0.0-SNAPSHOT</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-rest</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-rest-hal-explorer</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
@@ -137,25 +137,18 @@
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
+			<artifactId>etsi-vnfm-431-controllers</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>etsi-sol012-341</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		<!-- 
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
-			<artifactId>etsi-mec-meo-controllers-211</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.ubiqube.mano</groupId>
-			<artifactId>etsi-mec-mepm-controllers-211</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		-->
-		<dependency>
-			<groupId>com.ubiqube.mano.service.mon</groupId>
-			<artifactId>gnocchi-mon</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<artifactId>orchestration-core</artifactId>
+			<version>3.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano.auth</groupId>
@@ -175,16 +168,6 @@
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>ubi-spring-config</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.ubiqube.mano</groupId>
-			<artifactId>orchestration-core</artifactId>
-			<version>3.0.0-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.ubiqube.mano.service.mon.poller</groupId>
-			<artifactId>mano-pm-poller</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
@@ -209,11 +192,6 @@
 			<artifactId>springdoc-openapi-security</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.ubiqube.mano.service.mon.serializer</groupId>
-			<artifactId>jpa-serializer</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-grammar25</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
@@ -231,6 +209,31 @@
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-vim-k8s</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ubiqube.mano</groupId>
+			<artifactId>k8s-parser</artifactId>
+			<version>2.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ubiqube.mano.service.mon</groupId>
+			<artifactId>gnocchi-mon</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ubiqube.mano.service.mon.serializer</groupId>
+			<artifactId>jpa-serializer</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ubiqube.mano.service.mon.poller</groupId>
+			<artifactId>mano-pm-poller</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ubiqube.mano</groupId>
+			<artifactId>mano-docker-jib</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>

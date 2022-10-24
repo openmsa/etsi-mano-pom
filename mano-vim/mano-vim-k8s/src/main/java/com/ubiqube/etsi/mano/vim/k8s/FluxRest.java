@@ -14,7 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service.rest;
+package com.ubiqube.etsi.mano.vim.k8s;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -79,8 +79,7 @@ import com.ubiqube.etsi.mano.dao.mano.AuthParamOauth2;
 import com.ubiqube.etsi.mano.dao.mano.AuthentificationInformations;
 import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
-import com.ubiqube.etsi.mano.exception.GenericException;
-import com.ubiqube.etsi.mano.repository.ManoResource;
+import com.ubiqube.etsi.mano.service.vim.VimException;
 
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
@@ -106,6 +105,10 @@ public class FluxRest {
 	public FluxRest(final Servers server) {
 		this.rootUrl = server.getUrl();
 		webClient = createWebClient(server);
+	}
+
+	public WebClient getWebClient() {
+		return webClient;
 	}
 
 	public static FluxRest of(final ConnectionInformation ci) {
@@ -155,7 +158,7 @@ public class FluxRest {
 		try {
 			return SslContextBuilder.forClient().build();
 		} catch (final SSLException e) {
-			throw new GenericException(e);
+			throw new VimException(e);
 		}
 	}
 
@@ -166,8 +169,8 @@ public class FluxRest {
 		Optional.ofNullable(auth.getAuthParamBasic()).ifPresent(x -> wcb.filter(ExchangeFilterFunctions.basicAuthentication(x.getUserName(), x.getPassword())));
 		Optional.ofNullable(auth.getAuthParamOauth2()).ifPresent(x -> {
 			final AuthorizedClientServiceReactiveOAuth2AuthorizedClientManager authorizedClientManager = new AuthorizedClientServiceReactiveOAuth2AuthorizedClientManager(
-					getRegistration(x.getTokenEndpoint(), x.getClientId(), x.getClientSecret(), "openid"),
-					new InMemoryReactiveOAuth2AuthorizedClientService(getRegistration(x.getTokenEndpoint(), x.getClientId(), x.getClientSecret(), "openid")));
+					getRegistration(x.getTokenEndpoint(), x.getClientId(), x.getClientSecret(), "openid", "helm"),
+					new InMemoryReactiveOAuth2AuthorizedClientService(getRegistration(x.getTokenEndpoint(), x.getClientId(), x.getClientSecret(), "openid", "helm")));
 			Optional.ofNullable(x.getO2IgnoreSsl()).filter(Boolean::booleanValue).ifPresent(y -> authorizedClientManager.setAuthorizedClientProvider(getAuthorizedClientProvider(auth)));
 			final ServerOAuth2AuthorizedClientExchangeFilterFunction oauth2 = new ServerOAuth2AuthorizedClientExchangeFilterFunction(authorizedClientManager);
 			oauth2.setDefaultClientRegistrationId(id);
@@ -201,7 +204,7 @@ public class FluxRest {
 					.trustManager(trustManagerFactory)
 					.build();
 		} catch (final IOException | KeyStoreException | CertificateException | NoSuchAlgorithmException e) {
-			throw new GenericException(e);
+			throw new VimException(e);
 		}
 	}
 
@@ -211,15 +214,15 @@ public class FluxRest {
 					.trustManager(InsecureTrustManagerFactory.INSTANCE)
 					.build();
 		} catch (final SSLException e) {
-			throw new GenericException(e);
+			throw new VimException(e);
 		}
 	}
 
 	private static HttpClient getHttpClient(final SslContext context) {
-		return HttpClient.create().doOnRequest((h, c) -> c.addHandlerFirst(new ManoLoggingHandler())).secure(t -> t.sslContext(context));
+		return HttpClient.create().secure(t -> t.sslContext(context));
 	}
 
-	private ReactiveClientRegistrationRepository getRegistration(final String tokenUri, final String clientId, final String clientSecret, final String scope) {
+	private ReactiveClientRegistrationRepository getRegistration(final String tokenUri, final String clientId, final String clientSecret, final String... scope) {
 		final ClientRegistration registration = ClientRegistration
 				.withRegistrationId(id)
 				.tokenUri(tokenUri)
@@ -376,14 +379,6 @@ public class FluxRest {
 		upload(uri, multipart, version);
 	}
 
-	public void upload(final URI uri, final ManoResource mr, final String accept, final String version) {
-		try (InputStream is = mr.getInputStream()) {
-			upload(uri, is, accept, version);
-		} catch (final IOException e) {
-			throw new GenericException(e);
-		}
-	}
-
 	public void upload(final URI uri, final MultiValueMap<String, ?> multipartData, final String version) {
 		final RequestHeadersSpec<?> wc = webClient.put()
 				.uri(uri)
@@ -456,7 +451,7 @@ public class FluxRest {
 	private static Function<ClientResponse, Mono<? extends Throwable>> exepctionFunction(final PipedOutputStream osPipe) {
 		return response -> {
 			closePipe(osPipe);
-			throw new GenericException("An error occured." + response.rawStatusCode());
+			throw new VimException("An error occured." + response.rawStatusCode());
 		};
 	}
 
@@ -464,7 +459,7 @@ public class FluxRest {
 		try (osPipe) {
 			//
 		} catch (final IOException e) {
-			throw new GenericException(e);
+			throw new VimException(e);
 		}
 	}
 

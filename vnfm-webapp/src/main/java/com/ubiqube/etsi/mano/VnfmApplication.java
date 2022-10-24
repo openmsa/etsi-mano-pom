@@ -23,8 +23,11 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.Bean;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.scheduling.annotation.EnableScheduling;
+
+import com.ubiqube.etsi.mano.docker.JibDockerService;
 
 import ma.glasnost.orika.OrikaSystemProperties;
 import ma.glasnost.orika.impl.generator.EclipseJdtCompilerStrategy;
@@ -42,4 +45,9 @@ public class VnfmApplication extends SpringBootServletInitializer {
 		SpringApplication.run(VnfmApplication.class, args);
 	}
 
+	@SuppressWarnings("static-method")
+	@Bean
+	JibDockerService jibDocker() {
+		return new JibDockerService();
+	}
 }

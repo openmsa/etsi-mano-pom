@@ -55,14 +55,24 @@ management:
       mode: full
 
 mano:
-  frontend-url: http://mano-vnfm:8090/ubi-etsi-mano/sol003
-  swagger-o-auth2: http://auth.mano.ubiqube.com/auth/realms/mano-realm/protocol/openid-connect/token
   election:
     script-path: /tmp/etsi-mano/election/groovy
+  frontend-url: http://mano-vnfm:8090/ubi-etsi-mano/sol003
+  helmv3:
+    oauth2:
+      client-id: mano-helm
+      client-secret: RJuAdY7c7iRgoVoqM7nVQtWSqKOGq4oJ
+      #grant-type: client_credentials
+      scope:
+        - openid
+        - helm
+      token-endpoint: http://mano-auth:8080/auth/realms/mano-realm/protocol/openid-connect/token
+    url: http://mano-helm:8080/
   repository:
     phys-root: /tmp/etsi-mano/repository
   config:
     type: vnfm
+  swagger-o-auth2: http://auth.mano.ubiqube.com/auth/realms/mano-realm/protocol/openid-connect/token
 
 server:
   error:
