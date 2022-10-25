@@ -16,7 +16,6 @@
  */
 package com.ubiqube.etsi.mano.dao.mano;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -46,9 +45,9 @@ import lombok.Setter;
 @Indexed
 @NoArgsConstructor
 public class VnfIndicator implements ToscaEntity, Auditable {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@DocumentId
@@ -56,25 +55,25 @@ public class VnfIndicator implements ToscaEntity, Auditable {
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Map<String, TriggerDefinition> triggers;
-	
+
 	private String source;
-	
+
 	@FullTextField
 	private String name;
-	
+
 	@FullTextField
 	private String toscaName;
-	
+
 	private String state;
-	
+
 	private String toscaId;
-	
+
 	@Embedded
 	private Audit audit;
-	
-	@ElementCollection(targetClass=String.class)
+
+	@ElementCollection(targetClass = String.class)
 	private List<String> targets;
-	
+
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<MonitoringParams> monitoringParameters;
 
