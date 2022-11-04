@@ -33,7 +33,7 @@ import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.vrqan.VrQan;
-import com.ubiqube.etsi.mano.nfvo.jpa.VrQanJpa;
+import com.ubiqube.etsi.mano.jpa.VrQanJpa;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 import com.ubiqube.etsi.mano.service.vim.ResourceQuota;
@@ -56,7 +56,6 @@ public class VrQanService {
 	private final EventManager em;
 
 	public VrQanService(final VimManager vimManager, final VrQanJpa vrQanJpa, final EventManager em) {
-		super();
 		this.vimManager = vimManager;
 		this.vrQanJpa = vrQanJpa;
 		this.em = em;
