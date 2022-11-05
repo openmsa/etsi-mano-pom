@@ -64,28 +64,18 @@ public abstract class AbstractHttpGateway implements HttpGateway {
 	}
 
 	public static <U> U getUrlFor(final ApiVersionType type, final BiFunction<String, String, U> func) {
-		switch (type) {
-		case SOL003_VNFFM:
-			return func.apply(SOL003, "vnffm");
-		case SOL003_VNFIND:
-			return func.apply(SOL003, "vnfind");
-		case SOL003_VNFPM:
-			return func.apply(SOL003, "vnfpm");
-		case SOL003_VNFSNAPSHOTPKGM:
-			return func.apply(SOL003, "vnfsnapshotpkgm");
-		case SOL003_VNFLCM:
-			return func.apply(SOL003, "vnflcm");
-		case SOL003_VRQAN:
-			return func.apply(SOL003, "vrqan");
-		case SOL003_GRANT:
-			return func.apply(SOL003, "grant");
-		case SOL003_VNFPKGM:
-			return func.apply(SOL003, "vnfpkgm");
-		case SOL005_NSD:
-			return func.apply("sol005", "nsd");
-		default:
-			throw new IllegalArgumentException("Unexpected value: " + type.name());
-		}
+		return switch (type) {
+		case SOL003_VNFFM -> func.apply(SOL003, "vnffm");
+		case SOL003_VNFIND -> func.apply(SOL003, "vnfind");
+		case SOL003_VNFPM -> func.apply(SOL003, "vnfpm");
+		case SOL003_VNFSNAPSHOTPKGM -> func.apply(SOL003, "vnfsnapshotpkgm");
+		case SOL003_VNFLCM -> func.apply(SOL003, "vnflcm");
+		case SOL003_VRQAN -> func.apply(SOL003, "vrqan");
+		case SOL003_GRANT -> func.apply(SOL003, "grant");
+		case SOL003_VNFPKGM -> func.apply(SOL003, "vnfpkgm");
+		case SOL005_NSD -> func.apply("sol005", "nsd");
+		default -> throw new IllegalArgumentException("Unexpected value: " + type.name());
+		};
 	}
 
 	@Override
@@ -131,4 +121,5 @@ public abstract class AbstractHttpGateway implements HttpGateway {
 		}
 		return matching.get().toString().equals(version);
 	}
+
 }
