@@ -24,6 +24,8 @@ import javax.annotation.Nonnull;
 
 import com.ubiqube.etsi.mano.common.v261.model.vnf.PackageChangeType;
 import com.ubiqube.etsi.mano.common.v261.model.vnf.PackageOperationalStateType;
+import com.ubiqube.etsi.mano.common.v261.model.vnf.VnfIndicatorValueChangeNotification;
+import com.ubiqube.etsi.mano.common.v261.model.vnf.VnfIndicatorValueChangeNotification.NotificationTypeEnum;
 import com.ubiqube.etsi.mano.common.v261.model.vnf.VnfPackageChangeNotification;
 import com.ubiqube.etsi.mano.common.v261.model.vnf.VnfPackageOnboardingNotification;
 import com.ubiqube.etsi.mano.common.v261.services.Linkable;
@@ -68,6 +70,21 @@ public class VnfSubscriptionFactory261 {
 		ret.setVnfPkgId(vnfPkgId.toString());
 		ret.setVnfdId(vnfdId);
 		ret.setLinks(links.createVnfPackageOnboardingNotificationLinks(vnfPkgId, vnfdId, subscriptionId));
+		return ret;
+	}
+	
+	@Nonnull
+	public static VnfIndicatorValueChangeNotification createNotificationVnfIndicatorValueChangeNotification(final UUID id, final UUID subscriptionId, @Nonnull final String vnfIndicatorId, final String vnfInstanceId, String value, String vnfdId, final Linkable links) {
+		final VnfIndicatorValueChangeNotification ret = new VnfIndicatorValueChangeNotification();
+		ret.setId(id.toString());
+		ret.setTimeStamp(OffsetDateTime.now());
+		ret.setNotificationType(NotificationTypeEnum.VNFINDICATORVALUECHANGENOTIFICATION);
+		ret.setSubscriptionId(subscriptionId.toString());
+		ret.setVnfInstanceId(vnfInstanceId);
+		ret.setVnfIndicatorId(vnfIndicatorId);
+		ret.setValue(value);
+		ret.setVnfdId(vnfdId);
+		ret.setLinks(links.createVnfIndicatorValueChangeNotificationLinks(vnfIndicatorId, vnfInstanceId, subscriptionId));
 		return ret;
 	}
 }

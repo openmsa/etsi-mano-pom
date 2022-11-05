@@ -36,9 +36,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ubiqube.etsi.mano.model.ProblemDetails;
-import com.ubiqube.etsi.mano.vnfm.v261.model.indicator.VnfIndicatorSubscription;
-import com.ubiqube.etsi.mano.vnfm.v261.model.indicator.VnfIndicatorSubscriptionRequest;
 import com.ubiqube.etsi.mano.vnfm.v261.model.nsperfo.PmSubscription;
+import com.ubiqube.etsi.mano.vnfm.v261.model.vnfind.VnfIndicatorSubscription;
+import com.ubiqube.etsi.mano.vnfm.v261.model.vnfind.VnfIndicatorSubscriptionRequest;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

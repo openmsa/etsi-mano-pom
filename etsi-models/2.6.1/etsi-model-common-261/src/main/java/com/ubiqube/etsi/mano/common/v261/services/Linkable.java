@@ -24,6 +24,8 @@ import javax.annotation.Nonnull;
 import com.ubiqube.etsi.mano.common.v261.model.vnf.PkgmLinks;
 import com.ubiqube.etsi.mano.common.v261.model.vnf.PkgmSubscription;
 import com.ubiqube.etsi.mano.common.v261.model.vnf.PkgmSubscriptionLinks;
+import com.ubiqube.etsi.mano.common.v261.model.vnf.VnfIndicatorLinks;
+import com.ubiqube.etsi.mano.common.v261.model.vnf.VnfIndicatorValueChangeNotificationLinks;
 import com.ubiqube.etsi.mano.common.v261.model.vnf.VnfPkgInfo;
 
 /**
@@ -45,6 +47,8 @@ public interface Linkable {
 
 	PkgmLinks createVnfPackageOnboardingNotificationLinks(@Nonnull UUID vnfPkgId, String vnfdId, UUID subscriptionId);
 
+	VnfIndicatorValueChangeNotificationLinks createVnfIndicatorValueChangeNotificationLinks(@Nonnull String vnfIndicatorId, String vnfInstanceId, UUID subscriptionId);
+	
 	PkgmSubscriptionLinks createSubscriptionsPkgmSubscriptionLinks(@Nonnull String subscriptionId);
 
 	void makeSubscriptionLink(PkgmSubscription pkgmSubscription);

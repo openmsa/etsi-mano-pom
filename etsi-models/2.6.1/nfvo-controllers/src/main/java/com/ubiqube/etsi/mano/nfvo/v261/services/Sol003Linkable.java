@@ -26,6 +26,8 @@ import com.ubiqube.etsi.mano.common.v261.model.Link;
 import com.ubiqube.etsi.mano.common.v261.model.vnf.PkgmLinks;
 import com.ubiqube.etsi.mano.common.v261.model.vnf.PkgmSubscription;
 import com.ubiqube.etsi.mano.common.v261.model.vnf.PkgmSubscriptionLinks;
+import com.ubiqube.etsi.mano.common.v261.model.vnf.VnfIndicatorLinks;
+import com.ubiqube.etsi.mano.common.v261.model.vnf.VnfIndicatorValueChangeNotificationLinks;
 import com.ubiqube.etsi.mano.common.v261.model.vnf.VnfPkgInfo;
 import com.ubiqube.etsi.mano.common.v261.model.vnf.VnfPkgInfoLinks;
 import com.ubiqube.etsi.mano.common.v261.services.Linkable;
@@ -66,6 +68,18 @@ public class Sol003Linkable implements Linkable {
 				linkTo(methodOn(VnfPackage261Sol003Api.class).vnfPackagesVnfPkgIdVnfdGet(vnfdId, null)).withSelfRel().getHref());
 		ret.setVnfPackageByVnfdId(vnfVnfdId);
 		return ret;
+	}
+	
+	@Override
+	public VnfIndicatorValueChangeNotificationLinks createVnfIndicatorValueChangeNotificationLinks(final String vnfIndicatorId, final String vnfInstanceId, final UUID subscriptionId) {
+		final VnfIndicatorValueChangeNotificationLinks ret = new VnfIndicatorValueChangeNotificationLinks();
+		return ret;
+	}
+	
+	private static Link createVnfIndicatorInfoLinksSelf(final String href) {
+		final Link link = new Link();
+		link.setHref(href);
+		return link;
 	}
 
 	private static Link createVnfPackagesVnfPkgInfoLinksSelf(final String href) {

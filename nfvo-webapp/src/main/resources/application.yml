@@ -66,10 +66,12 @@ mano:
     password: ubiqube
   election:
     script-path: /tmp/etsi-mano/election/groovy
-  frontend-url: http://mano-nfvo:8090/ubi-etsi-mano/sol003
+  frontend-url: http://mano-nfvo:8100/ubi-etsi-mano/sol003
   repository:
     phys-root: /tmp/etsi-mano/repository
   swagger-o-auth2: http://auth.mano.ubiqube.com/auth/realms/mano-realm/protocol/openid-connect/token
+  config:
+    type: nfvo
 
 server:
   error:

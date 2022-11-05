@@ -14,18 +14,21 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.vnfm.v261.model.vnfind;
+package com.ubiqube.etsi.mano.common.v261.model.vnf;
 
-import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
-import com.ubiqube.etsi.mano.vnfm.v261.model.vnfind.VnfIndicatorValueChangeNotificationLinks;
-import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.OffsetDateTime;
-import org.springframework.validation.annotation.Validated;
+import java.util.Objects;
+
 import javax.validation.Valid;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.validation.annotation.Validated;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This type represents a VNF indicator value change notification. The notification shall be triggered by the VNFM when the value of an indicator has changed. 
@@ -86,8 +89,19 @@ public class VnfIndicatorValueChangeNotification   {
 
   @JsonProperty("vnfInstanceId")
   private String vnfInstanceId = null;
+  
+  @JsonProperty("vnfdId")
+  private String vnfdId = null;
 
-  @JsonProperty("_links")
+  public String getVnfdId() {
+	return vnfdId;
+  }
+
+  public void setVnfdId(String vnfdId) {
+		this.vnfdId = vnfdId;
+  }
+
+@JsonProperty("_links")
   private VnfIndicatorValueChangeNotificationLinks _links = null;
 
   public VnfIndicatorValueChangeNotification id(String id) {
@@ -289,6 +303,7 @@ public class VnfIndicatorValueChangeNotification   {
         Objects.equals(this.name, vnfIndicatorValueChangeNotification.name) &&
         Objects.equals(this.value, vnfIndicatorValueChangeNotification.value) &&
         Objects.equals(this.vnfInstanceId, vnfIndicatorValueChangeNotification.vnfInstanceId) &&
+        Objects.equals(this.vnfdId, vnfIndicatorValueChangeNotification.vnfdId) &&
         Objects.equals(this._links, vnfIndicatorValueChangeNotification._links);
   }
 
@@ -310,6 +325,7 @@ public class VnfIndicatorValueChangeNotification   {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    value: ").append(toIndentedString(value)).append("\n");
     sb.append("    vnfInstanceId: ").append(toIndentedString(vnfInstanceId)).append("\n");
+    sb.append("    vnfdId: ").append(toIndentedString(vnfdId)).append("\n");
     sb.append("    _links: ").append(toIndentedString(_links)).append("\n");
     sb.append("}");
     return sb.toString();

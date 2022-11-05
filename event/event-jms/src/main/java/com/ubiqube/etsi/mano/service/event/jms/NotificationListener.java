@@ -32,7 +32,6 @@ import com.ubiqube.etsi.mano.service.event.NotificationController;
  *
  */
 @Service
-@ConditionalOnBean(NfvoService.class)
 public class NotificationListener {
 
 	private static final Logger LOG = LoggerFactory.getLogger(NotificationListener.class);

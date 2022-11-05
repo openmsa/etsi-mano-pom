@@ -14,8 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-
-package com.ubiqube.etsi.mano.vnfm.v261.model.indicator;
+package com.ubiqube.etsi.mano.common.v261.model.vnf;
 
 import java.util.Objects;
 
@@ -25,67 +24,63 @@ import javax.validation.constraints.NotNull;
 import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ubiqube.etsi.mano.common.v261.model.Link;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-
 
 /**
  * Links for this resource.
  */
 @Schema(description = "Links for this resource. ")
 @Validated
-public class VnfIndicatorLinks {
-	@JsonProperty("self")
-	private Link self = null;
 
+public class VnfIndicatorValueChangeNotificationLinks {
 	@JsonProperty("vnfInstance")
-	private Link vnfInstance = null;
+	private NotificationLink vnfInstance = null;
 
-	public VnfIndicatorLinks self(final Link self) {
-		this.self = self;
-		return this;
-	}
+	@JsonProperty("subscription")
+	private NotificationLink subscription = null;
 
-	/**
-	 * URI of this resource.
-	 *
-	 * @return self
-	 **/
-	@Schema(required = true, description = "URI of this resource. ")
-	@NotNull
-
-	@Valid
-
-	public Link getSelf() {
-		return self;
-	}
-
-	public void setSelf(final Link self) {
-		this.self = self;
-	}
-
-	public VnfIndicatorLinks vnfInstance(final Link vnfInstance) {
+	public VnfIndicatorValueChangeNotificationLinks vnfInstance(final NotificationLink vnfInstance) {
 		this.vnfInstance = vnfInstance;
 		return this;
 	}
 
 	/**
-	 * Link to the related \"Individual VNF instance\" resource.
+	 * Get vnfInstance
 	 *
 	 * @return vnfInstance
 	 **/
-	@Schema(required = true, description = "Link to the related \"Individual VNF instance\" resource. ")
-	@NotNull
+	@Schema(description = "")
 
 	@Valid
-
-	public Link getVnfInstance() {
+	public NotificationLink getVnfInstance() {
 		return vnfInstance;
 	}
 
-	public void setVnfInstance(final Link vnfInstance) {
+	public void setVnfInstance(final NotificationLink vnfInstance) {
 		this.vnfInstance = vnfInstance;
+	}
+
+	public VnfIndicatorValueChangeNotificationLinks subscription(final NotificationLink subscription) {
+		this.subscription = subscription;
+		return this;
+	}
+
+	/**
+	 * Get subscription
+	 *
+	 * @return subscription
+	 **/
+	@Schema(required = true, description = "")
+	@NotNull
+
+	@Valid
+	public NotificationLink getSubscription() {
+		return subscription;
+	}
+
+	public void setSubscription(final NotificationLink subscription) {
+		this.subscription = subscription;
 	}
 
 	@Override
@@ -96,23 +91,23 @@ public class VnfIndicatorLinks {
 		if ((o == null) || (getClass() != o.getClass())) {
 			return false;
 		}
-		final VnfIndicatorLinks vnfIndicatorLinks = (VnfIndicatorLinks) o;
-		return Objects.equals(this.self, vnfIndicatorLinks.self) &&
-				Objects.equals(this.vnfInstance, vnfIndicatorLinks.vnfInstance);
+		final VnfIndicatorValueChangeNotificationLinks vnfIndicatorValueChangeNotificationLinks = (VnfIndicatorValueChangeNotificationLinks) o;
+		return Objects.equals(this.vnfInstance, vnfIndicatorValueChangeNotificationLinks.vnfInstance) &&
+				Objects.equals(this.subscription, vnfIndicatorValueChangeNotificationLinks.subscription);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(self, vnfInstance);
+		return Objects.hash(vnfInstance, subscription);
 	}
 
 	@Override
 	public String toString() {
 		final StringBuilder sb = new StringBuilder();
-		sb.append("class VnfIndicatorLinks {\n");
+		sb.append("class VnfIndicatorValueChangeNotificationLinks {\n");
 
-		sb.append("    self: ").append(toIndentedString(self)).append("\n");
 		sb.append("    vnfInstance: ").append(toIndentedString(vnfInstance)).append("\n");
+		sb.append("    subscription: ").append(toIndentedString(subscription)).append("\n");
 		sb.append("}");
 		return sb.toString();
 	}

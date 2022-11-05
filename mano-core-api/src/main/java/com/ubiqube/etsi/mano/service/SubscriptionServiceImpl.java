@@ -129,6 +129,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 		case VNF_INSTANCE_DELETE -> "VnfIdentifierDeletionNotification";
 		case VNF_INSTANCE_CREATE -> "VnfIdentifierCreationNotification";
 		case VNF_INSTANCE_CHANGED -> "VnfLcmOperationOccurrenceNotification";
+		case VNF_INDICATOR_VALUE_CHANGED -> "VnfIndicatorValueChangeNotification";
 		case VRQAN -> "VrQuotaAvailNotification";
 		default -> {
 			LOG.warn("Unexpected value: {}", notificationEvent);

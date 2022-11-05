@@ -159,6 +159,7 @@ public class VnfPackage implements PackageBase, Auditable {
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@IndexedEmbedded
+	@IndexingDependency(reindexOnUpdate = ReindexOnUpdate.SHALLOW)
 	private Set<VnfIndicator> vnfIndicator = new LinkedHashSet<>();
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

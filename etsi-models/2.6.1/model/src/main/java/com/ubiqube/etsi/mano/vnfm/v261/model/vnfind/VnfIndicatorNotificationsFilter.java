@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.vnfm.v261.model.vnfind;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.vnfm.v261.model.vnfind.VnfInstanceSubscriptionFilter;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -46,6 +47,37 @@ public class VnfIndicatorNotificationsFilter   {
     this.vnfInstanceSubscriptionFilter = vnfInstanceSubscriptionFilter;
     return this;
   }
+  
+  public enum NotificationTypesEnum {
+		VNFINDICATORVALUECHANGENOTIFICATION("VnfIndicatorValueChangeNotification"),
+
+		SUPPORTEDINDICATORSCHANGENOTIFICATION("SupportedIndicatorsChangeNotification");
+
+		private final String value;
+
+		NotificationTypesEnum(final String value) {
+			this.value = value;
+		}
+
+		@Override
+		@JsonValue
+		public String toString() {
+			return String.valueOf(value);
+		}
+
+		@JsonCreator
+		public static NotificationTypesEnum fromValue(final String text) {
+			for (final NotificationTypesEnum b : NotificationTypesEnum.values()) {
+				if (String.valueOf(b.value).equals(text)) {
+					return b;
+				}
+			}
+			return null;
+		}
+	}
+  
+  @JsonProperty("notificationTypes")
+  private NotificationTypesEnum notificationTypes = null;
 
   /**
    * Filter criteria to select VNF instances about which to notify. 

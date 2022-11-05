@@ -61,6 +61,8 @@ mano:
     script-path: /tmp/etsi-mano/election/groovy
   repository:
     phys-root: /tmp/etsi-mano/repository
+  config:
+    type: vnfm
 
 server:
   error:

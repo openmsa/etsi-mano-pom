@@ -37,6 +37,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import com.mano.etsi.mano.grammar.v25.EtsiFilterV25;
@@ -52,6 +53,7 @@ import com.ubiqube.etsi.mano.grammar.antlr.AbstractAntlrGrammar;
  */
 @SuppressWarnings("unchecked")
 @Service
+@Primary
 public class Grammar25Service extends AbstractAntlrGrammar<TreeBuilderV25> implements GrammarParser {
 
 	@Override

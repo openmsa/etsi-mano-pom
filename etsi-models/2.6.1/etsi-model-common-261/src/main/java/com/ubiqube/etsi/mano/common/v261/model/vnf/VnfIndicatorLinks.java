@@ -14,8 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-
-package com.ubiqube.etsi.mano.vnfm.v261.model.indicator;
+package com.ubiqube.etsi.mano.common.v261.model.vnf;
 
 import java.util.Objects;
 
@@ -35,11 +34,15 @@ import io.swagger.v3.oas.annotations.media.Schema;
  */
 @Schema(description = "Links for this resource. ")
 @Validated
-public class VnfIndicatorSubscriptionLinks {
+
+public class VnfIndicatorLinks {
 	@JsonProperty("self")
 	private Link self = null;
 
-	public VnfIndicatorSubscriptionLinks self(final Link self) {
+	@JsonProperty("vnfInstance")
+	private Link vnfInstance = null;
+
+	public VnfIndicatorLinks self(final Link self) {
 		this.self = self;
 		return this;
 	}
@@ -62,6 +65,29 @@ public class VnfIndicatorSubscriptionLinks {
 		this.self = self;
 	}
 
+	public VnfIndicatorLinks vnfInstance(final Link vnfInstance) {
+		this.vnfInstance = vnfInstance;
+		return this;
+	}
+
+	/**
+	 * Link to the related \"Individual VNF instance\" resource.
+	 *
+	 * @return vnfInstance
+	 **/
+	@Schema(required = true, description = "Link to the related \"Individual VNF instance\" resource. ")
+	@NotNull
+
+	@Valid
+
+	public Link getVnfInstance() {
+		return vnfInstance;
+	}
+
+	public void setVnfInstance(final Link vnfInstance) {
+		this.vnfInstance = vnfInstance;
+	}
+
 	@Override
 	public boolean equals(final java.lang.Object o) {
 		if (this == o) {
@@ -70,28 +96,29 @@ public class VnfIndicatorSubscriptionLinks {
 		if ((o == null) || (getClass() != o.getClass())) {
 			return false;
 		}
-		final VnfIndicatorSubscriptionLinks vnfIndicatorSubscriptionLinks = (VnfIndicatorSubscriptionLinks) o;
-		return Objects.equals(this.self, vnfIndicatorSubscriptionLinks.self);
+		final VnfIndicatorLinks vnfIndicatorLinks = (VnfIndicatorLinks) o;
+		return Objects.equals(this.self, vnfIndicatorLinks.self) &&
+				Objects.equals(this.vnfInstance, vnfIndicatorLinks.vnfInstance);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(self);
+		return Objects.hash(self, vnfInstance);
 	}
 
 	@Override
 	public String toString() {
 		final StringBuilder sb = new StringBuilder();
-		sb.append("class VnfIndicatorSubscriptionLinks {\n");
+		sb.append("class VnfIndicatorLinks {\n");
 
 		sb.append("    self: ").append(toIndentedString(self)).append("\n");
+		sb.append("    vnfInstance: ").append(toIndentedString(vnfInstance)).append("\n");
 		sb.append("}");
 		return sb.toString();
 	}
 
 	/**
-	 * Convert the given object to string with each line indented by 4 spaces
-	 * (except the first line).
+	 * Convert the given object to string with each line indented by 4 spaces (except the first line).
 	 */
 	private String toIndentedString(final java.lang.Object o) {
 		if (o == null) {

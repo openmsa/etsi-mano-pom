@@ -71,6 +71,16 @@ public class HttpGatewayBad extends AbstractHttpGateway {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public Class<?> getVnfIndicatorValueChangeSubscriptionClass() {
+		return null;
+	}
+	
+	@Override
+	public Class<?> getVnfIndicatorValueChangeSubscriptionRequest() {
+		return null;
+	}
 
 	@Override
 	public Class<?> getGrantResponse() {

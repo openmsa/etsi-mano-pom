@@ -33,6 +33,8 @@ import com.ubiqube.etsi.mano.dao.mano.pm.PmJob;
 import com.ubiqube.etsi.mano.dao.mano.pm.Threshold;
 import com.ubiqube.etsi.mano.em.v281.model.vnfind.CreatePmJobRequest;
 import com.ubiqube.etsi.mano.em.v281.model.vnfind.CreateThresholdRequest;
+import com.ubiqube.etsi.mano.em.v281.model.vnfind.VnfIndicatorSubscription;
+import com.ubiqube.etsi.mano.em.v281.model.vnfind.VnfIndicatorSubscriptionRequest;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.ChangeExtVnfConnectivityRequest;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.CreateVnfRequest;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.InstantiateVnfRequest;
@@ -89,6 +91,16 @@ public class HttpGateway281 extends AbstractHttpGateway {
 	@Override
 	public Class<?> getPkgmSubscriptionRequest() {
 		return PkgmSubscriptionRequest.class;
+	}
+	
+	@Override
+	public Class<?> getVnfIndicatorValueChangeSubscriptionClass(){
+		return VnfIndicatorSubscription.class;
+	}
+	
+	@Override
+	public Class<?> getVnfIndicatorValueChangeSubscriptionRequest(){
+		return VnfIndicatorSubscriptionRequest.class;
 	}
 
 	@Override

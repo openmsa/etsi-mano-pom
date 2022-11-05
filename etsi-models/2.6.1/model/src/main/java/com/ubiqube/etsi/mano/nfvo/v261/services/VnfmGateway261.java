@@ -60,6 +60,8 @@ import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.TerminateVnfRequest;
 import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.TerminateVnfRequest.TerminationTypeEnum;
 import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.VnfLcmOpOcc;
 import com.ubiqube.etsi.mano.vnfm.v261.model.nsperfo.CreateThresholdRequest;
+import com.ubiqube.etsi.mano.vnfm.v261.model.vnfind.VnfIndicatorSubscription;
+import com.ubiqube.etsi.mano.vnfm.v261.model.vnfind.VnfIndicatorSubscriptionRequest;
 
 import ma.glasnost.orika.MapperFacade;
 
@@ -96,6 +98,16 @@ public class VnfmGateway261 extends AbstractHttpGateway {
 	@Override
 	public Class<?> getPkgmSubscriptionRequest() {
 		return PkgmSubscriptionRequest.class;
+	}
+	
+	@Override
+	public Class<?> getVnfIndicatorValueChangeSubscriptionClass() {
+		return VnfIndicatorSubscription.class;
+	}
+	
+	@Override
+	public Class<?> getVnfIndicatorValueChangeSubscriptionRequest() {
+		return VnfIndicatorSubscriptionRequest.class;
 	}
 
 	@Override
@@ -188,6 +200,7 @@ public class VnfmGateway261 extends AbstractHttpGateway {
 		return switch (event.getNotificationEvent()) {
 		case VNF_PKG_ONCHANGE, VNF_PKG_ONDELETION -> nfvoFactory.createVnfPackageChangeNotification(subscriptionId, event);
 		case VNF_PKG_ONBOARDING -> nfvoFactory.createNotificationVnfPackageOnboardingNotification(subscriptionId, event);
+		case VNF_INDICATOR_VALUE_CHANGED -> vnfmFactory.createVnfIndicatorValueChangeNotification(subscriptionId, event);
 		default -> {
 			LOG.warn("Could not find event.");
 			yield null;

@@ -16,6 +16,9 @@
  */
 package com.ubiqube.etsi.mano.service;
 
+import java.util.UUID;
+
+import com.ubiqube.etsi.mano.model.EventMessage;
 import com.ubiqube.etsi.mano.nfvo.v261.model.lcmgrant.GrantRequest;
 
 /**
@@ -26,4 +29,6 @@ import com.ubiqube.etsi.mano.nfvo.v261.model.lcmgrant.GrantRequest;
 public interface VnfmFactory {
 
 	<T> void makeGrantRequestLink(final GrantRequest manoGrant);
+	
+	Object createVnfIndicatorValueChangeNotification(UUID subscriptionId, EventMessage event);
 }

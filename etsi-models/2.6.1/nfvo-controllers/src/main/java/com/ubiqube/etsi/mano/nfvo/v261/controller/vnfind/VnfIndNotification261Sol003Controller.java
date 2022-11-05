@@ -21,9 +21,8 @@ import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ubiqube.etsi.mano.common.v261.model.vnf.VnfIndicatorValueChangeNotification;
 import com.ubiqube.etsi.mano.controller.vnfind.VnfIndicatorNotificationFrontController;
-import com.ubiqube.etsi.mano.vnfm.v261.model.vnfind.VnfIndicatorValueChangeNotification;
-
 /**
  *
  * @author olivier

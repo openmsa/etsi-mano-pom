@@ -55,4 +55,6 @@ public class VnfIndiValueChangeNotification {
 	private String value;
 
 	private String vnfInstanceId;
+	
+	private String vnfdId;
 }

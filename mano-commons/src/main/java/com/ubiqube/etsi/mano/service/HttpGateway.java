@@ -47,7 +47,11 @@ public interface HttpGateway {
 	Class<?> getVnfPackageSubscriptionClass();
 
 	Class<?> getPkgmSubscriptionRequest();
-
+	
+	Class<?> getVnfIndicatorValueChangeSubscriptionClass();
+	
+	Class<?> getVnfIndicatorValueChangeSubscriptionRequest();
+	
 	Class<?> getGrantRequest();
 
 	Class<?> getGrantResponse();

@@ -26,7 +26,7 @@ import com.ubiqube.etsi.mano.dao.mano.config.RemoteSubscription;
 import com.ubiqube.etsi.mano.dao.mano.ind.VnfIndiValueChangeNotification;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.jpa.RemoteSubscriptionJpa;
-import com.ubiqube.etsi.mano.nfvo.jpa.VnfIndiValueChangeNotificationJpa;
+import com.ubiqube.etsi.mano.jpa.VnfIndiValueChangeNotificationJpa;
 
 /**
  *

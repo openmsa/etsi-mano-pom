@@ -68,6 +68,7 @@ import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.ScaleVnfRequest;
 import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.ScaleVnfToLevelRequest;
 import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.TerminateVnfRequest;
 import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.VnfLcmOpOcc;
+import com.ubiqube.etsi.mano.vnfm.v261.model.vnfind.VnfIndicatorSubscriptionRequest;
 
 import ma.glasnost.orika.CustomMapper;
 import ma.glasnost.orika.MapperFactory;
@@ -96,6 +97,13 @@ public class OrikaConfigurationNfvo261 implements OrikaMapperFactoryConfigurer {
 		 * Subscription.
 		 */
 		orikaMapperFactory.classMap(PkgmSubscriptionRequest.class, Subscription.class)
+				.fieldMap("filter", "filters").converter("filterConverter").add()
+				.field("authentication.paramsBasic", "authentication.authParamBasic")
+				.field("authentication.paramsOauth2ClientCredentials", "authentication.authParamOauth2")
+				.field("authentication.authType", "authentication.authType")
+				.byDefault()
+				.register();
+		orikaMapperFactory.classMap(VnfIndicatorSubscriptionRequest.class, Subscription.class)
 				.fieldMap("filter", "filters").converter("filterConverter").add()
 				.field("authentication.paramsBasic", "authentication.authParamBasic")
 				.field("authentication.paramsOauth2ClientCredentials", "authentication.authParamOauth2")

@@ -118,8 +118,14 @@ public class CommonActionController {
 	}
 
 	private Servers registerVnfmEx(final Servers server, final Map<String, Object> parameters) {
+		final FluxRest rest = new FluxRest(server);
 		extractVersions(server);
 		server.setServerStatus(PlanStatusType.SUCCESS);
+		final Set<RemoteSubscription> remoteSubscription = server.getRemoteSubscriptions();
+		if (!isSubscribe(SubscriptionType.VNFIND, remoteSubscription)) {
+			addSubscription(rest, server, this::vnfIndicatorValueChangeSubscribe, remoteSubscription);
+			extractEndpoint(server);
+		}
 		return serversJpa.save(server);
 	}
 
@@ -204,6 +210,15 @@ public class CommonActionController {
 		final UriComponents uri = rest.uriBuilder().pathSegment("vnfpkgm/v1/subscriptions").build();
 		final Class<?> clazz = httpGateway.get(0).getVnfPackageSubscriptionClass();
 		final Class<?> clazzWire = httpGateway.get(0).getPkgmSubscriptionRequest();
+		return postSubscription(rest, uri.toUri(), subsOut, clazzWire, clazz);
+	}
+	
+	private Subscription vnfIndicatorValueChangeSubscribe(final FluxRest rest) {
+		final List<FilterAttributes> filters = List.of(FilterAttributes.of("notificationTypes[0]", "VnfIndicatorValueChangeNotification"));
+		final Subscription subsOut = createSubscriptionWithFilter(ApiTypesEnum.SOL003, "/vnfind/v1/notification/value-change", SubscriptionType.VNFIND, filters);
+		final UriComponents uri = rest.uriBuilder().pathSegment("vnfind/v1/subscriptions").build();
+		final Class<?> clazz = httpGateway.get(0).getVnfIndicatorValueChangeSubscriptionClass();
+		final Class<?> clazzWire = httpGateway.get(0).getVnfIndicatorValueChangeSubscriptionRequest();
 		return postSubscription(rest, uri.toUri(), subsOut, clazzWire, clazz);
 	}
 
