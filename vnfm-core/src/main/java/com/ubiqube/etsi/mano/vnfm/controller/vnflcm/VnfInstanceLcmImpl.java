@@ -163,6 +163,7 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 			vnfPackageRepository.save(vnfPkg);
 		}
 		// VnfIdentitifierDeletionNotification NFVO + EM
+		eventManager.sendNotification(NotificationEvent.VNF_INSTANCE_DELETE, vnfInstance.getId(), Map.of());
 	}
 
 	@Override
