@@ -34,6 +34,8 @@ import com.ubiqube.etsi.mano.vnfm.v431.model.grant.GrantRequest;
 import com.ubiqube.etsi.mano.vnfm.v431.model.grant.GrantRequestLinks;
 import com.ubiqube.etsi.mano.vnfm.v431.model.vnf.PkgmSubscription;
 import com.ubiqube.etsi.mano.vnfm.v431.model.vnf.PkgmSubscriptionRequest;
+import com.ubiqube.etsi.mano.vnfm.v431.model.vnfind.VnfIndicatorSubscription;
+import com.ubiqube.etsi.mano.vnfm.v431.model.vnfind.VnfIndicatorSubscriptionRequest;
 import com.ubiqube.etsi.mano.vnfm.v431.model.vnflcm.InstantiateVnfRequest;
 import com.ubiqube.etsi.mano.vnfm.v431.model.vnflcm.ScaleVnfRequest;
 import com.ubiqube.etsi.mano.vnfm.v431.model.vnflcm.ScaleVnfToLevelRequest;
@@ -239,6 +241,16 @@ public class HttpGateway431 extends AbstractHttpGateway {
 	@Override
 	public Object createVnfThresholdRequest(final Threshold reqIn) {
 		return mapper.map(reqIn, CreateThresholdRequest.class);
+	}
+
+	@Override
+	public Class<?> getVnfIndicatorValueChangeSubscriptionClass() {
+		return VnfIndicatorSubscription.class;
+	}
+
+	@Override
+	public Class<?> getVnfIndicatorValueChangeSubscriptionRequest() {
+		return VnfIndicatorSubscriptionRequest.class;
 	}
 
 }
