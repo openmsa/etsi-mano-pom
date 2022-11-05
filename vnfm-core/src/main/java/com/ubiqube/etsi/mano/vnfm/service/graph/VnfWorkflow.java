@@ -77,8 +77,8 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsK8sInformationsNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SecurityGroupNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Storage;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SubNetwork;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfIndicator;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfExtCp;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfIndicator;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfPortNode;
 import com.ubiqube.etsi.mano.orchestrator.v3.BlueprintBuilder;
 import com.ubiqube.etsi.mano.orchestrator.v3.PreExecutionGraphV3;
@@ -102,8 +102,8 @@ import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.OsK8sClusterVt
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.SecurityGroupVt;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.StorageVt;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.SubNetworkVt;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.VnfIndicatorVt;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.VnfExtCpVt;
+import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.VnfIndicatorVt;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.VnfPortVt;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.AbstractVnfmContributorV3;
 
@@ -237,9 +237,7 @@ public class VnfWorkflow implements WorkflowV3<VnfPackage, VnfBlueprint, VnfTask
 	}
 
 	private static void populateContext(final ExecutionGraph imp, final VnfBlueprint parameters) {
-		parameters.getParameters().getExtManagedVirtualLinks().forEach(x -> {
-			imp.add(Network.class, x.getVnfVirtualLinkDescId(), x.getResourceId());
-		});
+		parameters.getParameters().getExtManagedVirtualLinks().forEach(x -> imp.add(Network.class, x.getVnfVirtualLinkDescId(), x.getResourceId()));
 	}
 
 	@Override
