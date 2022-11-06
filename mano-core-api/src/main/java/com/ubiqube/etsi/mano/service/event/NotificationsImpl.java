@@ -59,13 +59,13 @@ public class NotificationsImpl implements Notifications {
 			throw new GenericException(e);
 		}
 		LOG.debug("Message :\n{}", content);
-		sendRequest(content, server, _uri);
+		sendRequest(content, server, _uri, null);
 	}
 
-	private static void sendRequest(final String _content, final ServerAdapter server, final String _uri) {
+	private static void sendRequest(final String _content, final ServerAdapter server, final String _uri, final String version) {
 		final var rest = server.rest();
 		LOG.info("Sending to {}", _uri);
-		rest.post(URI.create(_uri), _content, Void.class, null);
+		rest.post(URI.create(_uri), _content, Void.class, version);
 		LOG.debug("Event Sent to {}", _uri);
 	}
 

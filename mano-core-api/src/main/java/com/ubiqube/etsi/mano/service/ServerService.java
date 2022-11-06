@@ -25,6 +25,7 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 import javax.transaction.Transactional;
+import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +37,7 @@ import com.ubiqube.etsi.mano.dao.mano.Subscription;
 import com.ubiqube.etsi.mano.dao.mano.common.ApiVersionType;
 import com.ubiqube.etsi.mano.dao.mano.config.RemoteSubscription;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
+import com.ubiqube.etsi.mano.dao.mano.subs.SubscriptionType;
 import com.ubiqube.etsi.mano.dao.mano.v2.PlanStatusType;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.jpa.config.ServersJpa;
@@ -158,5 +160,20 @@ public class ServerService {
 		}
 		final Optional<Version> res = httpGateway.stream().filter(x -> x.isMatching(verType, version)).map(HttpGateway::getVersion).findFirst();
 		return res.map(Version::toString).orElse(null);
+	}
+
+	public Optional<Version> convertManoVersionToFe(@NotNull final SubscriptionType subscriptionType, final String version) {
+		final ApiVersionType av = subscriptionTypeToApiVersion(subscriptionType);
+		return httpGateway.stream().filter(x -> x.isMatching(av, version)).findFirst().map(HttpGateway::getVersion);
+	}
+
+	private static ApiVersionType subscriptionTypeToApiVersion(@NotNull final SubscriptionType subscriptionType) {
+		return switch (subscriptionType) {
+		case VNF -> ApiVersionType.SOL003_VNFPKGM;
+		case VNFLCM -> ApiVersionType.SOL003_VNFLCM;
+		case VNFIND -> ApiVersionType.SOL003_VNFIND;
+		case VRQAN -> ApiVersionType.SOL003_VRQAN;
+		default -> throw new GenericException("unable to find " + subscriptionType);
+		};
 	}
 }
