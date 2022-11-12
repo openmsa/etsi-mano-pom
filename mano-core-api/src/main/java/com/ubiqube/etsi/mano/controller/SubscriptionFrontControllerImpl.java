@@ -53,6 +53,8 @@ import ma.glasnost.orika.MapperFacade;
 @Service
 public class SubscriptionFrontControllerImpl implements SubscriptionFrontController {
 
+	private static final String VERSION = "Version";
+
 	private static final Logger LOG = LoggerFactory.getLogger(SubscriptionFrontControllerImpl.class);
 
 	private final SubscriptionService subscriptionService;
@@ -92,20 +94,21 @@ public class SubscriptionFrontControllerImpl implements SubscriptionFrontControl
 	private void setVersion(final Subscription subscription) {
 		final RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
 		if (requestAttributes instanceof final ServletRequestAttributes sv) {
-			final Optional<Version> ver = serverService.convertManoVersionToFe(subscription.getSubscriptionType(), sv.getRequest().getHeader("Version"));
+			final Optional<Version> ver = serverService.convertManoVersionToFe(subscription.getSubscriptionType(), sv.getRequest().getHeader(VERSION));
 			if (ver.isPresent()) {
 				subscription.setVersion(ver.get().toString());
 			} else {
-				LOG.warn("Unable to find version: {}/{}", subscription.getSubscriptionType(), sv.getRequest().getHeader("Version"));
+				LOG.warn("Unable to find version: {}/{}", subscription.getSubscriptionType(), sv.getRequest().getHeader(VERSION));
 				subscription.setVersion("2.6.1");
 			}
 		} else {
-			LOG.warn("Unknow request {}", requestAttributes.getClass());
+			final String req = Optional.ofNullable(requestAttributes).map(RequestAttributes::getClass).map(Class::toString).orElse("[No Request]");
+			LOG.warn("Unknow request {}", req);
 		}
 	}
 
 	private static void setVersion(final HttpServletRequest request, final Subscription subscription) {
-		final String hdr = request.getHeader("Version");
+		final String hdr = request.getHeader(VERSION);
 		subscription.setVersion(hdr);
 	}
 
