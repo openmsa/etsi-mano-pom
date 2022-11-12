@@ -43,6 +43,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.Task;
 import com.ubiqube.etsi.mano.orchestrator.OrchExecutionResults;
 import com.ubiqube.etsi.mano.orchestrator.v3.PreExecutionGraphV3;
 import com.ubiqube.etsi.mano.service.NsScaleStrategyV3;
+import com.ubiqube.etsi.mano.service.StopWatch;
 import com.ubiqube.etsi.mano.service.VimResourceService;
 import com.ubiqube.etsi.mano.service.graph.WorkflowEvent;
 
@@ -218,8 +219,12 @@ public abstract class AbstractGenericActionV3 {
 
 	private void setLiveSatus(final OrchExecutionResults<Task> res) {
 		LOG.info("Creating / deleting live instances.");
+		final StopWatch sw = StopWatch.create(LOG);
 		res.getSuccess().forEach(x -> {
+			sw.start("loop " + x.getTask().getType());
+			sw.start("getTask");
 			final Task rhe = x.getTask().getTask().getTemplateParameters();
+			sw.stop();
 			final ChangeType ct = rhe.getChangeType();
 			if (ct == ChangeType.ADDED) {
 				if ((null == rhe.getId()) || (null == rhe.getVimResourceId())) {
@@ -227,9 +232,13 @@ public abstract class AbstractGenericActionV3 {
 				}
 			} else if ((ct == ChangeType.REMOVED) && (null != rhe.getId()) && (null != rhe.getRemovedLiveInstance())) {
 				LOG.info("Removing {} = {}", rhe.getAlias(), rhe.getId());
+				sw.start("delete live instance." + rhe.getAlias());
 				orchestrationAdapter.deleteLiveInstance(rhe.getRemovedLiveInstance());
+				sw.stop();
 			}
+			sw.stop();
 		});
+		sw.log();
 	}
 
 }
