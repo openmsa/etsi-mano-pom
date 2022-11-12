@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.service;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -27,7 +28,6 @@ import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.VnfVl;
 import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
 import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainerDeployableUnit;
-import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.AffinityRuleNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Compute;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.DnsHost;
@@ -103,10 +103,13 @@ public class VnfPlanService {
 					g.from(VnfPortNode.class, port.getValue()).dependency(Network.class, port.getValue(), Relation.ONE_TO_MANY);
 					return;
 				}
-				final VnfVl vl = vnfPkg.getVnfVl().stream().filter(z -> z.getToscaName().equals(y.getVirtualLink())).findFirst().orElseThrow(() -> new GenericException("Could not find Vl named: " + y.getVirtualLink()));
 				g.from(Compute.class, x.getToscaName()).dependency(VnfPortNode.class, y.getToscaName(), Relation.ONE_TO_ONE);
-				vl.getVlProfileEntity().getVirtualLinkProtocolData().stream()
-						.forEach(z -> g.from(VnfPortNode.class, y.getToscaName()).dependency(SubNetwork.class, vl.getToscaName() + "-" + z.getL2ProtocolData().getName(), Relation.ONE_TO_MANY));
+				final Optional<VnfVl> vlOpt = vnfPkg.getVnfVl().stream().filter(z -> z.getToscaName().equals(y.getVirtualLink())).findFirst();
+				if (vlOpt.isPresent()) {
+					final VnfVl vl = vlOpt.get();
+					vl.getVlProfileEntity().getVirtualLinkProtocolData().stream()
+							.forEach(z -> g.from(VnfPortNode.class, y.getToscaName()).dependency(SubNetwork.class, vl.getToscaName() + "-" + z.getL2ProtocolData().getName(), Relation.ONE_TO_MANY));
+				}
 			});
 			x.getPlacementGroup().forEach(y -> g.from(Compute.class, x.getToscaName()).dependency(SecurityGroupNode.class, y.getToscaName(), Relation.MANY_TO_ONE));
 			g.single(DnsHost.class, x.getToscaName());
