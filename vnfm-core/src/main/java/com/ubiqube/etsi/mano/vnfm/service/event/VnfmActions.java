@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.event;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -33,6 +34,7 @@ import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
+import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.service.NsScaleStrategyV3;
 import com.ubiqube.etsi.mano.service.VimResourceService;
@@ -88,6 +90,9 @@ public class VnfmActions extends AbstractGenericActionV3 {
 				vim.stopServer(vimConnection, x.getVimResourceId());
 			}
 		});
+		blueprint.setOperationStatus(OperationStatusType.COMPLETED);
+		blueprint.setStateEnteredTime(OffsetDateTime.now());
+		blueprintService.save(blueprint);
 		vnfInstance.setLockedBy(null);
 		vnfInstancesService.save(vnfInstance);
 	}
