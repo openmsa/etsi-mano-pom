@@ -80,11 +80,11 @@ public class PostgresDataListener {
 				for(TelemetryMetricsResult action : allHostMetrics.getTelemetryMetricsResult()) {
 					LOG.info("Postgresql-Receive: {}", action);
 					if(noOfVirtualCpus != 0) {
-						Double percentageValue = action.getValue() / (noOfVirtualCpus * 600000000000L);
-						totalValue = totalValue + percentageValue;
+						Double usageInSeconds = action.getValue() / 10000000000L;
+						totalValue = totalValue + usageInSeconds;
 					}
 				}
-				averageValueByPercent = totalValue / allHostMetrics.getTelemetryMetricsResult().size();
+				averageValueByPercent = totalValue / (noOfVirtualCpus * 600);
 			} else if(allHostMetrics.getTelemetryMetricsResult().get(0).getKey().equals("memory.usage")) {
 				Long totalMemorySize = 0L;
 				for(VnfCompute compute : computes) {
