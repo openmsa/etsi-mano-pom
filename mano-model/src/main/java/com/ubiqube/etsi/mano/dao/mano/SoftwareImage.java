@@ -27,7 +27,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
 
 import com.ubiqube.etsi.mano.dao.mano.common.Checksum;
 
@@ -66,7 +65,7 @@ public class SoftwareImage implements Auditable {
 	@Enumerated(EnumType.STRING)
 	private ContainerFormatType containerFormat;
 
-	@NotNull
+	@Nullable
 	@Enumerated(EnumType.STRING)
 	private DiskFormatType diskFormat = DiskFormatType.QCOW2;
 
