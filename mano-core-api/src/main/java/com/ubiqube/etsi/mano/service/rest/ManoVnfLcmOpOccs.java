@@ -44,6 +44,7 @@ public class ManoVnfLcmOpOccs {
 	}
 
 	public List<VnfBlueprint> list() {
+		client.setFragment("vnf_lcm_op_occs");
 		return client.createQuery()
 				.setInClassList(HttpGateway::getListVnfLcmOpOccs)
 				.setOutClass(VnfBlueprint.class)

@@ -14,15 +14,20 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.notification.impl;
+package com.ubiqube.etsi.mano.nfvo.notification.vnfind;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Properties;
+import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -35,14 +40,28 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ubiqube.etsi.mano.controller.vnflcm.VnfInstanceLcm;
+import com.ubiqube.etsi.mano.dao.mano.ScaleTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.TriggerDefinition;
 import com.ubiqube.etsi.mano.dao.mano.VnfIndicator;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+import com.ubiqube.etsi.mano.dao.mano.common.FailureDetails;
+import com.ubiqube.etsi.mano.dao.mano.config.ServerType;
+import com.ubiqube.etsi.mano.dao.mano.config.Servers;
+import com.ubiqube.etsi.mano.dao.mano.dto.VnfLcmOpOccs;
 import com.ubiqube.etsi.mano.dao.mano.ind.VnfIndiValueChangeNotification;
+import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
+import com.ubiqube.etsi.mano.dao.mano.v2.PlanOperationType;
+import com.ubiqube.etsi.mano.dao.mano.v2.PlanStatusType;
+import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.jpa.VnfIndiValueChangeNotificationJpa;
-import com.ubiqube.etsi.mano.jpa.VnfInstanceJpa;
+import com.ubiqube.etsi.mano.jpa.config.ServersJpa;
+import com.ubiqube.etsi.mano.model.VnfHealRequest;
+import com.ubiqube.etsi.mano.model.VnfScaleRequest;
+import com.ubiqube.etsi.mano.nfvo.service.graph.nfvo.UowUtils;
 import com.ubiqube.etsi.mano.service.VnfPackageServiceImpl;
+import com.ubiqube.etsi.mano.service.VnfmInterface;
 
 @Component
 public class VnfIndicatorValueChangeNotificationImpl {
@@ -52,15 +71,26 @@ public class VnfIndicatorValueChangeNotificationImpl {
 	private final VnfIndiValueChangeNotificationJpa vnfIndValueNotificationJpa;
 
 	private final VnfPackageServiceImpl vnfPackageServiceImpl;
-
-	private final VnfInstanceJpa vnfInstanceJpa;
+	
+	private final VnfmInterface vnfm;
 
 	private Properties props;
+	
+	private final ServersJpa serversJpa;
+	
+	private final BiFunction<Servers, UUID, VnfBlueprint> func;
+	
+	private final BiFunction<Servers, UUID, List<VnfBlueprint>> func2;
+	
+	private final Random rand = new Random();
 
-	public VnfIndicatorValueChangeNotificationImpl(final VnfIndiValueChangeNotificationJpa vnfIndValueNotificationJpa, final VnfPackageServiceImpl vnfPackageServiceImpl, final VnfInstanceJpa vnfInstanceJpa) {
+	public VnfIndicatorValueChangeNotificationImpl(final VnfIndiValueChangeNotificationJpa vnfIndValueNotificationJpa, final VnfPackageServiceImpl vnfPackageServiceImpl, final ServersJpa serversJpa, final VnfmInterface vnfm, final VnfInstanceLcm vnfLcmOpOccsService) {
 		this.vnfIndValueNotificationJpa = vnfIndValueNotificationJpa;
 		this.vnfPackageServiceImpl = vnfPackageServiceImpl;
-		this.vnfInstanceJpa = vnfInstanceJpa;
+		this.serversJpa = serversJpa;
+		this.vnfm = vnfm;
+		func = vnfLcmOpOccsService::vnfLcmOpOccsGet;
+		func2 = vnfLcmOpOccsService::findByVnfInstanceId;
 		try (InputStream mappting = this.getClass().getClassLoader().getResourceAsStream("gnocchi-mapping.properties")) {
 			props = new Properties();
 			props.load(mappting);
@@ -83,6 +113,7 @@ public class VnfIndicatorValueChangeNotificationImpl {
 	}
 
 	public void evaluateValueBasedOnCondition(final String vnfInstanceId, final List<VnfIndiValueChangeNotification> notifications) {
+		vnfIndValueNotificationJpa.deleteAll(notifications);
 		final String vnfdId = notifications.get(0).getVnfdId();
 		final VnfPackage vnfPackage = vnfPackageServiceImpl.findByVnfdId(UUID.fromString(vnfdId));
 		final Set<VnfIndicator> vnfIndicators = vnfPackage.getVnfIndicator();
@@ -148,14 +179,101 @@ public class VnfIndicatorValueChangeNotificationImpl {
 				}
 				if (thresholdCrossed) {
 					LOG.info("Launching action");
-					callAction(vnfInstanceId, trigger.getAction());
+					callAction(vnfInstanceId, trigger.getAction(), vnfPackage);
 				}
 			}
 		}
-		vnfIndValueNotificationJpa.deleteAll(notifications);
 	}
 
-	public void callAction(final String vnfInstanceId, final String actionParameters) {
-		// TODO
+	public void callAction(final String vnfInstanceId, final String actionParameters, VnfPackage vnfPackage) {
+		final ObjectMapper mapper = new ObjectMapper();
+		JsonNode actualObj = null;
+		try {
+			actualObj = mapper.readTree(actionParameters);
+		} catch (final JsonProcessingException e) {
+			LOG.error("error parsing action", e);
+		}
+		Map<String, Object> action = new HashMap<>();
+		for (JsonNode jsonNode : actualObj) {
+			action = mapper.convertValue(jsonNode,
+					new TypeReference<Map<String, Object>>() {
+					});
+		}
+		if (action.isEmpty()) {
+			return;
+		}
+		final Servers server = selectServer(vnfPackage);
+		Map.Entry<String, Object> a = action.entrySet().iterator().next();
+		Map<String, Object> b = (Map<String, Object>) a.getValue();
+		String operationName = (String) b.get("operation");
+		Map<String, Object> inputs = (Map<String, Object>) b.get("inputs");
+		VnfBlueprint res = null;
+		if (operationName.equals("Vnflcm.scale")) {
+			if(UowUtils.isVnfLcmRunning(PlanOperationType.SCALE, UUID.fromString(vnfInstanceId), func2, server)) {
+				return;
+			}
+			VnfScaleRequest vnfScaleRequest = new VnfScaleRequest();
+			for (Map.Entry<String, Object> c : inputs.entrySet()) {
+				Map<String, String> d = (Map<String, String>) c.getValue();
+				Object value = d.entrySet().iterator().next().getValue();
+				switch (c.getKey()) {
+				case "type":
+					if (value.equals("scale_out"))
+						vnfScaleRequest.setType(ScaleTypeEnum.OUT);
+					if (value.equals("scale_in"))
+						vnfScaleRequest.setType(ScaleTypeEnum.IN);
+					break;
+				case "aspect":
+					vnfScaleRequest.setAspectId(value.toString());
+					break;
+				case "number_of_steps":
+					vnfScaleRequest.setNumberOfSteps(Integer.parseInt(value.toString()));
+					break;
+				}
+			}
+			LOG.info("VNF Scale {} launched", vnfScaleRequest.getType().toString());
+			res = vnfm.vnfScale(server, vnfInstanceId, vnfScaleRequest);
+		} else if (operationName.equals("Vnflcm.heal")) {
+			if(UowUtils.isVnfLcmRunning(PlanOperationType.HEAL, UUID.fromString(vnfInstanceId), func2, server)) {
+				return;
+			}
+			VnfHealRequest vnfHealRequest = new VnfHealRequest();
+			for (Map.Entry<String, Object> c : inputs.entrySet()) {
+				Map<String, String> d = (Map<String, String>) c.getValue();
+				Object value = d.entrySet().iterator().next().getValue();
+				vnfHealRequest.setCause(value.toString());
+			}
+			LOG.info("VNF Heal with cause {} launched", vnfHealRequest.getCause());
+			res = vnfm.vnfHeal(server, vnfInstanceId, vnfHealRequest);
+		} else {
+			LOG.error("operation name not valid");
+		}
+
+		final VnfBlueprint result = UowUtils.waitLcmCompletion(res, func, server);
+		if (OperationStatusType.COMPLETED != result.getOperationStatus()) {
+			final String details = Optional.ofNullable(result.getError()).map(FailureDetails::getDetail).orElse("[No content]");
+			throw new GenericException("VNF LCM Failed: " + details + " With state:  " + result.getOperationStatus());
+		}
+	}
+	
+	private Servers selectServer(final VnfPackage vnfPackage) {
+		final List<Servers> servers = serversJpa.findByServerTypeAndServerStatusIn(ServerType.VNFM, Arrays.asList(PlanStatusType.SUCCESS));
+		if (servers.isEmpty()) {
+			return null;
+		}
+		final Set<String> vnfmInfos = vnfPackage.getVnfmInfo();
+		if (vnfmInfos.isEmpty()) {
+			return servers.get(rand.nextInt(servers.size()));
+		}
+		final List<Servers> available = servers.stream()
+				.filter(x -> {
+					final List<String> s = x.getCapabilities().stream().filter(vnfmInfos::contains).toList();
+					return !s.isEmpty();
+				})
+				.toList();
+		if (available.isEmpty()) {
+			throw new GenericException("No VNFM server found for the following requirements: " + vnfmInfos);
+		}
+		return available.get(rand.nextInt(available.size()));
 	}
 }

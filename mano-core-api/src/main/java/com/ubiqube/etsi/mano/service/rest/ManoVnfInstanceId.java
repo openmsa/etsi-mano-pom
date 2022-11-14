@@ -29,6 +29,7 @@ import com.ubiqube.etsi.mano.dao.mano.common.ApiVersionType;
 import com.ubiqube.etsi.mano.dao.mano.nsd.upd.ChangeVnfFlavourData;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.vnfi.ChangeExtVnfConnRequest;
+import com.ubiqube.etsi.mano.model.VnfHealRequest;
 import com.ubiqube.etsi.mano.model.VnfInstantiate;
 import com.ubiqube.etsi.mano.model.VnfOperateRequest;
 import com.ubiqube.etsi.mano.model.VnfScaleRequest;
@@ -92,11 +93,20 @@ public class ManoVnfInstanceId {
 
 	public VnfBlueprint scale(final VnfScaleRequest scaleVnfRequest) {
 		client.setFragment("vnf_instances/{id}/scale");
-		return client.createQuery()
+		return client.createQuery(httpGateway -> httpGateway.createVnfInstanceScaleRequest(scaleVnfRequest.getType(), scaleVnfRequest.getAspectId(), scaleVnfRequest.getNumberOfSteps()))
 				.setWireInClass(HttpGateway::getVnfInstanceScaleRequest)
 				.setWireOutClass(HttpGateway::getVnfLcmOpOccs)
 				.setOutClass(VnfBlueprint.class)
 				.post(scaleVnfRequest);
+	}
+	
+	public VnfBlueprint heal(final VnfHealRequest healVnfRequest) {
+		client.setFragment("vnf_instances/{id}/heal");
+		return client.createQuery(httpGateway -> httpGateway.createVnfInstanceHealRequest(healVnfRequest.getCause()))
+				.setWireInClass(HttpGateway::getVnfInstanceScaleRequest)
+				.setWireOutClass(HttpGateway::getVnfLcmOpOccs)
+				.setOutClass(VnfBlueprint.class)
+				.post(healVnfRequest);
 	}
 
 	public VnfBlueprint operate(final VnfOperateRequest operateVnfRequest) {

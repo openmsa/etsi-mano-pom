@@ -16,14 +16,18 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service.graph.nfvo;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.function.BiFunction;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
+import com.ubiqube.etsi.mano.dao.mano.v2.PlanOperationType;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 
 /**
@@ -58,6 +62,21 @@ public class UowUtils {
 		LOG.info("VNF Lcm complete with state: {}", state);
 		return tmp;
 	}
+	
+	
+	public static Boolean isVnfLcmRunning(final PlanOperationType operationType, final UUID vnfInstanceId, final BiFunction<Servers, UUID, List<VnfBlueprint>> func, final Servers server) {
+		List<VnfBlueprint> li = func.apply(server, vnfInstanceId);
+		List<VnfBlueprint> liFilteredByVnf = li.stream().filter(x-> x.getVnfInstance().getId().equals(vnfInstanceId)).collect(Collectors.toList());
+		List<VnfBlueprint> liFilteredByState =  liFilteredByVnf.stream().filter(x -> (x.getOperation() == operationType) 
+				&& (x.getOperationStatus() == OperationStatusType.STARTING || x.getOperationStatus() == OperationStatusType.PROCESSING ))
+				.collect(Collectors.toList());
+		if(!liFilteredByState.isEmpty()) {
+			LOG.info("VNF Lcm Scale operation already running with state: {}", OperationStatusType.STARTING);
+			return true;
+		}
+		return false;
+	}
+	
 
 	private static void sleepSeconds(final long seconds) {
 		try {

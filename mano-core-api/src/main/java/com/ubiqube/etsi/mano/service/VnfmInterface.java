@@ -21,10 +21,15 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.stereotype.Component;
+
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
+import com.ubiqube.etsi.mano.model.VnfHealRequest;
 import com.ubiqube.etsi.mano.model.VnfInstantiate;
+import com.ubiqube.etsi.mano.model.VnfScaleRequest;
+
 
 public interface VnfmInterface {
 
@@ -35,6 +40,10 @@ public interface VnfmInterface {
 	VnfBlueprint vnfLcmOpOccsGet(Servers servers, @NotNull UUID id);
 
 	VnfBlueprint vnfTerminate(Servers servers, @Nonnull String nsInstanceId);
+	
+	VnfBlueprint vnfScale(Servers servers, @Nonnull String vnfInstanceId, VnfScaleRequest vnfScaleRequest);
+	
+	VnfBlueprint vnfHeal(Servers servers, @Nonnull String vnfInstanceId, VnfHealRequest vnfHealRequest);
 
 	VnfInstance getVnfInstance(Servers servers, String vnfInstance);
 
