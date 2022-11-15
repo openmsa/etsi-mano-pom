@@ -39,7 +39,7 @@ public class StopWatch {
 	public void stop() {
 		final Metric m = stack.pop();
 		m.setStop(Instant.now());
-		final Duration d2 = Duration.between(m.getStop(), m.getStop());
+		final Duration d2 = Duration.between(m.getStart(), m.getStop());
 		log.debug("{}{} {}", ident(m.getIndent()), m.getLabel(), format(d2));
 	}
 
