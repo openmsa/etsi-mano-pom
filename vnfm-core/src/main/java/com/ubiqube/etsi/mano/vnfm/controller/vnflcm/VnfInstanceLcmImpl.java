@@ -51,6 +51,7 @@ import com.ubiqube.etsi.mano.dao.mano.VnfComputeAspectDelta;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
+import com.ubiqube.etsi.mano.dao.mano.dto.VnfLcmOpOccs;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.vnfi.ChangeExtVnfConnRequest;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
@@ -259,7 +260,7 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 	}
 	
 	@Override
-	public List<VnfBlueprint> findByVnfInstanceId(final Servers servers, @NotNull final UUID id) {
+	public List<VnfLcmOpOccs> findByVnfInstanceId(final Servers servers, @NotNull final UUID id) {
 		return vnfLcmService.findByVnfInstanceId(id);
 	}
 

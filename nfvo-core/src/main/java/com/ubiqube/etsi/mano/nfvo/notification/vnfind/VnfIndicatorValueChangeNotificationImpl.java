@@ -41,6 +41,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubiqube.etsi.mano.controller.vnflcm.VnfInstanceLcm;
+import com.ubiqube.etsi.mano.dao.mano.NsdChangeType;
 import com.ubiqube.etsi.mano.dao.mano.ScaleTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.TriggerDefinition;
 import com.ubiqube.etsi.mano.dao.mano.VnfIndicator;
@@ -80,7 +81,7 @@ public class VnfIndicatorValueChangeNotificationImpl {
 	
 	private final BiFunction<Servers, UUID, VnfBlueprint> func;
 	
-	private final BiFunction<Servers, UUID, List<VnfBlueprint>> func2;
+	private final BiFunction<Servers, UUID, List<VnfLcmOpOccs>> func2;
 	
 	private final Random rand = new Random();
 
@@ -179,13 +180,16 @@ public class VnfIndicatorValueChangeNotificationImpl {
 				}
 				if (thresholdCrossed) {
 					LOG.info("Launching action");
-					callAction(vnfInstanceId, trigger.getAction(), vnfPackage);
+					final Servers server = selectServer(vnfPackage);
+					if(!UowUtils.isVnfLcmRunning(UUID.fromString(vnfInstanceId), func2, server)) {
+						callAction(vnfInstanceId, trigger.getAction(), server);
+					}
 				}
 			}
 		}
 	}
 
-	public void callAction(final String vnfInstanceId, final String actionParameters, VnfPackage vnfPackage) {
+	public void callAction(final String vnfInstanceId, final String actionParameters, Servers server) {
 		final ObjectMapper mapper = new ObjectMapper();
 		JsonNode actualObj = null;
 		try {
@@ -202,16 +206,13 @@ public class VnfIndicatorValueChangeNotificationImpl {
 		if (action.isEmpty()) {
 			return;
 		}
-		final Servers server = selectServer(vnfPackage);
+		
 		Map.Entry<String, Object> a = action.entrySet().iterator().next();
 		Map<String, Object> b = (Map<String, Object>) a.getValue();
 		String operationName = (String) b.get("operation");
 		Map<String, Object> inputs = (Map<String, Object>) b.get("inputs");
 		VnfBlueprint res = null;
 		if (operationName.equals("Vnflcm.scale")) {
-			if(UowUtils.isVnfLcmRunning(PlanOperationType.SCALE, UUID.fromString(vnfInstanceId), func2, server)) {
-				return;
-			}
 			VnfScaleRequest vnfScaleRequest = new VnfScaleRequest();
 			for (Map.Entry<String, Object> c : inputs.entrySet()) {
 				Map<String, String> d = (Map<String, String>) c.getValue();
@@ -234,9 +235,6 @@ public class VnfIndicatorValueChangeNotificationImpl {
 			LOG.info("VNF Scale {} launched", vnfScaleRequest.getType().toString());
 			res = vnfm.vnfScale(server, vnfInstanceId, vnfScaleRequest);
 		} else if (operationName.equals("Vnflcm.heal")) {
-			if(UowUtils.isVnfLcmRunning(PlanOperationType.HEAL, UUID.fromString(vnfInstanceId), func2, server)) {
-				return;
-			}
 			VnfHealRequest vnfHealRequest = new VnfHealRequest();
 			for (Map.Entry<String, Object> c : inputs.entrySet()) {
 				Map<String, String> d = (Map<String, String>) c.getValue();

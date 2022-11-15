@@ -25,7 +25,10 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ubiqube.etsi.mano.dao.mano.InstantiationStatusType;
+import com.ubiqube.etsi.mano.dao.mano.NsdChangeType;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
+import com.ubiqube.etsi.mano.dao.mano.dto.VnfLcmOpOccs;
 import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.PlanOperationType;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
@@ -64,14 +67,13 @@ public class UowUtils {
 	}
 	
 	
-	public static Boolean isVnfLcmRunning(final PlanOperationType operationType, final UUID vnfInstanceId, final BiFunction<Servers, UUID, List<VnfBlueprint>> func, final Servers server) {
-		List<VnfBlueprint> li = func.apply(server, vnfInstanceId);
-		List<VnfBlueprint> liFilteredByVnf = li.stream().filter(x-> x.getVnfInstance().getId().equals(vnfInstanceId)).collect(Collectors.toList());
-		List<VnfBlueprint> liFilteredByState =  liFilteredByVnf.stream().filter(x -> (x.getOperation() == operationType) 
-				&& (x.getOperationStatus() == OperationStatusType.STARTING || x.getOperationStatus() == OperationStatusType.PROCESSING ))
+	public static Boolean isVnfLcmRunning(final UUID vnfInstanceId, final BiFunction<Servers, UUID, List<VnfLcmOpOccs>> func, final Servers server) {
+		List<VnfLcmOpOccs> li = func.apply(server, vnfInstanceId);
+		List<VnfLcmOpOccs> liFilteredByVnf = li.stream().filter(x-> x.getVnfInstanceId().toString().equals(vnfInstanceId.toString())).collect(Collectors.toList());
+		List<VnfLcmOpOccs> liFilteredByState =  liFilteredByVnf.stream().filter(x -> (x.getOperationState() == InstantiationStatusType.STARTING || x.getOperationState() == InstantiationStatusType.PROCESSING ))
 				.collect(Collectors.toList());
 		if(!liFilteredByState.isEmpty()) {
-			LOG.info("VNF Lcm Scale operation already running with state: {}", OperationStatusType.STARTING);
+			LOG.info("VNF Lcm operation running with state: {}, cannot launch scale or heal at this time", InstantiationStatusType.STARTING);
 			return true;
 		}
 		return false;

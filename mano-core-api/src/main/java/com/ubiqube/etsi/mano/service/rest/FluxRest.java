@@ -301,7 +301,11 @@ public class FluxRest {
 		final Mono<ResponseEntity<T>> resp = makeBaseQuery(uri, HttpMethod.GET, null, map)
 				.retrieve()
 				.toEntity(myBean);
-		return getBlockingResult(resp, null, Map.of(VERSION, version));
+		if(version != null) {
+			return getBlockingResult(resp, null, Map.of(VERSION, version));
+		} else {
+			return getBlockingResult(resp, null, Map.of());
+		}
 	}
 
 	public UriComponentsBuilder uriBuilder() {

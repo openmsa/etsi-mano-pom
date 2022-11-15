@@ -41,6 +41,7 @@ import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.ScaleType;
 import com.ubiqube.etsi.mano.dao.mano.pm.PmJob;
 import com.ubiqube.etsi.mano.dao.mano.pm.Threshold;
+import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.model.EventMessage;
 import com.ubiqube.etsi.mano.nfvo.v261.model.lcmgrant.GrantRequest;
 import com.ubiqube.etsi.mano.nfvo.v261.model.lcmgrant.GrantRequestLinks;

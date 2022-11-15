@@ -33,6 +33,7 @@ import com.ubiqube.etsi.mano.dao.mano.OperationalStateType;
 import com.ubiqube.etsi.mano.dao.mano.ScaleInfo;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfLiveInstance;
+import com.ubiqube.etsi.mano.dao.mano.dto.VnfLcmOpOccs;
 import com.ubiqube.etsi.mano.dao.mano.v2.ComputeTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.PlanOperationType;
 import com.ubiqube.etsi.mano.dao.mano.v2.PlanStatusType;
@@ -128,7 +129,7 @@ public class VnfLcmService {
 		return planJpa.findById(id).orElseThrow(() -> new NotFoundException("Could not find VNF LCM operation: " + id));
 	}
 	
-	public List<VnfBlueprint> findByVnfInstanceId(final UUID id) {
+	public List<VnfLcmOpOccs> findByVnfInstanceId(final UUID id) {
 		return planJpa.findByVnfInstanceId(id);
 	}
 

@@ -56,6 +56,8 @@ public class VnfLcmOpOccs implements BaseEntity, Auditable {
 	private OffsetDateTime startTime = null;
 
 	private VnfInstance vnfInstance = null;
+	
+	private UUID vnfInstanceId = null;
 
 	private String grantId = null;
 
