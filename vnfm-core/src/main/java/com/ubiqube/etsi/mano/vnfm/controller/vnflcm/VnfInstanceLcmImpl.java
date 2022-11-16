@@ -260,7 +260,7 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 	}
 	
 	@Override
-	public List<VnfLcmOpOccs> findByVnfInstanceId(final Servers servers, @NotNull final UUID id) {
+	public List<VnfBlueprint> findByVnfInstanceId(final Servers servers, @NotNull final UUID id) {
 		return vnfLcmService.findByVnfInstanceId(id);
 	}
 

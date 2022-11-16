@@ -44,10 +44,10 @@ public class ManoVnfLcmOpOccs {
 		this(manoClient, null);
 	}
 
-	public List<VnfLcmOpOccs> list() {
+	public List<VnfBlueprint> list() {
 		return client.createQuery()
 				.setInClassList(HttpGateway::getListVnfLcmOpOccs)
-				.setOutClass(VnfLcmOpOccs.class)
+				.setOutClass(VnfBlueprint.class)
 				.getList();
 	}
 

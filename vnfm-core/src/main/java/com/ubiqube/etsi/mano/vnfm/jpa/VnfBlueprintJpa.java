@@ -30,6 +30,6 @@ public interface VnfBlueprintJpa extends CrudRepository<VnfBlueprint, UUID> {
 
 	void deleteByVnfInstance(VnfInstance vnfInstance);
 	
-	List<VnfLcmOpOccs> findByVnfInstanceId(UUID vnfInstanceId);
+	List<VnfBlueprint> findByVnfInstanceId(UUID vnfInstanceId);
 
 }

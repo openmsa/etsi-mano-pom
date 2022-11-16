@@ -68,6 +68,6 @@ public interface VnfInstanceLcm {
 
 	VnfInstance findById(Servers servers, String vnfInstance);
 
-	List<VnfLcmOpOccs> findByVnfInstanceId(Servers servers, @NotNull UUID id);
+	List<VnfBlueprint> findByVnfInstanceId(Servers servers, @NotNull UUID id);
 
 }

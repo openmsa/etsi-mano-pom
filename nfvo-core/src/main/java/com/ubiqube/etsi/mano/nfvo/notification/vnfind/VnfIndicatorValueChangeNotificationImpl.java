@@ -81,7 +81,7 @@ public class VnfIndicatorValueChangeNotificationImpl {
 	
 	private final BiFunction<Servers, UUID, VnfBlueprint> func;
 	
-	private final BiFunction<Servers, UUID, List<VnfLcmOpOccs>> func2;
+	private final BiFunction<Servers, UUID, List<VnfBlueprint>> func2;
 	
 	private final Random rand = new Random();
 

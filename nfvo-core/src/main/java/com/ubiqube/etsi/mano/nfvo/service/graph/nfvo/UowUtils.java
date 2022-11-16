@@ -67,10 +67,10 @@ public class UowUtils {
 	}
 	
 	
-	public static Boolean isVnfLcmRunning(final UUID vnfInstanceId, final BiFunction<Servers, UUID, List<VnfLcmOpOccs>> func, final Servers server) {
-		List<VnfLcmOpOccs> li = func.apply(server, vnfInstanceId);
-		List<VnfLcmOpOccs> liFilteredByVnf = li.stream().filter(x-> x.getVnfInstanceId().toString().equals(vnfInstanceId.toString())).collect(Collectors.toList());
-		List<VnfLcmOpOccs> liFilteredByState =  liFilteredByVnf.stream().filter(x -> (x.getOperationState() == InstantiationStatusType.STARTING || x.getOperationState() == InstantiationStatusType.PROCESSING ))
+	public static Boolean isVnfLcmRunning(final UUID vnfInstanceId, final BiFunction<Servers, UUID, List<VnfBlueprint>> func, final Servers server) {
+		List<VnfBlueprint> li = func.apply(server, vnfInstanceId);
+		List<VnfBlueprint> liFilteredByVnf = li.stream().filter(x-> x.getVnfInstance().getId().toString().equals(vnfInstanceId.toString())).collect(Collectors.toList());
+		List<VnfBlueprint> liFilteredByState =  liFilteredByVnf.stream().filter(x -> (x.getOperationStatus() == OperationStatusType.STARTING || x.getOperationStatus() == OperationStatusType.PROCESSING ))
 				.collect(Collectors.toList());
 		if(!liFilteredByState.isEmpty()) {
 			LOG.info("VNF Lcm operation running with state: {}, cannot launch scale or heal at this time", InstantiationStatusType.STARTING);

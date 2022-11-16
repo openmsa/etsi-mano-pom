@@ -129,7 +129,7 @@ public class VnfLcmService {
 		return planJpa.findById(id).orElseThrow(() -> new NotFoundException("Could not find VNF LCM operation: " + id));
 	}
 	
-	public List<VnfLcmOpOccs> findByVnfInstanceId(final UUID id) {
+	public List<VnfBlueprint> findByVnfInstanceId(final UUID id) {
 		return planJpa.findByVnfInstanceId(id);
 	}
 

@@ -248,7 +248,9 @@ public class OrikaConfigurationNfvo261 implements OrikaMapperFactoryConfigurer {
 					@Override
 					public void mapAtoB(final VnfLcmOpOcc a, final VnfBlueprint b, final MappingContext context) {
 						final Object op = a.getOperationParams();
-						mapperFacade.map(op, b.getParameters());
+						if(op != null) {
+							mapperFacade.map(op, b.getParameters());
+						}
 					}
 
 				})
