@@ -20,3 +20,4 @@ com.ubiqube.etsi.mano.dao.mano*/
 src/test/java/com/ubiqube/ejb/
 log
 *.img
+hs_err_pid*.log
