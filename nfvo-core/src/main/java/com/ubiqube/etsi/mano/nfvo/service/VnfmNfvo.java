@@ -31,7 +31,9 @@ import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.jpa.GrantsResponseJpa;
+import com.ubiqube.etsi.mano.model.VnfHealRequest;
 import com.ubiqube.etsi.mano.model.VnfInstantiate;
+import com.ubiqube.etsi.mano.model.VnfScaleRequest;
 import com.ubiqube.etsi.mano.service.VnfmInterface;
 
 @Service
@@ -63,6 +65,16 @@ public class VnfmNfvo implements VnfmInterface {
 	public VnfBlueprint vnfTerminate(final Servers servers, final String nsInstanceId) {
 		return lcm.terminate(servers, UUID.fromString(nsInstanceId), CancelModeTypeEnum.FORCEFUL, null);
 	}
+	
+	@Override
+	public VnfBlueprint vnfScale(final Servers servers, final String vnfInstanceId, final VnfScaleRequest vnfScaleRequest) {
+		return lcm.scale(servers, UUID.fromString(vnfInstanceId), vnfScaleRequest);
+	}
+	
+	@Override
+	public VnfBlueprint vnfHeal(final Servers servers, final String vnfInstanceId, final VnfHealRequest vnfHealRequest) {
+		return lcm.heal(servers, UUID.fromString(vnfInstanceId), vnfHealRequest);
+	}
 
 	@Override
 	public VnfInstance getVnfInstance(final Servers servers, final String vnfInstance) {
@@ -75,5 +87,7 @@ public class VnfmNfvo implements VnfmInterface {
 		lcm.delete(servers, getSafeUUID(vnfInstance));
 		grantsResponseJpa.deleteByVnfInstanceId(vnfInstance);
 	}
+	
+	
 
 }

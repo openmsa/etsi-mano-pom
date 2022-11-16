@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.CancelModeTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.GrantInterface;
+import com.ubiqube.etsi.mano.dao.mano.ScaleTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.common.ApiVersionType;
@@ -251,6 +252,18 @@ public class HttpGateway431 extends AbstractHttpGateway {
 	@Override
 	public Class<?> getVnfIndicatorValueChangeSubscriptionRequest() {
 		return VnfIndicatorSubscriptionRequest.class;
+	}
+
+	@Override
+	public Object createVnfInstanceScaleRequest(ScaleTypeEnum scaleTypeEnum, String aspectId, Integer numberOfSteps) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object createVnfInstanceHealRequest(String cause) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

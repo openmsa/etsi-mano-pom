@@ -25,6 +25,7 @@ import org.springframework.core.ParameterizedTypeReference;
 
 import com.ubiqube.etsi.mano.dao.mano.CancelModeTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.GrantInterface;
+import com.ubiqube.etsi.mano.dao.mano.ScaleTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.common.ApiVersionType;
 import com.ubiqube.etsi.mano.dao.mano.pm.PmJob;
 import com.ubiqube.etsi.mano.dao.mano.pm.Threshold;
@@ -79,7 +80,11 @@ public interface HttpGateway {
 	Object createVnfInstanceTerminate(CancelModeTypeEnum terminationType, Integer gracefulTerminationTimeout);
 
 	Class<?> getVnfInstanceScaleToLevelRequest();
+	
+	Object createVnfInstanceScaleRequest(ScaleTypeEnum scaleTypeEnum, String aspectId,  Integer numberOfSteps);
 
+	Object createVnfInstanceHealRequest(String cause);
+	
 	Class<?> getVnfInstanceScaleRequest();
 
 	Class<?> getVnfInstanceOperateRequest();

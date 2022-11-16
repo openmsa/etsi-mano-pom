@@ -16,15 +16,20 @@
  */
 package com.ubiqube.etsi.mano.vnfm.jpa;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.repository.CrudRepository;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
+import com.ubiqube.etsi.mano.dao.mano.config.Servers;
+import com.ubiqube.etsi.mano.dao.mano.dto.VnfLcmOpOccs;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 
 public interface VnfBlueprintJpa extends CrudRepository<VnfBlueprint, UUID> {
 
 	void deleteByVnfInstance(VnfInstance vnfInstance);
+	
+	List<VnfBlueprint> findByVnfInstanceId(UUID vnfInstanceId);
 
 }

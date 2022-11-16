@@ -27,8 +27,10 @@ import org.springframework.util.MultiValueMap;
 import com.ubiqube.etsi.mano.dao.mano.CancelModeTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
+import com.ubiqube.etsi.mano.dao.mano.dto.VnfLcmOpOccs;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.vnfi.ChangeExtVnfConnRequest;
+import com.ubiqube.etsi.mano.model.VnfHealRequest;
 import com.ubiqube.etsi.mano.model.VnfInstantiate;
 import com.ubiqube.etsi.mano.model.VnfOperateRequest;
 import com.ubiqube.etsi.mano.model.VnfScaleRequest;
@@ -55,6 +57,8 @@ public interface VnfInstanceLcm {
 	VnfBlueprint scaleToLevel(Servers servers, @Nonnull final UUID vnfInstanceId, final VnfScaleToLevelRequest scaleVnfToLevelRequest);
 
 	VnfBlueprint scale(Servers servers, @Nonnull final UUID vnfInstanceId, final VnfScaleRequest scaleVnfRequest);
+	
+	VnfBlueprint heal(Servers servers, @Nonnull final UUID vnfInstanceId, final VnfHealRequest healVnfRequest);
 
 	VnfBlueprint operate(Servers servers, @Nonnull final UUID vnfInstanceId, final VnfOperateRequest operateVnfRequest);
 
@@ -63,5 +67,7 @@ public interface VnfInstanceLcm {
 	VnfBlueprint changeExtConn(Servers servers, @NotNull UUID vnfInstanceId, ChangeExtVnfConnRequest cevcr);
 
 	VnfInstance findById(Servers servers, String vnfInstance);
+
+	List<VnfBlueprint> findByVnfInstanceId(Servers servers, @NotNull UUID id);
 
 }

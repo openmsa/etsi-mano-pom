@@ -29,8 +29,10 @@ import com.ubiqube.etsi.mano.controller.vnflcm.VnfInstanceLcm;
 import com.ubiqube.etsi.mano.dao.mano.CancelModeTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
+import com.ubiqube.etsi.mano.dao.mano.dto.VnfLcmOpOccs;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.vnfi.ChangeExtVnfConnRequest;
+import com.ubiqube.etsi.mano.model.VnfHealRequest;
 import com.ubiqube.etsi.mano.model.VnfInstantiate;
 import com.ubiqube.etsi.mano.model.VnfOperateRequest;
 import com.ubiqube.etsi.mano.model.VnfScaleRequest;
@@ -102,6 +104,13 @@ public class NfvoVnfInstanceLcm implements VnfInstanceLcm {
 				.vnfInstance(vnfInstanceId)
 				.scale(scaleVnfRequest);
 	}
+	
+	@Override
+	public VnfBlueprint heal(final Servers servers, final UUID vnfInstanceId, final VnfHealRequest vnfHealRequest) {
+		return manoClientFactory.getClient(servers)
+				.vnfInstance(vnfInstanceId)
+				.heal(vnfHealRequest);
+	}
 
 	@Override
 	public VnfBlueprint operate(final Servers servers, final UUID vnfInstanceId, final VnfOperateRequest operateVnfRequest) {
@@ -129,6 +138,12 @@ public class NfvoVnfInstanceLcm implements VnfInstanceLcm {
 		return manoClientFactory.getClient(servers)
 				.vnfInstance(UUID.fromString(vnfInstance))
 				.find();
+	}
+
+	@Override
+	public List<VnfBlueprint> findByVnfInstanceId(final Servers servers, @NotNull final UUID id) {
+		return manoClientFactory.getClient(servers)
+				.vnfLcmOpOccs().list();
 	}
 
 }

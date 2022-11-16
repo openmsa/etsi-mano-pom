@@ -52,7 +52,7 @@ public class InflixdbDataListener {
 				.addField("value", action.getValue())
 				.addTag("key", action.getKey())
 				.addTag("status", action.isStatus() ? "success" : "fail")
-				.addTag("vnf-instance-id", action.getVnfInstanceId())
+				.addTag("vnf-instance-id", action.getVnfcId())
 				.time(Instant.now(), WritePrecision.MS);
 		try (WriteApi client = influxClient.getWriteApi()) {
 			client.writePoint(point);
