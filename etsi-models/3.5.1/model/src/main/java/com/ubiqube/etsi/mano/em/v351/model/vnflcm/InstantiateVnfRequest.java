@@ -17,7 +17,9 @@
 package com.ubiqube.etsi.mano.em.v351.model.vnflcm;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import javax.validation.Valid;
@@ -26,7 +28,7 @@ import javax.validation.constraints.NotNull;
 import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.Map;
+import com.ubiqube.etsi.mano.vnfm.v351.model.grant.VimConnectionInfo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -56,6 +58,10 @@ public class InstantiateVnfRequest {
 	@JsonProperty("extManagedVirtualLinks")
 	@Valid
 	private List<ExtManagedVirtualLinkData> extManagedVirtualLinks = null;
+
+	@JsonProperty("vimConnectionInfo")
+	@Valid
+	private Map<String, VimConnectionInfo> vimConnectionInfo = null;
 
 	@JsonProperty("localizationLanguage")
 	private String localizationLanguage = null;
@@ -166,6 +172,22 @@ public class InstantiateVnfRequest {
 		this.extManagedVirtualLinks = extManagedVirtualLinks;
 	}
 
+	public Map<String, VimConnectionInfo> getVimConnectionInfo() {
+		return vimConnectionInfo;
+	}
+
+	public void setVimConnectionInfo(final Map<String, VimConnectionInfo> vimConnectionInfo) {
+		this.vimConnectionInfo = vimConnectionInfo;
+	}
+
+	public InstantiateVnfRequest putVimConnectionInfoItem(final String key, final VimConnectionInfo vimConnectionInfoItem) {
+		if (this.vimConnectionInfo == null) {
+			this.vimConnectionInfo = new HashMap<>();
+		}
+		this.vimConnectionInfo.put(key, vimConnectionInfoItem);
+		return this;
+	}
+
 	public InstantiateVnfRequest localizationLanguage(final String localizationLanguage) {
 		this.localizationLanguage = localizationLanguage;
 		return this;
@@ -255,7 +277,7 @@ public class InstantiateVnfRequest {
 		if (this == o) {
 			return true;
 		}
-		if (o == null || getClass() != o.getClass()) {
+		if ((o == null) || (getClass() != o.getClass())) {
 			return false;
 		}
 		final InstantiateVnfRequest instantiateVnfRequest = (InstantiateVnfRequest) o;
@@ -263,6 +285,7 @@ public class InstantiateVnfRequest {
 				Objects.equals(this.instantiationLevelId, instantiateVnfRequest.instantiationLevelId) &&
 				Objects.equals(this.extVirtualLinks, instantiateVnfRequest.extVirtualLinks) &&
 				Objects.equals(this.extManagedVirtualLinks, instantiateVnfRequest.extManagedVirtualLinks) &&
+				Objects.equals(this.vimConnectionInfo, instantiateVnfRequest.vimConnectionInfo) &&
 				Objects.equals(this.localizationLanguage, instantiateVnfRequest.localizationLanguage) &&
 				Objects.equals(this.additionalParams, instantiateVnfRequest.additionalParams) &&
 				Objects.equals(this.extensions, instantiateVnfRequest.extensions) &&
@@ -271,7 +294,7 @@ public class InstantiateVnfRequest {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(flavourId, instantiationLevelId, extVirtualLinks, extManagedVirtualLinks, localizationLanguage, additionalParams, extensions, vnfConfigurableProperties);
+		return Objects.hash(flavourId, instantiationLevelId, extVirtualLinks, extManagedVirtualLinks, vimConnectionInfo, localizationLanguage, additionalParams, extensions, vnfConfigurableProperties);
 	}
 
 	@Override
