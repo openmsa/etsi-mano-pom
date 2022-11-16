@@ -44,7 +44,6 @@ import com.ubiqube.etsi.mano.dao.mano.VimSoftwareImageEntity;
 import com.ubiqube.etsi.mano.dao.mano.VimTask;
 import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionType;
-import com.ubiqube.etsi.mano.dao.mano.common.GeoPoint;
 import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.ComputeTask;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
@@ -150,10 +149,7 @@ public abstract class AbstractGrantService implements VimResourceService {
 	protected abstract void check(Blueprint<? extends VimTask, ? extends Instance> plan);
 
 	private Set<VimConnectionInformation> fixVimConnections(final Set<VimConnectionInformation> vimConnections) {
-		return vimConnections.stream().map(x -> {
-			x.setGeoloc(new GeoPoint(10, 10));
-			return vimManager.registerIfNeeded(x);
-		}).collect(Collectors.toSet());
+		return vimConnections.stream().map(vimManager::registerIfNeeded).collect(Collectors.toSet());
 	}
 
 	private static void fixUnknownTask(final Set<? extends VimTask> tasks, final Set<VimConnectionInformation> vimConnections) {

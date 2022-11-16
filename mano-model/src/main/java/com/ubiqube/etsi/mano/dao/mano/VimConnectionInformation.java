@@ -32,12 +32,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import org.hibernate.search.mapper.pojo.bridge.builtin.annotation.GeoPointBinding;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.DocumentId;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
-import com.ubiqube.etsi.mano.dao.mano.common.GeoPoint;
 import com.ubiqube.etsi.mano.dao.mano.vnfi.CnfInformations;
 import com.ubiqube.etsi.mano.dao.mano.vnfi.VimCapability;
 import com.ubiqube.etsi.mano.utils.ToStringUtil;
@@ -89,9 +87,6 @@ public class VimConnectionInformation implements Auditable {
 	@ElementCollection(fetch = FetchType.EAGER)
 	@Enumerated(EnumType.STRING)
 	private Set<VimCapability> vimCapabilities;
-
-	@GeoPointBinding
-	private GeoPoint geoloc;
 
 	// XXX: There is a bug when activated in vnf instantiate. When saving a
 	// vnfBlueprint.
