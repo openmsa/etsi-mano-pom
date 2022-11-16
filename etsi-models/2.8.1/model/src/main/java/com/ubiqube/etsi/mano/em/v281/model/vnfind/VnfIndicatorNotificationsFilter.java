@@ -24,11 +24,14 @@ import javax.validation.Valid;
 
 import org.springframework.validation.annotation.Validated;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.VnfInstanceSubscriptionFilter;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This type represents a subscription filter related to notifications about VNF
@@ -45,6 +48,44 @@ import io.swagger.annotations.ApiModelProperty;
 public class VnfIndicatorNotificationsFilter {
 	@JsonProperty("vnfInstanceSubscriptionFilter")
 	private VnfInstanceSubscriptionFilter vnfInstanceSubscriptionFilter = null;
+
+	/**
+	 * Match particular notification types. Permitted values: *
+	 * VnfIndicatorValueChangeNotification * SupportedIndicatorsChangeNotification
+	 * The permitted values of the \"notificationTypes\" attribute are spelled
+	 * exactly as the names of the notification types to facilitate automated code
+	 * generation systems.
+	 */
+	public enum NotificationTypesEnum {
+		VNFINDICATORVALUECHANGENOTIFICATION("VnfIndicatorValueChangeNotification"),
+
+		SUPPORTEDINDICATORSCHANGENOTIFICATION("SupportedIndicatorsChangeNotification");
+
+		private final String value;
+
+		NotificationTypesEnum(final String value) {
+			this.value = value;
+		}
+
+		@Override
+		@JsonValue
+		public String toString() {
+			return String.valueOf(value);
+		}
+
+		@JsonCreator
+		public static NotificationTypesEnum fromValue(final String text) {
+			for (final NotificationTypesEnum b : NotificationTypesEnum.values()) {
+				if (String.valueOf(b.value).equals(text)) {
+					return b;
+				}
+			}
+			return null;
+		}
+	}
+
+	@JsonProperty("notificationTypes")
+	private NotificationTypesEnum notificationTypes = null;
 
 	@JsonProperty("indicatorIds")
 	@Valid
@@ -70,6 +111,30 @@ public class VnfIndicatorNotificationsFilter {
 
 	public void setVnfInstanceSubscriptionFilter(final VnfInstanceSubscriptionFilter vnfInstanceSubscriptionFilter) {
 		this.vnfInstanceSubscriptionFilter = vnfInstanceSubscriptionFilter;
+	}
+
+	public VnfIndicatorNotificationsFilter notificationTypes(final NotificationTypesEnum notificationTypes) {
+		this.notificationTypes = notificationTypes;
+		return this;
+	}
+
+	/**
+	 * Match particular notification types. Permitted values: *
+	 * VnfIndicatorValueChangeNotification * SupportedIndicatorsChangeNotification
+	 * The permitted values of the \"notificationTypes\" attribute are spelled
+	 * exactly as the names of the notification types to facilitate automated code
+	 * generation systems.
+	 *
+	 * @return notificationTypes
+	 **/
+	@Schema(description = "Match particular notification types. Permitted values: * VnfIndicatorValueChangeNotification * SupportedIndicatorsChangeNotification The permitted values of the \"notificationTypes\" attribute are spelled exactly as the names of the notification types to facilitate automated code generation systems. ")
+
+	public NotificationTypesEnum getNotificationTypes() {
+		return notificationTypes;
+	}
+
+	public void setNotificationTypes(final NotificationTypesEnum notificationTypes) {
+		this.notificationTypes = notificationTypes;
 	}
 
 	public VnfIndicatorNotificationsFilter indicatorIds(final List<String> indicatorIds) {
@@ -105,7 +170,7 @@ public class VnfIndicatorNotificationsFilter {
 		if (this == o) {
 			return true;
 		}
-		if (o == null || getClass() != o.getClass()) {
+		if ((o == null) || (getClass() != o.getClass())) {
 			return false;
 		}
 		final VnfIndicatorNotificationsFilter vnfIndicatorNotificationsFilter = (VnfIndicatorNotificationsFilter) o;
