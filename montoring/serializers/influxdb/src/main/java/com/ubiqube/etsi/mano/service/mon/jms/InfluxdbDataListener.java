@@ -35,13 +35,13 @@ import com.ubiqube.etsi.mano.mon.dao.TelemetryMetricsResult;
  *
  */
 @Service
-public class InflixdbDataListener {
+public class InfluxdbDataListener {
 
-	private static final Logger LOG = LoggerFactory.getLogger(InflixdbDataListener.class);
+	private static final Logger LOG = LoggerFactory.getLogger(InfluxdbDataListener.class);
 
 	private final InfluxDBClient influxClient;
 
-	public InflixdbDataListener(final InfluxDBClient influxClient) {
+	public InfluxdbDataListener(final InfluxDBClient influxClient) {
 		this.influxClient = influxClient;
 	}
 
