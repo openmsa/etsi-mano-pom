@@ -64,6 +64,8 @@ import com.ubiqube.etsi.mano.em.v361.model.vnflcm.VnfInfoModifications;
 import com.ubiqube.etsi.mano.em.v361.model.vnflcm.VnfInstanceInstantiatedVnfInfo;
 import com.ubiqube.etsi.mano.em.v361.model.vnflcm.VnfLcmOpOcc;
 import com.ubiqube.etsi.mano.em.v361.model.vnflcm.VnfcResourceInfo;
+import com.ubiqube.etsi.mano.mapper.OrikaFilterMapper;
+import com.ubiqube.etsi.mano.mapper.UuidConverter;
 import com.ubiqube.etsi.mano.nfvo.v361.model.vnf.PkgmSubscriptionRequest;
 import com.ubiqube.etsi.mano.nfvo.v361.model.vnf.VnfPackageArtifactInfo;
 import com.ubiqube.etsi.mano.nfvo.v361.model.vnf.VnfPackageSoftwareImageInfo;
@@ -76,6 +78,7 @@ import com.ubiqube.etsi.mano.vnfm.v361.model.grant.ResourceDefinition;
 import ma.glasnost.orika.CustomMapper;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.MappingContext;
+import ma.glasnost.orika.converter.ConverterFactory;
 import net.rakugakibox.spring.boot.orika.OrikaMapperFactoryConfigurer;
 
 /**
@@ -144,10 +147,7 @@ public class OrikaMapperVnfm361 implements OrikaMapperFactoryConfigurer {
 
 					private VnfPackageSoftwareImageInfo mapSoftwareImage(final SoftwareImage img) {
 						final VnfPackageSoftwareImageInfo ret = new VnfPackageSoftwareImageInfo();
-						final Checksum chk = new Checksum();
-						chk.setAlgorithm(img.getChecksum().getAlgorithm());
-						chk.setHash(img.getChecksum().getHash());
-						ret.setChecksum(chk);
+						ret.setChecksum(mapChecksum(img.getChecksum()));
 						if (null != img.getContainerFormat()) {
 							ret.setContainerFormat(ContainerFormatEnum.fromValue(img.getContainerFormat().toString()));
 						}
@@ -167,6 +167,13 @@ public class OrikaMapperVnfm361 implements OrikaMapperFactoryConfigurer {
 						// ret.setUserMetadata(img.get);
 						ret.setVersion(img.getVersion());
 						ret.setCreatedAt(img.getAudit().getCreatedOn());
+						return ret;
+					}
+
+					private Checksum mapChecksum(final com.ubiqube.etsi.mano.dao.mano.common.Checksum checksum) {
+						final Checksum ret = new Checksum();
+						ret.setAlgorithm(checksum.getAlgorithm());
+						ret.setHash(checksum.getHash());
 						return ret;
 					}
 				})
@@ -309,6 +316,9 @@ public class OrikaMapperVnfm361 implements OrikaMapperFactoryConfigurer {
 				.field("isRootCause", "rootCause")
 				.byDefault()
 				.register();
+		final ConverterFactory converterFactory = orikaMapperFactory.getConverterFactory();
+		converterFactory.registerConverter(new UuidConverter());
+		converterFactory.registerConverter("filterConverter", new OrikaFilterMapper());
 	}
 
 }
