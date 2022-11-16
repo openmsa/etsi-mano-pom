@@ -51,7 +51,6 @@ import com.ubiqube.etsi.mano.dao.mano.VnfComputeAspectDelta;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
-import com.ubiqube.etsi.mano.dao.mano.dto.VnfLcmOpOccs;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.vnfi.ChangeExtVnfConnRequest;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
@@ -181,9 +180,6 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 			final List<VimConnectionInformation> vimconnections = mapper.mapAsList(instantiateVnfRequest.getVimConnectionInfo(), VimConnectionInformation.class);
 			final Set<VimConnectionInformation> vimSet = vimconnections.stream()
 					.map(x -> {
-						if (null != x.getId()) {
-							return vimManager.findVimById(x.getId());
-						}
 						final Optional<VimConnectionInformation> optVim = vimManager.findOptionalVimByVimId(x.getVimId());
 						if (optVim.isPresent()) {
 							return optVim.get();
@@ -258,7 +254,7 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 	public VnfBlueprint vnfLcmOpOccsGet(final Servers servers, @NotNull final UUID id) {
 		return vnfLcmService.findById(id);
 	}
-	
+
 	@Override
 	public List<VnfBlueprint> findByVnfInstanceId(final Servers servers, @NotNull final UUID id) {
 		return vnfLcmService.findByVnfInstanceId(id);
@@ -280,7 +276,7 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 	}
 
 	@Override
-	public VnfBlueprint heal(Servers servers, UUID vnfInstanceId, VnfHealRequest healVnfRequest) {
+	public VnfBlueprint heal(final Servers servers, final UUID vnfInstanceId, final VnfHealRequest healVnfRequest) {
 		// TODO Auto-generated method stub
 		return null;
 	}
