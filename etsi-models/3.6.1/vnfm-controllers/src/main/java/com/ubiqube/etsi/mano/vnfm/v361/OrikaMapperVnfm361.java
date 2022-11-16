@@ -54,6 +54,7 @@ import com.ubiqube.etsi.mano.em.v361.model.vnflcm.AffectedVnfc;
 import com.ubiqube.etsi.mano.em.v361.model.vnflcm.ExtManagedVirtualLinkData;
 import com.ubiqube.etsi.mano.em.v361.model.vnflcm.ExtManagedVirtualLinkInfo;
 import com.ubiqube.etsi.mano.em.v361.model.vnflcm.ExtVirtualLinkInfo;
+import com.ubiqube.etsi.mano.em.v361.model.vnflcm.InstantiateVnfRequest;
 import com.ubiqube.etsi.mano.em.v361.model.vnflcm.LccnSubscription;
 import com.ubiqube.etsi.mano.em.v361.model.vnflcm.LccnSubscriptionRequest;
 import com.ubiqube.etsi.mano.em.v361.model.vnflcm.SubscriptionAuthentication;
@@ -66,6 +67,7 @@ import com.ubiqube.etsi.mano.em.v361.model.vnflcm.VnfLcmOpOcc;
 import com.ubiqube.etsi.mano.em.v361.model.vnflcm.VnfcResourceInfo;
 import com.ubiqube.etsi.mano.mapper.OrikaFilterMapper;
 import com.ubiqube.etsi.mano.mapper.UuidConverter;
+import com.ubiqube.etsi.mano.model.VnfInstantiate;
 import com.ubiqube.etsi.mano.nfvo.v361.model.vnf.PkgmSubscriptionRequest;
 import com.ubiqube.etsi.mano.nfvo.v361.model.vnf.VnfPackageArtifactInfo;
 import com.ubiqube.etsi.mano.nfvo.v361.model.vnf.VnfPackageSoftwareImageInfo;
@@ -267,6 +269,10 @@ public class OrikaMapperVnfm361 implements OrikaMapperFactoryConfigurer {
 				.field("resource.vimLevelResourceType", "vimLevelResourceType")
 				.field("resource.resourceId", "resourceId")
 				.field("resource.resourceProviderId", "resourceProviderId")
+				.byDefault()
+				.register();
+		orikaMapperFactory.classMap(InstantiateVnfRequest.class, VnfInstantiate.class)
+				.field("vimConnectionInfo{value}", "vimConnectionInfo{}")
 				.byDefault()
 				.register();
 		/*
