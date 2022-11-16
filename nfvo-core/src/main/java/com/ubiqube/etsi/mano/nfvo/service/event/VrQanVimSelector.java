@@ -73,22 +73,22 @@ public class VrQanVimSelector implements PreVimSelection {
 		final Set<VimCapability> caps = x.getVimCapabilities();
 		final Set<OsContainerDeployableUnit> ocdu = Optional.ofNullable(vnfPackage.getOsContainerDeployableUnits()).orElse(Set.of());
 		if (!ocdu.isEmpty() && !caps.contains(VimCapability.HAVE_CNF)) {
-			LOG.debug(VIM_REJECTED_DUE_TO_MISSING, VimCapability.HAVE_CNF, x.getId());
+			LOG.info(VIM_REJECTED_DUE_TO_MISSING, VimCapability.HAVE_CNF, x.getId());
 			return false;
 		}
 		final boolean haveVxNet = haveVxLan(vnfPackage);
 		if (haveVxNet && !caps.contains(VimCapability.HAVE_VXNET)) {
-			LOG.debug(VIM_REJECTED_DUE_TO_MISSING, VimCapability.HAVE_VXNET, x.getId());
+			LOG.info(VIM_REJECTED_DUE_TO_MISSING, VimCapability.HAVE_VXNET, x.getId());
 			return false;
 		}
 		final boolean vlanTrans = haveVlanTransparency(vnfPackage);
 		if (vlanTrans && !caps.contains(VimCapability.HAVE_VLAN_TRANSPARENT)) {
-			LOG.debug(VIM_REJECTED_DUE_TO_MISSING, VimCapability.HAVE_VLAN_TRANSPARENT, x.getId());
+			LOG.info(VIM_REJECTED_DUE_TO_MISSING, VimCapability.HAVE_VLAN_TRANSPARENT, x.getId());
 			return false;
 		}
 		final boolean haveNetMtu = haveMtu(vnfPackage);
 		if (haveNetMtu && !caps.contains(VimCapability.HAVE_NET_MTU)) {
-			LOG.debug(VIM_REJECTED_DUE_TO_MISSING, VimCapability.HAVE_NET_MTU, x.getId());
+			LOG.info(VIM_REJECTED_DUE_TO_MISSING, VimCapability.HAVE_NET_MTU, x.getId());
 			return false;
 		}
 		return true;
@@ -124,11 +124,11 @@ public class VrQanVimSelector implements PreVimSelection {
 		// If not get it on vim
 		final VrQan vrQan = ovq.get();
 		if (vrQan.getRamFree() < needed.getRam()) {
-			LOG.debug("Vim rejected due to RAM {}", x.getId());
+			LOG.info("Vim rejected due to RAM {}", x.getId());
 			return false;
 		}
 		if (vrQan.getVcpuFree() < needed.getVcpu()) {
-			LOG.debug("Vim rejected due to VCPU {}", x.getId());
+			LOG.info("Vim rejected due to VCPU {}", x.getId());
 			return false;
 		}
 		return true;
