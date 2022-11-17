@@ -53,7 +53,7 @@ public class VnfIndicator implements ToscaEntity, Auditable {
 	@DocumentId
 	private UUID id;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Map<String, TriggerDefinition> triggers;
 
 	private String source;
@@ -74,7 +74,7 @@ public class VnfIndicator implements ToscaEntity, Auditable {
 	@ElementCollection(targetClass = String.class)
 	private List<String> targets;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<MonitoringParams> monitoringParameters;
 
 }

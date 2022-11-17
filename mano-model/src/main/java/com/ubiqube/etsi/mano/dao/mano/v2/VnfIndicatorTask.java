@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.dao.mano.v2;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 
 import com.ubiqube.etsi.mano.dao.mano.AuditListener;
@@ -34,7 +35,7 @@ public class VnfIndicatorTask extends VnfTask {
 
 	private String name;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private VnfIndicator vnfIndicator;
 
 	@Override

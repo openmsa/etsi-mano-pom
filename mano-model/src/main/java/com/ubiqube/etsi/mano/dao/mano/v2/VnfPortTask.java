@@ -39,13 +39,13 @@ public class VnfPortTask extends VnfTask {
 	/** Serial. */
 	private static final long serialVersionUID = 1L;
 
-	@OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+	@OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
 	private VnfLinkPort vnfLinkPort;
 
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private ExtManagedVirtualLinkDataEntity external;
 
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private ComputeTask compute;
 
 	@Override

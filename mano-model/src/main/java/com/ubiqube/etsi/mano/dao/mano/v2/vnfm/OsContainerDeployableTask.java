@@ -66,7 +66,7 @@ public class OsContainerDeployableTask extends VnfTask {
 	 */
 	private String network;
 
-	@ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+	@ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
 	private OsContainerDeployableUnit osContainerDeployableUnit;
 
 	@Override

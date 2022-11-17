@@ -62,7 +62,7 @@ public class VnfExtCp extends ConnectionPoint implements Serializable, ToscaEnti
 
 	private String internalVirtualLink;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn
 	private Set<VirtualNicReq> virtualNetworkInterfaceRequirements;
 

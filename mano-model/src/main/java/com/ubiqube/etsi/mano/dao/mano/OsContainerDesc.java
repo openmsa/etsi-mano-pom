@@ -112,7 +112,7 @@ public class OsContainerDesc implements Serializable {
 	 * metrics on the OsContainerDesc level to be tracked by the VNFM.
 	 * MonitoringParameter is defined in clause 7.1.11.3.
 	 */
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<MonitoringParams> monitoringParameters;
 
 }

@@ -40,7 +40,7 @@ public class SecurityRuleTask extends VnfTask {
 	/** Serial. */
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+	@ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
 	private SecurityGroup securityGroupRule;
 
 	private String parentToscaName;

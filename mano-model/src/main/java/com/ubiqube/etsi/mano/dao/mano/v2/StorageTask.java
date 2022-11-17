@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.dao.mano.v2;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfStorage;
@@ -36,7 +37,7 @@ public class StorageTask extends VnfTask {
 	/** Version. */
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private VnfStorage vnfStorage;
 
 	private String parentAlias;

@@ -66,10 +66,10 @@ public abstract class VnfTask extends AbstractTask {
 
 	private String resourceGroupId;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private VnfBlueprint blueprint;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private ScaleInfo scaleInfo;
 
 	private String resourceProviderId;
