@@ -39,7 +39,6 @@ public class VnfIndSubscriptions271Sol003Controller implements VnfIndSubscriptio
 	private final SubscriptionFrontController subscriptionService;
 
 	public VnfIndSubscriptions271Sol003Controller(final SubscriptionFrontController subscriptionService) {
-		super();
 		this.subscriptionService = subscriptionService;
 	}
 
@@ -55,7 +54,7 @@ public class VnfIndSubscriptions271Sol003Controller implements VnfIndSubscriptio
 
 	@Override
 	public ResponseEntity<Void> subscriptionsSubscriptionIdDelete(final String subscriptionId) {
-		return subscriptionService.deleteById(subscriptionId, SubscriptionType.VNFPM);
+		return subscriptionService.deleteById(subscriptionId, SubscriptionType.VNFIND);
 	}
 
 	@Override
