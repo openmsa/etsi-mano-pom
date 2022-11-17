@@ -38,7 +38,6 @@ public class VnfLcmSubscriptionFrontControllerImpl implements VnfLcmSubscription
 	private final SubscriptionFrontController subscriptionService;
 
 	public VnfLcmSubscriptionFrontControllerImpl(final SubscriptionFrontController subscriptionService) {
-		super();
 		this.subscriptionService = subscriptionService;
 	}
 
@@ -59,7 +58,7 @@ public class VnfLcmSubscriptionFrontControllerImpl implements VnfLcmSubscription
 
 	@Override
 	public ResponseEntity<Void> deleteById(final String id) {
-		return subscriptionService.deleteById(id, SubscriptionType.ALARM);
+		return subscriptionService.deleteById(id, SubscriptionType.VNFLCM);
 	}
 
 }
