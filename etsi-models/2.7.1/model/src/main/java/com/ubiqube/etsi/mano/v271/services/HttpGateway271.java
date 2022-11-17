@@ -38,6 +38,7 @@ import com.ubiqube.etsi.mano.em.v271.model.vnfind.VnfIndicatorSubscription;
 import com.ubiqube.etsi.mano.em.v271.model.vnfind.VnfIndicatorSubscriptionRequest;
 import com.ubiqube.etsi.mano.em.v271.model.vnflcm.ChangeExtVnfConnectivityRequest;
 import com.ubiqube.etsi.mano.em.v271.model.vnflcm.CreateVnfRequest;
+import com.ubiqube.etsi.mano.em.v271.model.vnflcm.HealVnfRequest;
 import com.ubiqube.etsi.mano.em.v271.model.vnflcm.InstantiateVnfRequest;
 import com.ubiqube.etsi.mano.em.v271.model.vnflcm.Link;
 import com.ubiqube.etsi.mano.em.v271.model.vnflcm.OperateVnfRequest;
@@ -93,12 +94,12 @@ public class HttpGateway271 extends AbstractHttpGateway {
 	public Class<?> getPkgmSubscriptionRequest() {
 		return PkgmSubscriptionRequest.class;
 	}
-	
+
 	@Override
 	public Class<?> getVnfIndicatorValueChangeSubscriptionClass() {
 		return VnfIndicatorSubscription.class;
 	}
-	
+
 	@Override
 	public Class<?> getVnfIndicatorValueChangeSubscriptionRequest() {
 		return VnfIndicatorSubscriptionRequest.class;
@@ -264,15 +265,24 @@ public class HttpGateway271 extends AbstractHttpGateway {
 	}
 
 	@Override
-	public Object createVnfInstanceScaleRequest(ScaleTypeEnum scaleTypeEnum, String aspectId, Integer numberOfSteps) {
-		// TODO Auto-generated method stub
-		return null;
+	public Object createVnfInstanceScaleRequest(final ScaleTypeEnum scaleTypeEnum, final String aspectId, final Integer numberOfSteps) {
+		final var req = new ScaleVnfRequest();
+		req.setAspectId(aspectId);
+		req.setNumberOfSteps(numberOfSteps);
+		if (ScaleTypeEnum.IN.equals(scaleTypeEnum)) {
+			req.setType(ScaleVnfRequest.TypeEnum.IN);
+		}
+		if (ScaleTypeEnum.OUT.equals(scaleTypeEnum)) {
+			req.setType(ScaleVnfRequest.TypeEnum.OUT);
+		}
+		return req;
 	}
 
 	@Override
-	public Object createVnfInstanceHealRequest(String cause) {
-		// TODO Auto-generated method stub
-		return null;
+	public Object createVnfInstanceHealRequest(final String cause) {
+		final var req = new HealVnfRequest();
+		req.setCause(cause);
+		return req;
 	}
 
 }
