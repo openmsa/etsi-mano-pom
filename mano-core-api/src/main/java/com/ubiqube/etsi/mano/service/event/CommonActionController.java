@@ -84,7 +84,6 @@ public class CommonActionController {
 
 	public CommonActionController(final ServersJpa serversJpa, final Environment env, final List<com.ubiqube.etsi.mano.service.HttpGateway> httpGateway,
 			final MapperFacade mapper, final ManoProperties manoProperties, final ObjectProvider<SecutiryConfig> secutiryConfig) {
-		super();
 		this.serversJpa = serversJpa;
 		this.env = env;
 		this.httpGateway = httpGateway;
@@ -158,8 +157,8 @@ public class CommonActionController {
 	}
 
 	private Servers registerNfvoEx(@NotNull final Servers server, @NotNull final Map<String, Object> parameters) {
-		final FluxRest rest = new FluxRest(server);
 		extractVersions(server);
+		final FluxRest rest = new FluxRest(server);
 		final Set<RemoteSubscription> remoteSubscription = server.getRemoteSubscriptions();
 		if (!isSubscribe(SubscriptionType.NSDVNF, remoteSubscription)) {
 			addSubscription(rest, server, this::vnfPackageOnboardingSubscribe, remoteSubscription);
@@ -186,20 +185,17 @@ public class CommonActionController {
 	}
 
 	private static String convert(final SubscriptionType subscriptionType) {
-		switch (subscriptionType) {
-		case VNF:
-			return "SOL_003";
-		case NSD:
-			return "SOL_005";
-		default:
-			throw new IllegalArgumentException("Unexpected value: " + subscriptionType);
-		}
+		return switch (subscriptionType) {
+		case VNF -> "SOL_003";
+		case NSD -> "SOL_005";
+		default -> throw new IllegalArgumentException("Unexpected value: " + subscriptionType);
+		};
 	}
 
 	private static RemoteSubscription reMap(final Subscription subscription, final Servers server) {
 		return RemoteSubscription.builder()
 				.remoteSubscriptionId(subscription.getId().toString())
-				.subscriptionType(server.getSubscriptionType())
+				.subscriptionType(subscription.getSubscriptionType())
 				.remoteServerId(server.getId())
 				.build();
 	}
@@ -212,7 +208,7 @@ public class CommonActionController {
 		final Class<?> clazzWire = httpGateway.get(0).getPkgmSubscriptionRequest();
 		return postSubscription(rest, uri.toUri(), subsOut, clazzWire, clazz);
 	}
-	
+
 	private Subscription vnfIndicatorValueChangeSubscribe(final FluxRest rest) {
 		final List<FilterAttributes> filters = List.of(FilterAttributes.of("notificationTypes[0]", "VnfIndicatorValueChangeNotification"));
 		final Subscription subsOut = createSubscriptionWithFilter(ApiTypesEnum.SOL003, "/vnfind/v1/notification/value-change", SubscriptionType.VNFIND, filters);
