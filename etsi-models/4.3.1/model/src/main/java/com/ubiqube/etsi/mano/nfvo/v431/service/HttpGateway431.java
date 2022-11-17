@@ -37,6 +37,7 @@ import com.ubiqube.etsi.mano.vnfm.v431.model.vnf.PkgmSubscription;
 import com.ubiqube.etsi.mano.vnfm.v431.model.vnf.PkgmSubscriptionRequest;
 import com.ubiqube.etsi.mano.vnfm.v431.model.vnfind.VnfIndicatorSubscription;
 import com.ubiqube.etsi.mano.vnfm.v431.model.vnfind.VnfIndicatorSubscriptionRequest;
+import com.ubiqube.etsi.mano.vnfm.v431.model.vnflcm.HealVnfRequest;
 import com.ubiqube.etsi.mano.vnfm.v431.model.vnflcm.InstantiateVnfRequest;
 import com.ubiqube.etsi.mano.vnfm.v431.model.vnflcm.ScaleVnfRequest;
 import com.ubiqube.etsi.mano.vnfm.v431.model.vnflcm.ScaleVnfToLevelRequest;
@@ -255,15 +256,23 @@ public class HttpGateway431 extends AbstractHttpGateway {
 	}
 
 	@Override
-	public Object createVnfInstanceScaleRequest(ScaleTypeEnum scaleTypeEnum, String aspectId, Integer numberOfSteps) {
-		// TODO Auto-generated method stub
-		return null;
+	public Object createVnfInstanceScaleRequest(final ScaleTypeEnum scaleTypeEnum, final String aspectId, final Integer numberOfSteps) {
+		final var req = new ScaleVnfRequest();
+		req.setAspectId(aspectId);
+		req.setNumberOfSteps(numberOfSteps);
+		if (ScaleTypeEnum.IN.equals(scaleTypeEnum)) {
+			req.setType(ScaleVnfRequest.TypeEnum.IN);
+		}
+		if (ScaleTypeEnum.OUT.equals(scaleTypeEnum)) {
+			req.setType(ScaleVnfRequest.TypeEnum.OUT);
+		}
+		return req;
 	}
 
 	@Override
-	public Object createVnfInstanceHealRequest(String cause) {
-		// TODO Auto-generated method stub
-		return null;
+	public Object createVnfInstanceHealRequest(final String cause) {
+		final var req = new HealVnfRequest();
+		req.setCause(cause);
+		return req;
 	}
-
 }
