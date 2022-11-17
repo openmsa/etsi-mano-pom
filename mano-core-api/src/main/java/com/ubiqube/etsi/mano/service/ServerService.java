@@ -100,10 +100,11 @@ public class ServerService {
 	private void unregister(final FluxRest rest, final RemoteSubscription x) {
 		final Servers srv = findById(x.getRemoteServerId());
 		final HttpGateway hg = filterServer(srv);
-		final String uri = "/" + new File(hg.getUrlFor(ApiVersionType.SOL003_VNFPKGM), "subscriptions/{id}");
+		final ApiVersionType sType = subscriptionTypeToApiVersion(x.getSubscriptionType());
+		final String uri = "/" + new File(hg.getUrlFor(sType), "subscriptions/{id}");
 		final URI resp = rest.uriBuilder().path(uri).build(x.getRemoteSubscriptionId());
 		try {
-			final String version = hg.getHeaderVersion(ApiVersionType.SOL003_VNFPKGM).orElse(null);
+			final String version = hg.getHeaderVersion(sType).orElse(null);
 			rest.deleteWithReturn(resp, null, version);
 		} catch (final RuntimeException e) {
 			LOG.debug("", e);
