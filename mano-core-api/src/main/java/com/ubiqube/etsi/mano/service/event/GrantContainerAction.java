@@ -42,6 +42,7 @@ import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionType;
 import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainer;
 import com.ubiqube.etsi.mano.dao.mano.vnfm.McIops;
+import com.ubiqube.etsi.mano.docker.DockerApiException;
 import com.ubiqube.etsi.mano.docker.DockerService;
 import com.ubiqube.etsi.mano.docker.RegistryInformations;
 import com.ubiqube.etsi.mano.exception.GenericException;
@@ -143,6 +144,9 @@ public class GrantContainerAction {
 			final RegistryInformations regInfo = convert(conn);
 			try (InputStream is = bin.getInputStream()) {
 				dockerService.sendToRegistry(is, regInfo, imageName, tag);
+			} catch (final DockerApiException e) {
+				LOG.warn("Could not upload blob: {}", x.getName());
+				LOG.trace("", e);
 			} catch (final IOException e) {
 				throw new GenericException(e);
 			}
