@@ -25,6 +25,7 @@ import java.util.UUID;
 
 import org.openstack4j.api.OSClient.OSClientV3;
 import org.openstack4j.api.client.IOSClientBuilder.V3;
+import org.openstack4j.core.transport.Config;
 import org.openstack4j.model.common.Identifier;
 import org.openstack4j.model.telemetry.gnocchi.Measure;
 import org.openstack4j.model.telemetry.gnocchi.MeasureFilter;
@@ -51,7 +52,7 @@ public class GnocchiSubTelemetry {
 		// Nothing.
 	}
 
-	public static List<TelemetryMetricsResult> getMetricsForVnfc(final VimConnectionInformation vimConnectionInformation, final String vnfcId,  final List<Metric> collectedMetrics, final UUID uuid) {
+	public static List<TelemetryMetricsResult> getMetricsForVnfc(final VimConnectionInformation vimConnectionInformation, final String vnfcId, final List<Metric> collectedMetrics, final UUID uuid) {
 		final OSClientV3 os = authenticate(vimConnectionInformation);
 		return getMetrics(uuid, vnfcId, collectedMetrics, os);
 	}
@@ -86,9 +87,16 @@ public class GnocchiSubTelemetry {
 		return new TelemetryMetricsResult(id.toString(), vnfcId, x.getKey(), value, ts, true);
 	}
 
+	/**
+	 * This one is a copy paste of OpenStackVim.
+	 *
+	 * @param vci
+	 * @return
+	 */
 	private static OSClientV3 authenticate(final VimConnectionInformation vci) {
+		final Map<String, String> ii = vci.getInterfaceInfo();
 		final V3 base = OSFactory.builderV3()
-				.endpoint(vci.getInterfaceInfo().get("endpoint"));
+				.endpoint(ii.get("endpoint"));
 		final Map<String, String> ai = vci.getAccessInfo();
 		final String userDomain = ai.get("userDomain");
 		if (null != userDomain) {
@@ -97,13 +105,19 @@ public class GnocchiSubTelemetry {
 		} else {
 			base.credentials(ai.get("username"), ai.get("password"));
 		}
-
+		final Config conf = Config.newConfig();
+		if ("true".equals(ii.get("non-strict-ssl"))) {
+			conf.withSSLVerificationDisabled();
+		}
+		if (null != ii.get("nat-host")) {
+			conf.withEndpointNATResolution(ii.get("nat-host"));
+		}
+		base.withConfig(conf);
 		final String project = ai.get("project");
 		final String projectId = ai.get("projectId");
 		if (null != project) {
 			base.scopeToProject(Identifier.byName(project));
-		}
-		if (null != projectId) {
+		} else if (null != projectId) {
 			base.scopeToProject(Identifier.byId(projectId));
 		}
 		return base.authenticate();
