@@ -59,7 +59,9 @@ import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.jpa.config.ServersJpa;
 import com.ubiqube.etsi.mano.model.ApiVersionInformation;
 import com.ubiqube.etsi.mano.service.HttpGateway;
+import com.ubiqube.etsi.mano.service.ServerService;
 import com.ubiqube.etsi.mano.service.rest.FluxRest;
+import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
 
 import ma.glasnost.orika.MapperFacade;
 
@@ -71,6 +73,7 @@ import ma.glasnost.orika.MapperFacade;
 @Service
 public class CommonActionController {
 
+	private static final String NOTIFICATION_TYPES_0 = "notificationTypes[0]";
 	private static final Logger LOG = LoggerFactory.getLogger(CommonActionController.class);
 	private static final List<String> VNFM_FRAGMENT = Arrays.asList("vnflcm", "vnfpm", "vnffm", "vnfind", "vrqan", "vnfsnapshotpkgm");
 	private static final List<String> NFVO_FRAGMENT = Arrays.asList("grant", "vnfpkgm", "nsd", "nslcm", "nspm", "nsfm", "nfvici", "vnfsnapshotpkgm", "lcmcoord");
@@ -82,14 +85,17 @@ public class CommonActionController {
 	private final ManoProperties manoProperties;
 	private final ObjectProvider<SecutiryConfig> secutiryConfig;
 
+	private final ServerService serverService;
+
 	public CommonActionController(final ServersJpa serversJpa, final Environment env, final List<com.ubiqube.etsi.mano.service.HttpGateway> httpGateway,
-			final MapperFacade mapper, final ManoProperties manoProperties, final ObjectProvider<SecutiryConfig> secutiryConfig) {
+			final MapperFacade mapper, final ManoProperties manoProperties, final ObjectProvider<SecutiryConfig> secutiryConfig, final ServerService serverService) {
 		this.serversJpa = serversJpa;
 		this.env = env;
 		this.httpGateway = httpGateway;
 		this.mapper = mapper;
 		this.manoProperties = manoProperties;
 		this.secutiryConfig = secutiryConfig;
+		this.serverService = serverService;
 	}
 
 	public Object registerServer(@NotNull final UUID objectId, @NotNull final Map<String, Object> parameters) {
@@ -102,9 +108,10 @@ public class CommonActionController {
 		return register(server, this::registerVnfmEx, parameters);
 	}
 
-	public Servers register(@NotNull final Servers server, final BiFunction<Servers, Map<String, Object>, Servers> func, @NotNull final Map<String, Object> parameters) {
+	public Servers register(@NotNull final Servers server, final BiFunction<ServerAdapter, Map<String, Object>, Servers> func, @NotNull final Map<String, Object> parameters) {
 		try {
-			final Servers res = func.apply(server, parameters);
+			final ServerAdapter serverAdapter = serverService.buildServerAdapter(server);
+			final Servers res = func.apply(serverAdapter, parameters);
 			res.setFailureDetails(null);
 			res.setServerStatus(PlanStatusType.SUCCESS);
 			return serversJpa.save(res);
@@ -116,13 +123,13 @@ public class CommonActionController {
 		}
 	}
 
-	private Servers registerVnfmEx(final Servers server, final Map<String, Object> parameters) {
-		final FluxRest rest = new FluxRest(server);
+	private Servers registerVnfmEx(final ServerAdapter serverAdapter, final Map<String, Object> parameters) {
+		final Servers server = serverAdapter.getServer();
 		extractVersions(server);
 		server.setServerStatus(PlanStatusType.SUCCESS);
 		final Set<RemoteSubscription> remoteSubscription = server.getRemoteSubscriptions();
 		if (!isSubscribe(SubscriptionType.VNFIND, remoteSubscription)) {
-			addSubscription(rest, server, this::vnfIndicatorValueChangeSubscribe, remoteSubscription);
+			addSubscription(serverAdapter, this::vnfIndicatorValueChangeSubscribe, remoteSubscription);
 			extractEndpoint(server);
 		}
 		return serversJpa.save(server);
@@ -156,22 +163,22 @@ public class CommonActionController {
 		return null;
 	}
 
-	private Servers registerNfvoEx(@NotNull final Servers server, @NotNull final Map<String, Object> parameters) {
+	private Servers registerNfvoEx(@NotNull final ServerAdapter serverAdapter, @NotNull final Map<String, Object> parameters) {
+		final Servers server = serverAdapter.getServer();
 		extractVersions(server);
-		final FluxRest rest = new FluxRest(server);
 		final Set<RemoteSubscription> remoteSubscription = server.getRemoteSubscriptions();
 		if (!isSubscribe(SubscriptionType.NSDVNF, remoteSubscription)) {
-			addSubscription(rest, server, this::vnfPackageOnboardingSubscribe, remoteSubscription);
-			addSubscription(rest, server, this::vnfPackageChangeSubscribe, remoteSubscription);
+			addSubscription(serverAdapter, this::vnfPackageOnboardingSubscribe, remoteSubscription);
+			addSubscription(serverAdapter, this::vnfPackageChangeSubscribe, remoteSubscription);
 			extractEndpoint(server);
 			return serversJpa.save(server);
 		}
 		return server;
 	}
 
-	private static void addSubscription(final FluxRest rest, final Servers server, final Function<FluxRest, Subscription> func, final Set<RemoteSubscription> remoteSubscription) {
-		final Subscription subs = func.apply(rest);
-		final RemoteSubscription rmt = reMap(subs, server);
+	private static void addSubscription(final ServerAdapter serverAdapter, final Function<ServerAdapter, Subscription> func, final Set<RemoteSubscription> remoteSubscription) {
+		final Subscription subs = func.apply(serverAdapter);
+		final RemoteSubscription rmt = reMap(subs, serverAdapter);
 		remoteSubscription.add(rmt);
 	}
 
@@ -192,7 +199,8 @@ public class CommonActionController {
 		};
 	}
 
-	private static RemoteSubscription reMap(final Subscription subscription, final Servers server) {
+	private static RemoteSubscription reMap(final Subscription subscription, final ServerAdapter serverAdapter) {
+		final Servers server = serverAdapter.getServer();
 		return RemoteSubscription.builder()
 				.remoteSubscriptionId(subscription.getId().toString())
 				.subscriptionType(subscription.getSubscriptionType())
@@ -200,31 +208,56 @@ public class CommonActionController {
 				.build();
 	}
 
-	private Subscription vnfPackageOnboardingSubscribe(final FluxRest rest) {
-		final List<FilterAttributes> filters = List.of(FilterAttributes.of("notificationTypes[0]", "VnfPackageOnboardingNotification"));
+	private Subscription vnfPackageOnboardingSubscribe(final ServerAdapter serverAdapter) {
+		final FluxRest rest = serverAdapter.rest();
+		final Servers server = serverAdapter.getServer();
+		final List<FilterAttributes> filters = List.of(FilterAttributes.of(NOTIFICATION_TYPES_0, "VnfPackageOnboardingNotification"));
 		final Subscription subsOut = createSubscriptionWithFilter(ApiTypesEnum.SOL003, "/vnfpkgm/v1/notification/onboarding", SubscriptionType.NSDVNF, filters);
-		final UriComponents uri = rest.uriBuilder().pathSegment("vnfpkgm/v1/subscriptions").build();
-		final Class<?> clazz = httpGateway.get(0).getVnfPackageSubscriptionClass();
-		final Class<?> clazzWire = httpGateway.get(0).getPkgmSubscriptionRequest();
-		return postSubscription(rest, uri.toUri(), subsOut, clazzWire, clazz);
+		final URI uri = serverAdapter.getUriFor(ApiVersionType.SOL003_VNFPKGM, "subscriptions");
+		final HttpGateway hg = selectGateway(server);
+		final Class<?> clazz = hg.getVnfPackageSubscriptionClass();
+		final Class<?> clazzWire = hg.getPkgmSubscriptionRequest();
+		final Subscription res = postSubscription(rest, uri, subsOut, clazzWire, clazz);
+		res.setSubscriptionType(SubscriptionType.VNF);
+		return res;
 	}
 
-	private Subscription vnfIndicatorValueChangeSubscribe(final FluxRest rest) {
-		final List<FilterAttributes> filters = List.of(FilterAttributes.of("notificationTypes[0]", "VnfIndicatorValueChangeNotification"));
+	private Subscription vnfIndicatorValueChangeSubscribe(final ServerAdapter serverAdapter) {
+		final FluxRest rest = serverAdapter.rest();
+		final Servers server = serverAdapter.getServer();
+		final List<FilterAttributes> filters = List.of(FilterAttributes.of(NOTIFICATION_TYPES_0, "VnfIndicatorValueChangeNotification"));
 		final Subscription subsOut = createSubscriptionWithFilter(ApiTypesEnum.SOL003, "/vnfind/v1/notification/value-change", SubscriptionType.VNFIND, filters);
-		final UriComponents uri = rest.uriBuilder().pathSegment("vnfind/v1/subscriptions").build();
-		final Class<?> clazz = httpGateway.get(0).getVnfIndicatorValueChangeSubscriptionClass();
-		final Class<?> clazzWire = httpGateway.get(0).getVnfIndicatorValueChangeSubscriptionRequest();
-		return postSubscription(rest, uri.toUri(), subsOut, clazzWire, clazz);
+		final URI uri = serverAdapter.getUriFor(ApiVersionType.SOL003_VNFIND, "subscriptions");
+		final HttpGateway hg = selectGateway(server);
+		final Class<?> clazz = hg.getVnfIndicatorValueChangeSubscriptionClass();
+		final Class<?> clazzWire = hg.getVnfIndicatorValueChangeSubscriptionRequest();
+		final Subscription res = postSubscription(rest, uri, subsOut, clazzWire, clazz);
+		res.setSubscriptionType(SubscriptionType.VNFIND);
+		return res;
 	}
 
-	private Subscription vnfPackageChangeSubscribe(final FluxRest rest) {
-		final List<FilterAttributes> filters = List.of(FilterAttributes.of("notificationTypes[0]", "VnfPackageChangeNotification"));
+	private Subscription vnfPackageChangeSubscribe(final ServerAdapter serverAdapter) {
+		final FluxRest rest = serverAdapter.rest();
+		final Servers server = serverAdapter.getServer();
+		final List<FilterAttributes> filters = List.of(FilterAttributes.of(NOTIFICATION_TYPES_0, "VnfPackageChangeNotification"));
 		final Subscription subsOut = createSubscriptionWithFilter(ApiTypesEnum.SOL003, "/vnfpkgm/v1/notification/change", SubscriptionType.NSDVNF, filters);
-		final UriComponents uri = rest.uriBuilder().pathSegment("vnfpkgm/v1/subscriptions").build();
-		final Class<?> clazz = httpGateway.get(0).getVnfPackageSubscriptionClass();
-		final Class<?> clazzWire = httpGateway.get(0).getPkgmSubscriptionRequest();
-		return postSubscription(rest, uri.toUri(), subsOut, clazzWire, clazz);
+		final URI uri = serverAdapter.getUriFor(ApiVersionType.SOL003_VNFPKGM, "subscriptions");
+		final HttpGateway hg = selectGateway(server);
+		final Class<?> clazz = hg.getVnfPackageSubscriptionClass();
+		final Class<?> clazzWire = hg.getPkgmSubscriptionRequest();
+		final Subscription res = postSubscription(rest, uri, subsOut, clazzWire, clazz);
+		res.setSubscriptionType(SubscriptionType.VNF);
+		return res;
+	}
+
+	private Subscription subscribe(final ServerAdapter serverAdapter, final String notificationEvent, final String notificationUrl, final SubscriptionType subscriptionType,
+			final Function<HttpGateway, Class<?>> clazz, final Function<HttpGateway, Class<?>> clazzWire) {
+		final List<FilterAttributes> filters = List.of(FilterAttributes.of(NOTIFICATION_TYPES_0, notificationEvent));
+		final Subscription subsOut = createSubscriptionWithFilter(ApiTypesEnum.SOL003, notificationUrl, subscriptionType, filters);
+		final URI uri = serverAdapter.getUriFor(ApiVersionType.SOL003_VNFPKGM, "subscriptions");
+		final HttpGateway hg = serverAdapter.httpGateway();
+		final FluxRest rest = serverAdapter.rest();
+		return postSubscription(rest, uri, subsOut, clazzWire.apply(hg), clazz.apply(hg));
 	}
 
 	private Subscription createSubscriptionWithFilter(final ApiTypesEnum apiType, final String url, final SubscriptionType subscriptionType, final List<FilterAttributes> filters) {
@@ -287,6 +320,13 @@ public class CommonActionController {
 				.buildAndExpand(uriVariables);
 		final ApiVersionInformation res = rest.get(uri.toUri(), ApiVersionInformation.class, null);
 		return mapper.map(res, ApiVersion.class);
+	}
+
+	private HttpGateway selectGateway(final Servers server) {
+		return httpGateway.stream()
+				.filter(x -> x.getVersion().toString().equals(server.getVersion()))
+				.findAny()
+				.orElseThrow(() -> new GenericException("Unable to find version: " + server.getVersion()));
 	}
 
 }
