@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.service.mon.jms;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,8 +34,10 @@ import com.ubiqube.etsi.mano.mon.dao.AllHostMetrics;
 import com.ubiqube.etsi.mano.mon.dao.TelemetryMetricsResult;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.mon.model.MonitoringData;
+import com.ubiqube.etsi.mano.service.mon.model.VnfIndicatorMonitoringData;
 import com.ubiqube.etsi.mano.service.mon.model.VnfIndicatorValue;
 import com.ubiqube.etsi.mano.service.mon.repository.MonitoringDataJpa;
+import com.ubiqube.etsi.mano.service.mon.repository.VnfIndicatorMonitoringDataJpa;
 import com.ubiqube.etsi.mano.service.mon.repository.VnfIndicatorValueJpa;
 
 /**
@@ -50,15 +53,18 @@ public class PostgresDataListener {
 
 	private final VnfIndicatorValueJpa vnfIndicatorValueJpa;
 	
+	private final VnfIndicatorMonitoringDataJpa vnfIndicatorMonitoringDataJpa;
+	
 	private final EventManager eventManager;
 	
 	private VnfInstanceJpa vnfInstanceJpa;
 
-	public PostgresDataListener(final MonitoringDataJpa monitoringDataJpa, final VnfIndicatorValueJpa vnfIndicatorValueJpa, final VnfInstanceJpa vnfInstanceJpa, final EventManager eventManager) {
+	public PostgresDataListener(final MonitoringDataJpa monitoringDataJpa, final VnfIndicatorValueJpa vnfIndicatorValueJpa, final VnfInstanceJpa vnfInstanceJpa, final VnfIndicatorMonitoringDataJpa vnfIndicatorMonitoringDataJpa, final EventManager eventManager) {
 		super();
 		this.monitoringDataJpa = monitoringDataJpa;
 		this.vnfIndicatorValueJpa = vnfIndicatorValueJpa;
 		this.vnfInstanceJpa = vnfInstanceJpa;
+		this.vnfIndicatorMonitoringDataJpa = vnfIndicatorMonitoringDataJpa;
 		this.eventManager = eventManager;
 	}
 
@@ -74,17 +80,30 @@ public class PostgresDataListener {
 			Set<VnfCompute> computes = vnfInstance.getVnfPkg().getVnfCompute();
 			if(allHostMetrics.getTelemetryMetricsResult().get(0).getKey().equals("cpu")) {
 				Long noOfVirtualCpus = 0L;
+				Boolean isMetricsUpdated = false;
 				for(VnfCompute compute : computes) {
 					noOfVirtualCpus = noOfVirtualCpus + compute.getVirtualCpu().getNumVirtualCpu();
 				}
 				for(TelemetryMetricsResult action : allHostMetrics.getTelemetryMetricsResult()) {
 					LOG.info("Postgresql-Receive: {}", action);
-					if(noOfVirtualCpus != 0) {
-						Double usageInSeconds = action.getValue() / 10000000000L;
+					VnfIndicatorMonitoringData data = vnfIndicatorMonitoringDataJpa.findByKeyAndVnfcId(allHostMetrics.getMetricName(), UUID.fromString(action.getVnfcId()));
+					if(data != null) {
+						Double deltaCpuUsage = action.getValue() - data.getValue();
+						if(deltaCpuUsage != 0.0) {
+							isMetricsUpdated = true;
+						} else {
+							isMetricsUpdated = false;
+						}
+						Double usageInSeconds = deltaCpuUsage / 1000000000L;
 						totalValue = totalValue + usageInSeconds;
-					}
+					} 
+					VnfIndicatorMonitoringData data2 = new VnfIndicatorMonitoringData(allHostMetrics.getMetricName(), allHostMetrics.getMasterJobId(), action.getValue(), UUID.fromString(action.getVnfcId()));
+					vnfIndicatorMonitoringDataJpa.save(data2);
 				}
-				averageValueByPercent = totalValue / (noOfVirtualCpus * 600);
+				if(!isMetricsUpdated) {
+					return;
+				}
+				averageValueByPercent = (totalValue / (noOfVirtualCpus * 600)) * 100;
 			} else if(allHostMetrics.getTelemetryMetricsResult().get(0).getKey().equals("memory.usage")) {
 				Long totalMemorySize = 0L;
 				for(VnfCompute compute : computes) {
