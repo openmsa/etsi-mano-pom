@@ -22,10 +22,12 @@ import java.util.UUID;
 import com.ubiqube.etsi.mano.dao.mano.pm.PmType;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class AllHostMetrics {
 
 	private List<TelemetryMetricsResult> telemetryMetricsResult;
