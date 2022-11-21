@@ -296,4 +296,10 @@ public class HttpGateway361 extends AbstractHttpGateway {
 		req.setCause(cause);
 		return req;
 	}
+
+	@Override
+	public Class<?> getVnfInstanceHealRequest() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

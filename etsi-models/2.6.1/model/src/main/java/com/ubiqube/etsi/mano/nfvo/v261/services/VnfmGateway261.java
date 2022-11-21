@@ -210,6 +210,11 @@ public class VnfmGateway261 extends AbstractHttpGateway {
 	public Class<?> getVnfInstanceScaleRequest() {
 		return ScaleVnfRequest.class;
 	}
+	
+	@Override
+	public Class<?> getVnfInstanceHealRequest() {
+		return HealVnfRequest.class;
+	}
 
 	@Override
 	public Class<?> getVnfInstanceOperateRequest() {

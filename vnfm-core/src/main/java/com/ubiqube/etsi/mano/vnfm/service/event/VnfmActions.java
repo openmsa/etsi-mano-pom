@@ -86,8 +86,10 @@ public class VnfmActions extends AbstractGenericActionV3 {
 		blueprint.getTasks().forEach(x -> {
 			if (blueprint.getOperateChanges().getTerminationType() == OperationalStateType.STARTED) {
 				vim.startServer(vimConnection, x.getVimResourceId());
-			} else {
+			} else if (blueprint.getOperateChanges().getTerminationType() == OperationalStateType.STOPPED) {
 				vim.stopServer(vimConnection, x.getVimResourceId());
+			} else {
+				vim.rebootServer(vimConnection, x.getVimResourceId());
 			}
 		});
 		blueprint.setOperationStatus(OperationStatusType.COMPLETED);

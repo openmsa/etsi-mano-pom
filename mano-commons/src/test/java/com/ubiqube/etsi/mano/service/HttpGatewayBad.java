@@ -226,4 +226,10 @@ public class HttpGatewayBad extends AbstractHttpGateway {
 		return null;
 	}
 
+	@Override
+	public Class<?> getVnfInstanceHealRequest() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

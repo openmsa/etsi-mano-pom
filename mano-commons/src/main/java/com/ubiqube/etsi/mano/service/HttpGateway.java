@@ -86,6 +86,8 @@ public interface HttpGateway {
 	Object createVnfInstanceHealRequest(String cause);
 	
 	Class<?> getVnfInstanceScaleRequest();
+	
+	Class<?> getVnfInstanceHealRequest();
 
 	Class<?> getVnfInstanceOperateRequest();
 

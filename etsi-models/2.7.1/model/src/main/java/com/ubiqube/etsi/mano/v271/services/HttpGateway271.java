@@ -285,4 +285,10 @@ public class HttpGateway271 extends AbstractHttpGateway {
 		return req;
 	}
 
+	@Override
+	public Class<?> getVnfInstanceHealRequest() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

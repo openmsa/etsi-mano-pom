@@ -35,6 +35,7 @@ import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.vnfi.ChangeExtVnfConnRequest;
 import com.ubiqube.etsi.mano.exception.GenericException;
+import com.ubiqube.etsi.mano.model.VnfHealRequest;
 import com.ubiqube.etsi.mano.model.VnfInstantiate;
 import com.ubiqube.etsi.mano.model.VnfOperateRequest;
 import com.ubiqube.etsi.mano.model.VnfScaleRequest;
@@ -128,7 +129,10 @@ public class VnfInstanceGenericFrontControllerImpl implements VnfInstanceGeneric
 	public ResponseEntity<Void> heal(final UUID vnfInstanceId, final String cause, final Map<String, String> hashMap) {
 		final VnfInstance vnfInstance = vnfInstanceServiceVnfm.findById(vnfInstanceId);
 		ensureInstantiated(vnfInstance);
-		throw new GenericException("TODO");
+		VnfHealRequest req = new VnfHealRequest();
+		vnfInstanceLcm.heal(null, vnfInstanceId, req);
+		final String link = "";
+		return ResponseEntity.accepted().header(LOCATION, link).build();
 	}
 
 	@Override

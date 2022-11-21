@@ -274,4 +274,10 @@ public class VnfmGateway331 extends AbstractHttpGateway {
 		return null;
 	}
 
+	@Override
+	public Class<?> getVnfInstanceHealRequest() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

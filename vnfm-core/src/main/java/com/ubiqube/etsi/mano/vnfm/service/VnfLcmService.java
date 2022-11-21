@@ -42,6 +42,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
 import com.ubiqube.etsi.mano.dao.mano.vnfi.ChangeExtVnfConnRequest;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.grammar.GrammarParser;
+import com.ubiqube.etsi.mano.model.VnfHealRequest;
 import com.ubiqube.etsi.mano.model.VnfOperateRequest;
 import com.ubiqube.etsi.mano.model.VnfScaleRequest;
 import com.ubiqube.etsi.mano.model.VnfScaleToLevelRequest;
@@ -112,6 +113,19 @@ public class VnfLcmService {
 		final OperateChanges opChanges = lcmOpOccs.getOperateChanges();
 		opChanges.setTerminationType(OperationalStateType.fromValue(operateVnfRequest.getChangeStateTo().toString()));
 		opChanges.setGracefulTerminationTimeout(operateVnfRequest.getGracefulStopTimeout());
+		final List<VnfLiveInstance> instantiatedCompute = vnfInstancesService.getLiveComputeInstanceOf(vnfInstance);
+		instantiatedCompute.forEach(x -> {
+			final VnfTask affectedCompute = copyInstantiedResource(x, new ComputeTask(), lcmOpOccs);
+			lcmOpOccs.addTask(affectedCompute);
+		});
+		return saveLcmOppOcc(lcmOpOccs, vnfInstance);
+	}
+	
+	public VnfBlueprint createHealOpOcc(final VnfInstance vnfInstance, final VnfHealRequest vnfHealRequest) {
+		final VnfBlueprint lcmOpOccs = VnfLcmFactory.createVnfBlueprint(PlanOperationType.OPERATE, vnfInstance.getId());
+		final OperateChanges opChanges = lcmOpOccs.getOperateChanges();
+		opChanges.setTerminationType(OperationalStateType.REBOOT);
+		opChanges.setGracefulTerminationTimeout(0);
 		final List<VnfLiveInstance> instantiatedCompute = vnfInstancesService.getLiveComputeInstanceOf(vnfInstance);
 		instantiatedCompute.forEach(x -> {
 			final VnfTask affectedCompute = copyInstantiedResource(x, new ComputeTask(), lcmOpOccs);
