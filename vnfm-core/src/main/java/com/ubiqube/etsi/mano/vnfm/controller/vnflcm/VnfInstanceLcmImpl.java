@@ -277,8 +277,12 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 
 	@Override
 	public VnfBlueprint heal(final Servers servers, final UUID vnfInstanceId, final VnfHealRequest healVnfRequest) {
-		// TODO Auto-generated method stub
-		return null;
+		final VnfInstance vnfInstance = vnfInstanceServiceVnfm.findById(vnfInstanceId);
+		ensureInstantiated(vnfInstance);
+		ensureNotLocked(vnfInstance);
+		final VnfBlueprint lcmOpOccs = vnfLcmService.createHealOpOcc(vnfInstance, healVnfRequest);
+		eventManager.sendActionVnfm(ActionType.VNF_OPERATE, lcmOpOccs.getId(), new HashMap<>());
+		return lcmOpOccs;
 	}
 
 }

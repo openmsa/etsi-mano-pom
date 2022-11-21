@@ -103,7 +103,7 @@ public class ManoVnfInstanceId {
 	public VnfBlueprint heal(final VnfHealRequest healVnfRequest) {
 		client.setFragment("vnf_instances/{id}/heal");
 		return client.createQuery(httpGateway -> httpGateway.createVnfInstanceHealRequest(healVnfRequest.getCause()))
-				.setWireInClass(HttpGateway::getVnfInstanceScaleRequest)
+				.setWireInClass(HttpGateway::getVnfInstanceHealRequest)
 				.setWireOutClass(HttpGateway::getVnfLcmOpOccs)
 				.setOutClass(VnfBlueprint.class)
 				.post(healVnfRequest);

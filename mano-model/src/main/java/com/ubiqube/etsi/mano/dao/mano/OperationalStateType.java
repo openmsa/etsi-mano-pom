@@ -22,7 +22,9 @@ public enum OperationalStateType {
 
 	STARTED("STARTED"),
 
-	STOPPED("STOPPED");
+	STOPPED("STOPPED"),
+	
+	REBOOT("REBOOT");
 
 	private String value;
 
