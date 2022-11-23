@@ -129,12 +129,15 @@ public class NsdVnfContributorV3 extends AbstractNsdContributorV3<Object> {
 	private static Set<String> rebuildVl(final NsdVnfPackageCopy nsPackageVnfPackage) {
 		return nsPackageVnfPackage.getVirtualLinks().stream()
 				.map(x -> mapToVl(nsPackageVnfPackage, x))
-				.map(ForwarderMapping::getVlName)
 				.collect(Collectors.toSet());
 	}
 
-	private static ForwarderMapping mapToVl(final NsdVnfPackageCopy nsPackageVnfPackage, final ListKeyPair lp) {
-		return nsPackageVnfPackage.getForwardMapping().stream().filter(x -> x.getForwardingName().equals(lp.getValue())).findFirst().orElseThrow();
+	private static String mapToVl(final NsdVnfPackageCopy nsPackageVnfPackage, final ListKeyPair lp) {
+		return nsPackageVnfPackage.getForwardMapping().stream()
+				.filter(x -> x.getForwardingName().equals(lp.getValue()))
+				.findFirst()
+				.map(ForwarderMapping::getVlName)
+				.orElse(lp.getValue());
 	}
 
 	private Servers selectServer(final VnfPackage vnfPackage) {
