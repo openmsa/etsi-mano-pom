@@ -134,6 +134,8 @@ public class VnfBlueprint extends AbstractBlueprint<VnfTask, VnfInstance> {
 	@ElementCollection(fetch = FetchType.EAGER)
 	private Set<String> warnings;
 
+	private String healCause;
+
 	@Override
 	public void addTask(final VnfTask task) {
 		if (null == tasks) {
