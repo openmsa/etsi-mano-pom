@@ -120,25 +120,30 @@ public class SystemService {
 				HelmNode.class,
 				VnffgLoadbalancerNode.class,
 				VnffgPostNode.class,
-				VnffgPostNode.class,
-				PortPairNode.class,
+				NetworkPolicyNode.class,
 				SubNetwork.class,
+		};
+		for (final Class<?> string : sysDtr) {
+			sys.add(createSystem(string.getSimpleName(), vimConnectionInformation, "OPENSTACK_V3"));
+		}
+		final Class<?>[] sysContrail = {
 				PtLinkNode.class,
 				ServiceInstanceNode.class,
 				ServiceTemplateNode.class,
 				PortTupleNode.class,
-				NetworkPolicyNode.class,
-				VnfIndicator.class,
+				PortPairNode.class,
 		};
-		for (final Class<?> string : sysDtr) {
-			sys.add(createSystem(string.getSimpleName(), vimConnectionInformation));
+		if (vimConnectionInformation.getInterfaceInfo().get("sdn-endpoint") != null) {
+			for (final Class<?> string : sysContrail) {
+				sys.add(createSystem(string.getSimpleName(), vimConnectionInformation, "CONTRAIL"));
+			}
 		}
 		return systemJpa.save(sys);
 	}
 
-	private SystemConnections createSystem(final String moduleName, final VimConnectionInformation vimConnectionInformation) {
+	private SystemConnections createSystem(final String moduleName, final VimConnectionInformation vimConnectionInformation, final String systemName) {
 		final SystemConnections sc = mapper.map(vimConnectionInformation, SystemConnections.class);
-		sc.setVimType(vimConnectionInformation.getVimType());
+		sc.setVimType(systemName);
 		sc.setModuleName(moduleName);
 		sc.setId(null);
 		return sc;
