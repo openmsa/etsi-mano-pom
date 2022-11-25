@@ -15,5 +15,6 @@
 	<modules>
 		<module>spring-config</module>
 		<module>docker-secret</module>
+		<module>mano-spring-properties</module>
 	</modules>
 </project>

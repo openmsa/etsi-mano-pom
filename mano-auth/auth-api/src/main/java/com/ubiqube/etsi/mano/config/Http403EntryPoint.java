@@ -31,7 +31,6 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ubiqube.etsi.mano.model.ProblemDetails;
 
 /**
  * Landing JSON page in case of login error.
