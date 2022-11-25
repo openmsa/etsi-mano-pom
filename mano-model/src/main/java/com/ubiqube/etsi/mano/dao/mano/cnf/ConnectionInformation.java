@@ -36,10 +36,10 @@ import org.hibernate.search.mapper.pojo.bridge.builtin.annotation.GeoPointBindin
 import com.ubiqube.etsi.mano.dao.mano.Audit;
 import com.ubiqube.etsi.mano.dao.mano.AuditListener;
 import com.ubiqube.etsi.mano.dao.mano.Auditable;
-import com.ubiqube.etsi.mano.dao.mano.AuthentificationInformations;
 import com.ubiqube.etsi.mano.dao.mano.common.FailureDetails;
 import com.ubiqube.etsi.mano.dao.mano.common.GeoPoint;
 import com.ubiqube.etsi.mano.dao.mano.v2.PlanStatusType;
+import com.ubiqube.etsi.mano.service.event.model.AuthentificationInformations;
 import com.ubiqube.etsi.mano.utils.ToStringUtil;
 
 import lombok.AllArgsConstructor;

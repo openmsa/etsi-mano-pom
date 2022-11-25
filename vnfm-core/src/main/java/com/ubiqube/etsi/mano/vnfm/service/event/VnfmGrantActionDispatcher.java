@@ -14,36 +14,24 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.dao.mano.subs;
+package com.ubiqube.etsi.mano.vnfm.service.event;
 
-/**
- *
- * @author Olivier Vignaud <ovi@ubiqube.com>
- *
- */
-public enum SubscriptionType {
-	VNF("VNF"),
-	NSD("NSD"),
-	ALARM("ALARM"),
-	NSLCM("NSLCM"),
-	VNFFM("VNFFM"),
-	VNFLCM("VNFLCM"),
-	VNFPM("VNFPM"),
-	VNFIND("VNFIND"),
-	VRQAN("VRQAN"),
-	MEOPKG("MEOPKG"),
-	NSDVNF("NSDVNF"),
-	NSPM("NSPM"),
-	;
+import java.util.UUID;
 
-	private String value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.stereotype.Service;
 
-	SubscriptionType(final String string) {
-		value = string;
-	}
+import com.ubiqube.etsi.mano.exception.GenericException;
+import com.ubiqube.etsi.mano.service.NfvoService;
+import com.ubiqube.etsi.mano.service.event.GrantActionDispatcher;
+
+@Service
+@ConditionalOnMissingBean(NfvoService.class)
+public class VnfmGrantActionDispatcher implements GrantActionDispatcher {
 
 	@Override
-	public String toString() {
-		return value;
+	public void dispatch(final UUID id) {
+		throw new GenericException("A Grant event have been sent.");
 	}
+
 }

@@ -14,7 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.dao.mano;
+package com.ubiqube.etsi.mano.service.event.model;
 
 import java.io.Serializable;
 
@@ -22,8 +22,6 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-
-import com.ubiqube.etsi.mano.utils.ToStringUtil;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -50,10 +48,5 @@ public class AuthParamOauth2 implements Serializable {
 	private OAuth2GrantType grantType;
 	@Column(length = 5000)
 	private String o2AuthTlsCert;
-
-	@Override
-	public String toString() {
-		return ToStringUtil.toString(this);
-	}
 
 }

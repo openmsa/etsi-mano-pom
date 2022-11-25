@@ -14,27 +14,13 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.dao.mano;
-
-import javax.persistence.Embeddable;
+package com.ubiqube.etsi.mano.registration.model;
 
 /**
- * Database entity.
  *
- * @author Olivier Vignaud <ovi@ubiqube.com>
+ * @author olivier
  *
  */
-@Embeddable
-public class SubscriptionQuery {
-
-	private String callbackUri = null;
-
-	public String getCallbackUri() {
-		return callbackUri;
-	}
-
-	public void setCallbackUri(final String callbackUri) {
-		this.callbackUri = callbackUri;
-	}
-
+public enum RegState {
+	DISCOVERED;
 }

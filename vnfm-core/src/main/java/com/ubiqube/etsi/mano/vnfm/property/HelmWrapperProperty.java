@@ -21,7 +21,7 @@ import java.util.List;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
-import com.ubiqube.etsi.mano.dao.mano.OAuth2GrantType;
+import com.ubiqube.etsi.mano.service.event.model.OAuth2GrantType;
 
 import lombok.Data;
 

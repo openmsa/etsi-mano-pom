@@ -25,12 +25,11 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ubiqube.etsi.mano.exception.GenericException;
-import com.ubiqube.etsi.mano.model.EventMessage;
-import com.ubiqube.etsi.mano.model.NotificationEvent;
 import com.ubiqube.etsi.mano.service.event.ActionMessage;
 import com.ubiqube.etsi.mano.service.event.ActionType;
 import com.ubiqube.etsi.mano.service.event.SubscriptionEvent;
+import com.ubiqube.etsi.mano.service.event.model.EventMessage;
+import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 
 /**
  *
@@ -80,7 +79,7 @@ public class QuartzEventUtils {
 		try {
 			jobDataMap.put("data", obj.writeValueAsString(se));
 		} catch (final JsonProcessingException e) {
-			throw new GenericException(e);
+			throw new QuartzSchedulerException(e);
 		}
 		return jobDataMap;
 	}
@@ -91,7 +90,7 @@ public class QuartzEventUtils {
 			final String data = (String) jobDataMap.get("data");
 			return obj.readValue(data, SubscriptionEvent.class);
 		} catch (final JsonProcessingException e) {
-			throw new GenericException(e);
+			throw new QuartzSchedulerException(e);
 		}
 	}
 }

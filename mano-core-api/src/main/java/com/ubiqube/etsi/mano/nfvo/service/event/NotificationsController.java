@@ -18,10 +18,10 @@ package com.ubiqube.etsi.mano.nfvo.service.event;
 
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.model.EventMessage;
 import com.ubiqube.etsi.mano.service.event.NotificationController;
 import com.ubiqube.etsi.mano.service.event.SubscriptionEvent;
 import com.ubiqube.etsi.mano.service.event.VnfEvent;
+import com.ubiqube.etsi.mano.service.event.model.EventMessage;
 
 /**
  *

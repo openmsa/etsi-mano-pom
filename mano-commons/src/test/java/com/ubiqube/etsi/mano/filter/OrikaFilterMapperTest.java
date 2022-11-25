@@ -21,8 +21,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.Test;
 
 import com.ubiqube.etsi.mano.common.v261.model.vnf.PkgmSubscriptionRequest;
-import com.ubiqube.etsi.mano.dao.mano.Subscription;
 import com.ubiqube.etsi.mano.mapper.OrikaFilterMapper;
+import com.ubiqube.etsi.mano.service.event.model.Subscription;
 
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;

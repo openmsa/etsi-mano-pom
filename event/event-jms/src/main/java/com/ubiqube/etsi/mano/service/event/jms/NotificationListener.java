@@ -18,13 +18,11 @@ package com.ubiqube.etsi.mano.service.event.jms;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.model.EventMessage;
-import com.ubiqube.etsi.mano.service.NfvoService;
 import com.ubiqube.etsi.mano.service.event.NotificationController;
+import com.ubiqube.etsi.mano.service.event.model.EventMessage;
 
 /**
  *
@@ -39,7 +37,6 @@ public class NotificationListener {
 	private final NotificationController notificationController;
 
 	public NotificationListener(final NotificationController notificationController) {
-		super();
 		this.notificationController = notificationController;
 	}
 

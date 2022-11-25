@@ -24,12 +24,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.model.EventMessage;
-import com.ubiqube.etsi.mano.model.NotificationEvent;
 import com.ubiqube.etsi.mano.service.event.ActionMessage;
 import com.ubiqube.etsi.mano.service.event.ActionType;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.event.SubscriptionEvent;
+import com.ubiqube.etsi.mano.service.event.model.EventMessage;
+import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 
 @Service
 public class JmsEventManager implements EventManager {

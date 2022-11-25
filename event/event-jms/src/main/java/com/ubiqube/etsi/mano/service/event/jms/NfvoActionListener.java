@@ -21,12 +21,10 @@ import javax.transaction.Transactional.TxType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 
-import com.ubiqube.etsi.mano.service.NfvoService;
 import com.ubiqube.etsi.mano.service.event.ActionController;
 import com.ubiqube.etsi.mano.service.event.ActionMessage;
 
@@ -36,7 +34,6 @@ import com.ubiqube.etsi.mano.service.event.ActionMessage;
  *
  */
 @Service
-@ConditionalOnBean(NfvoService.class)
 public class NfvoActionListener {
 
 	private static final Logger LOG = LoggerFactory.getLogger(NfvoActionListener.class);
@@ -44,7 +41,6 @@ public class NfvoActionListener {
 	private final ActionController actionController;
 
 	public NfvoActionListener(final ActionController actionController) {
-		super();
 		this.actionController = actionController;
 	}
 
@@ -52,9 +48,9 @@ public class NfvoActionListener {
 	@Transactional(TxType.NEVER)
 	@org.springframework.transaction.annotation.Transactional(propagation = Propagation.NEVER)
 	public void onEvent(final ActionMessage ev) {
-		LOG.info("JMS ActionController Receiving Action: {}", ev);
+		LOG.info("JMS NFVO ActionController Receiving Action: {}", ev);
 		actionController.onEvent(ev);
-		LOG.info("JMS ActionController Done for event: {}", ev);
+		LOG.info("JMS NFVO ActionController Done for event: {}", ev);
 	}
 
 }

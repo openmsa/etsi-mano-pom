@@ -21,12 +21,10 @@ import javax.transaction.Transactional.TxType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 
-import com.ubiqube.etsi.mano.service.VnfmService;
 import com.ubiqube.etsi.mano.service.event.ActionMessage;
 import com.ubiqube.etsi.mano.service.event.VnfmActionComtroller;
 
@@ -36,7 +34,6 @@ import com.ubiqube.etsi.mano.service.event.VnfmActionComtroller;
  *
  */
 @Service
-@ConditionalOnBean(VnfmService.class)
 public class VnfmActonListener {
 
 	private static final Logger LOG = LoggerFactory.getLogger(VnfmActonListener.class);
@@ -44,7 +41,6 @@ public class VnfmActonListener {
 	private final VnfmActionComtroller actionController;
 
 	public VnfmActonListener(final VnfmActionComtroller actionController) {
-		super();
 		this.actionController = actionController;
 	}
 
@@ -52,9 +48,9 @@ public class VnfmActonListener {
 	@Transactional(TxType.NEVER)
 	@org.springframework.transaction.annotation.Transactional(propagation = Propagation.NEVER)
 	public void onEvent(final ActionMessage ev) {
-		LOG.info("JMS ActionController Receiving Action: {}", ev);
+		LOG.info("JMS VNFM ActionController Receiving Action: {}", ev);
 		actionController.onEvent(ev);
-		LOG.info("JMS ActionController Done for event: {}", ev);
+		LOG.info("JMS VNFM ActionController Done for event: {}", ev);
 	}
 
 }

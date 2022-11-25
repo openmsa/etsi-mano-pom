@@ -20,14 +20,11 @@ import java.util.Set;
 
 import org.springframework.stereotype.Component;
 
-import com.ubiqube.etsi.mano.dao.mano.AuthParamOauth2;
-import com.ubiqube.etsi.mano.dao.mano.AuthentificationInformations;
 import com.ubiqube.etsi.mano.dao.mano.ExtCpInfo;
 import com.ubiqube.etsi.mano.dao.mano.ExtManagedVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.ExtVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.GrantInformationExt;
 import com.ubiqube.etsi.mano.dao.mano.SoftwareImage;
-import com.ubiqube.etsi.mano.dao.mano.Subscription;
 import com.ubiqube.etsi.mano.dao.mano.VnfCompute;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
@@ -65,6 +62,9 @@ import com.ubiqube.etsi.mano.model.v271.sol003.vnf.PkgmSubscriptionRequest;
 import com.ubiqube.etsi.mano.model.v271.sol003.vnf.VnfPackageSoftwareImageInfo;
 import com.ubiqube.etsi.mano.model.v271.sol003.vnf.VnfPackageSoftwareImageInfo.ContainerFormatEnum;
 import com.ubiqube.etsi.mano.model.v271.sol003.vnf.VnfPackageSoftwareImageInfo.DiskFormatEnum;
+import com.ubiqube.etsi.mano.service.event.model.AuthParamOauth2;
+import com.ubiqube.etsi.mano.service.event.model.AuthentificationInformations;
+import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.model.v271.sol003.vnf.VnfPkgInfo;
 
 import ma.glasnost.orika.CustomMapper;

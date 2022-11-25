@@ -14,36 +14,29 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.dao.mano;
+package com.ubiqube.etsi.mano.vnfm.service.event;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.stereotype.Service;
 
-public enum ApiTypesEnum {
-	SOL003("SOL003"),
-	SOL005("SOL005");
+import com.ubiqube.etsi.mano.exception.GenericException;
+import com.ubiqube.etsi.mano.service.NfvoService;
+import com.ubiqube.etsi.mano.service.event.ActionController;
+import com.ubiqube.etsi.mano.service.event.ActionMessage;
 
-	private final String value;
-
-	ApiTypesEnum(final String v) {
-		value = v;
-	}
-
-	public String value() {
-		return value;
-	}
+/**
+ * This Action is just for VNFM, and should never be called.
+ *
+ * @author olivier
+ *
+ */
+@Service
+@ConditionalOnMissingBean(NfvoService.class)
+public class VnfmNfvoActionController implements ActionController {
 
 	@Override
-	public String toString() {
-		return String.valueOf(value);
+	public void onEvent(final ActionMessage ev) {
+		throw new GenericException("A NFVO event have been sent.");
 	}
 
-	@JsonCreator
-	public static ApiTypesEnum fromValue(final String v) {
-		for (final ApiTypesEnum b : ApiTypesEnum.values()) {
-			if (String.valueOf(b.value).equals(v)) {
-				return b;
-			}
-		}
-		return null;
-	}
 }

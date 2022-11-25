@@ -14,35 +14,15 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.dao.mano;
+package com.ubiqube.etsi.mano.service.event.quartz;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+public class QuartzSchedulerException extends RuntimeException {
 
-public enum OAuth2GrantType {
-	PASSWORD("password"),
-	CLIENT_CREDENTIAL("client_credentials");
+	/** Serial. */
+	private static final long serialVersionUID = 1L;
 
-	private final String value;
-
-	OAuth2GrantType(final String value) {
-		this.value = value;
-	}
-
-	@Override
-	@JsonValue
-	public String toString() {
-		return String.valueOf(value);
-	}
-
-	@JsonCreator
-	public static OAuth2GrantType fromValue(final String text) {
-		for (final OAuth2GrantType b : OAuth2GrantType.values()) {
-			if (String.valueOf(b.value).equals(text)) {
-				return b;
-			}
-		}
-		return null;
+	public QuartzSchedulerException(final Throwable e) {
+		super(e);
 	}
 
 }

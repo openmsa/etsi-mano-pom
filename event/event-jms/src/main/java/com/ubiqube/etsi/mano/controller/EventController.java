@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ubiqube.etsi.mano.model.EventMessage;
+import com.ubiqube.etsi.mano.service.event.model.EventMessage;
 
 /**
  *
@@ -44,7 +44,6 @@ public class EventController {
 	private final JmsTemplate jmsTemplate;
 
 	public EventController(final JmsTemplate jmsTemplate) {
-		super();
 		this.jmsTemplate = jmsTemplate;
 	}
 

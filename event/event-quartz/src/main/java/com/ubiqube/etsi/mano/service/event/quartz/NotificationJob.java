@@ -21,8 +21,8 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
-import com.ubiqube.etsi.mano.model.EventMessage;
 import com.ubiqube.etsi.mano.service.event.NotificationController;
+import com.ubiqube.etsi.mano.service.event.model.EventMessage;
 
 /**
  *
@@ -34,7 +34,6 @@ public class NotificationJob extends QuartzJobBean {
 	private final NotificationController notificationController;
 
 	public NotificationJob(final NotificationController notificationController) {
-		super();
 		this.notificationController = notificationController;
 	}
 

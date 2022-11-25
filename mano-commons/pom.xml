@@ -127,5 +127,10 @@
 			<artifactId>mano-repo-api</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>com.ubiqube.mano.event</groupId>
+			<artifactId>event-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>

@@ -31,6 +31,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 import com.ubiqube.etsi.mano.dao.mano.ScaleTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.ScaleByStepData;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.ScaleToLevelData;
+import com.ubiqube.etsi.mano.service.event.model.EventMessage;
+import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 

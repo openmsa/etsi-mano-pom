@@ -21,11 +21,11 @@ import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
-import com.ubiqube.etsi.mano.dao.mano.ApiTypesEnum;
-import com.ubiqube.etsi.mano.dao.mano.Subscription;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackageChangeNotification;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackageOnboardingNotification;
-import com.ubiqube.etsi.mano.dao.mano.subs.SubscriptionType;
+import com.ubiqube.etsi.mano.service.event.model.ApiTypesEnum;
+import com.ubiqube.etsi.mano.service.event.model.Subscription;
+import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
 
 public interface VnfSubscriptionManagement {
 

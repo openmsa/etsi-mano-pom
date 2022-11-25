@@ -30,13 +30,13 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClient.Builder;
 
-import com.ubiqube.etsi.mano.dao.mano.AuthParamBasic;
-import com.ubiqube.etsi.mano.dao.mano.AuthentificationInformations;
 import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionType;
 import com.ubiqube.etsi.mano.repository.ByteArrayResource;
 import com.ubiqube.etsi.mano.repository.ManoResource;
 import com.ubiqube.etsi.mano.service.event.HelmUploader;
+import com.ubiqube.etsi.mano.service.event.model.AuthParamBasic;
+import com.ubiqube.etsi.mano.service.event.model.AuthentificationInformations;
 
 import reactor.core.publisher.Mono;
 

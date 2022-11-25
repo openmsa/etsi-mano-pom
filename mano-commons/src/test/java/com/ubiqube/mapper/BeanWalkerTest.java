@@ -34,11 +34,11 @@ import com.ubiqube.etsi.mano.common.v261.model.vnf.PkgmNotificationsFilterVnfPro
 import com.ubiqube.etsi.mano.common.v261.model.vnf.PkgmSubscription;
 import com.ubiqube.etsi.mano.common.v261.model.vnf.PkgmSubscriptionLinks;
 import com.ubiqube.etsi.mano.common.v261.model.vnf.VnfPkgInfo;
-import com.ubiqube.etsi.mano.dao.mano.FilterAttributes;
 import com.ubiqube.etsi.mano.mapper.AttrHolder;
 import com.ubiqube.etsi.mano.mapper.BeanWalker;
 import com.ubiqube.etsi.mano.mapper.CollectNonNullListener;
 import com.ubiqube.etsi.mano.mapper.SpelWriter;
+import com.ubiqube.etsi.mano.service.event.model.FilterAttributes;
 
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 

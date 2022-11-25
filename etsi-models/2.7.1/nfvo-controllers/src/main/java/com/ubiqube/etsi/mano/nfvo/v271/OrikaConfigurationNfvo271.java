@@ -18,13 +18,11 @@ package com.ubiqube.etsi.mano.nfvo.v271;
 
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.dao.mano.AuthParamOauth2;
 import com.ubiqube.etsi.mano.dao.mano.ExtManagedVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.GrantInformationExt;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
-import com.ubiqube.etsi.mano.dao.mano.Subscription;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.dto.NsInstantiatedVnf;
 import com.ubiqube.etsi.mano.dao.mano.dto.NsLcmOpOccs;
@@ -62,6 +60,8 @@ import com.ubiqube.etsi.mano.model.v271.sol005.nslcm.AffectedVnf;
 import com.ubiqube.etsi.mano.model.v271.sol005.nslcm.InstantiateNsRequest;
 import com.ubiqube.etsi.mano.model.v271.sol005.nslcm.NsInstance;
 import com.ubiqube.etsi.mano.model.v271.sol005.nslcm.NsLcmOpOcc;
+import com.ubiqube.etsi.mano.service.event.model.AuthParamOauth2;
+import com.ubiqube.etsi.mano.service.event.model.Subscription;
 
 import ma.glasnost.orika.CustomMapper;
 import ma.glasnost.orika.MapperFactory;

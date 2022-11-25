@@ -14,38 +14,25 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.dao.mano;
+package com.ubiqube.etsi.mano.test.controllers;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 
-public enum AuthType {
-	BASIC("BASIC"),
+import com.tngtech.archunit.core.importer.ImportOption;
+import com.tngtech.archunit.junit.AnalyzeClasses;
+import com.tngtech.archunit.junit.ArchTest;
+import com.tngtech.archunit.lang.ArchRule;
 
-	OAUTH2_CLIENT_CREDENTIALS("OAUTH2_CLIENT_CREDENTIALS"),
+/**
+ *
+ * @author Olivier Vignaud <ovi@ubiqube.com>
+ *
+ */
+@AnalyzeClasses(packages = { "com.ubiqube.etsi.mano" }, importOptions = ImportOption.DoNotIncludeTests.class)
+public class ArchUnitTest {
 
-	TLS_CERT("TLS_CERT");
-
-	private final String value;
-
-	AuthType(final String value) {
-		this.value = value;
-	}
-
-	@Override
-	@JsonValue
-	public String toString() {
-		return String.valueOf(value);
-	}
-
-	@JsonCreator
-	public static AuthType fromValue(final String text) {
-		for (final AuthType b : AuthType.values()) {
-			if (String.valueOf(b.value).equals(text)) {
-				return b;
-			}
-		}
-		return null;
-	}
-
+	@ArchTest
+	public static final ArchRule ensure_rest_controller_dont_use_jpa = noClasses()
+			.that().resideInAPackage("..controller..")
+			.should().accessClassesThat().resideInAPackage("..jpa..");
 }

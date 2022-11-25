@@ -16,7 +16,7 @@
  */
 package com.ubiqube.etsi.mano.service.event;
 
-import com.ubiqube.etsi.mano.dao.mano.AuthentificationInformations;
+import com.ubiqube.etsi.mano.service.event.model.AuthentificationInformations;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
 
 /**

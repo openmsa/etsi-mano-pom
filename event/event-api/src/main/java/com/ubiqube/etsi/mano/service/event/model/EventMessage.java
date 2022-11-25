@@ -14,7 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.model;
+package com.ubiqube.etsi.mano.service.event.model;
 
 import java.util.Map;
 import java.util.UUID;

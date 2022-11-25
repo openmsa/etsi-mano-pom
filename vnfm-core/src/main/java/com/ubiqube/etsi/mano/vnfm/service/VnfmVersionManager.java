@@ -24,13 +24,13 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.config.properties.ManoProperties;
-import com.ubiqube.etsi.mano.dao.mano.ApiTypesEnum;
-import com.ubiqube.etsi.mano.dao.mano.AuthParamBasic;
-import com.ubiqube.etsi.mano.dao.mano.AuthParamOauth2;
-import com.ubiqube.etsi.mano.dao.mano.AuthType;
-import com.ubiqube.etsi.mano.dao.mano.AuthentificationInformations;
-import com.ubiqube.etsi.mano.dao.mano.Subscription;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+import com.ubiqube.etsi.mano.service.event.model.ApiTypesEnum;
+import com.ubiqube.etsi.mano.service.event.model.AuthParamBasic;
+import com.ubiqube.etsi.mano.service.event.model.AuthParamOauth2;
+import com.ubiqube.etsi.mano.service.event.model.AuthType;
+import com.ubiqube.etsi.mano.service.event.model.AuthentificationInformations;
+import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.service.rest.ManoClientFactory;
 
 /**

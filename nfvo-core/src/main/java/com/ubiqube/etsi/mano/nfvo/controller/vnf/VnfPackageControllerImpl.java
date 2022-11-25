@@ -30,13 +30,13 @@ import com.ubiqube.etsi.mano.Constants;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.pkg.UploadUriParameters;
 import com.ubiqube.etsi.mano.exception.PreConditionException;
-import com.ubiqube.etsi.mano.model.NotificationEvent;
 import com.ubiqube.etsi.mano.nfvo.factory.VnfPackageFactory;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 import com.ubiqube.etsi.mano.service.Patcher;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.event.ActionType;
 import com.ubiqube.etsi.mano.service.event.EventManager;
+import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 
 @Service
 public class VnfPackageControllerImpl implements VnfPackageController {

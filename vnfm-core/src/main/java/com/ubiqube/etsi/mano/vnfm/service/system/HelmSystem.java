@@ -18,9 +18,6 @@ package com.ubiqube.etsi.mano.vnfm.service.system;
 
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.dao.mano.AuthParamOauth2;
-import com.ubiqube.etsi.mano.dao.mano.AuthentificationInformations;
-import com.ubiqube.etsi.mano.dao.mano.OAuth2GrantType;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.HelmTask;
@@ -32,6 +29,9 @@ import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWorkV3;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 import com.ubiqube.etsi.mano.service.boot.K8sPkService;
+import com.ubiqube.etsi.mano.service.event.model.AuthParamOauth2;
+import com.ubiqube.etsi.mano.service.event.model.AuthentificationInformations;
+import com.ubiqube.etsi.mano.service.event.model.OAuth2GrantType;
 import com.ubiqube.etsi.mano.service.system.AbstractVimSystemV3;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 import com.ubiqube.etsi.mano.service.vim.k8s.K8sClient;

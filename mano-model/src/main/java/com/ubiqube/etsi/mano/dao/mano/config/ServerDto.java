@@ -20,8 +20,8 @@ import java.util.Set;
 
 import javax.validation.constraints.NotNull;
 
-import com.ubiqube.etsi.mano.dao.mano.AuthentificationInformations;
-import com.ubiqube.etsi.mano.dao.mano.subs.SubscriptionType;
+import com.ubiqube.etsi.mano.service.event.model.AuthentificationInformations;
+import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -22,7 +22,7 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.validation.constraints.NotNull;
 
-import com.ubiqube.etsi.mano.model.NotificationEvent;
+import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 
 /**
  * Manage Asynchronous Event in the application. Current implementation is using

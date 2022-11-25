@@ -28,11 +28,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ubiqube.etsi.mano.controller.vnf.VnfSubscriptionManagement;
 import com.ubiqube.etsi.mano.controller.vnf.VnfSubscriptionSol005FrontController;
-import com.ubiqube.etsi.mano.dao.mano.ApiTypesEnum;
-import com.ubiqube.etsi.mano.dao.mano.Subscription;
 import com.ubiqube.etsi.mano.dao.mano.common.ApiVersionType;
-import com.ubiqube.etsi.mano.dao.mano.subs.SubscriptionType;
 import com.ubiqube.etsi.mano.service.ServerService;
+import com.ubiqube.etsi.mano.service.event.model.ApiTypesEnum;
+import com.ubiqube.etsi.mano.service.event.model.Subscription;
+import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
 
 import ma.glasnost.orika.MapperFacade;
 

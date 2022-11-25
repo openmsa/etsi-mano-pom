@@ -49,7 +49,6 @@ import com.ubiqube.etsi.mano.em.v361.model.vnflcm.TerminateVnfRequest.Terminatio
 import com.ubiqube.etsi.mano.em.v361.model.vnflcm.VnfLcmOpOcc;
 import com.ubiqube.etsi.mano.em.v361.model.vnfpm.CreatePmJobRequest;
 import com.ubiqube.etsi.mano.em.v361.model.vnfpm.CreateThresholdRequest;
-import com.ubiqube.etsi.mano.model.EventMessage;
 import com.ubiqube.etsi.mano.nfvo.v361.model.nsd.CreateNsdInfoRequest;
 import com.ubiqube.etsi.mano.nfvo.v361.model.nsd.NsdInfo;
 import com.ubiqube.etsi.mano.nfvo.v361.model.vnf.CreateVnfPkgInfoRequest;
@@ -57,6 +56,7 @@ import com.ubiqube.etsi.mano.nfvo.v361.model.vnf.PkgmSubscription;
 import com.ubiqube.etsi.mano.nfvo.v361.model.vnf.PkgmSubscriptionRequest;
 import com.ubiqube.etsi.mano.nfvo.v361.model.vnf.VnfPkgInfo;
 import com.ubiqube.etsi.mano.service.AbstractHttpGateway;
+import com.ubiqube.etsi.mano.service.event.model.EventMessage;
 import com.ubiqube.etsi.mano.utils.Version;
 import com.ubiqube.etsi.mano.vnfm.v361.model.grant.Grant;
 import com.ubiqube.etsi.mano.vnfm.v361.model.grant.GrantRequest;

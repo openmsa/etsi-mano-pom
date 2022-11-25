@@ -34,12 +34,11 @@ import com.ubiqube.etsi.mano.common.v261.model.vnf.PkgmNotificationsFilterVnfPro
 import com.ubiqube.etsi.mano.common.v261.model.vnf.PkgmSubscription;
 import com.ubiqube.etsi.mano.common.v261.model.vnf.PkgmSubscriptionLinks;
 import com.ubiqube.etsi.mano.common.v261.model.vnf.PkgmSubscriptionRequest;
-import com.ubiqube.etsi.mano.dao.mano.ApiTypesEnum;
-import com.ubiqube.etsi.mano.dao.mano.AuthParamBasic;
-import com.ubiqube.etsi.mano.dao.mano.AuthentificationInformations;
-import com.ubiqube.etsi.mano.dao.mano.FilterAttributes;
-import com.ubiqube.etsi.mano.dao.mano.Subscription;
-import com.ubiqube.etsi.mano.dao.mano.SubscriptionQuery;
+import com.ubiqube.etsi.mano.service.event.model.ApiTypesEnum;
+import com.ubiqube.etsi.mano.service.event.model.AuthParamBasic;
+import com.ubiqube.etsi.mano.service.event.model.AuthentificationInformations;
+import com.ubiqube.etsi.mano.service.event.model.FilterAttributes;
+import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.vnfm.v261.OrikaMapperVnfm261;
 import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.LccnSubscriptionRequest;
 
@@ -104,8 +103,6 @@ public class SubscriptionTest {
 		subsDb.setAuthentication(authentificationInformations);
 		final UUID uuid = UUID.randomUUID();
 		subsDb.setId(uuid);
-		final SubscriptionQuery subscriptionQuery = new SubscriptionQuery();
-		subscriptionQuery.setCallbackUri("http://callBackUri/?");
 		final List<FilterAttributes> subscriptionFilter = new ArrayList<>();
 		final FilterAttributes fa = new FilterAttributes();
 		fa.setAttribute("vnfProductsFromProviders.0.operationalState.0");

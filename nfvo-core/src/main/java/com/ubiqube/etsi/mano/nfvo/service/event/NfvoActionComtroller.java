@@ -14,35 +14,23 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.dao.mano;
+package com.ubiqube.etsi.mano.nfvo.service.event;
 
-import java.io.Serializable;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.stereotype.Service;
 
-import javax.persistence.Embeddable;
+import com.ubiqube.etsi.mano.exception.GenericException;
+import com.ubiqube.etsi.mano.service.VnfmService;
+import com.ubiqube.etsi.mano.service.event.ActionMessage;
+import com.ubiqube.etsi.mano.service.event.VnfmActionComtroller;
 
-import com.ubiqube.etsi.mano.utils.ToStringUtil;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-@Setter
-@Getter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Embeddable
-public class AuthParamBasic implements Serializable {
-	/** Serial. */
-	private static final long serialVersionUID = 1L;
-	private String userName;
-	private String password;
+@Service
+@ConditionalOnMissingBean(VnfmService.class)
+public class NfvoActionComtroller implements VnfmActionComtroller {
 
 	@Override
-	public String toString() {
-		return ToStringUtil.toString(this);
+	public void onEvent(final ActionMessage actionMessage) {
+		throw new GenericException("A Grant action have been issued.");
 	}
 
 }

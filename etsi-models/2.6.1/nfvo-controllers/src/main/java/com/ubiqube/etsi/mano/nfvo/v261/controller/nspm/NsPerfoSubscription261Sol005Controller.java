@@ -31,8 +31,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ubiqube.etsi.mano.common.v261.model.Link;
 import com.ubiqube.etsi.mano.controller.SubscriptionFrontController;
-import com.ubiqube.etsi.mano.dao.mano.subs.SubscriptionType;
 import com.ubiqube.etsi.mano.nfvo.v261.model.nsperfo.SubscriptionsPmSubscriptionRequest;
+import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
 import com.ubiqube.etsi.mano.vnfm.v261.model.nsperfo.PmSubscription;
 import com.ubiqube.etsi.mano.vnfm.v261.model.nsperfo.PmSubscriptionLinks;
 

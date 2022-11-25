@@ -25,11 +25,11 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ubiqube.etsi.mano.controller.SubscriptionFrontController;
-import com.ubiqube.etsi.mano.dao.mano.subs.SubscriptionType;
 import com.ubiqube.etsi.mano.em.v331.model.vnfind.VnfIndicatorSubscription;
 import com.ubiqube.etsi.mano.em.v331.model.vnfind.VnfIndicatorSubscriptionLinks;
 import com.ubiqube.etsi.mano.em.v331.model.vnfind.VnfIndicatorSubscriptionRequest;
 import com.ubiqube.etsi.mano.em.v331.model.vnflcm.Link;
+import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
 
 @RestController
 public class VnfIndSubscriptions331Sol003Controller implements VnfIndSubscriptions331Sol003Api {

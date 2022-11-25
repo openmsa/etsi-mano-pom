@@ -29,12 +29,12 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ubiqube.etsi.mano.dao.mano.FilterAttributes;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.mapper.AttrHolder;
 import com.ubiqube.etsi.mano.mapper.CollectHashMapListener;
 import com.ubiqube.etsi.mano.mapper.JsonWalker;
 import com.ubiqube.etsi.mano.mapper.SpelWriter;
+import com.ubiqube.etsi.mano.service.event.model.FilterAttributes;
 
 @Service
 public class SpelPatcher implements Patcher {

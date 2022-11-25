@@ -16,8 +16,8 @@
  */
 package com.ubiqube.etsi.mano.service.event;
 
-import com.ubiqube.etsi.mano.dao.mano.Subscription;
-import com.ubiqube.etsi.mano.model.EventMessage;
+import com.ubiqube.etsi.mano.service.event.model.EventMessage;
+import com.ubiqube.etsi.mano.service.event.model.Subscription;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

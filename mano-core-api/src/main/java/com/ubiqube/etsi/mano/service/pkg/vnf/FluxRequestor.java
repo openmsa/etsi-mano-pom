@@ -24,17 +24,17 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import com.ubiqube.etsi.mano.dao.mano.AuthParamBasic;
-import com.ubiqube.etsi.mano.dao.mano.AuthParamOauth2;
-import com.ubiqube.etsi.mano.dao.mano.AuthType;
-import com.ubiqube.etsi.mano.dao.mano.AuthentificationInformations;
-import com.ubiqube.etsi.mano.dao.mano.AuthentificationInformations.AuthentificationInformationsBuilder;
-import com.ubiqube.etsi.mano.dao.mano.OAuth2GrantType;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.dao.mano.pkg.ParamsOauth2ClientCredentials;
 import com.ubiqube.etsi.mano.dao.mano.pkg.UploadUriParameters;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.repository.HttpRequestor;
+import com.ubiqube.etsi.mano.service.event.model.AuthParamBasic;
+import com.ubiqube.etsi.mano.service.event.model.AuthParamOauth2;
+import com.ubiqube.etsi.mano.service.event.model.AuthType;
+import com.ubiqube.etsi.mano.service.event.model.AuthentificationInformations;
+import com.ubiqube.etsi.mano.service.event.model.OAuth2GrantType;
+import com.ubiqube.etsi.mano.service.event.model.AuthentificationInformations.AuthentificationInformationsBuilder;
 import com.ubiqube.etsi.mano.service.rest.FluxRest;
 
 /**

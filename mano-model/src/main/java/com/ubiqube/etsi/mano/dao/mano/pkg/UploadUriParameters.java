@@ -24,7 +24,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import com.ubiqube.etsi.mano.dao.mano.AuthType;
+import com.ubiqube.etsi.mano.service.event.model.AuthType;
 
 import lombok.Getter;
 import lombok.Setter;

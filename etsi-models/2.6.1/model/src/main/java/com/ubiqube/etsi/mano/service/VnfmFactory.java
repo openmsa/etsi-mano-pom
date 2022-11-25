@@ -18,8 +18,8 @@ package com.ubiqube.etsi.mano.service;
 
 import java.util.UUID;
 
-import com.ubiqube.etsi.mano.model.EventMessage;
 import com.ubiqube.etsi.mano.nfvo.v261.model.lcmgrant.GrantRequest;
+import com.ubiqube.etsi.mano.service.event.model.EventMessage;
 
 /**
  *

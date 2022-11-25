@@ -18,13 +18,11 @@ package com.ubiqube.etsi.mano.nfvo.v431.service;
 
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.dao.mano.AuthParamOauth2;
 import com.ubiqube.etsi.mano.dao.mano.ExtManagedVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.GrantInformationExt;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
-import com.ubiqube.etsi.mano.dao.mano.Subscription;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.dto.NsInstantiatedVnf;
 import com.ubiqube.etsi.mano.dao.mano.dto.VnfInstantiatedCompute;
@@ -50,6 +48,8 @@ import com.ubiqube.etsi.mano.nfvo.v431.model.nslcm.NsInstance;
 import com.ubiqube.etsi.mano.nfvo.v431.model.nslcm.NsLcmOpOcc;
 import com.ubiqube.etsi.mano.nfvo.v431.model.nslcm.VnfcResourceInfo;
 import com.ubiqube.etsi.mano.nfvo.v431.model.vnf.PkgmSubscription;
+import com.ubiqube.etsi.mano.service.event.model.AuthParamOauth2;
+import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.vnfm.v431.model.grant.Grant;
 import com.ubiqube.etsi.mano.vnfm.v431.model.grant.GrantRequest;
 import com.ubiqube.etsi.mano.vnfm.v431.model.grant.ResourceDefinition;

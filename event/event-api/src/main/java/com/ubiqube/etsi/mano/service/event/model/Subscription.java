@@ -14,7 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.dao.mano;
+package com.ubiqube.etsi.mano.service.event.model;
 
 import java.util.List;
 import java.util.UUID;
@@ -36,9 +36,6 @@ import org.hibernate.search.mapper.pojo.mapping.definition.annotation.DocumentId
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
-import com.ubiqube.etsi.mano.dao.mano.subs.SubscriptionType;
-import com.ubiqube.etsi.mano.utils.ToStringUtil;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -57,7 +54,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Indexed
-public class Subscription implements BaseEntity {
+public class Subscription {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@DocumentId
@@ -83,10 +80,5 @@ public class Subscription implements BaseEntity {
 	private List<FilterAttributes> filters;
 
 	private String version;
-
-	@Override
-	public String toString() {
-		return ToStringUtil.toString(this);
-	}
 
 }

@@ -31,12 +31,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.exception.GenericException;
-import com.ubiqube.etsi.mano.model.EventMessage;
-import com.ubiqube.etsi.mano.model.NotificationEvent;
 import com.ubiqube.etsi.mano.service.event.ActionType;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.event.SubscriptionEvent;
+import com.ubiqube.etsi.mano.service.event.model.EventMessage;
+import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 
 /**
  * Simple implementation using Quartz.
@@ -58,7 +57,7 @@ public class QuartzEventManager implements EventManager {
 		try {
 			this.scheduler.getListenerManager().addJobListener(new UriUploadListener());
 		} catch (final SchedulerException e) {
-			throw new GenericException(e);
+			throw new QuartzSchedulerException(e);
 		}
 	}
 
@@ -119,7 +118,7 @@ public class QuartzEventManager implements EventManager {
 		try {
 			scheduler.scheduleJob(jobDetail, trigger);
 		} catch (final SchedulerException e) {
-			throw new GenericException(e);
+			throw new QuartzSchedulerException(e);
 		}
 	}
 

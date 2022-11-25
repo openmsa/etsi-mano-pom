@@ -29,7 +29,7 @@ import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.expression.spel.support.StandardTypeConverter;
 
-import com.ubiqube.etsi.mano.dao.mano.FilterAttributes;
+import com.ubiqube.etsi.mano.service.event.model.FilterAttributes;
 
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;

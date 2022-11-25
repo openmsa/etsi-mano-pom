@@ -48,7 +48,6 @@ import com.ubiqube.etsi.mano.em.v271.model.vnflcm.TerminateVnfRequest;
 import com.ubiqube.etsi.mano.em.v271.model.vnflcm.TerminateVnfRequest.TerminationTypeEnum;
 import com.ubiqube.etsi.mano.em.v271.model.vnflcm.VnfInstance;
 import com.ubiqube.etsi.mano.em.v271.model.vnflcm.VnfLcmOpOcc;
-import com.ubiqube.etsi.mano.model.EventMessage;
 import com.ubiqube.etsi.mano.model.v271.sol003.lcmgrant.Grant;
 import com.ubiqube.etsi.mano.model.v271.sol003.lcmgrant.GrantRequest;
 import com.ubiqube.etsi.mano.model.v271.sol003.lcmgrant.GrantRequestLinks;
@@ -59,6 +58,7 @@ import com.ubiqube.etsi.mano.model.v271.sol003.vnf.VnfPkgInfo;
 import com.ubiqube.etsi.mano.model.v271.sol005.nsd.CreateNsdInfoRequest;
 import com.ubiqube.etsi.mano.model.v271.sol005.nsd.NsdInfo;
 import com.ubiqube.etsi.mano.service.AbstractHttpGateway;
+import com.ubiqube.etsi.mano.service.event.model.EventMessage;
 import com.ubiqube.etsi.mano.utils.Version;
 
 import ma.glasnost.orika.MapperFacade;

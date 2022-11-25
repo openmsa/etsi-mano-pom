@@ -14,7 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.dao.mano;
+package com.ubiqube.etsi.mano.service.event.model;
 
 import java.io.Serializable;
 import java.util.List;
@@ -26,8 +26,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
-
-import com.ubiqube.etsi.mano.utils.ToStringUtil;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -60,10 +58,5 @@ public class AuthentificationInformations implements Serializable {
 
 	@Column(length = 5000)
 	private String authTlsCert;
-
-	@Override
-	public String toString() {
-		return ToStringUtil.toString(this);
-	}
 
 }

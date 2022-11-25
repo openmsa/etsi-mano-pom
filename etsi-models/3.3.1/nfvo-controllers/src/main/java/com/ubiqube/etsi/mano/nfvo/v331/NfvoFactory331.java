@@ -22,9 +22,9 @@ import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.c331.services.NfvoFactory;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
-import com.ubiqube.etsi.mano.model.EventMessage;
 import com.ubiqube.etsi.mano.nfvo.v331.model.vnf.PackageOperationalStateType;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
+import com.ubiqube.etsi.mano.service.event.model.EventMessage;
 
 /**
  *

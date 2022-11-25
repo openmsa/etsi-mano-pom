@@ -27,7 +27,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
-import com.ubiqube.etsi.mano.dao.mano.subs.SubscriptionType;
+import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

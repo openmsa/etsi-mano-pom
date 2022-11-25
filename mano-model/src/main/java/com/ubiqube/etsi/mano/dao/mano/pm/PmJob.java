@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.dao.mano.pm;
 
+import java.io.Serializable;
 import java.net.URI;
 import java.util.List;
 import java.util.Set;
@@ -38,10 +39,9 @@ import org.hibernate.search.mapper.pojo.mapping.definition.annotation.DocumentId
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
-import com.ubiqube.etsi.mano.dao.mano.AuthentificationInformations;
-import com.ubiqube.etsi.mano.dao.mano.Instance;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
+import com.ubiqube.etsi.mano.service.event.model.AuthentificationInformations;
 import com.ubiqube.etsi.mano.utils.ToStringIgnore;
 import com.ubiqube.etsi.mano.utils.ToStringUtil;
 
@@ -63,7 +63,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Indexed
-public class PmJob {
+public class PmJob implements Serializable {
+	/** Serial. */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@DocumentId
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -82,7 +85,7 @@ public class PmJob {
 	 */
 	@ElementCollection(fetch = FetchType.EAGER)
 	private List<String> objectInstanceIds;
-	
+
 	@ManyToOne
 	private VnfInstance vnfInstance;
 

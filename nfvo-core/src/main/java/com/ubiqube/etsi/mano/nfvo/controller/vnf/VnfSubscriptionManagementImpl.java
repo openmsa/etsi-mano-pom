@@ -24,14 +24,14 @@ import javax.annotation.Nonnull;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.controller.vnf.VnfSubscriptionManagement;
-import com.ubiqube.etsi.mano.dao.mano.ApiTypesEnum;
-import com.ubiqube.etsi.mano.dao.mano.Subscription;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackageChangeNotification;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackageOnboardingNotification;
-import com.ubiqube.etsi.mano.dao.mano.subs.SubscriptionType;
 import com.ubiqube.etsi.mano.service.ServerService;
 import com.ubiqube.etsi.mano.service.SubscriptionService;
 import com.ubiqube.etsi.mano.service.event.Notifications;
+import com.ubiqube.etsi.mano.service.event.model.ApiTypesEnum;
+import com.ubiqube.etsi.mano.service.event.model.Subscription;
+import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
 
 @Service

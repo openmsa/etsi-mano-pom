@@ -20,7 +20,7 @@ import java.util.UUID;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.ubiqube.etsi.mano.model.EventMessage;
+import com.ubiqube.etsi.mano.service.event.model.EventMessage;
 
 /**
  *

@@ -14,51 +14,36 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.dao.mano;
-
-import java.util.UUID;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-import com.ubiqube.etsi.mano.utils.ToStringUtil;
-
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+package com.ubiqube.etsi.mano.service.event.model;
 
 /**
  *
- * @author ncuser
+ * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-@Getter
-@Setter
-@Entity
-@NoArgsConstructor
-public class FilterAttributes {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id;
-
-	private String attribute;
+public enum SubscriptionType {
+	VNF("VNF"),
+	NSD("NSD"),
+	ALARM("ALARM"),
+	NSLCM("NSLCM"),
+	VNFFM("VNFFM"),
+	VNFLCM("VNFLCM"),
+	VNFPM("VNFPM"),
+	VNFIND("VNFIND"),
+	VRQAN("VRQAN"),
+	MEOPKG("MEOPKG"),
+	NSDVNF("NSDVNF"),
+	NSPM("NSPM"),
+	;
 
 	private String value;
 
-	public FilterAttributes(final String attr, final String value) {
-		this.attribute = attr;
-		this.value = value;
-	}
-
-	public static FilterAttributes of(final String attr, final String value) {
-		return new FilterAttributes(attr, value);
+	SubscriptionType(final String string) {
+		value = string;
 	}
 
 	@Override
 	public String toString() {
-		return ToStringUtil.toString(this);
+		return value;
 	}
-
 }
