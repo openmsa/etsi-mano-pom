@@ -26,10 +26,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 
+import com.ubiqube.etsi.mano.controller.AlarmVnfmController;
 import com.ubiqube.etsi.mano.dao.mano.alarm.AckState;
 import com.ubiqube.etsi.mano.dao.mano.alarm.Alarms;
 import com.ubiqube.etsi.mano.dao.mano.alarm.PerceivedSeverityType;
-import com.ubiqube.etsi.mano.service.AlarmVnfmController;
 import com.ubiqube.etsi.mano.vnfm.fc.vnffm.AlarmFrontController;
 
 import ma.glasnost.orika.MapperFacade;

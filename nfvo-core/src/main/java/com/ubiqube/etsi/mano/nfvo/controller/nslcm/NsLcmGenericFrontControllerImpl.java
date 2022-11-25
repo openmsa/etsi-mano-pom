@@ -29,7 +29,7 @@ import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.controller.nslcm.NsLcmGenericFrontController;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
-import com.ubiqube.etsi.mano.service.NsBlueprintService;
+import com.ubiqube.etsi.mano.nfvo.service.NsBlueprintService;
 
 import ma.glasnost.orika.MapperFacade;
 
