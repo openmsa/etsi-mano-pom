@@ -281,7 +281,7 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 		ensureInstantiated(vnfInstance);
 		ensureNotLocked(vnfInstance);
 		final VnfBlueprint lcmOpOccs = vnfLcmService.createHealOpOcc(vnfInstance, healVnfRequest);
-		eventManager.sendActionVnfm(ActionType.VNF_OPERATE, lcmOpOccs.getId(), new HashMap<>());
+		eventManager.sendActionVnfm(ActionType.VNF_HEAL, lcmOpOccs.getId(), new HashMap<>());
 		return lcmOpOccs;
 	}
 

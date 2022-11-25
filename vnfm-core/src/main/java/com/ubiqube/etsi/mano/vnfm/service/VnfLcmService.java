@@ -33,7 +33,6 @@ import com.ubiqube.etsi.mano.dao.mano.OperationalStateType;
 import com.ubiqube.etsi.mano.dao.mano.ScaleInfo;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfLiveInstance;
-import com.ubiqube.etsi.mano.dao.mano.dto.VnfLcmOpOccs;
 import com.ubiqube.etsi.mano.dao.mano.v2.ComputeTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.PlanOperationType;
 import com.ubiqube.etsi.mano.dao.mano.v2.PlanStatusType;
@@ -120,12 +119,10 @@ public class VnfLcmService {
 		});
 		return saveLcmOppOcc(lcmOpOccs, vnfInstance);
 	}
-	
+
 	public VnfBlueprint createHealOpOcc(final VnfInstance vnfInstance, final VnfHealRequest vnfHealRequest) {
-		final VnfBlueprint lcmOpOccs = VnfLcmFactory.createVnfBlueprint(PlanOperationType.OPERATE, vnfInstance.getId());
-		final OperateChanges opChanges = lcmOpOccs.getOperateChanges();
-		opChanges.setTerminationType(OperationalStateType.REBOOT);
-		opChanges.setGracefulTerminationTimeout(0);
+		final VnfBlueprint lcmOpOccs = VnfLcmFactory.createVnfBlueprint(PlanOperationType.HEAL, vnfInstance.getId());
+		lcmOpOccs.setHealCause(vnfHealRequest.getCause());
 		final List<VnfLiveInstance> instantiatedCompute = vnfInstancesService.getLiveComputeInstanceOf(vnfInstance);
 		instantiatedCompute.forEach(x -> {
 			final VnfTask affectedCompute = copyInstantiedResource(x, new ComputeTask(), lcmOpOccs);
@@ -142,7 +139,7 @@ public class VnfLcmService {
 	public VnfBlueprint findById(final UUID id) {
 		return planJpa.findById(id).orElseThrow(() -> new NotFoundException("Could not find VNF LCM operation: " + id));
 	}
-	
+
 	public List<VnfBlueprint> findByVnfInstanceId(final UUID id) {
 		return planJpa.findByVnfInstanceId(id);
 	}

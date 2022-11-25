@@ -36,7 +36,6 @@ public class VnfmActionController {
 	private final NotificationActions notificationActions;
 
 	public VnfmActionController(final VnfmActions vnfmActions, final NotificationActions notificationActions) {
-		super();
 		this.vnfmActions = vnfmActions;
 		this.notificationActions = notificationActions;
 	}
@@ -47,6 +46,7 @@ public class VnfmActionController {
 		case VNF_INSTANTIATE -> vnfmActions.instantiate(objectId);
 		case VNF_TERMINATE -> vnfmActions.terminate(objectId);
 		case VNF_OPERATE -> vnfmActions.vnfOperate(objectId);
+		case VNF_HEAL -> vnfmActions.vnfHeal(objectId);
 		case VNF_CHANGE_CONN -> vnfmActions.vnfChangeVnfConn(objectId);
 		case VNF_PKG_ONBOARD_DOWNLOAD -> notificationActions.onPkgOnbarding(objectId);
 		case VNF_PKG_ONBOARD_DOWNLOAD_INSTANTIATE -> notificationActions.onPkgOnbardingInstantiate(objectId);

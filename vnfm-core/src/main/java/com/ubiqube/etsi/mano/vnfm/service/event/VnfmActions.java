@@ -20,6 +20,7 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.BiConsumer;
 
 import javax.validation.constraints.NotNull;
 
@@ -36,6 +37,7 @@ import com.ubiqube.etsi.mano.dao.mano.VnfLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
+import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
 import com.ubiqube.etsi.mano.service.NsScaleStrategyV3;
 import com.ubiqube.etsi.mano.service.VimResourceService;
 import com.ubiqube.etsi.mano.service.event.AbstractGenericActionV3;
@@ -79,20 +81,41 @@ public class VnfmActions extends AbstractGenericActionV3 {
 	}
 
 	public void vnfOperate(@NotNull final UUID blueprintId) {
-		final VnfBlueprint blueprint = blueprintService.findById(blueprintId);
-		final VnfInstance vnfInstance = vnfInstanceServiceVnfm.findById(blueprint.getVnfInstance().getId());
-		final VimConnectionInformation vimConnection = vnfInstance.getVimConnectionInfo().iterator().next();
-		final Vim vim = vimManager.getVimById(vimConnection.getId());
-		blueprint.getTasks().forEach(x -> {
-			if (blueprint.getOperateChanges().getTerminationType() == OperationalStateType.STARTED) {
-				vim.startServer(vimConnection, x.getVimResourceId());
-			} else if (blueprint.getOperateChanges().getTerminationType() == OperationalStateType.STOPPED) {
-				vim.stopServer(vimConnection, x.getVimResourceId());
+		actionShield(blueprintId, (x, actionParameter) -> {
+			final Vim vim = vimManager.getVimById(actionParameter.vimConnection.getId());
+			if (actionParameter.blueprint.getOperateChanges().getTerminationType() == OperationalStateType.STARTED) {
+				LOG.info("Restarting {}", x.getId());
+				vim.startServer(actionParameter.vimConnection, x.getVimResourceId());
 			} else {
-				vim.rebootServer(vimConnection, x.getVimResourceId());
+				LOG.info("Stopping {}", x.getId());
+				vim.stopServer(actionParameter.vimConnection, x.getVimResourceId());
 			}
 		});
-		blueprint.setOperationStatus(OperationStatusType.COMPLETED);
+	}
+
+	public void vnfHeal(@NotNull final UUID blueprintId) {
+		actionShield(blueprintId, (x, actionParameter) -> {
+			LOG.info("Rebooting: {}", x.getVimResourceId());
+			final Vim vim = vimManager.getVimById(actionParameter.vimConnection.getId());
+			vim.rebootServer(actionParameter.vimConnection, x.getVimResourceId());
+		});
+	}
+
+	private void actionShield(@NotNull final UUID blueprintId, final BiConsumer<VnfTask, ActionParameter> func) {
+		final VnfBlueprint blueprint = blueprintService.findById(blueprintId);
+		final VnfInstance vnfInstance = vnfInstanceServiceVnfm.findById(blueprint.getVnfInstance().getId());
+		try {
+			final VimConnectionInformation vimConnection = vnfInstance.getVimConnectionInfo().iterator().next();
+			blueprint.getTasks().forEach(x -> func.accept(x, new ActionParameter(blueprint, vnfInstance, vimConnection)));
+			completeOperation(blueprint, vnfInstance, OperationStatusType.COMPLETED);
+		} catch (final RuntimeException e) {
+			LOG.error("", e);
+			completeOperation(blueprint, vnfInstance, OperationStatusType.FAILED);
+		}
+	}
+
+	private void completeOperation(final VnfBlueprint blueprint, final VnfInstance vnfInstance, final OperationStatusType oState) {
+		blueprint.setOperationStatus(oState);
 		blueprint.setStateEnteredTime(OffsetDateTime.now());
 		blueprintService.save(blueprint);
 		vnfInstance.setLockedBy(null);
@@ -115,5 +138,9 @@ public class VnfmActions extends AbstractGenericActionV3 {
 		final VnfBlueprint vp = (VnfBlueprint) localPlan;
 		vnfInstance.setExtManagedVirtualLinks(vp.getParameters().getExtManagedVirtualLinks());
 		vnfInstance.setExtVirtualLinks(vp.getParameters().getExtVirtualLinkInfo());
+	}
+
+	private record ActionParameter(VnfBlueprint blueprint, VnfInstance vnfInstance, VimConnectionInformation vimConnection) {
+		// Nothing.
 	}
 }

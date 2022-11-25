@@ -57,7 +57,6 @@ public class VnfInstances361Sol002Controller implements VnfInstances361Sol002Api
 	private final VnfInstanceGenericFrontController frontController;
 
 	public VnfInstances361Sol002Controller(final VnfInstanceGenericFrontController frontController) {
-		super();
 		this.frontController = frontController;
 	}
 
@@ -104,7 +103,7 @@ public class VnfInstances361Sol002Controller implements VnfInstances361Sol002Api
 
 	@Override
 	public ResponseEntity<Void> vnfInstancesVnfInstanceIdHealPost(final String vnfInstanceId, @Valid final HealVnfRequest body) {
-		return frontController.heal(getSafeUUID(vnfInstanceId), body.getCause(), new HashMap<>());
+		return frontController.heal(getSafeUUID(vnfInstanceId), body.getCause(), new HashMap<>(), VnfInstances361Sol002Controller::getLcmLink);
 	}
 
 	@Override

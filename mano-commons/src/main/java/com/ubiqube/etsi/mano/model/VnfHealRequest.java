@@ -40,10 +40,10 @@ import lombok.Setter;
 public class VnfHealRequest {
 
 	@JsonProperty("cause")
-	private String cause = null;
+	private String cause;
 
 	@JsonProperty("additionalParams")
-	private Map<String, String> additionalParams = null;
+	private Map<String, String> additionalParams;
 
 	public static VnfHealRequest of(final String cause) {
 		return new VnfHealRequest(cause, Map.of());

@@ -126,12 +126,12 @@ public class VnfInstanceGenericFrontControllerImpl implements VnfInstanceGeneric
 	}
 
 	@Override
-	public ResponseEntity<Void> heal(final UUID vnfInstanceId, final String cause, final Map<String, String> hashMap) {
+	public ResponseEntity<Void> heal(final UUID vnfInstanceId, final String cause, final Map<String, String> hashMap, final Function<VnfBlueprint, String> getSelfLink) {
 		final VnfInstance vnfInstance = vnfInstanceServiceVnfm.findById(vnfInstanceId);
 		ensureInstantiated(vnfInstance);
-		VnfHealRequest req = new VnfHealRequest();
-		vnfInstanceLcm.heal(null, vnfInstanceId, req);
-		final String link = "";
+		final VnfHealRequest req = VnfHealRequest.of(cause);
+		final VnfBlueprint lcm = vnfInstanceLcm.heal(null, vnfInstanceId, req);
+		final String link = getSelfLink.apply(lcm);
 		return ResponseEntity.accepted().header(LOCATION, link).build();
 	}
 

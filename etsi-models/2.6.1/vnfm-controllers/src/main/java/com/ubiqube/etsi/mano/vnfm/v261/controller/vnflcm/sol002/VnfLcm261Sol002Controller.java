@@ -101,7 +101,7 @@ public class VnfLcm261Sol002Controller implements VnfLcm261Sol002Api {
 
 	@Override
 	public ResponseEntity<Void> vnfInstancesVnfInstanceIdHealPost(final String vnfInstanceId, final HealVnfRequest body) {
-		return frontController.heal(getSafeUUID(vnfInstanceId), null, new HashMap<>());
+		return frontController.heal(getSafeUUID(vnfInstanceId), body.getCause(), new HashMap<>(), VnfLcm261Sol002Controller::getLcmLink);
 	}
 
 	@Override

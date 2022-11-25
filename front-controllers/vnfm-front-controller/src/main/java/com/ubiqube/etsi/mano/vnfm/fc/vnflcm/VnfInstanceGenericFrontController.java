@@ -46,7 +46,7 @@ public interface VnfInstanceGenericFrontController {
 
 	<U> ResponseEntity<Void> instantiate(@NotNull UUID vnfInstanceId, U body, Function<VnfBlueprint, String> getSelfLink);
 
-	ResponseEntity<Void> heal(@NotNull UUID vnfInstanceId, String cause, Map<String, String> hashMap);
+	ResponseEntity<Void> heal(@NotNull UUID vnfInstanceId, String cause, Map<String, String> hashMap, final Function<VnfBlueprint, String> getSelfLink);
 
 	<U> ResponseEntity<U> findById(@NotNull UUID vnfInstanceId, Class<U> clazz, Consumer<U> makeLink, String instanceSelfLink);
 
