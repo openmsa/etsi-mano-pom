@@ -16,7 +16,6 @@
  */
 package com.ubiqube.etsi.mano.service.cond;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.ubiqube.etsi.mano.service.cond.ast.ArrayValueExpr;
@@ -34,7 +33,7 @@ import com.ubiqube.etsi.mano.service.cond.ast.PatternValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.RangeValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.TestValueExpr;
 
-public class ForwardLeftVisitor implements Visitor<Node, Void> {
+public class BooleanListExprRemoverVisitor implements Visitor<Node, Void> {
 
 	@Override
 	public Node visit(final BooleanValueExpr booleanValueExpr) {
@@ -43,13 +42,17 @@ public class ForwardLeftVisitor implements Visitor<Node, Void> {
 
 	@Override
 	public Node visit(final BooleanListExpr booleanListExpr, final Void arg) {
-		final List<BooleanExpression> ret = new ArrayList<>();
-		booleanListExpr.getCondition().forEach(x -> {
-			final BooleanExpression res = (BooleanExpression) x.accept(this, null);
-			ret.add(res);
-		});
-		booleanListExpr.setCondition(ret);
+		final List<BooleanExpression> conds = booleanListExpr.getCondition();
+		for (int i = 0; i < conds.size(); i += 2) {
+			final BooleanExpression beLeft = conds.get(i);
+			final BooleanExpression beRight = conds.get(i + 1);
+		}
 		return booleanListExpr;
+	}
+
+	@Override
+	public Node visit(final AttrHolderExpr expr, final Void args) {
+		return expr;
 	}
 
 	@Override
@@ -100,17 +103,6 @@ public class ForwardLeftVisitor implements Visitor<Node, Void> {
 	@Override
 	public Node visit(final ArrayValueExpr arrayValueExpr, final Void arg) {
 		return arrayValueExpr;
-	}
-
-	@Override
-	public Node visit(final AttrHolderExpr expr, final Void args) {
-		final List<BooleanExpression> conds = expr.getConditions();
-		if (conds.size() == 1) {
-			final BooleanExpression cond = conds.get(0);
-			cond.setLeft(LabelExpression.of(expr.getAttrName()));
-			return cond.accept(this, args);
-		}
-		return expr;
 	}
 
 	@Override

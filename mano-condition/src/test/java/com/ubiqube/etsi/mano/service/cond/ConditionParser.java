@@ -1,3 +1,19 @@
+/**
+ *     Copyright (C) 2019-2020 Ubiqube.
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 package com.ubiqube.etsi.mano.service.cond;
 
 import java.util.ArrayList;
@@ -24,8 +40,9 @@ class ConditionParser {
 	void testName() throws Exception {
 		final String condition = "[{\"utilization_vnf_indicator\":[{\"greater_or_equal\":60.0}]},{\"call_proc_scale_level\":[{\"less_than\":3}]}]";
 		final String cond2 = "[{\"or\":[{\"my_attribute\":[{\"equal\":\"my_value\"}]},{\"my_other_attribute\":[{\"less_than\": 3}]}]}]";
+		final String cond3 = "[{\"or\":[{\"my_attribute\":[{\"equal\":\"my_value\"}]},{\"my_other_attribute\":[{\"less_than\":3}]},{\"third\":[{\"in_range\":[3,10]}]}]}]";
 		final ObjectMapper mapper = new ObjectMapper();
-		final JsonNode actualObj = mapper.readTree(cond2);
+		final JsonNode actualObj = mapper.readTree(cond3);
 		System.out.println(actualObj.toPrettyString());
 		final List<BooleanExpression> res = parseCondition(actualObj);
 		final BooleanListExpr r = new BooleanListExpr(BooleanOperatorEnum.AND, res);
@@ -34,6 +51,17 @@ class ConditionParser {
 		final PrintVisitor visitor = new PrintVisitor();
 		final String str = r1.accept(visitor, null);
 		System.out.println(str);
+
+		final OptimizeVisitor opt = new OptimizeVisitor();
+		final Node n1 = r1.accept(opt, null);
+		final Node n2 = n1.accept(opt, null);
+		final String str2 = n2.accept(visitor, null);
+		System.out.println(str2);
+
+		final BooleanListExprRemoverVisitor ev3 = new BooleanListExprRemoverVisitor();
+		final Node n3 = n2.accept(ev3, null);
+		final String str3 = n3.accept(visitor, null);
+		System.out.println(str3);
 	}
 
 	/**

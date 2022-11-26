@@ -34,7 +34,7 @@ import com.ubiqube.etsi.mano.service.cond.ast.PatternValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.RangeValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.TestValueExpr;
 
-public class ForwardLeftVisitor implements Visitor<Node, Void> {
+public class OptimizeVisitor implements Visitor<Node, Void> {
 
 	@Override
 	public Node visit(final BooleanValueExpr booleanValueExpr) {
@@ -43,10 +43,14 @@ public class ForwardLeftVisitor implements Visitor<Node, Void> {
 
 	@Override
 	public Node visit(final BooleanListExpr booleanListExpr, final Void arg) {
-		final List<BooleanExpression> ret = new ArrayList<>();
-		booleanListExpr.getCondition().forEach(x -> {
-			final BooleanExpression res = (BooleanExpression) x.accept(this, null);
-			ret.add(res);
+		final List<BooleanExpression> l = booleanListExpr.getCondition();
+		if (l.size() == 1) {
+			return booleanListExpr.getCondition().get(0).accept(this, null);
+		}
+		final ArrayList<BooleanExpression> ret = new ArrayList<>();
+		l.forEach(x -> {
+			final Node res = x.accept(this, null);
+			ret.add((BooleanExpression) res);
 		});
 		booleanListExpr.setCondition(ret);
 		return booleanListExpr;
@@ -104,12 +108,6 @@ public class ForwardLeftVisitor implements Visitor<Node, Void> {
 
 	@Override
 	public Node visit(final AttrHolderExpr expr, final Void args) {
-		final List<BooleanExpression> conds = expr.getConditions();
-		if (conds.size() == 1) {
-			final BooleanExpression cond = conds.get(0);
-			cond.setLeft(LabelExpression.of(expr.getAttrName()));
-			return cond.accept(this, args);
-		}
 		return expr;
 	}
 
