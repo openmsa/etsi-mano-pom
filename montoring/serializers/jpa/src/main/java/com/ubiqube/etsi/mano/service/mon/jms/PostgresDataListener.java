@@ -16,6 +16,8 @@
  */
 package com.ubiqube.etsi.mano.service.mon.jms;
 
+import java.time.Duration;
+import java.time.OffsetDateTime;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -69,7 +71,7 @@ public class PostgresDataListener {
 
 	@JmsListener(destination = "mano.monitoring.gnocchi.data", subscription = "mano.monitoring.gnocchi.data", concurrency = "1", containerFactory = "gnocchiDataFactory")
 	public void onGnocchiData(final AllHostMetrics allHostMetrics) {
-		if ((allHostMetrics == null) || (allHostMetrics.getTelemetryMetricsResult() == null)) {
+		if ((allHostMetrics == null) || (allHostMetrics.getTelemetryMetricsResult() == null) || allHostMetrics.getTelemetryMetricsResult().isEmpty()) {
 			return;
 		}
 		if (PmType.VNF.equals(allHostMetrics.getPmType())) {
@@ -80,16 +82,19 @@ public class PostgresDataListener {
 			if ("cpu".equals(allHostMetrics.getTelemetryMetricsResult().get(0).getKey())) {
 				Long noOfVirtualCpus = 0L;
 				Boolean isMetricsUpdated = false;
+				long deltaSeconds = 0;
 				for (final VnfCompute compute : computes) {
 					noOfVirtualCpus = noOfVirtualCpus + compute.getVirtualCpu().getNumVirtualCpu();
 				}
 				for (final TelemetryMetricsResult action : allHostMetrics.getTelemetryMetricsResult()) {
-					LOG.trace("Postgresql-Receive: {}", action);
+					LOG.info("Postgresql-Receive: {}", action);
 					final VnfIndicatorMonitoringData data = vnfIndicatorMonitoringDataJpa.findByKeyAndVnfcId(allHostMetrics.getMetricName(), UUID.fromString(action.getVnfcId()));
 					if (data != null) {
 						final Double deltaCpuUsage = action.getValue() - data.getValue();
 						if (deltaCpuUsage != 0.0) {
 							isMetricsUpdated = true;
+							Duration duration = Duration.between(data.getTime().toLocalDateTime(), action.getTimestamp().toLocalDateTime());
+							deltaSeconds = duration.getSeconds();
 						} else {
 							isMetricsUpdated = false;
 						}
@@ -99,17 +104,17 @@ public class PostgresDataListener {
 					final VnfIndicatorMonitoringData data2 = new VnfIndicatorMonitoringData(allHostMetrics.getMetricName(), allHostMetrics.getMasterJobId(), action.getValue(), UUID.fromString(action.getVnfcId()));
 					vnfIndicatorMonitoringDataJpa.save(data2);
 				}
-				if (!isMetricsUpdated) {
+				if (!isMetricsUpdated || noOfVirtualCpus == 0 || deltaSeconds == 0) {
 					return;
 				}
-				averageValueByPercent = (totalValue / (noOfVirtualCpus * 600)) * 100;
+				averageValueByPercent = (totalValue / (noOfVirtualCpus * deltaSeconds)) * 100;
 			} else if ("memory.usage".equals(allHostMetrics.getTelemetryMetricsResult().get(0).getKey())) {
 				Long totalMemorySize = 0L;
 				for (final VnfCompute compute : computes) {
 					totalMemorySize = totalMemorySize + compute.getVirtualMemory().getVirtualMemSize();
 				}
 				for (final TelemetryMetricsResult action : allHostMetrics.getTelemetryMetricsResult()) {
-					LOG.trace("Postgresql-Receive: {}", action);
+					LOG.info("Postgresql-Receive: {}", action);
 					final Double bytesValue = action.getValue() * 1000000;
 					totalValue = totalValue + bytesValue;
 				}
