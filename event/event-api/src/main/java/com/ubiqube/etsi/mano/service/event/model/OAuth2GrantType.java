@@ -16,6 +16,9 @@
  */
 package com.ubiqube.etsi.mano.service.event.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum OAuth2GrantType {
 	PASSWORD("password"),
 	CLIENT_CREDENTIAL("client_credentials");
@@ -26,11 +29,13 @@ public enum OAuth2GrantType {
 		this.value = value;
 	}
 
+	@JsonValue
 	@Override
 	public String toString() {
 		return String.valueOf(value);
 	}
 
+	@JsonCreator
 	public static OAuth2GrantType fromValue(final String text) {
 		for (final OAuth2GrantType b : OAuth2GrantType.values()) {
 			if (String.valueOf(b.value).equals(text)) {

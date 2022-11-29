@@ -16,6 +16,9 @@
  */
 package com.ubiqube.etsi.mano.service.event.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum AuthType {
 	BASIC("BASIC"),
 
@@ -29,11 +32,13 @@ public enum AuthType {
 		this.value = value;
 	}
 
+	@JsonValue
 	@Override
 	public String toString() {
 		return String.valueOf(value);
 	}
 
+	@JsonCreator
 	public static AuthType fromValue(final String text) {
 		for (final AuthType b : AuthType.values()) {
 			if (String.valueOf(b.value).equals(text)) {
