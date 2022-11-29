@@ -30,4 +30,9 @@ public class MinLengthValueExpr extends AbstractBooleanExpression {
 	public <R, A> R accept(final Visitor<R, A> v, final A arg) {
 		return v.visit(this, arg);
 	}
+
+	public int getValue() {
+		return value;
+	}
+
 }

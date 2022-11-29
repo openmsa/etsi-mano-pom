@@ -31,37 +31,39 @@ import com.ubiqube.etsi.mano.service.cond.ast.BooleanExpression;
 import com.ubiqube.etsi.mano.service.cond.ast.BooleanListExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.ConditionExpr;
 
-class ConditionParser {
+class ConditionParserTest {
 	private static final List<String> conditions = List.of("and", "or", "not", "assert");
 	private static final List<String> operators = List.of("equal", "greater_than", "greater_or_equal", "less_than", "less_or_equal", "in_range", "valid_values", "length", "min_length", "max_length", "pattern", "schema");
 
 	@SuppressWarnings("static-method")
 	@Test
 	void testName() throws Exception {
-		final String condition = "[{\"utilization_vnf_indicator\":[{\"greater_or_equal\":60.0}]},{\"call_proc_scale_level\":[{\"less_than\":3}]}]";
-		final String cond2 = "[{\"or\":[{\"my_attribute\":[{\"equal\":\"my_value\"}]},{\"my_other_attribute\":[{\"less_than\": 3}]}]}]";
-		final String cond3 = "[{\"or\":[{\"my_attribute\":[{\"equal\":\"my_value\"}]},{\"my_other_attribute\":[{\"less_than\":3}]},{\"third\":[{\"in_range\":[3,10]}]}]}]";
+		final ToStringVisitor tsv = new ToStringVisitor();
+		final String cond4 = "[{\"or\":[{\"my_attribute\":[{\"equal\":\"my_value\"}]},{\"my_other_attribute\":[{\"equal\":\"my_other_value\"}]},{\"and\":[{\"my_second\":[{\"less_than\":2},{\"not\":[{\"equal\":0}]}]},{\"another\":[{\"length\":5}]},{\"aaa\":[{\"pattern\":\"^.*$\"}]},{\"aab\":[{\"min_length\":8}]},{\"aac\":[{\"max_length\":8},{\"less_or_equal\":99}]},{\"aad\":[{\"greater_than\":99},{\"greater_or_equal\":5},{\"less_than\":5}]},{\"not\":[{\"four\":[{\"equal\":5.55}]},{\"five\":[{\"in_range\":[1,10]}]}]}]}]}]";
 		final ObjectMapper mapper = new ObjectMapper();
-		final JsonNode actualObj = mapper.readTree(cond3);
+		final JsonNode actualObj = mapper.readTree(cond4);
 		System.out.println(actualObj.toPrettyString());
 		final List<BooleanExpression> res = parseCondition(actualObj);
 		final BooleanListExpr r = new BooleanListExpr(BooleanOperatorEnum.AND, res);
-		final ForwardLeftVisitor v1 = new ForwardLeftVisitor();
-		final Node r1 = r.accept(v1, null);
+		tsv.visit(r, null);
+		Node root = r;
 		final PrintVisitor visitor = new PrintVisitor();
-		final String str = r1.accept(visitor, null);
-		System.out.println(str);
+		final String str = root.accept(visitor, 0);
+		System.out.println("Initial\n" + str);
+		// root = applyOptimizer(new SwapNotVisitor(), root);
+		root = applyOptimizer(new ForwardLeftVisitor(), root);
+		root = applyOptimizer(new OptimizeVisitor(), root);
+		root = applyOptimizer(new OptimizeVisitor(), root);
+		root = applyOptimizer(new BooleanListExprRemoverVisitor(), root);
+		tsv.visit(r, null);
+	}
 
-		final OptimizeVisitor opt = new OptimizeVisitor();
-		final Node n1 = r1.accept(opt, null);
-		final Node n2 = n1.accept(opt, null);
-		final String str2 = n2.accept(visitor, null);
-		System.out.println(str2);
-
-		final BooleanListExprRemoverVisitor ev3 = new BooleanListExprRemoverVisitor();
-		final Node n3 = n2.accept(ev3, null);
-		final String str3 = n3.accept(visitor, null);
-		System.out.println(str3);
+	static <A> Node applyOptimizer(final Visitor<Node, A> v, final Node node) {
+		final Node ret = node.accept(v, null);
+		final PrintVisitor visitor = new PrintVisitor();
+		final String str = ret.accept(visitor, 0);
+		System.out.println("Applying " + v.getClass().getSimpleName() + "\n" + str);
+		return ret;
 	}
 
 	/**
@@ -100,22 +102,23 @@ class ConditionParser {
 	private static AttrHolderExpr readAttribute(final ObjectNode jsonNode) {
 		final Entry<String, JsonNode> field = jsonNode.fields().next();
 		final String attrName = field.getKey();
-		final ObjectNode value = extractFirstElement((ArrayNode) field.getValue());
-		final List<BooleanExpression> res = handleObject(value);
-		return new AttrHolderExpr(attrName, res);
+		final List<BooleanExpression> value = extractFirstElement((ArrayNode) field.getValue());
+		return new AttrHolderExpr(attrName, value);
 	}
 
-	private static ObjectNode extractFirstElement(final ArrayNode value) {
-		if (value.size() != 1) {
-			throw new AstException("An attribute cannot have more than 1 value.");
+	private static List<BooleanExpression> extractFirstElement(final ArrayNode value) {
+		final List<BooleanExpression> ret = new ArrayList<>();
+		for (final JsonNode jsonNode : value) {
+			final List<BooleanExpression> l = handleObject((ObjectNode) jsonNode);
+			ret.addAll(l);
 		}
-		return (ObjectNode) value.get(0);
+		return ret;
 	}
 
 	private static BooleanExpression readBinaryCondition(final Entry<String, JsonNode> field) {
 		final JsonNode val = field.getValue();
 		if (!val.isArray()) {
-			throw new AstException("List condiftion must be followed by a list.");
+			throw new AstException("List condition must be followed by a list.");
 		}
 		final String op = field.getKey();
 		final List<BooleanExpression> res = parseArrayCondition((ArrayNode) val);
@@ -124,7 +127,7 @@ class ConditionParser {
 
 	private static List<BooleanExpression> handleObject(final ObjectNode actualObj) {
 		if (actualObj.size() != 1) {
-			throw new RuntimeException();
+			throw new AstException("");
 		}
 		final Entry<String, JsonNode> jsonNode = actualObj.fields().next();
 		final String key = jsonNode.getKey();
@@ -134,7 +137,8 @@ class ConditionParser {
 		}
 		System.out.println("Object: " + jsonNode.getKey());
 		final List<BooleanExpression> val = handleValue(jsonNode.getValue());
-		return List.of(new BooleanListExpr(BooleanOperatorEnum.AND, val));
+		final BooleanOperatorEnum op = "not".equals(key) ? BooleanOperatorEnum.NOT : BooleanOperatorEnum.AND;
+		return List.of(new BooleanListExpr(op, val));
 	}
 
 	private static ConditionExpr handleCondition(final String key, final JsonNode value) {

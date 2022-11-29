@@ -16,15 +16,17 @@
  */
 package com.ubiqube.etsi.mano.service.cond.ast;
 
+import com.ubiqube.etsi.mano.service.cond.Node;
+
 public abstract class AbstractBooleanExpression implements ConditionExpr {
-	private NameExpr left;
+	private Node left;
 
 	@Override
-	public void setLeft(final NameExpr left) {
+	public void setLeft(final Node left) {
 		this.left = left;
 	}
 
-	public NameExpr getLeft() {
+	public Node getLeft() {
 		return left;
 	}
 

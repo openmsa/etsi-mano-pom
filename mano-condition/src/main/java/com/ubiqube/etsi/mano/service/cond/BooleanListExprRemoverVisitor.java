@@ -33,80 +33,103 @@ import com.ubiqube.etsi.mano.service.cond.ast.PatternValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.RangeValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.TestValueExpr;
 
-public class BooleanListExprRemoverVisitor implements Visitor<Node, Void> {
+public class BooleanListExprRemoverVisitor implements Visitor<Node, BooleanOperatorEnum> {
 
 	@Override
-	public Node visit(final BooleanValueExpr booleanValueExpr) {
+	public Node visit(final BooleanValueExpr booleanValueExpr, final BooleanOperatorEnum arg) {
 		return booleanValueExpr;
 	}
 
 	@Override
-	public Node visit(final BooleanListExpr booleanListExpr, final Void arg) {
+	public Node visit(final BooleanListExpr booleanListExpr, final BooleanOperatorEnum arg) {
 		final List<BooleanExpression> conds = booleanListExpr.getCondition();
-		for (int i = 0; i < conds.size(); i += 2) {
-			final BooleanExpression beLeft = conds.get(i);
-			final BooleanExpression beRight = conds.get(i + 1);
+		Node root = null;
+		if (booleanListExpr.getOp() == BooleanOperatorEnum.NOT) {
+			return booleanListExpr;
 		}
-		return booleanListExpr;
+		while (!conds.isEmpty()) {
+			if (null == root) {
+				root = conds.get(0).accept(this, booleanListExpr.getOp());
+				conds.remove(0);
+			}
+			root = new GenericCondition(root, convert(booleanListExpr.getOp()), conds.get(0).accept(this, booleanListExpr.getOp()));
+			conds.remove(0);
+		}
+		return root;
+	}
+
+	private static Operator convert(final BooleanOperatorEnum op) {
+		return switch (op) {
+		case AND -> Operator.AND;
+		case OR -> Operator.OR;
+		case NOT -> Operator.NOT;
+		case ASSERT -> Operator.ASSERT;
+		default -> throw new IllegalArgumentException("Unexpected value: " + op);
+		};
 	}
 
 	@Override
-	public Node visit(final AttrHolderExpr expr, final Void args) {
-		return expr;
+	public Node visit(final AttrHolderExpr expr, final BooleanOperatorEnum args) {
+		final List<BooleanExpression> conds = expr.getConditions();
+		Node root = null;
+		while (!conds.isEmpty()) {
+			if (null == root) {
+				root = conds.get(0).accept(this, args);
+				conds.remove(0);
+			}
+			root = new GenericCondition(root, convert(args), conds.get(0).accept(this, args));
+			conds.remove(0);
+		}
+		return root;
 	}
 
 	@Override
-	public Node visit(final BooleanExpression be, final Void arg) {
-		return be;
-	}
-
-	@Override
-	public Node visit(final RangeValueExpr rangeValueExpr, final Void arg) {
+	public Node visit(final RangeValueExpr rangeValueExpr, final BooleanOperatorEnum arg) {
 		return rangeValueExpr;
 	}
 
 	@Override
-	public Node visit(final LengthValueExpr lengthValueExpr, final Void arg) {
+	public Node visit(final LengthValueExpr lengthValueExpr, final BooleanOperatorEnum arg) {
 		return lengthValueExpr;
 	}
 
 	@Override
-	public Node visit(final MinLengthValueExpr minLengthValueExpr, final Void arg) {
+	public Node visit(final MinLengthValueExpr minLengthValueExpr, final BooleanOperatorEnum arg) {
 		return minLengthValueExpr;
 	}
 
 	@Override
-	public Node visit(final MaxLengthValueExpr maxLengthValueExpr, final Void arg) {
+	public Node visit(final MaxLengthValueExpr maxLengthValueExpr, final BooleanOperatorEnum arg) {
 		return maxLengthValueExpr;
 	}
 
 	@Override
-	public Node visit(final PatternValueExpr patternValueExpr, final Void arg) {
+	public Node visit(final PatternValueExpr patternValueExpr, final BooleanOperatorEnum arg) {
 		return patternValueExpr;
 	}
 
 	@Override
-	public Node visit(final GenericCondition genericCondition, final Void arg) {
+	public Node visit(final GenericCondition genericCondition, final BooleanOperatorEnum arg) {
 		return genericCondition;
 	}
 
 	@Override
-	public Node visit(final TestValueExpr testValueExpr, final Void arg) {
+	public Node visit(final TestValueExpr testValueExpr, final BooleanOperatorEnum arg) {
 		return testValueExpr;
 	}
 
 	@Override
-	public Node visit(final NumberValueExpr numberValueExpr, final Void arg) {
+	public Node visit(final NumberValueExpr numberValueExpr, final BooleanOperatorEnum arg) {
 		return numberValueExpr;
 	}
 
 	@Override
-	public Node visit(final ArrayValueExpr arrayValueExpr, final Void arg) {
+	public Node visit(final ArrayValueExpr arrayValueExpr, final BooleanOperatorEnum arg) {
 		return arrayValueExpr;
 	}
 
 	@Override
-	public Node visit(final LabelExpression expr, final Void arg) {
+	public Node visit(final LabelExpression expr, final BooleanOperatorEnum arg) {
 		return expr;
 	}
 

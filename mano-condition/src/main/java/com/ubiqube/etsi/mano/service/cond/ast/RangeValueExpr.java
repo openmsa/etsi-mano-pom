@@ -41,4 +41,9 @@ public class RangeValueExpr extends AbstractBooleanExpression {
 		return max;
 	}
 
+	@Override
+	public String toString() {
+		return "RangeValueExpr [min=" + min + ", max=" + max + "]";
+	}
+
 }

@@ -1,0 +1,14 @@
+condition:
+  - or:
+    - my_attribute: [{equal: my_value}]
+    - my_other_attribute: [{equal: my_other_value}]
+    - and:
+      - my_second: [{less_than: 2.0}, {not: [{equal: 0}]}]
+      - another: [{ length: 5 }]
+      - aaa: [{ pattern: "^.*$" }]
+      - aab: [{ min_length: 8 }]
+      - aac: [{ max_length: 8 }, {less_or_equal: 99}]
+      - aad: [{ greater_than: 99}, {greater_or_equal: 5}, {less_than: 5}]
+      - not:
+        - four: [{equal: 5.55}]
+        - five: [{ in_range: [1,10] }]

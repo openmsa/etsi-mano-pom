@@ -23,9 +23,11 @@ import com.ubiqube.etsi.mano.service.cond.Visitor;
 public class PatternValueExpr extends AbstractBooleanExpression {
 
 	private final Pattern p;
+	private final String pattern;
 
 	public PatternValueExpr(final String textValue) {
 		this.p = Pattern.compile(textValue);
+		this.pattern = textValue;
 	}
 
 	@Override
@@ -35,5 +37,9 @@ public class PatternValueExpr extends AbstractBooleanExpression {
 
 	public Pattern getP() {
 		return p;
+	}
+
+	public String getPattern() {
+		return pattern;
 	}
 }

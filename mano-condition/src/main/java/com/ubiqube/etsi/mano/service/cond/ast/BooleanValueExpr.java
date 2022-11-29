@@ -27,7 +27,7 @@ public class BooleanValueExpr implements ValueExpr {
 
 	@Override
 	public <R, A> R accept(final Visitor<R, A> v, final A arg) {
-		return v.visit(this);
+		return v.visit(this, arg);
 	}
 
 	public boolean isValue() {

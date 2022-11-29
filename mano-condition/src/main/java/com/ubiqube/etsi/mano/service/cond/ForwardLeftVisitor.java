@@ -37,7 +37,7 @@ import com.ubiqube.etsi.mano.service.cond.ast.TestValueExpr;
 public class ForwardLeftVisitor implements Visitor<Node, Void> {
 
 	@Override
-	public Node visit(final BooleanValueExpr booleanValueExpr) {
+	public Node visit(final BooleanValueExpr booleanValueExpr, final Void arg) {
 		return booleanValueExpr;
 	}
 
@@ -50,11 +50,6 @@ public class ForwardLeftVisitor implements Visitor<Node, Void> {
 		});
 		booleanListExpr.setCondition(ret);
 		return booleanListExpr;
-	}
-
-	@Override
-	public Node visit(final BooleanExpression be, final Void arg) {
-		return be;
 	}
 
 	@Override
@@ -109,6 +104,13 @@ public class ForwardLeftVisitor implements Visitor<Node, Void> {
 			final BooleanExpression cond = conds.get(0);
 			cond.setLeft(LabelExpression.of(expr.getAttrName()));
 			return cond.accept(this, args);
+		}
+		for (final BooleanExpression booleanExpression : conds) {
+			if (booleanExpression instanceof final BooleanListExpr ble && (ble.getOp() == BooleanOperatorEnum.NOT)) {
+				ble.getCondition().forEach(x -> x.setLeft(LabelExpression.of(expr.getAttrName())));
+			} else {
+				booleanExpression.setLeft(LabelExpression.of(expr.getAttrName()));
+			}
 		}
 		return expr;
 	}

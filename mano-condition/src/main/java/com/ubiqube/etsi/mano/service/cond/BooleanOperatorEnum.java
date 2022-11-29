@@ -21,5 +21,4 @@ public enum BooleanOperatorEnum {
 	NOT,
 	AND,
 	ASSERT;
-
 }

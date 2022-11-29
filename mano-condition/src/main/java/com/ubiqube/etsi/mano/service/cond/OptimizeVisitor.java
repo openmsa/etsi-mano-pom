@@ -37,7 +37,7 @@ import com.ubiqube.etsi.mano.service.cond.ast.TestValueExpr;
 public class OptimizeVisitor implements Visitor<Node, Void> {
 
 	@Override
-	public Node visit(final BooleanValueExpr booleanValueExpr) {
+	public Node visit(final BooleanValueExpr booleanValueExpr, final Void arg) {
 		return booleanValueExpr;
 	}
 
@@ -45,7 +45,12 @@ public class OptimizeVisitor implements Visitor<Node, Void> {
 	public Node visit(final BooleanListExpr booleanListExpr, final Void arg) {
 		final List<BooleanExpression> l = booleanListExpr.getCondition();
 		if (l.size() == 1) {
-			return booleanListExpr.getCondition().get(0).accept(this, null);
+			final Node expr = booleanListExpr.getCondition().get(0).accept(this, null);
+			if ((booleanListExpr.getOp() == BooleanOperatorEnum.NOT) && expr instanceof final GenericCondition gc) {
+				gc.setOp(invert(gc.getOp()));
+				return gc;
+			}
+			return expr.accept(this, null);
 		}
 		final ArrayList<BooleanExpression> ret = new ArrayList<>();
 		l.forEach(x -> {
@@ -56,9 +61,17 @@ public class OptimizeVisitor implements Visitor<Node, Void> {
 		return booleanListExpr;
 	}
 
-	@Override
-	public Node visit(final BooleanExpression be, final Void arg) {
-		return be;
+	private static Operator invert(final Operator operator) {
+		return switch (operator) {
+		case AND, OR -> throw new AstException("Illegal operator: " + operator);
+		case LESS_THAN -> Operator.GREATER_OR_EQUAL;
+		case LESS_OR_EQUAL -> Operator.GREATER_THAN;
+		case GREATER_OR_EQUAL -> Operator.LESS_THAN;
+		case GREATER_THAN -> Operator.LESS_OR_EQUAL;
+		case EQUAL -> Operator.NOT;
+		case NOT -> Operator.EQUAL;
+		default -> throw new IllegalArgumentException("Unexpected value: " + operator);
+		};
 	}
 
 	@Override
@@ -108,6 +121,13 @@ public class OptimizeVisitor implements Visitor<Node, Void> {
 
 	@Override
 	public Node visit(final AttrHolderExpr expr, final Void args) {
+		final List<BooleanExpression> ret = new ArrayList<>();
+		final List<BooleanExpression> conds = expr.getConditions();
+		conds.forEach(x -> {
+			final Node res = x.accept(this, null);
+			ret.add((BooleanExpression) res);
+		});
+		expr.setConditions(ret);
 		return expr;
 	}
 

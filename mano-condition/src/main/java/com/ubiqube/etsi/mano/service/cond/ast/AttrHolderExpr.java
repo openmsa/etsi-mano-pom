@@ -18,13 +18,12 @@ package com.ubiqube.etsi.mano.service.cond.ast;
 
 import java.util.List;
 
-import com.ubiqube.etsi.mano.service.cond.AstException;
 import com.ubiqube.etsi.mano.service.cond.Visitor;
 
-public class AttrHolderExpr implements ConditionExpr {
+public class AttrHolderExpr extends AbstractBooleanExpression {
 
 	private final String attrName;
-	private final List<BooleanExpression> conditions;
+	private List<BooleanExpression> conditions;
 
 	public AttrHolderExpr(final String attrName, final List<BooleanExpression> res) {
 		this.attrName = attrName;
@@ -44,10 +43,13 @@ public class AttrHolderExpr implements ConditionExpr {
 		return conditions;
 	}
 
-	@Override
-	public void setLeft(final NameExpr left) {
-		throw new AstException("");
+	public void setConditions(final List<BooleanExpression> conditions) {
+		this.conditions = conditions;
+	}
 
+	@Override
+	public String toString() {
+		return "AttrHolderExpr [attrName=" + attrName + ", conditions=" + conditions + "]";
 	}
 
 }

@@ -23,7 +23,7 @@ import com.ubiqube.etsi.mano.service.cond.Visitor;
 
 public class BooleanListExpr extends AbstractBooleanExpression {
 
-	private final BooleanOperatorEnum op;
+	private BooleanOperatorEnum op;
 	private List<BooleanExpression> condition;
 
 	public BooleanListExpr(final BooleanOperatorEnum valueOf, final List<BooleanExpression> res) {
@@ -46,6 +46,15 @@ public class BooleanListExpr extends AbstractBooleanExpression {
 
 	public void setCondition(final List<BooleanExpression> condition) {
 		this.condition = condition;
+	}
+
+	public void setOp(final BooleanOperatorEnum op) {
+		this.op = op;
+	}
+
+	@Override
+	public String toString() {
+		return "BooleanListExpr [op=" + op + ", condition=" + condition + "]";
 	}
 
 }

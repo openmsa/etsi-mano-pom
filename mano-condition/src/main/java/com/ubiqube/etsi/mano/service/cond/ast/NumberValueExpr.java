@@ -34,4 +34,9 @@ public class NumberValueExpr implements ValueExpr {
 		return value;
 	}
 
+	@Override
+	public String toString() {
+		return "NumberValueExpr [value=" + value + "]";
+	}
+
 }

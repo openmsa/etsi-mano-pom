@@ -18,7 +18,6 @@ package com.ubiqube.etsi.mano.service.cond;
 
 import com.ubiqube.etsi.mano.service.cond.ast.ArrayValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.AttrHolderExpr;
-import com.ubiqube.etsi.mano.service.cond.ast.BooleanExpression;
 import com.ubiqube.etsi.mano.service.cond.ast.BooleanListExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.BooleanValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.GenericCondition;
@@ -33,31 +32,29 @@ import com.ubiqube.etsi.mano.service.cond.ast.TestValueExpr;
 
 public interface Visitor<R, A> {
 
-	R visit(BooleanValueExpr booleanValueExpr);
+	R visit(BooleanValueExpr expr, A arg);
 
-	R visit(BooleanListExpr booleanListExpr, A arg);
+	R visit(BooleanListExpr expr, A arg);
 
 	R visit(AttrHolderExpr expr, A args);
 
-	R visit(BooleanExpression be, A arg);
+	R visit(RangeValueExpr expr, A arg);
 
-	R visit(RangeValueExpr rangeValueExpr, A arg);
+	R visit(LengthValueExpr expr, A arg);
 
-	R visit(LengthValueExpr lengthValueExpr, A arg);
+	R visit(MinLengthValueExpr expr, A arg);
 
-	R visit(MinLengthValueExpr minLengthValueExpr, A arg);
+	R visit(MaxLengthValueExpr expr, A arg);
 
-	R visit(MaxLengthValueExpr maxLengthValueExpr, A arg);
+	R visit(PatternValueExpr expr, A arg);
 
-	R visit(PatternValueExpr patternValueExpr, A arg);
+	R visit(GenericCondition expr, A arg);
 
-	R visit(GenericCondition genericCondition, A arg);
+	R visit(TestValueExpr expr, A arg);
 
-	R visit(TestValueExpr testValueExpr, A arg);
+	R visit(NumberValueExpr expr, A arg);
 
-	R visit(NumberValueExpr numberValueExpr, A arg);
-
-	R visit(ArrayValueExpr arrayValueExpr, A arg);
+	R visit(ArrayValueExpr expr, A arg);
 
 	R visit(final LabelExpression expr, final A arg);
 

@@ -35,4 +35,9 @@ public class TestValueExpr implements ValueExpr {
 		return value;
 	}
 
+	@Override
+	public String toString() {
+		return "TestValueExpr [value=" + value + "]";
+	}
+
 }

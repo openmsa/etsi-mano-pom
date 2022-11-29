@@ -18,7 +18,6 @@ package com.ubiqube.etsi.mano.service.cond;
 
 import com.ubiqube.etsi.mano.service.cond.ast.ArrayValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.AttrHolderExpr;
-import com.ubiqube.etsi.mano.service.cond.ast.BooleanExpression;
 import com.ubiqube.etsi.mano.service.cond.ast.BooleanListExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.BooleanValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.GenericCondition;
@@ -31,82 +30,90 @@ import com.ubiqube.etsi.mano.service.cond.ast.PatternValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.RangeValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.TestValueExpr;
 
-public class PrintVisitor implements Visitor<String, Void> {
+public class PrintVisitor implements Visitor<String, Integer> {
 
 	@Override
-	public String visit(final BooleanValueExpr booleanValueExpr) {
+	public String visit(final BooleanValueExpr booleanValueExpr, final Integer arg) {
 		booleanValueExpr.isValue();
 		return " booleanValueExpr ";
 	}
 
 	@Override
-	public String visit(final BooleanListExpr booleanListExpr, final Void arg) {
-		final StringBuilder sb = new StringBuilder("BooleanListExpr: { ");
-		sb.append(booleanListExpr.getOp()).append(" ");
+	public String visit(final BooleanListExpr booleanListExpr, final Integer arg) {
+		final StringBuilder sb = new StringBuilder(indent(arg)).append("BooleanListExpr: ");
+		sb.append(booleanListExpr.getOp()).append("\n");
 		booleanListExpr.getCondition().forEach(x -> {
-			final String res = x.accept(this, null);
+			final String res = x.accept(this, arg + 1);
 			sb.append(res);
-			sb.append(", ");
 		});
-		return sb.append("} ").toString();
+		return sb.toString();
 	}
 
 	@Override
-	public String visit(final BooleanExpression be, final Void arg) {
-		final StringBuilder sb = new StringBuilder();
-		if (be instanceof final AttrHolderExpr ah) {
-			sb.append(ah.getAttrName()).append(" ===> ");
-			ah.getConditions().forEach(x -> {
-				final String res = x.accept(this, null);
-				sb.append(res);
-			});
-		} else if (be instanceof final BooleanListExpr bl) {
-			throw new AstException("Could not cast to " + bl);
-		} else {
-			throw new AstException("Unknown type " + be.getClass());
+	public String visit(final RangeValueExpr rangeValueExpr, final Integer arg) {
+		final StringBuilder sb = new StringBuilder(indent(arg));
+		sb.append("IN_RANGE ");
+		sb.append(" inrange(");
+		sb.append(rangeValueExpr.getMin());
+		sb.append(", ");
+		sb.append(rangeValueExpr.getMax());
+		sb.append(")\n");
+		if (null != rangeValueExpr.getLeft()) {
+			sb.append(rangeValueExpr.getLeft().accept(this, arg + 1));
 		}
 		return sb.toString();
 	}
 
 	@Override
-	public String visit(final RangeValueExpr rangeValueExpr, final Void arg) {
-		final StringBuilder sb = new StringBuilder();
-		sb.append(rangeValueExpr.getLeft());
-		sb.append(" inrange(");
-		sb.append(rangeValueExpr.getMin());
-		sb.append(", ");
-		sb.append(rangeValueExpr.getMax());
-		sb.append(")");
+	public String visit(final LengthValueExpr lengthValueExpr, final Integer arg) {
+		final StringBuilder sb = new StringBuilder(indent(arg));
+		sb.append("LENGHT (").append(lengthValueExpr.getValue()).append(")\n");
+		if (null != lengthValueExpr.getLeft()) {
+			sb.append(lengthValueExpr.getLeft().accept(this, arg + 1));
+		}
 		return sb.toString();
 	}
 
 	@Override
-	public String visit(final LengthValueExpr lengthValueExpr, final Void arg) {
-		return " LENGHT ";
+	public String visit(final MinLengthValueExpr minLengthValueExpr, final Integer arg) {
+		final StringBuilder sb = new StringBuilder(indent(arg));
+		sb.append("MIN_LENGHT (").append(minLengthValueExpr.getValue()).append(")\n");
+		if (null != minLengthValueExpr.getLeft()) {
+			sb.append(minLengthValueExpr.getLeft().accept(this, arg + 1));
+		}
+		return sb.toString();
 	}
 
 	@Override
-	public String visit(final MinLengthValueExpr minLengthValueExpr, final Void arg) {
-		return " MIN LEN ";
+	public String visit(final MaxLengthValueExpr maxLengthValueExpr, final Integer arg) {
+		final StringBuilder sb = new StringBuilder(indent(arg));
+		sb.append("MAX_LENGHT (").append(maxLengthValueExpr.getValue()).append(")\n");
+		if (null != maxLengthValueExpr.getLeft()) {
+			sb.append(maxLengthValueExpr.getLeft().accept(this, arg + 1));
+		}
+		return sb.toString();
 	}
 
 	@Override
-	public String visit(final MaxLengthValueExpr maxLengthValueExpr, final Void arg) {
-		return " MAX LEN ";
+	public String visit(final PatternValueExpr patternValueExpr, final Integer arg) {
+		final StringBuilder sb = new StringBuilder(indent(arg));
+		sb.append("PATTERN (").append(patternValueExpr.getPattern()).append(")\n");
+		if (null != patternValueExpr.getLeft()) {
+			sb.append(patternValueExpr.getLeft().accept(this, arg + 1));
+		}
+		return sb.toString();
 	}
 
 	@Override
-	public String visit(final PatternValueExpr patternValueExpr, final Void arg) {
-		return " PATTERN ";
-	}
-
-	@Override
-	public String visit(final GenericCondition genericCondition, final Void arg) {
-		final StringBuilder sb = new StringBuilder();
-		sb.append(genericCondition.getLeft());
-		sb.append(" ").append(tojavaOp(genericCondition.getOp())).append(" ");
-		sb.append(genericCondition.getRight().accept(this, null));
-		sb.append(" ");
+	public String visit(final GenericCondition genericCondition, final Integer arg) {
+		final StringBuilder sb = new StringBuilder(indent(arg));
+		sb.append("GENERIC_COND ").append(tojavaOp(genericCondition.getOp())).append("\n");
+		if (null != genericCondition.getLeft()) {
+			sb.append(genericCondition.getLeft().accept(this, arg + 1));
+		}
+		if (null != genericCondition.getRight()) {
+			sb.append(genericCondition.getRight().accept(this, arg + 1));
+		}
 		return sb.toString();
 	}
 
@@ -117,40 +124,67 @@ public class PrintVisitor implements Visitor<String, Void> {
 		case GREATER_THAN -> ">";
 		case LESS_OR_EQUAL -> "<=";
 		case LESS_THAN -> "<";
+		case OR -> "||";
+		case AND -> "&&";
+		case NOT -> "!=";
 		default -> throw new IllegalArgumentException("Unexpected value: " + op);
 		};
 	}
 
 	@Override
-	public String visit(final TestValueExpr testValueExpr, final Void arg) {
-		return testValueExpr.getValue();
+	public String visit(final TestValueExpr testValueExpr, final Integer arg) {
+		return new StringBuffer(indent(arg))
+				.append("TEST_VALUE ")
+				.append(testValueExpr.getValue())
+				.append("\n")
+				.toString();
 	}
 
 	@Override
-	public String visit(final NumberValueExpr numberValueExpr, final Void arg) {
-		return "" + numberValueExpr.getValue();
+	public String visit(final NumberValueExpr numberValueExpr, final Integer arg) {
+		return new StringBuffer(indent(arg))
+				.append("NUMBER ")
+				.append(numberValueExpr.getValue())
+				.append("\n")
+				.toString();
 	}
 
 	@Override
-	public String visit(final ArrayValueExpr arrayValueExpr, final Void arg) {
+	public String visit(final ArrayValueExpr arrayValueExpr, final Integer arg) {
 		return " ARRAY ";
 	}
 
 	@Override
-	public String visit(final AttrHolderExpr expr, final Void args) {
-		final StringBuilder sb = new StringBuilder("ATTR:(");
-		sb.append(expr.getAttrName()).append(" ===> ");
+	public String visit(final AttrHolderExpr expr, final Integer args) {
+		final StringBuilder sb = new StringBuilder(indent(args));
+		sb.append("ATTR ");
+		sb.append(expr.getAttrName()).append("\n");
 		expr.getConditions().forEach(x -> {
 			final String res = x.accept(this, args);
 			sb.append(res);
 		});
-		sb.append(")");
 		return sb.toString();
 	}
 
 	@Override
-	public String visit(final LabelExpression expr, final Void arg) {
-		return expr.getName();
+	public String visit(final LabelExpression expr, final Integer arg) {
+		return new StringBuffer(indent(arg))
+				.append("LABEL ")
+				.append(expr.getName())
+				.append("\n")
+				.toString();
+	}
+
+	private static String indent(final int i) {
+		if (i == 0) {
+			return "";
+		}
+		final StringBuilder sb = new StringBuilder();
+		for (int x = 0; x < (i - 1); x++) {
+			sb.append("|   ");
+		}
+		sb.append("+---");
+		return sb.toString();
 	}
 
 }

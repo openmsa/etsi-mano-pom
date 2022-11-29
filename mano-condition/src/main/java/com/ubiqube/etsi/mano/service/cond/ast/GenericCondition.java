@@ -16,18 +16,18 @@
  */
 package com.ubiqube.etsi.mano.service.cond.ast;
 
+import com.ubiqube.etsi.mano.service.cond.Node;
 import com.ubiqube.etsi.mano.service.cond.Operator;
 import com.ubiqube.etsi.mano.service.cond.Visitor;
 
 public class GenericCondition implements ConditionExpr {
+	private Node left;
 
-	private final Operator op;
+	private Operator op;
 
-	private NameExpr left;
+	private final Node right;
 
-	private final ValueExpr right;
-
-	public GenericCondition(final NameExpr left, final Operator op, final ValueExpr right) {
+	public GenericCondition(final Node left, final Operator op, final Node right) {
 		this.left = left;
 		this.op = op;
 		this.right = right;
@@ -43,16 +43,26 @@ public class GenericCondition implements ConditionExpr {
 	}
 
 	@Override
-	public void setLeft(final NameExpr left) {
+	public void setLeft(final Node left) {
 		this.left = left;
 	}
 
-	public NameExpr getLeft() {
+	@Override
+	public Node getLeft() {
 		return left;
 	}
 
-	public ValueExpr getRight() {
+	public Node getRight() {
 		return right;
+	}
+
+	public void setOp(final Operator op) {
+		this.op = op;
+	}
+
+	@Override
+	public String toString() {
+		return "GenericCondition [left=" + left + ", op=" + op + ", right=" + right + "]";
 	}
 
 }
