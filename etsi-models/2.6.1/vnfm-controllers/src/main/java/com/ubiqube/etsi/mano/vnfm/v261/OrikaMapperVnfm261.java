@@ -265,8 +265,7 @@ public class OrikaMapperVnfm261 implements OrikaMapperFactoryConfigurer {
 				.field("authentication.authType", "authentication.authType")
 				.byDefault()
 				.register();
-		orikaMapperFactory
-				.classMap(LccnSubscriptionRequest.class, Subscription.class)
+		orikaMapperFactory.classMap(LccnSubscriptionRequest.class, Subscription.class)
 				.fieldMap("filter", "filters").converter("filterConverter").add()
 				.field("authentication.paramsBasic", "authentication.authParamBasic")
 				.field("authentication.paramsOauth2ClientCredentials", "authentication.authParamOauth2")

@@ -62,6 +62,7 @@ import com.ubiqube.etsi.mano.vnfm.v431.model.vnf.VnfPackageSoftwareImageInfo.Dis
 import com.ubiqube.etsi.mano.vnfm.v431.model.vnf.VnfPkgInfo;
 import com.ubiqube.etsi.mano.vnfm.v431.model.vnffm.Alarm;
 import com.ubiqube.etsi.mano.vnfm.v431.model.vnffm.FmSubscription;
+import com.ubiqube.etsi.mano.vnfm.v431.model.vnfind.VnfIndicatorSubscriptionRequest;
 import com.ubiqube.etsi.mano.vnfm.v431.model.vnflcm.AffectedExtLinkPort;
 import com.ubiqube.etsi.mano.vnfm.v431.model.vnflcm.AffectedVirtualLink;
 import com.ubiqube.etsi.mano.vnfm.v431.model.vnflcm.AffectedVnfc;
@@ -261,6 +262,13 @@ public class OrikaMapperVnfm431 implements OrikaMapperFactoryConfigurer {
 		 * Subscriptions.
 		 */
 		orikaMapperFactory.classMap(PkgmSubscriptionRequest.class, Subscription.class)
+				.fieldMap("filter", "filters").converter("filterConverter").add()
+				.field("authentication.paramsBasic", "authentication.authParamBasic")
+				.field("authentication.paramsOauth2ClientCredentials", "authentication.authParamOauth2")
+				.field("authentication.authType", "authentication.authType")
+				.byDefault()
+				.register();
+		orikaMapperFactory.classMap(VnfIndicatorSubscriptionRequest.class, Subscription.class)
 				.fieldMap("filter", "filters").converter("filterConverter").add()
 				.field("authentication.paramsBasic", "authentication.authParamBasic")
 				.field("authentication.paramsOauth2ClientCredentials", "authentication.authParamOauth2")

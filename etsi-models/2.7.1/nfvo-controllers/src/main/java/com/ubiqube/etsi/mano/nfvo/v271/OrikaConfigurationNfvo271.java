@@ -29,10 +29,12 @@ import com.ubiqube.etsi.mano.dao.mano.dto.NsLcmOpOccs;
 import com.ubiqube.etsi.mano.dao.mano.dto.VnfInstantiatedCompute;
 import com.ubiqube.etsi.mano.dao.mano.dto.VnfInstantiatedExtCp;
 import com.ubiqube.etsi.mano.dao.mano.dto.VnfInstantiatedVirtualLink;
+import com.ubiqube.etsi.mano.dao.mano.pkg.UploadUriParameters;
 import com.ubiqube.etsi.mano.dao.mano.v2.BlueprintParameters;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 import com.ubiqube.etsi.mano.em.v271.model.SubscriptionAuthenticationParamsOauth2ClientCredentials;
+import com.ubiqube.etsi.mano.em.v271.model.vnfind.VnfIndicatorSubscriptionRequest;
 import com.ubiqube.etsi.mano.em.v271.model.vnflcm.ExtManagedVirtualLinkData;
 import com.ubiqube.etsi.mano.em.v271.model.vnflcm.InstantiateVnfRequest;
 import com.ubiqube.etsi.mano.em.v271.model.vnflcm.LccnSubscription;
@@ -53,6 +55,7 @@ import com.ubiqube.etsi.mano.model.v271.sol003.lcmgrant.GrantRequest;
 import com.ubiqube.etsi.mano.model.v271.sol003.lcmgrant.ResourceDefinition;
 import com.ubiqube.etsi.mano.model.v271.sol003.vnf.PkgmSubscription;
 import com.ubiqube.etsi.mano.model.v271.sol003.vnf.PkgmSubscriptionRequest;
+import com.ubiqube.etsi.mano.model.v271.sol003.vnf.UploadVnfPkgFromUriRequest;
 import com.ubiqube.etsi.mano.model.v271.sol005.nsd.NsdInfo;
 import com.ubiqube.etsi.mano.model.v271.sol005.nsd.NsdmSubscription;
 import com.ubiqube.etsi.mano.model.v271.sol005.nsd.NsdmSubscriptionRequest;
@@ -97,6 +100,13 @@ public class OrikaConfigurationNfvo271 implements OrikaMapperFactoryConfigurer {
 		 * Subscription.
 		 */
 		orikaMapperFactory.classMap(PkgmSubscriptionRequest.class, Subscription.class)
+				.fieldMap("filter", "filters").converter("filterConverter").add()
+				.field("authentication.paramsBasic", "authentication.authParamBasic")
+				.field("authentication.paramsOauth2ClientCredentials", "authentication.authParamOauth2")
+				.field("authentication.authType", "authentication.authType")
+				.byDefault()
+				.register();
+		orikaMapperFactory.classMap(VnfIndicatorSubscriptionRequest.class, Subscription.class)
 				.fieldMap("filter", "filters").converter("filterConverter").add()
 				.field("authentication.paramsBasic", "authentication.authParamBasic")
 				.field("authentication.paramsOauth2ClientCredentials", "authentication.authParamOauth2")
@@ -228,7 +238,9 @@ public class OrikaConfigurationNfvo271 implements OrikaMapperFactoryConfigurer {
 					@Override
 					public void mapAtoB(final VnfLcmOpOcc a, final VnfBlueprint b, final MappingContext context) {
 						final Object op = a.getOperationParams();
-						mapperFacade.map(op, b.getParameters());
+						if (op != null) {
+							mapperFacade.map(op, b.getParameters());
+						}
 					}
 
 				})
@@ -243,6 +255,10 @@ public class OrikaConfigurationNfvo271 implements OrikaMapperFactoryConfigurer {
 				.register();
 		orikaMapperFactory.classMap(InstantiateVnfRequest.class, BlueprintParameters.class)
 				.field("extVirtualLinks", "extVirtualLinkInfo")
+				.byDefault()
+				.register();
+		orikaMapperFactory.classMap(UploadVnfPkgFromUriRequest.class, UploadUriParameters.class)
+				.field("userName", "username")
 				.byDefault()
 				.register();
 		final var converterFactory = orikaMapperFactory.getConverterFactory();

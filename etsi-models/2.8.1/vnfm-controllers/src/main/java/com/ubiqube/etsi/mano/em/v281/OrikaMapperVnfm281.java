@@ -42,6 +42,7 @@ import com.ubiqube.etsi.mano.em.v281.model.SubscriptionAuthenticationParamsOauth
 import com.ubiqube.etsi.mano.em.v281.model.vnffm.Alarm;
 import com.ubiqube.etsi.mano.em.v281.model.vnffm.FmSubscription;
 import com.ubiqube.etsi.mano.em.v281.model.vnffm.FmSubscriptionRequest;
+import com.ubiqube.etsi.mano.em.v281.model.vnfind.VnfIndicatorSubscriptionRequest;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.AffectedExtLinkPort;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.AffectedVirtualLink;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.AffectedVirtualStorage;
@@ -62,10 +63,10 @@ import com.ubiqube.etsi.mano.nfvo.v281.model.vnf.PkgmSubscriptionRequest;
 import com.ubiqube.etsi.mano.nfvo.v281.model.vnf.VnfPackageSoftwareImageInfo;
 import com.ubiqube.etsi.mano.nfvo.v281.model.vnf.VnfPackageSoftwareImageInfo.ContainerFormatEnum;
 import com.ubiqube.etsi.mano.nfvo.v281.model.vnf.VnfPackageSoftwareImageInfo.DiskFormatEnum;
+import com.ubiqube.etsi.mano.nfvo.v281.model.vnf.VnfPkgInfo;
 import com.ubiqube.etsi.mano.service.event.model.AuthParamOauth2;
 import com.ubiqube.etsi.mano.service.event.model.AuthentificationInformations;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
-import com.ubiqube.etsi.mano.nfvo.v281.model.vnf.VnfPkgInfo;
 import com.ubiqube.etsi.mano.vnfm.v281.model.grant.ResourceDefinition;
 
 import ma.glasnost.orika.CustomMapper;
@@ -255,6 +256,13 @@ public class OrikaMapperVnfm281 implements OrikaMapperFactoryConfigurer {
 		 * Subscriptions.
 		 */
 		orikaMapperFactory.classMap(PkgmSubscriptionRequest.class, Subscription.class)
+				.fieldMap("filter", "filters").converter("filterConverter").add()
+				.field("authentication.paramsBasic", "authentication.authParamBasic")
+				.field("authentication.paramsOauth2ClientCredentials", "authentication.authParamOauth2")
+				.field("authentication.authType", "authentication.authType")
+				.byDefault()
+				.register();
+		orikaMapperFactory.classMap(VnfIndicatorSubscriptionRequest.class, Subscription.class)
 				.fieldMap("filter", "filters").converter("filterConverter").add()
 				.field("authentication.paramsBasic", "authentication.authParamBasic")
 				.field("authentication.paramsOauth2ClientCredentials", "authentication.authParamOauth2")
