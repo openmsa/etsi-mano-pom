@@ -25,11 +25,9 @@ import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.dto.NsInstantiatedVnf;
-import com.ubiqube.etsi.mano.dao.mano.dto.NsLcmOpOccs;
 import com.ubiqube.etsi.mano.dao.mano.dto.VnfInstantiatedCompute;
 import com.ubiqube.etsi.mano.dao.mano.dto.VnfInstantiatedExtCp;
 import com.ubiqube.etsi.mano.dao.mano.dto.VnfInstantiatedVirtualLink;
-import com.ubiqube.etsi.mano.dao.mano.pkg.UploadUriParameters;
 import com.ubiqube.etsi.mano.dao.mano.v2.BlueprintParameters;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
@@ -58,7 +56,6 @@ import com.ubiqube.etsi.mano.nfvo.v351.model.nslcm.NsInstance;
 import com.ubiqube.etsi.mano.nfvo.v351.model.nslcm.NsLcmOpOcc;
 import com.ubiqube.etsi.mano.nfvo.v351.model.vnf.PkgmSubscription;
 import com.ubiqube.etsi.mano.nfvo.v351.model.vnf.PkgmSubscriptionRequest;
-import com.ubiqube.etsi.mano.nfvo.v351.model.vnf.UploadVnfPkgFromUriRequest;
 import com.ubiqube.etsi.mano.service.event.model.AuthParamOauth2;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.vnfm.v351.model.grant.ConstraintResourceRef;
@@ -247,10 +244,7 @@ public class OrikaConfigurationNfvo351 implements OrikaMapperFactoryConfigurer {
 
 				})
 				.register();
-		orikaMapperFactory.classMap(NsLcmOpOccs.class, NsLcmOpOcc.class)
-				.field("stateEnteredTime", "statusEnteredTime")
-				.byDefault()
-				.register();
+		// No additional mapping for NsLcmOpOccs
 		orikaMapperFactory.classMap(SubscriptionAuthenticationParamsOauth2ClientCredentials.class, AuthParamOauth2.class)
 				.field("clientPassword", "clientSecret")
 				.byDefault()
@@ -259,10 +253,7 @@ public class OrikaConfigurationNfvo351 implements OrikaMapperFactoryConfigurer {
 				.field("extVirtualLinks", "extVirtualLinkInfo")
 				.byDefault()
 				.register();
-		orikaMapperFactory.classMap(UploadVnfPkgFromUriRequest.class, UploadUriParameters.class)
-				.field("userName", "username")
-				.byDefault()
-				.register();
+		// Not needed UploadVnfPkgFromUriRequest
 		final var converterFactory = orikaMapperFactory.getConverterFactory();
 		converterFactory.registerConverter(new UuidConverter());
 		converterFactory.registerConverter(new OffsetDateTimeToDateConverter());

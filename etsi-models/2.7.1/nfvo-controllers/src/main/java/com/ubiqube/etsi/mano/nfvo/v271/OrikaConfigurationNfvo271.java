@@ -29,7 +29,6 @@ import com.ubiqube.etsi.mano.dao.mano.dto.NsLcmOpOccs;
 import com.ubiqube.etsi.mano.dao.mano.dto.VnfInstantiatedCompute;
 import com.ubiqube.etsi.mano.dao.mano.dto.VnfInstantiatedExtCp;
 import com.ubiqube.etsi.mano.dao.mano.dto.VnfInstantiatedVirtualLink;
-import com.ubiqube.etsi.mano.dao.mano.pkg.UploadUriParameters;
 import com.ubiqube.etsi.mano.dao.mano.v2.BlueprintParameters;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
@@ -55,7 +54,6 @@ import com.ubiqube.etsi.mano.model.v271.sol003.lcmgrant.GrantRequest;
 import com.ubiqube.etsi.mano.model.v271.sol003.lcmgrant.ResourceDefinition;
 import com.ubiqube.etsi.mano.model.v271.sol003.vnf.PkgmSubscription;
 import com.ubiqube.etsi.mano.model.v271.sol003.vnf.PkgmSubscriptionRequest;
-import com.ubiqube.etsi.mano.model.v271.sol003.vnf.UploadVnfPkgFromUriRequest;
 import com.ubiqube.etsi.mano.model.v271.sol005.nsd.NsdInfo;
 import com.ubiqube.etsi.mano.model.v271.sol005.nsd.NsdmSubscription;
 import com.ubiqube.etsi.mano.model.v271.sol005.nsd.NsdmSubscriptionRequest;
@@ -257,10 +255,7 @@ public class OrikaConfigurationNfvo271 implements OrikaMapperFactoryConfigurer {
 				.field("extVirtualLinks", "extVirtualLinkInfo")
 				.byDefault()
 				.register();
-		orikaMapperFactory.classMap(UploadVnfPkgFromUriRequest.class, UploadUriParameters.class)
-				.field("userName", "username")
-				.byDefault()
-				.register();
+		// Not needed UploadVnfPkgFromUriRequest
 		final var converterFactory = orikaMapperFactory.getConverterFactory();
 		converterFactory.registerConverter(new UuidConverter());
 		converterFactory.registerConverter(new OffsetDateTimeToDateConverter());

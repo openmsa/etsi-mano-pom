@@ -259,10 +259,7 @@ public class OrikaConfigurationNfvo281 implements OrikaMapperFactoryConfigurer {
 				.field("extVirtualLinks", "extVirtualLinkInfo")
 				.byDefault()
 				.register();
-		orikaMapperFactory.classMap(UploadVnfPkgFromUriRequest.class, UploadUriParameters.class)
-				.field("userName", "username")
-				.byDefault()
-				.register();
+		// Not needed UploadVnfPkgFromUriRequest
 		final var converterFactory = orikaMapperFactory.getConverterFactory();
 		converterFactory.registerConverter(new UuidConverter());
 		converterFactory.registerConverter(new OffsetDateTimeToDateConverter());
