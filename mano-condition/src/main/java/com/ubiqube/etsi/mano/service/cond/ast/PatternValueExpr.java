@@ -42,4 +42,10 @@ public class PatternValueExpr extends AbstractBooleanExpression {
 	public String getPattern() {
 		return pattern;
 	}
+
+	@Override
+	public String toString() {
+		return "PatternValueExpr [p=" + p + ", pattern=" + pattern + "]";
+	}
+
 }

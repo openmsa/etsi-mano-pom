@@ -32,6 +32,7 @@ import com.ubiqube.etsi.mano.service.cond.ast.MinLengthValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.NumberValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.PatternValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.RangeValueExpr;
+import com.ubiqube.etsi.mano.service.cond.ast.SizeOfExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.TestValueExpr;
 
 public class OptimizeVisitor implements Visitor<Node, Void> {
@@ -47,7 +48,7 @@ public class OptimizeVisitor implements Visitor<Node, Void> {
 		if (l.size() == 1) {
 			final Node expr = booleanListExpr.getCondition().get(0).accept(this, null);
 			if ((booleanListExpr.getOp() == BooleanOperatorEnum.NOT) && expr instanceof final GenericCondition gc) {
-				gc.setOp(invert(gc.getOp()));
+				gc.setOp(AstUtils.invert(gc.getOp()));
 				return gc;
 			}
 			return expr.accept(this, null);
@@ -59,19 +60,6 @@ public class OptimizeVisitor implements Visitor<Node, Void> {
 		});
 		booleanListExpr.setCondition(ret);
 		return booleanListExpr;
-	}
-
-	private static Operator invert(final Operator operator) {
-		return switch (operator) {
-		case AND, OR -> throw new AstException("Illegal operator: " + operator);
-		case LESS_THAN -> Operator.GREATER_OR_EQUAL;
-		case LESS_OR_EQUAL -> Operator.GREATER_THAN;
-		case GREATER_OR_EQUAL -> Operator.LESS_THAN;
-		case GREATER_THAN -> Operator.LESS_OR_EQUAL;
-		case EQUAL -> Operator.NOT;
-		case NOT -> Operator.EQUAL;
-		default -> throw new IllegalArgumentException("Unexpected value: " + operator);
-		};
 	}
 
 	@Override
@@ -133,6 +121,11 @@ public class OptimizeVisitor implements Visitor<Node, Void> {
 
 	@Override
 	public Node visit(final LabelExpression expr, final Void arg) {
+		return expr;
+	}
+
+	@Override
+	public Node visit(final SizeOfExpr expr, final Void arg) {
 		return expr;
 	}
 

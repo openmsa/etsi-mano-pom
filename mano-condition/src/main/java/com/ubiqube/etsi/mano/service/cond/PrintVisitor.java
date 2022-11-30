@@ -28,6 +28,7 @@ import com.ubiqube.etsi.mano.service.cond.ast.MinLengthValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.NumberValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.PatternValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.RangeValueExpr;
+import com.ubiqube.etsi.mano.service.cond.ast.SizeOfExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.TestValueExpr;
 
 public class PrintVisitor implements Visitor<String, Integer> {
@@ -107,7 +108,7 @@ public class PrintVisitor implements Visitor<String, Integer> {
 	@Override
 	public String visit(final GenericCondition genericCondition, final Integer arg) {
 		final StringBuilder sb = new StringBuilder(indent(arg));
-		sb.append("GENERIC_COND ").append(tojavaOp(genericCondition.getOp())).append("\n");
+		sb.append("GENERIC_COND ").append(AstUtils.tojavaOp(genericCondition.getOp())).append("\n");
 		if (null != genericCondition.getLeft()) {
 			sb.append(genericCondition.getLeft().accept(this, arg + 1));
 		}
@@ -117,26 +118,12 @@ public class PrintVisitor implements Visitor<String, Integer> {
 		return sb.toString();
 	}
 
-	private static String tojavaOp(final Operator op) {
-		return switch (op) {
-		case EQUAL -> "==";
-		case GREATER_OR_EQUAL -> ">=";
-		case GREATER_THAN -> ">";
-		case LESS_OR_EQUAL -> "<=";
-		case LESS_THAN -> "<";
-		case OR -> "||";
-		case AND -> "&&";
-		case NOT -> "!=";
-		default -> throw new IllegalArgumentException("Unexpected value: " + op);
-		};
-	}
-
 	@Override
 	public String visit(final TestValueExpr testValueExpr, final Integer arg) {
 		return new StringBuffer(indent(arg))
-				.append("TEST_VALUE ")
+				.append("TEST_VALUE \"")
 				.append(testValueExpr.getValue())
-				.append("\n")
+				.append("\"\n")
 				.toString();
 	}
 
@@ -185,6 +172,14 @@ public class PrintVisitor implements Visitor<String, Integer> {
 		}
 		sb.append("+---");
 		return sb.toString();
+	}
+
+	@Override
+	public String visit(final SizeOfExpr expr, final Integer arg) {
+		return new StringBuffer(indent(arg))
+				.append("SIZEOF\n")
+				.append(expr.getLeft().accept(this, arg + 1))
+				.toString();
 	}
 
 }

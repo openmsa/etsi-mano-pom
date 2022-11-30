@@ -32,6 +32,7 @@ import com.ubiqube.etsi.mano.service.cond.ast.MinLengthValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.NumberValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.PatternValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.RangeValueExpr;
+import com.ubiqube.etsi.mano.service.cond.ast.SizeOfExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.TestValueExpr;
 
 public class ForwardLeftVisitor implements Visitor<Node, Void> {
@@ -117,6 +118,11 @@ public class ForwardLeftVisitor implements Visitor<Node, Void> {
 
 	@Override
 	public Node visit(final LabelExpression expr, final Void arg) {
+		return expr;
+	}
+
+	@Override
+	public Node visit(final SizeOfExpr expr, final Void arg) {
 		return expr;
 	}
 

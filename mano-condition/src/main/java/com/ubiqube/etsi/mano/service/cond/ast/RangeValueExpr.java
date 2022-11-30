@@ -22,10 +22,12 @@ public class RangeValueExpr extends AbstractBooleanExpression {
 
 	private final int min;
 	private final int max;
+	private boolean not;
 
 	public RangeValueExpr(final int min, final int max) {
 		this.min = min;
 		this.max = max;
+		this.not = false;
 	}
 
 	@Override
@@ -44,6 +46,14 @@ public class RangeValueExpr extends AbstractBooleanExpression {
 	@Override
 	public String toString() {
 		return "RangeValueExpr [min=" + min + ", max=" + max + "]";
+	}
+
+	public void setNot(final boolean not) {
+		this.not = not;
+	}
+
+	public boolean isNot() {
+		return not;
 	}
 
 }

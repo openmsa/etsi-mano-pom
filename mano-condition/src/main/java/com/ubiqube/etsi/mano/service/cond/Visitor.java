@@ -28,6 +28,7 @@ import com.ubiqube.etsi.mano.service.cond.ast.MinLengthValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.NumberValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.PatternValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.RangeValueExpr;
+import com.ubiqube.etsi.mano.service.cond.ast.SizeOfExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.TestValueExpr;
 
 public interface Visitor<R, A> {
@@ -57,5 +58,7 @@ public interface Visitor<R, A> {
 	R visit(ArrayValueExpr expr, A arg);
 
 	R visit(final LabelExpression expr, final A arg);
+
+	R visit(SizeOfExpr expr, A arg);
 
 }

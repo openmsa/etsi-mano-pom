@@ -16,11 +16,8 @@
  */
 package com.ubiqube.etsi.mano.service.cond;
 
-import java.util.List;
-
 import com.ubiqube.etsi.mano.service.cond.ast.ArrayValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.AttrHolderExpr;
-import com.ubiqube.etsi.mano.service.cond.ast.BooleanExpression;
 import com.ubiqube.etsi.mano.service.cond.ast.BooleanListExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.BooleanValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.GenericCondition;
@@ -34,103 +31,89 @@ import com.ubiqube.etsi.mano.service.cond.ast.RangeValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.SizeOfExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.TestValueExpr;
 
-/**
- * Just for coverage
- *
- * @author olivier
- *
- */
-public class ToStringVisitor implements Visitor<Node, Void> {
+public class RemoveSpecialOpVisitor implements Visitor<Node, Void> {
 
 	@Override
 	public Node visit(final BooleanValueExpr expr, final Void arg) {
-		expr.toString();
 		return expr;
 	}
 
 	@Override
 	public Node visit(final BooleanListExpr expr, final Void arg) {
-		final List<BooleanExpression> conds = expr.getCondition();
-		conds.forEach(x -> x.accept(this, null));
-		expr.toString();
+		expr.getCondition().forEach(x -> x.accept(this, arg));
 		return expr;
 	}
 
 	@Override
 	public Node visit(final AttrHolderExpr expr, final Void args) {
-		final List<BooleanExpression> conds = expr.getConditions();
-		conds.forEach(x -> x.accept(this, null));
-		expr.toString();
+		expr.setLeft(expr.getLeft().accept(this, args));
+		expr.getConditions().forEach(x -> x.accept(this, args));
 		return expr;
 	}
 
 	@Override
 	public Node visit(final RangeValueExpr expr, final Void arg) {
-		expr.toString();
-		return expr;
+		Operator opLeft = Operator.GREATER_OR_EQUAL;
+		Operator opRigth = Operator.LESS_OR_EQUAL;
+		if (expr.isNot()) {
+			opLeft = Operator.LESS_THAN;
+			opRigth = Operator.GREATER_THAN;
+		}
+		final GenericCondition left = new GenericCondition(expr.getLeft(), opLeft, NumberValueExpr.of(expr.getMin()));
+		final GenericCondition rigth = new GenericCondition(expr.getLeft(), opRigth, NumberValueExpr.of(expr.getMax()));
+		return new GenericCondition(left, Operator.AND, rigth);
 	}
 
 	@Override
 	public Node visit(final LengthValueExpr expr, final Void arg) {
-		expr.toString();
-		return expr;
+		return new GenericCondition(SizeOfExpr.of(expr.getLeft()), Operator.EQUAL, NumberValueExpr.of(expr.getValue()));
 	}
 
 	@Override
 	public Node visit(final MinLengthValueExpr expr, final Void arg) {
-		expr.toString();
-		return expr;
+		return new GenericCondition(SizeOfExpr.of(expr.getLeft()), Operator.GREATER_OR_EQUAL, NumberValueExpr.of(expr.getValue()));
 	}
 
 	@Override
 	public Node visit(final MaxLengthValueExpr expr, final Void arg) {
-		expr.toString();
-		return expr;
+		return new GenericCondition(SizeOfExpr.of(expr.getLeft()), Operator.LESS_OR_EQUAL, NumberValueExpr.of(expr.getValue()));
 	}
 
 	@Override
 	public Node visit(final PatternValueExpr expr, final Void arg) {
-		expr.toString();
 		return expr;
 	}
 
 	@Override
 	public Node visit(final GenericCondition expr, final Void arg) {
-		if (null != expr.getLeft()) {
-			expr.getLeft().accept(this, null);
-		}
-		expr.getRight().accept(this, null);
-		expr.toString();
+		expr.setLeft(expr.getLeft().accept(this, arg));
+		expr.setRight(expr.getRight().accept(this, arg));
 		return expr;
 	}
 
 	@Override
 	public Node visit(final TestValueExpr expr, final Void arg) {
-		expr.toString();
 		return expr;
 	}
 
 	@Override
 	public Node visit(final NumberValueExpr expr, final Void arg) {
-		expr.toString();
 		return expr;
 	}
 
 	@Override
 	public Node visit(final ArrayValueExpr expr, final Void arg) {
-		expr.toString();
 		return expr;
 	}
 
 	@Override
 	public Node visit(final LabelExpression expr, final Void arg) {
-		expr.toString();
 		return expr;
 	}
 
 	@Override
 	public Node visit(final SizeOfExpr expr, final Void arg) {
-		expr.toString();
+		expr.setLeft(expr.getLeft().accept(this, arg));
 		return expr;
 	}
 

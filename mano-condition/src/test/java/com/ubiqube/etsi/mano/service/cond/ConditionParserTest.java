@@ -16,6 +16,8 @@
  */
 package com.ubiqube.etsi.mano.service.cond;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -55,7 +57,12 @@ class ConditionParserTest {
 		root = applyOptimizer(new OptimizeVisitor(), root);
 		root = applyOptimizer(new OptimizeVisitor(), root);
 		root = applyOptimizer(new BooleanListExprRemoverVisitor(), root);
+		root = applyOptimizer(new RemoveSpecialOpVisitor(), root);
 		tsv.visit(r, null);
+		final ClikeWriterVisitor clike = new ClikeWriterVisitor();
+		final String c = root.accept(clike, null);
+		assertNotNull(c);
+		System.out.println(c);
 	}
 
 	static <A> Node applyOptimizer(final Visitor<Node, A> v, final Node node) {

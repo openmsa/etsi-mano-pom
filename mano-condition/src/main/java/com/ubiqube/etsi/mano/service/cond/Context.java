@@ -14,33 +14,8 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service.cond.ast;
+package com.ubiqube.etsi.mano.service.cond;
 
-import com.ubiqube.etsi.mano.service.cond.Visitor;
-
-public class NumberValueExpr implements ValueExpr {
-	private final double value;
-
-	public NumberValueExpr(final double value) {
-		this.value = value;
-	}
-
-	@Override
-	public <R, A> R accept(final Visitor<R, A> v, final A arg) {
-		return v.visit(this, arg);
-	}
-
-	public double getValue() {
-		return value;
-	}
-
-	@Override
-	public String toString() {
-		return "NumberValueExpr [value=" + value + "]";
-	}
-
-	public static NumberValueExpr of(final double min) {
-		return new NumberValueExpr(min);
-	}
+public interface Context {
 
 }

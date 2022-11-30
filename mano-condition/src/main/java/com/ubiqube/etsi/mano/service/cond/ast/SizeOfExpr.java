@@ -17,29 +17,23 @@
 package com.ubiqube.etsi.mano.service.cond.ast;
 
 import com.ubiqube.etsi.mano.service.cond.Node;
-import com.ubiqube.etsi.mano.service.cond.Operator;
 import com.ubiqube.etsi.mano.service.cond.Visitor;
 
-public class GenericCondition implements ConditionExpr {
+public class SizeOfExpr implements ConditionExpr {
+
 	private Node left;
 
-	private Operator op;
-
-	private Node right;
-
-	public GenericCondition(final Node left, final Operator op, final Node right) {
+	public SizeOfExpr(final Node left) {
 		this.left = left;
-		this.op = op;
-		this.right = right;
+	}
+
+	public static SizeOfExpr of(final Node left) {
+		return new SizeOfExpr(left);
 	}
 
 	@Override
 	public <R, A> R accept(final Visitor<R, A> v, final A arg) {
 		return v.visit(this, arg);
-	}
-
-	public Operator getOp() {
-		return op;
 	}
 
 	@Override
@@ -52,21 +46,9 @@ public class GenericCondition implements ConditionExpr {
 		return left;
 	}
 
-	public Node getRight() {
-		return right;
-	}
-
-	public void setRight(final Node right) {
-		this.right = right;
-	}
-
-	public void setOp(final Operator op) {
-		this.op = op;
-	}
-
 	@Override
 	public String toString() {
-		return "GenericCondition [left=" + left + ", op=" + op + ", right=" + right + "]";
+		return "SizeOfExpr [left=" + left + "]";
 	}
 
 }

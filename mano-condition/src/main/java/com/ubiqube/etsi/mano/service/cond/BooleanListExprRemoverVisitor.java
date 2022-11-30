@@ -31,6 +31,7 @@ import com.ubiqube.etsi.mano.service.cond.ast.MinLengthValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.NumberValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.PatternValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.RangeValueExpr;
+import com.ubiqube.etsi.mano.service.cond.ast.SizeOfExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.TestValueExpr;
 
 public class BooleanListExprRemoverVisitor implements Visitor<Node, BooleanOperatorEnum> {
@@ -45,7 +46,7 @@ public class BooleanListExprRemoverVisitor implements Visitor<Node, BooleanOpera
 		final List<BooleanExpression> conds = booleanListExpr.getCondition();
 		Node root = null;
 		if (booleanListExpr.getOp() == BooleanOperatorEnum.NOT) {
-			return booleanListExpr;
+			return removeNot(booleanListExpr, arg);
 		}
 		while (!conds.isEmpty()) {
 			if (null == root) {
@@ -56,6 +57,34 @@ public class BooleanListExprRemoverVisitor implements Visitor<Node, BooleanOpera
 			conds.remove(0);
 		}
 		return root;
+	}
+
+	private Node removeNot(final BooleanListExpr booleanListExpr, final BooleanOperatorEnum arg) {
+		final List<BooleanExpression> conds = booleanListExpr.getCondition();
+		Node root = null;
+		while (!conds.isEmpty()) {
+			if (null == root) {
+				final BooleanExpression cond = conds.get(0);
+				invertOperator(cond);
+				root = cond.accept(this, arg);
+				conds.remove(0);
+			}
+			final BooleanExpression cond = conds.get(0);
+			invertOperator(cond);
+			root = new GenericCondition(root, convert(arg), cond.accept(this, arg));
+			conds.remove(0);
+		}
+		return root;
+	}
+
+	private static void invertOperator(final BooleanExpression cond) {
+		if (cond instanceof final GenericCondition gc) {
+			gc.setOp(AstUtils.invert(gc.getOp()));
+		} else if (cond instanceof final RangeValueExpr rve) {
+			rve.setNot(true);
+		} else {
+			throw new AstException("Unable to handle " + cond.getClass().getSimpleName());
+		}
 	}
 
 	private static Operator convert(final BooleanOperatorEnum op) {
@@ -130,6 +159,12 @@ public class BooleanListExprRemoverVisitor implements Visitor<Node, BooleanOpera
 
 	@Override
 	public Node visit(final LabelExpression expr, final BooleanOperatorEnum arg) {
+		return expr;
+	}
+
+	@Override
+	public Node visit(final SizeOfExpr expr, final BooleanOperatorEnum arg) {
+		expr.getLeft().accept(this, arg);
 		return expr;
 	}
 
