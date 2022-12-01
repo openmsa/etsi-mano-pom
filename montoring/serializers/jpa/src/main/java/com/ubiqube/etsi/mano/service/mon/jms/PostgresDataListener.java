@@ -91,7 +91,7 @@ public class PostgresDataListener {
 					noOfVirtualCpus = noOfVirtualCpus + compute.getVirtualCpu().getNumVirtualCpu();
 				}
 				for (final TelemetryMetricsResult action : allHostMetrics.getTelemetryMetricsResult()) {
-					LOG.info(POSTGRESQL_RECEIVE, action);
+					LOG.trace(POSTGRESQL_RECEIVE, action);
 					final VnfIndicatorMonitoringData data = vnfIndicatorMonitoringDataJpa.findByKeyAndVnfcId(allHostMetrics.getMetricName(), UUID.fromString(action.getVnfcId()));
 					if ((data != null) && (existingVnfIndicatorValue != null)) {
 						final double deltaCpuUsage = action.getValue() - data.getValue();
@@ -119,7 +119,7 @@ public class PostgresDataListener {
 					totalMemorySize = totalMemorySize + compute.getVirtualMemory().getVirtualMemSize();
 				}
 				for (final TelemetryMetricsResult action : allHostMetrics.getTelemetryMetricsResult()) {
-					LOG.info(POSTGRESQL_RECEIVE, action);
+					LOG.trace(POSTGRESQL_RECEIVE, action);
 					metricsUpdatedTime = action.getTimestamp();
 					final double bytesValue = action.getValue() * 1000000;
 					totalValue = totalValue + bytesValue;
@@ -131,11 +131,9 @@ public class PostgresDataListener {
 			} else {
 				averageValueByPercent = 0.0;
 			}
-
 			if ((existingVnfIndicatorValue != null) && !existingVnfIndicatorValue.getValue().equals(averageValueByPercent)) {
 				// vnf indicator value change notification should be sent.
 				LOG.info("{} indicator value changed to {}", allHostMetrics.getVnfInstanceId() + ":" + allHostMetrics.getMetricName(), averageValueByPercent);
-
 				eventManager.sendNotification(NotificationEvent.VNF_INDICATOR_VALUE_CHANGED, allHostMetrics.getVnfInstanceId(), Map.of("vnfIndicatorId", allHostMetrics.getMetricName(), "value", String.valueOf(averageValueByPercent), "vnfInstanceId", allHostMetrics.getVnfInstanceId().toString(), "vnfdId", vnfInstance.getVnfdId()));
 			}
 			final VnfIndicatorValue vnfIndValue = new VnfIndicatorValue(allHostMetrics.getMetricName(), allHostMetrics.getMasterJobId(), metricsUpdatedTime, averageValueByPercent, allHostMetrics.getVnfInstanceId());
