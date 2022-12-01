@@ -93,7 +93,7 @@ public class PostgresDataListener {
 				for (final TelemetryMetricsResult action : allHostMetrics.getTelemetryMetricsResult()) {
 					LOG.info(POSTGRESQL_RECEIVE, action);
 					final VnfIndicatorMonitoringData data = vnfIndicatorMonitoringDataJpa.findByKeyAndVnfcId(allHostMetrics.getMetricName(), UUID.fromString(action.getVnfcId()));
-					if (data != null) {
+					if ((data != null) && (existingVnfIndicatorValue != null)) {
 						final double deltaCpuUsage = action.getValue() - data.getValue();
 						if (deltaCpuUsage != 0.0) {
 							isMetricsUpdated = true;
