@@ -63,6 +63,8 @@ import ma.glasnost.orika.MapperFacade;
 @Service
 public class VnfInstanceServiceVnfm implements VnfInstanceGatewayService {
 
+	private static final String VIRTUAL_LINK = "virtual_link";
+
 	private final VnfInstanceJpa vnfInstanceJpa;
 
 	private final VnfLiveInstanceJpa vnfLiveInstanceJpa;
@@ -180,25 +182,32 @@ public class VnfInstanceServiceVnfm implements VnfInstanceGatewayService {
 
 	private void extractExtCp(final BlueprintParameters vnfInfo, final List<VnfLiveInstance> vli, final VnfInstance inst) {
 		final List<VnfLiveInstance> portVli = vli.stream().filter(x -> x.getTask() instanceof VnfPortTask).toList();
-		final Set<ExtCpInfo> extCp = portVli.stream().map(x -> {
-			final VnfPortTask vpt = (VnfPortTask) x.getTask();
-			final VnfLinkPort vlp = vpt.getVnfLinkPort();
-			final ExtCpInfo ret = new ExtCpInfo();
-			ret.setId(x.getId());
-			ret.setAssociatedVnfcCpId(null); // This is one
-			ret.setAssociatedVnfVirtualLinkId(getPort(portVli, vlp.getToscaName()));
-			ret.setCpConfigId(null);
-			if (null == vlp.getVirtualLink()) {
-				final VnfPackage vnfPkg = vnfPackageJpa.findById(inst.getVnfPkg().getId()).orElseThrow();
-				setFromExtCp(vnfPkg, ret, vlp.getToscaName());
-			} else {
-				ret.setCpdId(vlp.getVirtualLink());
-			}
-			ret.setCpProtocolInfo(null);
-			ret.setExtLinkPortId(null);
-			return ret;
-		}).collect(Collectors.toSet());
+		final Set<ExtCpInfo> extCp = portVli.stream()
+				.filter(this::isPointingOut)
+				.map(x -> {
+					final VnfPortTask vpt = (VnfPortTask) x.getTask();
+					final VnfLinkPort vlp = vpt.getVnfLinkPort();
+					final ExtCpInfo ret = new ExtCpInfo();
+					ret.setId(x.getId());
+					ret.setAssociatedVnfcCpId(null); // This is one
+					ret.setAssociatedVnfVirtualLinkId(getPort(portVli, vlp.getToscaName()));
+					ret.setCpConfigId(null);
+					if (null == vlp.getVirtualLink()) {
+						final VnfPackage vnfPkg = vnfPackageJpa.findById(inst.getVnfPkg().getId()).orElseThrow();
+						setFromExtCp(vnfPkg, ret, vlp.getToscaName());
+					} else {
+						ret.setCpdId(vlp.getVirtualLink());
+					}
+					ret.setCpProtocolInfo(null);
+					ret.setExtLinkPortId(null);
+					return ret;
+				}).collect(Collectors.toSet());
 		vnfInfo.setExtCpInfo(extCp);
+	}
+
+	private boolean isPointingOut(final VnfLiveInstance x) {
+		final VnfPortTask task = (VnfPortTask) x.getTask();
+		return task.getVnfLinkPort().getVirtualLink().startsWith(VIRTUAL_LINK);
 	}
 
 	private static void setFromExtCp(final VnfPackage vnfPkg, final ExtCpInfo ret, final String toscaName) {
@@ -210,9 +219,9 @@ public class VnfInstanceServiceVnfm implements VnfInstanceGatewayService {
 
 	private static String buildVlName(final ListKeyPair x) {
 		if (x.getIdx() == 0) {
-			return "virtual_link";
+			return VIRTUAL_LINK;
 		}
-		return "virtual_link_" + x.getIdx();
+		return VIRTUAL_LINK + "_" + x.getIdx();
 	}
 
 	private static String getPort(final List<VnfLiveInstance> portVli, final String toscaName) {
@@ -252,7 +261,7 @@ public class VnfInstanceServiceVnfm implements VnfInstanceGatewayService {
 					ret.setCpProtocolInfo(null);
 					ret.setId(vp.getId().toString());
 					ret.setParentCpId(null);
-					if ((null != vpt.getVnfLinkPort().getVirtualLink()) && vpt.getVnfLinkPort().getVirtualLink().startsWith("virtual_link")) {
+					if ((null != vpt.getVnfLinkPort().getVirtualLink()) && vpt.getVnfLinkPort().getVirtualLink().startsWith(VIRTUAL_LINK)) {
 						ret.setVnfExtCpId(vp.getId().toString());
 					} else {
 						ret.setVnfLinkPortId(vp.getId().toString());
