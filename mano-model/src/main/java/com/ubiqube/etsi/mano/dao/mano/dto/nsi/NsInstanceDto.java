@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ubiqube.etsi.mano.dao.mano.InstantiationState;
+import com.ubiqube.etsi.mano.dao.mano.nsd.VnffgDescriptor;
+import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.NsScaleInfo;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -49,5 +51,9 @@ public class NsInstanceDto {
 	private List<VnfInstanceDto> vnfInstance = new ArrayList<>();
 
 	private List<NsVirtualLinkInfoDto> virtualLinkInfo = new ArrayList<>();
+
+	private List<VnffgDescriptor> vnffgInfo = new ArrayList<>();
+
+	private List<NsScaleInfo> nsScaleStatus = new ArrayList<>();
 
 }

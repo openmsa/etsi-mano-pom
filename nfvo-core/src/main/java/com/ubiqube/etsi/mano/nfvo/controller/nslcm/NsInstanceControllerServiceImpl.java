@@ -58,6 +58,7 @@ import com.ubiqube.etsi.mano.dao.mano.nsd.VnffgDescriptor;
 import com.ubiqube.etsi.mano.dao.mano.nsd.VnffgInstance;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.NsHeal;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.NsScale;
+import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.NsScaleInfo;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.NsVnfScalingStepMapping;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.VnfScalingLevelMapping;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.VnfScalingStepMapping;
@@ -121,6 +122,14 @@ public class NsInstanceControllerServiceImpl implements NsInstanceControllerServ
 			final NsdInstance nsIn = createNsd(x.getChild().getNsdId(), "Sub NSD of " + nsdId, nsDescription);
 			nsInstanceTmp.addNestedNsInstance(nsIn);
 		});
+		final Set<NsScaleInfo> nsScaleInfo = nsd.getVnfPkgIds().stream()
+				.map(NsdPackageVnfPackage::getStepMapping)
+				.flatMap(Set::stream)
+				.map(VnfScalingStepMapping::getAspectId)
+				.distinct()
+				.map(x -> new NsScaleInfo(null, x, "0"))
+				.collect(Collectors.toSet());
+		nsInstanceTmp.setNsScaleInfo(nsScaleInfo);
 		nsInstanceTmp.setVnfInstance(vnfInstances);
 		copyVnfInstances(nsd, nsInstanceTmp);
 		return nsInstanceService.save(nsInstanceTmp);

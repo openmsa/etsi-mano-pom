@@ -19,6 +19,7 @@ package com.ubiqube.etsi.mano.dao.mano.v2;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.annotation.Nullable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -179,6 +180,7 @@ public class BlueprintParameters implements Serializable {
 	/**
 	 * Active monitoring parameters.
 	 */
+	@Nullable
 	@Transient
 	private Set<VnfMonitoringParameter> vnfMonitoringParameter;
 
@@ -186,6 +188,7 @@ public class BlueprintParameters implements Serializable {
 	 * Information about the virtualised storage resources used as storage for the
 	 * VNF instance.
 	 */
+	@Nullable
 	@Transient
 	private Set<VirtualStorageResourceInfo> virtualStorageResourceInfo;
 
@@ -193,6 +196,7 @@ public class BlueprintParameters implements Serializable {
 	 * Information about the external VLs the VNF instance is connected to.
 	 */
 	@Transient
+	@Nullable
 	private Set<ExtVirtualLinkDataEntity> extVirtualLinkInfo;
 
 	/**
@@ -200,6 +204,7 @@ public class BlueprintParameters implements Serializable {
 	 * is enabled, the list of entries includes both, external CPs corresponding to
 	 * parent ports of a trunk, and external CPs associated to sub-ports of a trunk.
 	 */
+	@Nullable
 	@Transient
 	private Set<ExtCpInfo> extCpInfo;
 
@@ -207,6 +212,7 @@ public class BlueprintParameters implements Serializable {
 	 * Information about the virtualised compute and storage resources used by the
 	 * VNFCs of the VNF instance.
 	 */
+	@Nullable
 	@Transient
 	private Set<VnfcResourceInfoEntity> vnfcResourceInfo;
 
@@ -214,6 +220,7 @@ public class BlueprintParameters implements Serializable {
 	 * Information about the virtualised network resources used by the VLs of the
 	 * VNF instance. See note 6.
 	 */
+	@Nullable
 	@Transient
 	private Set<VirtualLinkInfo> virtualLinkResourceInfo;
 
