@@ -59,6 +59,9 @@ public class VnfContextExtractorUow extends AbstractUnitOfWork<NsVnfExtractorTas
 	public String execute(final Context3d context) {
 		final String vnfInstanceId = context.get(VnfCreateNode.class, task.getToscaName());
 		final VnfInstance inst = vnfm.getVnfInstance(task.getServer(), vnfInstanceId);
+		if (null == inst.getInstantiatedVnfInfo().getExtCpInfo()) {
+			return null;
+		}
 		inst.getInstantiatedVnfInfo().getExtCpInfo().forEach(x -> {
 			final NsdPackageVnfPackage vnfd = findVnfd(inst.getVnfdId());
 			final int idx = toscaNameToVlId(x.getCpdId());
