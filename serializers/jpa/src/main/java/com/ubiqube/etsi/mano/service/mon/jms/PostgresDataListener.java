@@ -49,6 +49,8 @@ import com.ubiqube.etsi.mano.service.mon.repository.VnfIndicatorValueJpa;
  */
 @Service
 public class PostgresDataListener {
+	private static final String POSTGRESQL_RECEIVE = "Postgresql-Receive: {}";
+
 	private static final Logger LOG = LoggerFactory.getLogger(PostgresDataListener.class);
 
 	private final MonitoringDataJpa monitoringDataJpa;
@@ -75,54 +77,54 @@ public class PostgresDataListener {
 			return;
 		}
 		if (PmType.VNF.equals(allHostMetrics.getPmType())) {
-			Double averageValueByPercent = 0.0;
-			Double totalValue = 0.0;
+			double averageValueByPercent = 0.0;
+			double totalValue = 0.0;
 			OffsetDateTime metricsUpdatedTime = OffsetDateTime.now();
 			final VnfInstance vnfInstance = vnfInstanceJpa.findById(allHostMetrics.getVnfInstanceId()).orElseThrow();
 			final Set<VnfCompute> computes = vnfInstance.getVnfPkg().getVnfCompute();
 			final VnfIndicatorValue existingVnfIndicatorValue = vnfIndicatorValueJpa.findByKeyAndVnfInstanceId(allHostMetrics.getMetricName(), allHostMetrics.getVnfInstanceId());
 			if ("cpu".equals(allHostMetrics.getTelemetryMetricsResult().get(0).getKey())) {
-				Long noOfVirtualCpus = 0L;
-				Boolean isMetricsUpdated = false;
+				long noOfVirtualCpus = 0L;
+				boolean isMetricsUpdated = false;
 				long deltaSeconds = 0;
 				for (final VnfCompute compute : computes) {
 					noOfVirtualCpus = noOfVirtualCpus + compute.getVirtualCpu().getNumVirtualCpu();
 				}
 				for (final TelemetryMetricsResult action : allHostMetrics.getTelemetryMetricsResult()) {
-					LOG.info("Postgresql-Receive: {}", action);
+					LOG.info(POSTGRESQL_RECEIVE, action);
 					final VnfIndicatorMonitoringData data = vnfIndicatorMonitoringDataJpa.findByKeyAndVnfcId(allHostMetrics.getMetricName(), UUID.fromString(action.getVnfcId()));
 					if (data != null) {
-						final Double deltaCpuUsage = action.getValue() - data.getValue();
+						final double deltaCpuUsage = action.getValue() - data.getValue();
 						if (deltaCpuUsage != 0.0) {
 							isMetricsUpdated = true;
 							metricsUpdatedTime = action.getTimestamp();
-							Duration duration = Duration.between(existingVnfIndicatorValue.getTime(), action.getTimestamp());
+							final Duration duration = Duration.between(existingVnfIndicatorValue.getTime(), action.getTimestamp());
 							deltaSeconds = duration.getSeconds();
 						} else {
 							isMetricsUpdated = false;
 						}
-						final Double usageInSeconds = deltaCpuUsage / 1000000000L;
+						final double usageInSeconds = deltaCpuUsage / 1000000000L;
 						totalValue = totalValue + usageInSeconds;
 					}
 					final VnfIndicatorMonitoringData data2 = new VnfIndicatorMonitoringData(allHostMetrics.getMetricName(), allHostMetrics.getMasterJobId(), action.getValue(), UUID.fromString(action.getVnfcId()));
 					vnfIndicatorMonitoringDataJpa.save(data2);
 				}
-				if (!isMetricsUpdated || noOfVirtualCpus == 0 || deltaSeconds == 0) {
+				if (!isMetricsUpdated || (noOfVirtualCpus == 0) || (deltaSeconds == 0)) {
 					return;
 				}
 				averageValueByPercent = (totalValue / (noOfVirtualCpus * deltaSeconds)) * 100;
 			} else if ("memory.usage".equals(allHostMetrics.getTelemetryMetricsResult().get(0).getKey())) {
-				Long totalMemorySize = 0L;
+				long totalMemorySize = 0L;
 				for (final VnfCompute compute : computes) {
 					totalMemorySize = totalMemorySize + compute.getVirtualMemory().getVirtualMemSize();
 				}
 				for (final TelemetryMetricsResult action : allHostMetrics.getTelemetryMetricsResult()) {
-					LOG.info("Postgresql-Receive: {}", action);
+					LOG.info(POSTGRESQL_RECEIVE, action);
 					metricsUpdatedTime = action.getTimestamp();
-					final Double bytesValue = action.getValue() * 1000000;
+					final double bytesValue = action.getValue() * 1000000;
 					totalValue = totalValue + bytesValue;
 				}
-				final Double averageValue = totalValue / allHostMetrics.getTelemetryMetricsResult().size();
+				final double averageValue = totalValue / allHostMetrics.getTelemetryMetricsResult().size();
 				if (totalMemorySize != 0) {
 					averageValueByPercent = (averageValue / totalMemorySize) * 100;
 				}
@@ -141,7 +143,7 @@ public class PostgresDataListener {
 			return;
 		}
 		for (final TelemetryMetricsResult action : allHostMetrics.getTelemetryMetricsResult()) {
-			LOG.info("Postgresql-Receive: {}", action);
+			LOG.info(POSTGRESQL_RECEIVE, action);
 			final MonitoringData entity = new MonitoringData(action.getKey(), action.getMasterJobId(), action.getTimestamp(), action.getValue(), action.getVnfcId(), action.isStatus());
 			monitoringDataJpa.save(entity);
 		}
