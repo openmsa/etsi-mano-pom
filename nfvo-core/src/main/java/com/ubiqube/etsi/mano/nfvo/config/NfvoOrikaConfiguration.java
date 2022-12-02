@@ -106,7 +106,7 @@ public class NfvoOrikaConfiguration implements OrikaMapperFactoryConfigurer {
 				.register();
 		orikaMapperFactory.classMap(NsInstanceDto.class, NsdInstance.class)
 				.field("flavourId", "instanceFlavourId")
-				.field("nsScaleStatus", "nsScaleInfo")
+				.field("nsScaleStatus", "instantiatedVnfInfo.nsStepStatus")
 				.byDefault()
 				.register();
 		orikaMapperFactory.classMap(VnfcResourceInfoEntity.class, ComputeTask.class)
