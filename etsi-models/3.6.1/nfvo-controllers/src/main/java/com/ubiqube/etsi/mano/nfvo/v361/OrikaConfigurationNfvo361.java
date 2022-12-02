@@ -23,6 +23,7 @@ import com.ubiqube.etsi.mano.dao.mano.GrantInformationExt;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
+import com.ubiqube.etsi.mano.dao.mano.ScaleInfo;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.dto.NsInstantiatedVnf;
 import com.ubiqube.etsi.mano.dao.mano.dto.VnfInstantiatedCompute;
@@ -54,6 +55,7 @@ import com.ubiqube.etsi.mano.nfvo.v361.model.nslcm.AffectedVnf;
 import com.ubiqube.etsi.mano.nfvo.v361.model.nslcm.InstantiateNsRequest;
 import com.ubiqube.etsi.mano.nfvo.v361.model.nslcm.NsInstance;
 import com.ubiqube.etsi.mano.nfvo.v361.model.nslcm.NsLcmOpOcc;
+import com.ubiqube.etsi.mano.nfvo.v361.model.nslcm.NsScaleInfo;
 import com.ubiqube.etsi.mano.nfvo.v361.model.vnf.PkgmSubscription;
 import com.ubiqube.etsi.mano.nfvo.v361.model.vnf.PkgmSubscriptionRequest;
 import com.ubiqube.etsi.mano.service.event.model.AuthParamOauth2;
@@ -78,6 +80,11 @@ public class OrikaConfigurationNfvo361 implements OrikaMapperFactoryConfigurer {
 
 	@Override
 	public void configure(final MapperFactory orikaMapperFactory) {
+		orikaMapperFactory.classMap(NsScaleInfo.class, ScaleInfo.class)
+				.field("nsScalingAspectId", "aspectId")
+				.field("nsScaleLevelId", "scaleLevel")
+				.byDefault()
+				.register();
 		orikaMapperFactory.classMap(NsdInfo.class, NsdPackage.class)
 				.field("vnfPkgIds{}", "vnfPkgIds{id}")
 				.field("pnfdInfoIds{}", "pnfdInfoIds{id}")
