@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.service.mon.jms;
 
 import java.time.Duration;
 import java.time.OffsetDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -108,7 +109,7 @@ public class PostgresDataListener {
 					} else {
 						isMetricsUpdated = true;
 						final double deltaCpuUsage = action.getValue();
-						metricsUpdatedTime = action.getTimestamp();
+						metricsUpdatedTime = action.getTimestamp().truncatedTo(ChronoUnit.MINUTES);
 						deltaSeconds = 600;
 						final double usageInSeconds = deltaCpuUsage / 1000000000L;
 						totalValue = totalValue + usageInSeconds;
