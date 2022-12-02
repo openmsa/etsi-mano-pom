@@ -105,6 +105,13 @@ public class PostgresDataListener {
 						}
 						final double usageInSeconds = deltaCpuUsage / 1000000000L;
 						totalValue = totalValue + usageInSeconds;
+					} else {
+						isMetricsUpdated = true;
+						final double deltaCpuUsage = action.getValue();
+						metricsUpdatedTime = action.getTimestamp();
+						deltaSeconds = 600;
+						final double usageInSeconds = deltaCpuUsage / 1000000000L;
+						totalValue = totalValue + usageInSeconds;
 					}
 					final VnfIndicatorMonitoringData data2 = new VnfIndicatorMonitoringData(allHostMetrics.getMetricName(), allHostMetrics.getMasterJobId(), action.getValue(), UUID.fromString(action.getVnfcId()));
 					vnfIndicatorMonitoringDataJpa.save(data2);
