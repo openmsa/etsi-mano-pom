@@ -69,10 +69,10 @@ public abstract class AbstractBlueprint<U extends Task, V extends Instance> impl
 
 	@Enumerated(EnumType.STRING)
 	private CancelModeTypeEnum cancelMode;
-	@ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
 	private Map<String, ConnectionInformation> cirConnectionInfo;
 
-	@ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
 	private Map<String, ConnectionInformation> mciopConnectionInfo;
 
 }

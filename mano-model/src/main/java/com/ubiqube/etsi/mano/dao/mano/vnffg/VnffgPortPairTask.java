@@ -42,14 +42,14 @@ public class VnffgPortPairTask extends NsTask {
 
 	private String vnfAlias;
 
-	@OneToOne(cascade = CascadeType.DETACH)
+	@OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
 	private NsdPackageVnfPackage vnf;
 
 	private int rank;
 
 	private String vnfToscaName;
 
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.LAZY)
 	private CpPair cpPair;
 
 	@Override

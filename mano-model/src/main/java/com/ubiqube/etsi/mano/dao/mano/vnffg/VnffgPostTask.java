@@ -42,10 +42,10 @@ public class VnffgPostTask extends NsTask {
 	@OneToOne
 	private Classifier classifier;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<ListKeyPair> chain;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
 	private VnffgDescriptor vnffg;
 
 	private String srcPort;

@@ -56,7 +56,7 @@ public class NsSfcTask extends NsTask {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
 
-	@ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+	@ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
 	private VnffgDescriptor vnffg;
 
 	@Override

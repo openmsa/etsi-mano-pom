@@ -53,14 +53,14 @@ public class NsVnfTask extends NsTask {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
 
-	@OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+	@OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
 	private NsdVnfPackageCopy nsPackageVnfPackage;
 
 	private String description;
 
 	private String vnfdId;
 
-	@OneToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
 	private Set<ExternalPortRecord> nsExternalNetworks = new LinkedHashSet<>();
 
 	/**

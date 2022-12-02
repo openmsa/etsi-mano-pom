@@ -39,7 +39,6 @@ import com.ubiqube.etsi.mano.dao.mano.nfvo.ParamsForVnf;
 import com.ubiqube.etsi.mano.dao.mano.nsd.NsdVnfPackageCopy;
 import com.ubiqube.etsi.mano.dao.mano.nsd.VnffgDescriptor;
 import com.ubiqube.etsi.mano.dao.mano.nsd.wan.WanConnectionInformation;
-import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.NsScaleInfo;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 
 import lombok.Getter;
@@ -64,14 +63,14 @@ public class NsdInstance extends Instance {
 	@FullTextField
 	private String nsInstanceDescription = null;
 
-	@ManyToOne(cascade = CascadeType.DETACH)
+	@ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
 	private NsdPackage nsdInfo = null;
 
 	private String nsInstantiationLevelId;
 
 	private String instanceFlavourId;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn
 	private List<NsVnfInstance> vnfInstance = null;
 
@@ -80,7 +79,7 @@ public class NsdInstance extends Instance {
 	// XXX Add vnffgInfo
 	// XXX Add sapInfo
 
-	@OneToMany
+	@OneToMany(fetch = FetchType.LAZY)
 	private List<NsdInstance> nestedNsInstance = null;
 
 	// XXX Add additionalAffinityOrAntiAffinityRule
@@ -88,22 +87,22 @@ public class NsdInstance extends Instance {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "nsInstance")
 	private Set<NsBlueprint> blueprint;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn
 	private Set<VnfInstanceData> vnfInstanceData;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn
 	private Set<NestedNsInstanceData> nestedNsInstanceData;
 
 	@ElementCollection
 	private Map<String, String> additionalParamsForNs;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn
 	private Set<ParamsForNestedNsd> additionalParamForNestedNs;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn
 	private Set<ParamsForVnf> additionalParamsForVnf;
 	// 3.3.1
@@ -120,9 +119,6 @@ public class NsdInstance extends Instance {
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<VnffgDescriptor> vnffgs;
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<NsScaleInfo> nsScaleInfo;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<VnffgDescriptor> vnffgInfo;

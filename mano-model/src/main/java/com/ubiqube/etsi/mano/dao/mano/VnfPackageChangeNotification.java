@@ -18,9 +18,10 @@ package com.ubiqube.etsi.mano.dao.mano;
 
 import java.time.OffsetDateTime;
 
+import com.ubiqube.etsi.mano.utils.ToStringUtil;
+
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 /**
  *
@@ -29,7 +30,6 @@ import lombok.ToString;
  */
 @Getter
 @Setter
-@ToString
 public class VnfPackageChangeNotification {
 	private String id;
 
@@ -46,5 +46,10 @@ public class VnfPackageChangeNotification {
 	private PackageChangeType changeType;
 
 	private PackageOperationalStateType operationalState;
+
+	@Override
+	public String toString() {
+		return ToStringUtil.toString(this);
+	}
 
 }

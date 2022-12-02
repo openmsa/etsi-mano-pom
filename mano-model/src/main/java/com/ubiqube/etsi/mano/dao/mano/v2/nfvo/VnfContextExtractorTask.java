@@ -46,7 +46,7 @@ public class VnfContextExtractorTask extends NsTask {
 	@OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
 	private Servers server;
 
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	private NsdPackage nsdPackage;
 
 	private String vnfdId;

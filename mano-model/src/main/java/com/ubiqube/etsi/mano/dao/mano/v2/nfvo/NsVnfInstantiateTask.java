@@ -55,7 +55,7 @@ public class NsVnfInstantiateTask extends NsTask {
 
 	private String localizationLanguage;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
 	private NsdVnfPackageCopy param;
 
 	private String vnfInstanceName;

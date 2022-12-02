@@ -19,6 +19,7 @@ package com.ubiqube.etsi.mano.tf.entities;
 import java.util.UUID;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -48,7 +49,7 @@ public class ServiceInstanceTask extends NsTask {
 
 	private String serviceTemplateId;
 
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	private CpPair cpPorts;
 
 	@Override

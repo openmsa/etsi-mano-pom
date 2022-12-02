@@ -54,22 +54,22 @@ public class NsdTask extends NsTask {
 	@ElementCollection(fetch = FetchType.EAGER)
 	private Set<String> virtualLinks;
 
-	@OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+	@OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
 	private Servers server;
 
 	private String flavourId;
 
 	private String instantiationLevelId;
 
-	@ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
 	private Set<VnfExtCp> extCps;
 
-	@ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
 	private Set<VimConnectionInformation> vimConnectionInformations;
 
 	private String localizationLanguage;
 
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	private NsdPackageNsdPackage nsdParam;
 
 	@Override

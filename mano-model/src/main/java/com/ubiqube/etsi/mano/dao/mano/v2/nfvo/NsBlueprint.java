@@ -86,7 +86,7 @@ public class NsBlueprint extends AbstractBlueprint<NsTask, NsdInstance> {
 	@IndexingDependency(reindexOnUpdate = ReindexOnUpdate.SHALLOW)
 	private Set<NsTask> tasks;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@IndexedEmbedded
 	private NsdInstance nsInstance;
 
