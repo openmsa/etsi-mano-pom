@@ -124,16 +124,16 @@ public class ComputeContributorV3 extends AbstractVnfmContributorV3<Object> {
 				ret.add(create(Monitoring.class, mt.getClass(), mt.getToscaName(), 1, mt, parameters.getInstance(), parameters));
 			});
 		});
-		
-		for(com.ubiqube.etsi.mano.dao.mano.VnfIndicator vnfIndicator : bundle.getVnfIndicator()) {
+
+		for (final com.ubiqube.etsi.mano.dao.mano.VnfIndicator vnfIndicator : bundle.getVnfIndicator()) {
 			final VnfIndicatorTask vnfIndicatorTask = createTask(VnfIndicatorTask::new);
 			vnfIndicatorTask.setVnfIndicator(vnfIndicator);
 			vnfIndicatorTask.setType(ResourceTypeEnum.VNF_INDICATOR);
 			vnfIndicatorTask.setToscaName(vnfIndicator.getName());
 			vnfIndicatorTask.setName(vnfIndicator.getName());
 			ret.add(create(VnfIndicator.class, vnfIndicatorTask.getClass(), vnfIndicatorTask.getName(), 1, vnfIndicatorTask, parameters.getInstance(), parameters));
-			
-			for(MonitoringParams monitoringParams : vnfIndicator.getMonitoringParameters()) {
+
+			for (final MonitoringParams monitoringParams : vnfIndicator.getMonitoringParameters()) {
 				final MonitoringTask mt = createTask(MonitoringTask::new);
 				mt.setType(ResourceTypeEnum.MONITORING);
 				mt.setToscaName(vnfIndicator.getName() + "-" + monitoringParams.getName());
@@ -148,6 +148,9 @@ public class ComputeContributorV3 extends AbstractVnfmContributorV3<Object> {
 	}
 
 	private static ExtManagedVirtualLinkDataEntity findExtManagedInfo(final VnfBlueprint plan, final String vlName) {
+		if (null == plan.getParameters().getExtManagedVirtualLinks()) {
+			return null;
+		}
 		return plan.getParameters().getExtManagedVirtualLinks().stream()
 				.filter(x -> x.getVnfVirtualLinkDescId().equals(vlName))
 				.findFirst()

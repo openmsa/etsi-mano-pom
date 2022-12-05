@@ -56,11 +56,11 @@ public class ScalingStrategyV2 implements ScalingStrategy {
 	}
 
 	@Override
-	public NumberOfCompute getNumberOfCompute(final VnfBlueprint plan, final VnfPackage vnfPackage, final Set<ScaleInfo> scaling, final VnfCompute compute, final VnfInstance instance) {
-		if (plan.getOperation() == PlanOperationType.INSTANTIATE) {
-			return handleInstantiate(plan, vnfPackage, compute);
+	public NumberOfCompute getNumberOfCompute(final VnfBlueprint blueprint, final VnfPackage bundle, final Set<ScaleInfo> scaling, final VnfCompute compute, final VnfInstance instance) {
+		if (blueprint.getOperation() == PlanOperationType.INSTANTIATE) {
+			return handleInstantiate(blueprint, bundle, compute);
 		}
-		return handleScale(plan, vnfPackage, compute, instance);
+		return handleScale(blueprint, bundle, compute, instance);
 	}
 
 	private static NumberOfCompute handleInstantiate(final VnfBlueprint plan, final VnfPackage vnfPackage, final VnfCompute compute) {
