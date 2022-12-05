@@ -63,7 +63,7 @@ public class NsOrchListenetImpl implements OrchExecutionListener<NsTask> {
 		resource.setStatus(PlanStatusType.SUCCESS);
 		resource.setEndDate(LocalDateTime.now());
 		if ((resource.getChangeType() == ChangeType.ADDED) && (res != null) && (resource.getId() != null)) {
-			final NsLiveInstance nli = new NsLiveInstance(null, resource, blueprint, blueprint.getInstance());
+			final NsLiveInstance nli = new NsLiveInstance(blueprint.getInstance().getId().toString(), resource, blueprint, blueprint.getInstance());
 			nsLiveInstanceJpa.save(nli);
 		}
 	}

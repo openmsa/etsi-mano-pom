@@ -160,8 +160,8 @@ public class NfvoOrchestrationV3 implements WorkflowV3<NsdPackage, NsBlueprint, 
 		return live.stream().map(this::convert).toList();
 	}
 
-	private ContextHolder convert(final NsLiveInstance x) {
-		final Class<? extends Node> t = switch (x.getNsTask().getType()) {
+	private ContextHolder convert(final NsLiveInstance inst) {
+		final Class<? extends Node> t = switch (inst.getNsTask().getType()) {
 		case VL -> Network.class;
 		case VNF_CREATE -> VnfCreateNode.class;
 		case VNF_INSTANTIATE -> VnfInstantiateNode.class;
@@ -178,9 +178,10 @@ public class NfvoOrchestrationV3 implements WorkflowV3<NsdPackage, NsBlueprint, 
 		case TF_PT_LINK -> PtLinkNode.class;
 		case TF_SERVICE_INSTANCE -> ServiceInstanceNode.class;
 		case TF_SERVICE_TEMPLATE -> ServiceTemplateNode.class;
-		default -> throw new GenericException(x.getNsTask().getType() + " is not handled.");
+		default -> throw new GenericException(inst.getNsTask().getType() + " is not handled.");
 		};
-		return new ContextHolder(x.getId(), t, x.getNsTask().getToscaName(), x.getRank(), x.getResourceId(), x.getVimConnectionId());
+		final NsTask task = inst.getNsTask();
+		return new ContextHolder(inst.getId(), t, inst.getNsTask().getToscaName(), task.getRank(), inst.getResourceId(), inst.getVimConnectionId());
 	}
 
 	@Override

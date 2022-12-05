@@ -76,8 +76,6 @@ public abstract class VnfTask extends AbstractTask {
 
 	private String vimConnectionId;
 
-	int rank;
-
 	public VnfTask copy(final VnfTask t) {
 		super.copy(t);
 		t.setVimReservationId(vimReservationId);

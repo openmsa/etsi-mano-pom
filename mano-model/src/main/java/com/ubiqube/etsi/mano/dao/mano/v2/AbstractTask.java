@@ -88,6 +88,8 @@ public abstract class AbstractTask implements VimTask {
 	private String resourceProviderId;
 	private UUID removedLiveInstance;
 
+	int rank;
+
 	public abstract void setId(final UUID id);
 
 	@Version
@@ -107,6 +109,7 @@ public abstract class AbstractTask implements VimTask {
 		task.setToscaName(toscaName);
 		task.setVimConnectionId(vimConnectionId);
 		task.setVimResourceId(vimResourceId);
+		task.setRank(rank);
 		return task;
 	}
 
