@@ -67,8 +67,6 @@ public class NsLiveInstance implements BaseEntity, Auditable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private NsdInstance nsInstance;
 
-	// int rank;
-
 	@Embedded
 	private Audit audit;
 
