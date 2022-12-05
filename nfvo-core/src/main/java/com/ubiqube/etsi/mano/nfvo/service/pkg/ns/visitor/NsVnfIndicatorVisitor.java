@@ -14,29 +14,27 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.jpa;
+package com.ubiqube.etsi.mano.nfvo.service.pkg.ns.visitor;
 
-import java.util.Optional;
+import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+import javax.annotation.Priority;
 
+import org.springframework.stereotype.Service;
+
+import com.ubiqube.etsi.mano.dao.mano.NsVnfIndicator;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
-import com.ubiqube.etsi.mano.dao.mano.OnboardingStateType;
+import com.ubiqube.etsi.mano.nfvo.service.pkg.ns.NsOnboardingVisitor;
+import com.ubiqube.etsi.mano.service.pkg.ns.NsPackageProvider;
 
-public interface NsdPackageJpa extends CrudRepository<NsdPackage, UUID> {
-	Optional<NsdPackage> findByNsdInvariantId(String nsdInvariantId);
-
-	@Query("""
-			select child
-			from NsdPackageNsdPackage nsdpackage0_
-			left outer join NsdPackage child on nsdpackage0_.child = child
-			where parent_id = ?1 """)
-	Set<NsdPackage> findByNestedNsdInfoIds_Parent(NsdPackage nsdPackage);
-
-	Optional<NsdPackage> findByNsdId(String nsdId);
+@Priority(200)
+@Service
+public class NsVnfIndicatorVisitor implements NsOnboardingVisitor {
 	
-	NsdPackage findByNsdIdAndNsdOnboardingState(String nsdId, OnboardingStateType onboardingState);
+	@Override
+	public void visit(NsdPackage nsPackage, NsPackageProvider packageProvider, Map<String, String> userData) {
+		final Set<NsVnfIndicator> nsVnfIndicators = packageProvider.getNsVnfIndicator(nsPackage.getUserDefinedData());
+		nsPackage.setNsVnfIndicator(nsVnfIndicators);
+	}
 }

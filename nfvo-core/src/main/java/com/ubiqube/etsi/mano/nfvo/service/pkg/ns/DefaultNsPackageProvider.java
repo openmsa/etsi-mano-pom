@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.ubiqube.etsi.mano.dao.mano.NsSap;
+import com.ubiqube.etsi.mano.dao.mano.NsVnfIndicator;
 import com.ubiqube.etsi.mano.dao.mano.dto.NsNsd;
 import com.ubiqube.etsi.mano.dao.mano.dto.NsVnf;
 import com.ubiqube.etsi.mano.dao.mano.nsd.VnffgDescriptor;
@@ -74,6 +75,11 @@ public class DefaultNsPackageProvider implements NsPackageProvider {
 	@Override
 	public NsScaling getNsScaling(final Map<String, String> userData) {
 		return null;
+	}
+
+	@Override
+	public Set<NsVnfIndicator> getNsVnfIndicator(Map<String, String> parameters) {
+		return Set.of();
 	}
 
 }

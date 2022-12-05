@@ -14,31 +14,14 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.dao.mano.pm;
+package com.ubiqube.etsi.mano.nfvo.service.pkg.ns;
 
-/**
- *
- * @author Olivier Vignaud <ovi@ubiqube.com>
- *
- */
-public enum PmType {
-	// VNFM
-	VNF("VNF"),
-	VNFC("VNFC"),
-	VNFINTCP("VNFINTCP"),
-	VNFEXTCP("VNFEXTCP"),
-	// NFVO
-	NS("NS"),
-	SAP("SAP");
+import java.util.Map;
 
-	private String value;
+import com.ubiqube.etsi.mano.dao.mano.NsMonitoringParameter;
+import com.ubiqube.etsi.mano.service.pkg.ns.NsPackageProvider;
 
-	PmType(final String string) {
-		value = string;
-	}
+public interface NsOnboardingMonitoringVisitor {
 
-	@Override
-	public String toString() {
-		return value;
-	}
+	void visit(NsMonitoringParameter nsMonitoringParameter, NsPackageProvider packageProvider, Map<String, String> userData);
 }

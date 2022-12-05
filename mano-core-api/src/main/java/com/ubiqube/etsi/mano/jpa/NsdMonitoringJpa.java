@@ -14,31 +14,14 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.dao.mano.pm;
+package com.ubiqube.etsi.mano.jpa;
 
-/**
- *
- * @author Olivier Vignaud <ovi@ubiqube.com>
- *
- */
-public enum PmType {
-	// VNFM
-	VNF("VNF"),
-	VNFC("VNFC"),
-	VNFINTCP("VNFINTCP"),
-	VNFEXTCP("VNFEXTCP"),
-	// NFVO
-	NS("NS"),
-	SAP("SAP");
+import java.util.UUID;
 
-	private String value;
+import org.springframework.data.repository.CrudRepository;
 
-	PmType(final String string) {
-		value = string;
-	}
+import com.ubiqube.etsi.mano.dao.mano.NsMonitoringParameter;
 
-	@Override
-	public String toString() {
-		return value;
-	}
+public interface NsdMonitoringJpa  extends CrudRepository<NsMonitoringParameter, UUID>{
+
 }

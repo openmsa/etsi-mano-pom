@@ -89,7 +89,7 @@ public class AdminNfvoController {
 		this.nsBlueprintJpa = nsBlueprintJpa;
 	}
 
-	@PostMapping(value = "/validate/ns")
+	@PostMapping(value = "/validate/ns", consumes = { "multipart/form-data" })
 	public ResponseEntity<Void> validateNs(@RequestParam("file") final MultipartFile file) {
 		final NsdPackage nsPackage = new NsdPackage();
 		nsPackage.setId(UUID.randomUUID());
