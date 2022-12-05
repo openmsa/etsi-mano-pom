@@ -93,10 +93,11 @@ policies:
     properties:
       aspect: an_aspect
       number_of_instances: # map<Integer, Integer>
-        1: 1
-        2: 2
-        3: 3
-        4: 4
+        0: 1
+        1: 2
+        2: 3
+        3: 4
+        4: 5
     targets:  [ frontend ] # [ tosca.nodes.nfv.VNF ]
 
   ns instantiation_level:
