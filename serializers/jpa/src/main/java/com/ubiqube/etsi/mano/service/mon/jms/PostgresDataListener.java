@@ -92,6 +92,9 @@ public class PostgresDataListener {
 					noOfVirtualCpus = noOfVirtualCpus + compute.getVirtualCpu().getNumVirtualCpu();
 				}
 				for (final TelemetryMetricsResult action : allHostMetrics.getTelemetryMetricsResult()) {
+					if(action.getValue() == 0.0) {
+						continue;
+					}
 					LOG.trace(POSTGRESQL_RECEIVE, action);
 					final VnfIndicatorMonitoringData data = vnfIndicatorMonitoringDataJpa.findByKeyAndVnfcId(allHostMetrics.getMetricName(), UUID.fromString(action.getVnfcId()));
 					if ((data != null) && (existingVnfIndicatorValue != null)) {
@@ -117,7 +120,7 @@ public class PostgresDataListener {
 					final VnfIndicatorMonitoringData data2 = new VnfIndicatorMonitoringData(allHostMetrics.getMetricName(), allHostMetrics.getMasterJobId(), action.getValue(), UUID.fromString(action.getVnfcId()));
 					vnfIndicatorMonitoringDataJpa.save(data2);
 				}
-				if (!isMetricsUpdated || (noOfVirtualCpus == 0) || (deltaSeconds == 0)) {
+				if (!isMetricsUpdated || (totalValue == 0.0) || (noOfVirtualCpus == 0) || (deltaSeconds == 0)) {
 					return;
 				}
 				averageValueByPercent = (totalValue / (noOfVirtualCpus * deltaSeconds)) * 100;
@@ -127,15 +130,18 @@ public class PostgresDataListener {
 					totalMemorySize = totalMemorySize + compute.getVirtualMemory().getVirtualMemSize();
 				}
 				for (final TelemetryMetricsResult action : allHostMetrics.getTelemetryMetricsResult()) {
+					if(action.getValue() == 0.0) {
+						continue;
+					}
 					LOG.trace(POSTGRESQL_RECEIVE, action);
 					metricsUpdatedTime = action.getTimestamp();
-					final double bytesValue = action.getValue() * 1000000;
+					final double bytesValue = action.getValue() * 1048576;
 					totalValue = totalValue + bytesValue;
 				}
-				final double averageValue = totalValue / allHostMetrics.getTelemetryMetricsResult().size();
-				if (totalMemorySize != 0) {
-					averageValueByPercent = (averageValue / totalMemorySize) * 100;
+				if (totalMemorySize == 0 || totalValue == 0) {
+					return;
 				}
+				averageValueByPercent = (totalValue / totalMemorySize) * 100;
 			} else {
 				averageValueByPercent = 0.0;
 			}
