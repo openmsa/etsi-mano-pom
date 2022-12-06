@@ -97,18 +97,22 @@ public class SoftwareImageService {
 		if (checksumComparable(vimImage.getChecksum(), swIn.getChecksum())) {
 			return checkHash(vimImage.getChecksum(), swIn.getChecksum());
 		}
+		LOG.trace("Comparing on name :[{}] [{}]", vimImage.getName(), swIn.getName());
 		return vimImage.getName().equals(swIn.getName());
 	}
 
 	private static boolean checksumComparable(final Checksum checksum, final Checksum checksum2) {
 		if ((null == checksum) || (null == checksum2)) {
+			LOG.trace("One checksum is null {}/{}", checksum, checksum2);
 			return false;
 		}
 		final String hash = checksum.getHash();
 		final String hash2 = checksum2.getHash();
 		if ((null == hash) || (null == hash2)) {
+			LOG.trace("One hash is null {}/{}", hash, hash2);
 			return false;
 		}
+		LOG.trace("Checking hash lenght {}/{}", checksum.getHash().length(), checksum2.getHash().length());
 		return (checksum.getHash().length() == checksum2.getHash().length());
 	}
 
@@ -116,8 +120,10 @@ public class SoftwareImageService {
 		final String alg1 = checksum.getAlgorithm();
 		final String alg2 = checksum2.getAlgorithm();
 		if ((alg1 == null) || (alg2 == null) || !alg1.equalsIgnoreCase(alg2)) {
+			LOG.trace("Algorithm are not equals : [{}] [{}]", alg1, alg2);
 			return false;
 		}
+		LOG.trace("Checking hash [{}] [{}]", checksum.getHash(), checksum2.getHash());
 		return checksum.getHash().equals(checksum2.getHash());
 	}
 
