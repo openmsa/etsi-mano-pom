@@ -65,7 +65,7 @@ public class V3Controller {
 		this.vnfPlanService = vnfPlanService;
 	}
 
-	@PostMapping(value = "/validate/vnf")
+	@PostMapping(value = "/validate/vnf", consumes = { "multipart/form-data" })
 	public ResponseEntity<BufferedImage> validateVnf(@RequestParam("file") final MultipartFile file) {
 
 		try (TemporaryFileSentry tfs = new TemporaryFileSentry()) {
