@@ -14,46 +14,46 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.nfvo.service.system;
+package com.ubiqube.etsi.mano.nfvo.service.plan.uow;
 
 import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.entities.SystemConnections;
 import com.ubiqube.etsi.mano.orchestrator.nodes.contrail.ServiceInstanceNode;
-import com.ubiqube.etsi.mano.orchestrator.nodes.contrail.ServiceTemplateNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.NetworkPolicyNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.graph.AbstractUnitOfWork;
 import com.ubiqube.etsi.mano.tf.ContrailApi;
-import com.ubiqube.etsi.mano.tf.entities.ServiceInstanceTask;
+import com.ubiqube.etsi.mano.tf.entities.NetworkPolicyTask;
 
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public class ServiceInstanceUow extends AbstractUnitOfWork<ServiceInstanceTask> {
-	private final SystemConnections vimConnectionInformation;
-	private final ServiceInstanceTask task;
+public class NetworkPolicyUow extends AbstractUnitOfWork<NetworkPolicyTask> {
 
-	public ServiceInstanceUow(final VirtualTaskV3<ServiceInstanceTask> task, final SystemConnections vim) {
-		super(task, ServiceInstanceNode.class);
-		this.vimConnectionInformation = vim;
-		this.task = task.getTemplateParameters();
+	private final SystemConnections vimConnectionInformation;
+
+	public NetworkPolicyUow(final VirtualTaskV3<NetworkPolicyTask> task, final SystemConnections vimConnectionInformation) {
+		super(task, NetworkPolicyNode.class);
+		this.vimConnectionInformation = vimConnectionInformation;
 	}
 
 	@Override
 	public String execute(final Context3d context) {
 		final ContrailApi api = new ContrailApi();
-		final String serviceTemplateId = context.get(ServiceTemplateNode.class, task.getServiceTemplateId());
-		final String left = context.get(Network.class, task.getCpPorts().getIngressVl());
-		final String right = context.get(Network.class, task.getCpPorts().getEgressVl());
-		return api.createServiceInstance(vimConnectionInformation, getTask().getTemplateParameters().getToscaName(), serviceTemplateId, left, right);
+		final NetworkPolicyTask p = getTask().getTemplateParameters();
+		final String serviceInstance = context.get(ServiceInstanceNode.class, p.getServiceInstance());
+		final String left = context.get(Network.class, p.getLeftId());
+		final String right = context.get(Network.class, p.getRightId());
+		return api.createNetworkPolicy(vimConnectionInformation, p.getToscaName(), p.getClassifier(), serviceInstance, left, right);
 	}
 
 	@Override
 	public String rollback(final Context3d context) {
 		final ContrailApi api = new ContrailApi();
-		api.deleteServiceInstance(vimConnectionInformation, task.getVimResourceId());
+		api.deleteNetworkPolicy(vimConnectionInformation, getTask().getTemplateParameters().getVimResourceId());
 		return null;
 	}
 

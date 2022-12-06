@@ -14,51 +14,46 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.nfvo.service.system;
-
-import java.util.UUID;
+package com.ubiqube.etsi.mano.nfvo.service.plan.uow;
 
 import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.entities.SystemConnections;
-import com.ubiqube.etsi.mano.orchestrator.nodes.contrail.PortTupleNode;
-import com.ubiqube.etsi.mano.orchestrator.nodes.contrail.PtLinkNode;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfPortNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.contrail.ServiceInstanceNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.contrail.ServiceTemplateNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.graph.AbstractUnitOfWork;
 import com.ubiqube.etsi.mano.tf.ContrailApi;
-import com.ubiqube.etsi.mano.tf.entities.PtLinkTask;
+import com.ubiqube.etsi.mano.tf.entities.ServiceInstanceTask;
 
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public class PtLinkUow extends AbstractUnitOfWork<PtLinkTask> {
+public class ServiceInstanceUow extends AbstractUnitOfWork<ServiceInstanceTask> {
 	private final SystemConnections vimConnectionInformation;
-	private final PtLinkTask task;
+	private final ServiceInstanceTask task;
 
-	public PtLinkUow(final VirtualTaskV3<PtLinkTask> ptLinkVt, final SystemConnections vimConnectionInformation2) {
-		super(ptLinkVt, PtLinkNode.class);
-		this.vimConnectionInformation = vimConnectionInformation2;
-		this.task = ptLinkVt.getTemplateParameters();
+	public ServiceInstanceUow(final VirtualTaskV3<ServiceInstanceTask> task, final SystemConnections vim) {
+		super(task, ServiceInstanceNode.class);
+		this.vimConnectionInformation = vim;
+		this.task = task.getTemplateParameters();
 	}
 
 	@Override
 	public String execute(final Context3d context) {
 		final ContrailApi api = new ContrailApi();
-		final String leftUuid = context.get(VnfPortNode.class, task.getLeftPortId());
-		final String portTupleId = context.get(PortTupleNode.class, task.getPortTupleName());
-		api.updatePort(vimConnectionInformation, leftUuid, portTupleId, "left");
-		final String rightUuid = context.get(VnfPortNode.class, task.getRightPortId());
-		api.updatePort(vimConnectionInformation, rightUuid, portTupleId, "right");
-		return UUID.randomUUID().toString();
+		final String serviceTemplateId = context.get(ServiceTemplateNode.class, task.getServiceTemplateId());
+		final String left = context.get(Network.class, task.getCpPorts().getIngressVl());
+		final String right = context.get(Network.class, task.getCpPorts().getEgressVl());
+		return api.createServiceInstance(vimConnectionInformation, getTask().getTemplateParameters().getToscaName(), serviceTemplateId, left, right);
 	}
 
 	@Override
 	public String rollback(final Context3d context) {
 		final ContrailApi api = new ContrailApi();
-		final String portTupleId = context.get(PortTupleNode.class, task.getPortTupleName());
-		api.rollbackVmi(vimConnectionInformation, portTupleId);
+		api.deleteServiceInstance(vimConnectionInformation, task.getVimResourceId());
 		return null;
 	}
 

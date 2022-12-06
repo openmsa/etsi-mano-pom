@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVnfTask;
-import com.ubiqube.etsi.mano.nfvo.service.graph.nfvo.VnfCreateUow;
+import com.ubiqube.etsi.mano.nfvo.service.plan.uow.VnfCreateUow;
 import com.ubiqube.etsi.mano.orchestrator.OrchestrationServiceV3;
 import com.ubiqube.etsi.mano.orchestrator.SystemBuilder;
 import com.ubiqube.etsi.mano.orchestrator.nodes.Node;

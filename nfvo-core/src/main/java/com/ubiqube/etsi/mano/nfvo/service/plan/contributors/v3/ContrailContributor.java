@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.nfvo.service.plan.contributors.v3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -47,17 +48,20 @@ public class ContrailContributor extends AbstractNsdContributorV3<Object> {
 
 	@Override
 	public List<SclableResources<Object>> contribute(final NsdPackage bundle, final NsBlueprint parameters) {
+		final UUID instanceId = parameters.getInstance().getId();
 		final List<SclableResources<Object>> ret = new ArrayList<>();
 		bundle.getVnffgs().stream().forEach(x -> {
 			final ServiceTemplateTask st = createTask(ServiceTemplateTask::new);
 			st.setType(ResourceTypeEnum.TF_SERVICE_TEMPLATE);
 			st.setToscaName(x.getName());
+			st.setInstanceId(instanceId);
 			ret.add(create(ServiceTemplateNode.class, st.getClass(), x.getName(), 1, st, parameters.getInstance(), parameters));
 			x.getNfpd().stream().flatMap(y -> y.getInstances().stream()).forEach(y -> {
 				final ServiceInstanceTask siTask = createTask(ServiceInstanceTask::new);
 				siTask.setType(ResourceTypeEnum.TF_SERVICE_INSTANCE);
 				siTask.setToscaName(y.getToscaName());
 				siTask.setServiceTemplateId(st.getToscaName());
+				siTask.setInstanceId(instanceId);
 				final CpPair cp = y.getPairs().get(0);
 				siTask.setCpPorts(cp);
 				ret.add(create(ServiceInstanceNode.class, siTask.getClass(), siTask.getToscaName(), 1, siTask, parameters.getInstance(), parameters));
@@ -66,6 +70,7 @@ public class ContrailContributor extends AbstractNsdContributorV3<Object> {
 					portTuple.setType(ResourceTypeEnum.TF_PORT_TUPLE);
 					portTuple.setToscaName(z.getToscaName());
 					portTuple.setServiceInstanceName(siTask.getToscaName());
+					portTuple.setInstanceId(instanceId);
 					ret.add(create(PortTupleNode.class, portTuple.getClass(), z.getToscaName(), 1, portTuple, parameters.getInstance(), parameters));
 					final PtLinkTask ptLinkTask = createTask(PtLinkTask::new);
 					ptLinkTask.setType(ResourceTypeEnum.TF_PT_LINK);
@@ -73,6 +78,7 @@ public class ContrailContributor extends AbstractNsdContributorV3<Object> {
 					ptLinkTask.setLeftPortId(z.getIngress());
 					ptLinkTask.setRightPortId(z.getEgress());
 					ptLinkTask.setPortTupleName(z.getToscaName());
+					ptLinkTask.setInstanceId(instanceId);
 					ret.add(create(PtLinkNode.class, ptLinkTask.getClass(), ptLinkTask.getToscaName(), 1, ptLinkTask, parameters.getInstance(), parameters));
 				});
 				//
@@ -81,6 +87,7 @@ public class ContrailContributor extends AbstractNsdContributorV3<Object> {
 				npt.setClassifier(x.getClassifier());
 				npt.setLeftId(cp.getIngressVl());
 				npt.setRightId(cp.getEgressVl());
+				npt.setInstanceId(instanceId);
 				ret.add(create(NetworkPolicyNode.class, npt.getClass(), npt.getToscaName(), 1, npt, parameters.getInstance(), parameters));
 			});
 		});

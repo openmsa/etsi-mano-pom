@@ -14,7 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.nfvo.service.graph.nfvo;
+package com.ubiqube.etsi.mano.nfvo.service.plan.uow;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

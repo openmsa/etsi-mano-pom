@@ -14,46 +14,47 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.nfvo.service.system;
+package com.ubiqube.etsi.mano.nfvo.service.plan.uow;
+
+import java.util.List;
 
 import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.entities.SystemConnections;
+import com.ubiqube.etsi.mano.orchestrator.nodes.contrail.PortTupleNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.contrail.ServiceInstanceNode;
-import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.NetworkPolicyNode;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.graph.AbstractUnitOfWork;
 import com.ubiqube.etsi.mano.tf.ContrailApi;
-import com.ubiqube.etsi.mano.tf.entities.NetworkPolicyTask;
+import com.ubiqube.etsi.mano.tf.entities.PortTupleTask;
 
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public class NetworkPolicyUow extends AbstractUnitOfWork<NetworkPolicyTask> {
+public class PortTupleUow extends AbstractUnitOfWork<PortTupleTask> {
 
 	private final SystemConnections vimConnectionInformation;
 
-	public NetworkPolicyUow(final VirtualTaskV3<NetworkPolicyTask> task, final SystemConnections vimConnectionInformation) {
-		super(task, NetworkPolicyNode.class);
+	private final PortTupleTask task;
+
+	public PortTupleUow(final VirtualTaskV3<PortTupleTask> task, final SystemConnections vimConnectionInformation) {
+		super(task, PortTupleNode.class);
 		this.vimConnectionInformation = vimConnectionInformation;
+		this.task = task.getTemplateParameters();
 	}
 
 	@Override
 	public String execute(final Context3d context) {
 		final ContrailApi api = new ContrailApi();
-		final NetworkPolicyTask p = getTask().getTemplateParameters();
-		final String serviceInstance = context.get(ServiceInstanceNode.class, p.getServiceInstance());
-		final String left = context.get(Network.class, p.getLeftId());
-		final String right = context.get(Network.class, p.getRightId());
-		return api.createNetworkPolicy(vimConnectionInformation, p.getToscaName(), p.getClassifier(), serviceInstance, left, right);
+		final List<String> serviceInstanceId = context.getParent(ServiceInstanceNode.class, task.getServiceInstanceName());
+		return api.createPortTuple(vimConnectionInformation, task.getToscaName(), serviceInstanceId.get(0));
 	}
 
 	@Override
 	public String rollback(final Context3d context) {
 		final ContrailApi api = new ContrailApi();
-		api.deleteNetworkPolicy(vimConnectionInformation, getTask().getTemplateParameters().getVimResourceId());
+		api.deletePortTuple(vimConnectionInformation, task.getVimResourceId());
 		return null;
 	}
 

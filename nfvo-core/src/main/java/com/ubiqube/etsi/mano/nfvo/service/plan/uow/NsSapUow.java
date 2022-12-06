@@ -14,26 +14,36 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.nfvo.service.graph.nfvo;
+package com.ubiqube.etsi.mano.nfvo.service.plan.uow;
 
-import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
+import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsSapTask;
 import com.ubiqube.etsi.mano.orchestrator.Context3d;
+import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.SapNode;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.graph.AbstractUnitOfWork;
 
-public class NsStartUow extends AbstractUnitOfWork<NsTask> {
+/**
+ *
+ * @author Olivier Vignaud <ovi@ubiqube.com>
+ *
+ */
+public class NsSapUow extends AbstractUnitOfWork<NsSapTask> {
+	private final NsSapTask nsSapd;
 
-	public NsStartUow(final VirtualTaskV3 task, final Class node) {
-		super(task, node);
+	public NsSapUow(final VirtualTaskV3<NsSapTask> taskEntity) {
+		super(taskEntity, SapNode.class);
+		nsSapd = taskEntity.getTemplateParameters();
 	}
 
 	@Override
 	public String execute(final Context3d context) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String rollback(final Context3d context) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
