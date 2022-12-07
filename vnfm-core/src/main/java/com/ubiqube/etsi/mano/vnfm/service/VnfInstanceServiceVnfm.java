@@ -183,7 +183,7 @@ public class VnfInstanceServiceVnfm implements VnfInstanceGatewayService {
 	private void extractExtCp(final BlueprintParameters vnfInfo, final List<VnfLiveInstance> vli, final VnfInstance inst) {
 		final List<VnfLiveInstance> portVli = vli.stream().filter(x -> x.getTask() instanceof VnfPortTask).toList();
 		final Set<ExtCpInfo> extCp = portVli.stream()
-				.filter(this::isPointingOut)
+				.filter(x -> isPointingOut(x, inst.getVnfPkg().getVirtualLinks()))
 				.map(x -> {
 					final VnfPortTask vpt = (VnfPortTask) x.getTask();
 					final VnfLinkPort vlp = vpt.getVnfLinkPort();
@@ -205,9 +205,9 @@ public class VnfInstanceServiceVnfm implements VnfInstanceGatewayService {
 		vnfInfo.setExtCpInfo(extCp);
 	}
 
-	private boolean isPointingOut(final VnfLiveInstance x) {
-		final VnfPortTask task = (VnfPortTask) x.getTask();
-		return task.getVnfLinkPort().getVirtualLink().startsWith(VIRTUAL_LINK);
+	private static boolean isPointingOut(final VnfLiveInstance vli, final Set<ListKeyPair> extVls) {
+		final VnfPortTask task = (VnfPortTask) vli.getTask();
+		return extVls.stream().anyMatch(x -> x.getValue().equals(task.getToscaName()));
 	}
 
 	private static void setFromExtCp(final VnfPackage vnfPkg, final ExtCpInfo ret, final String toscaName) {
