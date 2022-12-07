@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionInformation;
+import com.ubiqube.etsi.mano.dao.mano.dto.ConnectionInformationDto;
 import com.ubiqube.etsi.mano.exception.PreConditionException;
 import com.ubiqube.etsi.mano.service.Patcher;
 import com.ubiqube.etsi.mano.service.vim.CirConnectionManager;
@@ -53,8 +54,9 @@ public class CirConnectionController {
 	}
 
 	@PostMapping
-	public ResponseEntity<ConnectionInformation> registerVim(@RequestBody final ConnectionInformation body) {
-		final ConnectionInformation vci = vimManager.save(body);
+	public ResponseEntity<ConnectionInformation> registerVim(@RequestBody final ConnectionInformationDto body) {
+		final ConnectionInformation nvci = mapper.map(body, ConnectionInformation.class);
+		final ConnectionInformation vci = vimManager.save(nvci);
 		return ResponseEntity.ok(mapper.map(vci, ConnectionInformation.class));
 	}
 

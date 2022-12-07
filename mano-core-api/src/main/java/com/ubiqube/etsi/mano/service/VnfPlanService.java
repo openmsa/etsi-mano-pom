@@ -84,9 +84,7 @@ public class VnfPlanService {
 		vnfPkg.getVnfExtCp().forEach(x -> {
 			g.single(VnfExtCp.class, x.getToscaName());
 			final VnfVl vl = findVl(vnfPkg.getVnfVl(), x.getInternalVirtualLink());
-			vl.getVlProfileEntity().getVirtualLinkProtocolData().forEach(y -> {
-				g.from(SubNetwork.class, vl.getToscaName() + "-" + y.getL2ProtocolData().getName()).addNext(VnfExtCp.class, x.getToscaName(), Relation.ONE_TO_ONE);
-			});
+			vl.getVlProfileEntity().getVirtualLinkProtocolData().forEach(y -> g.from(SubNetwork.class, vl.getToscaName() + "-" + y.getL2ProtocolData().getName()).addNext(VnfExtCp.class, x.getToscaName(), Relation.ONE_TO_ONE));
 		});
 		vnfPkg.getVnfStorage().forEach(x -> g.multi(Storage.class, x.getToscaName()));
 		vnfPkg.getVnfCompute().forEach(x -> {

@@ -30,9 +30,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.cnf.CnfServer;
+import com.ubiqube.etsi.mano.dao.mano.dto.CnfServerDto;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.service.CnfServerService;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
+
+import ma.glasnost.orika.MapperFacade;
 
 /**
  *
@@ -45,9 +48,12 @@ public class CnfServerController {
 	private final CnfServerService cnfServerService;
 	private final VimManager vimManager;
 
-	public CnfServerController(final CnfServerService cnfServerService, final VimManager vimManager) {
+	private final MapperFacade mapper;
+
+	public CnfServerController(final CnfServerService cnfServerService, final VimManager vimManager, final MapperFacade mapper) {
 		this.cnfServerService = cnfServerService;
 		this.vimManager = vimManager;
+		this.mapper = mapper;
 	}
 
 	@GetMapping
@@ -57,8 +63,9 @@ public class CnfServerController {
 	}
 
 	@PostMapping
-	public ResponseEntity<CnfServer> createCnfServer(@Valid @NotNull @RequestBody final CnfServer in) {
-		final CnfServer resp = cnfServerService.save(in);
+	public ResponseEntity<CnfServer> createCnfServer(@Valid @NotNull @RequestBody final CnfServerDto in) {
+		final CnfServer cnf = mapper.map(in, CnfServer.class);
+		final CnfServer resp = cnfServerService.save(cnf);
 		return ResponseEntity.ok(resp);
 	}
 

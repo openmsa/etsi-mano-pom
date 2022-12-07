@@ -48,10 +48,19 @@ public class EventController {
 	}
 
 	@PostMapping(value = "/notification", consumes = { "application/json" })
-	public ResponseEntity<Void> notification(@RequestBody final EventMessage ev) {
-		jmsTemplate.convertAndSend("system.notifications", ev);
+	public ResponseEntity<Void> notification(@RequestBody final EventMessageDto ev) {
+		final EventMessage msg = map(ev);
+		jmsTemplate.convertAndSend("system.notifications", msg);
 		LOG.info("Notification sent.");
 		return ResponseEntity.noContent().build();
+	}
+
+	private static EventMessage map(final EventMessageDto ev) {
+		final EventMessage nev = new EventMessage();
+		nev.setAdditionalParameters(ev.getAdditionalParameters());
+		nev.setNotificationEvent(ev.getNotificationEvent());
+		nev.setObjectId(ev.getObjectId());
+		return nev;
 	}
 
 }

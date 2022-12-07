@@ -29,6 +29,10 @@ import com.ubiqube.etsi.mano.service.rest.FluxRest;
 
 public class HelmUploader {
 
+	private HelmUploader() {
+		//
+	}
+
 	public static void uploadFile(final ManoResource mr, final ConnectionInformation ci, final String name) {
 		final FluxRest fr = FluxRest.of(ci);
 		final URI uri = URI.create(ci.getUrl() + "/" + name);

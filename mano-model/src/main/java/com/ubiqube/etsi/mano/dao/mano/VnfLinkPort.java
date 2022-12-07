@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.dao.mano;
 
 import java.util.UUID;
 
+import javax.annotation.Nullable;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -54,6 +55,7 @@ public class VnfLinkPort extends ConnectionPoint implements BaseEntity, Auditabl
 
 	private String state;
 
+	@Nullable
 	private String virtualLink;
 
 	private String virtualBinding;
