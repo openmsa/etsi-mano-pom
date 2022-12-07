@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.dao.mano.v2;
 
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -173,7 +174,7 @@ public class VnfBlueprint extends AbstractBlueprint<VnfTask, VnfInstance> {
 		if (this.parameters.getExtVirtualLinkInfo() == null) {
 			this.parameters.setExtVirtualLinkInfo(new LinkedHashSet<>());
 		}
-		this.parameters.getExtVirtualLinkInfo().addAll(extVirtualLinks);
+		Objects.requireNonNull(this.parameters.getExtVirtualLinkInfo()).addAll(extVirtualLinks);
 	}
 
 }

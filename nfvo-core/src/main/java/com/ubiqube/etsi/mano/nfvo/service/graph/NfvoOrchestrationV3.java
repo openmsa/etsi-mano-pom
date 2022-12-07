@@ -19,6 +19,7 @@ package com.ubiqube.etsi.mano.nfvo.service.graph;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
@@ -147,6 +148,7 @@ public class NfvoOrchestrationV3 implements WorkflowV3<NsdPackage, NsBlueprint, 
 		return blueprintBuilder.buildPlan(sr, g, x -> {
 			LOG.trace("Running for {}={}", x.getType(), x.getToscaName());
 			final NsTask nc = x.copy();
+			Objects.requireNonNull(nc.getToscaName(), "Tosca name could not be null in " + nc.getClass().getSimpleName());
 			nc.setToscaId(UUID.randomUUID().toString());
 			blueprint.addTask(nc);
 			return (VirtualTaskV3<NsTask>) Optional.ofNullable(vts.get(x.getType()))

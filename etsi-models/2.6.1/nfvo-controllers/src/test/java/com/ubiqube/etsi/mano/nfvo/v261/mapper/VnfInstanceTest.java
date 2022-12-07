@@ -19,6 +19,7 @@ package com.ubiqube.etsi.mano.nfvo.v261.mapper;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.InputStream;
+import java.util.Objects;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -58,6 +59,7 @@ public class VnfInstanceTest {
 			final BlueprintParameters bp = db.getInstantiatedVnfInfo();
 			assertNotNull(bp.getExtVirtualLinkInfo());
 			final Set<ExtVirtualLinkDataEntity> exVl = bp.getExtVirtualLinkInfo();
+			Objects.requireNonNull(exVl);
 			exVl.forEach(x -> {
 				assertNotNull(x.getResourceId());
 				assertNotNull(x.getVimConnectionId());
