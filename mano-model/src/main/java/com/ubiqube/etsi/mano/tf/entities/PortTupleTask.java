@@ -47,6 +47,8 @@ public class PortTupleTask extends NsTask {
 
 	private String serviceInstanceName;
 
+	private UUID instanceId;
+
 	@Override
 	public NsTask copy() {
 		final PortTupleTask task = new PortTupleTask();

@@ -51,6 +51,8 @@ public class PtLinkTask extends NsTask {
 
 	private String portTupleName;
 
+	private UUID instanceId;
+
 	@Override
 	public NsTask copy() {
 		final PtLinkTask task = new PtLinkTask();

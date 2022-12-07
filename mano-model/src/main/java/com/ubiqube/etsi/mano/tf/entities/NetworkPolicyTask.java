@@ -62,6 +62,8 @@ public class NetworkPolicyTask extends NsTask {
 	 */
 	private String rightId;
 
+	private UUID instanceId;
+
 	@Override
 	public NsTask copy() {
 		final NetworkPolicyTask task = new NetworkPolicyTask();

@@ -52,6 +52,8 @@ public class ServiceInstanceTask extends NsTask {
 	@OneToOne(fetch = FetchType.LAZY)
 	private CpPair cpPorts;
 
+	private UUID instanceId;
+
 	@Override
 	public NsTask copy() {
 		final ServiceInstanceTask task = new ServiceInstanceTask();
