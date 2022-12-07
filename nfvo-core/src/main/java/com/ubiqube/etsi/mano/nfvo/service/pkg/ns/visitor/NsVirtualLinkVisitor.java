@@ -40,6 +40,7 @@ public class NsVirtualLinkVisitor implements NsOnboardingVisitor {
 	@Override
 	public void visit(final NsdPackage nsPackage, final NsPackageProvider packageProvider, final Map<String, String> userData) {
 		final Set<NsVirtualLink> nsVirtualLink = packageProvider.getNsVirtualLink(userData);
+		nsVirtualLink.forEach(x -> x.getNsVlProfile().getVlProtocolData().forEach(y -> y.getL3ProtocolData().setDhcpEnabled(Boolean.TRUE)));
 		nsPackage.setNsVirtualLinks(nsVirtualLink);
 
 	}
