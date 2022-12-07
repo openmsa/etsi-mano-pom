@@ -57,7 +57,7 @@ import com.ubiqube.etsi.mano.jpa.VnfIndiValueChangeNotificationJpa;
 import com.ubiqube.etsi.mano.jpa.config.ServersJpa;
 import com.ubiqube.etsi.mano.model.VnfHealRequest;
 import com.ubiqube.etsi.mano.model.VnfScaleRequest;
-import com.ubiqube.etsi.mano.nfvo.service.graph.nfvo.UowUtils;
+import com.ubiqube.etsi.mano.nfvo.service.plan.uow.UowUtils;
 import com.ubiqube.etsi.mano.service.VnfPackageServiceImpl;
 import com.ubiqube.etsi.mano.service.VnfmInterface;
 
@@ -231,7 +231,7 @@ public class VnfIndicatorValueChangeNotificationImpl {
 					break;
 				}
 			}
-			if(vnfScaleRequest.getNumberOfSteps() == null) {
+			if (vnfScaleRequest.getNumberOfSteps() == null) {
 				vnfScaleRequest.setNumberOfSteps(1);
 			}
 			LOG.info("VNF Scale {} launched", vnfScaleRequest.getType().toString());
