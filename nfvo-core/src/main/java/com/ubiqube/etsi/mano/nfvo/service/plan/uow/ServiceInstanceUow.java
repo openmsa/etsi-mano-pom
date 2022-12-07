@@ -47,7 +47,8 @@ public class ServiceInstanceUow extends AbstractUnitOfWork<ServiceInstanceTask> 
 		final String serviceTemplateId = context.get(ServiceTemplateNode.class, task.getServiceTemplateId());
 		final String left = context.get(Network.class, task.getCpPorts().getIngressVl());
 		final String right = context.get(Network.class, task.getCpPorts().getEgressVl());
-		return api.createServiceInstance(vimConnectionInformation, getTask().getTemplateParameters().getToscaName(), serviceTemplateId, left, right);
+		final String name = UowNameHelper.buildName(task.getToscaName(), task.getInstanceId());
+		return api.createServiceInstance(vimConnectionInformation, name, serviceTemplateId, left, right);
 	}
 
 	@Override

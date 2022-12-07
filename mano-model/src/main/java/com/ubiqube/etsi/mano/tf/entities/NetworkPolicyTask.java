@@ -72,6 +72,7 @@ public class NetworkPolicyTask extends NsTask {
 		task.setServiceInstance(serviceInstance);
 		task.setLeftId(leftId);
 		task.setRightId(rightId);
+		task.setInstanceId(instanceId);
 		return task;
 	}
 }

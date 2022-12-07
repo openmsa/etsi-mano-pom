@@ -60,6 +60,7 @@ public class ServiceInstanceTask extends NsTask {
 		super.copy(task);
 		task.setServiceTemplateId(serviceTemplateId);
 		task.setCpPorts(cpPorts);
+		task.setInstanceId(instanceId);
 		return task;
 	}
 

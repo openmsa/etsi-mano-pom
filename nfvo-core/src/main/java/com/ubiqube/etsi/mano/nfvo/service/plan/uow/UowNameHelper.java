@@ -14,45 +14,18 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.tf.entities;
+package com.ubiqube.etsi.mano.nfvo.service.plan.uow;
 
 import java.util.UUID;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+public class UowNameHelper {
 
-import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
-
-import lombok.Getter;
-import lombok.Setter;
-
-/**
- *
- * @author Olivier Vignaud <ovi@ubiqube.com>
- *
- */
-@Getter
-@Setter
-@Entity
-public class ServiceTemplateTask extends NsTask {
-
-	/** Serial. */
-	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id;
-
-	private UUID instanceId;
-
-	@Override
-	public NsTask copy() {
-		final ServiceTemplateTask task = new ServiceTemplateTask();
-		super.copy(task);
-		task.setInstanceId(instanceId);
-		return task;
+	private UowNameHelper() {
+		//
 	}
 
+	public static String buildName(final String toscaName, final UUID instanceId) {
+		final String frag = instanceId.toString().substring(0, 9);
+		return frag + toscaName;
+	}
 }

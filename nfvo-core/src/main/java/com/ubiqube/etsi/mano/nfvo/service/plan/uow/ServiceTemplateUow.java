@@ -37,7 +37,8 @@ public class ServiceTemplateUow extends AbstractUnitOfWork<ServiceTemplateTask> 
 	@Override
 	public String execute(final Context3d context) {
 		final ContrailApi api = new ContrailApi();
-		return api.createServiceTemplate(vimConnectionInformation, task.getToscaName());
+		final String name = UowNameHelper.buildName(task.getToscaName(), task.getInstanceId());
+		return api.createServiceTemplate(vimConnectionInformation, name);
 	}
 
 	@Override

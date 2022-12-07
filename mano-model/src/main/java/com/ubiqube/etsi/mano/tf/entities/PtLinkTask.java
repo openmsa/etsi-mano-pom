@@ -60,6 +60,7 @@ public class PtLinkTask extends NsTask {
 		task.setLeftPortId(leftPortId);
 		task.setRightPortId(rightPortId);
 		task.setPortTupleName(portTupleName);
+		task.setInstanceId(instanceId);
 		return task;
 	}
 }

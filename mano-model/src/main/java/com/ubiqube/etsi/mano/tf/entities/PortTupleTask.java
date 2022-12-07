@@ -54,6 +54,7 @@ public class PortTupleTask extends NsTask {
 		final PortTupleTask task = new PortTupleTask();
 		super.copy(task);
 		task.setServiceInstanceName(serviceInstanceName);
+		task.setInstanceId(instanceId);
 		return task;
 	}
 }
