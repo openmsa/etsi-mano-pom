@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +40,10 @@ import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.OnboardingStateType;
 import com.ubiqube.etsi.mano.dao.mano.PackageOperationalState;
 import com.ubiqube.etsi.mano.dao.mano.PackageUsageState;
+import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
+import com.ubiqube.etsi.mano.exception.ConflictException;
 import com.ubiqube.etsi.mano.exception.PreConditionException;
+import com.ubiqube.etsi.mano.jpa.VnfInstanceJpa;
 import com.ubiqube.etsi.mano.repository.ManoResource;
 import com.ubiqube.etsi.mano.repository.NsdRepository;
 import com.ubiqube.etsi.mano.service.Patcher;
@@ -56,12 +60,15 @@ public class NsdControllerImpl implements NsdController {
 	private final Patcher patcher;
 	private final EventManager eventManager;
 	private final SearchableService searchableService;
+	private final VnfInstanceJpa vnfInstanceJpa;
 
-	public NsdControllerImpl(final NsdRepository nsdRepository, final Patcher patcher, final EventManager eventManager, final SearchableService searchableService) {
+	public NsdControllerImpl(final NsdRepository nsdRepository, final Patcher patcher, final EventManager eventManager, final SearchableService searchableService,
+			final VnfInstanceJpa vnfInstanceJpa) {
 		this.nsdRepository = nsdRepository;
 		this.patcher = patcher;
 		this.eventManager = eventManager;
 		this.searchableService = searchableService;
+		this.vnfInstanceJpa = vnfInstanceJpa;
 		LOG.info("Starting NSD Management SOL005 Controller.");
 	}
 
@@ -70,6 +77,14 @@ public class NsdControllerImpl implements NsdController {
 		final NsdPackage nsdPackage = nsdRepository.get(id);
 		ensureDisabled(nsdPackage);
 		ensureNotInUse(nsdPackage);
+		final Set<VnfInstance> res = vnfInstanceJpa.findByVnfPkg_Id(id);
+		if (!res.isEmpty()) {
+			final String error = res.stream()
+					.map(VnfInstance::getId)
+					.map(UUID::toString)
+					.collect(Collectors.joining(","));
+			throw new ConflictException("NSD " + id + ", is in use in the following NS instances: " + error);
+		}
 		nsdRepository.delete(id);
 		eventManager.sendNotification(NotificationEvent.NS_PKG_ONDELETION, id, Map.of());
 	}
@@ -98,7 +113,7 @@ public class NsdControllerImpl implements NsdController {
 	public NsdPackage nsDescriptorsNsdInfoIdPatch(final UUID id, final String body, final String ifMatch) {
 		final NsdPackage nsdPkgInfo = nsdRepository.get(id);
 		ensureIsOnboarded(nsdPkgInfo);
-		if ((ifMatch != null) && !ifMatch.equals(nsdPkgInfo.getVersion() + "")) {
+		if ((ifMatch != null) && !(nsdPkgInfo.getVersion() + "").equals(ifMatch)) {
 			throw new PreConditionException(ifMatch + " does not match " + nsdPkgInfo.getVersion());
 		}
 		patcher.patch(body, nsdPkgInfo);
