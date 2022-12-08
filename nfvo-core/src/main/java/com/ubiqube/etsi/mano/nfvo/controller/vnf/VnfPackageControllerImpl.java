@@ -74,8 +74,12 @@ public class VnfPackageControllerImpl implements VnfPackageController {
 		ensureNotInUse(vnfPackage);
 		final Set<NsdPackageVnfPackage> res = nsdPackageVnfPackageJpa.findByVnfdId(vnfPackage.getVnfdId());
 		if (!res.isEmpty()) {
-			final String error = res.stream().map(NsdPackageVnfPackage::getNsdPackage).map(NsdPackage::getId).map(UUID::toString).collect(Collectors.joining(","));
-			throw new ConflictException("Package " + id + ", is in use in " + error);
+			final String error = res.stream()
+					.map(NsdPackageVnfPackage::getNsdPackage)
+					.map(NsdPackage::getId)
+					.map(UUID::toString)
+					.collect(Collectors.joining(","));
+			throw new ConflictException("Package " + id + ", is in use in the following NSD: " + error);
 		}
 		vnfPackageRepository.delete(id);
 		if (null != vnfPackage.getVnfdId()) {
