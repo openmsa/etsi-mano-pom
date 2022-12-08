@@ -22,15 +22,21 @@ import static com.ubiqube.etsi.mano.Constants.ensureNotOnboarded;
 
 import java.io.InputStream;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.Constants;
+import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
+import com.ubiqube.etsi.mano.dao.mano.NsdPackageVnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.pkg.UploadUriParameters;
+import com.ubiqube.etsi.mano.exception.ConflictException;
 import com.ubiqube.etsi.mano.exception.PreConditionException;
 import com.ubiqube.etsi.mano.nfvo.factory.VnfPackageFactory;
+import com.ubiqube.etsi.mano.nfvo.jpa.NsdPackageVnfPackageJpa;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 import com.ubiqube.etsi.mano.service.Patcher;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
@@ -44,13 +50,15 @@ public class VnfPackageControllerImpl implements VnfPackageController {
 	private final Patcher patcher;
 	private final EventManager eventManager;
 	private final VnfPackageRepository vnfPackageRepository;
+	private final NsdPackageVnfPackageJpa nsdPackageVnfPackageJpa;
 
 	public VnfPackageControllerImpl(final Patcher patcher, final EventManager eventManager, final VnfPackageService vnfPackageService,
-			final VnfPackageRepository vnfPackageRepository) {
+			final VnfPackageRepository vnfPackageRepository, final NsdPackageVnfPackageJpa nsdPackageVnfPackageJpa) {
 		this.patcher = patcher;
 		this.eventManager = eventManager;
 		this.vnfPackageService = vnfPackageService;
 		this.vnfPackageRepository = vnfPackageRepository;
+		this.nsdPackageVnfPackageJpa = nsdPackageVnfPackageJpa;
 	}
 
 	@Override
@@ -64,6 +72,11 @@ public class VnfPackageControllerImpl implements VnfPackageController {
 		final VnfPackage vnfPackage = vnfPackageService.findById(id);
 		ensureDisabled(vnfPackage);
 		ensureNotInUse(vnfPackage);
+		final Set<NsdPackageVnfPackage> res = nsdPackageVnfPackageJpa.findByVnfdId(vnfPackage.getVnfdId());
+		if (!res.isEmpty()) {
+			final String error = res.stream().map(NsdPackageVnfPackage::getNsdPackage).map(NsdPackage::getId).map(UUID::toString).collect(Collectors.joining(","));
+			throw new ConflictException("Package " + id + ", is in use in " + error);
+		}
 		vnfPackageRepository.delete(id);
 		if (null != vnfPackage.getVnfdId()) {
 			eventManager.sendNotification(NotificationEvent.VNF_PKG_ONDELETION, id, Map.of("vnfdId", vnfPackage.getVnfdId()));
@@ -73,7 +86,7 @@ public class VnfPackageControllerImpl implements VnfPackageController {
 	@Override
 	public VnfPackage vnfPackagesVnfPkgIdPatch(final UUID id, final String body, final String ifMatch) {
 		final VnfPackage vnfPackage = vnfPackageService.findById(id);
-		if ((ifMatch != null) && !ifMatch.equals(vnfPackage.getVersion() + "")) {
+		if ((ifMatch != null) && !(vnfPackage.getVersion() + "").equals(ifMatch)) {
 			throw new PreConditionException(ifMatch + " does not match " + vnfPackage.getVersion());
 		}
 		patcher.patch(body, vnfPackage);
