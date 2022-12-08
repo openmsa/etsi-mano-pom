@@ -41,6 +41,7 @@ public class VnfSubscriptionFactory271 {
 		} else {
 			ret.setChangeType(PackageChangeType.OP_STATE_CHANGE);
 		}
+		ret.setId(subscriptionId.toString());
 		ret.setNotificationType("VnfPackageChangeNotification");
 		ret.setOperationalState(state);
 		ret.setSubscriptionId(subscriptionId.toString());
