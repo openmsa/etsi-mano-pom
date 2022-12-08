@@ -71,7 +71,7 @@ import org.bouncycastle.operator.jcajce.JcaDigestCalculatorProviderBuilder;
 import org.bouncycastle.pkcs.PKCS8EncryptedPrivateKeyInfo;
 import org.bouncycastle.pkcs.PKCSException;
 import org.bouncycastle.pkcs.bc.BcPKCS12PBEInputDecryptorProviderBuilder;
-import org.bouncycastle.pqc.math.linearalgebra.ByteUtils;
+import org.bouncycastle.pqc.legacy.math.linearalgebra.ByteUtils;
 import org.bouncycastle.util.Store;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -166,7 +166,7 @@ public class CryptoTest {
 		final byte[] dataBytes = Files.readAllBytes(Paths.get("src/test/resources/tosca.csar"));
 		final CMSSignedData cms = PemUtils.pemSignature(sigBytes);
 		final X509Certificate fullCert = PemUtils.pemPublicKey(certBytes);
-		final SignerInformation signer = (SignerInformation) cms.getSignerInfos().getSigners().iterator().next();
+		final SignerInformation signer = cms.getSignerInfos().getSigners().iterator().next();
 		extracted(dataBytes, signer, fullCert);
 		assertTrue(true);
 	}
@@ -181,7 +181,7 @@ public class CryptoTest {
 		final CMSSignedData cms = PemUtils.pemSignature(sigBytes);
 		final X509Certificate fullCert = PemUtils.pemPublicKey(certBytes);
 		final PrivateKey pk = PemUtils.pemPrivateFile(new File("src/test/resources/server.key"), null);
-		final SignerInformation signer = (SignerInformation) cms.getSignerInfos().getSigners().iterator().next();
+		final SignerInformation signer = cms.getSignerInfos().getSigners().iterator().next();
 		final Signature sig = Signature.getInstance(ALGO);
 		final AlgorithmParameters pss1 = sig.getParameters();
 		final PSSParameterSpec spec1 = new PSSParameterSpec("SHA-256", "MGF1", new MGF1ParameterSpec("SHA-256"), 32, 1);
@@ -221,9 +221,7 @@ public class CryptoTest {
 		final Store store = cms.getCertificates();
 		final SignerInformationStore signers = cms.getSignerInfos();
 		final Collection<SignerInformation> c = signers.getSigners();
-		final Iterator<SignerInformation> it = c.iterator();
-		while (it.hasNext()) {
-			final SignerInformation signer = it.next();
+		for (SignerInformation signer : c) {
 			final Collection<X509CertificateHolder> certCollection = store.getMatches(signer.getSID());
 			final Iterator<X509CertificateHolder> certIt = certCollection.iterator();
 			final X509CertificateHolder certHolder = certIt.next();

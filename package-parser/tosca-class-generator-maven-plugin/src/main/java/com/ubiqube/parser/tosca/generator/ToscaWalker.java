@@ -48,6 +48,7 @@ import com.ubiqube.parser.tosca.ToscaParser;
 import com.ubiqube.parser.tosca.TriggerDefinition;
 import com.ubiqube.parser.tosca.ValueObject;
 import com.ubiqube.parser.tosca.annotations.Capability;
+import com.ubiqube.parser.tosca.annotations.Interface;
 import com.ubiqube.parser.tosca.annotations.Members;
 import com.ubiqube.parser.tosca.annotations.Node;
 import com.ubiqube.parser.tosca.annotations.Occurence;
@@ -321,6 +322,7 @@ public class ToscaWalker {
 		x2.entrySet().forEach(x -> {
 			final String v = Optional.ofNullable(x.getValue().getDerivedFrom()).orElse(x.getValue().getType());
 			listener.startField(x.getKey(), v, false);
+			listener.onFieldAnnotate(Interface.class);
 			listener.onFieldTerminate();
 		});
 	}

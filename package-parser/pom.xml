@@ -30,8 +30,9 @@
 		<maven.compiler.target>17</maven.compiler.target>
 		<maven.compiler.source>17</maven.compiler.source>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.version.jackson.databind>2.13.3</project.version.jackson.databind>
+		<project.version.jackson.databind>2.14.1</project.version.jackson.databind>
 		<ubiqube.orika.version>1.5.5-SNAPSHOT</ubiqube.orika.version>
+		<version.bouncycastle>1.72</version.bouncycastle>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -94,18 +95,18 @@
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-classic</artifactId>
-				<version>1.2.11</version>
+				<version>1.4.5</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.bouncycastle</groupId>
 				<artifactId>bcprov-jdk18on</artifactId>
-				<version>1.71.1</version>
+				<version>${version.bouncycastle}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.bouncycastle</groupId>
 				<artifactId>bcpkix-jdk18on</artifactId>
-				<version>1.71.1</version>
+				<version>${version.bouncycastle}</version>
 			</dependency>
 			<dependency>
 				<groupId>ma.glasnost.orika</groupId>
