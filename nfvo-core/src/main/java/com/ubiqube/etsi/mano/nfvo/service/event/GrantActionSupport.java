@@ -35,6 +35,7 @@ import com.ubiqube.etsi.mano.dao.mano.GrantInformationExt;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.dao.mano.NsLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
+import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.VnfCompute;
@@ -185,13 +186,15 @@ public class GrantActionSupport implements GrantSupport {
 	@Override
 	public void getUnmanagedNetworks(final GrantResponse grants, final Vim vim, final VimConnectionInformation vimConnectionInformation) {
 		final String vnfInstanceId = grants.getVnfInstanceId();
-		final NsLiveInstance res = nsLiveInstanceJpa.findByResourceIdAndNsInstanceId(vnfInstanceId, getSafeUUID(vnfInstanceId));
-		if (null == res) {
-			LOG.warn("No NS instance found {}", vnfInstanceId);
+		final List<NsLiveInstance> resList = nsLiveInstanceJpa.findByResourceId(vnfInstanceId);
+		if (resList.size() != 1) {
+			LOG.warn("No NS instance found {} Found {}", vnfInstanceId, resList.size());
 			return;
 		}
+		final NsLiveInstance res = resList.get(0);
 		final NsBlueprint bluePrint = res.getNsBlueprint();
 		final NsdInstance nsdInstance = bluePrint.getNsInstance();
+		final NsdPackage nsdPkg = nsdInstance.getNsdInfo();
 		final NsVnfTask inst = (NsVnfTask) res.getNsTask();
 		final List<ListKeyPair> vl = inst.getNsPackageVnfPackage().getVirtualLinks().stream().filter(x -> x.getValue() != null).toList();
 		final Set<ForwarderMapping> fwMapping = inst.getNsPackageVnfPackage().getForwardMapping();
@@ -209,6 +212,21 @@ public class GrantActionSupport implements GrantSupport {
 		vlList.forEach(x -> grants.getExtManagedVirtualLinks().add(createVl(x, vl, vimConnectionInformation, grants)));
 		final List<NsLiveInstance> vlLive = nsLiveInstanceJpa.findByNsdInstanceAndClass(nsdInstance, NsVirtualLinkTask.class.getSimpleName());
 		vlLive.stream().forEach(x -> {
+			final NsVirtualLinkTask vlt = (NsVirtualLinkTask) x.getNsTask();
+			final List<ListKeyPair> usedVl = nsdPkg.getVnfPkgIds().stream().flatMap(vlm -> vlm.getVirtualLinks().stream())
+					.filter(y -> y.getValue().equals(vlt.getNsVirtualLink().getToscaName()))
+					.toList();
+			usedVl.forEach(y -> {
+				final ExtManagedVirtualLinkDataEntity extVl = new ExtManagedVirtualLinkDataEntity();
+				extVl.setGrants(grants);
+				extVl.setResourceId(x.getResourceId());
+				extVl.setResourceProviderId(x.getResourceProviderId());
+				extVl.setVimConnectionId(x.getVimConnectionId());
+				extVl.setVimLevelResourceType(x.getVimLevelResourceType());
+				// extVl.setVnfInstance()
+				extVl.setVnfVirtualLinkDescId(mapToVl(y.getIdx()));
+				grants.getExtManagedVirtualLinks().add(extVl);
+			});
 			final List<ForwarderMapping> fm = find(mappings, x.getNsTask().getToscaName());
 			if (fm.isEmpty()) {
 				LOG.warn("No forward ports for {}", x.getNsTask().getToscaName());
