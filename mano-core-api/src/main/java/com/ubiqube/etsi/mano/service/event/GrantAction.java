@@ -16,6 +16,8 @@
  */
 package com.ubiqube.etsi.mano.service.event;
 
+import static com.ubiqube.etsi.mano.Constants.getSafeUUID;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -48,17 +50,21 @@ import com.ubiqube.etsi.mano.dao.mano.VimComputeResourceFlavourEntity;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.VimSoftwareImageEntity;
 import com.ubiqube.etsi.mano.dao.mano.VnfCompute;
+import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.VnfStorage;
 import com.ubiqube.etsi.mano.dao.mano.ZoneGroupInformation;
 import com.ubiqube.etsi.mano.dao.mano.ZoneInfoEntity;
+import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.jpa.GrantsResponseJpa;
 import com.ubiqube.etsi.mano.service.NfvoService;
+import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.event.elect.VimElection;
 import com.ubiqube.etsi.mano.service.event.flavor.FlavorManager;
 import com.ubiqube.etsi.mano.service.event.images.SoftwareImageService;
 import com.ubiqube.etsi.mano.service.sys.ServerGroup;
+import com.ubiqube.etsi.mano.service.vim.NetworkObject;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 
@@ -87,9 +93,11 @@ public class GrantAction {
 
 	private final GrantContainerAction grantContainerAction;
 
+	private final VnfPackageService vnfPackageService;
+
 	protected GrantAction(final GrantsResponseJpa grantJpa, final VimManager vimManager, final VimElection vimElection,
 			final SoftwareImageService imageService, final FlavorManager flavorManager, final GrantSupport grantSupport,
-			final GrantContainerAction grantContainerAction) {
+			final GrantContainerAction grantContainerAction, final VnfPackageService vnfPackageService) {
 		this.vimManager = vimManager;
 		this.vimElection = vimElection;
 		this.grantJpa = grantJpa;
@@ -97,6 +105,7 @@ public class GrantAction {
 		this.flavorManager = flavorManager;
 		this.grantSupport = grantSupport;
 		this.grantContainerAction = grantContainerAction;
+		this.vnfPackageService = vnfPackageService;
 	}
 
 	public final void grantRequest(final UUID objectId) {
@@ -189,12 +198,19 @@ public class GrantAction {
 		executorService.submit(getComputeResourceFlavours);
 
 		// Add public networks.
-		vim.network(vimInfo).getPublicNetworks().entrySet().forEach(x -> {
+		final VnfPackage vnfPkg = vnfPackageService.findByVnfdId(getSafeUUID(grants.getVnfdId()));
+		final List<String> lst = vnfPkg.getVirtualLinks().stream().filter(x -> vnfPkg.getVirtualCp().stream()
+				.noneMatch(y -> y.getVirtualLinkRef().equals(x.getValue())) &&
+				vnfPkg.getVnfExtCp().stream().noneMatch(y -> y.getExternalVirtualLink().equals(x.getValue())))
+				.map(ListKeyPair::getValue)
+				.toList();
+		final List<NetworkObject> netFound = vim.network(vimInfo).searchByName(lst);
+		netFound.forEach(x -> {
 			final ExtManagedVirtualLinkDataEntity extVl = new ExtManagedVirtualLinkDataEntity();
-			extVl.setResourceId(x.getValue());
+			extVl.setResourceId(x.name());
 			extVl.setResourceProviderId(vim.getType());
 			extVl.setVimConnectionId(vimInfo.getVimId());
-			extVl.setVnfVirtualLinkDescId(x.getKey());
+			extVl.setVnfVirtualLinkDescId(x.id());
 			extVl.setGrants(grants);
 			grants.addExtManagedVl(extVl);
 		});
