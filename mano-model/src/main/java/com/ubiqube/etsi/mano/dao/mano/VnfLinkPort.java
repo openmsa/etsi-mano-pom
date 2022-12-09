@@ -30,6 +30,7 @@ import com.ubiqube.etsi.mano.dao.mano.pkg.ConnectionPoint;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * AKA: VduCp
@@ -41,6 +42,7 @@ import lombok.Setter;
 @EntityListeners(AuditListener.class)
 @Getter
 @Setter
+@ToString
 public class VnfLinkPort extends ConnectionPoint implements BaseEntity, Auditable {
 	/** Serial. */
 	private static final long serialVersionUID = 1L;
