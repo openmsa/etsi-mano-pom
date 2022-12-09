@@ -22,8 +22,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+
+import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -373,6 +376,7 @@ public class ToscaContext {
 			LOG.debug("Analyzing Entry {}", entry.getKey());
 			final NodeTemplate nodeTmpl = entry.getValue();
 			final String type = nodeTmpl.getType();
+			Objects.requireNonNull(type, "Type is missing in definition of " + entry.getKey() + " ");
 			final ToscaClassHolder tch = classHierarchy.get(type);
 			if ((null == tch) && !onClassPath(type)) {
 				throw new ParseException("Unable to find implementation of: " + type + " in: " + entry.getKey());
@@ -380,7 +384,7 @@ public class ToscaContext {
 		}
 	}
 
-	private static boolean onClassPath(final String type) {
+	private static boolean onClassPath(final @NotNull String type) {
 		try {
 			final String clzz = ClassUtils.getClassName(type);
 			final String pack = ClassUtils.getPackage(type);
