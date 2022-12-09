@@ -52,7 +52,7 @@ import com.ubiqube.etsi.mano.vnfm.jpa.VnfBlueprintJpa;
 @Service
 public class VnfLcmService {
 
-	private final VnfBlueprintJpa planJpa;
+	private final VnfBlueprintJpa vnfBlueprintJpa;
 
 	private final EntityManager em;
 
@@ -61,7 +61,7 @@ public class VnfLcmService {
 	private final GrammarParser grammarParser;
 
 	public VnfLcmService(final VnfBlueprintJpa planJpa, final EntityManager em, final VnfInstanceService vnfInstancesService, final GrammarParser grammarParser) {
-		this.planJpa = planJpa;
+		this.vnfBlueprintJpa = planJpa;
 		this.em = em;
 		this.vnfInstancesService = vnfInstancesService;
 		this.grammarParser = grammarParser;
@@ -137,11 +137,11 @@ public class VnfLcmService {
 	}
 
 	public VnfBlueprint findById(final UUID id) {
-		return planJpa.findById(id).orElseThrow(() -> new NotFoundException("Could not find VNF LCM operation: " + id));
+		return vnfBlueprintJpa.findById(id).orElseThrow(() -> new NotFoundException("Could not find VNF LCM operation: " + id));
 	}
 
 	public List<VnfBlueprint> findByVnfInstanceId(final UUID id) {
-		return planJpa.findByVnfInstanceId(id);
+		return vnfBlueprintJpa.findByVnfInstanceId(id);
 	}
 
 	public VnfBlueprint createOperateOpOcc(final VnfInstance vnfInstance, final ChangeExtVnfConnRequest cevcr) {
@@ -152,7 +152,7 @@ public class VnfLcmService {
 
 	@Nonnull
 	private VnfBlueprint saveLcmOppOcc(final VnfBlueprint blueprint, final VnfInstance vnfInstance) {
-		final VnfBlueprint bp = planJpa.save(blueprint);
+		final VnfBlueprint bp = vnfBlueprintJpa.save(blueprint);
 		vnfInstance.setLockedBy(bp.getId());
 		vnfInstancesService.save(vnfInstance);
 		return bp;
@@ -169,6 +169,10 @@ public class VnfLcmService {
 	}
 
 	public VnfBlueprint save(final VnfBlueprint lcm) {
-		return planJpa.save(lcm);
+		return vnfBlueprintJpa.save(lcm);
+	}
+
+	public void deleteByVnfInstance(final VnfInstance vnfInstance) {
+		vnfBlueprintJpa.deleteByVnfInstance(vnfInstance);
 	}
 }

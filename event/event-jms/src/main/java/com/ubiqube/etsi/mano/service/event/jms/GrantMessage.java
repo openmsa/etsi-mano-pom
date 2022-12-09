@@ -28,12 +28,12 @@ public class GrantMessage {
 	@NotNull
 	private Map<String, Object> parameters = new HashMap<>();
 
+	@SuppressWarnings("null")
 	public GrantMessage() {
 		objectId = UUID.randomUUID();
 	}
 
 	public GrantMessage(@NotNull final UUID objectId, @NotNull final Map<String, Object> parameters) {
-		super();
 		this.objectId = objectId;
 		this.parameters = parameters;
 	}

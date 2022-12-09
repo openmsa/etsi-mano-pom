@@ -21,6 +21,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 import javax.annotation.Nonnull;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.core.io.InputStreamSource;
 import org.springframework.core.io.Resource;
@@ -49,7 +50,7 @@ public interface NsDescriptorGenericFrontController {
 	 * operationalState &#x3D; DISABLED). Otherwise, the DELETE method shall fail.
 	 *
 	 */
-	ResponseEntity<Void> delete(String nsdInfoId);
+	ResponseEntity<Void> delete(@NotNull String nsdInfoId);
 
 	/**
 	 * Read information about an individual NS descriptor resource.
@@ -60,7 +61,7 @@ public interface NsDescriptorGenericFrontController {
 	 * request and response data structures, and response codes.\&quot;
 	 *
 	 */
-	<U> ResponseEntity<U> finsById(String nsdInfoId, Class<U> clazz, Consumer<U> makeLink);
+	<U> ResponseEntity<U> finsById(@NotNull String nsdInfoId, Class<U> clazz, Consumer<U> makeLink);
 
 	/**
 	 * Fetch the content of a NSD.
@@ -83,7 +84,7 @@ public interface NsDescriptorGenericFrontController {
 	 * outside the scope of the present document.
 	 *
 	 */
-	ResponseEntity<Resource> getNsdContent(String nsdInfoId, String accept);
+	ResponseEntity<Resource> getNsdContent(@NotNull String nsdInfoId, String accept);
 
 	/**
 	 * Upload the content of a NSD.
@@ -104,7 +105,7 @@ public interface NsDescriptorGenericFrontController {
 	 * response data structures, and response codes.\&quot;
 	 *
 	 */
-	ResponseEntity<Void> putNsdContent(String nsdInfoId, String accept, InputStreamSource file);
+	ResponseEntity<Void> putNsdContent(@NotNull String nsdInfoId, String accept, InputStreamSource file);
 
 	/**
 	 * Modify the operational state and/or the user defined data of an individual NS
@@ -122,7 +123,7 @@ public interface NsDescriptorGenericFrontController {
 	 * descriptor resource.
 	 *
 	 */
-	<U> ResponseEntity<U> modify(String nsdInfoId, String body, String ifMatch, Class<U> clazz, Consumer<U> makeLink);
+	<U> ResponseEntity<U> modify(@NotNull String nsdInfoId, String body, String ifMatch, Class<U> clazz, Consumer<U> makeLink);
 
 	/**
 	 * Create a new NS descriptor resource.
@@ -133,10 +134,10 @@ public interface NsDescriptorGenericFrontController {
 	 */
 	<U> ResponseEntity<U> create(String contentType, Map<String, String> userDefinedData, Class<U> clazz, Consumer<U> makeLink, Function<U, String> getSelfLink);
 
-	ResponseEntity<Resource> getArtifact(String nsdInfoId, String artifactPath, String includeSignatures);
+	ResponseEntity<Resource> getArtifact(@NotNull String nsdInfoId, String artifactPath, String includeSignatures);
 
-	ResponseEntity<Resource> getManifest(String nsdInfoId, String includeSignatures);
+	ResponseEntity<Resource> getManifest(@NotNull String nsdInfoId, String includeSignatures);
 
-	ResponseEntity<Resource> getNsd(String nsdInfoId, String includeSignatures);
+	ResponseEntity<Resource> getNsd(@NotNull String nsdInfoId, String includeSignatures);
 
 }

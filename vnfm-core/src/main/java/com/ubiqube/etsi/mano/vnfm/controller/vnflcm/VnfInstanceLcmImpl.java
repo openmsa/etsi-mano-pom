@@ -66,7 +66,6 @@ import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 import com.ubiqube.etsi.mano.service.rest.ManoClientFactory;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
-import com.ubiqube.etsi.mano.vnfm.service.VnfBlueprintService;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceService;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceServiceVnfm;
 import com.ubiqube.etsi.mano.vnfm.service.VnfLcmService;
@@ -92,14 +91,12 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 
 	private final VimManager vimManager;
 
-	private final VnfBlueprintService planService;
-
 	private final VnfInstanceServiceVnfm vnfInstanceServiceVnfm;
 
 	private final ManoClientFactory manoClientFactory;
 
 	public VnfInstanceLcmImpl(final VnfPackageRepository vnfPackageRepository, final EventManager eventManager, final MapperFacade mapper, final VnfLcmService vnfLcmService,
-			final VnfInstanceService vnfInstanceService, final VimManager vimManager, final VnfBlueprintService planService, final VnfPackageService vnfPackageService,
+			final VnfInstanceService vnfInstanceService, final VimManager vimManager, final VnfPackageService vnfPackageService,
 			final VnfInstanceServiceVnfm vnfInstanceServiceVnfm, final ManoClientFactory manoClientFactory) {
 		this.vnfPackageRepository = vnfPackageRepository;
 		this.eventManager = eventManager;
@@ -107,7 +104,6 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 		this.vnfLcmService = vnfLcmService;
 		this.vnfInstanceService = vnfInstanceService;
 		this.vimManager = vimManager;
-		this.planService = planService;
 		this.vnfPackageService = vnfPackageService;
 		this.vnfInstanceServiceVnfm = vnfInstanceServiceVnfm;
 		this.manoClientFactory = manoClientFactory;
@@ -156,7 +152,7 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 		final VnfInstance vnfInstance = vnfInstanceServiceVnfm.findById(vnfInstanceId);
 		ensureNotInstantiated(vnfInstance);
 		ensureNotLocked(vnfInstance);
-		planService.deleteByVnfInstance(vnfInstance);
+		vnfLcmService.deleteByVnfInstance(vnfInstance);
 		vnfInstanceService.delete(vnfInstanceId);
 		if (!vnfInstanceService.isInstantiate(vnfInstance.getVnfPkg().getId())) {
 			final VnfPackage vnfPkg = vnfPackageRepository.get(vnfInstance.getVnfPkg().getId());
@@ -193,7 +189,7 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 		VnfBlueprint blueprint = vnfLcmService.createIntatiateOpOcc(vnfInstance);
 		mapper.map(instantiateVnfRequest, blueprint);
 		blueprint.getParameters().setScaleStatus(extractScaleStaus(vnfPkg));
-		blueprint = planService.save(blueprint);
+		blueprint = vnfLcmService.save(blueprint);
 		eventManager.sendActionVnfm(ActionType.VNF_INSTANTIATE, blueprint.getId(), new HashMap<>());
 		LOG.info("VNF Instantiation Event Sucessfully sent. {}", blueprint.getId());
 		return blueprint;

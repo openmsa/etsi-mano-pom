@@ -48,7 +48,6 @@ public class NfvoOrikaConfiguration implements OrikaMapperFactoryConfigurer {
 
 	private static final String VDU_ID = "vduId";
 
-	@SuppressWarnings("null")
 	@Override
 	public void configure(final MapperFactory orikaMapperFactory) {
 		orikaMapperFactory.classMap(VnfPackage.class, VnfInstance.class)

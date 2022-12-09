@@ -169,6 +169,7 @@ public class VnfBlueprint extends AbstractBlueprint<VnfTask, VnfInstance> {
 		this.parameters.getExtManagedVirtualLinks().addAll(extManagedVirtualLinks);
 	}
 
+	@SuppressWarnings("null")
 	@Override
 	public void addExtVirtualLinks(final Set<ExtVirtualLinkDataEntity> extVirtualLinks) {
 		if (this.parameters.getExtVirtualLinkInfo() == null) {

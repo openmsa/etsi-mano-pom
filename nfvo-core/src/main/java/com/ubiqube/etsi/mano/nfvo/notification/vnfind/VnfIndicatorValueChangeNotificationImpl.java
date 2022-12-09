@@ -234,7 +234,7 @@ public class VnfIndicatorValueChangeNotificationImpl {
 			if (vnfScaleRequest.getNumberOfSteps() == null) {
 				vnfScaleRequest.setNumberOfSteps(1);
 			}
-			LOG.info("VNF Scale {} launched", vnfScaleRequest.getType().toString());
+			LOG.info("VNF Scale {} launched", vnfScaleRequest.getType());
 			res = vnfm.vnfScale(server, vnfInstanceId, vnfScaleRequest);
 		} else if ("Vnflcm.heal".equals(operationName)) {
 			final VnfHealRequest vnfHealRequest = new VnfHealRequest();

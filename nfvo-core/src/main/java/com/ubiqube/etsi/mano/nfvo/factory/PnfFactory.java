@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.nfvo.factory;
 
 import java.util.Map;
 
-import javax.annotation.Nonnull;
+import javax.validation.constraints.NotNull;
 
 import com.ubiqube.etsi.mano.dao.mano.OnboardingStateType;
 import com.ubiqube.etsi.mano.dao.mano.PackageUsageState;
@@ -29,7 +29,7 @@ public class PnfFactory {
 		// Nothing.
 	}
 
-	@Nonnull
+	@NotNull
 	public static PnfDescriptor createPnfDescriptorsPnfdInfo(final Map<String, Object> userDefinedData) {
 		final PnfDescriptor pnfd = new PnfDescriptor();
 		pnfd.setPnfdOnboardingState(OnboardingStateType.CREATED);

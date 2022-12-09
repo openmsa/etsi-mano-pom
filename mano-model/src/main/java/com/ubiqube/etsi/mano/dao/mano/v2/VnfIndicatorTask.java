@@ -32,6 +32,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class VnfIndicatorTask extends VnfTask {
+	/** Serial. */
+	private static final long serialVersionUID = 1L;
 
 	private String name;
 

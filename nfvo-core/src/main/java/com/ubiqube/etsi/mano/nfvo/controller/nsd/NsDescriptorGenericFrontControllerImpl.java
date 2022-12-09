@@ -16,6 +16,8 @@
  */
 package com.ubiqube.etsi.mano.nfvo.controller.nsd;
 
+import static com.ubiqube.etsi.mano.Constants.getSafeUUID;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -89,7 +91,7 @@ public class NsDescriptorGenericFrontControllerImpl implements NsDescriptorGener
 	 */
 	@Override
 	public ResponseEntity<Void> delete(final String nsdInfoId) {
-		final UUID nsdInfoUuid = UUID.fromString(nsdInfoId);
+		final UUID nsdInfoUuid = getSafeUUID(nsdInfoId);
 		nsdController.nsDescriptorsNsdInfoIdDelete(nsdInfoUuid);
 		return ResponseEntity.noContent().build();
 	}
@@ -105,7 +107,7 @@ public class NsDescriptorGenericFrontControllerImpl implements NsDescriptorGener
 	 */
 	@Override
 	public <U> ResponseEntity<U> finsById(final String nsdInfoId, final Class<U> clazz, final Consumer<U> makeLink) {
-		final NsdPackage nsdPackage = nsdController.nsDescriptorsNsdInfoIdGet(UUID.fromString(nsdInfoId));
+		final NsdPackage nsdPackage = nsdController.nsDescriptorsNsdInfoIdGet(getSafeUUID(nsdInfoId));
 		final U nsdInfo = mapper.map(nsdPackage, clazz);
 		makeLink.accept(nsdInfo);
 		return ResponseEntity.ok().eTag("" + nsdPackage.getVersion()).body(nsdInfo);
@@ -134,7 +136,7 @@ public class NsDescriptorGenericFrontControllerImpl implements NsDescriptorGener
 	 */
 	@Override
 	public ResponseEntity<Resource> getNsdContent(final String nsdInfoId, final String accept) {
-		final ManoResource inputStream = nsdController.nsDescriptorsNsdInfoIdNsdContentGet(UUID.fromString(nsdInfoId));
+		final ManoResource inputStream = nsdController.nsDescriptorsNsdInfoIdNsdContentGet(getSafeUUID(nsdInfoId));
 		final MetaStreamResource body = new MetaStreamResource(inputStream);
 		return ResponseEntity
 				.status(HttpStatus.OK)
@@ -163,7 +165,7 @@ public class NsDescriptorGenericFrontControllerImpl implements NsDescriptorGener
 	@Override
 	public ResponseEntity<Void> putNsdContent(final String nsdInfoId, final String accept, final InputStreamSource file) {
 		try (InputStream is = file.getInputStream()) {
-			nsdController.nsDescriptorsNsdInfoIdNsdContentPut(UUID.fromString(nsdInfoId), is);
+			nsdController.nsDescriptorsNsdInfoIdNsdContentPut(getSafeUUID(nsdInfoId), is);
 		} catch (final IOException e) {
 			throw new GenericException(e);
 		}
@@ -188,7 +190,7 @@ public class NsDescriptorGenericFrontControllerImpl implements NsDescriptorGener
 	 */
 	@Override
 	public <U> ResponseEntity<U> modify(final String nsdInfoId, final String body, final String ifMatch, final Class<U> clazz, final Consumer<U> makeLink) {
-		final NsdPackage nsdPkgInfo = nsdController.nsDescriptorsNsdInfoIdPatch(UUID.fromString(nsdInfoId), body, ifMatch);
+		final NsdPackage nsdPkgInfo = nsdController.nsDescriptorsNsdInfoIdPatch(getSafeUUID(nsdInfoId), body, ifMatch);
 		final U ret = mapper.map(nsdPkgInfo, clazz);
 		makeLink.accept(ret);
 		return new ResponseEntity<>(ret, HttpStatus.OK);

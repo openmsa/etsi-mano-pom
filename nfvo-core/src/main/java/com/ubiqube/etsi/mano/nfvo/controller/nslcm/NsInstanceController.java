@@ -19,6 +19,8 @@ package com.ubiqube.etsi.mano.nfvo.controller.nslcm;
 import java.util.List;
 import java.util.UUID;
 
+import javax.validation.constraints.NotNull;
+
 import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.dto.nsi.NsInstanceDto;
 import com.ubiqube.etsi.mano.dao.mano.nsd.upd.UpdateRequest;
@@ -34,14 +36,14 @@ public interface NsInstanceController {
 
 	List<NsdInstance> nsInstancesGet(String filter);
 
-	void nsInstancesNsInstanceIdDelete(UUID id);
+	void nsInstancesNsInstanceIdDelete(@NotNull UUID id);
 
-	NsInstanceDto nsInstancesNsInstanceIdGet(UUID id);
+	NsInstanceDto nsInstancesNsInstanceIdGet(@NotNull UUID id);
 
-	NsdInstance nsInstancesNsInstanceIdHealPost(UUID id);
+	NsdInstance nsInstancesNsInstanceIdHealPost(@NotNull UUID id);
 
-	NsdInstance nsInstancesNsInstanceIdScalePost(UUID id);
+	NsdInstance nsInstancesNsInstanceIdScalePost(@NotNull UUID id);
 
-	NsBlueprint nsInstancesNsInstanceIdUpdatePost(UUID id, UpdateRequest req);
+	NsBlueprint nsInstancesNsInstanceIdUpdatePost(@NotNull UUID id, UpdateRequest req);
 
 }

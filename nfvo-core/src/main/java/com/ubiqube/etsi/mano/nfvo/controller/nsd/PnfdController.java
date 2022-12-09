@@ -21,6 +21,8 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 
@@ -30,9 +32,9 @@ public interface PnfdController {
 
 	<U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink);
 
-	void pnfDescriptorsPnfdInfoIdDelete(UUID id);
+	void pnfDescriptorsPnfdInfoIdDelete(@NotNull UUID id);
 
-	PnfDescriptor pnfDescriptorsPnfdInfoIdGet(UUID id);
+	PnfDescriptor pnfDescriptorsPnfdInfoIdGet(@NotNull UUID id);
 
 	PnfDescriptor pnfDescriptorsPost(Map<String, Object> userDefinedData);
 

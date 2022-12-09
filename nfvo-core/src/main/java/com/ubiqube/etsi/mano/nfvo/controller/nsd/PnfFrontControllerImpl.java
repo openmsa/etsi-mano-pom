@@ -16,11 +16,12 @@
  */
 package com.ubiqube.etsi.mano.nfvo.controller.nsd;
 
+import static com.ubiqube.etsi.mano.Constants.getSafeUUID;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 import java.util.function.Consumer;
 
 import org.springframework.http.HttpStatus;
@@ -82,7 +83,7 @@ public class PnfFrontControllerImpl implements PnfFrontController {
 	 */
 	@Override
 	public ResponseEntity<Void> delete(final String pnfdInfoId) {
-		pnfdController.pnfDescriptorsPnfdInfoIdDelete(UUID.fromString(pnfdInfoId));
+		pnfdController.pnfDescriptorsPnfdInfoIdDelete(getSafeUUID(pnfdInfoId));
 		return ResponseEntity.noContent().build();
 	}
 
@@ -97,7 +98,7 @@ public class PnfFrontControllerImpl implements PnfFrontController {
 	 */
 	@Override
 	public <U> ResponseEntity<U> findById(final String pnfdInfoId, final Class<U> clazz, final Consumer<U> makeLink) {
-		final PnfDescriptor pnfdInfoDb = pnfdController.pnfDescriptorsPnfdInfoIdGet(UUID.fromString(pnfdInfoId));
+		final PnfDescriptor pnfdInfoDb = pnfdController.pnfDescriptorsPnfdInfoIdGet(getSafeUUID(pnfdInfoId));
 		final U pnfdInfo = mapper.map(pnfdInfoDb, clazz);
 		makeLink.accept(pnfdInfo);
 		return new ResponseEntity<>(pnfdInfo, HttpStatus.OK);

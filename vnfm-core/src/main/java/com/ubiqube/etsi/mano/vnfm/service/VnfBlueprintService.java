@@ -64,8 +64,4 @@ public class VnfBlueprintService {
 		return blueprintJpa.findById(blueprintId).orElseThrow(() -> new GenericException("Blueprint not found " + blueprintId));
 	}
 
-	public void deleteByVnfInstance(final VnfInstance vnfInstance) {
-		blueprintJpa.deleteByVnfInstance(vnfInstance);
-	}
-
 }

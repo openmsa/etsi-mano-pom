@@ -28,5 +28,7 @@ import lombok.Setter;
 @Setter
 public class VnfInstantiatedExtLinkPort extends VnfInstantiatedBase {
 
+	private static final long serialVersionUID = 1L;
+
 	private String extCpInstanceId = null;
 }

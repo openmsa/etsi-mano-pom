@@ -23,6 +23,7 @@ import java.util.UUID;
 import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
@@ -34,15 +35,15 @@ public interface NsdController {
 
 	<U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink);
 
-	void nsDescriptorsNsdInfoIdDelete(UUID id);
+	void nsDescriptorsNsdInfoIdDelete(@NotNull UUID id);
 
-	NsdPackage nsDescriptorsNsdInfoIdGet(UUID id);
+	NsdPackage nsDescriptorsNsdInfoIdGet(@NotNull UUID id);
 
-	ManoResource nsDescriptorsNsdInfoIdNsdContentGet(UUID id);
+	ManoResource nsDescriptorsNsdInfoIdNsdContentGet(@NotNull UUID id);
 
-	void nsDescriptorsNsdInfoIdNsdContentPut(UUID id, InputStream is);
+	void nsDescriptorsNsdInfoIdNsdContentPut(@NotNull UUID id, @NotNull InputStream is);
 
-	NsdPackage nsDescriptorsNsdInfoIdPatch(UUID id, String body, @Nullable String ifMatch);
+	NsdPackage nsDescriptorsNsdInfoIdPatch(@NotNull UUID id, String body, @Nullable String ifMatch);
 
 	NsdPackage nsDescriptorsPost(Map<String, String> userDefinedData);
 
