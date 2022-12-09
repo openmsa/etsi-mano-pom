@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.jpa;
 
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.data.repository.CrudRepository;
@@ -28,4 +29,6 @@ public interface VnfInstanceJpa extends CrudRepository<VnfInstance, UUID> {
 	int countByVnfPkgId(UUID fromString);
 
 	Optional<VnfInstance> findByVnfPkg_IdAndNsInstance_Id(UUID vnfPackageId, UUID nsInstanceid);
+
+	Set<VnfInstance> findByVnfPkg_Id(UUID nsInstanceid);
 }
