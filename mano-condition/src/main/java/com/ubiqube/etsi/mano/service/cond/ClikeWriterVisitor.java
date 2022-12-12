@@ -33,24 +33,26 @@ import com.ubiqube.etsi.mano.service.cond.ast.TestValueExpr;
 
 public class ClikeWriterVisitor implements Visitor<String, Void> {
 
+	private static final String ILLEGAL_CALL = "Illegal call.";
+
 	@Override
 	public String visit(final BooleanValueExpr expr, final Void arg) {
-		throw new AstException("Illegal call.");
+		throw new AstException(ILLEGAL_CALL);
 	}
 
 	@Override
 	public String visit(final BooleanListExpr expr, final Void arg) {
-		throw new AstException("Illegal call.");
+		throw new AstException(ILLEGAL_CALL);
 	}
 
 	@Override
 	public String visit(final AttrHolderExpr expr, final Void args) {
-		throw new AstException("Illegal call.");
+		throw new AstException(ILLEGAL_CALL);
 	}
 
 	@Override
 	public String visit(final RangeValueExpr expr, final Void arg) {
-		throw new AstException("Illegal call.");
+		throw new AstException(ILLEGAL_CALL);
 	}
 
 	@Override
@@ -63,12 +65,12 @@ public class ClikeWriterVisitor implements Visitor<String, Void> {
 
 	@Override
 	public String visit(final MinLengthValueExpr expr, final Void arg) {
-		throw new AstException("Illegal call.");
+		throw new AstException(ILLEGAL_CALL);
 	}
 
 	@Override
 	public String visit(final MaxLengthValueExpr expr, final Void arg) {
-		throw new AstException("Illegal call.");
+		throw new AstException(ILLEGAL_CALL);
 	}
 
 	@Override
@@ -105,7 +107,7 @@ public class ClikeWriterVisitor implements Visitor<String, Void> {
 
 	@Override
 	public String visit(final ArrayValueExpr expr, final Void arg) {
-		throw new AstException("Illegal call.");
+		throw new AstException(ILLEGAL_CALL);
 	}
 
 	@Override

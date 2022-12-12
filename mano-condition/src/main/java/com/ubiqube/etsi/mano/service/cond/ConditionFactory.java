@@ -38,6 +38,11 @@ import com.ubiqube.etsi.mano.service.cond.ast.TestValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.ValueExpr;
 
 public class ConditionFactory {
+
+	private ConditionFactory() {
+		//
+	}
+
 	private static final Map<String, Operator> GENERIC_COND = Map.of("equal", Operator.EQUAL,
 			"greater_than", Operator.GREATER_THAN, "greater_or_equal", Operator.GREATER_OR_EQUAL,
 			"less_than", Operator.LESS_THAN, "less_or_equal", Operator.LESS_OR_EQUAL);

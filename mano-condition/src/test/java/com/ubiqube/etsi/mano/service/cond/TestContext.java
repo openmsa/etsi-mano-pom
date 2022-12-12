@@ -16,8 +16,11 @@
  */
 package com.ubiqube.etsi.mano.service.cond;
 
-public interface Context {
+public class TestContext implements Context {
 
-	Object lookup(String name);
+	@Override
+	public Object lookup(final String name) {
+		return null;
+	}
 
 }

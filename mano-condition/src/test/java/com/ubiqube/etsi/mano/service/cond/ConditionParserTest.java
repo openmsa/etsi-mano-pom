@@ -63,6 +63,8 @@ class ConditionParserTest {
 		final String c = root.accept(clike, null);
 		assertNotNull(c);
 		System.out.println(c);
+		final EvaluatorVisitor eval = new EvaluatorVisitor();
+		root.accept(eval, new TestContext());
 	}
 
 	static <A> Node applyOptimizer(final Visitor<Node, A> v, final Node node) {
