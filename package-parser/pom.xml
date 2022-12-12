@@ -95,7 +95,8 @@
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-classic</artifactId>
-				<version>1.4.5</version>
+				<!-- Up to 1.2.x api is targetting slf4j-api 2.x -->
+				<version>1.2.11</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
