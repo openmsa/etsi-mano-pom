@@ -19,6 +19,7 @@ package com.ubiqube.etsi.mano.service.event.images;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -85,6 +86,7 @@ public class SoftwareImageService {
 
 	private SoftwareImage uploadImage(final VirtualFileSystem vfs, final SoftwareImage swIn, final VimConnectionInformation vimConn) {
 		final Vim vim = vimManager.getVimById(vimConn.getId());
+		Objects.requireNonNull(swIn.getImagePath(), "Need to upload an image, but path is not present " + swIn.getName());
 		try (InputStream is = vfs.getInputStream(swIn.getImagePath())) {
 			vim.storage(vimConn).uploadSoftwareImage(is, swIn);
 		} catch (final IOException e) {
