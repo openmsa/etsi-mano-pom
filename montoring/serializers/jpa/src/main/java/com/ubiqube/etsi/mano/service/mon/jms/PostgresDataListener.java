@@ -148,9 +148,13 @@ public class PostgresDataListener {
 			if ((existingVnfIndicatorValue != null) && !existingVnfIndicatorValue.getValue().equals(averageValueByPercent)) {
 				// vnf indicator value change notification should be sent.
 				LOG.info("{} indicator value changed to {}", allHostMetrics.getVnfInstanceId() + ":" + allHostMetrics.getMetricName(), averageValueByPercent);
-				eventManager.sendNotification(NotificationEvent.VNF_INDICATOR_VALUE_CHANGED, allHostMetrics.getVnfInstanceId(), Map.of("vnfIndicatorId", allHostMetrics.getMetricName(), "value", String.valueOf(averageValueByPercent), "vnfInstanceId", allHostMetrics.getVnfInstanceId().toString(), "vnfdId", vnfInstance.getVnfdId()));
+				eventManager.sendNotification(NotificationEvent.VNF_INDICATOR_VALUE_CHANGED, allHostMetrics.getVnfInstanceId(), Map.of("vnfIndicatorId", allHostMetrics.getMetricName(), 
+						"value", String.valueOf(averageValueByPercent), 
+						"vnfInstanceId", allHostMetrics.getVnfInstanceId().toString(), 
+						"vnfdId", vnfInstance.getVnfdId(),
+						"vnfInstanceName", vnfInstance.getVnfInstanceName()));
 			}
-			final VnfIndicatorValue vnfIndValue = new VnfIndicatorValue(allHostMetrics.getMetricName(), allHostMetrics.getMasterJobId(), metricsUpdatedTime, averageValueByPercent, allHostMetrics.getVnfInstanceId());
+			final VnfIndicatorValue vnfIndValue = new VnfIndicatorValue(allHostMetrics.getMetricName(), allHostMetrics.getMasterJobId(), metricsUpdatedTime, averageValueByPercent, allHostMetrics.getVnfInstanceId(), vnfInstance.getVnfInstanceName());
 			vnfIndicatorValueJpa.save(vnfIndValue);
 			return;
 		}
