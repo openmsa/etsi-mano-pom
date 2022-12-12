@@ -98,10 +98,10 @@ public class Servers implements Auditable {
 	@ElementCollection(fetch = FetchType.EAGER)
 	private Set<String> capabilities;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<RemoteSubscription> remoteSubscriptions;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<ApiVersion> versions;
 
 	@Version
