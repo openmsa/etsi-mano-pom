@@ -42,6 +42,7 @@ import com.ubiqube.etsi.mano.dao.mano.VimComputeResourceFlavourEntity;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.VimSoftwareImageEntity;
 import com.ubiqube.etsi.mano.dao.mano.VimTask;
+import com.ubiqube.etsi.mano.dao.mano.VnfCompute;
 import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionType;
 import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
@@ -165,8 +166,11 @@ public abstract class AbstractGrantService implements VimResourceService {
 				.filter(x -> x.getChangeType() != ChangeType.REMOVED)
 				.map(ComputeTask.class::cast)
 				.forEach(x -> {
-					x.setFlavorId(findFlavor(vimAssets, x.getVnfCompute().getToscaName()));
-					x.setImageId(findImage(vimAssets, x.getVnfCompute().getSoftwareImage().getName()));
+					final VnfCompute comp = x.getVnfCompute();
+					x.setFlavorId(findFlavor(vimAssets, comp.getToscaName()));
+					if (comp.getSoftwareImage() != null) {
+						x.setImageId(findImage(vimAssets, comp.getSoftwareImage().getName()));
+					}
 				});
 	}
 
