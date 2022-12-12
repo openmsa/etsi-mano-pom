@@ -141,6 +141,7 @@ public class VnfIndicatorValueChangeNotificationImpl {
 			final List<NsLiveInstance> nsInstanceIds = nsLiveInstanceJpa.findByResourceId(entry.getKey());
 			if (nsInstanceIds != null && !nsInstanceIds.isEmpty() && getNSIndicators(nsInstanceIds.get(0).getNsInstance().getId()) != null) {
 				final UUID nsInstanceId = nsInstanceIds.get(0).getNsInstance().getId();
+				LOG.info("NS instance of the vnf Instance {}:{}", entry.getKey(), nsInstanceId);
 				NSVnfNotification nsVnfNotification = new NSVnfNotification();
 				nsVnfNotification.setVnfIndiValueChangeNotifications(entry.getValue());
 				nsVnfNotification.setVnfInstanceId(entry.getKey());
@@ -152,6 +153,7 @@ public class VnfIndicatorValueChangeNotificationImpl {
 					notificationsByNsInstanceId.put(nsInstanceId.toString(), nsVnfNotifications);
 				}
 			} else {
+				LOG.info("NS instanceId for VNF instance not found");
 				evaluateValueBasedOnCondition(null, entry.getKey(), entry.getValue());
 			}
 		}
@@ -190,6 +192,7 @@ public class VnfIndicatorValueChangeNotificationImpl {
 		if(nsInstanceId != null) {
 			for (final NsVnfIndicator nsVnfIndicator : getNSIndicators(UUID.fromString(nsInstanceId))) {
 				final Map<String, TriggerDefinition> nsTriggers = nsVnfIndicator.getTriggers();
+				LOG.info("NS Trigger evaluating");
 				evaluateTriggers(nsTriggers, nsInstanceId, null, null, notifications);
 			}
 		} else {
@@ -198,6 +201,7 @@ public class VnfIndicatorValueChangeNotificationImpl {
 			final Set<VnfIndicator> vnfIndicators = vnfPackage.getVnfIndicator();
 			for (final VnfIndicator vnfIndicator : vnfIndicators) {
 				final Map<String, TriggerDefinition> vnfTriggers = vnfIndicator.getTriggers();
+				LOG.info("VNF Trigger evaluating");
 				evaluateTriggers(vnfTriggers, null, vnfInstanceId, vnfPackage, notifications);
 			}
 		}
@@ -267,10 +271,12 @@ public class VnfIndicatorValueChangeNotificationImpl {
 				if (vnfInstanceId != null) {
 					final Servers server = selectServer(vnfPackage);
 					if (UowUtils.isVnfLcmRunning(UUID.fromString(vnfInstanceId), func2, server)) {
+						LOG.info("calling VNF Action");
 						callAction(vnfInstanceId, nsInstanceId, trigger.getAction(), server);
 					}
 				}
 				if (nsInstanceId != null) {
+					LOG.info("calling NS Action");
 					//TODO to check is nsLCM running
 					callAction(vnfInstanceId, nsInstanceId, trigger.getAction(), null);
 				}
