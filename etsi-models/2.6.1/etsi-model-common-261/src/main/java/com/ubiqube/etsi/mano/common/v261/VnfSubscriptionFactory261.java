@@ -74,13 +74,14 @@ public class VnfSubscriptionFactory261 {
 	}
 	
 	@Nonnull
-	public static VnfIndicatorValueChangeNotification createNotificationVnfIndicatorValueChangeNotification(final UUID id, final UUID subscriptionId, @Nonnull final String vnfIndicatorId, final String vnfInstanceId, String value, String vnfdId, final Linkable links) {
+	public static VnfIndicatorValueChangeNotification createNotificationVnfIndicatorValueChangeNotification(final UUID id, final UUID subscriptionId, @Nonnull final String vnfIndicatorId, final String vnfInstanceId, String value, String vnfdId, String vnfInstanceName, final Linkable links) {
 		final VnfIndicatorValueChangeNotification ret = new VnfIndicatorValueChangeNotification();
 		ret.setId(id.toString());
 		ret.setTimeStamp(OffsetDateTime.now());
 		ret.setNotificationType(NotificationTypeEnum.VNFINDICATORVALUECHANGENOTIFICATION);
 		ret.setSubscriptionId(subscriptionId.toString());
 		ret.setVnfInstanceId(vnfInstanceId);
+		ret.setVnfInstanceName(vnfInstanceName);
 		ret.setVnfIndicatorId(vnfIndicatorId);
 		ret.setValue(value);
 		ret.setVnfdId(vnfdId);

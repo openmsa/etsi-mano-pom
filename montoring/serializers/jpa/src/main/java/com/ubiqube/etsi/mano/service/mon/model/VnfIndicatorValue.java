@@ -41,17 +41,19 @@ public class VnfIndicatorValue implements Serializable {
 	private String key;
 	@Id
 	private UUID vnfInstanceId;
+	private String vnfInstanceName;
 	
 	public VnfIndicatorValue() {
 		// Nothing.
 	}
 	
-	public VnfIndicatorValue(final String key2, final UUID masterJobId2, final OffsetDateTime timestamp, final Double value2, final UUID vnfInstanceId2) {
+	public VnfIndicatorValue(final String key2, final UUID masterJobId2, final OffsetDateTime timestamp, final Double value2, final UUID vnfInstanceId2, final String vnfInstanceName) {
 		this.id = UUID.randomUUID();
 		this.time = timestamp;
 		this.masterJobId = masterJobId2;
 		this.value = value2;
 		this.key = key2;
 		this.vnfInstanceId = vnfInstanceId2;
+		this.vnfInstanceName = vnfInstanceName;
 	}
 }
