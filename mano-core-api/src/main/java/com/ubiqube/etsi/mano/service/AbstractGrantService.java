@@ -183,6 +183,7 @@ public abstract class AbstractGrantService implements VimResourceService {
 	}
 
 	private static String findFlavor(final GrantVimAssetsEntity vimAssets, final String vduId) {
+		Objects.requireNonNull(vimAssets.getComputeResourceFlavours(), "Request flavour for vdu " + vduId + ", but result is empty.");
 		return vimAssets.getComputeResourceFlavours().stream()
 				.filter(x -> x.getVnfdVirtualComputeDescId().equals(vduId))
 				.map(VimComputeResourceFlavourEntity::getVimFlavourId)
