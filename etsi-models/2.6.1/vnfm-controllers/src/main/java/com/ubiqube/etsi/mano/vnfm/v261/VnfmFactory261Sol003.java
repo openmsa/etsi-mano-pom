@@ -54,7 +54,7 @@ public class VnfmFactory261Sol003 implements VnfmFactory {
 	
 	@Override
 	public Object createVnfIndicatorValueChangeNotification(final UUID subscriptionId, final EventMessage event) {
-		return VnfSubscriptionFactory261.createNotificationVnfIndicatorValueChangeNotification(event.getId(), subscriptionId, event.getAdditionalParameters().get("vnfIndicatorId"), event.getAdditionalParameters().get("vnfInstanceId"), event.getAdditionalParameters().get("value"), event.getAdditionalParameters().get("vnfdId"), event.getAdditionalParameters().get("vnfInstanceName"), new Sol003Linkable());
+		return VnfSubscriptionFactory261.createNotificationVnfIndicatorValueChangeNotification(event.getId(), subscriptionId, event.getAdditionalParameters().get("vnfIndicatorId"), event.getAdditionalParameters().get("vnfInstanceId"), event.getAdditionalParameters().get("value"), event.getAdditionalParameters().get("vnfdId"), new Sol003Linkable());
 	}
 
 }

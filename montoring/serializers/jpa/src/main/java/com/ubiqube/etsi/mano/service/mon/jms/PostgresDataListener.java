@@ -151,8 +151,7 @@ public class PostgresDataListener {
 				eventManager.sendNotification(NotificationEvent.VNF_INDICATOR_VALUE_CHANGED, allHostMetrics.getVnfInstanceId(), Map.of("vnfIndicatorId", allHostMetrics.getMetricName(), 
 						"value", String.valueOf(averageValueByPercent), 
 						"vnfInstanceId", allHostMetrics.getVnfInstanceId().toString(), 
-						"vnfdId", vnfInstance.getVnfdId(),
-						"vnfInstanceName", vnfInstance.getVnfInstanceName()));
+						"vnfdId", vnfInstance.getVnfdId()));
 			}
 			final VnfIndicatorValue vnfIndValue = new VnfIndicatorValue(allHostMetrics.getMetricName(), allHostMetrics.getMasterJobId(), metricsUpdatedTime, averageValueByPercent, allHostMetrics.getVnfInstanceId());
 			vnfIndicatorValueJpa.save(vnfIndValue);
