@@ -46,6 +46,7 @@ import com.ubiqube.etsi.mano.dao.mano.NsLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.NsVnfIndicator;
 import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
+import com.ubiqube.etsi.mano.dao.mano.NsdPackageVnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.ScaleTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.TriggerDefinition;
 import com.ubiqube.etsi.mano.dao.mano.VnfIndicator;
@@ -158,7 +159,7 @@ public class VnfIndicatorValueChangeNotificationImpl {
 			}
 		}
 		for(Map.Entry<String, List<NSVnfNotification>> nsNotifications : notificationsByNsInstanceId.entrySet()) {
-			List<VnfIndiValueChangeNotification> notifications = getNSVnfNotifications(nsNotifications.getValue());
+			List<VnfIndiValueChangeNotification> notifications = getNSVnfNotifications(nsNotifications.getValue(), UUID.fromString(nsNotifications.getKey()));
 			evaluateValueBasedOnCondition(nsNotifications.getKey(), null, notifications);
 		}
 	}
@@ -172,11 +173,15 @@ public class VnfIndicatorValueChangeNotificationImpl {
 		return null;
 	}
 	
-	public List<VnfIndiValueChangeNotification> getNSVnfNotifications(final List<NSVnfNotification> nsVnfNotifications) {
+	public List<VnfIndiValueChangeNotification> getNSVnfNotifications(final List<NSVnfNotification> nsVnfNotifications, final UUID nsInstanceId) {
+		NsdInstance nsdInstance = nsdInstanceJpa.findById(nsInstanceId).orElseThrow(() -> new GenericException("Could not find nsInstance: " + nsInstanceId));
+		NsdPackage nsdPackage = nsdPackageJpa.findByNsdId(nsdInstance.getNsdInfo().getNsdId()).orElseThrow(() -> new GenericException("Could not find nsdPackage: " + nsdInstance.getNsdInfo().getNsdId()));
+		Set<NsdPackageVnfPackage> nsVnfPackages = nsdPackage.getVnfPkgIds();
 		List<VnfIndiValueChangeNotification> allNsVnfNotifications = new ArrayList<>();
 		for (NSVnfNotification nsVnfNotification : nsVnfNotifications) {
 			for (VnfIndiValueChangeNotification vnfIndiValueChangeNotification : nsVnfNotification.getVnfIndiValueChangeNotifications()) {
-				String vnfInstanceName = vnfIndiValueChangeNotification.getVnfInstanceName();
+				Set<NsdPackageVnfPackage> vnfPackages = nsVnfPackages.stream().filter(x -> x.getVnfdId().equals(vnfIndiValueChangeNotification.getVnfdId())).collect(Collectors.toSet());
+				String vnfInstanceName = vnfPackages.iterator().next().getToscaName();
 				String vnfIndicatorId = vnfIndiValueChangeNotification.getVnfIndicatorId();
 				vnfIndiValueChangeNotification.setVnfIndicatorId(vnfInstanceName + "_" + vnfIndicatorId);
 				allNsVnfNotifications.add(vnfIndiValueChangeNotification);

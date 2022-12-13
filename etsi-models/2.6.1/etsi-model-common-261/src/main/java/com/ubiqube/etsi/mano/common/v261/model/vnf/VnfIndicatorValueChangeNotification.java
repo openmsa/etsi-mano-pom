@@ -92,17 +92,6 @@ public class VnfIndicatorValueChangeNotification   {
   
   @JsonProperty("vnfdId")
   private String vnfdId = null;
-  
-  @JsonProperty("vnfInstanceName")
-  private String vnfInstanceName = null;
-
-  public String getVnfInstanceName() {
-	return vnfInstanceName;
-}
-
-public void setVnfInstanceName(String vnfInstanceName) {
-	this.vnfInstanceName = vnfInstanceName;
-}
 
 public String getVnfdId() {
 	return vnfdId;
