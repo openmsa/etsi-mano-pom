@@ -175,6 +175,7 @@ public abstract class AbstractGrantService implements VimResourceService {
 	}
 
 	private static String findImage(final GrantVimAssetsEntity vimAssets, final String imageName) {
+		Objects.requireNonNull(vimAssets.getSoftwareImages(), "Could not map " + imageName + ", Grant did not return software images.");
 		return vimAssets.getSoftwareImages().stream()
 				.filter(x -> x.getVnfdSoftwareImageId().equals(imageName))
 				.map(VimSoftwareImageEntity::getVimSoftwareImageId)
