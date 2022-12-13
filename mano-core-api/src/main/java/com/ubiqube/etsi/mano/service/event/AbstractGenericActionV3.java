@@ -197,10 +197,10 @@ public abstract class AbstractGenericActionV3 {
 		final Instance vnfInstance = orchestrationAdapter.getInstance(blueprint.getInstance().getId());
 		try {
 			instantiateInnerv2(blueprint, vnfInstance);
-			LOG.info("{} {} Success...", success, blueprintId);
+			LOG.info("{} {} {} Success...", vnfInstance.getVnfInstanceName(), success, blueprintId);
 			orchestrationAdapter.fireEvent(success, blueprintId);
 		} catch (final RuntimeException e) {
-			LOG.error("{} Failed", failure, e);
+			LOG.error("{} {} Failed", vnfInstance.getVnfInstanceName(), failure, e);
 			onFailure(failure, blueprint, vnfInstance, e);
 		}
 	}
