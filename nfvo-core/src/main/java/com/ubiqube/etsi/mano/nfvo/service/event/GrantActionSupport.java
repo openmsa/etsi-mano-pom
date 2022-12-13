@@ -35,7 +35,6 @@ import com.ubiqube.etsi.mano.dao.mano.GrantInformationExt;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.dao.mano.NsLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
-import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.VnfCompute;
@@ -194,16 +193,19 @@ public class GrantActionSupport implements GrantSupport {
 		final NsLiveInstance res = resList.get(0);
 		final NsBlueprint bluePrint = res.getNsBlueprint();
 		final NsdInstance nsdInstance = bluePrint.getNsInstance();
-		final NsdPackage nsdPkg = nsdInstance.getNsdInfo();
 		final NsVnfTask inst = (NsVnfTask) res.getNsTask();
-		final List<ListKeyPair> vl = inst.getNsPackageVnfPackage().getVirtualLinks().stream().filter(x -> x.getValue() != null).toList();
 		final Set<ForwarderMapping> fwMapping = inst.getNsPackageVnfPackage().getForwardMapping();
 		final String vduName = inst.getNsPackageVnfPackage().getToscaName();
-		final List<ForwarderMapping> mappings = findMappingd(fwMapping, vduName);
+		final List<ForwarderMapping> mappings = findMappingsByVdu(fwMapping, vduName);
+		// Get VL pointing on OS
+		final List<ListKeyPair> vl = inst.getNsPackageVnfPackage().getVirtualLinks().stream()
+				.filter(x -> x.getValue() != null)
+				.toList();
 		vl.forEach(x -> {
-			final Optional<ForwarderMapping> single = findMapping(mappings, x.getValue());
+			final Optional<ForwarderMapping> single = findMappingByFwName(mappings, x.getValue());
 			single.ifPresent(y -> x.setValue(y.getVlName()));
 		});
+
 		final List<NetworkObject> vlList = vim.network(vimConnectionInformation)
 				.searchByName(vl.stream()
 						.map(ListKeyPair::getValue)
@@ -213,8 +215,8 @@ public class GrantActionSupport implements GrantSupport {
 		final List<NsLiveInstance> vlLive = nsLiveInstanceJpa.findByNsdInstanceAndClass(nsdInstance, NsVirtualLinkTask.class.getSimpleName());
 		vlLive.stream().forEach(x -> {
 			final NsVirtualLinkTask vlt = (NsVirtualLinkTask) x.getNsTask();
-			final List<ListKeyPair> usedVl = nsdPkg.getVnfPkgIds().stream().flatMap(vlm -> vlm.getVirtualLinks().stream())
-					.filter(y -> y.getValue().equals(vlt.getNsVirtualLink().getToscaName()))
+			final List<ListKeyPair> usedVl = inst.getNsPackageVnfPackage().getVirtualLinks().stream()
+					.filter(v -> v.getValue().equals(vlt.getNsVirtualLink().getToscaName()))
 					.toList();
 			usedVl.forEach(y -> {
 				final ExtManagedVirtualLinkDataEntity extVl = new ExtManagedVirtualLinkDataEntity();
@@ -227,9 +229,9 @@ public class GrantActionSupport implements GrantSupport {
 				extVl.setVnfVirtualLinkDescId(mapToVl(y.getIdx()));
 				grants.getExtManagedVirtualLinks().add(extVl);
 			});
-			final List<ForwarderMapping> fm = find(mappings, x.getNsTask().getToscaName());
+			final List<ForwarderMapping> fm = findMappingsBytoscaName(mappings, x.getNsTask().getToscaName());
 			if (fm.isEmpty()) {
-				LOG.warn("No forward ports for {}", x.getNsTask().getToscaName());
+				LOG.info("No forward ports for {}", x.getNsTask().getToscaName());
 				return;
 			}
 			fm.forEach(y -> {
@@ -253,15 +255,15 @@ public class GrantActionSupport implements GrantSupport {
 		return "virtual_link_" + vlId;
 	}
 
-	private static List<ForwarderMapping> find(final List<ForwarderMapping> mappings, final String toscaName) {
+	private static List<ForwarderMapping> findMappingsBytoscaName(final List<ForwarderMapping> mappings, final String toscaName) {
 		return mappings.stream().filter(x -> x.getVlName().equals(toscaName)).toList();
 	}
 
-	private static Optional<ForwarderMapping> findMapping(final List<ForwarderMapping> mappings, final String value) {
+	private static Optional<ForwarderMapping> findMappingByFwName(final List<ForwarderMapping> mappings, final String value) {
 		return mappings.stream().filter(x -> x.getForwardingName().equals(value)).findFirst();
 	}
 
-	private static List<ForwarderMapping> findMappingd(final Set<ForwarderMapping> fwMapping, final String vduName) {
+	private static List<ForwarderMapping> findMappingsByVdu(final Set<ForwarderMapping> fwMapping, final String vduName) {
 		return fwMapping.stream().filter(x -> x.getVduName().equals(vduName)).toList();
 	}
 
