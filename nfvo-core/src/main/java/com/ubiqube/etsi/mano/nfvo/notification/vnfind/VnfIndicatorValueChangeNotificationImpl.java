@@ -140,7 +140,8 @@ public class VnfIndicatorValueChangeNotificationImpl {
 		LOG.trace("Polling notification");
 		for (final Map.Entry<String, List<VnfIndiValueChangeNotification>> entry : notificationsByInstanceId.entrySet()) {
 			final List<NsLiveInstance> nsInstanceIds = nsLiveInstanceJpa.findByResourceId(entry.getKey());
-			if (nsInstanceIds != null && !nsInstanceIds.isEmpty() && getNSIndicators(nsInstanceIds.get(0).getNsInstance().getId()) != null) {
+			Set<NsVnfIndicator> nsVnfIndicators = getNSIndicators(nsInstanceIds.get(0).getNsInstance().getId());
+			if (nsInstanceIds != null && !nsInstanceIds.isEmpty() && nsVnfIndicators != null && nsVnfIndicators.iterator().next().getToscaName().equals("auto_scale")) {
 				final UUID nsInstanceId = nsInstanceIds.get(0).getNsInstance().getId();
 				LOG.info("NS instance of the vnf Instance {}:{}", entry.getKey(), nsInstanceId);
 				NSVnfNotification nsVnfNotification = new NSVnfNotification();
@@ -278,7 +279,7 @@ public class VnfIndicatorValueChangeNotificationImpl {
 				LOG.info("Launching action");
 				if (vnfInstanceId != null) {
 					final Servers server = selectServer(vnfPackage);
-					if (UowUtils.isVnfLcmRunning(UUID.fromString(vnfInstanceId), func2, server)) {
+					if (!UowUtils.isVnfLcmRunning(UUID.fromString(vnfInstanceId), func2, server)) {
 						LOG.info("calling VNF Action");
 						callAction(vnfInstanceId, nsInstanceId, trigger.getAction(), server);
 					}
@@ -356,11 +357,11 @@ public class VnfIndicatorValueChangeNotificationImpl {
 			NsScale nsInst = new NsScale();
 			nsInst.setScaleType(ScaleType.NS);
 			ScaleNsByStepsData snbsd = new ScaleNsByStepsData();
-			for (final Map.Entry<String, Object> c : inputs.entrySet()) {
-				final Map<String, String> d = (Map<String, String>) c.getValue();
-				final Object value = d.entrySet().iterator().next().getValue();
+			Map<String, String> d = (Map<String, String>) inputs.get("scale_ns_by_steps_data");
+			for(Map.Entry<String, String> c : d.entrySet()) {
+				Object value = c.getValue();
 				switch (c.getKey()) {
-				case "type":
+				case "scaling_direction":
 					if ("scale_out".equals(value)) {
 						snbsd.setScalingDirection(ScalingDirectionType.OUT);
 					}
@@ -390,10 +391,12 @@ public class VnfIndicatorValueChangeNotificationImpl {
 			LOG.error("operation name not valid");
 		}
 
-		final VnfBlueprint result = UowUtils.waitLcmCompletion(res, func, server);
-		if (OperationStatusType.COMPLETED != result.getOperationStatus()) {
-			final String details = Optional.ofNullable(result.getError()).map(FailureDetails::getDetail).orElse("[No content]");
-			throw new GenericException("VNF LCM Failed: " + details + " With state:  " + result.getOperationStatus());
+		if (vnfInstanceId != null) {
+			final VnfBlueprint result = UowUtils.waitLcmCompletion(res, func, server);
+			if (OperationStatusType.COMPLETED != result.getOperationStatus()) {
+				final String details = Optional.ofNullable(result.getError()).map(FailureDetails::getDetail).orElse("[No content]");
+				throw new GenericException("VNF LCM Failed: " + details + " With state:  " + result.getOperationStatus());
+			}
 		}
 	}
 
