@@ -154,7 +154,7 @@ public class PostgresDataListener {
 						"vnfdId", vnfInstance.getVnfdId(),
 						"vnfInstanceName", vnfInstance.getVnfInstanceName()));
 			}
-			final VnfIndicatorValue vnfIndValue = new VnfIndicatorValue(allHostMetrics.getMetricName(), allHostMetrics.getMasterJobId(), metricsUpdatedTime, averageValueByPercent, allHostMetrics.getVnfInstanceId(), vnfInstance.getVnfInstanceName());
+			final VnfIndicatorValue vnfIndValue = new VnfIndicatorValue(allHostMetrics.getMetricName(), allHostMetrics.getMasterJobId(), metricsUpdatedTime, averageValueByPercent, allHostMetrics.getVnfInstanceId());
 			vnfIndicatorValueJpa.save(vnfIndValue);
 			return;
 		}
