@@ -183,6 +183,7 @@ public class VnfIndicatorValueChangeNotificationImpl {
 				Set<NsdPackageVnfPackage> vnfPackages = nsVnfPackages.stream().filter(x -> x.getVnfdId().equals(vnfIndiValueChangeNotification.getVnfdId())).collect(Collectors.toSet());
 				String vnfInstanceName = vnfPackages.iterator().next().getToscaName();
 				String vnfIndicatorId = vnfIndiValueChangeNotification.getVnfIndicatorId();
+				LOG.info("NS vnf notification vnf indicator id : {} _ {}", vnfInstanceName, vnfIndicatorId);
 				vnfIndiValueChangeNotification.setVnfIndicatorId(vnfInstanceName + "_" + vnfIndicatorId);
 				allNsVnfNotifications.add(vnfIndiValueChangeNotification);
 			}
@@ -229,9 +230,11 @@ public class VnfIndicatorValueChangeNotificationImpl {
 						});
 				final Map.Entry<String, Object> c = condition.entrySet().iterator().next();
 				final String indicatorName = c.getKey();
+				LOG.info("trigger indicator name {}", indicatorName);
 				Double vnfIndicatorValue;
 				final Set<VnfIndiValueChangeNotification> not = notifications.stream().filter(x -> x.getVnfIndicatorId().equals(indicatorName)).collect(Collectors.toSet());
 				if (not.isEmpty()) {
+					LOG.info("Notification after filter is empty");
 					break conditions;
 				}
 				final VnfIndiValueChangeNotification vnfIndiValueChangeNotification = not.iterator().next();
