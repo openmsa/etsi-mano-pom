@@ -281,13 +281,13 @@ public class VnfIndicatorValueChangeNotificationImpl {
 					final Servers server = selectServer(vnfPackage);
 					if (!UowUtils.isVnfLcmRunning(UUID.fromString(vnfInstanceId), func2, server)) {
 						LOG.info("calling VNF Action");
-						callAction(vnfInstanceId, nsInstanceId, trigger.getAction(), server);
+						callAction(vnfInstanceId, null, trigger.getAction(), server);
 					}
 				}
 				if (nsInstanceId != null) {
 					LOG.info("calling NS Action");
 					//TODO to check is nsLCM running
-					callAction(vnfInstanceId, nsInstanceId, trigger.getAction(), null);
+					callAction(null, nsInstanceId, trigger.getAction(), null);
 				}
 				
 			}
@@ -385,13 +385,13 @@ public class VnfIndicatorValueChangeNotificationImpl {
 			ScaleNsData snd = new ScaleNsData();
 			snd.setScaleNsByStepsData(snbsd);
 			nsInst.setScaleNsData(snd);
-			LOG.info("NS Scale {} : {} launched", nsInstanceId, nsInst);
+			LOG.info("NS Scale {} {} : {} launched", snbsd.getScalingDirection().toString(), nsInstanceId, nsInst);
 			nsInstanceControllerService.scale(UUID.fromString(nsInstanceId), nsInst);
 		}else {
 			LOG.error("operation name not valid");
 		}
 
-		if (vnfInstanceId != null) {
+		if ("Vnflcm.scale".equals(operationName) || "Vnflcm.heal".equals(operationName)) {
 			final VnfBlueprint result = UowUtils.waitLcmCompletion(res, func, server);
 			if (OperationStatusType.COMPLETED != result.getOperationStatus()) {
 				final String details = Optional.ofNullable(result.getError()).map(FailureDetails::getDetail).orElse("[No content]");

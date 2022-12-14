@@ -189,7 +189,7 @@ public class NsScaleStrategyV3 {
 			return 0;
 		}
 		return nsScale.stream()
-				.filter(x -> x.getAspectId().equals(aspectId))
+				.filter(x -> (x.getAspectId() != null && x.getAspectId().equals(aspectId)))
 				.map(ScaleInfo::getScaleLevel)
 				.findFirst()
 				.orElse(0);
