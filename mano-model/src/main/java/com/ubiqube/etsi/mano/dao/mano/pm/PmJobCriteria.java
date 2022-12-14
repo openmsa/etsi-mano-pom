@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.dao.mano.pm;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -37,7 +38,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Embeddable
-public class PmJobCriteria {
+public class PmJobCriteria implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * This defines the types of performance metrics for the specified object
 	 * instances. Valid values are specified as "Measurement Name" values in clause

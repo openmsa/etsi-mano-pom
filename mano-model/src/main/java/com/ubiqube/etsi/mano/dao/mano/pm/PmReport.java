@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.dao.mano.pm;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -32,7 +33,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class PmReport {
+public class PmReport implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
