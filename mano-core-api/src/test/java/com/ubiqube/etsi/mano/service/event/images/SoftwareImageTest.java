@@ -79,6 +79,7 @@ class SoftwareImageTest {
 	private static SoftwareImage noAlg384Si() {
 		final SoftwareImage si = new SoftwareImage();
 		si.setName("good");
+		si.setImagePath("/my-image.qcow2");
 		final Checksum checksum = new Checksum();
 		checksum.setAlgorithm("SHA-384");
 		checksum.setHash("ec664e889ed6c1b2763cacf7899d95b7f347373eb982e523419feea3aa362d891b3bf025f292267a5854049091789c3e");
