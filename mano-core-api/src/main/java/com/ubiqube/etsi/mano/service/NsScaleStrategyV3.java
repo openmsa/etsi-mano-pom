@@ -93,6 +93,7 @@ public class NsScaleStrategyV3 {
 		}
 		final Set<? extends NsScaleLevel> lvlMapping = nsPackageNsPackage.getLevelMapping();
 		if ((null == lvlMapping) || lvlMapping.isEmpty()) {
+			LOG.warn("No level mapping for instance {}", blueprint.getInstance().getId());
 			return 1;
 		}
 		return lvlMapping.stream()
