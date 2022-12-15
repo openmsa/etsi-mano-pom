@@ -29,6 +29,7 @@ import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
+import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsBlueprintJpa;
 
 /**
@@ -64,15 +65,17 @@ public class UowUtils {
 		return tmp;
 	}
 	
-	public static NsBlueprint waitNSLcmCompletion(final NsBlueprint nsLcmOpOccs) {
+	public static NsBlueprint waitNSLcmCompletion(NsBlueprint nsLcmOpOccs, NsBlueprintJpa nsBlueprintJpa) {
+		NsBlueprint tmp = nsLcmOpOccs;
 		OperationStatusType state = OperationStatusType.PROCESSING;
 		while ((state == OperationStatusType.PROCESSING) || (OperationStatusType.STARTING == state)) {
-			state = nsLcmOpOccs.getOperationStatus();
+			tmp = nsBlueprintJpa.findById(nsLcmOpOccs.getId()).orElseThrow(() -> new GenericException("Could not find nsLcmOpOccs: " + nsLcmOpOccs.getId()));;
+			state = tmp.getOperationStatus();
 			LOG.debug("Instantiate polling: {} => {}", nsLcmOpOccs.getId(), state);
 			sleepSeconds(3);
 		}
 		LOG.info("NS Lcm complete with state: {}", state);
-		return nsLcmOpOccs;
+		return tmp;
 	}
 
 	public static boolean isVnfLcmRunning(final UUID vnfInstanceId, final BiFunction<Servers, UUID, List<VnfBlueprint>> func, final Servers server) {

@@ -41,6 +41,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
 import com.ubiqube.etsi.mano.controller.vnflcm.VnfInstanceLcm;
 import com.ubiqube.etsi.mano.dao.mano.NsLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.NsVnfIndicator;
@@ -148,6 +149,8 @@ public class VnfIndicatorValueChangeNotificationImpl {
 				.collect(Collectors.toSet());
 		final Map<String, List<VnfIndiValueChangeNotification>> notificationsByInstanceId = result.stream()
 				.collect(Collectors.groupingBy(VnfIndiValueChangeNotification::getVnfInstanceId));
+		List<VnfIndiValueChangeNotification> allNotifications = Lists.newArrayList(ite);
+		vnfIndValueNotificationJpa.deleteAll(allNotifications);
 		Map<String, List<NSVnfNotification>> notificationsByNsInstanceId = new HashMap<>();
 		List<NSVnfNotification> nsVnfNotifications = new ArrayList<>();
 		LOG.trace("Polling notification");
@@ -208,7 +211,6 @@ public class VnfIndicatorValueChangeNotificationImpl {
 	
 
 	public void evaluateValueBasedOnCondition(final String nsInstanceId, final String vnfInstanceId, final List<VnfIndiValueChangeNotification> notifications) {
-		vnfIndValueNotificationJpa.deleteAll(notifications);
 		if(nsInstanceId != null) {
 			for (final NsVnfIndicator nsVnfIndicator : getNSIndicators(UUID.fromString(nsInstanceId))) {
 				final Map<String, TriggerDefinition> nsTriggers = nsVnfIndicator.getTriggers();
@@ -251,12 +253,30 @@ public class VnfIndicatorValueChangeNotificationImpl {
 					LOG.info("Notification after filter is empty");
 					break conditions;
 				}
-				final VnfIndiValueChangeNotification vnfIndiValueChangeNotification = not.iterator().next();
-				try {
-					vnfIndicatorValue = Double.valueOf(vnfIndiValueChangeNotification.getValue());
-				} catch (final NumberFormatException e) {
-					LOG.error("error parsing threshold value", e);
-					break;
+				if(not.size() > 1) {
+					Double totalValue = 0.0;
+					Double value = 0.0;
+					for(VnfIndiValueChangeNotification vnfIndiValueChangeNotification : not) {
+						try {
+							value = Double.valueOf(vnfIndiValueChangeNotification.getValue());
+						} catch (final NumberFormatException e) {
+							LOG.error("error parsing threshold value", e);
+						}
+						totalValue = totalValue + value;
+					}
+					if(totalValue == 0.0) {
+						return;
+					}
+					vnfIndicatorValue  = totalValue / not.size();
+				}
+				else {
+					final VnfIndiValueChangeNotification vnfIndiValueChangeNotification = not.iterator().next();
+					try {
+						vnfIndicatorValue = Double.valueOf(vnfIndiValueChangeNotification.getValue());
+					} catch (final NumberFormatException e) {
+						LOG.error("error parsing threshold value", e);
+						break;
+					}
 				}
 				final List<Map<String, Object>> conList = (List<Map<String, Object>>) c.getValue();
 				for (final Map<String, Object> m : conList) {
@@ -401,7 +421,7 @@ public class VnfIndicatorValueChangeNotificationImpl {
 			LOG.info("NS Scale {} {} : {} launched", snbsd.getScalingDirection(), nsInstanceId, nsInst);
 			NsBlueprint nsBlueprint = nsInstanceControllerService.scale(UUID.fromString(nsInstanceId), nsInst);
 
-			final NsBlueprint result = UowUtils.waitNSLcmCompletion(nsBlueprint);
+			final NsBlueprint result = UowUtils.waitNSLcmCompletion(nsBlueprint, nsBlueprintJpa);
 			if (OperationStatusType.COMPLETED != result.getOperationStatus()) {
 				final String details = Optional.ofNullable(result.getError()).map(FailureDetails::getDetail).orElse("[No content]");
 				throw new GenericException("NS LCM Failed: " + details + " With state:  " + result.getOperationStatus());
