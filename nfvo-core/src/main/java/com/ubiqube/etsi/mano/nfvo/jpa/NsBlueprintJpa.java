@@ -16,12 +16,15 @@
  */
 package com.ubiqube.etsi.mano.nfvo.jpa;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.repository.CrudRepository;
 
+import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 
 public interface NsBlueprintJpa extends CrudRepository<NsBlueprint, UUID> {
 	// Nothing.
+	List<NsBlueprint> findByNsInstance(NsdInstance nsInstance);
 }

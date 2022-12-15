@@ -24,9 +24,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ubiqube.etsi.mano.dao.mano.InstantiationStatusType;
+import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
+import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
+import com.ubiqube.etsi.mano.nfvo.jpa.NsBlueprintJpa;
 
 /**
  *
@@ -60,6 +63,17 @@ public class UowUtils {
 		LOG.info("VNF Lcm complete with state: {}", state);
 		return tmp;
 	}
+	
+	public static NsBlueprint waitNSLcmCompletion(final NsBlueprint nsLcmOpOccs) {
+		OperationStatusType state = OperationStatusType.PROCESSING;
+		while ((state == OperationStatusType.PROCESSING) || (OperationStatusType.STARTING == state)) {
+			state = nsLcmOpOccs.getOperationStatus();
+			LOG.debug("Instantiate polling: {} => {}", nsLcmOpOccs.getId(), state);
+			sleepSeconds(3);
+		}
+		LOG.info("NS Lcm complete with state: {}", state);
+		return nsLcmOpOccs;
+	}
 
 	public static boolean isVnfLcmRunning(final UUID vnfInstanceId, final BiFunction<Servers, UUID, List<VnfBlueprint>> func, final Servers server) {
 		final List<VnfBlueprint> li = func.apply(server, vnfInstanceId);
@@ -71,6 +85,21 @@ public class UowUtils {
 				.toList();
 		if (!liFilteredByState.isEmpty()) {
 			LOG.info("VNF Lcm operation running with state: {}, cannot launch scale or heal at this time", InstantiationStatusType.STARTING);
+			return true;
+		}
+		return false;
+	}
+	
+	
+	public static boolean isNSLcmRunning(final UUID nsInstanceId, NsBlueprintJpa nsBlueprintJpa) {
+		NsdInstance nsInstance = new NsdInstance();
+		nsInstance.setId(nsInstanceId);
+		List<NsBlueprint> liFilteredByNS = nsBlueprintJpa.findByNsInstance(nsInstance);
+		final List<NsBlueprint> liFilteredByState = liFilteredByNS.stream()
+				.filter(x -> ((x.getOperationStatus() == OperationStatusType.STARTING) || (x.getOperationStatus() == OperationStatusType.PROCESSING)))
+				.toList();
+		if (!liFilteredByState.isEmpty()) {
+			LOG.info("NS Lcm operation running with state: {}, cannot launch scale at this time", InstantiationStatusType.STARTING);
 			return true;
 		}
 		return false;
