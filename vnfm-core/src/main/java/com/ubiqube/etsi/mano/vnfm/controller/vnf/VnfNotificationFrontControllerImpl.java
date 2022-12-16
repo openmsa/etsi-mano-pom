@@ -61,7 +61,7 @@ public class VnfNotificationFrontControllerImpl implements VnfNotificationFrontC
 	@Override
 	public ResponseEntity<Void> onChange(final Object body, final String version) {
 		final VnfPackageChangeNotification event = mapper.map(body, VnfPackageChangeNotification.class);
-		vnfNotificationService.onChange(event, version);
+		vnfNotificationService.onChange(event);
 		return ResponseEntity.noContent().build();
 	}
 

@@ -48,4 +48,5 @@ public class VnfPackageOnboardingNotification {
 
 	private String vnfdId = null;
 
+	private String version;
 }

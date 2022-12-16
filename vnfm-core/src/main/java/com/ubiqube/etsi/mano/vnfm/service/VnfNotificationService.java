@@ -58,24 +58,17 @@ public class VnfNotificationService {
 	}
 
 	public void onNotification(final VnfPackageOnboardingNotification event, final String version) {
-		final Optional<RemoteSubscription> subscription = remoteSubscriptionJpa.findByRemoteSubscriptionId(event.getSubscriptionId());
-		if (subscription.isEmpty()) {
-			LOG.warn("Unable to find notification event {} in database.", event.getSubscriptionId());
-			throw new NotFoundException("Unable to find notification event " + event.getSubscriptionId());
-		}
-		event.setNfvoId(subscription.get().getRemoteServerId());
+		final RemoteSubscription subscription = findRemoteSubscription(event.getSubscriptionId());
+		event.setNfvoId(subscription.getRemoteServerId());
+		event.setVersion(version);
 		final VnfPackageOnboardingNotification newEvent = vnfPackageOnboardingNotificationJpa.save(event);
 		LOG.info("Event received: {} => Id: {}", newEvent.getNfvoId(), newEvent.getId());
 		eventManager.sendActionVnfm(ActionType.VNF_PKG_ONBOARD_DOWNLOAD, newEvent.getId(), new HashMap<>());
 	}
 
-	public void onChange(final VnfPackageChangeNotification event, final String version) {
+	public void onChange(final VnfPackageChangeNotification event) {
 		LOG.info("Receiver Change event {}", event);
-		final Optional<RemoteSubscription> subscription = remoteSubscriptionJpa.findByRemoteSubscriptionId(event.getSubscriptionId());
-		if (subscription.isEmpty()) {
-			LOG.warn("Unable to find change event {} in database.", event.getSubscriptionId());
-			throw new NotFoundException("Unable to find notification event " + event.getSubscriptionId());
-		}
+		findRemoteSubscription(event.getSubscriptionId());
 		if (event.getChangeType() == PackageChangeType.PKG_DELETE) {
 			vnfPackageJpa.deleteByVnfdId(event.getVnfdId());
 		} else {
@@ -88,5 +81,14 @@ public class VnfNotificationService {
 				LOG.warn("Could not find vnfdId {}", event.getVnfdId());
 			}
 		}
+	}
+
+	private RemoteSubscription findRemoteSubscription(final String id) {
+		final Optional<RemoteSubscription> subscription = remoteSubscriptionJpa.findByRemoteSubscriptionId(id);
+		if (subscription.isEmpty()) {
+			LOG.warn("Unable to find change event {} in database.", id);
+			throw new NotFoundException("Unable to find notification event " + id);
+		}
+		return subscription.get();
 	}
 }

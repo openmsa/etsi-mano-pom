@@ -70,6 +70,7 @@ public class VnfmVersionManager {
 		subscription.setCallbackUri(manoProperties.getFrontendUrl() + "/vnfpkgm/v1/notification/onboarding");
 		return manoClientFactory.getClient()
 				.vnfPackage()
+				.subscription()
 				.subscribe(subscription);
 	}
 

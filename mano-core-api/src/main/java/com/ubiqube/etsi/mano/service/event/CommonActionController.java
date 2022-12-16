@@ -16,6 +16,8 @@
  */
 package com.ubiqube.etsi.mano.service.event;
 
+import static com.ubiqube.etsi.mano.Constants.getSafeUUID;
+
 import java.net.URI;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
@@ -26,6 +28,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
@@ -35,6 +38,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.util.UriComponents;
 
 import com.ubiqube.etsi.mano.config.SecurityType;
@@ -61,6 +65,7 @@ import com.ubiqube.etsi.mano.service.event.model.FilterAttributes;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
 import com.ubiqube.etsi.mano.service.rest.FluxRest;
+import com.ubiqube.etsi.mano.service.rest.ManoClient;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
 
 import ma.glasnost.orika.MapperFacade;
@@ -127,6 +132,7 @@ public class CommonActionController {
 	private Servers registerVnfmEx(final ServerAdapter serverAdapter, final Map<String, Object> parameters) {
 		final Servers server = serverAdapter.getServer();
 		extractVersions(server);
+		server.setRemoteSubscriptions(removeStalledSubscription(server.getRemoteSubscriptions()));
 		server.setServerStatus(PlanStatusType.SUCCESS);
 		final Set<RemoteSubscription> remoteSubscription = server.getRemoteSubscriptions();
 		if (!isSubscribe(SubscriptionType.VNFIND, remoteSubscription)) {
@@ -167,8 +173,10 @@ public class CommonActionController {
 	private Servers registerNfvoEx(@NotNull final ServerAdapter serverAdapter, @NotNull final Map<String, Object> parameters) {
 		final Servers server = serverAdapter.getServer();
 		extractVersions(server);
+		server.setRemoteSubscriptions(removeStalledSubscription(server.getRemoteSubscriptions()));
 		final Set<RemoteSubscription> remoteSubscription = server.getRemoteSubscriptions();
-		if (!isSubscribe(SubscriptionType.NSDVNF, remoteSubscription)) {
+		// We probably need to split the subscription in 2.
+		if (!isSubscribe(SubscriptionType.VNF, remoteSubscription)) {
 			addSubscription(serverAdapter, this::vnfPackageOnboardingSubscribe, remoteSubscription);
 			addSubscription(serverAdapter, this::vnfPackageChangeSubscribe, remoteSubscription);
 			extractEndpoint(server);
@@ -272,8 +280,27 @@ public class CommonActionController {
 	}
 
 	private static boolean isSubscribe(final SubscriptionType subscriptionType, final Set<RemoteSubscription> remoteSubscriptions) {
-		final Optional<RemoteSubscription> res = remoteSubscriptions.stream().filter(x -> x.getSubscriptionType() == subscriptionType).findFirst();
-		return res.isPresent();
+		return remoteSubscriptions.stream().anyMatch(x -> x.getSubscriptionType() == subscriptionType);
+	}
+
+	private Set<RemoteSubscription> removeStalledSubscription(final Set<RemoteSubscription> remoteSubscriptions) {
+		return remoteSubscriptions.stream()
+				.filter(this::checkRemoteSubscription)
+				.collect(Collectors.toSet());
+
+	}
+
+	private boolean checkRemoteSubscription(final RemoteSubscription remoteSubscription) {
+		final Servers server = serverService.findById(remoteSubscription.getRemoteServerId());
+		final ServerAdapter sa = serverService.buildServerAdapter(server);
+		final ManoClient mc = new ManoClient(mapper, sa);
+		try {
+			final Subscription res = mc.vnfPackage().subscription().find(getSafeUUID(remoteSubscription.getRemoteSubscriptionId()));
+			return res != null;
+		} catch (final WebClientResponseException.NotFound e) {
+			LOG.trace("", e);
+			return false;
+		}
 	}
 
 	@Nullable

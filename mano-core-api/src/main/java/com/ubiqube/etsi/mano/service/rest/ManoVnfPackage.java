@@ -23,7 +23,6 @@ import java.util.UUID;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.common.ApiVersionType;
 import com.ubiqube.etsi.mano.service.HttpGateway;
-import com.ubiqube.etsi.mano.service.event.model.Subscription;
 
 /**
  *
@@ -51,15 +50,6 @@ public class ManoVnfPackage {
 				.getList();
 	}
 
-	public Subscription subscribe(final Subscription subscription) {
-		client.setFragment("/subscriptions");
-		return client.createQuery()
-				.setWireInClass(HttpGateway::getPkgmSubscriptionRequest)
-				.setWireOutClass(HttpGateway::getVnfPackageSubscriptionClass)
-				.setOutClass(Subscription.class)
-				.post(subscription);
-	}
-
 	public VnfPackage create(final Map<String, String> userDefinedData) {
 		return client.createQuery(httpGateway -> httpGateway.createVnfPackageRequest(userDefinedData))
 				.setWireOutClass(HttpGateway::getVnfPackageClass)
@@ -69,5 +59,9 @@ public class ManoVnfPackage {
 
 	public ManoOnboarded onboarded(final UUID vnfdId) {
 		return new ManoOnboarded(client, vnfdId);
+	}
+
+	public ManoVnfPackageSubscription subscription() {
+		return new ManoVnfPackageSubscription(client);
 	}
 }
