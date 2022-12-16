@@ -24,6 +24,7 @@ import static com.ubiqube.etsi.mano.Constants.ensureNotLocked;
 import static com.ubiqube.etsi.mano.Constants.getSafeUUID;
 import static com.ubiqube.etsi.mano.Constants.getSingleField;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +44,7 @@ import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.controller.vnflcm.VnfInstanceLcm;
 import com.ubiqube.etsi.mano.dao.mano.CancelModeTypeEnum;
+import com.ubiqube.etsi.mano.dao.mano.ExtManagedVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.OnboardingStateType;
 import com.ubiqube.etsi.mano.dao.mano.PackageUsageState;
 import com.ubiqube.etsi.mano.dao.mano.ScaleInfo;
@@ -54,6 +56,7 @@ import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.vnfi.ChangeExtVnfConnRequest;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
+import com.ubiqube.etsi.mano.model.ExternalManagedVirtualLink;
 import com.ubiqube.etsi.mano.model.VnfHealRequest;
 import com.ubiqube.etsi.mano.model.VnfInstantiate;
 import com.ubiqube.etsi.mano.model.VnfOperateRequest;
@@ -187,6 +190,7 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 		}
 
 		VnfBlueprint blueprint = vnfLcmService.createIntatiateOpOcc(vnfInstance);
+		instantiateVnfRequest.setExtManagedVirtualLinks(new ArrayList<ExternalManagedVirtualLink>());
 		mapper.map(instantiateVnfRequest, blueprint);
 		blueprint.getParameters().setScaleStatus(extractScaleStaus(vnfPkg));
 		blueprint = vnfLcmService.save(blueprint);
