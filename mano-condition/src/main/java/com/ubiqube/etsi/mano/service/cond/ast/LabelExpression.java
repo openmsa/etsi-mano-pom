@@ -18,20 +18,10 @@ package com.ubiqube.etsi.mano.service.cond.ast;
 
 import com.ubiqube.etsi.mano.service.cond.Visitor;
 
-public class LabelExpression implements NameExpr {
-
-	private final String name;
-
-	public LabelExpression(final String name) {
-		this.name = name;
-	}
+public record LabelExpression(String name) implements NameExpr {
 
 	public static LabelExpression of(final String n) {
 		return new LabelExpression(n);
-	}
-
-	public String getName() {
-		return name;
 	}
 
 	@Override

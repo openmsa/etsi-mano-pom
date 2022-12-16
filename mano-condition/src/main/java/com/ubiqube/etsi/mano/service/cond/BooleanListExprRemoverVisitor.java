@@ -18,28 +18,14 @@ package com.ubiqube.etsi.mano.service.cond;
 
 import java.util.List;
 
-import com.ubiqube.etsi.mano.service.cond.ast.ArrayValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.AttrHolderExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.BooleanExpression;
 import com.ubiqube.etsi.mano.service.cond.ast.BooleanListExpr;
-import com.ubiqube.etsi.mano.service.cond.ast.BooleanValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.GenericCondition;
-import com.ubiqube.etsi.mano.service.cond.ast.LabelExpression;
-import com.ubiqube.etsi.mano.service.cond.ast.LengthValueExpr;
-import com.ubiqube.etsi.mano.service.cond.ast.MaxLengthValueExpr;
-import com.ubiqube.etsi.mano.service.cond.ast.MinLengthValueExpr;
-import com.ubiqube.etsi.mano.service.cond.ast.NumberValueExpr;
-import com.ubiqube.etsi.mano.service.cond.ast.PatternValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.RangeValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.SizeOfExpr;
-import com.ubiqube.etsi.mano.service.cond.ast.TestValueExpr;
 
-public class BooleanListExprRemoverVisitor implements Visitor<Node, BooleanOperatorEnum> {
-
-	@Override
-	public Node visit(final BooleanValueExpr booleanValueExpr, final BooleanOperatorEnum arg) {
-		return booleanValueExpr;
-	}
+public class BooleanListExprRemoverVisitor extends SimpleNodeReturn<BooleanOperatorEnum> {
 
 	@Override
 	public Node visit(final BooleanListExpr booleanListExpr, final BooleanOperatorEnum arg) {
@@ -110,56 +96,6 @@ public class BooleanListExprRemoverVisitor implements Visitor<Node, BooleanOpera
 			conds.remove(0);
 		}
 		return root;
-	}
-
-	@Override
-	public Node visit(final RangeValueExpr rangeValueExpr, final BooleanOperatorEnum arg) {
-		return rangeValueExpr;
-	}
-
-	@Override
-	public Node visit(final LengthValueExpr lengthValueExpr, final BooleanOperatorEnum arg) {
-		return lengthValueExpr;
-	}
-
-	@Override
-	public Node visit(final MinLengthValueExpr minLengthValueExpr, final BooleanOperatorEnum arg) {
-		return minLengthValueExpr;
-	}
-
-	@Override
-	public Node visit(final MaxLengthValueExpr maxLengthValueExpr, final BooleanOperatorEnum arg) {
-		return maxLengthValueExpr;
-	}
-
-	@Override
-	public Node visit(final PatternValueExpr patternValueExpr, final BooleanOperatorEnum arg) {
-		return patternValueExpr;
-	}
-
-	@Override
-	public Node visit(final GenericCondition genericCondition, final BooleanOperatorEnum arg) {
-		return genericCondition;
-	}
-
-	@Override
-	public Node visit(final TestValueExpr testValueExpr, final BooleanOperatorEnum arg) {
-		return testValueExpr;
-	}
-
-	@Override
-	public Node visit(final NumberValueExpr numberValueExpr, final BooleanOperatorEnum arg) {
-		return numberValueExpr;
-	}
-
-	@Override
-	public Node visit(final ArrayValueExpr arrayValueExpr, final BooleanOperatorEnum arg) {
-		return arrayValueExpr;
-	}
-
-	@Override
-	public Node visit(final LabelExpression expr, final BooleanOperatorEnum arg) {
-		return expr;
 	}
 
 	@Override

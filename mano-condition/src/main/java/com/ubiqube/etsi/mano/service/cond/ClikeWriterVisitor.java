@@ -97,12 +97,12 @@ public class ClikeWriterVisitor implements Visitor<String, Void> {
 
 	@Override
 	public String visit(final TestValueExpr expr, final Void arg) {
-		return "\"" + expr.getValue() + "\"";
+		return "\"" + expr.value() + "\"";
 	}
 
 	@Override
 	public String visit(final NumberValueExpr expr, final Void arg) {
-		return expr.getValue() + "";
+		return expr.value() + "";
 	}
 
 	@Override
@@ -112,7 +112,7 @@ public class ClikeWriterVisitor implements Visitor<String, Void> {
 
 	@Override
 	public String visit(final LabelExpression expr, final Void arg) {
-		return expr.getName();
+		return expr.name();
 	}
 
 	@Override

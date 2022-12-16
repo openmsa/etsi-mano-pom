@@ -35,7 +35,7 @@ public class PrintVisitor implements Visitor<String, Integer> {
 
 	@Override
 	public String visit(final BooleanValueExpr booleanValueExpr, final Integer arg) {
-		booleanValueExpr.isValue();
+		booleanValueExpr.value();
 		return " booleanValueExpr ";
 	}
 
@@ -122,7 +122,7 @@ public class PrintVisitor implements Visitor<String, Integer> {
 	public String visit(final TestValueExpr testValueExpr, final Integer arg) {
 		return new StringBuffer(indent(arg))
 				.append("TEST_VALUE \"")
-				.append(testValueExpr.getValue())
+				.append(testValueExpr.value())
 				.append("\"\n")
 				.toString();
 	}
@@ -131,7 +131,7 @@ public class PrintVisitor implements Visitor<String, Integer> {
 	public String visit(final NumberValueExpr numberValueExpr, final Integer arg) {
 		return new StringBuffer(indent(arg))
 				.append("NUMBER ")
-				.append(numberValueExpr.getValue())
+				.append(numberValueExpr.value())
 				.append("\n")
 				.toString();
 	}
@@ -157,7 +157,7 @@ public class PrintVisitor implements Visitor<String, Integer> {
 	public String visit(final LabelExpression expr, final Integer arg) {
 		return new StringBuffer(indent(arg))
 				.append("LABEL ")
-				.append(expr.getName())
+				.append(expr.name())
 				.append("\n")
 				.toString();
 	}

@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.service.cond;
 
+import java.util.List;
 import java.util.regex.Matcher;
 
 import com.ubiqube.etsi.mano.service.cond.ast.ArrayValueExpr;
@@ -78,17 +79,16 @@ public class EvaluatorVisitor implements Visitor<Boolean, Context> {
 		if (!(left instanceof final LabelExpression le)) {
 			throw new AstException(" " + left.getClass().getSimpleName());
 		}
-		final Object val = arg.lookup(le.getName());
+		final Object val = arg.lookup(le.name());
 		if (val == null) {
 			return false;
 		}
-		final String str = convert(val, String.class);
-		System.out.println("" + left.getClass().getSimpleName());
+		final String str = convert(val);
 		final Matcher m = expr.getP().matcher(str);
 		return m.find();
 	}
 
-	private static String convert(final Object val, final Class<?> class1) {
+	private static String convert(final Object val) {
 		return val.toString();
 	}
 
@@ -105,24 +105,92 @@ public class EvaluatorVisitor implements Visitor<Boolean, Context> {
 			};
 		}
 		final Node left = expr.getLeft();
-		if (left instanceof final LabelExpression le) {
-			final Object val = arg.lookup(le.getName());
-		} else if (left instanceof final SizeOfExpr soe) {
-			final Node node = soe.getLeft();
-			final Object val = getValueOf(node, arg);
-			System.out.println("" + soe);
-		} else {
-			throw new AstException(" " + left.getClass().getSimpleName());
-		}
+		final Object lValue = getValue(left, arg);
+		final Node right = expr.getRight();
+		final Object rValue = getValue(right, arg);
+		return evaluate(lValue, rValue, op);
+	}
 
-		return false;
+	private Object getValue(final Node node, final Context arg) {
+		if (node instanceof final LabelExpression le) {
+			return arg.lookup(le.name());
+		}
+		if (node instanceof final SizeOfExpr soe) {
+			final Node n = soe.getLeft();
+			final Object lValue = getValueOf(n, arg);
+			return doSizeof(lValue);
+		}
+		if (node instanceof final TestValueExpr tve) {
+			return tve.value();
+		}
+		if (node instanceof final NumberValueExpr nve) {
+			return nve.value();
+		}
+		throw new AstException(" " + node.getClass().getSimpleName());
+	}
+
+	private Boolean evaluate(final Object lValue, final Object rValue, final Operator op) {
+		if (op == Operator.EQUAL) {
+			return lValue == rValue;
+		}
+		if (op == Operator.NOT) {
+			return lValue != rValue;
+		}
+		if ((op == Operator.LESS_THAN) || (op == Operator.LESS_OR_EQUAL) || (op == Operator.GREATER_OR_EQUAL) || (op == Operator.GREATER_THAN)) {
+			return compareNumber(lValue, rValue, op);
+		}
+		throw new AstException("Unknown operator: " + op);
+	}
+
+	private Boolean compareNumber(final Object lValue, final Object rValue, final Operator op) {
+		final Double valLeft = convertToDouble(lValue);
+		final Double valRight = convertToDouble(rValue);
+		if (op == Operator.LESS_THAN) {
+			return valLeft < valRight;
+		}
+		if (op == Operator.LESS_OR_EQUAL) {
+			return valLeft <= valRight;
+		}
+		if (op == Operator.GREATER_THAN) {
+			return valLeft > valRight;
+		}
+		if (op == Operator.GREATER_OR_EQUAL) {
+			return valLeft >= valRight;
+		}
+		throw new AstException("Unknown operator " + op);
+	}
+
+	private Double convertToDouble(final Object value) {
+		if (value instanceof final Double d2) {
+			return d2;
+		}
+		if (value instanceof final Long l) {
+			return Double.valueOf(l);
+		}
+		if (value instanceof final Integer i) {
+			return Double.valueOf(i);
+		}
+		if (value instanceof String) {
+			return Double.valueOf(value.toString());
+		}
+		throw new AstException("Error evaluating number, cannot cast left=" + value.getClass() + "=" + value);
+	}
+
+	private Object doSizeof(final Object val) {
+		if (val instanceof final List<?> l) {
+			return l.size();
+		}
+		if (val instanceof final String s) {
+			return s.length();
+		}
+		throw new IllegalArgumentException("Object of type " + val.getClass().getSimpleName() + " doesn't have a lenght.");
 	}
 
 	private static Object getValueOf(final Node node, final Context ctx) {
 		if (node instanceof final LabelExpression le) {
-			return ctx.lookup(le.getName());
+			return ctx.lookup(le.name());
 		}
-		return null;
+		throw new IllegalArgumentException("Type of node: " + node.getClass().getSimpleName() + " is inknown.");
 	}
 
 	@Override
@@ -147,8 +215,7 @@ public class EvaluatorVisitor implements Visitor<Boolean, Context> {
 
 	@Override
 	public Boolean visit(final SizeOfExpr expr, final Context arg) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new AstException(ILLEGAL_CALL);
 	}
 
 }

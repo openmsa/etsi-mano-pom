@@ -16,11 +16,36 @@
  */
 package com.ubiqube.etsi.mano.service.cond;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class TestContext implements Context {
+	private static final Logger LOG = LoggerFactory.getLogger(TestContext.class);
+
+	private final Map<String, Object> map = new HashMap<>();
+
+	public TestContext() {
+		map.put("my_attribute", "my_attribute");
+		map.put("my_second", "6.7");
+		map.put("my_other_attribute", "my_other_attribute");
+		map.put("another", "a string with some space");
+		map.put("aaa", "Hello");
+		map.put("aab", List.of("A string", "Another string"));
+		map.put("aac", "1.234");
+		map.put("aad", 1.234);
+		map.put("four", 4L);
+		map.put("five", 5L);
+	}
 
 	@Override
 	public Object lookup(final String name) {
-		return null;
+		final Object val = map.get(name);
+		LOG.debug("Lookup for {}={}", name, val);
+		return val;
 	}
 
 }

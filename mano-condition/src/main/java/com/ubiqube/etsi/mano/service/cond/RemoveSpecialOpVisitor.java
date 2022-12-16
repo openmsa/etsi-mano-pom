@@ -16,27 +16,17 @@
  */
 package com.ubiqube.etsi.mano.service.cond;
 
-import com.ubiqube.etsi.mano.service.cond.ast.ArrayValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.AttrHolderExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.BooleanListExpr;
-import com.ubiqube.etsi.mano.service.cond.ast.BooleanValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.GenericCondition;
-import com.ubiqube.etsi.mano.service.cond.ast.LabelExpression;
 import com.ubiqube.etsi.mano.service.cond.ast.LengthValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.MaxLengthValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.MinLengthValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.NumberValueExpr;
-import com.ubiqube.etsi.mano.service.cond.ast.PatternValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.RangeValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.SizeOfExpr;
-import com.ubiqube.etsi.mano.service.cond.ast.TestValueExpr;
 
-public class RemoveSpecialOpVisitor implements Visitor<Node, Void> {
-
-	@Override
-	public Node visit(final BooleanValueExpr expr, final Void arg) {
-		return expr;
-	}
+public class RemoveSpecialOpVisitor extends SimpleNodeReturn<Void> {
 
 	@Override
 	public Node visit(final BooleanListExpr expr, final Void arg) {
@@ -80,34 +70,9 @@ public class RemoveSpecialOpVisitor implements Visitor<Node, Void> {
 	}
 
 	@Override
-	public Node visit(final PatternValueExpr expr, final Void arg) {
-		return expr;
-	}
-
-	@Override
 	public Node visit(final GenericCondition expr, final Void arg) {
 		expr.setLeft(expr.getLeft().accept(this, arg));
 		expr.setRight(expr.getRight().accept(this, arg));
-		return expr;
-	}
-
-	@Override
-	public Node visit(final TestValueExpr expr, final Void arg) {
-		return expr;
-	}
-
-	@Override
-	public Node visit(final NumberValueExpr expr, final Void arg) {
-		return expr;
-	}
-
-	@Override
-	public Node visit(final ArrayValueExpr expr, final Void arg) {
-		return expr;
-	}
-
-	@Override
-	public Node visit(final LabelExpression expr, final Void arg) {
 		return expr;
 	}
 
