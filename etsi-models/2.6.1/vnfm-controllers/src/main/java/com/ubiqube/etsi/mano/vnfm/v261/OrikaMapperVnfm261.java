@@ -216,6 +216,7 @@ public class OrikaMapperVnfm261 implements OrikaMapperFactoryConfigurer {
 				.field("networkResource.vimConnectionId", "vimConnectionId")
 				.field("networkResource.resourceProviderId", "resourceProviderId")
 				.field("networkResource.resourceId", "resourceId")
+				.field("vnfVirtualLinkDescId", "vnfVirtualLinkDescId")
 				.field("networkResource.vimLevelResourceType", "vimLevelResourceType")
 				.byDefault()
 				.register();
