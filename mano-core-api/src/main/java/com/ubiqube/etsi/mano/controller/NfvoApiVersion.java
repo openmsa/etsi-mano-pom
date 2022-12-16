@@ -63,6 +63,7 @@ public class NfvoApiVersion {
 	private final MultiValueMap<String, String> dedupe = new LinkedMultiValueMap<>();
 
 	private final ApplicationContext applicationContext;
+	private static final Set<String> FRAGMENTS = new HashSet<>(Arrays.asList("/vrqan/", "/vnfpkgm/", "/grant/", "/vnfpm/", "/vnflcm/", "/vnfind/", "/vnffm/", "/vrgan/", "/nsd/", "/nsfm/", "/nslcm/", "/nspm/", "/vnfpkgm/", "/vnfconfig/", "/vnfsnapshotpkgm/", "/nsiun/"));
 
 	public NfvoApiVersion(final ApplicationContext applicationContext) {
 		this.applicationContext = applicationContext;
@@ -75,30 +76,34 @@ public class NfvoApiVersion {
 		final Map<String, Endpoint> res = new HashMap<>();
 		list.stream().forEach(x -> {
 			LOG.debug("Reading: {}", x);
-			if ("nfvoApiVersion".equals(x) || "vnfmApiVersion".equals(x) || "swaggerWelcome".equals(x)) {
+			if (isSkippable(x)) {
 				return;
 			}
 			final Object obj = applicationContext.getBean(x);
 			final RequestMapping req = AnnotationUtils.findAnnotation(obj.getClass(), RequestMapping.class);
-			if (null != req && req.headers() != null) {
+			if (haveUsableRequest(req)) {
 				final List<String> version = getVersion(req.headers());
-				if (!version.isEmpty() && req.value().length > 0) {
-					final String part = findMatch(req.value()[0]);
-					if (null == part) {
-						LOG.warn("Ignoring controller: {}", x);
-					} else {
-						version.forEach(y -> res.put(part + y, new Endpoint(part, y)));
-					}
+				final String part = findMatch(req.value()[0]);
+				if (null == part) {
+					LOG.warn("Ignoring controller: {}", x);
+				} else {
+					version.forEach(y -> res.put(part + y, new Endpoint(part, y)));
 				}
 			}
 		});
-
 		res.entrySet().forEach(x -> dedupe.add(x.getValue().part, x.getValue().version));
 	}
 
+	private static boolean haveUsableRequest(final RequestMapping req) {
+		return (null != req) && (req.headers() != null) && (req.value().length > 0);
+	}
+
+	private static boolean isSkippable(final String versionName) {
+		return "nfvoApiVersion".equals(versionName) || "vnfmApiVersion".equals(versionName) || "swaggerWelcome".equals(versionName);
+	}
+
 	private static String findMatch(final String url) {
-		final Set<String> mutableSet = new HashSet<>(Arrays.asList("/vrqan/", "/vnfpkgm/", "/grant/", "/vnfpm/", "/vnflcm/", "/vnfind/", "/vnffm/", "/vrgan/", "/nsd/", "/nsfm/", "/nslcm/", "/nspm/", "/vnfpkgm/", "/vnfconfig/", "/vnfsnapshotpkgm/", "/nsiun/"));
-		for (final String string : mutableSet) {
+		for (final String string : FRAGMENTS) {
 			if (url.contains(string)) {
 				return getFragment(url, string);
 			}
