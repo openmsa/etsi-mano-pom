@@ -174,6 +174,7 @@ public class ServerService {
 		case VNFLCM -> ApiVersionType.SOL003_VNFLCM;
 		case VNFIND -> ApiVersionType.SOL003_VNFIND;
 		case VRQAN -> ApiVersionType.SOL003_VRQAN;
+		case VNFPM -> ApiVersionType.SOL003_VNFPM;
 		default -> throw new GenericException("unable to find " + subscriptionType);
 		};
 	}
