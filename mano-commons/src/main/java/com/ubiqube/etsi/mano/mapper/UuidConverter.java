@@ -39,7 +39,7 @@ public class UuidConverter extends BidirectionalConverter<String, UUID> {
 		try {
 			return UUID.fromString(source);
 		} catch (final RuntimeException e) {
-			LOG.error("Just break here.");
+			LOG.error("Just break here. content was: {}", source);
 			throw e;
 		}
 	}

@@ -44,4 +44,6 @@ public class ExtLinkPortDataEntity extends VnfInstantiatedBase {
 	@Embedded
 	private ResourceHandle resourceHandle;
 
+	// 2.7.1
+	private String cpInstanceId;
 }

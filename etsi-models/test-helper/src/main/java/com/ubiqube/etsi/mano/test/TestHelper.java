@@ -118,8 +118,8 @@ public class TestHelper {
 				assertNotNull(dst, "Target element is null for field: " + methodName + prettyStack(stack));
 				assertFullEqual(src, dst, ignore, stack);
 			} else {
-				if (methodName.equals("getResourceProviderId")) {
-					LOG.debug("Heelo");
+				if (methodName.equals("getVnfPkgId")) {
+					LOG.debug("Hello");
 				}
 				assertEquals(src, dst, "Field " + methodName + ": must be equals." + prettyStack(stack));
 			}

@@ -56,6 +56,9 @@ public class ExtVirtualLinkDataEntity implements Serializable {
 
 	private String resourceId;
 
+	// 2.7.1
+	private String vimLevelResourceType;
+
 	@Valid
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<VnfExtCpDataEntity> extCps = new LinkedHashSet<>();

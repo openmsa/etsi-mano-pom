@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.dao.mano.v2;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Nullable;
@@ -227,4 +228,8 @@ public class BlueprintParameters implements Serializable {
 	@Type(type = "jsonb")
 	@Column(columnDefinition = "json")
 	private UpdateRequest updData;
+
+	// 2.7.1
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<ScaleInfo> maxScaleLevels;
 }

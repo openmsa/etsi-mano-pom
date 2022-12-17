@@ -43,7 +43,9 @@ public class UUIDManufacturer extends StringTypeManufacturerImpl {
 		list.add("cpdId");
 		list.add("extManagedVirtualLinkId");
 		list.add("vnfLcmOpOccId");
-
+		// Added 2.7.1
+		list.add("vnfPkgId");
+		list.add("vnfVirtualLinkDescId");
 	}
 
 	@Override

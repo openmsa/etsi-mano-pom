@@ -81,6 +81,9 @@ public class AdditionalArtifact implements Serializable {
 
 	private String certificate;
 
+	// 2.7.1
+	private String nonManoArtifactSetId;
+
 	@Override
 	public String toString() {
 		return ToStringUtil.toString(this);
