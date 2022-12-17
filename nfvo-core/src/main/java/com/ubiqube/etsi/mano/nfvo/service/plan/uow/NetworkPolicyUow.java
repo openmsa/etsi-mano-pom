@@ -44,10 +44,11 @@ public class NetworkPolicyUow extends AbstractUnitOfWork<NetworkPolicyTask> {
 	public String execute(final Context3d context) {
 		final ContrailApi api = new ContrailApi();
 		final NetworkPolicyTask p = getTask().getTemplateParameters();
-		final String serviceInstance = context.get(ServiceInstanceNode.class, p.getServiceInstance());
+		final String serviceInstance = context.get(ServiceInstanceNode.class, p.getToscaName());
 		final String left = context.get(Network.class, p.getLeftId());
 		final String right = context.get(Network.class, p.getRightId());
-		return api.createNetworkPolicy(vimConnectionInformation, p.getToscaName(), p.getClassifier(), serviceInstance, left, right);
+		final String name = UowNameHelper.buildName(p.getToscaName(), p.getInstanceId());
+		return api.createNetworkPolicy(vimConnectionInformation, name, p.getClassifier(), serviceInstance, left, right);
 	}
 
 	@Override

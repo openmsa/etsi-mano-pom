@@ -117,7 +117,7 @@ public class NsPlanService {
 				// g.from(ServiceInstanceNode.class, y.getToscaName()).addNext(PolicyRule.class,
 				// y.getToscaName(), Relation.ONE_TO_ONE)
 				g.single(NetworkPolicyNode.class, y.getToscaName());
-				g.from(NetworkPolicyNode.class, y.getToscaName()).dependency(ServiceInstanceNode.class, y.getToscaName(), Relation.ONE_TO_MANY);
+				g.from(NetworkPolicyNode.class, y.getToscaName()).dependency(ServiceInstanceNode.class, y.getToscaName(), Relation.ONE_TO_ONE);
 				// Add Networks.
 				y.getPairs().forEach(z -> {
 					g.from(ServiceInstanceNode.class, y.getToscaName()).addNext(PortTupleNode.class, z.getToscaName(), Relation.MANY_TO_ONE);

@@ -88,6 +88,7 @@ public class ContrailContributor extends AbstractNsdContributorV3<Object> {
 				npt.setLeftId(cp.getIngressVl());
 				npt.setRightId(cp.getEgressVl());
 				npt.setInstanceId(instanceId);
+				npt.setToscaName(y.getToscaName());
 				ret.add(create(NetworkPolicyNode.class, npt.getClass(), npt.getToscaName(), 1, npt, parameters.getInstance(), parameters));
 			});
 		});
