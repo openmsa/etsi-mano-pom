@@ -120,7 +120,6 @@ public class SystemService {
 				HelmNode.class,
 				VnffgLoadbalancerNode.class,
 				VnffgPostNode.class,
-				NetworkPolicyNode.class,
 				SubNetwork.class,
 		};
 		for (final Class<?> string : sysDtr) {
@@ -132,6 +131,7 @@ public class SystemService {
 				ServiceTemplateNode.class,
 				PortTupleNode.class,
 				PortPairNode.class,
+				NetworkPolicyNode.class,
 		};
 		if (vimConnectionInformation.getInterfaceInfo().get("sdn-endpoint") != null) {
 			for (final Class<?> string : sysContrail) {
