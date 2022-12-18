@@ -36,7 +36,7 @@ import com.ubiqube.etsi.mano.vnfm.v281.model.grant.GrantRequest;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public class MappingTest extends TestHelper {
+class MappingTest extends TestHelper {
 
 	public MappingTest() {
 		super(new OrikaMapperVnfm281());
