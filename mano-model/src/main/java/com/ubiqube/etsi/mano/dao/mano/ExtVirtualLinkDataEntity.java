@@ -17,9 +17,7 @@
 package com.ubiqube.etsi.mano.dao.mano;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -73,5 +71,6 @@ public class ExtVirtualLinkDataEntity implements Serializable {
 	private VnfInstance vnfInstance;
 
 	// 3.3.1
-	private List<VnfExtCpDataEntity> currentVnfExtCpData = new ArrayList<>();
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Set<VnfExtCpDataEntity> currentVnfExtCpData;
 }
