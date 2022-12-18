@@ -24,6 +24,7 @@ import org.junit.jupiter.api.Test;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
+import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 import com.ubiqube.etsi.mano.nfvo.v281.OrikaConfigurationNfvo281;
 import com.ubiqube.etsi.mano.nfvo.v281.model.nsd.NsdInfo;
@@ -32,7 +33,7 @@ import com.ubiqube.etsi.mano.nfvo.v281.model.nslcm.NsLcmOpOcc;
 import com.ubiqube.etsi.mano.test.TestHelper;
 import com.ubiqube.etsi.mano.vnfm.v281.model.grant.GrantRequest;
 
-public class MappingTest extends TestHelper {
+class MappingTest extends TestHelper {
 
 	public MappingTest() {
 		super(new OrikaConfigurationNfvo281());
@@ -81,6 +82,14 @@ public class MappingTest extends TestHelper {
 		ignore.add("getMonitoringParameter");
 		ignore.add("getNsScaleStatus");
 		doTest(NsInstance.class, NsdInstance.class, ignore);
+	}
+
+	@Test
+	void testVnfInstance() throws Exception {
+		final Set<String> ignore = new HashSet<>();
+		ignore.add("getLinks");
+		ignore.add("getExtLinkPortId");
+		doTest(com.ubiqube.etsi.mano.em.v281.model.vnflcm.VnfInstance.class, VnfInstance.class, ignore);
 	}
 
 }

@@ -28,7 +28,7 @@ import com.ubiqube.etsi.mano.nfvo.v261.model.nsd.sol005.NsdInfo;
 import com.ubiqube.etsi.mano.nfvo.v261.model.nslcm.NsLcmOpOcc;
 import com.ubiqube.etsi.mano.test.TestHelper;
 
-public class AutoTest extends TestHelper {
+class AutoTest extends TestHelper {
 
 	public AutoTest() {
 		super(new OrikaConfigurationNfvo261());
