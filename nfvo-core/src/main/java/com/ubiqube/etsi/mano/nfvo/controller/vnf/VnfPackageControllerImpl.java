@@ -36,7 +36,7 @@ import com.ubiqube.etsi.mano.dao.mano.pkg.UploadUriParameters;
 import com.ubiqube.etsi.mano.exception.ConflictException;
 import com.ubiqube.etsi.mano.exception.PreConditionException;
 import com.ubiqube.etsi.mano.nfvo.factory.VnfPackageFactory;
-import com.ubiqube.etsi.mano.nfvo.jpa.NsdPackageVnfPackageJpa;
+import com.ubiqube.etsi.mano.nfvo.service.NsdPackageVnfPackageService;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 import com.ubiqube.etsi.mano.service.Patcher;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
@@ -50,15 +50,15 @@ public class VnfPackageControllerImpl implements VnfPackageController {
 	private final Patcher patcher;
 	private final EventManager eventManager;
 	private final VnfPackageRepository vnfPackageRepository;
-	private final NsdPackageVnfPackageJpa nsdPackageVnfPackageJpa;
+	private final NsdPackageVnfPackageService nsdPackageVnfPackageService;
 
 	public VnfPackageControllerImpl(final Patcher patcher, final EventManager eventManager, final VnfPackageService vnfPackageService,
-			final VnfPackageRepository vnfPackageRepository, final NsdPackageVnfPackageJpa nsdPackageVnfPackageJpa) {
+			final VnfPackageRepository vnfPackageRepository, final NsdPackageVnfPackageService nsdPackageVnfPackageService) {
 		this.patcher = patcher;
 		this.eventManager = eventManager;
 		this.vnfPackageService = vnfPackageService;
 		this.vnfPackageRepository = vnfPackageRepository;
-		this.nsdPackageVnfPackageJpa = nsdPackageVnfPackageJpa;
+		this.nsdPackageVnfPackageService = nsdPackageVnfPackageService;
 	}
 
 	@Override
@@ -72,7 +72,7 @@ public class VnfPackageControllerImpl implements VnfPackageController {
 		final VnfPackage vnfPackage = vnfPackageService.findById(id);
 		ensureDisabled(vnfPackage);
 		ensureNotInUse(vnfPackage);
-		final Set<NsdPackageVnfPackage> res = nsdPackageVnfPackageJpa.findByVnfdId(vnfPackage.getVnfdId());
+		final Set<NsdPackageVnfPackage> res = nsdPackageVnfPackageService.findByVnfdId(vnfPackage.getVnfdId());
 		if (!res.isEmpty()) {
 			final String error = res.stream()
 					.map(NsdPackageVnfPackage::getNsdPackage)
