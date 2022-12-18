@@ -85,6 +85,8 @@ public class OrikaMapperVnfm331 implements OrikaMapperFactoryConfigurer {
 	public void configure(final MapperFactory orikaMapperFactory) {
 		orikaMapperFactory.classMap(com.ubiqube.etsi.mano.em.v331.model.vnflcm.VnfInstance.class, VnfInstance.class)
 				.field("instantiatedVnfInfo.extVirtualLinkInfo", "instantiatedVnfInfo.extVirtualLinkInfo")
+				.field("instantiatedVnfInfo.vnfVirtualLinkResourceInfo", "instantiatedVnfInfo.virtualLinkResourceInfo")
+				.field("instantiatedVnfInfo.vnfVirtualStorageResourceInfo", "instantiatedVnfInfo.virtualStorageResourceInfo")
 				.field("metadata{key}", "metadata{key}")
 				.field("metadata{value}", "metadata{value}")
 				.field("vimConnectionInfo{value}", "vimConnectionInfo")
@@ -221,7 +223,7 @@ public class OrikaMapperVnfm331 implements OrikaMapperFactoryConfigurer {
 				.field("resourceHandle.vimConnectionId", "vimConnectionId")
 				.field("resourceHandle.resourceProviderId", "resourceProviderId")
 				.field("resourceHandle.resourceId", "resourceId")
-				// .field("resourceHandle.vimLevelResourceType", "vimLevelResourceType")
+				.field("resourceHandle.vimLevelResourceType", "vimLevelResourceType")
 				.byDefault()
 				.register();
 		orikaMapperFactory.classMap(ExtManagedVirtualLinkInfo.class, ExtManagedVirtualLinkDataEntity.class)

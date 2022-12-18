@@ -16,181 +16,223 @@
  */
 package com.ubiqube.etsi.mano.em.v331.model.vnflcm;
 
-import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Map;
-import io.swagger.v3.oas.annotations.media.Schema;
-import org.springframework.validation.annotation.Validated;
+import java.util.Objects;
+
 import javax.validation.Valid;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.validation.annotation.Validated;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * This type represents the information about a VNFC instance that is part of a VNF instance. It shall comply with the provisions defined in table 5.5.3.23-1. 
+ * This type represents the information about a VNFC instance that is part of a
+ * VNF instance. It shall comply with the provisions defined in table
+ * 5.5.3.23-1.
  */
 @Schema(description = "This type represents the information about a VNFC instance that is part of a VNF instance. It shall comply with the provisions defined in table 5.5.3.23-1. ")
 @Validated
 
+public class VnfcInfo {
+	@JsonProperty("id")
+	private String id = null;
 
-public class VnfcInfo   {
-  @JsonProperty("id")
-  private String id = null;
+	@JsonProperty("vduId")
+	private String vduId = null;
 
-  @JsonProperty("vduId")
-  private String vduId = null;
+	@JsonProperty("vnfcResourceInfoId")
+	private String vnfcResourceInfoId = null;
 
-  @JsonProperty("vnfcResourceInfoId")
-  private String vnfcResourceInfoId = null;
+	/**
+	 * State of the VNFC instance. Permitted values: • STARTED: The VNFC instance is
+	 * up and running. • STOPPED: The VNFC instance has been shut down
+	 */
+	public enum VnfcStateEnum {
+		STARTED("STARTED"),
 
-  @JsonProperty("vnfcState")
-  private String vnfcState = null;
+		STOPPED("STOPPED");
 
-  @JsonProperty("vnfcConfigurableProperties")
-  private Map<String, String> vnfcConfigurableProperties = null;
+		private final String value;
 
-  public VnfcInfo id(String id) {
-    this.id = id;
-    return this;
-  }
+		VnfcStateEnum(final String value) {
+			this.value = value;
+		}
 
-  /**
-   * Get id
-   * @return id
-   **/
-  @Schema(required = true, description = "")
-      @NotNull
+		@Override
+		@JsonValue
+		public String toString() {
+			return String.valueOf(value);
+		}
 
-    public String getId() {
-    return id;
-  }
+		@JsonCreator
+		public static VnfcStateEnum fromValue(final String text) {
+			for (final VnfcStateEnum b : VnfcStateEnum.values()) {
+				if (String.valueOf(b.value).equals(text)) {
+					return b;
+				}
+			}
+			return null;
+		}
+	}
 
-  public void setId(String id) {
-    this.id = id;
-  }
+	@JsonProperty("vnfcState")
+	private VnfcStateEnum vnfcState = null;
 
-  public VnfcInfo vduId(String vduId) {
-    this.vduId = vduId;
-    return this;
-  }
+	@JsonProperty("vnfcConfigurableProperties")
+	private Map<String, String> vnfcConfigurableProperties = null;
 
-  /**
-   * Get vduId
-   * @return vduId
-   **/
-  @Schema(required = true, description = "")
-      @NotNull
+	public VnfcInfo id(final String id) {
+		this.id = id;
+		return this;
+	}
 
-    public String getVduId() {
-    return vduId;
-  }
+	/**
+	 * Get id
+	 *
+	 * @return id
+	 **/
+	@Schema(required = true, description = "")
+	@NotNull
 
-  public void setVduId(String vduId) {
-    this.vduId = vduId;
-  }
+	public String getId() {
+		return id;
+	}
 
-  public VnfcInfo vnfcResourceInfoId(String vnfcResourceInfoId) {
-    this.vnfcResourceInfoId = vnfcResourceInfoId;
-    return this;
-  }
+	public void setId(final String id) {
+		this.id = id;
+	}
 
-  /**
-   * Get vnfcResourceInfoId
-   * @return vnfcResourceInfoId
-   **/
-  @Schema(description = "")
-  
-    public String getVnfcResourceInfoId() {
-    return vnfcResourceInfoId;
-  }
+	public VnfcInfo vduId(final String vduId) {
+		this.vduId = vduId;
+		return this;
+	}
 
-  public void setVnfcResourceInfoId(String vnfcResourceInfoId) {
-    this.vnfcResourceInfoId = vnfcResourceInfoId;
-  }
+	/**
+	 * Get vduId
+	 *
+	 * @return vduId
+	 **/
+	@Schema(required = true, description = "")
+	@NotNull
 
-  public VnfcInfo vnfcState(String vnfcState) {
-    this.vnfcState = vnfcState;
-    return this;
-  }
+	public String getVduId() {
+		return vduId;
+	}
 
-  /**
-   * Get vnfcState
-   * @return vnfcState
-   **/
-  @Schema(required = true, description = "")
-      @NotNull
+	public void setVduId(final String vduId) {
+		this.vduId = vduId;
+	}
 
-    public String getVnfcState() {
-    return vnfcState;
-  }
+	public VnfcInfo vnfcResourceInfoId(final String vnfcResourceInfoId) {
+		this.vnfcResourceInfoId = vnfcResourceInfoId;
+		return this;
+	}
 
-  public void setVnfcState(String vnfcState) {
-    this.vnfcState = vnfcState;
-  }
+	/**
+	 * Get vnfcResourceInfoId
+	 *
+	 * @return vnfcResourceInfoId
+	 **/
+	@Schema(description = "")
 
-  public VnfcInfo vnfcConfigurableProperties(Map<String, String> vnfcConfigurableProperties) {
-    this.vnfcConfigurableProperties = vnfcConfigurableProperties;
-    return this;
-  }
+	public String getVnfcResourceInfoId() {
+		return vnfcResourceInfoId;
+	}
 
-  /**
-   * Get vnfcConfigurableProperties
-   * @return vnfcConfigurableProperties
-   **/
-  @Schema(description = "")
-  
-    @Valid
-    public Map<String, String> getVnfcConfigurableProperties() {
-    return vnfcConfigurableProperties;
-  }
+	public void setVnfcResourceInfoId(final String vnfcResourceInfoId) {
+		this.vnfcResourceInfoId = vnfcResourceInfoId;
+	}
 
-  public void setVnfcConfigurableProperties(Map<String, String> vnfcConfigurableProperties) {
-    this.vnfcConfigurableProperties = vnfcConfigurableProperties;
-  }
+	public VnfcInfo vnfcState(final VnfcStateEnum vnfcState) {
+		this.vnfcState = vnfcState;
+		return this;
+	}
 
+	/**
+	 * Get vnfcState
+	 *
+	 * @return vnfcState
+	 **/
+	@Schema(required = true, description = "")
+	@NotNull
 
-  @Override
-  public boolean equals(java.lang.Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    VnfcInfo vnfcInfo = (VnfcInfo) o;
-    return Objects.equals(this.id, vnfcInfo.id) &&
-        Objects.equals(this.vduId, vnfcInfo.vduId) &&
-        Objects.equals(this.vnfcResourceInfoId, vnfcInfo.vnfcResourceInfoId) &&
-        Objects.equals(this.vnfcState, vnfcInfo.vnfcState) &&
-        Objects.equals(this.vnfcConfigurableProperties, vnfcInfo.vnfcConfigurableProperties);
-  }
+	public VnfcStateEnum getVnfcState() {
+		return vnfcState;
+	}
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, vduId, vnfcResourceInfoId, vnfcState, vnfcConfigurableProperties);
-  }
+	public void setVnfcState(final VnfcStateEnum vnfcState) {
+		this.vnfcState = vnfcState;
+	}
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class VnfcInfo {\n");
-    
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    vduId: ").append(toIndentedString(vduId)).append("\n");
-    sb.append("    vnfcResourceInfoId: ").append(toIndentedString(vnfcResourceInfoId)).append("\n");
-    sb.append("    vnfcState: ").append(toIndentedString(vnfcState)).append("\n");
-    sb.append("    vnfcConfigurableProperties: ").append(toIndentedString(vnfcConfigurableProperties)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
+	public VnfcInfo vnfcConfigurableProperties(final Map<String, String> vnfcConfigurableProperties) {
+		this.vnfcConfigurableProperties = vnfcConfigurableProperties;
+		return this;
+	}
 
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
+	/**
+	 * Get vnfcConfigurableProperties
+	 *
+	 * @return vnfcConfigurableProperties
+	 **/
+	@Schema(description = "")
+
+	@Valid
+	public Map<String, String> getVnfcConfigurableProperties() {
+		return vnfcConfigurableProperties;
+	}
+
+	public void setVnfcConfigurableProperties(final Map<String, String> vnfcConfigurableProperties) {
+		this.vnfcConfigurableProperties = vnfcConfigurableProperties;
+	}
+
+	@Override
+	public boolean equals(final java.lang.Object o) {
+		if (this == o) {
+			return true;
+		}
+		if ((o == null) || (getClass() != o.getClass())) {
+			return false;
+		}
+		final VnfcInfo vnfcInfo = (VnfcInfo) o;
+		return Objects.equals(this.id, vnfcInfo.id) &&
+				Objects.equals(this.vduId, vnfcInfo.vduId) &&
+				Objects.equals(this.vnfcResourceInfoId, vnfcInfo.vnfcResourceInfoId) &&
+				Objects.equals(this.vnfcState, vnfcInfo.vnfcState) &&
+				Objects.equals(this.vnfcConfigurableProperties, vnfcInfo.vnfcConfigurableProperties);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, vduId, vnfcResourceInfoId, vnfcState, vnfcConfigurableProperties);
+	}
+
+	@Override
+	public String toString() {
+		final StringBuilder sb = new StringBuilder();
+		sb.append("class VnfcInfo {\n");
+
+		sb.append("    id: ").append(toIndentedString(id)).append("\n");
+		sb.append("    vduId: ").append(toIndentedString(vduId)).append("\n");
+		sb.append("    vnfcResourceInfoId: ").append(toIndentedString(vnfcResourceInfoId)).append("\n");
+		sb.append("    vnfcState: ").append(toIndentedString(vnfcState)).append("\n");
+		sb.append("    vnfcConfigurableProperties: ").append(toIndentedString(vnfcConfigurableProperties)).append("\n");
+		sb.append("}");
+		return sb.toString();
+	}
+
+	/**
+	 * Convert the given object to string with each line indented by 4 spaces
+	 * (except the first line).
+	 */
+	private String toIndentedString(final java.lang.Object o) {
+		if (o == null) {
+			return "null";
+		}
+		return o.toString().replace("\n", "\n    ");
+	}
 }
