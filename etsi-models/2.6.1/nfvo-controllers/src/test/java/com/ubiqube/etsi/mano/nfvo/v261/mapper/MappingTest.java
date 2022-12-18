@@ -24,6 +24,7 @@ import org.junit.jupiter.api.Test;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
+import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 import com.ubiqube.etsi.mano.nfvo.v261.OrikaConfigurationNfvo261;
 import com.ubiqube.etsi.mano.nfvo.v261.model.lcmgrant.GrantRequest;
@@ -32,7 +33,7 @@ import com.ubiqube.etsi.mano.nfvo.v261.model.nslcm.NsInstance;
 import com.ubiqube.etsi.mano.nfvo.v261.model.nslcm.NsLcmOpOcc;
 import com.ubiqube.etsi.mano.test.TestHelper;
 
-public class MappingTest extends TestHelper {
+class MappingTest extends TestHelper {
 
 	public MappingTest() {
 		super(new OrikaConfigurationNfvo261());
@@ -83,4 +84,14 @@ public class MappingTest extends TestHelper {
 		ignore.add("getFlavourId");
 		doTest(NsInstance.class, NsdInstance.class, ignore);
 	}
+
+	@Test
+	void testVnfInstance() throws Exception {
+		final Set<String> ignore = new HashSet<>();
+		ignore.add("getLinks");
+		// Probably an Orika problem.
+		ignore.add("getVimId");
+		doTest(com.ubiqube.etsi.mano.common.v261.model.nslcm.VnfInstance.class, VnfInstance.class, ignore);
+	}
+
 }
