@@ -18,7 +18,6 @@ package com.ubiqube.etsi.mano.dao.mano;
 
 import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -216,7 +215,7 @@ public class VnfPackage implements PackageBase, Auditable {
 	private String signingCertificate = null;
 	// 2.7.1
 	@ElementCollection(fetch = FetchType.EAGER)
-	private List<String> compatibleSpecificationVersions;
+	private Set<String> compatibleSpecificationVersions;
 	// 2.7.1
 	private FailureDetails onboardingFailureDetails = null;
 	// 2.7.1

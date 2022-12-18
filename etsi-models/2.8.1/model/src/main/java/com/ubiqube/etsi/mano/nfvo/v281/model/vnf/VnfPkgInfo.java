@@ -59,7 +59,7 @@ public class VnfPkgInfo {
 	private String vnfdVersion = null;
 
 	@JsonProperty("compatibleSpecificationVersions")
-	private String compatibleSpecificationVersions = null;
+	private List<String> compatibleSpecificationVersions = null;
 
 	@JsonProperty("checksum")
 	private Checksum checksum = null;
@@ -265,7 +265,7 @@ public class VnfPkgInfo {
 		this.vnfdVersion = vnfdVersion;
 	}
 
-	public VnfPkgInfo compatibleSpecificationVersions(final String compatibleSpecificationVersions) {
+	public VnfPkgInfo compatibleSpecificationVersions(final List<String> compatibleSpecificationVersions) {
 		this.compatibleSpecificationVersions = compatibleSpecificationVersions;
 		return this;
 	}
@@ -279,11 +279,11 @@ public class VnfPkgInfo {
 	 **/
 	@ApiModelProperty(value = "Indicates which versions of the ETSI GS NFV-SOL 004 [5] specification the package complies to, as defined in the manifest of the package. Each entry shall be formatted as defined in clause 4.3.2 of ETSI GS NFV-SOL 004 [5]. ")
 
-	public String getCompatibleSpecificationVersions() {
+	public List<String> getCompatibleSpecificationVersions() {
 		return compatibleSpecificationVersions;
 	}
 
-	public void setCompatibleSpecificationVersions(final String compatibleSpecificationVersions) {
+	public void setCompatibleSpecificationVersions(final List<String> compatibleSpecificationVersions) {
 		this.compatibleSpecificationVersions = compatibleSpecificationVersions;
 	}
 
@@ -592,7 +592,7 @@ public class VnfPkgInfo {
 		if (this == o) {
 			return true;
 		}
-		if (o == null || getClass() != o.getClass()) {
+		if ((o == null) || (getClass() != o.getClass())) {
 			return false;
 		}
 		final VnfPkgInfo vnfPkgInfo = (VnfPkgInfo) o;

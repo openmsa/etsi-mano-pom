@@ -45,6 +45,7 @@ import com.ubiqube.etsi.mano.dao.mano.ScaleTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.VirtualLinkInfo;
 import com.ubiqube.etsi.mano.dao.mano.VirtualStorageResourceInfo;
 import com.ubiqube.etsi.mano.dao.mano.VnfMonitoringParameter;
+import com.ubiqube.etsi.mano.dao.mano.VnfcInfo;
 import com.ubiqube.etsi.mano.dao.mano.VnfcResourceInfoEntity;
 import com.ubiqube.etsi.mano.dao.mano.nsd.upd.UpdateRequest;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.NsHeal;
@@ -232,4 +233,9 @@ public class BlueprintParameters implements Serializable {
 	// 2.7.1
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<ScaleInfo> maxScaleLevels;
+
+	// 2.8.1
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<VnfcInfo> vnfcInfo;
+
 }
