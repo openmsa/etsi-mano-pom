@@ -35,7 +35,6 @@ import org.springframework.util.MultiValueMap;
  */
 class DuplicateClassTest {
 
-	@Test
 	void scanDuplicatedClasses() throws IOException {
 		final MultiValueMap<Path, Path> all = new LinkedMultiValueMap<>();
 		Files.walk(Paths.get("/home/olivier/workspace/workspace17.1.1/ubi-etsi-mano/etsi-models/2.7.1"))
