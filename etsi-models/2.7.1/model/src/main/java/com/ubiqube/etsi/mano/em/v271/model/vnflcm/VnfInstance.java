@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.em.v271.model.vnflcm;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -27,6 +28,7 @@ import org.springframework.validation.annotation.Validated;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.ubiqube.etsi.mano.vnfm.v271.model.vnflcm.VimConnectionInfo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -98,6 +100,8 @@ public class VnfInstance {
 			return null;
 		}
 	}
+
+	private List<VimConnectionInfo> vimConnectionInfo;
 
 	@JsonProperty("instantiationState")
 	private InstantiationStateEnum instantiationState = null;
@@ -496,12 +500,20 @@ public class VnfInstance {
 		this.links = links;
 	}
 
+	public List<VimConnectionInfo> getVimConnectionInfo() {
+		return vimConnectionInfo;
+	}
+
+	public void setVimConnectionInfo(final List<VimConnectionInfo> vimConnectionInfo) {
+		this.vimConnectionInfo = vimConnectionInfo;
+	}
+
 	@Override
 	public boolean equals(final java.lang.Object o) {
 		if (this == o) {
 			return true;
 		}
-		if (o == null || getClass() != o.getClass()) {
+		if ((o == null) || (getClass() != o.getClass())) {
 			return false;
 		}
 		final VnfInstance vnfInstance = (VnfInstance) o;

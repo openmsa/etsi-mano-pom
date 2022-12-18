@@ -24,6 +24,7 @@ import org.junit.jupiter.api.Test;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
+import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 import com.ubiqube.etsi.mano.model.v271.sol003.lcmgrant.GrantRequest;
 import com.ubiqube.etsi.mano.model.v271.sol005.nsd.NsdInfo;
@@ -83,4 +84,11 @@ public class MappingTest extends TestHelper {
 		doTest(NsInstance.class, NsdInstance.class, ignore);
 	}
 
+	@Test
+	void testVnfInstance() throws Exception {
+		final Set<String> ignore = new HashSet<>();
+		ignore.add("getLinks");
+		ignore.add("getExtLinkPortId");
+		doTest(com.ubiqube.etsi.mano.em.v271.model.vnflcm.VnfInstance.class, VnfInstance.class, ignore);
+	}
 }
