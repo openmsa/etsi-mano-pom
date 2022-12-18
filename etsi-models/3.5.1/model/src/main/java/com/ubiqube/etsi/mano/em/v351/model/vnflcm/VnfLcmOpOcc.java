@@ -122,10 +122,10 @@ public class VnfLcmOpOcc implements OneOfVnfLcmOpOcc {
 	private String vnfSnapshotInfoId = null;
 
 	@JsonProperty("lcmCoordinations")
-	private VnfLcmOpOccLcmCoordinations lcmCoordinations = null;
+	private List<VnfLcmOpOccLcmCoordinations> lcmCoordinations = null;
 
 	@JsonProperty("rejectedLcmCoordinations")
-	private VnfLcmOpOccRejectedLcmCoordinations rejectedLcmCoordinations = null;
+	private List<VnfLcmOpOccRejectedLcmCoordinations> rejectedLcmCoordinations = null;
 
 	@JsonProperty("warnings")
 	@Valid
@@ -538,7 +538,7 @@ public class VnfLcmOpOcc implements OneOfVnfLcmOpOcc {
 		this.vnfSnapshotInfoId = vnfSnapshotInfoId;
 	}
 
-	public VnfLcmOpOcc lcmCoordinations(final VnfLcmOpOccLcmCoordinations lcmCoordinations) {
+	public VnfLcmOpOcc lcmCoordinations(final List<VnfLcmOpOccLcmCoordinations> lcmCoordinations) {
 		this.lcmCoordinations = lcmCoordinations;
 		return this;
 	}
@@ -551,15 +551,15 @@ public class VnfLcmOpOcc implements OneOfVnfLcmOpOcc {
 	@Schema(description = "")
 
 	@Valid
-	public VnfLcmOpOccLcmCoordinations getLcmCoordinations() {
+	public List<VnfLcmOpOccLcmCoordinations> getLcmCoordinations() {
 		return lcmCoordinations;
 	}
 
-	public void setLcmCoordinations(final VnfLcmOpOccLcmCoordinations lcmCoordinations) {
+	public void setLcmCoordinations(final List<VnfLcmOpOccLcmCoordinations> lcmCoordinations) {
 		this.lcmCoordinations = lcmCoordinations;
 	}
 
-	public VnfLcmOpOcc rejectedLcmCoordinations(final VnfLcmOpOccRejectedLcmCoordinations rejectedLcmCoordinations) {
+	public VnfLcmOpOcc rejectedLcmCoordinations(final List<VnfLcmOpOccRejectedLcmCoordinations> rejectedLcmCoordinations) {
 		this.rejectedLcmCoordinations = rejectedLcmCoordinations;
 		return this;
 	}
@@ -572,11 +572,11 @@ public class VnfLcmOpOcc implements OneOfVnfLcmOpOcc {
 	@Schema(description = "")
 
 	@Valid
-	public VnfLcmOpOccRejectedLcmCoordinations getRejectedLcmCoordinations() {
+	public List<VnfLcmOpOccRejectedLcmCoordinations> getRejectedLcmCoordinations() {
 		return rejectedLcmCoordinations;
 	}
 
-	public void setRejectedLcmCoordinations(final VnfLcmOpOccRejectedLcmCoordinations rejectedLcmCoordinations) {
+	public void setRejectedLcmCoordinations(final List<VnfLcmOpOccRejectedLcmCoordinations> rejectedLcmCoordinations) {
 		this.rejectedLcmCoordinations = rejectedLcmCoordinations;
 	}
 
@@ -636,7 +636,7 @@ public class VnfLcmOpOcc implements OneOfVnfLcmOpOcc {
 		if (this == o) {
 			return true;
 		}
-		if (o == null || getClass() != o.getClass()) {
+		if ((o == null) || (getClass() != o.getClass())) {
 			return false;
 		}
 		final VnfLcmOpOcc vnfLcmOpOcc = (VnfLcmOpOcc) o;

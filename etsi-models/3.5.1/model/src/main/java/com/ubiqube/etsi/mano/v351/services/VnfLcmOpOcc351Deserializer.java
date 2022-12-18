@@ -131,10 +131,14 @@ public class VnfLcmOpOcc351Deserializer extends StdDeserializer<VnfLcmOpOcc> {
 				ret.setVnfSnapshotInfoId(p.nextTextValue());
 				break;
 			case "lcmCoordinations":
-				ret.setLcmCoordinations(getNextObject(p, VnfLcmOpOccLcmCoordinations.class));
+				ret.setLcmCoordinations(getNextObject(p, new TypeReference<List<VnfLcmOpOccLcmCoordinations>>() {
+					// Nothing.
+				}));
 				break;
 			case "rejectedLcmCoordinations":
-				ret.setRejectedLcmCoordinations(getNextObject(p, VnfLcmOpOccRejectedLcmCoordinations.class));
+				ret.setRejectedLcmCoordinations(getNextObject(p, new TypeReference<List<VnfLcmOpOccRejectedLcmCoordinations>>() {
+					// Nothing.
+				}));
 				break;
 			case "warnings":
 				ret.setWarnings(getNextObject(p, new TypeReference<List<String>>() {

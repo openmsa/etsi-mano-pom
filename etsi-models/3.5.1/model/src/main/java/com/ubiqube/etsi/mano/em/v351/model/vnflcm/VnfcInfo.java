@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.em.v351.model.vnflcm;
 
+import java.util.Map;
 import java.util.Objects;
 
 import javax.validation.Valid;
@@ -23,8 +24,9 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.validation.annotation.Validated;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -46,8 +48,40 @@ public class VnfcInfo {
 	@JsonProperty("vnfcResourceInfoId")
 	private String vnfcResourceInfoId = null;
 
+	/**
+	 * State of the VNFC instance. Permitted values: • STARTED: The VNFC instance is
+	 * up and running. • STOPPED: The VNFC instance has been shut down
+	 */
+	public enum VnfcStateEnum {
+		STARTED("STARTED"),
+
+		STOPPED("STOPPED");
+
+		private final String value;
+
+		VnfcStateEnum(final String value) {
+			this.value = value;
+		}
+
+		@Override
+		@JsonValue
+		public String toString() {
+			return String.valueOf(value);
+		}
+
+		@JsonCreator
+		public static VnfcStateEnum fromValue(final String text) {
+			for (final VnfcStateEnum b : VnfcStateEnum.values()) {
+				if (String.valueOf(b.value).equals(text)) {
+					return b;
+				}
+			}
+			return null;
+		}
+	}
+
 	@JsonProperty("vnfcState")
-	private String vnfcState = null;
+	private VnfcStateEnum vnfcState = null;
 
 	@JsonProperty("vnfcConfigurableProperties")
 	private Map<String, String> vnfcConfigurableProperties = null;
@@ -114,7 +148,7 @@ public class VnfcInfo {
 		this.vnfcResourceInfoId = vnfcResourceInfoId;
 	}
 
-	public VnfcInfo vnfcState(final String vnfcState) {
+	public VnfcInfo vnfcState(final VnfcStateEnum vnfcState) {
 		this.vnfcState = vnfcState;
 		return this;
 	}
@@ -127,11 +161,11 @@ public class VnfcInfo {
 	@Schema(required = true, description = "")
 	@NotNull
 
-	public String getVnfcState() {
+	public VnfcStateEnum getVnfcState() {
 		return vnfcState;
 	}
 
-	public void setVnfcState(final String vnfcState) {
+	public void setVnfcState(final VnfcStateEnum vnfcState) {
 		this.vnfcState = vnfcState;
 	}
 
@@ -161,7 +195,7 @@ public class VnfcInfo {
 		if (this == o) {
 			return true;
 		}
-		if (o == null || getClass() != o.getClass()) {
+		if ((o == null) || (getClass() != o.getClass())) {
 			return false;
 		}
 		final VnfcInfo vnfcInfo = (VnfcInfo) o;
