@@ -17,128 +17,132 @@
 package com.ubiqube.etsi.mano.vnfm.v431.model.grant;
 
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.v3.oas.annotations.media.Schema;
+
+import javax.validation.constraints.NotNull;
+
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * This type represents the scale level of a VNF instance related to a scaling aspect. 
+ * This type represents the scale level of a VNF instance related to a scaling
+ * aspect.
  */
 @Schema(description = "This type represents the scale level of a VNF instance related to a scaling aspect. ")
 @Validated
 
+public class ScaleInfo {
+	@JsonProperty("aspectId")
+	private String aspectId = null;
 
-public class ScaleInfo   {
-  @JsonProperty("aspectId")
-  private String aspectId = null;
+	@JsonProperty("vnfdId")
+	private String vnfdId = null;
 
-  @JsonProperty("vnfdId")
-  private String vnfdId = null;
+	@JsonProperty("scaleLevel")
+	private int scaleLevel;
 
-  @JsonProperty("scaleToLevel")
-  private String scaleToLevel = null;
+	public ScaleInfo aspectId(final String aspectId) {
+		this.aspectId = aspectId;
+		return this;
+	}
 
-  public ScaleInfo aspectId(String aspectId) {
-    this.aspectId = aspectId;
-    return this;
-  }
+	/**
+	 * Get aspectId
+	 *
+	 * @return aspectId
+	 **/
+	@Schema(required = true, description = "")
+	@NotNull
 
-  /**
-   * Get aspectId
-   * @return aspectId
-   **/
-  @Schema(required = true, description = "")
-      @NotNull
+	public String getAspectId() {
+		return aspectId;
+	}
 
-    public String getAspectId() {
-    return aspectId;
-  }
+	public void setAspectId(final String aspectId) {
+		this.aspectId = aspectId;
+	}
 
-  public void setAspectId(String aspectId) {
-    this.aspectId = aspectId;
-  }
+	public ScaleInfo vnfdId(final String vnfdId) {
+		this.vnfdId = vnfdId;
+		return this;
+	}
 
-  public ScaleInfo vnfdId(String vnfdId) {
-    this.vnfdId = vnfdId;
-    return this;
-  }
+	/**
+	 * Get vnfdId
+	 *
+	 * @return vnfdId
+	 **/
+	@Schema(description = "")
 
-  /**
-   * Get vnfdId
-   * @return vnfdId
-   **/
-  @Schema(description = "")
-  
-    public String getVnfdId() {
-    return vnfdId;
-  }
+	public String getVnfdId() {
+		return vnfdId;
+	}
 
-  public void setVnfdId(String vnfdId) {
-    this.vnfdId = vnfdId;
-  }
+	public void setVnfdId(final String vnfdId) {
+		this.vnfdId = vnfdId;
+	}
 
-  public ScaleInfo scaleToLevel(String scaleToLevel) {
-    this.scaleToLevel = scaleToLevel;
-    return this;
-  }
+	public ScaleInfo scaleLevel(final int scaleLevel) {
+		this.scaleLevel = scaleLevel;
+		return this;
+	}
 
-  /**
-   * Get scaleToLevel
-   * @return scaleToLevel
-   **/
-  @Schema(description = "")
-  
-    public String getScaleToLevel() {
-    return scaleToLevel;
-  }
+	/**
+	 * Get scaleLevel
+	 *
+	 * @return scaleLevel
+	 **/
+	@Schema(description = "")
 
-  public void setScaleToLevel(String scaleToLevel) {
-    this.scaleToLevel = scaleToLevel;
-  }
+	public int getScaleLevel() {
+		return scaleLevel;
+	}
 
+	public void setscaleLevel(final int scaleLevel) {
+		this.scaleLevel = scaleLevel;
+	}
 
-  @Override
-  public boolean equals(java.lang.Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    ScaleInfo scaleInfo = (ScaleInfo) o;
-    return Objects.equals(this.aspectId, scaleInfo.aspectId) &&
-        Objects.equals(this.vnfdId, scaleInfo.vnfdId) &&
-        Objects.equals(this.scaleToLevel, scaleInfo.scaleToLevel);
-  }
+	@Override
+	public boolean equals(final java.lang.Object o) {
+		if (this == o) {
+			return true;
+		}
+		if ((o == null) || (getClass() != o.getClass())) {
+			return false;
+		}
+		final ScaleInfo scaleInfo = (ScaleInfo) o;
+		return Objects.equals(this.aspectId, scaleInfo.aspectId) &&
+				Objects.equals(this.vnfdId, scaleInfo.vnfdId) &&
+				Objects.equals(this.scaleLevel, scaleInfo.scaleLevel);
+	}
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(aspectId, vnfdId, scaleToLevel);
-  }
+	@Override
+	public int hashCode() {
+		return Objects.hash(aspectId, vnfdId, scaleLevel);
+	}
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class ScaleInfo {\n");
-    
-    sb.append("    aspectId: ").append(toIndentedString(aspectId)).append("\n");
-    sb.append("    vnfdId: ").append(toIndentedString(vnfdId)).append("\n");
-    sb.append("    scaleToLevel: ").append(toIndentedString(scaleToLevel)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
+	@Override
+	public String toString() {
+		final StringBuilder sb = new StringBuilder();
+		sb.append("class ScaleInfo {\n");
 
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
+		sb.append("    aspectId: ").append(toIndentedString(aspectId)).append("\n");
+		sb.append("    vnfdId: ").append(toIndentedString(vnfdId)).append("\n");
+		sb.append("    scaleLevel: ").append(toIndentedString(scaleLevel)).append("\n");
+		sb.append("}");
+		return sb.toString();
+	}
+
+	/**
+	 * Convert the given object to string with each line indented by 4 spaces
+	 * (except the first line).
+	 */
+	private String toIndentedString(final java.lang.Object o) {
+		if (o == null) {
+			return "null";
+		}
+		return o.toString().replace("\n", "\n    ");
+	}
 }

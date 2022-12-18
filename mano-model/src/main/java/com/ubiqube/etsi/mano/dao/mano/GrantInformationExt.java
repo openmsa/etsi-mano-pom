@@ -202,6 +202,14 @@ public class GrantInformationExt implements BaseEntity, Serializable {
 	@OneToOne
 	private SnapshotResourceDefinitionEntity snapshotResDef;
 
+	/**
+	 * @Since 4.3.1
+	 */
+	private AdditionalResourceInfo vimLevelAdditionalResourceInfo;
+
+	/**
+	 * @Since 4.3.1
+	 */
 	private String containerNamespace;
 
 	@Override

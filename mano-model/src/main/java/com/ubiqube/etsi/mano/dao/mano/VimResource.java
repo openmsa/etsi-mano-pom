@@ -20,7 +20,10 @@ import java.io.Serializable;
 
 import javax.persistence.Embeddable;
 
+import lombok.Data;
+
 // @see ResourceHandle
+@Data
 @Embeddable
 public class VimResource implements Serializable {
 	/** Serial. */
@@ -53,40 +56,11 @@ public class VimResource implements Serializable {
 	 * VIM or the resource provider and can be used as information that complements
 	 * the ResourceHandle. This value set is different from the value set of the
 	 * "type" attribute in the ResourceDefinition (refer to clause 9.5.3.2).
-	 * 
+	 *
 	 */
 	private String vimLevelResourceType;
 
-	public String getVimConnectionId() {
-		return vimConnectionId;
-	}
+	private AdditionalResourceInfo vimLevelAdditionalResourceInfo;
 
-	public void setVimConnectionId(final String vimConnectionId) {
-		this.vimConnectionId = vimConnectionId;
-	}
-
-	public String getResourceProviderId() {
-		return resourceProviderId;
-	}
-
-	public void setResourceProviderId(final String resourceProviderId) {
-		this.resourceProviderId = resourceProviderId;
-	}
-
-	public String getResourceId() {
-		return resourceId;
-	}
-
-	public void setResourceId(final String resourceId) {
-		this.resourceId = resourceId;
-	}
-
-	public String getVimLevelResourceType() {
-		return vimLevelResourceType;
-	}
-
-	public void setVimLevelResourceType(final String vimLevelResourceType) {
-		this.vimLevelResourceType = vimLevelResourceType;
-	}
-
+	private String containerNamespace;
 }

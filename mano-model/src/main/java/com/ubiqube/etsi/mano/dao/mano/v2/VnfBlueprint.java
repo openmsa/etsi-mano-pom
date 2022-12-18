@@ -137,6 +137,21 @@ public class VnfBlueprint extends AbstractBlueprint<VnfTask, VnfInstance> {
 
 	private String healCause;
 
+	/**
+	 * @since 4.3.1
+	 */
+	private Boolean isAutomaticInvocation;
+
+	/**
+	 * @since 4.3.1
+	 */
+	private UUID grantId;
+
+	/**
+	 * @since 4.3.1
+	 */
+	private Boolean isCancelPending;
+
 	@Override
 	public void addTask(final VnfTask task) {
 		if (null == tasks) {

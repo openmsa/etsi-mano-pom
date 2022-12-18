@@ -298,6 +298,10 @@ public class GrantResponse implements BaseEntity, Auditable, GrantInterface {
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<VimConstraint> vimConstraints = new LinkedHashSet<>();
 
+	// 4.3.1
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<ScaleInfo> targetScaleLevelInfo;
+
 	private String instanceLink;
 
 	private String lcmLink;

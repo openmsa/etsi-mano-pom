@@ -21,7 +21,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum LayerProtocolType {
 	IP_OVER_ETHERNET("IP_OVER_ETHERNET"),
-	ETHERNET("ETHERNET");
+	ETHERNET("ETHERNET"),
+	FOR_VIRTUAL_CP("IP_FOR_VIRTUAL_CP");
 
 	private final String value;
 

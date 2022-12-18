@@ -91,6 +91,18 @@ public class VnfPackage implements PackageBase, Auditable {
 	@FullTextField
 	private String vnfdId;
 
+	/**
+	 * Identifies a VNFD in a version independent manner. This attribute is
+	 * invariant across versions of the VNFD that fulfil certain conditions related
+	 * to the external connectivity and management of the VNF. It shall be present
+	 * after the VNF package content has been on-boarded if it is included in the
+	 * VNFD and shall be absent otherwise. If present it is copied from the VNFD of
+	 * the on-boarded VNF package.
+	 *
+	 * @since 4.3.1
+	 */
+	private String vnfdExtInvariantId;
+
 	@FullTextField
 	private String vnfProvider;
 

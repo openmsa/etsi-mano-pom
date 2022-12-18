@@ -80,7 +80,11 @@ public class PlacementConstraint implements BaseEntity, Auditable {
 
 		ZONE_GROUP("ZONE_GROUP"),
 
-		NFVI_NODE("NFVI_NODE");
+		NFVI_NODE("NFVI_NODE"),
+
+		CIS_NODE("CIS_NODE"),
+
+		CONTAINER_NAMESPACE("CONTAINER_NAMESPACE");
 
 		private final String value;
 

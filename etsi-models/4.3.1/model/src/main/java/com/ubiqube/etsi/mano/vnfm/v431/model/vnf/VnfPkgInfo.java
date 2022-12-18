@@ -132,7 +132,7 @@ public class VnfPkgInfo {
 	private PackageUsageStateType usageState = null;
 
 	@JsonProperty("vnfmInfo")
-	private String vnfmInfo = null;
+	private List<String> vnfmInfo = null;
 
 	@JsonProperty("userDefinedData")
 	private Map<String, String> userDefinedData = null;
@@ -509,7 +509,7 @@ public class VnfPkgInfo {
 		this.usageState = usageState;
 	}
 
-	public VnfPkgInfo vnfmInfo(final String vnfmInfo) {
+	public VnfPkgInfo vnfmInfo(final List<String> vnfmInfo) {
 		this.vnfmInfo = vnfmInfo;
 		return this;
 	}
@@ -522,11 +522,11 @@ public class VnfPkgInfo {
 	@Schema(required = true, description = "")
 	@NotNull
 
-	public String getVnfmInfo() {
+	public List<String> getVnfmInfo() {
 		return vnfmInfo;
 	}
 
-	public void setVnfmInfo(final String vnfmInfo) {
+	public void setVnfmInfo(final List<String> vnfmInfo) {
 		this.vnfmInfo = vnfmInfo;
 	}
 
