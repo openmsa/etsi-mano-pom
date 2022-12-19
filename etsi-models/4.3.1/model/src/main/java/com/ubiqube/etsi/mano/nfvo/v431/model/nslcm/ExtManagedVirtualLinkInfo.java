@@ -49,14 +49,14 @@ public class ExtManagedVirtualLinkInfo {
 
 	@JsonProperty("networkResource")
 	@Valid
-	private List<ResourceHandle> networkResource = new ArrayList<>();
+	private ResourceHandle networkResource;
 
 	@JsonProperty("vnfLinkPorts")
 	@Valid
 	private List<VnfLinkPortInfo> vnfLinkPorts = null;
 
 	@JsonProperty("vnfNetAttDefResource")
-	private NetAttDefResourceInfo vnfNetAttDefResource = null;
+	private List<NetAttDefResourceInfo> vnfNetAttDefResource = null;
 
 	@JsonProperty("extManagedMultisiteVirtualLinkId")
 	private String extManagedMultisiteVirtualLinkId = null;
@@ -123,13 +123,8 @@ public class ExtManagedVirtualLinkInfo {
 		this.vnfVirtualLinkDescId = vnfVirtualLinkDescId;
 	}
 
-	public ExtManagedVirtualLinkInfo networkResource(final List<ResourceHandle> networkResource) {
+	public ExtManagedVirtualLinkInfo networkResource(final ResourceHandle networkResource) {
 		this.networkResource = networkResource;
-		return this;
-	}
-
-	public ExtManagedVirtualLinkInfo addNetworkResourceItem(final ResourceHandle networkResourceItem) {
-		this.networkResource.add(networkResourceItem);
 		return this;
 	}
 
@@ -142,11 +137,11 @@ public class ExtManagedVirtualLinkInfo {
 	@Schema(required = true, description = "Reference to the VirtualNetwork resource or multi-site connectivity service providing this VL. ")
 	@NotNull
 	@Valid
-	public List<ResourceHandle> getNetworkResource() {
+	public ResourceHandle getNetworkResource() {
 		return networkResource;
 	}
 
-	public void setNetworkResource(final List<ResourceHandle> networkResource) {
+	public void setNetworkResource(final ResourceHandle networkResource) {
 		this.networkResource = networkResource;
 	}
 
@@ -178,7 +173,7 @@ public class ExtManagedVirtualLinkInfo {
 		this.vnfLinkPorts = vnfLinkPorts;
 	}
 
-	public ExtManagedVirtualLinkInfo vnfNetAttDefResource(final NetAttDefResourceInfo vnfNetAttDefResource) {
+	public ExtManagedVirtualLinkInfo vnfNetAttDefResource(final List<NetAttDefResourceInfo> vnfNetAttDefResource) {
 		this.vnfNetAttDefResource = vnfNetAttDefResource;
 		return this;
 	}
@@ -191,11 +186,11 @@ public class ExtManagedVirtualLinkInfo {
 	@Schema(description = "")
 
 	@Valid
-	public NetAttDefResourceInfo getVnfNetAttDefResource() {
+	public List<NetAttDefResourceInfo> getVnfNetAttDefResource() {
 		return vnfNetAttDefResource;
 	}
 
-	public void setVnfNetAttDefResource(final NetAttDefResourceInfo vnfNetAttDefResource) {
+	public void setVnfNetAttDefResource(final List<NetAttDefResourceInfo> vnfNetAttDefResource) {
 		this.vnfNetAttDefResource = vnfNetAttDefResource;
 	}
 

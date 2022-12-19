@@ -64,6 +64,7 @@ import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.AffectedVirtualStorage;
 import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.AffectedVnfc;
 import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.LccnSubscription;
 import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.LccnSubscriptionRequest;
+import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.VnfInfoModifications;
 import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.VnfLcmOpOcc;
 import com.ubiqube.etsi.mano.vnfm.v261.model.vnfind.VnfIndicatorSubscriptionRequest;
 
@@ -303,6 +304,12 @@ public class OrikaMapperVnfm261 implements OrikaMapperFactoryConfigurer {
 				.field("isRootCause", "rootCause")
 				.byDefault()
 				.register();
+		orikaMapperFactory.classMap(VnfInfoModifications.class, com.ubiqube.etsi.mano.dao.mano.v2.VnfInfoModifications.class)
+				.field("vimConnectionInfo.vimId", "vimConnectionInfo{key}")
+				.field("vimConnectionInfo", "vimConnectionInfo{value}")
+				.byDefault()
+				.register();
+
 		final ConverterFactory converterFactory = orikaMapperFactory.getConverterFactory();
 		converterFactory.registerConverter(new UuidConverter());
 		converterFactory.registerConverter("filterConverter", new OrikaFilterMapper());

@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.dao.mano;
 
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -75,4 +76,7 @@ public class ExtVirtualLinkInfoEntity implements BaseEntity, Auditable {
 	 */
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	private Set<VnfExtCpDataEntity> currentVnfExtCpData = new LinkedHashSet<>();
+
+	@OneToMany
+	private List<NetAttDefResourceInfo> extNetAttDefResource;
 }

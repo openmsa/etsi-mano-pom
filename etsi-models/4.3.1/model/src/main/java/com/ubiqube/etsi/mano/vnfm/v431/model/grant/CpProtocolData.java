@@ -39,9 +39,9 @@ public class CpProtocolData   {
    * Identifier of layer(s) and protocol(s). Permitted values:   - IP_OVER_ETHERNET.   - IP_FOR_VIRTUAL_CP See note 
    */
   public enum LayerProtocolEnum {
-    OVER_ETHERNET("IP_OVER_ETHERNET"),
+    IP_OVER_ETHERNET("IP_OVER_ETHERNET"),
     
-    FOR_VIRTUAL_CP("IP_FOR_VIRTUAL_CP");
+    IP_FOR_VIRTUAL_CP("IP_FOR_VIRTUAL_CP");
 
     private String value;
 

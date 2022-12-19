@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.dao.mano.v2;
 
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -48,6 +49,7 @@ import com.ubiqube.etsi.mano.dao.mano.AuditListener;
 import com.ubiqube.etsi.mano.dao.mano.BlueZoneGroupInformation;
 import com.ubiqube.etsi.mano.dao.mano.ExtManagedVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.ExtVirtualLinkDataEntity;
+import com.ubiqube.etsi.mano.dao.mano.ExtVirtualLinkInfoEntity;
 import com.ubiqube.etsi.mano.dao.mano.OperateChanges;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
@@ -151,6 +153,15 @@ public class VnfBlueprint extends AbstractBlueprint<VnfTask, VnfInstance> {
 	 * @since 4.3.1
 	 */
 	private Boolean isCancelPending;
+
+	@OneToMany
+	private List<AffectedVipCp> affectedVipCps;
+
+	@OneToOne
+	private VnfInfoModifications changedInfo;
+
+	@OneToMany
+	private List<ExtVirtualLinkInfoEntity> changedExtConnectivity;
 
 	@Override
 	public void addTask(final VnfTask task) {

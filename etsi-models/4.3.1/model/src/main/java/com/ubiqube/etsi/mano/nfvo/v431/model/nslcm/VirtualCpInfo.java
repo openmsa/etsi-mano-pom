@@ -69,7 +69,7 @@ public class VirtualCpInfo {
 
 	@JsonProperty("metadata")
 	@Valid
-	private List<Map<String, String>> metadata = null;
+	private Map<String, String> metadata = null;
 
 	public VirtualCpInfo cpInstanceId(final String cpInstanceId) {
 		this.cpInstanceId = cpInstanceId;
@@ -239,16 +239,8 @@ public class VirtualCpInfo {
 		this.additionalServiceInfo = additionalServiceInfo;
 	}
 
-	public VirtualCpInfo metadata(final List<Map<String, String>> metadata) {
+	public VirtualCpInfo metadata(final Map<String, String> metadata) {
 		this.metadata = metadata;
-		return this;
-	}
-
-	public VirtualCpInfo addMetadataItem(final Map<String, String> metadataItem) {
-		if (this.metadata == null) {
-			this.metadata = new ArrayList<>();
-		}
-		this.metadata.add(metadataItem);
 		return this;
 	}
 
@@ -259,11 +251,11 @@ public class VirtualCpInfo {
 	 **/
 	@Schema(description = "Metadata about this virtual CP instance. ")
 	@Valid
-	public List<Map<String, String>> getMetadata() {
+	public Map<String, String> getMetadata() {
 		return metadata;
 	}
 
-	public void setMetadata(final List<Map<String, String>> metadata) {
+	public void setMetadata(final Map<String, String> metadata) {
 		this.metadata = metadata;
 	}
 

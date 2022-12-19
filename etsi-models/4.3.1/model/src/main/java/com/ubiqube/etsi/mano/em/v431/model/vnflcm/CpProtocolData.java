@@ -17,163 +17,172 @@
 package com.ubiqube.etsi.mano.em.v431.model.vnflcm;
 
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
-import com.ubiqube.etsi.mano.em.v431.model.vnflcm.IpOverEthernetAddressData;
-import com.ubiqube.etsi.mano.em.v431.model.vnflcm.VirtualCpAddressData;
-import io.swagger.v3.oas.annotations.media.Schema;
-import org.springframework.validation.annotation.Validated;
+
 import javax.validation.Valid;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.validation.annotation.Validated;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * This type represents network protocol data. * NOTE: This attribute allows to signal the addition of further types of layer and protocol           in future versions of the present document in a backwards-compatible way. In the current           version of the present document, only IP over Ethernet is supported. 
+ * This type represents network protocol data. * NOTE: This attribute allows to
+ * signal the addition of further types of layer and protocol in future versions
+ * of the present document in a backwards-compatible way. In the current version
+ * of the present document, only IP over Ethernet is supported.
  */
 @Schema(description = "This type represents network protocol data. * NOTE: This attribute allows to signal the addition of further types of layer and protocol           in future versions of the present document in a backwards-compatible way. In the current           version of the present document, only IP over Ethernet is supported. ")
 @Validated
 
+public class CpProtocolData {
+	/**
+	 * Identifier of layer(s) and protocol(s). Permitted values: - IP_OVER_ETHERNET.
+	 * - IP_FOR_VIRTUAL_CP See note
+	 */
+	public enum LayerProtocolEnum {
+		IP_OVER_ETHERNET("IP_OVER_ETHERNET"),
 
-public class CpProtocolData   {
-  /**
-   * Identifier of layer(s) and protocol(s). Permitted values:   - IP_OVER_ETHERNET.   - IP_FOR_VIRTUAL_CP See note 
-   */
-  public enum LayerProtocolEnum {
-    OVER_ETHERNET("IP_OVER_ETHERNET"),
-    
-    FOR_VIRTUAL_CP("IP_FOR_VIRTUAL_CP");
+		IP_FOR_VIRTUAL_CP("IP_FOR_VIRTUAL_CP");
 
-    private String value;
+		private final String value;
 
-    LayerProtocolEnum(String value) {
-      this.value = value;
-    }
+		LayerProtocolEnum(final String value) {
+			this.value = value;
+		}
 
-    @Override
-    @JsonValue
-    public String toString() {
-      return String.valueOf(value);
-    }
+		@Override
+		@JsonValue
+		public String toString() {
+			return String.valueOf(value);
+		}
 
-    @JsonCreator
-    public static LayerProtocolEnum fromValue(String text) {
-      for (LayerProtocolEnum b : LayerProtocolEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
-    }
-  }
-  @JsonProperty("layerProtocol")
-  private LayerProtocolEnum layerProtocol = null;
+		@JsonCreator
+		public static LayerProtocolEnum fromValue(final String text) {
+			for (final LayerProtocolEnum b : LayerProtocolEnum.values()) {
+				if (String.valueOf(b.value).equals(text)) {
+					return b;
+				}
+			}
+			return null;
+		}
+	}
 
-  @JsonProperty("ipOverEthernet")
-  private IpOverEthernetAddressData ipOverEthernet = null;
+	@JsonProperty("layerProtocol")
+	private LayerProtocolEnum layerProtocol = null;
 
-  @JsonProperty("virtualCpAddress")
-  private VirtualCpAddressData virtualCpAddress = null;
+	@JsonProperty("ipOverEthernet")
+	private IpOverEthernetAddressData ipOverEthernet = null;
 
-  public CpProtocolData layerProtocol(LayerProtocolEnum layerProtocol) {
-    this.layerProtocol = layerProtocol;
-    return this;
-  }
+	@JsonProperty("virtualCpAddress")
+	private VirtualCpAddressData virtualCpAddress = null;
 
-  /**
-   * Identifier of layer(s) and protocol(s). Permitted values:   - IP_OVER_ETHERNET.   - IP_FOR_VIRTUAL_CP See note 
-   * @return layerProtocol
-   **/
-  @Schema(required = true, description = "Identifier of layer(s) and protocol(s). Permitted values:   - IP_OVER_ETHERNET.   - IP_FOR_VIRTUAL_CP See note ")
-      @NotNull
+	public CpProtocolData layerProtocol(final LayerProtocolEnum layerProtocol) {
+		this.layerProtocol = layerProtocol;
+		return this;
+	}
 
-    public LayerProtocolEnum getLayerProtocol() {
-    return layerProtocol;
-  }
+	/**
+	 * Identifier of layer(s) and protocol(s). Permitted values: - IP_OVER_ETHERNET.
+	 * - IP_FOR_VIRTUAL_CP See note
+	 *
+	 * @return layerProtocol
+	 **/
+	@Schema(required = true, description = "Identifier of layer(s) and protocol(s). Permitted values:   - IP_OVER_ETHERNET.   - IP_FOR_VIRTUAL_CP See note ")
+	@NotNull
 
-  public void setLayerProtocol(LayerProtocolEnum layerProtocol) {
-    this.layerProtocol = layerProtocol;
-  }
+	public LayerProtocolEnum getLayerProtocol() {
+		return layerProtocol;
+	}
 
-  public CpProtocolData ipOverEthernet(IpOverEthernetAddressData ipOverEthernet) {
-    this.ipOverEthernet = ipOverEthernet;
-    return this;
-  }
+	public void setLayerProtocol(final LayerProtocolEnum layerProtocol) {
+		this.layerProtocol = layerProtocol;
+	}
 
-  /**
-   * Get ipOverEthernet
-   * @return ipOverEthernet
-   **/
-  @Schema(description = "")
-  
-    @Valid
-    public IpOverEthernetAddressData getIpOverEthernet() {
-    return ipOverEthernet;
-  }
+	public CpProtocolData ipOverEthernet(final IpOverEthernetAddressData ipOverEthernet) {
+		this.ipOverEthernet = ipOverEthernet;
+		return this;
+	}
 
-  public void setIpOverEthernet(IpOverEthernetAddressData ipOverEthernet) {
-    this.ipOverEthernet = ipOverEthernet;
-  }
+	/**
+	 * Get ipOverEthernet
+	 *
+	 * @return ipOverEthernet
+	 **/
+	@Schema(description = "")
 
-  public CpProtocolData virtualCpAddress(VirtualCpAddressData virtualCpAddress) {
-    this.virtualCpAddress = virtualCpAddress;
-    return this;
-  }
+	@Valid
+	public IpOverEthernetAddressData getIpOverEthernet() {
+		return ipOverEthernet;
+	}
 
-  /**
-   * Get virtualCpAddress
-   * @return virtualCpAddress
-   **/
-  @Schema(description = "")
-  
-    @Valid
-    public VirtualCpAddressData getVirtualCpAddress() {
-    return virtualCpAddress;
-  }
+	public void setIpOverEthernet(final IpOverEthernetAddressData ipOverEthernet) {
+		this.ipOverEthernet = ipOverEthernet;
+	}
 
-  public void setVirtualCpAddress(VirtualCpAddressData virtualCpAddress) {
-    this.virtualCpAddress = virtualCpAddress;
-  }
+	public CpProtocolData virtualCpAddress(final VirtualCpAddressData virtualCpAddress) {
+		this.virtualCpAddress = virtualCpAddress;
+		return this;
+	}
 
+	/**
+	 * Get virtualCpAddress
+	 *
+	 * @return virtualCpAddress
+	 **/
+	@Schema(description = "")
 
-  @Override
-  public boolean equals(java.lang.Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    CpProtocolData cpProtocolData = (CpProtocolData) o;
-    return Objects.equals(this.layerProtocol, cpProtocolData.layerProtocol) &&
-        Objects.equals(this.ipOverEthernet, cpProtocolData.ipOverEthernet) &&
-        Objects.equals(this.virtualCpAddress, cpProtocolData.virtualCpAddress);
-  }
+	@Valid
+	public VirtualCpAddressData getVirtualCpAddress() {
+		return virtualCpAddress;
+	}
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(layerProtocol, ipOverEthernet, virtualCpAddress);
-  }
+	public void setVirtualCpAddress(final VirtualCpAddressData virtualCpAddress) {
+		this.virtualCpAddress = virtualCpAddress;
+	}
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class CpProtocolData {\n");
-    
-    sb.append("    layerProtocol: ").append(toIndentedString(layerProtocol)).append("\n");
-    sb.append("    ipOverEthernet: ").append(toIndentedString(ipOverEthernet)).append("\n");
-    sb.append("    virtualCpAddress: ").append(toIndentedString(virtualCpAddress)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
+	@Override
+	public boolean equals(final java.lang.Object o) {
+		if (this == o) {
+			return true;
+		}
+		if ((o == null) || (getClass() != o.getClass())) {
+			return false;
+		}
+		final CpProtocolData cpProtocolData = (CpProtocolData) o;
+		return Objects.equals(this.layerProtocol, cpProtocolData.layerProtocol) &&
+				Objects.equals(this.ipOverEthernet, cpProtocolData.ipOverEthernet) &&
+				Objects.equals(this.virtualCpAddress, cpProtocolData.virtualCpAddress);
+	}
 
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
+	@Override
+	public int hashCode() {
+		return Objects.hash(layerProtocol, ipOverEthernet, virtualCpAddress);
+	}
+
+	@Override
+	public String toString() {
+		final StringBuilder sb = new StringBuilder();
+		sb.append("class CpProtocolData {\n");
+
+		sb.append("    layerProtocol: ").append(toIndentedString(layerProtocol)).append("\n");
+		sb.append("    ipOverEthernet: ").append(toIndentedString(ipOverEthernet)).append("\n");
+		sb.append("    virtualCpAddress: ").append(toIndentedString(virtualCpAddress)).append("\n");
+		sb.append("}");
+		return sb.toString();
+	}
+
+	/**
+	 * Convert the given object to string with each line indented by 4 spaces
+	 * (except the first line).
+	 */
+	private String toIndentedString(final java.lang.Object o) {
+		if (o == null) {
+			return "null";
+		}
+		return o.toString().replace("\n", "\n    ");
+	}
 }

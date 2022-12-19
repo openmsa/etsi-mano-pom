@@ -49,7 +49,7 @@ public class AdditionalServiceInfo {
 
 	@JsonProperty("serviceInfo")
 	@Valid
-	private List<Map<String, String>> serviceInfo = null;
+	private Map<String, String> serviceInfo = null;
 
 	public AdditionalServiceInfo portInfo(final List<ServicePortInfo> portInfo) {
 		this.portInfo = portInfo;
@@ -77,16 +77,8 @@ public class AdditionalServiceInfo {
 		this.portInfo = portInfo;
 	}
 
-	public AdditionalServiceInfo serviceInfo(final List<Map<String, String>> serviceInfo) {
+	public AdditionalServiceInfo serviceInfo(final Map<String, String> serviceInfo) {
 		this.serviceInfo = serviceInfo;
-		return this;
-	}
-
-	public AdditionalServiceInfo addServiceInfoItem(final Map<String, String> serviceInfoItem) {
-		if (this.serviceInfo == null) {
-			this.serviceInfo = new ArrayList<>();
-		}
-		this.serviceInfo.add(serviceInfoItem);
 		return this;
 	}
 
@@ -97,11 +89,11 @@ public class AdditionalServiceInfo {
 	 **/
 	@Schema(description = "Service matching information exposed by the virtual CP instance. See note. ")
 	@Valid
-	public List<Map<String, String>> getServiceInfo() {
+	public Map<String, String> getServiceInfo() {
 		return serviceInfo;
 	}
 
-	public void setServiceInfo(final List<Map<String, String>> serviceInfo) {
+	public void setServiceInfo(final Map<String, String> serviceInfo) {
 		this.serviceInfo = serviceInfo;
 	}
 

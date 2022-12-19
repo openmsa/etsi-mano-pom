@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.vnfm.v261.model.vnflcm;
 
+import java.util.Map;
 import java.util.Objects;
 
 import javax.validation.Valid;
@@ -88,7 +89,7 @@ public class AffectedVirtualStorage {
 	private ResourceHandle storageResource = null;
 
 	@JsonProperty("metadata")
-	private KeyValuePairs metadata = null;
+	private Map<String, String> metadata = null;
 
 	public AffectedVirtualStorage id(final String id) {
 		this.id = id;
@@ -177,7 +178,7 @@ public class AffectedVirtualStorage {
 		this.storageResource = storageResource;
 	}
 
-	public AffectedVirtualStorage metadata(final KeyValuePairs metadata) {
+	public AffectedVirtualStorage metadata(final Map<String, String> metadata) {
 		this.metadata = metadata;
 		return this;
 	}
@@ -190,11 +191,11 @@ public class AffectedVirtualStorage {
 	@Schema(description = "")
 
 	@Valid
-	public KeyValuePairs getMetadata() {
+	public Map<String, String> getMetadata() {
 		return metadata;
 	}
 
-	public void setMetadata(final KeyValuePairs metadata) {
+	public void setMetadata(final Map<String, String> metadata) {
 		this.metadata = metadata;
 	}
 
@@ -203,7 +204,7 @@ public class AffectedVirtualStorage {
 		if (this == o) {
 			return true;
 		}
-		if (o == null || getClass() != o.getClass()) {
+		if ((o == null) || (getClass() != o.getClass())) {
 			return false;
 		}
 		final AffectedVirtualStorage affectedVirtualStorage = (AffectedVirtualStorage) o;

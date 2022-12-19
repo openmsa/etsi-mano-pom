@@ -54,24 +54,24 @@ public class IpOverEthernetAddressInfoEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
 
-	private String macAddress = null;
+	private String macAddress;
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	private List<IpOverEthernetAddressDataIpAddressesEntity> ipAddresses = new ArrayList<>();
 
 	@Enumerated(EnumType.STRING)
-	private TypeEnum type = null;
+	private TypeEnum type;
 
-	private String addresses = null;
+	private String addresses;
 	// 3.3.1
 	private String segmentationId;
 
-	private Boolean isDynamic = null;
+	private Boolean isDynamic;
 
 	@Embedded
-	private IpOverEthernetAddressInfoAddressRangeEntity addressRange = null;
+	private IpOverEthernetAddressInfoAddressRangeEntity addressRange;
 
-	private String subnetId = null;
+	private String subnetId;
 
 	/**
 	 * The type of the IP addresses

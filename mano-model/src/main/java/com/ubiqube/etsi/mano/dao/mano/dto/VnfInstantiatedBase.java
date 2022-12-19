@@ -22,7 +22,9 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.persistence.Embedded;
+import javax.persistence.OneToOne;
 
+import com.ubiqube.etsi.mano.dao.mano.AdditionalResourceInfo;
 import com.ubiqube.etsi.mano.dao.mano.Audit;
 import com.ubiqube.etsi.mano.dao.mano.Auditable;
 import com.ubiqube.etsi.mano.dao.mano.BaseEntity;
@@ -45,14 +47,14 @@ public class VnfInstantiatedBase implements Auditable, BaseEntity {
 	/** Serial. */
 	private static final long serialVersionUID = 1L;
 
-	private UUID id ;
+	private UUID id;
 
 	private VduInstantiationLevel instantiationLevel;
 
 	/*
 	 * Vnf Compute.
 	 */
-	private UUID vduId ;
+	private UUID vduId;
 
 	// 3.3.1
 	private String vnfdId;
@@ -69,26 +71,30 @@ public class VnfInstantiatedBase implements Auditable, BaseEntity {
 	/**
 	 * Grant Info
 	 */
-	private String resourceProviderId ;
+	private String resourceProviderId;
+
+	@OneToOne
+	private AdditionalResourceInfo vimLevelAdditionalResourceInfo;
+
+	private String containerNamespace;
+	/**
+	 * Grant Info
+	 */
+	private String zoneId;
 
 	/**
 	 * Grant Info
 	 */
-	private String zoneId ;
-
-	/**
-	 * Grant Info
-	 */
-	private String resourceGroupId ;
+	private String resourceGroupId;
 
 	/**
 	 * VIM Resources.
 	 */
 	private VimConnectionInformation vimConnectionInformation;
 
-	private String resourceId ;
+	private String resourceId;
 
-	private String vimLevelResourceType ;
+	private String vimLevelResourceType;
 
 	private InstantiationStatusType status = InstantiationStatusType.PROCESSING;
 

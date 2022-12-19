@@ -47,11 +47,8 @@ class MappingTest extends TestHelper {
 	void testLcmOpOccs() throws Exception {
 		final Set<String> ignore = new HashSet<>();
 		ignore.add("getLinks");
-		ignore.add("getChangedInfo");
-		ignore.add("getChangedExtConnectivity");
+		// To much work.
 		ignore.add("getResourceChanges");
-		ignore.add("getAffectedVipCps");
-		ignore.add("getVnfVirtualLinkDescId");
 		doTest(VnfLcmOpOcc.class, VnfBlueprint.class, ignore);
 		assertTrue(true);
 	}

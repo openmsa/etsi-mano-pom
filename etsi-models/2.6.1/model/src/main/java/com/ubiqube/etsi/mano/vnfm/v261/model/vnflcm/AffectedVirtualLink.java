@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.vnfm.v261.model.vnflcm;
 
+import java.util.Map;
 import java.util.Objects;
 
 import javax.validation.Valid;
@@ -93,7 +94,7 @@ public class AffectedVirtualLink {
 	private ResourceHandle networkResource = null;
 
 	@JsonProperty("metadata")
-	private KeyValuePairs metadata = null;
+	private Map<String, String> metadata = null;
 
 	public AffectedVirtualLink id(final String id) {
 		this.id = id;
@@ -183,7 +184,7 @@ public class AffectedVirtualLink {
 		this.networkResource = networkResource;
 	}
 
-	public AffectedVirtualLink metadata(final KeyValuePairs metadata) {
+	public AffectedVirtualLink metadata(final Map<String, String> metadata) {
 		this.metadata = metadata;
 		return this;
 	}
@@ -196,11 +197,11 @@ public class AffectedVirtualLink {
 	@Schema(description = "")
 
 	@Valid
-	public KeyValuePairs getMetadata() {
+	public Map<String, String> getMetadata() {
 		return metadata;
 	}
 
-	public void setMetadata(final KeyValuePairs metadata) {
+	public void setMetadata(final Map<String, String> metadata) {
 		this.metadata = metadata;
 	}
 
@@ -209,7 +210,7 @@ public class AffectedVirtualLink {
 		if (this == o) {
 			return true;
 		}
-		if (o == null || getClass() != o.getClass()) {
+		if ((o == null) || (getClass() != o.getClass())) {
 			return false;
 		}
 		final AffectedVirtualLink affectedVirtualLink = (AffectedVirtualLink) o;

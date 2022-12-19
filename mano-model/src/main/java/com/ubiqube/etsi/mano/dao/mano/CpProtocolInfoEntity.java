@@ -88,7 +88,7 @@ public class CpProtocolInfoEntity implements Serializable {
 	private LayerProtocolEnum layerProtocol = null;
 
 	@OneToOne
-	private IpOverEthernetAddressInfoEntity ipOverEthernet = null;
+	private IpOverEthernetAddressInfoEntity ipOverEthernet;
 
 	private VirtualCpAddressInfo virtualCpAddress;
 }

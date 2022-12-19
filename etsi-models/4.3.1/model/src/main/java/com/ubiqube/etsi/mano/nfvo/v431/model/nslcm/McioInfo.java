@@ -24,7 +24,9 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.validation.annotation.Validated;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -62,8 +64,41 @@ public class McioInfo {
 	@JsonProperty("cismId")
 	private String cismId = null;
 
+	/**
+	 * The type of MCIO. Specific values, their semantics and associated MCIO types
+	 * are defined in clause 5.5.4.9. Additional values are also permitted. See note
+	 * 1.
+	 */
+	public enum McioTypeEnum {
+		DEPLOYMENT("Deployment"),
+
+		STATEFULSET("Statefulset");
+
+		private final String value;
+
+		McioTypeEnum(final String value) {
+			this.value = value;
+		}
+
+		@Override
+		@JsonValue
+		public String toString() {
+			return String.valueOf(value);
+		}
+
+		@JsonCreator
+		public static McioTypeEnum fromValue(final String text) {
+			for (final McioTypeEnum b : McioTypeEnum.values()) {
+				if (String.valueOf(b.value).equals(text)) {
+					return b;
+				}
+			}
+			return null;
+		}
+	}
+
 	@JsonProperty("mcioType")
-	private String mcioType = null;
+	private McioTypeEnum mcioType = null;
 
 	@JsonProperty("desiredInstances")
 	private Integer desiredInstances = null;
@@ -179,7 +214,7 @@ public class McioInfo {
 		this.cismId = cismId;
 	}
 
-	public McioInfo mcioType(final String mcioType) {
+	public McioInfo mcioType(final McioTypeEnum mcioType) {
 		this.mcioType = mcioType;
 		return this;
 	}
@@ -194,11 +229,11 @@ public class McioInfo {
 	@Schema(required = true, description = "The type of MCIO. Specific values, their semantics and associated MCIO types are defined in clause 6.5.4.13. Additional values are also permitted. See note 1. ")
 	@NotNull
 
-	public String getMcioType() {
+	public McioTypeEnum getMcioType() {
 		return mcioType;
 	}
 
-	public void setMcioType(final String mcioType) {
+	public void setMcioType(final McioTypeEnum mcioType) {
 		this.mcioType = mcioType;
 	}
 

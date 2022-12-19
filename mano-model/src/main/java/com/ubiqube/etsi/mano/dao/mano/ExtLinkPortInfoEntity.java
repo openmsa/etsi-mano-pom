@@ -60,4 +60,8 @@ public class ExtLinkPortInfoEntity implements BaseEntity, Auditable {
 	 * instance. The value refers to an "extCpInfo" item in the VnfInstance.
 	 */
 	private String cpInstanceId;
+
+	private String secondaryCpInstanceId;
+
+	private String trunkResourceId;
 }
