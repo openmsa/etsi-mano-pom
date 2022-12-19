@@ -20,7 +20,6 @@ import java.util.Set;
 
 import org.springframework.stereotype.Component;
 
-import com.ubiqube.etsi.mano.dao.mano.ExtCpInfo;
 import com.ubiqube.etsi.mano.dao.mano.ExtManagedVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.ExtVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.GrantInformationExt;
@@ -52,7 +51,6 @@ import com.ubiqube.etsi.mano.em.v281.model.vnflcm.ExtManagedVirtualLinkInfo;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.ExtVirtualLinkInfo;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.LccnSubscription;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.LccnSubscriptionRequest;
-import com.ubiqube.etsi.mano.em.v281.model.vnflcm.VnfExtCpInfo;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.VnfInstanceInstantiatedVnfInfo;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.VnfLcmOpOcc;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.VnfcResourceInfo;
@@ -203,10 +201,6 @@ public class OrikaMapperVnfm281 implements OrikaMapperFactoryConfigurer {
 				.byDefault()
 				.register();
 		orikaMapperFactory.classMap(ExtManagedVirtualLinkData.class, ExtManagedVirtualLinkDataEntity.class)
-				.byDefault()
-				.register();
-		orikaMapperFactory.classMap(VnfExtCpInfo.class, ExtCpInfo.class)
-				.field("extLinkPortId", "extLinkPortId271")
 				.byDefault()
 				.register();
 		orikaMapperFactory.classMap(ExtVirtualLinkInfo.class, ExtVirtualLinkDataEntity.class)

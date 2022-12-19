@@ -11,6 +11,7 @@ import javax.persistence.OneToOne;
 
 import com.ubiqube.etsi.mano.dao.mano.CpProtocolInfoEntity.LayerProtocolEnum;
 import com.ubiqube.etsi.mano.dao.mano.IpOverEthernetAddressDataEntity;
+import com.ubiqube.etsi.mano.dao.mano.VirtualCpAddressInfo;
 
 import lombok.Data;
 
@@ -28,4 +29,6 @@ public class CpProtocolInfo implements Serializable {
 
 	@OneToOne
 	private IpOverEthernetAddressDataEntity ipOverEthernet;
+
+	private VirtualCpAddressInfo virtualCpAddress;
 }

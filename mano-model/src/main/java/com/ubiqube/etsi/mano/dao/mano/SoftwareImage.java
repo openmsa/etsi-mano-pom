@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.dao.mano;
 
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
@@ -61,6 +62,8 @@ public class SoftwareImage implements Auditable {
 	@Embedded
 	private Checksum checksum;
 
+	private Boolean isEncrypted;
+
 	@Nullable
 	@Enumerated(EnumType.STRING)
 	private ContainerFormatType containerFormat;
@@ -68,6 +71,8 @@ public class SoftwareImage implements Auditable {
 	@Nullable
 	@Enumerated(EnumType.STRING)
 	private DiskFormatType diskFormat = DiskFormatType.QCOW2;
+
+	private OffsetDateTime createdAt;
 
 	@Nullable
 	private Long minDisk;
@@ -83,6 +88,8 @@ public class SoftwareImage implements Auditable {
 	 */
 	@Nullable
 	private String imagePath;
+
+	private String imageUri;
 
 	/**
 	 * Path in NFVO repository.

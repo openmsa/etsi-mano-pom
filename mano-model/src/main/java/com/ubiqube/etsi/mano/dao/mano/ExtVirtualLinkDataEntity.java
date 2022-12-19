@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.dao.mano;
 
 import java.io.Serializable;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -29,6 +30,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.Valid;
 
 import lombok.Getter;
@@ -73,4 +75,18 @@ public class ExtVirtualLinkDataEntity implements Serializable {
 	// 3.3.1
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<VnfExtCpDataEntity> currentVnfExtCpData;
+
+	/**
+	 * @since 4.3.1
+	 */
+	@OneToOne
+	private AdditionalResourceInfo vimLevelAdditionalResourceInfo;
+
+	/**
+	 * @Since 4.3.1
+	 */
+	private String containerNamespace;
+
+	@OneToMany
+	private List<NetAttDefResourceInfo> extNetAttDefResource;
 }

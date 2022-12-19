@@ -205,6 +205,7 @@ public class GrantInformationExt implements BaseEntity, Serializable {
 	/**
 	 * @Since 4.3.1
 	 */
+	@OneToOne
 	private AdditionalResourceInfo vimLevelAdditionalResourceInfo;
 
 	/**

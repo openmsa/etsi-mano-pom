@@ -22,7 +22,6 @@ import java.util.Set;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.AdditionalArtifact;
-import com.ubiqube.etsi.mano.dao.mano.ExtCpInfo;
 import com.ubiqube.etsi.mano.dao.mano.ExtManagedVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.ExtVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.GrantInformationExt;
@@ -45,7 +44,6 @@ import com.ubiqube.etsi.mano.em.v431.model.vnffm.FmSubscriptionRequest;
 import com.ubiqube.etsi.mano.em.v431.model.vnflcm.AffectedVirtualStorage;
 import com.ubiqube.etsi.mano.em.v431.model.vnflcm.LccnSubscriptionRequest;
 import com.ubiqube.etsi.mano.em.v431.model.vnflcm.VnfInfoModifications;
-import com.ubiqube.etsi.mano.em.v431.model.vnflcm.VnfInstanceInstantiatedVnfInfo;
 import com.ubiqube.etsi.mano.nfvo.v431.model.vnfsnapshotpkgm.Checksum;
 import com.ubiqube.etsi.mano.service.event.model.AuthParamOauth2;
 import com.ubiqube.etsi.mano.service.event.model.AuthentificationInformations;
@@ -68,7 +66,7 @@ import com.ubiqube.etsi.mano.vnfm.v431.model.vnflcm.AffectedVnfc;
 import com.ubiqube.etsi.mano.vnfm.v431.model.vnflcm.ExtManagedVirtualLinkInfo;
 import com.ubiqube.etsi.mano.vnfm.v431.model.vnflcm.ExtVirtualLinkInfo;
 import com.ubiqube.etsi.mano.vnfm.v431.model.vnflcm.LccnSubscription;
-import com.ubiqube.etsi.mano.vnfm.v431.model.vnflcm.VnfExtCpInfo;
+import com.ubiqube.etsi.mano.vnfm.v431.model.vnflcm.VnfInstanceInstantiatedVnfInfo;
 import com.ubiqube.etsi.mano.vnfm.v431.model.vnflcm.VnfLcmOpOcc;
 import com.ubiqube.etsi.mano.vnfm.v431.model.vnflcm.VnfcResourceInfo;
 import com.ubiqube.etsi.mano.vnfm.v431.model.vrqan.SubscriptionAuthentication;
@@ -94,6 +92,7 @@ public class OrikaMapperVnfm431 implements OrikaMapperFactoryConfigurer {
 				.field("localizationLanguage", "localizationLanguage")
 				.field("monitoringParameters", "vnfMonitoringParameter")
 				.field("extManagedVirtualLinkInfo", "extManagedVirtualLinks")
+				.field("vnfVirtualLinkResourceInfo", "virtualLinkResourceInfo")
 				.byDefault()
 				.register();
 		orikaMapperFactory.classMap(VnfPackageArtifactInfo.class, AdditionalArtifact.class)
@@ -212,15 +211,13 @@ public class OrikaMapperVnfm431 implements OrikaMapperFactoryConfigurer {
 		orikaMapperFactory.classMap(ExtManagedVirtualLinkData.class, ExtManagedVirtualLinkDataEntity.class)
 				.byDefault()
 				.register();
-		orikaMapperFactory.classMap(VnfExtCpInfo.class, ExtCpInfo.class)
-				.field("extLinkPortId", "extLinkPortId271")
-				.byDefault()
-				.register();
 		orikaMapperFactory.classMap(ExtVirtualLinkInfo.class, ExtVirtualLinkDataEntity.class)
 				.field("resourceHandle.vimConnectionId", "vimConnectionId")
 				.field("resourceHandle.resourceProviderId", "resourceProviderId")
 				.field("resourceHandle.resourceId", "resourceId")
 				.field("resourceHandle.vimLevelResourceType", "vimLevelResourceType")
+				.field("resourceHandle.vimLevelAdditionalResourceInfo", "vimLevelAdditionalResourceInfo")
+				.field("resourceHandle.containerNamespace", "containerNamespace")
 				.byDefault()
 				.register();
 		orikaMapperFactory.classMap(ExtManagedVirtualLinkInfo.class, ExtManagedVirtualLinkDataEntity.class)
@@ -228,6 +225,8 @@ public class OrikaMapperVnfm431 implements OrikaMapperFactoryConfigurer {
 				.field("networkResource.resourceProviderId", "resourceProviderId")
 				.field("networkResource.resourceId", "resourceId")
 				.field("networkResource.vimLevelResourceType", "vimLevelResourceType")
+				.field("networkResource.vimLevelAdditionalResourceInfo", "vimLevelAdditionalResourceInfo")
+				.field("networkResource.containerNamespace", "containerNamespace")
 				.byDefault()
 				.register();
 		orikaMapperFactory.classMap(AffectedVirtualStorage.class, VnfInstantiatedStorage.class)

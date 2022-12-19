@@ -1,11 +1,11 @@
-package com.ubiqube.etsi.mano.dao.mano;
+package com.ubiqube.etsi.mano.dao.mano.v2;
 
 import java.io.Serializable;
-import java.util.Map;
 import java.util.UUID;
 
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,7 +14,7 @@ import lombok.Data;
 
 @Data
 @Entity
-public class AdditionalResourceInfo implements Serializable {
+public class ServicePortInfo implements Serializable {
 	/** Serial. */
 	private static final long serialVersionUID = 1L;
 
@@ -22,10 +22,13 @@ public class AdditionalResourceInfo implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
 
-	private String hostName;
+	private String name;
 
-	private String persistentVolume;
+	@Enumerated(EnumType.STRING)
+	private ProtocolEnum protocol;
 
-	@ElementCollection
-	private Map<String, String> additionalInfo;
+	private Integer port;
+
+	private Boolean portConfigurable;
+
 }

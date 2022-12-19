@@ -27,12 +27,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import lombok.Data;
+
 /**
  * Same as CpProtocolInfo.
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
+@Data
 @Entity
 public class CpProtocolDataEntity implements Serializable {
 	/** Serial. */
@@ -52,36 +55,9 @@ public class CpProtocolDataEntity implements Serializable {
 	@OneToOne
 	private VnfExtCpConfiguration vnfExtCpConfiguration = null;
 
-	public UUID getId() {
-		return id;
-	}
-
-	public void setId(final UUID id) {
-		this.id = id;
-	}
-
-	public LayerProtocolType getLayerProtocol() {
-		return layerProtocol;
-	}
-
-	public void setLayerProtocol(final LayerProtocolType layerProtocol) {
-		this.layerProtocol = layerProtocol;
-	}
-
-	public IpOverEthernetAddressDataEntity getIpOverEthernet() {
-		return ipOverEthernet;
-	}
-
-	public void setIpOverEthernet(final IpOverEthernetAddressDataEntity ipOverEthernet) {
-		this.ipOverEthernet = ipOverEthernet;
-	}
-
-	public VnfExtCpConfiguration getVnfExtCpConfiguration() {
-		return vnfExtCpConfiguration;
-	}
-
-	public void setVnfExtCpConfiguration(final VnfExtCpConfiguration vnfExtCpConfiguration) {
-		this.vnfExtCpConfiguration = vnfExtCpConfiguration;
-	}
+	/**
+	 * @since 4.3.1
+	 */
+	private VirtualCpAddressInfo virtualCpAddress;
 
 }

@@ -32,7 +32,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-
 /**
  * This type represents information about an external CP of a VNF. It shall
  * comply with the provisions defined in Table 6.5.3.70-1.
@@ -51,7 +50,7 @@ public class VnfExtCpInfo {
 	private List<CpProtocolInfo> cpProtocolInfo = null;
 
 	@JsonProperty("extLinkPortId")
-	private CpProtocolInfo extLinkPortId = null;
+	private String extLinkPortId = null;
 
 	@JsonProperty("metadata")
 	private Map<String, String> metadata = null;
@@ -134,7 +133,7 @@ public class VnfExtCpInfo {
 		this.cpProtocolInfo = cpProtocolInfo;
 	}
 
-	public VnfExtCpInfo extLinkPortId(final CpProtocolInfo extLinkPortId) {
+	public VnfExtCpInfo extLinkPortId(final String extLinkPortId) {
 		this.extLinkPortId = extLinkPortId;
 		return this;
 	}
@@ -150,11 +149,11 @@ public class VnfExtCpInfo {
 
 	@Valid
 
-	public CpProtocolInfo getExtLinkPortId() {
+	public String getExtLinkPortId() {
 		return extLinkPortId;
 	}
 
-	public void setExtLinkPortId(final CpProtocolInfo extLinkPortId) {
+	public void setExtLinkPortId(final String extLinkPortId) {
 		this.extLinkPortId = extLinkPortId;
 	}
 

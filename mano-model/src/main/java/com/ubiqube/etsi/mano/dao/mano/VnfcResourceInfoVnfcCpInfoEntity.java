@@ -92,6 +92,12 @@ public class VnfcResourceInfoVnfcCpInfoEntity implements Serializable {
 	 */
 	private String parentCpId;
 
+	/**
+	 * @since 4.3.1
+	 */
+	@ElementCollection
+	private List<String> netAttDefResourceId;
+
 	@ElementCollection(fetch = FetchType.EAGER)
 	private Map<String, String> metadata;
 

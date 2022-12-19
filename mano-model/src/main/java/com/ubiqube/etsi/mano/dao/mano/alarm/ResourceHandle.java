@@ -20,6 +20,9 @@ import java.io.Serializable;
 import java.util.UUID;
 
 import javax.persistence.Embeddable;
+import javax.persistence.OneToOne;
+
+import com.ubiqube.etsi.mano.dao.mano.AdditionalResourceInfo;
 
 import lombok.Data;
 
@@ -29,12 +32,18 @@ public class ResourceHandle implements Serializable {
 	/** Serial. */
 	private static final long serialVersionUID = 1L;
 	/**
-	 * Identifier of the VIM connection to manage the resource. This attribute shall only be supported and present if VNF-related resource management in direct mode is applicable.
-	 * NOTE: he information about the VIM connection referenced by the VIM connection id is known to the VNFM. Moreover, the identifier of the VIM connection provides scope to the resourceId.
+	 * Identifier of the VIM connection to manage the resource. This attribute shall
+	 * only be supported and present if VNF-related resource management in direct
+	 * mode is applicable. NOTE: he information about the VIM connection referenced
+	 * by the VIM connection id is known to the VNFM. Moreover, the identifier of
+	 * the VIM connection provides scope to the resourceId.
 	 */
 	private UUID vimConnectionId;
 	/**
-	 * Identifier of the entity responsible for the management of the resource. This attribute shall only be supported and present when VNF-related resource management in indirect mode is applicable. The identification scheme is outside the scope of the present document.
+	 * Identifier of the entity responsible for the management of the resource. This
+	 * attribute shall only be supported and present when VNF-related resource
+	 * management in indirect mode is applicable. The identification scheme is
+	 * outside the scope of the present document.
 	 */
 	private String resourceProviderId;
 	/**
@@ -44,7 +53,14 @@ public class ResourceHandle implements Serializable {
 	/**
 	 * Type of the resource in the scope of the VIM or the resource provider.
 	 *
-	 * NOTE: The value set of the "vimLevelResourceType" attribute is within the scope of the VIM or the resource provider and can be used as information that complements the ResourceHandle.
+	 * NOTE: The value set of the "vimLevelResourceType" attribute is within the
+	 * scope of the VIM or the resource provider and can be used as information that
+	 * complements the ResourceHandle.
 	 */
 	private String vimLevelResourceType;
+
+	@OneToOne
+	private AdditionalResourceInfo vimLevelAdditionalResourceInfo;
+
+	private String containerNamespace;
 }

@@ -243,4 +243,16 @@ public class BlueprintParameters implements Serializable {
 	 */
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<VipCpInfo> vipCpInfo;
+
+	/**
+	 * @Since 4.3.1
+	 */
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<McioInfo> mcioInfo;
+
+	/**
+	 * @Since 4.3.1
+	 */
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<VirtualCpInfo> virtualCpInfo;
 }

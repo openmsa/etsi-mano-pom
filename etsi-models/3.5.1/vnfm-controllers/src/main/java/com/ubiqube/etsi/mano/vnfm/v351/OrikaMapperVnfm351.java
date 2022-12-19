@@ -21,7 +21,6 @@ import java.util.Set;
 import org.springframework.stereotype.Component;
 
 import com.ubiqube.etsi.mano.dao.mano.AdditionalArtifact;
-import com.ubiqube.etsi.mano.dao.mano.ExtCpInfo;
 import com.ubiqube.etsi.mano.dao.mano.ExtManagedVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.ExtVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.GrantInformationExt;
@@ -50,13 +49,11 @@ import com.ubiqube.etsi.mano.em.v351.model.vnflcm.AffectedExtLinkPort;
 import com.ubiqube.etsi.mano.em.v351.model.vnflcm.AffectedVirtualLink;
 import com.ubiqube.etsi.mano.em.v351.model.vnflcm.AffectedVirtualStorage;
 import com.ubiqube.etsi.mano.em.v351.model.vnflcm.AffectedVnfc;
-import com.ubiqube.etsi.mano.em.v351.model.vnflcm.ExtManagedVirtualLinkData;
 import com.ubiqube.etsi.mano.em.v351.model.vnflcm.ExtManagedVirtualLinkInfo;
 import com.ubiqube.etsi.mano.em.v351.model.vnflcm.ExtVirtualLinkInfo;
 import com.ubiqube.etsi.mano.em.v351.model.vnflcm.LccnSubscription;
 import com.ubiqube.etsi.mano.em.v351.model.vnflcm.LccnSubscriptionRequest;
 import com.ubiqube.etsi.mano.em.v351.model.vnflcm.VnfExtCpData;
-import com.ubiqube.etsi.mano.em.v351.model.vnflcm.VnfExtCpInfo;
 import com.ubiqube.etsi.mano.em.v351.model.vnflcm.VnfInfoModifications;
 import com.ubiqube.etsi.mano.em.v351.model.vnflcm.VnfInstanceInstantiatedVnfInfo;
 import com.ubiqube.etsi.mano.em.v351.model.vnflcm.VnfLcmOpOcc;
@@ -204,14 +201,6 @@ public class OrikaMapperVnfm351 implements OrikaMapperFactoryConfigurer {
 				.field("isAutomaticInvocation", "automaticInvocation")
 				.field("isCancelPending", "cancelPending")
 				.field("operationParams", "parameters")
-				.byDefault()
-				.register();
-
-		orikaMapperFactory.classMap(ExtManagedVirtualLinkData.class, ExtManagedVirtualLinkDataEntity.class)
-				.byDefault()
-				.register();
-		orikaMapperFactory.classMap(VnfExtCpInfo.class, ExtCpInfo.class)
-				.field("extLinkPortId", "extLinkPortId271")
 				.byDefault()
 				.register();
 		orikaMapperFactory.classMap(ExtVirtualLinkInfo.class, ExtVirtualLinkDataEntity.class)

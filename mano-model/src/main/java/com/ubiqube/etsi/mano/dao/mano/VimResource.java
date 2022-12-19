@@ -19,6 +19,7 @@ package com.ubiqube.etsi.mano.dao.mano;
 import java.io.Serializable;
 
 import javax.persistence.Embeddable;
+import javax.persistence.OneToOne;
 
 import lombok.Data;
 
@@ -60,6 +61,7 @@ public class VimResource implements Serializable {
 	 */
 	private String vimLevelResourceType;
 
+	@OneToOne
 	private AdditionalResourceInfo vimLevelAdditionalResourceInfo;
 
 	private String containerNamespace;

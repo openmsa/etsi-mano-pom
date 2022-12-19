@@ -1,24 +1,25 @@
 package com.ubiqube.etsi.mano.dao.mano.v2;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
-import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.ubiqube.etsi.mano.dao.mano.alarm.ResourceHandle;
+
 import lombok.Data;
 
 @Data
 @Entity
-public class VipCpInfo implements Serializable {
+public class VirtualCpInfo implements Serializable {
 	/** Serial. */
 	private static final long serialVersionUID = 1L;
 
@@ -30,21 +31,20 @@ public class VipCpInfo implements Serializable {
 
 	private String cpdId;
 
+	private ResourceHandle resourceHandle;
+
 	private String vnfExtCpId;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<CpProtocolInfo> cpProtocolInfo;
+	@OneToMany
+	private List<CpProtocolInfo> cpProtocolInfo;
 
 	@ElementCollection
-	private Set<String> associatedVnfcCpIds;
+	private List<String> vduIds = new ArrayList<>();
 
-	private String vnfLinkPortId;
+	@OneToMany
+	private List<AdditionalServiceInfo> additionalServiceInfo;
 
 	@ElementCollection
 	private Map<String, String> metadata;
 
-	/**
-	 * @Since 4.3.1
-	 */
-	private String vnfdId;
 }

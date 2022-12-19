@@ -90,4 +90,5 @@ public class CpProtocolInfoEntity implements Serializable {
 	@OneToOne
 	private IpOverEthernetAddressInfoEntity ipOverEthernet = null;
 
+	private VirtualCpAddressInfo virtualCpAddress;
 }

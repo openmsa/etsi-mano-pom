@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.dao.mano;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -50,20 +51,37 @@ public class ExtManagedVirtualLinkDataEntity implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id = null;
+	private UUID id;
 
-	private String vnfVirtualLinkDescId = null;
+	private String vnfVirtualLinkDescId;
 
 	// 3.3.1
 	private String vnfdId;
 
-	private String vimConnectionId = null;
+	private String vimConnectionId;
 
-	private String resourceProviderId = null;
+	private String resourceProviderId;
 
-	private String resourceId = null;
+	private String resourceId;
 
 	private String vimLevelResourceType;
+
+	/**
+	 * @since 4.3.1
+	 */
+	@OneToOne
+	private AdditionalResourceInfo vimLevelAdditionalResourceInfo;
+
+	/**
+	 * @since 4.3.1
+	 */
+	private String containerNamespace;
+
+	/**
+	 * @Sonce 4.3.1
+	 */
+	@OneToMany
+	private List<NetAttDefResourceInfo> vnfNetAttDefResource;
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	private Set<LinkPortInfo> vnfLinkPorts;

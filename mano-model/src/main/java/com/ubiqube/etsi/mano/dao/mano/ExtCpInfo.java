@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.dao.mano;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -30,7 +31,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -89,10 +89,7 @@ public class ExtCpInfo implements Serializable {
 	 * 2.
 	 *
 	 */
-	@OneToOne
-	private CpProtocolDataEntity extLinkPortId;
-	// 2.7.1 Type change
-	private CpProtocolDataEntity extLinkPortId271;
+	private String extLinkPortId;
 
 	@ElementCollection
 	private Map<String, String> metadata = new HashMap<>();
@@ -121,5 +118,16 @@ public class ExtCpInfo implements Serializable {
 	 * to an internal VL (including externally-managed internal VL).
 	 */
 	private String associatedVnfVirtualLinkId;
+
+	/**
+	 * @since 4.3.1
+	 */
+	private String associatedVirtualCpId;
+
+	/**
+	 * @since 4.3.1
+	 */
+	@ElementCollection
+	private List<String> netAttDefResourceId;
 
 }

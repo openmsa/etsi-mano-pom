@@ -29,6 +29,7 @@ import org.springframework.validation.annotation.Validated;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.ubiqube.etsi.mano.nfvo.v431.model.vnfsnapshotpkgm.Checksum;
 import com.ubiqube.etsi.mano.vnfm.v431.model.vrqan.ProblemDetails;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -73,7 +74,7 @@ public class VnfPkgInfo {
 	private List<String> compatibleSpecificationVersions = null;
 
 	@JsonProperty("checksum")
-	private String checksum = null;
+	private Checksum checksum = null;
 
 	/**
 	 * Signals the security option used by the package as defined in clause 5.1 of
@@ -314,7 +315,7 @@ public class VnfPkgInfo {
 		this.compatibleSpecificationVersions = compatibleSpecificationVersions;
 	}
 
-	public VnfPkgInfo checksum(final String checksum) {
+	public VnfPkgInfo checksum(final Checksum checksum) {
 		this.checksum = checksum;
 		return this;
 	}
@@ -326,11 +327,11 @@ public class VnfPkgInfo {
 	 **/
 	@Schema(description = "")
 
-	public String getChecksum() {
+	public Checksum getChecksum() {
 		return checksum;
 	}
 
-	public void setChecksum(final String checksum) {
+	public void setChecksum(final Checksum checksum) {
 		this.checksum = checksum;
 	}
 
