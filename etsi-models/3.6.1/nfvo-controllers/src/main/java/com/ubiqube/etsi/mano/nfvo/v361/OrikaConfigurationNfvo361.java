@@ -19,12 +19,14 @@ package com.ubiqube.etsi.mano.nfvo.v361;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.ExtManagedVirtualLinkDataEntity;
+import com.ubiqube.etsi.mano.dao.mano.ExtVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.GrantInformationExt;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.ScaleInfo;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
+import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.dto.NsInstantiatedVnf;
 import com.ubiqube.etsi.mano.dao.mano.dto.VnfInstantiatedCompute;
 import com.ubiqube.etsi.mano.dao.mano.dto.VnfInstantiatedExtCp;
@@ -34,14 +36,18 @@ import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 import com.ubiqube.etsi.mano.em.v361.model.vnfind.VnfIndicatorSubscriptionRequest;
 import com.ubiqube.etsi.mano.em.v361.model.vnflcm.ExtManagedVirtualLinkData;
+import com.ubiqube.etsi.mano.em.v361.model.vnflcm.ExtManagedVirtualLinkInfo;
+import com.ubiqube.etsi.mano.em.v361.model.vnflcm.ExtVirtualLinkInfo;
 import com.ubiqube.etsi.mano.em.v361.model.vnflcm.InstantiateVnfRequest;
 import com.ubiqube.etsi.mano.em.v361.model.vnflcm.LccnSubscription;
 import com.ubiqube.etsi.mano.em.v361.model.vnflcm.LccnSubscriptionRequest;
+import com.ubiqube.etsi.mano.em.v361.model.vnflcm.OperateVnfRequest;
 import com.ubiqube.etsi.mano.em.v361.model.vnflcm.ScaleVnfRequest;
 import com.ubiqube.etsi.mano.em.v361.model.vnflcm.ScaleVnfToLevelRequest;
 import com.ubiqube.etsi.mano.em.v361.model.vnflcm.SubscriptionAuthenticationParamsOauth2ClientCredentials;
 import com.ubiqube.etsi.mano.em.v361.model.vnflcm.TerminateVnfRequest;
 import com.ubiqube.etsi.mano.em.v361.model.vnflcm.VnfExtCpInfo;
+import com.ubiqube.etsi.mano.em.v361.model.vnflcm.VnfInstanceInstantiatedVnfInfo;
 import com.ubiqube.etsi.mano.em.v361.model.vnflcm.VnfLcmOpOcc;
 import com.ubiqube.etsi.mano.em.v361.model.vnflcm.VnfVirtualLinkResourceInfo;
 import com.ubiqube.etsi.mano.em.v361.model.vnflcm.VnfcResourceInfo;
@@ -80,6 +86,18 @@ public class OrikaConfigurationNfvo361 implements OrikaMapperFactoryConfigurer {
 
 	@Override
 	public void configure(final MapperFactory orikaMapperFactory) {
+		orikaMapperFactory.classMap(com.ubiqube.etsi.mano.em.v361.model.vnflcm.VnfInstance.class, VnfInstance.class)
+				.field("vnfConfigurableProperties{key}", "vnfConfigurableProperties{key}")
+				.field("vnfConfigurableProperties{value}", "vnfConfigurableProperties{value}")
+				.field("instantiatedVnfInfo.extVirtualLinkInfo", "instantiatedVnfInfo.extVirtualLinkInfo")
+				.field("metadata{key}", "metadata{key}")
+				.field("metadata{value}", "metadata{value}")
+				.field("extensions{key}", "extensions{key}")
+				.field("extensions{value}", "extensions{value}")
+				.field("vimConnectionInfo{value}", "vimConnectionInfo{}")
+				.byDefault()
+				.register();
+
 		orikaMapperFactory.classMap(NsScaleInfo.class, ScaleInfo.class)
 				.field("nsScalingAspectId", "aspectId")
 				.field("nsScaleLevelId", "scaleLevel")
@@ -154,9 +172,14 @@ public class OrikaConfigurationNfvo361 implements OrikaMapperFactoryConfigurer {
 				.field("id", "resourceDefinitionId")
 				.field("type", "type")
 				.field("vduId", "vduId")
+				.field("vnfdId", "vnfdId")
 				.field("resourceTemplateId", "resourceTemplateId")
+				.field("secondaryResourceTemplateId", "secondaryResourceTemplateId")
+				.field("snapshotResDef", "snapshotResDef")
 				.field("resource.vimConnectionId", "vimConnectionId")
 				.field("resource.resourceProviderId", "resourceProviderId")
+				.field("resource.vimLevelResourceType", "vimLevelResourceType")
+				.field("resource.resourceId", "resourceId")
 				.register();
 		orikaMapperFactory.classMap(InstantiateNsRequest.class, NsdInstance.class)
 				.field("nsFlavourId", "instantiatedVnfInfo.flavourId")
@@ -164,6 +187,20 @@ public class OrikaConfigurationNfvo361 implements OrikaMapperFactoryConfigurer {
 				.register();
 		orikaMapperFactory.classMap(ExtManagedVirtualLinkData.class, ExtManagedVirtualLinkDataEntity.class)
 				.field("vnfVirtualLinkDescId", "vnfVirtualLinkDescId")
+				.byDefault()
+				.register();
+		orikaMapperFactory.classMap(ExtManagedVirtualLinkInfo.class, ExtManagedVirtualLinkDataEntity.class)
+				.field("networkResource.vimConnectionId", "vimConnectionId")
+				.field("networkResource.resourceProviderId", "resourceProviderId")
+				.field("networkResource.resourceId", "resourceId")
+				.field("networkResource.vimLevelResourceType", "vimLevelResourceType")
+				.byDefault()
+				.register();
+		orikaMapperFactory.classMap(ExtVirtualLinkInfo.class, ExtVirtualLinkDataEntity.class)
+				.field("resourceHandle.vimConnectionId", "vimConnectionId")
+				.field("resourceHandle.resourceProviderId", "resourceProviderId")
+				.field("resourceHandle.resourceId", "resourceId")
+				.field("resourceHandle.vimLevelResourceType", "vimLevelResourceType")
 				.byDefault()
 				.register();
 		orikaMapperFactory.classMap(AffectedVnf.class, NsInstantiatedVnf.class)
@@ -232,6 +269,7 @@ public class OrikaConfigurationNfvo361 implements OrikaMapperFactoryConfigurer {
 						case SCALE -> map(a.getParameters(), ScaleVnfRequest.class);
 						case SCALE_TO_LEVEL -> map(a.getParameters(), ScaleVnfToLevelRequest.class);
 						case TERMINATE -> map(a.getParameters(), TerminateVnfRequest.class);
+						case OPERATE -> map(a.getParameters(), OperateVnfRequest.class);
 						default -> throw new IllegalArgumentException("Unexpected value: " + a.getOperation());
 						};
 						b.setOperationParams(x);
@@ -260,6 +298,16 @@ public class OrikaConfigurationNfvo361 implements OrikaMapperFactoryConfigurer {
 				.field("extVirtualLinks", "extVirtualLinkInfo")
 				.byDefault()
 				.register();
+		orikaMapperFactory.classMap(VnfInstanceInstantiatedVnfInfo.class, BlueprintParameters.class)
+				.field("vnfState", "state")
+				.field("extManagedVirtualLinkInfo", "extManagedVirtualLinks")
+				.field("monitoringParameters", "vnfMonitoringParameter")
+				.field("extVirtualLinkInfo", "extVirtualLinkInfo")
+				.field("vnfVirtualStorageResourceInfo", "virtualStorageResourceInfo")
+				.field("vnfVirtualLinkResourceInfo", "virtualLinkResourceInfo")
+				.byDefault()
+				.register();
+
 		// Not needed UploadVnfPkgFromUriRequest
 		final var converterFactory = orikaMapperFactory.getConverterFactory();
 		converterFactory.registerConverter(new UuidConverter());

@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.em.v361.model.vnflcm;
 
+import java.util.Map;
 import java.util.Objects;
 
 import javax.validation.Valid;
@@ -26,7 +27,6 @@ import org.springframework.validation.annotation.Validated;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
-import java.util.Map;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -97,6 +97,10 @@ public class VnfInstance {
 
 	@JsonProperty("vnfConfigurableProperties")
 	private Map<String, String> vnfConfigurableProperties = null;
+
+	@JsonProperty("vimConnectionInfo")
+	@Valid
+	private Map<String, VimConnectionInfo> vimConnectionInfo = null;
 
 	/**
 	 * The instantiation state of the VNF.
@@ -422,6 +426,14 @@ public class VnfInstance {
 		return this;
 	}
 
+	public Map<String, VimConnectionInfo> getVimConnectionInfo() {
+		return vimConnectionInfo;
+	}
+
+	public void setVimConnectionInfo(final Map<String, VimConnectionInfo> vimConnectionInfo) {
+		this.vimConnectionInfo = vimConnectionInfo;
+	}
+
 	/**
 	 * Get _links
 	 *
@@ -444,7 +456,7 @@ public class VnfInstance {
 		if (this == o) {
 			return true;
 		}
-		if (o == null || getClass() != o.getClass()) {
+		if ((o == null) || (getClass() != o.getClass())) {
 			return false;
 		}
 		final VnfInstance vnfInstance = (VnfInstance) o;
