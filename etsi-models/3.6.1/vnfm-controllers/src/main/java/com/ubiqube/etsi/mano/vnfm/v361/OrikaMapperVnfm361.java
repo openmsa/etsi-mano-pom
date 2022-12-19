@@ -21,7 +21,6 @@ import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.dao.mano.AdditionalArtifact;
 import com.ubiqube.etsi.mano.dao.mano.ExtManagedVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.ExtVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.GrantInformationExt;
@@ -64,7 +63,6 @@ import com.ubiqube.etsi.mano.mapper.OrikaFilterMapper;
 import com.ubiqube.etsi.mano.mapper.UuidConverter;
 import com.ubiqube.etsi.mano.model.VnfInstantiate;
 import com.ubiqube.etsi.mano.nfvo.v361.model.vnf.PkgmSubscriptionRequest;
-import com.ubiqube.etsi.mano.nfvo.v361.model.vnf.VnfPackageArtifactInfo;
 import com.ubiqube.etsi.mano.nfvo.v361.model.vnf.VnfPackageSoftwareImageInfo;
 import com.ubiqube.etsi.mano.nfvo.v361.model.vnf.VnfPackageSoftwareImageInfo.ContainerFormatEnum;
 import com.ubiqube.etsi.mano.nfvo.v361.model.vnf.VnfPackageSoftwareImageInfo.DiskFormatEnum;
@@ -101,11 +99,9 @@ public class OrikaMapperVnfm361 implements OrikaMapperFactoryConfigurer {
 				.field("localizationLanguage", "localizationLanguage")
 				.field("monitoringParameters", "vnfMonitoringParameter")
 				.field("extManagedVirtualLinkInfo", "extManagedVirtualLinks")
+				.field("vnfVirtualLinkResourceInfo", "virtualLinkResourceInfo")
+				.field("vnfVirtualStorageResourceInfo", "virtualStorageResourceInfo")
 				.byDefault()
-				.register();
-		orikaMapperFactory.classMap(VnfPackageArtifactInfo.class, AdditionalArtifact.class)
-				.byDefault()
-				.field("checksum", "checksum.hash")
 				.register();
 		orikaMapperFactory.classMap(VnfInfoModifications.class, VnfInfoModificationsDto.class)
 				// .field("vimConnectionInfo{value}", "vimConnectionInfo{}")
@@ -216,13 +212,15 @@ public class OrikaMapperVnfm361 implements OrikaMapperFactoryConfigurer {
 				.field("isAutomaticInvocation", "automaticInvocation")
 				.field("isCancelPending", "cancelPending")
 				.field("operationParams", "parameters")
+				.field("operationState", "operationStatus")
 				.byDefault()
 				.register();
+
 		orikaMapperFactory.classMap(ExtVirtualLinkInfo.class, ExtVirtualLinkDataEntity.class)
 				.field("resourceHandle.vimConnectionId", "vimConnectionId")
 				.field("resourceHandle.resourceProviderId", "resourceProviderId")
 				.field("resourceHandle.resourceId", "resourceId")
-				// .field("resourceHandle.vimLevelResourceType", "vimLevelResourceType")
+				.field("resourceHandle.vimLevelResourceType", "vimLevelResourceType")
 				.byDefault()
 				.register();
 		orikaMapperFactory.classMap(ExtManagedVirtualLinkInfo.class, ExtManagedVirtualLinkDataEntity.class)

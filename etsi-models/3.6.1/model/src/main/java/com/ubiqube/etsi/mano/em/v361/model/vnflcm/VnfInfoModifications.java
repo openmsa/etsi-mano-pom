@@ -16,8 +16,7 @@
  */
 package com.ubiqube.etsi.mano.em.v361.model.vnflcm;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import javax.validation.Valid;
@@ -25,7 +24,6 @@ import javax.validation.Valid;
 import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.Map;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -75,10 +73,6 @@ public class VnfInfoModifications {
 
 	@JsonProperty("vnfdVersion")
 	private String vnfdVersion = null;
-
-	@JsonProperty("vnfcInfoModifications")
-	@Valid
-	private List<VnfcInfoModifications> vnfcInfoModifications = null;
 
 	public VnfInfoModifications vnfInstanceName(final String vnfInstanceName) {
 		this.vnfInstanceName = vnfInstanceName;
@@ -288,42 +282,12 @@ public class VnfInfoModifications {
 		this.vnfdVersion = vnfdVersion;
 	}
 
-	public VnfInfoModifications vnfcInfoModifications(final List<VnfcInfoModifications> vnfcInfoModifications) {
-		this.vnfcInfoModifications = vnfcInfoModifications;
-		return this;
-	}
-
-	public VnfInfoModifications addVnfcInfoModificationsItem(final VnfcInfoModifications vnfcInfoModificationsItem) {
-		if (this.vnfcInfoModifications == null) {
-			this.vnfcInfoModifications = new ArrayList<>();
-		}
-		this.vnfcInfoModifications.add(vnfcInfoModificationsItem);
-		return this;
-	}
-
-	/**
-	 * If present, this attribute signals modifications of certain entries in the
-	 * \"vnfcInfo\" attribute array in the \"instantiatedVnfInfo\" attribute of
-	 * \"VnfInstance\", as defined in clause 5.5.2.12.
-	 *
-	 * @return vnfcInfoModifications
-	 **/
-	@Schema(description = "If present, this attribute signals modifications of certain entries in the \"vnfcInfo\" attribute array in the \"instantiatedVnfInfo\" attribute of \"VnfInstance\", as defined in clause 5.5.2.12. ")
-	@Valid
-	public List<VnfcInfoModifications> getVnfcInfoModifications() {
-		return vnfcInfoModifications;
-	}
-
-	public void setVnfcInfoModifications(final List<VnfcInfoModifications> vnfcInfoModifications) {
-		this.vnfcInfoModifications = vnfcInfoModifications;
-	}
-
 	@Override
 	public boolean equals(final java.lang.Object o) {
 		if (this == o) {
 			return true;
 		}
-		if (o == null || getClass() != o.getClass()) {
+		if ((o == null) || (getClass() != o.getClass())) {
 			return false;
 		}
 		final VnfInfoModifications vnfInfoModifications = (VnfInfoModifications) o;
@@ -336,13 +300,12 @@ public class VnfInfoModifications {
 				Objects.equals(this.vnfProvider, vnfInfoModifications.vnfProvider) &&
 				Objects.equals(this.vnfProductName, vnfInfoModifications.vnfProductName) &&
 				Objects.equals(this.vnfSoftwareVersion, vnfInfoModifications.vnfSoftwareVersion) &&
-				Objects.equals(this.vnfdVersion, vnfInfoModifications.vnfdVersion) &&
-				Objects.equals(this.vnfcInfoModifications, vnfInfoModifications.vnfcInfoModifications);
+				Objects.equals(this.vnfdVersion, vnfInfoModifications.vnfdVersion);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(vnfInstanceName, vnfInstanceDescription, vnfConfigurableProperties, metadata, extensions, vnfdId, vnfProvider, vnfProductName, vnfSoftwareVersion, vnfdVersion, vnfcInfoModifications);
+		return Objects.hash(vnfInstanceName, vnfInstanceDescription, vnfConfigurableProperties, metadata, extensions, vnfdId, vnfProvider, vnfProductName, vnfSoftwareVersion, vnfdVersion);
 	}
 
 	@Override
@@ -360,7 +323,6 @@ public class VnfInfoModifications {
 		sb.append("    vnfProductName: ").append(toIndentedString(vnfProductName)).append("\n");
 		sb.append("    vnfSoftwareVersion: ").append(toIndentedString(vnfSoftwareVersion)).append("\n");
 		sb.append("    vnfdVersion: ").append(toIndentedString(vnfdVersion)).append("\n");
-		sb.append("    vnfcInfoModifications: ").append(toIndentedString(vnfcInfoModifications)).append("\n");
 		sb.append("}");
 		return sb.toString();
 	}

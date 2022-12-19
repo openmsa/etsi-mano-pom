@@ -46,9 +46,7 @@ class MappingTest extends TestHelper {
 	@Test
 	void testVnfPkgInfo() throws Exception {
 		final Set<String> ignore = new HashSet<>();
-		ignore.add("getSoftwareImages");
 		ignore.add("getLinks");
-		ignore.add("getChecksum");
 		doTest(VnfPkgInfo.class, VnfPackage.class, ignore);
 		assertTrue(true);
 	}
@@ -57,9 +55,6 @@ class MappingTest extends TestHelper {
 	void testVnfInstance() throws Exception {
 		final Set<String> ignore = new HashSet<>();
 		ignore.add("getLinks");
-		ignore.add("getExtLinkPortId");
-		ignore.add("getExtManagedVirtualLinkInfo");
-		ignore.add("getInstantiatedVnfInfo");
 		doTest(VnfInstance.class, com.ubiqube.etsi.mano.dao.mano.VnfInstance.class, ignore);
 		assertTrue(true);
 	}
@@ -69,10 +64,6 @@ class MappingTest extends TestHelper {
 		final Set<String> ignore = new HashSet<>();
 		ignore.add("getLinks");
 		ignore.add("getChangedInfo");
-		ignore.add("getChangedExtConnectivity");
-		ignore.add("getResourceChanges");
-		ignore.add("getAffectedVipCps");
-		ignore.add("getVnfVirtualLinkDescId");
 		doTest(VnfLcmOpOcc.class, VnfBlueprint.class, ignore);
 		assertTrue(true);
 	}
