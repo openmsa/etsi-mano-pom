@@ -35,16 +35,24 @@ import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 import com.ubiqube.etsi.mano.em.v351.model.SubscriptionAuthenticationParamsOauth2ClientCredentials;
 import com.ubiqube.etsi.mano.em.v351.model.vnfind.VnfIndicatorSubscriptionRequest;
+import com.ubiqube.etsi.mano.em.v351.model.vnflcm.ChangeCurrentVnfPkgRequest;
+import com.ubiqube.etsi.mano.em.v351.model.vnflcm.ChangeExtVnfConnectivityRequest;
+import com.ubiqube.etsi.mano.em.v351.model.vnflcm.ChangeVnfFlavourRequest;
+import com.ubiqube.etsi.mano.em.v351.model.vnflcm.CreateVnfSnapshotRequest;
 import com.ubiqube.etsi.mano.em.v351.model.vnflcm.ExtManagedVirtualLinkData;
 import com.ubiqube.etsi.mano.em.v351.model.vnflcm.ExtManagedVirtualLinkInfo;
 import com.ubiqube.etsi.mano.em.v351.model.vnflcm.ExtVirtualLinkInfo;
+import com.ubiqube.etsi.mano.em.v351.model.vnflcm.HealVnfRequest;
 import com.ubiqube.etsi.mano.em.v351.model.vnflcm.InstantiateVnfRequest;
 import com.ubiqube.etsi.mano.em.v351.model.vnflcm.LccnSubscription;
 import com.ubiqube.etsi.mano.em.v351.model.vnflcm.LccnSubscriptionRequest;
+import com.ubiqube.etsi.mano.em.v351.model.vnflcm.OperateVnfRequest;
+import com.ubiqube.etsi.mano.em.v351.model.vnflcm.RevertToVnfSnapshotRequest;
 import com.ubiqube.etsi.mano.em.v351.model.vnflcm.ScaleVnfRequest;
 import com.ubiqube.etsi.mano.em.v351.model.vnflcm.ScaleVnfToLevelRequest;
 import com.ubiqube.etsi.mano.em.v351.model.vnflcm.TerminateVnfRequest;
 import com.ubiqube.etsi.mano.em.v351.model.vnflcm.VnfExtCpInfo;
+import com.ubiqube.etsi.mano.em.v351.model.vnflcm.VnfInfoModificationRequest;
 import com.ubiqube.etsi.mano.em.v351.model.vnflcm.VnfInstanceInstantiatedVnfInfo;
 import com.ubiqube.etsi.mano.em.v351.model.vnflcm.VnfLcmOpOcc;
 import com.ubiqube.etsi.mano.em.v351.model.vnflcm.VnfVirtualLinkResourceInfo;
@@ -56,9 +64,13 @@ import com.ubiqube.etsi.mano.nfvo.v351.model.nsd.NsdInfo;
 import com.ubiqube.etsi.mano.nfvo.v351.model.nsd.NsdmSubscription;
 import com.ubiqube.etsi.mano.nfvo.v351.model.nsd.NsdmSubscriptionRequest;
 import com.ubiqube.etsi.mano.nfvo.v351.model.nslcm.AffectedVnf;
+import com.ubiqube.etsi.mano.nfvo.v351.model.nslcm.HealNsRequest;
 import com.ubiqube.etsi.mano.nfvo.v351.model.nslcm.InstantiateNsRequest;
 import com.ubiqube.etsi.mano.nfvo.v351.model.nslcm.NsInstance;
 import com.ubiqube.etsi.mano.nfvo.v351.model.nslcm.NsLcmOpOcc;
+import com.ubiqube.etsi.mano.nfvo.v351.model.nslcm.ScaleNsRequest;
+import com.ubiqube.etsi.mano.nfvo.v351.model.nslcm.TerminateNsRequest;
+import com.ubiqube.etsi.mano.nfvo.v351.model.nslcm.UpdateNsRequest;
 import com.ubiqube.etsi.mano.nfvo.v351.model.vnf.PkgmSubscription;
 import com.ubiqube.etsi.mano.nfvo.v351.model.vnf.PkgmSubscriptionRequest;
 import com.ubiqube.etsi.mano.service.event.model.AuthParamOauth2;
@@ -164,9 +176,14 @@ public class OrikaConfigurationNfvo351 implements OrikaMapperFactoryConfigurer {
 				.field("id", "resourceDefinitionId")
 				.field("type", "type")
 				.field("vduId", "vduId")
+				.field("vnfdId", "vnfdId")
 				.field("resourceTemplateId", "resourceTemplateId")
+				.field("secondaryResourceTemplateId", "secondaryResourceTemplateId")
+				.field("snapshotResDef", "snapshotResDef")
 				.field("resource.vimConnectionId", "vimConnectionId")
 				.field("resource.resourceProviderId", "resourceProviderId")
+				.field("resource.vimLevelResourceType", "vimLevelResourceType")
+				.field("resource.resourceId", "resourceId")
 				.register();
 		orikaMapperFactory.classMap(InstantiateNsRequest.class, NsdInstance.class)
 				.field("nsFlavourId", "instantiatedVnfInfo.flavourId")
@@ -235,7 +252,39 @@ public class OrikaConfigurationNfvo351 implements OrikaMapperFactoryConfigurer {
 				.field("isAutomaticInvocation", "automaticInvocation")
 				.field("isCancelPending", "cancelPending")
 				.field("startTime", "audit.createdOn")
+				.field("resourceChanges", "parameters")
 				.byDefault()
+				.customize(new CustomMapper<>() {
+					@Override
+					public void mapBtoA(final NsBlueprint a, final NsLcmOpOcc b, final MappingContext context) {
+						if (null == a.getOperation()) {
+							return;
+						}
+						final Object x = switch (a.getOperation()) {
+						case INSTANTIATE -> map(a.getParameters(), InstantiateNsRequest.class);
+						case SCALE -> map(a.getParameters(), ScaleNsRequest.class);
+						case SCALE_TO_LEVEL -> map(a.getParameters(), ScaleNsRequest.class);
+						case HEAL -> map(a.getParameters(), HealNsRequest.class);
+						case TERMINATE -> map(a.getParameters(), TerminateNsRequest.class);
+						case UPDATE -> map(a.getParameters(), UpdateNsRequest.class);
+						default -> throw new IllegalArgumentException("Unexpected value: " + a.getOperation());
+						};
+						b.setOperationParams(x);
+					}
+
+					private Object map(final BlueprintParameters parameters, final Class<?> class1) {
+						return mapperFacade.map(parameters, class1);
+					}
+
+					@Override
+					public void mapAtoB(final NsLcmOpOcc a, final NsBlueprint b, final MappingContext context) {
+						final Object op = a.getOperationParams();
+						if (op != null) {
+							mapperFacade.map(op, b.getParameters());
+						}
+					}
+
+				})
 				.register();
 		orikaMapperFactory.classMap(VnfLcmOpOcc.class, VnfBlueprint.class)
 				.field("vnfInstanceId", "vnfInstance.id")
@@ -255,7 +304,15 @@ public class OrikaConfigurationNfvo351 implements OrikaMapperFactoryConfigurer {
 						case INSTANTIATE -> map(a.getParameters(), InstantiateVnfRequest.class);
 						case SCALE -> map(a.getParameters(), ScaleVnfRequest.class);
 						case SCALE_TO_LEVEL -> map(a.getParameters(), ScaleVnfToLevelRequest.class);
+						case CHANGE_FLAVOUR -> map(a.getParameters(), ChangeVnfFlavourRequest.class);
+						case OPERATE -> map(a.getParameters(), OperateVnfRequest.class);
+						case HEAL -> map(a.getParameters(), HealVnfRequest.class);
+						case CHANGE_EXT_CONN -> map(a.getParameters(), ChangeExtVnfConnectivityRequest.class);
 						case TERMINATE -> map(a.getParameters(), TerminateVnfRequest.class);
+						case MODIFY_INFO -> map(a.getParameters(), VnfInfoModificationRequest.class);
+						case CREATE_SNAPSHOT -> map(a.getParameters(), CreateVnfSnapshotRequest.class);
+						case REVERT_TO_SNAPSHOT -> map(a.getParameters(), RevertToVnfSnapshotRequest.class);
+						case CHANGE_VNFPKG -> map(a.getParameters(), ChangeCurrentVnfPkgRequest.class);
 						default -> throw new IllegalArgumentException("Unexpected value: " + a.getOperation());
 						};
 						b.setOperationParams(x);

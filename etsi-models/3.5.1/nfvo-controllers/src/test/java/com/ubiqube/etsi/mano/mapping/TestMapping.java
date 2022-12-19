@@ -16,11 +16,14 @@
  */
 package com.ubiqube.etsi.mano.mapping;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
+import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
@@ -28,6 +31,7 @@ import com.ubiqube.etsi.mano.nfvo.v351.model.nsd.NsdInfo;
 import com.ubiqube.etsi.mano.nfvo.v351.model.nslcm.NsLcmOpOcc;
 import com.ubiqube.etsi.mano.test.TestHelper;
 import com.ubiqube.etsi.mano.vnfm.v351.OrikaConfigurationNfvo351;
+import com.ubiqube.etsi.mano.vnfm.v351.model.grant.GrantRequest;
 
 /**
  *
@@ -48,21 +52,26 @@ class TestMapping extends TestHelper {
 	}
 
 	@Test
+	void testVnfInstance() throws Exception {
+		final Set<String> ignore = new HashSet<>();
+		ignore.add("getLinks");
+		doTest(com.ubiqube.etsi.mano.em.v351.model.vnflcm.VnfInstance.class, VnfInstance.class, ignore);
+	}
+
+	@Test
 	void testNsLcmOpOccs() throws Exception {
 		final Set<String> ignore = new HashSet<>();
 		ignore.add("getLinks");
-		// XXX
 		ignore.add("getResourceChanges");
-		// XXX Same as lcmOperationType
-		ignore.add("getOperationParams");
 		doTest(NsLcmOpOcc.class, NsBlueprint.class, ignore);
 	}
 
 	@Test
-	void testVnfInstance() throws Exception {
+	void testGrant() throws Exception {
 		final Set<String> ignore = new HashSet<>();
 		ignore.add("getLinks");
-		ignore.add("getExtLinkPortId");
-		doTest(com.ubiqube.etsi.mano.em.v351.model.vnflcm.VnfInstance.class, VnfInstance.class, ignore);
+		doTest(GrantRequest.class, GrantResponse.class, ignore);
+		assertTrue(true);
 	}
+
 }
