@@ -22,6 +22,7 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
+import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 import com.ubiqube.etsi.mano.nfvo.v351.model.nsd.NsdInfo;
 import com.ubiqube.etsi.mano.nfvo.v351.model.nslcm.NsLcmOpOcc;
@@ -57,4 +58,11 @@ class TestMapping extends TestHelper {
 		doTest(NsLcmOpOcc.class, NsBlueprint.class, ignore);
 	}
 
+	@Test
+	void testVnfInstance() throws Exception {
+		final Set<String> ignore = new HashSet<>();
+		ignore.add("getLinks");
+		ignore.add("getExtLinkPortId");
+		doTest(com.ubiqube.etsi.mano.em.v351.model.vnflcm.VnfInstance.class, VnfInstance.class, ignore);
+	}
 }
