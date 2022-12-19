@@ -24,6 +24,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import lombok.Data;
+
+@Data
 @Entity
 public class LinkPortInfo implements Serializable {
 	/** Serial. */
@@ -40,36 +43,7 @@ public class LinkPortInfo implements Serializable {
 
 	private LinkPortType cpInstanceType = null;
 
-	public String getId() {
-		return id;
-	}
+	private String vipCpInstanceId;
 
-	public void setId(final String id) {
-		this.id = id;
-	}
-
-	public VimResource getResourceHandle() {
-		return resourceHandle;
-	}
-
-	public void setResourceHandle(final VimResource resourceHandle) {
-		this.resourceHandle = resourceHandle;
-	}
-
-	public String getCpInstanceId() {
-		return cpInstanceId;
-	}
-
-	public void setCpInstanceId(final String cpInstanceId) {
-		this.cpInstanceId = cpInstanceId;
-	}
-
-	public LinkPortType getCpInstanceType() {
-		return cpInstanceType;
-	}
-
-	public void setCpInstanceType(final LinkPortType cpInstanceType) {
-		this.cpInstanceType = cpInstanceType;
-	}
-
+	private String trunkResourceId;
 }

@@ -29,6 +29,7 @@ import org.springframework.validation.annotation.Validated;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.ubiqube.etsi.mano.nfvo.v431.model.vnflcm.VimConnectionInfo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -100,8 +101,9 @@ public class VnfInstance {
 	@JsonProperty("vnfConfigurableProperties")
 	private Map<String, String> vnfConfigurableProperties = null;
 
-	@JsonProperty("vimId")
-	private String vimId = null;
+	@JsonProperty("vimConnectionInfo")
+	@Valid
+	private Map<String, VimConnectionInfo> vimConnectionInfo;
 
 	/**
 	 * The instantiation state of the VNF. Permitted values: - NOT_INSTANTIATED: The
@@ -391,29 +393,17 @@ public class VnfInstance {
 		this.vnfConfigurableProperties = vnfConfigurableProperties;
 	}
 
-	public VnfInstance vimId(final String vimId) {
-		this.vimId = vimId;
-		return this;
-	}
-
-	/**
-	 * Get vimId
-	 *
-	 * @return vimId
-	 **/
-	@Schema(description = "")
-
-	public String getVimId() {
-		return vimId;
-	}
-
-	public void setVimId(final String vimId) {
-		this.vimId = vimId;
-	}
-
 	public VnfInstance instantiationState(final InstantiationStateEnum instantiationState) {
 		this.instantiationState = instantiationState;
 		return this;
+	}
+
+	public Map<String, VimConnectionInfo> getVimConnectionInfo() {
+		return vimConnectionInfo;
+	}
+
+	public void setVimConnectionInfo(final Map<String, VimConnectionInfo> vimConnectionInfo) {
+		this.vimConnectionInfo = vimConnectionInfo;
 	}
 
 	/**
@@ -517,7 +507,7 @@ public class VnfInstance {
 				Objects.equals(this.versionDependency, vnfInstance.versionDependency) &&
 				Objects.equals(this.vnfPkgId, vnfInstance.vnfPkgId) &&
 				Objects.equals(this.vnfConfigurableProperties, vnfInstance.vnfConfigurableProperties) &&
-				Objects.equals(this.vimId, vnfInstance.vimId) &&
+				Objects.equals(this.vimConnectionInfo, vnfInstance.vimConnectionInfo) &&
 				Objects.equals(this.instantiationState, vnfInstance.instantiationState) &&
 				Objects.equals(this.instantiatedVnfInfo, vnfInstance.instantiatedVnfInfo) &&
 				Objects.equals(this.metadata, vnfInstance.metadata) &&
@@ -526,7 +516,7 @@ public class VnfInstance {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, vnfInstanceName, vnfInstanceDescription, vnfdId, vnfProvider, vnfProductName, vnfSoftwareVersion, vnfdVersion, versionDependency, vnfPkgId, vnfConfigurableProperties, vimId, instantiationState, instantiatedVnfInfo, metadata, extensions);
+		return Objects.hash(id, vnfInstanceName, vnfInstanceDescription, vnfdId, vnfProvider, vnfProductName, vnfSoftwareVersion, vnfdVersion, versionDependency, vnfPkgId, vnfConfigurableProperties, vimConnectionInfo, instantiationState, instantiatedVnfInfo, metadata, extensions);
 	}
 
 	@Override
@@ -545,7 +535,7 @@ public class VnfInstance {
 		sb.append("    versionDependency: ").append(toIndentedString(versionDependency)).append("\n");
 		sb.append("    vnfPkgId: ").append(toIndentedString(vnfPkgId)).append("\n");
 		sb.append("    vnfConfigurableProperties: ").append(toIndentedString(vnfConfigurableProperties)).append("\n");
-		sb.append("    vimId: ").append(toIndentedString(vimId)).append("\n");
+		sb.append("    vimId: ").append(toIndentedString(vimConnectionInfo)).append("\n");
 		sb.append("    instantiationState: ").append(toIndentedString(instantiationState)).append("\n");
 		sb.append("    instantiatedVnfInfo: ").append(toIndentedString(instantiatedVnfInfo)).append("\n");
 		sb.append("    metadata: ").append(toIndentedString(metadata)).append("\n");

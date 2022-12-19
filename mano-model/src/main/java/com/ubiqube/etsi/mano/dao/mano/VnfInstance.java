@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.dao.mano;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -69,4 +70,10 @@ public class VnfInstance extends Instance {
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<ExtCpInfo> extCpInfo;
+
+	/**
+	 * @Since 4.3.1
+	 */
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<VersionDependency> versionDependency;
 }

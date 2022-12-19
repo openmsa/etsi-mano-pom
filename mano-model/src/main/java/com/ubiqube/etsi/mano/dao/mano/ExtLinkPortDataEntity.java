@@ -46,4 +46,15 @@ public class ExtLinkPortDataEntity extends VnfInstantiatedBase {
 
 	// 2.7.1
 	private String cpInstanceId;
+
+	/**
+	 * @since 3.5.1
+	 */
+	private String secondaryCpInstanceId;
+
+	/**
+	 * @since 3.5.1
+	 */
+	private String trunkResourceId;
+
 }

@@ -71,7 +71,7 @@ public class VnfPkgInfo {
 	private String vnfdVersion = null;
 
 	@JsonProperty("compatibleSpecificationVersions")
-	private String compatibleSpecificationVersions = null;
+	private List<String> compatibleSpecificationVersions = null;
 
 	@JsonProperty("checksum")
 	private Checksum checksum = null;
@@ -290,7 +290,7 @@ public class VnfPkgInfo {
 		this.vnfdVersion = vnfdVersion;
 	}
 
-	public VnfPkgInfo compatibleSpecificationVersions(final String compatibleSpecificationVersions) {
+	public VnfPkgInfo compatibleSpecificationVersions(final List<String> compatibleSpecificationVersions) {
 		this.compatibleSpecificationVersions = compatibleSpecificationVersions;
 		return this;
 	}
@@ -302,11 +302,11 @@ public class VnfPkgInfo {
 	 **/
 	@Schema(description = "")
 
-	public String getCompatibleSpecificationVersions() {
+	public List<String> getCompatibleSpecificationVersions() {
 		return compatibleSpecificationVersions;
 	}
 
-	public void setCompatibleSpecificationVersions(final String compatibleSpecificationVersions) {
+	public void setCompatibleSpecificationVersions(final List<String> compatibleSpecificationVersions) {
 		this.compatibleSpecificationVersions = compatibleSpecificationVersions;
 	}
 
