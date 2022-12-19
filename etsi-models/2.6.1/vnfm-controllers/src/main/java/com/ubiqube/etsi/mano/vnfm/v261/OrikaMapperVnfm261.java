@@ -305,8 +305,7 @@ public class OrikaMapperVnfm261 implements OrikaMapperFactoryConfigurer {
 				.byDefault()
 				.register();
 		orikaMapperFactory.classMap(VnfInfoModifications.class, com.ubiqube.etsi.mano.dao.mano.v2.VnfInfoModifications.class)
-				.field("vimConnectionInfo.vimId", "vimConnectionInfo{key}")
-				.field("vimConnectionInfo", "vimConnectionInfo{value}")
+				.exclude("vimConnectionInfo")
 				.byDefault()
 				.register();
 

@@ -23,6 +23,7 @@ import java.util.Objects;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -61,7 +62,7 @@ public class VirtualCpInfo {
 
 	@JsonProperty("vduId")
 	@Valid
-	private List<String> vduId = new ArrayList<>();
+	private List<String> vduIds = new ArrayList<>();
 
 	@JsonProperty("additionalServiceInfo")
 	@Valid
@@ -184,13 +185,13 @@ public class VirtualCpInfo {
 		this.cpProtocolInfo = cpProtocolInfo;
 	}
 
-	public VirtualCpInfo vduId(final List<String> vduId) {
-		this.vduId = vduId;
+	public VirtualCpInfo vduIds(final List<String> vduIds) {
+		this.vduIds = vduIds;
 		return this;
 	}
 
-	public VirtualCpInfo addVduIdItem(final String vduIdItem) {
-		this.vduId.add(vduIdItem);
+	public VirtualCpInfo addVduIdsItem(final String vduIdsItem) {
+		this.vduIds.add(vduIdsItem);
 		return this;
 	}
 
@@ -198,17 +199,18 @@ public class VirtualCpInfo {
 	 * Reference to the VDU(s) which implement the service accessible via the
 	 * virtual CP instance. See note.
 	 *
-	 * @return vduId
+	 * @return vduIds
 	 **/
 	@Schema(required = true, description = "Reference to the VDU(s) which implement the service accessible via the virtual CP instance. See note. ")
 	@NotNull
 
-	public List<String> getVduId() {
-		return vduId;
+	@Size(min = 1)
+	public List<String> getVduIds() {
+		return vduIds;
 	}
 
-	public void setVduId(final List<String> vduId) {
-		this.vduId = vduId;
+	public void setVduIds(final List<String> vduId) {
+		this.vduIds = vduId;
 	}
 
 	public VirtualCpInfo additionalServiceInfo(final List<AdditionalServiceInfo> additionalServiceInfo) {
@@ -273,14 +275,14 @@ public class VirtualCpInfo {
 				Objects.equals(this.resourceHandle, virtualCpInfo.resourceHandle) &&
 				Objects.equals(this.vnfExtCpId, virtualCpInfo.vnfExtCpId) &&
 				Objects.equals(this.cpProtocolInfo, virtualCpInfo.cpProtocolInfo) &&
-				Objects.equals(this.vduId, virtualCpInfo.vduId) &&
+				Objects.equals(this.vduIds, virtualCpInfo.vduIds) &&
 				Objects.equals(this.additionalServiceInfo, virtualCpInfo.additionalServiceInfo) &&
 				Objects.equals(this.metadata, virtualCpInfo.metadata);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(cpInstanceId, cpdId, resourceHandle, vnfExtCpId, cpProtocolInfo, vduId, additionalServiceInfo, metadata);
+		return Objects.hash(cpInstanceId, cpdId, resourceHandle, vnfExtCpId, cpProtocolInfo, vduIds, additionalServiceInfo, metadata);
 	}
 
 	@Override
@@ -293,7 +295,7 @@ public class VirtualCpInfo {
 		sb.append("    resourceHandle: ").append(toIndentedString(resourceHandle)).append("\n");
 		sb.append("    vnfExtCpId: ").append(toIndentedString(vnfExtCpId)).append("\n");
 		sb.append("    cpProtocolInfo: ").append(toIndentedString(cpProtocolInfo)).append("\n");
-		sb.append("    vduId: ").append(toIndentedString(vduId)).append("\n");
+		sb.append("    vduId: ").append(toIndentedString(vduIds)).append("\n");
 		sb.append("    additionalServiceInfo: ").append(toIndentedString(additionalServiceInfo)).append("\n");
 		sb.append("    metadata: ").append(toIndentedString(metadata)).append("\n");
 		sb.append("}");

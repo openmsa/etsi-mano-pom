@@ -52,7 +52,7 @@ public class ExtVirtualLinkInfo {
 	private List<NetAttDefResourceInfo> extNetAttDefResource = null;
 
 	@JsonProperty("currentVnfExtCpData")
-	private VnfExtCpData currentVnfExtCpData = null;
+	private List<VnfExtCpData> currentVnfExtCpData = null;
 
 	public ExtVirtualLinkInfo id(final String id) {
 		this.id = id;
@@ -154,7 +154,7 @@ public class ExtVirtualLinkInfo {
 		this.extNetAttDefResource = extNetAttDefResource;
 	}
 
-	public ExtVirtualLinkInfo currentVnfExtCpData(final VnfExtCpData currentVnfExtCpData) {
+	public ExtVirtualLinkInfo currentVnfExtCpData(final List<VnfExtCpData> currentVnfExtCpData) {
 		this.currentVnfExtCpData = currentVnfExtCpData;
 		return this;
 	}
@@ -168,11 +168,11 @@ public class ExtVirtualLinkInfo {
 	@NotNull
 
 	@Valid
-	public VnfExtCpData getCurrentVnfExtCpData() {
+	public List<VnfExtCpData> getCurrentVnfExtCpData() {
 		return currentVnfExtCpData;
 	}
 
-	public void setCurrentVnfExtCpData(final VnfExtCpData currentVnfExtCpData) {
+	public void setCurrentVnfExtCpData(final List<VnfExtCpData> currentVnfExtCpData) {
 		this.currentVnfExtCpData = currentVnfExtCpData;
 	}
 

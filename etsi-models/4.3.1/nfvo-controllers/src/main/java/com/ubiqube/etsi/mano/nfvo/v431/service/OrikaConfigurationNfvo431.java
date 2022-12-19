@@ -35,8 +35,6 @@ import com.ubiqube.etsi.mano.dao.mano.grant.ConstraintResourceRef;
 import com.ubiqube.etsi.mano.dao.mano.v2.BlueprintParameters;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
-import com.ubiqube.etsi.mano.em.v431.model.vnflcm.ExtManagedVirtualLinkInfo;
-import com.ubiqube.etsi.mano.em.v431.model.vnflcm.VnfVirtualLinkResourceInfo;
 import com.ubiqube.etsi.mano.mapper.OffsetDateTimeToDateConverter;
 import com.ubiqube.etsi.mano.mapper.OrikaFilterMapper;
 import com.ubiqube.etsi.mano.mapper.UuidConverter;
@@ -45,6 +43,7 @@ import com.ubiqube.etsi.mano.nfvo.v431.model.nsd.NsdmSubscription;
 import com.ubiqube.etsi.mano.nfvo.v431.model.nsd.NsdmSubscriptionRequest;
 import com.ubiqube.etsi.mano.nfvo.v431.model.nslcm.AffectedVnf;
 import com.ubiqube.etsi.mano.nfvo.v431.model.nslcm.ExtManagedVirtualLinkData;
+import com.ubiqube.etsi.mano.nfvo.v431.model.nslcm.ExtManagedVirtualLinkInfo;
 import com.ubiqube.etsi.mano.nfvo.v431.model.nslcm.ExtVirtualLinkInfo;
 import com.ubiqube.etsi.mano.nfvo.v431.model.nslcm.InstantiateNsRequest;
 import com.ubiqube.etsi.mano.nfvo.v431.model.nslcm.LccnSubscription;
@@ -53,6 +52,7 @@ import com.ubiqube.etsi.mano.nfvo.v431.model.nslcm.NsInstance;
 import com.ubiqube.etsi.mano.nfvo.v431.model.nslcm.NsLcmOpOcc;
 import com.ubiqube.etsi.mano.nfvo.v431.model.nslcm.NsScaleInfo;
 import com.ubiqube.etsi.mano.nfvo.v431.model.nslcm.VnfInstanceInstantiatedVnfInfo;
+import com.ubiqube.etsi.mano.nfvo.v431.model.nslcm.VnfVirtualLinkResourceInfo;
 import com.ubiqube.etsi.mano.nfvo.v431.model.nslcm.VnfcResourceInfo;
 import com.ubiqube.etsi.mano.nfvo.v431.model.vnf.PkgmSubscription;
 import com.ubiqube.etsi.mano.service.event.model.AuthParamOauth2;
@@ -204,6 +204,8 @@ public class OrikaConfigurationNfvo431 implements OrikaMapperFactoryConfigurer {
 				.field("networkResource.resourceProviderId", "resourceProviderId")
 				.field("networkResource.resourceId", "resourceId")
 				.field("networkResource.vimLevelResourceType", "vimLevelResourceType")
+				.field("networkResource.vimLevelAdditionalResourceInfo", "vimLevelAdditionalResourceInfo")
+				.field("networkResource.containerNamespace", "containerNamespace")
 				.byDefault()
 				.register();
 		orikaMapperFactory.classMap(ExtVirtualLinkInfo.class, ExtVirtualLinkDataEntity.class)
@@ -211,6 +213,8 @@ public class OrikaConfigurationNfvo431 implements OrikaMapperFactoryConfigurer {
 				.field("resourceHandle.resourceProviderId", "resourceProviderId")
 				.field("resourceHandle.resourceId", "resourceId")
 				.field("resourceHandle.vimLevelResourceType", "vimLevelResourceType")
+				.field("resourceHandle.vimLevelAdditionalResourceInfo", "vimLevelAdditionalResourceInfo")
+				.field("resourceHandle.containerNamespace", "containerNamespace")
 				.byDefault()
 				.register();
 		orikaMapperFactory.classMap(AffectedVnf.class, NsInstantiatedVnf.class)
