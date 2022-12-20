@@ -51,9 +51,9 @@ public class MappingTest extends TestHelper {
 		final Set<String> ignore = new HashSet<>();
 		ignore.add("getLinks");
 		ignore.add("getResourceChanges");
-		ignore.add("getStatusEnteredTime");
-		ignore.add("getOperationParams");
-		ignore.add("getCancelMode");
+		// ignore.add("getStatusEnteredTime");
+		// ignore.add("getOperationParams");
+		// ignore.add("getCancelMode");
 		doTest(NsLcmOpOcc.class, NsBlueprint.class, ignore);
 	}
 
@@ -61,11 +61,6 @@ public class MappingTest extends TestHelper {
 	void testGrant() throws Exception {
 		final Set<String> ignore = new HashSet<>();
 		ignore.add("getLinks");
-		ignore.add("getInstantiationLevelId");
-		ignore.add("getResource");
-		ignore.add("getResourceTemplateId");
-		ignore.add("getPlacementConstraints");
-		ignore.add("getVimConstraints");
 		doTest(GrantRequest.class, GrantResponse.class, ignore);
 	}
 
@@ -73,14 +68,15 @@ public class MappingTest extends TestHelper {
 	void testNsdInstance() throws Exception {
 		final Set<String> ignore = new HashSet<>();
 		ignore.add("getLinks");
+		// Reconstructed at view level.
 		ignore.add("getVnfInstance");
 		ignore.add("getVirtualLinkInfo");
 		ignore.add("getPnfInfo");
 		ignore.add("getSapInfo");
-		ignore.add("getVnffgInfo");
+		// ignore.add("getVnffgInfo");
 		ignore.add("getAdditionalAffinityOrAntiAffinityRule");
-		ignore.add("getMonitoringParameter");
-		ignore.add("getNsScaleStatus");
+		// ignore.add("getMonitoringParameter");
+		// ignore.add("getNsScaleStatus");
 		doTest(NsInstance.class, NsdInstance.class, ignore);
 	}
 
@@ -88,7 +84,7 @@ public class MappingTest extends TestHelper {
 	void testVnfInstance() throws Exception {
 		final Set<String> ignore = new HashSet<>();
 		ignore.add("getLinks");
-		ignore.add("getExtLinkPortId");
+		// ignore.add("getExtLinkPortId");
 		doTest(com.ubiqube.etsi.mano.em.v271.model.vnflcm.VnfInstance.class, VnfInstance.class, ignore);
 	}
 }

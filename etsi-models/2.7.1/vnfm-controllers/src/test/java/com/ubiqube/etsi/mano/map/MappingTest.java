@@ -36,7 +36,7 @@ import com.ubiqube.etsi.mano.vnfm.v271.OrikaMapperVnfm271;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public class MappingTest extends TestHelper {
+class MappingTest extends TestHelper {
 
 	public MappingTest() {
 		super(new OrikaMapperVnfm271());
@@ -45,7 +45,6 @@ public class MappingTest extends TestHelper {
 	@Test
 	void testVnfPkgInfo() throws Exception {
 		final Set<String> ignore = new HashSet<>();
-		ignore.add("getSoftwareImages");
 		ignore.add("getLinks");
 		doTest(VnfPkgInfo.class, VnfPackage.class, ignore);
 	}
@@ -54,7 +53,6 @@ public class MappingTest extends TestHelper {
 	void testVnfInstance() throws Exception {
 		final Set<String> ignore = new HashSet<>();
 		ignore.add("getLinks");
-		ignore.add("getExtLinkPortId");
 		doTest(VnfInstance.class, com.ubiqube.etsi.mano.dao.mano.VnfInstance.class, ignore);
 	}
 
@@ -62,8 +60,8 @@ public class MappingTest extends TestHelper {
 	void testLcmOpOccs() throws Exception {
 		final Set<String> ignore = new HashSet<>();
 		ignore.add("getLinks");
-		ignore.add("getChangedInfo");
-		ignore.add("getChangedExtConnectivity");
+		// ignore.add("getChangedInfo");
+		// ignore.add("getChangedExtConnectivity");
 		ignore.add("getResourceChanges");
 		doTest(VnfLcmOpOcc.class, VnfBlueprint.class, ignore);
 	}
