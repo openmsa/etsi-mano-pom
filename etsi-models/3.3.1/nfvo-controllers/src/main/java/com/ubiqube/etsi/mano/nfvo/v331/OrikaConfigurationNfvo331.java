@@ -32,6 +32,7 @@ import com.ubiqube.etsi.mano.dao.mano.dto.NsLcmOpOccs;
 import com.ubiqube.etsi.mano.dao.mano.dto.VnfInstantiatedCompute;
 import com.ubiqube.etsi.mano.dao.mano.dto.VnfInstantiatedExtCp;
 import com.ubiqube.etsi.mano.dao.mano.dto.VnfInstantiatedVirtualLink;
+import com.ubiqube.etsi.mano.dao.mano.nsd.VnffgDescriptor;
 import com.ubiqube.etsi.mano.dao.mano.v2.BlueprintParameters;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
@@ -61,6 +62,7 @@ import com.ubiqube.etsi.mano.nfvo.v331.model.nslcm.AffectedVnf;
 import com.ubiqube.etsi.mano.nfvo.v331.model.nslcm.InstantiateNsRequest;
 import com.ubiqube.etsi.mano.nfvo.v331.model.nslcm.NsInstance;
 import com.ubiqube.etsi.mano.nfvo.v331.model.nslcm.NsLcmOpOcc;
+import com.ubiqube.etsi.mano.nfvo.v331.model.nslcm.VnffgInfo;
 import com.ubiqube.etsi.mano.nfvo.v331.model.vnf.PkgmSubscription;
 import com.ubiqube.etsi.mano.nfvo.v331.model.vnf.PkgmSubscriptionRequest;
 import com.ubiqube.etsi.mano.nfvo.v331.model.vnf.VnfPackageArtifactInfo;
@@ -111,6 +113,7 @@ public class OrikaConfigurationNfvo331 implements OrikaMapperFactoryConfigurer {
 				.field("nsdInfoId", "nsdInfo.id")
 				.field("nsState", "instantiationState")
 				.field("flavourId", "instanceFlavourId")
+				.field("vnfInstance{}", "vnfPkgIds{}")
 				.byDefault()
 				.register();
 		/*
@@ -167,9 +170,13 @@ public class OrikaConfigurationNfvo331 implements OrikaMapperFactoryConfigurer {
 				.field("id", "resourceDefinitionId")
 				.field("type", "type")
 				.field("vduId", "vduId")
+				.field("vnfdId", "vnfdId")
 				.field("resourceTemplateId", "resourceTemplateId")
+				.field("snapshotResDef", "snapshotResDef")
 				.field("resource.vimConnectionId", "vimConnectionId")
 				.field("resource.resourceProviderId", "resourceProviderId")
+				.field("resource.vimLevelResourceType", "vimLevelResourceType")
+				.field("resource.resourceId", "resourceId")
 				.register();
 		orikaMapperFactory.classMap(InstantiateNsRequest.class, NsdInstance.class)
 				.field("nsFlavourId", "instantiatedVnfInfo.flavourId")
@@ -216,7 +223,7 @@ public class OrikaConfigurationNfvo331 implements OrikaMapperFactoryConfigurer {
 		orikaMapperFactory.classMap(VnfcResourceInfo.class, VnfInstantiatedCompute.class)
 				.field("computeResource.resourceId", "resourceId")
 				.field("computeResource.resourceProviderId", "resourceProviderId")
-				// .field("computeResource.vimConnectionId", "vimConnectionInformation.vimId")
+				.field("computeResource.vimConnectionId", "vimConnectionInformation.vimId")
 				.byDefault()
 				.register();
 		orikaMapperFactory.classMap(VnfExtCpInfo.class, VnfInstantiatedExtCp.class)
@@ -299,7 +306,12 @@ public class OrikaConfigurationNfvo331 implements OrikaMapperFactoryConfigurer {
 				.field("vnfVirtualLinkResourceInfo", "virtualLinkResourceInfo")
 				.byDefault()
 				.register();
-
+		orikaMapperFactory.classMap(VnffgInfo.class, VnffgDescriptor.class)
+				.field("nsVirtualLinkInfoId", "virtualLinkProfileId")
+				.field("vnfInstanceId", "vnfProfileId")
+				.field("pnfdInfoId", "pnfProfileId")
+				.byDefault()
+				.register();
 		// Not needed UploadVnfPkgFromUriRequest
 		orikaMapperFactory.classMap(VnfPackageArtifactInfo.class, AdditionalArtifact.class)
 				.field("nonManoArtifactSetId", "nonManoSetIndentifier")

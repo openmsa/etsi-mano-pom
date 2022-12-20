@@ -33,9 +33,9 @@ import com.ubiqube.etsi.mano.model.ProblemDetails;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-
 /**
- * This type represents a request a NS lifecycle operation occurrence. It shall comply with the provisions defined in Table 6.5.2.3-1.
+ * This type represents a request a NS lifecycle operation occurrence. It shall
+ * comply with the provisions defined in Table 6.5.2.3-1.
  */
 @Schema(description = "This type represents a request a NS lifecycle operation occurrence. It shall comply with the provisions defined in Table 6.5.2.3-1. ")
 @Validated
@@ -63,7 +63,7 @@ public class NsLcmOpOcc {
 	private Boolean isAutomaticInvocation = null;
 
 	@JsonProperty("operationParams")
-	private OperationParamsEnum operationParams = null;
+	private Object operationParams = null;
 
 	@JsonProperty("isCancelPending")
 	private Boolean isCancelPending = null;
@@ -172,7 +172,8 @@ public class NsLcmOpOcc {
 	}
 
 	/**
-	 * Type of the actual LCM operation represented by this lcm operation occurrence.
+	 * Type of the actual LCM operation represented by this lcm operation
+	 * occurrence.
 	 *
 	 * @return lcmOperationType
 	 **/
@@ -216,7 +217,10 @@ public class NsLcmOpOcc {
 	}
 
 	/**
-	 * Set to true if this NS LCM operation occurrence has been automatically triggered by the NFVO. This occurs in the case of auto-scaling, auto-healing and when a nested NS is modified as a result of an operation on its composite NS. Set to false otherwise.
+	 * Set to true if this NS LCM operation occurrence has been automatically
+	 * triggered by the NFVO. This occurs in the case of auto-scaling, auto-healing
+	 * and when a nested NS is modified as a result of an operation on its composite
+	 * NS. Set to false otherwise.
 	 *
 	 * @return isAutomaticInvocation
 	 **/
@@ -231,24 +235,31 @@ public class NsLcmOpOcc {
 		this.isAutomaticInvocation = isAutomaticInvocation;
 	}
 
-	public NsLcmOpOcc operationParams(final OperationParamsEnum operationParams) {
+	public NsLcmOpOcc operationParams(final Object operationParams) {
 		this.operationParams = operationParams;
 		return this;
 	}
 
 	/**
-	 * Input parameters of the LCM operation. This attribute shall be formatted according to the request data type of the related LCM operation. The following mapping between lcmOperationType and the data type of this attribute shall apply: - INSTANTIATE: InstantiateNsRequest - SCALE: ScaleNsRequest - UPDATE: UpdateNsRequest - HEAL: HealNsRequest - TERMINATE: TerminateNsRequest This attribute shall be present if this data type is returned in a response to reading an individual resource, and may be
-	 * present according to the chosen attribute selector parameter if this data type is returned in a response to a query of a container resource.
+	 * Input parameters of the LCM operation. This attribute shall be formatted
+	 * according to the request data type of the related LCM operation. The
+	 * following mapping between lcmOperationType and the data type of this
+	 * attribute shall apply: - INSTANTIATE: InstantiateNsRequest - SCALE:
+	 * ScaleNsRequest - UPDATE: UpdateNsRequest - HEAL: HealNsRequest - TERMINATE:
+	 * TerminateNsRequest This attribute shall be present if this data type is
+	 * returned in a response to reading an individual resource, and may be present
+	 * according to the chosen attribute selector parameter if this data type is
+	 * returned in a response to a query of a container resource.
 	 *
 	 * @return operationParams
 	 **/
 	@Schema(description = "Input parameters of the LCM operation. This attribute shall be formatted according to the request data type of the related LCM operation. The following mapping between lcmOperationType and the data type of this attribute shall apply: - INSTANTIATE: InstantiateNsRequest - SCALE: ScaleNsRequest - UPDATE: UpdateNsRequest - HEAL: HealNsRequest - TERMINATE: TerminateNsRequest This attribute shall be present if this data type is returned in a response to reading an individual resource, and may be present according to the chosen attribute selector parameter if this data type is returned in a response to a query of a container resource. ")
 
-	public OperationParamsEnum getOperationParams() {
+	public Object getOperationParams() {
 		return operationParams;
 	}
 
-	public void setOperationParams(final OperationParamsEnum operationParams) {
+	public void setOperationParams(final Object operationParams) {
 		this.operationParams = operationParams;
 	}
 
@@ -258,7 +269,9 @@ public class NsLcmOpOcc {
 	}
 
 	/**
-	 * If the LCM operation occurrence is in \"PROCESSING\" or \"ROLLING_BACK\" state and the operation is being cancelled, this attribute shall be set to true. Otherwise, it shall be set to false.
+	 * If the LCM operation occurrence is in \"PROCESSING\" or \"ROLLING_BACK\"
+	 * state and the operation is being cancelled, this attribute shall be set to
+	 * true. Otherwise, it shall be set to false.
 	 *
 	 * @return isCancelPending
 	 **/
@@ -279,7 +292,8 @@ public class NsLcmOpOcc {
 	}
 
 	/**
-	 * The mode of an ongoing cancellation. Shall be present when isCancelPending=true, and shall be absent otherwise.
+	 * The mode of an ongoing cancellation. Shall be present when
+	 * isCancelPending=true, and shall be absent otherwise.
 	 *
 	 * @return cancelMode
 	 **/
@@ -300,7 +314,11 @@ public class NsLcmOpOcc {
 	}
 
 	/**
-	 * If \"operationState\" is \"FAILED_TEMP\" or \"FAILED\" or \"operationState\" is \"PROCESSING\" or \"ROLLING_BACK\" and previous value of \"operationState\" was \"FAILED_TEMP\", this attribute shall be present and contain error information, unless it has been requested to be excluded via an attribute selector.
+	 * If \"operationState\" is \"FAILED_TEMP\" or \"FAILED\" or \"operationState\"
+	 * is \"PROCESSING\" or \"ROLLING_BACK\" and previous value of
+	 * \"operationState\" was \"FAILED_TEMP\", this attribute shall be present and
+	 * contain error information, unless it has been requested to be excluded via an
+	 * attribute selector.
 	 *
 	 * @return error
 	 **/
@@ -411,7 +429,8 @@ public class NsLcmOpOcc {
 	}
 
 	/**
-	 * Convert the given object to string with each line indented by 4 spaces (except the first line).
+	 * Convert the given object to string with each line indented by 4 spaces
+	 * (except the first line).
 	 */
 	private String toIndentedString(final java.lang.Object o) {
 		if (o == null) {

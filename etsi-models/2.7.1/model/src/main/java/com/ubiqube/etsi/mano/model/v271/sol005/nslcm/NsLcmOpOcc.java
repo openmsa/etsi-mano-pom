@@ -109,7 +109,7 @@ public class NsLcmOpOcc {
 	}
 
 	@JsonProperty("operationParams")
-	private OperationParamsEnum operationParams = null;
+	private Object operationParams = null;
 
 	@JsonProperty("isCancelPending")
 	private Boolean isCancelPending = null;
@@ -280,7 +280,7 @@ public class NsLcmOpOcc {
 		this.isAutomaticInvocation = isAutomaticInvocation;
 	}
 
-	public NsLcmOpOcc operationParams(final OperationParamsEnum operationParams) {
+	public NsLcmOpOcc operationParams(final Object operationParams) {
 		this.operationParams = operationParams;
 		return this;
 	}
@@ -300,11 +300,11 @@ public class NsLcmOpOcc {
 	 **/
 	@ApiModelProperty(value = "Input parameters of the LCM operation. This attribute shall be formatted according to the request data type of the related LCM operation. The following mapping between lcmOperationType and the data type of this attribute shall apply: - INSTANTIATE: InstantiateNsRequest - SCALE: ScaleNsRequest - UPDATE: UpdateNsRequest - HEAL: HealNsRequest - TERMINATE: TerminateNsRequest This attribute shall be present if this data type is returned in a response to reading an individual resource, and may be present according to the chosen attribute selector parameter if this data type is returned in a response to a query of a container resource. ")
 
-	public OperationParamsEnum getOperationParams() {
+	public Object getOperationParams() {
 		return operationParams;
 	}
 
-	public void setOperationParams(final OperationParamsEnum operationParams) {
+	public void setOperationParams(final Object operationParams) {
 		this.operationParams = operationParams;
 	}
 
@@ -421,7 +421,7 @@ public class NsLcmOpOcc {
 		if (this == o) {
 			return true;
 		}
-		if (o == null || getClass() != o.getClass()) {
+		if ((o == null) || (getClass() != o.getClass())) {
 			return false;
 		}
 		final NsLcmOpOcc nsLcmOpOcc = (NsLcmOpOcc) o;

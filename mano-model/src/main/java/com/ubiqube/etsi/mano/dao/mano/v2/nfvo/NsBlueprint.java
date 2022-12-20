@@ -34,6 +34,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.search.mapper.pojo.automaticindexing.ReindexOnUpdate;
@@ -54,7 +55,6 @@ import com.ubiqube.etsi.mano.dao.mano.v2.BlueprintParameters;
 import com.ubiqube.etsi.mano.dao.mano.vnfm.RejectedLcmCoordination;
 import com.ubiqube.etsi.mano.dao.mano.vnfm.VnfLcmCoordination;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
-import com.vladmihalcea.hibernate.type.json.JsonStringType;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -68,7 +68,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Indexed
-@TypeDef(name = "json", typeClass = JsonStringType.class)
+//@TypeDef(name = "json", typeClass = JsonStringType.class)
 @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 @EntityListeners(AuditListener.class)
 public class NsBlueprint extends AbstractBlueprint<NsTask, NsdInstance> {
@@ -115,6 +115,9 @@ public class NsBlueprint extends AbstractBlueprint<NsTask, NsdInstance> {
 	@IndexedEmbedded
 	private BlueprintParameters parameters;
 
+	@Transient
+	private Object operationParams;
+
 	public void setNsInstance(final NsdInstance nsInstance) {
 		this.nsInstance = nsInstance;
 	}
@@ -143,11 +146,11 @@ public class NsBlueprint extends AbstractBlueprint<NsTask, NsdInstance> {
 	}
 
 	@Override
-	public void addExtManagedVirtualLinks(final Set<ExtManagedVirtualLinkDataEntity> extManagedVirtualLinks) {
-		if (null == extManagedVirtualLinks) {
+	public void addExtManagedVirtualLinks(final Set<ExtManagedVirtualLinkDataEntity> extManagedVirtualLinksIn) {
+		if (null == extManagedVirtualLinksIn) {
 			this.extManagedVirtualLinks = new LinkedHashSet<>();
 		}
-		this.extManagedVirtualLinks.addAll(extManagedVirtualLinks);
+		this.extManagedVirtualLinks.addAll(extManagedVirtualLinksIn);
 	}
 
 	@Override

@@ -20,7 +20,6 @@ import java.util.Set;
 
 import org.springframework.stereotype.Component;
 
-import com.ubiqube.etsi.mano.dao.mano.AdditionalArtifact;
 import com.ubiqube.etsi.mano.dao.mano.ExtManagedVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.ExtVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.GrantInformationExt;
@@ -60,7 +59,6 @@ import com.ubiqube.etsi.mano.em.v331.model.vnflcm.VnfInstanceInstantiatedVnfInfo
 import com.ubiqube.etsi.mano.em.v331.model.vnflcm.VnfLcmOpOcc;
 import com.ubiqube.etsi.mano.em.v331.model.vnflcm.VnfcResourceInfo;
 import com.ubiqube.etsi.mano.nfvo.v331.model.vnf.PkgmSubscriptionRequest;
-import com.ubiqube.etsi.mano.nfvo.v331.model.vnf.VnfPackageArtifactInfo;
 import com.ubiqube.etsi.mano.nfvo.v331.model.vnf.VnfPackageSoftwareImageInfo;
 import com.ubiqube.etsi.mano.nfvo.v331.model.vnf.VnfPackageSoftwareImageInfo.ContainerFormatEnum;
 import com.ubiqube.etsi.mano.nfvo.v331.model.vnf.VnfPackageSoftwareImageInfo.DiskFormatEnum;
@@ -98,10 +96,6 @@ public class OrikaMapperVnfm331 implements OrikaMapperFactoryConfigurer {
 				.field("monitoringParameters", "vnfMonitoringParameter")
 				.field("extManagedVirtualLinkInfo", "extManagedVirtualLinks")
 				.byDefault()
-				.register();
-		orikaMapperFactory.classMap(VnfPackageArtifactInfo.class, AdditionalArtifact.class)
-				.byDefault()
-				.field("checksum", "checksum.hash")
 				.register();
 		orikaMapperFactory.classMap(VnfInfoModifications.class, VnfInfoModificationsDto.class)
 				.field("vimConnectionInfo{value}", "vimConnectionInfo{}")

@@ -46,7 +46,7 @@ public class NsLcmOpOccs implements BaseEntity, Serializable {
 
 	private Boolean isAutomaticInvocation = null;
 
-	private NsdChangeType operationParams = null;
+	private Object operationParams = null;
 
 	private Boolean isCancelPending = null;
 
@@ -115,11 +115,11 @@ public class NsLcmOpOccs implements BaseEntity, Serializable {
 		this.isAutomaticInvocation = isAutomaticInvocation;
 	}
 
-	public NsdChangeType getOperationParams() {
+	public Object getOperationParams() {
 		return operationParams;
 	}
 
-	public void setOperationParams(final NsdChangeType operationParams) {
+	public void setOperationParams(final Object operationParams) {
 		this.operationParams = operationParams;
 	}
 

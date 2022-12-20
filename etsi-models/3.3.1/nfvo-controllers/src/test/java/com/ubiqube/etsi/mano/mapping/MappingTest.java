@@ -58,9 +58,6 @@ class MappingTest extends TestHelper {
 		final Set<String> ignore = new HashSet<>();
 		ignore.add("getLinks");
 		ignore.add("getResourceChanges");
-		ignore.add("getStatusEnteredTime");
-		ignore.add("getOperationParams");
-		ignore.add("getCancelMode");
 		doTest(NsLcmOpOcc.class, NsBlueprint.class, ignore);
 	}
 
@@ -68,11 +65,6 @@ class MappingTest extends TestHelper {
 	void testGrant() throws Exception {
 		final Set<String> ignore = new HashSet<>();
 		ignore.add("getLinks");
-		ignore.add("getInstantiationLevelId");
-		ignore.add("getResource");
-		ignore.add("getResourceTemplateId");
-		ignore.add("getPlacementConstraints");
-		ignore.add("getVimConstraints");
 		doTest(GrantRequest.class, GrantResponse.class, ignore);
 	}
 
@@ -80,23 +72,18 @@ class MappingTest extends TestHelper {
 	void testNsdInstance() throws Exception {
 		final Set<String> ignore = new HashSet<>();
 		ignore.add("getLinks");
+		// Complex, probably data are in tasks.
 		ignore.add("getVnfInstance");
+		// Reconstructed at view level thru DTO
 		ignore.add("getVirtualLinkInfo");
 		ignore.add("getPnfInfo");
-		ignore.add("getSapInfo");
-		ignore.add("getVnffgInfo");
-		ignore.add("getAdditionalAffinityOrAntiAffinityRule");
-		ignore.add("getMonitoringParameter");
-		ignore.add("getNsScaleStatus");
 		doTest(NsInstance.class, NsdInstance.class, ignore);
 	}
 
 	@Test
 	void testVnfPkgInfoNfvo() throws Exception {
 		final Set<String> ignore = new HashSet<>();
-		ignore.add("getSoftwareImages");
 		ignore.add("getLinks");
-		ignore.add("getChecksum");
 		doTest(VnfPkgInfo.class, VnfPackage.class, ignore);
 	}
 
@@ -104,7 +91,6 @@ class MappingTest extends TestHelper {
 	void testVnfInstance() throws Exception {
 		final Set<String> ignore = new HashSet<>();
 		ignore.add("getLinks");
-		ignore.add("getExtLinkPortId");
 		doTest(com.ubiqube.etsi.mano.em.v331.model.vnflcm.VnfInstance.class, VnfInstance.class, ignore);
 	}
 

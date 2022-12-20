@@ -29,6 +29,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
@@ -39,6 +40,7 @@ import com.ubiqube.etsi.mano.dao.mano.nfvo.ParamsForVnf;
 import com.ubiqube.etsi.mano.dao.mano.nsd.NsdVnfPackageCopy;
 import com.ubiqube.etsi.mano.dao.mano.nsd.VnffgDescriptor;
 import com.ubiqube.etsi.mano.dao.mano.nsd.wan.WanConnectionInformation;
+import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.NsScaleInfo;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 
 import lombok.Getter;
@@ -122,6 +124,18 @@ public class NsdInstance extends Instance {
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<VnffgDescriptor> vnffgInfo;
+
+	@Transient
+	private List<AffinityOrAntiAffinityRule> additionalAffinityOrAntiAffinityRule;
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<NsMonitoringParameter> monitoringParameter;
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<NsScaleInfo> nsScaleStatus;
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<SapInfo> sapInfo;
 
 	public void addNestedNsInstance(final NsdInstance nsIn) {
 		if (null == nestedNsInstance) {

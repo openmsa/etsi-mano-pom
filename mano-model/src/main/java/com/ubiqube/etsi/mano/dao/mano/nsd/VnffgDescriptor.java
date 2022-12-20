@@ -49,6 +49,8 @@ public class VnffgDescriptor implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
 
+	private String vnffgdId;
+
 	private String name;
 
 	@ElementCollection(fetch = FetchType.EAGER)
@@ -70,4 +72,6 @@ public class VnffgDescriptor implements Serializable {
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<NfpDescriptor> nfpd;
+
+	private NsCpHandle nsCpHandle;
 }
