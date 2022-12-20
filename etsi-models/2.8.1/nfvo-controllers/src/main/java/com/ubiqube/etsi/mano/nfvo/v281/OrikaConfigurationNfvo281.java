@@ -167,6 +167,8 @@ public class OrikaConfigurationNfvo281 implements OrikaMapperFactoryConfigurer {
 				.field("resourceTemplateId", "resourceTemplateId")
 				.field("resource.vimConnectionId", "vimConnectionId")
 				.field("resource.resourceProviderId", "resourceProviderId")
+				.field("resource.vimLevelResourceType", "vimLevelResourceType")
+				.field("resource.resourceId", "resourceId")
 				.register();
 		orikaMapperFactory.classMap(InstantiateNsRequest.class, NsdInstance.class)
 				.field("nsFlavourId", "instantiatedVnfInfo.flavourId")
