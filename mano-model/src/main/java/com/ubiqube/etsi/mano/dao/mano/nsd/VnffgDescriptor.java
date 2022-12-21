@@ -74,5 +74,5 @@ public class VnffgDescriptor implements Serializable {
 	private List<NfpDescriptor> nfpd;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private List<NsCpHandle> nsCpHandle;
+	private Set<NsCpHandle> nsCpHandle;
 }
