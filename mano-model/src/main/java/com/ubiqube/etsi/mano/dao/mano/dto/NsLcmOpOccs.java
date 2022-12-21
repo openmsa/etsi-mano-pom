@@ -46,7 +46,7 @@ public class NsLcmOpOccs implements BaseEntity, Serializable {
 
 	private Boolean isAutomaticInvocation = null;
 
-	private Object operationParams = null;
+	private transient Object operationParams = null;
 
 	private Boolean isCancelPending = null;
 

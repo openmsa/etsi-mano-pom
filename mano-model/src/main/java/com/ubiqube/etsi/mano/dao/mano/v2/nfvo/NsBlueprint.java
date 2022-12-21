@@ -116,7 +116,7 @@ public class NsBlueprint extends AbstractBlueprint<NsTask, NsdInstance> {
 	private BlueprintParameters parameters;
 
 	@Transient
-	private Object operationParams;
+	private transient Object operationParams;
 
 	public void setNsInstance(final NsdInstance nsInstance) {
 		this.nsInstance = nsInstance;
