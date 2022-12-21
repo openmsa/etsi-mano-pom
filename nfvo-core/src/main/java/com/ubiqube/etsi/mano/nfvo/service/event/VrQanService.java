@@ -39,6 +39,7 @@ import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 import com.ubiqube.etsi.mano.service.vim.ResourceQuota;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
+import com.ubiqube.etsi.mano.service.vim.VimUtils;
 
 /**
  *
@@ -65,88 +66,38 @@ public class VrQanService {
 	@Scheduled(fixedDelay = 60_000)
 	public void run() {
 		final Iterable<VimConnectionInformation> l = vimManager.findAllVimconnections();
-		StreamSupport.stream(l.spliterator(), false).forEach(x -> es.submit(() -> {
-			try {
-				final Optional<VrQan> ovrqan = vrQanJpa.findByVimId(x.getId());
-				final VrQan vrqan = ovrqan.orElseGet(() -> {
-					final VrQan vq = new VrQan(x.getId());
-					return vrQanJpa.save(vq);
-				});
-				final Vim vim = vimManager.getVimById(x.getId());
-				final ResourceQuota pr = vim.getQuota(x);
-				final VrQan diff = compare(pr, vrqan);
-				if (diff.haveValue()) {
-					LOG.info("Send notification for vim: {} with diff {}", x.getId(), diff);
-					copy(pr, vrqan);
-					vrqan.setLastChange(ZonedDateTime.now());
-					vrqan.setLastCheck(ZonedDateTime.now());
-					vrQanJpa.save(vrqan);
-					em.sendNotification(NotificationEvent.VRQAN, x.getId(), Map.of());
-				} else {
-					vrqan.setLastCheck(ZonedDateTime.now());
-					vrQanJpa.save(vrqan);
-				}
-			} catch (final RuntimeException e) {
-				LOG.error("", e);
+		StreamSupport.stream(l.spliterator(), false).forEach(x -> es.submit(() -> vrQanUpdate(x)));
+	}
+
+	public void vrQanUpdate(final VimConnectionInformation vimConnection) {
+		try {
+			final Optional<VrQan> ovrqan = vrQanJpa.findByVimId(vimConnection.getId());
+			final VrQan vrqan = ovrqan.orElseGet(() -> {
+				final VrQan vq = new VrQan(vimConnection.getId());
+				return vrQanJpa.save(vq);
+			});
+			final Vim vim = vimManager.getVimById(vimConnection.getId());
+			final ResourceQuota pr = vim.getQuota(vimConnection);
+			final VrQan diff = VimUtils.compare(pr, vrqan);
+			if (diff.haveValue()) {
+				LOG.info("Send notification for vim: {} with diff {}", vimConnection.getId(), diff);
+				VimUtils.copy(pr, vrqan);
+				vrqan.setLastChange(ZonedDateTime.now());
+				vrqan.setLastCheck(ZonedDateTime.now());
+				vrQanJpa.save(vrqan);
+				em.sendNotification(NotificationEvent.VRQAN, vimConnection.getId(), Map.of());
+			} else {
+				vrqan.setLastCheck(ZonedDateTime.now());
+				vrQanJpa.save(vrqan);
 			}
-		}));
+		} catch (final RuntimeException e) {
+			LOG.error("", e);
+		}
 	}
 
 	@PreDestroy
 	public void onClose() {
 		es.shutdown();
-	}
-
-	private static void copy(final ResourceQuota pr, final VrQan vrqan) {
-		vrqan.setFloatingIpUsed(pr.getFloatingIpUsed());
-		vrqan.setFloatingIpMax(pr.getFloatingIpMax());
-		vrqan.setFloatingFree(pr.getFloatingFree());
-		vrqan.setSecurityGroupsUsed(pr.getSecurityGroupsUsed());
-		vrqan.setSecurityGroupsMax(pr.getSecurityGroupsMax());
-		vrqan.setSecurityGroupsFree(pr.getSecurityGroupsFree());
-		vrqan.setRamUsed(pr.getRamUsed());
-		vrqan.setRamMax(pr.getRamMax());
-		vrqan.setRamFree(pr.getRamFree());
-		vrqan.setKeyPairsUsed(pr.getKeyPairsUsed());
-		vrqan.setKeyPairsMax(pr.getKeyPairsMax());
-		vrqan.setKeyPairsFree(pr.getKeyPairsFree());
-		vrqan.setInstanceUsed(pr.getInstanceUsed());
-		vrqan.setInstanceMax(pr.getInstanceMax());
-		vrqan.setInstanceFree(pr.getInstanceFree());
-		vrqan.setVcpuUsed(pr.getVcpuUsed());
-		vrqan.setVcpuMax(pr.getVcpuMax());
-		vrqan.setVcpuFree(pr.getVcpuFree());
-	}
-
-	private static VrQan compare(final ResourceQuota pr, final VrQan vrqan) {
-		final VrQan diff = new VrQan();
-		diff.setFloatingIpUsed(compare(vrqan.getFloatingIpUsed(), pr.getFloatingIpUsed()));
-		diff.setFloatingIpMax(compare(vrqan.getFloatingIpMax(), pr.getFloatingIpMax()));
-		diff.setFloatingFree(compare(vrqan.getFloatingFree(), pr.getFloatingFree()));
-		diff.setSecurityGroupsUsed(compare(vrqan.getSecurityGroupsUsed(), pr.getSecurityGroupsUsed()));
-		diff.setSecurityGroupsMax(compare(vrqan.getSecurityGroupsMax(), pr.getSecurityGroupsMax()));
-		diff.setSecurityGroupsFree(compare(vrqan.getSecurityGroupsFree(), pr.getSecurityGroupsFree()));
-		diff.setRamUsed(compare(vrqan.getRamUsed(), pr.getRamUsed()));
-		diff.setRamMax(compare(vrqan.getRamMax(), pr.getRamMax()));
-		diff.setRamFree(compare(vrqan.getRamFree(), pr.getRamFree()));
-		diff.setKeyPairsUsed(compare(vrqan.getKeyPairsUsed(), pr.getKeyPairsUsed()));
-		diff.setKeyPairsMax(compare(vrqan.getKeyPairsMax(), pr.getKeyPairsMax()));
-		diff.setKeyPairsFree(compare(vrqan.getKeyPairsFree(), pr.getKeyPairsFree()));
-		diff.setInstanceUsed(compare(vrqan.getInstanceUsed(), pr.getInstanceUsed()));
-		diff.setInstanceMax(compare(vrqan.getInstanceMax(), pr.getInstanceMax()));
-		diff.setInstanceFree(compare(vrqan.getInstanceFree(), pr.getInstanceFree()));
-		diff.setVcpuUsed(compare(vrqan.getVcpuUsed(), pr.getVcpuUsed()));
-		diff.setVcpuMax(compare(vrqan.getVcpuMax(), pr.getVcpuMax()));
-		diff.setVcpuFree(compare(vrqan.getVcpuFree(), pr.getVcpuFree()));
-		return diff;
-	}
-
-	private static long compare(final long old, final long ne) {
-		return old - ne;
-	}
-
-	private static int compare(final int old, final int ne) {
-		return old - ne;
 	}
 
 	public Optional<VrQan> findByVimId(final UUID id) {
