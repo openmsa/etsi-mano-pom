@@ -14,15 +14,20 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.nfvo.v431.service;
+package com.ubiqube.etsi.mano.nfvem.v431.model.nfvmanologm;
 
-import java.util.UUID;
 
-import com.ubiqube.etsi.mano.service.event.model.EventMessage;
-
-public interface NfvoFactory {
-	Object createNotificationVnfPackageOnboardingNotification(final UUID subscriptionId, EventMessage eventMessage);
-
-	Object createVnfPackageChangeNotification(final UUID subscriptionId, EventMessage eventMessage);
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+/**
+* AnyOfManoEntitySubscriptionFilter
+*/
+@JsonTypeInfo(
+  use = JsonTypeInfo.Id.NAME,
+  include = JsonTypeInfo.As.PROPERTY,
+  property = "type")
+@JsonSubTypes({
+})
+public interface AnyOfManoEntitySubscriptionFilter {
 
 }
