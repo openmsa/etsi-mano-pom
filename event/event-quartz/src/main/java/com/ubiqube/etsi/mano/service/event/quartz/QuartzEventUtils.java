@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.ubiqube.etsi.mano.service.event.ActionMessage;
 import com.ubiqube.etsi.mano.service.event.ActionType;
 import com.ubiqube.etsi.mano.service.event.SubscriptionEvent;
@@ -86,6 +87,7 @@ public class QuartzEventUtils {
 
 	public static SubscriptionEvent toSubscriptionEvent(final JobDataMap jobDataMap) {
 		final ObjectMapper obj = new ObjectMapper();
+		obj.registerModule(new JavaTimeModule());
 		try {
 			final String data = (String) jobDataMap.get("data");
 			return obj.readValue(data, SubscriptionEvent.class);
