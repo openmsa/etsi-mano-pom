@@ -31,7 +31,11 @@ import com.ubiqube.etsi.mano.nfvem.v431.model.nfvmanocim.PeerEntityConfigModific
 
 @RestController
 public class PeerEntities431Controller implements PeerEntities431Api {
-	private PeerEntityFrontController peerEntityFrontController;
+	private final PeerEntityFrontController peerEntityFrontController;
+
+	public PeerEntities431Controller(final PeerEntityFrontController peerEntityFrontController) {
+		this.peerEntityFrontController = peerEntityFrontController;
+	}
 
 	@Override
 	public ResponseEntity<List<PeerEntity>> peerEntitiesGet(@Valid final String filter, @Valid final String allFields, @Valid final String fields, @Valid final String excludeFields, @Valid final String excludeDefault, @Valid final String nextpageOpaqueMarker) {

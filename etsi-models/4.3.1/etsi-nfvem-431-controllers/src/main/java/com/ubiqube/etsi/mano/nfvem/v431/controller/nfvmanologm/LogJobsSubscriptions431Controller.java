@@ -29,7 +29,11 @@ import com.ubiqube.etsi.mano.nfvem.v431.model.nfvmanologm.LogmSubscriptionReques
 
 @RestController
 public class LogJobsSubscriptions431Controller implements LogJobsSubscriptions431Api {
-	private LogJobsSubscriptionFrontController logJobsFrontController;
+	private final LogJobsSubscriptionFrontController logJobsFrontController;
+
+	public LogJobsSubscriptions431Controller(final LogJobsSubscriptionFrontController logJobsFrontController) {
+		this.logJobsFrontController = logJobsFrontController;
+	}
 
 	@Override
 	public ResponseEntity<List<LogmSubscription>> subscriptionsGet(@Valid final String filter, @Valid final String nextpageOpaqueMarker) {
