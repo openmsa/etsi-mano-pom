@@ -23,6 +23,7 @@ import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ubiqube.etsi.mano.controller.nfvmanocim.PeerEntityFrontController;
 import com.ubiqube.etsi.mano.nfvem.v431.model.nfvmanocim.CreatePeerEntityRequest;
 import com.ubiqube.etsi.mano.nfvem.v431.model.nfvmanocim.PeerEntity;
 import com.ubiqube.etsi.mano.nfvem.v431.model.nfvmanocim.PeerEntityConfigModificationRequest;
@@ -30,35 +31,31 @@ import com.ubiqube.etsi.mano.nfvem.v431.model.nfvmanocim.PeerEntityConfigModific
 
 @RestController
 public class PeerEntities431Controller implements PeerEntities431Api {
+	private PeerEntityFrontController peerEntityFrontController;
 
 	@Override
 	public ResponseEntity<List<PeerEntity>> peerEntitiesGet(@Valid final String filter, @Valid final String allFields, @Valid final String fields, @Valid final String excludeFields, @Valid final String excludeDefault, @Valid final String nextpageOpaqueMarker) {
-		// TODO Auto-generated method stub
-		return null;
+		return peerEntityFrontController.search(filter, PeerEntity.class);
 	}
 
 	@Override
 	public ResponseEntity<Void> peerEntitiesPeerEntityIdDelete(final String peerEntityId) {
-		// TODO Auto-generated method stub
-		return null;
+		return peerEntityFrontController.delete(peerEntityId);
 	}
 
 	@Override
 	public ResponseEntity<PeerEntity> peerEntitiesPeerEntityIdGet(final String peerEntityId) {
-		// TODO Auto-generated method stub
-		return null;
+		return peerEntityFrontController.findById(peerEntityId, PeerEntity.class);
 	}
 
 	@Override
 	public ResponseEntity<PeerEntityConfigModifications> peerEntitiesPeerEntityIdPatch(final String peerEntityId, @Valid final PeerEntityConfigModificationRequest body) {
-		// TODO Auto-generated method stub
-		return null;
+		return peerEntityFrontController.patch(peerEntityId, body, PeerEntityConfigModifications.class);
 	}
 
 	@Override
 	public ResponseEntity<PeerEntity> peerEntitiesPost(@Valid final CreatePeerEntityRequest body) {
-		// TODO Auto-generated method stub
-		return null;
+		return peerEntityFrontController.create(body, PeerEntity.class);
 	}
 
 }

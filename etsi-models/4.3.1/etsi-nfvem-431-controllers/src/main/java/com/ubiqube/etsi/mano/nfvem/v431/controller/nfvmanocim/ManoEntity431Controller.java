@@ -18,11 +18,10 @@ package com.ubiqube.etsi.mano.nfvem.v431.controller.nfvmanocim;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ubiqube.etsi.mano.controller.nfvmanocim.ManoEntityFrontController;
 import com.ubiqube.etsi.mano.nfvem.v431.model.nfvmanocim.ChangeStateRequest;
 import com.ubiqube.etsi.mano.nfvem.v431.model.nfvmanocim.ManoConfigModificationRequest;
 import com.ubiqube.etsi.mano.nfvem.v431.model.nfvmanocim.ManoConfigModifications;
@@ -33,47 +32,41 @@ import com.ubiqube.etsi.mano.nfvem.v431.model.nfvmanocim.ManoServiceInterfaceMod
 
 @RestController
 public class ManoEntity431Controller implements ManoEntity431Api {
+	private ManoEntityFrontController manoEntityFrontController;
 
 	@Override
-	public ResponseEntity<Void> manoEntityChangeStatePost(@Valid final ChangeStateRequest body) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResponseEntity<Void> manoEntityChangeStatePost(final ChangeStateRequest body) {
+		return manoEntityFrontController.changeStatus(body);
 	}
 
 	@Override
 	public ResponseEntity<ManoEntity> manoEntityGet() {
-		// TODO Auto-generated method stub
-		return null;
+		return manoEntityFrontController.find(ManoEntity.class);
 	}
 
 	@Override
-	public ResponseEntity<List<ManoServiceInterface>> manoEntityManoInterfacesGet(@Valid final String filter, @Valid final String allFields, @Valid final String fields, @Valid final String excludeFields, @Valid final String excludeDefault, @Valid final String nextpageOpaqueMarker) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResponseEntity<List<ManoServiceInterface>> manoEntityManoInterfacesGet(final String filter, final String allFields, final String fields, final String excludeFields, final String excludeDefault, final String nextpageOpaqueMarker) {
+		return manoEntityFrontController.interfaceSearch(filter, ManoServiceInterface.class);
 	}
 
 	@Override
-	public ResponseEntity<Void> manoEntityManoInterfacesManoServiceInterfaceIdChangeStatePost(final String manoServiceInterfaceId, @Valid final ChangeStateRequest body) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResponseEntity<Void> manoEntityManoInterfacesManoServiceInterfaceIdChangeStatePost(final String manoServiceInterfaceId, final ChangeStateRequest body) {
+		return manoEntityFrontController.interfaceChangeState(manoServiceInterfaceId, body);
 	}
 
 	@Override
 	public ResponseEntity<ManoServiceInterface> manoEntityManoInterfacesManoServiceInterfaceIdGet(final String manoServiceInterfaceId) {
-		// TODO Auto-generated method stub
-		return null;
+		return manoEntityFrontController.interfaceFindById(manoServiceInterfaceId, ManoServiceInterface.class);
 	}
 
 	@Override
-	public ResponseEntity<ManoServiceInterfaceModifications> manoEntityManoInterfacesManoServiceInterfaceIdPatch(final String manoServiceInterfaceId, @Valid final ManoServiceInterfaceModificationRequest body) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResponseEntity<ManoServiceInterfaceModifications> manoEntityManoInterfacesManoServiceInterfaceIdPatch(final String manoServiceInterfaceId, final ManoServiceInterfaceModificationRequest body) {
+		return manoEntityFrontController.interfacePatch(manoServiceInterfaceId, body, ManoServiceInterfaceModifications.class);
 	}
 
 	@Override
-	public ResponseEntity<ManoConfigModifications> manoEntityPatch(@Valid final ManoConfigModificationRequest body) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResponseEntity<ManoConfigModifications> manoEntityPatch(final ManoConfigModificationRequest body) {
+		return manoEntityFrontController.patch(body, ManoConfigModifications.class);
 	}
 
 }
