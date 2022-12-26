@@ -15,5 +15,6 @@
 	<modules>
 		<module>nfvo-front-controller</module>
 		<module>vnfm-front-controller</module>
+		<module>nfv-front-controller</module>
 	</modules>
 </project>
