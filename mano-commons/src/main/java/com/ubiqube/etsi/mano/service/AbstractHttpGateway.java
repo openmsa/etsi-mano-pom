@@ -27,6 +27,7 @@ import java.util.function.BiFunction;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.ubiqube.etsi.mano.controller.Protocol;
 import com.ubiqube.etsi.mano.controller.Protocols;
 import com.ubiqube.etsi.mano.dao.mano.common.ApiVersionType;
@@ -40,10 +41,12 @@ import com.ubiqube.etsi.mano.utils.Version;
  */
 public abstract class AbstractHttpGateway implements HttpGateway {
 	private static final String SOL003 = "sol003";
-	private final ObjectMapper mapper = new ObjectMapper();
+	private final ObjectMapper mapper;
 	private List<Protocol> protocols;
 
 	protected AbstractHttpGateway() {
+		mapper = new ObjectMapper();
+		mapper.registerModule(new JavaTimeModule());
 		final Path path = Paths.get("/", getVersion().toString(), "mano-versions.json");
 		try (final InputStream in = this.getClass().getResourceAsStream(path.toString())) {
 			if (null == in) {
