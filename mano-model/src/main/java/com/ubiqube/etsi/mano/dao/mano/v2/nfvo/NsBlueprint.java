@@ -54,7 +54,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.AbstractBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.BlueprintParameters;
 import com.ubiqube.etsi.mano.dao.mano.vnfm.RejectedLcmCoordination;
 import com.ubiqube.etsi.mano.dao.mano.vnfm.VnfLcmCoordination;
-import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
+import com.ubiqube.etsi.mano.utils.ManoJsonType;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -69,7 +69,7 @@ import lombok.Setter;
 @Entity
 @Indexed
 //@TypeDef(name = "json", typeClass = JsonStringType.class)
-@TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
+@TypeDef(name = "jsonb", typeClass = ManoJsonType.class)
 @EntityListeners(AuditListener.class)
 public class NsBlueprint extends AbstractBlueprint<NsTask, NsdInstance> {
 
