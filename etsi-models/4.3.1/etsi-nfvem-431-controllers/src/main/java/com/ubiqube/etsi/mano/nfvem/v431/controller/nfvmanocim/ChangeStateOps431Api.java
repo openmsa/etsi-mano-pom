@@ -23,6 +23,7 @@ package com.ubiqube.etsi.mano.nfvem.v431.controller.nfvmanocim;
 
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
@@ -44,6 +45,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
+@RequestMapping(value = { "/sol002/nfvmanocim/v2", "/sol003/nfvmanocim/v2", "/sol005/nfvmanocim/v2" }, headers = { "Version=2.10.0" })
+@RolesAllowed({ "ROLE_EM", "ROLE_NFVO", "ROLE_VNFM" })
 @Validated
 public interface ChangeStateOps431Api {
 	@Operation(summary = "", description = "The API consumer can use the GET method to retrieve status  information about a change state operation occurrence by reading  an \"Individual change state operation occurrence\" resource. See clause 5.5.9.3.2. ", tags = {})
