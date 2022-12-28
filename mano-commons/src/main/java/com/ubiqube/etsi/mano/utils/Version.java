@@ -31,7 +31,7 @@ public class Version implements Comparable<Version> {
 	private final int major;
 	private final int minor;
 	private final int patch;
-	private final Pattern p = Pattern.compile("^(?<major>[0-9]+)\\.(?<minor>[0-9]+)\\.(?<patch>[0-9]+)$");
+	private final Pattern p = Pattern.compile("^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$");
 
 	public Version(final int major, final int minor, final int patch) {
 		this.major = major;
@@ -76,11 +76,11 @@ public class Version implements Comparable<Version> {
 		if (this == obj) {
 			return true;
 		}
-		if (obj == null || getClass() != obj.getClass()) {
+		if ((obj == null) || (getClass() != obj.getClass())) {
 			return false;
 		}
 		final Version other = (Version) obj;
-		return major == other.major && minor == other.minor && patch == other.patch;
+		return (major == other.major) && (minor == other.minor) && (patch == other.patch);
 	}
 
 	@Override
