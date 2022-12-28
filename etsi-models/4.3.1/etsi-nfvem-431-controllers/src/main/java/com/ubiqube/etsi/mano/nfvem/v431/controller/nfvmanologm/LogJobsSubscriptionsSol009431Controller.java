@@ -28,10 +28,10 @@ import com.ubiqube.etsi.mano.nfvem.v431.model.nfvmanologm.LogmSubscription;
 import com.ubiqube.etsi.mano.nfvem.v431.model.nfvmanologm.LogmSubscriptionRequest;
 
 @RestController
-public class LogJobsSubscriptions431Controller implements LogJobsSubscriptions431Api {
+public class LogJobsSubscriptionsSol009431Controller implements LogJobsSubscriptionsSol009431Api {
 	private final LogJobsSubscriptionFrontController logJobsFrontController;
 
-	public LogJobsSubscriptions431Controller(final LogJobsSubscriptionFrontController logJobsFrontController) {
+	public LogJobsSubscriptionsSol009431Controller(final LogJobsSubscriptionFrontController logJobsFrontController) {
 		this.logJobsFrontController = logJobsFrontController;
 	}
 

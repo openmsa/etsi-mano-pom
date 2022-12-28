@@ -27,7 +27,7 @@ import com.ubiqube.etsi.mano.nfvem.v431.model.nfvmanocim.CimSubscription;
 import com.ubiqube.etsi.mano.nfvem.v431.model.nfvmanocim.CimSubscriptionRequest;
 
 @RestController
-public class NfvManoCimSubscriptions431Controller implements NfvManoCimSubscriptions431Api {
+public class NfvManoCimSubscriptionsSol009431Controller implements NfvManoCimSubscriptionsSol009431Api {
 
 	@Override
 	public ResponseEntity<List<CimSubscription>> subscriptionsGet(@Valid final String filter, @Valid final String nextpageOpaqueMarker) {

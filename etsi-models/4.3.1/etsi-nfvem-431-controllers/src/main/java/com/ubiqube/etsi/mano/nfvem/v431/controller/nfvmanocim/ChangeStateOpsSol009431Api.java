@@ -48,7 +48,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 @RequestMapping(value = { "/sol002/nfvmanocim/v2", "/sol003/nfvmanocim/v2", "/sol005/nfvmanocim/v2" }, headers = { "Version=2.10.0" })
 @RolesAllowed({ "ROLE_EM", "ROLE_NFVO", "ROLE_VNFM" })
 @Validated
-public interface ChangeStateOps431Api {
+public interface ChangeStateOpsSol009431Api {
 	@Operation(summary = "", description = "The API consumer can use the GET method to retrieve status  information about a change state operation occurrence by reading  an \"Individual change state operation occurrence\" resource. See clause 5.5.9.3.2. ", tags = {})
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "200 OK Shall be returned when information about an \"Individual change state operation occurrence\" resource has been read successfully. The response body shall contain status information about a change state operation occurrence, as defined in clause 5.6.2.9. ", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ChangeStateOpOcc.class))),
