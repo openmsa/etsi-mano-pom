@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.nfvem.v431.model.nfvmanocim;
 
+import java.util.List;
 import java.util.Objects;
 
 import javax.validation.Valid;
@@ -46,10 +47,10 @@ public class NfvoSpecificInfo {
 	private Integer maxOnboardedVnfPkgNum = null;
 
 	@JsonProperty("supportedVnfdFormats")
-	private NfvoSpecificInfoSupportedVnfdFormats supportedVnfdFormats = null;
+	private List<NfvoSpecificInfoSupportedVnfdFormats> supportedVnfdFormats = null;
 
 	@JsonProperty("supportedNsdFormats")
-	private NfvoSpecificInfoSupportedNsdFormats supportedNsdFormats = null;
+	private List<NfvoSpecificInfoSupportedNsdFormats> supportedNsdFormats = null;
 
 	public NfvoSpecificInfo maxOnboardedNsdNum(final Integer maxOnboardedNsdNum) {
 		this.maxOnboardedNsdNum = maxOnboardedNsdNum;
@@ -92,7 +93,7 @@ public class NfvoSpecificInfo {
 		this.maxOnboardedVnfPkgNum = maxOnboardedVnfPkgNum;
 	}
 
-	public NfvoSpecificInfo supportedVnfdFormats(final NfvoSpecificInfoSupportedVnfdFormats supportedVnfdFormats) {
+	public NfvoSpecificInfo supportedVnfdFormats(final List<NfvoSpecificInfoSupportedVnfdFormats> supportedVnfdFormats) {
 		this.supportedVnfdFormats = supportedVnfdFormats;
 		return this;
 	}
@@ -106,15 +107,15 @@ public class NfvoSpecificInfo {
 	@NotNull
 
 	@Valid
-	public NfvoSpecificInfoSupportedVnfdFormats getSupportedVnfdFormats() {
+	public List<NfvoSpecificInfoSupportedVnfdFormats> getSupportedVnfdFormats() {
 		return supportedVnfdFormats;
 	}
 
-	public void setSupportedVnfdFormats(final NfvoSpecificInfoSupportedVnfdFormats supportedVnfdFormats) {
+	public void setSupportedVnfdFormats(final List<NfvoSpecificInfoSupportedVnfdFormats> supportedVnfdFormats) {
 		this.supportedVnfdFormats = supportedVnfdFormats;
 	}
 
-	public NfvoSpecificInfo supportedNsdFormats(final NfvoSpecificInfoSupportedNsdFormats supportedNsdFormats) {
+	public NfvoSpecificInfo supportedNsdFormats(final List<NfvoSpecificInfoSupportedNsdFormats> supportedNsdFormats) {
 		this.supportedNsdFormats = supportedNsdFormats;
 		return this;
 	}
@@ -128,11 +129,11 @@ public class NfvoSpecificInfo {
 	@NotNull
 
 	@Valid
-	public NfvoSpecificInfoSupportedNsdFormats getSupportedNsdFormats() {
+	public List<NfvoSpecificInfoSupportedNsdFormats> getSupportedNsdFormats() {
 		return supportedNsdFormats;
 	}
 
-	public void setSupportedNsdFormats(final NfvoSpecificInfoSupportedNsdFormats supportedNsdFormats) {
+	public void setSupportedNsdFormats(final List<NfvoSpecificInfoSupportedNsdFormats> supportedNsdFormats) {
 		this.supportedNsdFormats = supportedNsdFormats;
 	}
 
