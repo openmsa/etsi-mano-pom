@@ -31,10 +31,10 @@ import com.ubiqube.etsi.mano.nfvem.v431.model.nfvmanocim.ManoServiceInterfaceMod
 import com.ubiqube.etsi.mano.nfvem.v431.model.nfvmanocim.ManoServiceInterfaceModifications;
 
 @RestController
-public class ManoEntitySol009431Controller implements ManoEntitySol009431Api {
+public class ManoEntity431Sol009Controller implements ManoEntity431Sol009Api {
 	private final ManoEntityFrontController manoEntityFrontController;
 
-	public ManoEntitySol009431Controller(final ManoEntityFrontController manoEntityFrontController) {
+	public ManoEntity431Sol009Controller(final ManoEntityFrontController manoEntityFrontController) {
 		this.manoEntityFrontController = manoEntityFrontController;
 	}
 

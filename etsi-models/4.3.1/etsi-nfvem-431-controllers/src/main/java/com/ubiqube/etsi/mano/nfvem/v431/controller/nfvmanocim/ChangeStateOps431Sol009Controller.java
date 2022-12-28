@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ubiqube.etsi.mano.nfvem.v431.model.nfvmanocim.ChangeStateOpOcc;
 
 @RestController
-public class ChangeStateOpsSol009431Controller implements ChangeStateOpsSol009431Api {
+public class ChangeStateOps431Sol009Controller implements ChangeStateOps431Sol009Api {
 
 	@Override
 	public ResponseEntity<ChangeStateOpOcc> changeStateOpsChangeStateOpOccIdGet(final String changeStateOpOccId) {

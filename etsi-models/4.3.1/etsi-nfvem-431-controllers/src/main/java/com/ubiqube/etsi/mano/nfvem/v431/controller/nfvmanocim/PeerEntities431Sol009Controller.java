@@ -30,10 +30,10 @@ import com.ubiqube.etsi.mano.nfvem.v431.model.nfvmanocim.PeerEntityConfigModific
 import com.ubiqube.etsi.mano.nfvem.v431.model.nfvmanocim.PeerEntityConfigModifications;
 
 @RestController
-public class PeerEntitiesSol009431Controller implements PeerEntitiesSol009431Api {
+public class PeerEntities431Sol009Controller implements PeerEntities431Sol009Api {
 	private final PeerEntityFrontController peerEntityFrontController;
 
-	public PeerEntitiesSol009431Controller(final PeerEntityFrontController peerEntityFrontController) {
+	public PeerEntities431Sol009Controller(final PeerEntityFrontController peerEntityFrontController) {
 		this.peerEntityFrontController = peerEntityFrontController;
 	}
 

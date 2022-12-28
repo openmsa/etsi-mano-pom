@@ -29,10 +29,10 @@ import com.ubiqube.etsi.mano.nfvem.v431.model.nfvmanologm.LogReport;
 import com.ubiqube.etsi.mano.nfvem.v431.model.nfvmanologm.LoggingJob;
 
 @RestController
-public class LogJobsSol009431Controller implements LogJobsSol009431Api {
+public class LogJobs431Sol009Controller implements LogJobs431Sol009Api {
 	private final LogJobsFrontController logJobsFrontController;
 
-	public LogJobsSol009431Controller(final LogJobsFrontController logJobsFrontController) {
+	public LogJobs431Sol009Controller(final LogJobsFrontController logJobsFrontController) {
 		this.logJobsFrontController = logJobsFrontController;
 	}
 

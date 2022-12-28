@@ -23,6 +23,7 @@ package com.ubiqube.etsi.mano.nfvem.v431.controller.nfvmanologm;
 
 import java.util.List;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
@@ -46,8 +47,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
+@RequestMapping(value = { "/sol003/nfvmanologm/v1", "/sol005/nfvmanologm/v1" }, headers = { "Version=1.0.1" })
+@RolesAllowed({ "ROLE_EM", "ROLE_VNFM", "ROLE_NFVO" })
 @Validated
-public interface LogJobsSubscriptionsSol009431Api {
+public interface LogJobsSubscriptions431Sol009Api {
 	@Operation(summary = "", description = "The API consumer can use this method to query the list of active subscriptions to log management notifications subscribed by the API consumer. See clause 8.5.7.3.2.", tags = {})
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "200 OK Shall be returned when the list of subscriptions has been queried successfully. The response body shall contain in an array the representations of all active subscriptions of the functional block that invokes the method, i.e. zero or more representations of log management subscriptions as defined in clause 8.6.2.3. If the \"filter\" URI parameter was supplied in the request, the data in the response body shall have been transformed according to the rules specified in clause 5.2.2 of ETSI GS NFV-SOL 013. If the NFV-MANO functional entity supports alternative 2 (paging) according to clause 5.4.2.1 of ETSI GS NFV-SOL 013 for this resource, inclusion of the Link HTTP header in this response shall follow the provisions in clause 5.4.2.3 of ETSI GS NFV-SOL 013 . ", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = LogmSubscription.class)))),
