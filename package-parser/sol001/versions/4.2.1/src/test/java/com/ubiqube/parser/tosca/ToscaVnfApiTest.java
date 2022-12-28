@@ -246,7 +246,10 @@ class ToscaVnfApiTest {
 		ignore.add("getRevertToSnapshotStart");
 		ignore.add("getRevertToSnapshot");
 		//
+		ignore.add("getFixedIpAddress");
 		ignore.add("getIpAddressAssignmentSubtype");
+		// VNF
+		ignore.add("getServiceAvailabilityLevel");
 		checknullInternal(avcDb, ignore, err, new Stack<>());
 		if (!err.isEmpty()) {
 			final String str = err.stream().collect(Collectors.joining("\n"));

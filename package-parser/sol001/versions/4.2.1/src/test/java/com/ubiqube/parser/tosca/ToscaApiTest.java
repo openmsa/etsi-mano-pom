@@ -212,6 +212,9 @@ class ToscaApiTest {
 		ignore.add("getTerminate");
 		ignore.add("getTerminateStart");
 		ignore.add("getScaleStart");
+		// L3 Address
+		ignore.add("getFixedIpAddress");
+		ignore.add("getIpAddressAssignmentSubtype");
 		checknullInternal(avcDb, ignore, err, new Stack<>());
 		if (!err.isEmpty()) {
 			final String str = err.stream().collect(Collectors.joining("\n"));
