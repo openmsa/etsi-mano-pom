@@ -16,7 +16,6 @@
  */
 package com.ubiqube.etsi.mano.dao.mano;
 
-import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -35,11 +34,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
-import org.hibernate.search.mapper.pojo.automaticindexing.ReindexOnUpdate;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexingDependency;
 
 import com.ubiqube.etsi.mano.dao.mano.common.FailureDetails;
 import com.ubiqube.etsi.mano.dao.mano.nfvo.ArchiveSecurityOptionEnumType;
@@ -99,14 +96,14 @@ public class NsdPackage implements PackageBase, Auditable {
 
 	private Integer serviceAvailabilityLevel;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "nsdPackage")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "nsdPackage")
 	private Set<NsdPackageVnfPackage> vnfPkgIds;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
 	@JoinColumn
 	private Set<PnfDescriptor> pnfdInfoIds;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "parent")
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "parent")
 	private Set<NsdPackageNsdPackage> nestedNsdInfoIds;
 
 	@Enumerated(EnumType.STRING)
@@ -128,11 +125,11 @@ public class NsdPackage implements PackageBase, Auditable {
 	@ElementCollection(fetch = FetchType.EAGER)
 	private Map<String, String> userDefinedData;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn
 	private Set<NsSap> nsSaps;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn
 	private Set<NsVirtualLink> nsVirtualLinks;
 
@@ -141,7 +138,7 @@ public class NsdPackage implements PackageBase, Auditable {
 	private Set<NsdInstance> nsInstance;
 
 	// 2.7.1
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<NsArchiveArtifactInfo> artifacts;
 	// 2.7.1
 	private String signingCertificate;
@@ -149,12 +146,12 @@ public class NsdPackage implements PackageBase, Auditable {
 	@Enumerated(EnumType.STRING)
 	private ArchiveSecurityOptionEnumType archiveSecurityOption;
 	// Probably 3.5.1
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<VnffgDescriptor> vnffgs;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<NsVnfIndicator> nsVnfIndicator;
-	
+
 	private boolean autoHealEnabled;
 
 	@Override
