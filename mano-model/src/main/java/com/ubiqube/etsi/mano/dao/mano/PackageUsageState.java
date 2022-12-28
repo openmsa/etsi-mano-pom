@@ -19,6 +19,12 @@ package com.ubiqube.etsi.mano.dao.mano;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
+/**
+ * @deprecated Use {@link UsageStateEnum}l
+ * @author olivier
+ *
+ */
+@Deprecated(forRemoval = true)
 public enum PackageUsageState {
 
 	IN_USE("IN_USE"),
