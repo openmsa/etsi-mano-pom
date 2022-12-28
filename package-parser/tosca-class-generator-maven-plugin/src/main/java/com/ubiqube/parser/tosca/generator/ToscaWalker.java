@@ -549,4 +549,8 @@ public class ToscaWalker {
 		};
 	}
 
+	public String getVersion() {
+		return root.getVersion();
+	}
+
 }
