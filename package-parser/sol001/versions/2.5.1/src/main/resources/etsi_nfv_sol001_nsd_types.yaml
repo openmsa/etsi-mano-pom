@@ -317,7 +317,7 @@ interface_types:
       description: Preamble to execution of the terminate operation
     terminate:
       description: Base procedure for terminating an NS, corresponding to the Terminate NS operation defined in GS NFV-IFA 013. 
-    terminate _end:
+    terminate_end:
       description: Postamble to the execution of the terminate operation
     update_start:
       description: Preamble to execution of the update operation
@@ -329,13 +329,13 @@ interface_types:
       description: Preamble to execution of the scale operation
     scale:
       description: Base procedure for scaling an NS, corresponding to the Scale NS operation defined in GS NFV-IFA 013. 
-    scale _end:
+    scale_end:
       description: Postamble to the execution of the scale operation
     heal_start:
       description: Preamble to execution of the heal operation
     heal:
       description: Base procedure for healing an NS, corresponding to the Heal NS operation defined in GS NFV-IFA 013. 
-    heal _end:
+    heal_end:
       description: Postamble to the execution of the heal operation
 group_types:
   tosca.groups.nfv.PlacementGroup:
