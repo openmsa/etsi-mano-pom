@@ -173,6 +173,11 @@ topology_template:
           operating_system: centos8
           provider: provider
           size: 3 Gib
+          file: MyFile
+          repository: repo
+          description: descr
+          properties:
+            a: b
           supported_virtualisation_environments:
             - a
         nfvi_constraints:

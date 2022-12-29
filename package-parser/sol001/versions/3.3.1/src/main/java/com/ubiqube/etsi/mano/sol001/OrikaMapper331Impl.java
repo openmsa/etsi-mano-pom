@@ -47,9 +47,6 @@ public class OrikaMapper331Impl implements OrikaMapper {
 		mapper.classMap(Compute.class, tosca.nodes.nfv.vdu.Compute.class)
 				.field("monitoringParameters{value}", "monitoringParameters{}")
 				.field("monitoringParameters{key}", "monitoringParameters{name}")
-				.byDefault()
-				.register();
-		mapper.classMap(Compute.class, tosca.nodes.nfv.vdu.Compute.class)
 				.customize(new CustomMapper<Compute, tosca.nodes.nfv.vdu.Compute>() {
 					@Override
 					public void mapBtoA(final tosca.nodes.nfv.vdu.Compute b, final Compute a, final MappingContext context) {
