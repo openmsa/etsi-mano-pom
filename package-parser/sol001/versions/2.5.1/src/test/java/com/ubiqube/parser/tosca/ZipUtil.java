@@ -22,7 +22,11 @@ import java.io.InputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ZipUtil {
+	private static final Logger LOG = LoggerFactory.getLogger(ZipUtil.class);
 
 	private ZipUtil() {
 		// Nothing.
@@ -33,6 +37,7 @@ public class ZipUtil {
 			try (ZipOutputStream zipOut = new ZipOutputStream(fos)) {
 				for (final Entry srcFile : toscaFile) {
 					try (InputStream is = ZipUtil.class.getClassLoader().getResourceAsStream(srcFile.classPath)) {
+						LOG.info("Onpening {} = {} ", srcFile.classPath, is);
 						final ZipEntry zipEntry = new ZipEntry(srcFile.zipName);
 						zipOut.putNextEntry(zipEntry);
 

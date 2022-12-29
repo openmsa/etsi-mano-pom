@@ -18,6 +18,7 @@ package com.ubiqube.parser.tosca;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.util.HashMap;
@@ -54,7 +55,6 @@ class UbiVnfToscaTest {
 	void testUbiCsar() throws Exception {
 		ZipUtil.makeToscaZip("/tmp/ubi-tosca.csar", Entry.of("ubi-tosca/Definitions/tosca_ubi.yaml", "Definitions/tosca_ubi.yaml"),
 				Entry.of("etsi_nfv_sol001_vnfd_types.yaml", "Definitions/etsi_nfv_sol001_vnfd_types.yaml"),
-				Entry.of("etsi_nfv_sol001_common_types.yaml", "Definitions/etsi_nfv_sol001_common_types.yaml"),
 				Entry.of("ubi-tosca/TOSCA-Metadata/TOSCA.meta", "TOSCA-Metadata/TOSCA.meta"));
 		final ToscaParser toscaParser = new ToscaParser(new File("/tmp/ubi-tosca.csar"));
 		final ToscaContext root = toscaParser.getContext();
@@ -69,7 +69,7 @@ class UbiVnfToscaTest {
 		final List<Compute> lComp = toscaApi.getObjects(root, parameters, Compute.class);
 		assertEquals(2, lComp.size());
 		lComp.stream().forEach(x -> {
-			assertEquals(1, x.getArtifacts().size());
+			assertTrue(x.getArtifacts().size() >= 1);
 		});
 	}
 
@@ -77,7 +77,6 @@ class UbiVnfToscaTest {
 	void testUbiCsarCompute() throws Exception {
 		ZipUtil.makeToscaZip("/tmp/ubi-tosca.csar", Entry.of("ubi-tosca/Definitions/tosca_ubi.yaml", "Definitions/tosca_ubi.yaml"),
 				Entry.of("etsi_nfv_sol001_vnfd_types.yaml", "Definitions/etsi_nfv_sol001_vnfd_types.yaml"),
-				Entry.of("etsi_nfv_sol001_common_types.yaml", "Definitions/etsi_nfv_sol001_common_types.yaml"),
 				Entry.of("ubi-tosca/TOSCA-Metadata/TOSCA.meta", "TOSCA-Metadata/TOSCA.meta"));
 		final ToscaParser toscaParser = new ToscaParser(new File("/tmp/ubi-tosca.csar"));
 		final ToscaContext root = toscaParser.getContext();
