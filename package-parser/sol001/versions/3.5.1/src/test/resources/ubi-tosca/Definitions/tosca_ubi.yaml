@@ -152,6 +152,7 @@ topology_template:
           type: tosca.artifacts.nfv.SwImage
           file: myFile.qcow2
           deploy_path: deploy path
+          name: cirros
           checksum:
             hash: abcdef0987654321
             algorithm: SHA-512
@@ -159,6 +160,16 @@ topology_template:
           repository: repo
           vim_type: vimtype
           artifact_version: 1.0.0
+          container_format: BARE
+          disk_format: QCOW2
+          min_disk: 1 GiB
+          min_ram: 512 Mib
+          operating_system: centos8
+          provider: provider
+          size: 3 Gib
+          version: 1.0.9
+          supported_virtualisation_environments:
+            - os
           properties:
             key: value
       properties:

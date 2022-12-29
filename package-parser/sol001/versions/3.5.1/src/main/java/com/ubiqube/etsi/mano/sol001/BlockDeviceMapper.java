@@ -44,12 +44,18 @@ public class BlockDeviceMapper extends CustomMapper<VirtualBlockStorage, tosca.n
 		final SwImage si = new SwImage();
 		si.setArtifactVersion(sw.getVersion());
 		si.setChecksum(map(sw.getChecksum()));
+		si.setChecksumAlgorithm(si.getChecksum().getAlgorithm());
 		si.setContainerFormat("");
 		si.setDeployPath(null);
 		si.setDescription(sw.getInternalDescription());
 		si.setDiskFormat(sw.getDiskFormat());
 		si.setFile(null);
 		si.setMinDisk(sw.getMinDisk());
+		si.setMinRam(sw.getMinRam());
+		si.setName(sw.getName());
+		si.setOperatingSystem(sw.getOperatingSystem());
+		si.setProvider(sw.getProvider());
+		si.setSize(sw.getSize());
 		si.setSupportedVirtualisationEnvironments(sw.getSupportedVirtualisationEnvironments());
 		si.setType(SwImage.class.getName());
 		si.setVersion(sw.getVersion());

@@ -250,6 +250,14 @@ class ToscaVnfApiTest {
 		ignore.add("getFixedIpAddress");
 		ignore.add("getIpAddressAssignmentSubtype");
 		ignore.add("getNfviMaintenanceGroupInfo");
+		// SwImage
+		ignore.add("getFile");
+		ignore.add("getProperties");
+		ignore.add("getRepository");
+		ignore.add("getDescription");
+		ignore.add("getDeployPath");
+		// Compute
+		ignore.add("getChecksumAlgorithm");
 		checknullInternal(avcDb, ignore, err, new Stack<>());
 		if (!err.isEmpty()) {
 			final String str = err.stream().collect(Collectors.joining("\n"));
