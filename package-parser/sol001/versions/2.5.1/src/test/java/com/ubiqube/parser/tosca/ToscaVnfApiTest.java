@@ -265,6 +265,7 @@ class ToscaVnfApiTest {
 		ignore.add("getDestinationPath");
 		ignore.add("getData");
 		// SW data for 2.6.1
+		ignore.add("getAlgorithm");
 		ignore.add("getChecksumAlgorithm");
 		ignore.add("getFile");
 		ignore.add("getProvider");
@@ -276,6 +277,8 @@ class ToscaVnfApiTest {
 		ignore.add("getDeployPath");
 		// 2.5.1
 		ignore.add("getVnfProfile");
+		//
+		ignore.add("getChecksum");
 		checknullInternal(avcDb, ignore, err, new Stack<>());
 		if (!err.isEmpty()) {
 			final String str = err.stream().collect(Collectors.joining("\n"));

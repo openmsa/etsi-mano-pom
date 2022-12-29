@@ -34,7 +34,6 @@ import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.VnfExtCp;
 import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.VnfVirtualLink;
 import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.vdu.Compute;
 import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.VduScalingAspectDeltas;
-import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.VnfIndicator;
 
 import ma.glasnost.orika.MapperFactory;
 
@@ -66,8 +65,7 @@ class UbiVnfToscaTest {
 		assertEquals("leftVl01", elem.getInternalName());
 		assertEquals("192.168.0.100", elem.getVlProfile().getVirtualLinkProtocolData().get(0).getL3ProtocolData().getIpAllocationPools().get(0).getStartIpAddress());
 
-		final List<VnfIndicator> l2 = toscaApi.getObjects(root, parameters, VnfIndicator.class);
-		assertEquals(2, l2.size());
+		// No VNF indicator up to 3.3.1
 		final List<Compute> lComp = toscaApi.getObjects(root, parameters, Compute.class);
 		assertEquals(2, lComp.size());
 		lComp.stream().forEach(x -> {

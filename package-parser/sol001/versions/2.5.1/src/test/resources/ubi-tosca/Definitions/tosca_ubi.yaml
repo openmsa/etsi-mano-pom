@@ -167,6 +167,7 @@ topology_template:
           version: 1.0.0
           min_ram: 1 Gb
           artifact_version: 1.0.0
+          #checksum: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
           properties:
             key: value
       properties:
@@ -184,7 +185,6 @@ topology_template:
           min_disk: 1 GiB
           min_ram: 512 Mib
           operating_system: centos8
-          provider: provider
           size: 3 Gib
           supported_virtualisation_environments:
             - a
