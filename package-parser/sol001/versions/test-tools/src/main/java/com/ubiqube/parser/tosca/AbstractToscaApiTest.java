@@ -1,18 +1,16 @@
 /**
- *     Copyright (C) 2019-2020 Ubiqube.
+ * This copy of Woodstox XML processor is licensed under the
+ * Apache (Software) License, version 2.0 ("the License").
+ * See the License for details about distribution rights, and the
+ * specific rights regarding derivate works.
  *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU General Public License as published by
- *     the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ * You may obtain a copy of the License at:
  *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU General Public License for more details.
+ * http://www.apache.org/licenses/
  *
- *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * A copy is also included in the downloadable source code package
+ * containing Woodstox, in file "ASL2.0", under the same directory
+ * as this file.
  */
 package com.ubiqube.parser.tosca;
 
@@ -39,48 +37,32 @@ import java.util.Stack;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ubiqube.parser.tosca.ZipUtil.Entry;
 import com.ubiqube.parser.tosca.api.ToscaApi;
 import com.ubiqube.parser.tosca.convert.ConvertApi;
 import com.ubiqube.parser.tosca.convert.SizeConverter;
-import com.ubiqube.parser.tosca.objects.tosca.groups.nfv.PlacementGroup;
-import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.VNF;
-import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.VduCp;
-import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.VnfExtCp;
-import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.VnfVirtualLink;
-import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.vdu.Compute;
-import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.vdu.VirtualBlockStorage;
-import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.vdu.VirtualObjectStorage;
-import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.AffinityRule;
-import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.ScalingAspects;
-import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.SecurityGroupRule;
-import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.SupportedVnfInterface;
-import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.VduInitialDelta;
-import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.VduInstantiationLevels;
-import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.VduScalingAspectDeltas;
-import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.VirtualLinkBitrateInitialDelta;
 import com.ubiqube.parser.tosca.scalar.Frequency;
 import com.ubiqube.parser.tosca.scalar.Size;
 import com.ubiqube.parser.tosca.scalar.Time;
 
 import ma.glasnost.orika.MapperFactory;
 
-@SuppressWarnings({ "rawtypes", "unchecked" })
-class ToscaVnfApiTest {
-	private static final Logger LOG = LoggerFactory.getLogger(ToscaVnfApiTest.class);
+public abstract class AbstractToscaApiTest {
+	private static final Logger LOG = LoggerFactory.getLogger(AbstractToscaApiTest.class);
 
 	private final ConvertApi conv = new ConvertApi();
 
+	private final ToscaContext root;
+
 	private final Map<String, String> parameters = new HashMap<>();
+
 	private final Set<Class<?>> complex = new HashSet<>();
 
 	private final ToscaApi toscaApi;
 
-	public ToscaVnfApiTest() {
+	public AbstractToscaApiTest() {
 		conv.register(Size.class.getCanonicalName(), new SizeConverter());
 		complex.add(String.class);
 		complex.add(UUID.class);
@@ -93,52 +75,18 @@ class ToscaVnfApiTest {
 		complex.add(Time.class);
 		final MapperFactory mapperFactory = Utils.createMapperFactory();
 		toscaApi = new ToscaApi(this.getClass().getClassLoader(), mapperFactory.getMapperFacade());
-	}
-
-	@SuppressWarnings("static-method")
-	void testGetFilesOpenTosca() {
-		final ToscaParser toscaParser = new ToscaParser(new File("src/test/resources/msa-api_w1-wip1.csar"));
-		final ToscaContext root = toscaParser.getContext();
-	}
-
-	// @Test
-	void testName() {
-		final ToscaParser tp = new ToscaParser(new File("src/test/resources/web_mysql_tosca.yaml"));
-		final ToscaContext root = tp.getContext();
-		final List<Compute> res = toscaApi.getObjects(root, parameters, Compute.class);
-		LOG.debug("{}", res);
-	}
-
-	@Test
-	void testUbiCsar() throws Exception {
-		ZipUtil.makeToscaZip("/tmp/ubi-tosca.csar", Entry.of("ubi-tosca/Definitions/tosca_ubi.yaml", "Definitions/tosca_ubi.yaml"),
-				Entry.of("ubi-tosca/Definitions/etsi_nfv_sol001_vnfd_types.yaml", "Definitions/etsi_nfv_sol001_vnfd_types.yaml"),
-				Entry.of("ubi-tosca/Definitions/etsi_nfv_sol001_common_types.yaml", "Definitions/etsi_nfv_sol001_common_types.yaml"),
-				Entry.of("ubi-tosca/TOSCA-Metadata/TOSCA.meta", "TOSCA-Metadata/TOSCA.meta"));
+		prepareArchive();
 		final ToscaParser tp = new ToscaParser(new File("/tmp/ubi-tosca.csar"));
-		final ToscaContext root = tp.getContext();
-
-		testToscaClass(1, root, parameters, VirtualBlockStorage.class);
-		testToscaClass(1, root, parameters, VirtualObjectStorage.class);
-		testToscaClass(3, root, parameters, VnfVirtualLink.class);
-		final List<VduCp> cps = testToscaClass(4, root, parameters, VduCp.class);
-		assertNotNull(cps.get(0).getVirtualBindingReq());
-		assertNotNull(cps.get(0).getVirtualLinkReq());
-		testToscaClass(1, root, parameters, PlacementGroup.class);
-		testToscaClass(1, root, parameters, VduInstantiationLevels.class);
-		testToscaClass(1, root, parameters, VnfExtCp.class);
-		testToscaClass(1, root, parameters, VNF.class);
-		testToscaClass(2, root, parameters, ScalingAspects.class);
-		testToscaClass(2, root, parameters, VduInitialDelta.class);
-		testToscaClass(2, root, parameters, VduScalingAspectDeltas.class);
-		testToscaClass(1, root, parameters, SecurityGroupRule.class);
-		testToscaClass(1, root, parameters, SupportedVnfInterface.class);
-		testToscaClass(1, root, parameters, AffinityRule.class);
-		testToscaClass(1, root, parameters, VirtualLinkBitrateInitialDelta.class);
-		testToscaClass(2, root, parameters, Compute.class);
+		root = tp.getContext();
 	}
 
-	private <U> List<U> testToscaClass(final int i, final ToscaContext root, final Map<String, String> parameters2, final Class<U> clazz) throws IllegalArgumentException, InvocationTargetException, IllegalAccessException, IntrospectionException {
+	protected abstract void prepareArchive();
+
+	protected <U> List<U> runTest(final int num, final Class<U> clazz) throws IllegalArgumentException, InvocationTargetException, IllegalAccessException, IntrospectionException {
+		return testToscaClass(num, clazz);
+	}
+
+	private <U> List<U> testToscaClass(final int i, final Class<U> clazz) throws IllegalArgumentException, InvocationTargetException, IllegalAccessException, IntrospectionException {
 		final List<U> listVsad = toscaApi.getObjects(root, parameters, clazz);
 		assertEquals(i, listVsad.size());
 		checknull(listVsad.get(0));
@@ -202,54 +150,7 @@ class ToscaVnfApiTest {
 
 	private void checknull(final Object avcDb) throws IntrospectionException, IllegalArgumentException, InvocationTargetException, IllegalAccessException {
 		final List<String> err = new ArrayList<>();
-		final List<String> ignore = new ArrayList<>();
-		ignore.add("getInternalDescription");
-		ignore.add("getInternalName");
-		ignore.add("getArtifacts");
-		ignore.add("getTriggers");
-		ignore.add("getTargets");
-		ignore.add("getVirtualLinkable");
-		// Vnflcm
-		ignore.add("getScaleToLevelStart");
-		ignore.add("getChangeExternalConnectivityEnd");
-		ignore.add("getChangeFlavourEnd");
-		ignore.add("getInstantiateEnd");
-		ignore.add("getChangeExternalConnectivity");
-		ignore.add("getScaleEnd");
-		ignore.add("getChangeCurrentPackageStart");
-		ignore.add("getScaleToLevel");
-		ignore.add("getScaleToLevelEnd");
-		ignore.add("getInstantiateStart");
-		ignore.add("getHealEnd");
-		ignore.add("getCreateSnapshotStart");
-		ignore.add("getChangeExternalConnectivityStart");
-		ignore.add("getModifyInformation");
-		ignore.add("getHealStart");
-		ignore.add("getModifyInformationStart");
-		ignore.add("getInstantiate");
-		ignore.add("getOperate");
-		ignore.add("getRevertToSnapshotEnd");
-		ignore.add("getOperateEnd");
-		ignore.add("getChangeCurrentPackage");
-		ignore.add("getTerminateEnd");
-		ignore.add("getCreateSnapshot");
-		ignore.add("getModifyInformationEnd");
-		ignore.add("getHeal");
-		ignore.add("getCreateSnapshotEnd");
-		ignore.add("getTerminate");
-		ignore.add("getChangeCurrentPackageEnd");
-		ignore.add("getTerminateStart");
-		ignore.add("getScaleStart");
-		ignore.add("getChangeFlavourStart");
-		ignore.add("getChangeFlavour");
-		ignore.add("getOperateStart");
-		ignore.add("getRevertToSnapshotStart");
-		ignore.add("getRevertToSnapshot");
-		//
-		ignore.add("getFixedIpAddress");
-		ignore.add("getIpAddressAssignmentSubtype");
-		// VNF
-		ignore.add("getServiceAvailabilityLevel");
+		final List<String> ignore = getIgnoreList();
 		checknullInternal(avcDb, ignore, err, new Stack<>());
 		if (!err.isEmpty()) {
 			final String str = err.stream().collect(Collectors.joining("\n"));
@@ -258,13 +159,10 @@ class ToscaVnfApiTest {
 		}
 	}
 
+	protected abstract List<String> getIgnoreList();
+
 	private void checknullInternal(final Object avcDb, final List<String> ignore, final List<String> err, final Stack<String> stack) throws IntrospectionException, IllegalArgumentException, InvocationTargetException, IllegalAccessException {
-		final Class<?> inClass = avcDb.getClass();
-		if (Map.class.isAssignableFrom(inClass)) {
-			LOG.warn("Encoutered an not mapped type at {}", buildError(stack));
-			return;
-		}
-		final BeanInfo beanInfo = Introspector.getBeanInfo(inClass);
+		final BeanInfo beanInfo = Introspector.getBeanInfo(avcDb.getClass());
 		final MethodDescriptor[] m = beanInfo.getMethodDescriptors();
 		for (final MethodDescriptor methodDescriptor : m) {
 			if (!methodDescriptor.getName().startsWith("get") || "getClass".equals(methodDescriptor.getName())) {
@@ -277,7 +175,6 @@ class ToscaVnfApiTest {
 				if (!ignore.contains(methodDescriptor.getName())) {
 					LOG.warn("  - {} is null at {}", methodDescriptor.getName(), buildError(stack));
 					err.add(buildError(stack));
-
 				}
 				stack.pop();
 				continue;
@@ -333,4 +230,5 @@ class ToscaVnfApiTest {
 		}
 		return !complex.contains(r.getClass());
 	}
+
 }

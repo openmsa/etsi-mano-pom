@@ -18,5 +18,6 @@
 		<module>3.5.1</module>
 		<module>3.6.1</module>
 		<module>4.2.1</module>
+		<module>test-tools</module>
 	</modules>
 </project>

@@ -33,6 +33,7 @@
 		<project.version.jackson.databind>2.14.1</project.version.jackson.databind>
 		<ubiqube.orika.version>1.5.5-SNAPSHOT</ubiqube.orika.version>
 		<version.bouncycastle>1.72</version.bouncycastle>
+		<version.junit.jupiter>5.8.2</version.junit.jupiter>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -89,8 +90,13 @@
 			<dependency>
 				<groupId>org.junit.jupiter</groupId>
 				<artifactId>junit-jupiter</artifactId>
-				<version>5.8.2</version>
+				<version>${version.junit.jupiter}</version>
 				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.junit.jupiter</groupId>
+				<artifactId>junit-jupiter-api</artifactId>
+				<version>${version.junit.jupiter}</version>
 			</dependency>
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
