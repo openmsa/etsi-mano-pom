@@ -18,6 +18,7 @@ package com.ubiqube.parser.tosca;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.util.HashMap;
@@ -34,7 +35,6 @@ import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.VnfExtCp;
 import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.VnfVirtualLink;
 import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.vdu.Compute;
 import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.VduScalingAspectDeltas;
-import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.VnfIndicator;
 
 import ma.glasnost.orika.MapperFactory;
 
@@ -65,13 +65,11 @@ class UbiVnfToscaTest {
 		final VnfVirtualLink elem = list.get(0);
 		assertEquals("leftVl01", elem.getInternalName());
 		assertEquals("192.168.0.100", elem.getVlProfile().getVirtualLinkProtocolData().get(0).getL3ProtocolData().getIpAllocationPools().get(0).getStartIpAddress());
-
-		final List<VnfIndicator> l2 = toscaApi.getObjects(root, parameters, VnfIndicator.class);
-		assertEquals(2, l2.size());
+		// VnfIndicator policy doesn't exist.
 		final List<Compute> lComp = toscaApi.getObjects(root, parameters, Compute.class);
 		assertEquals(2, lComp.size());
 		lComp.stream().forEach(x -> {
-			assertEquals(1, x.getArtifacts().size());
+			assertTrue(x.getArtifacts().size() >= 1);
 		});
 	}
 
