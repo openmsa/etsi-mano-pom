@@ -31,6 +31,9 @@ public class ZipUtil {
 			try (ZipOutputStream zipOut = new ZipOutputStream(fos)) {
 				for (final Entry srcFile : toscaFile) {
 					try (InputStream is = ZipUtil.class.getClassLoader().getResourceAsStream(srcFile.classPath)) {
+						if (null == is) {
+							throw new IllegalArgumentException("Could not open " + srcFile.classPath);
+						}
 						final ZipEntry zipEntry = new ZipEntry(srcFile.zipName);
 						zipOut.putNextEntry(zipEntry);
 

@@ -28,7 +28,6 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ubiqube.parser.tosca.ZipUtil.Entry;
 import com.ubiqube.parser.tosca.api.ToscaApi;
 import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.VnfExtCp;
 import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.VnfVirtualLink;
@@ -53,10 +52,7 @@ class UbiVnfToscaTest {
 
 	@Test
 	void testUbiCsar() throws Exception {
-		ZipUtil.makeToscaZip("/tmp/ubi-tosca.csar", Entry.of("ubi-tosca/Definitions/tosca_ubi.yaml", "Definitions/tosca_ubi.yaml"),
-				Entry.of("etsi_nfv_sol001_vnfd_types.yaml", "Definitions/etsi_nfv_sol001_vnfd_types.yaml"),
-				Entry.of("etsi_nfv_sol001_common_types.yaml", "Definitions/etsi_nfv_sol001_common_types.yaml"),
-				Entry.of("ubi-tosca/TOSCA-Metadata/TOSCA.meta", "TOSCA-Metadata/TOSCA.meta"));
+		StaticTestTools.createVnfPackage();
 		final ToscaParser toscaParser = new ToscaParser(new File("/tmp/ubi-tosca.csar"));
 		final ToscaContext root = toscaParser.getContext();
 
@@ -72,10 +68,7 @@ class UbiVnfToscaTest {
 
 	@Test
 	void testUbiCsarCompute() throws Exception {
-		ZipUtil.makeToscaZip("/tmp/ubi-tosca.csar", Entry.of("ubi-tosca/Definitions/tosca_ubi.yaml", "Definitions/tosca_ubi.yaml"),
-				Entry.of("etsi_nfv_sol001_vnfd_types.yaml", "Definitions/etsi_nfv_sol001_vnfd_types.yaml"),
-				Entry.of("etsi_nfv_sol001_common_types.yaml", "Definitions/etsi_nfv_sol001_common_types.yaml"),
-				Entry.of("ubi-tosca/TOSCA-Metadata/TOSCA.meta", "TOSCA-Metadata/TOSCA.meta"));
+		StaticTestTools.createVnfPackage();
 		final ToscaParser toscaParser = new ToscaParser(new File("/tmp/ubi-tosca.csar"));
 		final ToscaContext root = toscaParser.getContext();
 
