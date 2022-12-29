@@ -24,6 +24,7 @@ import java.nio.file.Paths;
 
 import org.junit.jupiter.api.Test;
 
+import com.ubiqube.etsi.mano.sol004.ZipUtil.Entry;
 import com.ubiqube.etsi.mano.sol004.builder.CertificateSigner;
 import com.ubiqube.etsi.mano.sol004.builder.CsarBuilder;
 import com.ubiqube.etsi.mano.sol004.builder.Pkcs7Certificate;
@@ -62,11 +63,21 @@ class BuilderTest {
 		final File publicKey = new File("src/test/resources/mano-qa-sol004.pub.pem");
 		final File privateKey = new File("src/test/resources/mano-qa-sol004.pem");
 		final CertificateSigner certificateSigner = new Pkcs7Certificate(privateKey, publicKey);
+		final String fileName = "/tmp/tesca.csar";
+		ZipUtil.makeToscaZip(fileName,
+				Entry.of("test-csar/mano-qa-sol004.pub.pem.cert", "mano-qa-sol004.pub.pem.cert"),
+				Entry.of("test-csar/Definitions/etsi_nfv_sol001_vnfd_types.yaml", "Definitions/etsi_nfv_sol001_vnfd_types.yaml"),
+				Entry.of("test-csar/Definitions/etsi_nfv_sol001_vnfd_types.yaml.sig.p7s", "Definitions/etsi_nfv_sol001_vnfd_types.yaml.sig.p7s"),
+				Entry.of("test-csar/Definitions/tosca_ubi_scale.yaml", "Definitions/tosca_ubi_scale.yaml"),
+				Entry.of("test-csar/Definitions/tosca_ubi_scale.yaml.sig.p7s", "Definitions/tosca_ubi_scale.yaml.sig.p7s"),
+				Entry.of("test-csar/TOSCA-Metadata/TOSCA.meta", "TOSCA-Metadata/TOSCA.meta"),
+				Entry.of("test-csar/TOSCA-Metadata/TOSCA.meta.sig.p7s", "TOSCA-Metadata/TOSCA.meta.sig.p7s"),
+				Entry.of("test-csar/TOSCA-Metadata/manifest.mf", "TOSCA-Metadata/manifest.mf"));
 		CsarBuilder.builder()
 				.ofDoubleZip()
 				.addEntry(new File("src/test/resources/scale-vnf/Definitions/etsi_nfv_sol001_vnfd_types.yaml"), "Definitions/etsi_nfv_sol001_vnfd_types.yaml")
 				.addEntry(new File("src/test/resources/scale-vnf/Definitions/tosca_ubi_scale.yaml"), "Definitions/tosca_ubi_scale.yaml")
-				.addEntry(new File("src/test/resources/tosca.csar"), "tosca.csar")
+				.addEntry(new File("/tmp/tesca.csar"), "tosca.csar")
 				.entryPoint("Definitions/tosca_ubi_scale.yaml")
 				.certificate(certificateSigner)
 				.build(new File("/tmp/tosca.zip"));
