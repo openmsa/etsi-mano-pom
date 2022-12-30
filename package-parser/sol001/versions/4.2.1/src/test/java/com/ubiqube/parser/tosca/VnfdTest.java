@@ -46,7 +46,7 @@ import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.VduInstantiationLevel
 import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.VduScalingAspectDeltas;
 import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.VirtualLinkBitrateInitialDelta;
 
-public class VnfdTest extends AbstractToscaApiTest {
+class VnfdTest extends AbstractToscaApiTest {
 
 	@Override
 	protected void prepareArchive() {

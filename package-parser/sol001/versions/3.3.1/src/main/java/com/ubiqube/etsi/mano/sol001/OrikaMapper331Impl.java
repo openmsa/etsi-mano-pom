@@ -32,21 +32,26 @@ import tosca.datatypes.nfv.SwImageData;
 
 public class OrikaMapper331Impl implements OrikaMapper {
 
+	private static final String MONITORING_PARAMETERS_NAME_LIST = "monitoringParameters{name}";
+	private static final String MONITORING_PARAMETERS_LIST = "monitoringParameters{}";
+	private static final String MONITORING_PARAMETERS_KEY_MAP = "monitoringParameters{key}";
+	private static final String MONITORING_PARAMETERS_VALUE_MAP = "monitoringParameters{value}";
+
 	@Override
 	public void configureMapper(final MapperFactory mapper) {
 		mapper.classMap(VnfVirtualLink.class, tosca.nodes.nfv.VnfVirtualLink.class)
-				.field("monitoringParameters{value}", "monitoringParameters{}")
-				.field("monitoringParameters{key}", "monitoringParameters{name}")
+				.field(MONITORING_PARAMETERS_VALUE_MAP, MONITORING_PARAMETERS_LIST)
+				.field(MONITORING_PARAMETERS_KEY_MAP, MONITORING_PARAMETERS_NAME_LIST)
 				.byDefault()
 				.register();
 		mapper.classMap(VNF.class, tosca.nodes.nfv.VNF.class)
-				.field("monitoringParameters{value}", "monitoringParameters{}")
-				.field("monitoringParameters{key}", "monitoringParameters{name}")
+				.field(MONITORING_PARAMETERS_VALUE_MAP, MONITORING_PARAMETERS_LIST)
+				.field(MONITORING_PARAMETERS_KEY_MAP, MONITORING_PARAMETERS_NAME_LIST)
 				.byDefault()
 				.register();
 		mapper.classMap(Compute.class, tosca.nodes.nfv.vdu.Compute.class)
-				.field("monitoringParameters{value}", "monitoringParameters{}")
-				.field("monitoringParameters{key}", "monitoringParameters{name}")
+				.field(MONITORING_PARAMETERS_VALUE_MAP, MONITORING_PARAMETERS_LIST)
+				.field(MONITORING_PARAMETERS_KEY_MAP, MONITORING_PARAMETERS_NAME_LIST)
 				.customize(new CustomMapper<Compute, tosca.nodes.nfv.vdu.Compute>() {
 					@Override
 					public void mapBtoA(final tosca.nodes.nfv.vdu.Compute b, final Compute a, final MappingContext context) {

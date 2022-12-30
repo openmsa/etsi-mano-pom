@@ -1,4 +1,20 @@
 /**
+ *     Copyright (C) 2019-2020 Ubiqube.
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+/**
  * This copy of Woodstox XML processor is licensed under the
  * Apache (Software) License, version 2.0 ("the License").
  * See the License for details about distribution rights, and the
@@ -24,6 +40,7 @@ import java.beans.MethodDescriptor;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.time.OffsetDateTime;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -33,7 +50,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Stack;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -50,6 +66,8 @@ import com.ubiqube.parser.tosca.scalar.Time;
 import ma.glasnost.orika.MapperFactory;
 
 public abstract class AbstractToscaApiTest {
+	private static final String LOOPING = "  + Looping: {}";
+
 	private static final Logger LOG = LoggerFactory.getLogger(AbstractToscaApiTest.class);
 
 	private final ConvertApi conv = new ConvertApi();
@@ -108,25 +126,8 @@ public abstract class AbstractToscaApiTest {
 				LOG.warn("  - {} is null", methodDescriptor.getName());
 				continue;
 			}
-			if (src instanceof final List sl) {
-				final List dl = (List) dst;
-				assertNotNull(dl, "Target element is null for field: " + methodDescriptor.getName() + prettyStack(stack));
-				assertEquals(sl.size(), dl.size(), "List are not equals " + methodDescriptor.getName() + prettyStack(stack));
-				Collections.sort(sl, Comparator.comparing(Object::toString));
-				Collections.sort(dl, Comparator.comparing(Object::toString));
-				for (int i = 0; i < sl.size(); i++) {
-					final Object so = sl.get(i);
-					final Object dobj = dl.get(i);
-					stack.push("[" + i + "]");
-					if (isComplex(so)) {
-						LOG.warn("  + Looping: {}", src.getClass());
-						assertFullEqual(so, dobj, ignore, stack);
-					} else {
-						assertEquals(so, dobj, "List in " + methodDescriptor.getName() + ": is not equal at " + i + prettyStack(stack));
-					}
-					stack.pop();
-				}
-				stack.pop();
+			if (src instanceof final List<?> sl) {
+				handleList(ignore, stack, methodDescriptor, src, dst, sl);
 				continue;
 			}
 			if ((src instanceof Map) || (src instanceof Set)) {
@@ -134,7 +135,7 @@ public abstract class AbstractToscaApiTest {
 				continue;
 			}
 			if (isComplex(src)) {
-				LOG.warn("  + Looping: {}", src.getClass());
+				LOG.warn(LOOPING, src.getClass());
 				assertNotNull(dst, "Target element is null for field: " + methodDescriptor.getName() + prettyStack(stack));
 				assertFullEqual(src, dst, ignore, stack);
 			} else {
@@ -144,6 +145,27 @@ public abstract class AbstractToscaApiTest {
 		}
 	}
 
+	private void handleList(final Set<String> ignore, final Deque<String> stack, final MethodDescriptor methodDescriptor, final Object src, final Object dst, List<?> sl) throws IntrospectionException, IllegalAccessException, InvocationTargetException {
+		final List<?> dl = (List<?>) dst;
+		assertNotNull(dl, "Target element is null for field: " + methodDescriptor.getName() + prettyStack(stack));
+		assertEquals(sl.size(), dl.size(), "List are not equals " + methodDescriptor.getName() + prettyStack(stack));
+		Collections.sort(sl, Comparator.comparing(Object::toString));
+		Collections.sort(dl, Comparator.comparing(Object::toString));
+		for (int i = 0; i < sl.size(); i++) {
+			final Object so = sl.get(i);
+			final Object dobj = dl.get(i);
+			stack.push("[" + i + "]");
+			if (isComplex(so)) {
+				LOG.warn(LOOPING, src.getClass());
+				assertFullEqual(so, dobj, ignore, stack);
+			} else {
+				assertEquals(so, dobj, "List in " + methodDescriptor.getName() + ": is not equal at " + i + prettyStack(stack));
+			}
+			stack.pop();
+		}
+		stack.pop();
+	}
+
 	private static String prettyStack(final Deque<String> stack) {
 		return "\n" + stack.toString();
 	}
@@ -151,17 +173,17 @@ public abstract class AbstractToscaApiTest {
 	private void checknull(final Object avcDb) throws IntrospectionException, IllegalArgumentException, InvocationTargetException, IllegalAccessException {
 		final List<String> err = new ArrayList<>();
 		final List<String> ignore = getIgnoreList();
-		checknullInternal(avcDb, ignore, err, new Stack<>());
+		checknullInternal(avcDb, ignore, err, new ArrayDeque<>());
 		if (!err.isEmpty()) {
 			final String str = err.stream().collect(Collectors.joining("\n"));
-			LOG.error("Following errors have been found:\n" + str);
-			throw new RuntimeException("Some errors:\n" + str + "\nin " + avcDb.getClass());
+			LOG.error("Following errors have been found:\n{}", str);
+			throw new IllegalArgumentException("Some errors:\n" + str + "\nin " + avcDb.getClass());
 		}
 	}
 
 	protected abstract List<String> getIgnoreList();
 
-	private void checknullInternal(final Object avcDb, final List<String> ignore, final List<String> err, final Stack<String> stack) throws IntrospectionException, IllegalArgumentException, InvocationTargetException, IllegalAccessException {
+	private void checknullInternal(final Object avcDb, final List<String> ignore, final List<String> err, final Deque<String> stack) throws IntrospectionException, IllegalArgumentException, InvocationTargetException, IllegalAccessException {
 		final BeanInfo beanInfo = Introspector.getBeanInfo(avcDb.getClass());
 		final MethodDescriptor[] m = beanInfo.getMethodDescriptors();
 		for (final MethodDescriptor methodDescriptor : m) {
@@ -179,33 +201,12 @@ public abstract class AbstractToscaApiTest {
 				stack.pop();
 				continue;
 			}
-			if (r instanceof List) {
-				int i = 0;
-				final List l = (List) r;
-				for (final Object obj : l) {
-					if (isComplex(obj)) {
-						LOG.warn("  + Looping: {}", r.getClass());
-						stack.push("[" + i + "]");
-						checknullInternal(obj, ignore, err, stack);
-						stack.pop();
-					}
-					i++;
-				}
-				stack.pop();
+			if (r instanceof final List<?> l) {
+				handleList2(ignore, err, stack, r, l);
 				continue;
 			}
-			if (r instanceof Map) {
-				final Map<Object, Object> mm = (Map) r;
-				final Set<Map.Entry<Object, Object>> e = mm.entrySet();
-				for (final Map.Entry me : e) {
-					if (isComplex(me.getValue())) {
-						LOG.warn("  + Looping: {}", r.getClass());
-						stack.push("" + me.getKey());
-						checknullInternal(me.getValue(), ignore, err, stack);
-						stack.pop();
-					}
-				}
-				stack.pop();
+			if (r instanceof final Map mm) {
+				handleMap(ignore, err, stack, r, mm);
 				continue;
 			}
 			if (r instanceof Set) {
@@ -213,14 +214,41 @@ public abstract class AbstractToscaApiTest {
 				continue;
 			}
 			if (isComplex(r)) {
-				LOG.warn("  + Looping: {}", r.getClass());
+				LOG.warn(LOOPING, r.getClass());
 				checknullInternal(r, ignore, err, stack);
 			}
 			stack.pop();
 		}
 	}
 
-	private static String buildError(final Stack<String> stack) {
+	private void handleMap(final List<String> ignore, final List<String> err, final Deque<String> stack, final Object r, Map mm) throws IntrospectionException, InvocationTargetException, IllegalAccessException {
+		final Set<Map.Entry<Object, Object>> e = mm.entrySet();
+		for (final Map.Entry<Object, Object> me : e) {
+			if (isComplex(me.getValue())) {
+				LOG.warn(LOOPING, r.getClass());
+				stack.push("" + me.getKey());
+				checknullInternal(me.getValue(), ignore, err, stack);
+				stack.pop();
+			}
+		}
+		stack.pop();
+	}
+
+	private void handleList2(final List<String> ignore, final List<String> err, final Deque<String> stack, final Object r, List<?> l) throws IntrospectionException, InvocationTargetException, IllegalAccessException {
+		int i = 0;
+		for (final Object obj : l) {
+			if (isComplex(obj)) {
+				LOG.warn(LOOPING, r.getClass());
+				stack.push("[" + i + "]");
+				checknullInternal(obj, ignore, err, stack);
+				stack.pop();
+			}
+			i++;
+		}
+		stack.pop();
+	}
+
+	private static String buildError(final Deque<String> stack) {
 		return stack.stream().collect(Collectors.joining(" -> "));
 	}
 
