@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -45,10 +46,11 @@ import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
  * @author olivier
  *
  */
+@SuppressWarnings("static-method")
 class VnfScallingTest {
 
 	@Test
-	void testName() throws Exception {
+	void testName() {
 		final NsScaleStrategyV3 scale = new NsScaleStrategyV3();
 		final NsBlueprint nsBlueprint = new NsBlueprint();
 		nsBlueprint.setOperation(PlanOperationType.INSTANTIATE);
@@ -67,27 +69,41 @@ class VnfScallingTest {
 	private static Set<VnfScalingLevelMapping> getLevelMapping() {
 		final VnfScalingLevelMapping sm1 = new VnfScalingLevelMapping("name", "aspect", 1);
 		final VnfScalingLevelMapping sm2 = new VnfScalingLevelMapping("name", "aspect", 2);
-		return Set.of(sm1, sm2);
+		final LinkedHashSet<VnfScalingLevelMapping> ret = new LinkedHashSet<>();
+		ret.add(sm1);
+		ret.add(sm2);
+		return ret;
 	}
 
 	private static Set<StepMapping> getStepMapping1() {
 		final StepMapping s0 = new StepMapping(0, 1);
 		final StepMapping s1 = new StepMapping(1, 2);
 		final StepMapping s2 = new StepMapping(2, 3);
-		return Set.of(s0, s1, s2);
+		final LinkedHashSet<StepMapping> ret = new LinkedHashSet<>();
+		ret.add(s0);
+		ret.add(s1);
+		ret.add(s2);
+		return ret;
 	}
 
 	private static Set<StepMapping> getStepMapping2() {
 		final StepMapping s0 = new StepMapping(0, 3);
 		final StepMapping s1 = new StepMapping(1, 4);
 		final StepMapping s2 = new StepMapping(2, 5);
-		return Set.of(s0, s1, s2);
+		final LinkedHashSet<StepMapping> ret = new LinkedHashSet<>();
+		ret.add(s0);
+		ret.add(s1);
+		ret.add(s2);
+		return ret;
 	}
 
 	private static Set<VnfScalingStepMapping> getVnfScalingStepMapping() {
 		final VnfScalingStepMapping ssm1 = new VnfScalingStepMapping(getStepMapping1(), "aspect");
 		final VnfScalingStepMapping ssm2 = new VnfScalingStepMapping(getStepMapping2(), "aspect2");
-		return Set.of(ssm1, ssm2);
+		final LinkedHashSet<VnfScalingStepMapping> ret = new LinkedHashSet<>();
+		ret.add(ssm1);
+		ret.add(ssm2);
+		return ret;
 	}
 
 	private BlueprintParameters getInstantiated() {
@@ -101,7 +117,7 @@ class VnfScallingTest {
 	}
 
 	@Test
-	void testInstantiate() throws Exception {
+	void testInstantiate() {
 		final NsScaleStrategyV3 nss = new NsScaleStrategyV3();
 		final NsdVnfPackageCopy nsPackageVnfPackage = new NsdVnfPackageCopy();
 		nsPackageVnfPackage.setLevelMapping(getLevelMapping());
@@ -116,7 +132,7 @@ class VnfScallingTest {
 	}
 
 	@Test
-	void testScaleStep() throws Exception {
+	void testScaleStep() {
 		final NsScaleStrategyV3 nss = new NsScaleStrategyV3();
 		final NsdVnfPackageCopy nsPackageVnfPackage = new NsdVnfPackageCopy();
 		nsPackageVnfPackage.setLevelMapping(getLevelMapping());
@@ -145,7 +161,7 @@ class VnfScallingTest {
 	}
 
 	@Test
-	void testScaleStep2() throws Exception {
+	void testScaleStep2() {
 		final NsScaleStrategyV3 nss = new NsScaleStrategyV3();
 		final NsdVnfPackageCopy nsPackageVnfPackage = new NsdVnfPackageCopy();
 		nsPackageVnfPackage.setLevelMapping(getLevelMapping());
@@ -172,7 +188,7 @@ class VnfScallingTest {
 	}
 
 	@Test
-	void testScaleStep3() throws Exception {
+	void testScaleStep3() {
 		final NsScaleStrategyV3 nss = new NsScaleStrategyV3();
 		final NsdVnfPackageCopy nsPackageVnfPackage = new NsdVnfPackageCopy();
 		nsPackageVnfPackage.setLevelMapping(getLevelMapping());
@@ -205,7 +221,7 @@ class VnfScallingTest {
 	}
 
 	@Test
-	void testScaleLevel() throws Exception {
+	void testScaleLevel() {
 		final NsScaleStrategyV3 nss = new NsScaleStrategyV3();
 		final NsdVnfPackageCopy nsPackageVnfPackage = new NsdVnfPackageCopy();
 		nsPackageVnfPackage.setLevelMapping(getLevelMapping());
@@ -237,7 +253,7 @@ class VnfScallingTest {
 		parameters.setNsScale(nsScale);
 		blueprint.setParameters(parameters);
 		final int x = nss.getNumberOfInstances(nsPackageVnfPackage, blueprint);
-		assertEquals(2, x);
+		assertEquals(1, x);
 	}
 
 }
