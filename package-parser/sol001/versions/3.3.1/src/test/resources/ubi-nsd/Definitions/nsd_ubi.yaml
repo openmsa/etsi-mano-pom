@@ -323,23 +323,6 @@ policies:
     properties:
     targets: #[ tosca.nodes.nfv.NS ]
 
-
-group_types:
-  vnfgg:
-    type: tosca.groups.nfv.VNFFG
-    properties:
-      description: descr
-    members: # [ tosca.nodes.nfv.NFP, tosca.nodes.nfv.VNF, tosca.nodes.nfv.PNF, tosca.nodes.nfv.NS, tosca.nodes.nfv.NsVirtualLink, tosca.nodes.nfv.NfpPositionElement ]
-      - one
-      - two
-
-  placement_group:
-    tpye: tosca.groups.nfv.NsPlacementGroup
-    properties:
-      description: descr.
-
-
-policies:
   nfp_rule: # classifier
     type: tosca.policies.nfv.NfpRule
     properties:
@@ -461,6 +444,21 @@ policies:
   ns_autoscale:
     type: tosca.policies.nfv.NsAutoScale
     targets: [ database ]
+
+group_types:
+  vnfgg:
+    type: tosca.groups.nfv.VNFFG
+    properties:
+      description: descr
+    members: # [ tosca.nodes.nfv.NFP, tosca.nodes.nfv.VNF, tosca.nodes.nfv.PNF, tosca.nodes.nfv.NS, tosca.nodes.nfv.NsVirtualLink, tosca.nodes.nfv.NfpPositionElement ]
+      - one
+      - two
+
+  placement_group:
+    tpye: tosca.groups.nfv.NsPlacementGroup
+    properties:
+      description: descr.
+
 
 
 

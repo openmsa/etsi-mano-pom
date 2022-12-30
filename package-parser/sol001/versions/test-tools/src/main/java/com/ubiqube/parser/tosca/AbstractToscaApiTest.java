@@ -62,7 +62,7 @@ public abstract class AbstractToscaApiTest {
 
 	private final ToscaApi toscaApi;
 
-	public AbstractToscaApiTest() {
+	protected AbstractToscaApiTest() {
 		conv.register(Size.class.getCanonicalName(), new SizeConverter());
 		complex.add(String.class);
 		complex.add(UUID.class);

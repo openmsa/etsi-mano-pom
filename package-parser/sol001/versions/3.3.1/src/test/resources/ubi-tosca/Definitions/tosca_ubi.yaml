@@ -148,7 +148,7 @@ topology_template:
       description: A node.
       artifacts:
         sw_image:
-          type: tosca.artifacts.deployment.image.vm.QCOW2
+          type: tosca.artifacts.deployment.image.VM
           file: myFile.qcow2
           deploy_path: deploy path
           checksum: 1234
