@@ -106,5 +106,11 @@
 			<artifactId>orika-eclipse-tools</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.ubiqube.mano.sol001</groupId>
+			<artifactId>test-tools</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 </project>
