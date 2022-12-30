@@ -38,6 +38,9 @@ public class ArtifactMapper extends CustomMapper<Compute, tosca.nodes.nfv.vdu.Co
 		if (null == a.getArtifacts()) {
 			a.setArtifacts(new HashMap<>());
 		}
+		if (null == b.getArtifacts()) {
+			b.setArtifacts(new HashMap<>());
+		}
 		final Map<String, Artifact> tgt = a.getArtifacts();
 		map(tgt, b.getArtifacts());
 		super.mapBtoA(b, a, context);
