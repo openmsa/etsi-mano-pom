@@ -16,9 +16,6 @@
  */
 package com.ubiqube.parser.tosca;
 
-import java.util.Map;
-
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,7 +30,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Builder
-public class CallActivityDelegateDefinition extends CallActivity{
+public class CallActivityDelegateDefinition extends CallActivity {
 	private String workflow;
 
 	public CallActivityDelegateDefinition(final String textValue) {

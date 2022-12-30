@@ -542,7 +542,6 @@ public class ToscaWalker {
 		if (null == val.getDerivedFrom()) {
 			return false;
 		}
-		final boolean ret = false;
 		return switch (val.getDerivedFrom()) {
 		case "integer", STRING -> true;
 		default -> false;
