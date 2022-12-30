@@ -198,7 +198,7 @@ public class ContextResolver {
 			handleMap(props, clazz, propsDescr, cls, null, stack);
 			stack.pop();
 		}
-		Optional.ofNullable(node.getArtifacts()).ifPresent(x -> handleArtifacts(x, propsDescr, cls, stack));
+		Optional.ofNullable(node.getArtifacts()).ifPresentOrElse(x -> handleArtifacts(x, propsDescr, cls, stack), ArrayList::new);
 		final RequirementDefinition req = node.getRequirements();
 		if ((null != req) && (null != req.getRequirements())) {
 			handleRequirements(req.getRequirements(), propsDescr, cls, stack);
