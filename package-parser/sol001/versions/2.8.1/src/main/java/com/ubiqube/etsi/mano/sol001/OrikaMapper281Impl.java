@@ -35,7 +35,7 @@ import tosca.datatypes.nfv.SwImageData;
  * @author olivier
  *
  */
-public class OrikaMapper271Impl implements OrikaMapper {
+public class OrikaMapper281Impl implements OrikaMapper {
 
 	@Override
 	public void configureMapper(final MapperFactory mapper) {

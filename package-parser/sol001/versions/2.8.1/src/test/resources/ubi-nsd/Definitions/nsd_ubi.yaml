@@ -138,6 +138,47 @@ topology_template:
         - external_virtual_link: public
         - internal_virtual_link: vl01
 
+    element_1:  # Port pair? port pair group ?
+      type: tosca.nodes.nfv.NfpPositionElement
+      capabilities:
+        forwarding: # tosca.capabilities.nfv.Forwarding
+          internal_name: test
+      requirements:
+        - profile_element: 
+            node: VNF_1_forward_1
+            capability: forwarding
+        - profile_element: 
+            node: VNF_1_forward_2
+            capability: forwarding
+
+    element_2:  # Port pair? port pair group ?
+      type: tosca.nodes.nfv.NfpPositionElement
+      requirements:
+        - profile_element: 
+            node: VNF_2_forward_3
+            capability: forwarding
+        - profile_element: 
+            node: VNF_2_forward_4
+            capability: forwarding
+
+    nfp_position_1:
+      type: tosca.nodes.nfv.NfpPosition
+      properties:
+        forwarding_behaviour: lb
+      capabilities:
+        forwarding: # tosca.capabilities.nfv.Forwarding
+          internal_name: test
+      requirements:
+        - element: element_1 # tosca.nodes.nfv.NfpPositionElement
+        - element: element_2
+
+    nfp_1:
+      type: tosca.nodes.nfv.NFP
+      requirements:
+        - nfp_position: nfp_position_1
+        - nfp_position: nfp_position_2
+
+
 policies:
   affinity:
     type: tosca.policies.nfv.AffinityRule
@@ -258,23 +299,6 @@ policies:
     properties:
     targets: #[ tosca.nodes.nfv.NS ]
 
-
-group_types:
-  vnfgg:
-    type: tosca.groups.nfv.VNFFG
-    properties:
-      description: descr
-    members: # [ tosca.nodes.nfv.NFP, tosca.nodes.nfv.VNF, tosca.nodes.nfv.PNF, tosca.nodes.nfv.NS, tosca.nodes.nfv.NsVirtualLink, tosca.nodes.nfv.NfpPositionElement ]
-      - one
-      - two
-
-  placement_group:
-    tpye: tosca.groups.nfv.NsPlacementGroup
-    properties:
-      description: descr.
-
-
-policies:
   nfp_rule: # classifier
     type: tosca.policies.nfv.NfpRule
     properties:
@@ -396,6 +420,22 @@ policies:
   ns_autoscale:
     type: tosca.policies.nfv.NsAutoScale
     targets: [ database ]
+
+
+
+group_types:
+  vnfgg:
+    type: tosca.groups.nfv.VNFFG
+    properties:
+      description: descr
+    members: # [ tosca.nodes.nfv.NFP, tosca.nodes.nfv.VNF, tosca.nodes.nfv.PNF, tosca.nodes.nfv.NS, tosca.nodes.nfv.NsVirtualLink, tosca.nodes.nfv.NfpPositionElement ]
+      - one
+      - two
+
+  placement_group:
+    tpye: tosca.groups.nfv.NsPlacementGroup
+    properties:
+      description: descr.
 
 
 
