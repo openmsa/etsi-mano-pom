@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
+import com.ubiqube.etsi.mano.dao.mano.dto.VimConnectionInfoDto;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.exception.PreConditionException;
 import com.ubiqube.etsi.mano.service.Patcher;
@@ -58,7 +59,6 @@ public class VimController {
 	private final Patcher patcher;
 
 	public VimController(final VimService vimService, final MapperFacade mapper, final VimManager vimManager, final Patcher patcher) {
-		super();
 		this.vimService = vimService;
 		this.mapper = mapper;
 		this.vimManager = vimManager;
@@ -66,8 +66,9 @@ public class VimController {
 	}
 
 	@PostMapping(value = "/vim/register")
-	public ResponseEntity<VimConnectionInformation> registerVim(@RequestBody final VimConnectionInformation body) {
-		final VimConnectionInformation vci = vimManager.register(body);
+	public ResponseEntity<VimConnectionInformation> registerVim(@RequestBody final VimConnectionInfoDto body) {
+		final VimConnectionInformation nvim = mapper.map(body, VimConnectionInformation.class);
+		final VimConnectionInformation vci = vimManager.register(nvim);
 		return ResponseEntity.ok(mapper.map(vci, VimConnectionInformation.class));
 	}
 
@@ -87,7 +88,7 @@ public class VimController {
 	public ResponseEntity<VimConnectionInformation> patchVim(@PathVariable("id") final UUID id, @Nullable @RequestBody final String body,
 			@RequestHeader(name = HttpHeaders.IF_MATCH, required = false) final String ifMatch) {
 		final VimConnectionInformation vim = vimManager.findVimById(id);
-		if (ifMatch != null && !ifMatch.equals(vim.getVersion() + "")) {
+		if ((ifMatch != null) && !(vim.getVersion() + "").equals(ifMatch)) {
 			throw new PreConditionException(ifMatch + " does not match " + vim.getVersion());
 		}
 		patcher.patch(body, vim);
