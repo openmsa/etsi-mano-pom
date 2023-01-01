@@ -34,12 +34,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.exception.GenericException;
+import com.ubiqube.etsi.mano.orchestrator.Edge2d;
+import com.ubiqube.etsi.mano.orchestrator.Vertex2d;
 import com.ubiqube.etsi.mano.repository.ByteArrayResource;
 import com.ubiqube.etsi.mano.repository.ManoResource;
 import com.ubiqube.etsi.mano.service.VnfPlanService;
-import com.ubiqube.etsi.mano.service.graph.Edge2d;
 import com.ubiqube.etsi.mano.service.graph.GraphGenerator;
-import com.ubiqube.etsi.mano.service.graph.Vertex2d;
 import com.ubiqube.etsi.mano.service.pkg.PackageDescriptor;
 import com.ubiqube.etsi.mano.service.pkg.vnf.VnfPackageManager;
 import com.ubiqube.etsi.mano.service.pkg.vnf.VnfPackageOnboardingImpl;

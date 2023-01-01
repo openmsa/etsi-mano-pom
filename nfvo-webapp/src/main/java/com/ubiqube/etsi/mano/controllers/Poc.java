@@ -27,6 +27,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
@@ -49,6 +50,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mxgraph.layout.mxIGraphLayout;
 import com.mxgraph.layout.hierarchical.mxHierarchicalLayout;
 import com.mxgraph.util.mxCellRenderer;
@@ -57,12 +60,18 @@ import com.mxgraph.util.mxStyleUtils;
 import com.ubiqube.etsi.mano.dao.mano.NsLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+import com.ubiqube.etsi.mano.dao.mano.nsd.upd.UpdateRequest;
+import com.ubiqube.etsi.mano.dao.mano.nsd.upd.UpdateTypeEnum;
+import com.ubiqube.etsi.mano.dao.mano.v2.BlueprintParameters;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsBlueprintJpa;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsLiveInstanceJpa;
+import com.ubiqube.etsi.mano.nfvo.service.NsBlueprintService;
 import com.ubiqube.etsi.mano.nfvo.service.NsdPackageService;
 import com.ubiqube.etsi.mano.nfvo.service.graph.NsPlanService;
+import com.ubiqube.etsi.mano.orchestrator.Edge2d;
+import com.ubiqube.etsi.mano.orchestrator.Vertex2d;
 import com.ubiqube.etsi.mano.orchestrator.nodes.ConnectivityEdge;
 import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
 import com.ubiqube.etsi.mano.orchestrator.nodes.contrail.PtLinkNode;
@@ -70,14 +79,15 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.contrail.ServiceInstanceNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.contrail.ServiceTemplateNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.NetworkPolicyNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfCreateNode;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Compute;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.HelmNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.MciopUser;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerDeployableNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerNode;
 import com.ubiqube.etsi.mano.orchestrator.scale.ScalingEngine;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.VnfPlanService;
-import com.ubiqube.etsi.mano.service.graph.Edge2d;
 import com.ubiqube.etsi.mano.service.graph.GraphGenerator;
 import com.ubiqube.etsi.mano.service.graph.TaskVertex;
-import com.ubiqube.etsi.mano.service.graph.Vertex2d;
 import com.ubiqube.etsi.mano.service.graph.VertexStatusType;
 
 /**
@@ -97,15 +107,20 @@ public class Poc {
 	private final NsBlueprintJpa nsBlueprintJpa;
 	private final VnfPlanService vnfPlanService;
 	private final NsPlanService nsPlanService;
+	private final ObjectMapper om;
+	private final NsBlueprintService nsBlueprintService;
 
 	public Poc(final NsLiveInstanceJpa nsLiveInstanceJpa, final NsBlueprintJpa nsBlueprintJpa, final VnfPlanService vnfPlanService,
-			final NsPlanService nsPlanService, final VnfPackageService vnfPackageService, final NsdPackageService nsdPackageService) {
+			final NsPlanService nsPlanService, final VnfPackageService vnfPackageService, final NsdPackageService nsdPackageService,
+			final ObjectMapper om, final NsBlueprintService nsBlueprintService) {
 		this.nsLiveInstanceJpa = nsLiveInstanceJpa;
 		this.nsBlueprintJpa = nsBlueprintJpa;
 		this.vnfPlanService = vnfPlanService;
 		this.nsPlanService = nsPlanService;
 		this.vnfPackageService = vnfPackageService;
 		this.nsdPackageService = nsdPackageService;
+		this.om = om;
+		this.nsBlueprintService = nsBlueprintService;
 	}
 
 	@GetMapping("/vnfpkg/{id}")
@@ -173,13 +188,39 @@ public class Poc {
 	}
 
 	@GetMapping("/plan/vnf/3d/{id}")
-	public ResponseEntity<BufferedImage> getVnf3dPlan(@PathVariable("id") final UUID id) {
+	public ResponseEntity<BufferedImage> getVnf3dPlan(@PathVariable("id") final UUID id, @NotNull @RequestParam("class") final String clazz, @NotNull @RequestParam("name") final String name) {
+		final Map<String, Class<? extends Node>> map = new HashMap<>();
+		map.put("OsContainerNode", OsContainerNode.class);
+		map.put("OsContainerDeployableNode", OsContainerDeployableNode.class);
+		map.put("MciopUser", MciopUser.class);
+		map.put("HelmNode", HelmNode.class);
 		final ListenableGraph<Vertex2d, Edge2d> o = vnfPlanService.getPlanFor(id);
 		final ScalingEngine se = new ScalingEngine();
-		final ListenableGraph<Vertex2d, Edge2d> g = se.scale(o, Compute.class, "leftVdu01");
+		final ListenableGraph<Vertex2d, Edge2d> g = se.scale(o, map.get(clazz), name);
 		return ResponseEntity
 				.ok().contentType(MediaType.IMAGE_PNG)
 				.body(drawGraph2(g));
+	}
+
+	@GetMapping("/ns-lcm-op-occs/{id}")
+	public ResponseEntity<Object> getNsBlueprint(@PathVariable("id") final UUID id) {
+		final Optional<NsBlueprint> obj = nsBlueprintJpa.findById(id);
+		if (obj.isEmpty()) {
+			return ResponseEntity.noContent().build();
+		}
+
+		final NsBlueprint o = obj.get();
+		final Set<NsTask> tasks = o.getTasks();
+		tasks.forEach(x -> {
+			LOG.warn("Dumping {}", x.getClass().getName());
+			try {
+				final String str = om.writeValueAsString(x);
+				LOG.debug("{}", str);
+			} catch (final JsonProcessingException e) {
+				LOG.error("FAILED, {}", e.getMessage());
+			}
+		});
+		return ResponseEntity.ok(obj.get());
 	}
 
 	@GetMapping("/ns/lcm-op-occs/{id}")
@@ -236,6 +277,18 @@ public class Poc {
 			mxStyleUtils.setCellStyles(graphAdapter.getModel(), lcell, mxConstants.STYLE_ROUNDED, "true");
 		});
 		return mxCellRenderer.createBufferedImage(graphAdapter, null, 1, new Color(255, 255, 255, 255), true, null);
+	}
+
+	@GetMapping("/ns")
+	public ResponseEntity<NsBlueprint> writeNsBlue() {
+		final NsBlueprint ns = new NsBlueprint();
+		final BlueprintParameters bp = new BlueprintParameters();
+		final UpdateRequest upd = new UpdateRequest();
+		upd.setUpdateType(UpdateTypeEnum.ADD_VNF);
+		bp.setUpdData(upd);
+		ns.setParameters(bp);
+		final NsBlueprint res = nsBlueprintService.save(ns);
+		return ResponseEntity.ok(res);
 	}
 
 }

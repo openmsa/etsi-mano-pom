@@ -27,6 +27,9 @@ import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
 import com.ubiqube.etsi.mano.dao.mano.nsd.ForwarderMapping;
 import com.ubiqube.etsi.mano.nfvo.service.NsdPackageService;
+import com.ubiqube.etsi.mano.orchestrator.Edge2d;
+import com.ubiqube.etsi.mano.orchestrator.Relation;
+import com.ubiqube.etsi.mano.orchestrator.Vertex2d;
 import com.ubiqube.etsi.mano.orchestrator.nodes.contrail.PortTupleNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.contrail.PtLinkNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.contrail.ServiceInstanceNode;
@@ -42,10 +45,7 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfInstantiateNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnffgLoadbalancerNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnffgPostNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
-import com.ubiqube.etsi.mano.service.graph.Edge2d;
 import com.ubiqube.etsi.mano.service.graph.Graph2dBuilder;
-import com.ubiqube.etsi.mano.service.graph.Relation;
-import com.ubiqube.etsi.mano.service.graph.Vertex2d;
 
 /**
  *

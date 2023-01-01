@@ -25,6 +25,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ubiqube.etsi.mano.exception.GenericException;
+import com.ubiqube.etsi.mano.orchestrator.Edge2d;
+import com.ubiqube.etsi.mano.orchestrator.Relation;
+import com.ubiqube.etsi.mano.orchestrator.Vertex2d;
 import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
 
 /**

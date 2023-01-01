@@ -28,6 +28,9 @@ import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.VnfVl;
 import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
 import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainerDeployableUnit;
+import com.ubiqube.etsi.mano.orchestrator.Edge2d;
+import com.ubiqube.etsi.mano.orchestrator.Relation;
+import com.ubiqube.etsi.mano.orchestrator.Vertex2d;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.AffinityRuleNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Compute;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.DnsHost;
@@ -46,10 +49,7 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SubNetwork;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfExtCp;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfIndicator;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfPortNode;
-import com.ubiqube.etsi.mano.service.graph.Edge2d;
 import com.ubiqube.etsi.mano.service.graph.Graph2dBuilder;
-import com.ubiqube.etsi.mano.service.graph.Relation;
-import com.ubiqube.etsi.mano.service.graph.Vertex2d;
 
 /**
  *
