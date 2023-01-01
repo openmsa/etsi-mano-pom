@@ -99,13 +99,15 @@ public class FluxRest {
 	private static final String VERSION = "Version";
 	private static final Logger LOG = LoggerFactory.getLogger(FluxRest.class);
 
-	private final WebClient webClient;
 	private final String rootUrl;
 	private final String id = UUID.randomUUID().toString();
+	protected HttpClient httpClient;
+	protected Builder webBuilder;
 
 	public FluxRest(final Servers server) {
 		this.rootUrl = server.getUrl();
-		webClient = createWebClient(server);
+		this.httpClient = getHttpClient(server.getUrl(), server.isIgnoreSsl(), server.getTlsCert());
+		this.webBuilder = applyBasicWebClientBuilder(WebClient.builder(), server);
 	}
 
 	public static FluxRest of(final ConnectionInformation ci) {
@@ -121,22 +123,23 @@ public class FluxRest {
 		return new FluxRest(srv);
 	}
 
-	private WebClient createWebClient(final Servers server) {
-		final Builder wcb = WebClient.builder();
-		final SslContext sslContext = buildSslContext(server);
-		final ClientHttpConnector conn = new ReactorClientHttpConnector(getHttpClient(sslContext));
+	private Builder applyBasicWebClientBuilder(final Builder wcb, final Servers server) {
+		final ClientHttpConnector conn = new ReactorClientHttpConnector(httpClient);
 		wcb.clientConnector(conn);
 		createAuthPart(wcb, server.getAuthentification());
 		wcb.baseUrl(rootUrl);
-		return wcb.build();
+		return wcb;
 	}
 
-	private static SslContext buildSslContext(final Servers server) {
-		if (server.isIgnoreSsl()) {
+	private static SslContext buildSslContext(final String url, final boolean ignoreSsl, final String tlsCert) {
+		if (url.startsWith("http:")) {
+			return null;
+		}
+		if (ignoreSsl) {
 			return bypassAllSsl();
 		}
-		if (server.getTlsCert() != null) {
-			return allowSslOneCert(server.getTlsCert());
+		if (tlsCert != null) {
+			return allowSslOneCert(tlsCert);
 		}
 		return defaultSslContext();
 	}
@@ -165,19 +168,20 @@ public class FluxRest {
 		}
 		Optional.ofNullable(auth.getAuthParamBasic()).ifPresent(x -> wcb.filter(ExchangeFilterFunctions.basicAuthentication(x.getUserName(), x.getPassword())));
 		Optional.ofNullable(auth.getAuthParamOauth2()).ifPresent(x -> {
+			final HttpClient oAuth2httpClient = getHttpClient(x.getTokenEndpoint(), x.getO2IgnoreSsl(), x.getO2AuthTlsCert());
 			final AuthorizedClientServiceReactiveOAuth2AuthorizedClientManager authorizedClientManager = new AuthorizedClientServiceReactiveOAuth2AuthorizedClientManager(
 					getRegistration(x.getTokenEndpoint(), x.getClientId(), x.getClientSecret(), "openid"),
 					new InMemoryReactiveOAuth2AuthorizedClientService(getRegistration(x.getTokenEndpoint(), x.getClientId(), x.getClientSecret(), "openid")));
-			Optional.ofNullable(x.getO2IgnoreSsl()).filter(Boolean::booleanValue).ifPresent(y -> authorizedClientManager.setAuthorizedClientProvider(getAuthorizedClientProvider(auth)));
+			Optional.ofNullable(x.getO2IgnoreSsl()).filter(Boolean::booleanValue).ifPresent(y -> authorizedClientManager.setAuthorizedClientProvider(getAuthorizedClientProvider(auth, oAuth2httpClient)));
 			final ServerOAuth2AuthorizedClientExchangeFilterFunction oauth2 = new ServerOAuth2AuthorizedClientExchangeFilterFunction(authorizedClientManager);
 			oauth2.setDefaultClientRegistrationId(id);
 			wcb.filter(oauth2);
 		});
 	}
 
-	private static ReactiveOAuth2AuthorizedClientProvider getAuthorizedClientProvider(final AuthentificationInformations auth) {
+	private static ReactiveOAuth2AuthorizedClientProvider getAuthorizedClientProvider(final AuthentificationInformations auth, final HttpClient httpClient) {
 		final SslContext sslContext = buildSslContext(auth.getAuthParamOauth2());
-		final ClientHttpConnector httpConnector = new ReactorClientHttpConnector(getHttpClient(sslContext));
+		final ClientHttpConnector httpConnector = new ReactorClientHttpConnector(httpClient);
 		final WebClientReactiveClientCredentialsTokenResponseClient accessTokenResponseClient = new WebClientReactiveClientCredentialsTokenResponseClient();
 		accessTokenResponseClient.setWebClient(WebClient.builder().clientConnector(httpConnector).build());
 		return ReactiveOAuth2AuthorizedClientProviderBuilder
@@ -215,8 +219,14 @@ public class FluxRest {
 		}
 	}
 
-	private static HttpClient getHttpClient(final SslContext context) {
-		return HttpClient.create().doOnRequest((h, c) -> c.addHandlerFirst(new ManoLoggingHandler())).secure(t -> t.sslContext(context));
+	private static HttpClient getHttpClient(final String url, final boolean ignoreSsl, final String tlsCert) {
+		final SslContext sslContext = buildSslContext(url, ignoreSsl, tlsCert);
+		final HttpClient client = HttpClient.create()
+				.doOnRequest((h, c) -> c.addHandlerFirst(new ManoLoggingHandler()));
+		if (null != sslContext) {
+			client.secure(t -> t.sslContext(sslContext));
+		}
+		return client;
 	}
 
 	private ReactiveClientRegistrationRepository getRegistration(final String tokenUri, final String clientId, final String clientSecret, final String scope) {
@@ -301,11 +311,10 @@ public class FluxRest {
 		final Mono<ResponseEntity<T>> resp = makeBaseQuery(uri, HttpMethod.GET, null, map)
 				.retrieve()
 				.toEntity(myBean);
-		if(version != null) {
+		if (version != null) {
 			return getBlockingResult(resp, null, Map.of(VERSION, version));
-		} else {
-			return getBlockingResult(resp, null, Map.of());
 		}
+		return getBlockingResult(resp, null, Map.of());
 	}
 
 	public UriComponentsBuilder uriBuilder() {
@@ -319,7 +328,8 @@ public class FluxRest {
 	 * @param version Version header to add if needed, null otherwise.
 	 */
 	public void download(final URI uri, final Path path, final String version) {
-		final RequestHeadersSpec<?> wc = webClient
+		final RequestHeadersSpec<?> wc = webBuilder
+				.build()
 				.get()
 				.uri(uri)
 				.accept(MediaType.APPLICATION_OCTET_STREAM, MediaType.ALL);
@@ -332,8 +342,7 @@ public class FluxRest {
 	}
 
 	private RequestHeadersSpec<?> makeBaseQuery(final URI uri, final HttpMethod method, final Object requestObject, final Map<String, String> headers) {
-		final RequestHeadersSpec<?> wc = webClient
-				.mutate()
+		final RequestHeadersSpec<?> wc = webBuilder
 				.build()
 				.method(method)
 				.uri(uri)
@@ -389,7 +398,9 @@ public class FluxRest {
 	}
 
 	public void upload(final URI uri, final MultiValueMap<String, ?> multipartData, final String version) {
-		final RequestHeadersSpec<?> wc = webClient.put()
+		final RequestHeadersSpec<?> wc = webBuilder
+				.build()
+				.put()
 				.uri(uri)
 				.contentType(MediaType.MULTIPART_FORM_DATA)
 				.body(BodyInserters.fromMultipartData(multipartData));
@@ -429,7 +440,8 @@ public class FluxRest {
 		final ExceptionHandler eh = new ExceptionHandler();
 		try (final PipedOutputStream osPipe = new PipedOutputStream();
 				final PipedInputStream isPipe = new PipedInputStream(osPipe)) {
-			final Flux<DataBuffer> wc = webClient
+			final Flux<DataBuffer> wc = webBuilder
+					.build()
 					.get()
 					.uri(url)
 					.accept(MediaType.APPLICATION_OCTET_STREAM, MediaType.ALL)
