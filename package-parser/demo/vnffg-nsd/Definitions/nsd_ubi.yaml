@@ -65,8 +65,8 @@ topology_template:
             - associated_layer_protocol:
               l2_protocol_data: # tosca.datatypes.nfv.NsL2ProtocolData
                 name: internal-l2
-                vlan_transparent: false
-                mtu: 1442
+                #vlan_transparent: false
+                #mtu: 1442
                 segmentation_id: "0"
               l3_protocol_data: #tosca.datatypes.nfv.NsL3ProtocolData
                 name: internal-l3
@@ -92,8 +92,8 @@ topology_template:
             - associated_layer_protocol:
               l2_protocol_data: # tosca.datatypes.nfv.NsL2ProtocolData
                 name: internal2-l2
-                vlan_transparent: false
-                mtu: 1442
+                #vlan_transparent: false
+                #mtu: 1442
                 segmentation_id: "1"
               l3_protocol_data: #tosca.datatypes.nfv.NsL3ProtocolData
                 name: internal2-l3
@@ -119,8 +119,8 @@ topology_template:
             - associated_layer_protocol:
               l2_protocol_data: # tosca.datatypes.nfv.NsL2ProtocolData
                 name: internal2-l2
-                vlan_transparent: false
-                mtu: 1442
+                #vlan_transparent: false
+                #mtu: 1442
                 segmentation_id: "1"
               l3_protocol_data: #tosca.datatypes.nfv.NsL3ProtocolData
                 name: internal2-l3
@@ -146,8 +146,8 @@ topology_template:
             - associated_layer_protocol:
               l2_protocol_data: # tosca.datatypes.nfv.NsL2ProtocolData
                 name: internal2-l2
-                vlan_transparent: false
-                mtu: 1442
+                #vlan_transparent: false
+                #mtu: 1442
                 segmentation_id: "1"
               l3_protocol_data: #tosca.datatypes.nfv.NsL3ProtocolData
                 name: internal2-l3
