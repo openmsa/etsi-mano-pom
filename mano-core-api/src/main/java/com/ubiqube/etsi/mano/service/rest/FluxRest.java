@@ -36,6 +36,7 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import javax.annotation.Nullable;
 import javax.net.ssl.SSLException;
 import javax.net.ssl.TrustManagerFactory;
 
@@ -131,11 +132,11 @@ public class FluxRest {
 		return wcb;
 	}
 
-	private static SslContext buildSslContext(final String url, final boolean ignoreSsl, final String tlsCert) {
+	private static SslContext buildSslContext(final String url, @Nullable final Boolean ignoreSsl, final String tlsCert) {
 		if (url.startsWith("http:")) {
 			return null;
 		}
-		if (ignoreSsl) {
+		if ((ignoreSsl != null) && ignoreSsl) {
 			return bypassAllSsl();
 		}
 		if (tlsCert != null) {
@@ -219,7 +220,7 @@ public class FluxRest {
 		}
 	}
 
-	private static HttpClient getHttpClient(final String url, final boolean ignoreSsl, final String tlsCert) {
+	private static HttpClient getHttpClient(final String url, final Boolean ignoreSsl, final String tlsCert) {
 		final SslContext sslContext = buildSslContext(url, ignoreSsl, tlsCert);
 		final HttpClient client = HttpClient.create()
 				.doOnRequest((h, c) -> c.addHandlerFirst(new ManoLoggingHandler()));
