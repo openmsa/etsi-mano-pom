@@ -80,7 +80,6 @@ import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.repository.ManoResource;
-import com.ubiqube.etsi.mano.service.event.model.AuthParamOauth2;
 import com.ubiqube.etsi.mano.service.event.model.AuthentificationInformations;
 
 import io.netty.handler.ssl.SslContext;
@@ -145,16 +144,6 @@ public class FluxRest {
 		return defaultSslContext();
 	}
 
-	private static SslContext buildSslContext(final AuthParamOauth2 oAuth) {
-		if (Boolean.TRUE.equals(oAuth.getO2IgnoreSsl())) {
-			return bypassAllSsl();
-		}
-		if (oAuth.getO2AuthTlsCert() != null) {
-			return allowSslOneCert(oAuth.getO2AuthTlsCert());
-		}
-		return defaultSslContext();
-	}
-
 	private static SslContext defaultSslContext() {
 		try {
 			return SslContextBuilder.forClient().build();
@@ -173,15 +162,14 @@ public class FluxRest {
 			final AuthorizedClientServiceReactiveOAuth2AuthorizedClientManager authorizedClientManager = new AuthorizedClientServiceReactiveOAuth2AuthorizedClientManager(
 					getRegistration(x.getTokenEndpoint(), x.getClientId(), x.getClientSecret(), "openid"),
 					new InMemoryReactiveOAuth2AuthorizedClientService(getRegistration(x.getTokenEndpoint(), x.getClientId(), x.getClientSecret(), "openid")));
-			Optional.ofNullable(x.getO2IgnoreSsl()).filter(Boolean::booleanValue).ifPresent(y -> authorizedClientManager.setAuthorizedClientProvider(getAuthorizedClientProvider(auth, oAuth2httpClient)));
+			Optional.ofNullable(x.getO2IgnoreSsl()).filter(Boolean::booleanValue).ifPresent(y -> authorizedClientManager.setAuthorizedClientProvider(getAuthorizedClientProvider(oAuth2httpClient)));
 			final ServerOAuth2AuthorizedClientExchangeFilterFunction oauth2 = new ServerOAuth2AuthorizedClientExchangeFilterFunction(authorizedClientManager);
 			oauth2.setDefaultClientRegistrationId(id);
 			wcb.filter(oauth2);
 		});
 	}
 
-	private static ReactiveOAuth2AuthorizedClientProvider getAuthorizedClientProvider(final AuthentificationInformations auth, final HttpClient httpClient) {
-		final SslContext sslContext = buildSslContext(auth.getAuthParamOauth2());
+	private static ReactiveOAuth2AuthorizedClientProvider getAuthorizedClientProvider(final HttpClient httpClient) {
 		final ClientHttpConnector httpConnector = new ReactorClientHttpConnector(httpClient);
 		final WebClientReactiveClientCredentialsTokenResponseClient accessTokenResponseClient = new WebClientReactiveClientCredentialsTokenResponseClient();
 		accessTokenResponseClient.setWebClient(WebClient.builder().clientConnector(httpConnector).build());
