@@ -128,7 +128,27 @@
 				<dependency>
 					<groupId>com.ubiqube.mano</groupId>
 					<artifactId>mano-docker-secret</artifactId>
-					<version>0.0.1-SNAPSHOT</version>
+					<version>${project.version}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>logm-loki</id>
+			<dependencies>
+				<dependency>
+					<groupId>com.ubiqube.mano.service.logm</groupId>
+					<artifactId>mano-logm-loki</artifactId>
+					<version>${project.version}</version>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>zipkin</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.springframework.cloud</groupId>
+					<artifactId>spring-cloud-starter-zipkin</artifactId>
+					<version>2.2.8.RELEASE</version>
 				</dependency>
 			</dependencies>
 		</profile>
