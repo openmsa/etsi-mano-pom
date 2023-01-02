@@ -20,5 +20,6 @@
 		<module>mano-mon-api</module>
 		<module>pollers</module>
 		<module>serializers</module>
+		<module>logm</module>
 	</modules>
 </project>
