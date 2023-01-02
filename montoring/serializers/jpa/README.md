@@ -1,0 +1,1 @@
+# Mano PMJob serializer
