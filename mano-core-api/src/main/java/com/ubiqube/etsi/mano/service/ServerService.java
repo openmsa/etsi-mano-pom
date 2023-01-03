@@ -29,6 +29,7 @@ import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,7 @@ import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
 import com.ubiqube.etsi.mano.service.rest.FluxRest;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
+import com.ubiqube.etsi.mano.service.rest.TracingFluxRest;
 import com.ubiqube.etsi.mano.utils.Version;
 
 /**
@@ -62,10 +64,13 @@ public class ServerService {
 	private final EventManager eventManager;
 	private final List<HttpGateway> httpGateway;
 
-	public ServerService(final ServersJpa serversJpa, final EventManager eventManager, final List<HttpGateway> httpGateway) {
+	private final ConfigurableApplicationContext springContext;
+
+	public ServerService(final ServersJpa serversJpa, final EventManager eventManager, final List<HttpGateway> httpGateway, final ConfigurableApplicationContext springContext) {
 		this.serversJpa = serversJpa;
 		this.eventManager = eventManager;
 		this.httpGateway = httpGateway.stream().sorted(Comparator.comparing(HttpGateway::getVersion)).toList();
+		this.springContext = springContext;
 	}
 
 	public Page<Servers> findAll(final Pageable pageable) {
@@ -116,14 +121,15 @@ public class ServerService {
 		final List<Servers> lst = serversJpa.findByServerStatusIn(List.of(PlanStatusType.SUCCESS));
 		if (lst.isEmpty()) {
 			LOG.warn("Unable to find a remote server.");
-			return new ServerAdapter(httpGateway.get(0), new Servers());
+			final Servers srv = new Servers();
+			return new ServerAdapter(httpGateway.get(0), srv, new TracingFluxRest(srv, springContext));
 		}
 		if (lst.size() > 1) {
 			LOG.warn("More than one server exist, picking the first one.");
 		}
 		final Servers server = lst.get(0);
 		final HttpGateway hg = filterServer(server);
-		return new ServerAdapter(hg, server);
+		return new ServerAdapter(hg, server, new TracingFluxRest(server, springContext));
 	}
 
 	public void retryById(final UUID id) {
@@ -137,15 +143,15 @@ public class ServerService {
 				.version(subscription.getVersion())
 				.build();
 		if (null == server.getVersion()) {
-			return new ServerAdapter(httpGateway.get(0), server);
+			return new ServerAdapter(httpGateway.get(0), server, new TracingFluxRest(server, springContext));
 		}
 		final HttpGateway hg = filterServer(server);
-		return new ServerAdapter(hg, server);
+		return new ServerAdapter(hg, server, new TracingFluxRest(server, springContext));
 	}
 
 	public ServerAdapter buildServerAdapter(final Servers servers) {
 		final HttpGateway hg = filterServer(servers);
-		return new ServerAdapter(hg, servers);
+		return new ServerAdapter(hg, servers, new TracingFluxRest(servers, springContext));
 	}
 
 	private HttpGateway filterServer(final Servers servers) {

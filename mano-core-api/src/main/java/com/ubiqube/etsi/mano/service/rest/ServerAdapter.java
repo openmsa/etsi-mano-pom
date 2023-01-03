@@ -35,11 +35,10 @@ public class ServerAdapter {
 	private final FluxRest rest;
 	private final Servers server;
 
-	public ServerAdapter(final HttpGateway httpGateway, final Servers server) {
-		super();
+	public ServerAdapter(final HttpGateway httpGateway, final Servers server, final FluxRest fluxRest) {
 		this.httpGateway = httpGateway;
 		this.server = server;
-		rest = new FluxRest(server);
+		rest = fluxRest;
 	}
 
 	public Servers getServer() {

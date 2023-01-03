@@ -165,7 +165,7 @@ class ManoClientTest {
 				.build();
 		final FluxRest fr = new FluxRest(server);
 		fr.get(new URI("https://web.mano.ubiqube.com/"), Servers.class, "2.6.1"); // need to set "10.31.1.245 web.mano.ubiqube.com" in /etc/hosts
-		final ServerAdapter serverAdapter = new ServerAdapter(httpGateway, server);
+		final ServerAdapter serverAdapter = new ServerAdapter(httpGateway, server, new FluxRest(server));
 		final MapperFacade mapper = mapperFactory.getMapperFacade();
 		final ManoClient mc = new ManoClient(mapper, serverAdapter);
 		mc.vnfPackage().list();
@@ -190,7 +190,7 @@ class ManoClientTest {
 								.authParamOauth2(authParamOath2)
 								.build())
 				.build();
-		final ServerAdapter serverAdapter = new ServerAdapter(httpGateway, server);
+		final ServerAdapter serverAdapter = new ServerAdapter(httpGateway, server, new FluxRest(server));
 		final MapperFacade mapper = mapperFactory.getMapperFacade();
 		final ManoClient mc = new ManoClient(mapper, serverAdapter);
 		//
@@ -214,7 +214,7 @@ class ManoClientTest {
 								.authParamOauth2(authParamOath2)
 								.build())
 				.build();
-		final ServerAdapter serverAdapter = new ServerAdapter(httpGateway, server);
+		final ServerAdapter serverAdapter = new ServerAdapter(httpGateway, server, new FluxRest(server));
 		final MapperFacade mapper = mapperFactory.getMapperFacade();
 		final ManoClient mc = new ManoClient(mapper, serverAdapter);
 		//
@@ -247,7 +247,7 @@ class ManoClientTest {
 								.authParamOauth2(authParamOath2)
 								.build())
 				.build();
-		final ServerAdapter serverAdapter = new ServerAdapter(httpGateway, server);
+		final ServerAdapter serverAdapter = new ServerAdapter(httpGateway, server, new FluxRest(server));
 		final MapperFacade mapper = mapperFactory.getMapperFacade();
 		final ManoClient mc = new ManoClient(mapper, serverAdapter);
 		//
