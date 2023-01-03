@@ -11,11 +11,10 @@ keycloak:
 
 logging:
   level:
-    com.ubiqube.etsi.mano.service.rest.ManoLoggingHandler: DEBUG
+    com.ubiqube.etsi.mano.service.rest.ManoLoggingHandler: WARN
     com:
       ubiqube:
         etsi: DEBUG
-    "[Hibernate Types]": WARN
     ma:
       glasnost:
         orika: INFO
