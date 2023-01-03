@@ -86,7 +86,7 @@ server:
 
 spring:
   application:
-    name: etsi-mano
+    name: mano-vnfm
   artemis:
     mode: embedded
   boot:
