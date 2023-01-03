@@ -86,7 +86,7 @@ public class JmsEventManager implements EventManager {
 
 	@Override
 	public void notificationSender(final SubscriptionEvent se) {
-		jmsTemplate.convertAndSend(resolvQueueName(Constants.QUEUE_NOTIFICATION), se);
+		jmsTemplate.convertAndSend(resolvQueueName(Constants.QUEUE_NOTIFICATION_SENDER), se);
 	}
 
 	@NotNull

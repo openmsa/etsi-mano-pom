@@ -31,4 +31,6 @@ public class Constants {
 	public static final String QUEUE_GRANT = "${spring.application.name:none}.system.actions.grants";
 
 	public static final String QUEUE_COMMON_ACTION = "${spring.application.name:none}.system.actions.common";
+
+	public static final String QUEUE_NOTIFICATION_SENDER = "${spring.application.name:none}.system.notifications.sender";
 }
