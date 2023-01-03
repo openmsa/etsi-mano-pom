@@ -16,11 +16,18 @@
  */
 package com.ubiqube.etsi.mano.service.mon.jms;
 
+import java.util.Objects;
+
+import javax.validation.constraints.NotNull;
+
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.service.mon.MonitoringEventManager;
 import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
+import com.ubiqube.etsi.mano.service.mon.gnocchi.Constants;
 
 /**
  *
@@ -30,15 +37,24 @@ import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
 @Service
 public class JmsMonitoringEventManager implements MonitoringEventManager {
 	private final JmsTemplate jmsQueueTemplate;
+	private final ConfigurableApplicationContext configurableApplicationContext;
 
-	public JmsMonitoringEventManager(final JmsTemplate jmsQueueTemplate) {
+	public JmsMonitoringEventManager(final JmsTemplate jmsQueueTemplate, final ConfigurableApplicationContext configurableApplicationContext) {
 		this.jmsQueueTemplate = jmsQueueTemplate;
+		this.configurableApplicationContext = configurableApplicationContext;
 	}
 
 	@Override
 	public void sendGetDataEvent(final BatchPollingJob pmJob) {
 		// PmType controller ?
-		jmsQueueTemplate.convertAndSend("mano.monitoring.gnocchi.data-polling", pmJob);
+		jmsQueueTemplate.convertAndSend(resolvQueueName(Constants.QUEUE_GNOCCHI_DATA_POLLING), pmJob);
 	}
 
+	@NotNull
+	private String resolvQueueName(final String queueName) {
+		final ConfigurableListableBeanFactory configurableListableBeanFactory = configurableApplicationContext.getBeanFactory();
+		final String ret = configurableListableBeanFactory.resolveEmbeddedValue(queueName);
+		Objects.requireNonNull(ret);
+		return ret;
+	}
 }
