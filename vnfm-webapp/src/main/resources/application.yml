@@ -56,6 +56,8 @@ management:
       mode: full
 
 mano:
+  config:
+    type: vnfm
   election:
     script-path: /tmp/etsi-mano/election/groovy
   frontend-url: http://mano-vnfm:8090/ubi-etsi-mano/sol003
@@ -71,8 +73,6 @@ mano:
     url: http://mano-helm:8080/
   repository:
     phys-root: /tmp/etsi-mano/repository
-  config:
-    type: vnfm
   swagger-o-auth2: http://auth.mano.ubiqube.com/auth/realms/mano-realm/protocol/openid-connect/token
 
 server:
