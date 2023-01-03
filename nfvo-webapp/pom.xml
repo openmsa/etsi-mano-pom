@@ -56,12 +56,6 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-bootstrap</artifactId>
 		</dependency>
-		<!-- 
-		<dependency>
-			<groupId>de.codecentric</groupId>
-			<artifactId>spring-boot-admin-starter-client</artifactId>
-		</dependency>
-		 -->
 		<dependency>
 			<groupId>net.rakugakibox.spring.boot</groupId>
 			<artifactId>orika-spring-boot-starter</artifactId>
