@@ -17,8 +17,13 @@
 package com.ubiqube.etsi.mano.service.mon.jms;
 
 import java.util.List;
+import java.util.Objects;
+
+import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
@@ -26,6 +31,7 @@ import org.springframework.stereotype.Service;
 import com.ubiqube.etsi.mano.mon.dao.AllHostMetrics;
 import com.ubiqube.etsi.mano.mon.dao.TelemetryMetricsResult;
 import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
+import com.ubiqube.etsi.mano.service.mon.gnocchi.Constants;
 import com.ubiqube.etsi.mano.service.mon.vim.GnocchiSubTelemetry;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 
@@ -38,20 +44,31 @@ import com.ubiqube.etsi.mano.service.vim.VimManager;
 public class NotificationController {
 	private final VimManager vimManager;
 	private final JmsTemplate jmsTopicTemplate;
+	private final ConfigurableApplicationContext configurableApplicationContext;
 
-	public NotificationController(final VimManager vimManager, @Qualifier("jmsTopicTemplate") final JmsTemplate jmsTopicTemplate) {
+	public NotificationController(final VimManager vimManager, @Qualifier("jmsTopicTemplate") final JmsTemplate jmsTopicTemplate, final ConfigurableApplicationContext configurableApplicationContext) {
 		this.vimManager = vimManager;
 		this.jmsTopicTemplate = jmsTopicTemplate;
+		this.configurableApplicationContext = configurableApplicationContext;
 	}
 
-	@JmsListener(destination = "mano.monitoring.gnocchi.data-polling", concurrency = "10")
+	@JmsListener(destination = Constants.QUEUE_GNOCCHI_DATA_POLLING, concurrency = "10")
 	public void onGnocchiDataPolling(final BatchPollingJob job) {
 		// Get Gnocchi instances and sub metrics.
 		final List<TelemetryMetricsResult> allHostMetrics = job.getHosts().stream()
 				.flatMap(x -> GnocchiSubTelemetry.getMetricsForVnfc(vimManager.findVimById(job.getVimId()), x, job.getMetrics(), job.getId()).stream())
 				.toList();
-		AllHostMetrics metrics = new AllHostMetrics(allHostMetrics, job.getJobType(), job.getMetrics().get(0).getMetricName(), job.getParentObjectId(), job.getId());
+		final AllHostMetrics metrics = new AllHostMetrics(allHostMetrics, job.getJobType(), job.getMetrics().get(0).getMetricName(), job.getParentObjectId(), job.getId());
 		// Now we have a batch of metrics. Send to data poller.
-		jmsTopicTemplate.convertAndSend("mano.monitoring.gnocchi.data", metrics);
+		jmsTopicTemplate.convertAndSend(resolvQueueName(Constants.TOPIC_GNOCCHI_DATA), metrics);
 	}
+
+	@NotNull
+	private String resolvQueueName(final String queueName) {
+		final ConfigurableListableBeanFactory configurableListableBeanFactory = configurableApplicationContext.getBeanFactory();
+		final String ret = configurableListableBeanFactory.resolveEmbeddedValue(queueName);
+		Objects.requireNonNull(ret);
+		return ret;
+	}
+
 }

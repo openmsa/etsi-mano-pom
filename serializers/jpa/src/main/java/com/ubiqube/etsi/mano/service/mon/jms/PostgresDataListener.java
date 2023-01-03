@@ -72,13 +72,13 @@ public class PostgresDataListener {
 		this.eventManager = eventManager;
 	}
 
-	@JmsListener(destination = "mano.monitoring.gnocchi.data", subscription = "mano.monitoring.gnocchi.data", concurrency = "1", containerFactory = "gnocchiDataFactory")
+	@JmsListener(destination = "${spring.application.name:none}.mano.monitoring.gnocchi.data", subscription = "mano.monitoring.gnocchi.data", concurrency = "1", containerFactory = "gnocchiDataFactory")
 	public void onGnocchiData(final AllHostMetrics allHostMetrics) {
 		if ((allHostMetrics == null) || (allHostMetrics.getTelemetryMetricsResult() == null) || allHostMetrics.getTelemetryMetricsResult().isEmpty()) {
 			return;
 		}
 		if (PmType.VNF.equals(allHostMetrics.getPmType())) {
-			double averageValueByPercent = 0.0;
+			double averageValueByPercent;
 			double totalValue = 0.0;
 			OffsetDateTime metricsUpdatedTime = OffsetDateTime.now();
 			final VnfInstance vnfInstance = vnfInstanceJpa.findById(allHostMetrics.getVnfInstanceId()).orElseThrow();
@@ -92,7 +92,7 @@ public class PostgresDataListener {
 					noOfVirtualCpus = noOfVirtualCpus + compute.getVirtualCpu().getNumVirtualCpu();
 				}
 				for (final TelemetryMetricsResult action : allHostMetrics.getTelemetryMetricsResult()) {
-					if(action.getValue() == 0.0) {
+					if (action.getValue() == 0.0) {
 						continue;
 					}
 					LOG.trace(POSTGRESQL_RECEIVE, action);
@@ -130,7 +130,7 @@ public class PostgresDataListener {
 					totalMemorySize = totalMemorySize + compute.getVirtualMemory().getVirtualMemSize();
 				}
 				for (final TelemetryMetricsResult action : allHostMetrics.getTelemetryMetricsResult()) {
-					if(action.getValue() == 0.0) {
+					if (action.getValue() == 0.0) {
 						continue;
 					}
 					LOG.trace(POSTGRESQL_RECEIVE, action);
@@ -138,7 +138,7 @@ public class PostgresDataListener {
 					final double bytesValue = action.getValue() * 1048576;
 					totalValue = totalValue + bytesValue;
 				}
-				if (totalMemorySize == 0 || totalValue == 0) {
+				if ((totalMemorySize == 0) || (totalValue == 0)) {
 					return;
 				}
 				averageValueByPercent = (totalValue / totalMemorySize) * 100;
@@ -148,9 +148,9 @@ public class PostgresDataListener {
 			if ((existingVnfIndicatorValue != null) && !existingVnfIndicatorValue.getValue().equals(averageValueByPercent)) {
 				// vnf indicator value change notification should be sent.
 				LOG.info("{} indicator value changed to {}", allHostMetrics.getVnfInstanceId() + ":" + allHostMetrics.getMetricName(), averageValueByPercent);
-				eventManager.sendNotification(NotificationEvent.VNF_INDICATOR_VALUE_CHANGED, allHostMetrics.getVnfInstanceId(), Map.of("vnfIndicatorId", allHostMetrics.getMetricName(), 
-						"value", String.valueOf(averageValueByPercent), 
-						"vnfInstanceId", allHostMetrics.getVnfInstanceId().toString(), 
+				eventManager.sendNotification(NotificationEvent.VNF_INDICATOR_VALUE_CHANGED, allHostMetrics.getVnfInstanceId(), Map.of("vnfIndicatorId", allHostMetrics.getMetricName(),
+						"value", String.valueOf(averageValueByPercent),
+						"vnfInstanceId", allHostMetrics.getVnfInstanceId().toString(),
 						"vnfdId", vnfInstance.getVnfdId()));
 			}
 			final VnfIndicatorValue vnfIndValue = new VnfIndicatorValue(allHostMetrics.getMetricName(), allHostMetrics.getMasterJobId(), metricsUpdatedTime, averageValueByPercent, allHostMetrics.getVnfInstanceId());

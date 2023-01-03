@@ -45,7 +45,7 @@ public class InfluxdbDataListener {
 		this.influxClient = influxClient;
 	}
 
-	@JmsListener(destination = "mano.monitoring.gnocchi.data", subscription = "mano.monitoring.gnocchi.data", concurrency = "1", containerFactory = "gnocchiDataFactory")
+	@JmsListener(destination = "${spring.application.name:none}.mano.monitoring.gnocchi.data", subscription = "mano.monitoring.gnocchi.data", concurrency = "1", containerFactory = "gnocchiDataFactory")
 	public void onGnocchiData(final TelemetryMetricsResult action) {
 		LOG.info("influxdb-Receive: {}", action);
 		final Point point = Point.measurement(action.getMasterJobId())
