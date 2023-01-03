@@ -44,7 +44,7 @@ public class VnfmActonListener {
 		this.actionController = actionController;
 	}
 
-	@JmsListener(destination = "system.actions.vnfm", concurrency = "10-25")
+	@JmsListener(destination = Constants.QUEUE_VNFM_ACTIONS, concurrency = "10-25")
 	@Transactional(TxType.NEVER)
 	@org.springframework.transaction.annotation.Transactional(propagation = Propagation.NEVER)
 	public void onEvent(final ActionMessage ev) {

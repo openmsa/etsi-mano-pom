@@ -34,7 +34,7 @@ public class GrantListener {
 		this.grantActionDispatcher = grantActionDispatcher;
 	}
 
-	@JmsListener(destination = "system.actions.grants", concurrency = "5-10")
+	@JmsListener(destination = Constants.QUEUE_GRANT, concurrency = "5-10")
 	@Transactional(TxType.NEVER)
 	@org.springframework.transaction.annotation.Transactional(propagation = Propagation.NEVER)
 	public void onEvent(final GrantMessage ev) {

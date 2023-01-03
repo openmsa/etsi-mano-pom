@@ -42,11 +42,10 @@ public class CommonActionJms {
 	private final CommonActionDispatcher actionController;
 
 	public CommonActionJms(final CommonActionDispatcher actionController) {
-		super();
 		this.actionController = actionController;
 	}
 
-	@JmsListener(destination = "system.actions.common", concurrency = "5-10")
+	@JmsListener(destination = Constants.QUEUE_COMMON_ACTION, concurrency = "5-10")
 	@Transactional(TxType.NEVER)
 	@org.springframework.transaction.annotation.Transactional(propagation = Propagation.NEVER)
 	public void onEvent(final ActionMessage ev) {

@@ -17,10 +17,15 @@
 package com.ubiqube.etsi.mano.service.event.jms;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
+
+import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
@@ -38,10 +43,12 @@ public class JmsEventManager implements EventManager {
 
 	private final JmsTemplate jmsTemplate;
 	private final EventMessageJpa eventMessageJpa;
+	private final ConfigurableApplicationContext configurableApplicationContext;
 
-	public JmsEventManager(final JmsTemplate jmsTemplate, final EventMessageJpa eventMessageJpa) {
+	public JmsEventManager(final JmsTemplate jmsTemplate, final EventMessageJpa eventMessageJpa, final ConfigurableApplicationContext configurableApplicationContext) {
 		this.jmsTemplate = jmsTemplate;
 		this.eventMessageJpa = eventMessageJpa;
+		this.configurableApplicationContext = configurableApplicationContext;
 	}
 
 	@Override
@@ -49,36 +56,44 @@ public class JmsEventManager implements EventManager {
 		EventMessage msg = new EventMessage(notificationEvent, objectId, additionalParameters);
 		msg = eventMessageJpa.save(msg);
 		LOG.info("Sending notification {}", msg);
-		jmsTemplate.convertAndSend("system.notifications", msg);
+		jmsTemplate.convertAndSend(resolvQueueName(Constants.QUEUE_NOTIFICATION), msg);
 	}
 
 	@Override
 	public void sendActionVnfm(final ActionType actionType, final UUID objectId, final Map<String, Object> parameters) {
 		final ActionMessage msg = new ActionMessage(actionType, objectId, parameters);
-		jmsTemplate.convertAndSend("system.actions.vnfm", msg);
+		jmsTemplate.convertAndSend(resolvQueueName(Constants.QUEUE_VNFM_ACTIONS), msg);
 	}
 
 	@Override
 	public void sendActionNfvo(final ActionType actionType, final UUID objectId, final Map<String, Object> parameters) {
 		final ActionMessage msg = new ActionMessage(actionType, objectId, parameters);
-		jmsTemplate.convertAndSend("system.actions.nfvo", msg);
+		jmsTemplate.convertAndSend(resolvQueueName(Constants.QUEUE_NFVO_ACTIONS), msg);
 	}
 
 	@Override
 	public void sendGrant(final UUID objectId, final Map<String, Object> parameters) {
 		final GrantMessage msg = new GrantMessage(objectId, parameters);
-		jmsTemplate.convertAndSend("system.actions.grants", msg);
+		jmsTemplate.convertAndSend(resolvQueueName(Constants.QUEUE_GRANT), msg);
 	}
 
 	@Override
 	public void sendAction(final ActionType actionType, final UUID objectId) {
 		@SuppressWarnings("null")
 		final ActionMessage msg = new ActionMessage(actionType, objectId, Map.of());
-		jmsTemplate.convertAndSend("system.actions.common", msg);
+		jmsTemplate.convertAndSend(resolvQueueName(Constants.QUEUE_COMMON_ACTION), msg);
 	}
 
 	@Override
 	public void notificationSender(final SubscriptionEvent se) {
-		jmsTemplate.convertAndSend("system.notifications.sender", se);
+		jmsTemplate.convertAndSend(resolvQueueName(Constants.QUEUE_NOTIFICATION), se);
+	}
+
+	@NotNull
+	private String resolvQueueName(final String queueName) {
+		final ConfigurableListableBeanFactory configurableListableBeanFactory = configurableApplicationContext.getBeanFactory();
+		final String ret = configurableListableBeanFactory.resolveEmbeddedValue(queueName);
+		Objects.requireNonNull(ret);
+		return ret;
 	}
 }

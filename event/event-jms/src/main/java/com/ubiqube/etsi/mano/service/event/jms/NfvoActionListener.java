@@ -44,7 +44,7 @@ public class NfvoActionListener {
 		this.actionController = actionController;
 	}
 
-	@JmsListener(destination = "system.actions.nfvo", concurrency = "10-25")
+	@JmsListener(destination = Constants.QUEUE_NFVO_ACTIONS, concurrency = "10-25")
 	@Transactional(TxType.NEVER)
 	@org.springframework.transaction.annotation.Transactional(propagation = Propagation.NEVER)
 	public void onEvent(final ActionMessage ev) {

@@ -40,7 +40,7 @@ public class NotificationListener {
 		this.notificationController = notificationController;
 	}
 
-	@JmsListener(destination = "system.notifications", concurrency = "2-4")
+	@JmsListener(destination = Constants.QUEUE_NOTIFICATION, concurrency = "2-4")
 	public void onEvent(final EventMessage ev) {
 		LOG.info("Notification Controller Received event: {}", ev);
 		notificationController.onEvent(ev);
