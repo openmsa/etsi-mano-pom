@@ -19,8 +19,6 @@ package com.ubiqube.etsi.mano.config;
 
 import javax.jms.ConnectionFactory;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
@@ -35,8 +33,6 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 @Configuration
 public class ManoArtemisConfiguration {
-
-	private static final Logger LOG = LoggerFactory.getLogger(ManoArtemisConfiguration.class);
 
 	@SuppressWarnings("static-method")
 	@Bean
@@ -60,15 +56,4 @@ public class ManoArtemisConfiguration {
 		return jmsListenerContainerFactory;
 	}
 
-	@SuppressWarnings("static-method")
-	@Bean
-	public DefaultMessageListenerContainer defaultMessageListenerContainer(final ConnectionFactory connectionFactory) {
-		LOG.warn("Using our instance of defaultMessageListenerContainer");
-		final DefaultMessageListenerContainer defaultMessageListenerContainer = new DefaultMessageListenerContainer();
-		defaultMessageListenerContainer.setConnectionFactory(connectionFactory);
-		defaultMessageListenerContainer.setDestinationName("etsi-mano-default");
-		defaultMessageListenerContainer.setConcurrency("1-5");
-		defaultMessageListenerContainer.setSessionTransacted(false);
-		return defaultMessageListenerContainer;
-	}
 }
