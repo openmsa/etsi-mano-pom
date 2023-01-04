@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -38,6 +39,7 @@ public class ImageSignatureVerification {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
 
+	@CollectionTable(name = "additional_verification_capabilities")
 	@ElementCollection
 	private Map<String, String> additionalVerificationCapabilities;
 
