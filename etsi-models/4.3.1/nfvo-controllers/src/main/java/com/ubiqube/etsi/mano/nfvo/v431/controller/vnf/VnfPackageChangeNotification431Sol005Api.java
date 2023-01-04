@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.ubiqube.etsi.mano.nfvo.v431.model.nfvici.ProblemDetails;
 import com.ubiqube.etsi.mano.nfvo.v431.model.vnf.VnfPackageChangeNotification;
@@ -72,7 +71,7 @@ public interface VnfPackageChangeNotification431Sol005Api {
 			@ApiResponse(responseCode = "406", description = "406 NOT ACCEPTABLE If the \"Accept\" HTTP header does not contain at least one name of a content type that is acceptable to the API producer, the API producer shall respond with this response code. The \"ProblemDetails\" structure may be omitted. ", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "500", description = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "503", description = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProblemDetails.class))) })
-	@RequestMapping(value = "/vnf-package-change", produces = { "application/json" }, consumes = { "application/json" }, method = RequestMethod.POST)
+            @PostMapping(value = "/vnf-package-change", produces = {"application/json"}, consumes = {"application/json"})
 	ResponseEntity<Void> vnfPackageChangePost(
 			@Parameter(in = ParameterIn.DEFAULT, description = "A notification about changes of status in a VNF package.", required = true, schema = @Schema()) @Valid @RequestBody final VnfPackageChangeNotification body);
 

@@ -26,11 +26,7 @@ import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
+import org.springframework.web.bind.annotation.*;
 import com.ubiqube.etsi.mano.nfvo.v431.model.nfvici.ProblemDetails;
 import com.ubiqube.etsi.mano.vnfm.v431.model.grant.Grant;
 import com.ubiqube.etsi.mano.vnfm.v431.model.grant.GrantRequest;
@@ -62,7 +58,7 @@ public interface Grants431Sol003Api {
 			@ApiResponse(responseCode = "500", description = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "503", description = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "504", description = "504 GATEWAY TIMEOUT If the API producer encounters a timeout while waiting for a response from an upstream server (i.e. a server that the API producer communicates with when fulfilling a request), it should respond with this response code. ", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProblemDetails.class))) })
-	@RequestMapping(value = "/grants/{grantId}", produces = { "application/json" }, method = RequestMethod.GET)
+            @GetMapping(value = "/grants/{grantId}", produces = {"application/json"})
 	ResponseEntity<Grant> grantsGrantIdGet(
 			@Parameter(in = ParameterIn.PATH, description = "Identifier of the grant. This identifier can be retrieved from the resource referenced by the \"Location\" HTTP header in the response to a POST request granting a new VNF lifecycle operation. It can also be retrieved from the \"id\" attribute in the payload body of that response. ", required = true, schema = @Schema()) @PathVariable("grantId") final String grantId);
 
@@ -80,7 +76,7 @@ public interface Grants431Sol003Api {
 			@ApiResponse(responseCode = "500", description = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "503", description = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "504", description = "504 GATEWAY TIMEOUT If the API producer encounters a timeout while waiting for a response from an upstream server (i.e. a server that the API producer communicates with when fulfilling a request), it should respond with this response code. ", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProblemDetails.class))) })
-	@RequestMapping(value = "/grants", produces = { "application/json" }, consumes = { "application/json" }, method = RequestMethod.POST)
+            @PostMapping(value = "/grants", produces = {"application/json"}, consumes = {"application/json"})
 	ResponseEntity<Grant> grantsPost(
 			@Parameter(in = ParameterIn.DEFAULT, description = "", required = true, schema = @Schema()) @Valid @RequestBody final GrantRequest body);
 }
