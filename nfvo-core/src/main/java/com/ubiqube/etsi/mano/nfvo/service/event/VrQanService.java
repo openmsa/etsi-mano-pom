@@ -91,7 +91,8 @@ public class VrQanService {
 				vrQanJpa.save(vrqan);
 			}
 		} catch (final RuntimeException e) {
-			LOG.error("", e);
+			LOG.trace("", e);
+			LOG.error("Error while getting quota on vim {}: {}", vimConnection.getVimId(), e.getMessage());
 		}
 	}
 
