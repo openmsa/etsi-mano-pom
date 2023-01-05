@@ -32,8 +32,8 @@ import de.codecentric.boot.admin.server.config.EnableAdminServer;
 @SpringBootApplication
 @EnableAutoConfiguration
 @EnableDiscoveryClient
-public class Application {
+public class EurekaApplication {
 	public static void main(final String[] args) {
-		SpringApplication.run(Application.class, args);
+		SpringApplication.run(EurekaApplication.class, args);
 	}
 }

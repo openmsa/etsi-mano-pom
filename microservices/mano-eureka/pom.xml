@@ -13,15 +13,15 @@
 	<name>mano-eureka</name>
 	<description>Eureka server for ETSI-MANO project</description>
 	<properties>
-		<maven.compiler.target>11</maven.compiler.target>
-		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
+		<maven.compiler.source>17</maven.compiler.source>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>2020.0.3</version>
+				<version>2021.0.5</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
