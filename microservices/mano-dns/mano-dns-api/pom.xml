@@ -15,14 +15,14 @@
 	<properties>
 		<maven.compiler.target>17</maven.compiler.target>
 		<maven.compiler.source>17</maven.compiler.source>
-		<ubiqube.grpc.version>1.49.2</ubiqube.grpc.version>
+		<ubiqube.grpc.version>1.51.1</ubiqube.grpc.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>2021.0.0</version>
+				<version>2021.0.5</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -32,7 +32,7 @@
 		<dependency>
 			<groupId>com.google.protobuf</groupId>
 			<artifactId>protobuf-java</artifactId>
-			<version>3.21.7</version>
+			<version>3.21.12</version>
 		</dependency>
 		<dependency>
 			<groupId>io.grpc</groupId>
@@ -55,7 +55,7 @@
 			<extension>
 				<groupId>kr.motd.maven</groupId>
 				<artifactId>os-maven-plugin</artifactId>
-				<version>1.6.2</version>
+				<version>1.7.1</version>
 			</extension>
 		</extensions>
 		<plugins>
