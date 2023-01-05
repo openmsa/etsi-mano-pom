@@ -23,7 +23,7 @@ import com.ubiqube.parser.tosca.ParseException;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public class Range {
+public class Range implements Scalar {
 	long min;
 	long max;
 

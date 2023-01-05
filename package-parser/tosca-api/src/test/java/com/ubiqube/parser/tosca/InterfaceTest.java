@@ -22,32 +22,52 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
+import com.ubiqube.etsi.mano.service.pkg.tosca.Time2Converter;
 import com.ubiqube.parser.tosca.api.ContextResolver;
 import com.ubiqube.parser.tosca.api.ToscaApi;
 import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.VNF;
 
 import ma.glasnost.orika.MapperFactory;
+import ma.glasnost.orika.OrikaSystemProperties;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
+import ma.glasnost.orika.impl.generator.EclipseJdtCompilerStrategy;
 
 class InterfaceTest {
 
 	private final ToscaApi toscaApi;
 
 	public InterfaceTest() {
+		System.setProperty(OrikaSystemProperties.COMPILER_STRATEGY, EclipseJdtCompilerStrategy.class.getName());
+		System.setProperty(OrikaSystemProperties.WRITE_SOURCE_FILES, "true");
+		System.setProperty(OrikaSystemProperties.WRITE_SOURCE_FILES_TO_PATH, "/tmp/orika-tosca");
 		final MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
+		mapperFactory.getConverterFactory().registerConverter(new Time2Converter());
 		toscaApi = new ToscaApi(this.getClass().getClassLoader(), mapperFactory.getMapperFacade());
 	}
 
 	@Test
-	void testName() throws Exception {
+	void testInterfaces() throws Exception {
 		final ToscaParser tp = new ToscaParser(new File("src/test/resources/interfaces.yaml"));
 		final ToscaContext root = tp.getContext();
 		assertNotNull(root);
 		final List<VNF> obj = toscaApi.getObjects(root, new HashMap<>(), VNF.class);
 		final ContextResolver ctx = new ContextResolver(root, new HashMap<String, String>());
+		ctx.resolvValue("");
+		assertEquals(1, obj.size());
+	}
+
+	@Test
+	void testInputs() throws Exception {
+		final ToscaParser tp = new ToscaParser(new File("src/test/resources/input-test.yaml"));
+		final ToscaContext root = tp.getContext();
+		assertNotNull(root);
+		final List<VNF> obj = toscaApi.getObjects(root, new HashMap<>(), VNF.class);
+		final Map<String, String> params = Map.of("descriptor_id", "FF39B25D-855D-8D3F-1FF6-03A23BDE63CB");
+		final ContextResolver ctx = new ContextResolver(root, params);
 		ctx.resolvValue("");
 		assertEquals(1, obj.size());
 	}

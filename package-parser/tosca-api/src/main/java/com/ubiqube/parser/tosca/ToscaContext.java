@@ -317,25 +317,6 @@ public class ToscaContext {
 		}
 	}
 
-	public void resolvDerivedFrom() {
-		final Set<Entry<String, ToscaClass>> entries = nodeType.entrySet();
-		resolvDerivedFromLoop(entries);
-	}
-
-	private void resolvDerivedFromLoop(final Set<Entry<String, ToscaClass>> entries) {
-		for (final Entry<String, ToscaClass> entry : entries) {
-			final ToscaClass val = entry.getValue();
-			final String derived = val.getDerivedFrom();
-			if (null != derived) {
-				final ToscaClass clazz = nodeType.get(derived);
-				if (null == clazz) {
-					throw new ParseException("Unable to find " + derived);
-				}
-			}
-
-		}
-	}
-
 	public void resolvSymbols() {
 		LOG.debug("Resolv symbol of CTX={}", nodeType.size());
 		final Set<Entry<String, ToscaClass>> entries = nodeType.entrySet();

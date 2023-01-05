@@ -34,4 +34,13 @@ public class ValidValues implements Constraint {
 		}
 	}
 
+	@Override
+	public String toString() {
+		return "" + values;
+	}
+
+	@Override
+	public Object evaluate(final Object value) {
+		return values.stream().anyMatch(x -> x.equals(value));
+	}
 }

@@ -16,12 +16,29 @@
  */
 package com.ubiqube.parser.tosca.constraints;
 
+import java.util.List;
+
 import com.fasterxml.jackson.databind.JsonNode;
+import com.ubiqube.parser.tosca.ParseException;
 
 public class GreaterThan extends SimpleValue implements Constraint {
 
 	public GreaterThan(final JsonNode jsonNode) {
 		super(jsonNode.asText());
+	}
+
+	@Override
+	public Object evaluate(final Object value) {
+		if (value instanceof final Integer i) {
+			return (Integer.valueOf(getValue().toString()) > i);
+		}
+		if (value instanceof final Double d) {
+			return (Double.valueOf(getValue().toString()) > d);
+		}
+		if (value instanceof final List<?> l) {
+			return l.size() > Integer.valueOf(getValue().toString());
+		}
+		throw new ParseException("Could not evaluate GreaterThan for type: " + value.getClass().getSimpleName());
 	}
 
 }

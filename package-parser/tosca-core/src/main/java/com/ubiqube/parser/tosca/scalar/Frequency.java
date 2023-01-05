@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 
 import com.ubiqube.parser.tosca.ParseException;
 
-public class Frequency {
+public class Frequency implements Scalar {
 	private static final Pattern FREQUENCY_PATTERN = Pattern.compile("(?<freq>[0-9]+(\\.[0-9]+)?)\\s*(?<unit>[a-zA-Z]+)");
 
 	private final double freq;

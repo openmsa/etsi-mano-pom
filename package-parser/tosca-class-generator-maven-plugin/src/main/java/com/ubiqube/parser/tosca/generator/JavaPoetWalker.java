@@ -284,7 +284,7 @@ public class JavaPoetWalker implements ToscaListener {
 			currentField.addAnnotation(builder);
 		} else if (x instanceof ValidValues) {
 			// XXX .
-		} else if (x instanceof InRange ir) {
+		} else if (x instanceof final InRange ir) {
 			final AnnotationSpec builder = AnnotationSpec
 					.builder(Min.class)
 					.addMember(VALUE, "$L", Double.valueOf(ir.getMin()).intValue())
@@ -298,13 +298,13 @@ public class JavaPoetWalker implements ToscaListener {
 		} else if (x instanceof final MinLength ml) {
 			final AnnotationSpec builder = AnnotationSpec
 					.builder(javax.validation.constraints.Size.class)
-					.addMember("min", "$L", Integer.parseInt(ml.getValue()))
+					.addMember("min", "$L", Integer.parseInt(ml.getValue().toString()))
 					.build();
 			currentField.addAnnotation(builder);
 		} else if (x instanceof final MaxLength ml) {
 			final AnnotationSpec builder = AnnotationSpec
 					.builder(javax.validation.constraints.Size.class)
-					.addMember("max", "$L", Integer.parseInt(ml.getValue()))
+					.addMember("max", "$L", Integer.parseInt(ml.getValue().toString()))
 					.build();
 			currentField.addAnnotation(builder);
 		} else if (x instanceof Equal) {
@@ -451,7 +451,7 @@ public class JavaPoetWalker implements ToscaListener {
 		return ClassName.get(pkg, claName);
 	}
 
-	private class Context {
+	private static class Context {
 		private final String lCurrentClassName;
 		private final Builder lClassBuilder;
 		private final FieldSpec.Builder lCurrentField;

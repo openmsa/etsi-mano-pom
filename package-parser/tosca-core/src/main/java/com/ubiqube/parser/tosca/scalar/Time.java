@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 
 import com.ubiqube.parser.tosca.ParseException;
 
-public class Time {
+public class Time implements Scalar {
 	private static final Pattern TIME_PATTERN = Pattern.compile("(?<time>[0-9]+)\\s*(?<unit>d|h|m|s|ms|us|ns)");
 
 	private final long ltime;
@@ -61,30 +61,15 @@ public class Time {
 	}
 
 	public static BigDecimal getMultiplier(final String unit2) {
-		switch (unit2.toLowerCase(Locale.ROOT)) {
-		// 3600000000000*24
-		case "d":
-			return new BigDecimal("86400000000000");
-		// 60000000000*60
-		case "h":
-			return new BigDecimal("3600000000000");
-		// 1000000000*60
-		case "m":
-			return new BigDecimal("60000000000");
-		// 10^1
-		case "s":
-			return new BigDecimal("1000000000");
-		// 10^-3
-		case "ms":
-			return new BigDecimal("1000000");
-		// 10^-6
-		case "us":
-			return new BigDecimal("1000");
-		// 10^-9
-		case "ns":
-			return new BigDecimal("1");
-		default:
-			throw new ParseException("Unknown scalar unit " + unit2);
-		}
+		return switch (unit2.toLowerCase(Locale.ROOT)) {
+		case "d" -> new BigDecimal("86400000000000");
+		case "h" -> new BigDecimal("3600000000000");
+		case "m" -> new BigDecimal("60000000000");
+		case "s" -> new BigDecimal("1000000000");
+		case "ms" -> new BigDecimal("1000000");
+		case "us" -> new BigDecimal("1000");
+		case "ns" -> new BigDecimal("1");
+		default -> throw new ParseException("Unknown scalar unit " + unit2);
+		};
 	}
 }

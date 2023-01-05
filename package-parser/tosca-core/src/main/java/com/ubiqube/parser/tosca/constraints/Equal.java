@@ -16,11 +16,53 @@
  */
 package com.ubiqube.parser.tosca.constraints;
 
-public class Equal implements Constraint {
-	String value;
+import java.util.List;
+import java.util.function.Function;
 
-	public Equal(final String _value) {
-		value = _value;
+import com.fasterxml.jackson.databind.node.TextNode;
+import com.ubiqube.parser.tosca.ParseException;
+
+public class Equal implements Constraint {
+	Object value;
+
+	public Equal(final Object value) {
+		this.value = value;
 	}
 
+	@Override
+	public String toString() {
+		return "equal " + value;
+	}
+
+	@Override
+	public Object evaluate(final Object valueIn) {
+		if (valueIn instanceof final Integer i) {
+			final Integer cv = castValue(Integer.class, x -> Integer.valueOf(x.toString()));
+			return cv.equals(i);
+		}
+		if (valueIn instanceof final Double d) {
+			final Double cv = castValue(Double.class, x -> Double.valueOf(x.toString()));
+			return cv.equals(d);
+		}
+		if (valueIn instanceof final String s) {
+			return s.equals(value);
+		}
+		if (valueIn instanceof final List<?> l) {
+			return l.equals(value);
+		}
+		if (valueIn instanceof final Boolean b) {
+			return b.equals(value);
+		}
+		throw new ParseException("Could not evaluate inRange for type: " + value.getClass().getSimpleName());
+	}
+
+	private <U> U castValue(final Class<U> clazz, final Function<Object, U> func) {
+		if (clazz == value.getClass()) {
+			return (U) value;
+		}
+		if (value instanceof final TextNode tn) {
+			return func.apply(tn.asText());
+		}
+		throw new ParseException("Could not cast value of type: " + value.getClass().getSimpleName());
+	}
 }

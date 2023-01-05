@@ -17,6 +17,7 @@
 package com.ubiqube.parser.tosca.constraints;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.ubiqube.parser.tosca.ParseException;
 
 public class InRange implements Constraint {
 
@@ -42,6 +43,17 @@ public class InRange implements Constraint {
 
 	public void setMax(final String max) {
 		this.max = max;
+	}
+
+	@Override
+	public Object evaluate(final Object value) {
+		if (value instanceof final Integer i) {
+			return (Integer.valueOf(min) >= i) && (Integer.valueOf(max) <= i);
+		}
+		if (value instanceof final Double d) {
+			return (Double.valueOf(min) >= d) && (Double.valueOf(max) <= d);
+		}
+		throw new ParseException("Could not evaluate inRange for type: " + value.getClass().getSimpleName());
 	}
 
 }

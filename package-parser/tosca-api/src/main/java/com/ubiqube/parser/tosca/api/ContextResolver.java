@@ -96,7 +96,15 @@ public class ContextResolver {
 
 	public ContextResolver(final ToscaContext inRoot, final Map<String, String> inParameters) {
 		this.root = inRoot;
-		this.parameters = inParameters;
+		if (inParameters != null) {
+			final ParameterChecker pc = new ParameterChecker();
+			this.parameters = pc.checkParameters(root, inParameters);
+			if (!pc.getErrors().isEmpty()) {
+				throw new ParseException("Input fields containt some errors:\n" + pc.getErrors().stream().collect(Collectors.joining(",")));
+			}
+		} else {
+			this.parameters = Map.of();
+		}
 		conv.register(Size.class.getCanonicalName(), new SizeConverter());
 		conv.register(Time.class.getCanonicalName(), new TimeConverter());
 		conv.register(Double.class.getCanonicalName(), new FloatConverter());
@@ -322,7 +330,7 @@ public class ContextResolver {
 	private static boolean match(final String methodName, final RequirementMapping toscaName) {
 		final String toMatch = toscaName.getRequirementName();
 		final String camel = underScoreToCamleCase(toMatch);
-		return camel.equals(methodName) || methodName.equals(camel + "Req");
+		return camel.equals(methodName) || (camel + "Req").equals(methodName);
 	}
 
 	private void handleArtifacts(final Map<String, Object> artifacts, final PropertyDescriptor[] propsDescr, final Object cls, final Deque stack) {
@@ -679,7 +687,7 @@ public class ContextResolver {
 			final Parameter orig = p[i];
 			final Class<? extends Object> clz = tgt.getClass();
 			if (!orig.getType().isAssignableFrom(clz)) {
-				throwException(orig.getType() + " doesn't match " + clz, stack);
+				throwException(orig.getType().getSimpleName() + " doesn't match " + clz.getSimpleName(), stack);
 			}
 		}
 	}

@@ -21,7 +21,7 @@ package com.ubiqube.parser.tosca.scalar;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public class Version {
+public class Version implements Scalar {
 
 	private final String value;
 

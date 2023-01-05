@@ -36,6 +36,7 @@ import com.ubiqube.parser.tosca.constraints.Equal;
 import com.ubiqube.parser.tosca.constraints.GreaterOrEqual;
 import com.ubiqube.parser.tosca.constraints.GreaterThan;
 import com.ubiqube.parser.tosca.constraints.InRange;
+import com.ubiqube.parser.tosca.constraints.Length;
 import com.ubiqube.parser.tosca.constraints.LessOrEqual;
 import com.ubiqube.parser.tosca.constraints.LessThan;
 import com.ubiqube.parser.tosca.constraints.MaxLength;
@@ -59,13 +60,13 @@ public class ConstraintsDeserializer extends StdDeserializer<Constraint> {
 		table.put("valid_values", x -> new ValidValues((ArrayNode) x.getValue()));
 		table.put("min_length", x -> new MinLength(x.getValue()));
 		table.put("max_length", x -> new MaxLength(x.getValue()));
-		table.put("equal", x -> new Equal(x.getKey()));
+		table.put("equal", x -> new Equal(x.getValue()));
 		table.put("greater_than", x -> new GreaterThan(x.getValue()));
-		table.put("less_than", x -> new LessThan(x.getKey()));
+		table.put("less_than", x -> new LessThan(x.getValue()));
 		table.put("in_range", x -> new InRange((ArrayNode) x.getValue()));
 		table.put("pattern", x -> new Pattern(x.getValue()));
-		table.put("less_or_equal", x -> new LessOrEqual(x.getValue().asText()));
-		table.put("length", x -> new LessOrEqual(x.getValue().asText()));
+		table.put("less_or_equal", x -> new LessOrEqual(x.getValue()));
+		table.put("length", x -> new Length(x.getValue()));
 	}
 
 	public ConstraintsDeserializer(final Class<?> object) {
@@ -76,7 +77,7 @@ public class ConstraintsDeserializer extends StdDeserializer<Constraint> {
 	public Constraint deserialize(final JsonParser p, final DeserializationContext ctxt) throws IOException {
 		final ObjectNode value = p.getCodec().readTree(p);
 		final Iterator<Entry<String, JsonNode>> fields = value.fields();
-		while (fields.hasNext()) {
+		if (fields.hasNext()) {
 			final Map.Entry<String, JsonNode> entry = fields.next();
 			final String key = entry.getKey();
 			final Function<Entry<String, JsonNode>, ? extends Constraint> creator = Optional.ofNullable(table.get(key)).orElseThrow(() -> new ParseException("Unknow Constraint: " + key));

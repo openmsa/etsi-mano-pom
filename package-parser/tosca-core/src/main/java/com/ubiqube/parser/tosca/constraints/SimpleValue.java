@@ -18,17 +18,17 @@ package com.ubiqube.parser.tosca.constraints;
 
 public class SimpleValue {
 
-	private String value;
+	private Object value;
 
-	public SimpleValue(final String _value) {
-		value = _value;
+	public SimpleValue(final Object value) {
+		this.value = value;
 	}
 
-	public String getValue() {
+	public Object getValue() {
 		return value;
 	}
 
-	public void setValue(final String value) {
+	public void setValue(final Object value) {
 		this.value = value;
 	}
 

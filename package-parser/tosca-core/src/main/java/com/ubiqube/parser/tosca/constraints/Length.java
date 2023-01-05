@@ -16,10 +16,25 @@
  */
 package com.ubiqube.parser.tosca.constraints;
 
+import java.util.List;
+
+import com.ubiqube.parser.tosca.ParseException;
+
 public class Length extends SimpleValue implements Constraint {
 
-	public Length(final String _value) {
-		super(_value);
+	public Length(final Object value) {
+		super(value);
+	}
+
+	@Override
+	public Object evaluate(final Object value) {
+		if (value instanceof final String s) {
+			return s.length();
+		}
+		if (value instanceof final List<?> l) {
+			return l.size();
+		}
+		throw new ParseException("Could not evaluate length for type: " + value.getClass().getSimpleName());
 	}
 
 }

@@ -16,7 +16,10 @@
  */
 package com.ubiqube.parser.tosca;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ubiqube.parser.tosca.constraints.Constraint;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -32,11 +35,12 @@ public class InputBean {
 	private String type;
 	private String description;
 	@JsonProperty("default")
-	private String def;
+	private Object def;
+	private List<Constraint> constraints;
 
 	@Override
 	public String toString() {
-		return "InputBean [type=" + type + ", def=" + def + "]";
+		return "InputBean [type=" + type + ", def=" + def + ", constraints=" + constraints + "]";
 	}
 
 }

@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
 
 import com.ubiqube.parser.tosca.ParseException;
 
-public class Size {
+public class Size implements Scalar {
 	private static final Logger LOG = LoggerFactory.getLogger(Size.class);
 
 	private static final Pattern SIZE_PATTERN = Pattern.compile("(?<size>[0-9]+)\\s*(?<unit>[a-zA-Z]+)");
@@ -61,35 +61,17 @@ public class Size {
 	}
 
 	public static BigDecimal getMultiplier(final String unit2) {
-		switch (unit2.toLowerCase()) {
-		case "b":
-			return BigDecimal.ONE;
-		// (1000 bytes)
-		case "kb":
-			return new BigDecimal("1000");
-		// (1024 bytes)
-		case "kiB":
-			return new BigDecimal("1024");
-		// (1000000 bytes)
-		case "mb":
-			return new BigDecimal("1000000");
-		// (1048576 bytes)
-		case "mib":
-			return new BigDecimal("1048576");
-		// (1000000000 bytes)
-		case "gb":
-			return new BigDecimal("1000000000");
-		// (1073741824 bytes)
-		case "gib":
-			return new BigDecimal("1073741824");
-		// 1000000000000 bytes)
-		case "tb":
-			return new BigDecimal("1000000000000");
-		// 1099511627776
-		case "tib":
-			return new BigDecimal("1099511627776");
-		default:
-			throw new ParseException("Unknown scalar unit " + unit2);
-		}
+		return switch (unit2.toLowerCase()) {
+		case "b" -> BigDecimal.ONE;
+		case "kb" -> new BigDecimal("1000");
+		case "kiB" -> new BigDecimal("1024");
+		case "mb" -> new BigDecimal("1000000");
+		case "mib" -> new BigDecimal("1048576");
+		case "gb" -> new BigDecimal("1000000000");
+		case "gib" -> new BigDecimal("1073741824");
+		case "tb" -> new BigDecimal("1000000000000");
+		case "tib" -> new BigDecimal("1099511627776");
+		default -> throw new ParseException("Unknown scalar unit " + unit2);
+		};
 	}
 }
