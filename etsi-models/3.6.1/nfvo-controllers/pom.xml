@@ -90,7 +90,7 @@
 		</dependency>
 		<dependency>
 			<groupId>ma.glasnost.orika</groupId>
-			<artifactId>orika-core</artifactId>
+			<artifactId>ubi-orika-core</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -143,7 +143,7 @@
 		</dependency>
 		<dependency>
 			<groupId>ma.glasnost.orika</groupId>
-			<artifactId>orika-eclipse-tools</artifactId>
+			<artifactId>ubi-orika-eclipse-tools</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

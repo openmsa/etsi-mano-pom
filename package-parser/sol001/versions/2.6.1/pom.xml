@@ -103,7 +103,7 @@
 		</dependency>
 		<dependency>
 			<groupId>ma.glasnost.orika</groupId>
-			<artifactId>orika-eclipse-tools</artifactId>
+			<artifactId>ubi-orika-eclipse-tools</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

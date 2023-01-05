@@ -59,6 +59,12 @@
 		<dependency>
 			<groupId>net.rakugakibox.spring.boot</groupId>
 			<artifactId>orika-spring-boot-starter</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>ma.glasnost.orika</groupId>
+					<artifactId>orika-core</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.liquibase</groupId>
@@ -173,11 +179,11 @@
 		</dependency>
 		<dependency>
 			<groupId>ma.glasnost.orika</groupId>
-			<artifactId>orika-eclipse-tools</artifactId>
+			<artifactId>ubi-orika-eclipse-tools</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>ma.glasnost.orika</groupId>
-			<artifactId>orika-core</artifactId>
+			<artifactId>ubi-orika-core</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springdoc</groupId>
