@@ -10,7 +10,6 @@
 		<module>tosca-api</module>
 		<module>tosca-class-generator-maven-plugin</module>
 		<module>sol001</module>
-		<module>k8s-parser</module>
 		<module>tosca-test-utils</module>
 	</modules>
 	<scm>
