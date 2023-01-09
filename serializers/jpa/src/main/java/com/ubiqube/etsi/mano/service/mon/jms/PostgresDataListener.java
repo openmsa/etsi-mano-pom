@@ -120,14 +120,14 @@ public class PostgresDataListener {
 					} else {
 						isMetricsUpdated = false;
 					}
-					final double usageInSeconds = deltaCpuUsage / 1000000000L;
+					final double usageInSeconds = deltaCpuUsage / 1_000_000_000L;
 					totalValue = totalValue + usageInSeconds;
 				} else {
 					isMetricsUpdated = true;
 					final double deltaCpuUsage = action.getValue();
 					metricsUpdatedTime = action.getTimestamp().truncatedTo(ChronoUnit.MINUTES);
 					deltaSeconds = 600;
-					final double usageInSeconds = deltaCpuUsage / 1000000000L;
+					final double usageInSeconds = deltaCpuUsage / 1_000_000_000L;
 					totalValue = totalValue + usageInSeconds;
 				}
 				final VnfIndicatorMonitoringData data2 = new VnfIndicatorMonitoringData(allHostMetrics.getMetricName(), allHostMetrics.getMasterJobId(), action.getValue(), UUID.fromString(action.getVnfcId()));
@@ -149,7 +149,7 @@ public class PostgresDataListener {
 				}
 				LOG.trace(POSTGRESQL_RECEIVE, action);
 				metricsUpdatedTime = action.getTimestamp();
-				final double bytesValue = action.getValue() * 1048576;
+				final double bytesValue = action.getValue() * 1_048_576; // Mib
 				totalValue = totalValue + bytesValue;
 			}
 			if ((totalMemorySize == 0) || (totalValue == 0)) {
