@@ -30,6 +30,8 @@ import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfCompute;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
+import com.ubiqube.etsi.mano.dao.mano.pkg.VirtualCpu;
+import com.ubiqube.etsi.mano.dao.mano.pkg.VirtualMemory;
 import com.ubiqube.etsi.mano.dao.mano.pm.PmType;
 import com.ubiqube.etsi.mano.jpa.VnfInstanceJpa;
 import com.ubiqube.etsi.mano.mon.dao.AllHostMetrics;
@@ -96,12 +98,12 @@ public class PostgresDataListener {
 		final Set<VnfCompute> computes = vnfInstance.getVnfPkg().getVnfCompute();
 		final VnfIndicatorValue existingVnfIndicatorValue = vnfIndicatorValueJpa.findByKeyAndVnfInstanceId(allHostMetrics.getMetricName(), allHostMetrics.getVnfInstanceId());
 		if ("cpu".equals(allHostMetrics.getTelemetryMetricsResult().get(0).getKey())) {
-			long noOfVirtualCpus = 0L;
 			boolean isMetricsUpdated = false;
 			long deltaSeconds = 0;
-			for (final VnfCompute compute : computes) {
-				noOfVirtualCpus = noOfVirtualCpus + compute.getVirtualCpu().getNumVirtualCpu();
-			}
+			final long noOfVirtualCpus = computes.stream()
+					.map(VnfCompute::getVirtualCpu)
+					.mapToLong(VirtualCpu::getNumVirtualCpu)
+					.sum();
 			for (final TelemetryMetricsResult action : allHostMetrics.getTelemetryMetricsResult()) {
 				if (action.getValue() == 0.0) {
 					continue;
@@ -136,10 +138,10 @@ public class PostgresDataListener {
 			}
 			averageValueByPercent = (totalValue / (noOfVirtualCpus * deltaSeconds)) * 100;
 		} else if ("memory.usage".equals(allHostMetrics.getTelemetryMetricsResult().get(0).getKey())) {
-			long totalMemorySize = 0L;
-			for (final VnfCompute compute : computes) {
-				totalMemorySize = totalMemorySize + compute.getVirtualMemory().getVirtualMemSize();
-			}
+			final long totalMemorySize = computes.stream()
+					.map(VnfCompute::getVirtualMemory)
+					.mapToLong(VirtualMemory::getVirtualMemSize)
+					.sum();
 			for (final TelemetryMetricsResult action : allHostMetrics.getTelemetryMetricsResult()) {
 				if (action.getValue() == 0.0) {
 					continue;
