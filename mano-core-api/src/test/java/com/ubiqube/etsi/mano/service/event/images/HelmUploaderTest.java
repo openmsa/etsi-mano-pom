@@ -22,7 +22,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 
 import org.junit.jupiter.api.Test;
-import org.osgi.framework.ServiceException;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -32,6 +31,7 @@ import org.springframework.web.reactive.function.client.WebClient.Builder;
 
 import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionType;
+import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.repository.ByteArrayResource;
 import com.ubiqube.etsi.mano.repository.ManoResource;
 import com.ubiqube.etsi.mano.service.event.HelmUploader;
@@ -78,7 +78,7 @@ class HelmUploaderTest {
 					if (HttpStatus.OK.equals(response.statusCode())) {
 						return response.bodyToMono(HttpStatus.class).thenReturn(response.statusCode());
 					}
-					throw new ServiceException("Error uploading file");
+					throw new GenericException("Error uploading file");
 				});
 		httpStatusMono.block();
 	}
