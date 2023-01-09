@@ -78,83 +78,7 @@ public class PostgresDataListener {
 			return;
 		}
 		if (PmType.VNF.equals(allHostMetrics.getPmType())) {
-			double averageValueByPercent;
-			double totalValue = 0.0;
-			OffsetDateTime metricsUpdatedTime = OffsetDateTime.now();
-			final VnfInstance vnfInstance = vnfInstanceJpa.findById(allHostMetrics.getVnfInstanceId()).orElseThrow();
-			final Set<VnfCompute> computes = vnfInstance.getVnfPkg().getVnfCompute();
-			final VnfIndicatorValue existingVnfIndicatorValue = vnfIndicatorValueJpa.findByKeyAndVnfInstanceId(allHostMetrics.getMetricName(), allHostMetrics.getVnfInstanceId());
-			if ("cpu".equals(allHostMetrics.getTelemetryMetricsResult().get(0).getKey())) {
-				long noOfVirtualCpus = 0L;
-				boolean isMetricsUpdated = false;
-				long deltaSeconds = 0;
-				for (final VnfCompute compute : computes) {
-					noOfVirtualCpus = noOfVirtualCpus + compute.getVirtualCpu().getNumVirtualCpu();
-				}
-				for (final TelemetryMetricsResult action : allHostMetrics.getTelemetryMetricsResult()) {
-					if (action.getValue() == 0.0) {
-						continue;
-					}
-					LOG.trace(POSTGRESQL_RECEIVE, action);
-					final VnfIndicatorMonitoringData data = vnfIndicatorMonitoringDataJpa.findByKeyAndVnfcId(allHostMetrics.getMetricName(), UUID.fromString(action.getVnfcId()));
-					if ((data != null) && (existingVnfIndicatorValue != null)) {
-						final double deltaCpuUsage = action.getValue() - data.getValue();
-						if (deltaCpuUsage != 0.0) {
-							isMetricsUpdated = true;
-							metricsUpdatedTime = action.getTimestamp();
-							final Duration duration = Duration.between(existingVnfIndicatorValue.getTime(), action.getTimestamp());
-							deltaSeconds = duration.getSeconds();
-						} else {
-							isMetricsUpdated = false;
-						}
-						final double usageInSeconds = deltaCpuUsage / 1000000000L;
-						totalValue = totalValue + usageInSeconds;
-					} else {
-						isMetricsUpdated = true;
-						final double deltaCpuUsage = action.getValue();
-						metricsUpdatedTime = action.getTimestamp().truncatedTo(ChronoUnit.MINUTES);
-						deltaSeconds = 600;
-						final double usageInSeconds = deltaCpuUsage / 1000000000L;
-						totalValue = totalValue + usageInSeconds;
-					}
-					final VnfIndicatorMonitoringData data2 = new VnfIndicatorMonitoringData(allHostMetrics.getMetricName(), allHostMetrics.getMasterJobId(), action.getValue(), UUID.fromString(action.getVnfcId()));
-					vnfIndicatorMonitoringDataJpa.save(data2);
-				}
-				if (!isMetricsUpdated || (totalValue == 0.0) || (noOfVirtualCpus == 0) || (deltaSeconds == 0)) {
-					return;
-				}
-				averageValueByPercent = (totalValue / (noOfVirtualCpus * deltaSeconds)) * 100;
-			} else if ("memory.usage".equals(allHostMetrics.getTelemetryMetricsResult().get(0).getKey())) {
-				long totalMemorySize = 0L;
-				for (final VnfCompute compute : computes) {
-					totalMemorySize = totalMemorySize + compute.getVirtualMemory().getVirtualMemSize();
-				}
-				for (final TelemetryMetricsResult action : allHostMetrics.getTelemetryMetricsResult()) {
-					if (action.getValue() == 0.0) {
-						continue;
-					}
-					LOG.trace(POSTGRESQL_RECEIVE, action);
-					metricsUpdatedTime = action.getTimestamp();
-					final double bytesValue = action.getValue() * 1048576;
-					totalValue = totalValue + bytesValue;
-				}
-				if ((totalMemorySize == 0) || (totalValue == 0)) {
-					return;
-				}
-				averageValueByPercent = (totalValue / totalMemorySize) * 100;
-			} else {
-				averageValueByPercent = 0.0;
-			}
-			if ((existingVnfIndicatorValue != null) && !existingVnfIndicatorValue.getValue().equals(averageValueByPercent)) {
-				// vnf indicator value change notification should be sent.
-				LOG.info("{} indicator value changed to {}", allHostMetrics.getVnfInstanceId() + ":" + allHostMetrics.getMetricName(), averageValueByPercent);
-				eventManager.sendNotification(NotificationEvent.VNF_INDICATOR_VALUE_CHANGED, allHostMetrics.getVnfInstanceId(), Map.of("vnfIndicatorId", allHostMetrics.getMetricName(),
-						"value", String.valueOf(averageValueByPercent),
-						"vnfInstanceId", allHostMetrics.getVnfInstanceId().toString(),
-						"vnfdId", vnfInstance.getVnfdId()));
-			}
-			final VnfIndicatorValue vnfIndValue = new VnfIndicatorValue(allHostMetrics.getMetricName(), allHostMetrics.getMasterJobId(), metricsUpdatedTime, averageValueByPercent, allHostMetrics.getVnfInstanceId());
-			vnfIndicatorValueJpa.save(vnfIndValue);
+			doVnfIndicator(allHostMetrics);
 			return;
 		}
 		for (final TelemetryMetricsResult action : allHostMetrics.getTelemetryMetricsResult()) {
@@ -162,6 +86,86 @@ public class PostgresDataListener {
 			final MonitoringData entity = new MonitoringData(action.getKey(), action.getMasterJobId(), action.getTimestamp(), action.getValue(), action.getVnfcId(), action.isStatus());
 			monitoringDataJpa.save(entity);
 		}
+	}
+
+	private void doVnfIndicator(final AllHostMetrics allHostMetrics) {
+		double averageValueByPercent;
+		double totalValue = 0.0;
+		OffsetDateTime metricsUpdatedTime = OffsetDateTime.now();
+		final VnfInstance vnfInstance = vnfInstanceJpa.findById(allHostMetrics.getVnfInstanceId()).orElseThrow();
+		final Set<VnfCompute> computes = vnfInstance.getVnfPkg().getVnfCompute();
+		final VnfIndicatorValue existingVnfIndicatorValue = vnfIndicatorValueJpa.findByKeyAndVnfInstanceId(allHostMetrics.getMetricName(), allHostMetrics.getVnfInstanceId());
+		if ("cpu".equals(allHostMetrics.getTelemetryMetricsResult().get(0).getKey())) {
+			long noOfVirtualCpus = 0L;
+			boolean isMetricsUpdated = false;
+			long deltaSeconds = 0;
+			for (final VnfCompute compute : computes) {
+				noOfVirtualCpus = noOfVirtualCpus + compute.getVirtualCpu().getNumVirtualCpu();
+			}
+			for (final TelemetryMetricsResult action : allHostMetrics.getTelemetryMetricsResult()) {
+				if (action.getValue() == 0.0) {
+					continue;
+				}
+				LOG.trace(POSTGRESQL_RECEIVE, action);
+				final VnfIndicatorMonitoringData data = vnfIndicatorMonitoringDataJpa.findByKeyAndVnfcId(allHostMetrics.getMetricName(), UUID.fromString(action.getVnfcId()));
+				if ((data != null) && (existingVnfIndicatorValue != null)) {
+					final double deltaCpuUsage = action.getValue() - data.getValue();
+					if (deltaCpuUsage != 0.0) {
+						isMetricsUpdated = true;
+						metricsUpdatedTime = action.getTimestamp();
+						final Duration duration = Duration.between(existingVnfIndicatorValue.getTime(), action.getTimestamp());
+						deltaSeconds = duration.getSeconds();
+					} else {
+						isMetricsUpdated = false;
+					}
+					final double usageInSeconds = deltaCpuUsage / 1000000000L;
+					totalValue = totalValue + usageInSeconds;
+				} else {
+					isMetricsUpdated = true;
+					final double deltaCpuUsage = action.getValue();
+					metricsUpdatedTime = action.getTimestamp().truncatedTo(ChronoUnit.MINUTES);
+					deltaSeconds = 600;
+					final double usageInSeconds = deltaCpuUsage / 1000000000L;
+					totalValue = totalValue + usageInSeconds;
+				}
+				final VnfIndicatorMonitoringData data2 = new VnfIndicatorMonitoringData(allHostMetrics.getMetricName(), allHostMetrics.getMasterJobId(), action.getValue(), UUID.fromString(action.getVnfcId()));
+				vnfIndicatorMonitoringDataJpa.save(data2);
+			}
+			if (!isMetricsUpdated || (totalValue == 0.0) || (noOfVirtualCpus == 0) || (deltaSeconds == 0)) {
+				return;
+			}
+			averageValueByPercent = (totalValue / (noOfVirtualCpus * deltaSeconds)) * 100;
+		} else if ("memory.usage".equals(allHostMetrics.getTelemetryMetricsResult().get(0).getKey())) {
+			long totalMemorySize = 0L;
+			for (final VnfCompute compute : computes) {
+				totalMemorySize = totalMemorySize + compute.getVirtualMemory().getVirtualMemSize();
+			}
+			for (final TelemetryMetricsResult action : allHostMetrics.getTelemetryMetricsResult()) {
+				if (action.getValue() == 0.0) {
+					continue;
+				}
+				LOG.trace(POSTGRESQL_RECEIVE, action);
+				metricsUpdatedTime = action.getTimestamp();
+				final double bytesValue = action.getValue() * 1048576;
+				totalValue = totalValue + bytesValue;
+			}
+			if ((totalMemorySize == 0) || (totalValue == 0)) {
+				return;
+			}
+			averageValueByPercent = (totalValue / totalMemorySize) * 100;
+		} else {
+			averageValueByPercent = 0.0;
+		}
+		if ((existingVnfIndicatorValue != null) && !existingVnfIndicatorValue.getValue().equals(averageValueByPercent)) {
+			// vnf indicator value change notification should be sent.
+			LOG.info("{} indicator value changed to {}", allHostMetrics.getVnfInstanceId() + ":" + allHostMetrics.getMetricName(), averageValueByPercent);
+			eventManager.sendNotification(NotificationEvent.VNF_INDICATOR_VALUE_CHANGED, allHostMetrics.getVnfInstanceId(), Map.of("vnfIndicatorId", allHostMetrics.getMetricName(),
+					"value", String.valueOf(averageValueByPercent),
+					"vnfInstanceId", allHostMetrics.getVnfInstanceId().toString(),
+					"vnfdId", vnfInstance.getVnfdId()));
+		}
+		final VnfIndicatorValue vnfIndValue = new VnfIndicatorValue(allHostMetrics.getMetricName(), allHostMetrics.getMasterJobId(), metricsUpdatedTime, averageValueByPercent, allHostMetrics.getVnfInstanceId());
+		vnfIndicatorValueJpa.save(vnfIndValue);
 	}
 
 }
