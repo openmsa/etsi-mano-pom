@@ -141,21 +141,16 @@ public class PostgresDataListener {
 			mv = new MetricValue(averageValueByPercent, metricsUpdatedTime);
 		} else if ("memory.usage".equals(allHostMetrics.getTelemetryMetricsResult().get(0).getKey())) {
 			double averageValueByPercent;
-			OffsetDateTime metricsUpdatedTime = OffsetDateTime.now();
-			double totalValue = 0.0;
+			final OffsetDateTime metricsUpdatedTime = OffsetDateTime.now();
 			final long totalMemorySize = computes.stream()
 					.map(VnfCompute::getVirtualMemory)
 					.mapToLong(VirtualMemory::getVirtualMemSize)
 					.sum();
-			for (final TelemetryMetricsResult action : allHostMetrics.getTelemetryMetricsResult()) {
-				if (action.getValue() == 0.0) {
-					continue;
-				}
-				LOG.trace(POSTGRESQL_RECEIVE, action);
-				metricsUpdatedTime = action.getTimestamp();
-				final double bytesValue = action.getValue() * 1_048_576; // Mib
-				totalValue = totalValue + bytesValue;
-			}
+			final double totalValue = allHostMetrics.getTelemetryMetricsResult().stream()
+					.mapToDouble(TelemetryMetricsResult::getValue)
+					.filter(x -> x != 0.0d)
+					.map(this::toMiB)
+					.sum();
 			if ((totalMemorySize == 0) || (totalValue == 0)) {
 				return;
 			}
@@ -174,6 +169,10 @@ public class PostgresDataListener {
 		}
 		final VnfIndicatorValue vnfIndValue = new VnfIndicatorValue(allHostMetrics.getMetricName(), allHostMetrics.getMasterJobId(), mv.metricsUpdatedTime(), mv.averageValueByPercent(), allHostMetrics.getVnfInstanceId());
 		vnfIndicatorValueJpa.save(vnfIndValue);
+	}
+
+	private Double toMiB(final double x) {
+		return x * 1_048_576; // Mib;
 	}
 
 	record MetricValue(double averageValueByPercent, OffsetDateTime metricsUpdatedTime) {
