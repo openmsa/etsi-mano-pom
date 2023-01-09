@@ -92,12 +92,12 @@ public class PostgresDataListener {
 
 	private void doVnfIndicator(final AllHostMetrics allHostMetrics) {
 		double averageValueByPercent;
-		double totalValue = 0.0;
 		OffsetDateTime metricsUpdatedTime = OffsetDateTime.now();
 		final VnfInstance vnfInstance = vnfInstanceJpa.findById(allHostMetrics.getVnfInstanceId()).orElseThrow();
 		final Set<VnfCompute> computes = vnfInstance.getVnfPkg().getVnfCompute();
 		final VnfIndicatorValue existingVnfIndicatorValue = vnfIndicatorValueJpa.findByKeyAndVnfInstanceId(allHostMetrics.getMetricName(), allHostMetrics.getVnfInstanceId());
 		if ("cpu".equals(allHostMetrics.getTelemetryMetricsResult().get(0).getKey())) {
+			double totalValue = 0.0;
 			boolean isMetricsUpdated = false;
 			long deltaSeconds = 0;
 			final long noOfVirtualCpus = computes.stream()
@@ -138,6 +138,7 @@ public class PostgresDataListener {
 			}
 			averageValueByPercent = (totalValue / (noOfVirtualCpus * deltaSeconds)) * 100;
 		} else if ("memory.usage".equals(allHostMetrics.getTelemetryMetricsResult().get(0).getKey())) {
+			double totalValue = 0.0;
 			final long totalMemorySize = computes.stream()
 					.map(VnfCompute::getVirtualMemory)
 					.mapToLong(VirtualMemory::getVirtualMemSize)
