@@ -62,7 +62,6 @@ import com.ubiqube.etsi.mano.model.VnfInstantiate;
 import com.ubiqube.etsi.mano.model.VnfOperateRequest;
 import com.ubiqube.etsi.mano.model.VnfScaleRequest;
 import com.ubiqube.etsi.mano.model.VnfScaleToLevelRequest;
-import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.event.ActionType;
 import com.ubiqube.etsi.mano.service.event.EventManager;
@@ -80,8 +79,6 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 
 	private static final Logger LOG = LoggerFactory.getLogger(VnfInstanceLcmImpl.class);
 
-	private final VnfPackageRepository vnfPackageRepository;
-
 	private final VnfPackageService vnfPackageService;
 
 	private final EventManager eventManager;
@@ -98,10 +95,9 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 
 	private final ManoClientFactory manoClientFactory;
 
-	public VnfInstanceLcmImpl(final VnfPackageRepository vnfPackageRepository, final EventManager eventManager, final MapperFacade mapper, final VnfLcmService vnfLcmService,
+	public VnfInstanceLcmImpl(final EventManager eventManager, final MapperFacade mapper, final VnfLcmService vnfLcmService,
 			final VnfInstanceService vnfInstanceService, final VimManager vimManager, final VnfPackageService vnfPackageService,
 			final VnfInstanceServiceVnfm vnfInstanceServiceVnfm, final ManoClientFactory manoClientFactory) {
-		this.vnfPackageRepository = vnfPackageRepository;
 		this.eventManager = eventManager;
 		this.mapper = mapper;
 		this.vnfLcmService = vnfLcmService;
@@ -158,9 +154,9 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 		vnfLcmService.deleteByVnfInstance(vnfInstance);
 		vnfInstanceService.delete(vnfInstanceId);
 		if (!vnfInstanceService.isInstantiate(vnfInstance.getVnfPkg().getId())) {
-			final VnfPackage vnfPkg = vnfPackageRepository.get(vnfInstance.getVnfPkg().getId());
+			final VnfPackage vnfPkg = vnfPackageService.findById(vnfInstance.getVnfPkg().getId());
 			vnfPkg.setUsageState(PackageUsageState.NOT_IN_USE);
-			vnfPackageRepository.save(vnfPkg);
+			vnfPackageService.save(vnfPkg);
 		}
 		// VnfIdentitifierDeletionNotification NFVO + EM
 		eventManager.sendNotification(NotificationEvent.VNF_INSTANCE_DELETE, vnfInstance.getId(), Map.of());
@@ -172,7 +168,7 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 		ensureNotInstantiated(vnfInstance);
 		ensureNotLocked(vnfInstance);
 		final UUID vnfPkgId = vnfInstance.getVnfPkg().getId();
-		final VnfPackage vnfPkg = vnfPackageRepository.get(vnfPkgId);
+		final VnfPackage vnfPkg = vnfPackageService.findById(vnfPkgId);
 		ensureIsEnabled(vnfPkg);
 
 		if (null != instantiateVnfRequest.getVimConnectionInfo()) {
@@ -192,6 +188,7 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 		VnfBlueprint blueprint = vnfLcmService.createIntatiateOpOcc(vnfInstance);
 		instantiateVnfRequest.setExtManagedVirtualLinks(new ArrayList<ExternalManagedVirtualLink>());
 		mapper.map(instantiateVnfRequest, blueprint);
+		fixMapping(instantiateVnfRequest, blueprint);
 		blueprint.getParameters().setScaleStatus(extractScaleStaus(vnfPkg));
 		blueprint = vnfLcmService.save(blueprint);
 		eventManager.sendActionVnfm(ActionType.VNF_INSTANTIATE, blueprint.getId(), new HashMap<>());
@@ -199,7 +196,19 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 		return blueprint;
 	}
 
-	private Set<ScaleInfo> extractScaleStaus(final VnfPackage vnfPkg) {
+	private static void fixMapping(final VnfInstantiate instantiateVnfRequest, final VnfBlueprint blueprint) {
+		final Set<ExtManagedVirtualLinkDataEntity> res = instantiateVnfRequest.getExtManagedVirtualLinks().stream().map(x -> {
+			final ExtManagedVirtualLinkDataEntity emvde = new ExtManagedVirtualLinkDataEntity();
+			emvde.setId(x.getId());
+			emvde.setResourceId(x.getResourceId());
+			emvde.setVimConnectionId(x.getVimId());
+			emvde.setVnfVirtualLinkDescId(x.getVnfVirtualLinkDescId());
+			return emvde;
+		}).collect(Collectors.toSet());
+		blueprint.getParameters().setExtManagedVirtualLinks(res);
+	}
+
+	private static Set<ScaleInfo> extractScaleStaus(final VnfPackage vnfPkg) {
 		return vnfPkg.getVnfCompute().stream()
 				.flatMap(x -> x.getScalingAspectDeltas().stream())
 				.map(VnfComputeAspectDelta::getAspectName)
