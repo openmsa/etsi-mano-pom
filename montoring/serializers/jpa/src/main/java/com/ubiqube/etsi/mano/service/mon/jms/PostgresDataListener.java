@@ -158,16 +158,28 @@ public class PostgresDataListener {
 		} else {
 			mv = new MetricValue(0.0, OffsetDateTime.now());
 		}
-		if ((existingVnfIndicatorValue != null) && !existingVnfIndicatorValue.getValue().equals(mv.averageValueByPercent())) {
+		eventIfNeeded(allHostMetrics, mv, vnfInstance, existingVnfIndicatorValue);
+		storeMetric(allHostMetrics, mv);
+	}
+
+	private void storeMetric(final AllHostMetrics allHostMetrics, final MetricValue mv) {
+		final VnfIndicatorValue vnfIndValue = new VnfIndicatorValue(allHostMetrics.getMetricName(), allHostMetrics.getMasterJobId(), mv.metricsUpdatedTime(), mv.averageValueByPercent(), allHostMetrics.getVnfInstanceId());
+		vnfIndicatorValueJpa.save(vnfIndValue);
+	}
+
+	private void eventIfNeeded(final AllHostMetrics allHostMetrics, final MetricValue mv, final VnfInstance vnfInstance, final VnfIndicatorValue existingVnfIndicatorValue) {
+		if (metricHaveChanged(mv, existingVnfIndicatorValue)) {
 			// vnf indicator value change notification should be sent.
-			LOG.info("{} indicator value changed to {}", allHostMetrics.getVnfInstanceId() + ":" + allHostMetrics.getMetricName(), mv.averageValueByPercent());
+			LOG.info("{}:{} indicator value changed to {}", allHostMetrics.getVnfInstanceId(), allHostMetrics.getMetricName(), mv.averageValueByPercent());
 			eventManager.sendNotification(NotificationEvent.VNF_INDICATOR_VALUE_CHANGED, allHostMetrics.getVnfInstanceId(), Map.of("vnfIndicatorId", allHostMetrics.getMetricName(),
 					"value", String.valueOf(mv.averageValueByPercent()),
 					"vnfInstanceId", allHostMetrics.getVnfInstanceId().toString(),
 					"vnfdId", vnfInstance.getVnfdId()));
 		}
-		final VnfIndicatorValue vnfIndValue = new VnfIndicatorValue(allHostMetrics.getMetricName(), allHostMetrics.getMasterJobId(), mv.metricsUpdatedTime(), mv.averageValueByPercent(), allHostMetrics.getVnfInstanceId());
-		vnfIndicatorValueJpa.save(vnfIndValue);
+	}
+
+	private boolean metricHaveChanged(final MetricValue mv, final VnfIndicatorValue existingVnfIndicatorValue) {
+		return (existingVnfIndicatorValue != null) && !existingVnfIndicatorValue.getValue().equals(mv.averageValueByPercent());
 	}
 
 	private Double toMiB(final double x) {
