@@ -96,7 +96,6 @@ public class PostgresDataListener {
 		final Set<VnfCompute> computes = vnfInstance.getVnfPkg().getVnfCompute();
 		final VnfIndicatorValue existingVnfIndicatorValue = vnfIndicatorValueJpa.findByKeyAndVnfInstanceId(allHostMetrics.getMetricName(), allHostMetrics.getVnfInstanceId());
 		if ("cpu".equals(allHostMetrics.getTelemetryMetricsResult().get(0).getKey())) {
-			double averageValueByPercent;
 			OffsetDateTime metricsUpdatedTime = OffsetDateTime.now();
 			double totalValue = 0.0;
 			boolean isMetricsUpdated = false;
@@ -137,7 +136,7 @@ public class PostgresDataListener {
 			if (!isMetricsUpdated || (totalValue == 0.0) || (noOfVirtualCpus == 0) || (deltaSeconds == 0)) {
 				return;
 			}
-			averageValueByPercent = (totalValue / (noOfVirtualCpus * deltaSeconds)) * 100;
+			final double averageValueByPercent = (totalValue / (noOfVirtualCpus * deltaSeconds)) * 100;
 			mv = new MetricValue(averageValueByPercent, metricsUpdatedTime);
 		} else if ("memory.usage".equals(allHostMetrics.getTelemetryMetricsResult().get(0).getKey())) {
 			double averageValueByPercent;
@@ -172,7 +171,7 @@ public class PostgresDataListener {
 	}
 
 	private Double toMiB(final double x) {
-		return x * 1_048_576; // Mib;
+		return x * 1_048_576; // Mib
 	}
 
 	record MetricValue(double averageValueByPercent, OffsetDateTime metricsUpdatedTime) {
