@@ -50,6 +50,7 @@ import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.MultipartBodyBuilder;
@@ -68,6 +69,7 @@ import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.ClientResponse;
+import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunctions;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClient.Builder;
@@ -127,7 +129,8 @@ public class FluxRest {
 		final ClientHttpConnector conn = new ReactorClientHttpConnector(httpClient);
 		wcb.clientConnector(conn);
 		createAuthPart(wcb, server.getAuthentification());
-		wcb.baseUrl(rootUrl);
+		wcb.baseUrl(rootUrl)
+				.filter(errorHandler());
 		return wcb;
 	}
 
@@ -345,6 +348,16 @@ public class FluxRest {
 		}
 		Optional.ofNullable(headers.get(VERSION)).ifPresent(x -> wc.header(VERSION, x));
 		return wc;
+	}
+
+	private static ExchangeFilterFunction errorHandler() {
+		return ExchangeFilterFunction.ofResponseProcessor(cr -> {
+			final HttpStatus status = cr.statusCode();
+			if (status.is5xxServerError() || status.is4xxClientError()) {
+				return cr.bodyToMono(String.class).flatMap(x -> Mono.error(() -> new GenericException(x)));
+			}
+			return Mono.just(cr);
+		});
 	}
 
 	private final <T> T innerCall(final URI uri, final HttpMethod method, final Object requestObject, final Class<T> clazz, final Map<String, String> headers) {
