@@ -91,12 +91,13 @@ public class PostgresDataListener {
 	}
 
 	private void doVnfIndicator(final AllHostMetrics allHostMetrics) {
-		double averageValueByPercent;
-		OffsetDateTime metricsUpdatedTime = OffsetDateTime.now();
+		MetricValue mv;
 		final VnfInstance vnfInstance = vnfInstanceJpa.findById(allHostMetrics.getVnfInstanceId()).orElseThrow();
 		final Set<VnfCompute> computes = vnfInstance.getVnfPkg().getVnfCompute();
 		final VnfIndicatorValue existingVnfIndicatorValue = vnfIndicatorValueJpa.findByKeyAndVnfInstanceId(allHostMetrics.getMetricName(), allHostMetrics.getVnfInstanceId());
 		if ("cpu".equals(allHostMetrics.getTelemetryMetricsResult().get(0).getKey())) {
+			double averageValueByPercent;
+			OffsetDateTime metricsUpdatedTime = OffsetDateTime.now();
 			double totalValue = 0.0;
 			boolean isMetricsUpdated = false;
 			long deltaSeconds = 0;
@@ -137,7 +138,10 @@ public class PostgresDataListener {
 				return;
 			}
 			averageValueByPercent = (totalValue / (noOfVirtualCpus * deltaSeconds)) * 100;
+			mv = new MetricValue(averageValueByPercent, metricsUpdatedTime);
 		} else if ("memory.usage".equals(allHostMetrics.getTelemetryMetricsResult().get(0).getKey())) {
+			double averageValueByPercent;
+			OffsetDateTime metricsUpdatedTime = OffsetDateTime.now();
 			double totalValue = 0.0;
 			final long totalMemorySize = computes.stream()
 					.map(VnfCompute::getVirtualMemory)
@@ -156,19 +160,23 @@ public class PostgresDataListener {
 				return;
 			}
 			averageValueByPercent = (totalValue / totalMemorySize) * 100;
+			mv = new MetricValue(averageValueByPercent, metricsUpdatedTime);
 		} else {
-			averageValueByPercent = 0.0;
+			mv = new MetricValue(0.0, OffsetDateTime.now());
 		}
-		if ((existingVnfIndicatorValue != null) && !existingVnfIndicatorValue.getValue().equals(averageValueByPercent)) {
+		if ((existingVnfIndicatorValue != null) && !existingVnfIndicatorValue.getValue().equals(mv.averageValueByPercent())) {
 			// vnf indicator value change notification should be sent.
-			LOG.info("{} indicator value changed to {}", allHostMetrics.getVnfInstanceId() + ":" + allHostMetrics.getMetricName(), averageValueByPercent);
+			LOG.info("{} indicator value changed to {}", allHostMetrics.getVnfInstanceId() + ":" + allHostMetrics.getMetricName(), mv.averageValueByPercent());
 			eventManager.sendNotification(NotificationEvent.VNF_INDICATOR_VALUE_CHANGED, allHostMetrics.getVnfInstanceId(), Map.of("vnfIndicatorId", allHostMetrics.getMetricName(),
-					"value", String.valueOf(averageValueByPercent),
+					"value", String.valueOf(mv.averageValueByPercent()),
 					"vnfInstanceId", allHostMetrics.getVnfInstanceId().toString(),
 					"vnfdId", vnfInstance.getVnfdId()));
 		}
-		final VnfIndicatorValue vnfIndValue = new VnfIndicatorValue(allHostMetrics.getMetricName(), allHostMetrics.getMasterJobId(), metricsUpdatedTime, averageValueByPercent, allHostMetrics.getVnfInstanceId());
+		final VnfIndicatorValue vnfIndValue = new VnfIndicatorValue(allHostMetrics.getMetricName(), allHostMetrics.getMasterJobId(), mv.metricsUpdatedTime(), mv.averageValueByPercent(), allHostMetrics.getVnfInstanceId());
 		vnfIndicatorValueJpa.save(vnfIndValue);
 	}
 
+	record MetricValue(double averageValueByPercent, OffsetDateTime metricsUpdatedTime) {
+		//
+	}
 }
