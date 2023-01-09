@@ -16,68 +16,24 @@
  */
 package com.ubiqube.etsi.mano.service.cond;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
-import org.junit.jupiter.api.Test;
-
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.ubiqube.etsi.mano.service.cond.ast.AttrHolderExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.BooleanExpression;
 import com.ubiqube.etsi.mano.service.cond.ast.BooleanListExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.ConditionExpr;
-import com.ubiqube.etsi.mano.service.cond.visitor.BooleanListExprRemoverVisitor;
-import com.ubiqube.etsi.mano.service.cond.visitor.ClikeWriterVisitor;
-import com.ubiqube.etsi.mano.service.cond.visitor.EvaluatorVisitor;
-import com.ubiqube.etsi.mano.service.cond.visitor.ForwardLeftVisitor;
-import com.ubiqube.etsi.mano.service.cond.visitor.OptimizeVisitor;
-import com.ubiqube.etsi.mano.service.cond.visitor.PrintVisitor;
-import com.ubiqube.etsi.mano.service.cond.visitor.RemoveSpecialOpVisitor;
 
-class ConditionParserTest {
-	private static final List<String> conditions = List.of("and", "or", "not", "assert");
-	private static final List<String> operators = List.of("equal", "greater_than", "greater_or_equal", "less_than", "less_or_equal", "in_range", "valid_values", "length", "min_length", "max_length", "pattern", "schema");
+public class JsonToExpression {
+	private static final List<String> CONDITIONS = List.of("and", "or", "not", "assert");
+	private static final List<String> OPERATORS = List.of("equal", "greater_than", "greater_or_equal", "less_than", "less_or_equal", "in_range", "valid_values", "length", "min_length", "max_length", "pattern", "schema");
 
-	@Test
-	void testName() throws Exception {
-		final ToStringVisitor tsv = new ToStringVisitor();
-		final String cond4 = "[{\"or\":[{\"my_attribute\":[{\"equal\":\"my_value\"}]},{\"my_other_attribute\":[{\"equal\":\"my_other_value\"}]},{\"and\":[{\"my_second\":[{\"less_than\":2},{\"not\":[{\"equal\":0}]}]},{\"another\":[{\"length\":5}]},{\"aaa\":[{\"pattern\":\"^.*$\"}]},{\"aab\":[{\"min_length\":8}]},{\"aac\":[{\"max_length\":8},{\"less_or_equal\":99}]},{\"aad\":[{\"greater_than\":99},{\"greater_or_equal\":5},{\"less_than\":5}]},{\"not\":[{\"four\":[{\"equal\":5.55}]},{\"five\":[{\"in_range\":[1,10]}]}]}]}]}]";
-		final ObjectMapper mapper = new ObjectMapper();
-		final JsonNode actualObj = mapper.readTree(cond4);
-		final List<BooleanExpression> res = JsonToExpression.parseCondition(actualObj);
-		final BooleanListExpr r = new BooleanListExpr(BooleanOperatorEnum.AND, res);
-		tsv.visit(r, null);
-		Node root = r;
-		final PrintVisitor visitor = new PrintVisitor();
-		final String str = root.accept(visitor, 0);
-		System.out.println("Initial\n" + str);
-		// root = applyOptimizer(new SwapNotVisitor(), root);
-		root = applyOptimizer(new ForwardLeftVisitor(), root);
-		root = applyOptimizer(new OptimizeVisitor(), root);
-		root = applyOptimizer(new OptimizeVisitor(), root);
-		root = applyOptimizer(new BooleanListExprRemoverVisitor(), root);
-		root = applyOptimizer(new RemoveSpecialOpVisitor(), root);
-		tsv.visit(r, null);
-		final ClikeWriterVisitor clike = new ClikeWriterVisitor();
-		final String c = root.accept(clike, null);
-		assertNotNull(c);
-		System.out.println(c);
-		final EvaluatorVisitor eval = new EvaluatorVisitor();
-		root.accept(eval, new TestContext());
-	}
-
-	static <A> Node applyOptimizer(final Visitor<Node, A> v, final Node node) {
-		final Node ret = node.accept(v, null);
-		final PrintVisitor visitor = new PrintVisitor();
-		final String str = ret.accept(visitor, 0);
-		System.out.println("Applying " + v.getClass().getSimpleName() + "\n" + str);
-		return ret;
+	private JsonToExpression() {
+		//
 	}
 
 	/**
@@ -87,7 +43,7 @@ class ConditionParserTest {
 	 * @param actualObj
 	 * @return
 	 */
-	static List<BooleanExpression> parseCondition(final JsonNode actualObj) {
+	public static List<BooleanExpression> parseCondition(final JsonNode actualObj) {
 		if (actualObj.isArray()) {
 			return parseArrayCondition((ArrayNode) actualObj);
 		}
@@ -101,7 +57,7 @@ class ConditionParserTest {
 		final List<BooleanExpression> ret = new ArrayList<>();
 		for (final JsonNode jsonNode : actualObj) {
 			final Entry<String, JsonNode> field = jsonNode.fields().next();
-			if (conditions.contains(field.getKey())) {
+			if (CONDITIONS.contains(field.getKey())) {
 				// Read Condition.
 				ret.add(readBinaryCondition(field));
 			} else {
@@ -149,7 +105,6 @@ class ConditionParserTest {
 			final ConditionExpr ret = handleCondition(key, jsonNode.getValue());
 			return List.of(ret);
 		}
-		System.out.println("Object: " + jsonNode.getKey());
 		final List<BooleanExpression> val = handleValue(jsonNode.getValue());
 		final BooleanOperatorEnum op = "not".equals(key) ? BooleanOperatorEnum.NOT : BooleanOperatorEnum.AND;
 		return List.of(new BooleanListExpr(op, val));
@@ -185,6 +140,7 @@ class ConditionParserTest {
 	}
 
 	static boolean isOperator(final String name) {
-		return operators.contains(name);
+		return OPERATORS.contains(name);
 	}
+
 }

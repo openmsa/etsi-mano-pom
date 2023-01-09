@@ -25,4 +25,8 @@ public class AstException extends RuntimeException {
 		super(message);
 	}
 
+	public AstException(final Throwable e) {
+		super(e);
+	}
+
 }
