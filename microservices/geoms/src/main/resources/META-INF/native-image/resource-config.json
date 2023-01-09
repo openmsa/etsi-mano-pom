@@ -1,0 +1,17 @@
+{
+	"resources": {
+		"includes": [
+			{
+				"pattern": "worldcities.csv"
+			}
+		]
+	},
+	"bundles": [
+		{
+			"name": "opencsv",
+			"locales": [
+				"en"
+			]
+		}
+	]
+}

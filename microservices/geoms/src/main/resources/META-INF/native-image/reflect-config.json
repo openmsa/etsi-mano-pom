@@ -1,0 +1,38 @@
+[
+	{
+		"name": "org.apache.lucene.index.ConcurrentMergeScheduler",
+		"queryAllDeclaredConstructors": true,
+		"queryAllPublicConstructors": true,
+		"queryAllDeclaredMethods": true,
+		"queryAllPublicMethods": true,
+		"allDeclaredClasses": true,
+		"allPublicClasses": true
+	},
+	{
+		"name": "org.apache.lucene.index.SegmentReader",
+		"queryAllDeclaredConstructors": true,
+		"queryAllPublicConstructors": true,
+		"queryAllDeclaredMethods": true,
+		"queryAllPublicMethods": true,
+		"allDeclaredClasses": true,
+		"allPublicClasses": true
+	},
+	{
+		"name": "org.apache.lucene.index.IndexWriter",
+		"queryAllDeclaredConstructors": true,
+		"queryAllPublicConstructors": true,
+		"queryAllDeclaredMethods": true,
+		"queryAllPublicMethods": true,
+		"allDeclaredClasses": true,
+		"allPublicClasses": true
+	},
+	{
+		"name": "com.ubiqube.mano.geoms.beans.GeoFile",
+		"queryAllDeclaredConstructors": true,
+		"queryAllPublicConstructors": true,
+		"queryAllDeclaredMethods": true,
+		"queryAllPublicMethods": true,
+		"allDeclaredClasses": true,
+		"allPublicClasses": true
+	}
+]
