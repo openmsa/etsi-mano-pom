@@ -32,6 +32,13 @@ import com.ubiqube.etsi.mano.service.cond.ast.AttrHolderExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.BooleanExpression;
 import com.ubiqube.etsi.mano.service.cond.ast.BooleanListExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.ConditionExpr;
+import com.ubiqube.etsi.mano.service.cond.visitor.BooleanListExprRemoverVisitor;
+import com.ubiqube.etsi.mano.service.cond.visitor.ClikeWriterVisitor;
+import com.ubiqube.etsi.mano.service.cond.visitor.EvaluatorVisitor;
+import com.ubiqube.etsi.mano.service.cond.visitor.ForwardLeftVisitor;
+import com.ubiqube.etsi.mano.service.cond.visitor.OptimizeVisitor;
+import com.ubiqube.etsi.mano.service.cond.visitor.PrintVisitor;
+import com.ubiqube.etsi.mano.service.cond.visitor.RemoveSpecialOpVisitor;
 
 class ConditionParserTest {
 	private static final List<String> conditions = List.of("and", "or", "not", "assert");

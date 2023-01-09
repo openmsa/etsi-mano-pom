@@ -1,0 +1,4 @@
+condition:
+  - vnf_1_utilization_vnf_indicator: [ { greater_or_equal: 80.0 } ]
+  - vnf_2_utilization_vnf_indicator: [ { greater_or_equal: 80.0 } ]
+  - call_proc_scale_level: [ { less_than: 2 } ]

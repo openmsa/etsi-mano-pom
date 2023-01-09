@@ -14,11 +14,14 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service.cond;
+package com.ubiqube.etsi.mano.service.cond.visitor;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ubiqube.etsi.mano.service.cond.BooleanOperatorEnum;
+import com.ubiqube.etsi.mano.service.cond.Node;
+import com.ubiqube.etsi.mano.service.cond.SimpleNodeReturn;
 import com.ubiqube.etsi.mano.service.cond.ast.AttrHolderExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.BooleanExpression;
 import com.ubiqube.etsi.mano.service.cond.ast.BooleanListExpr;
