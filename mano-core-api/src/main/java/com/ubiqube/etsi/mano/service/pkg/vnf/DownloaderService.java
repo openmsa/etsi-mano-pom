@@ -82,25 +82,24 @@ public class DownloaderService {
 	}
 
 	public void doDownload(final List<SoftwareImage> sws, final UUID vnfPkgId) {
-		try (final ThreadPoolExecutor tpe = (ThreadPoolExecutor) Executors.newFixedThreadPool(5)) {
-			final LazyTraceExecutor executor = LazyTraceExecutor.wrap(beanFactory, tpe);
-			final CompletionService<String> completionService = new ExecutorCompletionService<>(executor);
-			final List<Future<String>> all = new ArrayList<>();
-			sws.forEach(x -> {
-				final Future<String> res = completionService.submit(() -> doDownload(x, vnfPkgId));
-				all.add(res);
-			});
-			final Throwable ex = waitForCompletion(completionService, all);
-			tpe.shutdown();
-			try {
-				tpe.awaitTermination(5, TimeUnit.MINUTES);
-			} catch (final InterruptedException e) {
-				Thread.currentThread().interrupt();
-				throw new VimException(e);
-			}
-			if (null != ex) {
-				throw new VimException(ex);
-			}
+		final ThreadPoolExecutor tpe = (ThreadPoolExecutor) Executors.newFixedThreadPool(5);
+		final LazyTraceExecutor executor = LazyTraceExecutor.wrap(beanFactory, tpe);
+		final CompletionService<String> completionService = new ExecutorCompletionService<>(executor);
+		final List<Future<String>> all = new ArrayList<>();
+		sws.forEach(x -> {
+			final Future<String> res = completionService.submit(() -> doDownload(x, vnfPkgId));
+			all.add(res);
+		});
+		final Throwable ex = waitForCompletion(completionService, all);
+		tpe.shutdown();
+		try {
+			tpe.awaitTermination(5, TimeUnit.MINUTES);
+		} catch (final InterruptedException e) {
+			Thread.currentThread().interrupt();
+			throw new VimException(e);
+		}
+		if (null != ex) {
+			throw new VimException(ex);
 		}
 	}
 
