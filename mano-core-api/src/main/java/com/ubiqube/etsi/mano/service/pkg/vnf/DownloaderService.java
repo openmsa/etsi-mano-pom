@@ -29,9 +29,9 @@ import java.util.UUID;
 import java.util.concurrent.CompletionService;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorCompletionService;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -39,6 +39,8 @@ import java.util.function.Function;
 import org.apache.commons.io.input.CountingInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.cloud.sleuth.instrument.async.LazyTraceExecutor;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.MediaType;
@@ -72,28 +74,33 @@ public class DownloaderService {
 
 	private final VnfPackageRepository packageRepository;
 
-	public DownloaderService(final VnfPackageRepository packageRepository) {
+	private final BeanFactory beanFactory;
+
+	public DownloaderService(final VnfPackageRepository packageRepository, final BeanFactory beanFactory) {
 		this.packageRepository = packageRepository;
+		this.beanFactory = beanFactory;
 	}
 
 	public void doDownload(final List<SoftwareImage> sws, final UUID vnfPkgId) {
-		final ExecutorService executor = Executors.newFixedThreadPool(5);
-		final CompletionService<String> completionService = new ExecutorCompletionService<>(executor);
-		final List<Future<String>> all = new ArrayList<>();
-		sws.forEach(x -> {
-			final Future<String> res = completionService.submit(() -> doDownload(x, vnfPkgId));
-			all.add(res);
-		});
-		final Throwable ex = waitForCompletion(completionService, all);
-		executor.shutdown();
-		try {
-			executor.awaitTermination(5, TimeUnit.MINUTES);
-		} catch (final InterruptedException e) {
-			Thread.currentThread().interrupt();
-			throw new VimException(e);
-		}
-		if (null != ex) {
-			throw new VimException(ex);
+		try (final ThreadPoolExecutor tpe = (ThreadPoolExecutor) Executors.newFixedThreadPool(5)) {
+			final LazyTraceExecutor executor = LazyTraceExecutor.wrap(beanFactory, tpe);
+			final CompletionService<String> completionService = new ExecutorCompletionService<>(executor);
+			final List<Future<String>> all = new ArrayList<>();
+			sws.forEach(x -> {
+				final Future<String> res = completionService.submit(() -> doDownload(x, vnfPkgId));
+				all.add(res);
+			});
+			final Throwable ex = waitForCompletion(completionService, all);
+			tpe.shutdown();
+			try {
+				tpe.awaitTermination(5, TimeUnit.MINUTES);
+			} catch (final InterruptedException e) {
+				Thread.currentThread().interrupt();
+				throw new VimException(e);
+			}
+			if (null != ex) {
+				throw new VimException(ex);
+			}
 		}
 	}
 
