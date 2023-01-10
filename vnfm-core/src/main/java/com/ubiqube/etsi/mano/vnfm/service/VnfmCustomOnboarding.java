@@ -22,6 +22,8 @@ import java.io.InputStream;
 import java.nio.file.Paths;
 import java.util.function.Consumer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +46,8 @@ import com.ubiqube.etsi.mano.service.rest.ManoClientFactory;
 @Service
 @ConditionalOnMissingBean(value = NfvoService.class)
 public class VnfmCustomOnboarding implements CustomOnboarding {
+	private static final Logger LOG = LoggerFactory.getLogger(VnfmCustomOnboarding.class);
+
 	private final VnfPackageRepository repo;
 	private final ManoClientFactory factory;
 
@@ -60,6 +64,7 @@ public class VnfmCustomOnboarding implements CustomOnboarding {
 						return;
 					}
 					final ManoClient cli = factory.getClient(vnfPackage.getServer());
+					LOG.info("Downloading artifact: {}", x.getArtifactPath());
 					final Consumer<InputStream> tgt = y -> repo.storeBinary(vnfPackage.getId(), Paths.get(Constants.REPOSITORY_FOLDER_ARTIFACTS, x.getArtifactPath()).toString(), y);
 					cli.vnfPackage()
 							.onboarded(getSafeUUID(vnfPackage.getVnfdId()))
