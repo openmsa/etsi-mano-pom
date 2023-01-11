@@ -31,7 +31,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ubiqube.etsi.mano.em.v331.model.vnfconfig.ProblemDetails;
@@ -127,7 +126,7 @@ public interface VnfLcmOpOccs331Sol002Api {
 			@ApiResponse(responseCode = "500", description = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "503", description = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "504", description = "504 GATEWAY TIMEOUT If the API producer encounters a timeout while waiting for a response from an upstream server (i.e. a server that the API producer communicates with when fulfilling a request), it should respond with this response code. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))) })
-	@RequestMapping(value = "/vnf_lcm_op_occs/{vnfLcmOpOccId}", produces = { "application/json" }, method = RequestMethod.GET)
+            @GetMapping(value = "/vnf_lcm_op_occs/{vnfLcmOpOccId}", produces = {"application/json"})
 	ResponseEntity<VnfLcmOpOcc> vnfLcmOpOccsVnfLcmOpOccIdGet(
 			@Parameter(in = ParameterIn.PATH, description = "Identifier of a VNF lifecycle management operation occurrence. This identifier can be retrieved from the resource referenced by the \"Location\" HTTP header in the response to a PATCH or POST request triggering a VNF LCM operation. It can also be retrieved from the \"vnfLcmOpOccId\" attribute in the VnfLcmOperationOccurrenceNotification. ", required = true, schema = @Schema()) @PathVariable("vnfLcmOpOccId") final String vnfLcmOpOccId);
 
