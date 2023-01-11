@@ -101,7 +101,8 @@ public class NfvoCustomOnboarding implements CustomOnboarding {
 		if (null == artifact.getArtifactPath()) {
 			return;
 		}
-		if (cache.contains(artifact.getArtifactPath())) {
+		if (!cache.contains(artifact.getArtifactPath())) {
+			cache.add(artifact.getArtifactPath());
 			addEntry(zipOut, artifact.getArtifactPath());
 			final DownloadResult hash = copyFile(zipOut, vnfPackageReader, id, artifact.getArtifactPath());
 			setHash(artifact, hash);
