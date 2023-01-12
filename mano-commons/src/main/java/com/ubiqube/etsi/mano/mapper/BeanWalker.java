@@ -66,6 +66,7 @@ public class BeanWalker {
 		final PropertyDescriptor[] clspd = cls.getPropertyDescriptors();
 		if (!isComplex(source.getClass())) {
 			beanListener.addProperty(source);
+			return;
 		}
 		for (final PropertyDescriptor propertyDescriptor : clspd) {
 			if (isInternal(propertyDescriptor)) {
@@ -141,10 +142,7 @@ public class BeanWalker {
 	}
 
 	private boolean isContainer(final Class<?> clazz) {
-		if (clazz.getName().contentEquals("java.util.List")) {
-			return true;
-		}
-		if (clazz.getName().contentEquals("java.util.Map")) {
+		if (clazz.getName().contentEquals("java.util.List") || clazz.getName().contentEquals("java.util.Map")) {
 			return true;
 		}
 		if (simpleTypes.contains(clazz.getName())) {
