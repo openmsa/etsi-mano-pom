@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.service.cond.visitor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.ubiqube.etsi.mano.service.cond.AstException;
@@ -35,10 +36,13 @@ public class BooleanListExprRemoverVisitor extends SimpleNodeReturn<BooleanOpera
 
 	@Override
 	public Node visit(final BooleanListExpr booleanListExpr, final BooleanOperatorEnum arg) {
-		final List<BooleanExpression> conds = booleanListExpr.getCondition();
+		final List<BooleanExpression> conds = new ArrayList<>(booleanListExpr.getCondition());
 		Node root = null;
 		if (booleanListExpr.getOp() == BooleanOperatorEnum.NOT) {
 			return removeNot(booleanListExpr, arg);
+		}
+		if (conds.size() == 1) {
+			return conds.get(0);
 		}
 		while (!conds.isEmpty()) {
 			if (null == root) {
