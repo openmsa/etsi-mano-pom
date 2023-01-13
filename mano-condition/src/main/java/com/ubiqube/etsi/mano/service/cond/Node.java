@@ -16,6 +16,9 @@
  */
 package com.ubiqube.etsi.mano.service.cond;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.MINIMAL_CLASS)
 public interface Node extends Visitable {
 
 }
