@@ -19,8 +19,6 @@
 		<module>nfvo-webapp</module>
 		<module>vnfm-core</module>
 		<module>vnfm-webapp</module>
-		<module>mano-super-pom</module>
-		<module>mano-super-webapp</module>
 		<module>mano-auth</module>
 		<module>mano-core-api</module>
 		<module>mano-commons</module>
