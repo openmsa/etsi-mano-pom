@@ -58,7 +58,7 @@ public class PeerEntityService {
 
 	public ManoEntity getMe() {
 		final ManoEntity me = new ManoEntity();
-		// me.setCismSpecificInfo(null);
+		// me.setCismSpecificInfo(null)
 		me.setDescription(null);
 		final ManoEntityManoApplicationState state = new ManoEntityManoApplicationState();
 		state.setAdministrativeState(AdministrativeState.UNLOCKED);
@@ -120,14 +120,16 @@ public class PeerEntityService {
 		try {
 			final Resource[] res = pmrpr.getResources("classpath:tosca-class-*");
 			for (final Resource resource : res) {
-				final URLClassLoader urlLoader = URLClassLoader.newInstance(new URL[] { resource.getURL() }, this.getClass().getClassLoader());
-				final Properties props = new Properties();
-				final InputStream stream = urlLoader.getResourceAsStream("META-INF/tosca-resources.properties");
-				props.load(stream);
-				final SupportedPackageFormats spf = new SupportedPackageFormats();
-				spf.setStandardVersion(props.getProperty("version"));
-				spf.setVnfdFormat(VnfdFormatEnum.TOSCA);
-				ret.add(spf);
+				try (final URLClassLoader urlLoader = URLClassLoader.newInstance(new URL[] { resource.getURL() }, this.getClass().getClassLoader());
+						final InputStream stream = urlLoader.getResourceAsStream("META-INF/tosca-resources.properties")) {
+					final Properties props = new Properties();
+
+					props.load(stream);
+					final SupportedPackageFormats spf = new SupportedPackageFormats();
+					spf.setStandardVersion(props.getProperty("version"));
+					spf.setVnfdFormat(VnfdFormatEnum.TOSCA);
+					ret.add(spf);
+				}
 			}
 		} catch (final IOException e) {
 			throw new GenericException(e);
