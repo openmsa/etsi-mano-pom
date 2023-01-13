@@ -20,7 +20,7 @@ import java.util.List;
 
 import com.ubiqube.etsi.mano.service.cond.Visitor;
 
-public record ArrayValueExpr(List<Object> value) implements ValueExpr {
+public record ArrayValueExpr<U>(List<U> value) implements ValueExpr {
 
 	@Override
 	public <R, A> R accept(final Visitor<R, A> v, final A arg) {
