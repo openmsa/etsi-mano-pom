@@ -163,7 +163,7 @@ public class ServerService {
 
 	public String convertFeVersionToMano(final ApiVersionType verType, @Nullable final String version) {
 		if (version == null) {
-			return null;
+			return "2.6.1";
 		}
 		final Optional<Version> res = httpGateway.stream().filter(x -> x.isMatching(verType, version)).map(HttpGateway::getVersion).findFirst();
 		return res.map(Version::toString).orElse(null);
