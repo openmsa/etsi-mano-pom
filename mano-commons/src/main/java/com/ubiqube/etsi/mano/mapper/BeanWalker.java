@@ -43,9 +43,13 @@ public class BeanWalker {
 		simpleTypes.add("java.lang.String");
 		simpleTypes.add("java.lang.Class");
 		simpleTypes.add("java.lang.Integer");
+		simpleTypes.add("java.lang.Boolean");
+		simpleTypes.add("java.lang.Bytes");
 		simpleTypes.add("int");
 		simpleTypes.add("long");
 		simpleTypes.add("float");
+		simpleTypes.add("boolean");
+		simpleTypes.add("bytes");
 		simpleTypes.add("java.util.Date");
 	}
 
