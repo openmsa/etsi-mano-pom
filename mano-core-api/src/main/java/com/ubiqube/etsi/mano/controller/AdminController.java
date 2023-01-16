@@ -28,6 +28,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ubiqube.etsi.mano.service.GrantService;
@@ -46,6 +48,22 @@ public class AdminController {
 	public AdminController(final EventManager eventManager, final GrantService grantJpa) {
 		this.eventManager = eventManager;
 		this.grantService = grantJpa;
+	}
+
+	/**
+	 * Controller for testing subscriptions / notifications.
+	 */
+	@SuppressWarnings("static-method")
+	@GetMapping("/sink/**")
+	public ResponseEntity<Void> sink() {
+		return ResponseEntity.noContent().build();
+	}
+
+	@SuppressWarnings("static-method")
+	@PostMapping("/sink/**")
+	public ResponseEntity<String> sinkPost(@RequestBody final String body) {
+		LOG.info(body);
+		return ResponseEntity.ok(body);
 	}
 
 	@GetMapping(value = "/event/{event}/{id}")
