@@ -92,7 +92,7 @@ public class OrikaFilterMapper extends BidirectionalConverter<Object, List<Filte
 	public int hashCode() {
 		final int prime = 31;
 		final int result = super.hashCode();
-		return prime * result + Objects.hash(beanWalker, mapper);
+		return (prime * result) + Objects.hash(beanWalker, mapper);
 	}
 
 	@Override
@@ -100,10 +100,7 @@ public class OrikaFilterMapper extends BidirectionalConverter<Object, List<Filte
 		if (this == obj) {
 			return true;
 		}
-		if (!super.equals(obj)) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
+		if (!super.equals(obj) || (getClass() != obj.getClass())) {
 			return false;
 		}
 		final OrikaFilterMapper other = (OrikaFilterMapper) obj;
