@@ -136,10 +136,16 @@ public class EvaluatorVisitor implements Visitor<Boolean, Context> {
 
 	private Boolean evaluate(final Object lValue, final Object rValue, final Operator op) {
 		if (op == Operator.EQUAL) {
-			return lValue == rValue;
+			if (null == lValue) {
+				return true;
+			}
+			if (lValue instanceof Enum) {
+				return lValue.toString().equals(rValue);
+			}
+			return lValue.equals(rValue);
 		}
 		if (op == Operator.NOT) {
-			return lValue != rValue;
+			return !lValue.equals(rValue);
 		}
 		if ((op == Operator.LESS_THAN) || (op == Operator.LESS_OR_EQUAL) || (op == Operator.GREATER_OR_EQUAL) || (op == Operator.GREATER_THAN)) {
 			return compareNumber(lValue, rValue, op);

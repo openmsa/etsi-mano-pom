@@ -25,11 +25,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.BufferedImageHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 
+import com.ubiqube.etsi.mano.service.cond.ConditionService;
+
 /**
  *
  * @author olivier
  *
  */
+@SuppressWarnings("static-method")
 @Configuration
 public class GlobalConfiguraton {
 
@@ -41,4 +44,8 @@ public class GlobalConfiguraton {
 		return new BufferedImageHttpMessageConverter();
 	}
 
+	@Bean
+	public ConditionService conditionService() {
+		return new ConditionService();
+	}
 }

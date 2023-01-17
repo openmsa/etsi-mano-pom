@@ -30,6 +30,7 @@ import com.ubiqube.etsi.mano.controller.vnf.VnfSubscriptionManagement;
 import com.ubiqube.etsi.mano.controller.vnf.VnfSubscriptionSol005FrontController;
 import com.ubiqube.etsi.mano.dao.mano.common.ApiVersionType;
 import com.ubiqube.etsi.mano.service.ServerService;
+import com.ubiqube.etsi.mano.service.eval.EvalService;
 import com.ubiqube.etsi.mano.service.event.model.ApiTypesEnum;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
@@ -50,10 +51,14 @@ public class VnfSubscriptionSol005FrontControllerImpl implements VnfSubscription
 
 	private final ServerService serverService;
 
-	public VnfSubscriptionSol005FrontControllerImpl(final VnfSubscriptionManagement vnfSubscriptionManagement, final MapperFacade mapper, final ServerService serverService) {
+	private final EvalService evalService;
+
+	public VnfSubscriptionSol005FrontControllerImpl(final VnfSubscriptionManagement vnfSubscriptionManagement, final MapperFacade mapper, final ServerService serverService,
+			final EvalService evalService) {
 		this.vnfSubscriptionManagement = vnfSubscriptionManagement;
 		this.mapper = mapper;
 		this.serverService = serverService;
+		this.evalService = evalService;
 	}
 
 	@Override
@@ -67,6 +72,7 @@ public class VnfSubscriptionSol005FrontControllerImpl implements VnfSubscription
 	@Override
 	public <U> ResponseEntity<U> create(final Object subscriptionsPostQuery, final Class<?> version, final Class<U> clazz, final Consumer<U> makeLinks) {
 		Subscription subscription = mapper.map(subscriptionsPostQuery, Subscription.class);
+		subscription.setNodeFilter(evalService.convertRequestToString(subscriptionsPostQuery));
 		final String v = extractVersion(version);
 		final String nv = serverService.convertFeVersionToMano(ApiVersionType.SOL005_VNFPKGM, v);
 		subscription.setVersion(nv);

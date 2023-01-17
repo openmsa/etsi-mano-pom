@@ -16,6 +16,8 @@
  */
 package com.ubiqube.etsi.mano.service.cond.ast;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.service.cond.Node;
 import com.ubiqube.etsi.mano.service.cond.Operator;
 import com.ubiqube.etsi.mano.service.cond.Visitor;
@@ -27,7 +29,8 @@ public class GenericCondition implements ConditionExpr {
 
 	private Node right;
 
-	public GenericCondition(final Node left, final Operator op, final Node right) {
+	@JsonCreator
+	public GenericCondition(@JsonProperty("left") final Node left, @JsonProperty("op") final Operator op, @JsonProperty("right") final Node right) {
 		this.left = left;
 		this.op = op;
 		this.right = right;

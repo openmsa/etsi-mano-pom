@@ -21,6 +21,7 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -68,6 +69,7 @@ public class Subscription {
 	@Nullable
 	private AuthentificationInformations authentication;
 
+	@FullTextField
 	private String callbackUri;
 
 	@Enumerated(EnumType.STRING)
@@ -81,4 +83,6 @@ public class Subscription {
 
 	private String version;
 
+	@Column(length = 5000)
+	private String nodeFilter;
 }

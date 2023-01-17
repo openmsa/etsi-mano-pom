@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.utils;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -69,6 +70,15 @@ public class ReflectionUtils {
 		} catch (final NoSuchMethodException e) {
 			return null;
 		}
+	}
+
+	public static <U> U invoke(final Method meth, final Object obj, final Object... args) {
+		try {
+			return (U) meth.invoke(obj, args);
+		} catch (IllegalAccessException | InvocationTargetException e) {
+			throw new IllegalArgumentException(e);
+		}
+
 	}
 
 }

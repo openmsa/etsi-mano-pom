@@ -114,7 +114,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 				.toList();
 	}
 
-	private static String convert(final NotificationEvent notificationEvent) {
+	public static String convert(final NotificationEvent notificationEvent) {
 		return switch (notificationEvent) {
 		case VNF_PKG_ONBOARDING -> "VnfPackageOnboardingNotification";
 		case VNF_PKG_ONCHANGE, VNF_PKG_ONDELETION -> "VnfPackageChangeNotification";

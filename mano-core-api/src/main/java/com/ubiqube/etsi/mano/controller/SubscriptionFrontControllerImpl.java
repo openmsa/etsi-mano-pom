@@ -39,6 +39,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.ubiqube.etsi.mano.service.ServerService;
 import com.ubiqube.etsi.mano.service.SubscriptionService;
+import com.ubiqube.etsi.mano.service.eval.EvalService;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
 import com.ubiqube.etsi.mano.utils.Version;
@@ -63,10 +64,14 @@ public class SubscriptionFrontControllerImpl implements SubscriptionFrontControl
 
 	private final ServerService serverService;
 
-	public SubscriptionFrontControllerImpl(final SubscriptionService subscriptionService, final MapperFacade mapper, final ServerService serverService) {
+	private final EvalService evalService;
+
+	public SubscriptionFrontControllerImpl(final SubscriptionService subscriptionService, final MapperFacade mapper, final ServerService serverService,
+			final EvalService evalService) {
 		this.subscriptionService = subscriptionService;
 		this.mapper = mapper;
 		this.serverService = serverService;
+		this.evalService = evalService;
 	}
 
 	@Override
@@ -81,6 +86,7 @@ public class SubscriptionFrontControllerImpl implements SubscriptionFrontControl
 	@Override
 	public <U> ResponseEntity<U> create(final Object subscriptionRequest, final Class<U> clazz, final Consumer<U> makeLinks, final Function<U, String> getSelfLink, final SubscriptionType type) {
 		Subscription subscription = mapper.map(subscriptionRequest, Subscription.class);
+		subscription.setNodeFilter(evalService.convertRequestToString(subscriptionRequest));
 		subscription.setSubscriptionType(type);
 		setVersion(subscription);
 		subscription = subscriptionService.save(subscription, type);

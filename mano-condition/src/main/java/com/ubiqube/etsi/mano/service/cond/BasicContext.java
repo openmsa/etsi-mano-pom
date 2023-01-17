@@ -16,9 +16,19 @@
  */
 package com.ubiqube.etsi.mano.service.cond;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import java.util.Map;
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
-public interface Node extends Visitable {
+public class BasicContext implements Context {
+
+	private final Map<String, Object> context;
+
+	public BasicContext(final Map<String, Object> ctx) {
+		this.context = ctx;
+	}
+
+	@Override
+	public Object lookup(final String name) {
+		return context.get(name);
+	}
 
 }

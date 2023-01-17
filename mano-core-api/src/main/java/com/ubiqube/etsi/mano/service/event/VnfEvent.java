@@ -26,6 +26,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ubiqube.etsi.mano.service.HttpGateway;
 import com.ubiqube.etsi.mano.service.ServerService;
 import com.ubiqube.etsi.mano.service.SubscriptionService;
+import com.ubiqube.etsi.mano.service.SubscriptionServiceImpl;
+import com.ubiqube.etsi.mano.service.cond.Node;
+import com.ubiqube.etsi.mano.service.eval.EvalService;
 import com.ubiqube.etsi.mano.service.event.model.EventMessage;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
@@ -44,13 +47,15 @@ public class VnfEvent {
 	private final SubscriptionService subscriptionService;
 	private final Notifications notifications;
 	private final EventManager eventManager;
+	private final EvalService evalService;
 
 	public VnfEvent(final SubscriptionService subscriptionRepository, final Notifications notifications, final ServerService serverService,
-			final EventManager eventManager) {
+			final EventManager eventManager, final EvalService evalService) {
 		this.subscriptionService = subscriptionRepository;
 		this.notifications = notifications;
 		this.serverService = serverService;
 		this.eventManager = eventManager;
+		this.evalService = evalService;
 	}
 
 	public void sendNotification(final Subscription subscription, final EventMessage event) {
@@ -68,14 +73,25 @@ public class VnfEvent {
 	public void onEvent(final EventMessage ev) {
 		final List<Subscription> res = subscriptionService.selectNotifications(ev);
 		LOG.info("Event received: {}/{} with {} elements.", ev.getNotificationEvent(), ev.getObjectId(), res.size());
-		res.stream().forEach(x -> {
-			try {
-				final SubscriptionEvent se = SubscriptionEvent.builder().event(ev).subscription(x).build();
-				eventManager.notificationSender(se);
-			} catch (final RuntimeException e) {
-				LOG.error("Could not send notfication {}", x.getCallbackUri(), e);
-			}
-		});
+		res.stream()
+				.filter(x -> isMatching(x, ev))
+				.forEach(x -> {
+					try {
+						final SubscriptionEvent se = SubscriptionEvent.builder().event(ev).subscription(x).build();
+						eventManager.notificationSender(se);
+					} catch (final RuntimeException e) {
+						LOG.error("Could not send notfication {}", x.getCallbackUri(), e);
+					}
+				});
+	}
+
+	private boolean isMatching(final Subscription subscription, final EventMessage ev) {
+		final String filters = subscription.getNodeFilter();
+		if (null == filters) {
+			return true;
+		}
+		final Node nodes = evalService.convertStringToNode(filters);
+		return evalService.evaluate(nodes, ev.getObjectId(), subscription.getSubscriptionType(), SubscriptionServiceImpl.convert(ev.getNotificationEvent()));
 	}
 
 }

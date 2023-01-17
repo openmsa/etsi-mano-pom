@@ -17,6 +17,7 @@
 package com.ubiqube.mapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,6 +38,7 @@ import com.ubiqube.etsi.mano.common.v261.model.vnf.VnfPkgInfo;
 import com.ubiqube.etsi.mano.mapper.AttrHolder;
 import com.ubiqube.etsi.mano.mapper.BeanWalker;
 import com.ubiqube.etsi.mano.mapper.CollectNonNullListener;
+import com.ubiqube.etsi.mano.mapper.DebugListener;
 import com.ubiqube.etsi.mano.mapper.SpelWriter;
 import com.ubiqube.etsi.mano.service.event.model.FilterAttributes;
 
@@ -52,19 +54,7 @@ class BeanWalkerTest {
 
 	@Test
 	void testName() {
-		final PkgmSubscription subsJson = new PkgmSubscription();
-		subsJson.setCallbackUri("http://callbackUri/");
-		final PkgmNotificationsFilter filter = new PkgmNotificationsFilter();
-		filter.setNotificationTypes(Arrays.asList(NotificationTypesEnum.VnfPackageChangeNotification));
-		final List<PkgmNotificationsFilterVnfProductsFromProviders> vnfProductsFromProviders = new ArrayList<>();
-		final PkgmNotificationsFilterVnfProductsFromProviders subProv = new PkgmNotificationsFilterVnfProductsFromProviders();
-		subProv.addOperationalStateItem(PackageOperationalStateType.DISABLED);
-		vnfProductsFromProviders.add(subProv);
-		filter.setVnfProductsFromProviders(vnfProductsFromProviders);
-		subsJson.setFilter(filter);
-		subsJson.setId(UUID.fromString("96feacab-2765-4927-9bf5-883f6b566f36").toString());
-		final PkgmSubscriptionLinks links = new PkgmSubscriptionLinks();
-		subsJson.setLinks(links);
+		final PkgmSubscription subsJson = CreateSubscription();
 
 		final BeanWalker bw = new BeanWalker();
 		final CollectNonNullListener beanListener = new CollectNonNullListener();
@@ -88,6 +78,23 @@ class BeanWalkerTest {
 		assertEquals("96feacab-2765-4927-9bf5-883f6b566f36", swElem.getValue());
 	}
 
+	private PkgmSubscription CreateSubscription() {
+		final PkgmSubscription subsJson = new PkgmSubscription();
+		subsJson.setCallbackUri("http://callbackUri/");
+		final PkgmNotificationsFilter filter = new PkgmNotificationsFilter();
+		filter.setNotificationTypes(Arrays.asList(NotificationTypesEnum.VnfPackageChangeNotification));
+		final List<PkgmNotificationsFilterVnfProductsFromProviders> vnfProductsFromProviders = new ArrayList<>();
+		final PkgmNotificationsFilterVnfProductsFromProviders subProv = new PkgmNotificationsFilterVnfProductsFromProviders();
+		subProv.addOperationalStateItem(PackageOperationalStateType.DISABLED);
+		vnfProductsFromProviders.add(subProv);
+		filter.setVnfProductsFromProviders(vnfProductsFromProviders);
+		subsJson.setFilter(filter);
+		subsJson.setId(UUID.fromString("96feacab-2765-4927-9bf5-883f6b566f36").toString());
+		final PkgmSubscriptionLinks links = new PkgmSubscriptionLinks();
+		subsJson.setLinks(links);
+		return subsJson;
+	}
+
 	@Test
 	void testHashMap() {
 		final VnfPkgInfo subsJson = new VnfPkgInfo();
@@ -103,5 +110,15 @@ class BeanWalkerTest {
 		assertEquals(1, swRes.size());
 		final FilterAttributes sw0 = swRes.get(0);
 		assertEquals("userDefinedData[test]", sw0.getAttribute());
+	}
+
+	@Test
+	void testDebugWalker() {
+		final PkgmSubscription subsJson = CreateSubscription();
+
+		final BeanWalker bw = new BeanWalker();
+		final DebugListener beanListener = new DebugListener();
+		bw.walk(subsJson, beanListener);
+		assertTrue(true);
 	}
 }
