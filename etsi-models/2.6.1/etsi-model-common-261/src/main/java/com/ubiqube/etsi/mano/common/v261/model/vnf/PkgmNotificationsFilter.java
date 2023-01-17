@@ -91,10 +91,10 @@ public class PkgmNotificationsFilter {
 	private List<String> vnfPkgId = null;
 
 	@JsonProperty("operationalState")
-	private PackageOperationalStateType operationalState = null;
+	private List<PackageOperationalStateType> operationalState;
 
 	@JsonProperty("usageState")
-	private PackageUsageStateType usageState = null;
+	private List<PackageUsageStateType> usageState = null;
 
 	public PkgmNotificationsFilter notificationTypes(final List<NotificationTypesEnum> notificationTypes) {
 		this.notificationTypes = notificationTypes;
@@ -214,7 +214,7 @@ public class PkgmNotificationsFilter {
 		this.vnfPkgId = vnfPkgId;
 	}
 
-	public PkgmNotificationsFilter operationalState(final PackageOperationalStateType operationalState) {
+	public PkgmNotificationsFilter operationalState(final List<PackageOperationalStateType> operationalState) {
 		this.operationalState = operationalState;
 		return this;
 	}
@@ -230,15 +230,15 @@ public class PkgmNotificationsFilter {
 
 	@Valid
 
-	public PackageOperationalStateType getOperationalState() {
+	public List<PackageOperationalStateType> getOperationalState() {
 		return operationalState;
 	}
 
-	public void setOperationalState(final PackageOperationalStateType operationalState) {
+	public void setOperationalState(final List<PackageOperationalStateType> operationalState) {
 		this.operationalState = operationalState;
 	}
 
-	public PkgmNotificationsFilter usageState(final PackageUsageStateType usageState) {
+	public PkgmNotificationsFilter usageState(final List<PackageUsageStateType> usageState) {
 		this.usageState = usageState;
 		return this;
 	}
@@ -254,11 +254,11 @@ public class PkgmNotificationsFilter {
 
 	@Valid
 
-	public PackageUsageStateType getUsageState() {
+	public List<PackageUsageStateType> getUsageState() {
 		return usageState;
 	}
 
-	public void setUsageState(final PackageUsageStateType usageState) {
+	public void setUsageState(final List<PackageUsageStateType> usageState) {
 		this.usageState = usageState;
 	}
 
