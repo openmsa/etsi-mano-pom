@@ -52,8 +52,8 @@ public class VnfLcmSubscriptionFrontControllerImpl implements VnfLcmSubscription
 	}
 
 	@Override
-	public <U> ResponseEntity<U> create(final Object body, final Class<U> clazz, final Consumer<U> makeLinks, final Function<U, String> setLink) {
-		return subscriptionService.create(body, clazz, makeLinks, setLink, SubscriptionType.VNFLCM);
+	public <U> ResponseEntity<U> create(final Object body, final Class<U> clazz, final Class<?> versionController, final Consumer<U> makeLinks, final Function<U, String> setLink) {
+		return subscriptionService.create(body, clazz, versionController, makeLinks, setLink, SubscriptionType.VNFLCM);
 	}
 
 	@Override

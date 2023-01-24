@@ -60,7 +60,7 @@ public interface NsdSubscriptionFrontController {
 	 * its subscriptions.
 	 *
 	 */
-	<U> ResponseEntity<U> create(Object body, Class<U> clazz, Consumer<U> makeLink, Function<U, String> getSelfLink);
+	<U> ResponseEntity<U> create(Object body, Class<U> clazz, Class<?> versionController, Consumer<U> makeLink, Function<U, String> getSelfLink);
 
 	/**
 	 * Terminate Subscription

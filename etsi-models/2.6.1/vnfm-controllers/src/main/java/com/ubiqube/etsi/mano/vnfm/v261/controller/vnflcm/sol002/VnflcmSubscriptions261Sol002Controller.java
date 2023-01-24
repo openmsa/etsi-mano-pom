@@ -40,7 +40,6 @@ public class VnflcmSubscriptions261Sol002Controller implements VnflcmSubscriptio
 	private final VnfLcmSubscriptionFrontController frontController;
 
 	public VnflcmSubscriptions261Sol002Controller(final VnfLcmSubscriptionFrontController frontController) {
-		super();
 		this.frontController = frontController;
 	}
 
@@ -51,7 +50,7 @@ public class VnflcmSubscriptions261Sol002Controller implements VnflcmSubscriptio
 
 	@Override
 	public ResponseEntity<LccnSubscription> subscriptionsPost(@Valid final LccnSubscriptionRequest body) {
-		return frontController.create(body, LccnSubscription.class, VnflcmSubscriptions261Sol002Controller::makeLinks, VnflcmSubscriptions261Sol002Controller::getSelfLink);
+		return frontController.create(body, LccnSubscription.class, VnflcmSubscriptions261Sol002Api.class, VnflcmSubscriptions261Sol002Controller::makeLinks, VnflcmSubscriptions261Sol002Controller::getSelfLink);
 	}
 
 	@Override

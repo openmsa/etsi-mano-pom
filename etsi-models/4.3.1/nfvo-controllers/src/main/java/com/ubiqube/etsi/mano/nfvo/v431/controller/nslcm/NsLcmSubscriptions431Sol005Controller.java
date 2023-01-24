@@ -42,7 +42,7 @@ public class NsLcmSubscriptions431Sol005Controller implements NsLcmSubscriptions
 
 	@Override
 	public ResponseEntity<LccnSubscription> subscriptionsPost(@Valid final LccnSubscriptionRequest body) {
-		return nsLcmSubscriptionsGenericFrontController.create(body, LccnSubscription.class, NsLcmSubscriptions431Sol005Controller::makeLink, NsLcmSubscriptions431Sol005Controller::getSelfLink);
+		return nsLcmSubscriptionsGenericFrontController.create(body, LccnSubscription.class, NsLcmSubscriptions431Sol005Api.class, NsLcmSubscriptions431Sol005Controller::makeLink, NsLcmSubscriptions431Sol005Controller::getSelfLink);
 	}
 
 	@Override

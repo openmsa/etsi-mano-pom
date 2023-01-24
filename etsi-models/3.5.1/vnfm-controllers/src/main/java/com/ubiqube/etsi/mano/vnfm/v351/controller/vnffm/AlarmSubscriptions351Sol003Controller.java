@@ -45,7 +45,6 @@ public class AlarmSubscriptions351Sol003Controller implements AlarmSubscriptions
 	private final FaultMngtSubscriptionsFrontController faultMngtSubscriptionsFrontController;
 
 	public AlarmSubscriptions351Sol003Controller(final FaultMngtSubscriptionsFrontController faultMngtSubscriptionsFrontController) {
-		super();
 		this.faultMngtSubscriptionsFrontController = faultMngtSubscriptionsFrontController;
 	}
 
@@ -56,7 +55,7 @@ public class AlarmSubscriptions351Sol003Controller implements AlarmSubscriptions
 
 	@Override
 	public ResponseEntity<FmSubscription> subscriptionsPost(@Valid final FmSubscriptionRequest fmSubscriptionRequest) {
-		return faultMngtSubscriptionsFrontController.create(fmSubscriptionRequest, FmSubscription.class, AlarmSubscriptions351Sol003Controller::makeLinks, AlarmSubscriptions351Sol003Controller::makeSelf);
+		return faultMngtSubscriptionsFrontController.create(fmSubscriptionRequest, FmSubscription.class, AlarmSubscriptions351Sol003Api.class, AlarmSubscriptions351Sol003Controller::makeLinks, AlarmSubscriptions351Sol003Controller::makeSelf);
 	}
 
 	@Override

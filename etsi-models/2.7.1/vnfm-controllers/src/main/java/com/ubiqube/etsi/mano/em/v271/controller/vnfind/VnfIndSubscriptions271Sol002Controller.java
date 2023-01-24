@@ -27,6 +27,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ubiqube.etsi.mano.em.v271.controller.vnffm.AlarmsSubscriptions271Sol002Api;
 import com.ubiqube.etsi.mano.em.v271.model.vnfind.VnfIndicatorSubscription;
 import com.ubiqube.etsi.mano.em.v271.model.vnfind.VnfIndicatorSubscriptionLinks;
 import com.ubiqube.etsi.mano.em.v271.model.vnfind.VnfIndicatorSubscriptionRequest;
@@ -43,7 +44,6 @@ public class VnfIndSubscriptions271Sol002Controller implements VnfIndSubscriptio
 	private final VnfIndSubscriptionsFrontController vnfIndSubscriptionsFrontController;
 
 	public VnfIndSubscriptions271Sol002Controller(final VnfIndSubscriptionsFrontController vnfIndSubscriptionsFrontController) {
-		super();
 		this.vnfIndSubscriptionsFrontController = vnfIndSubscriptionsFrontController;
 	}
 
@@ -54,7 +54,7 @@ public class VnfIndSubscriptions271Sol002Controller implements VnfIndSubscriptio
 
 	@Override
 	public ResponseEntity<VnfIndicatorSubscription> subscriptionsPost(@Valid final VnfIndicatorSubscriptionRequest vnfIndicatorSubscriptionRequest) {
-		return vnfIndSubscriptionsFrontController.create(vnfIndicatorSubscriptionRequest, VnfIndicatorSubscription.class, VnfIndSubscriptions271Sol002Controller::makeLinks, VnfIndSubscriptions271Sol002Controller::getSelfLink);
+		return vnfIndSubscriptionsFrontController.create(vnfIndicatorSubscriptionRequest, VnfIndicatorSubscription.class, AlarmsSubscriptions271Sol002Api.class, VnfIndSubscriptions271Sol002Controller::makeLinks, VnfIndSubscriptions271Sol002Controller::getSelfLink);
 	}
 
 	@Override

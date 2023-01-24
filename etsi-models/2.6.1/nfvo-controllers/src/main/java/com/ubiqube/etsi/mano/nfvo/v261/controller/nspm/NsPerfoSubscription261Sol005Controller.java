@@ -46,7 +46,6 @@ public class NsPerfoSubscription261Sol005Controller implements NsPerfoSubscripti
 	private final SubscriptionFrontController subscriptionService;
 
 	public NsPerfoSubscription261Sol005Controller(final SubscriptionFrontController subscriptionService) {
-		super();
 		this.subscriptionService = subscriptionService;
 	}
 
@@ -87,7 +86,7 @@ public class NsPerfoSubscription261Sol005Controller implements NsPerfoSubscripti
 	 */
 	@Override
 	public ResponseEntity<PmSubscription> subscriptionsPost(final SubscriptionsPmSubscriptionRequest pmSubscriptionRequest) throws URISyntaxException {
-		return subscriptionService.create(pmSubscriptionRequest, PmSubscription.class, NsPerfoSubscription261Sol005Controller::makeLinks, NsPerfoSubscription261Sol005Controller::makeSelf, SubscriptionType.NSPM);
+		return subscriptionService.create(pmSubscriptionRequest, PmSubscription.class, NsPerfoSubscription261Sol005Api.class, NsPerfoSubscription261Sol005Controller::makeLinks, NsPerfoSubscription261Sol005Controller::makeSelf, SubscriptionType.NSPM);
 	}
 
 	/**

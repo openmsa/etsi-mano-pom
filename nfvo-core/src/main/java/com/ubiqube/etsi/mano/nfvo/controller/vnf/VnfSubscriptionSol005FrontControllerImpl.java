@@ -16,22 +16,18 @@
  */
 package com.ubiqube.etsi.mano.nfvo.controller.vnf;
 
+import static com.ubiqube.etsi.mano.Constants.getSafeUUID;
+
 import java.util.List;
-import java.util.UUID;
 import java.util.function.Consumer;
 
-import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ubiqube.etsi.mano.controller.vnf.VnfSubscriptionManagement;
 import com.ubiqube.etsi.mano.controller.vnf.VnfSubscriptionSol005FrontController;
-import com.ubiqube.etsi.mano.dao.mano.common.ApiVersionType;
-import com.ubiqube.etsi.mano.service.ServerService;
-import com.ubiqube.etsi.mano.service.eval.EvalService;
-import com.ubiqube.etsi.mano.service.event.model.ApiTypesEnum;
+import com.ubiqube.etsi.mano.service.SubscriptionService;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
 
@@ -49,21 +45,17 @@ public class VnfSubscriptionSol005FrontControllerImpl implements VnfSubscription
 
 	private final MapperFacade mapper;
 
-	private final ServerService serverService;
+	private final SubscriptionService subscriptionService;
 
-	private final EvalService evalService;
-
-	public VnfSubscriptionSol005FrontControllerImpl(final VnfSubscriptionManagement vnfSubscriptionManagement, final MapperFacade mapper, final ServerService serverService,
-			final EvalService evalService) {
+	public VnfSubscriptionSol005FrontControllerImpl(final VnfSubscriptionManagement vnfSubscriptionManagement, final MapperFacade mapper, final SubscriptionService subscriptionService) {
 		this.vnfSubscriptionManagement = vnfSubscriptionManagement;
 		this.mapper = mapper;
-		this.serverService = serverService;
-		this.evalService = evalService;
+		this.subscriptionService = subscriptionService;
 	}
 
 	@Override
 	public <U> ResponseEntity<List<U>> search(final String filters, final Class<U> clazz, final Consumer<U> makeLinks) {
-		final List<Subscription> list = vnfSubscriptionManagement.subscriptionsGet(filters, SubscriptionType.VNF);
+		final List<Subscription> list = subscriptionService.query(filters, SubscriptionType.VNF);
 		final List<U> pkgms = mapper.mapAsList(list, clazz);
 		pkgms.stream().forEach(makeLinks::accept);
 		return ResponseEntity.ok(pkgms);
@@ -71,40 +63,21 @@ public class VnfSubscriptionSol005FrontControllerImpl implements VnfSubscription
 
 	@Override
 	public <U> ResponseEntity<U> create(final Object subscriptionsPostQuery, final Class<?> version, final Class<U> clazz, final Consumer<U> makeLinks) {
-		Subscription subscription = mapper.map(subscriptionsPostQuery, Subscription.class);
-		subscription.setNodeFilter(evalService.convertRequestToString(subscriptionsPostQuery));
-		final String v = extractVersion(version);
-		final String nv = serverService.convertFeVersionToMano(ApiVersionType.SOL005_VNFPKGM, v);
-		subscription.setVersion(nv);
-		subscription = vnfSubscriptionManagement.subscriptionsPost(subscription, ApiTypesEnum.SOL005);
+		final Subscription subscription = subscriptionService.save(subscriptionsPostQuery, version, SubscriptionType.VNF);
 		final U pkgmSubscription = mapper.map(subscription, clazz);
 		makeLinks.accept(pkgmSubscription);
 		return new ResponseEntity<>(pkgmSubscription, HttpStatus.CREATED);
 	}
 
-	private static String extractVersion(final Class<?> version) {
-		final RequestMapping ann = AnnotationUtils.findAnnotation(version, RequestMapping.class);
-		if (null == ann) {
-			return null;
-		}
-		final String[] headers = ann.headers();
-		for (final String header : headers) {
-			if (header.startsWith("Version=")) {
-				return header.substring("Version=".length());
-			}
-		}
-		return null;
-	}
-
 	@Override
 	public ResponseEntity<Void> delete(final String subscriptionId) {
-		vnfSubscriptionManagement.subscriptionsSubscriptionIdDelete(subscriptionId, SubscriptionType.NSDVNF);
+		subscriptionService.delete(getSafeUUID(subscriptionId), SubscriptionType.NSDVNF);
 		return ResponseEntity.noContent().build();
 	}
 
 	@Override
 	public <U> ResponseEntity<U> findById(final String subscriptionId, final Class<U> clazz, final Consumer<U> makeLinks) {
-		final Subscription subscription = vnfSubscriptionManagement.subscriptionsSubscriptionIdGet(UUID.fromString(subscriptionId), SubscriptionType.NSDVNF);
+		final Subscription subscription = subscriptionService.findById(getSafeUUID(subscriptionId), SubscriptionType.NSDVNF);
 		final U pkgmSubscription = mapper.map(subscription, clazz);
 		makeLinks.accept(pkgmSubscription);
 		return new ResponseEntity<>(pkgmSubscription, HttpStatus.OK);

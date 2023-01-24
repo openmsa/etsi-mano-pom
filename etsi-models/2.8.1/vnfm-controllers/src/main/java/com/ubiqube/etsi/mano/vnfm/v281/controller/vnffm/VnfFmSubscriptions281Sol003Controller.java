@@ -27,6 +27,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ubiqube.etsi.mano.em.v281.controller.vnflcm.VnfLcmSubscriptions281Sol002Api;
 import com.ubiqube.etsi.mano.em.v281.model.vnffm.FmSubscription;
 import com.ubiqube.etsi.mano.em.v281.model.vnffm.FmSubscriptionLinks;
 import com.ubiqube.etsi.mano.em.v281.model.vnffm.FmSubscriptionRequest;
@@ -43,7 +44,6 @@ public class VnfFmSubscriptions281Sol003Controller implements VnfFmSubscriptions
 	private final FaultMngtSubscriptionsFrontController faultMngtSubscriptionsFrontController;
 
 	public VnfFmSubscriptions281Sol003Controller(final FaultMngtSubscriptionsFrontController faultMngtSubscriptionsFrontController) {
-		super();
 		this.faultMngtSubscriptionsFrontController = faultMngtSubscriptionsFrontController;
 	}
 
@@ -54,7 +54,7 @@ public class VnfFmSubscriptions281Sol003Controller implements VnfFmSubscriptions
 
 	@Override
 	public ResponseEntity<FmSubscription> subscriptionsPost(@Valid final FmSubscriptionRequest fmSubscriptionRequest) {
-		return faultMngtSubscriptionsFrontController.create(fmSubscriptionRequest, FmSubscription.class, VnfFmSubscriptions281Sol003Controller::makeLinks, VnfFmSubscriptions281Sol003Controller::makeSelf);
+		return faultMngtSubscriptionsFrontController.create(fmSubscriptionRequest, FmSubscription.class, VnfLcmSubscriptions281Sol002Api.class, VnfFmSubscriptions281Sol003Controller::makeLinks, VnfFmSubscriptions281Sol003Controller::makeSelf);
 	}
 
 	@Override

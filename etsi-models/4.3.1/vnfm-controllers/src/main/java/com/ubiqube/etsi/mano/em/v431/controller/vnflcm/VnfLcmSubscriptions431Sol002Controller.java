@@ -48,7 +48,7 @@ public class VnfLcmSubscriptions431Sol002Controller implements VnfLcmSubscriptio
 
 	@Override
 	public ResponseEntity<LccnSubscription> subscriptionsPost(@Valid final LccnSubscriptionRequest body) {
-		return frontController.create(body, LccnSubscription.class, VnfLcmSubscriptions431Sol002Controller::makeLinks, VnfLcmSubscriptions431Sol002Controller::getSelfLink);
+		return frontController.create(body, LccnSubscription.class, VnfLcmSubscriptions431Sol002Api.class, VnfLcmSubscriptions431Sol002Controller::makeLinks, VnfLcmSubscriptions431Sol002Controller::getSelfLink);
 	}
 
 	@Override

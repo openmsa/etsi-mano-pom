@@ -46,7 +46,6 @@ public class NsSubscriptions281Sol005Controller implements NsSubscriptions281Sol
 	private final NsdSubscriptionFrontController nsdSubscriptionFrontController;
 
 	public NsSubscriptions281Sol005Controller(final NsdSubscriptionFrontController nsdSubscriptionFrontController) {
-		super();
 		this.nsdSubscriptionFrontController = nsdSubscriptionFrontController;
 	}
 
@@ -88,7 +87,7 @@ public class NsSubscriptions281Sol005Controller implements NsSubscriptions281Sol
 	 */
 	@Override
 	public ResponseEntity<NsdmSubscription> subscriptionsPost(final NsdmSubscriptionRequest body) {
-		return nsdSubscriptionFrontController.create(body, NsdmSubscription.class, NsSubscriptions281Sol005Controller::makeLink, NsSubscriptions281Sol005Controller::getSelfLink);
+		return nsdSubscriptionFrontController.create(body, NsdmSubscription.class, NsSubscriptions281Sol005Api.class, NsSubscriptions281Sol005Controller::makeLink, NsSubscriptions281Sol005Controller::getSelfLink);
 	}
 
 	/**

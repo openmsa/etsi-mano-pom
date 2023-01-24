@@ -46,7 +46,6 @@ public class VnfIndSubscriptions281Sol002Controller implements VnfIndSubscriptio
 	private final VnfIndSubscriptionsFrontController vnfIndSubscriptionsFrontController;
 
 	public VnfIndSubscriptions281Sol002Controller(final VnfIndSubscriptionsFrontController vnfIndSubscriptionsFrontController) {
-		super();
 		this.vnfIndSubscriptionsFrontController = vnfIndSubscriptionsFrontController;
 	}
 
@@ -57,7 +56,7 @@ public class VnfIndSubscriptions281Sol002Controller implements VnfIndSubscriptio
 
 	@Override
 	public ResponseEntity<VnfIndicatorSubscription> subscriptionsPost(@Valid final VnfIndicatorSubscriptionRequest vnfIndicatorSubscriptionRequest) {
-		return vnfIndSubscriptionsFrontController.create(vnfIndicatorSubscriptionRequest, VnfIndicatorSubscription.class, VnfIndSubscriptions281Sol002Controller::makeLinks, VnfIndSubscriptions281Sol002Controller::getSelfLink);
+		return vnfIndSubscriptionsFrontController.create(vnfIndicatorSubscriptionRequest, VnfIndicatorSubscription.class, VnfIndSubscriptions281Sol002Api.class, VnfIndSubscriptions281Sol002Controller::makeLinks, VnfIndSubscriptions281Sol002Controller::getSelfLink);
 	}
 
 	@Override

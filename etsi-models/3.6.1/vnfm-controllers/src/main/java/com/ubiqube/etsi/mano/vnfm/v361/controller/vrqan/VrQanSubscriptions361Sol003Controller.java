@@ -47,7 +47,6 @@ public class VrQanSubscriptions361Sol003Controller implements VrQanSubscriptions
 	private final SubscriptionFrontController subscriptionService;
 
 	public VrQanSubscriptions361Sol003Controller(final SubscriptionFrontController subscriptionService) {
-		super();
 		this.subscriptionService = subscriptionService;
 	}
 
@@ -58,7 +57,7 @@ public class VrQanSubscriptions361Sol003Controller implements VrQanSubscriptions
 
 	@Override
 	public ResponseEntity<VrQuotaAvailSubscription> subscriptionsPost(@Valid final VrQuotaAvailSubscriptionRequest vrQuotaAvailSubscriptionRequest) {
-		return subscriptionService.create(vrQuotaAvailSubscriptionRequest, VrQuotaAvailSubscription.class, VrQanSubscriptions361Sol003Controller::makeLinks, VrQanSubscriptions361Sol003Controller::makeSelf, SubscriptionType.VRQAN);
+		return subscriptionService.create(vrQuotaAvailSubscriptionRequest, VrQuotaAvailSubscription.class, VrQanSubscriptions361Sol003Api.class, VrQanSubscriptions361Sol003Controller::makeLinks, VrQanSubscriptions361Sol003Controller::makeSelf, SubscriptionType.VRQAN);
 	}
 
 	@Override

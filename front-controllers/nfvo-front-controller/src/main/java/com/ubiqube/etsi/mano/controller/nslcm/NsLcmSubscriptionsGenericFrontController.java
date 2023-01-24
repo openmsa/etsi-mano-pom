@@ -52,7 +52,7 @@ public interface NsLcmSubscriptionsGenericFrontController {
 	 * callbackUri).
 	 *
 	 */
-	<U> ResponseEntity<U> create(Object lccnSubscriptionRequest, Class<U> clazz, Consumer<U> makeLink, Function<U, String> setLink);
+	<U> ResponseEntity<U> create(Object lccnSubscriptionRequest, Class<U> clazz, Class<?> versionController, Consumer<U> makeLink, Function<U, String> setLink);
 
 	/**
 	 * Terminate a subscription.

@@ -36,7 +36,6 @@ public class VnfIndSubscriptions331Sol003Controller implements VnfIndSubscriptio
 	private final SubscriptionFrontController subscriptionService;
 
 	public VnfIndSubscriptions331Sol003Controller(final SubscriptionFrontController subscriptionService) {
-		super();
 		this.subscriptionService = subscriptionService;
 	}
 
@@ -47,7 +46,7 @@ public class VnfIndSubscriptions331Sol003Controller implements VnfIndSubscriptio
 
 	@Override
 	public ResponseEntity<VnfIndicatorSubscription> subscriptionsPost(@Valid final VnfIndicatorSubscriptionRequest vnfIndicatorSubscriptionRequest) {
-		return subscriptionService.create(vnfIndicatorSubscriptionRequest, VnfIndicatorSubscription.class, VnfIndSubscriptions331Sol003Controller::makeLinks, VnfIndSubscriptions331Sol003Controller::makeSelf, SubscriptionType.VNFPM);
+		return subscriptionService.create(vnfIndicatorSubscriptionRequest, VnfIndicatorSubscription.class, VnfIndSubscriptions331Sol003Api.class, VnfIndSubscriptions331Sol003Controller::makeLinks, VnfIndSubscriptions331Sol003Controller::makeSelf, SubscriptionType.VNFPM);
 	}
 
 	private static String makeSelf(final VnfIndicatorSubscription subscription) {

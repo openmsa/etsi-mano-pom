@@ -79,8 +79,8 @@ public class NsdSubscriptionFrontControllerImpl implements NsdSubscriptionFrontC
 	 *
 	 */
 	@Override
-	public <U> ResponseEntity<U> create(final Object body, final Class<U> clazz, final Consumer<U> makeLink, final Function<U, String> getSelfLink) {
-		return subscriptionService.create(body, clazz, makeLink, getSelfLink, SubscriptionType.NSD);
+	public <U> ResponseEntity<U> create(final Object body, final Class<U> clazz, final Class<?> versionController, final Consumer<U> makeLink, final Function<U, String> getSelfLink) {
+		return subscriptionService.create(body, clazz, versionController, makeLink, getSelfLink, SubscriptionType.NSD);
 	}
 
 	/**

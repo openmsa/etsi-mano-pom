@@ -16,7 +16,6 @@
  */
 package com.ubiqube.etsi.mano.nfvo.controller.vnf;
 
-import java.util.List;
 import java.util.UUID;
 
 import javax.annotation.Nonnull;
@@ -29,7 +28,6 @@ import com.ubiqube.etsi.mano.dao.mano.VnfPackageOnboardingNotification;
 import com.ubiqube.etsi.mano.service.ServerService;
 import com.ubiqube.etsi.mano.service.SubscriptionService;
 import com.ubiqube.etsi.mano.service.event.Notifications;
-import com.ubiqube.etsi.mano.service.event.model.ApiTypesEnum;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
@@ -43,24 +41,9 @@ public class VnfSubscriptionManagementImpl implements VnfSubscriptionManagement 
 	private final ServerService serverService;
 
 	public VnfSubscriptionManagementImpl(final Notifications notifications, final SubscriptionService subscriptionRepository, final ServerService serverService) {
-		super();
 		this.notifications = notifications;
 		this.subscriptionService = subscriptionRepository;
 		this.serverService = serverService;
-	}
-
-	@Override
-	public List<Subscription> subscriptionsGet(final String filter, final SubscriptionType type) {
-		return subscriptionService.query(filter, type);
-	}
-
-	@Override
-	public Subscription subscriptionsPost(@Nonnull final Subscription subscription, final ApiTypesEnum api) {
-		subscription.setApi(api);
-		subscription.setSubscriptionType(SubscriptionType.VNF);
-		final ServerAdapter server = serverService.buildServerAdapter(subscription);
-		notifications.check(server, subscription.getCallbackUri());
-		return subscriptionService.save(subscription, SubscriptionType.VNF);
 	}
 
 	@Override
@@ -80,18 +63,6 @@ public class VnfSubscriptionManagementImpl implements VnfSubscriptionManagement 
 		final String cbUrl = subscription.getCallbackUri();
 		final ServerAdapter server = serverService.buildServerAdapter(subscription);
 		notifications.doNotification(notificationsMessage, cbUrl, server);
-	}
-
-	@Override
-	public void subscriptionsSubscriptionIdDelete(final String subscriptionUuid, final SubscriptionType type) {
-		final UUID subscriptionId = UUID.fromString(subscriptionUuid);
-		subscriptionService.findById(subscriptionId, type);
-		subscriptionService.delete(subscriptionId, type);
-	}
-
-	@Override
-	public Subscription subscriptionsSubscriptionIdGet(final UUID subscriptionId, final SubscriptionType type) {
-		return subscriptionService.findById(subscriptionId, type);
 	}
 
 }

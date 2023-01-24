@@ -28,7 +28,7 @@ public interface SubscriptionService {
 
 	List<Subscription> query(String filter, SubscriptionType type);
 
-	Subscription save(Subscription subscription, SubscriptionType type);
+	Subscription save(Object subscriptionPostQuery, final Class<?> version, SubscriptionType type);
 
 	void delete(UUID subscriptionId, SubscriptionType type);
 

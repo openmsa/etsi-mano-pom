@@ -38,7 +38,6 @@ public class FaultMngtSubscriptionsFrontControllerImpl implements FaultMngtSubsc
 	private final SubscriptionFrontController subscriptionService;
 
 	public FaultMngtSubscriptionsFrontControllerImpl(final SubscriptionFrontController subscriptionService) {
-		super();
 		this.subscriptionService = subscriptionService;
 	}
 
@@ -48,8 +47,8 @@ public class FaultMngtSubscriptionsFrontControllerImpl implements FaultMngtSubsc
 	}
 
 	@Override
-	public <U> ResponseEntity<U> create(final Object fmSubscriptionRequest, final Class<U> clazz, final Consumer<U> makeLink, final Function<U, String> getSelfLink) {
-		return subscriptionService.create(fmSubscriptionRequest, clazz, makeLink, getSelfLink, SubscriptionType.ALARM);
+	public <U> ResponseEntity<U> create(final Object fmSubscriptionRequest, final Class<U> clazz, final Class<?> versionController, final Consumer<U> makeLink, final Function<U, String> getSelfLink) {
+		return subscriptionService.create(fmSubscriptionRequest, clazz, versionController, makeLink, getSelfLink, SubscriptionType.ALARM);
 	}
 
 	@Override

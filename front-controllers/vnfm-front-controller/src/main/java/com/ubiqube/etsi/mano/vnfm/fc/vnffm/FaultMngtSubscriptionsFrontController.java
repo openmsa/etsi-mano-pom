@@ -27,7 +27,7 @@ public interface FaultMngtSubscriptionsFrontController {
 
 	<U> ResponseEntity<List<U>> search(MultiValueMap<String, String> requestParams, Class<U> clazz, Consumer<U> makeLink);
 
-	<U> ResponseEntity<U> create(Object fmSubscriptionRequest, Class<U> clazz, Consumer<U> makeLink, Function<U, String> getSelfLink);
+	<U> ResponseEntity<U> create(Object fmSubscriptionRequest, Class<U> clazz, Class<?> versionController, Consumer<U> makeLink, Function<U, String> getSelfLink);
 
 	ResponseEntity<Void> delete(String subscriptionId);
 

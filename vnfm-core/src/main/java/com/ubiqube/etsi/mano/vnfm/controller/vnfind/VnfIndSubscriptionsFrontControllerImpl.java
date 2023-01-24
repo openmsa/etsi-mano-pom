@@ -38,7 +38,6 @@ public class VnfIndSubscriptionsFrontControllerImpl implements VnfIndSubscriptio
 	private final SubscriptionFrontController subscriptionService;
 
 	public VnfIndSubscriptionsFrontControllerImpl(final SubscriptionFrontController subscriptionService) {
-		super();
 		this.subscriptionService = subscriptionService;
 	}
 
@@ -48,8 +47,8 @@ public class VnfIndSubscriptionsFrontControllerImpl implements VnfIndSubscriptio
 	}
 
 	@Override
-	public <U> ResponseEntity<U> create(final Object vnfIndicatorSubscriptionRequest, final Class<U> clazz, final Consumer<U> makeLink, final Function<U, String> getSelfLink) {
-		return subscriptionService.create(vnfIndicatorSubscriptionRequest, clazz, makeLink, getSelfLink, SubscriptionType.VNFPM);
+	public <U> ResponseEntity<U> create(final Object vnfIndicatorSubscriptionRequest, final Class<U> clazz, final Class<?> versionController, final Consumer<U> makeLink, final Function<U, String> getSelfLink) {
+		return subscriptionService.create(vnfIndicatorSubscriptionRequest, clazz, versionController, makeLink, getSelfLink, SubscriptionType.VNFPM);
 	}
 
 	@Override

@@ -38,7 +38,6 @@ public class AlarmsSubscriptions271Sol002Controller implements AlarmsSubscriptio
 	private final FaultMngtSubscriptionsFrontController faultMngtSubscriptionsFrontController;
 
 	public AlarmsSubscriptions271Sol002Controller(final FaultMngtSubscriptionsFrontController faultMngtSubscriptionsFrontController) {
-		super();
 		this.faultMngtSubscriptionsFrontController = faultMngtSubscriptionsFrontController;
 	}
 
@@ -49,7 +48,7 @@ public class AlarmsSubscriptions271Sol002Controller implements AlarmsSubscriptio
 
 	@Override
 	public ResponseEntity<FmSubscription> subscriptionsPost(@Valid final FmSubscriptionRequest fmSubscriptionRequest) {
-		return faultMngtSubscriptionsFrontController.create(fmSubscriptionRequest, FmSubscription.class, AlarmsSubscriptions271Sol002Controller::makeLinks, AlarmsSubscriptions271Sol002Controller::makeSelf);
+		return faultMngtSubscriptionsFrontController.create(fmSubscriptionRequest, FmSubscription.class, AlarmsSubscriptions271Sol002Api.class, AlarmsSubscriptions271Sol002Controller::makeLinks, AlarmsSubscriptions271Sol002Controller::makeSelf);
 	}
 
 	@Override

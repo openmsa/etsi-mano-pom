@@ -29,7 +29,7 @@ public interface VnfLcmSubscriptionFrontController {
 
 	<U> ResponseEntity<List<U>> search(MultiValueMap<String, String> requestParams, String nextpageOpaqueMarker, Class<U> clazz, Consumer<U> setLink);
 
-	<U> ResponseEntity<U> create(Object body, Class<U> clazz, Consumer<U> makeLinks, Function<U, String> setLink);
+	<U> ResponseEntity<U> create(Object body, Class<U> clazz, Class<?> versionController, Consumer<U> makeLinks, Function<U, String> setLink);
 
 	ResponseEntity<Void> deleteById(String id);
 

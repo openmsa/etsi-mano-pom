@@ -44,7 +44,6 @@ public class VnfIndSubscriptions281Sol003Controller implements VnfIndSubscriptio
 	private final SubscriptionFrontController subscriptionService;
 
 	public VnfIndSubscriptions281Sol003Controller(final SubscriptionFrontController subscriptionService) {
-		super();
 		this.subscriptionService = subscriptionService;
 	}
 
@@ -55,18 +54,18 @@ public class VnfIndSubscriptions281Sol003Controller implements VnfIndSubscriptio
 
 	@Override
 	public ResponseEntity<VnfIndicatorSubscription> subscriptionsPost(@Valid final VnfIndicatorSubscriptionRequest vnfIndicatorSubscriptionRequest) {
-		return subscriptionService.create(vnfIndicatorSubscriptionRequest, VnfIndicatorSubscription.class, VnfIndSubscriptions281Sol003Controller::makeLinks, VnfIndSubscriptions281Sol003Controller::makeSelf, SubscriptionType.VNFPM);
+		return subscriptionService.create(vnfIndicatorSubscriptionRequest, VnfIndicatorSubscription.class, VnfIndSubscriptions281Sol003Api.class, VnfIndSubscriptions281Sol003Controller::makeLinks, VnfIndSubscriptions281Sol003Controller::makeSelf, SubscriptionType.VNFPM);
 	}
 
 	private static String makeSelf(final VnfIndicatorSubscription subscription) {
-		// linkTo(methodOn(VnfIndSubscriptions281Sol003Api.class).subscriptionsSubscriptionIdGet(subscription.getId())).withSelfRel().getHref();
+		// linkTo(methodOn(VnfIndSubscriptions281Sol003Api.class).subscriptionsGet(subscription.getId())).withSelfRel().getHref()
 		return "";
 	}
 
 	private static void makeLinks(final VnfIndicatorSubscription subscription) {
 		final VnfIndicatorSubscriptionLinks links = new VnfIndicatorSubscriptionLinks();
 		final Link link = new Link();
-		// link.setHref(linkTo(methodOn(VnfIndSubscriptions281Sol003Api.class).subscriptionsSubscriptionIdGet(subscription.getId())).withSelfRel().getHref());
+		// link.setHref(linkTo(methodOn(VnfIndSubscriptions281Sol003Api.class).subscriptionsSubscriptionIdGet(subscription.getId())).withSelfRel().getHref())
 		links.setSelf(link);
 		subscription.setLinks(links);
 	}

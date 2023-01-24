@@ -24,7 +24,9 @@ import javax.persistence.EntityManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
@@ -33,6 +35,7 @@ import com.ubiqube.etsi.mano.grammar.Node;
 import com.ubiqube.etsi.mano.grammar.Node.Operand;
 import com.ubiqube.etsi.mano.jpa.SubscriptionJpa;
 import com.ubiqube.etsi.mano.repository.jpa.SearchQueryer;
+import com.ubiqube.etsi.mano.service.eval.EvalService;
 import com.ubiqube.etsi.mano.service.event.Notifications;
 import com.ubiqube.etsi.mano.service.event.model.ApiTypesEnum;
 import com.ubiqube.etsi.mano.service.event.model.EventMessage;
@@ -41,6 +44,9 @@ import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
+import com.ubiqube.etsi.mano.utils.Version;
+
+import ma.glasnost.orika.MapperFacade;
 
 @Service
 public class SubscriptionServiceImpl implements SubscriptionService {
@@ -56,12 +62,19 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
 	private final ServerService serverService;
 
-	public SubscriptionServiceImpl(final SubscriptionJpa repository, final EntityManager em, final GrammarParser grammarParser, final Notifications notifications, final ServerService serverService) {
+	private final EvalService evalService;
+
+	private final MapperFacade mapper;
+
+	public SubscriptionServiceImpl(final SubscriptionJpa repository, final EntityManager em, final GrammarParser grammarParser, final Notifications notifications,
+			final ServerService serverService, final EvalService evalService, final MapperFacade mapper) {
 		this.subscriptionJpa = repository;
 		this.em = em;
 		this.grammarParser = grammarParser;
 		this.notifications = notifications;
 		this.serverService = serverService;
+		this.evalService = evalService;
+		this.mapper = mapper;
 	}
 
 	@Override
@@ -73,15 +86,31 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 	}
 
 	@Override
-	public Subscription save(final Subscription subscription, final SubscriptionType type) {
+	public Subscription save(final Object subscriptionRequest, final Class<?> version, final SubscriptionType type) {
+		final Subscription subscription = mapper.map(subscriptionRequest, Subscription.class);
+		ensureUniqueness(subscription);
 		subscription.setSubscriptionType(type);
+		subscription.setNodeFilter(evalService.convertRequestToString(subscriptionRequest));
+		subscription.setVersion(extractVersion(version, type));
+		heckAvailability(subscription);
+		return subscriptionJpa.save(subscription);
+	}
+
+	private void heckAvailability(final Subscription subscription) {
+		final ServerAdapter server = serverService.buildServerAdapter(subscription);
+		notifications.check(server, subscription.getCallbackUri());
+	}
+
+	private String extractVersion(final Class<?> version, final SubscriptionType type) {
+		final String v = extractVersion(version);
+		return serverService.convertManoVersionToFe(type, v).map(Version::toString).orElse(null);
+	}
+
+	private void ensureUniqueness(final Subscription subscription) {
 		final List<Subscription> lst = findByApiAndCallbackUriSubscriptionType(subscription.getApi(), subscription.getCallbackUri(), subscription.getSubscriptionType());
 		if (isMatching(subscription, lst)) {
 			throw new GenericException("Subscription already exist.");
 		}
-		final ServerAdapter server = serverService.buildServerAdapter(subscription);
-		notifications.check(server, subscription.getCallbackUri());
-		return subscriptionJpa.save(subscription);
 	}
 
 	private static boolean isMatching(final Subscription subscription, final List<Subscription> lst) {
@@ -93,6 +122,20 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 				.flatMap(x -> x.getFilters().stream())
 				.anyMatch(x -> filters.stream()
 						.anyMatch(y -> y.getAttribute().equals(x.getAttribute()) && y.getValue().equals(x.getValue())));
+	}
+
+	private static String extractVersion(final Class<?> version) {
+		final RequestMapping ann = AnnotationUtils.findAnnotation(version, RequestMapping.class);
+		if (null == ann) {
+			return null;
+		}
+		final String[] headers = ann.headers();
+		for (final String header : headers) {
+			if (header.startsWith("Version=")) {
+				return header.substring("Version=".length());
+			}
+		}
+		return null;
 	}
 
 	@Override

@@ -45,7 +45,6 @@ public class VnfPmSubscriptions261Sol002Controller implements VnfPmSubscriptions
 	private final SubscriptionFrontController subscriptionService;
 
 	public VnfPmSubscriptions261Sol002Controller(final SubscriptionFrontController subscriptionService) {
-		super();
 		this.subscriptionService = subscriptionService;
 	}
 
@@ -56,7 +55,7 @@ public class VnfPmSubscriptions261Sol002Controller implements VnfPmSubscriptions
 
 	@Override
 	public ResponseEntity<PmSubscription> subscriptionsPost(@Valid final PmSubscriptionRequest pmSubscriptionRequest) {
-		return subscriptionService.create(pmSubscriptionRequest, PmSubscription.class, VnfPmSubscriptions261Sol002Controller::makeLinks, VnfPmSubscriptions261Sol002Controller::makeSelf, SubscriptionType.VNFPM);
+		return subscriptionService.create(pmSubscriptionRequest, PmSubscription.class, VnfPmSubscriptions261Sol002Api.class, VnfPmSubscriptions261Sol002Controller::makeLinks, VnfPmSubscriptions261Sol002Controller::makeSelf, SubscriptionType.VNFPM);
 	}
 
 	@Override

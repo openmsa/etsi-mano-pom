@@ -16,29 +16,15 @@
  */
 package com.ubiqube.etsi.mano.controller.vnf;
 
-import java.util.List;
-import java.util.UUID;
-
 import javax.annotation.Nonnull;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfPackageChangeNotification;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackageOnboardingNotification;
-import com.ubiqube.etsi.mano.service.event.model.ApiTypesEnum;
-import com.ubiqube.etsi.mano.service.event.model.Subscription;
-import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
 
 public interface VnfSubscriptionManagement {
-
-	List<Subscription> subscriptionsGet(final String filter, SubscriptionType type);
-
-	Subscription subscriptionsPost(@Nonnull final Subscription subscription, final ApiTypesEnum api);
 
 	void vnfPackageChangeNotificationPost(@Nonnull final VnfPackageChangeNotification notificationsMessage);
 
 	void vnfPackageOnboardingNotificationPost(@Nonnull final VnfPackageOnboardingNotification notificationsMessage);
-
-	void subscriptionsSubscriptionIdDelete(@Nonnull final String subscriptionId, SubscriptionType type);
-
-	Subscription subscriptionsSubscriptionIdGet(@Nonnull final UUID subscriptionId, SubscriptionType type);
 
 }

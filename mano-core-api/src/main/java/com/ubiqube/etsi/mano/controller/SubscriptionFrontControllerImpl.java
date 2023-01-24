@@ -84,12 +84,8 @@ public class SubscriptionFrontControllerImpl implements SubscriptionFrontControl
 	}
 
 	@Override
-	public <U> ResponseEntity<U> create(final Object subscriptionRequest, final Class<U> clazz, final Consumer<U> makeLinks, final Function<U, String> getSelfLink, final SubscriptionType type) {
-		Subscription subscription = mapper.map(subscriptionRequest, Subscription.class);
-		subscription.setNodeFilter(evalService.convertRequestToString(subscriptionRequest));
-		subscription.setSubscriptionType(type);
-		setVersion(subscription);
-		subscription = subscriptionService.save(subscription, type);
+	public <U> ResponseEntity<U> create(final Object subscriptionRequest, final Class<U> clazz, final Class<?> versionController, final Consumer<U> makeLinks, final Function<U, String> getSelfLink, final SubscriptionType type) {
+		final Subscription subscription = subscriptionService.save(subscriptionRequest, versionController, type);
 		final U res = mapper.map(subscription, clazz);
 		makeLinks.accept(res);
 		final String link = getSelfLink.apply(res);

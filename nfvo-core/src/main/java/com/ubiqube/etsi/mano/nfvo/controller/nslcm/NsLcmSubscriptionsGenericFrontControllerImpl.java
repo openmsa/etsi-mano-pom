@@ -84,9 +84,8 @@ public class NsLcmSubscriptionsGenericFrontControllerImpl implements NsLcmSubscr
 	 *
 	 */
 	@Override
-	public <U> ResponseEntity<U> create(final Object lccnSubscriptionRequest, final Class<U> clazz, final Consumer<U> makeLink, final Function<U, String> setLink) {
-		Subscription subscription = mapper.map(lccnSubscriptionRequest, Subscription.class);
-		subscription = subscriptionService.save(subscription, SubscriptionType.NSLCM);
+	public <U> ResponseEntity<U> create(final Object lccnSubscriptionRequest, final Class<U> clazz, final Class<?> versionController, final Consumer<U> makeLink, final Function<U, String> setLink) {
+		final Object subscription = subscriptionService.save(lccnSubscriptionRequest, versionController, SubscriptionType.NSLCM);
 		final U pkgmSubscription = mapper.map(subscription, clazz);
 		makeLink.accept(pkgmSubscription);
 		final String location = setLink.apply(pkgmSubscription);

@@ -35,7 +35,7 @@ import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
 public interface SubscriptionFrontController {
 	<U> ResponseEntity<List<U>> search(MultiValueMap<String, String> requestParams, Class<U> clazz, Consumer<U> makeLinks, SubscriptionType type);
 
-	<U> ResponseEntity<U> create(Object subscriptionRequest, Class<U> clazz, Consumer<U> makeLinks, Function<U, String> getSelfLink, SubscriptionType type);
+	<U> ResponseEntity<U> create(Object subscriptionRequest, Class<U> clazz, Class<?> versionController, Consumer<U> makeLinks, Function<U, String> getSelfLink, SubscriptionType type);
 
 	ResponseEntity<Void> deleteById(@NotNull String subscriptionId, SubscriptionType type);
 

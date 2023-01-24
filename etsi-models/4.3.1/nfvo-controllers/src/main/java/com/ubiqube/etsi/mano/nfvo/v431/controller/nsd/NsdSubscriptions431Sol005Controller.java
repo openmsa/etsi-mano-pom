@@ -79,7 +79,7 @@ public class NsdSubscriptions431Sol005Controller implements NsdSubscriptions431S
 	 */
 	@Override
 	public ResponseEntity<NsdmSubscription> subscriptionsPost(final NsdmSubscriptionRequest body) {
-		return nsdSubscriptionFrontController.create(body, NsdmSubscription.class, NsdSubscriptions431Sol005Controller::makeLink, NsdSubscriptions431Sol005Controller::getSelfLink);
+		return nsdSubscriptionFrontController.create(body, NsdmSubscription.class, NsdSubscriptions431Sol005Api.class, NsdSubscriptions431Sol005Controller::makeLink, NsdSubscriptions431Sol005Controller::getSelfLink);
 	}
 
 	/**

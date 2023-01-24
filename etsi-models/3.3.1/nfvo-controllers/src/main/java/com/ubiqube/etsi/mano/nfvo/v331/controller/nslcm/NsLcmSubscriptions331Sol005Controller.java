@@ -40,13 +40,12 @@ public class NsLcmSubscriptions331Sol005Controller implements NsLcmSubscriptions
 	private final NsLcmSubscriptionsGenericFrontController nsLcmSubscriptionsGenericFrontController;
 
 	public NsLcmSubscriptions331Sol005Controller(final NsLcmSubscriptionsGenericFrontController nsLcmSubscriptionsGenericFrontController) {
-		super();
 		this.nsLcmSubscriptionsGenericFrontController = nsLcmSubscriptionsGenericFrontController;
 	}
 
 	@Override
 	public ResponseEntity<LccnSubscription> subscriptionsPost(@Valid final LccnSubscriptionRequest body) {
-		return nsLcmSubscriptionsGenericFrontController.create(body, LccnSubscription.class, NsLcmSubscriptions331Sol005Controller::makeLink, NsLcmSubscriptions331Sol005Controller::getSelfLink);
+		return nsLcmSubscriptionsGenericFrontController.create(body, LccnSubscription.class, NsLcmSubscriptions331Sol005Api.class, NsLcmSubscriptions331Sol005Controller::makeLink, NsLcmSubscriptions331Sol005Controller::getSelfLink);
 	}
 
 	@Override

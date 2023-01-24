@@ -48,7 +48,7 @@ public class AlarmSubscriptions431Sol002Controller implements AlarmSubscriptions
 
 	@Override
 	public ResponseEntity<FmSubscription> subscriptionsPost(@Valid final FmSubscriptionRequest fmSubscriptionRequest) {
-		return faultMngtSubscriptionsFrontController.create(fmSubscriptionRequest, FmSubscription.class, AlarmSubscriptions431Sol002Controller::makeLinks, AlarmSubscriptions431Sol002Controller::makeSelf);
+		return faultMngtSubscriptionsFrontController.create(fmSubscriptionRequest, FmSubscription.class, AlarmSubscriptions431Sol002Api.class, AlarmSubscriptions431Sol002Controller::makeLinks, AlarmSubscriptions431Sol002Controller::makeSelf);
 	}
 
 	@Override

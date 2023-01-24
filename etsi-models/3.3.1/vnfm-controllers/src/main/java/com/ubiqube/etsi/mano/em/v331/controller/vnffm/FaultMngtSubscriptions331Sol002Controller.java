@@ -41,7 +41,6 @@ public class FaultMngtSubscriptions331Sol002Controller implements FaultMngtSubsc
 	private final FaultMngtSubscriptionsFrontController faultMngtSubscriptionsFrontController;
 
 	public FaultMngtSubscriptions331Sol002Controller(final FaultMngtSubscriptionsFrontController faultMngtSubscriptionsFrontController) {
-		super();
 		this.faultMngtSubscriptionsFrontController = faultMngtSubscriptionsFrontController;
 	}
 
@@ -52,7 +51,7 @@ public class FaultMngtSubscriptions331Sol002Controller implements FaultMngtSubsc
 
 	@Override
 	public ResponseEntity<FmSubscription> subscriptionsPost(@Valid final FmSubscriptionRequest fmSubscriptionRequest) {
-		return faultMngtSubscriptionsFrontController.create(fmSubscriptionRequest, FmSubscription.class, FaultMngtSubscriptions331Sol002Controller::makeLinks, FaultMngtSubscriptions331Sol002Controller::makeSelf);
+		return faultMngtSubscriptionsFrontController.create(fmSubscriptionRequest, FmSubscription.class, FaultMngtSubscriptions331Sol002Api.class, FaultMngtSubscriptions331Sol002Controller::makeLinks, FaultMngtSubscriptions331Sol002Controller::makeSelf);
 	}
 
 	@Override
