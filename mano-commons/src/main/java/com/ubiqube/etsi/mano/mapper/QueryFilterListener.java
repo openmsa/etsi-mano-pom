@@ -31,7 +31,9 @@ public class QueryFilterListener implements BeanListener {
 		if (lr == null) {
 			throw new IllegalArgumentException("");
 		}
-		lr.getList().add(source);
+		if (null != source) {
+			lr.getList().add(source);
+		}
 	}
 
 	@Override
@@ -45,7 +47,9 @@ public class QueryFilterListener implements BeanListener {
 	@Override
 	public void endList() {
 		if (queue.isEmpty()) {
-			results.add(lr);
+			if (!lr.getList().isEmpty()) {
+				results.add(lr);
+			}
 			lr = null;
 		} else {
 			final ListRecord tmp = lr;

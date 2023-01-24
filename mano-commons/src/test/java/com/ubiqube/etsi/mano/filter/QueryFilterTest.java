@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.filter;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
@@ -78,6 +79,17 @@ class QueryFilterTest {
 		final String str = om.writeValueAsString(nn);
 		System.out.println(str);
 		assertTrue(true);
+	}
+
+	@Test
+	void testNullProperties() {
+		final VnfIndicatorNotificationsFilter vnfInd = new VnfIndicatorNotificationsFilter();
+		final PkgmNotificationsFilter pkgmFilter = new PkgmNotificationsFilter();
+		final QueryFilterListener beanListener = new QueryFilterListener();
+		beanWalker.walk(vnfInd, beanListener);
+		final List<ListRecord> res = beanListener.getResults();
+		assertNotNull(res);
+		final BooleanExpression node = toManoCondition(res);
 	}
 
 	private static BooleanExpression toManoCondition(final List<ListRecord> lrs) {
