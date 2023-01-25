@@ -82,6 +82,24 @@ class QueryFilterTest {
 	}
 
 	@Test
+	void testVnfInd() throws Exception {
+		final VnfIndicatorNotificationsFilter vnfInd = new VnfIndicatorNotificationsFilter();
+		final QueryFilterListener beanListener = new QueryFilterListener();
+		beanWalker.walk(vnfInd, beanListener);
+		final List<ListRecord> res = beanListener.getResults();
+		//
+		final BooleanExpression node = toManoCondition(res);
+
+		final BooleanListExprRemoverVisitor visitor = new BooleanListExprRemoverVisitor();
+		final Node nn = node.accept(visitor, null);
+		//
+		final ObjectMapper om = new ObjectMapper();
+		final String str = om.writeValueAsString(nn);
+		System.out.println(str);
+		assertTrue(true);
+	}
+
+	@Test
 	void testNullProperties() {
 		final VnfIndicatorNotificationsFilter vnfInd = new VnfIndicatorNotificationsFilter();
 		final PkgmNotificationsFilter pkgmFilter = new PkgmNotificationsFilter();

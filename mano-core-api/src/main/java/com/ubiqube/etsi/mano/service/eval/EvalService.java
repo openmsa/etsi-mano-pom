@@ -99,7 +99,8 @@ public class EvalService {
 	private static Node toNodes(final List<ListRecord> attrs) {
 		final BooleanExpression node = toManoCondition(attrs);
 		final BooleanListExprRemoverVisitor visitor = new BooleanListExprRemoverVisitor();
-		return node.accept(visitor, null);
+		Node tmp = node.accept(visitor, null);
+		return tmp.accept(visitor, null);
 	}
 
 	private static BooleanExpression toManoCondition(final List<ListRecord> lrs) {

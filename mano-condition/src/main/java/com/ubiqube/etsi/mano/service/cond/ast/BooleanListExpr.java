@@ -18,6 +18,8 @@ package com.ubiqube.etsi.mano.service.cond.ast;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.service.cond.BooleanOperatorEnum;
 import com.ubiqube.etsi.mano.service.cond.Visitor;
 
@@ -26,7 +28,8 @@ public class BooleanListExpr extends AbstractBooleanExpression {
 	private BooleanOperatorEnum op;
 	private List<BooleanExpression> condition;
 
-	public BooleanListExpr(final BooleanOperatorEnum valueOf, final List<BooleanExpression> res) {
+	@JsonCreator
+	public BooleanListExpr(@JsonProperty("op") final BooleanOperatorEnum valueOf, @JsonProperty("condition") final List<BooleanExpression> res) {
 		this.op = valueOf;
 		this.condition = res;
 	}
