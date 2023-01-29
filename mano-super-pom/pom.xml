@@ -6,12 +6,12 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.7.8</version>
+		<version>3.0.2</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ubiqube.mano</groupId>
 	<artifactId>mano-super-pom</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>3.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>mano-super-pom</name>
 	<description>ETSI-MANO super pom</description>
@@ -40,7 +40,7 @@
 		<com.ubiqube.swagger3>2.2.8</com.ubiqube.swagger3>
 		<com.ubiqube.mockito.version>4.11.0</com.ubiqube.mockito.version>
 		<com.ubiqube.elasticsearch.version>8.5.3</com.ubiqube.elasticsearch.version>
-		<com.ubiqube.springdoc.version>1.6.14</com.ubiqube.springdoc.version>
+		<com.ubiqube.springdoc.version>2.0.2</com.ubiqube.springdoc.version>
 		<com.ubiqube.orika.version>1.5.5</com.ubiqube.orika.version>
 	</properties>
 	<dependencyManagement>
@@ -62,7 +62,7 @@
 			</dependency>
 			<dependency>
 				<groupId>org.hibernate.search</groupId>
-				<artifactId>hibernate-search-mapper-orm</artifactId>
+				<artifactId>hibernate-search-mapper-orm-orm6</artifactId>
 				<version>${com.ubiqube.hibernate-search6.version}</version>
 			</dependency>
 			<dependency>
@@ -80,27 +80,15 @@
 				<artifactId>hibernate-search-engine</artifactId>
 				<version>${com.ubiqube.hibernate-search6.version}</version>
 			</dependency>
-
-			<dependency>
-				<groupId>com.google.code.findbugs</groupId>
-				<artifactId>jsr305</artifactId>
-				<version>3.0.2</version>
-			</dependency>
 			<dependency>
 				<groupId>io.swagger</groupId>
 				<artifactId>swagger-annotations</artifactId>
 				<version>1.6.6</version>
 			</dependency>
 			<dependency>
-				<groupId>net.rakugakibox.spring.boot</groupId>
+				<groupId>com.ubiqube.orika</groupId>
 				<artifactId>orika-spring-boot-starter</artifactId>
-				<version>1.9.0</version>
-				<exclusions>
-					<exclusion>
-						<groupId>ma.glasnost.orika</groupId>
-						<artifactId>orika-core</artifactId>
-					</exclusion>
-				</exclusions>
+				<version>3.0.2-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>ma.glasnost.orika</groupId>
@@ -125,7 +113,7 @@
 			<dependency>
 				<groupId>org.antlr</groupId>
 				<artifactId>antlr4-runtime</artifactId>
-				<version>4.9.3</version>
+				<version>4.10.1</version>
 			</dependency>
 			<dependency>
 				<groupId>com.github.openstack4j.core</groupId>
@@ -201,9 +189,15 @@
 			</dependency>
 			<dependency>
 				<groupId>org.springdoc</groupId>
-				<artifactId>springdoc-openapi-ui</artifactId>
+				<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 				<version>${com.ubiqube.springdoc.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
+				<version>${com.ubiqube.springdoc.version}</version>
+			</dependency>
+
 			<dependency>
 				<groupId>org.springdoc</groupId>
 				<artifactId>springdoc-openapi-security</artifactId>
@@ -222,17 +216,17 @@
 			<dependency>
 				<groupId>org.keycloak</groupId>
 				<artifactId>keycloak-spring-boot-starter</artifactId>
-				<version>18.0.0</version>
+				<version>20.0.3</version>
 			</dependency>
 			<dependency>
 				<groupId>de.codecentric</groupId>
 				<artifactId>spring-boot-admin-starter-client</artifactId>
-				<version>2.6.6</version>
+				<version>3.0.0</version>
 			</dependency>
 			<dependency>
 				<groupId>org.bouncycastle</groupId>
 				<artifactId>bcpkix-jdk18on</artifactId>
-				<version>1.71</version>
+				<version>1.72</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -272,7 +266,6 @@
 			<plugin>
 				<groupId>io.github.git-commit-id</groupId>
 				<artifactId>git-commit-id-maven-plugin</artifactId>
-				<version>5.0.0</version>
 				<configuration>
 					<generateGitPropertiesFile>true</generateGitPropertiesFile>
 					<generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
