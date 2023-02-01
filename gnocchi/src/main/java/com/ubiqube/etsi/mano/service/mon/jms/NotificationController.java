@@ -19,8 +19,6 @@ package com.ubiqube.etsi.mano.service.mon.jms;
 import java.util.List;
 import java.util.Objects;
 
-import javax.validation.constraints.NotNull;
-
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -34,6 +32,8 @@ import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
 import com.ubiqube.etsi.mano.service.mon.gnocchi.Constants;
 import com.ubiqube.etsi.mano.service.mon.vim.GnocchiSubTelemetry;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
+
+import jakarta.validation.constraints.NotNull;
 
 /**
  *

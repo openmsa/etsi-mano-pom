@@ -20,10 +20,9 @@ import java.io.Serializable;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 import lombok.Getter;
 import lombok.Setter;
 
