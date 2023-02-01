@@ -20,8 +20,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.annotation.Priority;
-
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
@@ -42,6 +40,8 @@ import com.ubiqube.etsi.mano.service.pkg.ToscaException;
 import com.ubiqube.etsi.mano.service.pkg.bean.nsscaling.NsScaling;
 import com.ubiqube.etsi.mano.service.pkg.bean.nsscaling.RootLeaf;
 import com.ubiqube.etsi.mano.service.pkg.ns.NsPackageProvider;
+
+import jakarta.annotation.Priority;
 
 /**
  *

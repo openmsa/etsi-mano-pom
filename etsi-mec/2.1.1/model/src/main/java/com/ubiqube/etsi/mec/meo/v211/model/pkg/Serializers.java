@@ -21,8 +21,8 @@ import io.swagger.annotations.ApiModel;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * &#x27;Information about the serializers in this binding, as defined in the SerializerTypes type in ETSI GS MEC 011 &#x27;

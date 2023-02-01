@@ -23,8 +23,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents subscription filter criteria to match NS instances. NOTE 1: The attributes \&quot;nsdIds\&quot;, \&quot;vnfdIds\&quot; and \&quot;pnfdIds\&quot; are alternatives to reference to NS instances that are created based on certain NSDs, or contain VNF instances that are based on certain VNFDs, or contain PNFs that are based on certain PNFDs in a filter. They should not be used together in the same filter instance, but one alternative should be chosen. NOTE 2: The attributes \&quot;nsInstanceIds\&quot; and \&quot;nsInstanceNames\&quot; are alternatives to reference to particular NS Instances in a filter. They should not be used both in the same filter instance, but one alternative should be chosen. 

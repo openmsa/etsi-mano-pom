@@ -21,10 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -32,7 +28,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-
+import jakarta.annotation.Nonnull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Size;
 
 /**
  * This type provides information regarding a resource placement constraint. A
@@ -49,7 +47,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
  */
 @Schema(description = "This type provides information regarding a resource placement constraint. A set of such constraints may be sent by the VNFM to the NFVO to influence the resource placement decisions made by the NFVO as part of the granting process. A placement constraint defines a condition to the placement of new resources, considering other new resources as well as existing resources. EXAMPLE: The following rules influence the placement of a set of resources such that they are placed in the same Network Function Virtualisation Infrastructure Point of Presence (NFVI-PoP) but in different resource zones: {type=\"affinity\"; scope=\"NFVI_POP\"; {resource1,resource2}} {type=\"anti-affinity\"; scope=\"ZONE\"; {resource1,resource2}} ")
 @Validated
-
 
 public class PlacementConstraint {
 	/**
@@ -140,11 +137,11 @@ public class PlacementConstraint {
 
 	/**
 	 * The type of the constraint. Permitted values: * AFFINITY * ANTI_AFFINITY
-	 * 
+	 *
 	 * @return affinityOrAntiAffinity
 	 **/
 	@Schema(required = true, description = "The type of the constraint. Permitted values: * AFFINITY * ANTI_AFFINITY ")
-	@NotNull
+	@Nonnull
 
 	public AffinityOrAntiAffinityEnum getAffinityOrAntiAffinity() {
 		return affinityOrAntiAffinity;
@@ -163,11 +160,11 @@ public class PlacementConstraint {
 	 * The scope of the placement constraint indicating the category of the
 	 * \"place\" where the constraint applies. Permitted values: * NFVI_POP * ZONE *
 	 * ZONE_GROUP * NFVI_NODE
-	 * 
+	 *
 	 * @return scope
 	 **/
 	@Schema(required = true, description = "The scope of the placement constraint indicating the category of the \"place\" where the constraint applies. Permitted values: * NFVI_POP * ZONE * ZONE_GROUP * NFVI_NODE ")
-	@NotNull
+	@Nonnull
 
 	public ScopeEnum getScope() {
 		return scope;
@@ -189,11 +186,11 @@ public class PlacementConstraint {
 
 	/**
 	 * References to resources in the constraint rule.
-	 * 
+	 *
 	 * @return resource
 	 **/
 	@Schema(required = true, description = "References to resources in the constraint rule. ")
-	@NotNull
+	@Nonnull
 
 	@Valid
 	@Size(min = 2)
@@ -216,7 +213,7 @@ public class PlacementConstraint {
 	 * constraint need not be fully satisfied, i.e. if the allocation cannot be
 	 * honoured with the placement constraint, the request is processed in a best
 	 * effort manner.
-	 * 
+	 *
 	 * @return fallbackBestEffort
 	 **/
 	@Schema(description = "Indication if the constraint is handled with fall back best effort. Default value is “false”. If set to true, the Affinity/Anti_Affinity placement constraint need not be fully satisfied, i.e. if the allocation cannot be honoured with the placement constraint, the request is processed in a best effort manner. ")

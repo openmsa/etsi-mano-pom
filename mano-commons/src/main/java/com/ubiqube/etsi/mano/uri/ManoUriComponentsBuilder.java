@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.uri;
 
 import java.net.URI;
 
+import org.springframework.hateoas.server.core.UriMapping;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.web.context.request.RequestAttributes;
@@ -92,5 +93,9 @@ public class ManoUriComponentsBuilder {
 	@Nullable
 	private static URI getCachedBaseUri() {
 		return (URI) getRequestAttributes().getAttribute(CACHE_KEY, RequestAttributes.SCOPE_REQUEST);
+	}
+
+	public static UriComponentsBuilder forMapping(final UriMapping mapping) {
+		return getBuilder().path(mapping.getMapping());
 	}
 }

@@ -19,8 +19,8 @@ package com.ubiqube.etsi.mec.controller.pkg;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
-import javax.validation.constraints.NotNull;
+import jakarta.annotation.Nonnull;
+import jakarta.validation.constraints.NotNull;
 
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;

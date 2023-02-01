@@ -19,8 +19,8 @@ package com.ubiqube.etsi.mec.mepm.controller.lcm;
 import java.util.HashMap;
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
-import javax.validation.constraints.NotNull;
+import jakarta.annotation.Nonnull;
+import jakarta.validation.constraints.NotNull;
 
 import org.springframework.stereotype.Service;
 

@@ -25,8 +25,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type provides protocol specific information about the connectivity to the WAN of network resources realizing a VL, e.g., when the VL is deployed on several sites and across a WAN, and the related multi-site connectivity service (MSCS) enabling the connectivity through the WAN. This type supports providing information about both pre-provisioned WAN connectivity realized by external entities to NFV-MANO but parts of such connectivity is known to the NFVO, as well as information about MSCS created under NFV-MANO responsibility (i.e., connectivity is realized when NFVO communicates with the WIM).  It shall comply with the provisions defined in table 6.5.3.91-1. 

@@ -18,15 +18,15 @@ package com.ubiqube.etsi.mano.nfvo.service;
 
 import java.util.function.BiFunction;
 
-import javax.transaction.Transactional;
-import javax.transaction.Transactional.TxType;
-
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.ipam.Networks;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.nfvo.jpa.ipam.NetworksJpa;
+
+import jakarta.transaction.Transactional;
+import jakarta.transaction.Transactional.TxType;
 
 @Service
 public class IpamService {

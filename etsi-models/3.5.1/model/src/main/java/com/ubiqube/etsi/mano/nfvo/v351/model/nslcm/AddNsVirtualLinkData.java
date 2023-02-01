@@ -21,8 +21,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type specifies the parameters used for the creation of a new NsVirtualLink instance. It shall comply with the provisions defined in table 6.5.3.95-1. NOTE: All NsVirtualLink instances of a particular NS DF based on a specific \&quot;NsVirtualLinkDesc\&quot; have the same characteristics as they use the same \&quot;VirtualLinkProfile\&quot;. 

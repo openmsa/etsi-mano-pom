@@ -19,11 +19,11 @@ package com.ubiqube.etsi.mano.dao.mano;
 import java.util.Set;
 import java.util.UUID;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
 
 import lombok.Getter;
 import lombok.Setter;

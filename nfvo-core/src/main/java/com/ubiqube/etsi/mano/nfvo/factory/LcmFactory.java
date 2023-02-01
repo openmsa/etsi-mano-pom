@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.nfvo.factory;
 
 import java.time.OffsetDateTime;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.v2.BlueprintParameters;

@@ -17,187 +17,190 @@
 package com.ubiqube.etsi.mano.vnfm.v261.model.vnfind;
 
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.ubiqube.etsi.mano.vnfm.v261.model.vnfind.VnfIndicatorLinks;
-import io.swagger.v3.oas.annotations.media.Schema;
 
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.annotation.Nonnull;
+import jakarta.validation.Valid;
 
 /**
- * This type represents a VNF indicator value. 
+ * This type represents a VNF indicator value.
  */
 @Schema(description = "This type represents a VNF indicator value. ")
 @Validated
 
-public class VnfIndicator   {
-  @JsonProperty("id")
-  private String id = null;
+public class VnfIndicator {
+	@JsonProperty("id")
+	private String id = null;
 
-  @JsonProperty("name")
-  private String name = null;
+	@JsonProperty("name")
+	private String name = null;
 
-  @JsonProperty("value")
-  private Object value = null;
+	@JsonProperty("value")
+	private Object value = null;
 
-  @JsonProperty("vnfInstanceId")
-  private String vnfInstanceId = null;
+	@JsonProperty("vnfInstanceId")
+	private String vnfInstanceId = null;
 
-  @JsonProperty("_links")
-  private VnfIndicatorLinks links = null;
+	@JsonProperty("_links")
+	private VnfIndicatorLinks links = null;
 
-  public VnfIndicator id(String id) {
-    this.id = id;
-    return this;
-  }
+	public VnfIndicator id(final String id) {
+		this.id = id;
+		return this;
+	}
 
-  /**
-   * Identifier of this VNF indicator. 
-   * @return id
-  **/
-  @Schema(required = true, description = "Identifier of this VNF indicator. ")
-  @NotNull
+	/**
+	 * Identifier of this VNF indicator.
+	 *
+	 * @return id
+	 **/
+	@Schema(required = true, description = "Identifier of this VNF indicator. ")
+	@Nonnull
 
+	public String getId() {
+		return id;
+	}
 
-  public String getId() {
-    return id;
-  }
+	public void setId(final String id) {
+		this.id = id;
+	}
 
-  public void setId(String id) {
-    this.id = id;
-  }
+	public VnfIndicator name(final String name) {
+		this.name = name;
+		return this;
+	}
 
-  public VnfIndicator name(String name) {
-    this.name = name;
-    return this;
-  }
+	/**
+	 * Human readable name of the indicator. Shall be present if defined in the
+	 * VNFD.
+	 *
+	 * @return name
+	 **/
+	@Schema(description = "Human readable name of the indicator. Shall be present if defined in the VNFD. ")
 
-  /**
-   * Human readable name of the indicator. Shall be present if defined in the VNFD. 
-   * @return name
-  **/
-  @Schema(description = "Human readable name of the indicator. Shall be present if defined in the VNFD. ")
+	public String getName() {
+		return name;
+	}
 
+	public void setName(final String name) {
+		this.name = name;
+	}
 
-  public String getName() {
-    return name;
-  }
+	public VnfIndicator value(final Object value) {
+		this.value = value;
+		return this;
+	}
 
-  public void setName(String name) {
-    this.name = name;
-  }
+	/**
+	 * Provides the value of the indicator. The value format is defined in the VNFD.
+	 * ETSI GS NFV-SOL 001 specifies the structure and format of the VNFD based on
+	 * TOSCA specifications.
+	 *
+	 * @return value
+	 **/
+	@Schema(required = true, description = "Provides the value of the indicator. The value format is defined in the VNFD. ETSI GS NFV-SOL 001 specifies the structure and format of the  VNFD based on TOSCA specifications. ")
+	@Nonnull
 
-  public VnfIndicator value(Object value) {
-    this.value = value;
-    return this;
-  }
+	public Object getValue() {
+		return value;
+	}
 
-  /**
-   * Provides the value of the indicator. The value format is defined in the VNFD. ETSI GS NFV-SOL 001 specifies the structure and format of the  VNFD based on TOSCA specifications. 
-   * @return value
-  **/
-  @Schema(required = true, description = "Provides the value of the indicator. The value format is defined in the VNFD. ETSI GS NFV-SOL 001 specifies the structure and format of the  VNFD based on TOSCA specifications. ")
-  @NotNull
+	public void setValue(final Object value) {
+		this.value = value;
+	}
 
+	public VnfIndicator vnfInstanceId(final String vnfInstanceId) {
+		this.vnfInstanceId = vnfInstanceId;
+		return this;
+	}
 
-  public Object getValue() {
-    return value;
-  }
+	/**
+	 * Identifier of the \"Individual VNF instance\" which provides the indicator
+	 * value.
+	 *
+	 * @return vnfInstanceId
+	 **/
+	@Schema(required = true, description = "Identifier of the \"Individual VNF instance\" which provides the indicator value. ")
+	@Nonnull
 
-  public void setValue(Object value) {
-    this.value = value;
-  }
+	public String getVnfInstanceId() {
+		return vnfInstanceId;
+	}
 
-  public VnfIndicator vnfInstanceId(String vnfInstanceId) {
-    this.vnfInstanceId = vnfInstanceId;
-    return this;
-  }
+	public void setVnfInstanceId(final String vnfInstanceId) {
+		this.vnfInstanceId = vnfInstanceId;
+	}
 
-  /**
-   * Identifier of the \"Individual VNF instance\" which provides the indicator value. 
-   * @return vnfInstanceId
-  **/
-  @Schema(required = true, description = "Identifier of the \"Individual VNF instance\" which provides the indicator value. ")
-  @NotNull
+	public VnfIndicator links(final VnfIndicatorLinks links) {
+		this.links = links;
+		return this;
+	}
 
+	/**
+	 * Get links
+	 *
+	 * @return links
+	 **/
+	@Schema(required = true, description = "")
+	@Nonnull
 
-  public String getVnfInstanceId() {
-    return vnfInstanceId;
-  }
+	@Valid
 
-  public void setVnfInstanceId(String vnfInstanceId) {
-    this.vnfInstanceId = vnfInstanceId;
-  }
+	public VnfIndicatorLinks getLinks() {
+		return links;
+	}
 
-  public VnfIndicator links(VnfIndicatorLinks links) {
-    this.links = links;
-    return this;
-  }
+	public void setLinks(final VnfIndicatorLinks links) {
+		this.links = links;
+	}
 
-  /**
-   * Get links
-   * @return links
-  **/
-  @Schema(required = true, description = "")
-  @NotNull
+	@Override
+	public boolean equals(final java.lang.Object o) {
+		if (this == o) {
+			return true;
+		}
+		if ((o == null) || (getClass() != o.getClass())) {
+			return false;
+		}
+		final VnfIndicator vnfIndicator = (VnfIndicator) o;
+		return Objects.equals(this.id, vnfIndicator.id) &&
+				Objects.equals(this.name, vnfIndicator.name) &&
+				Objects.equals(this.value, vnfIndicator.value) &&
+				Objects.equals(this.vnfInstanceId, vnfIndicator.vnfInstanceId) &&
+				Objects.equals(this.links, vnfIndicator.links);
+	}
 
-  @Valid
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, name, value, vnfInstanceId, links);
+	}
 
-  public VnfIndicatorLinks getLinks() {
-    return links;
-  }
+	@Override
+	public String toString() {
+		final StringBuilder sb = new StringBuilder();
+		sb.append("class VnfIndicator {\n");
 
-  public void setLinks(VnfIndicatorLinks links) {
-    this.links = links;
-  }
+		sb.append("    id: ").append(toIndentedString(id)).append("\n");
+		sb.append("    name: ").append(toIndentedString(name)).append("\n");
+		sb.append("    value: ").append(toIndentedString(value)).append("\n");
+		sb.append("    vnfInstanceId: ").append(toIndentedString(vnfInstanceId)).append("\n");
+		sb.append("    links: ").append(toIndentedString(links)).append("\n");
+		sb.append("}");
+		return sb.toString();
+	}
 
-
-  @Override
-  public boolean equals(java.lang.Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    VnfIndicator vnfIndicator = (VnfIndicator) o;
-    return Objects.equals(this.id, vnfIndicator.id) &&
-        Objects.equals(this.name, vnfIndicator.name) &&
-        Objects.equals(this.value, vnfIndicator.value) &&
-        Objects.equals(this.vnfInstanceId, vnfIndicator.vnfInstanceId) &&
-        Objects.equals(this.links, vnfIndicator.links);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, name, value, vnfInstanceId, links);
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class VnfIndicator {\n");
-    
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    value: ").append(toIndentedString(value)).append("\n");
-    sb.append("    vnfInstanceId: ").append(toIndentedString(vnfInstanceId)).append("\n");
-    sb.append("    links: ").append(toIndentedString(links)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
+	/**
+	 * Convert the given object to string with each line indented by 4 spaces
+	 * (except the first line).
+	 */
+	private String toIndentedString(final java.lang.Object o) {
+		if (o == null) {
+			return "null";
+		}
+		return o.toString().replace("\n", "\n    ");
+	}
 }
-

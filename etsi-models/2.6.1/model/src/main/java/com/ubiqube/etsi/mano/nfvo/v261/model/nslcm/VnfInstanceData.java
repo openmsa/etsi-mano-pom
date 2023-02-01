@@ -19,7 +19,7 @@ package com.ubiqube.etsi.mano.nfvo.v261.model.nslcm;
 
 import java.util.Objects;
 
-import javax.validation.constraints.NotNull;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -55,7 +55,7 @@ public class VnfInstanceData {
 	 * @return vnfInstanceId
 	 **/
 	@Schema(required = true, description = "Identifier of the existing VNF instance to be used in the NS. ")
-	@NotNull
+	@Nonnull
 
 	public String getVnfInstanceId() {
 		return vnfInstanceId;
@@ -78,7 +78,7 @@ public class VnfInstanceData {
 	 * @return vnfProfileId
 	 **/
 	@Schema(required = true, description = "Identifier of (Reference to) a vnfProfile defined in the NSD which the existing VNF instance shall be matched with. If not present, the NFVO will select the VnfProfile matching the information in the VNF instance. ")
-	@NotNull
+	@Nonnull
 
 	public String getVnfProfileId() {
 		return vnfProfileId;

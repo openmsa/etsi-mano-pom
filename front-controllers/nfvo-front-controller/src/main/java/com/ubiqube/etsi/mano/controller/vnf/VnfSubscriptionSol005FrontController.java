@@ -19,7 +19,7 @@ package com.ubiqube.etsi.mano.controller.vnf;
 import java.util.List;
 import java.util.function.Consumer;
 
-import javax.validation.constraints.NotNull;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.http.ResponseEntity;
 
@@ -29,7 +29,7 @@ public interface VnfSubscriptionSol005FrontController {
 
 	<U> ResponseEntity<U> create(Object subscriptionsPostQuery, Class<?> version, Class<U> clazz, Consumer<U> makeLinks);
 
-	ResponseEntity<Void> delete(@NotNull String subscriptionId);
+	ResponseEntity<Void> delete(@Nonnull String subscriptionId);
 
 	<U> ResponseEntity<U> findById(String subscriptionId, Class<U> clazz, Consumer<U> makeLinks);
 

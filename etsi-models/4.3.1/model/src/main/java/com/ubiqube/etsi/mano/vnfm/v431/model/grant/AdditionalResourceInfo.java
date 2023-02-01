@@ -19,7 +19,7 @@ package com.ubiqube.etsi.mano.vnfm.v431.model.grant;
 import java.util.Map;
 import java.util.Objects;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import org.springframework.validation.annotation.Validated;
 

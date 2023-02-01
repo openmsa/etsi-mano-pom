@@ -27,8 +27,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents information about an external VL. NOTE: This attribute reflects the current configuration information that has resulted from merging into this attribute        the \&quot;VnfExtCpData\&quot; information which was passed as part of the \&quot;ExtVirtualLinkData\&quot; structure in the input of the        most recent VNF LCM operation such as \&quot;InstantiateVnfRequest\&quot;, \&quot;ChangeExtVnfConnectivityRequest\&quot;, \&quot;ChangeVnfFlavourRequest\&quot;        or \&quot;ChangeCurrentVnfPkgRequest\&quot;, or in the Grant response. If applying such change results in an empty list of        \&quot;currentVnfExtCpData\&quot; structure instances, the affected instance of \&quot;ExtVirtualLinkInfo\&quot; shall be removed from its        parent data structure. 

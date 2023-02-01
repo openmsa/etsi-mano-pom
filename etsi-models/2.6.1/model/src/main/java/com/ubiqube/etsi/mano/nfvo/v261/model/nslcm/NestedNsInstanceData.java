@@ -19,7 +19,7 @@ package com.ubiqube.etsi.mano.nfvo.v261.model.nslcm;
 
 import java.util.Objects;
 
-import javax.validation.constraints.NotNull;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -55,7 +55,7 @@ public class NestedNsInstanceData {
 	 * @return nestedNsInstanceId
 	 **/
 	@Schema(required = true, description = "Identifier of the existing nested NS instance to be used in the NS. ")
-	@NotNull
+	@Nonnull
 
 	public String getNestedNsInstanceId() {
 		return nestedNsInstanceId;

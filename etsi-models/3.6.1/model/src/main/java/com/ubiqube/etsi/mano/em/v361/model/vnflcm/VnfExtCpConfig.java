@@ -24,8 +24,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents an externally provided link port or network address information per instance of an external connection point. In case a link port is provided, the VNFM shall use that link port when connecting the external CP to the external VL. In a link port is not provided, the VNFM shall create a link port on the external VL, and use that link port to connect the external CP to the external VL. * NOTE: The following conditions apply to the attributes \&quot;linkPortId\&quot; and \&quot;cpProtocolData\&quot;:     1)  Void.     2)  At least one of the \&quot;linkPortId\&quot; and \&quot;cpProtocolData\&quot; attributes shall be present for an external         CP instance representing a subport that is to be created, or an external CP instance that is to be         created by creating the corresponding VNFC or VNF instance during the current or a subsequent LCM         operation, or for an existing external CP instance that is to be re-configured or added to a         particular external virtual link.     3)  If the \&quot;linkPortId\&quot; attribute is absent, the VNFM shall create a link port.     4)  If the \&quot;cpProtocolData\&quot; attribute is absent, the \&quot;linkPortId\&quot; attribute shall be provided referencing         a pre created link port, and the VNFM can use means outside the scope of the present document to obtain         the pre-configured address information for the connection point from the resource representing         the link port.     5)  If both \&quot;cpProtocolData\&quot; and \&quot;linkportId\&quot; are provided, the API consumer shall ensure that the         cpProtocolData can be used with the pre-created link port referenced by \&quot;linkPortId\&quot;. 

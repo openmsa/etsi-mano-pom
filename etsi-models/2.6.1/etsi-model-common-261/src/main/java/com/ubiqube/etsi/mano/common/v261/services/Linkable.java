@@ -19,7 +19,7 @@ package com.ubiqube.etsi.mano.common.v261.services;
 
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import com.ubiqube.etsi.mano.common.v261.model.vnf.PkgmLinks;
 import com.ubiqube.etsi.mano.common.v261.model.vnf.PkgmSubscription;

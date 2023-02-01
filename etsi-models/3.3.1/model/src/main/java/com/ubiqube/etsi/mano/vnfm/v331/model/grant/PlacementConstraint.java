@@ -25,8 +25,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type provides information regarding a resource placement constraint. A set of such constraints may be sent by the VNFM to the NFVO to influence the resource placement decisions made by the NFVO as part of the granting process. A placement constraint defines a condition to the placement of new resources, considering other new resources as well as existing resources. EXAMPLE: The following rules influence the placement of a set of resources such that they are placed in the same Network Function Virtualisation Infrastructure Point of Presence (NFVI-PoP) but in different resource zones: {type&#x3D;\&quot;AFFINITY\&quot;; scope&#x3D;\&quot;NFVI_POP\&quot;; {resource1,resource2}} {type&#x3D;\&quot;ANTI_AFFINITY\&quot;; scope&#x3D;\&quot;ZONE\&quot;; {resource1,resource2}} 

@@ -2,7 +2,7 @@ package com.ubiqube.etsi.mano.em.v261.controller.vnflcm;
 
 import java.util.Optional;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 

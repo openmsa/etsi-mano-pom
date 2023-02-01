@@ -31,7 +31,6 @@ public class WebSecurityConfig {
 	private final SecutiryConfig secutiryConfig;
 
 	public WebSecurityConfig(final SecutiryConfig secutiryConfig) {
-		super();
 		this.secutiryConfig = secutiryConfig;
 	}
 
@@ -44,19 +43,19 @@ public class WebSecurityConfig {
 			http.headers().frameOptions().sameOrigin();
 			http.csrf().disable();
 			final var res = http.authorizeRequests()
-					.antMatchers("/").permitAll()
-					.antMatchers("/api/**").permitAll()
-					.antMatchers("/ui/**").permitAll()
-					.antMatchers("/webjars/**").permitAll()
-					.antMatchers("/npm/**").permitAll()
-					.antMatchers("/error").permitAll()
-					.antMatchers("/h2-console/**").permitAll()
-					.antMatchers("/download/**").permitAll()
-					.antMatchers("/actuator/**").permitAll()
-					.antMatchers("/swagger-ui.html").permitAll()
-					.antMatchers("/swagger-ui/**").permitAll()
-					.antMatchers("/api-docs/**").permitAll()
-					.antMatchers("/v3/**").permitAll()
+					.requestMatchers("/").permitAll()
+					.requestMatchers("/api/**").permitAll()
+					.requestMatchers("/ui/**").permitAll()
+					.requestMatchers("/webjars/**").permitAll()
+					.requestMatchers("/npm/**").permitAll()
+					.requestMatchers("/error").permitAll()
+					.requestMatchers("/h2-console/**").permitAll()
+					.requestMatchers("/download/**").permitAll()
+					.requestMatchers("/actuator/**").permitAll()
+					.requestMatchers("/swagger-ui.html").permitAll()
+					.requestMatchers("/swagger-ui/**").permitAll()
+					.requestMatchers("/api-docs/**").permitAll()
+					.requestMatchers("/v3/**").permitAll()
 					.anyRequest().authenticated();
 			secutiryConfig.configure(res);
 			return http.build();

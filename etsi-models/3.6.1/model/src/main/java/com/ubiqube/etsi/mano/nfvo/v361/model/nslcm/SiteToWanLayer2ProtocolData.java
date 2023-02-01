@@ -25,8 +25,8 @@ import com.ubiqube.etsi.mano.nfvo.v361.model.nslcm.SiteToWanLayer2ProtocolDataVi
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type provides information about Layer 2 protocol specific information for the configuration of the NFVI-PoP network gateway to enable the stitching of the intra-site VN to the MSCS over the WAN. It shall comply with the provisions defined in Table 6.5.3.85-1. NOTE: Either \&quot;networkResources\&quot; or \&quot;vnSegmentsIds\&quot; shall be provided, but not both. 

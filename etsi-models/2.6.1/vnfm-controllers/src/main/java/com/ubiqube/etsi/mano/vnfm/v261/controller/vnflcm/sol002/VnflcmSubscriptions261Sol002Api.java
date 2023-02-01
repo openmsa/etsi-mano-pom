@@ -23,8 +23,8 @@ package com.ubiqube.etsi.mano.vnfm.v261.controller.vnflcm.sol002;
 
 import java.util.List;
 
-import javax.annotation.security.RolesAllowed;
-import javax.validation.Valid;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

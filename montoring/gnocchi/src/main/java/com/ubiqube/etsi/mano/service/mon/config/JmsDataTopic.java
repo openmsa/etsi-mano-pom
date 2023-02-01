@@ -16,8 +16,6 @@
  */
 package com.ubiqube.etsi.mano.service.mon.config;
 
-import javax.jms.ConnectionFactory;
-
 import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,6 +26,8 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.support.converter.MessageConverter;
 
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
+import jakarta.jms.ConnectionFactory;
 
 /**
  *

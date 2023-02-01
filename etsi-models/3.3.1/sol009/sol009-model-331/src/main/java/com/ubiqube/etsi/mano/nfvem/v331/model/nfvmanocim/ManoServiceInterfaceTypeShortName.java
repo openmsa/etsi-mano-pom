@@ -3,8 +3,8 @@ package com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim;
 import java.util.Objects;
 import io.swagger.annotations.ApiModel;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * For the RESTful NFV-MANO APIs, valid values are all values for \&quot;apiName\&quot; as defined  in ETSI GS NFV-SOL 002, ETSI GS NFV-SOL 003, and ETSI GS NFV-SOL 005. For the NFV-MANO service interfaces for which no API is specified by ETSI NFV, valid  values are defined in table 5.6.4.3-1. NOTE: The table is expected to be updated, by removing the corresponding listed entries,  once the interfaces are specified as a RESTful NFV-MANO API.  

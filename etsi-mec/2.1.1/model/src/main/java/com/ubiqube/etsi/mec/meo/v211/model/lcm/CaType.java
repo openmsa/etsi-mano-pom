@@ -19,8 +19,8 @@ package com.ubiqube.etsi.mec.meo.v211.model.lcm;
 import java.util.Objects;
 import io.swagger.annotations.ApiModel;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * &#x27;Describe the content type of caValue. The value of caType shall comply with section 3.4 of IETF RFC 4776.&#x27;

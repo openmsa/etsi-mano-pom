@@ -19,8 +19,8 @@ package com.ubiqube.etsi.mano.nfvo.v261.model.nsd.sol005;
 
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -55,7 +55,7 @@ public class PnfdInfoLinks {
 	 * @return self
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	@Valid
 
@@ -78,7 +78,7 @@ public class PnfdInfoLinks {
 	 * @return pnfdContent
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	@Valid
 

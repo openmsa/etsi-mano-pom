@@ -21,8 +21,8 @@ import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -91,7 +91,7 @@ public class NsLcmOpOcc {
 	 * @return id
 	 **/
 	@Schema(required = true, description = "Identifier of this NS lifecycle operation occurrence. ")
-	@NotNull
+	@Nonnull
 
 	public String getId() {
 		return id;
@@ -112,7 +112,7 @@ public class NsLcmOpOcc {
 	 * @return operationState
 	 **/
 	@Schema(required = true, description = "The state of the NS LCM operation. ")
-	@NotNull
+	@Nonnull
 
 	@Valid
 
@@ -156,7 +156,7 @@ public class NsLcmOpOcc {
 	 * @return nsInstanceId
 	 **/
 	@Schema(required = true, description = "Identifier of the NS instance to which the operation applies. ")
-	@NotNull
+	@Nonnull
 
 	public UUID getNsInstanceId() {
 		return nsInstanceId;
@@ -178,7 +178,7 @@ public class NsLcmOpOcc {
 	 * @return lcmOperationType
 	 **/
 	@Schema(required = true, description = "Type of the actual LCM operation represented by this lcm operation occurrence. ")
-	@NotNull
+	@Nonnull
 
 	@Valid
 	public NsLcmOpType getLcmOperationType() {
@@ -200,7 +200,7 @@ public class NsLcmOpOcc {
 	 * @return startTime
 	 **/
 	@Schema(required = true, description = "Date-time of the start of the operation. ")
-	@NotNull
+	@Nonnull
 
 	@Valid
 	public OffsetDateTime getStartTime() {
@@ -225,7 +225,7 @@ public class NsLcmOpOcc {
 	 * @return isAutomaticInvocation
 	 **/
 	@Schema(required = true, description = "Set to true if this NS LCM operation occurrence has been automatically triggered by the NFVO. This occurs in the case of auto-scaling, auto-healing and when a nested NS is modified as a result of an operation on its composite NS. Set to false otherwise. ")
-	@NotNull
+	@Nonnull
 
 	public Boolean isIsAutomaticInvocation() {
 		return isAutomaticInvocation;
@@ -276,7 +276,7 @@ public class NsLcmOpOcc {
 	 * @return isCancelPending
 	 **/
 	@Schema(required = true, description = "If the LCM operation occurrence is in \"PROCESSING\" or \"ROLLING_BACK\" state and the operation is being cancelled, this attribute shall be set to true. Otherwise, it shall be set to false. ")
-	@NotNull
+	@Nonnull
 
 	public Boolean isIsCancelPending() {
 		return isCancelPending;
@@ -365,7 +365,7 @@ public class NsLcmOpOcc {
 	 * @return links
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	@Valid
 

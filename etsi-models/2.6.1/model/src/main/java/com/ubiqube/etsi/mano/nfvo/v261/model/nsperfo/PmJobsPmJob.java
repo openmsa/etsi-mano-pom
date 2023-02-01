@@ -21,8 +21,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +56,7 @@ public class PmJobsPmJob  {
    * @return id
   **/
   @JsonProperty("id")
-  @NotNull
+  @Nonnull
   public String getId() {
     return id;
   }
@@ -75,7 +75,7 @@ public class PmJobsPmJob  {
    * @return objectInstanceIds
   **/
   @JsonProperty("objectInstanceIds")
-  @NotNull
+  @Nonnull
   public List<String> getObjectInstanceIds() {
     return objectInstanceIds;
   }
@@ -99,7 +99,7 @@ public class PmJobsPmJob  {
    * @return criteria
   **/
   @JsonProperty("criteria")
-  @NotNull
+  @Nonnull
   public PmJobsPmJobCriteria getCriteria() {
     return criteria;
   }

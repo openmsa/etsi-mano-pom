@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.nfvo.v281.controller.nsfm;
 
 import java.util.Optional;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.context.annotation.Conditional;
 import org.springframework.web.bind.annotation.RestController;

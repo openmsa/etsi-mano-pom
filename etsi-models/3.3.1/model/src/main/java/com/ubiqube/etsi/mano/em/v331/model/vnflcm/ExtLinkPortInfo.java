@@ -22,8 +22,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.em.v331.model.vnflcm.ResourceHandle;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents information about a link port of an external VL, i.e. a port providing connectivity for the VNF to an NS VL. 

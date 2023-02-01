@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.vnfm.v351.controller.vnfind;
 
 import java.util.List;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.http.ResponseEntity;

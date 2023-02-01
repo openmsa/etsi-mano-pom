@@ -23,8 +23,8 @@ import com.ubiqube.etsi.mec.meo.v211.model.lcm.AppProducts;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * &#x27;Present only if appInstIdSelector &#x3D; APP_FROM_PROVIDER. Match existing application instances, or those created in the future whilst the subscription is active, that belong to applications from certain providers.&#x27;

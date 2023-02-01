@@ -22,8 +22,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-import javax.persistence.EntityManager;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.stereotype.Service;
 
@@ -48,6 +47,8 @@ import com.ubiqube.etsi.mano.model.VnfScaleToLevelRequest;
 import com.ubiqube.etsi.mano.repository.jpa.SearchQueryer;
 import com.ubiqube.etsi.mano.vnfm.controller.vnflcm.VnfLcmFactory;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfBlueprintJpa;
+
+import jakarta.persistence.EntityManager;
 
 @Service
 public class VnfLcmService {

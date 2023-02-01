@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

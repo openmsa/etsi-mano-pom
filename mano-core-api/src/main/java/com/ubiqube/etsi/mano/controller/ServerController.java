@@ -24,10 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.security.RolesAllowed;
-import javax.validation.Valid;
-
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
@@ -46,6 +42,8 @@ import com.ubiqube.etsi.mano.service.ServerService;
 import com.ubiqube.etsi.mano.service.event.ActionType;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.validation.Valid;
 import ma.glasnost.orika.MapperFacade;
 
 /**
@@ -62,7 +60,6 @@ public class ServerController {
 	private final EventManager eventManager;
 
 	public ServerController(final ServerService serverService, final MapperFacade mapper, final EventManager eventManager) {
-		super();
 		this.serverService = serverService;
 		this.mapper = mapper;
 		this.eventManager = eventManager;
@@ -80,8 +77,8 @@ public class ServerController {
 
 	@GetMapping
 	public List<EntityModel<Servers>> findAll(final Pageable pageable) {
-		final Page<Servers> page = serverService.findAll(pageable);
-		return page.getContent().stream().map(x -> EntityModel.of(x, makeLinks(x))).toList();
+		final List<Servers> page = serverService.findAll(pageable);
+		return page.stream().map(x -> EntityModel.of(x, makeLinks(x))).toList();
 	}
 
 	@GetMapping("/{id}")

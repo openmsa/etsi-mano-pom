@@ -19,7 +19,7 @@ package com.ubiqube.etsi.mano.nfvo.service.rest;
 import java.util.List;
 import java.util.UUID;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Service;

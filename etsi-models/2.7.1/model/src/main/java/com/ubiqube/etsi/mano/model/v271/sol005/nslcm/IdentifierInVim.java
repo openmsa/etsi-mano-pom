@@ -20,8 +20,8 @@ package com.ubiqube.etsi.mano.model.v271.sol005.nslcm;
 import java.util.Objects;
 import io.swagger.annotations.ApiModel;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * An identifier maintained by the VIM or other resource provider. It is expected to be unique within the VIM instance. Representation: string of variable length. 

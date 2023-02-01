@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.ubiqube.mano</groupId>
 		<artifactId>etsi-front-controllers-aggregator</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>3.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>nfv-front-controller</artifactId>
 	<dependencies>

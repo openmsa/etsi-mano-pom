@@ -19,7 +19,7 @@ package com.ubiqube.etsi.mano.service.event;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.validation.constraints.NotNull;
+import jakarta.annotation.Nonnull;
 
 /**
  *
@@ -28,5 +28,5 @@ import javax.validation.constraints.NotNull;
  */
 public interface CommonActionDispatcher {
 
-	void dispatch(@NotNull final ActionType actionType, @NotNull final UUID objectId, @NotNull final Map<String, Object> parameters);
+	void dispatch(@Nonnull final ActionType actionType, @Nonnull final UUID objectId, @Nonnull final Map<String, Object> parameters);
 }

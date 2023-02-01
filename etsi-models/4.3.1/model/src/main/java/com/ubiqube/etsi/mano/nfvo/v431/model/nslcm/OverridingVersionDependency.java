@@ -22,8 +22,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.nfvo.v431.model.nslcm.VersionDependency;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents the information to override or add a version dependency in the runtime information that the NFVO keeps about a profile of a NSD constituent. It shall comply with the provisions defined in table 6.5.3.111-1. 

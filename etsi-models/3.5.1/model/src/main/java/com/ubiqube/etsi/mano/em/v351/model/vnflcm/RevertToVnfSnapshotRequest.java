@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.em.v351.model.vnflcm;
 
 import java.util.Objects;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import org.springframework.validation.annotation.Validated;
 

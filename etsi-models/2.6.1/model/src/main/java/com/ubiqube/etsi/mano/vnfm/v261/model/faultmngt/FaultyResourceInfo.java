@@ -19,8 +19,8 @@ package com.ubiqube.etsi.mano.vnfm.v261.model.faultmngt;
 
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -57,7 +57,7 @@ public class FaultyResourceInfo {
 	 * @return faultyResource
 	 **/
 	@Schema(required = true, description = "Information that identifies the faulty resource instance and its managing entity. ")
-	@NotNull
+	@Nonnull
 
 	@Valid
 
@@ -80,7 +80,7 @@ public class FaultyResourceInfo {
 	 * @return faultyResourceType
 	 **/
 	@Schema(required = true, description = "Type of the faulty resource. ")
-	@NotNull
+	@Nonnull
 
 	@Valid
 

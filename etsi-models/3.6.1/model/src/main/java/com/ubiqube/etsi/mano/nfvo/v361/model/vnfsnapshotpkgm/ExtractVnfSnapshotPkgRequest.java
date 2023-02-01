@@ -21,8 +21,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents the request parameters for extracting the content of a VNF snapshot package. It shall comply with the provisions defined in table 11.5.2.7-1. NOTE: Either the parameter vnfSnapshotInfoId or vnfInstanceId, but not both, shall be provided. 

@@ -26,8 +26,8 @@ import com.ubiqube.etsi.mano.nfvo.v361.model.nslcm.SiteToWanLayer3ProtocolDataVi
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type provides information about Layer 3 protocol specific information for the stitching of the intra-site VN to the multi-site connectivity service over the WAN. It shall comply with the provisions defined in Table 6.5.3.86-1. 

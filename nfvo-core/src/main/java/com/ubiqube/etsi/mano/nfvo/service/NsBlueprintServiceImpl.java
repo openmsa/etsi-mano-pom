@@ -26,7 +26,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.dao.mano.NsLiveInstance;
-import com.ubiqube.etsi.mano.dao.mano.NsSap;
 import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
@@ -56,12 +55,6 @@ public class NsBlueprintServiceImpl implements NsBlueprintService {
 		this.nsBlueprintJpa = nsBlueprintJpa;
 		this.nsLiveInstanceJpa = nsLiveInstanceJpa;
 		this.searchableService = searchableService;
-	}
-
-	@Override
-	public int getNumberOfLiveSap(final NsdInstance nsInstance, final NsSap x) {
-		final List<NsLiveInstance> res = nsLiveInstanceJpa.findByVnfInstanceAndTaskSapIsNotNull(nsInstance, x.getToscaName());
-		return res.size();
 	}
 
 	@Override

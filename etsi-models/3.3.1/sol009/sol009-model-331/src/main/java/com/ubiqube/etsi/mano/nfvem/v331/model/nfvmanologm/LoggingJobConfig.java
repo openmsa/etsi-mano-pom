@@ -8,8 +8,8 @@ import com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanologm.LoggingJobConfigSecuri
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents configuration data for a logging job. It shall comply with the provisions defined in table 8.6.3.6-1. NOTE: The present document version does not specify the support for \&quot;log compilation and reporting based on events\&quot; as specified in clause 6.6.2.2 of ETSI GS NFV-IFA 031.

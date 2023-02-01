@@ -31,7 +31,7 @@ package com.ubiqube.etsi.mano.vnfm.v261.model.nslcm;
 
 import java.util.Map;
 
-import javax.validation.constraints.NotNull;
+import jakarta.annotation.Nonnull;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.common.v261.model.nslcm.VnfOperationalStateType;
@@ -70,7 +70,7 @@ public class OperateVnfRequest {
 	 **/
 	@JsonProperty("changeStateTo")
 	@Schema(required = true, description = "The desired operational state (i.e. started or stopped) to change the VNF to. ")
-	@NotNull
+	@Nonnull
 	public VnfOperationalStateType getChangeStateTo() {
 		return changeStateTo;
 	}

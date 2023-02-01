@@ -20,7 +20,7 @@ package com.ubiqube.etsi.mano.nfvo.v271.controller.nslcm;
 import static com.ubiqube.etsi.mano.uri.ManoWebMvcLinkBuilder.linkTo;
 import static com.ubiqube.etsi.mano.uri.ManoWebMvcLinkBuilder.methodOn;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;

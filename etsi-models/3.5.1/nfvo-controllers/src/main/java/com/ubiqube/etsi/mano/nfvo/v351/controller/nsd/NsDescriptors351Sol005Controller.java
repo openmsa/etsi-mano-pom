@@ -19,8 +19,8 @@ package com.ubiqube.etsi.mano.nfvo.v351.controller.nsd;
 import static com.ubiqube.etsi.mano.uri.ManoWebMvcLinkBuilder.linkTo;
 import static com.ubiqube.etsi.mano.uri.ManoWebMvcLinkBuilder.methodOn;
 
-import javax.annotation.Nonnull;
-import javax.validation.Valid;
+import jakarta.annotation.Nonnull;
+import jakarta.validation.Valid;
 
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;

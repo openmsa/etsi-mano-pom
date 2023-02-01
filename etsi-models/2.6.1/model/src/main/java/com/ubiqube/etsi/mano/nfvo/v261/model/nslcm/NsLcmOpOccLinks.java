@@ -19,8 +19,8 @@ package com.ubiqube.etsi.mano.nfvo.v261.model.nslcm;
 
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -70,7 +70,7 @@ public class NsLcmOpOccLinks {
 	 * @return self
 	 **/
 	@Schema(required = true, description = "URI of this resource. ")
-	@NotNull
+	@Nonnull
 
 	@Valid
 
@@ -93,7 +93,7 @@ public class NsLcmOpOccLinks {
 	 * @return nsInstance
 	 **/
 	@Schema(required = true, description = "Link to the NS instance that the operation applies to. ")
-	@NotNull
+	@Nonnull
 
 	@Valid
 

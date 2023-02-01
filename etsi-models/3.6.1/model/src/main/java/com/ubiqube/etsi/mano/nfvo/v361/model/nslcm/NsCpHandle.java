@@ -21,8 +21,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents an identifier of the CP or SAP instance.  It shall comply with the provisions defined in Table 6.5.3.56-1. NOTE 1: For the VNF external CP instance, both vnfInstanceId and vnfExtCpInstanceId shall be present as a pair. NOTE 2: For the PNF external CP instance, both pnfInfoId and PnfExtCpInstanceId shall be present as a pair. NOTE 3: For the SAP instance, both nsInstanceId and nsSapInstanceId shall be present as a pair. NOTE 4: One pair of identifiers (VNF external CP, PNF external CP or SAP) shall be present. 

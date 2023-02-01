@@ -16,8 +16,8 @@
  */
 package com.ubiqube.etsi.mano.dao.mano.sol009.logm;
 
-import javax.persistence.Embeddable;
-import javax.persistence.OneToOne;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.OneToOne;
 
 import lombok.Data;
 

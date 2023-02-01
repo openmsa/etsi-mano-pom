@@ -24,8 +24,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type defines the format of a performance report provided by the VNFM to the NFVO as a result of collecting  performance information as part of a PM job. NOTE: The sub-object allows to structure the measured object but is not to be confused with sub-counters which allow        to structure the measurement value.  EXAMPLE:   Measured object: VnfInstanceXYZ   Sub-object: VnfcInstance1   Measurement: vCPU_utilization   Sub-counters: vCPU utilization of each of the vCPUs of VnfcInstance1 (vCPU utilization.vCPU1, vCPU_utilization.vCPU2, etc.). 

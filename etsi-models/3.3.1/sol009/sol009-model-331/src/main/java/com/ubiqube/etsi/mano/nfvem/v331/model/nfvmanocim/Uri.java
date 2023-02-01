@@ -3,8 +3,8 @@ package com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim;
 import java.util.Objects;
 import io.swagger.annotations.ApiModel;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * String formatted according to IETF RFC 3986. 

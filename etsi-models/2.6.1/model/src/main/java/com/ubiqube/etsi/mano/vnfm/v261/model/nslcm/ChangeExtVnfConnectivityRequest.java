@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.validation.constraints.NotNull;
+import jakarta.annotation.Nonnull;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.common.v261.model.VimConnectionInfo;
@@ -76,7 +76,7 @@ public class ChangeExtVnfConnectivityRequest {
 	 **/
 	@JsonProperty("extVirtualLinks")
 	@Schema(required = true, description = "Information about external VLs to change (e.g. connect the VNF to). ")
-	@NotNull
+	@Nonnull
 	public List<ExtVirtualLinkData> getExtVirtualLinks() {
 		return extVirtualLinks;
 	}

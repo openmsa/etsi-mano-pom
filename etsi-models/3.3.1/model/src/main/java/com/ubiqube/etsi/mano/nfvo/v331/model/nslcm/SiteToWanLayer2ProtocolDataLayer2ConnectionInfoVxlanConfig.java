@@ -24,8 +24,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * Additional configuration needed when using VXLAN encapsulation. Shall be present if interfaceTagging&#x3D;\&quot;TAGGED\&quot; and encapsulationType&#x3D;\&quot;VXLAN\&quot;. 

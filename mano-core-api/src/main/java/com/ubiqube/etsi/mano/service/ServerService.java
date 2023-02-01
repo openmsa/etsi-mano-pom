@@ -23,14 +23,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
-import javax.transaction.Transactional;
-import javax.validation.constraints.NotNull;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -48,6 +43,10 @@ import com.ubiqube.etsi.mano.service.rest.FluxRest;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
 import com.ubiqube.etsi.mano.service.rest.TracingFluxRest;
 import com.ubiqube.etsi.mano.utils.Version;
+
+import jakarta.annotation.Nullable;
+import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.NotNull;
 
 /**
  *
@@ -73,8 +72,8 @@ public class ServerService {
 		this.springContext = springContext;
 	}
 
-	public Page<Servers> findAll(final Pageable pageable) {
-		return serversJpa.findAll(pageable);
+	public List<Servers> findAll(final Pageable pageable) {
+		return serversJpa.findAll();
 	}
 
 	public Servers findById(final UUID id) {

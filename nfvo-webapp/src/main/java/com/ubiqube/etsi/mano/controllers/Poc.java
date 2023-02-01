@@ -30,7 +30,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
-import javax.validation.constraints.NotNull;
+import javax.annotation.Nonnull;
 
 import org.jgrapht.Graph;
 import org.jgrapht.ListenableGraph;
@@ -48,7 +48,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -90,12 +89,14 @@ import com.ubiqube.etsi.mano.service.graph.GraphGenerator;
 import com.ubiqube.etsi.mano.service.graph.TaskVertex;
 import com.ubiqube.etsi.mano.service.graph.VertexStatusType;
 
+import jakarta.validation.constraints.NotNull;
+
 /**
  *
  * @author olivier
  *
  */
-@RestController
+//@RestController
 @RequestMapping("/poc")
 public class Poc {
 
@@ -164,7 +165,7 @@ public class Poc {
 	}
 
 	@GetMapping("/plan/ns/3d/{id}")
-	public ResponseEntity<BufferedImage> getNs3dPlan(@PathVariable("id") final UUID id, @NotNull @RequestParam("class") final String clazz, @NotNull @RequestParam("name") final String name) {
+	public ResponseEntity<BufferedImage> getNs3dPlan(@PathVariable("id") final UUID id, @Nonnull @RequestParam("class") final String clazz, @NotNull @RequestParam("name") final String name) {
 		final Map<String, Class<? extends Node>> map = new HashMap<>();
 		map.put("VnfCreateNode", VnfCreateNode.class);
 		map.put("PtLinkNode", PtLinkNode.class);

@@ -16,7 +16,7 @@
  */
 package com.ubiqube.etsi.mano.service.pkg.vnf;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import com.ubiqube.etsi.mano.repository.ManoResource;
 import com.ubiqube.etsi.mano.service.pkg.PackageDescriptor;

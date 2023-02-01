@@ -23,8 +23,8 @@ import com.ubiqube.etsi.mano.nfvo.v351.model.nslcm.SiteToWanLayer2ProtocolData;
 import com.ubiqube.etsi.mano.nfvo.v351.model.nslcm.SiteToWanLayer3ProtocolData;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type provides configuration data for the NFVI-PoP network gateway providing connectivity service endpoints. The connectivity service endpoints are used as endpoints by an MSCS. It shall comply with the provisions defined in Table 6.5.3.84-1. 

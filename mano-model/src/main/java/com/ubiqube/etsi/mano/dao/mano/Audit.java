@@ -19,7 +19,7 @@ package com.ubiqube.etsi.mano.dao.mano;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
 
-import javax.persistence.Embeddable;
+import jakarta.persistence.Embeddable;
 
 import org.springframework.data.annotation.LastModifiedDate;
 

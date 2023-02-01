@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;

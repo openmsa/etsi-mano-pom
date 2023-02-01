@@ -19,8 +19,8 @@ package com.ubiqube.etsi.mano.vnfm.v261.model.vrqan;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -99,7 +99,7 @@ public class AlarmClearedNotification {
 	 * @return id
 	 **/
 	@Schema(required = true, description = "Identifier of this notification. If a notification is sent multiple times due to multiple subscriptions, the \"id\" attribute of all these notifications shall have the same value. ")
-	@NotNull
+	@Nonnull
 
 	public String getId() {
 		return id;
@@ -120,7 +120,7 @@ public class AlarmClearedNotification {
 	 * @return notificationType
 	 **/
 	@Schema(required = true, description = "Discriminator for the different notification types. Shall be set to \"AlarmClearedNotification\" for this notification type. ")
-	@NotNull
+	@Nonnull
 
 	public NotificationTypeEnum getNotificationType() {
 		return notificationType;
@@ -141,7 +141,7 @@ public class AlarmClearedNotification {
 	 * @return subscriptionId
 	 **/
 	@Schema(required = true, description = "Identifier of the subscription that this notification relates to. ")
-	@NotNull
+	@Nonnull
 
 	public String getSubscriptionId() {
 		return subscriptionId;
@@ -162,7 +162,7 @@ public class AlarmClearedNotification {
 	 * @return timeStamp
 	 **/
 	@Schema(required = true, description = "Date-time of the generation of the notification. ")
-	@NotNull
+	@Nonnull
 
 	public String getTimeStamp() {
 		return timeStamp;
@@ -183,7 +183,7 @@ public class AlarmClearedNotification {
 	 * @return alarmId
 	 **/
 	@Schema(required = true, description = "Alarm identifier. ")
-	@NotNull
+	@Nonnull
 
 	public String getAlarmId() {
 		return alarmId;
@@ -204,7 +204,7 @@ public class AlarmClearedNotification {
 	 * @return alarmClearedTime
 	 **/
 	@Schema(required = true, description = "The time stamp indicating when the alarm was cleared. ")
-	@NotNull
+	@Nonnull
 
 	@Valid
 
@@ -227,7 +227,7 @@ public class AlarmClearedNotification {
 	 * @return links
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	@Valid
 

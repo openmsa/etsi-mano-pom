@@ -27,8 +27,8 @@ import com.ubiqube.etsi.mano.nfvem.v431.model.nfvmanologm.ManoManagedObjectRefer
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents a log report, which provides information about a compiled log and how to obtain it. * NOTE: It is not specified in the present document how the NFV-MANO functional entity&#x27;s private         key is provided to the NFV-MANO functional entity. 

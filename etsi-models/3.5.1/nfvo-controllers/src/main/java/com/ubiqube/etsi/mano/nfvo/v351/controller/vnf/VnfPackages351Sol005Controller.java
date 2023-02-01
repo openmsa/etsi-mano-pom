@@ -20,8 +20,8 @@ import static com.ubiqube.etsi.mano.nfvo.fc.controller.NfvoConstants.getSafeUUID
 import static com.ubiqube.etsi.mano.uri.ManoWebMvcLinkBuilder.linkTo;
 import static com.ubiqube.etsi.mano.uri.ManoWebMvcLinkBuilder.methodOn;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;

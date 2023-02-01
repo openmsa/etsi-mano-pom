@@ -22,14 +22,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-
 import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.annotation.Nonnull;
+import jakarta.validation.Valid;
 
 /**
  * This type represents a grant request.
@@ -102,7 +101,7 @@ public class GrantRequest {
 	 * @return vnfInstanceId
 	 **/
 	@Schema(required = true, description = "Identifier of the VNF instance which this grant request is related to. Shall also be provided for VNFs that not yet exist but are planned to exist in the future, i.e. if the grant is requested for InstantiateVNF. ")
-	@NotNull
+	@Nonnull
 
 	public String getVnfInstanceId() {
 		return vnfInstanceId;
@@ -124,7 +123,7 @@ public class GrantRequest {
 	 * @return vnfLcmOpOccId
 	 **/
 	@Schema(required = true, description = "The identifier of the VNF lifecycle management operation occurrence associated to the GrantRequest. ")
-	@NotNull
+	@Nonnull
 
 	public String getVnfLcmOpOccId() {
 		return vnfLcmOpOccId;
@@ -146,7 +145,7 @@ public class GrantRequest {
 	 * @return vnfdId
 	 **/
 	@Schema(required = true, description = "Identifier of the VNFD that defines the VNF for which the LCM operation is to be granted. ")
-	@NotNull
+	@Nonnull
 
 	public String getVnfdId() {
 		return vnfdId;
@@ -191,7 +190,7 @@ public class GrantRequest {
 	 * @return operation
 	 **/
 	@Schema(required = true, description = "The lifecycle management operation for which granting is requested. The VNF LCM operations CreateVnfIdentifier, DeleteVnfIdentifier, QueryVnf and ModifyVnfInformation can be executed by the VNFM without requesting granting. ")
-	@NotNull
+	@Nonnull
 
 	@Valid
 
@@ -217,7 +216,7 @@ public class GrantRequest {
 	 * @return isAutomaticInvocation
 	 **/
 	@Schema(required = true, description = "Set to true if this VNF LCM operation occurrence has been triggered by an automated procedure inside the VNFM (i.e. ScaleVnf / ScaleVnfToLevel triggered by auto-scale, or HealVnf triggered by auto-heal). Set to false otherwise. ")
-	@NotNull
+	@Nonnull
 
 	public Boolean isAutomaticInvocation() {
 		return isAutomaticInvocation;
@@ -513,7 +512,7 @@ public class GrantRequest {
 		if (this == o) {
 			return true;
 		}
-		if (o == null || getClass() != o.getClass()) {
+		if ((o == null) || (getClass() != o.getClass())) {
 			return false;
 		}
 		final GrantRequest grantRequest = (GrantRequest) o;

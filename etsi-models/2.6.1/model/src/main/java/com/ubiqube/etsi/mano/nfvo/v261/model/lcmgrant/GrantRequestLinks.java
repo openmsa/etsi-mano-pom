@@ -19,23 +19,20 @@ package com.ubiqube.etsi.mano.nfvo.v261.model.lcmgrant;
 
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-
 import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.common.v261.model.Link;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-
+import jakarta.annotation.Nonnull;
+import jakarta.validation.Valid;
 
 /**
  * Links to resources related to this request.
  */
 @Schema(description = "Links to resources related to this request. ")
 @Validated
-
 
 public class GrantRequestLinks {
 	@JsonProperty("vnfLcmOpOcc")
@@ -51,11 +48,11 @@ public class GrantRequestLinks {
 
 	/**
 	 * Related lifecycle management operation occurrence.
-	 * 
+	 *
 	 * @return vnfLcmOpOcc
 	 **/
 	@Schema(required = true, description = "Related lifecycle management operation occurrence. ")
-	@NotNull
+	@Nonnull
 
 	@Valid
 
@@ -74,11 +71,11 @@ public class GrantRequestLinks {
 
 	/**
 	 * Related VNF instance.
-	 * 
+	 *
 	 * @return vnfInstance
 	 **/
 	@Schema(required = true, description = "Related VNF instance. ")
-	@NotNull
+	@Nonnull
 
 	@Valid
 

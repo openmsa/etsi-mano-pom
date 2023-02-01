@@ -20,7 +20,7 @@ package com.ubiqube.etsi.mano.common.v261;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import com.ubiqube.etsi.mano.common.v261.model.vnf.PackageChangeType;
 import com.ubiqube.etsi.mano.common.v261.model.vnf.PackageOperationalStateType;

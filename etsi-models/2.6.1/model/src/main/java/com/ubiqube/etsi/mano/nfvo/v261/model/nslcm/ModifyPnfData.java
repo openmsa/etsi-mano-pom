@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -61,7 +61,7 @@ public class ModifyPnfData {
 	 * @return pnfId
 	 **/
 	@Schema(required = true, description = "Identifier of the PNF. This identifier is allocated by the OSS/BSS. ")
-	@NotNull
+	@Nonnull
 
 	public String getPnfId() {
 		return pnfId;

@@ -23,14 +23,14 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.From;
-import javax.persistence.criteria.Predicate;
-
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.grammar.Node;
 import com.ubiqube.etsi.mano.grammar.Node.Operand;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.From;
+import jakarta.persistence.criteria.Predicate;
 
 /**
  * Maybe more an Abstract.
@@ -42,7 +42,6 @@ public class JpaQueryer {
 	private final EntityManager em;
 
 	public JpaQueryer(final EntityManager em) {
-		super();
 		this.em = em;
 	}
 
@@ -64,9 +63,8 @@ public class JpaQueryer {
 	private <U> Optional<Predicate> applyOp(final String name, final Operand op, final U value, final Map<String, From<?, ?>> joins) {
 		final CriteriaBuilder cb = em.getCriteriaBuilder();
 		final Attr attr = getParent(name, joins);
-		Predicate pred = null;
 		final From<?, ?> p = attr.parent.orElse(joins.get("ROOT"));
-		pred = switch (op) {
+		final Predicate pred = switch (op) {
 		case EQ -> cb.equal(p.get(attr.name), value);
 		case NEQ -> cb.notEqual(p.get(attr.name), value);
 		case GT -> cb.greaterThan(p.get(attr.name), value.toString());
@@ -91,7 +89,7 @@ public class JpaQueryer {
 		return attr;
 	}
 
-	private class Attr {
+	private static class Attr {
 		private String name;
 		private Optional<From<?, ?>> parent = Optional.empty();
 	}

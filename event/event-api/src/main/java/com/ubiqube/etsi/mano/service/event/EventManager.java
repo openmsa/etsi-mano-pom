@@ -19,8 +19,7 @@ package com.ubiqube.etsi.mano.service.event;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
-import javax.validation.constraints.NotNull;
+import jakarta.annotation.Nonnull;
 
 import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 
@@ -72,7 +71,7 @@ public interface EventManager {
 	 * @param objectId   The grantResponse Id.
 	 * @param parameters Additional parameters if any.
 	 */
-	void sendGrant(@NotNull final UUID objectId, final @NotNull Map<String, Object> parameters);
+	void sendGrant(@Nonnull final UUID objectId, final @Nonnull Map<String, Object> parameters);
 
 	/**
 	 * Send the real notification.

@@ -20,12 +20,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.validation.constraints.NotNull;
+import jakarta.annotation.Nonnull;
 
 public class GrantMessage {
-	@NotNull
+	@Nonnull
 	private UUID objectId;
-	@NotNull
+	@Nonnull
 	private Map<String, Object> parameters = new HashMap<>();
 
 	@SuppressWarnings("null")
@@ -33,7 +33,7 @@ public class GrantMessage {
 		objectId = UUID.randomUUID();
 	}
 
-	public GrantMessage(@NotNull final UUID objectId, @NotNull final Map<String, Object> parameters) {
+	public GrantMessage(@Nonnull final UUID objectId, @Nonnull final Map<String, Object> parameters) {
 		this.objectId = objectId;
 		this.parameters = parameters;
 	}
@@ -42,7 +42,7 @@ public class GrantMessage {
 		return objectId;
 	}
 
-	public void setObjectId(final @NotNull UUID objectId) {
+	public void setObjectId(final @Nonnull UUID objectId) {
 		this.objectId = objectId;
 	}
 
@@ -50,7 +50,7 @@ public class GrantMessage {
 		return parameters;
 	}
 
-	public void setParameters(final @NotNull Map<String, Object> parameters) {
+	public void setParameters(final @Nonnull Map<String, Object> parameters) {
 		this.parameters = parameters;
 	}
 

@@ -18,8 +18,8 @@ package com.ubiqube.etsi.mano.nfvo.v261.model.nsfm;
 
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -58,7 +58,7 @@ public class FmSubscription {
 	 * @return id
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	public String getId() {
 		return id;
@@ -100,7 +100,7 @@ public class FmSubscription {
 	 * @return callbackUri
 	 **/
 	@Schema(required = true, description = "The URI of the endpoint to send the notification to. ")
-	@NotNull
+	@Nonnull
 
 	public String getCallbackUri() {
 		return callbackUri;
@@ -121,7 +121,7 @@ public class FmSubscription {
 	 * @return _links
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	@Valid
 	public AlarmLinks getLinks() {

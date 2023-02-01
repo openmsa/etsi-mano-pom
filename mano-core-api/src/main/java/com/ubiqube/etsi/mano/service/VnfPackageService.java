@@ -19,7 +19,7 @@ package com.ubiqube.etsi.mano.service;
 import java.util.Optional;
 import java.util.UUID;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 

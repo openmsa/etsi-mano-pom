@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -199,7 +199,7 @@ public class VnfLcmOperationOccurrenceNotification {
 	 * @return id
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	public String getId() {
 		return id;
@@ -221,7 +221,7 @@ public class VnfLcmOperationOccurrenceNotification {
 	 * @return notificationType
 	 **/
 	@Schema(required = true, description = "Discriminator for the different notification types. Shall be set to \"VnfLcmOperationOccurrenceNotification\" for this notification type. ")
-	@NotNull
+	@Nonnull
 
 	public NotificationTypeEnum getNotificationType() {
 		return notificationType;
@@ -242,7 +242,7 @@ public class VnfLcmOperationOccurrenceNotification {
 	 * @return subscriptionId
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	public String getSubscriptionId() {
 		return subscriptionId;
@@ -263,7 +263,7 @@ public class VnfLcmOperationOccurrenceNotification {
 	 * @return timeStamp
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	@Valid
 	public OffsetDateTime getTimeStamp() {
@@ -289,7 +289,7 @@ public class VnfLcmOperationOccurrenceNotification {
 	 * @return notificationStatus
 	 **/
 	@Schema(required = true, description = "Indicates whether this notification reports about the start of a lifecycle operation or the result of a lifecycle operation. Permitted values: * START: Informs about the start of the VNF LCM operation   occurrence. * RESULT: Informs about the final or intermediate result of the VNF   LCM operation occurrence. ")
-	@NotNull
+	@Nonnull
 
 	public NotificationStatusEnum getNotificationStatus() {
 		return notificationStatus;
@@ -310,7 +310,7 @@ public class VnfLcmOperationOccurrenceNotification {
 	 * @return operationState
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	@Valid
 	public LcmOperationStateType getOperationState() {
@@ -332,7 +332,7 @@ public class VnfLcmOperationOccurrenceNotification {
 	 * @return vnfInstanceId
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	public String getVnfInstanceId() {
 		return vnfInstanceId;
@@ -353,7 +353,7 @@ public class VnfLcmOperationOccurrenceNotification {
 	 * @return operation
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	@Valid
 	public LcmOperationType getOperation() {
@@ -378,7 +378,7 @@ public class VnfLcmOperationOccurrenceNotification {
 	 * @return isAutomaticInvocation
 	 **/
 	@Schema(required = true, description = "Set to true if this VNF LCM operation occurrence has been triggered by an automated procedure inside the VNFM (i.e. ScaleVnf / ScaleVnfToLevel triggered by auto-scale, or HealVnf triggered by auto-heal). Set to false otherwise. ")
-	@NotNull
+	@Nonnull
 
 	public Boolean isIsAutomaticInvocation() {
 		return isAutomaticInvocation;
@@ -399,7 +399,7 @@ public class VnfLcmOperationOccurrenceNotification {
 	 * @return vnfLcmOpOccId
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	public String getVnfLcmOpOccId() {
 		return vnfLcmOpOccId;
@@ -596,7 +596,7 @@ public class VnfLcmOperationOccurrenceNotification {
 	 * @return _links
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	@Valid
 	public LccnLinks getLinks() {

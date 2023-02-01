@@ -18,9 +18,9 @@ package com.ubiqube.etsi.mano.dao.mano.v2;
 
 import java.util.Set;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 
 import lombok.Getter;
 import lombok.Setter;

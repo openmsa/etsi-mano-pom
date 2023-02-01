@@ -19,8 +19,8 @@ package com.ubiqube.etsi.mano.nfvo.v261.model.nslcm;
 
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -62,7 +62,7 @@ public class OperateVnfData {
 	 * @return vnfInstanceId
 	 **/
 	@Schema(required = true, description = "Identifier of the VNF instance. ")
-	@NotNull
+	@Nonnull
 
 	public String getVnfInstanceId() {
 		return vnfInstanceId;
@@ -83,7 +83,7 @@ public class OperateVnfData {
 	 * @return changeStateTo
 	 **/
 	@Schema(required = true, description = "The desired operational state (i.e. started or stopped) to change the VNF to. ")
-	@NotNull
+	@Nonnull
 
 	@Valid
 

@@ -20,10 +20,9 @@ import java.io.Serializable;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -41,11 +40,11 @@ public class VnfIndicatorValue implements Serializable {
 	private String key;
 	@Id
 	private UUID vnfInstanceId;
-	
+
 	public VnfIndicatorValue() {
 		// Nothing.
 	}
-	
+
 	public VnfIndicatorValue(final String key2, final UUID masterJobId2, final OffsetDateTime timestamp, final Double value2, final UUID vnfInstanceId2) {
 		this.id = UUID.randomUUID();
 		this.time = timestamp;

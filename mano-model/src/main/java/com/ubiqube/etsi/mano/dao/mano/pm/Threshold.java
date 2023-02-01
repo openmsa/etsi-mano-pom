@@ -20,20 +20,22 @@ import java.net.URI;
 import java.util.Set;
 import java.util.UUID;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Convert;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
 import com.ubiqube.etsi.mano.service.event.model.AuthentificationInformations;
 import com.ubiqube.etsi.mano.utils.ToStringUtil;
+import com.ubiqube.etsi.mano.utils.UriConverter;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -81,6 +83,7 @@ public class Threshold {
 	/**
 	 * The URI of the endpoint to send the notification to.
 	 */
+	@Convert(converter = UriConverter.class)
 	private URI callbackUri;
 
 	@Embedded

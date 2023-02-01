@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.nfvo.controller.vnf;
 
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.stereotype.Service;
 

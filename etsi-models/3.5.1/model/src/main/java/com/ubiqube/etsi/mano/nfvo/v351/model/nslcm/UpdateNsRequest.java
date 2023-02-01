@@ -47,8 +47,8 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This operation supports the update of a NS instance operation. NOTE 1: If a VNF instance is removed from an NS and this NS was the last one for which this VNF instance was a           part, the VNF instance is terminated by the NFVO. NOTE 2: It depends on the VNF capabilities, and is declared in the VNFD whether the operation is supported for           a particular VNF. NOTE 3: The operation might be service-disruptive. NOTE 4:   For each of the referred vnfInstanceId in the terminateVnfData, there shall be a corresponding value           in the removeVnfInstanceId. 

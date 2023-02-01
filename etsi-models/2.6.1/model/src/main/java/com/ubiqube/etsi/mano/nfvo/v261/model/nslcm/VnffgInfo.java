@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -72,7 +72,7 @@ public class VnffgInfo {
 	 * @return id
 	 **/
 	@Schema(required = true, description = "Identifier of this VNFFG instance. ")
-	@NotNull
+	@Nonnull
 
 	public String getId() {
 		return id;
@@ -93,7 +93,7 @@ public class VnffgInfo {
 	 * @return vnffgdId
 	 **/
 	@Schema(required = true, description = "Identifier of the VNFFGD in the NSD. ")
-	@NotNull
+	@Nonnull
 
 	public String getVnffgdId() {
 		return vnffgdId;
@@ -119,7 +119,7 @@ public class VnffgInfo {
 	 * @return vnfInstanceId
 	 **/
 	@Schema(required = true, description = "Identifier(s) of the constituent VNF instance(s) of this VNFFG instance. ")
-	@NotNull
+	@Nonnull
 
 	public List<String> getVnfInstanceId() {
 		return vnfInstanceId;

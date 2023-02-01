@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.nfvo.fc.controller;
 
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public final class NfvoConstants {
 

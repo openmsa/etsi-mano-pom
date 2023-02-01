@@ -20,7 +20,7 @@ package com.ubiqube.etsi.mano.model.v271.sol005.nslcm;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import org.springframework.validation.annotation.Validated;
 

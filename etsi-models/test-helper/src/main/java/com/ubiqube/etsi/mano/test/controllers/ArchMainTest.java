@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.test.controllers;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 
-import javax.annotation.security.RolesAllowed;
+import jakarta.annotation.security.RolesAllowed;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

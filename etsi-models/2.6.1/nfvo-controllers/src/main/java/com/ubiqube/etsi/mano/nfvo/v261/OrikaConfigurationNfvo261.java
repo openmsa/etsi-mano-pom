@@ -76,7 +76,7 @@ import com.ubiqube.etsi.mano.vnfm.v261.model.vnfind.VnfIndicatorSubscriptionRequ
 import ma.glasnost.orika.CustomMapper;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.MappingContext;
-import net.rakugakibox.spring.boot.orika.OrikaMapperFactoryConfigurer;
+import com.ubiqube.orika.OrikaMapperFactoryConfigurer;
 
 @Component
 public class OrikaConfigurationNfvo261 implements OrikaMapperFactoryConfigurer {

@@ -17,7 +17,7 @@
 
 package com.ubiqube.etsi.mano.common.v261;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import com.ubiqube.etsi.mano.common.v261.model.Link;
 import com.ubiqube.etsi.mano.common.v261.model.nslcm.VnfInstanceLinks;

@@ -21,8 +21,8 @@
  */
 package com.ubiqube.etsi.mec.mepm.v211.controller.lcm;
 
-import javax.annotation.Nonnull;
-import javax.validation.Valid;
+import jakarta.annotation.Nonnull;
+import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;

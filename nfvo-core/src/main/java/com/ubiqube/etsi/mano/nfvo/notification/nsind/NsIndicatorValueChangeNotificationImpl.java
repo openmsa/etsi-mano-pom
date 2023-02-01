@@ -46,7 +46,6 @@ import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.ScaleNsByStepsData;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.ScaleNsData;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.ScaleType;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.ScalingDirectionType;
-import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.jpa.NsIndiValueChangeNotificationJpa;
 import com.ubiqube.etsi.mano.jpa.NsdPackageJpa;
@@ -64,7 +63,7 @@ public class NsIndicatorValueChangeNotificationImpl {
 
 	private Properties props;
 
-	public NsIndicatorValueChangeNotificationImpl(final NsIndiValueChangeNotificationJpa nsIndValueNotificationJpa, final NsdPackageJpa nsdPackageJpa, NsInstanceControllerService nsInstanceControllerService) {
+	public NsIndicatorValueChangeNotificationImpl(final NsIndiValueChangeNotificationJpa nsIndValueNotificationJpa, final NsdPackageJpa nsdPackageJpa, final NsInstanceControllerService nsInstanceControllerService) {
 		this.nsIndValueNotificationJpa = nsIndValueNotificationJpa;
 		this.nsdPackageJpa = nsdPackageJpa;
 		this.nsInstanceControllerService = nsInstanceControllerService;
@@ -75,7 +74,7 @@ public class NsIndicatorValueChangeNotificationImpl {
 			throw new GenericException(e);
 		}
 	}
-	
+
 	@Scheduled(fixedRate = 60_000)
 	public void run() {
 		final Iterable<NsIndiValueChangeNotification> ite = nsIndValueNotificationJpa.findAll();
@@ -109,6 +108,7 @@ public class NsIndicatorValueChangeNotificationImpl {
 				conditions: for (final JsonNode jsonNode : actualObj) {
 					final Map<String, Object> condition = mapper.convertValue(jsonNode,
 							new TypeReference<Map<String, Object>>() {
+								//
 							});
 					final Map.Entry<String, Object> c = condition.entrySet().iterator().next();
 					final String indicatorName = c.getKey();
@@ -161,7 +161,7 @@ public class NsIndicatorValueChangeNotificationImpl {
 			}
 		}
 	}
-	
+
 	public void callAction(final String nsInstanceId, final String actionParameters) {
 		final ObjectMapper mapper = new ObjectMapper();
 		JsonNode actualObj = null;
@@ -174,6 +174,7 @@ public class NsIndicatorValueChangeNotificationImpl {
 		for (final JsonNode jsonNode : actualObj) {
 			action = mapper.convertValue(jsonNode,
 					new TypeReference<Map<String, Object>>() {
+						//
 					});
 		}
 		if (action.isEmpty()) {
@@ -184,11 +185,10 @@ public class NsIndicatorValueChangeNotificationImpl {
 		final Map<String, Object> b = (Map<String, Object>) a.getValue();
 		final String operationName = (String) b.get("operation");
 		final Map<String, Object> inputs = (Map<String, Object>) b.get("inputs");
-		NsBlueprint nsLcm = null;
 		if ("Nslcm.scale".equals(operationName)) {
-			NsScale nsInst = new NsScale();
+			final NsScale nsInst = new NsScale();
 			nsInst.setScaleType(ScaleType.NS);
-			ScaleNsByStepsData snbsd = new ScaleNsByStepsData();
+			final ScaleNsByStepsData snbsd = new ScaleNsByStepsData();
 			for (final Map.Entry<String, Object> c : inputs.entrySet()) {
 				final Map<String, String> d = (Map<String, String>) c.getValue();
 				final Object value = d.entrySet().iterator().next().getValue();
@@ -208,13 +208,13 @@ public class NsIndicatorValueChangeNotificationImpl {
 					snbsd.setNumberOfSteps(Integer.parseInt(value.toString()));
 					break;
 				default:
-				    break;
+					break;
 				}
 			}
-			if(snbsd.getNumberOfSteps() == null) {
+			if (snbsd.getNumberOfSteps() == null) {
 				snbsd.setNumberOfSteps(1);
 			}
-			ScaleNsData snd = new ScaleNsData();
+			final ScaleNsData snd = new ScaleNsData();
 			snd.setScaleNsByStepsData(snbsd);
 			nsInst.setScaleNsData(snd);
 			LOG.info("NS Scale {} : {} launched", nsInstanceId, nsInst);

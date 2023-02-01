@@ -17,8 +17,8 @@
 
 package com.ubiqube.etsi.mano.nfvo.v261.model.nsperfo;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -41,7 +41,7 @@ public class CreatePmJobRequest {
 	 * @return createPmJobRequest
 	 **/
 	@JsonProperty("CreatePmJobRequest")
-	@NotNull
+	@Nonnull
 	public PmJobsCreatePmJobRequest getCreatePmJobRequest() {
 		return createPmJobRequest;
 	}

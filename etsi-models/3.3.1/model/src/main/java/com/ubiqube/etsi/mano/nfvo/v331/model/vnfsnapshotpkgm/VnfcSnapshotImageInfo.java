@@ -25,8 +25,8 @@ import java.util.Map;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents an artifact contained in or external to a VNF snapshot package which  represents a snapshot image.  It shall comply with the provisions defined in table 11.5.3.2-1. 

@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.validation.constraints.NotNull;
+import jakarta.annotation.Nonnull;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -125,7 +125,7 @@ public class AffectedVnfc {
 	 **/
 	@JsonProperty("id")
 	@Schema(required = true, description = "Identifier of the Vnfc instance, identifying the applicable \"vnfcResourceInfo\" entry in the \"VnfInstance\" data type. ")
-	@NotNull
+	@Nonnull
 	public String getId() {
 		return id;
 	}
@@ -146,7 +146,7 @@ public class AffectedVnfc {
 	 **/
 	@JsonProperty("vduId")
 	@Schema(required = true, description = "Identifier of the related VDU in the VNFD. ")
-	@NotNull
+	@Nonnull
 	public String getVduId() {
 		return vduId;
 	}
@@ -169,7 +169,7 @@ public class AffectedVnfc {
 	 **/
 	@JsonProperty("changeType")
 	@Schema(required = true, description = "Signals the type of change. Permitted values: * ADDED * REMOVED * MODIFIED * TEMPORARY For a temporary resource, an AffectedVnfc structure exists as long as the temporary resource exists. ")
-	@NotNull
+	@Nonnull
 	public ChangeTypeEnum getChangeType() {
 		return changeType;
 	}
@@ -192,7 +192,7 @@ public class AffectedVnfc {
 	 **/
 	@JsonProperty("computeResource")
 	@Schema(required = true, description = "Reference to the VirtualCompute resource. Detailed information is (for new and modified resources) or has been (for removed resources) available from the VIM. ")
-	@NotNull
+	@Nonnull
 	public ResourceHandle getComputeResource() {
 		return computeResource;
 	}

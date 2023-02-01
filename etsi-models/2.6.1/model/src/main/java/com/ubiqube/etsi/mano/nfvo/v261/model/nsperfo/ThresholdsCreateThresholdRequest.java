@@ -21,8 +21,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 /**
   * This type represents a request to create a threshold. 
@@ -44,7 +44,7 @@ public class ThresholdsCreateThresholdRequest  {
    * @return objectInstanceId
   **/
   @JsonProperty("objectInstanceId")
-  @NotNull
+  @Nonnull
   public String getObjectInstanceId() {
     return objectInstanceId;
   }
@@ -63,7 +63,7 @@ public class ThresholdsCreateThresholdRequest  {
    * @return criteria
   **/
   @JsonProperty("criteria")
-  @NotNull
+  @Nonnull
   public ThresholdsThresholdCriteria getCriteria() {
     return criteria;
   }

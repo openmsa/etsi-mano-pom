@@ -20,9 +20,9 @@ import static com.ubiqube.etsi.mano.nfvo.fc.controller.NfvoConstants.getSafeUUID
 
 import java.util.UUID;
 
-import javax.annotation.security.RolesAllowed;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 import org.springframework.context.annotation.Conditional;
 import org.springframework.core.io.Resource;

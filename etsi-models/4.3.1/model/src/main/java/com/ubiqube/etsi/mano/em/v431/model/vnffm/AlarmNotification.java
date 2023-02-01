@@ -25,8 +25,8 @@ import com.ubiqube.etsi.mano.em.v431.model.vnffm.AlarmNotificationLinks;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents an alarm notification about VNF faults. This notification shall be triggered by the VNFM when: * An alarm has been created. * An alarm has been updated, e.g. if the severity of the alarm has   changed. 

@@ -23,8 +23,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.ubiqube.etsi.mano.vnfm.v431.model.vnfpm.ThresholdCriteriaSimpleThresholdDetails;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents criteria that define a threshold. NOTE 1: In the present document, simple thresholds are defined. The definition of additional threshold types is left for          future specification. NOTE 2: The hysteresis is defined to prevent storms of threshold crossing notifications. When processing a request to create          a threshold, implementations should enforce a suitable minimum value for this attribute (e.g. override the value or          reject the request).  

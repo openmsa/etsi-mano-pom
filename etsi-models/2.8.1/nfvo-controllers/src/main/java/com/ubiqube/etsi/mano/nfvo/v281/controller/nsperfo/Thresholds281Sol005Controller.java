@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.nfvo.v281.controller.nsperfo;
 
 import java.util.Optional;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.annotation.RestController;
 

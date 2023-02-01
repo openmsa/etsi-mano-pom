@@ -20,7 +20,7 @@ import static com.ubiqube.etsi.mano.nfvo.fc.controller.NfvoConstants.getSafeUUID
 import static com.ubiqube.etsi.mano.uri.ManoWebMvcLinkBuilder.linkTo;
 import static com.ubiqube.etsi.mano.uri.ManoWebMvcLinkBuilder.methodOn;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import org.springframework.context.annotation.Conditional;
 import org.springframework.core.io.Resource;

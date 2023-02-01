@@ -21,9 +21,9 @@
  */
 package com.ubiqube.etsi.mano.vnfm.v331.controller.vnfpm;
 
-import javax.annotation.Nonnull;
-import javax.annotation.security.RolesAllowed;
-import javax.validation.Valid;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;

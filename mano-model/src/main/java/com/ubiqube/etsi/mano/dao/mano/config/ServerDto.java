@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.dao.mano.config;
 
 import java.util.Set;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import com.ubiqube.etsi.mano.service.event.model.AuthentificationInformations;
 import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;

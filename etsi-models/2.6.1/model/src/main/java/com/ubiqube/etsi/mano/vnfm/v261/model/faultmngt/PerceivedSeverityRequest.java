@@ -18,8 +18,8 @@ package com.ubiqube.etsi.mano.vnfm.v261.model.faultmngt;
 
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -49,7 +49,7 @@ public class PerceivedSeverityRequest {
 	 * @return proposedPerceivedSeverity
 	 **/
 	@Schema(required = true, description = "Indicates the proposed escalated perceived severity for an alarm. ")
-	@NotNull
+	@Nonnull
 
 	@Valid
 

@@ -23,8 +23,8 @@ import com.ubiqube.etsi.mano.em.v271.model.vnflcm.ResourceHandle;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents an externally provided link port to be used to connect an external connection point to an external VL. 

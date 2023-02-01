@@ -21,11 +21,14 @@ import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
+import jakarta.persistence.Embeddable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.ubiqube.etsi.mano.utils.UriConverter;
 
 @Embeddable
 public class FailureDetails implements Serializable {
@@ -45,6 +48,7 @@ public class FailureDetails implements Serializable {
 	@Column(length = 500)
 	private String detail;
 
+	@Convert(converter = UriConverter.class)
 	private URI instance;
 
 	public FailureDetails() {

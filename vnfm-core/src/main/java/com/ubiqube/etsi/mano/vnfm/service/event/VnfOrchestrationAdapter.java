@@ -19,9 +19,6 @@ package com.ubiqube.etsi.mano.vnfm.service.event;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
-import javax.validation.constraints.NotNull;
-
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.Instance;
@@ -44,6 +41,9 @@ import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
 import com.ubiqube.etsi.mano.vnfm.service.VnfBlueprintService;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceService;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceServiceVnfm;
+
+import jakarta.annotation.Nonnull;
+import jakarta.validation.constraints.NotNull;
 
 /**
  *

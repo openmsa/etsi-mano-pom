@@ -73,15 +73,17 @@ public class NpmVersionResolver {
 	}
 
 	@GetMapping("/npm/{webjar}/{*remainder}")
-	public ResponseEntity<Void> remainder(@PathVariable String webjar, @PathVariable String remainder) {
-		if (webjar.startsWith("@")) {
-			final int index = remainder.indexOf("/", 1);
-			final String path = index < 0 ? remainder.substring(1) : remainder.substring(1, index);
-			webjar = webjar.substring(1) + "__" + path;
-			if ((index < 0) || (index == (remainder.length() - 1))) {
+	public ResponseEntity<Void> remainder(@PathVariable final String webjarIn, @PathVariable final String remainderIn) {
+		String webjar = webjarIn;
+		String remainder = remainderIn;
+		if (webjarIn.startsWith("@")) {
+			final int index = remainderIn.indexOf("/", 1);
+			final String path = index < 0 ? remainderIn.substring(1) : remainderIn.substring(1, index);
+			webjar = webjarIn.substring(1) + "__" + path;
+			if ((index < 0) || (index == (remainderIn.length() - 1))) {
 				return module(webjar);
 			}
-			remainder = remainder.substring(index);
+			remainder = remainderIn.substring(index);
 		}
 		String path = findWebJarResourcePath(webjar, remainder);
 		if (path == null) {
@@ -94,7 +96,9 @@ public class NpmVersionResolver {
 		return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(contextPath + "/webjars/" + path)).build();
 	}
 
-	private static String findUnpkgPath(String webjar, String remainder) {
+	private static String findUnpkgPath(final String webjarIn, final String remainderIn) {
+		String remainder = remainderIn;
+		String webjar = webjarIn;
 		if (!StringUtils.hasText(remainder)) {
 			remainder = "";
 		} else if (!remainder.startsWith("/")) {

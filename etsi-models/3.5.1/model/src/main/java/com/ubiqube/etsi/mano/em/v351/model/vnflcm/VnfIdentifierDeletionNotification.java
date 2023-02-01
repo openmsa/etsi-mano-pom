@@ -24,8 +24,8 @@ import com.ubiqube.etsi.mano.em.v351.model.vnflcm.LccnLinks;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents a VNF identifier deletion notification, which informs the receiver of the deletion of a new \&quot;Individual VNF instance\&quot; resource and the associated VNF instance identifier. This notification shall be triggered by the VNFM when it has deleted an \&quot;Individual VNF instance\&quot; resource and the associated VNF instance identifier. 

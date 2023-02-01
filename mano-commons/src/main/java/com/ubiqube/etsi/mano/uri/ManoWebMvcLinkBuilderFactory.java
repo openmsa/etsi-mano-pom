@@ -23,13 +23,12 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import javax.servlet.ServletContext;
-
 import org.springframework.core.MethodParameter;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.hateoas.server.core.MethodParameters;
 import org.springframework.hateoas.server.core.SpringAffordanceBuilder;
+import org.springframework.hateoas.server.core.UriMapping;
 import org.springframework.hateoas.server.core.WebHandler;
 import org.springframework.hateoas.server.mvc.UriComponentsContributor;
 import org.springframework.web.context.WebApplicationContext;
@@ -40,6 +39,8 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.mvc.condition.NameValueExpression;
 import org.springframework.web.servlet.mvc.condition.ParamsRequestCondition;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import jakarta.servlet.ServletContext;
 
 /**
  *
@@ -53,8 +54,7 @@ public class ManoWebMvcLinkBuilderFactory {
 
 	public ManoWebMvcLinkBuilder linkTo(final Object invocationValue) {
 
-		final Function<String, UriComponentsBuilder> builderFactory = mapping -> ManoUriComponentsBuilder.getBuilder()
-				.path(mapping);
+		final Function<UriMapping, UriComponentsBuilder> builderFactory = ManoUriComponentsBuilder::forMapping;
 
 		return WebHandler.linkTo(invocationValue, ManoWebMvcLinkBuilder::new, (builder, invocation) -> {
 

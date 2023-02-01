@@ -22,14 +22,14 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-import javax.annotation.Nullable;
-import javax.validation.constraints.NotNull;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.repository.ManoResource;
+
+import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.NotNull;
 
 public interface NsdController {
 

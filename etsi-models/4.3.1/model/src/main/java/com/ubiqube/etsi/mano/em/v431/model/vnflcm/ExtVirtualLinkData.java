@@ -26,8 +26,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents an external VL. * NOTE 1: The information about the VIM connection referenced by the VIM connection id is known to the VNFM.            Moreover, the identifier of the VIM connection provides scope to the resourceId.  * NOTE 2: A link port is not needed for an external CP instance that exposes a VIP CP in the following cases:           1)  For a VIP CP directly exposed as an external CP:               1.1)  No dedicated IP address is allocated as VIP address, as indicated in the VNFD.               1.2)  A dedicated IP address is allocated as VIP address, but the NFVO indicates that no port is needed                     (createExtLinkPort in VnfExtCpConfig set to false).           2)  For a VIP CP exposed as an external CP via a floating IP address:               2.1)  No dedicated IP address is allocated as VIP address, as indicated in the VNFD, and the VNFC CP                     associated to the VIP CP is also exposed via a floating IP address.           3)  For a VIRTUAL CP exposed as an external CP.           4)  For a VNFC CP exposed as an external CP in a secondary container cluster external network.  * NOTE 3: An example of the network attachment definition resource when the container infrastructure service           management is a Kubernetes® instance is a network attachment definition (NAD). 

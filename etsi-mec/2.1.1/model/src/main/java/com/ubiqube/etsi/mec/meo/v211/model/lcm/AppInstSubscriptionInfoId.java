@@ -19,8 +19,8 @@ package com.ubiqube.etsi.mec.meo.v211.model.lcm;
 import java.util.Objects;
 import io.swagger.annotations.ApiModel;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * &#x27;Identifier of the subscription to application instance operational state change notification.&#x27;

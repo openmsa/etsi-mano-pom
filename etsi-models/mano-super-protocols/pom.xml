@@ -6,12 +6,12 @@
 	<parent>
 		<groupId>com.ubiqube.mano</groupId>
 		<artifactId>mano-super-pom</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>3.0.0-SNAPSHOT</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<artifactId>etsi-models-parent</artifactId>
-	<description>Build document for ETSI-MANO model.</description>
 	<packaging>pom</packaging>
+	<description>Build document for ETSI-MANO model.</description>
 	<build>
 		<plugins>
 			<plugin>
@@ -29,7 +29,7 @@
 								<artifactItem>
 									<groupId>com.ubiqube.mano</groupId>
 									<artifactId>mano-test-helper</artifactId>
-									<version>0.0.1-SNAPSHOT</version>
+									<version>3.0.0-SNAPSHOT</version>
 									<overWrite>true</overWrite>
 									<includes>**/*.class</includes>
 									<outputDirectory>${project.build.directory}/test-classes</outputDirectory>

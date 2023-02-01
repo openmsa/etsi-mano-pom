@@ -21,8 +21,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents the information about where the mirrored flow is to be delivered.  It shall comply with the provisions defined in table 6.5.3.103-1. NOTE: The collector which is attached to this port can be a virtual machine that uses the mirrored      data for analysis purpose. The collector is not managed by VIM. 

@@ -20,8 +20,8 @@ package com.ubiqube.etsi.mano.model.v271.sol003.vnf;
 import java.util.Objects;
 import io.swagger.annotations.ApiModel;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * The Boolean is a data type having two values (TRUE and FALSE). 

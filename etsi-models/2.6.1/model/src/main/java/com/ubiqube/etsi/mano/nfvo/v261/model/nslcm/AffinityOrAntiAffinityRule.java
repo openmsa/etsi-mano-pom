@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -235,7 +235,7 @@ public class AffinityOrAntiAffinityRule {
 	 * @return affinityOrAntiAffiinty
 	 **/
 	@Schema(required = true, description = "The type of the constraint. Permitted values: AFFINITY ANTI_AFFINITY. ")
-	@NotNull
+	@Nonnull
 
 	public AffinityOrAntiAffiintyEnum getAffinityOrAntiAffiinty() {
 		return affinityOrAntiAffiinty;
@@ -257,7 +257,7 @@ public class AffinityOrAntiAffinityRule {
 	 * @return scope
 	 **/
 	@Schema(required = true, description = "Specifies the scope of the rule where the placement constraint applies. Permitted values: NFVI_POP ZONE ZONE_GROUP NFVI_NODE. ")
-	@NotNull
+	@Nonnull
 
 	public ScopeEnum getScope() {
 		return scope;

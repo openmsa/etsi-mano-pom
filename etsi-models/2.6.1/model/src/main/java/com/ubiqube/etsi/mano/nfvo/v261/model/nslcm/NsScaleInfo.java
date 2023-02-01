@@ -19,7 +19,7 @@ package com.ubiqube.etsi.mano.nfvo.v261.model.nslcm;
 
 import java.util.Objects;
 
-import javax.validation.constraints.NotNull;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -54,7 +54,7 @@ public class NsScaleInfo {
 	 * @return nsScalingAspectId
 	 **/
 	@Schema(required = true, description = "Identifier of the NS scaling aspect. ")
-	@NotNull
+	@Nonnull
 
 	public String getNsScalingAspectId() {
 		return nsScalingAspectId;
@@ -75,7 +75,7 @@ public class NsScaleInfo {
 	 * @return nsScaleLevelId
 	 **/
 	@Schema(required = true, description = "Identifier of the NS scale level. ")
-	@NotNull
+	@Nonnull
 
 	public String getNsScaleLevelId() {
 		return nsScaleLevelId;

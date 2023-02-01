@@ -19,8 +19,8 @@ package com.ubiqube.etsi.mano.nfvo.v261.model.nsfm;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -53,7 +53,7 @@ public class ApiVersionInformationApiVersions {
 	 * @return version
 	 **/
 	@Schema(required = true, description = "Identifies a supported version. The value of the version attribute shall be a version identifier as specified in clause 4.6.1. ")
-	@NotNull
+	@Nonnull
 
 	public String getVersion() {
 		return version;

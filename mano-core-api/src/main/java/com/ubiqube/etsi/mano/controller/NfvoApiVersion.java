@@ -28,8 +28,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -46,6 +44,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ubiqube.etsi.mano.model.ApiVersionInformation;
 import com.ubiqube.etsi.mano.model.ApiVersionInformationApiVersions;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Duplicate of VnfmVersion.

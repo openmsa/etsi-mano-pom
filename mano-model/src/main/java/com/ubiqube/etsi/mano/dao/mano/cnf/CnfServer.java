@@ -19,10 +19,10 @@ package com.ubiqube.etsi.mano.dao.mano.cnf;
 import java.io.Serializable;
 import java.util.UUID;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 import com.ubiqube.etsi.mano.dao.mano.vnfi.CnfInformations;
 

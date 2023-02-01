@@ -21,8 +21,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * IP addressing information associated to a logical interface. Shall be present if the \&quot;interfaceType\&quot; of the SiteToWanLayer2ProtocolData is equal to \&quot;LOGICAL\&quot;. 

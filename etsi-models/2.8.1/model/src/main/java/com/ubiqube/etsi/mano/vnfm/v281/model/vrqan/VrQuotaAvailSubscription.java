@@ -24,8 +24,8 @@ import com.ubiqube.etsi.mano.vnfm.v281.model.vrqan.VrQuotaAvailSubscriptionLinks
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents a subscription related to notifications related to the availability of the virtualised resources quotas. 

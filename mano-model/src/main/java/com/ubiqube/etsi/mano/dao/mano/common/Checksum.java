@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.dao.mano.common;
 
 import java.io.Serializable;
 
-import javax.persistence.Embeddable;
+import jakarta.persistence.Embeddable;
 
 import com.ubiqube.etsi.mano.utils.ToStringUtil;
 

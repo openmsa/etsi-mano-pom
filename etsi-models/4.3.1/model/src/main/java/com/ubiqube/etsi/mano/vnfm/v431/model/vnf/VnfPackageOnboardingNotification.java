@@ -26,8 +26,8 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents a VNF package management notification, which informs the receiver that the onboarding process of a VNF package is complete and the package is ready for use. The notification shall be triggered by the NFVO when the \&quot;onboardingState\&quot; attribute of a new VNF package has changed to \&quot;ONBOARDED\&quot;. 

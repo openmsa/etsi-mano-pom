@@ -21,8 +21,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.persistence.Embedded;
-import javax.persistence.OneToOne;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.OneToOne;
 
 import com.ubiqube.etsi.mano.dao.mano.AdditionalResourceInfo;
 import com.ubiqube.etsi.mano.dao.mano.Audit;

@@ -22,8 +22,8 @@
  */
 package com.ubiqube.etsi.mano.vnfm.v261.controller.vnffm.sol003;
 
-import javax.annotation.security.RolesAllowed;
-import javax.validation.Valid;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.validation.Valid;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;

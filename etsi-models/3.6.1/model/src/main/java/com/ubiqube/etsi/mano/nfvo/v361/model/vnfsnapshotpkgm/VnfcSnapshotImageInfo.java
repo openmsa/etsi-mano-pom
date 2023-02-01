@@ -25,8 +25,8 @@ import java.util.Map;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents an artifact contained in or external to a VNF snapshot package which  represents a snapshot image.  It shall comply with the provisions defined in table 11.5.3.2-1. NOTE 1: The list of permitted values was taken from \&quot;Container formats\&quot; in OpenStack®: \&quot;Disk and container formats for images\&quot;. NOTE 2: The list of permitted values was adapted from \&quot;Disk formats\&quot; in OpenStack®: \&quot;Disk and container formats for images\&quot;. 

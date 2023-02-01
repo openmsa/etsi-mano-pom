@@ -24,8 +24,8 @@ import com.ubiqube.etsi.mano.nfvo.v331.model.nslcm.WanConnectionDataVnfVirtualLi
 import com.ubiqube.etsi.mano.nfvo.v331.model.nslcm.WanConnectionProtocolData;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type provides information used to connect the comprising network resources realizing a VL, e.g., when the VL is deployed on several sites and across a WAN. It shall comply with the provisions defined in table 6.5.3.80-1. 

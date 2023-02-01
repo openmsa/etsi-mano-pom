@@ -24,8 +24,8 @@ import com.ubiqube.etsi.mec.meo.v211.model.pkg.TransportDescriptor;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * &#x27;Indicates transports and serialization formats supported made available to the service-consuming application. Defaults to REST + JSON if absent.&#x27;

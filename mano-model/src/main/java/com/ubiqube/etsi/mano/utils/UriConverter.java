@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.utils;
 
 import java.net.URI;
 
-import javax.persistence.AttributeConverter;
+import jakarta.persistence.AttributeConverter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

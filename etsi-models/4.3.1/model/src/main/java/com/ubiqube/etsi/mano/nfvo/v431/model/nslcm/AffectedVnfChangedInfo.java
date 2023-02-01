@@ -26,8 +26,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * Information about the changed VNF instance information, including VNF configurable properties,if applicable. When the \&quot;changedInfo\&quot; attribute is present,  either the \&quot;changedVnfInfo\&quot; attribute or the \&quot;changedExtConnectivity\&quot; attribute or both shall be present. 

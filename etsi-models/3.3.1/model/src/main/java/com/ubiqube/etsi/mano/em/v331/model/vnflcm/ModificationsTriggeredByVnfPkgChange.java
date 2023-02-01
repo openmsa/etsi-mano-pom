@@ -22,8 +22,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Map;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents attribute modifications that were performed on an \&quot;Individual VNF instance\&quot; resource when changing the current VNF package. The attributes that can be included consist of those requested to be modified explicitly in the \&quot;ChangeCurrentVnfPkgRequest\&quot; data structure, and additional attributes of the \&quot;VnfInstance\&quot; data structure that were modified implicitly during the operation. 

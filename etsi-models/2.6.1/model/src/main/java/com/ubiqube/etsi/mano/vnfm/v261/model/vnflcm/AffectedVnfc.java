@@ -21,8 +21,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -116,7 +116,7 @@ public class AffectedVnfc {
 	 * @return id
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	public String getId() {
 		return id;
@@ -137,7 +137,7 @@ public class AffectedVnfc {
 	 * @return vduId
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	public String getVduId() {
 		return vduId;
@@ -160,7 +160,7 @@ public class AffectedVnfc {
 	 * @return changeType
 	 **/
 	@Schema(required = true, description = "Signals the type of change. Permitted values: * ADDED * REMOVED * MODIFIED * TEMPORARY For a temporary resource, an AffectedVnfc structure exists as long as the temporary resource exists. ")
-	@NotNull
+	@Nonnull
 
 	public ChangeTypeEnum getChangeType() {
 		return changeType;
@@ -181,7 +181,7 @@ public class AffectedVnfc {
 	 * @return computeResource
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	@Valid
 	public ResourceHandle getComputeResource() {

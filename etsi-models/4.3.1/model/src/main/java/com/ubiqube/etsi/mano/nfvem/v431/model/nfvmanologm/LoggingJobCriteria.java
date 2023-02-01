@@ -25,8 +25,8 @@ import com.ubiqube.etsi.mano.nfvem.v431.model.nfvmanologm.LoggingJobServicesCrit
 import com.ubiqube.etsi.mano.nfvem.v431.model.nfvmanologm.LoggingJobSystemCriteria;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents collection criteria for logging jobs. * NOTE: The value of the loggingType has dependency on the object that is requested to be logged         (refer to the CreateLoggingJobRequest): a) the logging of messages is only applicable to         ManoServiceInterface and ConsumedManoInterface objects.

@@ -27,8 +27,8 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents a notification to inform the receiver that the set of indicators supported  by a VNF instance has changed. It shall comply with the provisions defined in table 8.5.2.6-1. The notification shall be triggered by the VNFM when the set of supported VNF indicators has changed  as a side effect of the \&quot;Change current VNF package\&quot; operation. It may be triggered by the VNFM when  a VNF has been instantiated. NOTE: ETSI GS NFV-SOL 001 specifies the structure and format of the VNFD based on TOSCA specifications. 

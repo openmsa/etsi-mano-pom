@@ -29,6 +29,8 @@ import com.ubiqube.etsi.mano.repository.Low;
 import com.ubiqube.etsi.mano.repository.NamingStrategy;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 
+import jakarta.annotation.Nonnull;
+
 @Profile("phys")
 @Service
 public class VnfPackagePhys extends AbstractGenericBinaryRepository<VnfPackage> implements VnfPackageRepository {
@@ -38,22 +40,21 @@ public class VnfPackagePhys extends AbstractGenericBinaryRepository<VnfPackage> 
 	}
 
 	@Override
-	protected UUID setId(final VnfPackage entity) {
+	protected @Nonnull UUID setId(final VnfPackage entity) {
 		final UUID id = entity.getId();
 		if (null == id) {
 			entity.setId(UUID.randomUUID());
 		}
-
 		return entity.getId();
 	}
 
 	@Override
-	protected Class<VnfPackage> getClazz() {
+	protected @Nonnull Class<VnfPackage> getClazz() {
 		return VnfPackage.class;
 	}
 
 	@Override
-	protected String getFilename() {
+	protected @Nonnull String getFilename() {
 		return "vnfPkgInfo.json";
 	}
 

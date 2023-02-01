@@ -21,8 +21,8 @@ import static com.ubiqube.etsi.mano.uri.ManoWebMvcLinkBuilder.methodOn;
 
 import java.util.function.Consumer;
 
-import javax.annotation.Nonnull;
-import javax.validation.Valid;
+import jakarta.annotation.Nonnull;
+import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;

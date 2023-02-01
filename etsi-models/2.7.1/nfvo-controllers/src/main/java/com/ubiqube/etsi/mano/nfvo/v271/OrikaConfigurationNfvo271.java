@@ -74,7 +74,7 @@ import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import ma.glasnost.orika.CustomMapper;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.MappingContext;
-import net.rakugakibox.spring.boot.orika.OrikaMapperFactoryConfigurer;
+import com.ubiqube.orika.OrikaMapperFactoryConfigurer;
 
 /**
  *

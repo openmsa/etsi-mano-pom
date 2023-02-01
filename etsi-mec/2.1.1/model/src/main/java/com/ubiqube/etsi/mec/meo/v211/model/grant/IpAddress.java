@@ -25,8 +25,8 @@ import com.ubiqube.etsi.mec.meo.v211.model.grant.IpAddressType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * &#x27;IP addresses to assign to the CP instance. Each entry represents IP address data for fixed or dynamic IP address assignment per subnet.&#x27;

@@ -22,8 +22,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.annotation.Priority;
-
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
@@ -38,6 +36,8 @@ import com.ubiqube.etsi.mano.nfvo.service.pkg.PackageVersion;
 import com.ubiqube.etsi.mano.nfvo.service.pkg.ns.NsOnboardingVisitor;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.pkg.ns.NsPackageProvider;
+
+import jakarta.annotation.Priority;
 
 /**
  *

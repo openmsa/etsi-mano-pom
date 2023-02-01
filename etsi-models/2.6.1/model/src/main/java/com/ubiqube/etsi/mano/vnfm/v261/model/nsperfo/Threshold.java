@@ -19,8 +19,8 @@ package com.ubiqube.etsi.mano.vnfm.v261.model.nsperfo;
 
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -60,7 +60,7 @@ public class Threshold {
 	 * @return id
 	 **/
 	@Schema(required = true, description = "Identifier of this threshold resource. ")
-	@NotNull
+	@Nonnull
 
 	public String getId() {
 		return id;
@@ -81,7 +81,7 @@ public class Threshold {
 	 * @return objectInstanceId
 	 **/
 	@Schema(required = true, description = "Identifier of the VNF instance associated with the threshold. ")
-	@NotNull
+	@Nonnull
 
 	public String getObjectInstanceId() {
 		return objectInstanceId;
@@ -102,7 +102,7 @@ public class Threshold {
 	 * @return criteria
 	 **/
 	@Schema(required = true, description = "Criteria that define this threshold. ")
-	@NotNull
+	@Nonnull
 
 	@Valid
 
@@ -125,7 +125,7 @@ public class Threshold {
 	 * @return links
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	@Valid
 

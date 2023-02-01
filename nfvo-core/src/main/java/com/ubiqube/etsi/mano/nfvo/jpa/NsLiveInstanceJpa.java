@@ -19,7 +19,7 @@ package com.ubiqube.etsi.mano.nfvo.jpa;
 import java.util.List;
 import java.util.UUID;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -35,9 +35,6 @@ import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 public interface NsLiveInstanceJpa extends CrudRepository<NsLiveInstance, UUID> {
 
 	NsLiveInstance findByNsBlueprintId(String resourceId);
-
-	@Query("select nli, t from NsLiveInstance nli join NsTask t on t.id = nli.nsTask where nli.nsInstance = ?1 AND ns_sap_id is not null AND t.toscaName = ?2 ORDER BY nli.audit.createdOn DESC")
-	List<NsLiveInstance> findByVnfInstanceAndTaskSapIsNotNull(NsdInstance vnfInstance, String toscaName);
 
 	@Query("select nli, t from NsLiveInstance nli join NsTask t on t.id = nli.nsTask where nli.nsInstance = ?1 AND t.nsVirtualLink is not null AND t.toscaName = ?2 ORDER BY nli.audit.createdOn DESC")
 	List<NsLiveInstance> findByVnfInstanceAndTaskVlIsNotNull(NsdInstance vnfInstance, String toscaName);

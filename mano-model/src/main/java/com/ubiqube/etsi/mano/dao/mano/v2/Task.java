@@ -19,13 +19,13 @@ package com.ubiqube.etsi.mano.dao.mano.v2;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
-
 import com.ubiqube.etsi.mano.dao.mano.Auditable;
 import com.ubiqube.etsi.mano.dao.mano.ChangeType;
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.ScaleInfo;
 import com.ubiqube.etsi.mano.dao.mano.ToscaEntity;
+
+import jakarta.annotation.Nonnull;
 
 /**
  *

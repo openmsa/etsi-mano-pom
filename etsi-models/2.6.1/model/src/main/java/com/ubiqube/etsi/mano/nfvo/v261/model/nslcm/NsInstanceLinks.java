@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -73,7 +73,7 @@ public class NsInstanceLinks {
 	 * @return self
 	 **/
 	@Schema(required = true, description = "URI of this resource. ")
-	@NotNull
+	@Nonnull
 
 	@Valid
 

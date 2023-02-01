@@ -18,8 +18,6 @@ package com.ubiqube.etsi.mano.nfvo.service.pkg.ns.visitor;
 
 import java.util.Map;
 
-import javax.annotation.Priority;
-
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
@@ -27,6 +25,7 @@ import com.ubiqube.etsi.mano.nfvo.service.pkg.ns.NsOnboardingVisitor;
 import com.ubiqube.etsi.mano.service.pkg.bean.NsInformations;
 import com.ubiqube.etsi.mano.service.pkg.ns.NsPackageProvider;
 
+import jakarta.annotation.Priority;
 import ma.glasnost.orika.MapperFacade;
 
 /**

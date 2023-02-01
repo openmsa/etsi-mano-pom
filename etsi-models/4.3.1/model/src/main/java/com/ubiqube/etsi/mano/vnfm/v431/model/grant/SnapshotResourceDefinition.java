@@ -22,8 +22,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.vnfm.v431.model.grant.ResourceHandle;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents resource definition information related to a snapshot resource. NOTE 1: If present, the value of the \&quot;vduId\&quot; (for a related VDU) in the \&quot;VnfcResourceInfo\&quot;          referred by the \&quot;vnfcInfoId\&quot; of the \&quot;VnfcSnapshotInfo\&quot; shall match the value of the          \&quot;vduId\&quot; in the resource definition that is signalled in the granting request. NOTE 2: For snapshot resource definitions extracted from a VNF snapshot package, only the          \&quot;vnfcSnapshotId\&quot; and \&quot;storageSnapshotId\&quot; (in case of a storage type of resource)          are applicable. If the snapshot resource definition is generated as part of a VNF          snapshot created by the VNFM (that is, not extracted from a VNF snapshot package),          the \&quot;snapshotResource\&quot; is applicable. This is a similar specification as the one          defined with the \&quot;vduId\&quot;, \&quot;resourceTemplateId\&quot; and \&quot;resource\&quot; attributes provided in          the ResourceDefinition, but in this case applicable to resources that are defined from          VNF snapshots instead of VNFD. 

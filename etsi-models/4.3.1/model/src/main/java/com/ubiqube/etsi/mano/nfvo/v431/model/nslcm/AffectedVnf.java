@@ -23,8 +23,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.ubiqube.etsi.mano.nfvo.v431.model.nslcm.AffectedVnfChangedInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type provides information about added, deleted and modified VNFs. NOTE: At least one of the attributes \&quot;changedVnfInfo\&quot;, \&quot;changedExtConnectivity\&quot; or \&quot;modificationsTriggeredByVnfPkgChange\&quot; shall be present. Not more than one of \&quot;changedVnfInfo\&quot; and \&quot;modificationsTriggeredByVnfPkgChange\&quot; shall be present. 

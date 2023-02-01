@@ -19,8 +19,8 @@ package com.ubiqube.etsi.mano.controller.vnf;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;

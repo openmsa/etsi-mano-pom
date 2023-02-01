@@ -19,7 +19,7 @@ package com.ubiqube.etsi.mano.em.v281.controller.vnffm;
 import static com.ubiqube.etsi.mano.uri.ManoWebMvcLinkBuilder.linkTo;
 import static com.ubiqube.etsi.mano.uri.ManoWebMvcLinkBuilder.methodOn;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import org.springframework.context.annotation.Conditional;
 import org.springframework.http.ResponseEntity;

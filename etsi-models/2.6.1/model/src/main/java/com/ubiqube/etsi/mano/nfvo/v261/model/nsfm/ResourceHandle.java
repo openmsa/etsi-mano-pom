@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.nfvo.v261.model.nsfm;
 
 import java.util.Objects;
 
-import javax.validation.constraints.NotNull;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -98,7 +98,7 @@ public class ResourceHandle {
 	 * @return resourceId
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	public String getResourceId() {
 		return resourceId;

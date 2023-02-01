@@ -19,8 +19,8 @@ package com.ubiqube.etsi.mano.vnfm.v261.model.vnfconfig;
 import java.util.Map;
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -59,7 +59,7 @@ public class VnfcConfigurationData {
 	 * @return vnfcInstanceId
 	 **/
 	@Schema(required = true, description = "Identifier of a VNFC instance to which this set of configuration data applies. ")
-	@NotNull
+	@Nonnull
 
 	public String getVnfcInstanceId() {
 		return vnfcInstanceId;

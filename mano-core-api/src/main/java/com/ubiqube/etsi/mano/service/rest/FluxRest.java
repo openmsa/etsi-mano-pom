@@ -36,7 +36,6 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import javax.annotation.Nullable;
 import javax.net.ssl.SSLException;
 import javax.net.ssl.TrustManagerFactory;
 
@@ -50,7 +49,7 @@ import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.MultipartBodyBuilder;
@@ -87,6 +86,7 @@ import com.ubiqube.etsi.mano.service.event.model.AuthentificationInformations;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
+import jakarta.annotation.Nullable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.SignalType;
@@ -352,7 +352,7 @@ public class FluxRest {
 
 	private static ExchangeFilterFunction errorHandler() {
 		return ExchangeFilterFunction.ofResponseProcessor(cr -> {
-			final HttpStatus status = cr.statusCode();
+			final HttpStatusCode status = cr.statusCode();
 			if (status.is5xxServerError() || status.is4xxClientError()) {
 				return cr.bodyToMono(String.class).flatMap(x -> Mono.error(() -> new GenericException(x)));
 			}

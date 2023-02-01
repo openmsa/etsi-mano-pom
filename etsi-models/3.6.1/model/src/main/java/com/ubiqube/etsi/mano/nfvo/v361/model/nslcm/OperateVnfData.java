@@ -24,8 +24,8 @@ import com.ubiqube.etsi.mano.nfvo.v361.model.nslcm.OperationalStates;
 import com.ubiqube.etsi.mano.nfvo.v361.model.nslcm.StopType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents a VNF instance for which the operational state  needs to be changed and the requested new state. NOTE: The \&quot;stopType\&quot; and \&quot;gracefulStopTimeout\&quot; attributes shall be absent, when the \&quot;changeStateTo\&quot; attribute is equal to \&quot;STARTED\&quot;. The \&quot;gracefulStopTimeout\&quot; attribute shall be present, when the \&quot;changeStateTo\&quot; attribute is equal to \&quot;STOPPED\&quot; and the \&quot;stopType\&quot; attribute is equal to \&quot;GRACEFUL\&quot;. The \&quot;gracefulStopTimeout\&quot; attribute shall be absent, when the \&quot;changeStateTo\&quot; attribute is equal to \&quot;STOPPED\&quot; and the \&quot;stopType\&quot; attribute is equal to \&quot;FORCEFUL\&quot;. The request shall be treated as if the \&quot;stopType\&quot; attribute was set to \&quot;FORCEFUL\&quot;, when the \&quot;changeStateTo\&quot; attribute is equal to \&quot;STOPPED\&quot; and the \&quot;stopType\&quot; attribute is absent. 

@@ -78,11 +78,16 @@ import com.ubiqube.etsi.mano.nfvo.v261.model.nslcm.ScaleNsData;
 import com.ubiqube.etsi.mano.nfvo.v261.model.nslcm.ScaleNsRequest;
 import com.ubiqube.etsi.mano.service.VnfPackageServiceImpl;
 import com.ubiqube.etsi.mano.service.VnfmInterface;
+import com.ubiqube.etsi.mano.service.cond.ConditionService;
+import com.ubiqube.etsi.mano.service.cond.Context;
+import com.ubiqube.etsi.mano.service.cond.Node;
 
 import ma.glasnost.orika.MapperFacade;
 
 @Component
 public class VnfIndicatorValueChangeNotificationImpl {
+
+	private static final String ERROR_PARSING_THRESHOLD_VALUE = "error parsing threshold value";
 
 	private static final Logger LOG = LoggerFactory.getLogger(VnfIndicatorValueChangeNotificationImpl.class);
 
@@ -112,13 +117,15 @@ public class VnfIndicatorValueChangeNotificationImpl {
 
 	private final MapperFacade mapper;
 
+	private final ConditionService conditionService;
 	private final Random rand = new Random();
 
 	public VnfIndicatorValueChangeNotificationImpl(final VnfIndiValueChangeNotificationJpa vnfIndValueNotificationJpa,
 			final VnfPackageServiceImpl vnfPackageServiceImpl, final ServersJpa serversJpa,
 			final VnfmInterface vnfm, final VnfInstanceLcm vnfLcmOpOccsService,
 			final NsLiveInstanceJpa nsLiveInstanceJpa, final NsdPackageJpa nsdPackageJpa, final NsdInstanceJpa nsdInstanceJpa,
-			final NsInstanceControllerService nsInstanceControllerService, final MapperFacade mapper, final NsBlueprintJpa nsBlueprintJpa) {
+			final NsInstanceControllerService nsInstanceControllerService, final MapperFacade mapper, final NsBlueprintJpa nsBlueprintJpa,
+			final ConditionService conditionService) {
 		this.vnfIndValueNotificationJpa = vnfIndValueNotificationJpa;
 		this.nsLiveInstanceJpa = nsLiveInstanceJpa;
 		this.nsdInstanceJpa = nsdInstanceJpa;
@@ -129,6 +136,7 @@ public class VnfIndicatorValueChangeNotificationImpl {
 		this.serversJpa = serversJpa;
 		this.vnfm = vnfm;
 		this.mapper = mapper;
+		this.conditionService = conditionService;
 		func = vnfLcmOpOccsService::vnfLcmOpOccsGet;
 		func2 = vnfLcmOpOccsService::findByVnfInstanceId;
 		try (InputStream mappting = this.getClass().getClassLoader().getResourceAsStream("gnocchi-mapping.properties")) {
@@ -154,7 +162,7 @@ public class VnfIndicatorValueChangeNotificationImpl {
 		for (final Map.Entry<String, List<VnfIndiValueChangeNotification>> entry : notificationsByInstanceId.entrySet()) {
 			final List<NsLiveInstance> nsInstanceIds = nsLiveInstanceJpa.findByResourceId(entry.getKey());
 			final Set<NsVnfIndicator> nsVnfIndicators = getNSIndicators(nsInstanceIds.get(0).getNsInstance().getId());
-			if ((nsInstanceIds != null) && !nsInstanceIds.isEmpty() && (nsVnfIndicators != null) && nsVnfIndicators.iterator().next().getToscaName().equals("auto_scale")) {
+			if ((nsVnfIndicators != null) && nsVnfIndicators.iterator().next().getToscaName().equals("auto_scale")) {
 				final UUID nsInstanceId = nsInstanceIds.get(0).getNsInstance().getId();
 				LOG.info("NS instance of the vnf Instance {}:{}", entry.getKey(), nsInstanceId);
 				final NSVnfNotification nsVnfNotification = new NSVnfNotification();
@@ -235,27 +243,31 @@ public class VnfIndicatorValueChangeNotificationImpl {
 				LOG.error("error parsing condition", e);
 				break;
 			}
+			final Node root = conditionService.parse(trigger.getCondition());
+			final Context context = null;
+			conditionService.evaluate(root, context);
 			conditions: for (final JsonNode jsonNode : actualObj) {
 				final Map<String, Object> condition = mapper.convertValue(jsonNode,
 						new TypeReference<Map<String, Object>>() {
+							//
 						});
 				final Map.Entry<String, Object> c = condition.entrySet().iterator().next();
 				final String indicatorName = c.getKey();
 				LOG.info("trigger indicator name {}", indicatorName);
-				Double vnfIndicatorValue;
+				double vnfIndicatorValue;
 				final Set<VnfIndiValueChangeNotification> not = notifications.stream().filter(x -> x.getVnfIndicatorId().equals(indicatorName)).collect(Collectors.toSet());
 				if (not.isEmpty()) {
 					LOG.info("Notification after filter is empty");
 					break conditions;
 				}
 				if (not.size() > 1) {
-					Double totalValue = 0.0;
+					double totalValue = 0.0;
 					Double value = 0.0;
 					for (final VnfIndiValueChangeNotification vnfIndiValueChangeNotification : not) {
 						try {
 							value = Double.valueOf(vnfIndiValueChangeNotification.getValue());
 						} catch (final NumberFormatException e) {
-							LOG.error("error parsing threshold value", e);
+							LOG.error(ERROR_PARSING_THRESHOLD_VALUE, e);
 						}
 						totalValue = totalValue + value;
 					}
@@ -268,7 +280,7 @@ public class VnfIndicatorValueChangeNotificationImpl {
 					try {
 						vnfIndicatorValue = Double.valueOf(vnfIndiValueChangeNotification.getValue());
 					} catch (final NumberFormatException e) {
-						LOG.error("error parsing threshold value", e);
+						LOG.error(ERROR_PARSING_THRESHOLD_VALUE, e);
 						break;
 					}
 				}
@@ -284,7 +296,7 @@ public class VnfIndicatorValueChangeNotificationImpl {
 							try {
 								conditionValue = Double.valueOf(r.getValue().toString());
 							} catch (final NumberFormatException e) {
-								LOG.error("error parsing threshold value", e);
+								LOG.error(ERROR_PARSING_THRESHOLD_VALUE, e);
 								break;
 							}
 						}
@@ -332,6 +344,7 @@ public class VnfIndicatorValueChangeNotificationImpl {
 		for (final JsonNode jsonNode : actualObj) {
 			action = mapper.convertValue(jsonNode,
 					new TypeReference<Map<String, Object>>() {
+						//
 					});
 		}
 		if (action.isEmpty()) {
@@ -344,32 +357,7 @@ public class VnfIndicatorValueChangeNotificationImpl {
 		final Map<String, Object> inputs = (Map<String, Object>) b.get("inputs");
 		VnfBlueprint res = null;
 		if ("Vnflcm.scale".equals(operationName)) {
-			final VnfScaleRequest vnfScaleRequest = new VnfScaleRequest();
-			for (final Map.Entry<String, Object> c : inputs.entrySet()) {
-				final Map<String, String> d = (Map<String, String>) c.getValue();
-				final Object value = d.entrySet().iterator().next().getValue();
-				switch (c.getKey()) {
-				case "type":
-					if ("scale_out".equals(value)) {
-						vnfScaleRequest.setType(ScaleTypeEnum.OUT);
-					}
-					if ("scale_in".equals(value)) {
-						vnfScaleRequest.setType(ScaleTypeEnum.IN);
-					}
-					break;
-				case "aspect":
-					vnfScaleRequest.setAspectId(value.toString());
-					break;
-				case "number_of_steps":
-					vnfScaleRequest.setNumberOfSteps(Integer.parseInt(value.toString()));
-					break;
-				}
-			}
-			if (vnfScaleRequest.getNumberOfSteps() == null) {
-				vnfScaleRequest.setNumberOfSteps(1);
-			}
-			LOG.info("VNF Scale {} launched", vnfScaleRequest.getType());
-			res = vnfm.vnfScale(server, vnfInstanceId, vnfScaleRequest);
+			res = doVnfLcmScale(vnfInstanceId, server, inputs);
 		} else if ("Vnflcm.heal".equals(operationName)) {
 			final VnfHealRequest vnfHealRequest = new VnfHealRequest();
 			for (final Map.Entry<String, Object> c : inputs.entrySet()) {
@@ -431,6 +419,36 @@ public class VnfIndicatorValueChangeNotificationImpl {
 				throw new GenericException("VNF LCM Failed: " + details + " With state:  " + result.getOperationStatus());
 			}
 		}
+	}
+
+	private VnfBlueprint doVnfLcmScale(final String vnfInstanceId, final Servers server, final Map<String, Object> inputs) {
+		final VnfBlueprint res;
+		final VnfScaleRequest vnfScaleRequest = new VnfScaleRequest();
+		for (final Map.Entry<String, Object> c : inputs.entrySet()) {
+			final Map<String, String> d = (Map<String, String>) c.getValue();
+			final Object value = d.entrySet().iterator().next().getValue();
+			switch (c.getKey()) {
+			case "type":
+				if ("scale_out".equals(value)) {
+					vnfScaleRequest.setType(ScaleTypeEnum.OUT);
+				}
+				if ("scale_in".equals(value)) {
+					vnfScaleRequest.setType(ScaleTypeEnum.IN);
+				}
+				break;
+			case "aspect":
+				vnfScaleRequest.setAspectId(value.toString());
+				break;
+			case "number_of_steps":
+				vnfScaleRequest.setNumberOfSteps(Integer.parseInt(value.toString()));
+				break;
+			}
+		}
+		if (vnfScaleRequest.getNumberOfSteps() == null) {
+			vnfScaleRequest.setNumberOfSteps(1);
+		}
+		LOG.info("VNF Scale {} launched", vnfScaleRequest.getType());
+		return vnfm.vnfScale(server, vnfInstanceId, vnfScaleRequest);
 	}
 
 	private Servers selectServer(final VnfPackage vnfPackage) {

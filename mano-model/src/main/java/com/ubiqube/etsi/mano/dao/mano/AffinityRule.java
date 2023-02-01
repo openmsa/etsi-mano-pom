@@ -16,7 +16,7 @@
  */
 package com.ubiqube.etsi.mano.dao.mano;
 
-import javax.persistence.Entity;
+import jakarta.persistence.Entity;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -22,8 +22,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.nfvo.v431.model.nfvici.SubscriptionAuthentication;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents modifications to a capacity threshold. It shall comply with the provisions defined in table 10.5.2.8-1. NOTE: At least one of the attributes defined in this type shall be present in request bodies. 

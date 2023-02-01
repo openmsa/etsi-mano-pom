@@ -19,9 +19,6 @@ package com.ubiqube.etsi.mano.nfvo.v261.model.lcmgrant;
 
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-
 import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -30,7 +27,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.ubiqube.etsi.mano.common.v261.model.ResourceHandle;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-
+import jakarta.annotation.Nonnull;
+import jakarta.validation.Valid;
 
 /**
  * This type provides information of an existing or proposed resource used by
@@ -38,7 +36,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
  */
 @Schema(description = "This type provides information of an existing or proposed resource used by the VNF. ")
 @Validated
-
 
 public class ResourceDefinition {
 	@JsonProperty("id")
@@ -100,11 +97,11 @@ public class ResourceDefinition {
 	/**
 	 * Identifier of this \"ResourceDefinition\" structure, unique at least within
 	 * the scope of the \"GrantRequest\" structure.
-	 * 
+	 *
 	 * @return id
 	 **/
 	@Schema(required = true, description = "Identifier of this \"ResourceDefinition\" structure, unique at least within the scope of the \"GrantRequest\" structure. ")
-	@NotNull
+	@Nonnull
 
 	public String getId() {
 		return id;
@@ -122,11 +119,11 @@ public class ResourceDefinition {
 	/**
 	 * Type of the resource definition referenced. Permitted values: * COMPUTE * VL
 	 * * STORAGE * LINKPORT
-	 * 
+	 *
 	 * @return type
 	 **/
 	@Schema(required = true, description = "Type of the resource definition referenced. Permitted values: * COMPUTE * VL * STORAGE * LINKPORT ")
-	@NotNull
+	@Nonnull
 
 	public TypeEnum getType() {
 		return type;
@@ -144,7 +141,7 @@ public class ResourceDefinition {
 	/**
 	 * Reference to the related VDU in the VNFD applicable to this resource. Shall
 	 * only be present if a VDU is applicable to this resource.
-	 * 
+	 *
 	 * @return vduId
 	 **/
 	@Schema(description = "Reference to the related VDU in the VNFD applicable to this resource. Shall only be present if a VDU is applicable to this resource. ")
@@ -165,7 +162,7 @@ public class ResourceDefinition {
 	/**
 	 * Reference to a resource template (VnfVirtualLinkDesc, VirtualComputeDesc,
 	 * VnfExtCpd, VirtualStorageDesc) in the VNFD.
-	 * 
+	 *
 	 * @return resourceTemplateId
 	 **/
 	@Schema(description = "Reference to a resource template (VnfVirtualLinkDesc, VirtualComputeDesc, VnfExtCpd, VirtualStorageDesc) in the VNFD. ")
@@ -186,7 +183,7 @@ public class ResourceDefinition {
 	/**
 	 * Resource information for an existing resource. Shall be present for resources
 	 * that are planned to be deleted or modified. Shall be absent otherwise.
-	 * 
+	 *
 	 * @return resource
 	 **/
 	@Schema(description = "Resource information for an existing resource. Shall be present for resources that are planned to be deleted or modified. Shall be absent otherwise. ")

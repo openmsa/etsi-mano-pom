@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -60,7 +60,7 @@ public class LocationConstraints {
 	 * @return countryCode
 	 **/
 	@Schema(required = true, description = "The two-letter ISO 3166 [29] country code in capital letters. ")
-	@NotNull
+	@Nonnull
 
 	public String getCountryCode() {
 		return countryCode;

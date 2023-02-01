@@ -21,8 +21,8 @@
  */
 package com.ubiqube.etsi.mec.meo.v211.controller.pkg;
 
-import javax.annotation.Nonnull;
-import javax.validation.Valid;
+import jakarta.annotation.Nonnull;
+import jakarta.validation.Valid;
 
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Pageable;

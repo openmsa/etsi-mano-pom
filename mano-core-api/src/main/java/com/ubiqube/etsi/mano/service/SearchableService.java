@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

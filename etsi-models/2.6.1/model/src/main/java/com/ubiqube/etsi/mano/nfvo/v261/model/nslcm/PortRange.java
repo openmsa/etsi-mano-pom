@@ -19,15 +19,13 @@ package com.ubiqube.etsi.mano.nfvo.v261.model.nslcm;
 
 import java.util.Objects;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-
 import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-
+import jakarta.annotation.Nonnull;
+import jakarta.validation.constraints.Min;
 
 /**
  * The PortRange data type provides the lower and upper bounds of a range of
@@ -36,7 +34,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
  */
 @Schema(description = "The PortRange data type provides the lower and upper bounds of a range of Internet ports. It shall comply with the provisions defined in Table 6.5.3.42-1. ")
 @Validated
-
 
 public class PortRange {
 	@JsonProperty("lowerPort")
@@ -52,11 +49,11 @@ public class PortRange {
 
 	/**
 	 * Identifies the lower bound of the port range. upperPort Integer minimum: 0
-	 * 
+	 *
 	 * @return lowerPort
 	 **/
 	@Schema(required = true, description = "Identifies the lower bound of the port range. upperPort Integer ")
-	@NotNull
+	@Nonnull
 
 	@Min(0)
 	public Integer getLowerPort() {
@@ -74,11 +71,11 @@ public class PortRange {
 
 	/**
 	 * Identifies the upper bound of the port range. minimum: 0
-	 * 
+	 *
 	 * @return upperPort
 	 **/
 	@Schema(required = true, description = "Identifies the upper bound of the port range. ")
-	@NotNull
+	@Nonnull
 
 	@Min(0)
 	public Integer getUpperPort() {

@@ -18,13 +18,13 @@ package com.ubiqube.etsi.mano.nfvo.service.event;
 
 import java.util.UUID;
 
-import javax.transaction.Transactional;
-import javax.transaction.Transactional.TxType;
-
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.service.event.GrantAction;
 import com.ubiqube.etsi.mano.service.event.GrantActionDispatcher;
+
+import jakarta.transaction.Transactional;
+import jakarta.transaction.Transactional.TxType;
 
 /**
  *

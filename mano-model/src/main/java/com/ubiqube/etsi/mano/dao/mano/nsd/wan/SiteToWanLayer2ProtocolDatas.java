@@ -19,7 +19,7 @@ package com.ubiqube.etsi.mano.dao.mano.nsd.wan;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import javax.persistence.Embeddable;
+import jakarta.persistence.Embeddable;
 
 import lombok.Getter;
 import lombok.Setter;

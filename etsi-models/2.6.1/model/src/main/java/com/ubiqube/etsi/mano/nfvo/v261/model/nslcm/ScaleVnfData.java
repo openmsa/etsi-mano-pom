@@ -19,8 +19,8 @@ package com.ubiqube.etsi.mano.nfvo.v261.model.nslcm;
 
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -101,7 +101,7 @@ public class ScaleVnfData {
 	 * @return vnfInstanceid
 	 **/
 	@Schema(required = true, description = "Identifier of the VNF instance being scaled. ")
-	@NotNull
+	@Nonnull
 
 	public String getVnfInstanceid() {
 		return vnfInstanceid;
@@ -125,7 +125,7 @@ public class ScaleVnfData {
 	 * @return scaleVnfType
 	 **/
 	@Schema(required = true, description = "Type of the scale VNF operation requested. Allowed values are: - SCALE_OUT - SCALE_IN - SCALE_TO_INSTANTIATION_LEVEL - SCALE_TO_SCALE_LEVEL(S) The set of types actually supported depends on the capabilities of the VNF being managed. ")
-	@NotNull
+	@Nonnull
 
 	public ScaleVnfTypeEnum getScaleVnfType() {
 		return scaleVnfType;

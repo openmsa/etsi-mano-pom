@@ -18,9 +18,9 @@ package com.ubiqube.etsi.mano.vnfm.v281.controller.vnf;
 
 import static com.ubiqube.etsi.mano.Constants.getSafeUUID;
 
-import javax.annotation.Nonnull;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
+import jakarta.annotation.Nonnull;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;

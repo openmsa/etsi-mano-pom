@@ -16,8 +16,8 @@
  */
 package com.ubiqube.etsi.mano.dao.mano;
 
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
 
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
 

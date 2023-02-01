@@ -24,8 +24,8 @@ import com.ubiqube.etsi.mano.nfvo.v431.model.nsfm.AlarmListRebuiltNotificationLi
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents a notification that the alarm list has been rebuilt, e.g. if the NFVO detects its storage holding the alarm list is corrupted. It shall comply with the provisions defined in Table 8.5.2.7-1. The notification shall be triggered by the NFVO when the alarm list has been rebuilt, e.g. because the NFVO has detected  that its storage holding the alarm list was corrupted. 

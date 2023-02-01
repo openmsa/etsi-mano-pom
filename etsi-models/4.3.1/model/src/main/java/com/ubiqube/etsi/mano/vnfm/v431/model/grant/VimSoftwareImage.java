@@ -21,8 +21,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type contains a mapping between a software image definition the VNFD and the corresponding software image managed by the NFVO in the VIM or CIR which is needed during compute resource instantiation. NOTE: For an OS container image, the value of this attribute is a string concatenating the name and tag of the       image in the CIR separated by a colon &#x27;:&#x27; with no spaces, e.g. “dbImage:001”. 

@@ -20,11 +20,11 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Embeddable;
-import javax.persistence.FetchType;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.FetchType;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
 
 import com.ubiqube.etsi.mano.utils.ToStringUtil;
 

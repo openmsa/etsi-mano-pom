@@ -23,8 +23,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents describes a pair of ingress and egress CPs or SAPs which  the NFP passes by. It shall comply with the provisions defined in Table 6.5.3.72-1. NOTE 1: The presence of a single vnfExpCpId, pnfExtCpId, or sapId occurrence indicates that the CP or SAP is used both as an ingress and egress port at a particular NFP position. NOTE 2: Only one of these three attributes shall be present. 

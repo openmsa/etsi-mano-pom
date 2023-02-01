@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -138,7 +138,7 @@ public class Alarm {
 	 * @return id
 	 **/
 	@Schema(required = true, description = "Identifier of this Alarm information element. ")
-	@NotNull
+	@Nonnull
 
 	public String getId() {
 		return id;
@@ -159,7 +159,7 @@ public class Alarm {
 	 * @return managedObjectId
 	 **/
 	@Schema(required = true, description = "Identifier of the affected VNF instance. ")
-	@NotNull
+	@Nonnull
 
 	public String getManagedObjectId() {
 		return managedObjectId;
@@ -185,7 +185,7 @@ public class Alarm {
 	 * @return vnfcInstanceIds
 	 **/
 	@Schema(required = true, description = "Identifiers of the affected VNFC instances. ")
-	@NotNull
+	@Nonnull
 
 	public List<String> getVnfcInstanceIds() {
 		return vnfcInstanceIds;
@@ -206,7 +206,7 @@ public class Alarm {
 	 * @return rootCauseFaultyResource
 	 **/
 	@Schema(required = true, description = "The virtualised resources that are causing the VNF fault. ")
-	@NotNull
+	@Nonnull
 
 	@Valid
 
@@ -229,7 +229,7 @@ public class Alarm {
 	 * @return alarmRaisedTime
 	 **/
 	@Schema(required = true, description = "Time stamp indicating when the alarm is raised by the managed object. ")
-	@NotNull
+	@Nonnull
 
 	public String getAlarmRaisedTime() {
 		return alarmRaisedTime;
@@ -293,7 +293,7 @@ public class Alarm {
 	 * @return ackState
 	 **/
 	@Schema(required = true, description = "Acknowledgement state of the alarm. Permitted values: * UNACKNOWLEDGED * ACKNOWLEDGED. ")
-	@NotNull
+	@Nonnull
 
 	public AckStateEnum getAckState() {
 		return ackState;
@@ -314,7 +314,7 @@ public class Alarm {
 	 * @return perceivedSeverity
 	 **/
 	@Schema(required = true, description = "Perceived severity of the managed object failure. ")
-	@NotNull
+	@Nonnull
 
 	@Valid
 
@@ -337,7 +337,7 @@ public class Alarm {
 	 * @return eventTime
 	 **/
 	@Schema(required = true, description = "Time stamp indicating when the fault was observed. ")
-	@NotNull
+	@Nonnull
 
 	public String getEventTime() {
 		return eventTime;
@@ -358,7 +358,7 @@ public class Alarm {
 	 * @return eventType
 	 **/
 	@Schema(required = true, description = "Type of event. ")
-	@NotNull
+	@Nonnull
 
 	@Valid
 
@@ -401,7 +401,7 @@ public class Alarm {
 	 * @return probableCause
 	 **/
 	@Schema(required = true, description = "Information about the probable cause of the fault. ")
-	@NotNull
+	@Nonnull
 
 	public String getProbableCause() {
 		return probableCause;
@@ -424,7 +424,7 @@ public class Alarm {
 	 * @return isRootCause
 	 **/
 	@Schema(required = true, description = "Attribute indicating if this fault is the root for other correlated alarms. If TRUE, then the alarms listed in the attribute CorrelatedAlarmId are caused by this fault. ")
-	@NotNull
+	@Nonnull
 
 	public Boolean getIsRootCause() {
 		return isRootCause;
@@ -501,7 +501,7 @@ public class Alarm {
 	 * @return links
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	@Valid
 

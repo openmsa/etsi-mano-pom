@@ -19,8 +19,8 @@ package com.ubiqube.etsi.mano.vnfm.v261.model.vnffm;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -100,7 +100,7 @@ public class AlarmNotification {
 	 * @return id
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	public String getId() {
 		return id;
@@ -122,7 +122,7 @@ public class AlarmNotification {
 	 * @return notificationType
 	 **/
 	@Schema(required = true, description = "Discriminator for the different notification types. Shall be set to \"AlarmNotification\" for this notification type. ")
-	@NotNull
+	@Nonnull
 
 	public NotificationTypeEnum getNotificationType() {
 		return notificationType;
@@ -143,7 +143,7 @@ public class AlarmNotification {
 	 * @return subscriptionId
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	public String getSubscriptionId() {
 		return subscriptionId;
@@ -164,7 +164,7 @@ public class AlarmNotification {
 	 * @return timeStamp
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	@Valid
 	public OffsetDateTime getTimeStamp() {
@@ -186,7 +186,7 @@ public class AlarmNotification {
 	 * @return alarm
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	@Valid
 	public Alarm getAlarm() {
@@ -208,7 +208,7 @@ public class AlarmNotification {
 	 * @return _links
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	@Valid
 	public AlarmNotificationLinks getLinks() {

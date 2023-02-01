@@ -24,8 +24,8 @@ import com.ubiqube.etsi.mano.em.v431.model.vnffm.AlarmListRebuiltNotificationLin
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents a notification that the alarm list has been rebuilt, e.g. if the VNFM detects its storage holding the alarm list is corrupted. The notification shall be triggered by the VNFM when the alarm list has been rebuilt, e.g. because the VNFM has detected that its storage holding the alarm list was corrupted. 

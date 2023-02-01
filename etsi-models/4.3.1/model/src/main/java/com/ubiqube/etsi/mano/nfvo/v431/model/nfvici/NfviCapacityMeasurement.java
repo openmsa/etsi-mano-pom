@@ -22,8 +22,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.nfvo.v431.model.nfvici.NfviCapacityResourceTypeEnumeration;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type defines the format of the NFVI capacity information on a per resource type basis. The type shall comply with the provisions defined in table 10.5.2.6-1. NOTE: The present document and referred documents do not specify the capacity measurements, thus the capacity measurement names are not specified in the present document version. 

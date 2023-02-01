@@ -19,8 +19,8 @@ package com.ubiqube.etsi.mano.dao.mano.alarm;
 import java.io.Serializable;
 import java.util.UUID;
 
-import javax.persistence.Embeddable;
-import javax.persistence.OneToOne;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.OneToOne;
 
 import com.ubiqube.etsi.mano.dao.mano.AdditionalResourceInfo;
 

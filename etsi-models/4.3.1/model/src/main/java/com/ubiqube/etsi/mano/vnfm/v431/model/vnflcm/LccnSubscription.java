@@ -24,8 +24,8 @@ import com.ubiqube.etsi.mano.vnfm.v431.model.vnflcm.LcmOpOccNotificationVerbosit
 import com.ubiqube.etsi.mano.vnfm.v431.model.vnflcm.LifecycleChangeNotificationsFilter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents a subscription related to notifications about VNF lifecycle changes. 

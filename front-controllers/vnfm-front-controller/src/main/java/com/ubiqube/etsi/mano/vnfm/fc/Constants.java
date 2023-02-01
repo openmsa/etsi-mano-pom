@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.vnfm.fc;
 
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 public class Constants {
 	private Constants() {

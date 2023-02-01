@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mec.repositories;
 
 import java.util.UUID;
 
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;

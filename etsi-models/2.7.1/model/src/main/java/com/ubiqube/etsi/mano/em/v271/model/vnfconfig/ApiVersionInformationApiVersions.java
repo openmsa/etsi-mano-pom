@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.em.v271.model.vnfconfig;
 
 import java.util.Objects;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import org.springframework.validation.annotation.Validated;
 

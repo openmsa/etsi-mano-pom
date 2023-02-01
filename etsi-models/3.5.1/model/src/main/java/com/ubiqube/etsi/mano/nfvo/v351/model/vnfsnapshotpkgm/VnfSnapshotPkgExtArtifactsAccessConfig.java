@@ -24,8 +24,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents the access configuration information for downloading external VNF snapshot  package artifacts. The NFVO can obtain the external VNF snapshot package artifact file through the information  provided in this structure, together with information provided in the manifest. The data  structure shall comply with the provisions defined in Table 11.5.2.9-1. If the data structure  is part of a response body, security-sensitive attributes shall be excluded as specified in  Table 11.5.2.9-1. 

@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.vnfm.fc.vnffm;
 
 import java.util.function.Consumer;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;

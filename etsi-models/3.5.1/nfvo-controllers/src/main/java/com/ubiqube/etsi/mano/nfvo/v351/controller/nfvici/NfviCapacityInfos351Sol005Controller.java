@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.nfvo.v351.controller.nfvici;
 
 import java.util.List;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.http.ResponseEntity;

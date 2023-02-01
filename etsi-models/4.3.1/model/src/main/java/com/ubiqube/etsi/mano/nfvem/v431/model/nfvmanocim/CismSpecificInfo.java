@@ -21,8 +21,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents information attributes specific to a CISM entity, and that  can be relevant to more than one NFV-MANO service offered by a CISM entity. It  shall comply with the provisions defined in table 5.6.3.14-1.  NOTE: No attributes are specified in the present document version. The definition of attributes is left for future specification.  

@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -68,7 +68,7 @@ public class AddPnfData {
 	 * @return pnfId
 	 **/
 	@Schema(required = true, description = "Identifier of the PNF. This identifier is allocated by the OSS/BSS. ")
-	@NotNull
+	@Nonnull
 
 	public String getPnfId() {
 		return pnfId;
@@ -89,7 +89,7 @@ public class AddPnfData {
 	 * @return pnfName
 	 **/
 	@Schema(required = true, description = "Name of the PNF ")
-	@NotNull
+	@Nonnull
 
 	public String getPnfName() {
 		return pnfName;
@@ -110,7 +110,7 @@ public class AddPnfData {
 	 * @return pnfdId
 	 **/
 	@Schema(required = true, description = "Identifier of the PNFD on which the PNF is based. ")
-	@NotNull
+	@Nonnull
 
 	public String getPnfdId() {
 		return pnfdId;
@@ -131,7 +131,7 @@ public class AddPnfData {
 	 * @return pnfProfileId
 	 **/
 	@Schema(required = true, description = "Identifier of related PnfProfile in the NSD on which the PNF is based. ")
-	@NotNull
+	@Nonnull
 
 	public String getPnfProfileId() {
 		return pnfProfileId;

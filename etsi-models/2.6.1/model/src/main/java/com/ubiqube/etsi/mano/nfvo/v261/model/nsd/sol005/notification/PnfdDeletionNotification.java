@@ -20,8 +20,8 @@ package com.ubiqube.etsi.mano.nfvo.v261.model.nsd.sol005.notification;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -76,7 +76,7 @@ public class PnfdDeletionNotification {
 	 * @return id
 	 **/
 	@Schema(required = true, description = "Identifier of this notification. If a notification is sent multiple times due to multiple subscriptions, the \"id\" attribute of all these notifications shall have the same value. ")
-	@NotNull
+	@Nonnull
 
 	public String getId() {
 		return id;
@@ -98,7 +98,7 @@ public class PnfdDeletionNotification {
 	 * @return notificationType
 	 **/
 	@Schema(required = true, description = "Discriminator for the different notification types. Shall be set to \"PnfdDeletionNotification \" for this notification type. ")
-	@NotNull
+	@Nonnull
 
 	public String getNotificationType() {
 		return notificationType;
@@ -119,7 +119,7 @@ public class PnfdDeletionNotification {
 	 * @return subscriptionId
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	public String getSubscriptionId() {
 		return subscriptionId;
@@ -140,7 +140,7 @@ public class PnfdDeletionNotification {
 	 * @return timeStamp
 	 **/
 	@Schema(required = true, description = "Date-time of the generation of the notification. ")
-	@NotNull
+	@Nonnull
 
 	@Valid
 
@@ -163,7 +163,7 @@ public class PnfdDeletionNotification {
 	 * @return pnfdInfoId
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	public String getPnfdInfoId() {
 		return pnfdInfoId;
@@ -184,7 +184,7 @@ public class PnfdDeletionNotification {
 	 * @return pnfdId
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	public String getPnfdId() {
 		return pnfdId;
@@ -205,7 +205,7 @@ public class PnfdDeletionNotification {
 	 * @return links
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	@Valid
 

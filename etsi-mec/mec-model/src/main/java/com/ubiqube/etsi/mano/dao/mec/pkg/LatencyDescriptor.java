@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.dao.mec.pkg;
 
 import java.io.Serializable;
 
-import javax.persistence.Embeddable;
+import jakarta.persistence.Embeddable;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -11,8 +11,8 @@ import com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanologm.ManoManagedObjectRefer
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents a log report, which provides information about a compiled log and how to obtain it. It shall comply with the provisions defined in table 8.6.2.7-1. 

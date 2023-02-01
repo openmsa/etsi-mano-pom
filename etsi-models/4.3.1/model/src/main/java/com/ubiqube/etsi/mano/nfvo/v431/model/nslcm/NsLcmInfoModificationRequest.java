@@ -22,8 +22,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents attribute modifications for an \&quot;Individual  NS LCM operation occurrence\&quot; resource, i.e. modifications to a  resource representation based on the \&quot;NsLcmOpOcc\&quot; data structure. NOTE: The \&quot;scheduledTime\&quot; attribute represents the new value of  the \&quot;startTime\&quot; attribute of the \&quot;NsLcmOpOcc\&quot; data structure to  start the NS LCM operation. 

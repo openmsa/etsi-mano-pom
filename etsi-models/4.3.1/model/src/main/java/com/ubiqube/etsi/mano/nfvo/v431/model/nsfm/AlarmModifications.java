@@ -22,8 +22,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents attribute modifications for an \&quot;Individual alarm\&quot; resource, i.e. modifications to a resource representation based on the \&quot;Alarm\&quot; data type. The attributes of \&quot;Alarm\&quot; that can be modified according to the provisions in clause 8.5.2.4 are included in the \&quot;AlarmModifications\&quot; data type. The \&quot;AlarmModifications\&quot; data type shall comply with the provisions defined in Table 8.5.2.8-1. 

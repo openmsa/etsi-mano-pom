@@ -23,8 +23,8 @@ import com.ubiqube.etsi.mano.em.v271.model.vnfconfig.CpAddressAddress;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents configuration parameters of a CP instance address.    *  NOTE 1: Either \&quot;address\&quot; or \&quot;useDynamicAddress\&quot; shall be present.    *  NOTE 2: At least one of \&quot;macAddress\&quot; and \&quot;ipAddress\&quot; shall be present. 

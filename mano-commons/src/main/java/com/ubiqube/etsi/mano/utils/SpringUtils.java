@@ -16,11 +16,11 @@
  */
 package com.ubiqube.etsi.mano.utils;
 
-import javax.annotation.Nonnull;
-import javax.servlet.ServletRequest;
-
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.servlet.HandlerMapping;
+
+import jakarta.annotation.Nonnull;
+import jakarta.servlet.ServletRequest;
 
 public final class SpringUtils {
 

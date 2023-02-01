@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanopm.ManoEntitySubscriptionFilter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents a filter that can be used to subscribe for notifications  related to performance management events.  At a particular nesting level in the filter structure, the following applies:  All attributes shall match in order for the filter to match (logical \&quot;and\&quot; between  different filter attributes). If an attribute is an array, the attribute shall  match if at least one of the values in the array matches (logical \&quot;or\&quot; between the  values of one filter attribute). 

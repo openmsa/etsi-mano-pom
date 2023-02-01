@@ -70,7 +70,7 @@ class HelmUploaderTest {
 		final FileInputStream fis = new FileInputStream("/home/olivier/workspace/workspace17.1.1/ubi-etsi-mano/package-parser/demo/vnf-cnf/Artifacts/Scripts/mariadb-7.3.14.tgz");
 		final Builder wcb = WebClient.builder();
 		final WebClient webClient = wcb.build();
-		final Mono<HttpStatus> httpStatusMono = webClient.put()
+		final Mono<Object> httpStatusMono = webClient.put()
 				.uri("http://localhost:8080/repository/local-helm/mariadb-7.3.14.tgz")
 				.contentType(MediaType.parseMediaType("application/tar+gzip"))
 				.body(BodyInserters.fromResource(new InputStreamResource(fis)))

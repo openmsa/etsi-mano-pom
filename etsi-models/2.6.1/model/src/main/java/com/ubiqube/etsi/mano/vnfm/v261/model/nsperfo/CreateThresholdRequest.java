@@ -19,8 +19,8 @@ package com.ubiqube.etsi.mano.vnfm.v261.model.nsperfo;
 
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -54,7 +54,7 @@ public class CreateThresholdRequest {
 	 * @return objectInstanceId
 	 **/
 	@Schema(required = true, description = "Identifier of the VNF instance associated with this threshold. ")
-	@NotNull
+	@Nonnull
 
 	public String getObjectInstanceId() {
 		return objectInstanceId;
@@ -75,7 +75,7 @@ public class CreateThresholdRequest {
 	 * @return criteria
 	 **/
 	@Schema(required = true, description = "Criteria that define this threshold. ")
-	@NotNull
+	@Nonnull
 
 	@Valid
 

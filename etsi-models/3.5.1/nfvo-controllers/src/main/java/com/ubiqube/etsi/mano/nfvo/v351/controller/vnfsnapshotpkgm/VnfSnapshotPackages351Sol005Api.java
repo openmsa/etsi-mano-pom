@@ -21,8 +21,8 @@
  */
 package com.ubiqube.etsi.mano.nfvo.v351.controller.vnfsnapshotpkgm;
 
-import javax.annotation.security.RolesAllowed;
-import javax.validation.Valid;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.validation.Valid;
 
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;

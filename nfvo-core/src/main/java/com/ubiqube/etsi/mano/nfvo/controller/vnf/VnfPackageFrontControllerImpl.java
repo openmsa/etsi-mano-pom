@@ -27,8 +27,6 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -50,6 +48,7 @@ import com.ubiqube.etsi.mano.repository.ManoResource;
 import com.ubiqube.etsi.mano.service.event.model.AuthType;
 import com.ubiqube.etsi.mano.utils.SpringUtils;
 
+import jakarta.servlet.http.HttpServletRequest;
 import ma.glasnost.orika.MapperFacade;
 
 /**

@@ -16,7 +16,7 @@
  */
 package com.ubiqube.etsi.mano.nfvem.v431.controller.nfvmanologm;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;

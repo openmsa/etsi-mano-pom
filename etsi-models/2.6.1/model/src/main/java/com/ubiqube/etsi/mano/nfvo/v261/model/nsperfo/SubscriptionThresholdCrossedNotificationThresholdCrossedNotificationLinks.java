@@ -21,8 +21,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 /**
   * Links to resources related to this notification. 
@@ -46,7 +46,7 @@ public class SubscriptionThresholdCrossedNotificationThresholdCrossedNotificatio
    * @return subscription
   **/
   @JsonProperty("subscription")
-  @NotNull
+  @Nonnull
   public PmJobsPmJobReportsLinksSelf getSubscription() {
     return subscription;
   }
@@ -65,7 +65,7 @@ public class SubscriptionThresholdCrossedNotificationThresholdCrossedNotificatio
    * @return objectInstance
   **/
   @JsonProperty("objectInstance")
-  @NotNull
+  @Nonnull
   public PmJobsPmJobReportsLinksSelf getObjectInstance() {
     return objectInstance;
   }
@@ -84,7 +84,7 @@ public class SubscriptionThresholdCrossedNotificationThresholdCrossedNotificatio
    * @return threshold
   **/
   @JsonProperty("threshold")
-  @NotNull
+  @Nonnull
   public PmJobsPmJobReportsLinksSelf getThreshold() {
     return threshold;
   }

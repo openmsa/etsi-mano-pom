@@ -23,8 +23,8 @@ import java.util.Map;
 import com.ubiqube.etsi.mano.nfvo.v361.model.vnf.PackageOperationalStateType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents modifications to the information of a VNF package.  It shall comply with the provisions defined in Table 9.5.2.3-1. NOTE: At least one of the two parameters shall be present. If the VNF package is not on-boarded, the operation is used only to update existing or add additional user defined data using the userDefinedData attribute. 

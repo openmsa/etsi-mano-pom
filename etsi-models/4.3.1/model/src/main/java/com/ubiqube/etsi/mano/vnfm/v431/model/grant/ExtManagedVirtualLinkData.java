@@ -26,8 +26,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents an externally-managed internal VL. * NOTE 1: It is only applicable if the externally-managed VL is realized by a secondary container cluster network. It shall           not be present otherwise. * NOTE 2: A link port is not needed for a VNFC internal connection point connected to a secondary container cluster           network. * NOTE 3: An example of the network attachment definition resource when the container infrastructure service           management is a Kubernetes® instance is a network attachment definition (NAD). 

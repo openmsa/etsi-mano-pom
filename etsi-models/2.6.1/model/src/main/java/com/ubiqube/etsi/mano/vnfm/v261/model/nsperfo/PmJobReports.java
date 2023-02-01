@@ -19,7 +19,7 @@ package com.ubiqube.etsi.mano.vnfm.v261.model.nsperfo;
 
 import java.util.Objects;
 
-import javax.validation.constraints.NotNull;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -59,7 +59,7 @@ public class PmJobReports {
 	 * @return href
 	 **/
 	@Schema(required = true, description = "The Uri where the report can be obtained. ")
-	@NotNull
+	@Nonnull
 
 	public String getHref() {
 		return href;
@@ -80,7 +80,7 @@ public class PmJobReports {
 	 * @return readyTime
 	 **/
 	@Schema(required = true, description = "The time when the report was made available. ")
-	@NotNull
+	@Nonnull
 
 	public String getReadyTime() {
 		return readyTime;

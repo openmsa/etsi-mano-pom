@@ -19,7 +19,7 @@ package com.ubiqube.etsi.mano.nfvo.v261.model.nslcm;
 
 import java.util.Objects;
 
-import javax.validation.constraints.NotNull;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -140,7 +140,7 @@ public class AffectedNs {
 	 * @return nsInstanceId
 	 **/
 	@Schema(required = true, description = "Identifier of the nested NS instance. ")
-	@NotNull
+	@Nonnull
 
 	public String getNsInstanceId() {
 		return nsInstanceId;
@@ -161,7 +161,7 @@ public class AffectedNs {
 	 * @return nsdId
 	 **/
 	@Schema(required = true, description = "Identifier of the NSD of the nested NS instance. ")
-	@NotNull
+	@Nonnull
 
 	public String getNsdId() {
 		return nsdId;
@@ -183,7 +183,7 @@ public class AffectedNs {
 	 * @return changeType
 	 **/
 	@Schema(required = true, description = "Signals the type of lifecycle change. Permitted values: - ADD - REMOVE - INSTANTIATE - SCALE - UPDATE - HEAL - TERMINATE ")
-	@NotNull
+	@Nonnull
 
 	public ChangeTypeEnum getChangeType() {
 		return changeType;
@@ -205,7 +205,7 @@ public class AffectedNs {
 	 * @return changeResult
 	 **/
 	@Schema(required = true, description = "Signals the result of change identified by the \"changeType\" attribute. Permitted values: - COMPLETED - ROLLED_BACK - FAILED - PARTIALLY_COMPLETED ")
-	@NotNull
+	@Nonnull
 
 	public ChangeResultEnum getChangeResult() {
 		return changeResult;

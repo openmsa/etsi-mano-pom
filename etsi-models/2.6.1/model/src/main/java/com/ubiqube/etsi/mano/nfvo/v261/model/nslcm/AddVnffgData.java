@@ -19,7 +19,7 @@ package com.ubiqube.etsi.mano.nfvo.v261.model.nslcm;
 
 import java.util.Objects;
 
-import javax.validation.constraints.NotNull;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -77,7 +77,7 @@ public class AddVnffgData {
 	 * @return vnffgName
 	 **/
 	@Schema(required = true, description = "Human readable name for the VNFFG. ")
-	@NotNull
+	@Nonnull
 
 	public String getVnffgName() {
 		return vnffgName;
@@ -98,7 +98,7 @@ public class AddVnffgData {
 	 * @return description
 	 **/
 	@Schema(required = true, description = "Human readable description for the VNFFG. ")
-	@NotNull
+	@Nonnull
 
 	public String getDescription() {
 		return description;

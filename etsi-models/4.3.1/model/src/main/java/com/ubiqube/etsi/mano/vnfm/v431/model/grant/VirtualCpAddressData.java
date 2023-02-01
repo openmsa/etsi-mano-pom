@@ -22,8 +22,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents network address data for a virtual CP. * NOTE 1: If the container cluster is set up to be able to configure an external load balancer this address will be used,           otherwise it will be ignored by the CISM.  * NOTE 2: In case the cluster can configure an external load balancer but no loadBalancerIp is provided the container           cluster will assign an IP address. 

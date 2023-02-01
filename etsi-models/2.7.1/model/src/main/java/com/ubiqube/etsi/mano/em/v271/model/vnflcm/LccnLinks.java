@@ -23,8 +23,8 @@ import com.ubiqube.etsi.mano.em.v271.model.vnflcm.NotificationLink;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents the links to resources that a notification can contain. 

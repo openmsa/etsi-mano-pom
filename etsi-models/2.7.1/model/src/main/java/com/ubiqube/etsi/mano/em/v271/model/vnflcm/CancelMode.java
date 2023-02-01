@@ -23,8 +23,8 @@ import com.ubiqube.etsi.mano.em.v271.model.vnflcm.CancelModeType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents a parameter to select the mode of cancelling an ongoing VNF LCM operation occurrence. 

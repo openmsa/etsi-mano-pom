@@ -21,8 +21,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 /**
   * This type represents a subscription. 
@@ -54,7 +54,7 @@ public class SubscriptionsPmSubscription  {
    * @return id
   **/
   @JsonProperty("id")
-  @NotNull
+  @Nonnull
   public String getId() {
     return id;
   }
@@ -91,7 +91,7 @@ public class SubscriptionsPmSubscription  {
    * @return callbackUri
   **/
   @JsonProperty("callbackUri")
-  @NotNull
+  @Nonnull
   public String getCallbackUri() {
     return callbackUri;
   }
@@ -110,7 +110,7 @@ public class SubscriptionsPmSubscription  {
    * @return links
   **/
   @JsonProperty("_links")
-  @NotNull
+  @Nonnull
   public SubscriptionsPmSubscriptionLinks getLinks() {
     return links;
   }

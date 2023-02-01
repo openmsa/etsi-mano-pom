@@ -22,8 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -99,7 +99,7 @@ public class ScaleNsRequest {
 	 * @return scaleType
 	 **/
 	@Schema(required = true, description = "Indicates the type of scaling to be performed. Possible values: - SCALE_NS - SCALE_VNF ")
-	@NotNull
+	@Nonnull
 
 	public ScaleTypeEnum getScaleType() {
 		return scaleType;

@@ -16,9 +16,6 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service.event;
 
-import javax.transaction.Transactional;
-import javax.transaction.Transactional.TxType;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -26,6 +23,9 @@ import org.springframework.transaction.annotation.Propagation;
 
 import com.ubiqube.etsi.mano.service.event.ActionController;
 import com.ubiqube.etsi.mano.service.event.ActionMessage;
+
+import jakarta.transaction.Transactional;
+import jakarta.transaction.Transactional.TxType;
 
 /**
  *
@@ -41,7 +41,6 @@ public class NfvoActionsListener implements ActionController {
 	private final NfvoActionController actionController;
 
 	public NfvoActionsListener(final NfvoActionController actionController) {
-		super();
 		this.actionController = actionController;
 	}
 

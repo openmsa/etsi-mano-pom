@@ -21,12 +21,12 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-import javax.validation.constraints.NotNull;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.dao.mano.PnfDescriptor;
+
+import jakarta.validation.constraints.NotNull;
 
 public interface PnfdController {
 

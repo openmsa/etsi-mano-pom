@@ -26,8 +26,8 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents attribute modifications for an \&quot;Individual VNF instance\&quot; resource, i.e. modifications to a resource representation based on the \&quot;VnfInstance\&quot; data type. The attributes of \&quot;VnfInstance\&quot; that can be modified according to the provisions in clause 5.5.2.2 are included in the \&quot;VnfInfoModificationRequest\&quot; data type. The \&quot;VnfInfoModificationRequest\&quot; data type shall comply with the provisions defined in table 5.5.2.12-1. 

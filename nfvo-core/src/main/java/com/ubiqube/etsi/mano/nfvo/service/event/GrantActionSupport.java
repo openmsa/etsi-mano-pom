@@ -59,6 +59,8 @@ import com.ubiqube.etsi.mano.service.vim.ResourceQuota;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 
+import jakarta.annotation.Nonnull;
+
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
@@ -92,14 +94,14 @@ public class GrantActionSupport implements GrantSupport {
 	}
 
 	@Override
-	public Set<VnfCompute> getVnfCompute(final UUID objectId) {
+	public @Nonnull Set<VnfCompute> getVnfCompute(final UUID objectId) {
 		final GrantResponse grant = grantJpa.findById(objectId).orElseThrow(() -> new GenericException("Could not find: " + objectId));
 		final VnfPackage pkg = vnfPackageService.findByVnfdId(UUID.fromString(grant.getVnfdId()));
 		return pkg.getVnfCompute();
 	}
 
 	@Override
-	public Set<VnfStorage> getVnfStorage(final UUID objectId) {
+	public @Nonnull Set<VnfStorage> getVnfStorage(final UUID objectId) {
 		final GrantResponse grant = grantJpa.findById(objectId).orElseThrow();
 		final VnfPackage pkg = vnfPackageService.findByVnfdId(UUID.fromString(grant.getVnfdId()));
 		return pkg.getVnfStorage();

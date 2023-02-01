@@ -29,19 +29,17 @@
 
 package com.ubiqube.etsi.mano.vnfm.v261.model.nslcm;
 
-import javax.annotation.Nonnull;
-import javax.validation.constraints.NotNull;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.annotation.Nonnull;
 
 /**
  * CreateVnfRequest
  */
 
 public class CreateVnfRequest {
-	@NotNull
+	@Nonnull
 	@JsonProperty("vnfdId")
 	private String vnfdId = null;
 

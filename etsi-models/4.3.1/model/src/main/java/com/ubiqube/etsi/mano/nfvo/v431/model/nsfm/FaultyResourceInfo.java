@@ -23,8 +23,8 @@ import com.ubiqube.etsi.mano.nfvo.v431.model.nsfm.FaultyResourceType;
 import com.ubiqube.etsi.mano.nfvo.v431.model.nsfm.ResourceHandle;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents the faulty virtual resources that have a negative impact on a NS. 

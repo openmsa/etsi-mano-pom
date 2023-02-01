@@ -24,8 +24,8 @@ import com.ubiqube.etsi.mano.nfvo.v331.model.nslcm.OperationalStates;
 import com.ubiqube.etsi.mano.nfvo.v331.model.nslcm.StopType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents a VNF instance for which the operational state  needs to be changed and the requested new state. It shall comply with the provisions defined in Table 6.5.3.31-1. 

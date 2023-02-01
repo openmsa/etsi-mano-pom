@@ -25,8 +25,8 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents a NS termination request.  It shall comply with the provisions defined in Table 6.5.2.15-1. NOTE 1: Information needed for terminating specific VNF instances shall only be specified in the \&quot;terminateVnfData\&quot; attribute, and not in the \&quot;terminateNsData\&quot; attribute. NOTE 2:  VNF instance(s) part of this NS instance is(are) terminated as part of Terminate NS operation only if the instance(s) is(are) not used by any other NS instance. 

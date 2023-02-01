@@ -16,7 +16,7 @@
  */
 package com.ubiqube.etsi.mano.dao.mano;
 
-import javax.persistence.Embeddable;
+import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class NsdUserDefinedData {

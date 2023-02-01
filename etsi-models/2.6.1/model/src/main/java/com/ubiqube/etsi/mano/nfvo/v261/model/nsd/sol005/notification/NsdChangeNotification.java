@@ -20,8 +20,8 @@ package com.ubiqube.etsi.mano.nfvo.v261.model.nsd.sol005.notification;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -82,7 +82,7 @@ public class NsdChangeNotification {
 	 * @return id
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	public String getId() {
 		return id;
@@ -104,7 +104,7 @@ public class NsdChangeNotification {
 	 * @return notificationType
 	 **/
 	@Schema(required = true, description = "Discriminator for the different notification types. Shall be set to \"NsdChangeNotification\" for this notification type. ")
-	@NotNull
+	@Nonnull
 
 	public String getNotificationType() {
 		return notificationType;
@@ -125,7 +125,7 @@ public class NsdChangeNotification {
 	 * @return subscriptionId
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	public String getSubscriptionId() {
 		return subscriptionId;
@@ -146,7 +146,7 @@ public class NsdChangeNotification {
 	 * @return timeStamp
 	 **/
 	@Schema(required = true, description = "Date-time of the generation of the notification. ")
-	@NotNull
+	@Nonnull
 
 	@Valid
 
@@ -169,7 +169,7 @@ public class NsdChangeNotification {
 	 * @return nsdInfoId
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	public String getNsdInfoId() {
 		return nsdInfoId;
@@ -190,7 +190,7 @@ public class NsdChangeNotification {
 	 * @return nsdId
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	public String getNsdId() {
 		return nsdId;
@@ -211,7 +211,7 @@ public class NsdChangeNotification {
 	 * @return nsdOperationalState
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	@Valid
 
@@ -234,7 +234,7 @@ public class NsdChangeNotification {
 	 * @return links
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	@Valid
 

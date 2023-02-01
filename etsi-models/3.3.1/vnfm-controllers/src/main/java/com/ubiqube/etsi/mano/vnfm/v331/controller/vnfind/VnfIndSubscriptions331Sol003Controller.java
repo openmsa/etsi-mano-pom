@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.vnfm.v331.controller.vnfind;
 
 import java.util.List;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;

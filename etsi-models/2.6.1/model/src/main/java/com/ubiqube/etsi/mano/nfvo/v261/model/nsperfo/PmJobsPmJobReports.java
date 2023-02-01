@@ -21,8 +21,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 import java.util.Date;
 
 /**
@@ -63,7 +63,7 @@ public class PmJobsPmJobReports  {
    * @return href
   **/
   @JsonProperty("href")
-  @NotNull
+  @Nonnull
   public String getHref() {
     return href;
   }
@@ -82,7 +82,7 @@ public class PmJobsPmJobReports  {
    * @return readyTime
   **/
   @JsonProperty("readyTime")
-  @NotNull
+  @Nonnull
   public Date getReadyTime() {
     return readyTime;
   }
@@ -137,7 +137,7 @@ public class PmJobsPmJobReports  {
    * @return links
   **/
   @JsonProperty("_links")
-  @NotNull
+  @Nonnull
   public PmJobsPmJobReportsLinks getLinks() {
     return links;
   }

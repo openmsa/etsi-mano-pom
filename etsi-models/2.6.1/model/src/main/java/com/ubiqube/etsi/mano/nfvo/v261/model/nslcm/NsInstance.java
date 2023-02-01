@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -112,7 +112,7 @@ public class NsInstance {
 	 * @return id
 	 **/
 	@Schema(required = true, description = "Identifier of the NS instance. ")
-	@NotNull
+	@Nonnull
 
 	public String getId() {
 		return id;
@@ -133,7 +133,7 @@ public class NsInstance {
 	 * @return nsInstanceName
 	 **/
 	@Schema(required = true, description = "Human readable name of the NS instance. ")
-	@NotNull
+	@Nonnull
 
 	public String getNsInstanceName() {
 		return nsInstanceName;
@@ -154,7 +154,7 @@ public class NsInstance {
 	 * @return nsInstanceDescription
 	 **/
 	@Schema(required = true, description = "Human readable description of the NS instance. ")
-	@NotNull
+	@Nonnull
 
 	public String getNsInstanceDescription() {
 		return nsInstanceDescription;
@@ -175,7 +175,7 @@ public class NsInstance {
 	 * @return nsdId
 	 **/
 	@Schema(required = true, description = "Identifier of the NSD on which the NS instance is based. ")
-	@NotNull
+	@Nonnull
 
 	public String getNsdId() {
 		return nsdId;
@@ -196,7 +196,7 @@ public class NsInstance {
 	 * @return nsdInfoId
 	 **/
 	@Schema(required = true, description = "Identifier of the NSD information object on which the NS instance is based. This identifier has been allocated by the NFVO. ")
-	@NotNull
+	@Nonnull
 
 	public UUID getNsdInfoId() {
 		return nsdInfoId;
@@ -415,7 +415,7 @@ public class NsInstance {
 	 * @return nsState
 	 **/
 	@Schema(required = true, description = "The state of the NS instance. Permitted values: NOT_INSTANTIATED: The NS instance is terminated or not instantiated. INSTANTIATED: The NS instance is instantiated. ")
-	@NotNull
+	@Nonnull
 
 	public InstantiationStateEnum getNsState() {
 		return nsState;

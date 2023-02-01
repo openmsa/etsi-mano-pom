@@ -20,8 +20,8 @@ package com.ubiqube.etsi.mano.nfvo.v261.model.nsd.sol005.notification;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -75,7 +75,7 @@ public class NsdOnBoardingNotification {
 	 * @return id
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	public String getId() {
 		return id;
@@ -97,7 +97,7 @@ public class NsdOnBoardingNotification {
 	 * @return notificationType
 	 **/
 	@Schema(required = true, description = "Discriminator for the different notification types. Shall be set to \"NsdOnboardingNotification\" for this notification type. ")
-	@NotNull
+	@Nonnull
 
 	public String getNotificationType() {
 		return notificationType;
@@ -118,7 +118,7 @@ public class NsdOnBoardingNotification {
 	 * @return subscriptionId
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	public String getSubscriptionId() {
 		return subscriptionId;
@@ -139,7 +139,7 @@ public class NsdOnBoardingNotification {
 	 * @return timeStamp
 	 **/
 	@Schema(required = true, description = "Date-time of the generation of the notification. ")
-	@NotNull
+	@Nonnull
 
 	@Valid
 
@@ -162,7 +162,7 @@ public class NsdOnBoardingNotification {
 	 * @return nsdInfoId
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	public String getNsdInfoId() {
 		return nsdInfoId;
@@ -183,7 +183,7 @@ public class NsdOnBoardingNotification {
 	 * @return nsdId
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	public String getNsdId() {
 		return nsdId;
@@ -204,7 +204,7 @@ public class NsdOnBoardingNotification {
 	 * @return links
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	@Valid
 

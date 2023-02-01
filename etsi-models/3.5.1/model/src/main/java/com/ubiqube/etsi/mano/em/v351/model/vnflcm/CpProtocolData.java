@@ -23,8 +23,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.ubiqube.etsi.mano.em.v351.model.vnflcm.IpOverEthernetAddressData;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents network protocol data. * NOTE: This attribute allows to signal the addition of further types of layer and protocol           in future versions of the present document in a backwards-compatible way. In the current           version of the present document, only IP over Ethernet is supported. 

@@ -19,10 +19,11 @@ package com.ubiqube.etsi.mano.config;
 
 import org.springframework.stereotype.Component;
 
+import com.ubiqube.orika.OrikaMapperFactoryBuilderConfigurer;
+
 import ma.glasnost.orika.impl.DefaultMapperFactory.MapperFactoryBuilder;
 import ma.glasnost.orika.impl.generator.EclipseJdtCompilerStrategy;
 import ma.glasnost.orika.unenhance.HibernateUnenhanceStrategy;
-import net.rakugakibox.spring.boot.orika.OrikaMapperFactoryBuilderConfigurer;
 
 @Component
 public class HibernateOrikaMapperFactoryBuilderConfigurer implements OrikaMapperFactoryBuilderConfigurer {

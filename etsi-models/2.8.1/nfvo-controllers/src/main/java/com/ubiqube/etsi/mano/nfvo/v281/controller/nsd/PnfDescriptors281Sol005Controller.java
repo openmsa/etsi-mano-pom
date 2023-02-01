@@ -21,8 +21,8 @@ import static com.ubiqube.etsi.mano.uri.ManoWebMvcLinkBuilder.methodOn;
 
 import java.util.function.Consumer;
 
-import javax.annotation.Nonnull;
-import javax.validation.Valid;
+import jakarta.annotation.Nonnull;
+import jakarta.validation.Valid;
 
 import org.springframework.context.annotation.Conditional;
 import org.springframework.http.ResponseEntity;

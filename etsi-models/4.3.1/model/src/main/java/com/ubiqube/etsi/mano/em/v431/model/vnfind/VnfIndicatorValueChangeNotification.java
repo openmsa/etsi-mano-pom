@@ -23,8 +23,8 @@ import com.ubiqube.etsi.mano.em.v431.model.vnfind.VnfIndicatorValueChangeNotific
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents a VNF indicator value change notification. *   NOTE: ETSI GS NFV-SOL 001 specifies the structure and           format of the VNFD based on TOSCA specifications. 

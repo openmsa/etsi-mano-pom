@@ -19,7 +19,7 @@ package com.ubiqube.etsi.mano.factory;
 
 import java.util.Map;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import com.ubiqube.etsi.mano.Constants;
 import com.ubiqube.etsi.mano.common.v261.model.vnf.Checksum;

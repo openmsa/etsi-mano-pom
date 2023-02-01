@@ -18,9 +18,9 @@ package com.ubiqube.etsi.mano.dao.mano.nsd.wan;
 
 import java.io.Serializable;
 
-import javax.persistence.Embeddable;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
 import com.ubiqube.etsi.mano.dao.mano.IpType;
 import com.ubiqube.etsi.mano.dao.mano.nsd.wan.type.RoutingProtocolType;

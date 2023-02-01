@@ -22,7 +22,7 @@ import static com.ubiqube.etsi.mano.vnfm.fc.Constants.getSafeUUID;
 
 import java.util.HashMap;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;

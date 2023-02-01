@@ -16,9 +16,6 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service;
 
-import javax.transaction.Transactional;
-import javax.transaction.Transactional.TxType;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -35,6 +32,8 @@ import com.ubiqube.etsi.mano.service.AbstractGrantService;
 import com.ubiqube.etsi.mano.service.NfvoService;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 
+import jakarta.transaction.Transactional;
+import jakarta.transaction.Transactional.TxType;
 import ma.glasnost.orika.MapperFacade;
 
 /**

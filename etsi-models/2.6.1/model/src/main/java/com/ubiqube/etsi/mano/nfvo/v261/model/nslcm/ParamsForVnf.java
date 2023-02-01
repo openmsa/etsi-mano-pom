@@ -20,8 +20,8 @@ package com.ubiqube.etsi.mano.nfvo.v261.model.nslcm;
 import java.util.Map;
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -58,7 +58,7 @@ public class ParamsForVnf {
 	 * @return vnfProfileId
 	 **/
 	@Schema(required = true, description = "Identifier of (reference to) a vnfProfile to which the additional parameters apply. ")
-	@NotNull
+	@Nonnull
 
 	public String getVnfProfileId() {
 		return vnfProfileId;

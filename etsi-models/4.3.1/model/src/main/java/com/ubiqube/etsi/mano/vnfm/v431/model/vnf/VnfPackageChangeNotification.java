@@ -26,8 +26,8 @@ import com.ubiqube.etsi.mano.vnfm.v431.model.vnf.PkgmLinks;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents a VNF package management notification, which informs the receiver of a change of the status in an on-boarded VNF package. Only changes in the \&quot;operationalState\&quot; attribute of an on-boarded VNF package and the deletion NF package will be reported. Changes in the \&quot;usageState\&quot; and \&quot;onboardingState\&quot; attributes are not reported. The notification shall be triggered by the NFVO when there is a change in the status of an onboarded VNF package, as follows: * The \&quot;operationalState\&quot; attribute of a VNF package has changed, and the   \&quot;onboardingState\&quot; attribute of the package has the value \&quot;ONBOARDED\&quot;   (i.e. the package has been onboarded previously). * The on-boarded VNF package has been deleted, and the \&quot;onboardingState\&quot;   attribute of the deleted package had the value \&quot;ONBOARDED\&quot;. 

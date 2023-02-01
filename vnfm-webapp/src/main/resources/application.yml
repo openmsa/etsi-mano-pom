@@ -35,7 +35,7 @@ logging:
         boot:
           autoconfigure:
             logging:
-              ConditionEvaluationReportLoggingListener: INFO
+              ConditionEvaluationReportLogger: INFO
         jms: INFO
         security: INFO
         web:
@@ -54,6 +54,12 @@ management:
   info:
     git:
       mode: full
+  tracing:
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: http://10.31.1.29:9411/api/v2/spans
 
 mano:
   config:

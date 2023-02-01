@@ -22,8 +22,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.nfvo.v351.model.nslcm.LocationConstraints;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents the association of location constraints to a nested NS instance to be created according to a specific NS profile. It shall comply with the provisions defined in Table 6.5.3.96-1. NOTE: These constraints are typically determined by the OSS/BSS from service requirements (e.g. latency requirements, regulatory requirements). The NFVO can map such location constraints to eligible NFVI-PoPs/resource zones where the VNF instances as part of the nested NS are to be created. 

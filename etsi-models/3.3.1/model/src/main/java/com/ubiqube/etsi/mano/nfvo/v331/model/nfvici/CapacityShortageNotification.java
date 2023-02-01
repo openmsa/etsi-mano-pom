@@ -25,8 +25,8 @@ import com.ubiqube.etsi.mano.nfvo.v331.model.nfvici.NfviCapacityMeasurement;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This notification informs the receiver that the available NFVI capacity has crossed below a threshold value or has re-covered from a capacity shortage. It shall comply with the provisions defined in Table 10.5.2.10-1. 

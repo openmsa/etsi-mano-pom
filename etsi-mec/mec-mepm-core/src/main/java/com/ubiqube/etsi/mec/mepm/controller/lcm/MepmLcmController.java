@@ -19,7 +19,7 @@ package com.ubiqube.etsi.mec.mepm.controller.lcm;
 import java.util.List;
 import java.util.UUID;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import com.ubiqube.etsi.mano.dao.mec.lcm.AppBlueprint;
 

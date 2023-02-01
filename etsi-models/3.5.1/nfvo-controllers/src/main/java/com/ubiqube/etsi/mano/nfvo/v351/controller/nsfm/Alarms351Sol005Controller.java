@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.nfvo.v351.controller.nsfm;
 
 import java.util.List;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import org.springframework.context.annotation.Conditional;
 import org.springframework.http.ResponseEntity;

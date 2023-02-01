@@ -16,47 +16,39 @@
  */
 package com.ubiqube.etsi.mano.service.rest;
 
-import java.util.List;
-import java.util.function.Consumer;
-
-import org.springframework.cloud.sleuth.instrument.web.client.HttpClientBeanPostProcessor;
-import org.springframework.cloud.sleuth.instrument.web.client.TraceExchangeFilterFunction;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
-
-import reactor.netty.http.client.HttpClient;
 
 public class TracingFluxRest extends FluxRest {
 
 	public TracingFluxRest(final Servers server, final ConfigurableApplicationContext configurableApplicationContext) {
 		super(server);
-		applyTracing(httpClient, configurableApplicationContext);
-		webBuilder.filters(addTraceExchangeFilterFunctionIfNotPresent(configurableApplicationContext));
+		// applyTracing(httpClient, configurableApplicationContext);
+		// webBuilder.filters(addTraceExchangeFilterFunctionIfNotPresent(configurableApplicationContext));
 	}
 
-	private static HttpClient applyTracing(final HttpClient httpClient, final ConfigurableApplicationContext springContext) {
-		final HttpClientBeanPostProcessor post = new HttpClientBeanPostProcessor(springContext);
-		return (HttpClient) post.postProcessAfterInitialization(httpClient, "");
-	}
-
-	private static Consumer<List<ExchangeFilterFunction>> addTraceExchangeFilterFunctionIfNotPresent(final ConfigurableApplicationContext configurableApplicationContext) {
-		return functions -> {
-			final boolean noneMatch = noneMatchTraceExchangeFunction(functions);
-			if (noneMatch) {
-				functions.add(TraceExchangeFilterFunction.create(configurableApplicationContext));
-			}
-		};
-	}
-
-	private static boolean noneMatchTraceExchangeFunction(final List<ExchangeFilterFunction> functions) {
-		for (final ExchangeFilterFunction function : functions) {
-			if (function instanceof TraceExchangeFilterFunction) {
-				return false;
-			}
-		}
-		return true;
-	}
+//	private static HttpClient applyTracing(final HttpClient httpClient, final ConfigurableApplicationContext springContext) {
+//		final HttpClientBeanPostProcessor post = new HttpClientBeanPostProcessor(springContext);
+//		return (HttpClient) post.postProcessAfterInitialization(httpClient, "");
+//	}
+//
+//	private static Consumer<List<ExchangeFilterFunction>> addTraceExchangeFilterFunctionIfNotPresent(final ConfigurableApplicationContext configurableApplicationContext) {
+//		return functions -> {
+//			final boolean noneMatch = noneMatchTraceExchangeFunction(functions);
+//			if (noneMatch) {
+//				functions.add(TraceExchangeFilterFunction.create(configurableApplicationContext));
+//			}
+//		};
+//	}
+//
+//	private static boolean noneMatchTraceExchangeFunction(final List<ExchangeFilterFunction> functions) {
+//		for (final ExchangeFilterFunction function : functions) {
+//			if (function instanceof TraceExchangeFilterFunction) {
+//				return false;
+//			}
+//		}
+//		return true;
+//	}
 
 }

@@ -20,14 +20,6 @@ import java.time.OffsetDateTime;
 import java.util.Map;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Embedded;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
-import javax.persistence.MappedSuperclass;
-
 import com.ubiqube.etsi.mano.dao.mano.Audit;
 import com.ubiqube.etsi.mano.dao.mano.Auditable;
 import com.ubiqube.etsi.mano.dao.mano.CancelModeTypeEnum;
@@ -35,9 +27,25 @@ import com.ubiqube.etsi.mano.dao.mano.Instance;
 import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.common.FailureDetails;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Enum problem {@link https://hibernate.atlassian.net/browse/HHH-15970}@
+ *
+ * @author olivier
+ *
+ * @param <U>
+ * @param <V>
+ */
 @MappedSuperclass
 @Setter
 @Getter
@@ -53,11 +61,13 @@ public abstract class AbstractBlueprint<U extends Task, V extends Instance> impl
 	@Embedded
 	private Audit audit;
 
+	@Column(columnDefinition = "varchar(255)")
 	@Enumerated(EnumType.STRING)
 	private PlanOperationType operation;
 
 	private OffsetDateTime stateEnteredTime;
 
+	@Column(columnDefinition = "varchar(255)")
 	@Enumerated(EnumType.STRING)
 	private OperationStatusType operationStatus;
 
@@ -67,8 +77,10 @@ public abstract class AbstractBlueprint<U extends Task, V extends Instance> impl
 
 	public abstract void setTasks(final Set<U> tasks);
 
+	@Column(columnDefinition = "varchar(255)")
 	@Enumerated(EnumType.STRING)
 	private CancelModeTypeEnum cancelMode;
+
 	@ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
 	private Map<String, ConnectionInformation> cirConnectionInfo;
 

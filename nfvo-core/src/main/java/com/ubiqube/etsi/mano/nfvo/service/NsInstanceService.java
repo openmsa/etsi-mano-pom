@@ -21,9 +21,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
-
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.InstantiationState;
@@ -43,6 +40,9 @@ import com.ubiqube.etsi.mano.nfvo.jpa.NsVirtualLinkJpa;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsVnfPackageJpa;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsdInstanceJpa;
 import com.ubiqube.etsi.mano.repository.jpa.SearchQueryer;
+
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 
 @Service
 public class NsInstanceService {
@@ -88,10 +88,6 @@ public class NsInstanceService {
 
 	public Set<NsVirtualLink> findVlsByNsInstance(final NsdPackage nsdInfo) {
 		return nsVirtualLinkJpa.findByNsdPackage(nsdInfo);
-	}
-
-	public Set<NsdPackage> findNestedNsdByNsInstance(final NsdPackage nsdInfo) {
-		return nsdPackageJpa.findByNestedNsdInfoIds_Parent(nsdInfo);
 	}
 
 	public Set<VnfPackage> findVnfPackageByNsInstance(final NsdPackage nsdInfo) {

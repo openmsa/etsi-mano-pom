@@ -23,8 +23,8 @@ import com.ubiqube.etsi.mec.meo.v211.model.lcm.AppProductsVersions;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * &#x27;If present, match application instances that belong to application products with certain product names, from one particular provider.&#x27;

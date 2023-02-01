@@ -7,8 +7,8 @@ import com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanologm.LogmNotificationsFilte
 import com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanologm.LogmSubscriptionLinks;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents a subscription. It shall comply with the provisions defined in table 8.6.2.3-1.

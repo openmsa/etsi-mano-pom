@@ -24,8 +24,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents location constraints for a VNF to be instantiated. The location constraints can be represented as follows: • as a country code • as a civic address combined with a country code • as an area, conditionally combined with a country code NOTE: If both \&quot;countryCode\&quot; and \&quot;area\&quot; are present, no conflicts should exist between the values of these two attributes. In case of conflicts, the API producer (i.e. the NFVO) shall disregard parts of the geographic area signalled by \&quot;area\&quot; that are outside the boundaries of the country signalled by \&quot;countryCode\&quot;. If \&quot;countryCode\&quot; is absent, it is solely the \&quot;area\&quot; attribute that defines the location constraint. 

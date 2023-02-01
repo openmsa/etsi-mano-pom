@@ -16,10 +16,10 @@
  */
 package com.ubiqube.etsi.mec.mepm.service.graph.mepm;
 
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 import com.ubiqube.etsi.mano.dao.mano.AuditListener;
 import com.ubiqube.etsi.mano.dao.mec.lcm.AppTask;

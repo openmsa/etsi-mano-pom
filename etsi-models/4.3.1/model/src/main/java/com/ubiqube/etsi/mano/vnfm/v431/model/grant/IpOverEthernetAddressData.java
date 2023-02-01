@@ -25,8 +25,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents network address data for IP over Ethernet. * NOTE 1: At least one of \&quot;macAddress\&quot; or \&quot;ipAddresses\&quot; shall be present. * NOTE 2: Exactly one of \&quot;fixedAddresses\&quot;, \&quot;numDynamicAddresses\&quot; or \&quot;ipAddressRange\&quot; shall be present. * NOTE 3: If the CP instance represents a subport in a trunk, segmentationId shall be present.           Otherwise it shall not be present. * NOTE 4: Depending on the NFVI networking infrastructure, the segmentationId may indicate the actual           network segment value (e.g. vlan Id, Vxlan segmentation id, etc.) used in the transport header           of the packets or it may be an identifier used between the application and the NFVI networking           infrastructure to identify the network sub-interface of the trunk port in question. In the latter           case the NFVI infrastructure will map this local segmentationId to whatever segmentationId is           actually used by the NFVI’s transport technology. 

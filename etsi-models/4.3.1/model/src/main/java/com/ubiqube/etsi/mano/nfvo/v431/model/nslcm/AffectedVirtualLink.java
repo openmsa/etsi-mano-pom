@@ -24,8 +24,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type provides information about added, deleted, modified and temporary VLs. NOTE: The resource handles of the affected NS link ports can be found by dereferencing the identifiers in the \&quot;linkPortIds\&quot; attribute. 

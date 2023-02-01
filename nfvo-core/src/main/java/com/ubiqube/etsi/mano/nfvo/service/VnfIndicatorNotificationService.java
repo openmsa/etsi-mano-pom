@@ -56,6 +56,7 @@ public class VnfIndicatorNotificationService {
 		event.setNfvoId(subscription.get().getRemoteServerId());
 		final VnfIndiValueChangeNotification newEvent = vnfIndJpa.save(event);
 		LOG.info("Event received: {} => Id: {}", newEvent.getNfvoId(), newEvent.getId());
+		// XXX Have to send a bus event instead of relying on a poller
 	}
 
 }

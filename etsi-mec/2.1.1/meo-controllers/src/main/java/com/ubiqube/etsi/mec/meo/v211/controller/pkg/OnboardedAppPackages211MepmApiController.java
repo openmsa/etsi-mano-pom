@@ -16,7 +16,7 @@
  */
 package com.ubiqube.etsi.mec.meo.v211.controller.pkg;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;

@@ -22,8 +22,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.nfvo.v431.model.nslcm.DirectionType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents the detailed information about the data flows that are requested to be mirrored. It shall comply with the provisions defined in table 6.5.3.102-1. NOTE 1: It shall be present when dataFlowInfoId in DataFlowData is not provided. NOTE 2: Depends on the value of the direction of the data flow to be mirrored, this attribute defines whether the data flow from the connection point to the target IP address or the data flow from the target IP address to the connection point or both shall be mirrored. 

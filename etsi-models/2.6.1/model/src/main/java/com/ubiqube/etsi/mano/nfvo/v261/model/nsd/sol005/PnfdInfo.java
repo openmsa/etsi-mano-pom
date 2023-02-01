@@ -20,8 +20,8 @@ package com.ubiqube.etsi.mano.nfvo.v261.model.nsd.sol005;
 import java.util.Map;
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -84,7 +84,7 @@ public class PnfdInfo {
 	 * @return id
 	 **/
 	@Schema(required = true, description = "Identifier of the on-boarded individual PNF descriptor resource. This identifier is allocated by the NFVO. ")
-	@NotNull
+	@Nonnull
 
 	public String getId() {
 		return id;
@@ -210,7 +210,7 @@ public class PnfdInfo {
 	 * @return pnfdOnboardingState
 	 **/
 	@Schema(required = true, description = "On-boarding state of the individual PNF descriptor resource. ")
-	@NotNull
+	@Nonnull
 
 	@Valid
 
@@ -258,7 +258,7 @@ public class PnfdInfo {
 	 * @return pnfdUsageState
 	 **/
 	@Schema(required = true, description = "Usage state of the individual PNF descriptor resource. ")
-	@NotNull
+	@Nonnull
 
 	@Valid
 
@@ -304,7 +304,7 @@ public class PnfdInfo {
 	 * @return links
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	@Valid
 

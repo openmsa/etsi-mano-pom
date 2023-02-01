@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.nfvo.factory;
 
 import java.util.Map;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import com.ubiqube.etsi.mano.dao.mano.OnboardingStateType;
 import com.ubiqube.etsi.mano.dao.mano.PackageUsageState;

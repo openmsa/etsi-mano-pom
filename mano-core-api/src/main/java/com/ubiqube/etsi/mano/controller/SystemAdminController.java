@@ -19,8 +19,6 @@ package com.ubiqube.etsi.mano.controller;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.security.RolesAllowed;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,6 +31,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.ubiqube.etsi.mano.orchestrator.entities.SystemConnections;
 import com.ubiqube.etsi.mano.orchestrator.entities.Systems;
 import com.ubiqube.etsi.mano.service.SystemService;
+
+import jakarta.annotation.security.RolesAllowed;
 
 /**
  *

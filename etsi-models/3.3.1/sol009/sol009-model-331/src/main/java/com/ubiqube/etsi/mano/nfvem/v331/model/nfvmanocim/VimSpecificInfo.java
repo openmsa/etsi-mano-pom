@@ -3,8 +3,8 @@ package com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim;
 import java.util.Objects;
 import io.swagger.annotations.ApiModel;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents information attributes specific to a VIM entity,  and that can be relevant to more than one NFV-MANO service offered by  a VIM entity. 

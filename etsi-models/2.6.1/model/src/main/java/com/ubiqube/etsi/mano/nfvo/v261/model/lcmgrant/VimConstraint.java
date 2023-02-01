@@ -21,16 +21,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-
+import jakarta.annotation.Nonnull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Size;
 
 /**
  * This type provides information regarding a VIM selection constraint. A set of
@@ -39,7 +37,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
  */
 @Schema(description = "This type provides information regarding a VIM selection constraint. A set of such constraints may be sent by the VNFM to the NFVO to influence the VIM selection decisions made by the NFVO as part of the granting process. ")
 @Validated
-
 
 public class VimConstraint {
 	@JsonProperty("sameResourceGroup")
@@ -58,7 +55,7 @@ public class VimConstraint {
 	 * If present and set to true, this signals that the constraint applies not only
 	 * to the same VIM connection, but also to the same infrastructure resource
 	 * group.
-	 * 
+	 *
 	 * @return sameResourceGroup
 	 **/
 	@Schema(description = "If present and set to true, this signals that the constraint applies not only to the same VIM connection, but also to the same infrastructure resource group. ")
@@ -87,11 +84,11 @@ public class VimConstraint {
 	 * \"sameResourceGroup\" is set to true, the NFVO shall further ensure that all
 	 * resources in this list are part of the same infrastructure resource group in
 	 * that VIM connection.
-	 * 
+	 *
 	 * @return resource
 	 **/
 	@Schema(required = true, description = "References to resources in the constraint rule. The NFVO shall ensure that all resources in this list are managed through the same VIM connection. If \"sameResourceGroup\" is set to true, the NFVO shall further ensure that all resources in this list are part of the same infrastructure resource group in that VIM connection. ")
-	@NotNull
+	@Nonnull
 
 	@Valid
 	@Size(min = 2)

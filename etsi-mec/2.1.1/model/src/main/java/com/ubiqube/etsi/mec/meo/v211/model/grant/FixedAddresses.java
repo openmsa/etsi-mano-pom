@@ -21,8 +21,8 @@ import io.swagger.annotations.ApiModel;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * Fixed addresses to assign (from the subnet defined by subnetId if provided).

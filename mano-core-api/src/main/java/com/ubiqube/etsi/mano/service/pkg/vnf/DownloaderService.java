@@ -40,7 +40,6 @@ import org.apache.commons.io.input.CountingInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanFactory;
-import org.springframework.cloud.sleuth.instrument.async.LazyTraceExecutor;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.MediaType;
@@ -83,7 +82,9 @@ public class DownloaderService {
 
 	public void doDownload(final List<SoftwareImage> sws, final UUID vnfPkgId) {
 		final ThreadPoolExecutor tpe = (ThreadPoolExecutor) Executors.newFixedThreadPool(5);
-		final LazyTraceExecutor executor = LazyTraceExecutor.wrap(beanFactory, tpe);
+		// XXX: final LazyTraceExecutor executor = LazyTraceExecutor.wrap(beanFactory,
+		// tpe);
+		final ThreadPoolExecutor executor = tpe;
 		final CompletionService<String> completionService = new ExecutorCompletionService<>(executor);
 		final List<Future<String>> all = new ArrayList<>();
 		sws.forEach(x -> {

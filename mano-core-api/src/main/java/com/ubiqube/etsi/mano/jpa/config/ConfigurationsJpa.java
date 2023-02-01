@@ -16,7 +16,7 @@
  */
 package com.ubiqube.etsi.mano.jpa.config;
 
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.ListCrudRepository;
 
 import com.ubiqube.etsi.mano.dao.mano.config.Configurations;
 
@@ -25,6 +25,6 @@ import com.ubiqube.etsi.mano.dao.mano.config.Configurations;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public interface ConfigurationsJpa extends PagingAndSortingRepository<Configurations, String> {
+public interface ConfigurationsJpa extends ListCrudRepository<Configurations, String> {
 	// Nothing.
 }

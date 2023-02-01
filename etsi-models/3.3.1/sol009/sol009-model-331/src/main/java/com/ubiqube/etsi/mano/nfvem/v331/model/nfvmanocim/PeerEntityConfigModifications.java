@@ -12,8 +12,8 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents attribute modifications that were performed on an  \&quot;Individual peer entity\&quot; resource. The attributes that can be included  consist of those requested to be modified explicitly in the  \&quot;PeerEntityConfigModificationRequest\&quot; data structure. If applicable,  additional attributes of the \&quot;PeerEntity\&quot; data structure that were  modified implicitly shall also be provided. 

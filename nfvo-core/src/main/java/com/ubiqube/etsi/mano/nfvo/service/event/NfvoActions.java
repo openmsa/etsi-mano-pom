@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.nfvo.service.event;
 
 import java.util.UUID;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import org.springframework.stereotype.Service;
 

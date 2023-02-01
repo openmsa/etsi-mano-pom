@@ -17,119 +17,119 @@
 
 package com.ubiqube.etsi.mano.vnfm.v261.model;
 
-import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.v3.oas.annotations.media.Schema;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.annotation.Nonnull;
+import jakarta.validation.Valid;
 
 /**
  * VnfInstanceSubscriptionFilterVersions
  */
 @Validated
 
+public class VnfInstanceSubscriptionFilterVersions {
+	@JsonProperty("vnfSoftwareVersion")
+	private String vnfSoftwareVersion = null;
 
-public class VnfInstanceSubscriptionFilterVersions   {
-  @JsonProperty("vnfSoftwareVersion")
-  private String vnfSoftwareVersion = null;
+	@JsonProperty("vnfdVersions")
+	@Valid
+	private List<String> vnfdVersions = null;
 
-  @JsonProperty("vnfdVersions")
-  @Valid
-  private List<String> vnfdVersions = null;
+	public VnfInstanceSubscriptionFilterVersions vnfSoftwareVersion(final String vnfSoftwareVersion) {
+		this.vnfSoftwareVersion = vnfSoftwareVersion;
+		return this;
+	}
 
-  public VnfInstanceSubscriptionFilterVersions vnfSoftwareVersion(String vnfSoftwareVersion) {
-    this.vnfSoftwareVersion = vnfSoftwareVersion;
-    return this;
-  }
+	/**
+	 * Software version to match.
+	 *
+	 * @return vnfSoftwareVersion
+	 **/
+	@Schema(required = true, description = "Software version to match. ")
+	@Nonnull
 
-  /**
-   * Software version to match. 
-   * @return vnfSoftwareVersion
-  **/
-  @Schema(required = true, description = "Software version to match. ")
-  @NotNull
+	public String getVnfSoftwareVersion() {
+		return vnfSoftwareVersion;
+	}
 
+	public void setVnfSoftwareVersion(final String vnfSoftwareVersion) {
+		this.vnfSoftwareVersion = vnfSoftwareVersion;
+	}
 
-  public String getVnfSoftwareVersion() {
-    return vnfSoftwareVersion;
-  }
+	public VnfInstanceSubscriptionFilterVersions vnfdVersions(final List<String> vnfdVersions) {
+		this.vnfdVersions = vnfdVersions;
+		return this;
+	}
 
-  public void setVnfSoftwareVersion(String vnfSoftwareVersion) {
-    this.vnfSoftwareVersion = vnfSoftwareVersion;
-  }
+	public VnfInstanceSubscriptionFilterVersions addVnfdVersionsItem(final String vnfdVersionsItem) {
+		if (this.vnfdVersions == null) {
+			this.vnfdVersions = new ArrayList<>();
+		}
+		this.vnfdVersions.add(vnfdVersionsItem);
+		return this;
+	}
 
-  public VnfInstanceSubscriptionFilterVersions vnfdVersions(List<String> vnfdVersions) {
-    this.vnfdVersions = vnfdVersions;
-    return this;
-  }
+	/**
+	 * If present, match VNF instances that belong to VNF products with certain VNFD
+	 * versions, a certain software version and a certain product name, from one
+	 * particular provider.
+	 *
+	 * @return vnfdVersions
+	 **/
+	@Schema(description = "If present, match VNF instances that belong to VNF products with certain VNFD versions, a certain software version and a certain product name, from one particular provider. ")
 
-  public VnfInstanceSubscriptionFilterVersions addVnfdVersionsItem(String vnfdVersionsItem) {
-    if (this.vnfdVersions == null) {
-      this.vnfdVersions = new ArrayList<>();
-    }
-    this.vnfdVersions.add(vnfdVersionsItem);
-    return this;
-  }
+	public List<String> getVnfdVersions() {
+		return vnfdVersions;
+	}
 
-  /**
-   * If present, match VNF instances that belong to VNF products with certain VNFD versions, a certain software version and a certain product name, from one particular provider. 
-   * @return vnfdVersions
-  **/
-  @Schema(description = "If present, match VNF instances that belong to VNF products with certain VNFD versions, a certain software version and a certain product name, from one particular provider. ")
+	public void setVnfdVersions(final List<String> vnfdVersions) {
+		this.vnfdVersions = vnfdVersions;
+	}
 
+	@Override
+	public boolean equals(final java.lang.Object o) {
+		if (this == o) {
+			return true;
+		}
+		if ((o == null) || (getClass() != o.getClass())) {
+			return false;
+		}
+		final VnfInstanceSubscriptionFilterVersions vnfInstanceSubscriptionFilterVersions = (VnfInstanceSubscriptionFilterVersions) o;
+		return Objects.equals(this.vnfSoftwareVersion, vnfInstanceSubscriptionFilterVersions.vnfSoftwareVersion) &&
+				Objects.equals(this.vnfdVersions, vnfInstanceSubscriptionFilterVersions.vnfdVersions);
+	}
 
-  public List<String> getVnfdVersions() {
-    return vnfdVersions;
-  }
+	@Override
+	public int hashCode() {
+		return Objects.hash(vnfSoftwareVersion, vnfdVersions);
+	}
 
-  public void setVnfdVersions(List<String> vnfdVersions) {
-    this.vnfdVersions = vnfdVersions;
-  }
+	@Override
+	public String toString() {
+		final StringBuilder sb = new StringBuilder();
+		sb.append("class VnfInstanceSubscriptionFilterVersions {\n");
 
+		sb.append("    vnfSoftwareVersion: ").append(toIndentedString(vnfSoftwareVersion)).append("\n");
+		sb.append("    vnfdVersions: ").append(toIndentedString(vnfdVersions)).append("\n");
+		sb.append("}");
+		return sb.toString();
+	}
 
-  @Override
-  public boolean equals(java.lang.Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    VnfInstanceSubscriptionFilterVersions vnfInstanceSubscriptionFilterVersions = (VnfInstanceSubscriptionFilterVersions) o;
-    return Objects.equals(this.vnfSoftwareVersion, vnfInstanceSubscriptionFilterVersions.vnfSoftwareVersion) &&
-        Objects.equals(this.vnfdVersions, vnfInstanceSubscriptionFilterVersions.vnfdVersions);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(vnfSoftwareVersion, vnfdVersions);
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class VnfInstanceSubscriptionFilterVersions {\n");
-    
-    sb.append("    vnfSoftwareVersion: ").append(toIndentedString(vnfSoftwareVersion)).append("\n");
-    sb.append("    vnfdVersions: ").append(toIndentedString(vnfdVersions)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
+	/**
+	 * Convert the given object to string with each line indented by 4 spaces
+	 * (except the first line).
+	 */
+	private String toIndentedString(final java.lang.Object o) {
+		if (o == null) {
+			return "null";
+		}
+		return o.toString().replace("\n", "\n    ");
+	}
 }
-

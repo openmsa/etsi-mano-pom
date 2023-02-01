@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.nfvo.v361.model.nsd;
 
 import java.util.Objects;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import org.springframework.validation.annotation.Validated;
 

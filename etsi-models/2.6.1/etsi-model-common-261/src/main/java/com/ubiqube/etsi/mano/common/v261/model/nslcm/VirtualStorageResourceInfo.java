@@ -31,7 +31,7 @@ package com.ubiqube.etsi.mano.common.v261.model.nslcm;
 
 import java.util.Map;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.common.v261.model.ResourceHandle;

@@ -20,9 +20,6 @@ import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
 
-import javax.transaction.Transactional;
-import javax.transaction.Transactional.TxType;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
@@ -35,6 +32,8 @@ import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.service.GrantService;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 
+import jakarta.transaction.Transactional;
+import jakarta.transaction.Transactional.TxType;
 import ma.glasnost.orika.MapperFacade;
 
 /**

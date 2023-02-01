@@ -7,8 +7,8 @@ import java.util.Map;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents criteria for logging jobs to collect logged system events of the NFV-MANO functional entity. It shall comply with the provisions defined in table 8.6.3.5-1.

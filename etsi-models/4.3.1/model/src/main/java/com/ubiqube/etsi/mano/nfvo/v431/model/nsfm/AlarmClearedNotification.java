@@ -24,8 +24,8 @@ import com.ubiqube.etsi.mano.nfvo.v431.model.nsfm.AlarmClearedNotificationLinks;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents an alarm cleared notification about NS faults. It shall comply with the provisions defined in Table 8.5.2.6-1. The notification shall be triggered by the NFVO when an alarm has been cleared. 

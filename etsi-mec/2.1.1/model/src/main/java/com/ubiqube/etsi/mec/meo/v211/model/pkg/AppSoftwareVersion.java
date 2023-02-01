@@ -19,8 +19,8 @@ package com.ubiqube.etsi.mec.meo.v211.model.pkg;
 import java.util.Objects;
 import io.swagger.annotations.ApiModel;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * Software version of the application. This is updated when there is any change to the software in the onboarded application package.

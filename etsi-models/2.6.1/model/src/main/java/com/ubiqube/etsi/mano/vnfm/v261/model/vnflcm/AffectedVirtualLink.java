@@ -19,8 +19,8 @@ package com.ubiqube.etsi.mano.vnfm.v261.model.vnflcm;
 import java.util.Map;
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -107,7 +107,7 @@ public class AffectedVirtualLink {
 	 * @return id
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	public String getId() {
 		return id;
@@ -128,7 +128,7 @@ public class AffectedVirtualLink {
 	 * @return vnfVirtualLinkDescId
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	public String getVnfVirtualLinkDescId() {
 		return vnfVirtualLinkDescId;
@@ -152,7 +152,7 @@ public class AffectedVirtualLink {
 	 * @return changeType
 	 **/
 	@Schema(required = true, description = "Signals the type of change. Permitted values: * ADDED * REMOVED * MODIFIED * TEMPORARY * LINK_PORT_ADDED * LINK_PORT_REMOVED For a temporary resource, an AffectedVirtualLink structure exists as long as the temporary resource exists. ")
-	@NotNull
+	@Nonnull
 
 	public ChangeTypeEnum getChangeType() {
 		return changeType;
@@ -173,7 +173,7 @@ public class AffectedVirtualLink {
 	 * @return networkResource
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	@Valid
 	public ResourceHandle getNetworkResource() {

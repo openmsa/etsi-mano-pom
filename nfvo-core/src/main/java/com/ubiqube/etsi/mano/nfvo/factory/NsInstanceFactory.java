@@ -16,7 +16,7 @@
  */
 package com.ubiqube.etsi.mano.nfvo.factory;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import com.ubiqube.etsi.mano.dao.mano.InstantiationState;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;

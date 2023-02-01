@@ -17,7 +17,7 @@
 
 package com.ubiqube.etsi.mano.nfvo.v261.model.nsperfo;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

@@ -16,15 +16,15 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.event.jms;
 
-import javax.transaction.Transactional;
-import javax.transaction.Transactional.TxType;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 
 import com.ubiqube.etsi.mano.service.event.ActionMessage;
 import com.ubiqube.etsi.mano.service.event.VnfmActionComtroller;
 import com.ubiqube.etsi.mano.vnfm.service.event.VnfmActionController;
+
+import jakarta.transaction.Transactional;
+import jakarta.transaction.Transactional.TxType;
 
 @Service
 @Transactional(TxType.NEVER)

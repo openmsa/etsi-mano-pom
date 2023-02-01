@@ -16,7 +16,7 @@
  */
 package com.ubiqube.etsi.mano.em.v351.controller.vnfconfig;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import org.springframework.context.annotation.Conditional;
 import org.springframework.http.ResponseEntity;

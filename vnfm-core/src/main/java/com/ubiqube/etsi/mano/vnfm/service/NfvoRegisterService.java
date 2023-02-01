@@ -19,8 +19,6 @@ package com.ubiqube.etsi.mano.vnfm.service;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Service;
@@ -31,6 +29,8 @@ import com.ubiqube.etsi.mano.jpa.config.ServersJpa;
 import com.ubiqube.etsi.mano.service.NfvoService;
 import com.ubiqube.etsi.mano.service.event.ActionType;
 import com.ubiqube.etsi.mano.service.event.EventManager;
+
+import jakarta.transaction.Transactional;
 
 /**
  *
@@ -46,7 +46,6 @@ public class NfvoRegisterService implements CommandLineRunner {
 	private final ServersJpa serversJpa;
 
 	public NfvoRegisterService(final EventManager eventManager, final ServersJpa serversJpa) {
-		super();
 		this.eventManager = eventManager;
 		this.serversJpa = serversJpa;
 	}

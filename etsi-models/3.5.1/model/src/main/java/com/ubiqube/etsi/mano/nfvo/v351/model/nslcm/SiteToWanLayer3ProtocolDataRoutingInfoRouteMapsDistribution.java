@@ -19,8 +19,8 @@ package com.ubiqube.etsi.mano.nfvo.v351.model.nslcm;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 import org.springframework.validation.annotation.Validated;
 

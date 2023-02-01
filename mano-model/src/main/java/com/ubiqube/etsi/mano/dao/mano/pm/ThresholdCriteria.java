@@ -16,8 +16,8 @@
  */
 package com.ubiqube.etsi.mano.dao.mano.pm;
 
-import javax.persistence.Embeddable;
-import javax.persistence.Embedded;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.Embedded;
 
 import com.ubiqube.etsi.mano.utils.ToStringUtil;
 

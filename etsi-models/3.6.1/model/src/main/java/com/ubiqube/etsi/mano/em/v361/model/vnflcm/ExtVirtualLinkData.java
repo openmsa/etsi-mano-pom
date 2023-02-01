@@ -25,8 +25,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents an external VL. * NOTE: A link port is not needed for an external CP instance that exposes a VIP CP in the following cases:       1 For a VIP CP directly exposed as extCP:         1.1 No dedicated IP address is allocated as VIP address, as indicated in the VNFD.         1.2 A dedicated IP addresss is allocated as VIP address, but the NFVO indicates that no port               is needed (createExtLinkPort in VnfExtCpconfig set to false).       2 For a VIP CP exposed as extCP via a floating IP address:         2.1 No dedicated IP address is allocated as VIP address, as indicated in the VNFD, and the VNFC               CP associated to the VIP CP is also exposed via a floating IP addresss. 

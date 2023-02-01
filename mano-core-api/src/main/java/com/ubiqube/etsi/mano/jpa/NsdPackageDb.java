@@ -16,9 +16,6 @@
  */
 package com.ubiqube.etsi.mano.jpa;
 
-import javax.annotation.Nonnull;
-import javax.persistence.EntityManager;
-
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,6 +26,8 @@ import com.ubiqube.etsi.mano.repository.ContentManager;
 import com.ubiqube.etsi.mano.repository.NamingStrategy;
 import com.ubiqube.etsi.mano.repository.NsdRepository;
 import com.ubiqube.etsi.mano.repository.jpa.AbstractDirectJpa;
+
+import jakarta.persistence.EntityManager;
 
 @Service
 public class NsdPackageDb extends AbstractDirectJpa<NsdPackage> implements NsdRepository {
@@ -44,7 +43,7 @@ public class NsdPackageDb extends AbstractDirectJpa<NsdPackage> implements NsdRe
 	}
 
 	@Override
-	public void changeNsdUpdateState(final NsdPackage nsdPackage, @Nonnull final PackageUsageState state) {
+	public void changeNsdUpdateState(final NsdPackage nsdPackage, final PackageUsageState state) {
 		nsdPackage.setNsdUsageState(state);
 		save(nsdPackage);
 	}

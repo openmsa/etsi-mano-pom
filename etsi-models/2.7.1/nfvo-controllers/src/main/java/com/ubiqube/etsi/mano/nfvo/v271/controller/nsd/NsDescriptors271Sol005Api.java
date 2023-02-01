@@ -22,9 +22,9 @@
  */
 package com.ubiqube.etsi.mano.nfvo.v271.controller.nsd;
 
-import javax.annotation.Nonnull;
-import javax.annotation.security.RolesAllowed;
-import javax.validation.Valid;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.validation.Valid;
 
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;

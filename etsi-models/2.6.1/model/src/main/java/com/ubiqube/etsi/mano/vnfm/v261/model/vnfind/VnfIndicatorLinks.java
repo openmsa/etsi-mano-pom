@@ -18,8 +18,8 @@ package com.ubiqube.etsi.mano.vnfm.v261.model.vnfind;
 
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -53,7 +53,7 @@ public class VnfIndicatorLinks {
 	 * @return self
 	 **/
 	@Schema(required = true, description = "URI of this resource. ")
-	@NotNull
+	@Nonnull
 
 	@Valid
 
@@ -76,7 +76,7 @@ public class VnfIndicatorLinks {
 	 * @return vnfInstance
 	 **/
 	@Schema(required = true, description = "Link to the related \"Individual VNF instance\" resource. ")
-	@NotNull
+	@Nonnull
 
 	@Valid
 

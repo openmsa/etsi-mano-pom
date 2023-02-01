@@ -26,8 +26,8 @@ import com.ubiqube.etsi.mano.em.v331.model.vnflcm.VnfcSnapshotInfoStorageSnapsho
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents a VNFC snapshot. 

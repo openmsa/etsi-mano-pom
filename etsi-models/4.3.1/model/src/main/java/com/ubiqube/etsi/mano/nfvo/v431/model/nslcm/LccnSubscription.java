@@ -24,8 +24,8 @@ import com.ubiqube.etsi.mano.nfvo.v431.model.nslcm.LcmOpOccNotificationVerbosity
 import com.ubiqube.etsi.mano.nfvo.v431.model.nslcm.LifecycleChangeNotificationsFilter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents a subscription related to notifications about NS lifecycle changes.  It shall comply with the provisions defined in Table 6.5.2.4-1. 

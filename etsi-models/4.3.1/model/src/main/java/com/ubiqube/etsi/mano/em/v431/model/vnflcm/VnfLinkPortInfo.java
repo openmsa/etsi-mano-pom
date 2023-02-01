@@ -23,8 +23,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.ubiqube.etsi.mano.em.v431.model.vnflcm.ResourceHandle;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents a link port of an internal VL of a VNF. NOTE 1: Either cpInstanceId with cpInstanceType set to \&quot;EXT_CP\&quot; or any combination of cpInstanceId         with cpInstanceType set to \&quot;VNFC_CP\&quot; and vipCpInstanceId (i.e. one or both of them) shall be          present for a VnfLinkPortInfo. In case both cpInstanceId with cpInstanceType set to \&quot;VNFC_CP\&quot;          and vipCpInstanceId are present, the two different CP instances share the linkport. NOTE 2: Annex A.4 of ETSI GS NFV-IFA 007 provides examples for configurations where both vipCpInstanceId         and vnfcCpInstanceId are present (UC#5 and UC#5-b), only vnfcCpInstanceId is present (UC#2), or          only vipCpInstanceId is present (UC6 and UC#6-b). NOTE 3: The value of \&quot;trunkResourceId\&quot; is scoped by the value of \&quot;vimConnectionId\&quot; in the \&quot;resourceHandle\&quot;         attribute. 

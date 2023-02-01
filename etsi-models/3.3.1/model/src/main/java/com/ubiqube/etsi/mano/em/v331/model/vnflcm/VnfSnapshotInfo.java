@@ -23,8 +23,8 @@ import com.ubiqube.etsi.mano.em.v331.model.vnflcm.VnfSnapshot;
 import com.ubiqube.etsi.mano.em.v331.model.vnflcm.VnfSnapshotInfoLinks;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents an individual VNF snapshot resource. 

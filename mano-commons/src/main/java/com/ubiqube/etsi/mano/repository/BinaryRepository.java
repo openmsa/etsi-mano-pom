@@ -19,7 +19,7 @@ package com.ubiqube.etsi.mano.repository;
 import java.io.InputStream;
 import java.util.UUID;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 public interface BinaryRepository {
 

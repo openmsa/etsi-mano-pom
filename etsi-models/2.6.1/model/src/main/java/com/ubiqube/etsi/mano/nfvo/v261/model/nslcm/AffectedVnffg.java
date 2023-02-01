@@ -19,7 +19,7 @@ package com.ubiqube.etsi.mano.nfvo.v261.model.nslcm;
 
 import java.util.Objects;
 
-import javax.validation.constraints.NotNull;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -129,7 +129,7 @@ public class AffectedVnffg {
 	 * @return vnffgInstanceId
 	 **/
 	@Schema(required = true, description = "Identifier of the VNFFG instance. ")
-	@NotNull
+	@Nonnull
 
 	public String getVnffgInstanceId() {
 		return vnffgInstanceId;
@@ -150,7 +150,7 @@ public class AffectedVnffg {
 	 * @return vnffgdId
 	 **/
 	@Schema(required = true, description = "Identifier of the VNFFGD of the VNFFG instance. ")
-	@NotNull
+	@Nonnull
 
 	public String getVnffgdId() {
 		return vnffgdId;

@@ -2,7 +2,7 @@ package com.ubiqube.etsi.mano.nfvem.v331.controller.nfvmanologm;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.bind.annotation.RestController;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 @RestController

@@ -20,51 +20,50 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.validation.constraints.NotNull;
+import jakarta.annotation.Nonnull;
 
 public class ActionMessage {
-	@NotNull
+	@Nonnull
 	private ActionType actionType = ActionType.UNKNOW;
-	@NotNull
+	@Nonnull
 	private UUID objectId;
-	@NotNull
+	@Nonnull
 	private Map<String, Object> parameters = new HashMap<>();
 
 	public ActionMessage() {
 		objectId = UUID.randomUUID();
 	}
 
-	public ActionMessage(@NotNull final ActionType actionType, @NotNull final UUID objectId, @NotNull final Map<String, Object> parameters) {
-		super();
+	public ActionMessage(@Nonnull final ActionType actionType, @Nonnull final UUID objectId, @Nonnull final Map<String, Object> parameters) {
 		this.actionType = actionType;
 		this.objectId = objectId;
 		this.parameters = parameters;
 	}
 
-	@NotNull
+	@Nonnull
 	public ActionType getActionType() {
 		return actionType;
 	}
 
-	public void setActionType(@NotNull final ActionType actionType) {
+	public void setActionType(@Nonnull final ActionType actionType) {
 		this.actionType = actionType;
 	}
 
-	@NotNull
+	@Nonnull
 	public UUID getObjectId() {
 		return objectId;
 	}
 
-	@NotNull
+	@Nonnull
 	public Map<String, Object> getParameters() {
 		return parameters;
 	}
 
-	public void setObjectId(@NotNull final UUID objectId) {
+	public void setObjectId(@Nonnull final UUID objectId) {
 		this.objectId = objectId;
 	}
 
-	public void setParameters(@NotNull final Map<String, Object> parameters) {
+	public void setParameters(@Nonnull final Map<String, Object> parameters) {
 		this.parameters = parameters;
 	}
 

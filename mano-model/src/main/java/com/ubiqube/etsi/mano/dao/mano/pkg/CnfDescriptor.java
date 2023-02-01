@@ -16,8 +16,8 @@
  */
 package com.ubiqube.etsi.mano.dao.mano.pkg;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
 import lombok.Getter;
 import lombok.Setter;

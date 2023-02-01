@@ -20,22 +20,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
-import javax.annotation.Nullable;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Transient;
-import javax.validation.Valid;
-
-import org.hibernate.annotations.Type;
-
 import com.ubiqube.etsi.mano.dao.mano.ExtCpInfo;
 import com.ubiqube.etsi.mano.dao.mano.ExtManagedVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.ExtVirtualLinkDataEntity;
@@ -52,6 +36,19 @@ import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.NsHeal;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.NsScale;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.NsScaleInfo;
 
+import jakarta.annotation.Nullable;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Transient;
+import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -226,7 +223,6 @@ public class BlueprintParameters implements Serializable {
 	@Transient
 	private Set<VirtualLinkInfo> virtualLinkResourceInfo;
 
-	@Type(type = "jsonb")
 	@Column(columnDefinition = "json")
 	private UpdateRequest updData;
 

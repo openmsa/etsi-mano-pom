@@ -35,8 +35,8 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents request parameters for the \&quot;Instantiate NS\&quot; operation. NOTE 1: The DF of the VNF instance shall match the VNF DF present in the associated VNF Profile. NOTE 2: The NS DF of each nested NS shall be one of the allowed flavours in the associated   NSD (as referenced in the nestedNsd attribute of the NSD of the NS to be instantiated). NOTE 3: The NSD of each referenced NSs (i.e. each nestedInstanceId) shall match the one of the nested NSD in the composite NSD. NOTE 4: When the NS is deployed over several sites, the VLs of this NS will include VNs in each site connected over the WAN. In this case, the \&quot;wanConnectionData\&quot; provides the needed information required to connect each VN to the WAN. Annex E provides additional information and guidelines about the usage of the \&quot;wanConnectionData\&quot; attribute. 

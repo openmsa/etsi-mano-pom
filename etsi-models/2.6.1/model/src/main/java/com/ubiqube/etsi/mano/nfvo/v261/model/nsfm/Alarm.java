@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -135,7 +135,7 @@ public class Alarm {
 	 * @return id
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	public String getId() {
 		return id;
@@ -156,7 +156,7 @@ public class Alarm {
 	 * @return managedObjectId
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	public String getManagedObjectId() {
 		return managedObjectId;
@@ -177,7 +177,7 @@ public class Alarm {
 	 * @return rootCauseFaultyComponent
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	@Valid
 	public FaultyComponentInfo getRootCauseFaultyComponent() {
@@ -220,7 +220,7 @@ public class Alarm {
 	 * @return alarmRaisedTime
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	@Valid
 	public LocalDateTime getAlarmRaisedTime() {
@@ -285,7 +285,7 @@ public class Alarm {
 	 * @return ackState
 	 **/
 	@Schema(required = true, description = "Acknowledgment state of the alarm. Permitted values: UNACKNOWLEDGED ACKNOWLEDGED ")
-	@NotNull
+	@Nonnull
 
 	public AckStateEnum getAckState() {
 		return ackState;
@@ -306,7 +306,7 @@ public class Alarm {
 	 * @return perceivedSeverity
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	@Valid
 	public PerceivedSeverityType getPerceivedSeverity() {
@@ -328,7 +328,7 @@ public class Alarm {
 	 * @return eventTime
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	@Valid
 	public LocalDateTime getEventTime() {
@@ -350,7 +350,7 @@ public class Alarm {
 	 * @return eventType
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	@Valid
 	public EventType getEventType() {
@@ -392,7 +392,7 @@ public class Alarm {
 	 * @return probableCause
 	 **/
 	@Schema(required = true, description = "Information about the probable cause of the fault. ")
-	@NotNull
+	@Nonnull
 
 	public String getProbableCause() {
 		return probableCause;
@@ -415,7 +415,7 @@ public class Alarm {
 	 * @return isRootCause
 	 **/
 	@Schema(required = true, description = "Attribute indicating if this fault is the root for other correlated alarms. If TRUE, then the alarms listed in the attribute CorrelatedAlarmId are caused by this fault. ")
-	@NotNull
+	@Nonnull
 
 	public Boolean isIsRootCause() {
 		return isRootCause;
@@ -484,7 +484,7 @@ public class Alarm {
 	 * @return _links
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	@Valid
 	public AlarmLinks getLinks() {

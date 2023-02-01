@@ -20,8 +20,8 @@ package com.ubiqube.etsi.mano.nfvo.v261.model.nslcm;
 import java.util.Map;
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -60,7 +60,7 @@ public class ScaleByStepData {
 	 * @return aspectId
 	 **/
 	@Schema(required = true, description = "Identifier of (reference to) the aspect of the VNF that is requested to be scaled, as declared in the VNFD. ")
-	@NotNull
+	@Nonnull
 
 	public String getAspectId() {
 		return aspectId;

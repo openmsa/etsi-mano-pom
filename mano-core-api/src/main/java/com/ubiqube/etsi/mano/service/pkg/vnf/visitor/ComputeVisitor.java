@@ -19,14 +19,14 @@ package com.ubiqube.etsi.mano.service.pkg.vnf.visitor;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.Priority;
-
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfCompute;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.service.pkg.vnf.OnboardVisitor;
 import com.ubiqube.etsi.mano.service.pkg.vnf.VnfPackageReader;
+
+import jakarta.annotation.Priority;
 
 /**
  *

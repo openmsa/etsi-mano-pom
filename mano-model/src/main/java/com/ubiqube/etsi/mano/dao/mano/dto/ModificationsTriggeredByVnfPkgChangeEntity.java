@@ -19,7 +19,7 @@ package com.ubiqube.etsi.mano.dao.mano.dto;
 import java.io.Serializable;
 import java.util.Map;
 
-import javax.persistence.Embeddable;
+import jakarta.persistence.Embeddable;
 
 import lombok.Getter;
 import lombok.Setter;

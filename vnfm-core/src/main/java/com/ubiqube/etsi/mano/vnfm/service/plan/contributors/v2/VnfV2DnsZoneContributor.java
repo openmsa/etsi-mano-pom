@@ -18,8 +18,6 @@ package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2;
 
 import java.util.List;
 
-import javax.annotation.Priority;
-
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.ChangeType;
@@ -31,6 +29,8 @@ import com.ubiqube.etsi.mano.orchestrator.SclableResources;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.DnsZone;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
 import com.ubiqube.etsi.mano.vnfm.service.graph.NodeNaming;
+
+import jakarta.annotation.Priority;
 
 /**
  *

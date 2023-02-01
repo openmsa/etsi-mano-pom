@@ -23,8 +23,8 @@ import com.ubiqube.etsi.mec.meo.v211.model.lcm.OperationalState;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * &#x27;Information specific to an instantiated application. This attribute shall be present if the instantiationState attribute value is INSTANTIATED.&#x27;

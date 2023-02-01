@@ -20,7 +20,7 @@ import java.time.OffsetDateTime;
 import java.util.Map;
 import java.util.Set;
 
-import javax.persistence.ManyToOne;
+import jakarta.persistence.ManyToOne;
 
 import com.ubiqube.etsi.mano.dao.mano.BaseEntity;
 import com.ubiqube.etsi.mano.dao.mano.BlueZoneGroupInformation;

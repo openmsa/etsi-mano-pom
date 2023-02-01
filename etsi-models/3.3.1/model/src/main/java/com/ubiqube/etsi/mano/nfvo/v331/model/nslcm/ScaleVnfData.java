@@ -24,8 +24,8 @@ import com.ubiqube.etsi.mano.nfvo.v331.model.nslcm.ScaleByStepData;
 import com.ubiqube.etsi.mano.nfvo.v331.model.nslcm.ScaleToLevelData;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents defines the information to scale a VNF instance  to a given level, or to scale a VNF instance by steps. 

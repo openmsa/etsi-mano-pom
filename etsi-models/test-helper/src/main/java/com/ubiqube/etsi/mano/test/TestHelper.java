@@ -47,7 +47,7 @@ import ma.glasnost.orika.OrikaSystemProperties;
 import ma.glasnost.orika.converter.ConverterFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 import ma.glasnost.orika.impl.generator.EclipseJdtCompilerStrategy;
-import net.rakugakibox.spring.boot.orika.OrikaMapperFactoryConfigurer;
+import com.ubiqube.orika.OrikaMapperFactoryConfigurer;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 public class TestHelper {

@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.nfvo.v431.controller.nfvici;
 
 import java.util.List;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;

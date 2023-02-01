@@ -19,7 +19,7 @@ package com.ubiqube.etsi.mano.nfvo.controller.nslcm;
 import java.util.List;
 import java.util.UUID;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.dto.nsi.NsInstanceDto;

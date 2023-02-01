@@ -19,7 +19,7 @@ package com.ubiqube.etsi.mano.vnfm.v431.controller.vnflcm;
 import java.time.OffsetDateTime;
 import java.util.List;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;

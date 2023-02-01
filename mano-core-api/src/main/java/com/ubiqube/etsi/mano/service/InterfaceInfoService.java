@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.context.request.RequestAttributes;
@@ -41,6 +39,8 @@ import com.ubiqube.etsi.mano.dao.mano.sol009.peers.ClientInterfaceSecurityInfo;
 import com.ubiqube.etsi.mano.dao.mano.sol009.peers.OauthServerInfo;
 import com.ubiqube.etsi.mano.dao.mano.sol009.peers.ProvidedConfiguration;
 import com.ubiqube.etsi.mano.service.EndpointService.Endpoint;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Service
 public class InterfaceInfoService {

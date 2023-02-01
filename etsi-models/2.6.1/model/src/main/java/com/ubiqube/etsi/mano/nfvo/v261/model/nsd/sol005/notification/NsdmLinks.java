@@ -19,8 +19,8 @@ package com.ubiqube.etsi.mano.nfvo.v261.model.nsd.sol005.notification;
 
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -56,7 +56,7 @@ public class NsdmLinks {
 	 * @return nsdInfo
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	@Valid
 
@@ -79,7 +79,7 @@ public class NsdmLinks {
 	 * @return subscription
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	@Valid
 

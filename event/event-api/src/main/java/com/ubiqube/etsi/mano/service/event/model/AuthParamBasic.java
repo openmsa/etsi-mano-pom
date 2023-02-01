@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.service.event.model;
 
 import java.io.Serializable;
 
-import javax.persistence.Embeddable;
+import jakarta.persistence.Embeddable;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

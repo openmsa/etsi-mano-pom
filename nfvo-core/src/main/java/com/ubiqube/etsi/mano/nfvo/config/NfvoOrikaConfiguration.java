@@ -38,10 +38,10 @@ import com.ubiqube.etsi.mano.mapper.OffsetDateTimeToDateConverter;
 import com.ubiqube.etsi.mano.mapper.OrikaFilterMapper;
 import com.ubiqube.etsi.mano.mapper.UuidConverter;
 import com.ubiqube.etsi.mano.model.VnfInstantiate;
+import com.ubiqube.orika.OrikaMapperFactoryConfigurer;
 
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.converter.ConverterFactory;
-import net.rakugakibox.spring.boot.orika.OrikaMapperFactoryConfigurer;
 
 @Component
 public class NfvoOrikaConfiguration implements OrikaMapperFactoryConfigurer {

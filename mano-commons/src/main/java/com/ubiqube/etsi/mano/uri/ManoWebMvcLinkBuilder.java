@@ -31,7 +31,7 @@ import org.springframework.hateoas.server.core.TemplateVariableAwareLinkBuilderS
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.util.Assert;
 import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.util.DefaultUriTemplateHandler;
+import org.springframework.web.util.DefaultUriBuilderFactory;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -44,7 +44,7 @@ public class ManoWebMvcLinkBuilder extends TemplateVariableAwareLinkBuilderSuppo
 	private static final String METHOD_MUST_NOT_BE_NULL = "Method must not be null!";
 	private static final String PARAMETERS_MUST_NOT_BE_NULL = "Parameters must not be null!";
 	private static final ManoWebMvcLinkBuilderFactory FACTORY = new ManoWebMvcLinkBuilderFactory();
-	private static final CustomUriTemplateHandler HANDLER = new CustomUriTemplateHandler();
+	private static final DefaultUriBuilderFactory URI_FACTORY = new DefaultUriBuilderFactory();
 	private static final Pattern SOL_REGEXP = Pattern.compile("^\\/sol00[0-9]\\/");
 	private final UriComponents components;
 
@@ -116,10 +116,18 @@ public class ManoWebMvcLinkBuilder extends TemplateVariableAwareLinkBuilderSuppo
 		Assert.notNull(controller, "Controller must not be null!");
 		Assert.notNull(parameters, PARAMETERS_MUST_NOT_BE_NULL);
 
-		final String mapping = SpringAffordanceBuilder.DISCOVERER.getMapping(controller);
+		Assert.notNull(controller, "Controller must not be null!");
+		Assert.notNull(parameters, "Parameters must not be null!");
 
-		final UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(mapping == null ? "/" : mapping);
-		final UriComponents uriComponents = HANDLER.expandAndEncode(builder, parameters);
+		final var mapping = SpringAffordanceBuilder.DISCOVERER.getMapping(controller);
+		final var defaulted = mapping == null ? "/" : mapping;
+
+		final var uri = URI_FACTORY.expand(defaulted, parameters);
+		final var uriComponents = UriComponentsBuilder.fromUri(uri).build();
+
+		// return new
+		// ManoWebMvcLinkBuilder(UriComponentsBuilderFactory.getComponents()).slash(uriComponents,
+		// true);
 
 		return new ManoWebMvcLinkBuilder(ManoUriComponentsBuilder.getComponents()).slash(uriComponents, true);
 	}
@@ -140,10 +148,12 @@ public class ManoWebMvcLinkBuilder extends TemplateVariableAwareLinkBuilderSuppo
 		Assert.notNull(controller, "Controller must not be null!");
 		Assert.notNull(parameters, PARAMETERS_MUST_NOT_BE_NULL);
 
-		final String mapping = SpringAffordanceBuilder.DISCOVERER.getMapping(controller);
+		final var mapping = SpringAffordanceBuilder.DISCOVERER.getMapping(controller);
+		final var defaulted = mapping == null ? "/" : mapping;
 
-		final UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(mapping == null ? "/" : mapping);
-		final UriComponents uriComponents = HANDLER.expandAndEncode(builder, parameters);
+		final var uri = URI_FACTORY.expand(defaulted, parameters);
+		final var uriComponents = UriComponentsBuilder.fromUri(uri).build();
+
 		return new ManoWebMvcLinkBuilder(ManoUriComponentsBuilder.getComponents()).slash(uriComponents, true);
 	}
 
@@ -227,37 +237,6 @@ public class ManoWebMvcLinkBuilder extends TemplateVariableAwareLinkBuilderSuppo
 	 */
 	public static ManoWebMvcLinkBuilder linkTo(final Object invocationValue) {
 		return FACTORY.linkTo(invocationValue);
-	}
-
-	private static class CustomUriTemplateHandler extends DefaultUriTemplateHandler {
-
-		public CustomUriTemplateHandler() {
-			setStrictEncoding(true);
-		}
-
-		/*
-		 * (non-Javadoc)
-		 *
-		 * @see
-		 * org.springframework.web.util.DefaultUriTemplateHandler#expandAndEncode(org.
-		 * springframework.web.util.UriComponentsBuilder, java.util.Map)
-		 */
-		@Override
-		public UriComponents expandAndEncode(final UriComponentsBuilder builder, final Map<String, ?> uriVariables) {
-			return super.expandAndEncode(builder, uriVariables);
-		}
-
-		/*
-		 * (non-Javadoc)
-		 *
-		 * @see
-		 * org.springframework.web.util.DefaultUriTemplateHandler#expandAndEncode(org.
-		 * springframework.web.util.UriComponentsBuilder, java.lang.Object[])
-		 */
-		@Override
-		public UriComponents expandAndEncode(final UriComponentsBuilder builder, final Object[] uriVariables) {
-			return super.expandAndEncode(builder, uriVariables);
-		}
 	}
 
 	@Override

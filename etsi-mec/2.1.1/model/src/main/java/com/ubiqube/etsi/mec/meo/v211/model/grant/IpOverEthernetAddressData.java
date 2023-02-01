@@ -23,8 +23,8 @@ import com.ubiqube.etsi.mec.meo.v211.model.grant.IpAddresses;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * &#x27;This type represents network address data for IP over Ethernet. Refer to clause 4.4.1.10c of ETSI GS NFV SOL 003&#x27;

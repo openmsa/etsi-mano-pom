@@ -19,9 +19,6 @@ package com.ubiqube.etsi.mano.nfvo.service.graph;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
-import javax.validation.constraints.NotNull;
-
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.Instance;
@@ -43,6 +40,9 @@ import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.event.OrchestrationAdapter;
 import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 import com.ubiqube.etsi.mano.service.graph.WorkflowEvent;
+
+import jakarta.annotation.Nonnull;
+import jakarta.validation.constraints.NotNull;
 
 /**
  *
@@ -77,12 +77,12 @@ public class NsOrchestrationAdapter implements OrchestrationAdapter<NsTask, NsdI
 	}
 
 	@Override
-	public Blueprint<NsTask, NsdInstance> getBluePrint(final UUID blueprintId) {
+	public @Nonnull Blueprint<NsTask, NsdInstance> getBluePrint(final UUID blueprintId) {
 		return blueprintService.findById(blueprintId);
 	}
 
 	@Override
-	public Instance getInstance(final UUID blueprintId) {
+	public @Nonnull Instance getInstance(final UUID blueprintId) {
 		return instanceService.findById(blueprintId);
 	}
 
@@ -124,28 +124,18 @@ public class NsOrchestrationAdapter implements OrchestrationAdapter<NsTask, NsdI
 
 	@Nonnull
 	private static NotificationEvent convert(final WorkflowEvent instantiateProcessing) {
-		switch (instantiateProcessing) {
-		case INSTANTIATE_PROCESSING:
-			return NotificationEvent.NS_INSTANCE_CREATE;
-		case INSTANTIATE_SUCCESS:
-			return NotificationEvent.NS_INSTANTIATE;
-		case INSTANTIATE_FAILED:
-			return NotificationEvent.NS_INSTANTIATE;
-		case SCALE_FAILED:
-			return NotificationEvent.NS_SCALE;
-		case SCALE_SUCCESS:
-			return NotificationEvent.NS_SCALE;
-		case SCALETOLEVEL_FAILED:
-			return NotificationEvent.NS_SCALE;
-		case SCALETOLEVEL_SUCCESS:
-			return NotificationEvent.NS_SCALE;
-		case TERMINATE_FAILED:
-			return NotificationEvent.NS_TERMINATE;
-		case TERMINATE_SUCCESS:
-			return NotificationEvent.NS_TERMINATE;
-		default:
-			throw new GenericException("Unknow event: " + instantiateProcessing);
-		}
+		return switch (instantiateProcessing) {
+		case INSTANTIATE_PROCESSING -> NotificationEvent.NS_INSTANCE_CREATE;
+		case INSTANTIATE_SUCCESS -> NotificationEvent.NS_INSTANTIATE;
+		case INSTANTIATE_FAILED -> NotificationEvent.NS_INSTANTIATE;
+		case SCALE_FAILED -> NotificationEvent.NS_SCALE;
+		case SCALE_SUCCESS -> NotificationEvent.NS_SCALE;
+		case SCALETOLEVEL_FAILED -> NotificationEvent.NS_SCALE;
+		case SCALETOLEVEL_SUCCESS -> NotificationEvent.NS_SCALE;
+		case TERMINATE_FAILED -> NotificationEvent.NS_TERMINATE;
+		case TERMINATE_SUCCESS -> NotificationEvent.NS_TERMINATE;
+		default -> throw new GenericException("Unknow event: " + instantiateProcessing);
+		};
 	}
 
 }

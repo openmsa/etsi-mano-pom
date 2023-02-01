@@ -18,10 +18,10 @@ package com.ubiqube.etsi.mano.controller.lcmgrant;
 
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
-
 import com.ubiqube.etsi.mano.dao.mano.GrantInterface;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
+
+import jakarta.annotation.Nonnull;
 
 public interface GrantManagement {
 	@Nonnull

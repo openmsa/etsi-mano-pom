@@ -21,8 +21,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents the input information related to one or more VNF internal CP instances created based on the same CPD.  NOTE: Cardinality greater than 1 is only applicable for specific cases where more than one network attachment definition  resource is needed to fulfil the connectivity requirements of the VNF internal CP, e.g. to build a link redundant mated  pair in SR-IOV cases. When more than one \&quot;netAttDefResourceId\&quot; is indicated, all shall belong to the same namespace as  defined by the corresponding \&quot;netAttDefResourceNamespace\&quot; attribute in the \&quot;NetAttDefResourceData\&quot;. 

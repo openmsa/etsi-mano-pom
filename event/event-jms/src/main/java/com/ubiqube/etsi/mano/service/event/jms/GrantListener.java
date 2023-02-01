@@ -16,14 +16,14 @@
  */
 package com.ubiqube.etsi.mano.service.event.jms;
 
-import javax.transaction.Transactional;
-import javax.transaction.Transactional.TxType;
-
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 
 import com.ubiqube.etsi.mano.service.event.GrantActionDispatcher;
+
+import jakarta.transaction.Transactional;
+import jakarta.transaction.Transactional.TxType;
 
 @Service
 @Transactional(TxType.NEVER)

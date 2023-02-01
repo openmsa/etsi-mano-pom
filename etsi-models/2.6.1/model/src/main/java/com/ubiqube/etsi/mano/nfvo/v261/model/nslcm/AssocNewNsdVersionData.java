@@ -19,7 +19,7 @@ package com.ubiqube.etsi.mano.nfvo.v261.model.nslcm;
 
 import java.util.Objects;
 
-import javax.validation.constraints.NotNull;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -63,7 +63,7 @@ public class AssocNewNsdVersionData {
 	 * @return newNsdId
 	 **/
 	@Schema(required = true, description = "Identifier of the new NSD version that is to be associated to the NS instance. ")
-	@NotNull
+	@Nonnull
 
 	public String getNewNsdId() {
 		return newNsdId;

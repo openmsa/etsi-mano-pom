@@ -19,8 +19,8 @@ package com.ubiqube.etsi.mano.vnfm.v261.model.vnflcm;
 import java.util.Map;
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -102,7 +102,7 @@ public class AffectedVirtualStorage {
 	 * @return id
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	public String getId() {
 		return id;
@@ -123,7 +123,7 @@ public class AffectedVirtualStorage {
 	 * @return virtualStorageDescId
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	public String getVirtualStorageDescId() {
 		return virtualStorageDescId;
@@ -146,7 +146,7 @@ public class AffectedVirtualStorage {
 	 * @return changeType
 	 **/
 	@Schema(required = true, description = "Signals the type of change. Permitted values: * ADDED * REMOVED * MODIFIED * TEMPORARY For a temporary resource, an AffectedVirtualStorage structure exists as long as the temporary resource exists. ")
-	@NotNull
+	@Nonnull
 
 	public ChangeTypeEnum getChangeType() {
 		return changeType;
@@ -167,7 +167,7 @@ public class AffectedVirtualStorage {
 	 * @return storageResource
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	@Valid
 	public ResourceHandle getStorageResource() {

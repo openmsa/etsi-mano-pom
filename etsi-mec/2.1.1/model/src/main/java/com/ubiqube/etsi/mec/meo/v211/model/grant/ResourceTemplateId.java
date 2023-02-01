@@ -19,8 +19,8 @@ package com.ubiqube.etsi.mec.meo.v211.model.grant;
 import java.util.Objects;
 import io.swagger.annotations.ApiModel;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * Reference to a resource template, i.e. VirtualLinkDesc, VirtualComputeDesc, AppExtCpd, VirtualStorageDesc in the AppD.

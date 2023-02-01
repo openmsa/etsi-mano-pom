@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -54,7 +54,7 @@ public class VnfInstanceSubscriptionFilterVnfProductsFromProviders {
 	 * @return vnfProvider
 	 **/
 	@Schema(required = true, description = "Name of the VNF provider to match. ")
-	@NotNull
+	@Nonnull
 
 	public String getVnfProvider() {
 		return vnfProvider;

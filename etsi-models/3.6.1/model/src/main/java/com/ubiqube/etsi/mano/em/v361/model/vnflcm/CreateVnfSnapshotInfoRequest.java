@@ -21,8 +21,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents request parameters for the creation of an \&quot;Individual VNF snapshot\&quot; resource which can be populated with content obtained by invoking the \&quot;Create VNF snapshot\&quot; LCM operation or extracted from a VNF snapshot package. * NOTE: The present attribute shall be provided if the \&quot;Individual VNF snapshot\&quot; resource         is requested to be created and be filled from a VNF snapshot package extraction. 

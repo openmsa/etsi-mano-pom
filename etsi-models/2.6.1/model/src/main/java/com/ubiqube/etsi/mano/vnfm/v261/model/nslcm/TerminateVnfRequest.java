@@ -31,7 +31,7 @@ package com.ubiqube.etsi.mano.vnfm.v261.model.nslcm;
 
 import java.util.Map;
 
-import javax.validation.constraints.NotNull;
+import jakarta.annotation.Nonnull;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -98,7 +98,7 @@ public class TerminateVnfRequest {
 	 **/
 	@JsonProperty("terminationType")
 	@Schema(required = true, description = "Indicates whether forceful or graceful termination is requested. Permitted values: * FORCEFUL: The VNFM will shut down the VNF and release the   resources immediately after accepting the request. * GRACEFUL: The VNFM will first arrange to take the VNF out of service after accepting the request. Once the operation of taking the VNF out of service finishes (irrespective of whether it has succeeded or failed) or once the timer value specified in the \"gracefulTerminationTimeout\" attribute expires, the VNFM will shut down the VNF and release the resources. ")
-	@NotNull
+	@Nonnull
 	public TerminationTypeEnum getTerminationType() {
 		return terminationType;
 	}

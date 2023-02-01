@@ -19,8 +19,6 @@ package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Priority;
-
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.MonitoringParams;
@@ -31,6 +29,8 @@ import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.orchestrator.SclableResources;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Monitoring;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
+
+import jakarta.annotation.Priority;
 
 /**
  *
@@ -54,12 +54,12 @@ public class MonitoringContributor extends AbstractContributorV3Base<MonitoringT
 					ret.add(create(Monitoring.class, x.getToscaName(), 1, t, parameters.getInstance()));
 				}));
 		bundle.getVnfIndicator().stream()
-		.forEach(x -> x.getMonitoringParameters().stream().forEach(y -> {
-			final MonitoringTask t = createMonitoringTask(y);
-			t.setVnfInstance(parameters.getInstance());
-			String toscaName = parameters.getInstance().getId().toString()+"-vnf_indicator";
-			ret.add(create(Monitoring.class, toscaName, 1, t, parameters.getInstance()));
-		}));
+				.forEach(x -> x.getMonitoringParameters().stream().forEach(y -> {
+					final MonitoringTask t = createMonitoringTask(y);
+					t.setVnfInstance(parameters.getInstance());
+					final String toscaName = parameters.getInstance().getId().toString() + "-vnf_indicator";
+					ret.add(create(Monitoring.class, toscaName, 1, t, parameters.getInstance()));
+				}));
 		return ret;
 	}
 

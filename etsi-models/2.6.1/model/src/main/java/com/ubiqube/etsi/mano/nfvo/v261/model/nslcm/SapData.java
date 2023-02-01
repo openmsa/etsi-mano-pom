@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -65,7 +65,7 @@ public class SapData {
 	 * @return sapdId
 	 **/
 	@Schema(required = true, description = "Reference to the SAPD for this SAP. ")
-	@NotNull
+	@Nonnull
 
 	public String getSapdId() {
 		return sapdId;
@@ -86,7 +86,7 @@ public class SapData {
 	 * @return sapName
 	 **/
 	@Schema(required = true, description = "Human readable name for the SAP. ")
-	@NotNull
+	@Nonnull
 
 	public String getSapName() {
 		return sapName;
@@ -107,7 +107,7 @@ public class SapData {
 	 * @return description
 	 **/
 	@Schema(required = true, description = "Human readable description for the SAP. ")
-	@NotNull
+	@Nonnull
 
 	public String getDescription() {
 		return description;

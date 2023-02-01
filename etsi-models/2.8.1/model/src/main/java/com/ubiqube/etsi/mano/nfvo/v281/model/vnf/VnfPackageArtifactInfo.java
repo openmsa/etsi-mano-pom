@@ -25,8 +25,8 @@ import java.util.Map;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents an artifact other than a software image which is contained in or external to a VNF package.  It shall comply with provisions defined in Table 9.5.3.3-1. 

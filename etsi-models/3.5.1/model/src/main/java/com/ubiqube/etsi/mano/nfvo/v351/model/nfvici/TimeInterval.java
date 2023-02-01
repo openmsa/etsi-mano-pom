@@ -22,8 +22,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type defines the format of a time interval. The type shall comply with the provisions defined in table 10.5.2.7-1. NOTE: When only the startTime is present, there is no time interval being defined, and therefore the provided timing information refers to a specific point in time. 

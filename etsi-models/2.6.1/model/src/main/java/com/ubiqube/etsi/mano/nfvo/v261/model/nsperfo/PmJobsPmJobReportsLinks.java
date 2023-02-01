@@ -21,8 +21,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 import java.util.List;
 
 /**
@@ -46,7 +46,7 @@ public class PmJobsPmJobReportsLinks  {
    * @return self
   **/
   @JsonProperty("self")
-  @NotNull
+  @Nonnull
   public PmJobsPmJobReportsLinksSelf getSelf() {
     return self;
   }

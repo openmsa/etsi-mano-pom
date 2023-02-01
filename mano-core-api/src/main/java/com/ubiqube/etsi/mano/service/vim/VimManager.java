@@ -25,12 +25,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nonnull;
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
-import javax.transaction.Transactional.TxType;
-import javax.validation.constraints.NotNull;
-
 import org.hibernate.search.engine.search.predicate.SearchPredicate;
 import org.hibernate.search.engine.search.predicate.dsl.SearchPredicateFactory;
 import org.hibernate.search.engine.search.query.dsl.SearchQuerySelectStep;
@@ -58,6 +52,11 @@ import com.ubiqube.etsi.mano.service.SystemService;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 import com.ubiqube.etsi.mano.vim.dto.SwImage;
+
+import jakarta.annotation.Nonnull;
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
+import jakarta.transaction.Transactional.TxType;
 
 /**
  *
@@ -109,7 +108,7 @@ public class VimManager {
 		vimsIs.forEach(x -> vimAssociation.put(x.getId(), vim));
 	}
 
-	@NotNull
+	@Nonnull
 	public Vim getVimById(final UUID id) {
 		return Optional.ofNullable(vimAssociation.get(id)).orElseThrow(() -> new NotFoundException("No such Vim: " + id));
 	}
@@ -234,7 +233,7 @@ public class VimManager {
 
 	public List<SoftwareImage> getDetailedImageList(final VimConnectionInformation vimConn) {
 		final Vim vim = findVim(vimConn);
-		@NotNull
+		@Nonnull
 		final Storage storage = vim.storage(vimConn);
 		final List<SwImage> preList = storage.getImageList();
 		return preList.stream().map(x -> mapper(storage, x)).toList();

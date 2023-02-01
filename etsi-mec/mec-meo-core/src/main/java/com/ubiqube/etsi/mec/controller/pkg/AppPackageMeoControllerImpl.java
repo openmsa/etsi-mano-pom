@@ -23,8 +23,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.EntityManager;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.EntityManager;
+import jakarta.validation.constraints.NotNull;
 
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;

@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.vnfm.v281.controller.vnfind;
 
 import java.util.List;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import org.springframework.context.annotation.Conditional;
 import org.springframework.http.ResponseEntity;

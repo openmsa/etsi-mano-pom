@@ -20,8 +20,8 @@ package com.ubiqube.etsi.mano.model.v271.sol003.vnf;
 import java.util.Objects;
 import io.swagger.annotations.ApiModel;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * Date-time stamp. Representation: String formatted according toas defined by the date-time production in IETF RFC 3339. 

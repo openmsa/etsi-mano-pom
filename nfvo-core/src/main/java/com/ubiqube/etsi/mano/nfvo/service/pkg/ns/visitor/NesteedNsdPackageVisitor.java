@@ -20,8 +20,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.annotation.Priority;
-
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
@@ -30,6 +28,8 @@ import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.jpa.NsdPackageJpa;
 import com.ubiqube.etsi.mano.nfvo.service.pkg.ns.NsOnboardingVisitor;
 import com.ubiqube.etsi.mano.service.pkg.ns.NsPackageProvider;
+
+import jakarta.annotation.Priority;
 
 /**
  *

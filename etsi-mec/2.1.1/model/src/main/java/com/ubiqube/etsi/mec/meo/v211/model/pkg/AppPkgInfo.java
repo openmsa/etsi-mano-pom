@@ -19,8 +19,8 @@ package com.ubiqube.etsi.mec.meo.v211.model.pkg;
 import java.util.Map;
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 import org.springframework.hateoas.Links;
 import org.springframework.validation.annotation.Validated;

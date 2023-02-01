@@ -16,10 +16,10 @@
  */
 package com.ubiqube.etsi.mano.service.event.jms.config;
 
-import javax.jms.ConnectionFactory;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.jms.core.JmsTemplate;
+
+import jakarta.jms.ConnectionFactory;
 
 /**
  *

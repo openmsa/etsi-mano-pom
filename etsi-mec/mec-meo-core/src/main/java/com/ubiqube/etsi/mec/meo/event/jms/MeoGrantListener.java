@@ -16,8 +16,8 @@
  */
 package com.ubiqube.etsi.mec.meo.event.jms;
 
-import javax.transaction.Transactional;
-import javax.transaction.Transactional.TxType;
+import jakarta.transaction.Transactional;
+import jakarta.transaction.Transactional.TxType;
 
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Service;

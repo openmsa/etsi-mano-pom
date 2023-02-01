@@ -25,8 +25,8 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This notification informs the receiver that performance information is available. The notification shall be triggered by the NFVO when new performance information  collected by a PM job is available. The periodicity of triggering this notification is influenced by the \&quot;reportingPeriod\&quot; attribute in the \&quot;PmJobCriteria\&quot; data structure as defined in clause 7.5.3.3. 

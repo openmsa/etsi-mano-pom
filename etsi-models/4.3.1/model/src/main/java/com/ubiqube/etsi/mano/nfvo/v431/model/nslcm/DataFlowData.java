@@ -22,8 +22,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.nfvo.v431.model.nslcm.DataFlowDetails;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents the information about the data flows to be mirrored.  It shall comply with the provisions defined in table 6.5.3.101-1. NOTE: A value need not be provided at runtime if the APIconsumer does not  intend to refer to a data flow defined in the NSD. 

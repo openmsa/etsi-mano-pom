@@ -21,8 +21,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.annotation.Priority;
-
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.ScalingAspect;
@@ -40,6 +38,8 @@ import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.InstantiationLevels;
 import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.VduInitialDelta;
 import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.VduInstantiationLevels;
 import com.ubiqube.parser.tosca.objects.tosca.policies.nfv.VduScalingAspectDeltas;
+
+import jakarta.annotation.Priority;
 
 /**
  *
@@ -105,7 +105,8 @@ public class ScalingVisitor implements OnboardVisitor {
 			for (final String delta : aspect.getStepDeltas()) {
 				final VduLevel step = x.getDeltas().get(delta);
 				numInst += step.getNumberOfInstances();
-				vnfc.addScalingAspectDeltas(new VnfComputeAspectDelta(x.getAspect(), delta, step.getNumberOfInstances(), level++, aspect.getMaxScaleLevel(), y, numInst));
+				vnfc.addScalingAspectDeltas(new VnfComputeAspectDelta(x.getAspect(), delta, step.getNumberOfInstances(), level, aspect.getMaxScaleLevel(), y, numInst));
+				level++;
 			}
 		}));
 		// Minimal instance at instantiate time.

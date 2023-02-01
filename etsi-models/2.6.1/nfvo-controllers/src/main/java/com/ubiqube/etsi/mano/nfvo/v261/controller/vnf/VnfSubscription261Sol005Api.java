@@ -19,7 +19,7 @@ package com.ubiqube.etsi.mano.nfvo.v261.controller.vnf;
 
 import java.util.List;
 
-import javax.annotation.security.RolesAllowed;
+import jakarta.annotation.security.RolesAllowed;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;

@@ -20,10 +20,10 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Embeddable;
-import javax.persistence.FetchType;
-import javax.validation.Valid;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.FetchType;
+import jakarta.validation.Valid;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;

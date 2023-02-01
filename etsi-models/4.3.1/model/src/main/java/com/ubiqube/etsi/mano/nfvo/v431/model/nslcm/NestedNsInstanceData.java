@@ -24,8 +24,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type specifies an existing nested NS instance to be used in the NS instance  and if needed, the NsProfile to use for this nested NS instance.  It shall comply with the provisions defined in Table 6.5.3.19a-1. NOTE 1:  If the overridingNsdId attribute is present the nsProfileId attribute shall also be present. NOTE 2:  This attribute allows to use as nested NS an existing NS instance based on a different NSD to the one  specified in the composite NSD with nsProfileId, provided they have the same nsdExtInvariantId. NOTE 3: A VnfProfile, NsProfile or PnfProfile may contain multiple VersionDependencies as it may describe the version dependencies of the descriptor referenced in the profile or of other descriptors with the same external invariant identifier. NOTE 4: The overridingVersionDependency attribute may only be present if the overridingNsdId attribute is present. 

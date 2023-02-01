@@ -25,8 +25,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents criteria for logging jobs to collect logged messages on NFV-MANO service interfaces. * NOTE: If a matching pattern is present, at least one of the \&quot;srcIpAddress\&quot;, \&quot;dstIpAddress\&quot;, \&quot;requestMethod\&quot;,         \&quot;requestUriPattern\&quot; or \&quot;responseCodes\&quot; shall be provided.

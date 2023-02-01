@@ -16,7 +16,7 @@
  */
 package com.ubiqube.etsi.mano.em.v281.controller.vnfconfig;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;

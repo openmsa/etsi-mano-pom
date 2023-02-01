@@ -75,7 +75,7 @@ import com.ubiqube.etsi.mano.vnfm.v431.model.vrqan.SubscriptionAuthenticationPar
 import ma.glasnost.orika.CustomMapper;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.MappingContext;
-import net.rakugakibox.spring.boot.orika.OrikaMapperFactoryConfigurer;
+import com.ubiqube.orika.OrikaMapperFactoryConfigurer;
 
 @Service
 public class OrikaMapperVnfm431 implements OrikaMapperFactoryConfigurer {

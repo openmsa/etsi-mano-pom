@@ -18,10 +18,10 @@ package com.ubiqube.etsi.mano.dao.mano.pkg;
 
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.ElementCollection;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToMany;
 
 import com.ubiqube.etsi.mano.dao.mano.VlProtocolData;
 

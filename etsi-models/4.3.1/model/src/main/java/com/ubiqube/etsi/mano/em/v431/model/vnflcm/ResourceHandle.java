@@ -22,8 +22,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.em.v431.model.vnflcm.AdditionalResourceInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents the information that allows addressing a virtualised resource that is used by a VNF instance. Information about the resource is available from the VIM. * NOTE 1: The information about the VIM or CISM connection referenced by the VIM connection id is known to the           VNFM. Moreover, the identifier of the VIM connection provides scope to the resourceId.  * NOTE 2: The value set of the \&quot;vimLevelResourceType\&quot; attribute is within the scope of the VIM or CISM or the resource            provider and can be used as information that complements the ResourceHandle. When the container           infrastructure service is a Kubernetes® instance the vimLevelResourceType is the type of resource, as would            correspond to the &#x27;kind&#x27; field if the resource is declared in its own Kubernetes® manifest, e.g.: Pod,            PersistentVolumeClaim, NetworkAttachmentDefinition.  * NOTE 3: When the container infrastructure service is a Kubernetes® instance the resourceId shall be populated in the            following way:           - For a compute MCIO, it is the instance identifier that Kubernetes® assigns, which is unique cluster wide            per resource type.           - For a storage MCIO modelled as a persistent volume claim, it is the name of the persistent volume claim,            i.e. the value of the &#x27;claimName&#x27; field in the Kubernetes® manifest, or a compound name built by            Kubernetes® if the persistent volume claim is defined inline in another template instead of in its own            manifest.           - For a network MCIO representing a NetworkAttachmentDefinition, a Service or an Ingress, it is the value of            the &#x27;metadata.name&#x27; field in Kubernetes® manifest. 

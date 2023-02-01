@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -68,7 +68,7 @@ public class SapInfo {
 	 * @return id
 	 **/
 	@Schema(required = true, description = "Identifier of the SAP instance. ")
-	@NotNull
+	@Nonnull
 
 	public String getId() {
 		return id;
@@ -89,7 +89,7 @@ public class SapInfo {
 	 * @return sapdId
 	 **/
 	@Schema(required = true, description = "Identifier of the SAPD in the NSD. ")
-	@NotNull
+	@Nonnull
 
 	public String getSapdId() {
 		return sapdId;
@@ -110,7 +110,7 @@ public class SapInfo {
 	 * @return sapName
 	 **/
 	@Schema(required = true, description = "Human readable name for the SAP instance. ")
-	@NotNull
+	@Nonnull
 
 	public String getSapName() {
 		return sapName;
@@ -156,7 +156,7 @@ public class SapInfo {
 	 * @return sapProtocolInfo
 	 **/
 	@Schema(required = true, description = "Network protocol information for this SAP. ")
-	@NotNull
+	@Nonnull
 
 	@Valid
 

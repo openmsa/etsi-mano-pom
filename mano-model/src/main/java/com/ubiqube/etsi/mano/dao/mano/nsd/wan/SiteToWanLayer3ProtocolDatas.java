@@ -20,8 +20,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Map;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Embeddable;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Embeddable;
 
 import lombok.Getter;
 import lombok.Setter;

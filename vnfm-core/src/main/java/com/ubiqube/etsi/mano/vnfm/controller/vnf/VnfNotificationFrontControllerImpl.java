@@ -16,8 +16,6 @@
  */
 package com.ubiqube.etsi.mano.vnfm.controller.vnf;
 
-import javax.transaction.Transactional;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +24,7 @@ import com.ubiqube.etsi.mano.dao.mano.VnfPackageOnboardingNotification;
 import com.ubiqube.etsi.mano.vnfm.fc.vnf.VnfNotificationFrontController;
 import com.ubiqube.etsi.mano.vnfm.service.VnfNotificationService;
 
+import jakarta.transaction.Transactional;
 import ma.glasnost.orika.MapperFacade;
 
 /**
@@ -39,7 +38,6 @@ public class VnfNotificationFrontControllerImpl implements VnfNotificationFrontC
 	private final VnfNotificationService vnfNotificationService;
 
 	public VnfNotificationFrontControllerImpl(final MapperFacade mapper, final VnfNotificationService vnfNotificationService) {
-		super();
 		this.mapper = mapper;
 		this.vnfNotificationService = vnfNotificationService;
 

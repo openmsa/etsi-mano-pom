@@ -29,7 +29,7 @@
 
 package com.ubiqube.etsi.mano.vnfm.v261.model.nslcm;
 
-import javax.validation.constraints.NotNull;
+import jakarta.annotation.Nonnull;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -67,7 +67,7 @@ public class LccnSubscription {
 	 **/
 	@JsonProperty("id")
 	@Schema(required = true, description = "Identifier of this subscription resource. ")
-	@NotNull
+	@Nonnull
 	public String getId() {
 		return id;
 	}
@@ -110,7 +110,7 @@ public class LccnSubscription {
 	 **/
 	@JsonProperty("callbackUri")
 	@Schema(required = true, description = "The URI of the endpoint to send the notification to. ")
-	@NotNull
+	@Nonnull
 	public String getCallbackUri() {
 		return callbackUri;
 	}
@@ -131,7 +131,7 @@ public class LccnSubscription {
 	 **/
 	@JsonProperty("_links")
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 	public LccnSubscriptionLinks getLinks() {
 		return links;
 	}

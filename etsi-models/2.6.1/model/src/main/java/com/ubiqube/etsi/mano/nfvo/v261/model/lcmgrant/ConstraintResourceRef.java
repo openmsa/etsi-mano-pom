@@ -19,8 +19,6 @@ package com.ubiqube.etsi.mano.nfvo.v261.model.lcmgrant;
 
 import java.util.Objects;
 
-import javax.validation.constraints.NotNull;
-
 import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -28,7 +26,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-
+import jakarta.annotation.Nonnull;
 
 /**
  * This type references a resource either by its VIM-level identifier for
@@ -38,7 +36,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
  */
 @Schema(description = "This type references a resource either by its VIM-level identifier for existing resources, or by the identifier of a \"ResourceDefinition\" structure in the \"GrantRequest\" structure for new resources. ")
 @Validated
-
 
 public class ConstraintResourceRef {
 	/**
@@ -99,11 +96,11 @@ public class ConstraintResourceRef {
 	 * in the direct mode of VNF-related resource management, and is managed by the
 	 * NFVO in the indirect mode) * GRANT: Reference to the identifier of a
 	 * \"ResourceDefinition\" structure in the \"GrantRequest\" structure.
-	 * 
+	 *
 	 * @return idType
 	 **/
 	@Schema(required = true, description = "The type of the identifier. Permitted values: * RES_MGMT: Resource-management-level identifier; this identifier is   managed by the VIM in the direct mode of VNF-related resource   management, and is managed by the NFVO in the indirect mode) * GRANT: Reference to the identifier of a \"ResourceDefinition\" structure in the \"GrantRequest\" structure. ")
-	@NotNull
+	@Nonnull
 
 	public IdTypeEnum getIdType() {
 		return idType;
@@ -122,11 +119,11 @@ public class ConstraintResourceRef {
 	 * An actual resource-management-level identifier (idType=RES_MGMT), or an
 	 * identifier that references a \"ResourceDefinition\" structure in the related
 	 * \"GrantRequest\" structure (idType=GRANT).
-	 * 
+	 *
 	 * @return resourceId
 	 **/
 	@Schema(required = true, description = "An actual resource-management-level identifier (idType=RES_MGMT), or an identifier that references a \"ResourceDefinition\" structure in the related \"GrantRequest\" structure (idType=GRANT). ")
-	@NotNull
+	@Nonnull
 
 	public String getResourceId() {
 		return resourceId;
@@ -148,7 +145,7 @@ public class ConstraintResourceRef {
 	 * \"vimConnectionInfo\" attribute of the \"VnfInstance\" structure. This
 	 * attribute shall only be supported when VNF-related resource management in
 	 * direct mode is applicable.
-	 * 
+	 *
 	 * @return vimConnectionId
 	 **/
 	@Schema(description = "Identifier of the VIM connection for managing the resource. It shall only be present when idType = RES_MGMT. The applicable \"VimConnectionInfo\" structure, which is referenced by vimConnectionId, can be obtained from the \"vimConnectionInfo\" attribute of the \"VnfInstance\" structure. This attribute shall only be supported when VNF-related resource management in direct mode is applicable. ")
@@ -171,7 +168,7 @@ public class ConstraintResourceRef {
 	 * RES_MGMT. This attribute shall only be supported when VNF-related resource
 	 * management in indirect mode is applicable. The identification scheme is
 	 * outside the scope of the present document.
-	 * 
+	 *
 	 * @return resourceProviderId
 	 **/
 	@Schema(description = "Identifier of the resource provider. It shall only be present when idType = RES_MGMT. This attribute shall only be supported when VNF-related resource management in indirect mode is applicable. The identification scheme is outside the scope of the present document. ")

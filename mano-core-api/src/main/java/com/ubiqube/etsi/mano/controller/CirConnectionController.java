@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.controller;
 
 import java.util.UUID;
 
-import javax.annotation.Nullable;
+import jakarta.annotation.Nullable;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;

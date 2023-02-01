@@ -23,8 +23,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -101,7 +101,7 @@ public class NsdInfo {
 	 * @return id
 	 **/
 	@Schema(required = true, description = "Identifier of the on boarded individual NS descriptor resource. This identifier is allocated by the NFVO. ")
-	@NotNull
+	@Nonnull
 
 	public String getId() {
 		return id;
@@ -306,7 +306,7 @@ public class NsdInfo {
 	 * @return nsdOnboardingState
 	 **/
 	@Schema(required = true, description = "On boarding state of the individual NS descriptor resource. ")
-	@NotNull
+	@Nonnull
 
 	@Valid
 
@@ -351,7 +351,7 @@ public class NsdInfo {
 	 * @return nsdOperationalState
 	 **/
 	@Schema(required = true, description = "Operational state of the individual NS descriptor resource. This attribute can be modified with the PATCH method. ")
-	@NotNull
+	@Nonnull
 
 	@Valid
 
@@ -374,7 +374,7 @@ public class NsdInfo {
 	 * @return nsdUsageState
 	 **/
 	@Schema(required = true, description = "Usage state of the individual NS descriptor resource. ")
-	@NotNull
+	@Nonnull
 
 	@Valid
 
@@ -419,7 +419,7 @@ public class NsdInfo {
 	 * @return links
 	 **/
 	@Schema(required = true, description = "")
-	@NotNull
+	@Nonnull
 
 	@Valid
 

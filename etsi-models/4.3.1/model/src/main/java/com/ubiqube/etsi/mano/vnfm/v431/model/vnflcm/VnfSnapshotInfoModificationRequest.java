@@ -22,8 +22,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.vnfm.v431.model.vnflcm.VnfSnapshot;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents attribute modifications for an \&quot;Individual VNF snapshot\&quot; resource, i.e. modifications  to a resource representation based on the \&quot;VnfSnapshotInfo\&quot; data type. The attributes of \&quot;VnfSnapshotInfo\&quot;  that can be modified according to the provisions in clause 5.5.2.22 are included in the  \&quot;VnfSnapshotInfoModificationRequest\&quot; data type. 

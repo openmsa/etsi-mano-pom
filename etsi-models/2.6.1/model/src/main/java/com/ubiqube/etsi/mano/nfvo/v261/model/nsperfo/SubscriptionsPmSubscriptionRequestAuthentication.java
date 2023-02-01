@@ -20,20 +20,15 @@ package com.ubiqube.etsi.mano.nfvo.v261.model.nsperfo;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
-import javax.xml.bind.annotation.XmlType;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.annotation.Nonnull;
+import jakarta.validation.Valid;
+import jakarta.xml.bind.annotation.XmlEnumValue;
 
 public class SubscriptionsPmSubscriptionRequestAuthentication {
 
-	@XmlType(name = "AuthTypeEnum")
-	@XmlEnum(String.class)
 	public enum AuthTypeEnum {
 
 		@XmlEnumValue("BASIC")
@@ -68,8 +63,15 @@ public class SubscriptionsPmSubscriptionRequestAuthentication {
 
 	@Schema(required = true, description = "Defines the types of Authentication / Authorization which the API consumer is willing to accept when receiving a notification. Permitted values: - BASIC: In every HTTP request to the notification endpoint, use   HTTP Basic authentication with the client credentials.  - OAUTH2_CLIENT_CREDENTIALS: In every HTTP request to the   notification endpoint, use an OAuth 2.0 Bearer token, obtained   using the client credentials grant type. - TLS_CERT: Every HTTP request to the notification endpoint is sent   over a mutually authenticated TLS session, i.e. not only the   server is authenticated, but also the client is authenticated   during the TLS tunnel setup. ")
 	/**
-	 * Defines the types of Authentication / Authorization which the API consumer is willing to accept when receiving a notification. Permitted values: - BASIC: In every HTTP request to the notification endpoint, use HTTP Basic authentication with the client credentials. - OAUTH2_CLIENT_CREDENTIALS: In every HTTP request to the notification endpoint, use an OAuth 2.0 Bearer token, obtained using the client credentials grant type. - TLS_CERT: Every HTTP request to the notification endpoint is sent
-	 * over a mutually authenticated TLS session, i.e. not only the server is authenticated, but also the client is authenticated during the TLS tunnel setup.
+	 * Defines the types of Authentication / Authorization which the API consumer is
+	 * willing to accept when receiving a notification. Permitted values: - BASIC:
+	 * In every HTTP request to the notification endpoint, use HTTP Basic
+	 * authentication with the client credentials. - OAUTH2_CLIENT_CREDENTIALS: In
+	 * every HTTP request to the notification endpoint, use an OAuth 2.0 Bearer
+	 * token, obtained using the client credentials grant type. - TLS_CERT: Every
+	 * HTTP request to the notification endpoint is sent over a mutually
+	 * authenticated TLS session, i.e. not only the server is authenticated, but
+	 * also the client is authenticated during the TLS tunnel setup.
 	 **/
 	private List<AuthTypeEnum> authType = new ArrayList<>();
 
@@ -82,13 +84,20 @@ public class SubscriptionsPmSubscriptionRequestAuthentication {
 	private SubscriptionsPmSubscriptionRequestAuthenticationParamsOauth2ClientCredentials paramsOauth2ClientCredentials = null;
 
 	/**
-	 * Defines the types of Authentication / Authorization which the API consumer is willing to accept when receiving a notification. Permitted values: - BASIC: In every HTTP request to the notification endpoint, use HTTP Basic authentication with the client credentials. - OAUTH2_CLIENT_CREDENTIALS: In every HTTP request to the notification endpoint, use an OAuth 2.0 Bearer token, obtained using the client credentials grant type. - TLS_CERT: Every HTTP request to the notification endpoint is sent
-	 * over a mutually authenticated TLS session, i.e. not only the server is authenticated, but also the client is authenticated during the TLS tunnel setup.
+	 * Defines the types of Authentication / Authorization which the API consumer is
+	 * willing to accept when receiving a notification. Permitted values: - BASIC:
+	 * In every HTTP request to the notification endpoint, use HTTP Basic
+	 * authentication with the client credentials. - OAUTH2_CLIENT_CREDENTIALS: In
+	 * every HTTP request to the notification endpoint, use an OAuth 2.0 Bearer
+	 * token, obtained using the client credentials grant type. - TLS_CERT: Every
+	 * HTTP request to the notification endpoint is sent over a mutually
+	 * authenticated TLS session, i.e. not only the server is authenticated, but
+	 * also the client is authenticated during the TLS tunnel setup.
 	 *
 	 * @return authType
 	 **/
 	@JsonProperty("authType")
-	@NotNull
+	@Nonnull
 	public List<AuthTypeEnum> getAuthType() {
 		return authType;
 	}
@@ -158,7 +167,8 @@ public class SubscriptionsPmSubscriptionRequestAuthentication {
 	}
 
 	/**
-	 * Convert the given object to string with each line indented by 4 spaces (except the first line).
+	 * Convert the given object to string with each line indented by 4 spaces
+	 * (except the first line).
 	 */
 	private static String toIndentedString(final Object o) {
 		if (o == null) {

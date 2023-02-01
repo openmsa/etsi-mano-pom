@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.dao.mano.sol009.logm;
 
 import java.time.OffsetDateTime;
 
-import javax.persistence.Embeddable;
+import jakarta.persistence.Embeddable;
 
 import lombok.Data;
 

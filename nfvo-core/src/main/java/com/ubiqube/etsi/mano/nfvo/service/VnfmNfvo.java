@@ -20,9 +20,6 @@ import static com.ubiqube.etsi.mano.Constants.getSafeUUID;
 
 import java.util.UUID;
 
-import javax.transaction.Transactional;
-import javax.validation.constraints.NotNull;
-
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.controller.vnflcm.VnfInstanceLcm;
@@ -35,6 +32,9 @@ import com.ubiqube.etsi.mano.model.VnfHealRequest;
 import com.ubiqube.etsi.mano.model.VnfInstantiate;
 import com.ubiqube.etsi.mano.model.VnfScaleRequest;
 import com.ubiqube.etsi.mano.service.VnfmInterface;
+
+import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.NotNull;
 
 @Service
 public class VnfmNfvo implements VnfmInterface {
@@ -65,12 +65,12 @@ public class VnfmNfvo implements VnfmInterface {
 	public VnfBlueprint vnfTerminate(final Servers servers, final String nsInstanceId) {
 		return lcm.terminate(servers, UUID.fromString(nsInstanceId), CancelModeTypeEnum.FORCEFUL, null);
 	}
-	
+
 	@Override
 	public VnfBlueprint vnfScale(final Servers servers, final String vnfInstanceId, final VnfScaleRequest vnfScaleRequest) {
 		return lcm.scale(servers, UUID.fromString(vnfInstanceId), vnfScaleRequest);
 	}
-	
+
 	@Override
 	public VnfBlueprint vnfHeal(final Servers servers, final String vnfInstanceId, final VnfHealRequest vnfHealRequest) {
 		return lcm.heal(servers, UUID.fromString(vnfInstanceId), vnfHealRequest);
@@ -87,7 +87,5 @@ public class VnfmNfvo implements VnfmInterface {
 		lcm.delete(servers, getSafeUUID(vnfInstance));
 		grantsResponseJpa.deleteByVnfInstanceId(vnfInstance);
 	}
-	
-	
 
 }

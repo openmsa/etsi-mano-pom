@@ -23,8 +23,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type references a resource either by its VIM-level identifier for existing resources, or by the identifier of a \&quot;ResourceDefinition\&quot; structure in the \&quot;GrantRequest\&quot; structure for new resources. 

@@ -12,8 +12,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents attribute modifications that were performed on the  \&quot;NFV-MANO entity\&quot; resource of the producer NFV-MANO functional entity.  The attributes that can be included consist of those requested to be  modified explicitly in the \&quot;ManoConfigModificationRequest\&quot; data structure.  

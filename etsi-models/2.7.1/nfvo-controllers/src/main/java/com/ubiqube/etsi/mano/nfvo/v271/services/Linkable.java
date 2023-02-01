@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.nfvo.v271.services;
 
 import java.util.UUID;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import com.ubiqube.etsi.mano.controller.FrontApiTypesEnum;
 import com.ubiqube.etsi.mano.model.v271.sol003.vnf.PkgmSubscriptionLinks;

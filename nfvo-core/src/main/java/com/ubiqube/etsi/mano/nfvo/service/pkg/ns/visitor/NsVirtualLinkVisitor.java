@@ -19,14 +19,14 @@ package com.ubiqube.etsi.mano.nfvo.service.pkg.ns.visitor;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.Priority;
-
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVirtualLink;
 import com.ubiqube.etsi.mano.nfvo.service.pkg.ns.NsOnboardingVisitor;
 import com.ubiqube.etsi.mano.service.pkg.ns.NsPackageProvider;
+
+import jakarta.annotation.Priority;
 
 /**
  *

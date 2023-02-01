@@ -23,8 +23,8 @@ import java.util.Map;
 import com.ubiqube.etsi.mano.or.v331.model.grants.NsLcmOperation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents request parameters for the \&quot;grant NS lifecycle\&quot; operation. It shall comply with the provisions defined in table 7.6.2.2-1.

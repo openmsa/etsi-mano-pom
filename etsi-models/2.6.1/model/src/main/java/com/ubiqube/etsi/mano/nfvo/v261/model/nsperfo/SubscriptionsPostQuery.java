@@ -17,8 +17,8 @@
 
 package com.ubiqube.etsi.mano.nfvo.v261.model.nsperfo;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -42,7 +42,7 @@ public class SubscriptionsPostQuery {
 	 * @return pmSubscriptionRequest
 	 **/
 	@JsonProperty("PmSubscriptionRequest")
-	@NotNull
+	@Nonnull
 	public SubscriptionsPmSubscriptionRequest getPmSubscriptionRequest() {
 		return pmSubscriptionRequest;
 	}

@@ -17,8 +17,6 @@
 
 package com.ubiqube.etsi.mano.config;
 
-import javax.jms.ConnectionFactory;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
@@ -30,6 +28,8 @@ import org.springframework.jms.support.converter.MessageType;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
+import jakarta.jms.ConnectionFactory;
 
 @Configuration
 public class ManoArtemisConfiguration {

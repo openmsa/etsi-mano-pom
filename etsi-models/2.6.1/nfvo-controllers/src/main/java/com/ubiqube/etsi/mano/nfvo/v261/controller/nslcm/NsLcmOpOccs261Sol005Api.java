@@ -17,8 +17,8 @@
 
 package com.ubiqube.etsi.mano.nfvo.v261.controller.nslcm;
 
-import javax.annotation.Nonnull;
-import javax.annotation.security.RolesAllowed;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.security.RolesAllowed;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;

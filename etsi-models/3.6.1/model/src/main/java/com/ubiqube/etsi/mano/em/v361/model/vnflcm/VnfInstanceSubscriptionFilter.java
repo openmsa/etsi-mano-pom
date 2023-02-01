@@ -24,8 +24,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents subscription filter criteria to match VNF instances. * NOTE 1: The attributes \&quot;vnfdIds\&quot; and \&quot;vnfProductsFromProviders\&quot; are alternatives to reference to VNF instances           that are based on certain VNFDs in a filter. They should not be used both in the same filter instance,           but one alternative should be chosen.   NOTE 2: The attributes \&quot;vnfInstanceIds\&quot; and \&quot;vnfInstanceNames\&quot; are alternatives to reference to particular VNF           instances in a filter. They should not be used both in the same filter instance, but one alternative           should be chosen. 

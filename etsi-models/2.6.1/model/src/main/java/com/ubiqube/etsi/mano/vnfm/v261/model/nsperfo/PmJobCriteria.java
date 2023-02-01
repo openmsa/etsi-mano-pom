@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -136,7 +136,7 @@ public class PmJobCriteria {
 	 * @return collectionPeriod
 	 **/
 	@Schema(required = true, description = "Specifies the periodicity at which the producer will collect performance information. The unit shall be seconds. At the end of each reportingPeriod, the producer will inform the consumer about availability of the performance data collected for each completed collection period during this reportingPeriod. The reportingPeriod should be equal to or a multiple of the collectionPeriod. In the latter case, the performance data for the collection periods within one reporting period are reported together. ")
-	@NotNull
+	@Nonnull
 
 	public Integer getCollectionPeriod() {
 		return collectionPeriod;
@@ -163,7 +163,7 @@ public class PmJobCriteria {
 	 * @return reportingPeriod
 	 **/
 	@Schema(required = true, description = "Specifies the periodicity at which the producer will report to the consumer. about performance information. The unit shall be seconds. At the end of each reportingPeriod, the producer will inform the consumer about availability of the performance data collected for each completed collection period during this reportingPeriod. The reportingPeriod should be equal to or a multiple of the collectionPeriod. In the latter case, the performance data for the collection periods within one reporting period are reported together. ")
-	@NotNull
+	@Nonnull
 
 	public Integer getReportingPeriod() {
 		return reportingPeriod;

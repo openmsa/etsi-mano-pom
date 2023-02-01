@@ -23,8 +23,8 @@ import com.ubiqube.etsi.mano.policy.v341.model.PolicyNotificationsFilter;
 import com.ubiqube.etsi.mano.policy.v341.model.SubscriptionAuthentication;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents a subscription request related to notifications about policy changes  and policy conflicts. It shall comply with the provisions defined in table 5.6.2.5-1. 

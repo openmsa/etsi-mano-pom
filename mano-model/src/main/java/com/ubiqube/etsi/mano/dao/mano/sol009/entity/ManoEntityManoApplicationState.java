@@ -16,7 +16,7 @@
  */
 package com.ubiqube.etsi.mano.dao.mano.sol009.entity;
 
-import javax.persistence.Embeddable;
+import jakarta.persistence.Embeddable;
 
 import com.ubiqube.etsi.mano.dao.mano.OperationalStateType;
 import com.ubiqube.etsi.mano.dao.mano.UsageStateEnum;

@@ -26,8 +26,8 @@ import com.ubiqube.etsi.mano.nfvo.v431.model.nslcm.SiteToWanLayer3ProtocolDataRo
 import com.ubiqube.etsi.mano.nfvo.v431.model.nslcm.SiteToWanLayer3ProtocolDataRoutingInfoStaticRouting;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * The routing information that is activated on the connectivity service endpoint. More than one \&quot;routingInfo\&quot; is allowed to enable stacking different routing protocols (e.g., one routing protocol for IPv4 and another one for IPv6). 

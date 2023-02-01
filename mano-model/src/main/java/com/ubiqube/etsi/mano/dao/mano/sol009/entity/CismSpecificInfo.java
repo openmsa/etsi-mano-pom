@@ -16,7 +16,7 @@
  */
 package com.ubiqube.etsi.mano.dao.mano.sol009.entity;
 
-import javax.persistence.Embeddable;
+import jakarta.persistence.Embeddable;
 
 import lombok.Data;
 

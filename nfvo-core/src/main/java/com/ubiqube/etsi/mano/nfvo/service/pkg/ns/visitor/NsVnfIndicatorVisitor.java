@@ -19,8 +19,6 @@ package com.ubiqube.etsi.mano.nfvo.service.pkg.ns.visitor;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.Priority;
-
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.NsVnfIndicator;
@@ -28,12 +26,14 @@ import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.nfvo.service.pkg.ns.NsOnboardingVisitor;
 import com.ubiqube.etsi.mano.service.pkg.ns.NsPackageProvider;
 
+import jakarta.annotation.Priority;
+
 @Priority(200)
 @Service
 public class NsVnfIndicatorVisitor implements NsOnboardingVisitor {
-	
+
 	@Override
-	public void visit(NsdPackage nsPackage, NsPackageProvider packageProvider, Map<String, String> userData) {
+	public void visit(final NsdPackage nsPackage, final NsPackageProvider packageProvider, final Map<String, String> userData) {
 		final Set<NsVnfIndicator> nsVnfIndicators = packageProvider.getNsVnfIndicator(nsPackage.getUserDefinedData());
 		nsPackage.setNsVnfIndicator(nsVnfIndicators);
 	}

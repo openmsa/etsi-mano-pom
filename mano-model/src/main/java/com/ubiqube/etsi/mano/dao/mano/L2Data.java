@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.dao.mano;
 
 import java.io.Serializable;
 
-import javax.persistence.Embeddable;
+import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class L2Data implements Serializable {

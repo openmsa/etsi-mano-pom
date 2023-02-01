@@ -20,7 +20,7 @@ package com.ubiqube.etsi.mano.nfvo.v261.model.nslcm;
 import java.util.Objects;
 import java.util.UUID;
 
-import javax.validation.constraints.NotNull;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -134,7 +134,7 @@ public class AffectedVl {
 	 * @return nsVirtualLinkInstanceId
 	 **/
 	@Schema(required = true, description = "Identifier of the VL Instance. ")
-	@NotNull
+	@Nonnull
 
 	public String getNsVirtualLinkInstanceId() {
 		return nsVirtualLinkInstanceId;
@@ -155,7 +155,7 @@ public class AffectedVl {
 	 * @return nsVirtualLinkDescId
 	 **/
 	@Schema(required = true, description = "Identifier of the VLD in the NSD for this VL. ")
-	@NotNull
+	@Nonnull
 
 	public String getNsVirtualLinkDescId() {
 		return nsVirtualLinkDescId;
@@ -176,7 +176,7 @@ public class AffectedVl {
 	 * @return vlProfileId
 	 **/
 	@Schema(required = true, description = "Identifier of the VLD in the NSD for this VL. ")
-	@NotNull
+	@Nonnull
 
 	public UUID getVlProfileId() {
 		return vlProfileId;

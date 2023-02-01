@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.common.v261.model.vnf;
 
 import java.util.Objects;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

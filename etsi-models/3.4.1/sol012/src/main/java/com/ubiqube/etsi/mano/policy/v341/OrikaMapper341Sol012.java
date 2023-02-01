@@ -22,7 +22,7 @@ import com.ubiqube.etsi.mano.dao.mano.policy.Policies;
 import com.ubiqube.etsi.mano.policy.v341.model.Policy;
 
 import ma.glasnost.orika.MapperFactory;
-import net.rakugakibox.spring.boot.orika.OrikaMapperFactoryConfigurer;
+import com.ubiqube.orika.OrikaMapperFactoryConfigurer;
 
 /**
  *

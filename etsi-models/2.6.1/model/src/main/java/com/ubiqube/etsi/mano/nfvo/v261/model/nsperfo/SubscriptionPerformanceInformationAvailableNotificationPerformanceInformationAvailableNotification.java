@@ -21,8 +21,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 import java.util.Date;
 
 /**
@@ -69,7 +69,7 @@ public class SubscriptionPerformanceInformationAvailableNotificationPerformanceI
    * @return id
   **/
   @JsonProperty("id")
-  @NotNull
+  @Nonnull
   public String getId() {
     return id;
   }
@@ -88,7 +88,7 @@ public class SubscriptionPerformanceInformationAvailableNotificationPerformanceI
    * @return notificationType
   **/
   @JsonProperty("notificationType")
-  @NotNull
+  @Nonnull
   public String getNotificationType() {
     return notificationType;
   }
@@ -107,7 +107,7 @@ public class SubscriptionPerformanceInformationAvailableNotificationPerformanceI
    * @return subscriptionId
   **/
   @JsonProperty("subscriptionId")
-  @NotNull
+  @Nonnull
   public String getSubscriptionId() {
     return subscriptionId;
   }
@@ -126,7 +126,7 @@ public class SubscriptionPerformanceInformationAvailableNotificationPerformanceI
    * @return timeStamp
   **/
   @JsonProperty("timeStamp")
-  @NotNull
+  @Nonnull
   public Date getTimeStamp() {
     return timeStamp;
   }
@@ -145,7 +145,7 @@ public class SubscriptionPerformanceInformationAvailableNotificationPerformanceI
    * @return objectInstanceId
   **/
   @JsonProperty("objectInstanceId")
-  @NotNull
+  @Nonnull
   public String getObjectInstanceId() {
     return objectInstanceId;
   }
@@ -164,7 +164,7 @@ public class SubscriptionPerformanceInformationAvailableNotificationPerformanceI
    * @return links
   **/
   @JsonProperty("_links")
-  @NotNull
+  @Nonnull
   public SubscriptionPerformanceInformationAvailableNotificationPerformanceInformationAvailableNotificationLinks getLinks() {
     return links;
   }

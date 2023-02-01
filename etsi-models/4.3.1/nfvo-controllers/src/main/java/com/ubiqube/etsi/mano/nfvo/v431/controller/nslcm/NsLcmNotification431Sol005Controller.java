@@ -25,8 +25,8 @@ import com.ubiqube.etsi.mano.nfvo.v431.model.nslcm.NsLcmOperationOccurrenceNotif
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 import java.util.Optional;
 

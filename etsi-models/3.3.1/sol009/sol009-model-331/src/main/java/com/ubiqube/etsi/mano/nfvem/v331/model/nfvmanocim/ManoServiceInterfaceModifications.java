@@ -9,8 +9,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents attribute modifications that were performed on an  Individual NFV-MANO service interface\&quot; resource. The attributes that can  be included consist of those requested to be modified explicitly in the  \&quot;ManoServiceInterfaceModificationRequest\&quot; data structure. If applicable,  additional attributes of the \&quot;ManoServiceInterface\&quot; data structure that  were modified implicitly shall also be provided.  

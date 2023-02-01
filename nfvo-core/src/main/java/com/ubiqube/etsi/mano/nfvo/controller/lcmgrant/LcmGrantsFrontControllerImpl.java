@@ -21,8 +21,6 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import javax.validation.Valid;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +28,7 @@ import com.ubiqube.etsi.mano.controller.lcmgrant.GrantManagement;
 import com.ubiqube.etsi.mano.controller.lcmgrant.LcmGrantsFrontController;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 
+import jakarta.validation.Valid;
 import ma.glasnost.orika.MapperFacade;
 
 /**

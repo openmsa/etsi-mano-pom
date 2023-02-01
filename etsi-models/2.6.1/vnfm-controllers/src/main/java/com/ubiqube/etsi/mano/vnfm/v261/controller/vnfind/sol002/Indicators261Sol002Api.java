@@ -23,8 +23,8 @@ package com.ubiqube.etsi.mano.vnfm.v261.controller.vnfind.sol002;
 
 import java.util.List;
 
-import javax.annotation.security.RolesAllowed;
-import javax.validation.Valid;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;

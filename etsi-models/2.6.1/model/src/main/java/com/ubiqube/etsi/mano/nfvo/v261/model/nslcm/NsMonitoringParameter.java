@@ -19,7 +19,7 @@ package com.ubiqube.etsi.mano.nfvo.v261.model.nslcm;
 
 import java.util.Objects;
 
-import javax.validation.constraints.NotNull;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -58,7 +58,7 @@ public class NsMonitoringParameter {
 	 * @return id
 	 **/
 	@Schema(required = true, description = "Identifier of the monitoring parameter defined in the NSD. ")
-	@NotNull
+	@Nonnull
 
 	public String getId() {
 		return id;
@@ -101,7 +101,7 @@ public class NsMonitoringParameter {
 	 * @return performanceMetric
 	 **/
 	@Schema(required = true, description = "Performance metric that is monitored. This attribute shall contain the related  \"Measurement Name\" value as defined in clause 7.2 of ETSI GS NFV-IFA 027. ")
-	@NotNull
+	@Nonnull
 
 	public String getPerformanceMetric() {
 		return performanceMetric;

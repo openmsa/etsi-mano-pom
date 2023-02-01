@@ -18,8 +18,6 @@ package com.ubiqube.etsi.mano.nfvo.repository.jpa;
 
 import java.util.UUID;
 
-import javax.persistence.EntityManager;
-
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +28,8 @@ import com.ubiqube.etsi.mano.repository.ContentManager;
 import com.ubiqube.etsi.mano.repository.NamingStrategy;
 import com.ubiqube.etsi.mano.repository.PnfdInfoRepository;
 import com.ubiqube.etsi.mano.repository.jpa.AbstractDirectJpa;
+
+import jakarta.persistence.EntityManager;
 
 @Service
 public class PnfDescriptorsDb extends AbstractDirectJpa<PnfDescriptor> implements PnfdInfoRepository {

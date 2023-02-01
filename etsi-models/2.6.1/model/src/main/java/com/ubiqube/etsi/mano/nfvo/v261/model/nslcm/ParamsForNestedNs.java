@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.annotation.Nonnull;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -59,7 +59,7 @@ public class ParamsForNestedNs {
 	 * @return nsProfileId
 	 **/
 	@Schema(required = true, description = "Identifier of a NsProfile to which the additional parameters apply. ")
-	@NotNull
+	@Nonnull
 
 	public String getNsProfileId() {
 		return nsProfileId;

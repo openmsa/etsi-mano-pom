@@ -9,8 +9,8 @@ import com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanologm.LoggingJobServicesCrit
 import com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanologm.LoggingJobSystemCriteria;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents collection criteria for logging jobs. It shall comply with the provisions defined in table 8.6.3.2-1.

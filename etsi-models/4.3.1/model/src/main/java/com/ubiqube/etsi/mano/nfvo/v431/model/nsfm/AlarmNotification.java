@@ -25,8 +25,8 @@ import com.ubiqube.etsi.mano.nfvo.v431.model.nsfm.AlarmNotificationLinks;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents an alarm notification about NS faults. It shall comply with the provisions defined in Table 8.5.2.5-1. This notification shall be triggered by the NFVO when: • An alarm has been created. • An alarm has been updated, e.g. the severity of the alarm has changed. 

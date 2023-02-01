@@ -25,8 +25,8 @@ import com.ubiqube.etsi.mec.meo.v211.model.lcm.AppInstSubscriptionType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * &#x27;The data type represents a subscription to notification of application instance operational state change.&#x27;

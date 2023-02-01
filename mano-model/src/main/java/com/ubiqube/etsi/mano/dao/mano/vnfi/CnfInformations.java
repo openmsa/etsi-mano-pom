@@ -18,12 +18,11 @@ package com.ubiqube.etsi.mano.dao.mano.vnfi;
 
 import java.io.Serializable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.persistence.Embeddable;
-
 import com.ubiqube.etsi.mano.utils.ToStringUtil;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+import jakarta.persistence.Embeddable;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -24,8 +24,8 @@ import com.ubiqube.etsi.mano.nfvo.v361.model.nslcm.ScaleByStepData;
 import com.ubiqube.etsi.mano.nfvo.v361.model.nslcm.ScaleToLevelData;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 /**
  * This type represents defines the information to scale a VNF instance  to a given level, or to scale a VNF instance by steps. NOTE 1: ETSI GS NFV-IFA 010 (available at https://www.etsi.org/deliver/etsi_gs/NFV-IFA/001_099/010/03.02.01_60/gs_NFV-IFA010v030201p.pdf) specifies that the lifecycle management operations that expandor contract a VNF instance include scale in, scale out, scale up and scale down. Vertical scaling (scale up, scale down) is not supported in the present document. NOTE 2: Either scaletoLevelData or scaleByStepData but not both shall be present. The scaleByStepData is used for scale out/in type of scaling, and the scaleToLevelData is used for scale to instantiation/scale level type of scaling. 

@@ -20,8 +20,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
-import javax.validation.constraints.NotNull;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -35,6 +33,8 @@ import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.event.SubscriptionEvent;
 import com.ubiqube.etsi.mano.service.event.model.EventMessage;
 import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
+
+import jakarta.annotation.Nonnull;
 
 @Service
 public class JmsEventManager implements EventManager {
@@ -89,7 +89,7 @@ public class JmsEventManager implements EventManager {
 		jmsTemplate.convertAndSend(resolvQueueName(Constants.QUEUE_NOTIFICATION_SENDER), se);
 	}
 
-	@NotNull
+	@Nonnull
 	private String resolvQueueName(final String queueName) {
 		final ConfigurableListableBeanFactory configurableListableBeanFactory = configurableApplicationContext.getBeanFactory();
 		final String ret = configurableListableBeanFactory.resolveEmbeddedValue(queueName);
