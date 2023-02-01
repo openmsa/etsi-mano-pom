@@ -42,7 +42,7 @@ public class WebSecurityConfig {
 		try {
 			http.headers().frameOptions().sameOrigin();
 			http.csrf().disable();
-			final var res = http.authorizeRequests()
+			final var res = http.authorizeHttpRequests()
 					.requestMatchers("/").permitAll()
 					.requestMatchers("/api/**").permitAll()
 					.requestMatchers("/ui/**").permitAll()

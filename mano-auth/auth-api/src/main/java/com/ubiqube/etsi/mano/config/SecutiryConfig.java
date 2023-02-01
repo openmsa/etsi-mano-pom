@@ -17,7 +17,7 @@
 package com.ubiqube.etsi.mano.config;
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
+import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 
 import com.ubiqube.etsi.mano.config.properties.ManoProperties;
 
@@ -31,7 +31,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 @SuppressWarnings("unused")
 public interface SecutiryConfig {
 
-	default void configure(final ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry http) {
+	default void configure(final AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry http) {
 		// Nothing.
 	}
 

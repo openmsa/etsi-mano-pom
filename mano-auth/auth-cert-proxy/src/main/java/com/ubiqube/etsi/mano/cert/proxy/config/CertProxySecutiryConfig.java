@@ -31,7 +31,7 @@
 package com.ubiqube.etsi.mano.cert.proxy.config;
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
+import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Service;
 
@@ -51,7 +51,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme.Type;
 public class CertProxySecutiryConfig implements SecutiryConfig {
 
 	@Override
-	public void configure(final ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry http) {
+	public void configure(final AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry http) {
 		final HttpSecurity f = http.and();
 		f.addFilterBefore(new XHeaderAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
