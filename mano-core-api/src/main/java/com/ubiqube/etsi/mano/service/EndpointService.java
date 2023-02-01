@@ -44,7 +44,7 @@ public class EndpointService {
 	private static final Logger LOG = LoggerFactory.getLogger(EndpointService.class);
 	private static Pattern p = Pattern.compile("/.*/(?<part>\\w+)/v\\d");
 	private final ApplicationContext applicationContext;
-	public static final Set<String> FRAGMENTS = Set.of("/vrqan/", "/vnfpkgm/", "/grant/", "/vnfpm/", "/vnflcm/", "/vnfind/", "/vnffm/", "/vrgan/", "/nsd/", "/nsfm/", "/nslcm/", "/nspm/", "/vnfpkgm/", "/vnfconfig/", "/vnfsnapshotpkgm/", "/nsiun/");
+	public static final Set<String> FRAGMENTS = Set.of("/vrqan/", "/vnfpkgm/", "/grant/", "/vnfpm/", "/vnflcm/", "/vnfind/", "/vnffm/", "/vrgan/", "/nsd/", "/nsfm/", "/nslcm/", "/nspm/", "/vnfconfig/", "/vnfsnapshotpkgm/", "/nsiun/");
 	private static final MultiValueMap<String, Endpoint> dedupe = new LinkedMultiValueMap<>();
 
 	public EndpointService(final ApplicationContext applicationContext) {
