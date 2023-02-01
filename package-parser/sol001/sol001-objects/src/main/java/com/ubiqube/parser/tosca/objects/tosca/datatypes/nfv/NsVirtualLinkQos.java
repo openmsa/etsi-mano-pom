@@ -16,8 +16,8 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
-import javax.validation.Valid;
-import javax.validation.constraints.DecimalMin;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.DecimalMin;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

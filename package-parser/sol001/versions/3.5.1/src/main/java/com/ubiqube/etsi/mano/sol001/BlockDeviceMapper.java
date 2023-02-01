@@ -18,12 +18,11 @@ package com.ubiqube.etsi.mano.sol001;
 
 import java.util.HashMap;
 
-import javax.validation.constraints.NotNull;
-
 import com.ubiqube.parser.tosca.objects.tosca.artifacts.nfv.SwImage;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.ChecksumData;
 import com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.vdu.VirtualBlockStorage;
 
+import jakarta.validation.constraints.NotNull;
 import ma.glasnost.orika.CustomMapper;
 import ma.glasnost.orika.MappingContext;
 import tosca.datatypes.nfv.SwImageData;

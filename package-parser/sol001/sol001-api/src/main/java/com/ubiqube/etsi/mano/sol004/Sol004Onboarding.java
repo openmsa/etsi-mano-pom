@@ -33,8 +33,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
-import javax.validation.constraints.NotNull;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,6 +53,8 @@ import com.ubiqube.etsi.mano.tosca.ArtefactInformations;
 import com.ubiqube.etsi.mano.tosca.IResolver;
 import com.ubiqube.etsi.mano.tosca.Sol001Version;
 import com.ubiqube.etsi.mano.tosca.ToscaVersion;
+
+import jakarta.validation.constraints.NotNull;
 
 /**
  *

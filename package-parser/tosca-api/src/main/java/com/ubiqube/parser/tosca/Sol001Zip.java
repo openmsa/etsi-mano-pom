@@ -20,11 +20,11 @@ import java.io.File;
 import java.nio.charset.Charset;
 import java.util.List;
 
-import javax.validation.constraints.NotNull;
-
 import com.ubiqube.etsi.mano.tosca.ArtefactInformations;
 import com.ubiqube.etsi.mano.tosca.IResolver;
 import com.ubiqube.parser.tosca.csar.CsarParserImpl;
+
+import jakarta.validation.constraints.NotNull;
 
 public class Sol001Zip extends AbstractSol001Fs {
 

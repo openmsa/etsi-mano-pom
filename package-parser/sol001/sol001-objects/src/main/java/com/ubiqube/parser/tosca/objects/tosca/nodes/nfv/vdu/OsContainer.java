@@ -18,16 +18,16 @@ package com.ubiqube.parser.tosca.objects.tosca.nodes.nfv.vdu;
 
 import java.util.List;
 
-import javax.validation.Valid;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotNull;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.capabilities.nfv.ContainerDeployable;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.ExtendedResourceData;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.Hugepages;
 import com.ubiqube.parser.tosca.objects.tosca.nodes.Root;
 import com.ubiqube.parser.tosca.scalar.Size;
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * Describes the resources of a single OS container within a VDU
@@ -101,7 +101,7 @@ public class OsContainer extends Root {
 	 */
 	@Valid
 	@JsonProperty("extended_resource_requests")
-	@javax.validation.constraints.Size(min = 1)
+	@jakarta.validation.constraints.Size(min = 1)
 	private List<ExtendedResourceData> extendedResourceRequests;
 
 	/**

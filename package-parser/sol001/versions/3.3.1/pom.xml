@@ -17,7 +17,7 @@
 			<plugin>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>tosca-class-generator-maven-plugin</artifactId>
-				<version>2.0.0-SNAPSHOT</version>
+				<version>${project.version}</version>
 				<configuration>
 						<files>
 							<param>src/main/resources/etsi_nfv_sol001_vnfd_types.yaml</param>
@@ -75,8 +75,8 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>javax.validation</groupId>
-			<artifactId>validation-api</artifactId>
+			<groupId>jakarta.validation</groupId>
+			<artifactId>jakarta.validation-api</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>

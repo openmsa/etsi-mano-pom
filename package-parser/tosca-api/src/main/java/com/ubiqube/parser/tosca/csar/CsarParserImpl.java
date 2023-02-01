@@ -29,8 +29,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 
-import javax.validation.constraints.NotNull;
-
 import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
@@ -41,6 +39,8 @@ import com.ubiqube.etsi.mano.tosca.ArtefactInformations;
 import com.ubiqube.etsi.mano.tosca.IResolver;
 import com.ubiqube.etsi.mano.tosca.VfsResolver;
 import com.ubiqube.parser.tosca.ParseException;
+
+import jakarta.validation.constraints.NotNull;
 
 /**
  *

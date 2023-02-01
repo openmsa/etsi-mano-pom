@@ -26,13 +26,13 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
-import javax.validation.constraints.NotNull;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ubiqube.etsi.mano.tosca.IResolver;
+
+import jakarta.validation.constraints.NotNull;
 
 public class ToscaContext {
 

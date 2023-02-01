@@ -26,8 +26,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
-import javax.validation.constraints.NotNull;
-
 import org.bouncycastle.cms.CMSSignedData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +38,8 @@ import com.ubiqube.etsi.mano.sol004.metafile.ToscaMetaFlat;
 import com.ubiqube.etsi.mano.sol004.vfs.VirtualFileSystem;
 import com.ubiqube.etsi.mano.tosca.ArtefactInformations;
 import com.ubiqube.etsi.mano.tosca.IResolver;
+
+import jakarta.validation.constraints.NotNull;
 
 /**
  *
@@ -216,13 +216,13 @@ public class CsarArchive {
 	}
 
 	private String classify(final String path) {
-		if (null != tmf.getChangeLogFilename() && path.startsWith(tmf.getChangeLogFilename())) {
+		if ((null != tmf.getChangeLogFilename()) && path.startsWith(tmf.getChangeLogFilename())) {
 			return "HISTORY";
 		}
-		if (null != tmf.getLicencesFolder() && path.startsWith(tmf.getLicencesFolder())) {
+		if ((null != tmf.getLicencesFolder()) && path.startsWith(tmf.getLicencesFolder())) {
 			return "LICENSE";
 		}
-		if (null != tmf.getTestingFolder() && path.startsWith(tmf.getTestingFolder())) {
+		if ((null != tmf.getTestingFolder()) && path.startsWith(tmf.getTestingFolder())) {
 			return "TESTING";
 		}
 		return null;

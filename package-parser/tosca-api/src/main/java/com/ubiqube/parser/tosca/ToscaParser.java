@@ -22,8 +22,6 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.List;
 
-import javax.validation.constraints.NotNull;
-
 import org.apache.commons.io.IOUtils;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -35,6 +33,8 @@ import com.ubiqube.etsi.mano.sol004.Sol004Onboarding;
 import com.ubiqube.etsi.mano.tosca.ArtefactInformations;
 import com.ubiqube.etsi.mano.tosca.IResolver;
 import com.ubiqube.etsi.mano.tosca.ToscaVersion;
+
+import jakarta.validation.constraints.NotNull;
 
 /**
  * Tosca parser entry point.

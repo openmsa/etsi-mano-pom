@@ -18,8 +18,8 @@ package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.scalar.Size;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;
 
 /**

@@ -27,12 +27,6 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 import javax.lang.model.element.Modifier;
-import javax.validation.Valid;
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,6 +61,12 @@ import com.ubiqube.parser.tosca.constraints.Pattern;
 import com.ubiqube.parser.tosca.constraints.ValidValues;
 
 import edu.emory.mathcs.backport.java.util.Arrays;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 /**
  *
@@ -252,7 +252,7 @@ public class JavaPoetWalker implements ToscaListener {
 	public void onFieldConstraints(final Constraint x) {
 		if (x instanceof final Pattern p) {
 			final AnnotationSpec builder = AnnotationSpec
-					.builder(javax.validation.constraints.Pattern.class)
+					.builder(jakarta.validation.constraints.Pattern.class)
 					.addMember("regexp", "$L", p.getValue())
 					.build();
 			currentField.addAnnotation(builder);
@@ -297,13 +297,13 @@ public class JavaPoetWalker implements ToscaListener {
 			currentField.addAnnotation(b2);
 		} else if (x instanceof final MinLength ml) {
 			final AnnotationSpec builder = AnnotationSpec
-					.builder(javax.validation.constraints.Size.class)
+					.builder(jakarta.validation.constraints.Size.class)
 					.addMember("min", "$L", Integer.parseInt(ml.getValue().toString()))
 					.build();
 			currentField.addAnnotation(builder);
 		} else if (x instanceof final MaxLength ml) {
 			final AnnotationSpec builder = AnnotationSpec
-					.builder(javax.validation.constraints.Size.class)
+					.builder(jakarta.validation.constraints.Size.class)
 					.addMember("max", "$L", Integer.parseInt(ml.getValue().toString()))
 					.build();
 			currentField.addAnnotation(builder);

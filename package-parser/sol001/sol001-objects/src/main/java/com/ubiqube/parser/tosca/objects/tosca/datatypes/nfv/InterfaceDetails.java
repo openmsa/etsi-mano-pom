@@ -18,7 +18,7 @@ package com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv;
 
 import java.util.Map;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.Root;

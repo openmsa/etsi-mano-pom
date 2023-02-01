@@ -23,12 +23,12 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.validation.constraints.Null;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.ubiqube.etsi.mano.sol004.vfs.DoubleZip;
+
+import jakarta.validation.constraints.Null;
 
 /**
  *

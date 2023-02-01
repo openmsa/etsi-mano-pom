@@ -18,7 +18,7 @@ package com.ubiqube.parser.tosca.objects.tosca.policies.nfv;
 
 import java.util.List;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import com.ubiqube.parser.tosca.objects.tosca.policies.Root;
 

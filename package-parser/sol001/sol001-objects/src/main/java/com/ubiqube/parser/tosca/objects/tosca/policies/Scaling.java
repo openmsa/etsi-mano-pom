@@ -18,7 +18,7 @@ package com.ubiqube.parser.tosca.objects.tosca.policies;
 
 import java.util.List;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 /**
  * The TOSCA Policy Type definition that is used to govern scaling of TOSCA

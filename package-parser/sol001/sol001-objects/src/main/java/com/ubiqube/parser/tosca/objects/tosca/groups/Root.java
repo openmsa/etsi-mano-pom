@@ -18,7 +18,7 @@ package com.ubiqube.parser.tosca.objects.tosca.groups;
 
 import java.util.List;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 /**
  * The TOSCA Group Type all other TOSCA Group Types derive from.

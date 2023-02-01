@@ -20,12 +20,12 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
-import javax.validation.constraints.NotNull;
-
 import com.ubiqube.etsi.mano.sol004.manifest.Sol004ManifestReader;
 import com.ubiqube.etsi.mano.sol004.manifest.Sol004ManifestReader.Certificate;
 import com.ubiqube.etsi.mano.sol004.vfs.VirtualFileSystem;
 import com.ubiqube.etsi.mano.tosca.ArtefactInformations;
+
+import jakarta.validation.constraints.NotNull;
 
 /**
  *
@@ -91,12 +91,12 @@ public class ArtefactVerifier {
 	private boolean handleSig(final ArtefactInformations signatureElements, final InputStream content) {
 		boolean result = true;
 		boolean haveCheck = false;
-		if (signatureElements.getAlgorithm() != null && signatureElements.getChecksum() != null) {
+		if ((signatureElements.getAlgorithm() != null) && (signatureElements.getChecksum() != null)) {
 			result &= CryptoUtils.checkHash(content, signatureElements.getAlgorithm(), signatureElements.getChecksum());
 			haveCheck = true;
 		}
 		final byte[] cert = getCCertificate(signatureElements);
-		if (cert.length != 0 && signatureElements.getSignature() != null) {
+		if ((cert.length != 0) && (signatureElements.getSignature() != null)) {
 			result &= checkSignature(content, cert, signatureElements.getSignature());
 			haveCheck = true;
 		}

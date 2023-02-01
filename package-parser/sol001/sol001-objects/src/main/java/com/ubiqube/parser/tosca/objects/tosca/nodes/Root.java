@@ -18,7 +18,7 @@ package com.ubiqube.parser.tosca.objects.tosca.nodes;
 
 import java.util.Map;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import com.ubiqube.parser.tosca.Artifact;
 import com.ubiqube.parser.tosca.api.ToscaInernalBase;

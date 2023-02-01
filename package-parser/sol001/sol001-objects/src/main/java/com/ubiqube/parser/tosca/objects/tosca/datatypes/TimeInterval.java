@@ -18,8 +18,8 @@ package com.ubiqube.parser.tosca.objects.tosca.datatypes;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.ZonedDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 public class TimeInterval extends Root {
 	@Valid

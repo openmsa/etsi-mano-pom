@@ -18,7 +18,7 @@ package com.ubiqube.parser.tosca.objects.tosca.policies.nfv;
 
 import java.util.List;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 /**
  * The SecurityGroupRule type is a policy type specified the matching criteria

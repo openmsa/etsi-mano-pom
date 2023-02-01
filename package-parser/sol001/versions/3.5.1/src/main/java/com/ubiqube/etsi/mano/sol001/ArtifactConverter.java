@@ -16,13 +16,12 @@
  */
 package com.ubiqube.etsi.mano.sol001;
 
-import javax.validation.constraints.NotNull;
-
 import com.ubiqube.parser.tosca.Artifact;
 import com.ubiqube.parser.tosca.ParseException;
 import com.ubiqube.parser.tosca.objects.tosca.artifacts.nfv.SwImage;
 import com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.ChecksumData;
 
+import jakarta.validation.constraints.NotNull;
 import ma.glasnost.orika.MappingContext;
 import ma.glasnost.orika.converter.BidirectionalConverter;
 import ma.glasnost.orika.metadata.Type;
