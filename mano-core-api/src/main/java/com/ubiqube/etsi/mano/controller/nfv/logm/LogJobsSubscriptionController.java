@@ -28,26 +28,22 @@ public class LogJobsSubscriptionController implements LogJobsSubscriptionFrontCo
 
 	@Override
 	public <U> ResponseEntity<List<U>> search(final String filter, final Class<U> claee) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public <U> ResponseEntity<U> create(final Object body, final Class<U> clazz) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public ResponseEntity<Void> delete(final String subscriptionId) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public <U> ResponseEntity<U> findById(final String subscriptionId, final Class<U> clazz) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 }

@@ -67,9 +67,9 @@ public class MonitoringContributor extends AbstractContributorV3Base<MonitoringT
 		final MonitoringTask task = new MonitoringTask();
 		task.setType(ResourceTypeEnum.MONITORING);
 		task.setToscaName(param.getName());
-		// task.setParentAlias(param.getVnfComputeName());
+		// task.setParentAlias(param.getVnfComputeName())
 		task.setMonitoringParams(param);
-		// task.setVnfCompute(param.getVnfCompute());
+		// task.setVnfCompute(param.getVnfCompute())
 		return task;
 	}
 

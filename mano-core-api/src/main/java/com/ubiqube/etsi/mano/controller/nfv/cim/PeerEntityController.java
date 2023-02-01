@@ -24,36 +24,31 @@ import org.springframework.stereotype.Service;
 import com.ubiqube.etsi.mano.controller.nfvmanocim.PeerEntityFrontController;
 
 @Service
-public class PeerEntutyController implements PeerEntityFrontController {
+public class PeerEntityController implements PeerEntityFrontController {
 
 	@Override
 	public <U> ResponseEntity<List<U>> search(final String filter, final Class<U> clazz) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public ResponseEntity<Void> delete(final String peerEntityId) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public <U> ResponseEntity<U> findById(final String peerEntityId, final Class<U> clazz) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public <U> ResponseEntity<U> patch(final String peerEntityId, final Object body, final Class<U> clazz) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public <U> ResponseEntity<U> create(final Object body, final Class<U> clazz) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 }

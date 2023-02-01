@@ -20,13 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
-import com.ubiqube.etsi.mano.dao.mano.VnfLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.pm.PmType;
 import com.ubiqube.etsi.mano.dao.mano.v2.MonitoringTask;
 import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Compute;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Monitoring;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfIndicator;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.vnfm.service.VnfMonitoringService;
 
@@ -46,10 +44,10 @@ public class VnfMonitoringUowV3 extends AbstractVnfmUowV3<MonitoringTask> {
 	public String execute(final Context3d context) {
 		String toscaName = "";
 		List<String> l = new ArrayList<>();
-		if(task.getMonitoringParams().getObjectType().equals(PmType.VNFC)){
+		if (task.getMonitoringParams().getObjectType().equals(PmType.VNFC)) {
 			toscaName = task.getVnfCompute().getToscaName();
 			l = context.getParent(Compute.class, toscaName);
-		} else if(task.getMonitoringParams().getObjectType().equals(PmType.VNF)){
+		} else if (task.getMonitoringParams().getObjectType().equals(PmType.VNF)) {
 			l = context.getParent(Compute.class, "VNF_INDICATOR");
 		}
 		return vnfMonitoringService.registerMonitoring(l, task.getVnfInstance(), task.getMonitoringParams(), vimConnectionInformation);

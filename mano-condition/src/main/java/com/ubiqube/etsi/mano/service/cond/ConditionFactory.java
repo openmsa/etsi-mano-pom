@@ -78,7 +78,7 @@ public class ConditionFactory {
 		}
 		if (value.isArray()) {
 			final List<Object> lst = extractList((ArrayNode) value);
-			return new ArrayValueExpr(lst);
+			return new ArrayValueExpr<>(lst);
 		}
 		if (value.isNumber()) {
 			return new NumberValueExpr(value.asDouble());

@@ -145,7 +145,7 @@ public class NsIndicatorValueChangeNotificationImpl {
 							case "less_than" -> (nsVnfIndicatorValue < conditionValue);
 							case "greater_than" -> (nsVnfIndicatorValue > conditionValue);
 							case "less_or_equal" -> (nsVnfIndicatorValue <= conditionValue);
-							case "equal" -> (nsVnfIndicatorValue == conditionValue);
+							case "equal" -> (nsVnfIndicatorValue.equals(conditionValue));
 							default -> false;
 							};
 						}

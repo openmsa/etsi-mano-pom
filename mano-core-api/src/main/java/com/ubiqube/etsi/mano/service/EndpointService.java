@@ -19,7 +19,6 @@ package com.ubiqube.etsi.mano.service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -40,14 +39,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.ubiqube.etsi.mano.utils.Version;
 
 @Lazy
-
 @Service
 public class EndpointService {
 	private static final Logger LOG = LoggerFactory.getLogger(EndpointService.class);
 	private static Pattern p = Pattern.compile("/.*/(?<part>\\w+)/v\\d");
 	private final ApplicationContext applicationContext;
-	public static final Set<String> FRAGMENTS = new HashSet<>(Arrays.asList("/vrqan/", "/vnfpkgm/", "/grant/", "/vnfpm/", "/vnflcm/", "/vnfind/", "/vnffm/", "/vrgan/", "/nsd/", "/nsfm/", "/nslcm/", "/nspm/", "/vnfpkgm/", "/vnfconfig/", "/vnfsnapshotpkgm/", "/nsiun/"));
-	private final MultiValueMap<String, Endpoint> dedupe = new LinkedMultiValueMap<>();
+	public static final Set<String> FRAGMENTS = Set.of("/vrqan/", "/vnfpkgm/", "/grant/", "/vnfpm/", "/vnflcm/", "/vnfind/", "/vnffm/", "/vrgan/", "/nsd/", "/nsfm/", "/nslcm/", "/nspm/", "/vnfpkgm/", "/vnfconfig/", "/vnfsnapshotpkgm/", "/nsiun/");
+	private static final MultiValueMap<String, Endpoint> dedupe = new LinkedMultiValueMap<>();
 
 	public EndpointService(final ApplicationContext applicationContext) {
 		this.applicationContext = applicationContext;
@@ -78,6 +76,7 @@ public class EndpointService {
 		res.entrySet().forEach(x -> dedupe.add(x.getValue().part, x.getValue()));
 	}
 
+	@SuppressWarnings("static-method")
 	public MultiValueMap<String, Endpoint> getEndpoints() {
 		return dedupe;
 	}

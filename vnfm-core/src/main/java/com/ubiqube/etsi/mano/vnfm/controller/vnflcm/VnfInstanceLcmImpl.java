@@ -52,7 +52,6 @@ import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.vnfi.ChangeExtVnfConnRequest;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
-import com.ubiqube.etsi.mano.model.ExternalManagedVirtualLink;
 import com.ubiqube.etsi.mano.model.VnfHealRequest;
 import com.ubiqube.etsi.mano.model.VnfInstantiate;
 import com.ubiqube.etsi.mano.model.VnfOperateRequest;
@@ -185,7 +184,7 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 		}
 
 		VnfBlueprint blueprint = vnfLcmService.createIntatiateOpOcc(vnfInstance);
-		instantiateVnfRequest.setExtManagedVirtualLinks(new ArrayList<ExternalManagedVirtualLink>());
+		instantiateVnfRequest.setExtManagedVirtualLinks(new ArrayList<>());
 		mapper.map(instantiateVnfRequest, blueprint);
 		fixMapping(instantiateVnfRequest, blueprint);
 		blueprint.getParameters().setScaleStatus(extractScaleStaus(vnfPkg));
@@ -229,7 +228,7 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 	}
 
 	@Override
-	public VnfBlueprint scaleToLevel(final Servers servers, final UUID uuid, final VnfScaleToLevelRequest scaleVnfToLevelRequest) {
+	public VnfBlueprint scaleToLevel(final Servers servers, @Nonnull final UUID uuid, final VnfScaleToLevelRequest scaleVnfToLevelRequest) {
 		final VnfInstance vnfInstance = vnfInstanceServiceVnfm.findById(uuid);
 		ensureInstantiated(vnfInstance);
 		ensureNotLocked(vnfInstance);
@@ -239,7 +238,7 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 	}
 
 	@Override
-	public VnfBlueprint scale(final Servers servers, final UUID uuid, final VnfScaleRequest scaleVnfRequest) {
+	public VnfBlueprint scale(final Servers servers, @Nonnull final UUID uuid, final VnfScaleRequest scaleVnfRequest) {
 		final VnfInstance vnfInstance = vnfInstanceServiceVnfm.findById(uuid);
 		ensureInstantiated(vnfInstance);
 		ensureNotLocked(vnfInstance);
@@ -249,7 +248,7 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 	}
 
 	@Override
-	public VnfBlueprint operate(final Servers servers, final UUID uuid, final VnfOperateRequest operateVnfRequest) {
+	public VnfBlueprint operate(final Servers servers, @Nonnull final UUID uuid, final VnfOperateRequest operateVnfRequest) {
 		final VnfInstance vnfInstance = vnfInstanceServiceVnfm.findById(uuid);
 		ensureInstantiated(vnfInstance);
 		ensureNotLocked(vnfInstance);
@@ -284,7 +283,7 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 	}
 
 	@Override
-	public VnfBlueprint heal(final Servers servers, final UUID vnfInstanceId, final VnfHealRequest healVnfRequest) {
+	public VnfBlueprint heal(final Servers servers, @Nonnull final UUID vnfInstanceId, final VnfHealRequest healVnfRequest) {
 		final VnfInstance vnfInstance = vnfInstanceServiceVnfm.findById(vnfInstanceId);
 		ensureInstantiated(vnfInstance);
 		ensureNotLocked(vnfInstance);

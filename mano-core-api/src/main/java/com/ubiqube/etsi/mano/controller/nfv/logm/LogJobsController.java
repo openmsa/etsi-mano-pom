@@ -27,38 +27,32 @@ public class LogJobsController implements LogJobsFrontController {
 
 	@Override
 	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> class1, final String nextpageOpaqueMarker) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public <U> ResponseEntity<U> compile(final String logJobId, final Object body, final Class<U> clazz) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public ResponseEntity<Void> delete(final String logJobId) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public <U> ResponseEntity<U> findById(final String logJobId, final Class<U> clazz) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public <U> ResponseEntity<U> findLogReport(final String logJobId, final String logReportId, final Class<U> clazz) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public <U> ResponseEntity<U> create(final Object body, final Class<U> clazz) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 }

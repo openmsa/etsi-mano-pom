@@ -34,7 +34,6 @@ import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVnfTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsdTask;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.grammar.GrammarParser;
-import com.ubiqube.etsi.mano.jpa.NsdPackageJpa;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsLiveInstanceJpa;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsVirtualLinkJpa;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsVnfPackageJpa;
@@ -48,8 +47,6 @@ import jakarta.transaction.Transactional;
 public class NsInstanceService {
 	private final NsVirtualLinkJpa nsVirtualLinkJpa;
 
-	private final NsdPackageJpa nsdPackageJpa;
-
 	private final NsVnfPackageJpa vnfPackageJpa;
 
 	private final NsdInstanceJpa nsdInstanceJpa;
@@ -60,10 +57,9 @@ public class NsInstanceService {
 
 	private final GrammarParser grammarParser;
 
-	public NsInstanceService(final NsVirtualLinkJpa nsVirtualLinkJpa, final NsdPackageJpa nsdPackageJpa, final NsVnfPackageJpa vnfPackageJpa,
+	public NsInstanceService(final NsVirtualLinkJpa nsVirtualLinkJpa, final NsVnfPackageJpa vnfPackageJpa,
 			final NsdInstanceJpa nsdInstanceJpa, final NsLiveInstanceJpa nsLiveInstanceJpa, final EntityManager em, final GrammarParser grammarParser) {
 		this.nsVirtualLinkJpa = nsVirtualLinkJpa;
-		this.nsdPackageJpa = nsdPackageJpa;
 		this.vnfPackageJpa = vnfPackageJpa;
 		this.nsdInstanceJpa = nsdInstanceJpa;
 		this.nsLiveInstanceJpa = nsLiveInstanceJpa;

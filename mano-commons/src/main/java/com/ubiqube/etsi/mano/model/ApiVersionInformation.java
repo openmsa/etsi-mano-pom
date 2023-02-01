@@ -25,6 +25,7 @@ import org.springframework.validation.annotation.Validated;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
@@ -53,7 +54,7 @@ public class ApiVersionInformation {
 	 *
 	 * @return uriPrefix
 	 **/
-	@Schema(required = true, description = "Specifies the URI prefix for the API, in the following form {apiRoot}/{apiName}/{apiMajorVersion}/. ")
+	@Schema(requiredMode = RequiredMode.REQUIRED, description = "Specifies the URI prefix for the API, in the following form {apiRoot}/{apiName}/{apiMajorVersion}/. ")
 	@NotNull
 
 	public String getUriPrefix() {
@@ -79,7 +80,7 @@ public class ApiVersionInformation {
 	 *
 	 * @return apiVersions
 	 **/
-	@Schema(required = true, description = "Version(s) supported for the API signaled by the uriPrefix attribute. ")
+	@Schema(requiredMode = RequiredMode.REQUIRED, description = "Version(s) supported for the API signaled by the uriPrefix attribute. ")
 	@NotNull
 
 	@Valid

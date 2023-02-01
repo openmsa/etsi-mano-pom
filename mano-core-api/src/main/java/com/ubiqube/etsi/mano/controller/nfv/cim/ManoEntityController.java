@@ -44,8 +44,7 @@ public class ManoEntityController implements ManoEntityFrontController {
 
 	@Override
 	public ResponseEntity<Void> changeStatus(final Object body) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -64,26 +63,22 @@ public class ManoEntityController implements ManoEntityFrontController {
 
 	@Override
 	public ResponseEntity<Void> interfaceChangeState(final String manoServiceInterfaceId, final Object body) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public <U> ResponseEntity<U> interfaceFindById(final String manoServiceInterfaceId, final Class<U> clazz) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public <U> ResponseEntity<U> interfacePatch(final String manoServiceInterfaceId, final Object body, final Class<U> clazz) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public <U> ResponseEntity<U> patch(final Object body, final Class<U> clazz) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 }

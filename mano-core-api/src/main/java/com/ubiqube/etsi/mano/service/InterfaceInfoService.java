@@ -22,9 +22,6 @@ import java.util.Set;
 
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.ubiqube.etsi.mano.config.properties.ManoProperties;
 import com.ubiqube.etsi.mano.dao.mano.OperationalStateType;
@@ -39,8 +36,6 @@ import com.ubiqube.etsi.mano.dao.mano.sol009.peers.ClientInterfaceSecurityInfo;
 import com.ubiqube.etsi.mano.dao.mano.sol009.peers.OauthServerInfo;
 import com.ubiqube.etsi.mano.dao.mano.sol009.peers.ProvidedConfiguration;
 import com.ubiqube.etsi.mano.service.EndpointService.Endpoint;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 @Service
 public class InterfaceInfoService {
@@ -66,9 +61,6 @@ public class InterfaceInfoService {
 	}
 
 	private ManoServiceInterface convert(final Endpoint x) {
-		final RequestAttributes attr = RequestContextHolder.getRequestAttributes();
-		final HttpServletRequest request = ((ServletRequestAttributes) attr).getRequest();
-		System.out.println("" + attr + " " + request.getRequestURL() + " " + request.getContextPath());
 		final ManoServiceInterface cmii = new ManoServiceInterface();
 		cmii.setApiEndpoint(ApiEndpoint.builder()
 				.apiMajorVersion(x.versoin().getMajor() + "")

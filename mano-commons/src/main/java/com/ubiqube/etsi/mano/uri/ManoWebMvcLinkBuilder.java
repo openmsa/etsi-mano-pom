@@ -41,6 +41,7 @@ import org.springframework.web.util.UriComponentsBuilder;
  *
  */
 public class ManoWebMvcLinkBuilder extends TemplateVariableAwareLinkBuilderSupport<ManoWebMvcLinkBuilder> {
+	private static final String CONTROLLER_MUST_NOT_BE_NULL = "Controller must not be null!";
 	private static final String METHOD_MUST_NOT_BE_NULL = "Method must not be null!";
 	private static final String PARAMETERS_MUST_NOT_BE_NULL = "Parameters must not be null!";
 	private static final ManoWebMvcLinkBuilderFactory FACTORY = new ManoWebMvcLinkBuilderFactory();
@@ -113,11 +114,11 @@ public class ManoWebMvcLinkBuilder extends TemplateVariableAwareLinkBuilderSuppo
 	 */
 	public static ManoWebMvcLinkBuilder linkTo(final Class<?> controller, final Object... parameters) {
 
-		Assert.notNull(controller, "Controller must not be null!");
+		Assert.notNull(controller, CONTROLLER_MUST_NOT_BE_NULL);
 		Assert.notNull(parameters, PARAMETERS_MUST_NOT_BE_NULL);
 
-		Assert.notNull(controller, "Controller must not be null!");
-		Assert.notNull(parameters, "Parameters must not be null!");
+		Assert.notNull(controller, CONTROLLER_MUST_NOT_BE_NULL);
+		Assert.notNull(parameters, PARAMETERS_MUST_NOT_BE_NULL);
 
 		final var mapping = SpringAffordanceBuilder.DISCOVERER.getMapping(controller);
 		final var defaulted = mapping == null ? "/" : mapping;
@@ -145,7 +146,7 @@ public class ManoWebMvcLinkBuilder extends TemplateVariableAwareLinkBuilderSuppo
 	 */
 	public static ManoWebMvcLinkBuilder linkTo(final Class<?> controller, final Map<String, ?> parameters) {
 
-		Assert.notNull(controller, "Controller must not be null!");
+		Assert.notNull(controller, CONTROLLER_MUST_NOT_BE_NULL);
 		Assert.notNull(parameters, PARAMETERS_MUST_NOT_BE_NULL);
 
 		final var mapping = SpringAffordanceBuilder.DISCOVERER.getMapping(controller);

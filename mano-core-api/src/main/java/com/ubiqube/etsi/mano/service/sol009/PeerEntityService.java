@@ -90,7 +90,7 @@ public class PeerEntityService {
 		} else {
 			setVnfmSpecific(me, supNsd);
 		}
-		// me.setVimSpecificInfo();
+		// me.setVimSpecificInfo()
 		return me;
 	}
 
