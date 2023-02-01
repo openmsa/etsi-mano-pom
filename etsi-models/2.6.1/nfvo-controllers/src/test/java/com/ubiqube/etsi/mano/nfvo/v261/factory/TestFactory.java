@@ -25,8 +25,8 @@ import com.ubiqube.etsi.mano.dao.mano.ContainerFormatType;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.OnboardingStateType;
 import com.ubiqube.etsi.mano.dao.mano.PackageOperationalState;
-import com.ubiqube.etsi.mano.dao.mano.PackageUsageState;
 import com.ubiqube.etsi.mano.dao.mano.SoftwareImage;
+import com.ubiqube.etsi.mano.dao.mano.UsageStateEnum;
 import com.ubiqube.etsi.mano.dao.mano.common.Checksum;
 import com.ubiqube.etsi.mano.model.ProblemDetails;
 import com.ubiqube.etsi.mano.nfvo.v261.NsdFactories;
@@ -70,7 +70,7 @@ public class TestFactory {
 		final NsdPackage nsdPackage = new NsdPackage();
 		nsdPackage.setNsdOnboardingState(OnboardingStateType.ONBOARDED);
 		nsdPackage.setNsdOperationalState(PackageOperationalState.ENABLED);
-		nsdPackage.setNsdUsageState(PackageUsageState.IN_USE);
+		nsdPackage.setNsdUsageState(UsageStateEnum.IN_USE);
 		return nsdPackage;
 	}
 

@@ -17,11 +17,11 @@
 package com.ubiqube.etsi.mano.repository;
 
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
-import com.ubiqube.etsi.mano.dao.mano.PackageUsageState;
+import com.ubiqube.etsi.mano.dao.mano.UsageStateEnum;
 
 import jakarta.annotation.Nonnull;
 
 public interface NsdRepository extends CrudRepository<NsdPackage>, BinaryRepository {
 	// XXX To move -> NsdPackageService.
-	void changeNsdUpdateState(NsdPackage nsdPackage, @Nonnull PackageUsageState state);
+	void changeNsdUpdateState(NsdPackage nsdPackage, @Nonnull UsageStateEnum state);
 }

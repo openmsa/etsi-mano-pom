@@ -19,15 +19,15 @@ package com.ubiqube.etsi.mano.factory;
 
 import java.util.Map;
 
-import jakarta.annotation.Nonnull;
-
 import com.ubiqube.etsi.mano.Constants;
 import com.ubiqube.etsi.mano.common.v261.model.vnf.Checksum;
 import com.ubiqube.etsi.mano.common.v261.model.vnf.VnfPackageArtifactInfo;
 import com.ubiqube.etsi.mano.dao.mano.OnboardingStateType;
 import com.ubiqube.etsi.mano.dao.mano.PackageOperationalState;
-import com.ubiqube.etsi.mano.dao.mano.PackageUsageState;
+import com.ubiqube.etsi.mano.dao.mano.UsageStateEnum;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+
+import jakarta.annotation.Nonnull;
 
 public class VnfPackageFactory {
 	private VnfPackageFactory() {
@@ -59,7 +59,7 @@ public class VnfPackageFactory {
 		vnfPkgInfo.setOnboardingState(OnboardingStateType.CREATED);
 		vnfPkgInfo.setUserDefinedData(userData);
 		vnfPkgInfo.setOperationalState(PackageOperationalState.DISABLED);
-		vnfPkgInfo.setUsageState(PackageUsageState.NOT_IN_USE);
+		vnfPkgInfo.setUsageState(UsageStateEnum.NOT_IN_USE);
 
 		return vnfPkgInfo;
 	}

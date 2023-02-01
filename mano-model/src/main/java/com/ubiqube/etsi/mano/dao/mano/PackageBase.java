@@ -27,6 +27,6 @@ public interface PackageBase extends BaseEntity {
 
 	OnboardingStateType getOnboardingState();
 
-	PackageUsageState getUsageState();
+	UsageStateEnum getUsageState();
 
 }

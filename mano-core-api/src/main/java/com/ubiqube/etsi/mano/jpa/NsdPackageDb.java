@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
-import com.ubiqube.etsi.mano.dao.mano.PackageUsageState;
+import com.ubiqube.etsi.mano.dao.mano.UsageStateEnum;
 import com.ubiqube.etsi.mano.grammar.GrammarParser;
 import com.ubiqube.etsi.mano.repository.ContentManager;
 import com.ubiqube.etsi.mano.repository.NamingStrategy;
@@ -43,7 +43,7 @@ public class NsdPackageDb extends AbstractDirectJpa<NsdPackage> implements NsdRe
 	}
 
 	@Override
-	public void changeNsdUpdateState(final NsdPackage nsdPackage, final PackageUsageState state) {
+	public void changeNsdUpdateState(final NsdPackage nsdPackage, final UsageStateEnum state) {
 		nsdPackage.setNsdUsageState(state);
 		save(nsdPackage);
 	}

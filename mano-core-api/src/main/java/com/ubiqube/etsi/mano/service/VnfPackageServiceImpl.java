@@ -22,7 +22,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.OnboardingStateType;
-import com.ubiqube.etsi.mano.dao.mano.PackageUsageState;
+import com.ubiqube.etsi.mano.dao.mano.UsageStateEnum;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.jpa.VnfInstanceJpa;
@@ -53,7 +53,7 @@ public class VnfPackageServiceImpl implements VnfPackageService {
 	public VnfPackage findById(final UUID vnfPkgId) {
 		final VnfPackage ret = vnfPackageJpa.findById(vnfPkgId).orElseThrow(() -> new NotFoundException("VNF Package: " + vnfPkgId + " not found."));
 		final int i = vnfInstanceJpa.countByVnfPkgId(vnfPkgId);
-		ret.setUsageState(i == 0 ? PackageUsageState.NOT_IN_USE : PackageUsageState.IN_USE);
+		ret.setUsageState(i == 0 ? UsageStateEnum.NOT_IN_USE : UsageStateEnum.IN_USE);
 		return ret;
 	}
 

@@ -32,7 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ubiqube.etsi.mano.Constants;
 import com.ubiqube.etsi.mano.dao.mano.OnboardingStateType;
 import com.ubiqube.etsi.mano.dao.mano.PackageOperationalState;
-import com.ubiqube.etsi.mano.dao.mano.PackageUsageState;
+import com.ubiqube.etsi.mano.dao.mano.UsageStateEnum;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.jpa.VnfPackageJpa;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
@@ -64,7 +64,7 @@ public class VnfmAdminController {
 		final VnfPackage entity = new VnfPackage();
 		entity.setOnboardingState(OnboardingStateType.CREATED);
 		entity.setOperationalState(PackageOperationalState.DISABLED);
-		entity.setUsageState(PackageUsageState.NOT_IN_USE);
+		entity.setUsageState(UsageStateEnum.NOT_IN_USE);
 		final VnfPackage ne = vnfPackageRepository.save(entity);
 		vnfPackageRepository.storeBinary(ne.getId(), Constants.REPOSITORY_FILENAME_PACKAGE, file.getInputStream());
 		eventManager.sendActionVnfm(ActionType.VNF_PKG_ONBOARD_DOWNLOAD_INSTANTIATE, ne.getId(), Map.of());

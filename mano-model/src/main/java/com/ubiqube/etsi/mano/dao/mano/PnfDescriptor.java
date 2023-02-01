@@ -21,6 +21,11 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+
+import com.ubiqube.etsi.mano.dao.mano.common.FailureDetails;
+
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -30,12 +35,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
-
-import com.ubiqube.etsi.mano.dao.mano.common.FailureDetails;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -69,7 +68,7 @@ public class PnfDescriptor implements BaseEntity, Serializable {
 	@Embedded
 	private FailureDetails onboardingFailureDetails;
 	@Enumerated(EnumType.STRING)
-	private PackageUsageState pnfdUsageState;
+	private UsageStateEnum pnfdUsageState;
 	private String userDefinedData;
 	@ElementCollection(fetch = FetchType.EAGER)
 	private Set<String> virtualLink;

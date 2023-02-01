@@ -32,7 +32,7 @@ import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.OnboardingStateType;
 import com.ubiqube.etsi.mano.dao.mano.PackageBase;
 import com.ubiqube.etsi.mano.dao.mano.PackageOperationalState;
-import com.ubiqube.etsi.mano.dao.mano.PackageUsageState;
+import com.ubiqube.etsi.mano.dao.mano.UsageStateEnum;
 import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
 import com.ubiqube.etsi.mano.exception.ConflictException;
@@ -138,7 +138,7 @@ public final class Constants {
 	}
 
 	public static void ensureNotInUse(final PackageBase vnfPackqge) {
-		if (PackageUsageState.NOT_IN_USE != vnfPackqge.getUsageState()) {
+		if (UsageStateEnum.NOT_IN_USE != vnfPackqge.getUsageState()) {
 			throw new ConflictException(THE_VNF_PACKAGE + vnfPackqge.getId() + " is Not In Use State.");
 		}
 	}
@@ -168,7 +168,7 @@ public final class Constants {
 	}
 
 	public static void ensureNotInUse(final NsdPackage nsd) {
-		if (PackageUsageState.NOT_IN_USE != nsd.getNsdUsageState()) {
+		if (UsageStateEnum.NOT_IN_USE != nsd.getNsdUsageState()) {
 			throw new ConflictException(THE_NSD_PACKAGE + nsd.getId() + " Should be in NOT_IN_USE state.");
 		}
 	}

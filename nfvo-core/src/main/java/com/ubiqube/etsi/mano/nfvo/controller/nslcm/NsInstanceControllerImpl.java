@@ -31,7 +31,7 @@ import com.ubiqube.etsi.mano.dao.mano.InstantiationState;
 import com.ubiqube.etsi.mano.dao.mano.NsLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
-import com.ubiqube.etsi.mano.dao.mano.PackageUsageState;
+import com.ubiqube.etsi.mano.dao.mano.UsageStateEnum;
 import com.ubiqube.etsi.mano.dao.mano.alarm.ResourceHandle;
 import com.ubiqube.etsi.mano.dao.mano.dto.nsi.NsInstanceDto;
 import com.ubiqube.etsi.mano.dao.mano.dto.nsi.NsVirtualLinkInfoDto;
@@ -84,7 +84,7 @@ public class NsInstanceControllerImpl implements NsInstanceController {
 		nsInstanceService.delete(id);
 		if (!nsInstanceService.isInstantiated(nsInstanceDb.getNsdInfo())) {
 			final NsdPackage nsPkg = nsdPackageJpa.findById(nsInstanceDb.getNsdInfo().getId());
-			nsPkg.setNsdUsageState(PackageUsageState.NOT_IN_USE);
+			nsPkg.setNsdUsageState(UsageStateEnum.NOT_IN_USE);
 			nsdPackageJpa.save(nsPkg);
 			eventManager.sendNotification(NotificationEvent.NS_INSTANCE_DELETE, id, Map.of());
 		}

@@ -20,6 +20,16 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
+
+import com.ubiqube.etsi.mano.dao.mano.common.FailureDetails;
+import com.ubiqube.etsi.mano.dao.mano.nfvo.ArchiveSecurityOptionEnumType;
+import com.ubiqube.etsi.mano.dao.mano.nfvo.NsArchiveArtifactInfo;
+import com.ubiqube.etsi.mano.dao.mano.nsd.VnffgDescriptor;
+import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVirtualLink;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embedded;
@@ -33,17 +43,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
-
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
-
-import com.ubiqube.etsi.mano.dao.mano.common.FailureDetails;
-import com.ubiqube.etsi.mano.dao.mano.nfvo.ArchiveSecurityOptionEnumType;
-import com.ubiqube.etsi.mano.dao.mano.nfvo.NsArchiveArtifactInfo;
-import com.ubiqube.etsi.mano.dao.mano.nsd.VnffgDescriptor;
-import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVirtualLink;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -120,7 +119,7 @@ public class NsdPackage implements PackageBase, Auditable {
 
 	@Enumerated(EnumType.STRING)
 	@FullTextField
-	private PackageUsageState nsdUsageState;
+	private UsageStateEnum nsdUsageState;
 
 	@ElementCollection(fetch = FetchType.EAGER)
 	private Map<String, String> userDefinedData;
@@ -165,7 +164,7 @@ public class NsdPackage implements PackageBase, Auditable {
 	}
 
 	@Override
-	public PackageUsageState getUsageState() {
+	public UsageStateEnum getUsageState() {
 		return this.nsdUsageState;
 	}
 }

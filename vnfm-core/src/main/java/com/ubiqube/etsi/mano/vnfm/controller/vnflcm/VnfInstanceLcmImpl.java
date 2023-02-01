@@ -42,8 +42,8 @@ import com.ubiqube.etsi.mano.controller.vnflcm.VnfInstanceLcm;
 import com.ubiqube.etsi.mano.dao.mano.CancelModeTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.ExtManagedVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.OnboardingStateType;
-import com.ubiqube.etsi.mano.dao.mano.PackageUsageState;
 import com.ubiqube.etsi.mano.dao.mano.ScaleInfo;
+import com.ubiqube.etsi.mano.dao.mano.UsageStateEnum;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.VnfComputeAspectDelta;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
@@ -136,7 +136,7 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 		final VnfPackage vnfPkg = manoClientFactory.getClient().onbardedVnfPackage(UUID.fromString(vnfdId)).find();
 		vnfPkg.setNfvoId(vnfPkg.getId().toString());
 		vnfPkg.setOnboardingState(OnboardingStateType.CREATED);
-		vnfPkg.setUsageState(PackageUsageState.NOT_IN_USE);
+		vnfPkg.setUsageState(UsageStateEnum.NOT_IN_USE);
 		vnfPkg.setId(null);
 		final VnfPackage nPkg = vnfPackageService.save(vnfPkg);
 		eventManager.sendActionVnfm(ActionType.VNF_PKG_ONBOARD_DOWNLOAD_INSTANTIATE, nPkg.getId(), Map.of());
@@ -153,7 +153,7 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 		vnfInstanceService.delete(vnfInstanceId);
 		if (!vnfInstanceService.isInstantiate(vnfInstance.getVnfPkg().getId())) {
 			final VnfPackage vnfPkg = vnfPackageService.findById(vnfInstance.getVnfPkg().getId());
-			vnfPkg.setUsageState(PackageUsageState.NOT_IN_USE);
+			vnfPkg.setUsageState(UsageStateEnum.NOT_IN_USE);
 			vnfPackageService.save(vnfPkg);
 		}
 		// VnfIdentitifierDeletionNotification NFVO + EM

@@ -18,11 +18,11 @@ package com.ubiqube.etsi.mano.nfvo.factory;
 
 import java.util.Map;
 
-import jakarta.validation.constraints.NotNull;
-
 import com.ubiqube.etsi.mano.dao.mano.OnboardingStateType;
-import com.ubiqube.etsi.mano.dao.mano.PackageUsageState;
 import com.ubiqube.etsi.mano.dao.mano.PnfDescriptor;
+import com.ubiqube.etsi.mano.dao.mano.UsageStateEnum;
+
+import jakarta.validation.constraints.NotNull;
 
 public class PnfFactory {
 	private PnfFactory() {
@@ -33,7 +33,7 @@ public class PnfFactory {
 	public static PnfDescriptor createPnfDescriptorsPnfdInfo(final Map<String, Object> userDefinedData) {
 		final PnfDescriptor pnfd = new PnfDescriptor();
 		pnfd.setPnfdOnboardingState(OnboardingStateType.CREATED);
-		pnfd.setPnfdUsageState(PackageUsageState.NOT_IN_USE);
+		pnfd.setPnfdUsageState(UsageStateEnum.NOT_IN_USE);
 		return pnfd;
 	}
 }

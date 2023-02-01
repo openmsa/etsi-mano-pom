@@ -43,8 +43,8 @@ import com.ubiqube.etsi.mano.dao.mano.InstantiationState;
 import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackageVnfPackage;
-import com.ubiqube.etsi.mano.dao.mano.PackageUsageState;
 import com.ubiqube.etsi.mano.dao.mano.ScaleInfo;
+import com.ubiqube.etsi.mano.dao.mano.UsageStateEnum;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
 import com.ubiqube.etsi.mano.dao.mano.dto.nsi.NsInstantiate;
@@ -105,7 +105,7 @@ public class NsInstanceControllerServiceImpl implements NsInstanceControllerServ
 		final NsdPackage nsd = nsdPackageService.findByNsdId(nsdId);
 		ensureIsOnboarded(nsd);
 		ensureIsEnabled(nsd);
-		nsd.setNsdUsageState(PackageUsageState.IN_USE);
+		nsd.setNsdUsageState(UsageStateEnum.IN_USE);
 		nsdPackageService.save(nsd);
 
 		final NsdInstance nsInstance = new NsdInstance();
