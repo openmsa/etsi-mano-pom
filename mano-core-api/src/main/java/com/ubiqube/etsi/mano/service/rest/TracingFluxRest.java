@@ -17,38 +17,19 @@
 package com.ubiqube.etsi.mano.service.rest;
 
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.web.reactive.function.client.DefaultClientRequestObservationConvention;
 
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
+
+import io.micrometer.observation.ObservationRegistry;
 
 public class TracingFluxRest extends FluxRest {
 
 	public TracingFluxRest(final Servers server, final ConfigurableApplicationContext configurableApplicationContext) {
 		super(server);
-		// applyTracing(httpClient, configurableApplicationContext);
-		// webBuilder.filters(addTraceExchangeFilterFunctionIfNotPresent(configurableApplicationContext));
+		final DefaultClientRequestObservationConvention oc = new DefaultClientRequestObservationConvention("http.client.requests");
+		webBuilder.observationConvention(oc);
+		final ObservationRegistry observationRegistry = configurableApplicationContext.getBean(ObservationRegistry.class);
+		webBuilder.observationRegistry(observationRegistry);
 	}
-
-//	private static HttpClient applyTracing(final HttpClient httpClient, final ConfigurableApplicationContext springContext) {
-//		final HttpClientBeanPostProcessor post = new HttpClientBeanPostProcessor(springContext);
-//		return (HttpClient) post.postProcessAfterInitialization(httpClient, "");
-//	}
-//
-//	private static Consumer<List<ExchangeFilterFunction>> addTraceExchangeFilterFunctionIfNotPresent(final ConfigurableApplicationContext configurableApplicationContext) {
-//		return functions -> {
-//			final boolean noneMatch = noneMatchTraceExchangeFunction(functions);
-//			if (noneMatch) {
-//				functions.add(TraceExchangeFilterFunction.create(configurableApplicationContext));
-//			}
-//		};
-//	}
-//
-//	private static boolean noneMatchTraceExchangeFunction(final List<ExchangeFilterFunction> functions) {
-//		for (final ExchangeFilterFunction function : functions) {
-//			if (function instanceof TraceExchangeFilterFunction) {
-//				return false;
-//			}
-//		}
-//		return true;
-//	}
-
 }

@@ -59,6 +59,15 @@ management:
   info:
     git:
       mode: full
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http:
+          server:
+            requests: true
+  tracing:
+    sampling:
+      probability: 1.0
 
 mano:
   config:
@@ -83,17 +92,6 @@ spring:
     name: mano-nfvo
   artemis:
     mode: embedded
-  boot:
-    admin:
-      client:
-        instance:
-          metadata:
-            user:
-              name: admin
-              password: admin
-        password: admin
-        url: http://monitoring.mano.ubiqube.com/monitoring/
-        username: admin
   data:
     rest:
       base-path: /api

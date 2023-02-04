@@ -30,18 +30,23 @@ logging:
             Sniffer: OFF
       hibernate:
         SQL: INFO
+      keycloak: INFO
       openstack4j: INFO
       springframework:
         boot:
           autoconfigure:
             logging:
               ConditionEvaluationReportLogger: INFO
+        context: INFO
+        http: INFO
         jms: INFO
         security: INFO
         web:
           filter: INFO
           servlet: INFO
           reactive: INFO
+  pattern:
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
 
 management:
   endpoint:
@@ -54,12 +59,15 @@ management:
   info:
     git:
       mode: full
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http:
+          server:
+            requests: true
   tracing:
     sampling:
       probability: 1.0
-  zipkin:
-    tracing:
-      endpoint: http://10.31.1.29:9411/api/v2/spans
 
 mano:
   config:
@@ -95,17 +103,6 @@ spring:
     name: mano-vnfm
   artemis:
     mode: embedded
-  boot:
-    admin:
-      client:
-        instance:
-          metadata:
-            user:
-              name: admin
-              password: admin
-        password: admin
-        url: http://monitoring.mano.ubiqube.com/monitoring/
-        username: admin
   data:
     rest:
       base-path: /api
@@ -113,14 +110,14 @@ spring:
     driverClassName: org.h2.Driver
     url: jdbc:h2:file:~/etsi-mano-vnfm.h2;AUTO_SERVER=TRUE;INIT=CREATE SCHEMA IF NOT EXISTS mec_meo
     username: sa
+    hikari:
+      connection-test-query: SELECT 1
+      max-lifetime: 600000
   h2:
     console:
       enabled: true
       settings:
         web-allow-others: true
-    hikari:
-      connection-test-query: SELECT 1
-      max-lifetime: 500000
   jackson:
     date-format: yyyy-MM-dd'T'HH:mm:ss.SSSXXX
     default-property-inclusion: NON_NULL
@@ -162,6 +159,7 @@ spring:
         quartz:
           jobStore:
             clusterCheckinInterval: 5000
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.PostgreSQLDelegate
             isClustered: true
           scheduler:
             instanceId: AUTO

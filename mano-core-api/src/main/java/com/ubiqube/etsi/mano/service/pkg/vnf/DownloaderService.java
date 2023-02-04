@@ -29,6 +29,7 @@ import java.util.UUID;
 import java.util.concurrent.CompletionService;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorCompletionService;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -56,6 +57,7 @@ import com.ubiqube.etsi.mano.service.DownloadResult;
 import com.ubiqube.etsi.mano.service.rest.ExceptionHandler;
 import com.ubiqube.etsi.mano.service.vim.VimException;
 
+import io.micrometer.context.ContextExecutorService;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.SignalType;
@@ -82,9 +84,7 @@ public class DownloaderService {
 
 	public void doDownload(final List<SoftwareImage> sws, final UUID vnfPkgId) {
 		final ThreadPoolExecutor tpe = (ThreadPoolExecutor) Executors.newFixedThreadPool(5);
-		// XXX: final LazyTraceExecutor executor = LazyTraceExecutor.wrap(beanFactory,
-		// tpe);
-		final ThreadPoolExecutor executor = tpe;
+		final ExecutorService executor = ContextExecutorService.wrap(tpe);
 		final CompletionService<String> completionService = new ExecutorCompletionService<>(executor);
 		final List<Future<String>> all = new ArrayList<>();
 		sws.forEach(x -> {
