@@ -35,6 +35,7 @@
 		<module>remote-aggregator</module>
 		<module>mano-docker</module>
 		<module>mano-condition</module>
+		<module>mano-telemetry</module>
 	</modules>
 	<properties>
 		<sonar.jacoco.xmlReportPaths>${project.basedir}/../target/site/jacoco-aggregate/jacoco.xml</sonar.jacoco.xmlReportPaths>
