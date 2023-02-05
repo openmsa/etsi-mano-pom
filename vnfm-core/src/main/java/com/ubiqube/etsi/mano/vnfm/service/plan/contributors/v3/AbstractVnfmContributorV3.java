@@ -53,7 +53,7 @@ public abstract class AbstractVnfmContributorV3<U> implements TemplateExtractorV
 	}
 
 	protected int countLive(final VnfInstance vnfInstance, final Class<?> clazz, final String toscaName) {
-		return Optional.ofNullable(vnfInstanceJpa.countByVnfInstanceIdAndClassAndToscaName(vnfInstance, clazz.getSimpleName(), toscaName))
+		return Optional.ofNullable(vnfInstanceJpa.countByVnfInstanceIdAndClassAndToscaName(vnfInstance, clazz, toscaName))
 				.orElse(0);
 	}
 
