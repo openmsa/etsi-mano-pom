@@ -71,14 +71,14 @@ public abstract class AbstractGrantService implements VimResourceService {
 	private final ConnectionInformationJpa connectionJpa;
 
 	protected AbstractGrantService(final MapperFacade mapper, final ResourceAllocate nfvo, final VimManager vimManager, final ConnectionInformationJpa connectionJpa) {
-		this.mapper = mapper;
-		this.nfvo = nfvo;
-		this.vimManager = vimManager;
-		this.connectionJpa = connectionJpa;
+		this.mapper = Objects.requireNonNull(mapper);
+		this.nfvo = Objects.requireNonNull(nfvo);
+		this.vimManager = Objects.requireNonNull(vimManager);
+		this.connectionJpa = Objects.requireNonNull(connectionJpa);
 	}
 
 	@Override
-	public final void allocate(final Blueprint<? extends VimTask, ? extends Instance> plan) {
+	public void allocate(final Blueprint<? extends VimTask, ? extends Instance> plan) {
 		final GrantResponse grantRequest = mapper.map(plan, GrantResponse.class);
 		final Predicate<? super VimTask> isManoClass = x -> (x.getType() == ResourceTypeEnum.COMPUTE) ||
 				(x.getType() == ResourceTypeEnum.LINKPORT) ||
