@@ -195,18 +195,17 @@ public class VnfIndicatorValueChangeNotificationImpl {
 		final NsdInstance nsdInstance = nsdInstanceJpa.findById(nsInstanceId).orElseThrow(() -> new GenericException("Could not find nsInstance: " + nsInstanceId));
 		final NsdPackage nsdPackage = nsdPackageJpa.findByNsdId(nsdInstance.getNsdInfo().getNsdId()).orElseThrow(() -> new GenericException("Could not find nsdPackage: " + nsdInstance.getNsdInfo().getNsdId()));
 		final Set<NsdPackageVnfPackage> nsVnfPackages = nsdPackage.getVnfPkgIds();
-		final List<VnfIndiValueChangeNotification> allNsVnfNotifications = new ArrayList<>();
-		for (final NSVnfNotification nsVnfNotification : nsVnfNotifications) {
-			for (final VnfIndiValueChangeNotification vnfIndiValueChangeNotification : nsVnfNotification.getVnfIndiValueChangeNotifications()) {
-				final NsdPackageVnfPackage vnfPackages = nsVnfPackages.stream().filter(x -> x.getVnfdId().equals(vnfIndiValueChangeNotification.getVnfdId())).findFirst().orElseThrow();
-				final String vnfInstanceName = vnfPackages.getToscaName();
-				final String vnfIndicatorId = vnfIndiValueChangeNotification.getVnfIndicatorId();
-				LOG.info("NS vnf notification vnf indicator id : {}_{}", vnfInstanceName, vnfIndicatorId);
-				vnfIndiValueChangeNotification.setVnfIndicatorId(vnfInstanceName + "_" + vnfIndicatorId);
-				allNsVnfNotifications.add(vnfIndiValueChangeNotification);
-			}
-		}
-		return allNsVnfNotifications;
+		return nsVnfNotifications.stream()
+				.flatMap(x -> x.getVnfIndiValueChangeNotifications().stream())
+				.map(vnfIndiValueChangeNotification -> {
+					final NsdPackageVnfPackage vnfPackages = nsVnfPackages.stream().filter(x -> x.getVnfdId().equals(vnfIndiValueChangeNotification.getVnfdId())).findFirst().orElseThrow();
+					final String vnfInstanceName = vnfPackages.getToscaName();
+					final String vnfIndicatorId = vnfIndiValueChangeNotification.getVnfIndicatorId();
+					LOG.info("NS vnf notification vnf indicator id : {}_{}", vnfInstanceName, vnfIndicatorId);
+					vnfIndiValueChangeNotification.setVnfIndicatorId(vnfInstanceName + "_" + vnfIndicatorId);
+					return vnfIndiValueChangeNotification;
+				})
+				.toList();
 	}
 
 	public void evaluateValueBasedOnCondition(final UUID nsInstanceId, final String vnfInstanceId, final List<VnfIndiValueChangeNotification> notifications) {
@@ -240,6 +239,7 @@ public class VnfIndicatorValueChangeNotificationImpl {
 				break;
 			}
 			final Node root = conditionService.parse(trigger.getCondition());
+			// XXX: Use the new evaluator.
 			final Context context = null;
 			conditionService.evaluate(root, context);
 			conditions: for (final JsonNode jsonNode : actualObj) {
@@ -372,19 +372,24 @@ public class VnfIndicatorValueChangeNotificationImpl {
 	}
 
 	private void nsLcmScale(final UUID nsInstanceId, final Map<String, Object> inputs) {
-		final NsScale nsInst = new NsScale();
-		nsInst.setScaleType(ScaleType.NS);
-		final ScaleNsByStepsData snbsd = mapScaleNsByStepData(inputs);
-		final ScaleNsData scaleNsData = new ScaleNsData();
-		scaleNsData.setScaleNsByStepsData(snbsd);
-		nsInst.setScaleNsData(scaleNsData);
-		LOG.info("NS Scale {} {} : {} launched", snbsd.getScalingDirection(), nsInstanceId, nsInst);
+		final NsScale nsInst = createNsCaleRequest(inputs);
+		LOG.info("NS Scale {} {} : {} launched", nsInst.getScaleNsData().getScaleNsByStepsData().getScalingDirection(), nsInstanceId, nsInst);
 		final NsBlueprint nsBlueprint = nsInstanceControllerService.scale(nsInstanceId, nsInst);
 		final NsBlueprint result = UowUtils.waitNSLcmCompletion(nsBlueprint, nsBlueprintJpa);
 		if (OperationStatusType.COMPLETED != result.getOperationStatus()) {
 			final String details = Optional.ofNullable(result.getError()).map(FailureDetails::getDetail).orElse("[No content]");
 			throw new GenericException("NS LCM Failed: " + details + " With state:  " + result.getOperationStatus());
 		}
+	}
+
+	private static NsScale createNsCaleRequest(final Map<String, Object> inputs) {
+		final NsScale nsInst = new NsScale();
+		nsInst.setScaleType(ScaleType.NS);
+		final ScaleNsByStepsData snbsd = mapScaleNsByStepData(inputs);
+		final ScaleNsData scaleNsData = new ScaleNsData();
+		scaleNsData.setScaleNsByStepsData(snbsd);
+		nsInst.setScaleNsData(scaleNsData);
+		return nsInst;
 	}
 
 	/**
