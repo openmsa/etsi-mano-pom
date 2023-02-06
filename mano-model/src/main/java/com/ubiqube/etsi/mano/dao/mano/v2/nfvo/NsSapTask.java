@@ -16,17 +16,11 @@
  */
 package com.ubiqube.etsi.mano.dao.mano.v2.nfvo;
 
-import java.util.UUID;
+import com.ubiqube.etsi.mano.dao.mano.NsSap;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-
-import com.ubiqube.etsi.mano.dao.mano.NsSap;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -41,10 +35,6 @@ import lombok.Setter;
 public class NsSapTask extends NsTask {
 	/** Serial. */
 	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private NsSap nsSap;

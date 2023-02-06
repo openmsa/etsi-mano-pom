@@ -16,7 +16,9 @@
  */
 package com.ubiqube.etsi.mano.dao.mano.v2;
 
-import java.util.UUID;
+import com.ubiqube.etsi.mano.dao.mano.AuditListener;
+import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
+import com.ubiqube.etsi.mano.dao.mano.ScaleInfo;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -24,16 +26,7 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-
-import com.ubiqube.etsi.mano.dao.mano.AuditListener;
-import com.ubiqube.etsi.mano.dao.mano.ChangeType;
-import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
-import com.ubiqube.etsi.mano.dao.mano.ScaleInfo;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -50,14 +43,7 @@ public abstract class VnfTask extends AbstractTask {
 	/** Serial. */
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id;
-
 	private String vimReservationId;
-
-	@Enumerated(EnumType.STRING)
-	private ChangeType changeType;
 
 	@Enumerated(EnumType.STRING)
 	private ResourceTypeEnum type;
@@ -72,20 +58,16 @@ public abstract class VnfTask extends AbstractTask {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private ScaleInfo scaleInfo;
 
-	private String resourceProviderId;
-
 	private String vimConnectionId;
 
 	public VnfTask copy(final VnfTask t) {
 		super.copy(t);
 		t.setVimReservationId(vimReservationId);
-		t.setChangeType(changeType);
 		t.setType(type);
 		t.setZoneId(zoneId);
 		t.setResourceGroupId(resourceGroupId);
 		t.setBlueprint(blueprint);
 		t.setScaleInfo(scaleInfo);
-		t.setResourceProviderId(resourceProviderId);
 		t.setVimConnectionId(vimConnectionId);
 		return t;
 	}

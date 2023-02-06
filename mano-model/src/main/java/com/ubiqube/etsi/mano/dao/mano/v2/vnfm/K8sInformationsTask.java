@@ -16,17 +16,11 @@
  */
 package com.ubiqube.etsi.mano.dao.mano.v2.vnfm;
 
-import java.util.UUID;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
 import com.ubiqube.etsi.mano.dao.mano.AuditListener;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -42,10 +36,6 @@ import lombok.Setter;
 public class K8sInformationsTask extends VnfTask {
 	/** Serial. */
 	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id;
 
 	@Override
 	public VnfTask copy() {

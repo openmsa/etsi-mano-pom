@@ -19,6 +19,13 @@ package com.ubiqube.etsi.mano.dao.mano.v2;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.GenericField;
+
+import com.ubiqube.etsi.mano.dao.mano.Audit;
+import com.ubiqube.etsi.mano.dao.mano.ChangeType;
+import com.ubiqube.etsi.mano.dao.mano.VimTask;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.EnumType;
@@ -28,14 +35,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.Version;
-
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.GenericField;
-
-import com.ubiqube.etsi.mano.dao.mano.Audit;
-import com.ubiqube.etsi.mano.dao.mano.ChangeType;
-import com.ubiqube.etsi.mano.dao.mano.VimTask;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -86,11 +85,10 @@ public abstract class AbstractTask implements VimTask {
 	private String vimConnectionId;
 
 	private String resourceProviderId;
+
 	private UUID removedLiveInstance;
 
-	int rank;
-
-	public abstract void setId(final UUID id);
+	private int rank;
 
 	@Version
 	private Long version;
@@ -112,5 +110,4 @@ public abstract class AbstractTask implements VimTask {
 		task.setRank(rank);
 		return task;
 	}
-
 }

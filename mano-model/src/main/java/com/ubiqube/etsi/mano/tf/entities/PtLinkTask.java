@@ -18,13 +18,9 @@ package com.ubiqube.etsi.mano.tf.entities;
 
 import java.util.UUID;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
 
+import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -40,10 +36,6 @@ public class PtLinkTask extends NsTask {
 
 	/** Serial. */
 	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id;
 
 	private String leftPortId;
 

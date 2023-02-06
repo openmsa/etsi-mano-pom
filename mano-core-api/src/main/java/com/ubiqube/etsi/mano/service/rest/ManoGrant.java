@@ -104,10 +104,12 @@ public class ManoGrant {
 
 	private GrantResponse buildResponse(final ResponseEntity<?> resp, final UUID grantId) {
 		GrantResponse grants = new GrantResponse();
-		if (resp.getStatusCodeValue() == 202) {
+		if (resp.getStatusCode().value() == 202) {
 			grants.setId(grantId);
 			grants.setAvailable(Boolean.FALSE);
 		} else {
+			final Object body = resp.getBody();
+			LOG.debug("Deserailizing grant: {}", body.getClass());
 			grants = client.getMapper().map(resp.getBody(), GrantResponse.class);
 			grants.setAvailable(true);
 		}

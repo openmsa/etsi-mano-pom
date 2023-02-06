@@ -16,21 +16,15 @@
  */
 package com.ubiqube.etsi.mano.dao.mano.v2.vnfm;
 
-import java.util.UUID;
+import com.ubiqube.etsi.mano.dao.mano.AuditListener;
+import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainerDeployableUnit;
+import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-
-import com.ubiqube.etsi.mano.dao.mano.AuditListener;
-import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainerDeployableUnit;
-import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -46,10 +40,6 @@ import lombok.Setter;
 public class OsContainerDeployableTask extends VnfTask {
 	/** Serial. */
 	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id;
 
 	/**
 	 * The Openstack magnum template ID.
