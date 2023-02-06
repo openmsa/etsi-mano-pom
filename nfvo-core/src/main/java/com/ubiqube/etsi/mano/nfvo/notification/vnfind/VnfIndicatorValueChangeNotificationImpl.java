@@ -16,8 +16,6 @@
  */
 package com.ubiqube.etsi.mano.nfvo.notification.vnfind;
 
-import static com.ubiqube.etsi.mano.Constants.getSafeUUID;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -38,6 +36,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -156,7 +156,7 @@ public class VnfIndicatorValueChangeNotificationImpl {
 				.collect(Collectors.groupingBy(VnfIndiValueChangeNotification::getVnfInstanceId));
 		final List<VnfIndiValueChangeNotification> allNotifications = Lists.newArrayList(ite);
 		vnfIndValueNotificationJpa.deleteAll(allNotifications);
-		final Map<String, List<NSVnfNotification>> notificationsByNsInstanceId = new HashMap<>();
+		final MultiValueMap<UUID, NSVnfNotification> notificationsByNsInstanceId = new LinkedMultiValueMap<>();
 		final List<NSVnfNotification> nsVnfNotifications = new ArrayList<>();
 		LOG.trace("Polling notification");
 		for (final Map.Entry<String, List<VnfIndiValueChangeNotification>> entry : notificationsByInstanceId.entrySet()) {
@@ -169,19 +169,14 @@ public class VnfIndicatorValueChangeNotificationImpl {
 				nsVnfNotification.setVnfIndiValueChangeNotifications(entry.getValue());
 				nsVnfNotification.setVnfInstanceId(entry.getKey());
 				nsVnfNotification.setNsInstanceId(nsInstanceId.toString());
-				if (notificationsByNsInstanceId.containsKey(nsInstanceId.toString())) {
-					notificationsByNsInstanceId.get(nsInstanceId.toString()).add(nsVnfNotification);
-				} else {
-					nsVnfNotifications.add(nsVnfNotification);
-					notificationsByNsInstanceId.put(nsInstanceId.toString(), nsVnfNotifications);
-				}
+				notificationsByNsInstanceId.put(nsInstanceId, nsVnfNotifications);
 			} else {
 				LOG.info("NS instanceId for VNF instance not found");
 				evaluateValueBasedOnCondition(null, entry.getKey(), entry.getValue());
 			}
 		}
-		for (final Map.Entry<String, List<NSVnfNotification>> nsNotifications : notificationsByNsInstanceId.entrySet()) {
-			final List<VnfIndiValueChangeNotification> notifications = getNSVnfNotifications(nsNotifications.getValue(), UUID.fromString(nsNotifications.getKey()));
+		for (final Map.Entry<UUID, List<NSVnfNotification>> nsNotifications : notificationsByNsInstanceId.entrySet()) {
+			final List<VnfIndiValueChangeNotification> notifications = getNSVnfNotifications(nsNotifications.getValue(), nsNotifications.getKey());
 			evaluateValueBasedOnCondition(nsNotifications.getKey(), null, notifications);
 		}
 	}
@@ -203,10 +198,10 @@ public class VnfIndicatorValueChangeNotificationImpl {
 		final List<VnfIndiValueChangeNotification> allNsVnfNotifications = new ArrayList<>();
 		for (final NSVnfNotification nsVnfNotification : nsVnfNotifications) {
 			for (final VnfIndiValueChangeNotification vnfIndiValueChangeNotification : nsVnfNotification.getVnfIndiValueChangeNotifications()) {
-				final Set<NsdPackageVnfPackage> vnfPackages = nsVnfPackages.stream().filter(x -> x.getVnfdId().equals(vnfIndiValueChangeNotification.getVnfdId())).collect(Collectors.toSet());
-				final String vnfInstanceName = vnfPackages.iterator().next().getToscaName();
+				final NsdPackageVnfPackage vnfPackages = nsVnfPackages.stream().filter(x -> x.getVnfdId().equals(vnfIndiValueChangeNotification.getVnfdId())).findFirst().orElseThrow();
+				final String vnfInstanceName = vnfPackages.getToscaName();
 				final String vnfIndicatorId = vnfIndiValueChangeNotification.getVnfIndicatorId();
-				LOG.info("NS vnf notification vnf indicator id : {} _ {}", vnfInstanceName, vnfIndicatorId);
+				LOG.info("NS vnf notification vnf indicator id : {}_{}", vnfInstanceName, vnfIndicatorId);
 				vnfIndiValueChangeNotification.setVnfIndicatorId(vnfInstanceName + "_" + vnfIndicatorId);
 				allNsVnfNotifications.add(vnfIndiValueChangeNotification);
 			}
@@ -214,9 +209,9 @@ public class VnfIndicatorValueChangeNotificationImpl {
 		return allNsVnfNotifications;
 	}
 
-	public void evaluateValueBasedOnCondition(final String nsInstanceId, final String vnfInstanceId, final List<VnfIndiValueChangeNotification> notifications) {
+	public void evaluateValueBasedOnCondition(final UUID nsInstanceId, final String vnfInstanceId, final List<VnfIndiValueChangeNotification> notifications) {
 		if (nsInstanceId != null) {
-			for (final NsVnfIndicator nsVnfIndicator : getNSIndicators(UUID.fromString(nsInstanceId))) {
+			for (final NsVnfIndicator nsVnfIndicator : getNSIndicators(nsInstanceId)) {
 				final Map<String, TriggerDefinition> nsTriggers = nsVnfIndicator.getTriggers();
 				LOG.info("NS Trigger evaluating");
 				evaluateTriggers(nsTriggers, nsInstanceId, null, null, notifications);
@@ -233,7 +228,7 @@ public class VnfIndicatorValueChangeNotificationImpl {
 		}
 	}
 
-	public void evaluateTriggers(final Map<String, TriggerDefinition> triggers, final String nsInstanceId, final String vnfInstanceId, final VnfPackage vnfPackage, final List<VnfIndiValueChangeNotification> notifications) {
+	public void evaluateTriggers(final Map<String, TriggerDefinition> triggers, final UUID nsInstanceId, final String vnfInstanceId, final VnfPackage vnfPackage, final List<VnfIndiValueChangeNotification> notifications) {
 		for (final TriggerDefinition trigger : triggers.values()) {
 			final ObjectMapper mapper = new ObjectMapper();
 			JsonNode actualObj = null;
@@ -324,7 +319,7 @@ public class VnfIndicatorValueChangeNotificationImpl {
 						callAction(vnfInstanceId, null, trigger.getAction(), server);
 					}
 				}
-				if ((nsInstanceId != null) && !UowUtils.isNSLcmRunning(UUID.fromString(nsInstanceId), nsBlueprintJpa)) {
+				if ((nsInstanceId != null) && !UowUtils.isNSLcmRunning(nsInstanceId, nsBlueprintJpa)) {
 					LOG.info("calling NS Action");
 					callAction(null, nsInstanceId, trigger.getAction(), null);
 				}
@@ -333,7 +328,7 @@ public class VnfIndicatorValueChangeNotificationImpl {
 		}
 	}
 
-	public void callAction(final String vnfInstanceId, final String nsInstanceId, final String actionParameters, final Servers server) {
+	public void callAction(final String vnfInstanceId, final UUID nsInstanceId, final String actionParameters, final Servers server) {
 		final ObjectMapper mapper = new ObjectMapper();
 		JsonNode actualObj = null;
 		try {
@@ -376,7 +371,7 @@ public class VnfIndicatorValueChangeNotificationImpl {
 		}
 	}
 
-	private void nsLcmScale(final String nsInstanceId, final Map<String, Object> inputs) {
+	private void nsLcmScale(final UUID nsInstanceId, final Map<String, Object> inputs) {
 		final NsScale nsInst = new NsScale();
 		nsInst.setScaleType(ScaleType.NS);
 		final ScaleNsByStepsData snbsd = mapScaleNsByStepData(inputs);
@@ -384,7 +379,7 @@ public class VnfIndicatorValueChangeNotificationImpl {
 		scaleNsData.setScaleNsByStepsData(snbsd);
 		nsInst.setScaleNsData(scaleNsData);
 		LOG.info("NS Scale {} {} : {} launched", snbsd.getScalingDirection(), nsInstanceId, nsInst);
-		final NsBlueprint nsBlueprint = nsInstanceControllerService.scale(getSafeUUID(nsInstanceId), nsInst);
+		final NsBlueprint nsBlueprint = nsInstanceControllerService.scale(nsInstanceId, nsInst);
 		final NsBlueprint result = UowUtils.waitNSLcmCompletion(nsBlueprint, nsBlueprintJpa);
 		if (OperationStatusType.COMPLETED != result.getOperationStatus()) {
 			final String details = Optional.ofNullable(result.getError()).map(FailureDetails::getDetail).orElse("[No content]");
