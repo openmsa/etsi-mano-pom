@@ -16,6 +16,8 @@
  */
 package com.ubiqube.etsi.mano.nfvo.notification.vnfind;
 
+import static com.ubiqube.etsi.mano.Constants.getSafeUUID;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -57,6 +59,10 @@ import com.ubiqube.etsi.mano.dao.mano.config.ServerType;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.dao.mano.ind.VnfIndiValueChangeNotification;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.NsScale;
+import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.ScaleNsByStepsData;
+import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.ScaleNsData;
+import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.ScaleType;
+import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.ScalingDirectionType;
 import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.PlanStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
@@ -72,18 +78,14 @@ import com.ubiqube.etsi.mano.nfvo.jpa.NsBlueprintJpa;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsLiveInstanceJpa;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsdInstanceJpa;
 import com.ubiqube.etsi.mano.nfvo.service.plan.uow.UowUtils;
-import com.ubiqube.etsi.mano.nfvo.v261.model.nslcm.ScaleNsByStepsData;
-import com.ubiqube.etsi.mano.nfvo.v261.model.nslcm.ScaleNsByStepsData.ScalingDirectionEnum;
-import com.ubiqube.etsi.mano.nfvo.v261.model.nslcm.ScaleNsData;
-import com.ubiqube.etsi.mano.nfvo.v261.model.nslcm.ScaleNsRequest;
 import com.ubiqube.etsi.mano.service.VnfPackageServiceImpl;
 import com.ubiqube.etsi.mano.service.VnfmInterface;
 import com.ubiqube.etsi.mano.service.cond.ConditionService;
 import com.ubiqube.etsi.mano.service.cond.Context;
 import com.ubiqube.etsi.mano.service.cond.Node;
 
+import jakarta.annotation.Nonnull;
 import jakarta.validation.constraints.NotNull;
-import ma.glasnost.orika.MapperFacade;
 
 @Component
 public class VnfIndicatorValueChangeNotificationImpl {
@@ -116,8 +118,6 @@ public class VnfIndicatorValueChangeNotificationImpl {
 
 	private final BiFunction<Servers, UUID, List<VnfBlueprint>> func2;
 
-	private final MapperFacade mapper;
-
 	private final ConditionService conditionService;
 	private final Random rand = new Random();
 
@@ -125,7 +125,7 @@ public class VnfIndicatorValueChangeNotificationImpl {
 			final VnfPackageServiceImpl vnfPackageServiceImpl, final ServersJpa serversJpa,
 			final VnfmInterface vnfm, final VnfInstanceLcm vnfLcmOpOccsService,
 			final NsLiveInstanceJpa nsLiveInstanceJpa, final NsdPackageJpa nsdPackageJpa, final NsdInstanceJpa nsdInstanceJpa,
-			final NsInstanceControllerService nsInstanceControllerService, final MapperFacade mapper, final NsBlueprintJpa nsBlueprintJpa,
+			final NsInstanceControllerService nsInstanceControllerService, final NsBlueprintJpa nsBlueprintJpa,
 			final ConditionService conditionService) {
 		this.vnfIndValueNotificationJpa = vnfIndValueNotificationJpa;
 		this.nsLiveInstanceJpa = nsLiveInstanceJpa;
@@ -136,7 +136,6 @@ public class VnfIndicatorValueChangeNotificationImpl {
 		this.vnfPackageServiceImpl = vnfPackageServiceImpl;
 		this.serversJpa = serversJpa;
 		this.vnfm = vnfm;
-		this.mapper = mapper;
 		this.conditionService = conditionService;
 		func = vnfLcmOpOccsService::vnfLcmOpOccsGet;
 		func2 = vnfLcmOpOccsService::findByVnfInstanceId;
@@ -361,55 +360,9 @@ public class VnfIndicatorValueChangeNotificationImpl {
 		if ("Vnflcm.scale".equals(operationName)) {
 			res = doVnfLcmScale(vnfInstanceId, server, inputs);
 		} else if ("Vnflcm.heal".equals(operationName)) {
-			final VnfHealRequest vnfHealRequest = new VnfHealRequest();
-			for (final Map.Entry<String, Object> c : inputs.entrySet()) {
-				final Map<String, String> d = (Map<String, String>) c.getValue();
-				final Object value = d.entrySet().iterator().next().getValue();
-				vnfHealRequest.setCause(value.toString());
-			}
-			LOG.info("VNF Heal with cause {} launched", vnfHealRequest.getCause());
-			res = vnfm.vnfHeal(server, vnfInstanceId, vnfHealRequest);
+			res = vnfLcmHeal(vnfInstanceId, server, inputs);
 		} else if ("Nslcm.scale".equals(operationName)) {
-			final ScaleNsRequest scaleNSRequest = new ScaleNsRequest();
-			scaleNSRequest.setScaleType(ScaleNsRequest.ScaleTypeEnum.NS);
-			final ScaleNsData scaleNsData = new ScaleNsData();
-			final ScaleNsByStepsData snbsd = new ScaleNsByStepsData();
-			final Map<String, String> d = (Map<String, String>) inputs.get("scale_ns_by_steps_data");
-			for (final Map.Entry<String, String> c : d.entrySet()) {
-				final Object value = c.getValue();
-				switch (c.getKey()) {
-				case "scaling_direction":
-					if ("scale_out".equals(value)) {
-						snbsd.setScalingDirection(ScalingDirectionEnum.OUT);
-					}
-					if ("scale_in".equals(value)) {
-						snbsd.setScalingDirection(ScalingDirectionEnum.IN);
-					}
-					break;
-				case "aspect":
-					snbsd.setAspectId(value.toString());
-					break;
-				case "number_of_steps":
-					snbsd.setNumberOfSteps(Integer.parseInt(value.toString()));
-					break;
-				default:
-					break;
-				}
-			}
-			if (snbsd.getNumberOfSteps() == null) {
-				snbsd.setNumberOfSteps(1);
-			}
-			scaleNsData.setScaleNsByStepsData(snbsd);
-			scaleNSRequest.setScaleNsData(scaleNsData);
-			final NsScale nsInst = this.mapper.map(scaleNSRequest, NsScale.class);
-			LOG.info("NS Scale {} {} : {} launched", snbsd.getScalingDirection(), nsInstanceId, nsInst);
-			final NsBlueprint nsBlueprint = nsInstanceControllerService.scale(UUID.fromString(nsInstanceId), nsInst);
-
-			final NsBlueprint result = UowUtils.waitNSLcmCompletion(nsBlueprint, nsBlueprintJpa);
-			if (OperationStatusType.COMPLETED != result.getOperationStatus()) {
-				final String details = Optional.ofNullable(result.getError()).map(FailureDetails::getDetail).orElse("[No content]");
-				throw new GenericException("NS LCM Failed: " + details + " With state:  " + result.getOperationStatus());
-			}
+			nsLcmScale(nsInstanceId, inputs);
 		} else {
 			LOG.error("operation name not valid");
 		}
@@ -423,8 +376,71 @@ public class VnfIndicatorValueChangeNotificationImpl {
 		}
 	}
 
-	private VnfBlueprint doVnfLcmScale(final String vnfInstanceId, final Servers server, final Map<String, Object> inputs) {
-		final VnfBlueprint res;
+	private void nsLcmScale(final String nsInstanceId, final Map<String, Object> inputs) {
+		final NsScale nsInst = new NsScale();
+		nsInst.setScaleType(ScaleType.NS);
+		final ScaleNsByStepsData snbsd = mapScaleNsByStepData(inputs);
+		final ScaleNsData scaleNsData = new ScaleNsData();
+		scaleNsData.setScaleNsByStepsData(snbsd);
+		nsInst.setScaleNsData(scaleNsData);
+		LOG.info("NS Scale {} {} : {} launched", snbsd.getScalingDirection(), nsInstanceId, nsInst);
+		final NsBlueprint nsBlueprint = nsInstanceControllerService.scale(getSafeUUID(nsInstanceId), nsInst);
+		final NsBlueprint result = UowUtils.waitNSLcmCompletion(nsBlueprint, nsBlueprintJpa);
+		if (OperationStatusType.COMPLETED != result.getOperationStatus()) {
+			final String details = Optional.ofNullable(result.getError()).map(FailureDetails::getDetail).orElse("[No content]");
+			throw new GenericException("NS LCM Failed: " + details + " With state:  " + result.getOperationStatus());
+		}
+	}
+
+	/**
+	 * This is the same object as
+	 * {@link com.ubiqube.parser.tosca.objects.tosca.datatypes.nfv.ScaleNsByStepsData}
+	 *
+	 * @param inputs
+	 * @return
+	 */
+	private static ScaleNsByStepsData mapScaleNsByStepData(final Map<String, Object> inputs) {
+		final ScaleNsByStepsData snbsd = new ScaleNsByStepsData();
+		final Map<String, String> d = (Map<String, String>) inputs.get("scale_ns_by_steps_data");
+		for (final Map.Entry<String, String> c : d.entrySet()) {
+			final Object value = c.getValue();
+			switch (c.getKey()) {
+			case "scaling_direction":
+				if ("scale_out".equals(value)) {
+					snbsd.setScalingDirection(ScalingDirectionType.OUT);
+				}
+				if ("scale_in".equals(value)) {
+					snbsd.setScalingDirection(ScalingDirectionType.IN);
+				}
+				break;
+			case "aspect":
+				snbsd.setAspectId(value.toString());
+				break;
+			case "number_of_steps":
+				snbsd.setNumberOfSteps(Integer.parseInt(value.toString()));
+				break;
+			default:
+				break;
+			}
+		}
+		if (snbsd.getNumberOfSteps() == null) {
+			snbsd.setNumberOfSteps(1);
+		}
+		return snbsd;
+	}
+
+	private VnfBlueprint vnfLcmHeal(final @Nonnull String vnfInstanceId, final Servers server, final Map<String, Object> inputs) {
+		final VnfHealRequest vnfHealRequest = new VnfHealRequest();
+		for (final Map.Entry<String, Object> c : inputs.entrySet()) {
+			final Map<String, String> d = (Map<String, String>) c.getValue();
+			final Object value = d.entrySet().iterator().next().getValue();
+			vnfHealRequest.setCause(value.toString());
+		}
+		LOG.info("VNF Heal with cause {} launched", vnfHealRequest.getCause());
+		return vnfm.vnfHeal(server, vnfInstanceId, vnfHealRequest);
+	}
+
+	private VnfBlueprint doVnfLcmScale(final @Nonnull String vnfInstanceId, final Servers server, final Map<String, Object> inputs) {
 		final VnfScaleRequest vnfScaleRequest = new VnfScaleRequest();
 		for (final Map.Entry<String, Object> c : inputs.entrySet()) {
 			final Map<String, String> d = (Map<String, String>) c.getValue();
@@ -444,6 +460,8 @@ public class VnfIndicatorValueChangeNotificationImpl {
 			case "number_of_steps":
 				vnfScaleRequest.setNumberOfSteps(Integer.parseInt(value.toString()));
 				break;
+			default:
+				throw new GenericException("Unknown operation: " + c.getKey());
 			}
 		}
 		if (vnfScaleRequest.getNumberOfSteps() == null) {

@@ -187,14 +187,6 @@
 			<artifactId>mano-docker-jib</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!--
-		This one have to be removed.
-		-->
-		<dependency>
-			<groupId>com.ubiqube.mano</groupId>
-			<artifactId>etsi-model-261</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-condition</artifactId>
