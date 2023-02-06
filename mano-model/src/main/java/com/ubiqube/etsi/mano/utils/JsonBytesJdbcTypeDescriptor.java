@@ -52,19 +52,19 @@ public class JsonBytesJdbcTypeDescriptor extends AbstractJsonJdbcTypeDescriptor 
 	}
 
 	@Override
-	public <X> ValueBinder<X> getBinder(final JavaType<X> JavaType) {
-		return new BasicBinder<>(JavaType, this) {
+	public <X> ValueBinder<X> getBinder(final JavaType<X> javaType) {
+		return new BasicBinder<>(javaType, this) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			protected void doBind(final PreparedStatement st, final X value, final int index, final WrapperOptions options) throws SQLException {
-				st.setBytes(index, toJsonBytes(JavaType.unwrap(value, String.class, options)));
+				st.setBytes(index, toJsonBytes(javaType.unwrap(value, String.class, options)));
 			}
 
 			@Override
 			protected void doBind(final CallableStatement st, final X value, final String name, final WrapperOptions options)
 					throws SQLException {
-				st.setBytes(name, toJsonBytes(JavaType.unwrap(value, String.class, options)));
+				st.setBytes(name, toJsonBytes(javaType.unwrap(value, String.class, options)));
 			}
 		};
 	}

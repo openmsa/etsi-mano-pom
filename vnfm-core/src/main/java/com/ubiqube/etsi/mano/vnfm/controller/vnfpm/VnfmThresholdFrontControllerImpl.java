@@ -80,8 +80,7 @@ public class VnfmThresholdFrontControllerImpl implements VnfmThresholdFrontContr
 
 	@Override
 	public <U> ResponseEntity<U> patch(final String thresholdId, final Object body, final Class<U> clazz) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 }

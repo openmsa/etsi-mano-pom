@@ -38,10 +38,9 @@ import org.hibernate.usertype.ParameterizedType;
 public class ManoJsonJdbcTypeDescriptor extends AbstractJsonJdbcTypeDescriptor implements ParameterizedType {
 
 	private static final long serialVersionUID = 1L;
-	private volatile Dialect dialect;
-	private volatile AbstractJsonJdbcTypeDescriptor jdbcTypeDescriptor;
+	private transient volatile AbstractJsonJdbcTypeDescriptor jdbcTypeDescriptor;
 
-	private volatile Properties properties;
+	private transient volatile Properties properties;
 
 	public ManoJsonJdbcTypeDescriptor() {
 	}
@@ -96,7 +95,7 @@ public class ManoJsonJdbcTypeDescriptor extends AbstractJsonJdbcTypeDescriptor i
 		try {
 			final StandardDialectResolver dialectResolver = new StandardDialectResolver();
 			final DatabaseMetaDataDialectResolutionInfoAdapter metaDataInfo = new DatabaseMetaDataDialectResolutionInfoAdapter(connection.getMetaData());
-			dialect = dialectResolver.resolveDialect(metaDataInfo);
+			final Dialect dialect = dialectResolver.resolveDialect(metaDataInfo);
 			if (dialect instanceof PostgreSQLDialect) {
 				return JsonBinaryJdbcTypeDescriptor.INSTANCE;
 			}

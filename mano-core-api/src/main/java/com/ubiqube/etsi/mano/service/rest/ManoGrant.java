@@ -108,8 +108,6 @@ public class ManoGrant {
 			grants.setId(grantId);
 			grants.setAvailable(Boolean.FALSE);
 		} else {
-			final Object body = resp.getBody();
-			LOG.debug("Deserailizing grant: {}", body.getClass());
 			grants = client.getMapper().map(resp.getBody(), GrantResponse.class);
 			grants.setAvailable(true);
 		}

@@ -82,6 +82,7 @@ import com.ubiqube.etsi.mano.service.cond.ConditionService;
 import com.ubiqube.etsi.mano.service.cond.Context;
 import com.ubiqube.etsi.mano.service.cond.Node;
 
+import jakarta.validation.constraints.NotNull;
 import ma.glasnost.orika.MapperFacade;
 
 @Component
@@ -162,7 +163,7 @@ public class VnfIndicatorValueChangeNotificationImpl {
 		for (final Map.Entry<String, List<VnfIndiValueChangeNotification>> entry : notificationsByInstanceId.entrySet()) {
 			final List<NsLiveInstance> nsInstanceIds = nsLiveInstanceJpa.findByResourceId(entry.getKey());
 			final Set<NsVnfIndicator> nsVnfIndicators = getNSIndicators(nsInstanceIds.get(0).getNsInstance().getId());
-			if ((nsVnfIndicators != null) && nsVnfIndicators.iterator().next().getToscaName().equals("auto_scale")) {
+			if (nsVnfIndicators.iterator().next().getToscaName().equals("auto_scale")) {
 				final UUID nsInstanceId = nsInstanceIds.get(0).getNsInstance().getId();
 				LOG.info("NS instance of the vnf Instance {}:{}", entry.getKey(), nsInstanceId);
 				final NSVnfNotification nsVnfNotification = new NSVnfNotification();
@@ -186,13 +187,14 @@ public class VnfIndicatorValueChangeNotificationImpl {
 		}
 	}
 
+	@NotNull
 	public Set<NsVnfIndicator> getNSIndicators(final UUID nsInstanceId) {
 		final NsdInstance nsdInstance = nsdInstanceJpa.findById(nsInstanceId).orElseThrow(() -> new GenericException("Could not find nsInstance: " + nsInstanceId));
 		final NsdPackage nsdPackage = nsdPackageJpa.findByNsdId(nsdInstance.getNsdInfo().getNsdId()).orElseThrow(() -> new GenericException("Could not find nsdPackage: " + nsdInstance.getNsdInfo().getNsdId()));
 		if ((nsdPackage.getNsVnfIndicator() != null) && !nsdPackage.getNsVnfIndicator().isEmpty()) {
 			return nsdPackage.getNsVnfIndicator();
 		}
-		return null;
+		return Set.of();
 	}
 
 	public List<VnfIndiValueChangeNotification> getNSVnfNotifications(final List<NSVnfNotification> nsVnfNotifications, final UUID nsInstanceId) {
@@ -278,7 +280,7 @@ public class VnfIndicatorValueChangeNotificationImpl {
 				} else {
 					final VnfIndiValueChangeNotification vnfIndiValueChangeNotification = not.iterator().next();
 					try {
-						vnfIndicatorValue = Double.valueOf(vnfIndiValueChangeNotification.getValue());
+						vnfIndicatorValue = Double.parseDouble(vnfIndiValueChangeNotification.getValue());
 					} catch (final NumberFormatException e) {
 						LOG.error(ERROR_PARSING_THRESHOLD_VALUE, e);
 						break;

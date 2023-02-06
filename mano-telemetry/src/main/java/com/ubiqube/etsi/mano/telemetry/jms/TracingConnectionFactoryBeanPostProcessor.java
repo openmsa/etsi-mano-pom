@@ -1,3 +1,19 @@
+/**
+ *     Copyright (C) 2019-2020 Ubiqube.
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 package com.ubiqube.etsi.mano.telemetry.jms;
 
 import org.springframework.beans.BeansException;
@@ -35,32 +51,27 @@ public class TracingConnectionFactoryBeanPostProcessor implements BeanPostProces
 		// callbacks
 		// such as ExceptionListener. If we don't wrap, cached callbacks like this won't
 		// be traced.
-		if (bean instanceof CachingConnectionFactory) {
-			return new LazyConnectionFactory(this.beanFactory,
-					(CachingConnectionFactory) bean);
+		if (bean instanceof final CachingConnectionFactory ccf) {
+			return new LazyConnectionFactory(this.beanFactory, ccf);
 		}
 		if (bean instanceof final JmsMessageEndpointManager manager) {
 			final MessageListener listener = manager.getMessageListener();
-			if (listener != null) {
-				manager.setMessageListener(
-						new LazyMessageListener(this.beanFactory, listener));
-			}
+			manager.setMessageListener(
+					new LazyMessageListener(this.beanFactory, listener));
 			return bean;
 		}
-		if ((bean instanceof XAConnectionFactory) && (bean instanceof ConnectionFactory)) {
+		if ((bean instanceof final XAConnectionFactory xacf) && (bean instanceof final ConnectionFactory cf)) {
 			return new LazyConnectionAndXaConnectionFactory(this.beanFactory,
-					(ConnectionFactory) bean, (XAConnectionFactory) bean);
+					cf, xacf);
 		}
-		if (bean instanceof XAConnectionFactory) {
-			return new LazyXAConnectionFactory(this.beanFactory,
-					(XAConnectionFactory) bean);
+		if (bean instanceof final XAConnectionFactory xacf) {
+			return new LazyXAConnectionFactory(this.beanFactory, xacf);
 		}
-		if (bean instanceof TopicConnectionFactory) {
-			return new LazyTopicConnectionFactory(this.beanFactory,
-					(TopicConnectionFactory) bean);
+		if (bean instanceof final TopicConnectionFactory tcf) {
+			return new LazyTopicConnectionFactory(this.beanFactory, tcf);
 		}
-		if (bean instanceof ConnectionFactory) {
-			return new LazyConnectionFactory(this.beanFactory, (ConnectionFactory) bean);
+		if (bean instanceof final ConnectionFactory cf) {
+			return new LazyConnectionFactory(this.beanFactory, cf);
 		}
 		return bean;
 	}

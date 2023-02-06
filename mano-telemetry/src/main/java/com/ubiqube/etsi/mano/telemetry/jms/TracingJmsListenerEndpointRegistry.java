@@ -1,3 +1,19 @@
+/**
+ *     Copyright (C) 2019-2020 Ubiqube.
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 package com.ubiqube.etsi.mano.telemetry.jms;
 
 import java.lang.reflect.Field;
@@ -93,12 +109,6 @@ public class TracingJmsListenerEndpointRegistry
 			final JmsListenerContainerFactory<?> factory) {
 		this.delegate.registerListenerContainer(wrapEndpoint(endpoint), factory);
 	}
-//
-//	@Override
-//	protected MessageListenerContainer createListenerContainer(
-//			final JmsListenerEndpoint endpoint, final JmsListenerContainerFactory<?> factory) {
-//		return this.delegate.createListenerContainer(wrapEndpoint(endpoint), factory);
-//	}
 
 	@Override
 	public int getPhase() {
@@ -159,11 +169,11 @@ public class TracingJmsListenerEndpointRegistry
 	}
 
 	private JmsListenerEndpoint wrapEndpoint(final JmsListenerEndpoint endpoint) {
-		if (endpoint instanceof MethodJmsListenerEndpoint) {
-			return trace((MethodJmsListenerEndpoint) endpoint);
+		if (endpoint instanceof final MethodJmsListenerEndpoint mjle) {
+			return trace(mjle);
 		}
-		if (endpoint instanceof SimpleJmsListenerEndpoint) {
-			return trace((SimpleJmsListenerEndpoint) endpoint);
+		if (endpoint instanceof final SimpleJmsListenerEndpoint sjle) {
+			return trace(sjle);
 		}
 		return endpoint;
 	}
@@ -176,11 +186,11 @@ public class TracingJmsListenerEndpointRegistry
 	 * @return wrapped endpoint
 	 */
 	SimpleJmsListenerEndpoint trace(final SimpleJmsListenerEndpoint source) {
-		final MessageListener delegate = source.getMessageListener();
-		if (delegate == null) {
+		final MessageListener del = source.getMessageListener();
+		if (del == null) {
 			return source;
 		}
-		source.setMessageListener(jmsTracing().messageListener(delegate, false));
+		source.setMessageListener(jmsTracing().messageListener(del, false));
 		return source;
 	}
 
@@ -237,7 +247,7 @@ public class TracingJmsListenerEndpointRegistry
 }
 
 final class TracingMethodJmsListenerEndpoint extends MethodJmsListenerEndpoint {
-
+	//
 }
 
 /**
@@ -257,7 +267,7 @@ final class TracingMessagingMessageListenerAdapter
 	}
 
 	@Override
-	public void onMessage(final Message message, final Session session) throws JMSException {
+	public void onMessage(final Message message, final @Nullable Session session) throws JMSException {
 		final Span span = this.jmsTracing.nextSpan(message).name("on-message").start();
 		try (CurrentTraceContext.Scope ws = this.current.newScope(span.context())) {
 			super.onMessage(message, session);

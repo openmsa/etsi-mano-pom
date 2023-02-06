@@ -79,7 +79,7 @@ public class ManoJsonJavaTypeDescriptor extends AbstractClassJavaType<Object> im
 	@Override
 	public void setParameterValues(final Properties parameters) {
 		final XProperty xProperty = (XProperty) parameters.get(DynamicParameterizedType.XPROPERTY);
-		final Type type = (xProperty instanceof JavaXMember) ? ((JavaXMember) xProperty).getJavaType() : ((ParameterType) parameters.get(PARAMETER_TYPE)).getReturnedClass();
+		final Type type = (xProperty instanceof final JavaXMember jm) ? jm.getJavaType() : ((ParameterType) parameters.get(PARAMETER_TYPE)).getReturnedClass();
 		setPropertyClass(type);
 	}
 
@@ -137,18 +137,18 @@ public class ManoJsonJavaTypeDescriptor extends AbstractClassJavaType<Object> im
 		}
 		if (BinaryStream.class.isAssignableFrom(type) ||
 				byte[].class.isAssignableFrom(type)) {
-			final String stringValue = (value instanceof String) ? (String) value : toString(value);
+			final String stringValue = (value instanceof final String s) ? s : toString(value);
 
 			return (X) new BinaryStreamImpl(DataHelper.extractBytes(new ByteArrayInputStream(stringValue.getBytes())));
 		}
 		if (Blob.class.isAssignableFrom(type)) {
-			final String stringValue = (value instanceof String) ? (String) value : toString(value);
+			final String stringValue = (value instanceof final String s) ? s : toString(value);
 
 			final Blob blob = BlobJavaType.INSTANCE.fromString(stringValue);
 			return (X) blob;
 		}
 		if (Object.class.isAssignableFrom(type)) {
-			final String stringValue = (value instanceof String) ? (String) value : toString(value);
+			final String stringValue = (value instanceof final String s) ? s : toString(value);
 			return (X) objectMapperWrapper.toJsonNode(stringValue);
 		}
 
@@ -199,22 +199,20 @@ public class ManoJsonJavaTypeDescriptor extends AbstractClassJavaType<Object> im
 	}
 
 	private void validatePropertyType() {
-		if (Collection.class.isAssignableFrom(propertyClass)) {
-			if (propertyType instanceof final ParameterizedType parameterizedType) {
-				for (final Class<?> genericType : ReflectionUtils.getGenericTypes(parameterizedType)) {
-					if (validatedTypes.contains(genericType)) {
-						continue;
-					}
-					validatedTypes.add(genericType);
-					final Method equalsMethod = ReflectionUtils.getMethodOrNull(genericType, "equals", Object.class);
-					final Method hashCodeMethod = ReflectionUtils.getMethodOrNull(genericType, "hashCode");
+		if (Collection.class.isAssignableFrom(propertyClass) && (propertyType instanceof final ParameterizedType parameterizedType)) {
+			for (final Class<?> genericType : ReflectionUtils.getGenericTypes(parameterizedType)) {
+				if (validatedTypes.contains(genericType)) {
+					continue;
+				}
+				validatedTypes.add(genericType);
+				final Method equalsMethod = ReflectionUtils.getMethodOrNull(genericType, "equals", Object.class);
+				final Method hashCodeMethod = ReflectionUtils.getMethodOrNull(genericType, "hashCode");
 
-					if ((equalsMethod == null) ||
-							(hashCodeMethod == null) ||
-							Object.class.equals(equalsMethod.getDeclaringClass()) ||
-							Object.class.equals(hashCodeMethod.getDeclaringClass())) {
-						LOG.warn("The {} class should override both the equals and hashCode methods based on the JSON object value it represents!", genericType);
-					}
+				if ((equalsMethod == null) ||
+						(hashCodeMethod == null) ||
+						Object.class.equals(equalsMethod.getDeclaringClass()) ||
+						Object.class.equals(hashCodeMethod.getDeclaringClass())) {
+					LOG.warn("The {} class should override both the equals and hashCode methods based on the JSON object value it represents!", genericType);
 				}
 			}
 		}
