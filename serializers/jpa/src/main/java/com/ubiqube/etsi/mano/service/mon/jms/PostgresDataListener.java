@@ -97,9 +97,7 @@ public class PostgresDataListener {
 		final VnfIndicatorValue existingVnfIndicatorValue = vnfIndicatorValueJpa.findByKeyAndVnfInstanceId(allHostMetrics.getMetricName(), allHostMetrics.getVnfInstanceId());
 		if ("cpu".equals(allHostMetrics.getTelemetryMetricsResult().get(0).getKey())) {
 			OffsetDateTime metricsUpdatedTime = OffsetDateTime.now();
-			double totalValue = 0.0;
-			boolean isMetricsUpdated = false;
-			long deltaSeconds = 0;
+			CpuMetric cpuMetric = new CpuMetric(0, false, 0);
 			final long noOfVirtualCpus = computes.stream()
 					.map(VnfCompute::getVirtualCpu)
 					.mapToLong(VirtualCpu::getNumVirtualCpu)
@@ -111,32 +109,32 @@ public class PostgresDataListener {
 				LOG.trace(POSTGRESQL_RECEIVE, action);
 				final VnfIndicatorMonitoringData data = vnfIndicatorMonitoringDataJpa.findByKeyAndVnfcId(allHostMetrics.getMetricName(), UUID.fromString(action.getVnfcId()));
 				if ((data != null) && (existingVnfIndicatorValue != null)) {
+					boolean isMetricsUpdated = false;
+					long deltaSeconds = 0;
 					final double deltaCpuUsage = action.getValue() - data.getValue();
 					if (deltaCpuUsage != 0.0) {
 						isMetricsUpdated = true;
 						metricsUpdatedTime = action.getTimestamp();
 						final Duration duration = Duration.between(existingVnfIndicatorValue.getTime(), action.getTimestamp());
 						deltaSeconds = duration.getSeconds();
-					} else {
-						isMetricsUpdated = false;
 					}
 					final double usageInSeconds = deltaCpuUsage / 1_000_000_000L;
-					totalValue = totalValue + usageInSeconds;
+					final double totalValue = cpuMetric.totalValue() + usageInSeconds;
+					cpuMetric = new CpuMetric(totalValue, isMetricsUpdated, deltaSeconds);
 				} else {
-					isMetricsUpdated = true;
 					final double deltaCpuUsage = action.getValue();
 					metricsUpdatedTime = action.getTimestamp().truncatedTo(ChronoUnit.MINUTES);
-					deltaSeconds = 600;
 					final double usageInSeconds = deltaCpuUsage / 1_000_000_000L;
-					totalValue = totalValue + usageInSeconds;
+					final double totalValue = cpuMetric.totalValue() + usageInSeconds;
+					cpuMetric = new CpuMetric(totalValue, true, 600);
 				}
 				final VnfIndicatorMonitoringData data2 = new VnfIndicatorMonitoringData(allHostMetrics.getMetricName(), allHostMetrics.getMasterJobId(), action.getValue(), UUID.fromString(action.getVnfcId()));
 				vnfIndicatorMonitoringDataJpa.save(data2);
 			}
-			if (!isMetricsUpdated || (totalValue == 0.0) || (noOfVirtualCpus == 0) || (deltaSeconds == 0)) {
+			if (!cpuMetric.isMetricsUpdated() || (cpuMetric.totalValue() == 0.0) || (noOfVirtualCpus == 0) || (cpuMetric.deltaSeconds() == 0)) {
 				return;
 			}
-			final double averageValueByPercent = (totalValue / (noOfVirtualCpus * deltaSeconds)) * 100;
+			final double averageValueByPercent = (cpuMetric.totalValue() / (noOfVirtualCpus * cpuMetric.deltaSeconds())) * 100;
 			mv = new MetricValue(averageValueByPercent, metricsUpdatedTime);
 		} else if ("memory.usage".equals(allHostMetrics.getTelemetryMetricsResult().get(0).getKey())) {
 			double averageValueByPercent;
@@ -178,15 +176,19 @@ public class PostgresDataListener {
 		}
 	}
 
-	private boolean metricHaveChanged(final MetricValue mv, final VnfIndicatorValue existingVnfIndicatorValue) {
+	private static boolean metricHaveChanged(final MetricValue mv, final VnfIndicatorValue existingVnfIndicatorValue) {
 		return (existingVnfIndicatorValue != null) && !existingVnfIndicatorValue.getValue().equals(mv.averageValueByPercent());
 	}
 
 	private Double toMiB(final double x) {
 		return x * 1_048_576; // Mib
 	}
+}
 
-	record MetricValue(double averageValueByPercent, OffsetDateTime metricsUpdatedTime) {
-		//
-	}
+record MetricValue(double averageValueByPercent, OffsetDateTime metricsUpdatedTime) {
+	//
+}
+
+record CpuMetric(double totalValue, boolean isMetricsUpdated, long deltaSeconds) {
+	//
 }
