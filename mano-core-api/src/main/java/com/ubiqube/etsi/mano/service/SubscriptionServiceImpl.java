@@ -20,8 +20,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import jakarta.persistence.EntityManager;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.AnnotationUtils;
@@ -46,6 +44,7 @@ import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
 import com.ubiqube.etsi.mano.utils.Version;
 
+import jakarta.persistence.EntityManager;
 import ma.glasnost.orika.MapperFacade;
 
 @Service
@@ -92,11 +91,11 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 		subscription.setSubscriptionType(type);
 		subscription.setNodeFilter(evalService.convertRequestToString(subscriptionRequest));
 		subscription.setVersion(extractVersion(version, type));
-		heckAvailability(subscription);
+		checkAvailability(subscription);
 		return subscriptionJpa.save(subscription);
 	}
 
-	private void heckAvailability(final Subscription subscription) {
+	private void checkAvailability(final Subscription subscription) {
 		final ServerAdapter server = serverService.buildServerAdapter(subscription);
 		notifications.check(server, subscription.getCallbackUri());
 	}
