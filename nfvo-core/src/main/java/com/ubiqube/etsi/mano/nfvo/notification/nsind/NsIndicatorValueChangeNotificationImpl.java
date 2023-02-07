@@ -186,37 +186,7 @@ public class NsIndicatorValueChangeNotificationImpl {
 		final String operationName = (String) b.get("operation");
 		final Map<String, Object> inputs = (Map<String, Object>) b.get("inputs");
 		if ("Nslcm.scale".equals(operationName)) {
-			final NsScale nsInst = new NsScale();
-			nsInst.setScaleType(ScaleType.NS);
-			final ScaleNsByStepsData snbsd = new ScaleNsByStepsData();
-			for (final Map.Entry<String, Object> c : inputs.entrySet()) {
-				final Map<String, String> d = (Map<String, String>) c.getValue();
-				final Object value = d.entrySet().iterator().next().getValue();
-				switch (c.getKey()) {
-				case "type":
-					if ("scale_out".equals(value)) {
-						snbsd.setScalingDirection(ScalingDirectionType.OUT);
-					}
-					if ("scale_in".equals(value)) {
-						snbsd.setScalingDirection(ScalingDirectionType.IN);
-					}
-					break;
-				case "aspect":
-					snbsd.setAspectId(value.toString());
-					break;
-				case "number_of_steps":
-					snbsd.setNumberOfSteps(Integer.parseInt(value.toString()));
-					break;
-				default:
-					break;
-				}
-			}
-			if (snbsd.getNumberOfSteps() == null) {
-				snbsd.setNumberOfSteps(1);
-			}
-			final ScaleNsData snd = new ScaleNsData();
-			snd.setScaleNsByStepsData(snbsd);
-			nsInst.setScaleNsData(snd);
+			final NsScale nsInst = createScaleRequest(inputs);
 			LOG.info("NS Scale {} : {} launched", nsInstanceId, nsInst);
 			nsInstanceControllerService.scale(UUID.fromString(nsInstanceId), nsInst);
 		} else {
@@ -225,4 +195,38 @@ public class NsIndicatorValueChangeNotificationImpl {
 
 	}
 
+	private static NsScale createScaleRequest(final Map<String, Object> inputs) {
+		final NsScale nsInst = new NsScale();
+		nsInst.setScaleType(ScaleType.NS);
+		final ScaleNsByStepsData snbsd = new ScaleNsByStepsData();
+		for (final Map.Entry<String, Object> c : inputs.entrySet()) {
+			final Map<String, String> d = (Map<String, String>) c.getValue();
+			final Object value = d.entrySet().iterator().next().getValue();
+			switch (c.getKey()) {
+			case "type":
+				if ("scale_out".equals(value)) {
+					snbsd.setScalingDirection(ScalingDirectionType.OUT);
+				}
+				if ("scale_in".equals(value)) {
+					snbsd.setScalingDirection(ScalingDirectionType.IN);
+				}
+				break;
+			case "aspect":
+				snbsd.setAspectId(value.toString());
+				break;
+			case "number_of_steps":
+				snbsd.setNumberOfSteps(Integer.parseInt(value.toString()));
+				break;
+			default:
+				break;
+			}
+		}
+		if (snbsd.getNumberOfSteps() == null) {
+			snbsd.setNumberOfSteps(1);
+		}
+		final ScaleNsData snd = new ScaleNsData();
+		snd.setScaleNsByStepsData(snbsd);
+		nsInst.setScaleNsData(snd);
+		return nsInst;
+	}
 }

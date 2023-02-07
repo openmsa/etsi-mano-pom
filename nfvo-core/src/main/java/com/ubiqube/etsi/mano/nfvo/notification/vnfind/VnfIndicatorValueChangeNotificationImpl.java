@@ -69,6 +69,7 @@ import com.ubiqube.etsi.mano.service.cond.ConditionService;
 import com.ubiqube.etsi.mano.service.cond.Context;
 import com.ubiqube.etsi.mano.service.cond.Node;
 
+import jakarta.annotation.Nonnull;
 import jakarta.validation.constraints.NotNull;
 
 @Component
@@ -95,8 +96,11 @@ public class VnfIndicatorValueChangeNotificationImpl {
 	private final ServersJpa serversJpa;
 
 	private final VnfLcmInterface vnfLcmInterface;
+
 	private final NsLcmInterface nsLcmInterface;
+
 	private final ConditionService conditionService;
+
 	private final Random rand = new Random();
 
 	private final VnfInstanceLcm vnfLcmOpOccsService;
@@ -136,10 +140,10 @@ public class VnfIndicatorValueChangeNotificationImpl {
 		final List<NSVnfNotification> nsVnfNotifications = new ArrayList<>();
 		LOG.trace("Polling notification");
 		for (final Map.Entry<String, List<VnfIndiValueChangeNotification>> entry : notificationsByInstanceId.entrySet()) {
-			final List<NsLiveInstance> nsInstanceIds = nsLiveInstanceJpa.findByResourceId(entry.getKey());
-			final Set<NsVnfIndicator> nsVnfIndicators = getNSIndicators(nsInstanceIds.get(0).getNsInstance().getId());
+			final NsLiveInstance nsInstanceIds = findSingleLiveInstanceByResourceId(entry.getKey());
+			final Set<NsVnfIndicator> nsVnfIndicators = getNSIndicators(nsInstanceIds.getNsInstance().getId());
 			if (nsVnfIndicators.iterator().next().getToscaName().equals("auto_scale")) {
-				final UUID nsInstanceId = nsInstanceIds.get(0).getNsInstance().getId();
+				final UUID nsInstanceId = nsInstanceIds.getNsInstance().getId();
 				LOG.info("NS instance of the vnf Instance {}:{}", entry.getKey(), nsInstanceId);
 				final NSVnfNotification nsVnfNotification = new NSVnfNotification();
 				nsVnfNotification.setVnfIndiValueChangeNotifications(entry.getValue());
@@ -155,6 +159,14 @@ public class VnfIndicatorValueChangeNotificationImpl {
 			final List<VnfIndiValueChangeNotification> notifications = getNSVnfNotifications(nsNotifications.getValue(), nsNotifications.getKey());
 			evaluateValueBasedOnCondition(nsNotifications.getKey(), null, notifications);
 		}
+	}
+
+	private NsLiveInstance findSingleLiveInstanceByResourceId(final @Nonnull String resourceId) {
+		final List<NsLiveInstance> res = nsLiveInstanceJpa.findByResourceId(resourceId);
+		if (res.size() != 1) {
+			throw new GenericException("Trying to select a single resource with id: " + resourceId + ", but got: " + res.size());
+		}
+		return res.get(0);
 	}
 
 	private Set<VnfIndiValueChangeNotification> findAllNotifications() {
