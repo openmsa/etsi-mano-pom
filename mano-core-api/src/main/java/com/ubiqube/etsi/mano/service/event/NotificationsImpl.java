@@ -47,11 +47,11 @@ public class NotificationsImpl implements Notifications {
 	 * Send a notification Object to the _uri
 	 *
 	 * @param obj  The JSON Onject.
-	 * @param _uri The complete URL.
+	 * @param uri  The complete URL.
 	 * @param auth Auth parameters.
 	 */
 	@Override
-	public void doNotification(final Object obj, final String _uri, final ServerAdapter server) {
+	public void doNotification(final Object obj, final String uri, final ServerAdapter server) {
 		String content;
 		try {
 			content = mapper.writeValueAsString(obj);
@@ -59,26 +59,26 @@ public class NotificationsImpl implements Notifications {
 			throw new GenericException(e);
 		}
 		LOG.debug("Message :\n{}", content);
-		sendRequest(content, server, _uri, null);
+		sendRequest(content, server, uri, null);
 	}
 
-	private static void sendRequest(final String _content, final ServerAdapter server, final String _uri, final String version) {
+	private static void sendRequest(final String _content, final ServerAdapter server, final String uri, final String version) {
 		final var rest = server.rest();
-		LOG.info("Sending to {}", _uri);
-		rest.post(URI.create(_uri), _content, Void.class, version);
-		LOG.debug("Event Sent to {}", _uri);
+		LOG.info("Sending to {}", uri);
+		rest.post(URI.create(uri), _content, Void.class, version);
+		LOG.debug("Event Sent to {}", uri);
 	}
 
 	@Override
-	public void check(final ServerAdapter server, final String _uri) {
+	public void check(final ServerAdapter server, final String uri) {
 		final var rest = server.rest();
-		doRealCheck(rest, _uri);
+		doRealCheck(rest, uri);
 	}
 
-	private static void doRealCheck(final FluxRest rest, final String _uri) {
-		final ResponseEntity<Void> status = rest.getWithReturn(URI.create(_uri), Void.class, null);
+	private static void doRealCheck(final FluxRest rest, final String uri) {
+		final ResponseEntity<Void> status = rest.getWithReturn(URI.create(uri), Void.class, null);
 		if (status.getStatusCode() != HttpStatus.NO_CONTENT) {
-			LOG.error("Status response must be 204 by was: {} <=> {}", status, _uri);
+			LOG.error("Status response must be 204 by was: {} <=> {}", status, uri);
 			throw new GenericException("HttpClient got an error: " + status + ", must be 204");
 		}
 	}
