@@ -18,15 +18,15 @@ package com.ubiqube.etsi.mano.service;
 
 import java.util.UUID;
 
-import jakarta.annotation.Nonnull;
-import jakarta.validation.constraints.NotNull;
-
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.model.VnfHealRequest;
 import com.ubiqube.etsi.mano.model.VnfInstantiate;
 import com.ubiqube.etsi.mano.model.VnfScaleRequest;
+
+import jakarta.annotation.Nonnull;
+import jakarta.validation.constraints.NotNull;
 
 public interface VnfmInterface {
 
@@ -38,9 +38,9 @@ public interface VnfmInterface {
 
 	VnfBlueprint vnfTerminate(Servers servers, @Nonnull String nsInstanceId);
 
-	VnfBlueprint vnfScale(Servers servers, @Nonnull String vnfInstanceId, VnfScaleRequest vnfScaleRequest);
+	VnfBlueprint vnfScale(Servers servers, @Nonnull UUID vnfInstanceId, VnfScaleRequest vnfScaleRequest);
 
-	VnfBlueprint vnfHeal(Servers servers, @Nonnull String vnfInstanceId, VnfHealRequest vnfHealRequest);
+	VnfBlueprint vnfHeal(Servers servers, @Nonnull UUID vnfInstanceId, VnfHealRequest vnfHealRequest);
 
 	VnfInstance getVnfInstance(Servers servers, String vnfInstance);
 
