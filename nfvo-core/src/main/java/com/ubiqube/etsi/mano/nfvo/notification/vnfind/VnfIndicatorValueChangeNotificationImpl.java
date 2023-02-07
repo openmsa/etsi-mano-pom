@@ -23,7 +23,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
@@ -53,11 +52,9 @@ import com.ubiqube.etsi.mano.dao.mano.NsdPackageVnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.TriggerDefinition;
 import com.ubiqube.etsi.mano.dao.mano.VnfIndicator;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
-import com.ubiqube.etsi.mano.dao.mano.common.FailureDetails;
 import com.ubiqube.etsi.mano.dao.mano.config.ServerType;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.dao.mano.ind.VnfIndiValueChangeNotification;
-import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.PlanStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.exception.GenericException;
@@ -98,8 +95,6 @@ public class VnfIndicatorValueChangeNotificationImpl {
 
 	private final ServersJpa serversJpa;
 
-	private final BiFunction<Servers, UUID, VnfBlueprint> func;
-
 	private final BiFunction<Servers, UUID, List<VnfBlueprint>> func2;
 
 	private final VnfLcmInterface vnfLcmInterface;
@@ -123,7 +118,6 @@ public class VnfIndicatorValueChangeNotificationImpl {
 		this.nsLcmInterface = nsLcmInterface;
 		this.conditionService = conditionService;
 		this.vnfLcmInterface = vnfLcmInterface;
-		func = vnfLcmOpOccsService::vnfLcmOpOccsGet;
 		func2 = vnfLcmOpOccsService::findByVnfInstanceId;
 		try (InputStream mappting = this.getClass().getClassLoader().getResourceAsStream("gnocchi-mapping.properties")) {
 			props = new Properties();
@@ -337,23 +331,14 @@ public class VnfIndicatorValueChangeNotificationImpl {
 		final Map<String, Object> b = (Map<String, Object>) a.getValue();
 		final String operationName = (String) b.get("operation");
 		final Map<String, Object> inputs = (Map<String, Object>) b.get("inputs");
-		VnfBlueprint res = null;
 		if ("Vnflcm.scale".equals(operationName)) {
-			res = vnfLcmInterface.vnfLcmScaleAction(vnfInstanceId, server, inputs);
+			vnfLcmInterface.vnfLcmScaleAction(vnfInstanceId, server, inputs);
 		} else if ("Vnflcm.heal".equals(operationName)) {
-			res = vnfLcmInterface.vnfLcmHealAction(vnfInstanceId, server, inputs);
+			vnfLcmInterface.vnfLcmHealAction(vnfInstanceId, server, inputs);
 		} else if ("Nslcm.scale".equals(operationName)) {
 			nsLcmInterface.nsLcmScaleAction(nsInstanceId, inputs);
 		} else {
 			LOG.error("operation name not valid");
-		}
-
-		if ("Vnflcm.scale".equals(operationName) || "Vnflcm.heal".equals(operationName)) {
-			final VnfBlueprint result = UowUtils.waitLcmCompletion(res, func, server);
-			if (OperationStatusType.COMPLETED != result.getOperationStatus()) {
-				final String details = Optional.ofNullable(result.getError()).map(FailureDetails::getDetail).orElse("[No content]");
-				throw new GenericException("VNF LCM Failed: " + details + " With state:  " + result.getOperationStatus());
-			}
 		}
 	}
 

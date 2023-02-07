@@ -1,16 +1,23 @@
 package com.ubiqube.etsi.mano.nfvo.notification.vnfind;
 
 import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.function.BiFunction;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ubiqube.etsi.mano.controller.vnflcm.VnfInstanceLcm;
 import com.ubiqube.etsi.mano.dao.mano.ScaleTypeEnum;
+import com.ubiqube.etsi.mano.dao.mano.common.FailureDetails;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
+import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.model.VnfHealRequest;
 import com.ubiqube.etsi.mano.model.VnfScaleRequest;
+import com.ubiqube.etsi.mano.nfvo.service.plan.uow.UowUtils;
 import com.ubiqube.etsi.mano.service.VnfmInterface;
 
 import jakarta.annotation.Nonnull;
@@ -21,8 +28,11 @@ public class VnfLcmInterface {
 
 	private final VnfmInterface vnfm;
 
-	public VnfLcmInterface(final VnfmInterface vnfm) {
+	private final VnfInstanceLcm vnfLcmOpOccsService;
+
+	public VnfLcmInterface(final VnfmInterface vnfm, final VnfInstanceLcm vnfLcmOpOccsService) {
 		this.vnfm = vnfm;
+		this.vnfLcmOpOccsService = vnfLcmOpOccsService;
 	}
 
 	public VnfBlueprint vnfLcmScaleAction(final @Nonnull String vnfInstanceId, final Servers server, final Map<String, Object> inputs) {
@@ -53,7 +63,8 @@ public class VnfLcmInterface {
 			vnfScaleRequest.setNumberOfSteps(1);
 		}
 		LOG.info("VNF Scale {} launched", vnfScaleRequest.getType());
-		return vnfm.vnfScale(server, vnfInstanceId, vnfScaleRequest);
+		final VnfBlueprint res = vnfm.vnfScale(server, vnfInstanceId, vnfScaleRequest);
+		return waitForLcmOpOcc(res, vnfLcmOpOccsService::vnfLcmOpOccsGet, server);
 	}
 
 	public VnfBlueprint vnfLcmHealAction(final @Nonnull String vnfInstanceId, final Servers server, final Map<String, Object> inputs) {
@@ -64,7 +75,16 @@ public class VnfLcmInterface {
 			vnfHealRequest.setCause(value.toString());
 		}
 		LOG.info("VNF Heal with cause {} launched", vnfHealRequest.getCause());
-		return vnfm.vnfHeal(server, vnfInstanceId, vnfHealRequest);
+		final VnfBlueprint res = vnfm.vnfHeal(server, vnfInstanceId, vnfHealRequest);
+		return waitForLcmOpOcc(res, vnfLcmOpOccsService::vnfLcmOpOccsGet, server);
 	}
 
+	private static VnfBlueprint waitForLcmOpOcc(final VnfBlueprint vnfLcmOpOccs, final BiFunction<Servers, UUID, VnfBlueprint> func, final Servers server) {
+		final VnfBlueprint result = UowUtils.waitLcmCompletion(vnfLcmOpOccs, func, server);
+		if (OperationStatusType.COMPLETED != result.getOperationStatus()) {
+			final String details = Optional.ofNullable(result.getError()).map(FailureDetails::getDetail).orElse("[No content]");
+			throw new GenericException("VNF LCM Failed: " + details + " With state:  " + result.getOperationStatus());
+		}
+		return result;
+	}
 }
