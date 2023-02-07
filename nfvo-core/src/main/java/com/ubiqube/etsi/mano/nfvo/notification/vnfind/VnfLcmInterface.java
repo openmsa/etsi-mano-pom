@@ -35,7 +35,7 @@ public class VnfLcmInterface {
 		this.vnfLcmOpOccsService = vnfLcmOpOccsService;
 	}
 
-	public VnfBlueprint vnfLcmScaleAction(final @Nonnull String vnfInstanceId, final Servers server, final Map<String, Object> inputs) {
+	public VnfBlueprint vnfLcmScaleAction(final @Nonnull UUID vnfInstanceId, final Servers server, final Map<String, Object> inputs) {
 		final VnfScaleRequest vnfScaleRequest = new VnfScaleRequest();
 		for (final Map.Entry<String, Object> c : inputs.entrySet()) {
 			final Map<String, String> d = (Map<String, String>) c.getValue();
@@ -67,7 +67,7 @@ public class VnfLcmInterface {
 		return waitForLcmOpOcc(res, vnfLcmOpOccsService::vnfLcmOpOccsGet, server);
 	}
 
-	public VnfBlueprint vnfLcmHealAction(final @Nonnull String vnfInstanceId, final Servers server, final Map<String, Object> inputs) {
+	public VnfBlueprint vnfLcmHealAction(final @Nonnull UUID vnfInstanceId, final Servers server, final Map<String, Object> inputs) {
 		final VnfHealRequest vnfHealRequest = new VnfHealRequest();
 		for (final Map.Entry<String, Object> c : inputs.entrySet()) {
 			final Map<String, String> d = (Map<String, String>) c.getValue();

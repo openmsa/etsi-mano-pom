@@ -33,6 +33,7 @@ import com.ubiqube.etsi.mano.model.VnfInstantiate;
 import com.ubiqube.etsi.mano.model.VnfScaleRequest;
 import com.ubiqube.etsi.mano.service.VnfmInterface;
 
+import jakarta.annotation.Nonnull;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 
@@ -52,8 +53,8 @@ public class VnfmNfvo implements VnfmInterface {
 	}
 
 	@Override
-	public VnfBlueprint vnfInstatiate(final Servers servers, final String vnfInstanceId, final VnfInstantiate instantiateVnfRequest) {
-		return lcm.instantiate(servers, UUID.fromString(vnfInstanceId), instantiateVnfRequest);
+	public VnfBlueprint vnfInstatiate(final Servers servers, final @Nonnull String vnfInstanceId, final VnfInstantiate instantiateVnfRequest) {
+		return lcm.instantiate(servers, getSafeUUID(vnfInstanceId), instantiateVnfRequest);
 	}
 
 	@Override
@@ -62,18 +63,18 @@ public class VnfmNfvo implements VnfmInterface {
 	}
 
 	@Override
-	public VnfBlueprint vnfTerminate(final Servers servers, final String nsInstanceId) {
-		return lcm.terminate(servers, UUID.fromString(nsInstanceId), CancelModeTypeEnum.FORCEFUL, null);
+	public VnfBlueprint vnfTerminate(final Servers servers, final @Nonnull String nsInstanceId) {
+		return lcm.terminate(servers, getSafeUUID(nsInstanceId), CancelModeTypeEnum.FORCEFUL, null);
 	}
 
 	@Override
-	public VnfBlueprint vnfScale(final Servers servers, final String vnfInstanceId, final VnfScaleRequest vnfScaleRequest) {
-		return lcm.scale(servers, UUID.fromString(vnfInstanceId), vnfScaleRequest);
+	public VnfBlueprint vnfScale(final Servers servers, final @Nonnull UUID vnfInstanceId, final VnfScaleRequest vnfScaleRequest) {
+		return lcm.scale(servers, vnfInstanceId, vnfScaleRequest);
 	}
 
 	@Override
-	public VnfBlueprint vnfHeal(final Servers servers, final String vnfInstanceId, final VnfHealRequest vnfHealRequest) {
-		return lcm.heal(servers, UUID.fromString(vnfInstanceId), vnfHealRequest);
+	public VnfBlueprint vnfHeal(final Servers servers, final @Nonnull UUID vnfInstanceId, final VnfHealRequest vnfHealRequest) {
+		return lcm.heal(servers, vnfInstanceId, vnfHealRequest);
 	}
 
 	@Override
