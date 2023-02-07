@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.common.FailureDetails;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.NsScale;
@@ -20,6 +21,7 @@ import com.ubiqube.etsi.mano.nfvo.controller.nslcm.NsInstanceControllerService;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsBlueprintJpa;
 import com.ubiqube.etsi.mano.nfvo.service.plan.uow.UowUtils;
 
+@Service
 public class NsLcmInterface {
 
 	private static final Logger LOG = LoggerFactory.getLogger(NsLcmInterface.class);

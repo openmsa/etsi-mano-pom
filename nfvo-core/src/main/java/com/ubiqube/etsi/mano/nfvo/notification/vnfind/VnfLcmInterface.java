@@ -7,6 +7,7 @@ import java.util.function.BiFunction;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.controller.vnflcm.VnfInstanceLcm;
 import com.ubiqube.etsi.mano.dao.mano.ScaleTypeEnum;
@@ -22,6 +23,7 @@ import com.ubiqube.etsi.mano.service.VnfmInterface;
 
 import jakarta.annotation.Nonnull;
 
+@Service
 public class VnfLcmInterface {
 
 	private static final Logger LOG = LoggerFactory.getLogger(VnfLcmInterface.class);
