@@ -14,7 +14,6 @@ logging:
     com:
       ubiqube:
         etsi: DEBUG
-    "[Hibernate Types]": WARN
     ma:
       glasnost:
         orika: INFO
@@ -36,7 +35,7 @@ logging:
         boot:
           autoconfigure:
             logging:
-              ConditionEvaluationReportLoggingListener: INFO
+              ConditionEvaluationReportLogger: INFO
         context: INFO
         http: INFO
         jms: INFO
@@ -45,6 +44,8 @@ logging:
           filter: INFO
           servlet: INFO
           reactive: INFO
+  pattern:
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
 
 management:
   endpoint:
@@ -57,8 +58,19 @@ management:
   info:
     git:
       mode: full
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http:
+          server:
+            requests: true
+  tracing:
+    sampling:
+      probability: 1.0
 
 mano:
+  config:
+    type: etsi-mano
   election:
     script-path: /tmp/etsi-mano/election/groovy
   frontend-url: http://localhost:8080/ubi-etsi-mano/sol003
@@ -78,10 +90,6 @@ spring:
     name: etsi-mano
   artemis:
     mode: embedded
-  cloud:
-    httpclientfactories:
-      ok:
-        enabled: false
   data:
     rest:
       base-path: /api

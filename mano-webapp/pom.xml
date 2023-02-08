@@ -57,30 +57,10 @@
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-bootstrap</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.bouncycastle</groupId>
-					<artifactId>bcpkix-jdk15on</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>de.codecentric</groupId>
-			<artifactId>spring-boot-admin-starter-client</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.keycloak</groupId>
-			<artifactId>keycloak-spring-boot-starter</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.bouncycastle</groupId>
-					<artifactId>bcpkix-jdk15on</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.bouncycastle</groupId>
-					<artifactId>bcprov-jdk15on</artifactId>
-				</exclusion>
-			</exclusions>
+			<groupId>com.ubiqube.orika</groupId>
+			<artifactId>orika-spring-boot-starter</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.liquibase</groupId>
@@ -113,10 +93,6 @@
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-rest-hal-explorer</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-oauth2-client</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
@@ -247,7 +223,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-security</artifactId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
@@ -265,19 +241,13 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.hibernate.validator</groupId>
+			<artifactId>hibernate-validator</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-vim-k8s</artifactId>
 			<version>${project.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.bouncycastle</groupId>
-					<artifactId>bcpkix-jdk15on</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.bouncycastle</groupId>
-					<artifactId>bcprov-ext-jdk15on</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
@@ -298,6 +268,15 @@
 			<groupId>com.ubiqube.mano.service.mon.poller</groupId>
 			<artifactId>mano-pm-poller</artifactId>
 			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ubiqube.mano</groupId>
+			<artifactId>mano-docker-jib</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
 		</dependency>
 	</dependencies>
 	<build>
@@ -388,6 +367,30 @@
 						<configuration>
 							<outputDirectory>${basedir}/target/classes/</outputDirectory>
 							<artifactItems>
+								<artifactItem>
+									<groupId>com.ubiqube.mano.sol001</groupId>
+									<artifactId>tosca-class-251</artifactId>
+									<version>2.0.0-SNAPSHOT</version>
+									<destFileName>tosca-class-251-2.0.0-SNAPSHOT.jar</destFileName>
+								</artifactItem>
+								<artifactItem>
+									<groupId>com.ubiqube.mano.sol001</groupId>
+									<artifactId>tosca-class-261</artifactId>
+									<version>2.0.0-SNAPSHOT</version>
+									<destFileName>tosca-class-261-2.0.0-SNAPSHOT.jar</destFileName>
+								</artifactItem>
+								<artifactItem>
+									<groupId>com.ubiqube.mano.sol001</groupId>
+									<artifactId>tosca-class-271</artifactId>
+									<version>2.0.0-SNAPSHOT</version>
+									<destFileName>tosca-class-271-2.0.0-SNAPSHOT.jar</destFileName>
+								</artifactItem>
+								<artifactItem>
+									<groupId>com.ubiqube.mano.sol001</groupId>
+									<artifactId>tosca-class-281</artifactId>
+									<version>2.0.0-SNAPSHOT</version>
+									<destFileName>tosca-class-281-2.0.0-SNAPSHOT.jar</destFileName>
+								</artifactItem>
 								<artifactItem>
 									<groupId>com.ubiqube.mano.sol001</groupId>
 									<artifactId>tosca-class-331</artifactId>
