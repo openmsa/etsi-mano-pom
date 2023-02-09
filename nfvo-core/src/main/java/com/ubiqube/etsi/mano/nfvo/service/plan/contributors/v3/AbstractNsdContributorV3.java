@@ -48,7 +48,7 @@ public abstract class AbstractNsdContributorV3<U> implements TemplateExtractorV3
 	}
 
 	protected int countLive(final NsdInstance nsdInstance, final Class<?> clazz, final String toscaName) {
-		return Optional.ofNullable(nsLiveInstanceJpa.countByNsdInstanceIdAndClassAndToscaName(nsdInstance, clazz.getSimpleName(), toscaName))
+		return Optional.ofNullable(nsLiveInstanceJpa.countByNsdInstanceIdAndClassAndToscaName(nsdInstance, clazz, toscaName))
 				.orElse(0);
 	}
 

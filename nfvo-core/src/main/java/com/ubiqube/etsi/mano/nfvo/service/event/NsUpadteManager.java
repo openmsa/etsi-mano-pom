@@ -27,8 +27,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import jakarta.validation.constraints.NotNull;
-
 import org.eclipse.jdt.annotation.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,6 +65,7 @@ import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.rest.ManoClient;
 import com.ubiqube.etsi.mano.service.rest.ManoClientFactory;
 
+import jakarta.validation.constraints.NotNull;
 import ma.glasnost.orika.MapperFacade;
 
 /**
@@ -205,7 +204,7 @@ public class NsUpadteManager {
 
 	private Object modifyVnfInformation(final NsdInstance inst, final List<ModifyVnfInfoData> modifyVnfInfoData) {
 		// Send a request to vnf to change the name descr ...
-		final List<NsLiveInstance> liveInst = liveInstanceJpa.findByNsdInstanceAndClass(inst, VnfCreateNode.class.getSimpleName());
+		final List<NsLiveInstance> liveInst = liveInstanceJpa.findByNsdInstanceAndClass(inst, VnfCreateNode.class);
 		modifyVnfInfoData.stream().forEach(x -> {
 			final NsLiveInstance nsli = find(liveInst, x.getVnfInstanceId());
 			final NsVnfTask t = (NsVnfTask) nsli.getNsTask();

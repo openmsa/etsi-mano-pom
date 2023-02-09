@@ -214,7 +214,7 @@ public class GrantActionSupport implements GrantSupport {
 						.filter(Objects::nonNull)
 						.toList());
 		vlList.forEach(x -> grants.getExtManagedVirtualLinks().add(createVl(x, vl, vimConnectionInformation, grants)));
-		final List<NsLiveInstance> vlLive = nsLiveInstanceJpa.findByNsdInstanceAndClass(nsdInstance, NsVirtualLinkTask.class.getSimpleName());
+		final List<NsLiveInstance> vlLive = nsLiveInstanceJpa.findByNsdInstanceAndClass(nsdInstance, NsVirtualLinkTask.class);
 		vlLive.stream().forEach(x -> {
 			final NsVirtualLinkTask vlt = (NsVirtualLinkTask) x.getNsTask();
 			final List<ListKeyPair> usedVl = inst.getNsPackageVnfPackage().getVirtualLinks().stream()

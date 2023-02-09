@@ -80,7 +80,7 @@ public class NsBlueprintServiceImpl implements NsBlueprintService {
 	}
 
 	@Override
-	public List<NsLiveInstance> findByNsdInstanceAndClass(final NsdInstance ret, final String simpleName) {
+	public List<NsLiveInstance> findByNsdInstanceAndClass(final NsdInstance ret, final Class<?> simpleName) {
 		return nsLiveInstanceJpa.findByNsdInstanceAndClass(ret, simpleName);
 	}
 

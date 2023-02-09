@@ -68,17 +68,17 @@ public class NsInstanceService {
 	}
 
 	public int countLiveInstanceOfVirtualLink(final NsdInstance nsInstance, final String toscaName) {
-		final List<NsLiveInstance> res = nsLiveInstanceJpa.findByNsInstanceAndNsTaskToscaNameAndNsTaskClassGroupByNsTaskAlias(nsInstance, toscaName, NsVirtualLinkTask.class.getSimpleName());
+		final List<NsLiveInstance> res = nsLiveInstanceJpa.findByNsInstanceAndNsTaskToscaNameAndNsTaskClassGroupByNsTaskAlias(nsInstance, toscaName, NsVirtualLinkTask.class);
 		return res.size();
 	}
 
 	public int countLiveInstanceOfVnf(final NsdInstance nsInstance, final String toscaName) {
-		final List<NsLiveInstance> res = nsLiveInstanceJpa.findByNsInstanceAndNsTaskToscaNameAndNsTaskClassGroupByNsTaskAlias(nsInstance, toscaName, NsVnfTask.class.getSimpleName());
+		final List<NsLiveInstance> res = nsLiveInstanceJpa.findByNsInstanceAndNsTaskToscaNameAndNsTaskClassGroupByNsTaskAlias(nsInstance, toscaName, NsVnfTask.class);
 		return res.stream().collect(Collectors.groupingBy(x -> x.getNsTask().getToscaName())).size();
 	}
 
 	public int countLiveInstanceOfNsd(final NsdInstance nsInstance, final String toscaName) {
-		final List<NsLiveInstance> res = nsLiveInstanceJpa.findByNsInstanceAndNsTaskToscaNameAndNsTaskClassGroupByNsTaskAlias(nsInstance, toscaName, NsdTask.class.getSimpleName());
+		final List<NsLiveInstance> res = nsLiveInstanceJpa.findByNsInstanceAndNsTaskToscaNameAndNsTaskClassGroupByNsTaskAlias(nsInstance, toscaName, NsdTask.class);
 		return res.size();
 	}
 

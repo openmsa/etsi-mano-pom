@@ -21,8 +21,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-import jakarta.annotation.Nonnull;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 
@@ -33,6 +31,8 @@ import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVirtualLink;
+
+import jakarta.annotation.Nonnull;
 
 public interface NsBlueprintService {
 
@@ -47,7 +47,7 @@ public interface NsBlueprintService {
 
 	Blueprint<NsTask, NsdInstance> updateState(NsBlueprint localPlan, OperationStatusType processing);
 
-	List<NsLiveInstance> findByNsdInstanceAndClass(NsdInstance ret, String simpleName);
+	List<NsLiveInstance> findByNsdInstanceAndClass(NsdInstance ret, Class<?> simpleName);
 
 	long countByNsInstance(NsdInstance ret);
 
