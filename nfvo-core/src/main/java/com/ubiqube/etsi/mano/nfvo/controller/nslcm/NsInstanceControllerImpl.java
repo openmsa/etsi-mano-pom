@@ -96,14 +96,14 @@ public class NsInstanceControllerImpl implements NsInstanceController {
 
 		final NsInstanceDto dto = mapper.map(ret.getNsdInfo(), NsInstanceDto.class);
 		mapper.map(ret, dto);
-		final List<NsLiveInstance> vnfs = blueprintService.findByNsdInstanceAndClass(ret, NsVnfTask.class.getSimpleName());
+		final List<NsLiveInstance> vnfs = blueprintService.findByNsdInstanceAndClass(ret, NsVnfTask.class);
 		final List<VnfInstanceDto> vnfInstance = vnfs.stream()
 				.map(x -> vnfInstancesService.findById(UUID.fromString(x.getResourceId())))
 				.map(x -> mapper.map(x, VnfInstanceDto.class))
 				.toList();
 		dto.setVnfInstance(vnfInstance);
 		dto.setNsdInfoId(ret.getNsdInfo().getId().toString());
-		final List<NsLiveInstance> vls = blueprintService.findByNsdInstanceAndClass(ret, NsVirtualLinkTask.class.getSimpleName());
+		final List<NsLiveInstance> vls = blueprintService.findByNsdInstanceAndClass(ret, NsVirtualLinkTask.class);
 		final List<NsVirtualLinkInfoDto> vlsDto = vls.stream().map(x -> {
 			final NsVirtualLinkInfoDto vlDto = new NsVirtualLinkInfoDto();
 
