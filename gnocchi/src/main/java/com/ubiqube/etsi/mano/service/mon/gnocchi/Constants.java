@@ -17,7 +17,7 @@
 package com.ubiqube.etsi.mano.service.mon.gnocchi;
 
 public class Constants {
-	public static final String QUEUE_GNOCCHI_DATA_POLLING = "${spring.application.name:none}.mano.monitoring.gnocchi.data-polling";
+	public static final String QUEUE_GNOCCHI_DATA_POLLING = "${spring.application.name:none}.pollster.openstack-v3";
 
 	public static final String TOPIC_GNOCCHI_DATA = "${spring.application.name:none}.mano.monitoring.gnocchi.data";
 

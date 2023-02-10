@@ -13,11 +13,10 @@
 	<artifactId>mano-mon-aggregator</artifactId>
 	<packaging>pom</packaging>
 	<description>Build document for ETSI-MANO Monitoring</description>
-
 	<modules>
-		<module>gnocchi</module>
 		<module>mano-mon-webapp</module>
 		<module>mano-mon-api</module>
+		<module>mano-mon-core</module>
 		<module>pollers</module>
 		<module>serializers</module>
 		<module>logm</module>

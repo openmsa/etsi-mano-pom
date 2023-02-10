@@ -39,7 +39,7 @@ import jakarta.jms.ConnectionFactory;
 public class JmsDataTopic {
 
 	@Bean
-	public JmsListenerContainerFactory gnocchiDataFactory(final ConnectionFactory connectionFactory, final DefaultJmsListenerContainerFactoryConfigurer configurer) {
+	JmsListenerContainerFactory gnocchiDataFactory(final ConnectionFactory connectionFactory, final DefaultJmsListenerContainerFactoryConfigurer configurer) {
 		final DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
 		// This provides all boot's default to this factory, including the message
 		// converter
@@ -51,7 +51,7 @@ public class JmsDataTopic {
 
 	@Primary
 	@Bean
-	public JmsTemplate jmsQueueTemplate(final ConnectionFactory connectionFactory, final MessageConverter messageConverter) {
+	JmsTemplate jmsQueueTemplate(final ConnectionFactory connectionFactory, final MessageConverter messageConverter) {
 		final JmsTemplate jt = new JmsTemplate(connectionFactory);
 		jt.setPubSubDomain(false);
 		jt.setMessageConverter(messageConverter);

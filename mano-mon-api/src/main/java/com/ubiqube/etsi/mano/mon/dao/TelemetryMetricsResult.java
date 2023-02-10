@@ -41,6 +41,8 @@ public class TelemetryMetricsResult {
 
 	private Double value;
 
+	private String txt;
+
 	private OffsetDateTime timestamp;
 
 	private boolean status;
@@ -49,13 +51,14 @@ public class TelemetryMetricsResult {
 		// Nothing.
 	}
 
-	public TelemetryMetricsResult(@Nonnull final String masterJobId, final String vnfcId, final String key, final Double value, final OffsetDateTime timestamp, final boolean status) {
+	public TelemetryMetricsResult(@Nonnull final String masterJobId, final String vnfcId, final String key, final Double value, final String txt, final OffsetDateTime timestamp, final boolean status) {
 		this.masterJobId = masterJobId;
 		this.vnfcId = vnfcId;
 		this.key = key;
 		this.value = value;
 		this.timestamp = timestamp;
 		this.status = status;
+		this.txt = txt;
 	}
 
 }

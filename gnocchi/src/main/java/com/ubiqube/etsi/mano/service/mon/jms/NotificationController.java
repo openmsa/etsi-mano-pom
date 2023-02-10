@@ -31,7 +31,6 @@ import com.ubiqube.etsi.mano.mon.dao.TelemetryMetricsResult;
 import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
 import com.ubiqube.etsi.mano.service.mon.gnocchi.Constants;
 import com.ubiqube.etsi.mano.service.mon.vim.GnocchiSubTelemetry;
-import com.ubiqube.etsi.mano.service.vim.VimManager;
 
 import jakarta.validation.constraints.NotNull;
 
@@ -42,17 +41,15 @@ import jakarta.validation.constraints.NotNull;
  */
 @Service
 public class NotificationController {
-	private final VimManager vimManager;
 	private final JmsTemplate jmsTopicTemplate;
 	private final ConfigurableApplicationContext configurableApplicationContext;
 
-	public NotificationController(final VimManager vimManager, @Qualifier("jmsTopicTemplate") final JmsTemplate jmsTopicTemplate, final ConfigurableApplicationContext configurableApplicationContext) {
-		this.vimManager = vimManager;
+	public NotificationController(@Qualifier("jmsTopicTemplate") final JmsTemplate jmsTopicTemplate, final ConfigurableApplicationContext configurableApplicationContext) {
 		this.jmsTopicTemplate = jmsTopicTemplate;
 		this.configurableApplicationContext = configurableApplicationContext;
 	}
 
-	@JmsListener(destination = Constants.QUEUE_GNOCCHI_DATA_POLLING, concurrency = "10")
+	@JmsListener(destination = Constants.QUEUE_GNOCCHI_DATA_POLLING, concurrency = "5")
 	public void onGnocchiDataPolling(final BatchPollingJob job) {
 		// Get Gnocchi instances and sub metrics.
 		final List<TelemetryMetricsResult> allHostMetrics = job.getHosts().stream()

@@ -20,9 +20,15 @@ import java.io.Serializable;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -34,29 +40,34 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-@IdClass(MonitoringId.class)
 public class MonitoringData implements Serializable {
 	/** Serial. */
 	private static final long serialVersionUID = 1L;
-	private UUID id;
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private UUID id;
+	@NotNull
+	@Temporal(TemporalType.TIMESTAMP)
 	private OffsetDateTime time;
 	private String masterJobId;
 	private Double value;
-	@Id
+	@Nullable
+	private String text;
 	private String key;
 	private boolean status;
 	private String vnfInstanceId;
 
+	@SuppressWarnings("null")
 	public MonitoringData() {
-		// Nothing.
+		time = OffsetDateTime.now();
 	}
 
-	public MonitoringData(final String key2, final String masterJobId2, final OffsetDateTime timestamp, final Double value2, final String vnfInstanceId2, final boolean status) {
+	public MonitoringData(final String key2, final String masterJobId2, final @Nonnull OffsetDateTime timestamp, final Double value2, final String text, final String vnfInstanceId2, final boolean status) {
 		this.id = UUID.randomUUID();
 		this.time = timestamp;
 		this.masterJobId = masterJobId2;
 		this.value = value2;
+		this.text = text;
 		this.key = key2;
 		this.status = status;
 		this.vnfInstanceId = vnfInstanceId2;
