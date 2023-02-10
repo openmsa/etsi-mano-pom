@@ -16,34 +16,19 @@
  */
 package com.ubiqube.etsi.mano.service.mon.jms;
 
-import java.time.Duration;
-import java.time.OffsetDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.dao.mano.VnfCompute;
-import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
-import com.ubiqube.etsi.mano.dao.mano.pkg.VirtualCpu;
-import com.ubiqube.etsi.mano.dao.mano.pkg.VirtualMemory;
-import com.ubiqube.etsi.mano.dao.mano.pm.PmType;
-import com.ubiqube.etsi.mano.jpa.VnfInstanceJpa;
-import com.ubiqube.etsi.mano.mon.dao.AllHostMetrics;
-import com.ubiqube.etsi.mano.mon.dao.TelemetryMetricsResult;
-import com.ubiqube.etsi.mano.service.event.EventManager;
-import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
+import com.ubiqube.etsi.mano.mon.api.BusHelper;
+import com.ubiqube.etsi.mano.service.mon.data.JmsMetricHolder;
 import com.ubiqube.etsi.mano.service.mon.model.MonitoringData;
-import com.ubiqube.etsi.mano.service.mon.model.VnfIndicatorMonitoringData;
-import com.ubiqube.etsi.mano.service.mon.model.VnfIndicatorValue;
 import com.ubiqube.etsi.mano.service.mon.repository.MonitoringDataJpa;
-import com.ubiqube.etsi.mano.service.mon.repository.VnfIndicatorMonitoringDataJpa;
-import com.ubiqube.etsi.mano.service.mon.repository.VnfIndicatorValueJpa;
+
+import jakarta.annotation.Nonnull;
 
 /**
  *
@@ -58,137 +43,17 @@ public class PostgresDataListener {
 
 	private final MonitoringDataJpa monitoringDataJpa;
 
-	private final VnfIndicatorValueJpa vnfIndicatorValueJpa;
-
-	private final VnfIndicatorMonitoringDataJpa vnfIndicatorMonitoringDataJpa;
-
-	private final EventManager eventManager;
-
-	private final VnfInstanceJpa vnfInstanceJpa;
-
-	public PostgresDataListener(final MonitoringDataJpa monitoringDataJpa, final VnfIndicatorValueJpa vnfIndicatorValueJpa, final VnfInstanceJpa vnfInstanceJpa, final VnfIndicatorMonitoringDataJpa vnfIndicatorMonitoringDataJpa, final EventManager eventManager) {
+	public PostgresDataListener(final MonitoringDataJpa monitoringDataJpa) {
 		this.monitoringDataJpa = monitoringDataJpa;
-		this.vnfIndicatorValueJpa = vnfIndicatorValueJpa;
-		this.vnfInstanceJpa = vnfInstanceJpa;
-		this.vnfIndicatorMonitoringDataJpa = vnfIndicatorMonitoringDataJpa;
-		this.eventManager = eventManager;
 	}
 
-	@JmsListener(destination = "${spring.application.name:none}.mano.monitoring.gnocchi.data", subscription = "mano.monitoring.gnocchi.data", concurrency = "1", containerFactory = "gnocchiDataFactory")
-	public void onGnocchiData(final AllHostMetrics allHostMetrics) {
-		if ((allHostMetrics == null) || (allHostMetrics.getTelemetryMetricsResult() == null) || allHostMetrics.getTelemetryMetricsResult().isEmpty()) {
-			return;
-		}
-		if (PmType.VNF.equals(allHostMetrics.getPmType())) {
-			doVnfIndicator(allHostMetrics);
-			return;
-		}
-		for (final TelemetryMetricsResult action : allHostMetrics.getTelemetryMetricsResult()) {
-			LOG.info(POSTGRESQL_RECEIVE, action);
-			final MonitoringData entity = new MonitoringData(action.getKey(), action.getMasterJobId(), action.getTimestamp(), action.getValue(), action.getVnfcId(), action.isStatus());
-			monitoringDataJpa.save(entity);
-		}
+	@JmsListener(destination = BusHelper.TOPIC_SERIALZE_DATA, subscription = "mano.monitoring.gnocchi.data", concurrency = "1", containerFactory = "serialzeDataFactory")
+	public void onGnocchiData(final @Nonnull JmsMetricHolder results) {
+		LOG.trace(POSTGRESQL_RECEIVE, results);
+		final List<MonitoringData> metrics = results.getMetrics().stream()
+				.map(x -> new MonitoringData(x.getMasterJobId(), x.getKey(), x.getTimestamp(), x.getValue(), x.getTxt(), x.getMasterJobId(), x.isStatus()))
+				.toList();
+		monitoringDataJpa.saveAll(metrics);
 	}
 
-	private void doVnfIndicator(final AllHostMetrics allHostMetrics) {
-		MetricValue mv;
-		final VnfInstance vnfInstance = vnfInstanceJpa.findById(allHostMetrics.getVnfInstanceId()).orElseThrow();
-		final Set<VnfCompute> computes = vnfInstance.getVnfPkg().getVnfCompute();
-		final VnfIndicatorValue existingVnfIndicatorValue = vnfIndicatorValueJpa.findByKeyAndVnfInstanceId(allHostMetrics.getMetricName(), allHostMetrics.getVnfInstanceId());
-		if ("cpu".equals(allHostMetrics.getTelemetryMetricsResult().get(0).getKey())) {
-			OffsetDateTime metricsUpdatedTime = OffsetDateTime.now();
-			CpuMetric cpuMetric = new CpuMetric(0, false, 0);
-			final long noOfVirtualCpus = computes.stream()
-					.map(VnfCompute::getVirtualCpu)
-					.mapToLong(VirtualCpu::getNumVirtualCpu)
-					.sum();
-			for (final TelemetryMetricsResult action : allHostMetrics.getTelemetryMetricsResult()) {
-				if (action.getValue() == 0.0) {
-					continue;
-				}
-				LOG.trace(POSTGRESQL_RECEIVE, action);
-				final VnfIndicatorMonitoringData data = vnfIndicatorMonitoringDataJpa.findByKeyAndVnfcId(allHostMetrics.getMetricName(), UUID.fromString(action.getVnfcId()));
-				if ((data != null) && (existingVnfIndicatorValue != null)) {
-					boolean isMetricsUpdated = false;
-					long deltaSeconds = 0;
-					final double deltaCpuUsage = action.getValue() - data.getValue();
-					if (deltaCpuUsage != 0.0) {
-						isMetricsUpdated = true;
-						metricsUpdatedTime = action.getTimestamp();
-						final Duration duration = Duration.between(existingVnfIndicatorValue.getTime(), action.getTimestamp());
-						deltaSeconds = duration.getSeconds();
-					}
-					final double usageInSeconds = deltaCpuUsage / 1_000_000_000L;
-					final double totalValue = cpuMetric.totalValue() + usageInSeconds;
-					cpuMetric = new CpuMetric(totalValue, isMetricsUpdated, deltaSeconds);
-				} else {
-					final double deltaCpuUsage = action.getValue();
-					metricsUpdatedTime = action.getTimestamp().truncatedTo(ChronoUnit.MINUTES);
-					final double usageInSeconds = deltaCpuUsage / 1_000_000_000L;
-					final double totalValue = cpuMetric.totalValue() + usageInSeconds;
-					cpuMetric = new CpuMetric(totalValue, true, 600);
-				}
-				final VnfIndicatorMonitoringData data2 = new VnfIndicatorMonitoringData(allHostMetrics.getMetricName(), allHostMetrics.getMasterJobId(), action.getValue(), UUID.fromString(action.getVnfcId()));
-				vnfIndicatorMonitoringDataJpa.save(data2);
-			}
-			if (!cpuMetric.isMetricsUpdated() || (cpuMetric.totalValue() == 0.0) || (noOfVirtualCpus == 0) || (cpuMetric.deltaSeconds() == 0)) {
-				return;
-			}
-			final double averageValueByPercent = (cpuMetric.totalValue() / (noOfVirtualCpus * cpuMetric.deltaSeconds())) * 100;
-			mv = new MetricValue(averageValueByPercent, metricsUpdatedTime);
-		} else if ("memory.usage".equals(allHostMetrics.getTelemetryMetricsResult().get(0).getKey())) {
-			double averageValueByPercent;
-			final OffsetDateTime metricsUpdatedTime = OffsetDateTime.now();
-			final long totalMemorySize = computes.stream()
-					.map(VnfCompute::getVirtualMemory)
-					.mapToLong(VirtualMemory::getVirtualMemSize)
-					.sum();
-			final double totalValue = allHostMetrics.getTelemetryMetricsResult().stream()
-					.mapToDouble(TelemetryMetricsResult::getValue)
-					.filter(x -> x != 0.0d)
-					.map(this::toMiB)
-					.sum();
-			if ((totalMemorySize == 0) || (totalValue == 0)) {
-				return;
-			}
-			averageValueByPercent = (totalValue / totalMemorySize) * 100;
-			mv = new MetricValue(averageValueByPercent, metricsUpdatedTime);
-		} else {
-			mv = new MetricValue(0.0, OffsetDateTime.now());
-		}
-		eventIfNeeded(allHostMetrics, mv, vnfInstance, existingVnfIndicatorValue);
-		storeMetric(allHostMetrics, mv);
-	}
-
-	private void storeMetric(final AllHostMetrics allHostMetrics, final MetricValue mv) {
-		final VnfIndicatorValue vnfIndValue = new VnfIndicatorValue(allHostMetrics.getMetricName(), allHostMetrics.getMasterJobId(), mv.metricsUpdatedTime(), mv.averageValueByPercent(), allHostMetrics.getVnfInstanceId());
-		vnfIndicatorValueJpa.save(vnfIndValue);
-	}
-
-	private void eventIfNeeded(final AllHostMetrics allHostMetrics, final MetricValue mv, final VnfInstance vnfInstance, final VnfIndicatorValue existingVnfIndicatorValue) {
-		if (metricHaveChanged(mv, existingVnfIndicatorValue)) {
-			// vnf indicator value change notification should be sent.
-			LOG.info("{}:{} indicator value changed to {}", allHostMetrics.getVnfInstanceId(), allHostMetrics.getMetricName(), mv.averageValueByPercent());
-			eventManager.sendNotification(NotificationEvent.VNF_INDICATOR_VALUE_CHANGED, allHostMetrics.getVnfInstanceId(), Map.of("vnfIndicatorId", allHostMetrics.getMetricName(),
-					"value", String.valueOf(mv.averageValueByPercent()),
-					"vnfInstanceId", allHostMetrics.getVnfInstanceId().toString(),
-					"vnfdId", vnfInstance.getVnfdId()));
-		}
-	}
-
-	private static boolean metricHaveChanged(final MetricValue mv, final VnfIndicatorValue existingVnfIndicatorValue) {
-		return (existingVnfIndicatorValue != null) && !existingVnfIndicatorValue.getValue().equals(mv.averageValueByPercent());
-	}
-
-	private Double toMiB(final double x) {
-		return x * 1_048_576; // Mib
-	}
-}
-
-record MetricValue(double averageValueByPercent, OffsetDateTime metricsUpdatedTime) {
-	//
-}
-
-record CpuMetric(double totalValue, boolean isMetricsUpdated, long deltaSeconds) {
-	//
 }

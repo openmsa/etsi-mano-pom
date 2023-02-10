@@ -1,7 +1,4 @@
 debug: true
-eureka:
-  client:
-    enabled: true
 logging:
   level:
     com:
@@ -10,7 +7,7 @@ logging:
     org:
       hibernate:
         SQL: INFO
-      openstack4j: DEBUG
+      openstack4j: INFO
       springframework:
         boot:
           autoconfigure:
@@ -31,6 +28,11 @@ management:
 spring:
   application:
     name: mano-mon
+  jpa:
+    open-in-view: true
+    properties:
+      hibernate:
+        enable_lazy_load_no_trans: true
 
 
 

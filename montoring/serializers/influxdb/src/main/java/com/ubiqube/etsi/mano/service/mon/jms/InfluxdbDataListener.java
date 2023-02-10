@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.service.mon.jms;
 
 import java.time.Instant;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +28,8 @@ import com.influxdb.client.InfluxDBClient;
 import com.influxdb.client.WriteApi;
 import com.influxdb.client.domain.WritePrecision;
 import com.influxdb.client.write.Point;
-import com.ubiqube.etsi.mano.mon.dao.TelemetryMetricsResult;
+import com.ubiqube.etsi.mano.mon.api.BusHelper;
+import com.ubiqube.etsi.mano.service.mon.data.JmsMetricHolder;
 
 /**
  *
@@ -45,17 +47,18 @@ public class InfluxdbDataListener {
 		this.influxClient = influxClient;
 	}
 
-	@JmsListener(destination = "${spring.application.name:none}.mano.monitoring.gnocchi.data", subscription = "mano.monitoring.gnocchi.data", concurrency = "1", containerFactory = "gnocchiDataFactory")
-	public void onGnocchiData(final TelemetryMetricsResult action) {
+	@JmsListener(destination = BusHelper.TOPIC_SERIALZE_DATA, subscription = "mano.monitoring.gnocchi.data", concurrency = "1", containerFactory = "serialzeDataFactory")
+	public void onData(final JmsMetricHolder action) {
 		LOG.info("influxdb-Receive: {}", action);
-		final Point point = Point.measurement(action.getMasterJobId())
-				.addField("value", action.getValue())
-				.addTag("key", action.getKey())
-				.addTag("status", action.isStatus() ? "success" : "fail")
-				.addTag("vnf-instance-id", action.getVnfcId())
-				.time(Instant.now(), WritePrecision.MS);
+		final List<Point> points = action.getMetrics().stream().map(x -> Point.measurement(x.getMasterJobId())
+				.addField("value", x.getValue())
+				.addTag("key", x.getKey())
+				.addTag("status", x.isStatus() ? "success" : "fail")
+				.addTag("vnf-instance-id", x.getVnfcId())
+				.time(Instant.now(), WritePrecision.MS))
+				.toList();
 		try (WriteApi client = influxClient.getWriteApi()) {
-			client.writePoint(point);
+			client.writePoints(points);
 		}
 
 	}

@@ -16,6 +16,12 @@
  */
 package com.ubiqube.etsi.mano.service.mon.data;
 
+import java.util.UUID;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,22 +30,26 @@ import lombok.Setter;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
+@Entity
 @Setter
 @Getter
 public class Metric {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private UUID id;
 	private String metricName;
-	private String name;
-	private MetricFunction func;
+	/**
+	 * Hint for some poller.
+	 */
+	private String type;
 
 	public Metric() {
 		// Nothing.
 	}
 
-	public Metric(final String metricName, final String name, final MetricFunction func) {
-		super();
+	public Metric(final String metricName, final String type) {
 		this.metricName = metricName;
-		this.name = name;
-		this.func = func;
+		this.type = type;
 	}
 
 }

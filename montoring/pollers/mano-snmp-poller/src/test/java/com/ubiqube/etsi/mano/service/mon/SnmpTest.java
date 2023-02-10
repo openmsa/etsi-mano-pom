@@ -18,8 +18,15 @@ package com.ubiqube.etsi.mano.service.mon;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 import org.junit.jupiter.api.Test;
-import org.snmp4j.CommunityTarget;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.snmp4j.PDU;
 import org.snmp4j.ScopedPDU;
 import org.snmp4j.Snmp;
@@ -40,43 +47,68 @@ import org.snmp4j.smi.OID;
 import org.snmp4j.smi.OctetString;
 import org.snmp4j.smi.VariableBinding;
 import org.snmp4j.transport.DefaultUdpTransportMapping;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.jms.core.JmsTemplate;
+
+import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
+import com.ubiqube.etsi.mano.service.mon.data.Metric;
+import com.ubiqube.etsi.mano.service.mon.data.MonConnInformation;
+import com.ubiqube.etsi.mano.service.mon.poller.snmp.Snmp3Poller;
+import com.ubiqube.etsi.mano.service.mon.poller.snmp.SnmpPoller;
 
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
+@ExtendWith(MockitoExtension.class)
 class SnmpTest {
+	@Mock
+	private JmsTemplate jmsTemplate;
+	@Mock
+	ConfigurableApplicationContext configurableApplicationContext;
 
 	@Test
-	void snmpv2() throws Exception {
-		final PDU pdu = new PDU();
-		pdu.add(new VariableBinding(new OID("1.3.6.1.2.1.1.1"))); // sysDescr
-		pdu.add(new VariableBinding(new OID("1.3.6.1.2.1.2.1"))); // ifNumber
-		pdu.setType(PDU.GETNEXT);
-
-		final Snmp snmp = new Snmp(new DefaultUdpTransportMapping());
-		snmp.listen();
-
-		final Address address = GenericAddress.parse("udp:10.31.1.248/161");
-		final CommunityTarget<Address> target = new CommunityTarget<>();
-		target.setCommunity(new OctetString("ubiqube"));
-		target.setAddress(address);
-		target.setVersion(SnmpConstants.version1);
-
-		final ResponseEvent<Address> response = snmp.send(pdu, target);
-		if (response.getResponse() == null) {
-			// request timed out
-			System.out.println("Time out.");
-		} else {
-			System.out.println("Received response from: " + response.getPeerAddress());
-			// dump response PDU
-			System.out.println(response.getResponse().toString());
-		}
+	void testSnmpPoller() {
+		final MonConnInformation conn = new MonConnInformation();
+		conn.setAccessInfo(Map.of("community", "ubiqube"));
+		conn.setInterfaceInfo(Map.of("endpoint", "udp:10.31.1.248/161"));
+		conn.setConnType("SNMP");
+		final SnmpPoller sp = new SnmpPoller(jmsTemplate, configurableApplicationContext);
+		final BatchPollingJob pj = new BatchPollingJob();
+		pj.setId(UUID.randomUUID());
+		pj.setConnection(conn);
+		final List<Metric> metrics = new ArrayList<>();
+		metrics.add(new Metric("1.3.6.1.2.1.1.1", null));
+		metrics.add(new Metric("1.3.6.1.2.1.2.1", null));
+		pj.setMetrics(metrics);
+		sp.onEvent(pj);
 		assertTrue(true);
 	}
 
 	@Test
+	void testSnmpV3Poller() {
+		final MonConnInformation conn = new MonConnInformation();
+		conn.setAccessInfo(Map.of("securityName", "ovi",
+				"privacyPassphrase", "	ubiqube123",
+				"authenticationProtocol", "md5",
+				"authenticationPassphrase", "ubiqube123",
+				"privacyProtocol", "des"));
+		conn.setInterfaceInfo(Map.of("endpoint", "udp:10.31.1.247/161"));
+		conn.setConnType("SNMP3");
+		final Snmp3Poller sp = new Snmp3Poller(jmsTemplate, configurableApplicationContext);
+		final BatchPollingJob pj = new BatchPollingJob();
+		pj.setId(UUID.randomUUID());
+		pj.setConnection(conn);
+		final List<Metric> metrics = new ArrayList<>();
+		metrics.add(new Metric("1.3.6.1.2.1.2.1", null));
+		metrics.add(new Metric("1.3.6.1.2.1.2.2.1.10", null));
+		metrics.add(new Metric("1.3.6.1.2.1.2.2.1.16", null));
+		pj.setMetrics(metrics);
+		sp.onEvent(pj);
+		assertTrue(true);
+	}
+
 	void snmpV3() throws Exception {
 		final ScopedPDU pdu = new ScopedPDU();
 		pdu.add(new VariableBinding(new OID("1.3.6.1.2.1.2.1"))); // ifNumber

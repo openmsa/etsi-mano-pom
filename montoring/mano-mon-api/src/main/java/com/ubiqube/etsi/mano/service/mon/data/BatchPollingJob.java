@@ -16,11 +16,19 @@
  */
 package com.ubiqube.etsi.mano.service.mon.data;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import com.ubiqube.etsi.mano.dao.mano.pm.PmType;
-
+import jakarta.annotation.Nonnull;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,29 +37,48 @@ import lombok.Setter;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
+@Entity
 @Setter
 @Getter
 public class BatchPollingJob {
-
+	/**
+	 * Internal ID.
+	 */
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
-	private List<String> hosts;
-	private PmType jobType;
+
+	/***
+	 * Resource Id to poll.
+	 */
+	private String resourceId;
+
+	/**
+	 * Metrics to poll.
+	 */
+	@Nonnull
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Metric> metrics;
-	private UUID parentObjectId;
-	private UUID vimId;
 
-	public BatchPollingJob() {
-		// Nothing.
-	}
+	/**
+	 * Connection ID. Linked to where/how to poll question.
+	 */
+	@ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+	private MonConnInformation connection;
 
-	public BatchPollingJob(final UUID id, final List<String> hosts, PmType jobType, final List<Metric> metrics, final UUID parentObjectId,  final UUID vimId) {
-		super();
-		this.id = id;
-		this.hosts = hosts;
-		this.jobType = jobType;
-		this.metrics = metrics;
-		this.parentObjectId = parentObjectId;
-		this.vimId = vimId;
+	/**
+	 * Interval between polling ticks.
+	 */
+	private long interval;
+
+	/**
+	 * Last time the metric have been polled (SUCCESS / FAILURE )
+	 */
+	private ZonedDateTime lastRun;
+
+	@Override
+	public String toString() {
+		return "BatchPollingJob [id=" + id + ", resourceId=" + resourceId + ", connectionId=" + connection + ", interval=" + interval + ", lastRun=" + lastRun + "]";
 	}
 
 }
