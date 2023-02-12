@@ -184,10 +184,12 @@ public class ToscaWalker {
 
 	private void createNodeRoot(final ToscaListener listener) {
 		startClass(TOSCA_NODES_ROOT, null, listener);
-
 		listener.startField("artifacts", ValueObject.mapOf(Artifact.class.getName()));
 		listener.onFieldTerminate();
-
+		listener.startField("overloadedAttributes", ValueObject.mapOf(ValueObject.class.getName()));
+		listener.onFieldTerminate();
+		listener.startField("overloadedRequirements", new ValueObject(RequirementDefinition.class.getName()));
+		listener.onFieldTerminate();
 		cache.add(TOSCA_NODES_ROOT);
 		listener.terminateClass();
 	}

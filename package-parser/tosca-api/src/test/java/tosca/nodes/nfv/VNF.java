@@ -19,21 +19,20 @@ package tosca.nodes.nfv;
 import java.util.List;
 import java.util.Map;
 
-import jakarta.validation.constraints.NotNull;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.annotations.Capability;
 import com.ubiqube.parser.tosca.annotations.Occurence;
 import com.ubiqube.parser.tosca.annotations.Relationship;
-import com.ubiqube.parser.tosca.api.ToscaInernalBase;
+import com.ubiqube.parser.tosca.objects.tosca.nodes.Root;
 
+import jakarta.validation.constraints.NotNull;
 import tosca.datatypes.nfv.ScaleInfo;
 import tosca.datatypes.nfv.VnfLcmOperationsConfiguration;
 import tosca.datatypes.nfv.VnfMonitoringParameter;
 import tosca.datatypes.nfv.VnfProfile;
 import tosca.interfaces.nfv.Vnflcm;
 
-public class VNF extends ToscaInernalBase {
+public class VNF extends Root {
 	/**
 	 * Describes a profile for instantiating VNFs of a particular NS DF according to
 	 * a specific VNFD and VNF DF

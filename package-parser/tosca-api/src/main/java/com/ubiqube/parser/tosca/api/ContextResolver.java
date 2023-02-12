@@ -209,9 +209,10 @@ public class ContextResolver {
 		Optional.ofNullable(node.getArtifacts()).ifPresentOrElse(x -> handleArtifacts(x, propsDescr, cls, stack), ArrayList::new);
 		final RequirementDefinition req = node.getRequirements();
 		if ((null != req) && (null != req.getRequirements())) {
-			handleRequirements(req.getRequirements(), propsDescr, cls, stack);
+			handleRequirements(req, propsDescr, cls, stack);
 		}
 		Optional.ofNullable(node.getInterfaces()).ifPresent(x -> handleInterfaces(x, propsDescr, cls, stack));
+		Optional.ofNullable(node.getAttributes()).ifPresent(x -> setProperty(propsDescr, cls, "overloadedAttributes", x));
 		setBasicProperties(node, cls);
 		applySubstitutionMapping(node, cls, root);
 		applyDefault(node, cls, root);
@@ -381,8 +382,9 @@ public class ContextResolver {
 		}
 	}
 
-	private static void handleRequirements(final List<Map<String, Requirement>> requirements, final PropertyDescriptor[] propsDescr, final Object cls, final Deque stack) {
-		requirements.forEach(z -> z.forEach((x, y) -> {
+	private static void handleRequirements(final RequirementDefinition req, final PropertyDescriptor[] propsDescr, final Object cls, final Deque stack) {
+		final List<Map<String, Requirement>> requirement = req.getRequirements();
+		requirement.forEach(z -> z.forEach((x, y) -> {
 			// XXX I think it could be ONE of Node, caps, Link
 			final PropertyDescriptor props = getPropertyFor(underScoreToCamleCase(x) + "Req", propsDescr);
 			if (props != null) {
@@ -395,6 +397,18 @@ public class ContextResolver {
 				}
 			}
 		}));
+		setProperty(propsDescr, cls, "overloadedRequirements", req);
+	}
+
+	private static void setProperty(final PropertyDescriptor[] propsDescr, final Object src, final String method, final Object value) {
+		final Optional<PropertyDescriptor> prop = Arrays.stream(propsDescr).filter(x -> x.getName().equals(method)).findFirst();
+		prop.ifPresent(x -> {
+			try {
+				x.getWriteMethod().invoke(src, value);
+			} catch (IllegalAccessException | InvocationTargetException e) {
+				throw new ParseException(e);
+			}
+		});
 	}
 
 	private static void handleReqList(final List list, final Requirement req, final Object cls, final PropertyDescriptor props, final Deque stack) {

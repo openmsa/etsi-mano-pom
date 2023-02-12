@@ -26,6 +26,10 @@ import com.ubiqube.parser.tosca.deserializer.RequirementDeserialization;
 public class RequirementDefinition {
 	private List<Map<String, Requirement>> requirements;
 
+	public RequirementDefinition() {
+		//
+	}
+
 	public RequirementDefinition(final List<Map<String, Requirement>> reqMap) {
 		requirements = reqMap;
 	}

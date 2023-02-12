@@ -18,17 +18,16 @@ package tosca.nodes;
 
 import java.util.List;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.annotations.Capability;
 import com.ubiqube.parser.tosca.annotations.Node;
 import com.ubiqube.parser.tosca.annotations.Occurence;
 import com.ubiqube.parser.tosca.annotations.Relationship;
-import com.ubiqube.parser.tosca.api.ToscaInernalBase;
 
-public class Compute extends ToscaInernalBase {
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+
+public class Compute extends Root {
 	@Valid
 	@NotNull
 	@JsonProperty("private_address")

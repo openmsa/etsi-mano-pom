@@ -18,20 +18,19 @@ package tosca.nodes.nfv;
 
 import java.util.Map;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotNull;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.annotations.Capability;
 import com.ubiqube.parser.tosca.annotations.Node;
 import com.ubiqube.parser.tosca.annotations.Occurence;
 import com.ubiqube.parser.tosca.annotations.Relationship;
-import com.ubiqube.parser.tosca.api.ToscaInernalBase;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
 import tosca.datatypes.nfv.NsProfile;
+import tosca.nodes.Root;
 
-public class NS extends ToscaInernalBase {
+public class NS extends Root {
 	/**
 	 * Identifier of this NS descriptor
 	 */
