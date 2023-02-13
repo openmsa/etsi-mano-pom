@@ -64,7 +64,7 @@ public class Size implements Scalar {
 		return switch (unit2.toLowerCase()) {
 		case "b" -> BigDecimal.ONE;
 		case "kb" -> new BigDecimal("1000");
-		case "kiB" -> new BigDecimal("1024");
+		case "kib" -> new BigDecimal("1024");
 		case "mb" -> new BigDecimal("1000000");
 		case "mib" -> new BigDecimal("1048576");
 		case "gb" -> new BigDecimal("1000000000");

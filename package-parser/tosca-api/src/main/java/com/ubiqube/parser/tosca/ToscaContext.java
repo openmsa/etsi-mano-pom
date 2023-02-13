@@ -258,27 +258,15 @@ public class ToscaContext {
 			}
 		}
 		mergeHash(artifacts, context.getArtifacts());
-		if (null != context.getCapabilities()) {
-			capabilities.putAll(context.getCapabilities());
-		}
-		if (null != context.getDataTypes()) {
-			dataTypes.putAll(context.getDataTypes());
-		}
+		Optional.ofNullable(context.getCapabilities()).ifPresent(x -> capabilities.putAll(x));
+		Optional.ofNullable(context.getDataTypes()).ifPresent(x -> dataTypes.putAll(x));
 		mergeHash(nodeType, context.getNodeType());
 		// group
-		if (null != context.getGroupDefinition()) {
-			groupDefinition.putAll(context.getGroupDefinition());
-		}
-		if (null != context.getGroupType()) {
-			groupType.putAll(context.getGroupType());
-		}
+		Optional.ofNullable(context.getGroupDefinition()).ifPresent(x -> groupDefinition.putAll(x));
+		Optional.ofNullable(context.getGroupType()).ifPresent(x -> groupType.putAll(x));
 		// policy
-		if (null != context.getPolicies()) {
-			policies.putAll(context.getPolicies());
-		}
-		if (null != context.getPoliciesType()) {
-			policiesType.putAll(context.getPoliciesType());
-		}
+		Optional.ofNullable(context.getPolicies()).ifPresent(x -> policies.putAll(x));
+		Optional.ofNullable(context.getPoliciesType()).ifPresent(x -> policiesType.putAll(x));
 		if (null != context.getInterfaceTypes()) {
 			if (null == interfaceTypes) {
 				interfaceTypes = context.getInterfaceTypes();

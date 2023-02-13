@@ -16,6 +16,7 @@
  */
 package com.ubiqube.parser.tosca;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -27,6 +28,10 @@ import com.ubiqube.parser.tosca.deserializer.ImportDeserializer;
 public class Imports {
 
 	private final Map<String, Import> importsMap;
+
+	public Imports() {
+		importsMap = new HashMap<>();
+	}
 
 	public Imports(final Map<String, Import> imports) {
 		this.importsMap = imports;

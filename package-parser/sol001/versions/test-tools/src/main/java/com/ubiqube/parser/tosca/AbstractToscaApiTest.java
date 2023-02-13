@@ -80,6 +80,8 @@ public abstract class AbstractToscaApiTest {
 
 	private final ToscaApi toscaApi;
 
+	private final Set<String> ignoredMethods = Set.of("getClass", "getOverloadedInterfaces", "getOverloadedAttributes", "getOverloadedRequirements");
+
 	protected AbstractToscaApiTest() {
 		conv.register(Size.class.getCanonicalName(), new SizeConverter());
 		complex.add(String.class);
@@ -115,7 +117,7 @@ public abstract class AbstractToscaApiTest {
 		final BeanInfo beanInfo = Introspector.getBeanInfo(orig.getClass());
 		final MethodDescriptor[] m = beanInfo.getMethodDescriptors();
 		for (final MethodDescriptor methodDescriptor : m) {
-			if (!methodDescriptor.getName().startsWith("get") || "getClass".equals(methodDescriptor.getName()) || ignore.contains(methodDescriptor.getName())) {
+			if (!methodDescriptor.getName().startsWith("get") || ignore.contains(methodDescriptor.getName())) {
 				continue;
 			}
 			LOG.debug(" + {}", methodDescriptor.getName());
@@ -145,7 +147,7 @@ public abstract class AbstractToscaApiTest {
 		}
 	}
 
-	private void handleList(final Set<String> ignore, final Deque<String> stack, final MethodDescriptor methodDescriptor, final Object src, final Object dst, List<?> sl) throws IntrospectionException, IllegalAccessException, InvocationTargetException {
+	private void handleList(final Set<String> ignore, final Deque<String> stack, final MethodDescriptor methodDescriptor, final Object src, final Object dst, final List<?> sl) throws IntrospectionException, IllegalAccessException, InvocationTargetException {
 		final List<?> dl = (List<?>) dst;
 		assertNotNull(dl, "Target element is null for field: " + methodDescriptor.getName() + prettyStack(stack));
 		assertEquals(sl.size(), dl.size(), "List are not equals " + methodDescriptor.getName() + prettyStack(stack));
@@ -173,7 +175,12 @@ public abstract class AbstractToscaApiTest {
 	private void checknull(final Object avcDb) throws IntrospectionException, IllegalArgumentException, InvocationTargetException, IllegalAccessException {
 		final List<String> err = new ArrayList<>();
 		final List<String> ignore = getIgnoreList();
-		checknullInternal(avcDb, ignore, err, new ArrayDeque<>());
+		final Deque<String> stack = new ArrayDeque<>();
+		try {
+			checknullInternal(avcDb, ignore, err, stack);
+		} catch (final RuntimeException e) {
+			LOG.error("{}", stack, e);
+		}
 		if (!err.isEmpty()) {
 			final String str = err.stream().collect(Collectors.joining("\n"));
 			LOG.error("Following errors have been found:\n{}", str);
@@ -185,9 +192,10 @@ public abstract class AbstractToscaApiTest {
 
 	private void checknullInternal(final Object avcDb, final List<String> ignore, final List<String> err, final Deque<String> stack) throws IntrospectionException, IllegalArgumentException, InvocationTargetException, IllegalAccessException {
 		final BeanInfo beanInfo = Introspector.getBeanInfo(avcDb.getClass());
+		LOG.debug("{}", beanInfo.getBeanDescriptor().getBeanClass());
 		final MethodDescriptor[] m = beanInfo.getMethodDescriptors();
 		for (final MethodDescriptor methodDescriptor : m) {
-			if (!methodDescriptor.getName().startsWith("get") || "getClass".equals(methodDescriptor.getName())) {
+			if (!methodDescriptor.getName().startsWith("get") || ignoredMethods.contains(methodDescriptor.getName())) {
 				continue;
 			}
 			stack.push(methodDescriptor.getName());
@@ -205,7 +213,7 @@ public abstract class AbstractToscaApiTest {
 				handleList2(ignore, err, stack, r, l);
 				continue;
 			}
-			if (r instanceof final Map mm) {
+			if (r instanceof final Map<?, ?> mm) {
 				handleMap(ignore, err, stack, r, mm);
 				continue;
 			}
@@ -221,7 +229,7 @@ public abstract class AbstractToscaApiTest {
 		}
 	}
 
-	private void handleMap(final List<String> ignore, final List<String> err, final Deque<String> stack, final Object r, Map mm) throws IntrospectionException, InvocationTargetException, IllegalAccessException {
+	private void handleMap(final List<String> ignore, final List<String> err, final Deque<String> stack, final Object r, final Map mm) throws IntrospectionException, InvocationTargetException, IllegalAccessException {
 		final Set<Map.Entry<Object, Object>> e = mm.entrySet();
 		for (final Map.Entry<Object, Object> me : e) {
 			if (isComplex(me.getValue())) {
@@ -234,7 +242,7 @@ public abstract class AbstractToscaApiTest {
 		stack.pop();
 	}
 
-	private void handleList2(final List<String> ignore, final List<String> err, final Deque<String> stack, final Object r, List<?> l) throws IntrospectionException, InvocationTargetException, IllegalAccessException {
+	private void handleList2(final List<String> ignore, final List<String> err, final Deque<String> stack, final Object r, final List<?> l) throws IntrospectionException, InvocationTargetException, IllegalAccessException {
 		int i = 0;
 		for (final Object obj : l) {
 			if (isComplex(obj)) {

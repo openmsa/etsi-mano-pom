@@ -16,6 +16,7 @@
  */
 package com.ubiqube.parser.tosca;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -25,19 +26,21 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import com.ubiqube.etsi.mano.tosca.ArtefactInformations;
 import com.ubiqube.parser.tosca.ZipUtil.Entry;
 import com.ubiqube.parser.tosca.csar.CsarParser;
 import com.ubiqube.parser.tosca.csar.CsarParserImpl;
 
+import jakarta.validation.constraints.NotNull;
+
+@SuppressWarnings("static-method")
 class CsarTest {
 
-	@SuppressWarnings("static-method")
 	@Test
 	void testName() {
 		assertTrue(true);
 	}
 
-	@SuppressWarnings("static-method")
 	@Test
 	void testGetFiles() throws IOException {
 		ZipUtil.makeToscaZip("/tmp/ubi-tosca.csar", Entry.of("ubi-tosca/Definitions/tosca_ubi.yaml", "Definitions/tosca_ubi.yaml"),
@@ -49,7 +52,21 @@ class CsarTest {
 		assertNotNull(def);
 	}
 
-	@SuppressWarnings("static-method")
+	@Test
+	void testSol001() throws IOException {
+		ZipUtil.makeToscaZip("/tmp/ubi-tosca.csar", Entry.of("ubi-tosca/Definitions/tosca_ubi.yaml", "Definitions/tosca_ubi.yaml"),
+				Entry.of("ubi-tosca/TOSCA-Metadata/TOSCA.meta", "TOSCA-Metadata/TOSCA.meta"));
+		final Sol001FileSystem fs = Sol001FileFactory.of(new File("/tmp/ubi-tosca.csar"));
+		final String def = fs.getEntryDefinitionFileName();
+		assertNotNull(def);
+		@NotNull
+		final List<ArtefactInformations> files = fs.getFiles();
+		assertNotNull(files);
+		assertEquals(2, files.size());
+		fs.getResolver();
+		fs.getToscaVersion();
+	}
+
 	// There is some inputstream problem when 2 test are running.
 	void testGetElkFiles() throws IOException {
 		ZipUtil.makeToscaZip("/tmp/ubi-tosca.csar",

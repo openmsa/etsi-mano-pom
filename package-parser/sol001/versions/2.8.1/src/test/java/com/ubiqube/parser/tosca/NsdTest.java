@@ -101,6 +101,8 @@ class NsdTest extends AbstractToscaApiTest {
 		ignore.add("getVirtualLinkProtocolData");
 		ignore.add("getFixedIpAddress");
 		ignore.add("getIpAddressAssignmentSubtype");
+		//
+		ignore.add("getType");
 		return ignore;
 	}
 

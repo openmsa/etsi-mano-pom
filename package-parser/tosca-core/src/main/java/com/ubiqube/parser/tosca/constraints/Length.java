@@ -22,6 +22,10 @@ import com.ubiqube.parser.tosca.ParseException;
 
 public class Length extends SimpleValue implements Constraint {
 
+	public Length() {
+		//
+	}
+
 	public Length(final Object value) {
 		super(value);
 	}

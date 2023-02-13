@@ -105,6 +105,22 @@ topology_template:
                   - b
               outputs: {}
               inputs: {}
+          inputs:
+            VL1_name:
+              type: string
+              description: name of the VLD1
+              default: mgmt_network
+              status: deprecated
+              entry_schema:
+                type: string
+                constraints:
+                  - greater_than: 0
+          notifications:
+            not1:
+              description: ff
+              implementation: aa
+              outputs:
+                test: value
 
     ext01:
       type: tosca.nodes.nfv.VnfExtCp
@@ -189,7 +205,6 @@ topology_template:
           min_disk: 1 GiB
           min_ram: 512 Mib
           operating_system: centos8
-          provider: provider
           size: 3 Gib
           supported_virtualisation_environments:
             - a

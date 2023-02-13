@@ -26,6 +26,10 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 public class ValidValues implements Constraint {
 	private final List<String> values = new ArrayList<>();
 
+	public ValidValues() {
+		//
+	}
+
 	public ValidValues(final ArrayNode value) {
 		final Iterator<JsonNode> ite = value.iterator();
 		while (ite.hasNext()) {

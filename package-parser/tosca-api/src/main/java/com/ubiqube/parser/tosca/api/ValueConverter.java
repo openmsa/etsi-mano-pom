@@ -24,6 +24,9 @@ import com.ubiqube.parser.tosca.scalar.Time;
 import com.ubiqube.parser.tosca.scalar.Version;
 
 public class ValueConverter {
+	private ValueConverter() {
+		//
+	}
 
 	public static Object convert(final String type, final Object value) {
 		if (null == value) {

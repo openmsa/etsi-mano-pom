@@ -23,6 +23,10 @@ import com.ubiqube.parser.tosca.ParseException;
 
 public class GreaterOrEqual extends SimpleValue implements Constraint {
 
+	public GreaterOrEqual() {
+		//
+	}
+
 	public GreaterOrEqual(final JsonNode value) {
 		super(value.asText());
 	}

@@ -24,6 +24,10 @@ public class InRange implements Constraint {
 	private String min;
 	private String max;
 
+	public InRange() {
+		//
+	}
+
 	public InRange(final ArrayNode key) {
 		min = key.get(0).asText();
 		max = key.get(1).asText();
@@ -48,10 +52,10 @@ public class InRange implements Constraint {
 	@Override
 	public Object evaluate(final Object value) {
 		if (value instanceof final Integer i) {
-			return (Integer.valueOf(min) >= i) && (Integer.valueOf(max) <= i);
+			return (Integer.valueOf(min) >= i) && (i <= (Integer.valueOf(max)));
 		}
 		if (value instanceof final Double d) {
-			return (Double.valueOf(min) >= d) && (Double.valueOf(max) <= d);
+			return (Double.valueOf(min) >= d) && (d <= (Double.valueOf(max)));
 		}
 		throw new ParseException("Could not evaluate inRange for type: " + value.getClass().getSimpleName());
 	}

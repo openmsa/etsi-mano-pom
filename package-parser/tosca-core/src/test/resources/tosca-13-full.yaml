@@ -6,6 +6,47 @@ imports:
   - etsi_nfv_sol001_vnfd_types.yaml  # all of TOSCA VNFD types as defined in ETSI GS NFV-SOL 001
   - sunshineVNF.yaml # contains the VNF node type definition
 
+repositories:
+  docker:
+    description: descr
+    url: http://nexus.ubiqube.com/
+    credential:
+      protocol: OAuth2
+      token_type: Bearer
+      token: mandatory
+      user: mano-vnfm
+      keys:
+        grant_type: client_credentials
+        scope: nfvo
+        access_url: http://mano-auth/auth/realms/mano-realm/protocol/openid-connect/token
+        client_secret: s3cr3t
+  glance:
+    description: descr
+    url: http://glance.openstack.com/v2/
+    credential:
+      protocol: keystoneV3
+      token_type: xxx
+      token: mandatory
+      user: admin
+      keys:
+        endpoint: http://keystone.opentack.com/v3
+        username: admin
+        password: password
+        projectId: proj
+        projectDomain: Default
+        userDomain: Default
+
+group_types:
+  tosca.groups.nfv.PlacementGroup:
+    derived_from: tosca.groups.Root
+    description: PlacementGroup is used for describing the affinity or anti-affinity relationship applicable between the virtualization containers to be created based on different VDUs, or between internal VLs to be created based on different VnfVirtualLinkDesc(s)
+    properties:
+      description:
+       type: string
+       description: Human readable description of the group
+       required: true
+    members: [ tosca.nodes.nfv.Vdu.Compute, tosca.nodes.nfv.VnfVirtualLink ]
+
 node_types:
   MyCompany.nodes.nfv.Vdu.Aux:
     derived_from: tosca.nodes.nfv.Vdu.Compute
@@ -33,6 +74,25 @@ data_types:
         type: string
         required: true
         default: "90.200.250.57"
+
+policy_types:
+  tosca.policies.nfv.InstantiationLevels:
+    derived_from: tosca.policies.Root
+    description: The InstantiationLevels type is a policy type representing all the instantiation levels of resources to be instantiated within a deployment flavour and including default instantiation level in term of the number of VNFC instances to be created as defined in ETSI GS NFV-IFA 011 [1].
+    properties:
+      levels:
+       type: map # key: levelId
+       description: Describes the various levels of resources that can be used to instantiate the VNF using this flavour.
+       required: true
+       entry_schema:
+         type: tosca.datatypes.nfv.InstantiationLevel
+       constraints:
+         - min_length: 1
+      default_level:
+       type: string # levelId
+       description: The default instantiation level for this flavour.
+       required: false # required if multiple entries in levels
+
 
 topology_template:
   substitution_mappings:

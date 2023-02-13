@@ -27,6 +27,11 @@ import com.ubiqube.parser.tosca.ParseException;
  *
  */
 public class MaxLength extends SimpleValue implements Constraint {
+
+	public MaxLength() {
+		//
+	}
+
 	public MaxLength(final JsonNode value) {
 		super(value.asText());
 	}

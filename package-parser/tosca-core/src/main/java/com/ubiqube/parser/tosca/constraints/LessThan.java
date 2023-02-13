@@ -22,6 +22,10 @@ import com.ubiqube.parser.tosca.ParseException;
 
 public class LessThan extends SimpleValue implements Constraint {
 
+	public LessThan() {
+		//
+	}
+
 	public LessThan(final Object value) {
 		super(value);
 	}

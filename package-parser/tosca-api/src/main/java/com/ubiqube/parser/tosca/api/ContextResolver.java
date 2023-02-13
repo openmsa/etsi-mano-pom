@@ -222,21 +222,83 @@ public class ContextResolver {
 
 	private <U> void handleInterfaces(final Map<String, InterfaceDefinition> ifaces, final PropertyDescriptor[] propsDescr, final U cls, final Deque<String> stack) {
 		ifaces.entrySet().forEach(x -> {
-			final PropertyDescriptor prop = findProperty(propsDescr, x.getKey()).orElseThrow(() -> new ParseException("Unable to find property: " + x.getKey()));
+			final Optional<PropertyDescriptor> propo = findProperty(propsDescr, x.getKey());
+			LOG.info("{} / {}", cls, x.getKey());
+			if (propo.isEmpty()) {
+				addToInterfaceOverLoad(cls, x);
+				return;
+			}
+			final PropertyDescriptor prop = propo.get();
 			final Method mr = prop.getReadMethod();
 			final Class<?> mrr = mr.getReturnType();
 			final Object newObj = newInstance(mrr);
 			final Method mw = prop.getWriteMethod();
 			setProperty2(cls, mw, newObj);
 			final InterfaceDefinition obj = x.getValue();
-			final Map ops = obj.getOperations();
-			if (null == ops) {
-				return;
-			}
-			final Class generic = null;
-			final PropertyDescriptor[] propsNewObj = getPropertyDescriptor(mrr);
-			handleMap(ops, mrr, propsNewObj, newObj, generic, stack);
+			handleOperations(obj, mrr, newObj, stack);
+			handleNotifications(obj, mrr, newObj, stack);
+			handleInputs(obj, mrr, newObj, stack);
 		});
+	}
+
+	private static <U> void addToInterfaceOverLoad(final U object, final Entry<String, InterfaceDefinition> x) {
+		try {
+			final BeanInfo cls = Introspector.getBeanInfo(object.getClass());
+			final PropertyDescriptor[] props = cls.getPropertyDescriptors();
+			final PropertyDescriptor overloadedIface = findProperty(props, "overloadedInterfaces")
+					.orElseThrow(() -> new ParseException("Unable to find method 'overloadedInterfaces' on class " + object.getClass()));
+			final Method getMethod = overloadedIface.getReadMethod();
+			Object res = getMethod.invoke(object);
+			if (null == res) {
+				final Method writeMethod = overloadedIface.getWriteMethod();
+				res = new HashMap<>();
+				writeMethod.invoke(object, res);
+			}
+			if (!(res instanceof final Map m)) {
+				throw new UnsupportedOperationException("Unknown class type: " + res.getClass());
+			}
+			m.put(x.getKey(), x.getValue());
+		} catch (SecurityException | IllegalAccessException | InvocationTargetException | IntrospectionException e) {
+			throw new ParseException(e);
+		}
+	}
+
+	private static void handleInputs(final InterfaceDefinition obj, final Class<?> mrr, final Object newObj, final Deque<String> stack) {
+		final ToscaProperties ops = obj.getInputs();
+		if (null == ops) {
+			return;
+		}
+		final PropertyDescriptor[] propsNewObj = getPropertyDescriptor(mrr);
+		final PropertyDescriptor notifWrite = findProperty(propsNewObj, "inputs").orElseThrow();
+		try {
+			notifWrite.getWriteMethod().invoke(newObj, ops);
+		} catch (IllegalAccessException | InvocationTargetException e) {
+			throwException("", stack, e);
+		}
+	}
+
+	private static void handleNotifications(final InterfaceDefinition obj, final Class<?> mrr, final Object newObj, final Deque<String> stack) {
+		final Map ops = obj.getNotifications();
+		if (null == ops) {
+			return;
+		}
+		final PropertyDescriptor[] propsNewObj = getPropertyDescriptor(mrr);
+		final PropertyDescriptor notifWrite = findProperty(propsNewObj, "notifications").orElseThrow();
+		try {
+			notifWrite.getWriteMethod().invoke(newObj, ops);
+		} catch (IllegalAccessException | InvocationTargetException e) {
+			throwException("", stack, e);
+		}
+	}
+
+	private void handleOperations(final InterfaceDefinition obj, final Class<?> mrr, final Object newObj, final Deque<String> stack) {
+		final Map ops = obj.getOperations();
+		if (null == ops) {
+			return;
+		}
+		final Class generic = null;
+		final PropertyDescriptor[] propsNewObj = getPropertyDescriptor(mrr);
+		handleMap(ops, mrr, propsNewObj, newObj, generic, stack);
 	}
 
 	private static <U> void applyDefault(final NodeTemplate node, final U cls, final ToscaContext root) {
@@ -480,6 +542,9 @@ public class ContextResolver {
 		sb.setCharAt(0, Character.toLowerCase(sb.charAt(0)));
 		final String camelCaseToUnderscore = sb.toString();
 		// In 4.2.1 we now have some camel case properties...
+		if ("Vnflcm".equals(propertyName)) {
+			Arrays.stream(props).forEach(x -> LOG.info("{}", x.getName()));
+		}
 		final Optional<PropertyDescriptor> first = Arrays.stream(props).filter(x -> camelCaseToUnderscore(x.getName()).equals(camelCaseToUnderscore)).findFirst();
 		if (first.isPresent()) {
 			return first;

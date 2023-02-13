@@ -7,6 +7,17 @@ imports:
     namespace_prefix: namespace-prefix
     namespace_uri: uri
 
+interface_types:
+  MyCompany.nfv.interfaces.VnfIndicator: 
+    derived_from: tosca.interfaces.nfv.VnfIndicator
+    notifications:
+      utilization:
+        description: this notification is used to received asynchronous information of value change of the utilization_vnf_indicator
+      health:
+        description: this notification is used to received asynchronous information of value change of the health_vnf_indicator
+
+
+
 topology_template:
   inputs:
     VL1_name:
@@ -94,6 +105,24 @@ topology_template:
             scale_level: 1
       requirements:
         - virtual_link: public
+      interfaces:
+        Vnflcm:
+          operations:
+            heal:
+              inputs:
+                additional_parameters:
+                  type: MyCompany.datatypes.nfv.HealAdditionalParameters
+                  required: false
+        VnfIndicator:
+          type: MyCompany.nfv.interfaces.VnfIndicator
+          notifications:
+            utilization:
+              outputs: 
+                utilization_vnf_indicator: [ SELF, utilization_vnf_indicator ]
+            health:
+              outputs:
+                health_vnf_indicator: [ SELF, health_vnf_indicator ]
+
 
 
   groups:
@@ -135,6 +164,13 @@ topology_template:
         triggers:
           scale_out:
             event: tosca.interfaces.nfv.VnfIndicator.utilization # full name of a notification in the VnfIndicator interface
+            schedule:
+              start_time: 1
+              end_time: 2
+            target_filter:
+              node: type
+              requirement: String
+              capability: String
             condition:
               - utilization_vnf_indicator: [ { greater_or_equal: 60.0 } ]
               - call_proc_scale_level: [ { less_than: 3 } ]
@@ -148,6 +184,13 @@ topology_template:
                       value: call_proc
                     number_of_steps:
                       value: 1 # optional
+              - delegate:
+                  workflow: Name
+                  inputs:
+                    VL1_name:
+                      type: string
+                      description: name of the VLD1
+                      default: mgmt_network
 
 
  

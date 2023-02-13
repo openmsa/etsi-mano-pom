@@ -144,6 +144,8 @@ class VnfdTest extends AbstractToscaApiTest {
 		ignore.add("getDeployPath");
 		// Compute
 		ignore.add("getChecksumAlgorithm");
+		//
+		ignore.add("getType");
 		return ignore;
 	}
 

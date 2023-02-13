@@ -139,6 +139,8 @@ class VnfdTest extends AbstractToscaApiTest {
 		ignore.add("getIpAddressAssignmentSubtype");
 		// VNF
 		ignore.add("getServiceAvailabilityLevel");
+		//
+		ignore.add("getType");
 		return ignore;
 	}
 

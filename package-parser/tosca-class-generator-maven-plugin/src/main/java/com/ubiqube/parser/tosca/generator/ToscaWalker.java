@@ -30,13 +30,16 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.parser.tosca.Artifact;
 import com.ubiqube.parser.tosca.CapabilityDefinition;
 import com.ubiqube.parser.tosca.CapabilityTypes;
 import com.ubiqube.parser.tosca.DataType;
 import com.ubiqube.parser.tosca.GroupType;
+import com.ubiqube.parser.tosca.InterfaceDefinition;
 import com.ubiqube.parser.tosca.InterfaceType;
+import com.ubiqube.parser.tosca.NotificationDefnition;
 import com.ubiqube.parser.tosca.OperationDefinition;
 import com.ubiqube.parser.tosca.ParseException;
 import com.ubiqube.parser.tosca.PolicyType;
@@ -45,6 +48,7 @@ import com.ubiqube.parser.tosca.RequirementDefinition;
 import com.ubiqube.parser.tosca.ToscaClass;
 import com.ubiqube.parser.tosca.ToscaContext;
 import com.ubiqube.parser.tosca.ToscaParser;
+import com.ubiqube.parser.tosca.ToscaProperties;
 import com.ubiqube.parser.tosca.TriggerDefinition;
 import com.ubiqube.parser.tosca.ValueObject;
 import com.ubiqube.parser.tosca.annotations.Capability;
@@ -57,6 +61,7 @@ import com.ubiqube.parser.tosca.constraints.Constraint;
 
 public class ToscaWalker {
 	private static final String TOSCA_ARTIFACTS_ROOT = "tosca.artifacts.Root";
+	private static final String TOSCA_INTERFACE_ROOT = "tosca.interfaces.Root";
 	private static final String TOSCA_NODES_ROOT = "tosca.nodes.Root";
 	private static final String TOSCA_POLICIES_ROOT = "tosca.policies.Root";
 	private static final String STRING = "string";
@@ -87,7 +92,11 @@ public class ToscaWalker {
 			if (cache.contains(entry.getKey())) {
 				// XXX to do.
 			}
-			generateClass(entry.getKey(), entry.getValue(), listener);
+			if (TOSCA_INTERFACE_ROOT.equals(entry.getKey())) {
+				createInterfaceRoot(listener);
+			} else {
+				generateClass(entry.getKey(), entry.getValue(), listener);
+			}
 		}
 	}
 
@@ -187,10 +196,27 @@ public class ToscaWalker {
 		listener.startField("artifacts", ValueObject.mapOf(Artifact.class.getName()));
 		listener.onFieldTerminate();
 		listener.startField("overloadedAttributes", ValueObject.mapOf(ValueObject.class.getName()));
+		listener.onFieldAnnotate(JsonIgnore.class);
 		listener.onFieldTerminate();
 		listener.startField("overloadedRequirements", new ValueObject(RequirementDefinition.class.getName()));
+		listener.onFieldAnnotate(JsonIgnore.class);
+		listener.onFieldTerminate();
+		listener.startField("overloadedInterfaces", ValueObject.mapOf(InterfaceDefinition.class.getName()));
+		listener.onFieldAnnotate(JsonIgnore.class);
 		listener.onFieldTerminate();
 		cache.add(TOSCA_NODES_ROOT);
+		listener.terminateClass();
+	}
+
+	private void createInterfaceRoot(final ToscaListener listener) {
+		startClass(TOSCA_INTERFACE_ROOT, null, listener);
+		listener.startField("type", new ValueObject(STRING));
+		listener.onFieldTerminate();
+		listener.startField("inputs", new ValueObject(ToscaProperties.class.getName()));
+		listener.onFieldTerminate();
+		listener.startField("notifications", ValueObject.mapOf(NotificationDefnition.class.getName()));
+		listener.onFieldTerminate();
+		cache.add(TOSCA_INTERFACE_ROOT);
 		listener.terminateClass();
 	}
 

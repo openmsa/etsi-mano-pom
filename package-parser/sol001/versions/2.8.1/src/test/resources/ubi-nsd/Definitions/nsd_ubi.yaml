@@ -46,6 +46,23 @@ topology_template:
       interfaces:
         Nslcm:
           operations:
+          inputs:
+            VL1_name:
+              type: string
+              description: name of the VLD1
+              default: mgmt_network
+              status: deprecated
+              entry_schema:
+                type: string
+                description: drty
+                constraints:
+                  - greater_than: 0
+          notifications:
+            not1:
+              description: ff
+              implementation: aa
+              outputs:
+                test: value
 
 
 

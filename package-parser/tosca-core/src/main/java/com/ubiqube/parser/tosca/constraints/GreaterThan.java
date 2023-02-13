@@ -23,6 +23,10 @@ import com.ubiqube.parser.tosca.ParseException;
 
 public class GreaterThan extends SimpleValue implements Constraint {
 
+	public GreaterThan() {
+		//
+	}
+
 	public GreaterThan(final JsonNode jsonNode) {
 		super(jsonNode.asText());
 	}

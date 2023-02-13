@@ -20,6 +20,10 @@ public class SimpleValue {
 
 	private Object value;
 
+	public SimpleValue() {
+		//
+	}
+
 	public SimpleValue(final Object value) {
 		this.value = value;
 	}

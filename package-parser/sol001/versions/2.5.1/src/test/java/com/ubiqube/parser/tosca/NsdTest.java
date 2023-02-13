@@ -142,6 +142,9 @@ class NsdTest extends AbstractToscaApiTest {
 		ignore.add("getPriority");
 		// NS VL
 		ignore.add("getVirtualLinkProtocolData");
+		// NS notifications
+		ignore.add("getNotifications");
+		ignore.add("getInputs");
 		return ignore;
 	}
 

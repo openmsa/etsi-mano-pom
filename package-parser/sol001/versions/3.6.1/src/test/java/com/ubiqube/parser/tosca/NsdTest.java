@@ -74,15 +74,15 @@ class NsdTest extends AbstractToscaApiTest {
 				Arguments.of(1, NfpRule.class),
 				Arguments.of(1, NfpPosition.class),
 				Arguments.of(2, NfpPositionElement.class),
-				Arguments.of(1, NsAutoScale.class),
-				Arguments.of(1, VirtualLinkToInstantiationLevelMapping.class),
-				Arguments.of(1, NsToInstantiationLevelMapping.class),
-				Arguments.of(1, VnfToInstantiationLevelMapping.class),
-				Arguments.of(1, NsInstantiationLevels.class),
-				Arguments.of(1, VirtualLinkToLevelMapping.class),
-				Arguments.of(1, NsToLevelMapping.class),
-				Arguments.of(1, VnfToLevelMapping.class),
-				Arguments.of(1, NsScalingAspects.class));
+				Arguments.of(2, NsAutoScale.class),
+				Arguments.of(2, VirtualLinkToInstantiationLevelMapping.class),
+				Arguments.of(2, NsToInstantiationLevelMapping.class),
+				Arguments.of(2, VnfToInstantiationLevelMapping.class),
+				Arguments.of(2, NsInstantiationLevels.class),
+				Arguments.of(2, VirtualLinkToLevelMapping.class),
+				Arguments.of(2, NsToLevelMapping.class),
+				Arguments.of(2, VnfToLevelMapping.class),
+				Arguments.of(2, NsScalingAspects.class));
 	}
 
 	@Override
@@ -112,6 +112,8 @@ class NsdTest extends AbstractToscaApiTest {
 		// VduCp L3Address
 		ignore.add("getFixedIpAddress");
 		ignore.add("getIpAddressAssignmentSubtype");
+		//
+		ignore.add("getType");
 		return ignore;
 	}
 

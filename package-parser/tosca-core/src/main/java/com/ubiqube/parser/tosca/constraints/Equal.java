@@ -25,6 +25,10 @@ import com.ubiqube.parser.tosca.ParseException;
 public class Equal implements Constraint {
 	Object value;
 
+	public Equal() {
+		//
+	}
+
 	public Equal(final Object value) {
 		this.value = value;
 	}
@@ -38,10 +42,16 @@ public class Equal implements Constraint {
 	public Object evaluate(final Object valueIn) {
 		if (valueIn instanceof final Integer i) {
 			final Integer cv = castValue(Integer.class, x -> Integer.valueOf(x.toString()));
+			if (null == cv) {
+				return Boolean.FALSE;
+			}
 			return cv.equals(i);
 		}
 		if (valueIn instanceof final Double d) {
 			final Double cv = castValue(Double.class, x -> Double.valueOf(x.toString()));
+			if (null == cv) {
+				return Boolean.FALSE;
+			}
 			return cv.equals(d);
 		}
 		if (valueIn instanceof final String s) {
@@ -53,11 +63,14 @@ public class Equal implements Constraint {
 		if (valueIn instanceof final Boolean b) {
 			return b.equals(value);
 		}
+		if (valueIn == null) {
+			return value == null;
+		}
 		throw new ParseException("Could not evaluate inRange for type: " + value.getClass().getSimpleName());
 	}
 
 	private <U> U castValue(final Class<U> clazz, final Function<Object, U> func) {
-		if (clazz == value.getClass()) {
+		if ((null == value) || (clazz == value.getClass())) {
 			return (U) value;
 		}
 		if (value instanceof final TextNode tn) {

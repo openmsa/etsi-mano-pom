@@ -16,8 +16,48 @@
  */
 package com.ubiqube.parser.tosca.objects.tosca.interfaces;
 
+import java.util.Map;
+
+import com.ubiqube.parser.tosca.NotificationDefnition;
+import com.ubiqube.parser.tosca.ToscaProperties;
+
+import jakarta.validation.Valid;
+
 /**
  * The TOSCA root Interface Type all other TOSCA Interface Types derive from
  */
 public class Root extends com.ubiqube.parser.tosca.objects.tosca.entity.Root {
+	@Valid
+	private String type;
+
+	@Valid
+	private ToscaProperties inputs;
+
+	@Valid
+	private Map<String, NotificationDefnition> notifications;
+
+	public String getType() {
+		return this.type;
+	}
+
+	public void setType(final String type) {
+		this.type = type;
+	}
+
+	public ToscaProperties getInputs() {
+		return this.inputs;
+	}
+
+	public void setInputs(final ToscaProperties inputs) {
+		this.inputs = inputs;
+	}
+
+	public Map<String, NotificationDefnition> getNotifications() {
+		return this.notifications;
+	}
+
+	public void setNotifications(final Map<String, NotificationDefnition> notifications) {
+		this.notifications = notifications;
+	}
+
 }

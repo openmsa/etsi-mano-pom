@@ -19,7 +19,11 @@ package com.ubiqube.parser.tosca.constraints;
 import com.fasterxml.jackson.databind.JsonNode;
 
 public class Pattern extends SimpleValue implements Constraint {
-	private final java.util.regex.Pattern p;
+	private java.util.regex.Pattern p;
+
+	public Pattern() {
+		//
+	}
 
 	public Pattern(final JsonNode value) {
 		super(value.asText());

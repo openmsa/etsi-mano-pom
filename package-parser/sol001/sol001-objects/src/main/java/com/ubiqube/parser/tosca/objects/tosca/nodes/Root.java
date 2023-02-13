@@ -19,6 +19,7 @@ package com.ubiqube.parser.tosca.objects.tosca.nodes;
 import java.util.Map;
 
 import com.ubiqube.parser.tosca.Artifact;
+import com.ubiqube.parser.tosca.InterfaceDefinition;
 import com.ubiqube.parser.tosca.RequirementDefinition;
 import com.ubiqube.parser.tosca.ValueObject;
 import com.ubiqube.parser.tosca.api.ToscaInernalBase;
@@ -34,6 +35,9 @@ public class Root extends ToscaInernalBase {
 
 	@Valid
 	private RequirementDefinition overloadedRequirements;
+
+	@Valid
+	private Map<String, InterfaceDefinition> overloadedInterfaces;
 
 	public Map<String, Artifact> getArtifacts() {
 		return this.artifacts;
@@ -57,6 +61,14 @@ public class Root extends ToscaInernalBase {
 
 	public void setOverloadedRequirements(final RequirementDefinition overloadedRequirements) {
 		this.overloadedRequirements = overloadedRequirements;
+	}
+
+	public Map<String, InterfaceDefinition> getOverloadedInterfaces() {
+		return this.overloadedInterfaces;
+	}
+
+	public void setOverloadedInterfaces(final Map<String, InterfaceDefinition> overloadedInterfaces) {
+		this.overloadedInterfaces = overloadedInterfaces;
 	}
 
 }

@@ -57,6 +57,23 @@ topology_template:
                   - b
               outputs: {}
               inputs: {}
+          inputs:
+            VL1_name:
+              type: string
+              description: name of the VLD1
+              default: mgmt_network
+              status: deprecated
+              entry_schema:
+                type: string
+                description: drty
+                constraints:
+                  - greater_than: 0
+          notifications:
+            not1:
+              description: ff
+              implementation: aa
+              outputs:
+                test: value
 
 
 
@@ -289,12 +306,24 @@ policies:
           leaf: 34
     targets: # [ tosca.nodes.nfv.NsVirtualLink ]
 
+# Global instantiation level for this document (NSD)
+  ns_inst_level_1:
+    type: tosca.policies.nfv.NsInstantiationLevels
+    properties:
+      ns_levels: # Map<String, tosca.datatypes.nfv.NsLevels> key= levelId
+        ns_to_level_mapping:
+          description: descr
+        2:
+          description: descr2
+      default_level: ns_to_level_mapping
+
   ns instantiation_level:
     type: tosca.policies.nfv.NsInstantiationLevels
     properties:
       ns_levels: # map<tosca.datatypes.nfv.NsLevels>
         level:
           description: descr
+      default_level: ns_to_level_mapping
 
   vnf_to_inst_level:
     type: tosca.policies.nfv.VnfToInstantiationLevelMapping
@@ -324,22 +353,6 @@ policies:
     targets: #[ tosca.nodes.nfv.NS ]
 
 
-group_types:
-  vnfgg:
-    type: tosca.groups.nfv.VNFFG
-    properties:
-      description: descr
-    members: # [ tosca.nodes.nfv.NFP, tosca.nodes.nfv.VNF, tosca.nodes.nfv.PNF, tosca.nodes.nfv.NS, tosca.nodes.nfv.NsVirtualLink, tosca.nodes.nfv.NfpPositionElement ]
-      - one
-      - two
-
-  placement_group:
-    tpye: tosca.groups.nfv.NsPlacementGroup
-    properties:
-      description: descr.
-
-
-policies:
   nfp_rule: # classifier
     type: tosca.policies.nfv.NfpRule
     properties:
@@ -419,17 +432,7 @@ policies:
           leaf: 2000
     targets: [ vl01 ]
 
-  # Global instantiation level for this document (NSD)
-  ns_inst_level_1:
-    type: tosca.policies.nfv.NsInstantiationLevels
-    properties:
-      ns_levels: # Map<String, tosca.datatypes.nfv.NsLevels> key= levelId
-        ns_to_level_mapping:
-          description: descr
-        2:
-          description: descr2
-      default_level: ns_to_level_mapping
-
+  
   vnf_inst_level:
     type: tosca.policies.nfv.VnfToInstantiationLevelMapping
     properties:
@@ -462,6 +465,20 @@ policies:
     type: tosca.policies.nfv.NsAutoScale
     targets: [ database ]
 
+
+group_types:
+  vnfgg:
+    type: tosca.groups.nfv.VNFFG
+    properties:
+      description: descr
+    members: # [ tosca.nodes.nfv.NFP, tosca.nodes.nfv.VNF, tosca.nodes.nfv.PNF, tosca.nodes.nfv.NS, tosca.nodes.nfv.NsVirtualLink, tosca.nodes.nfv.NfpPositionElement ]
+      - one
+      - two
+
+  placement_group:
+    tpye: tosca.groups.nfv.NsPlacementGroup
+    properties:
+      description: descr.
 
 
 

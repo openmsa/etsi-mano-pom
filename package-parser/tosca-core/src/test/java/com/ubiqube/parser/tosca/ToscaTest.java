@@ -64,6 +64,10 @@ class ToscaTest {
 			assertNotNull(obj);
 			final SubstitutionMapping sm = obj.getTopologyTemplate().getSubstitutionMapping();
 			assertNotNull(sm);
+			final BeanListener bl = new TestListener();
+			final BeanWalker bw = new BeanWalker();
+			bw.walk(obj, bl);
+			obj.toString();
 		}
 	}
 }
