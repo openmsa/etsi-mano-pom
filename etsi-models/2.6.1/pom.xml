@@ -17,5 +17,6 @@
 		<module>model</module>
 		<module>nfvo-controllers</module>
 		<module>vnfm-controllers</module>
+		<module>etsi-em-controllers</module>
 	</modules>
 </project>

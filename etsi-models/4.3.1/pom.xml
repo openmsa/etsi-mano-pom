@@ -17,5 +17,6 @@
 		<module>nfvo-controllers</module>
 		<module>vnfm-controllers</module>
 		<module>etsi-nfvem-431-controllers</module>
+		<module>etsi-em-431-controllers</module>
 	</modules>
 </project>
