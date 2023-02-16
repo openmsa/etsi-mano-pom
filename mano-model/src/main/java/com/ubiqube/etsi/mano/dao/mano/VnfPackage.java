@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.dao.mano;
 
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -312,6 +313,9 @@ public class VnfPackage implements PackageBase, Auditable {
 	 * Name of internal package provider/parser class.
 	 */
 	private String packageProvider;
+
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<Attributes> attributes;
 
 	@Version
 	private long version;
