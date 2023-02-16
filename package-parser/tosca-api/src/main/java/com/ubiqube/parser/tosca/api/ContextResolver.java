@@ -223,7 +223,6 @@ public class ContextResolver {
 	private <U> void handleInterfaces(final Map<String, InterfaceDefinition> ifaces, final PropertyDescriptor[] propsDescr, final U cls, final Deque<String> stack) {
 		ifaces.entrySet().forEach(x -> {
 			final Optional<PropertyDescriptor> propo = findProperty(propsDescr, x.getKey());
-			LOG.info("{} / {}", cls, x.getKey());
 			if (propo.isEmpty()) {
 				addToInterfaceOverLoad(cls, x);
 				return;
@@ -542,9 +541,6 @@ public class ContextResolver {
 		sb.setCharAt(0, Character.toLowerCase(sb.charAt(0)));
 		final String camelCaseToUnderscore = sb.toString();
 		// In 4.2.1 we now have some camel case properties...
-		if ("Vnflcm".equals(propertyName)) {
-			Arrays.stream(props).forEach(x -> LOG.info("{}", x.getName()));
-		}
 		final Optional<PropertyDescriptor> first = Arrays.stream(props).filter(x -> camelCaseToUnderscore(x.getName()).equals(camelCaseToUnderscore)).findFirst();
 		if (first.isPresent()) {
 			return first;
