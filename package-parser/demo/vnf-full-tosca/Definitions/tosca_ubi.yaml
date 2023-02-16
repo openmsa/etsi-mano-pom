@@ -5,6 +5,32 @@ description: >
 imports:
   - etsi_nfv_sol001_vnfd_types.yaml
 
+interface_types:
+  MyCompany.nfv.interfaces.VnfIndicator:
+    derived_from: tosca.interfaces.nfv.VnfIndicator
+    notifications:
+      utilization:
+        description: this notification is used to received asynchronous information of value change of the utilization_vnf_indicator
+      health:
+        description: this notification is used to received asynchronous information of value change of the health_vnf_indicator
+      utilization_vnf_indicator:
+        description: Description
+
+node_types:
+  com.ubiqube.VNF:
+    derived_from: tosca.nodes.nfv.VNF
+    attributes:
+      call_proc_scale_level:
+        type: integer
+      database_scale_level:
+        type: integer
+      utilization_vnf_indicator:
+        type: integer
+    interfaces:
+      VnfIndicator:
+        type: MyCompany.nfv.interfaces.VnfIndicator
+
+
 topology_template:
   inputs:
     VL1_name:
@@ -24,7 +50,7 @@ topology_template:
 
   node_templates:
     ubiVdo.1_0:
-      type: tosca.nodes.nfv.VNF
+      type: com.ubiqube.VNF
       properties:
         descriptor_id: dcd11fbf-c767-41eb-abc9-cec35dd95bca
         provider: Ubiqube internal.
@@ -83,7 +109,23 @@ topology_template:
             scale_level: 1
       requirements:
         - virtual_link: public
-
+      interfaces:
+        VnfIndicator:
+          utilization:
+            outputs:
+              utilization_vnf_indicator: [ SELF, utilization_vnf_indicator ]
+          health:
+            outputs:
+              health_vnf_indicator: [ SELF, health_vnf_indicator ]
+        Vnflcm:
+          operations:
+            heal:
+              inputs:
+                key: value
+      attributes:
+        call_proc_scale_level: { get_attribute: [ SELF, scale_status, left_aspect, scale_level ] }
+        database_scale_level:  { get_attribute: [ SELF, scale_status, middle_aspect, scale_level ] }
+        utilization_vnf_indicator: { get_attribute: [ vduLeft01, monitoring_parameters, name]}
 
 
 
@@ -699,6 +741,7 @@ policies:
           max_scale_level: 4
           step_deltas:
           - delta_1
+
   auto_scale:
     type: tosca.policies.nfv.VnfIndicator
     properties:
@@ -734,32 +777,6 @@ policies:
                   value: call_proc
         targets: [SunshineDB ]
 
-  auto_heal:
-    type: tosca.policies.nfv.VnfIndicator
-    properties:
-      source: vnf
-    triggers:
-      red:
-        event: tosca.interfaces.nfv.VnfIndicator.health # full name of a notification in the VnfIndicator interface
-        condition:
-          - health_vnf_indicator: [ { equal: red } ]
-        action:
-          - call_operation:
-              operation: Vnflcm.heal
-              inputs:
-                cause:
-                  value: no_service
-      yellow:
-        event: tosca.interfaces.nfv.VnfIndicator.health
-        condition:
-          - health_vnf_indicator: [ { equal: yellow } ]
-        action:
-          - call_operation:
-              operation: Vnflcm.heal
-              inputs:
-                cause:
-                  value: degraded_service
-    targets: [SunshineDB ]
 
 
 
