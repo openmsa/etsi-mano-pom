@@ -81,7 +81,7 @@ public class NfvoApiVersion {
 			}
 			final Object obj = applicationContext.getBean(x);
 			final RequestMapping req = AnnotationUtils.findAnnotation(obj.getClass(), RequestMapping.class);
-			if (haveUsableRequest(req)) {
+			if (haveUsableRequest(req) && (req != null)) {
 				final List<String> version = getVersion(req.headers());
 				final String part = findMatch(req.value()[0]);
 				if (null == part) {

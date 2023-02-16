@@ -63,7 +63,7 @@ public class EndpointService {
 			}
 			final Object obj = applicationContext.getBean(x);
 			final RequestMapping req = AnnotationUtils.findAnnotation(obj.getClass(), RequestMapping.class);
-			if (haveUsableRequest(req)) {
+			if (haveUsableRequest(req) && (req != null)) {
 				final String part = extractPart(req.value()[0]);
 				final List<Version> version = getVersion(req.headers());
 				if (null == part) {
