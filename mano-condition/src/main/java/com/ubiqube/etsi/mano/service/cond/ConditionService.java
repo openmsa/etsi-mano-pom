@@ -68,10 +68,10 @@ public class ConditionService {
 
 	private static <A> Node applyOptimizer(final Visitor<Node, A> v, final Node node) {
 		final Node ret = node.accept(v, null);
-		if (LOG.isDebugEnabled()) {
+		if (LOG.isTraceEnabled()) {
 			final PrintVisitor visitor = new PrintVisitor();
 			final String str = ret.accept(visitor, 0);
-			LOG.debug("{}", str);
+			LOG.trace("{}", str);
 		}
 		return ret;
 	}
