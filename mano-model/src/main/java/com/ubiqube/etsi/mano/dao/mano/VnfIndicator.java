@@ -21,6 +21,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.DocumentId;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embedded;
@@ -30,11 +34,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.DocumentId;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -74,7 +73,7 @@ public class VnfIndicator implements ToscaEntity, Auditable {
 	@ElementCollection(targetClass = String.class)
 	private List<String> targets;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<MonitoringParams> monitoringParameters;
+	@ElementCollection(fetch = FetchType.LAZY)
+	private Set<String> indicators;
 
 }
