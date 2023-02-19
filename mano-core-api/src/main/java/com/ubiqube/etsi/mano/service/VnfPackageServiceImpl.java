@@ -29,6 +29,8 @@ import com.ubiqube.etsi.mano.jpa.VnfInstanceJpa;
 import com.ubiqube.etsi.mano.jpa.VnfPackageJpa;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 
+import jakarta.annotation.Nonnull;
+
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
@@ -50,7 +52,7 @@ public class VnfPackageServiceImpl implements VnfPackageService {
 	}
 
 	@Override
-	public VnfPackage findById(final UUID vnfPkgId) {
+	public @Nonnull VnfPackage findById(final UUID vnfPkgId) {
 		final VnfPackage ret = vnfPackageJpa.findById(vnfPkgId).orElseThrow(() -> new NotFoundException("VNF Package: " + vnfPkgId + " not found."));
 		final int i = vnfInstanceJpa.countByVnfPkgId(vnfPkgId);
 		ret.setUsageState(i == 0 ? UsageStateEnum.NOT_IN_USE : UsageStateEnum.IN_USE);
@@ -58,7 +60,7 @@ public class VnfPackageServiceImpl implements VnfPackageService {
 	}
 
 	@Override
-	public VnfPackage save(final VnfPackage vnfPackage) {
+	public VnfPackage save(final @Nonnull VnfPackage vnfPackage) {
 		return vnfPackageRepository.save(vnfPackage);
 	}
 

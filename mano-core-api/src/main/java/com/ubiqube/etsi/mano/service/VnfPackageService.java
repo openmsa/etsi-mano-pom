@@ -19,16 +19,17 @@ package com.ubiqube.etsi.mano.service;
 import java.util.Optional;
 import java.util.UUID;
 
-import jakarta.validation.constraints.NotNull;
-
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+
+import jakarta.annotation.Nonnull;
+import jakarta.validation.constraints.NotNull;
 
 public interface VnfPackageService {
 
 	@NotNull
 	VnfPackage findById(final UUID vnfPkgId);
 
-	VnfPackage save(final VnfPackage vnfPackage);
+	VnfPackage save(final @Nonnull VnfPackage vnfPackage);
 
 	Optional<VnfPackage> findByDescriptorId(final String descriptorId);
 
