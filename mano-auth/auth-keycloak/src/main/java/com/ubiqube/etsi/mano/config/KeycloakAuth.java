@@ -38,7 +38,6 @@ public class KeycloakAuth implements SecutiryConfig {
 	private final Http403EntryPoint http403EntryPoint;
 
 	public KeycloakAuth(final Http403EntryPoint http403EntryPoint) {
-		super();
 		this.http403EntryPoint = http403EntryPoint;
 	}
 
@@ -50,7 +49,9 @@ public class KeycloakAuth implements SecutiryConfig {
 	@Override
 	public void configure(final AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry http) {
 		try {
-			http.and()
+			http
+					.anyRequest().authenticated()
+					.and()
 					.oauth2ResourceServer()
 					.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
 					.authenticationEntryPoint(http403EntryPoint);

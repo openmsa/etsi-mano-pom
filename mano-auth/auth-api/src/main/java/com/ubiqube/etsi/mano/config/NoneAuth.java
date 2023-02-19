@@ -16,52 +16,19 @@
  */
 package com.ubiqube.etsi.mano.config;
 
-import java.security.Security;
-
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
-import org.springframework.stereotype.Component;
 
-import com.ubiqube.etsi.mano.AuthException;
-import com.ubiqube.etsi.mano.config.properties.ManoProperties;
-
-import io.swagger.v3.oas.models.security.SecurityScheme;
-import io.swagger.v3.oas.models.security.SecurityScheme.Type;
-
-/**
- *
- * @author Olivier Vignaud <ovi@ubiqube.com>
- *
- */
-@Component
-public class Auth2Certs implements SecutiryConfig {
-
-	static {
-		Security.addProvider(new BouncyCastleProvider());
-	}
+public class NoneAuth implements SecutiryConfig {
 
 	@Override
 	public void configure(final AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry http) {
-		try {
-			http
-					.anyRequest().authenticated()
-					.and()
-					.x509()
-					.subjectPrincipalRegex("CN=(.*?)(?:,|$)")
-					.authenticationUserDetailsService(new UserDetailSsl());
-		} catch (final Exception e) {
-			throw new AuthException(e);
-		}
-	}
-
-	@Override
-	public SecurityScheme getSwaggerSecurityScheme(final ManoProperties oauth2Params) {
-		return new SecurityScheme().type(Type.MUTUALTLS).scheme("Mutual");
+		http.anyRequest().permitAll();
 	}
 
 	@Override
 	public SecurityType getSecurityType() {
-		return SecurityType.CERT;
+		return SecurityType.NONE;
 	}
+
 }

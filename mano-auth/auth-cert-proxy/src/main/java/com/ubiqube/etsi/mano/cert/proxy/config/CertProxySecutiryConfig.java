@@ -52,7 +52,9 @@ public class CertProxySecutiryConfig implements SecutiryConfig {
 
 	@Override
 	public void configure(final AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry http) {
-		final HttpSecurity f = http.and();
+		final HttpSecurity f = http
+				.anyRequest().authenticated()
+				.and();
 		f.addFilterBefore(new XHeaderAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
 

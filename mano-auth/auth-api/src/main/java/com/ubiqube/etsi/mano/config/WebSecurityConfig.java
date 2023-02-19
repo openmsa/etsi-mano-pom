@@ -55,8 +55,7 @@ public class WebSecurityConfig {
 					.requestMatchers("/swagger-ui.html").permitAll()
 					.requestMatchers("/swagger-ui/**").permitAll()
 					.requestMatchers("/api-docs/**").permitAll()
-					.requestMatchers("/v3/**").permitAll()
-					.anyRequest().authenticated();
+					.requestMatchers("/v3/**").permitAll();
 			secutiryConfig.configure(res);
 			return http.build();
 		} catch (final Exception e) {
