@@ -29,8 +29,22 @@ public interface IndicatorsFrontController {
 
 	<U> ResponseEntity<U> findByVnfInstanceIdAndIndicatorId(String vnfInstanceId, String indicatorId, Class<U> clazz, Consumer<U> makeLink);
 
+	/**
+	 * These is no vnf ind delete method.
+	 *
+	 * @param subscriptionId
+	 * @return
+	 */
+	@Deprecated(forRemoval = true)
 	ResponseEntity<Void> delete(String subscriptionId);
 
+	/**
+	 * These is no vnf ind Subscription.
+	 *
+	 * @param subscriptionId
+	 * @return
+	 */
+	@Deprecated(forRemoval = true)
 	<U> ResponseEntity<U> findById(String subscriptionId);
 
 }
