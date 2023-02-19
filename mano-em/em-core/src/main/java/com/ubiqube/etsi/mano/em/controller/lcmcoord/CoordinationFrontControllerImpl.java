@@ -14,7 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.vnfm.controller.lcmcoord;
+package com.ubiqube.etsi.mano.em.controller.lcmcoord;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

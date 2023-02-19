@@ -16,32 +16,29 @@
  */
 package com.ubiqube.etsi.mano.em.v431.controller.vnfconfig;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.time.OffsetDateTime;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-import jakarta.servlet.http.HttpServletRequest;
-import java.util.Optional;
+
+import com.ubiqube.etsi.mano.em.v431.model.vnfconfig.VnfConfigModifications;
+import com.ubiqube.etsi.mano.em.v431.model.vnfconfig.VnfConfiguration;
+
+import jakarta.validation.Valid;
 
 @RestController
 public class Configuration431Sol002Controller implements Configuration431Sol002Api {
 
-    private final ObjectMapper objectMapper;
+	@Override
+	public ResponseEntity<VnfConfiguration> configurationGet() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    private final HttpServletRequest request;
-
-    @org.springframework.beans.factory.annotation.Autowired
-    public Configuration431Sol002Controller(ObjectMapper objectMapper, HttpServletRequest request) {
-        this.objectMapper = objectMapper;
-        this.request = request;
-    }
-
-    @Override
-    public Optional<ObjectMapper> getObjectMapper() {
-        return Optional.ofNullable(objectMapper);
-    }
-
-    @Override
-    public Optional<HttpServletRequest> getRequest() {
-        return Optional.ofNullable(request);
-    }
+	@Override
+	public ResponseEntity<VnfConfigModifications> configurationPatch(@Valid final VnfConfigModifications body, final OffsetDateTime ifUnmodifiedSince, final String ifMatch) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

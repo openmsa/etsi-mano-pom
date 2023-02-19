@@ -16,41 +16,60 @@
  */
 package com.ubiqube.etsi.mano.em.v431.controller.vnfind;
 
+import static com.ubiqube.etsi.mano.uri.ManoWebMvcLinkBuilder.linkTo;
+import static com.ubiqube.etsi.mano.uri.ManoWebMvcLinkBuilder.methodOn;
+
 import java.util.List;
 
-import jakarta.validation.Valid;
-
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ubiqube.etsi.mano.em.v431.model.vnfind.VnfIndicatorSubscription;
+import com.ubiqube.etsi.mano.em.v431.model.vnfind.VnfIndicatorSubscriptionLinks;
 import com.ubiqube.etsi.mano.em.v431.model.vnfind.VnfIndicatorSubscriptionRequest;
+import com.ubiqube.etsi.mano.em.v431.model.vnflcm.Link;
+import com.ubiqube.etsi.mano.vnfm.fc.vnfind.Sol002VnfIndSubscriptionsFrontController;
+
+import jakarta.validation.Valid;
 
 @RestController
 public class IndicatorSubscriptions431Sol002Controller implements IndicatorSubscriptions431Sol002Api {
+	private final Sol002VnfIndSubscriptionsFrontController vnfIndSubscriptionsFrontController;
 
-	@Override
-	public ResponseEntity<List<VnfIndicatorSubscription>> subscriptionsGet(@Valid final String filter, @Valid final String nextpageOpaqueMarker) {
-		// TODO Auto-generated method stub
-		return null;
+	public IndicatorSubscriptions431Sol002Controller(final Sol002VnfIndSubscriptionsFrontController vnfIndSubscriptionsFrontController) {
+		this.vnfIndSubscriptionsFrontController = vnfIndSubscriptionsFrontController;
 	}
 
 	@Override
-	public ResponseEntity<List<VnfIndicatorSubscription>> subscriptionsPost(@Valid final VnfIndicatorSubscriptionRequest body) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResponseEntity<List<VnfIndicatorSubscription>> subscriptionsGet(final MultiValueMap<String, String> requestParams, @Valid final String nextpageOpaqueMarker) {
+		return vnfIndSubscriptionsFrontController.search(requestParams, VnfIndicatorSubscription.class, IndicatorSubscriptions431Sol002Controller::makeLinks);
+	}
+
+	@Override
+	public ResponseEntity<VnfIndicatorSubscription> subscriptionsPost(@Valid final VnfIndicatorSubscriptionRequest vnfIndicatorSubscriptionRequest) {
+		return vnfIndSubscriptionsFrontController.create(vnfIndicatorSubscriptionRequest, VnfIndicatorSubscription.class, IndicatorSubscriptions431Sol002Api.class, IndicatorSubscriptions431Sol002Controller::makeLinks, IndicatorSubscriptions431Sol002Controller::getSelfLink);
 	}
 
 	@Override
 	public ResponseEntity<Void> subscriptionsSubscriptionIdDelete(final String subscriptionId) {
-		// TODO Auto-generated method stub
-		return null;
+		return vnfIndSubscriptionsFrontController.delete(subscriptionId);
 	}
 
 	@Override
 	public ResponseEntity<VnfIndicatorSubscription> subscriptionsSubscriptionIdGet(final String subscriptionId) {
-		// TODO Auto-generated method stub
-		return null;
+		return vnfIndSubscriptionsFrontController.findById(subscriptionId, VnfIndicatorSubscription.class, IndicatorSubscriptions431Sol002Controller::makeLinks);
 	}
 
+	private static void makeLinks(final VnfIndicatorSubscription subscription) {
+		final VnfIndicatorSubscriptionLinks links = new VnfIndicatorSubscriptionLinks();
+		final Link link = new Link();
+		link.setHref(linkTo(methodOn(IndicatorSubscriptions431Sol002Api.class).subscriptionsSubscriptionIdGet(subscription.getId())).withSelfRel().getHref());
+		links.setSelf(link);
+		subscription.setLinks(links);
+	}
+
+	private static String getSelfLink(final VnfIndicatorSubscription subscription) {
+		return linkTo(methodOn(IndicatorSubscriptions431Sol002Api.class).subscriptionsSubscriptionIdGet(subscription.getId())).withSelfRel().getHref();
+	}
 }

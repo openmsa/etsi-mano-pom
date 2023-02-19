@@ -21,21 +21,16 @@
  */
 package com.ubiqube.etsi.mano.em.v431.controller.vnfconfig;
 
-import java.io.IOException;
 import java.time.OffsetDateTime;
-import java.util.Optional;
 
-import jakarta.annotation.security.RolesAllowed;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+
 import com.ubiqube.etsi.mano.em.v431.model.vnfconfig.ProblemDetails;
 import com.ubiqube.etsi.mano.em.v431.model.vnfconfig.VnfConfigModifications;
 import com.ubiqube.etsi.mano.em.v431.model.vnfconfig.VnfConfiguration;
@@ -47,24 +42,13 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.validation.Valid;
 
 @Validated
 @RequestMapping(value = "/sol002/vnfconfig/v1/configuration", headers = "Version=1.10.0")
 @RolesAllowed({ "ROLE_EM" })
 public interface Configuration431Sol002Api {
-	Logger log = LoggerFactory.getLogger(Configuration431Sol002Api.class);
-
-	default Optional<ObjectMapper> getObjectMapper() {
-		return Optional.empty();
-	}
-
-	default Optional<HttpServletRequest> getRequest() {
-		return Optional.empty();
-	}
-
-	default Optional<String> getAcceptHeader() {
-		return getRequest().map(r -> r.getHeader("Accept"));
-	}
 
 	@Operation(summary = "", description = "The API consumer can use this method to read configuration information about a VNF instance and/or its VNFC instances. See clause 9.4.2.3.2. ", tags = {})
 	@ApiResponses(value = {
@@ -80,26 +64,8 @@ public interface Configuration431Sol002Api {
 			@ApiResponse(responseCode = "500", description = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "503", description = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "504", description = "504 GATEWAY TIMEOUT If the API producer encounters a timeout while waiting for a response from an upstream server (i.e. a server that the API producer communicates with when fulfilling a request), it should respond with this response code. ", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProblemDetails.class))) })
-            @GetMapping(value = "/configuration", produces = {"application/json"})
-	default ResponseEntity<VnfConfiguration> configurationGet(
-			@Parameter(in = ParameterIn.HEADER, description = "Version of the API requested to use when responding to this request. ", required = true, schema = @Schema()) @RequestHeader(value = "Version", required = true) final String version,
-			@Parameter(in = ParameterIn.HEADER, description = "The authorization token for the request. Reference: IETF RFC 7235. ", schema = @Schema()) @RequestHeader(value = "Authorization", required = false) final String authorization) {
-		if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
-			if (getAcceptHeader().get().contains("application/json")) {
-				try {
-					return new ResponseEntity<>(getObjectMapper().get().readValue(
-							"{\n  \"vnfConfigurationData\" : {\n    \"extCpConfig\" : [ {\n      \"addresses\" : [ {\n        \"address\" : {\n          \"macAddress\" : \"macAddress\",\n          \"ipAddress\" : \"ipAddress\"\n        },\n        \"useDynamicAddress\" : true,\n        \"port\" : 0\n      }, {\n        \"address\" : {\n          \"macAddress\" : \"macAddress\",\n          \"ipAddress\" : \"ipAddress\"\n        },\n        \"useDynamicAddress\" : true,\n        \"port\" : 0\n      } ],\n      \"cpdId\" : \"cpdId\",\n      \"cpId\" : \"cpId\"\n    }, {\n      \"addresses\" : [ {\n        \"address\" : {\n          \"macAddress\" : \"macAddress\",\n          \"ipAddress\" : \"ipAddress\"\n        },\n        \"useDynamicAddress\" : true,\n        \"port\" : 0\n      }, {\n        \"address\" : {\n          \"macAddress\" : \"macAddress\",\n          \"ipAddress\" : \"ipAddress\"\n        },\n        \"useDynamicAddress\" : true,\n        \"port\" : 0\n      } ],\n      \"cpdId\" : \"cpdId\",\n      \"cpId\" : \"cpId\"\n    } ],\n    \"vnfSpecificData\" : { }\n  },\n  \"vnfcConfigurationData\" : [ {\n    \"intCpConfig\" : [ null, null ]\n  }, {\n    \"intCpConfig\" : [ null, null ]\n  } ]\n}",
-							VnfConfiguration.class), HttpStatus.NOT_IMPLEMENTED);
-				} catch (final IOException e) {
-					log.error("Couldn't serialize response for content type application/json", e);
-					return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-				}
-			}
-		} else {
-			log.warn("ObjectMapper or HttpServletRequest not configured in default ConfigurationApi interface so no example is generated");
-		}
-		return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-	}
+	@GetMapping(value = "/configuration", produces = { "application/json" })
+	ResponseEntity<VnfConfiguration> configurationGet();
 
 	@Operation(summary = "", description = "This method sets or modifies a configuration resource. See clause 9.4.2.3.4. ", tags = {})
 	@ApiResponses(value = {
@@ -117,28 +83,9 @@ public interface Configuration431Sol002Api {
 			@ApiResponse(responseCode = "500", description = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "503", description = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "504", description = "504 GATEWAY TIMEOUT If the API producer encounters a timeout while waiting for a response from an upstream server (i.e. a server that the API producer communicates with when fulfilling a request), it should respond with this response code. ", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProblemDetails.class))) })
-            @PatchMapping(value = "/configuration", produces = {"application/json"}, consumes = {"application/json"})
-	default ResponseEntity<VnfConfigModifications> configurationPatch(
-			@Parameter(in = ParameterIn.HEADER, description = "Version of the API requested to use when responding to this request. ", required = true, schema = @Schema()) @RequestHeader(value = "Version", required = true) final String version,
+	@PatchMapping(value = "/configuration", produces = { "application/json" }, consumes = { "application/json" })
+	ResponseEntity<VnfConfigModifications> configurationPatch(
 			@Parameter(in = ParameterIn.DEFAULT, description = "The parameter for the configuration modification, as defined in clause 9.5.2.2.", required = true, schema = @Schema()) @Valid @RequestBody final VnfConfigModifications body,
-			@Parameter(in = ParameterIn.HEADER, description = "The authorization token for the request. Reference: IETF RFC 7235. ", schema = @Schema()) @RequestHeader(value = "Authorization", required = false) final String authorization,
-
 			@Parameter(in = ParameterIn.HEADER, description = "Used to make the request method   conditional on the selected resource representation's last modification date being earlier than or equal to the date provided in the field-value. If the condition is not met, the request fails with a \"412 Precondition Failed\" response. ", schema = @Schema()) @RequestHeader(value = "If-Unmodified-Since", required = false) final OffsetDateTime ifUnmodifiedSince,
-			@Parameter(in = ParameterIn.HEADER, description = "Used to make the request method conditional on the recipient origin server either having at least one current representation of the target resource, when the field-value is \"*\", or having a current representation of the target resource that has an entity-tag matching a member of the list of entity-tags provided in the field-value. If the condition is not met, the request fails with a \"412 Precondition Failed\" response. ", schema = @Schema()) @RequestHeader(value = "If-Match", required = false) final String ifMatch) {
-		if (getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
-			if (getAcceptHeader().get().contains("application/json")) {
-				try {
-					return new ResponseEntity<>(getObjectMapper().get().readValue(
-							"{\n  \"vnfConfigurationData\" : {\n    \"extCpConfig\" : [ {\n      \"addresses\" : [ {\n        \"address\" : {\n          \"macAddress\" : \"macAddress\",\n          \"ipAddress\" : \"ipAddress\"\n        },\n        \"useDynamicAddress\" : true,\n        \"port\" : 0\n      }, {\n        \"address\" : {\n          \"macAddress\" : \"macAddress\",\n          \"ipAddress\" : \"ipAddress\"\n        },\n        \"useDynamicAddress\" : true,\n        \"port\" : 0\n      } ],\n      \"cpdId\" : \"cpdId\",\n      \"cpId\" : \"cpId\"\n    }, {\n      \"addresses\" : [ {\n        \"address\" : {\n          \"macAddress\" : \"macAddress\",\n          \"ipAddress\" : \"ipAddress\"\n        },\n        \"useDynamicAddress\" : true,\n        \"port\" : 0\n      }, {\n        \"address\" : {\n          \"macAddress\" : \"macAddress\",\n          \"ipAddress\" : \"ipAddress\"\n        },\n        \"useDynamicAddress\" : true,\n        \"port\" : 0\n      } ],\n      \"cpdId\" : \"cpdId\",\n      \"cpId\" : \"cpId\"\n    } ],\n    \"vnfSpecificData\" : { }\n  },\n  \"vnfcConfigurationData\" : [ {\n    \"intCpConfig\" : [ null, null ]\n  }, {\n    \"intCpConfig\" : [ null, null ]\n  } ],\n  \"vnfcConfigurationDataDeleteIds\" : [ \"vnfcConfigurationDataDeleteIds\", \"vnfcConfigurationDataDeleteIds\" ]\n}",
-							VnfConfigModifications.class), HttpStatus.NOT_IMPLEMENTED);
-				} catch (final IOException e) {
-					log.error("Couldn't serialize response for content type application/json", e);
-					return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-				}
-			}
-		} else {
-			log.warn("ObjectMapper or HttpServletRequest not configured in default ConfigurationApi interface so no example is generated");
-		}
-		return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-	}
+			@Parameter(in = ParameterIn.HEADER, description = "Used to make the request method conditional on the recipient origin server either having at least one current representation of the target resource, when the field-value is \"*\", or having a current representation of the target resource that has an entity-tag matching a member of the list of entity-tags provided in the field-value. If the condition is not met, the request fails with a \"412 Precondition Failed\" response. ", schema = @Schema()) @RequestHeader(value = "If-Match", required = false) final String ifMatch);
 }

@@ -21,8 +21,6 @@ import static com.ubiqube.etsi.mano.uri.ManoWebMvcLinkBuilder.methodOn;
 
 import java.util.List;
 
-import jakarta.validation.Valid;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,7 +29,8 @@ import com.ubiqube.etsi.mano.vnfm.fc.vnfind.IndicatorsFrontController;
 import com.ubiqube.etsi.mano.vnfm.v261.controller.vnflcm.sol003.VnfLcm261Sol003Api;
 import com.ubiqube.etsi.mano.vnfm.v261.model.vnfind.VnfIndicator;
 import com.ubiqube.etsi.mano.vnfm.v261.model.vnfind.VnfIndicatorLinks;
-import com.ubiqube.etsi.mano.vnfm.v261.model.vnfind.VnfIndicatorSubscription;
+
+import jakarta.validation.Valid;
 
 /**
  *
@@ -43,7 +42,6 @@ public class Indicators261Sol003Controller implements Indicators261Sol003Api {
 	private final IndicatorsFrontController indicatorsFrontController;
 
 	public Indicators261Sol003Controller(final IndicatorsFrontController indicatorsFrontController) {
-		super();
 		this.indicatorsFrontController = indicatorsFrontController;
 	}
 
@@ -60,16 +58,6 @@ public class Indicators261Sol003Controller implements Indicators261Sol003Api {
 	@Override
 	public ResponseEntity<VnfIndicator> indicatorsVnfInstanceIdIndicatorIdGet(final String vnfInstanceId, final String indicatorId) {
 		return indicatorsFrontController.findByVnfInstanceIdAndIndicatorId(vnfInstanceId, indicatorId, VnfIndicator.class, Indicators261Sol003Controller::makeLink);
-	}
-
-	@Override
-	public ResponseEntity<Void> indicatorsSubscriptionsSubscriptionIdDelete(final String subscriptionId) {
-		return indicatorsFrontController.delete(subscriptionId);
-	}
-
-	@Override
-	public ResponseEntity<VnfIndicatorSubscription> indicatorsSubscriptionsSubscriptionIdGet(final String subscriptionId) {
-		return indicatorsFrontController.findById(subscriptionId);
 	}
 
 	private static void makeLink(final VnfIndicator x) {

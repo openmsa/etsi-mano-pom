@@ -20,6 +20,9 @@ import java.io.Serializable;
 import java.util.Set;
 import java.util.UUID;
 
+import com.ubiqube.etsi.mano.dao.mano.VnfInstanceData;
+import com.ubiqube.etsi.mano.dao.mano.nfvo.ParamsForVnf;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -29,10 +32,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
-
-import com.ubiqube.etsi.mano.dao.mano.VnfInstanceData;
-import com.ubiqube.etsi.mano.dao.mano.nfvo.ParamsForVnf;
-
 import lombok.Getter;
 import lombok.Setter;
 
