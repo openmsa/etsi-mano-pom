@@ -29,6 +29,8 @@ import org.springframework.jms.support.converter.MessageType;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.ubiqube.etsi.mano.mon.core.Constants;
+import com.ubiqube.etsi.mano.mon.core.service.ExpirityJmsTemplate;
 
 import jakarta.jms.ConnectionFactory;
 
@@ -72,11 +74,19 @@ public class JmsConfiguration {
 	}
 
 	@Bean
-	// @Qualifier("topicJmsTemplate")
 	JmsTemplate topicJmsTemplate(final ConnectionFactory connFactory, final MessageConverter messageConverter) {
 		final JmsTemplate jmsTemplate = new JmsTemplate(connFactory);
 		jmsTemplate.setPubSubDomain(true);
 		jmsTemplate.setMessageConverter(messageConverter);
+		return jmsTemplate;
+	}
+
+	@Bean
+	ExpirityJmsTemplate expirityQueueJmsTemplate(final ConnectionFactory connFactory, final MessageConverter messageConverter) {
+		final ExpirityJmsTemplate jmsTemplate = new ExpirityJmsTemplate(connFactory);
+		jmsTemplate.setMessageConverter(messageConverter);
+		jmsTemplate.setExplicitQosEnabled(true);
+		jmsTemplate.setTimeToLive(Constants.MANO_MON_TICK_MILLIS);
 		return jmsTemplate;
 	}
 }

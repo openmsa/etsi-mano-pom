@@ -19,10 +19,10 @@ package com.ubiqube.etsi.mano.mon.core.service;
 import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.mon.api.BusHelper;
+import com.ubiqube.etsi.mano.mon.core.Constants;
 import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
 import com.ubiqube.etsi.mano.service.mon.data.MonConnInformation;
 
@@ -32,9 +32,9 @@ import jakarta.annotation.Nonnull;
 public class BusHandlerService {
 	private static final Logger LOG = LoggerFactory.getLogger(BusHandlerService.class);
 
-	private final JmsTemplate jmsTemplate;
+	private final ExpirityJmsTemplate jmsTemplate;
 
-	public BusHandlerService(final JmsTemplate jmsTemplate) {
+	public BusHandlerService(final ExpirityJmsTemplate jmsTemplate) {
 		this.jmsTemplate = jmsTemplate;
 	}
 
@@ -42,7 +42,7 @@ public class BusHandlerService {
 		final String queueName = buildQueueName(batchPollingJob);
 		LOG.trace("Sending to pollster: {}", queueName);
 		Hibernate.initialize(batchPollingJob.getConnection());
-		jmsTemplate.convertAndSend(queueName, batchPollingJob);
+		jmsTemplate.convertAndSend(queueName, batchPollingJob, Constants.MANO_MON_TICK_MILLIS - 1);
 	}
 
 	@Nonnull
