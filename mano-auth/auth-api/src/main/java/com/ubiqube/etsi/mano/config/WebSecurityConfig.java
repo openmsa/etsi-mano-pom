@@ -38,7 +38,7 @@ public class WebSecurityConfig {
 	 * All request must be authenticated, No login page.
 	 */
 	@Bean
-	public SecurityFilterChain configure(final HttpSecurity http) {
+	SecurityFilterChain configure(final HttpSecurity http) {
 		try {
 			http.headers().frameOptions().sameOrigin();
 			http.csrf().disable();
