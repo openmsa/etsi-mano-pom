@@ -19,9 +19,9 @@ package com.ubiqube.etsi.mano.service.event;
 import java.util.Map;
 import java.util.UUID;
 
-import jakarta.validation.constraints.NotNull;
-
 import org.springframework.stereotype.Service;
+
+import jakarta.validation.constraints.NotNull;
 
 /**
  *
@@ -33,7 +33,6 @@ public class CommonActionDispatcherImpl implements CommonActionDispatcher {
 	private final CommonActionController controller;
 
 	public CommonActionDispatcherImpl(final CommonActionController controller) {
-		super();
 		this.controller = controller;
 	}
 

@@ -30,9 +30,6 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.NotNull;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectProvider;
@@ -68,6 +65,8 @@ import com.ubiqube.etsi.mano.service.rest.FluxRest;
 import com.ubiqube.etsi.mano.service.rest.ManoClient;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
 
+import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.NotNull;
 import ma.glasnost.orika.MapperFacade;
 
 /**
@@ -77,10 +76,10 @@ import ma.glasnost.orika.MapperFacade;
  */
 @Service
 public class CommonActionController {
+	private static final Logger LOG = LoggerFactory.getLogger(CommonActionController.class);
 
 	private static final String SUBSCRIPTIONS = "subscriptions";
 	private static final String NOTIFICATION_TYPES_0 = "notificationTypes[0]";
-	private static final Logger LOG = LoggerFactory.getLogger(CommonActionController.class);
 	private static final List<String> VNFM_FRAGMENT = Arrays.asList("vnflcm", "vnfpm", "vnffm", "vnfind", "vrqan", "vnfsnapshotpkgm");
 	private static final List<String> NFVO_FRAGMENT = Arrays.asList("grant", "vnfpkgm", "nsd", "nslcm", "nspm", "nsfm", "nfvici", "vnfsnapshotpkgm", "lcmcoord");
 
