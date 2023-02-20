@@ -32,11 +32,11 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.jms.ConnectionFactory;
 
 @Configuration
+@SuppressWarnings("static-method")
 public class ManoArtemisConfiguration {
 
-	@SuppressWarnings("static-method")
 	@Bean
-	public MessageConverter jacksonJmsMessageConverter(final ObjectMapper mapper) {
+	MessageConverter jacksonJmsMessageConverter(final ObjectMapper mapper) {
 		final MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
 		mapper.registerModule(new JavaTimeModule());
 		converter.setObjectMapper(mapper);
@@ -45,9 +45,8 @@ public class ManoArtemisConfiguration {
 		return converter;
 	}
 
-	@SuppressWarnings("static-method")
 	@Bean
-	public JmsListenerContainerFactory<DefaultMessageListenerContainer> jmsListenerContainerFactory(final ConnectionFactory connectionFactory, final MessageConverter messageConverter) {
+	JmsListenerContainerFactory<DefaultMessageListenerContainer> jmsListenerContainerFactory(final ConnectionFactory connectionFactory, final MessageConverter messageConverter) {
 		final DefaultJmsListenerContainerFactory jmsListenerContainerFactory = new DefaultJmsListenerContainerFactory();
 		jmsListenerContainerFactory.setConcurrency("5-10");
 		jmsListenerContainerFactory.setSessionTransacted(Boolean.FALSE);
