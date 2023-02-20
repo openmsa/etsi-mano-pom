@@ -111,7 +111,7 @@ public final class Constants {
 	}
 
 	@Nullable
-	public static String getSingleField(final MultiValueMap<String, String> bag, final String parameter) {
+	public static String getSingleField(@Nullable final MultiValueMap<String, String> bag, final String parameter) {
 		if (null == bag) {
 			return null;
 		}
