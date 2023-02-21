@@ -17,5 +17,15 @@
 			<artifactId>em-front-controller</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.ubiqube.mano</groupId>
+			<artifactId>mano-core-api</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ubiqube.mano.event</groupId>
+			<artifactId>event-api</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 	</dependencies>
 </project>
