@@ -19,7 +19,8 @@ package com.ubiqube.etsi.mano.dao.mano.cnf;
 public enum ConnectionType {
 	OCI("OCI"),
 	MAVEN2("MAVEN2"),
-	HELM("HELM");
+	HELM("HELM"),
+	GENERIC("GENERIC");
 
 	private String value;
 
