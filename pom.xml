@@ -37,6 +37,7 @@
 		<module>mano-condition</module>
 		<module>mano-telemetry</module>
 		<module>mano-em</module>
+		<module>search</module>
 	</modules>
 	<properties>
 		<sonar.jacoco.xmlReportPaths>${project.basedir}/../target/site/jacoco-aggregate/jacoco.xml</sonar.jacoco.xmlReportPaths>
