@@ -22,14 +22,15 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-import jakarta.annotation.Nonnull;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfLiveInstance;
+
+import jakarta.annotation.Nonnull;
+import jakarta.validation.constraints.NotNull;
 
 public interface VnfInstanceService {
 
@@ -62,4 +63,8 @@ public interface VnfInstanceService {
 	<U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink);
 
 	List<VnfLiveInstance> findByResourceIdIn(List<String> objectInstanceIds);
+
+	VnfInstance findById(@NotNull UUID safeUUID);
+
+	List<VnfLiveInstance> findByVnfInstanceId(final UUID id);
 }

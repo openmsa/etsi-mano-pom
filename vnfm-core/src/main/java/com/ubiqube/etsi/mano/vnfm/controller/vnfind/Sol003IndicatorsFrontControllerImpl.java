@@ -22,7 +22,11 @@ import java.util.function.Consumer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.ubiqube.etsi.mano.em.client.vnfind.VnfIndRemoteService;
+import com.ubiqube.etsi.mano.em.v431.model.vnfind.VnfIndicator;
 import com.ubiqube.etsi.mano.vnfm.fc.vnfind.IndicatorsFrontController;
+
+import ma.glasnost.orika.MapperFacade;
 
 /**
  *
@@ -30,35 +34,44 @@ import com.ubiqube.etsi.mano.vnfm.fc.vnfind.IndicatorsFrontController;
  *
  */
 @Service
-public class IndicatorsFrontControllerImpl implements IndicatorsFrontController {
+public class Sol003IndicatorsFrontControllerImpl implements IndicatorsFrontController {
+	private final VnfIndRemoteService vnfIndRemoteService;
+	private final MapperFacade mapper;
+
+	public Sol003IndicatorsFrontControllerImpl(final VnfIndRemoteService vnfIndRemoteService, final MapperFacade mapper) {
+		this.vnfIndRemoteService = vnfIndRemoteService;
+		this.mapper = mapper;
+	}
+
 	@Override
 	public <U> ResponseEntity<List<U>> search(final String filter, final String nextpageOpaqueMarker, final Class<U> clazz, final Consumer<U> makeLink) {
-		// TODO:
-		return null;
+		final List<VnfIndicator> res = vnfIndRemoteService.indicatorsGet(filter, nextpageOpaqueMarker);
+		final List<U> ret = mapper.mapAsList(res, clazz);
+		return ResponseEntity.ok(ret);
 	}
 
 	@Override
 	public <U> ResponseEntity<List<U>> findByVnfInstanceId(final String vnfInstanceId, final String filter, final String nextpageOpaqueMarker, final Class<U> clazz, final Consumer<U> makeLink) {
-		// TODO:
-		return null;
+		final ResponseEntity<List<VnfIndicator>> res = vnfIndRemoteService.indicatorsVnfInstanceIdGet(vnfInstanceId, filter, nextpageOpaqueMarker);
+		final List<U> ret = mapper.mapAsList(res.getBody(), clazz);
+		return ResponseEntity.ok(ret);
 	}
 
 	@Override
 	public <U> ResponseEntity<U> findByVnfInstanceIdAndIndicatorId(final String vnfInstanceId, final String indicatorId, final Class<U> clazz, final Consumer<U> makeLink) {
-		// TODO:
-		return null;
+		final ResponseEntity<VnfIndicator> res = vnfIndRemoteService.indicatorsVnfInstanceIdIndicatorIdGet(vnfInstanceId, indicatorId);
+		final U ret = mapper.map(res.getBody(), clazz);
+		return ResponseEntity.ok(ret);
 	}
 
 	@Override
 	public ResponseEntity<Void> delete(final String subscriptionId) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public <U> ResponseEntity<U> findById(final String subscriptionId) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 }

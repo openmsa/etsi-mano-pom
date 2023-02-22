@@ -22,6 +22,17 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.DocumentId;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+
+import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
+import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
+import com.ubiqube.etsi.mano.service.event.model.AuthentificationInformations;
+import com.ubiqube.etsi.mano.utils.ToStringIgnore;
+import com.ubiqube.etsi.mano.utils.ToStringUtil;
+import com.ubiqube.etsi.mano.utils.UriConverter;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Convert;
 import jakarta.persistence.ElementCollection;
@@ -35,18 +46,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.DocumentId;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
-
-import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
-import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
-import com.ubiqube.etsi.mano.service.event.model.AuthentificationInformations;
-import com.ubiqube.etsi.mano.utils.ToStringIgnore;
-import com.ubiqube.etsi.mano.utils.ToStringUtil;
-import com.ubiqube.etsi.mano.utils.UriConverter;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -88,6 +87,10 @@ public class PmJob implements Serializable {
 	@ElementCollection(fetch = FetchType.EAGER)
 	private List<String> objectInstanceIds;
 
+	/**
+	 * @deprecated Useless as there must be multiple instances.
+	 */
+	@Deprecated(forRemoval = true)
 	@ManyToOne
 	private VnfInstance vnfInstance;
 
@@ -130,7 +133,7 @@ public class PmJob implements Serializable {
 	private AuthentificationInformations subscription;
 
 	@ToStringIgnore
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH, optional = false)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
 	private VimConnectionInformation vimConnectionInformation;
 
 	@Override

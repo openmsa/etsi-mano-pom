@@ -26,7 +26,6 @@ import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.MonitoringParams;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
-import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.pm.PmJob;
 import com.ubiqube.etsi.mano.dao.mano.pm.PmJobCriteria;
 import com.ubiqube.etsi.mano.jpa.PmJobsJpa;
@@ -43,22 +42,20 @@ public class VnfMonitoringService {
 	private final PmJobsJpa pmJobsJpa;
 
 	public VnfMonitoringService(final PmJobsJpa pmJobsJpa) {
-		super();
 		this.pmJobsJpa = pmJobsJpa;
 	}
 
-	public String registerMonitoring(final List<String> instanceIds, final VnfInstance vnfInstance, final MonitoringParams monitoringParams, final VimConnectionInformation vimConnectionId) {
+	public String registerMonitoring(final String instanceId, final MonitoringParams monitoringParams, final VimConnectionInformation vimConnectionId) {
 		// We just need to convert monitoring params to PmJob entity..
 		final PmJobCriteria criteria = PmJobCriteria.builder()
 				.collectionPeriod(monitoringParams.getCollectionPeriod())
 				.performanceMetric(Set.of(monitoringParams.getPerformanceMetric()))
 				.build();
 		final PmJob job = PmJob.builder()
-				.objectInstanceIds(instanceIds)
+				.objectInstanceIds(List.of(instanceId))
 				.criteria(criteria)
 				.vimConnectionInformation(vimConnectionId)
 				.objectType(monitoringParams.getObjectType())
-				.vnfInstance(vnfInstance)
 				.build();
 		final PmJob nJob = pmJobsJpa.save(job);
 		LOG.debug("Registering PmJob {}", nJob.getId());

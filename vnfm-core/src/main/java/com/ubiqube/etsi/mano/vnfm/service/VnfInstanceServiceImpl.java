@@ -30,6 +30,7 @@ import org.springframework.util.MultiValueMap;
 import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfLiveInstance;
+import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.exception.PreConditionException;
 import com.ubiqube.etsi.mano.jpa.VnfInstanceJpa;
@@ -40,6 +41,7 @@ import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.NotNull;
 
 /**
  *
@@ -140,4 +142,12 @@ public class VnfInstanceServiceImpl implements VnfInstanceService {
 		return searchableService.search(VnfInstance.class, requestParams, clazz, excludeDefaults, mandatoryFields, makeLink, List.of());
 	}
 
+	@Override
+	public VnfInstance findById(@NotNull final UUID safeUUID) {
+		return vnfInstanceJpa.findById(safeUUID).orElseThrow(() -> new GenericException("Unqble to find VNF instance: " + safeUUID));
+	}
+
+	public List<VnfLiveInstance> findByVnfInstanceId(final UUID id) {
+		return vnfLiveInstanceJpa.findByVnfInstanceId(id);
+	}
 }

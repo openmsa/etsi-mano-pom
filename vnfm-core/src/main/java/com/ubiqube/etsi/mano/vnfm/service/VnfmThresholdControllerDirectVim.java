@@ -37,6 +37,7 @@ import com.ubiqube.etsi.mano.service.vim.VimManager;
 import com.ubiqube.etsi.mano.service.vim.mon.VimMonitoring;
 import com.ubiqube.etsi.mano.vnfm.controller.vnfpm.VnfmThresholdController;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfBlueprintJpa;
+import com.ubiqube.etsi.mano.vnfm.service.alarm.AlarmSystem;
 
 /**
  *
@@ -53,6 +54,8 @@ public class VnfmThresholdControllerDirectVim implements VnfmThresholdController
 	private final VimManager vimManager;
 
 	private final SearchableService searchableService;
+
+	private AlarmSystem alarmSystem;
 
 	public VnfmThresholdControllerDirectVim(final ThresholdJpa thresholdJpa, final VnfBlueprintJpa vnfBlueprintJpa, final VimManager vimManager, final SearchableService searchableService) {
 		this.thresholdJpa = thresholdJpa;

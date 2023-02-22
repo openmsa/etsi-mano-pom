@@ -34,10 +34,10 @@ import com.ubiqube.etsi.mano.vnfm.fc.vnfind.VnfIndSubscriptionsFrontController;
  *
  */
 @Service
-public class VnfIndSubscriptionsFrontControllerImpl implements VnfIndSubscriptionsFrontController {
+public class Sol003VnfIndSubscriptionsFrontControllerImpl implements VnfIndSubscriptionsFrontController {
 	private final SubscriptionFrontController subscriptionService;
 
-	public VnfIndSubscriptionsFrontControllerImpl(final SubscriptionFrontController subscriptionService) {
+	public Sol003VnfIndSubscriptionsFrontControllerImpl(final SubscriptionFrontController subscriptionService) {
 		this.subscriptionService = subscriptionService;
 	}
 
