@@ -28,6 +28,16 @@ management:
 spring:
   application:
     name: mano-mon
+  artemis:
+    mode: native
+    broker-url: tcp://mano-artemis:61616
+    user: artemis
+    password: simetraehcapa
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://mano-db:5432/mano_em
+    username: mano_em
+    password: mano
   jpa:
     open-in-view: true
     properties:
