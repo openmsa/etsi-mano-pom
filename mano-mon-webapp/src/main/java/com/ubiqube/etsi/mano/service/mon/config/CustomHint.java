@@ -14,26 +14,18 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano;
+package com.ubiqube.etsi.mano.service.mon.config;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.ImportRuntimeHints;
-import org.springframework.jms.annotation.EnableJms;
-import org.springframework.scheduling.annotation.EnableScheduling;
+import org.apache.activemq.artemis.jms.client.ActiveMQConnectionFactory;
+import org.springframework.aot.hint.MemberCategory;
+import org.springframework.aot.hint.RuntimeHints;
+import org.springframework.aot.hint.RuntimeHintsRegistrar;
 
-import com.ubiqube.etsi.mano.service.mon.config.CustomHint;
+public class CustomHint implements RuntimeHintsRegistrar {
 
-@ImportRuntimeHints(CustomHint.class)
-@SpringBootApplication
-@EnableScheduling
-@EnableJms
-@ComponentScan("com.ubiqube.etsi.mano")
-public class MonitoringApplication {
-
-	public static void main(final String[] args) {
-		SpringApplication.run(MonitoringApplication.class, args);
+	@Override
+	public void registerHints(final RuntimeHints hints, final ClassLoader classLoader) {
+		hints.reflection().registerType(ActiveMQConnectionFactory.class, MemberCategory.INVOKE_PUBLIC_CONSTRUCTORS);
 	}
 
 }
