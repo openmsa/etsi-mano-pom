@@ -14,29 +14,10 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service.mon.repository;
-
-import java.time.OffsetDateTime;
-import java.util.List;
-
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
+package com.ubiqube.etsi.mano.service.mon.jms;
 
 import com.ubiqube.etsi.mano.service.mon.model.MonitoringData;
 
-/**
- *
- * @author Olivier Vignaud <ovi@ubiqube.com>
- *
- */
-public interface MonitoringDataJpa extends CrudRepository<MonitoringData, OffsetDateTime> {
-
-	@Query(value = """
-			select time , master_job_id , "key",value ,"text"  from monitoring_data
-				where key = :key and master_job_id = :masterJobId
-				group by time , master_job_id , "key", value ,"text"
-				order by time desc limit 2;
-			""", nativeQuery = true)
-	List<MonitoringData> getLastMetrics(@Param("key") String key, @Param("masterJobId") String masterJobId);
+public record MetricChange(MonitoringData latest, MonitoringData old) {
+	//
 }
