@@ -22,8 +22,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import jakarta.annotation.Nonnull;
-
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.ChangeType;
@@ -48,6 +46,7 @@ import com.ubiqube.etsi.mano.repository.jpa.SearchQueryer;
 import com.ubiqube.etsi.mano.vnfm.controller.vnflcm.VnfLcmFactory;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfBlueprintJpa;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.EntityManager;
 
 @Service
@@ -137,6 +136,7 @@ public class VnfLcmService {
 		return sq.getCriteria(filter, VnfBlueprint.class);
 	}
 
+	@Nonnull
 	public VnfBlueprint findById(final UUID id) {
 		return vnfBlueprintJpa.findById(id).orElseThrow(() -> new NotFoundException("Could not find VNF LCM operation: " + id));
 	}

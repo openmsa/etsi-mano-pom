@@ -117,15 +117,18 @@ public class VnfInstanceServiceVnfm implements VnfInstanceGatewayService {
 	}
 
 	private static void extractMonitoring(final BlueprintParameters vnfInfo, final List<VnfLiveInstance> vliAll) {
-		final List<VnfLiveInstance> vli = vliAll.stream().filter(x -> x.getTask() instanceof MonitoringTask).toList();
-		final Set<VnfMonitoringParameter> obj = vli.stream().map(x -> {
-			final VnfMonitoringParameter mon = new VnfMonitoringParameter();
-			final MonitoringTask mt = (MonitoringTask) x.getTask();
-			mon.setId(x.getId());
-			mon.setName(mt.getMonitoringParams().getName());
-			mon.setPerformanceMetric(mt.getMonitoringParams().getPerformanceMetric());
-			return mon;
-		}).collect(Collectors.toSet());
+		final List<VnfLiveInstance> vli = vliAll.stream()
+				.filter(x -> x.getTask() instanceof MonitoringTask)
+				.toList();
+		final Set<VnfMonitoringParameter> obj = vli.stream()
+				.map(x -> {
+					final VnfMonitoringParameter mon = new VnfMonitoringParameter();
+					final MonitoringTask mt = (MonitoringTask) x.getTask();
+					mon.setId(x.getId());
+					mon.setName(mt.getMonitoringParams().getName());
+					mon.setPerformanceMetric(mt.getMonitoringParams().getPerformanceMetric());
+					return mon;
+				}).collect(Collectors.toSet());
 		vnfInfo.setVnfMonitoringParameter(obj);
 	}
 
@@ -143,21 +146,23 @@ public class VnfInstanceServiceVnfm implements VnfInstanceGatewayService {
 	}
 
 	private static void extractVl(final BlueprintParameters vnfInfo, final List<VnfLiveInstance> vliAll) {
-		final List<VnfLiveInstance> vli = vliAll.stream().filter(x -> x.getTask() instanceof NetworkTask).toList();
-		final Set<VirtualLinkInfo> obj = vli.stream().map(x -> {
-			final NetworkTask nt = (NetworkTask) x.getTask();
-			final VirtualLinkInfo ret = new VirtualLinkInfo();
-			ret.setId(x.getId());
-			ret.setVnfVirtualLinkDescId(nt.getToscaName());
-			final VimResource vimResource = new VimResource();
-			vimResource.setResourceId(x.getResourceId());
-			vimResource.setResourceProviderId(nt.getResourceProviderId());
-			vimResource.setVimConnectionId(x.getVimConnectionId());
-			vimResource.setVimLevelResourceType(null);
-			ret.setNetworkResource(vimResource);
-			ret.setVnfLinkPorts(null);
-			return ret;
-		}).collect(Collectors.toSet());
+		final List<VnfLiveInstance> vli = vliAll.stream()
+				.filter(x -> x.getTask() instanceof NetworkTask).toList();
+		final Set<VirtualLinkInfo> obj = vli.stream()
+				.map(x -> {
+					final NetworkTask nt = (NetworkTask) x.getTask();
+					final VirtualLinkInfo ret = new VirtualLinkInfo();
+					ret.setId(x.getId());
+					ret.setVnfVirtualLinkDescId(nt.getToscaName());
+					final VimResource vimResource = new VimResource();
+					vimResource.setResourceId(x.getResourceId());
+					vimResource.setResourceProviderId(nt.getResourceProviderId());
+					vimResource.setVimConnectionId(x.getVimConnectionId());
+					vimResource.setVimLevelResourceType(null);
+					ret.setNetworkResource(vimResource);
+					ret.setVnfLinkPorts(null);
+					return ret;
+				}).collect(Collectors.toSet());
 		vnfInfo.setVirtualLinkResourceInfo(obj);
 	}
 
@@ -233,20 +238,23 @@ public class VnfInstanceServiceVnfm implements VnfInstanceGatewayService {
 	}
 
 	private void extractCompute(final BlueprintParameters vnfInfo, final List<VnfLiveInstance> vli) {
-		final List<VnfLiveInstance> computeVli = vli.stream().filter(x -> x.getTask() instanceof ComputeTask).toList();
-		final Set<VnfcResourceInfoEntity> vnfcResourceInfo = computeVli.stream().map(x -> {
-			final ComputeTask ct = (ComputeTask) x.getTask();
-			final VnfcResourceInfoEntity ret = mapper.map(x, VnfcResourceInfoEntity.class);
-			ret.setComputeResource(mapper.map(x.getTask(), VimResource.class));
-			ret.setId(x.getId().toString());
-			ret.setStorageResourceIds(ct.getVnfCompute().getStorages());
-			ret.setVduId(ct.getToscaName());
-			ret.setZoneId(ct.getZoneId());
-			ret.getComputeResource().setResourceId(x.getResourceId());
-			final Set<VnfcResourceInfoVnfcCpInfoEntity> cpInfo = extractCpInfo(ct, vli);
-			ret.setVnfcCpInfo(cpInfo);
-			return ret;
-		}).collect(Collectors.toSet());
+		final List<VnfLiveInstance> computeVli = vli.stream()
+				.filter(x -> x.getTask() instanceof ComputeTask)
+				.toList();
+		final Set<VnfcResourceInfoEntity> vnfcResourceInfo = computeVli.stream()
+				.map(x -> {
+					final ComputeTask ct = (ComputeTask) x.getTask();
+					final VnfcResourceInfoEntity ret = mapper.map(x, VnfcResourceInfoEntity.class);
+					ret.setComputeResource(mapper.map(x.getTask(), VimResource.class));
+					ret.setId(x.getId().toString());
+					ret.setStorageResourceIds(ct.getVnfCompute().getStorages());
+					ret.setVduId(ct.getToscaName());
+					ret.setZoneId(ct.getZoneId());
+					ret.getComputeResource().setResourceId(x.getResourceId());
+					final Set<VnfcResourceInfoVnfcCpInfoEntity> cpInfo = extractCpInfo(ct, vli);
+					ret.setVnfcCpInfo(cpInfo);
+					return ret;
+				}).collect(Collectors.toSet());
 		vnfInfo.setVnfcResourceInfo(vnfcResourceInfo);
 	}
 
