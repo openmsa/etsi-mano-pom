@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.service.mon.config;
 
 import org.apache.activemq.artemis.jms.client.ActiveMQConnectionFactory;
+import org.postgresql.util.PGobject;
 import org.springframework.aot.hint.MemberCategory;
 import org.springframework.aot.hint.RuntimeHints;
 import org.springframework.aot.hint.RuntimeHintsRegistrar;
@@ -26,6 +27,8 @@ public class CustomHint implements RuntimeHintsRegistrar {
 	@Override
 	public void registerHints(final RuntimeHints hints, final ClassLoader classLoader) {
 		hints.reflection().registerType(ActiveMQConnectionFactory.class, MemberCategory.INVOKE_PUBLIC_CONSTRUCTORS);
+		// Postgresql
+		hints.reflection().registerType(PGobject.class, MemberCategory.INVOKE_PUBLIC_CONSTRUCTORS, MemberCategory.INVOKE_PUBLIC_METHODS);
 	}
 
 }
