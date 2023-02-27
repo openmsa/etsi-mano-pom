@@ -1,0 +1,20 @@
+management:
+  endpoint:
+    health:
+      show-details: ALWAYS
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+server:
+  port: 8081
+spring:
+  application:
+    name: mano-admin
+  boot:
+    admin:
+      client:
+        username: admin
+        password: admin
+        url: 
+          - http://localhost:8081
