@@ -1,4 +1,4 @@
-debug: true
+#debug: true
 logging:
   level:
     com:
@@ -33,6 +33,13 @@ spring:
     broker-url: tcp://mano-artemis:61616
     user: artemis
     password: simetraehcapa
+  boot:
+    admin:
+      client:
+        username: admin
+        password: admin
+        url:
+        - http://mano-admin:8081
   datasource:
     driverClassName: org.postgresql.Driver
     url: jdbc:postgresql://mano-db:5432/mano_em

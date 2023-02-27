@@ -43,7 +43,10 @@ public class ZabbixMetricQuery {
 	private static List<String> getPayload(final InputStream is, final int size) throws IOException {
 		final List<String> ret = new ArrayList<>();
 		final byte[] payload = new byte[size];
-		is.read(payload);
+		final int read = is.read(payload);
+		if (read != size) {
+			throw new MonGenericException("Read " + read + ", size: " + size);
+		}
 		int start = 0;
 		for (int i = 0; i < size; i++) {
 			if (payload[i] == 0) {
@@ -62,9 +65,11 @@ public class ZabbixMetricQuery {
 	private static int getLength(final InputStream is) throws IOException {
 		final byte[] fullHeader = new byte[13];
 		final byte[] lengthBuff = new byte[4];
-		is.read(fullHeader);
+		final int i = is.read(fullHeader);
+		if (i != fullHeader.length) {
+			throw new MonGenericException("Error while reading ZBX header: " + i);
+		}
 		System.arraycopy(fullHeader, 5, lengthBuff, 0, 4);
-		System.out.println(bytesToHex(lengthBuff));
 		final ByteBuffer wrap = ByteBuffer.wrap(lengthBuff).order(ByteOrder.LITTLE_ENDIAN);
 		return wrap.getInt();
 	}

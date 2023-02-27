@@ -65,6 +65,70 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>io.github.git-commit-id</groupId>
+				<artifactId>git-commit-id-maven-plugin</artifactId>
+				<configuration>
+					<generateGitPropertiesFile>true</generateGitPropertiesFile>
+					<generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
+					<verbose>true</verbose>
+					<commitIdGenerationMode>full</commitIdGenerationMode>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>revision</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.mycila.maven-license-plugin</groupId>
+				<artifactId>maven-license-plugin</artifactId>
+				<version>1.10.b1</version>
+				<configuration>
+					<header>LICENSE</header>
+					<properties>
+						<project>
+							${project.name}
+						</project>
+						<founder>Ubiqube</founder>
+						<year>2019-2020</year>
+						<website>http://www.ubiqube.com/</website>
+					</properties>
+					<includes>
+						<include>src/main/java/**</include>
+						<include>src/test/java/**</include>
+					</includes>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>format</goal>
+						</goals>
+						<phase>process-sources</phase>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>com.mycila</groupId>
+						<artifactId>licenses</artifactId>
+						<version>1</version>
+					</dependency>
+				</dependencies>
+			</plugin>
 		</plugins>
 	</build>
 </project>

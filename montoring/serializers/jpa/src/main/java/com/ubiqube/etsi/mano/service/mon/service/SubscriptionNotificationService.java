@@ -23,6 +23,7 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jms.annotation.JmsListener;
@@ -73,7 +74,7 @@ public class SubscriptionNotificationService {
 					.retrieve()
 					.toEntity(String.class)
 					.block();
-			final Boolean res = Optional.ofNullable(client).map(x -> x.getStatusCode()).map(x -> x.is2xxSuccessful()).orElseThrow();
+			final boolean res = Optional.ofNullable(client).map(ResponseEntity::getStatusCode).map(HttpStatusCode::is2xxSuccessful).orElseThrow();
 			if (!res) {
 				LOG.error("");
 			}
@@ -82,13 +83,13 @@ public class SubscriptionNotificationService {
 		}
 	}
 
-	private void createAuthPart(final Builder wcb, final @Nullable AuthParamOauth2 x) {
-		if (x == null) {
+	private void createAuthPart(final Builder wcb, final @Nullable AuthParamOauth2 authParam) {
+		if (authParam == null) {
 			return;
 		}
 		final AuthorizedClientServiceReactiveOAuth2AuthorizedClientManager authorizedClientManager = new AuthorizedClientServiceReactiveOAuth2AuthorizedClientManager(
-				getRegistration(x.getTokenEndpoint(), x.getClientId(), x.getClientSecret(), "openid"),
-				new InMemoryReactiveOAuth2AuthorizedClientService(getRegistration(x.getTokenEndpoint(), x.getClientId(), x.getClientSecret(), "openid")));
+				getRegistration(authParam.getTokenEndpoint(), authParam.getClientId(), authParam.getClientSecret(), "openid"),
+				new InMemoryReactiveOAuth2AuthorizedClientService(getRegistration(authParam.getTokenEndpoint(), authParam.getClientId(), authParam.getClientSecret(), "openid")));
 		final ServerOAuth2AuthorizedClientExchangeFilterFunction oauth2 = new ServerOAuth2AuthorizedClientExchangeFilterFunction(authorizedClientManager);
 		oauth2.setDefaultClientRegistrationId(id);
 		wcb.filter(oauth2);
