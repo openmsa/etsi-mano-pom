@@ -44,6 +44,12 @@
 					<artifactId>artemis-jms-server</artifactId>
 					<version>2.27.1</version>
 					<scope>runtime</scope>
+					<exclusions>
+						<exclusion>
+							<groupId>org.apache.activemq</groupId>
+							<artifactId>artemis-jms-client</artifactId>
+						</exclusion>
+					</exclusions>
 				</dependency>
 			</dependencies>
 		</profile>
