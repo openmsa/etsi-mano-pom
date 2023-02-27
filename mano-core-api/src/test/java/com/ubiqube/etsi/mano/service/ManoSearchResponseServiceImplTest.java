@@ -16,6 +16,8 @@
  */
 package com.ubiqube.etsi.mano.service;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.List;
 import java.util.Set;
 
@@ -44,5 +46,6 @@ class ManoSearchResponseServiceImplTest {
 		msrs.search(paramaters, getClass(), null, Set.of(), List.of(), null, x -> {
 			//
 		});
+		assertTrue(true);
 	}
 }

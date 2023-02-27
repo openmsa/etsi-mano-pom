@@ -50,7 +50,7 @@ public class VnfMonitoringUowV3 extends AbstractVnfmUowV3<MonitoringTask> {
 		} else if (task.getMonitoringParams().getObjectType().equals(PmType.VNF)) {
 			l = context.getParent(Compute.class, "VNF_INDICATOR");
 		}
-		return vnfMonitoringService.registerMonitoring(l, task.getVnfInstance(), task.getMonitoringParams(), vimConnectionInformation);
+		return vnfMonitoringService.registerMonitoring(l.get(0), /* task.getVnfInstance(), */task.getMonitoringParams(), vimConnectionInformation);
 	}
 
 	@Override

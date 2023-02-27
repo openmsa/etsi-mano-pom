@@ -17,9 +17,14 @@
 package com.ubiqube.etsi.mano.dao.mano.pkg;
 
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
+
+import com.ubiqube.etsi.mano.dao.mano.ImageServiceAware;
+import com.ubiqube.etsi.mano.dao.mano.SoftwareImage;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -28,10 +33,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-
-import com.ubiqube.etsi.mano.dao.mano.ImageServiceAware;
-import com.ubiqube.etsi.mano.dao.mano.SoftwareImage;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -81,6 +82,10 @@ public class OsContainer implements ImageServiceAware, Serializable {
 		if (null == artifacts) {
 			return null;
 		}
-		return artifacts.entrySet().iterator().next().getValue();
+		final Iterator<Entry<String, SoftwareImage>> ite = artifacts.entrySet().iterator();
+		if (!ite.hasNext()) {
+			return null;
+		}
+		return ite.next().getValue();
 	}
 }

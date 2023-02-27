@@ -30,4 +30,8 @@ public class DatabaseException extends RuntimeException {
 		super(e);
 	}
 
+	public DatabaseException(final String string) {
+		super(string);
+	}
+
 }

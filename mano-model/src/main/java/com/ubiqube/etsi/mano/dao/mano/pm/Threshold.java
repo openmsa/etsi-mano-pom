@@ -20,6 +20,13 @@ import java.net.URI;
 import java.util.Set;
 import java.util.UUID;
 
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+
+import com.ubiqube.etsi.mano.service.event.model.AuthentificationInformations;
+import com.ubiqube.etsi.mano.utils.ToStringUtil;
+import com.ubiqube.etsi.mano.utils.UriConverter;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Embedded;
@@ -29,14 +36,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
-
-import com.ubiqube.etsi.mano.service.event.model.AuthentificationInformations;
-import com.ubiqube.etsi.mano.utils.ToStringUtil;
-import com.ubiqube.etsi.mano.utils.UriConverter;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -88,6 +87,11 @@ public class Threshold {
 
 	@Embedded
 	private AuthentificationInformations subscription;
+
+	/**
+	 * This is the alarm id.
+	 */
+	private String remoteResource;
 
 	@Override
 	public String toString() {

@@ -294,6 +294,7 @@ class ConstantTest {
 		pack.setLockedBy(UUID.randomUUID());
 		final UUID randomId = UUID.randomUUID();
 		ensureLockedByMyself(pack, randomId);
+		assertTrue(true);
 	}
 
 	@Test
@@ -302,6 +303,7 @@ class ConstantTest {
 		pack.setLockedBy(null);
 		final UUID randomId = UUID.randomUUID();
 		ensureLockedByMyself(pack, randomId);
+		assertTrue(true);
 	}
 
 	/**

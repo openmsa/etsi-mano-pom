@@ -168,7 +168,7 @@
 							<buildArgs>
 								<buildArg>--static</buildArg>
 								<buildArg>--libc=musl</buildArg>
-								<buildArg>--initialize-at-build-time=org.apache.commons.beanutils.ConvertUtilsBean</buildArg>
+								<buildArg>--initialize-at-build-time=org.apache.commons.beanutils.ConvertUtilsBean,org.apache.commons.beanutils.ConvertUtilsBean</buildArg>
 							</buildArgs>
 						</configuration>
 					</plugin>

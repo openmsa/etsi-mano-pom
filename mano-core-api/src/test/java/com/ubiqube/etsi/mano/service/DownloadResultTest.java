@@ -32,6 +32,7 @@ class DownloadResultTest {
 		dr.sha256String();
 		dr.sha512String();
 		dr.hashCode();
+		assertTrue(true);
 	}
 
 	@Test

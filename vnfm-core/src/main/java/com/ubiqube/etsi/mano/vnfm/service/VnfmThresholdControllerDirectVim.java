@@ -32,9 +32,6 @@ import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.jpa.ThresholdJpa;
 import com.ubiqube.etsi.mano.service.SearchableService;
-import com.ubiqube.etsi.mano.service.vim.Vim;
-import com.ubiqube.etsi.mano.service.vim.VimManager;
-import com.ubiqube.etsi.mano.service.vim.mon.VimMonitoring;
 import com.ubiqube.etsi.mano.vnfm.controller.vnfpm.VnfmThresholdController;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfBlueprintJpa;
 import com.ubiqube.etsi.mano.vnfm.service.alarm.AlarmSystem;
@@ -51,17 +48,15 @@ public class VnfmThresholdControllerDirectVim implements VnfmThresholdController
 
 	private final VnfBlueprintJpa vnfBlueprintJpa;
 
-	private final VimManager vimManager;
-
 	private final SearchableService searchableService;
 
-	private AlarmSystem alarmSystem;
+	private final AlarmSystem alarmSystem;
 
-	public VnfmThresholdControllerDirectVim(final ThresholdJpa thresholdJpa, final VnfBlueprintJpa vnfBlueprintJpa, final VimManager vimManager, final SearchableService searchableService) {
+	public VnfmThresholdControllerDirectVim(final ThresholdJpa thresholdJpa, final VnfBlueprintJpa vnfBlueprintJpa, final SearchableService searchableService, final AlarmSystem alarmSystem) {
 		this.thresholdJpa = thresholdJpa;
 		this.vnfBlueprintJpa = vnfBlueprintJpa;
-		this.vimManager = vimManager;
 		this.searchableService = searchableService;
+		this.alarmSystem = alarmSystem;
 	}
 
 	@Override
@@ -69,25 +64,14 @@ public class VnfmThresholdControllerDirectVim implements VnfmThresholdController
 		final Optional<VnfBlueprint> obp = vnfBlueprintJpa.findById(res.getObjectInstanceId());
 		final VnfBlueprint bp = obp.orElseThrow(() -> new GenericException("Could not find VNF instance :" + res.getObjectInstanceId()));
 		final UUID systemId = bp.getVimConnections().iterator().next().getId();
-		final Vim vim = vimManager.getVimById(systemId);
-		final VimMonitoring mon = vim.getMonitoring(bp.getVimConnections().iterator().next());
-		res.getSubObjectInstanceIds().stream().forEach(x -> {
-			final String resource = mon.registerAlarm(x.getId(), res.getCriteria().getPerformanceMetric(),
-					res.getCriteria().getSimpleThresholdDetails().getThresholdValue(), res.getCriteria().getSimpleThresholdDetails().getHysteresis(), "callback url");
-			x.setResource(resource);
-			x.setSystemId(systemId);
-		});
+		alarmSystem.registerAlarm(res, systemId);
 		return thresholdJpa.save(res);
 	}
 
 	@Override
 	public void delete(final UUID id) {
 		final Threshold obj = findById(id);
-		obj.getSubObjectInstanceIds().forEach(x -> {
-			final Vim vim = vimManager.getVimById(x.getSystemId());
-			final VimMonitoring mon = vim.getMonitoring(vimManager.findVimById(x.getSystemId()));
-			mon.removeAlarm(x.getResource());
-		});
+		alarmSystem.delete(obj);
 		thresholdJpa.deleteById(id);
 	}
 

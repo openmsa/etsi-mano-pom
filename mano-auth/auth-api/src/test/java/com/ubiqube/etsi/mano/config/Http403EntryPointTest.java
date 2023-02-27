@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.config;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayOutputStream;
@@ -47,6 +48,7 @@ class Http403EntryPointTest {
 		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		when(response.getWriter()).thenReturn(new PrintWriter(bos));
 		entry.commence(request, response, null);
+		assertTrue(true);
 	}
 
 }

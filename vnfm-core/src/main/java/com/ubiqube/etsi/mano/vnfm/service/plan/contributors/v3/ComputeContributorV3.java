@@ -29,7 +29,6 @@ import org.springframework.stereotype.Service;
 import com.ubiqube.etsi.mano.dao.mano.ChangeType;
 import com.ubiqube.etsi.mano.dao.mano.ExtManagedVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.Instance;
-import com.ubiqube.etsi.mano.dao.mano.MonitoringParams;
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.ScaleInfo;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
@@ -133,16 +132,16 @@ public class ComputeContributorV3 extends AbstractVnfmContributorV3<Object> {
 			vnfIndicatorTask.setName(vnfIndicator.getName());
 			ret.add(create(VnfIndicator.class, vnfIndicatorTask.getClass(), vnfIndicatorTask.getName(), 1, vnfIndicatorTask, parameters.getInstance(), parameters));
 
-			for (final MonitoringParams monitoringParams : vnfIndicator.getMonitoringParameters()) {
-				final MonitoringTask mt = createTask(MonitoringTask::new);
-				mt.setType(ResourceTypeEnum.MONITORING);
-				mt.setToscaName(vnfIndicator.getName() + "-" + monitoringParams.getName());
-				mt.setParentAlias(vnfIndicator.getName());
-				mt.setVnfIndicator(vnfIndicator);
-				mt.setMonitoringParams(monitoringParams);
-				mt.setVnfInstance(parameters.getInstance());
-				ret.add(create(Monitoring.class, mt.getClass(), mt.getToscaName(), 1, mt, parameters.getInstance(), parameters));
-			}
+//			for (final MonitoringParams monitoringParams : vnfIndicator.getMonitoringParameters()) {
+//				final MonitoringTask mt = createTask(MonitoringTask::new);
+//				mt.setType(ResourceTypeEnum.MONITORING);
+//				mt.setToscaName(vnfIndicator.getName() + "-" + monitoringParams.getName());
+//				mt.setParentAlias(vnfIndicator.getName());
+//				mt.setVnfIndicator(vnfIndicator);
+//				mt.setMonitoringParams(monitoringParams);
+//				mt.setVnfInstance(parameters.getInstance());
+//				ret.add(create(Monitoring.class, mt.getClass(), mt.getToscaName(), 1, mt, parameters.getInstance(), parameters));
+//			}
 		}
 		return ret;
 	}

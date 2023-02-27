@@ -16,6 +16,14 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.alarm;
 
+import java.util.UUID;
+
+import com.ubiqube.etsi.mano.dao.mano.pm.Threshold;
+
 public interface AlarmSystem {
+
+	void registerAlarm(Threshold res, UUID systemId);
+
+	void delete(Threshold res);
 
 }

@@ -273,7 +273,7 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 		final VnfInstance vnfInstance = vnfInstanceServiceVnfm.findById(uuid);
 		ensureInstantiated(vnfInstance);
 		ensureNotLocked(vnfInstance);
-		final VnfBlueprint lcmOpOccs = vnfLcmService.createOperateOpOcc(vnfInstance, cevcr);
+		final VnfBlueprint lcmOpOccs = vnfLcmService.createChangeExtCpOpOcc(vnfInstance, cevcr);
 		eventManager.sendActionVnfm(ActionType.VNF_CHANGE_CONN, lcmOpOccs.getId(), new HashMap<>());
 		return lcmOpOccs;
 	}

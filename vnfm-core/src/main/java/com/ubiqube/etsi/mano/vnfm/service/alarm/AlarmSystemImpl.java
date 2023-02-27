@@ -16,6 +16,24 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.alarm;
 
-public class VimAlarmSystem implements AlarmSystem {
+import java.util.UUID;
+
+import org.springframework.stereotype.Service;
+
+import com.ubiqube.etsi.mano.dao.mano.pm.Threshold;
+
+@Service
+public class AlarmSystemImpl implements AlarmSystem {
+
+	@Override
+	public void registerAlarm(final Threshold res, final UUID systemId) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void delete(final Threshold res) {
+		// TODO Auto-generated method stub
+
+	}
 
 }
