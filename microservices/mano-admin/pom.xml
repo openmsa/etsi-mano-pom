@@ -11,6 +11,7 @@
 	</parent>
 	<groupId>com.ubiqube.mano.webapp</groupId>
 	<artifactId>mano-admin</artifactId>
+	<packaging>war</packaging>
 	<name>mano-admin</name>
 	<description>ETSI MANO admin interface.</description>
 	<distributionManagement>

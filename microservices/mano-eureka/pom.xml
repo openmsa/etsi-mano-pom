@@ -10,6 +10,7 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<artifactId>mano-eureka</artifactId>
+	<packaging>war</packaging>
 	<name>mano-eureka</name>
 	<description>Eureka server for ETSI-MANO project</description>
 	<properties>
