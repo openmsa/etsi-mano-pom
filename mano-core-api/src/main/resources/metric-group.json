@@ -1,0 +1,44 @@
+{
+	"VirtualisedComputeResource": [
+		"v_cpu_usage_mean",
+		"v_cpu_usage_peak",
+		"v_memory_usage_mean",
+		"v_memory_usage_peak",
+		"v_disk_usage_mean",
+		"v_disk_usage_peak"
+		],
+	"VirtualNetworkInterface": [
+		"v_net_byte_incoming",
+		"v_net_byte_outgoing",
+		"v_net_packet_incoming",
+		"v_net_packet_outgoing"
+	],
+	"VirtualisedNetworkResource": [
+		"byte_incoming_port",
+		"byte_outgoing_port",
+		"packet_incoming_port",
+		"packet_outgoing_port"
+	],
+	"VirtualStorage": [
+		"usage_mean_vStorage",
+		"usage_peak_vStorage"
+	],
+	"VnfInternalCP": [
+		"byte_incoming_vnf_int_cp",
+		"byte_outgoing_vnf_int_cp",
+		"packet_incoming_vnf_int_cp",
+		"packet_outgoing_vnf_int_cp"
+		],
+	"VnfExternalCP": [
+		"byte_incoming_vnf_ext_cp",
+		"byte_outgoing_vnf_ext_cp",
+		"packet_incoming_vnf_ext_cp",
+		"packet_outgoing_vnf_ext_cp"
+		], 
+	"ServiceAccessPoint": [
+		"byte_incoming_sap",
+		"byte_outgoing_sap",
+		"packet_incoming_sap",
+		"packet_outgoing_sap"
+		]
+}
