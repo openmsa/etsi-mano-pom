@@ -46,6 +46,8 @@ spring:
     username: mano
     password: mano
   jpa:
+    hibernate:
+      ddl-auto: update
     open-in-view: true
     properties:
       hibernate:
