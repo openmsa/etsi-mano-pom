@@ -114,6 +114,22 @@
 			<artifactId>postgresql</artifactId>
 		</dependency>
 	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 	<profiles>
 		<profile>
 			<id>native</id>
@@ -138,18 +154,6 @@
 								<buildArg>--libc=musl</buildArg>
 								<buildArg>--initialize-at-build-time=org.jboss.logging,org.hibernate.internal,org.hibernate.jmx,org.hibernate.query,org.jboss.logmanager</buildArg>
 							</buildArgs>
-						</configuration>
-					</plugin>
-					<plugin>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>spring-boot-maven-plugin</artifactId>
-						<configuration>
-							<excludes>
-								<exclude>
-									<groupId>org.projectlombok</groupId>
-									<artifactId>lombok</artifactId>
-								</exclude>
-							</excludes>
 						</configuration>
 					</plugin>
 				</plugins>
