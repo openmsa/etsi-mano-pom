@@ -16,18 +16,22 @@
  */
 package com.ubiqube.etsi.mano.vnfm.property;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
+import java.util.List;
+
+import com.ubiqube.etsi.mano.service.event.model.OAuth2GrantType;
 
 import lombok.Data;
 
 @Data
-@Configuration
-@ConfigurationProperties(prefix = "mano.helmv3")
-public class HelmWrapperProperty {
+public class OAuth2 {
+	private String clientId;
 
-	private String url;
+	private String clientSecret;
 
-	private OAuth2 oauth2;
+	private OAuth2GrantType grantType = OAuth2GrantType.CLIENT_CREDENTIAL;
+
+	private List<String> scope;
+
+	private String tokenEndpoint;
 
 }

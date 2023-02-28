@@ -23,8 +23,8 @@ import lombok.Data;
 
 @Data
 @Configuration
-@ConfigurationProperties(prefix = "mano.helmv3")
-public class HelmWrapperProperty {
+@ConfigurationProperties(prefix = "mano.em")
+public class EmProperty {
 
 	private String url;
 
