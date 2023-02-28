@@ -16,5 +16,5 @@ spring:
       client:
         username: admin
         password: admin
-        url: 
+        url:
           - http://localhost:8081
