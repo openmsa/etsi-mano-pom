@@ -53,7 +53,6 @@
 		<dependency>
 			<groupId>de.codecentric</groupId>
 			<artifactId>spring-boot-admin-starter-client</artifactId>
-			<version>${version.spring-boot-admin}</version>
 		</dependency>
 		<dependency>
 			<groupId>jakarta.servlet</groupId>
