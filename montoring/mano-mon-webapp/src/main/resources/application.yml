@@ -12,7 +12,7 @@ logging:
         boot:
           autoconfigure:
             logging:
-              ConditionEvaluationReportLoggingListener: INFO
+              ConditionEvaluationReportLoggingListener: WARN
 management:
   endpoint:
     health:
@@ -43,7 +43,7 @@ spring:
   datasource:
     driverClassName: org.postgresql.Driver
     url: jdbc:postgresql://mano-db:5432/mano_em
-    username: mano_em
+    username: mano
     password: mano
   jpa:
     open-in-view: true
