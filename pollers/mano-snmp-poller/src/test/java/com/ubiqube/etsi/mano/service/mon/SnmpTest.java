@@ -17,6 +17,8 @@
 package com.ubiqube.etsi.mano.service.mon;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +49,7 @@ import org.snmp4j.smi.OID;
 import org.snmp4j.smi.OctetString;
 import org.snmp4j.smi.VariableBinding;
 import org.snmp4j.transport.DefaultUdpTransportMapping;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.jms.core.JmsTemplate;
 
@@ -66,7 +69,9 @@ class SnmpTest {
 	@Mock
 	private JmsTemplate jmsTemplate;
 	@Mock
-	ConfigurableApplicationContext configurableApplicationContext;
+	private ConfigurableApplicationContext configurableApplicationContext;
+	@Mock
+	private ConfigurableListableBeanFactory configurableListableBeanFactory;
 
 	@Test
 	void testSnmpPoller() {
@@ -82,6 +87,7 @@ class SnmpTest {
 		metrics.add(new Metric("1.3.6.1.2.1.1.1", null));
 		metrics.add(new Metric("1.3.6.1.2.1.2.1", null));
 		pj.setMetrics(metrics);
+		mockQueueName();
 		sp.onEvent(pj);
 		assertTrue(true);
 	}
@@ -105,8 +111,14 @@ class SnmpTest {
 		metrics.add(new Metric("1.3.6.1.2.1.2.2.1.10", null));
 		metrics.add(new Metric("1.3.6.1.2.1.2.2.1.16", null));
 		pj.setMetrics(metrics);
+		mockQueueName();
 		sp.onEvent(pj);
 		assertTrue(true);
+	}
+
+	private void mockQueueName() {
+		when(configurableApplicationContext.getBeanFactory()).thenReturn(configurableListableBeanFactory);
+		when(configurableListableBeanFactory.resolveEmbeddedValue(anyString())).thenReturn("test");
 	}
 
 	void snmpV3() throws Exception {
