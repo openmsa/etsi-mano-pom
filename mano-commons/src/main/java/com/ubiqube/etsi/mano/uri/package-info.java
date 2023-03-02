@@ -21,4 +21,9 @@
  *
  *
  */
+@NonNullApi
+@NonNullFields
 package com.ubiqube.etsi.mano.uri;
+
+import org.springframework.lang.NonNullApi;
+import org.springframework.lang.NonNullFields;
