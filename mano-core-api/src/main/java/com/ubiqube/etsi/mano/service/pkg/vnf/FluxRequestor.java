@@ -29,13 +29,13 @@ import com.ubiqube.etsi.mano.dao.mano.pkg.ParamsOauth2ClientCredentials;
 import com.ubiqube.etsi.mano.dao.mano.pkg.UploadUriParameters;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.repository.HttpRequestor;
-import com.ubiqube.etsi.mano.service.event.model.AuthParamBasic;
-import com.ubiqube.etsi.mano.service.event.model.AuthParamOauth2;
-import com.ubiqube.etsi.mano.service.event.model.AuthType;
-import com.ubiqube.etsi.mano.service.event.model.AuthentificationInformations;
-import com.ubiqube.etsi.mano.service.event.model.OAuth2GrantType;
-import com.ubiqube.etsi.mano.service.event.model.AuthentificationInformations.AuthentificationInformationsBuilder;
 import com.ubiqube.etsi.mano.service.rest.FluxRest;
+import com.ubiqube.etsi.mano.service.rest.model.AuthParamBasic;
+import com.ubiqube.etsi.mano.service.rest.model.AuthParamOauth2;
+import com.ubiqube.etsi.mano.service.rest.model.AuthType;
+import com.ubiqube.etsi.mano.service.rest.model.AuthentificationInformations;
+import com.ubiqube.etsi.mano.service.rest.model.AuthentificationInformations.AuthentificationInformationsBuilder;
+import com.ubiqube.etsi.mano.service.rest.model.OAuth2GrantType;
 
 /**
  *

@@ -64,15 +64,15 @@ import com.ubiqube.etsi.mano.nfvo.v331.model.vnf.VnfPackageSoftwareImageInfo.Con
 import com.ubiqube.etsi.mano.nfvo.v331.model.vnf.VnfPackageSoftwareImageInfo.DiskFormatEnum;
 import com.ubiqube.etsi.mano.nfvo.v331.model.vnf.VnfPkgInfo;
 import com.ubiqube.etsi.mano.nfvo.v331.model.vnfsnapshotpkgm.Checksum;
-import com.ubiqube.etsi.mano.service.event.model.AuthParamOauth2;
-import com.ubiqube.etsi.mano.service.event.model.AuthentificationInformations;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
+import com.ubiqube.etsi.mano.service.rest.model.AuthParamOauth2;
+import com.ubiqube.etsi.mano.service.rest.model.AuthentificationInformations;
 import com.ubiqube.etsi.mano.vnfm.v331.model.grant.ResourceDefinition;
+import com.ubiqube.orika.OrikaMapperFactoryConfigurer;
 
 import ma.glasnost.orika.CustomMapper;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.MappingContext;
-import com.ubiqube.orika.OrikaMapperFactoryConfigurer;
 
 @Component
 public class OrikaMapperVnfm331 implements OrikaMapperFactoryConfigurer {

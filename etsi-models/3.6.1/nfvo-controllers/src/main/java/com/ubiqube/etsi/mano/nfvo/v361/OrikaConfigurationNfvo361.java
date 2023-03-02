@@ -71,17 +71,17 @@ import com.ubiqube.etsi.mano.nfvo.v361.model.nslcm.NsLcmOpOcc;
 import com.ubiqube.etsi.mano.nfvo.v361.model.nslcm.NsScaleInfo;
 import com.ubiqube.etsi.mano.nfvo.v361.model.vnf.PkgmSubscription;
 import com.ubiqube.etsi.mano.nfvo.v361.model.vnf.PkgmSubscriptionRequest;
-import com.ubiqube.etsi.mano.service.event.model.AuthParamOauth2;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
+import com.ubiqube.etsi.mano.service.rest.model.AuthParamOauth2;
 import com.ubiqube.etsi.mano.vnfm.v361.model.grant.ConstraintResourceRef;
 import com.ubiqube.etsi.mano.vnfm.v361.model.grant.Grant;
 import com.ubiqube.etsi.mano.vnfm.v361.model.grant.GrantRequest;
 import com.ubiqube.etsi.mano.vnfm.v361.model.grant.ResourceDefinition;
+import com.ubiqube.orika.OrikaMapperFactoryConfigurer;
 
 import ma.glasnost.orika.CustomMapper;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.MappingContext;
-import com.ubiqube.orika.OrikaMapperFactoryConfigurer;
 
 /**
  *

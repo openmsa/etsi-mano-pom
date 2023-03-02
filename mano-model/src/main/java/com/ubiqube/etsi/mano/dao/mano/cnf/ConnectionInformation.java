@@ -20,6 +20,19 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import org.hibernate.search.mapper.pojo.bridge.builtin.annotation.GeoPointBinding;
+
+import com.ubiqube.etsi.mano.dao.mano.Audit;
+import com.ubiqube.etsi.mano.dao.mano.AuditListener;
+import com.ubiqube.etsi.mano.dao.mano.Auditable;
+import com.ubiqube.etsi.mano.dao.mano.common.FailureDetails;
+import com.ubiqube.etsi.mano.dao.mano.common.GeoPoint;
+import com.ubiqube.etsi.mano.dao.mano.config.Servers;
+import com.ubiqube.etsi.mano.dao.mano.v2.PlanStatusType;
+import com.ubiqube.etsi.mano.service.rest.model.AuthentificationInformations;
+import com.ubiqube.etsi.mano.utils.ToStringUtil;
+
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -30,18 +43,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Version;
-
-import org.hibernate.search.mapper.pojo.bridge.builtin.annotation.GeoPointBinding;
-
-import com.ubiqube.etsi.mano.dao.mano.Audit;
-import com.ubiqube.etsi.mano.dao.mano.AuditListener;
-import com.ubiqube.etsi.mano.dao.mano.Auditable;
-import com.ubiqube.etsi.mano.dao.mano.common.FailureDetails;
-import com.ubiqube.etsi.mano.dao.mano.common.GeoPoint;
-import com.ubiqube.etsi.mano.dao.mano.v2.PlanStatusType;
-import com.ubiqube.etsi.mano.service.event.model.AuthentificationInformations;
-import com.ubiqube.etsi.mano.utils.ToStringUtil;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -98,4 +99,17 @@ public class ConnectionInformation implements Auditable {
 		return ToStringUtil.toString(this);
 	}
 
+	@Nonnull
+	public Servers toServers() {
+		final Servers srv = new Servers();
+		srv.setAuthentification(getAuthentification());
+		srv.setCapabilities(getCapabilities());
+		srv.setId(getId());
+		srv.setIgnoreSsl(isIgnoreSsl());
+		srv.setName(getName());
+		srv.setServerStatus(getServerStatus());
+		srv.setTupleVersion(getVersion());
+		srv.setUrl(getUrl());
+		return srv;
+	}
 }

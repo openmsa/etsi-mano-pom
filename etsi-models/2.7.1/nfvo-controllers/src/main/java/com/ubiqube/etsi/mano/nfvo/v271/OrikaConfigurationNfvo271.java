@@ -68,13 +68,13 @@ import com.ubiqube.etsi.mano.model.v271.sol005.nslcm.InstantiateNsRequest;
 import com.ubiqube.etsi.mano.model.v271.sol005.nslcm.NsInstance;
 import com.ubiqube.etsi.mano.model.v271.sol005.nslcm.NsLcmOpOcc;
 import com.ubiqube.etsi.mano.model.v271.sol005.nslcm.VnffgInfo;
-import com.ubiqube.etsi.mano.service.event.model.AuthParamOauth2;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
+import com.ubiqube.etsi.mano.service.rest.model.AuthParamOauth2;
+import com.ubiqube.orika.OrikaMapperFactoryConfigurer;
 
 import ma.glasnost.orika.CustomMapper;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.MappingContext;
-import com.ubiqube.orika.OrikaMapperFactoryConfigurer;
 
 /**
  *

@@ -57,7 +57,7 @@ public class CirConnectionManager {
 
 	@SuppressWarnings("static-method")
 	public boolean checkConnectivity(final ConnectionInformation vci) {
-		final FluxRest fr = FluxRest.of(vci);
+		final FluxRest fr = new FluxRest(vci.toServers());
 		final URI url = URI.create(vci.getUrl());
 		fr.get(url, String.class, null);
 		return true;

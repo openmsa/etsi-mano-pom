@@ -18,11 +18,11 @@ package com.ubiqube.etsi.mano.dao.mano.config;
 
 import java.util.Set;
 
-import jakarta.validation.constraints.NotNull;
-
-import com.ubiqube.etsi.mano.service.event.model.AuthentificationInformations;
 import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
+import com.ubiqube.etsi.mano.service.rest.model.AuthentificationInformations;
+import com.ubiqube.etsi.mano.service.rest.model.ServerType;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 

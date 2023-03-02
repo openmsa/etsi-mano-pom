@@ -14,18 +14,14 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service.event.model;
+package com.ubiqube.etsi.mano.service.rest.model;
 
 import java.io.Serializable;
-import java.util.List;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,30 +29,24 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- *
- * @author Olivier Vignaud <ovi@ubiqube.com>
- *
- */
-@Getter
 @Setter
-@Embeddable
+@Getter
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class AuthentificationInformations implements Serializable {
+@AllArgsConstructor
+@Embeddable
+public class AuthParamOauth2 implements Serializable {
 	/** Serial. */
 	private static final long serialVersionUID = 1L;
-
+	private String clientId;
+	private String clientSecret;
+	private String tokenEndpoint;
+	private String o2Username;
+	private String o2Password;
+	private Boolean o2IgnoreSsl;
 	@Enumerated(EnumType.STRING)
-	@FullTextField
-	@ElementCollection
-	private List<AuthType> authType;
-
-	private AuthParamBasic authParamBasic;
-	private AuthParamOauth2 authParamOauth2;
-
+	private OAuth2GrantType grantType;
 	@Column(length = 5000)
-	private String authTlsCert;
+	private String o2AuthTlsCert;
 
 }

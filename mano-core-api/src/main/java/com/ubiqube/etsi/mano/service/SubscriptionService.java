@@ -19,10 +19,10 @@ package com.ubiqube.etsi.mano.service;
 import java.util.List;
 import java.util.UUID;
 
-import com.ubiqube.etsi.mano.service.event.model.ApiTypesEnum;
 import com.ubiqube.etsi.mano.service.event.model.EventMessage;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
+import com.ubiqube.etsi.mano.service.rest.model.ApiTypesEnum;
 
 public interface SubscriptionService {
 

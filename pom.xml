@@ -38,6 +38,7 @@
 		<module>mano-telemetry</module>
 		<module>mano-em</module>
 		<module>search</module>
+		<module>mano-fluxrest</module>
 	</modules>
 	<properties>
 		<sonar.jacoco.xmlReportPaths>${project.basedir}/../target/site/jacoco-aggregate/jacoco.xml</sonar.jacoco.xmlReportPaths>

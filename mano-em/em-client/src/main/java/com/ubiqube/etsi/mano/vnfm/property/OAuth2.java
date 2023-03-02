@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.vnfm.property;
 
 import java.util.List;
 
-import com.ubiqube.etsi.mano.service.event.model.OAuth2GrantType;
+import com.ubiqube.etsi.mano.service.rest.model.OAuth2GrantType;
 
 import lombok.Data;
 

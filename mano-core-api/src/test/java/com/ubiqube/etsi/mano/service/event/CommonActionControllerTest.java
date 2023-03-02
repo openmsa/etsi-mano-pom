@@ -35,13 +35,13 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.ubiqube.etsi.mano.config.SecutiryConfig;
 import com.ubiqube.etsi.mano.config.properties.ManoProperties;
-import com.ubiqube.etsi.mano.dao.mano.config.ServerType;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.jpa.config.ServersJpa;
 import com.ubiqube.etsi.mano.service.HttpGateway;
 import com.ubiqube.etsi.mano.service.ServerService;
 import com.ubiqube.etsi.mano.service.rest.FluxRest;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
+import com.ubiqube.etsi.mano.service.rest.model.ServerType;
 import com.ubiqube.etsi.mano.utils.Version;
 
 import ma.glasnost.orika.MapperFacade;

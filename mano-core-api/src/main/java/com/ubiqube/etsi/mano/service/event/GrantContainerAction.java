@@ -96,7 +96,7 @@ public class GrantContainerAction {
 	}
 
 	private static void uploadFile(final ManoResource mr, final ConnectionInformation ci, final String name) {
-		final FluxRest fr = FluxRest.of(ci);
+		final FluxRest fr = new FluxRest(ci.toServers());
 		final URI uri = URI.create(ci.getUrl() + "/" + name);
 		final String mimeType = makeMimeType(name);
 		try {

@@ -14,33 +14,28 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service.event.model;
+package com.ubiqube.etsi.mano.service.rest.model;
 
-public enum ApiTypesEnum {
-	SOL003("SOL003"),
-	SOL005("SOL005");
+import java.io.Serializable;
 
-	private final String value;
+import jakarta.persistence.Embeddable;
 
-	ApiTypesEnum(final String v) {
-		value = v;
-	}
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-	public String value() {
-		return value;
-	}
+@Setter
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Embeddable
+public class AuthParamBasic implements Serializable {
+	/** Serial. */
+	private static final long serialVersionUID = 1L;
+	private String userName;
+	private String password;
 
-	@Override
-	public String toString() {
-		return String.valueOf(value);
-	}
-
-	public static ApiTypesEnum fromValue(final String v) {
-		for (final ApiTypesEnum b : ApiTypesEnum.values()) {
-			if (String.valueOf(b.value).equals(v)) {
-				return b;
-			}
-		}
-		return null;
-	}
 }

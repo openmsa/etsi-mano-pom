@@ -19,13 +19,12 @@ package com.ubiqube.etsi.mano.dao.mano.pkg;
 import java.io.Serializable;
 import java.util.UUID;
 
+import com.ubiqube.etsi.mano.service.rest.model.AuthType;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
-import com.ubiqube.etsi.mano.service.event.model.AuthType;
-
 import lombok.Getter;
 import lombok.Setter;
 

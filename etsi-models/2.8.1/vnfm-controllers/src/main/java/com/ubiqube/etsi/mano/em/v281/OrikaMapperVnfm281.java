@@ -62,16 +62,16 @@ import com.ubiqube.etsi.mano.nfvo.v281.model.vnf.VnfPackageSoftwareImageInfo;
 import com.ubiqube.etsi.mano.nfvo.v281.model.vnf.VnfPackageSoftwareImageInfo.ContainerFormatEnum;
 import com.ubiqube.etsi.mano.nfvo.v281.model.vnf.VnfPackageSoftwareImageInfo.DiskFormatEnum;
 import com.ubiqube.etsi.mano.nfvo.v281.model.vnf.VnfPkgInfo;
-import com.ubiqube.etsi.mano.service.event.model.AuthParamOauth2;
-import com.ubiqube.etsi.mano.service.event.model.AuthentificationInformations;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
+import com.ubiqube.etsi.mano.service.rest.model.AuthParamOauth2;
+import com.ubiqube.etsi.mano.service.rest.model.AuthentificationInformations;
 import com.ubiqube.etsi.mano.vnfm.v281.model.grant.ResourceDefinition;
+import com.ubiqube.orika.OrikaMapperFactoryConfigurer;
 
 import ma.glasnost.orika.CustomMapper;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.MappingContext;
 import ma.glasnost.orika.converter.ConverterFactory;
-import com.ubiqube.orika.OrikaMapperFactoryConfigurer;
 
 /**
  *

@@ -52,7 +52,6 @@ import com.ubiqube.etsi.mano.dao.mano.NsdPackageVnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.TriggerDefinition;
 import com.ubiqube.etsi.mano.dao.mano.VnfIndicator;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
-import com.ubiqube.etsi.mano.dao.mano.config.ServerType;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.dao.mano.ind.VnfIndiValueChangeNotification;
 import com.ubiqube.etsi.mano.dao.mano.v2.PlanStatusType;
@@ -68,6 +67,7 @@ import com.ubiqube.etsi.mano.service.VnfPackageServiceImpl;
 import com.ubiqube.etsi.mano.service.cond.ConditionService;
 import com.ubiqube.etsi.mano.service.cond.Context;
 import com.ubiqube.etsi.mano.service.cond.Node;
+import com.ubiqube.etsi.mano.service.rest.model.ServerType;
 
 import jakarta.annotation.Nonnull;
 import jakarta.validation.constraints.NotNull;

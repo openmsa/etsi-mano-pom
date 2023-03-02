@@ -28,9 +28,9 @@ import com.ubiqube.etsi.mano.grammar.GrammarParser;
 import com.ubiqube.etsi.mano.jpa.SubscriptionJpa;
 import com.ubiqube.etsi.mano.service.eval.EvalService;
 import com.ubiqube.etsi.mano.service.event.Notifications;
-import com.ubiqube.etsi.mano.service.event.model.ApiTypesEnum;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
+import com.ubiqube.etsi.mano.service.rest.model.ApiTypesEnum;
 
 import jakarta.persistence.EntityManager;
 import ma.glasnost.orika.MapperFacade;

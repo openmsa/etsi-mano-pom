@@ -23,10 +23,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.ubiqube.etsi.mano.service.event.model.ApiTypesEnum;
 import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
+import com.ubiqube.etsi.mano.service.rest.model.ApiTypesEnum;
 
 @Repository
 public interface SubscriptionJpa extends CrudRepository<Subscription, UUID> {

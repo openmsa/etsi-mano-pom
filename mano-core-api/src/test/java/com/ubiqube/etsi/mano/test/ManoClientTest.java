@@ -47,12 +47,12 @@ import com.ubiqube.etsi.mano.nfvo.v261.services.VnfmGateway261;
 import com.ubiqube.etsi.mano.service.HttpGateway;
 import com.ubiqube.etsi.mano.service.NfvoFactory;
 import com.ubiqube.etsi.mano.service.VnfmFactory;
-import com.ubiqube.etsi.mano.service.event.model.AuthParamOauth2;
-import com.ubiqube.etsi.mano.service.event.model.AuthentificationInformations;
-import com.ubiqube.etsi.mano.service.event.model.OAuth2GrantType;
 import com.ubiqube.etsi.mano.service.rest.FluxRest;
 import com.ubiqube.etsi.mano.service.rest.ManoClient;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
+import com.ubiqube.etsi.mano.service.rest.model.AuthParamOauth2;
+import com.ubiqube.etsi.mano.service.rest.model.AuthentificationInformations;
+import com.ubiqube.etsi.mano.service.rest.model.OAuth2GrantType;
 
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.OrikaSystemProperties;

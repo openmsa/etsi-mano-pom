@@ -19,7 +19,6 @@ package com.ubiqube.etsi.mano.utils;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.servlet.HandlerMapping;
 
-import jakarta.annotation.Nonnull;
 import jakarta.servlet.ServletRequest;
 
 public final class SpringUtils {
@@ -35,7 +34,6 @@ public final class SpringUtils {
 	 * @param request
 	 * @return
 	 */
-	@Nonnull
 	public static String extractParams(final ServletRequest request) {
 		final String path = (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
 		final String bestMatchPattern = (String) request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE);

@@ -1,5 +1,5 @@
 /**
- *     Copyright (C) 2019-2020 Ubiqube.
+ *     Copyright (C) 2019-2023 Ubiqube.
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ public class ManoLoggingHandler extends LoggingHandler {
 
 	@Override
 	public void write(final ChannelHandlerContext ctx, final Object msg, final ChannelPromise promise) throws Exception {
-		LOG.info("write class {} ", msg.getClass().getName());
+		LOG.trace("write class {} ", msg.getClass().getName());
 		if (logger.isEnabled(internalLevel)) {
 			if (msg instanceof final DefaultHttpRequest dhr) {
 				dumpHeaders(dhr.headers(), ctx, WRITE);
@@ -64,7 +64,7 @@ public class ManoLoggingHandler extends LoggingHandler {
 
 	@Override
 	public void channelRead(final ChannelHandlerContext ctx, final Object msg) throws Exception {
-		LOG.info("read class {} ", msg.getClass().getName());
+		LOG.trace("read class {} ", msg.getClass().getName());
 		if (logger.isEnabled(internalLevel)) {
 			if (msg instanceof final DefaultHttpResponse dhr) {
 				dumpHeaders(dhr.headers(), ctx, READ);

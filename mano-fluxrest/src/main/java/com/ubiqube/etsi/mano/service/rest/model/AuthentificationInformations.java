@@ -14,39 +14,45 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service.event.model;
+package com.ubiqube.etsi.mano.service.rest.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Setter
+/**
+ *
+ * @author Olivier Vignaud <ovi@ubiqube.com>
+ *
+ */
 @Getter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Setter
 @Embeddable
-public class AuthParamOauth2 implements Serializable {
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class AuthentificationInformations implements Serializable {
 	/** Serial. */
 	private static final long serialVersionUID = 1L;
-	private String clientId;
-	private String clientSecret;
-	private String tokenEndpoint;
-	private String o2Username;
-	private String o2Password;
-	private Boolean o2IgnoreSsl;
+
 	@Enumerated(EnumType.STRING)
-	private OAuth2GrantType grantType;
+	@ElementCollection
+	private List<AuthType> authType;
+
+	private AuthParamBasic authParamBasic;
+	private AuthParamOauth2 authParamOauth2;
+
 	@Column(length = 5000)
-	private String o2AuthTlsCert;
+	private String authTlsCert;
 
 }

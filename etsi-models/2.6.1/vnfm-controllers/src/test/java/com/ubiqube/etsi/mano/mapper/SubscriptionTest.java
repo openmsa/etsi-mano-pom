@@ -34,11 +34,11 @@ import com.ubiqube.etsi.mano.common.v261.model.vnf.PkgmNotificationsFilterVnfPro
 import com.ubiqube.etsi.mano.common.v261.model.vnf.PkgmSubscription;
 import com.ubiqube.etsi.mano.common.v261.model.vnf.PkgmSubscriptionLinks;
 import com.ubiqube.etsi.mano.common.v261.model.vnf.PkgmSubscriptionRequest;
-import com.ubiqube.etsi.mano.service.event.model.ApiTypesEnum;
-import com.ubiqube.etsi.mano.service.event.model.AuthParamBasic;
-import com.ubiqube.etsi.mano.service.event.model.AuthentificationInformations;
 import com.ubiqube.etsi.mano.service.event.model.FilterAttributes;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
+import com.ubiqube.etsi.mano.service.rest.model.ApiTypesEnum;
+import com.ubiqube.etsi.mano.service.rest.model.AuthParamBasic;
+import com.ubiqube.etsi.mano.service.rest.model.AuthentificationInformations;
 import com.ubiqube.etsi.mano.vnfm.v261.OrikaMapperVnfm261;
 import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.LccnSubscriptionRequest;
 

@@ -14,31 +14,19 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service.event.model;
+package com.ubiqube.etsi.mano.service.rest.model;
 
-import java.util.List;
+import java.io.Serializable;
 import java.util.UUID;
 
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.DocumentId;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
-
-import com.ubiqube.etsi.mano.service.rest.model.ApiTypesEnum;
-import com.ubiqube.etsi.mano.service.rest.model.AuthentificationInformations;
-
-import jakarta.annotation.Nullable;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.Version;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -53,38 +41,34 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Builder
-@NoArgsConstructor
+@Builder(builderMethodName = "serverBuilder")
 @AllArgsConstructor
-@Indexed
-public class Subscription {
+@NoArgsConstructor
+public class ServerConnection implements Serializable {
+	/** Serial. */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@DocumentId
-	@FullTextField
 	private UUID id;
 
-	// Used for rebuilding links.
-	@Enumerated(EnumType.STRING)
-	@FullTextField
-	private ApiTypesEnum api;
-	@Nullable
-	private AuthentificationInformations authentication;
+	private String name;
 
-	@FullTextField
-	private String callbackUri;
+	private AuthentificationInformations authentification;
 
-	@Enumerated(EnumType.STRING)
-	@NotNull
-	@FullTextField
-	private SubscriptionType subscriptionType;
+	private String url;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn
-	private List<FilterAttributes> filters;
+	private boolean ignoreSsl;
+
+	@Column(length = 5000)
+	private String tlsCert;
 
 	private String version;
 
-	@Column(length = 5000)
-	private String nodeFilter;
+	@Enumerated(EnumType.STRING)
+	private ServerType serverType;
+
+	@Version
+	private long tupleVersion;
+
 }

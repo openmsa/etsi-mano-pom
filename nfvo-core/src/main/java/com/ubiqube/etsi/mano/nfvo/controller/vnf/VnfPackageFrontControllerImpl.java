@@ -45,7 +45,7 @@ import com.ubiqube.etsi.mano.dao.mano.common.FailureDetails;
 import com.ubiqube.etsi.mano.dao.mano.pkg.UploadUriParameters;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.repository.ManoResource;
-import com.ubiqube.etsi.mano.service.event.model.AuthType;
+import com.ubiqube.etsi.mano.service.rest.model.AuthType;
 import com.ubiqube.etsi.mano.utils.SpringUtils;
 
 import jakarta.servlet.http.HttpServletRequest;

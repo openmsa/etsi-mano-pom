@@ -55,8 +55,8 @@ import com.ubiqube.etsi.mano.nfvo.v431.model.nslcm.VnfInstanceInstantiatedVnfInf
 import com.ubiqube.etsi.mano.nfvo.v431.model.nslcm.VnfVirtualLinkResourceInfo;
 import com.ubiqube.etsi.mano.nfvo.v431.model.nslcm.VnfcResourceInfo;
 import com.ubiqube.etsi.mano.nfvo.v431.model.vnf.PkgmSubscription;
-import com.ubiqube.etsi.mano.service.event.model.AuthParamOauth2;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
+import com.ubiqube.etsi.mano.service.rest.model.AuthParamOauth2;
 import com.ubiqube.etsi.mano.vnfm.v431.model.grant.Grant;
 import com.ubiqube.etsi.mano.vnfm.v431.model.grant.GrantRequest;
 import com.ubiqube.etsi.mano.vnfm.v431.model.grant.ResourceDefinition;
@@ -77,11 +77,11 @@ import com.ubiqube.etsi.mano.vnfm.v431.model.vnflcm.VnfExtCpInfo;
 import com.ubiqube.etsi.mano.vnfm.v431.model.vnflcm.VnfInfoModificationRequest;
 import com.ubiqube.etsi.mano.vnfm.v431.model.vnflcm.VnfLcmOpOcc;
 import com.ubiqube.etsi.mano.vnfm.v431.model.vrqan.SubscriptionAuthenticationParamsOauth2ClientCredentials;
+import com.ubiqube.orika.OrikaMapperFactoryConfigurer;
 
 import ma.glasnost.orika.CustomMapper;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.MappingContext;
-import com.ubiqube.orika.OrikaMapperFactoryConfigurer;
 
 /**
  *

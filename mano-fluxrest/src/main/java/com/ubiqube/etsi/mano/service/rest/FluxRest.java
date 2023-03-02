@@ -77,11 +77,9 @@ import org.springframework.web.reactive.function.client.WebClient.RequestHeaders
 import org.springframework.web.reactive.function.client.WebClient.ResponseSpec;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionInformation;
-import com.ubiqube.etsi.mano.dao.mano.config.Servers;
-import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.repository.ManoResource;
-import com.ubiqube.etsi.mano.service.event.model.AuthentificationInformations;
+import com.ubiqube.etsi.mano.service.rest.model.AuthentificationInformations;
+import com.ubiqube.etsi.mano.service.rest.model.ServerConnection;
 
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
@@ -106,26 +104,13 @@ public class FluxRest {
 	protected HttpClient httpClient;
 	protected Builder webBuilder;
 
-	public FluxRest(final Servers server) {
+	public FluxRest(final ServerConnection server) {
 		this.rootUrl = server.getUrl();
 		this.httpClient = getHttpClient(server.getUrl(), server.isIgnoreSsl(), server.getTlsCert());
 		this.webBuilder = applyBasicWebClientBuilder(WebClient.builder(), server);
 	}
 
-	public static FluxRest of(final ConnectionInformation ci) {
-		final Servers srv = new Servers();
-		srv.setAuthentification(ci.getAuthentification());
-		srv.setCapabilities(ci.getCapabilities());
-		srv.setId(ci.getId());
-		srv.setIgnoreSsl(ci.isIgnoreSsl());
-		srv.setName(ci.getName());
-		srv.setServerStatus(ci.getServerStatus());
-		srv.setTupleVersion(ci.getVersion());
-		srv.setUrl(ci.getUrl());
-		return new FluxRest(srv);
-	}
-
-	private Builder applyBasicWebClientBuilder(final Builder wcb, final Servers server) {
+	private Builder applyBasicWebClientBuilder(final Builder wcb, final ServerConnection server) {
 		final ClientHttpConnector conn = new ReactorClientHttpConnector(httpClient);
 		wcb.clientConnector(conn);
 		createAuthPart(wcb, server.getAuthentification());
@@ -134,7 +119,7 @@ public class FluxRest {
 		return wcb;
 	}
 
-	private static SslContext buildSslContext(final String url, @Nullable final Boolean ignoreSsl, final String tlsCert) {
+	private static @Nullable SslContext buildSslContext(final String url, @Nullable final Boolean ignoreSsl, final @Nullable String tlsCert) {
 		if (url.startsWith("http:")) {
 			return null;
 		}
@@ -147,15 +132,15 @@ public class FluxRest {
 		return defaultSslContext();
 	}
 
-	private static SslContext defaultSslContext() {
+	private static @Nullable SslContext defaultSslContext() {
 		try {
 			return SslContextBuilder.forClient().build();
 		} catch (final SSLException e) {
-			throw new GenericException(e);
+			throw new RestException(e);
 		}
 	}
 
-	private void createAuthPart(final Builder wcb, final AuthentificationInformations auth) {
+	private void createAuthPart(final Builder wcb, final @Nullable AuthentificationInformations auth) {
 		if (auth == null) {
 			return;
 		}
@@ -197,7 +182,7 @@ public class FluxRest {
 					.trustManager(trustManagerFactory)
 					.build();
 		} catch (final IOException | KeyStoreException | CertificateException | NoSuchAlgorithmException e) {
-			throw new GenericException(e);
+			throw new RestException(e);
 		}
 	}
 
@@ -207,7 +192,7 @@ public class FluxRest {
 					.trustManager(InsecureTrustManagerFactory.INSTANCE)
 					.build();
 		} catch (final SSLException e) {
-			throw new GenericException(e);
+			throw new RestException(e);
 		}
 	}
 
@@ -233,7 +218,7 @@ public class FluxRest {
 		return new InMemoryReactiveClientRegistrationRepository(registration);
 	}
 
-	public final <T> ResponseEntity<T> getWithReturn(final URI uri, final Class<T> clazz, final String version) {
+	public final @Nullable <T> ResponseEntity<T> getWithReturn(final URI uri, final Class<T> clazz, final String version) {
 		final Map<String, String> map = Optional.ofNullable(version).map(x -> Map.of(VERSION, x)).orElseGet(Map::of);
 		final Mono<ResponseEntity<T>> resp = makeBaseQuery(uri, HttpMethod.GET, null, map)
 				.accept(MediaType.APPLICATION_JSON)
@@ -242,11 +227,11 @@ public class FluxRest {
 		return resp.block();
 	}
 
-	public final <T> T get(final URI uri, final Class<T> clazz, final String version) {
+	public final @Nullable <T> T get(final URI uri, final Class<T> clazz, final String version) {
 		return call(uri, HttpMethod.GET, clazz, version);
 	}
 
-	public final <T> ResponseEntity<T> postWithReturn(final URI uri, final Object body, final Class<T> clazz, final String version) {
+	public final @Nullable <T> ResponseEntity<T> postWithReturn(final URI uri, final Object body, final Class<T> clazz, final String version) {
 		final Map<String, String> map = Optional.ofNullable(version).map(x -> Map.of(VERSION, x)).orElseGet(Map::of);
 		final Mono<ResponseEntity<T>> resp = makeBaseQuery(uri, HttpMethod.POST, body, map)
 				.accept(MediaType.APPLICATION_JSON)
@@ -255,7 +240,7 @@ public class FluxRest {
 		return resp.block();
 	}
 
-	public final <T> ResponseEntity<T> deleteWithReturn(final URI uri, final Object body, final String version) {
+	public final @Nullable <T> ResponseEntity<T> deleteWithReturn(final URI uri, final Object body, final String version) {
 		final Map<String, String> map = Optional.ofNullable(version).map(x -> Map.of(VERSION, x)).orElseGet(Map::of);
 		final ResponseSpec resp = makeBaseQuery(uri, HttpMethod.DELETE, body, map)
 				.accept(MediaType.APPLICATION_JSON)
@@ -263,11 +248,11 @@ public class FluxRest {
 		return (ResponseEntity<T>) resp.toBodilessEntity().block();
 	}
 
-	public final <T> T post(final URI uri, final Class<T> clazz, final String version) {
+	public final @Nullable <T> T post(final URI uri, final Class<T> clazz, final String version) {
 		return call(uri, HttpMethod.POST, clazz, version);
 	}
 
-	public final <T> T post(final URI uri, final Object body, final Class<T> clazz, final String version) {
+	public final @Nullable <T> T post(final URI uri, final Object body, final Class<T> clazz, final String version) {
 		return call(uri, HttpMethod.POST, body, clazz, version);
 	}
 
@@ -280,20 +265,20 @@ public class FluxRest {
 	 * @param version MANO Version null other wise.
 	 * @return
 	 */
-	public final <T> T put(final URI uri, final InputStream body, final Class<T> clazz, final String contentType) {
+	public final @Nullable <T> T put(final URI uri, final InputStream body, final Class<T> clazz, final String contentType) {
 		return innerCall(uri, HttpMethod.PUT, body, clazz, Map.of("Content-Type", contentType));
 	}
 
-	public final <T> T delete(final URI uri, final Class<T> clazz, final String version) {
+	public final @Nullable <T> T delete(final URI uri, final Class<T> clazz, final String version) {
 		return call(uri, HttpMethod.DELETE, clazz, version);
 	}
 
-	public final <T> T call(final URI uri, final HttpMethod method, final Class<T> clazz, final String version) {
+	public final @Nullable <T> T call(final URI uri, final HttpMethod method, final Class<T> clazz, final String version) {
 		final Map<String, String> map = Optional.ofNullable(version).map(x -> Map.of(VERSION, x)).orElseGet(Map::of);
 		return innerCall(uri, method, null, clazz, map);
 	}
 
-	public final <T> T call(final URI uri, final HttpMethod method, final Object body, final Class<T> clazz, final String version) {
+	public final @Nullable <T> T call(final URI uri, final HttpMethod method, final Object body, final Class<T> clazz, final String version) {
 		final Map<String, String> map = Optional.ofNullable(version).map(x -> Map.of(VERSION, x)).orElseGet(Map::of);
 		return innerCall(uri, method, body, clazz, map);
 	}
@@ -319,7 +304,7 @@ public class FluxRest {
 	 * @param path    Path to store the temporary file.
 	 * @param version Version header to add if needed, null otherwise.
 	 */
-	public void download(final URI uri, final Path path, final String version) {
+	public void download(final URI uri, final Path path, final @Nullable String version) {
 		final RequestHeadersSpec<?> wc = webBuilder
 				.build()
 				.get()
@@ -333,7 +318,7 @@ public class FluxRest {
 		DataBufferUtils.write(dataBufferFlux, path, StandardOpenOption.CREATE).block();
 	}
 
-	private RequestHeadersSpec<?> makeBaseQuery(final URI uri, final HttpMethod method, final Object requestObject, final Map<String, String> headers) {
+	private RequestHeadersSpec<?> makeBaseQuery(final URI uri, final HttpMethod method, final @Nullable Object requestObject, final Map<String, String> headers) {
 		final RequestHeadersSpec<?> wc = webBuilder
 				.build()
 				.method(method)
@@ -354,13 +339,13 @@ public class FluxRest {
 		return ExchangeFilterFunction.ofResponseProcessor(cr -> {
 			final HttpStatusCode status = cr.statusCode();
 			if (status.is5xxServerError() || status.is4xxClientError()) {
-				return cr.bodyToMono(String.class).flatMap(x -> Mono.error(() -> new GenericException(x)));
+				return cr.bodyToMono(String.class).flatMap(x -> Mono.error(() -> new RestException(x)));
 			}
 			return Mono.just(cr);
 		});
 	}
 
-	private final <T> T innerCall(final URI uri, final HttpMethod method, final Object requestObject, final Class<T> clazz, final Map<String, String> headers) {
+	private final @Nullable <T> T innerCall(final URI uri, final HttpMethod method, final Object requestObject, final Class<T> clazz, final Map<String, String> headers) {
 		final Mono<ResponseEntity<T>> resp = makeBaseQuery(uri, method, requestObject, headers)
 				.accept(MediaType.APPLICATION_JSON)
 				.retrieve()
@@ -368,7 +353,7 @@ public class FluxRest {
 		return getBlockingResult(resp, clazz, headers);
 	}
 
-	private <T> T getBlockingResult(final Mono<ResponseEntity<T>> resp, final Class<T> clazz, final Map<String, String> headers) {
+	private @Nullable <T> T getBlockingResult(final Mono<ResponseEntity<T>> resp, final Class<T> clazz, final Map<String, String> headers) {
 		final ResponseEntity<T> resp2 = resp.block();
 		if (null == resp2) {
 			return null;
@@ -395,7 +380,7 @@ public class FluxRest {
 		try (InputStream is = mr.getInputStream()) {
 			upload(uri, is, accept, version);
 		} catch (final IOException e) {
-			throw new GenericException(e);
+			throw new RestException(e);
 		}
 	}
 
@@ -426,7 +411,7 @@ public class FluxRest {
 		return builder.build();
 	}
 
-	public <T> T patch(final URI uri, final Class<T> clazz, final String ifMatch, final Map<String, Object> patch, final String version) {
+	public <T> T patch(final URI uri, final Class<T> clazz, final @Nullable String ifMatch, final Map<String, Object> patch, final String version) {
 		final Map<String, String> map = Optional.ofNullable(version).map(x -> Map.of(VERSION, x)).orElseGet(Map::of);
 		final RequestHeadersSpec<?> base = makeBaseQuery(uri, HttpMethod.PATCH, patch, map);
 		if (ifMatch != null) {
@@ -474,7 +459,7 @@ public class FluxRest {
 	private static Function<ClientResponse, Mono<? extends Throwable>> exepctionFunction(final PipedOutputStream osPipe) {
 		return response -> {
 			closePipe(osPipe);
-			throw new GenericException("An error occured." + response.rawStatusCode());
+			throw new RestException("An error occured." + response.statusCode());
 		};
 	}
 
@@ -482,7 +467,7 @@ public class FluxRest {
 		try (osPipe) {
 			//
 		} catch (final IOException e) {
-			throw new GenericException(e);
+			throw new RestException(e);
 		}
 	}
 

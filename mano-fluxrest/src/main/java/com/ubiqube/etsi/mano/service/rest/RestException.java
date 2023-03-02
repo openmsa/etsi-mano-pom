@@ -14,16 +14,23 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.controller.lcmgrant;
+package com.ubiqube.etsi.mano.service.rest;
 
-import java.util.UUID;
+/**
+ *
+ * @author olivier
+ *
+ */
+public class RestException extends RuntimeException {
+	/** Serial. */
+	private static final long serialVersionUID = 1L;
 
-import com.ubiqube.etsi.mano.dao.mano.GrantInterface;
-import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
+	public RestException(final Throwable e) {
+		super(e);
+	}
 
-public interface GrantManagement {
-	GrantResponse get(UUID grantId);
-
-	GrantResponse post(GrantInterface grant);
+	public RestException(final String message) {
+		super(message);
+	}
 
 }

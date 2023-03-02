@@ -16,8 +16,8 @@
  */
 package com.ubiqube.etsi.mano.service.event;
 
-import com.ubiqube.etsi.mano.service.event.model.AuthentificationInformations;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
+import com.ubiqube.etsi.mano.service.rest.model.AuthentificationInformations;
 
 /**
  * This class handle the notification callback.

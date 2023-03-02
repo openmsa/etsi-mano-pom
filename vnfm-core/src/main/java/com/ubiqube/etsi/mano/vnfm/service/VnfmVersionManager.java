@@ -25,13 +25,13 @@ import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.config.properties.ManoProperties;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
-import com.ubiqube.etsi.mano.service.event.model.ApiTypesEnum;
-import com.ubiqube.etsi.mano.service.event.model.AuthParamBasic;
-import com.ubiqube.etsi.mano.service.event.model.AuthParamOauth2;
-import com.ubiqube.etsi.mano.service.event.model.AuthType;
-import com.ubiqube.etsi.mano.service.event.model.AuthentificationInformations;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.service.rest.ManoClientFactory;
+import com.ubiqube.etsi.mano.service.rest.model.ApiTypesEnum;
+import com.ubiqube.etsi.mano.service.rest.model.AuthParamBasic;
+import com.ubiqube.etsi.mano.service.rest.model.AuthParamOauth2;
+import com.ubiqube.etsi.mano.service.rest.model.AuthType;
+import com.ubiqube.etsi.mano.service.rest.model.AuthentificationInformations;
 
 /**
  *
@@ -45,7 +45,6 @@ public class VnfmVersionManager {
 	private final ManoClientFactory manoClientFactory;
 
 	public VnfmVersionManager(final Environment env, final ManoProperties manoProperties, final ManoClientFactory manoClientFactory) {
-		super();
 		this.env = env;
 		this.manoProperties = manoProperties;
 		this.manoClientFactory = manoClientFactory;

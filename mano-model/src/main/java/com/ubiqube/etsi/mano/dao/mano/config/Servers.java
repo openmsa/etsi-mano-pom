@@ -20,11 +20,19 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import com.ubiqube.etsi.mano.dao.mano.Audit;
+import com.ubiqube.etsi.mano.dao.mano.common.ApiVersion;
+import com.ubiqube.etsi.mano.dao.mano.common.FailureDetails;
+import com.ubiqube.etsi.mano.dao.mano.v2.PlanStatusType;
+import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
+import com.ubiqube.etsi.mano.service.rest.model.AuthentificationInformations;
+import com.ubiqube.etsi.mano.service.rest.model.ServerConnection;
+import com.ubiqube.etsi.mano.service.rest.model.ServerType;
+import com.ubiqube.etsi.mano.utils.ToStringUtil;
+
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
@@ -33,55 +41,31 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Version;
-
-import com.ubiqube.etsi.mano.dao.mano.Audit;
-import com.ubiqube.etsi.mano.dao.mano.AuditListener;
-import com.ubiqube.etsi.mano.dao.mano.Auditable;
-import com.ubiqube.etsi.mano.dao.mano.common.ApiVersion;
-import com.ubiqube.etsi.mano.dao.mano.common.FailureDetails;
-import com.ubiqube.etsi.mano.dao.mano.v2.PlanStatusType;
-import com.ubiqube.etsi.mano.service.event.model.AuthentificationInformations;
-import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
-import com.ubiqube.etsi.mano.utils.ToStringUtil;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-/**
- *
- * @author Olivier Vignaud <ovi@ubiqube.com>
- *
- */
-@Getter
-@Setter
+@Data
 @Entity
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@EntityListeners(AuditListener.class)
-public class Servers implements Auditable {
+public class Servers extends ServerConnection {
 	/** Serial. */
 	private static final long serialVersionUID = 1L;
+
+	@Builder
+	public Servers(final UUID id, final String name, final AuthentificationInformations authentification, final String url, final boolean ignoreSsl, final String tlsCert, final String version, final ServerType serverType, final long tupleVersion,
+			final Set<RemoteSubscription> remoteSubscriptions, final PlanStatusType serverStatus, final SubscriptionType subscriptionType) {
+		super(id, name, authentification, url, ignoreSsl, tlsCert, version, serverType, tupleVersion);
+		this.remoteSubscriptions = remoteSubscriptions;
+		this.serverStatus = serverStatus;
+		this.subscriptionType = subscriptionType;
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
-
-	private String name;
-
-	private AuthentificationInformations authentification;
-
-	private String url;
-
-	private boolean ignoreSsl;
-
-	@Column(length = 5000)
-	private String tlsCert;
-
-	private String version;
 
 	@Enumerated(EnumType.STRING)
 	// XXX only on DB@NotNull
