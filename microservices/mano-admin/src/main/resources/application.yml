@@ -1,3 +1,10 @@
+logging:
+  level:
+    de:
+      codecentric:
+        boot:
+         admin: INFO
+
 management:
   endpoint:
     health:
