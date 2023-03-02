@@ -27,6 +27,7 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
 import com.ubiqube.etsi.mano.em.client.vnfind.VnfIndRemoteService;
 import com.ubiqube.etsi.mano.em.client.vnfind.VnfIndSubscriptionRemoteService;
+import com.ubiqube.etsi.mano.vnfm.property.EmProperty;
 
 import io.micrometer.observation.ObservationRegistry;
 
@@ -35,10 +36,12 @@ public class ClientConfigBean {
 
 	private final DefaultClientRequestObservationConvention oc;
 	private final ObservationRegistry observationRegistry;
+	private final EmProperty conf;
 
-	public ClientConfigBean(final ConfigurableApplicationContext configurableApplicationContext) {
+	public ClientConfigBean(final ConfigurableApplicationContext configurableApplicationContext, final EmProperty conf) {
 		oc = new DefaultClientRequestObservationConvention("http.client.requests");
 		observationRegistry = configurableApplicationContext.getBean(ObservationRegistry.class);
+		this.conf = conf;
 	}
 
 	@Bean
