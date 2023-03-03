@@ -40,7 +40,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.Version;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -87,9 +86,6 @@ public class Servers extends ServerConnection {
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<ApiVersion> versions;
-
-	@Version
-	private long tupleVersion;
 
 	private Audit audit = new Audit();
 
