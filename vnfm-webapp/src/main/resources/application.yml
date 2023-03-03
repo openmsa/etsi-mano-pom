@@ -75,11 +75,11 @@ mano:
   election:
     script-path: /tmp/etsi-mano/election/groovy
   em:
-    url: http://10.31.1.29:8083/em-webapp/
+    url: http://mano-em:8083/em-webapp/
     oauth2:
       client-id: mano-em
       client-secret: T8V5XytLDPgCmCLy42tmAxyYLsluChmU
-      grant-type: client_credentials
+      #grant-type: client_credentials
       scope:
         - openid
       token-endpoint: http://mano-auth:8080/auth/realms/mano-realm/protocol/openid-connect/token
