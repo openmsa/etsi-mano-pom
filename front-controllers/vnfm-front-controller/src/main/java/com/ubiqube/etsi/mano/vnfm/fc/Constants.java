@@ -16,18 +16,16 @@
  */
 package com.ubiqube.etsi.mano.vnfm.fc;
 
+import java.util.Objects;
 import java.util.UUID;
-
-import jakarta.annotation.Nonnull;
 
 public class Constants {
 	private Constants() {
 		// Nothing.
 	}
 
-	@Nonnull
 	public static UUID getSafeUUID(final String uuid) {
-		return UUID.fromString(uuid);
+		return Objects.requireNonNull(UUID.fromString(uuid));
 	}
 
 }

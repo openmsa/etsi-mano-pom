@@ -68,6 +68,7 @@ import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceServiceVnfm;
 import com.ubiqube.etsi.mano.vnfm.service.VnfLcmService;
 
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import ma.glasnost.orika.MapperFacade;
@@ -107,14 +108,14 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 	}
 
 	@Override
-	public List<VnfInstance> get(final Servers servers, final MultiValueMap<String, String> requestParams) {
+	public List<VnfInstance> get(final @Nullable Servers servers, final MultiValueMap<String, String> requestParams) {
 		final String filter = getSingleField(requestParams, "filter");
 		// XXX A little bit short !
 		return vnfInstanceService.query(filter);
 	}
 
 	@Override
-	public VnfInstance post(final Servers servers, final String vnfdId, final String vnfInstanceName, final String vnfInstanceDescription) {
+	public VnfInstance post(final @Nullable Servers servers, final String vnfdId, final String vnfInstanceName, final String vnfInstanceDescription) {
 		VnfPackage vnfPkgInfo;
 		try {
 			vnfPkgInfo = vnfPackageService.findByVnfdId(UUID.fromString(vnfdId));
@@ -146,7 +147,7 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 
 	@Transactional
 	@Override
-	public void delete(final Servers servers, @Nonnull final UUID vnfInstanceId) {
+	public void delete(final @Nullable Servers servers, @Nonnull final UUID vnfInstanceId) {
 		final VnfInstance vnfInstance = vnfInstanceServiceVnfm.findById(vnfInstanceId);
 		ensureNotInstantiated(vnfInstance);
 		ensureNotLocked(vnfInstance);
@@ -162,7 +163,7 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 	}
 
 	@Override
-	public VnfBlueprint instantiate(final Servers servers, @Nonnull final UUID vnfInstanceId, final VnfInstantiate instantiateVnfRequest) {
+	public VnfBlueprint instantiate(final @Nullable Servers servers, @Nonnull final UUID vnfInstanceId, final VnfInstantiate instantiateVnfRequest) {
 		final VnfInstance vnfInstance = vnfInstanceServiceVnfm.findById(vnfInstanceId);
 		ensureNotInstantiated(vnfInstance);
 		ensureNotLocked(vnfInstance);
@@ -218,7 +219,7 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 	}
 
 	@Override
-	public VnfBlueprint terminate(final Servers servers, @Nonnull final UUID vnfInstanceId, final CancelModeTypeEnum terminationType, final Integer gracefulTerminationTimeout) {
+	public VnfBlueprint terminate(final @Nullable Servers servers, @Nonnull final UUID vnfInstanceId, final CancelModeTypeEnum terminationType, final @Nullable Integer gracefulTerminationTimeout) {
 		final VnfInstance vnfInstance = vnfInstanceServiceVnfm.findById(vnfInstanceId);
 		ensureInstantiated(vnfInstance);
 		ensureNotLocked(vnfInstance);
@@ -229,7 +230,7 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 	}
 
 	@Override
-	public VnfBlueprint scaleToLevel(final Servers servers, @Nonnull final UUID uuid, final VnfScaleToLevelRequest scaleVnfToLevelRequest) {
+	public VnfBlueprint scaleToLevel(final @Nullable Servers servers, @Nonnull final UUID uuid, final VnfScaleToLevelRequest scaleVnfToLevelRequest) {
 		final VnfInstance vnfInstance = vnfInstanceServiceVnfm.findById(uuid);
 		ensureInstantiated(vnfInstance);
 		ensureNotLocked(vnfInstance);
@@ -239,7 +240,7 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 	}
 
 	@Override
-	public VnfBlueprint scale(final Servers servers, @Nonnull final UUID uuid, final VnfScaleRequest scaleVnfRequest) {
+	public VnfBlueprint scale(final @Nullable Servers servers, @Nonnull final UUID uuid, final VnfScaleRequest scaleVnfRequest) {
 		final VnfInstance vnfInstance = vnfInstanceServiceVnfm.findById(uuid);
 		ensureInstantiated(vnfInstance);
 		ensureNotLocked(vnfInstance);
@@ -249,7 +250,7 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 	}
 
 	@Override
-	public VnfBlueprint operate(final Servers servers, @Nonnull final UUID uuid, final VnfOperateRequest operateVnfRequest) {
+	public VnfBlueprint operate(final @Nullable Servers servers, @Nonnull final UUID uuid, final VnfOperateRequest operateVnfRequest) {
 		final VnfInstance vnfInstance = vnfInstanceServiceVnfm.findById(uuid);
 		ensureInstantiated(vnfInstance);
 		ensureNotLocked(vnfInstance);
@@ -259,17 +260,17 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 	}
 
 	@Override
-	public VnfBlueprint vnfLcmOpOccsGet(final Servers servers, @NotNull final UUID id) {
+	public VnfBlueprint vnfLcmOpOccsGet(final @Nullable Servers servers, @NotNull final UUID id) {
 		return vnfLcmService.findById(id);
 	}
 
 	@Override
-	public List<VnfBlueprint> findByVnfInstanceId(final Servers servers, @NotNull final UUID id) {
+	public List<VnfBlueprint> findByVnfInstanceId(final @Nullable Servers servers, @NotNull final UUID id) {
 		return vnfLcmService.findByVnfInstanceId(id);
 	}
 
 	@Override
-	public VnfBlueprint changeExtConn(final Servers servers, @NotNull final UUID uuid, final ChangeExtVnfConnRequest cevcr) {
+	public VnfBlueprint changeExtConn(final @Nullable Servers servers, @NotNull final UUID uuid, final ChangeExtVnfConnRequest cevcr) {
 		final VnfInstance vnfInstance = vnfInstanceServiceVnfm.findById(uuid);
 		ensureInstantiated(vnfInstance);
 		ensureNotLocked(vnfInstance);
@@ -279,12 +280,12 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 	}
 
 	@Override
-	public VnfInstance findById(final Servers servers, final String vnfInstance) {
+	public VnfInstance findById(final @Nullable Servers servers, final String vnfInstance) {
 		return vnfInstanceServiceVnfm.findById(getSafeUUID(vnfInstance));
 	}
 
 	@Override
-	public VnfBlueprint heal(final Servers servers, @Nonnull final UUID vnfInstanceId, final VnfHealRequest healVnfRequest) {
+	public VnfBlueprint heal(final @Nullable Servers servers, @Nonnull final UUID vnfInstanceId, final VnfHealRequest healVnfRequest) {
 		final VnfInstance vnfInstance = vnfInstanceServiceVnfm.findById(vnfInstanceId);
 		ensureInstantiated(vnfInstance);
 		ensureNotLocked(vnfInstance);

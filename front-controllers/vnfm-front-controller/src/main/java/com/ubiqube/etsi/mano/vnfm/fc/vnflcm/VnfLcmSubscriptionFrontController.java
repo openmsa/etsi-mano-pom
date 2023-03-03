@@ -23,11 +23,13 @@ import java.util.function.Function;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 
+import jakarta.annotation.Nullable;
+
 public interface VnfLcmSubscriptionFrontController {
 
 	<U> ResponseEntity<U> findById(String id, Class<U> clazz, Consumer<U> setLink);
 
-	<U> ResponseEntity<List<U>> search(MultiValueMap<String, String> requestParams, String nextpageOpaqueMarker, Class<U> clazz, Consumer<U> setLink);
+	<U> ResponseEntity<List<U>> search(MultiValueMap<String, String> requestParams, @Nullable String nextpageOpaqueMarker, Class<U> clazz, Consumer<U> setLink);
 
 	<U> ResponseEntity<U> create(Object body, Class<U> clazz, Class<?> versionController, Consumer<U> makeLinks, Function<U, String> setLink);
 

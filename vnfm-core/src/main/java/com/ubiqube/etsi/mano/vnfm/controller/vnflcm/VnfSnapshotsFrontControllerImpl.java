@@ -40,6 +40,8 @@ import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.vnfm.fc.vnflcm.VnfSnapshotsFrontController;
 
+import jakarta.annotation.Nullable;
+
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
@@ -49,45 +51,38 @@ import com.ubiqube.etsi.mano.vnfm.fc.vnflcm.VnfSnapshotsFrontController;
 public class VnfSnapshotsFrontControllerImpl implements VnfSnapshotsFrontController {
 
 	@Override
-	public <U> ResponseEntity<List<U>> search(final MultiValueMap<String, String> requestParams, final String nextpageOpaqueMarker, final Class<U> clazz, final Consumer<U> makeLink) {
-		// TODO Auto-generated method stub
-		return null;
+	public <U> ResponseEntity<List<U>> search(final MultiValueMap<String, String> requestParams, final @Nullable String nextpageOpaqueMarker, final Class<U> clazz, final Consumer<U> makeLink) {
+		return ResponseEntity.unprocessableEntity().build();
 	}
 
 	@Override
 	public <U> ResponseEntity<U> create(final Object body, final Class<U> clazz, final Consumer<U> makeLink) {
-		// TODO Auto-generated method stub
-		return null;
+		return ResponseEntity.unprocessableEntity().build();
 	}
 
 	@Override
 	public ResponseEntity<Void> delete(final String vnfSnapshotInfoId) {
-		// TODO Auto-generated method stub
-		return null;
+		return ResponseEntity.unprocessableEntity().build();
 	}
 
 	@Override
 	public <U> ResponseEntity<U> findById(final String vnfSnapshotInfoId, final Class<U> clazz, final Consumer<U> makeLink) {
-		// TODO Auto-generated method stub
-		return null;
+		return ResponseEntity.unprocessableEntity().build();
 	}
 
 	@Override
 	public <U> ResponseEntity<U> patch(final String vnfSnapshotInfoId, final Object body, final Class<U> clazz) {
-		// TODO Auto-generated method stub
-		return null;
+		return ResponseEntity.unprocessableEntity().build();
 	}
 
 	@Override
-	public ResponseEntity<Resource> fetch(final String vnfSnapshotInfoId, final String range) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResponseEntity<Resource> fetch(final String vnfSnapshotInfoId, final @Nullable String range) {
+		return ResponseEntity.unprocessableEntity().build();
 	}
 
 	@Override
 	public ResponseEntity<Resource> fetchArtifact(final String vnfSnapshotPkgId, final String artifactPath) {
-		// TODO Auto-generated method stub
-		return null;
+		return ResponseEntity.unprocessableEntity().build();
 	}
 
 }

@@ -18,8 +18,8 @@ package com.ubiqube.etsi.mano.vnfm.controller.vnffm;
 
 import static com.ubiqube.etsi.mano.Constants.ALARM_SEARCH_DEFAULT_EXCLUDE_FIELDS;
 import static com.ubiqube.etsi.mano.Constants.ALARM_SEARCH_MANDATORY_FIELDS;
+import static com.ubiqube.etsi.mano.Constants.getSafeUUID;
 
-import java.util.UUID;
 import java.util.function.Consumer;
 
 import org.springframework.http.ResponseEntity;
@@ -32,6 +32,7 @@ import com.ubiqube.etsi.mano.dao.mano.alarm.Alarms;
 import com.ubiqube.etsi.mano.dao.mano.alarm.PerceivedSeverityType;
 import com.ubiqube.etsi.mano.vnfm.fc.vnffm.AlarmFrontController;
 
+import jakarta.annotation.Nullable;
 import ma.glasnost.orika.MapperFacade;
 
 /**
@@ -47,28 +48,27 @@ public class AlarmFrontControllerImpl implements AlarmFrontController {
 	private final AlarmVnfmController alarmVnfmController;
 
 	public AlarmFrontControllerImpl(final MapperFacade mapper, final AlarmVnfmController alarmVnfmController) {
-		super();
 		this.mapper = mapper;
 		this.alarmVnfmController = alarmVnfmController;
 	}
 
 	@Override
 	public ResponseEntity<Void> escalate(final String alarmId, final PerceivedSeverityType perceivedSeverityRequest) {
-		alarmVnfmController.escalate(UUID.fromString(alarmId), perceivedSeverityRequest);
+		alarmVnfmController.escalate(getSafeUUID(alarmId), perceivedSeverityRequest);
 		return ResponseEntity.noContent().build();
 	}
 
 	@Override
 	public <U> ResponseEntity<U> findById(final String alarmId, final Class<U> clazz, final Consumer<U> makeLink) {
-		final Alarms alarm = alarmVnfmController.findById(UUID.fromString(alarmId));
+		final Alarms alarm = alarmVnfmController.findById(getSafeUUID(alarmId));
 		final U ret = mapper.map(alarm, clazz);
 		makeLink.accept(ret);
 		return ResponseEntity.ok(ret);
 	}
 
 	@Override
-	public <U> ResponseEntity<U> patch(final String alarmId, final AckState ackState, final String ifMatch, final Class<U> clazz) {
-		final Alarms alarm = alarmVnfmController.modify(UUID.fromString(alarmId), ackState, ifMatch);
+	public <U> ResponseEntity<U> patch(final String alarmId, final AckState ackState, final @Nullable String ifMatch, final Class<U> clazz) {
+		final Alarms alarm = alarmVnfmController.modify(getSafeUUID(alarmId), ackState, ifMatch);
 		return ResponseEntity.ok(mapper.map(alarm, clazz));
 	}
 

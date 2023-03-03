@@ -21,8 +21,6 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import jakarta.annotation.Nonnull;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 
@@ -30,38 +28,40 @@ import com.ubiqube.etsi.mano.dao.mano.CancelModeTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 
+import jakarta.annotation.Nullable;
+
 public interface VnfInstanceGenericFrontController {
 
-	ResponseEntity<Void> terminate(@Nonnull UUID vnfInstanceId, CancelModeTypeEnum cancelMode, Integer timeout, Function<VnfBlueprint, String> getSelfLink);
+	ResponseEntity<Void> terminate(UUID vnfInstanceId, CancelModeTypeEnum cancelMode, @Nullable Integer timeout, Function<VnfBlueprint, String> getSelfLink);
 
-	<U> ResponseEntity<Void> scaleToLevel(@Nonnull UUID vnfInstanceId, U body, Function<VnfBlueprint, String> getSelfLink);
+	<U> ResponseEntity<Void> scaleToLevel(UUID vnfInstanceId, U body, Function<VnfBlueprint, String> getSelfLink);
 
-	<U> ResponseEntity<Void> scale(@Nonnull UUID vnfInstanceId, U body, Function<VnfBlueprint, String> getSelfLink);
+	<U> ResponseEntity<Void> scale(UUID vnfInstanceId, U body, Function<VnfBlueprint, String> getSelfLink);
 
-	<U> ResponseEntity<Void> snapshot(@Nonnull UUID vnfInstanceId, U body);
+	<U> ResponseEntity<Void> snapshot(UUID vnfInstanceId, U body);
 
-	<V> ResponseEntity<V> modify(@Nonnull UUID vnfInstanceId, String body, String ifMatch, Function<VnfInstance, String> getSelfLink);
+	<V> ResponseEntity<V> modify(UUID vnfInstanceId, String body, String ifMatch, Function<VnfInstance, String> getSelfLink);
 
-	<U> ResponseEntity<Void> operate(@Nonnull UUID vnfInstanceId, U body, Function<VnfBlueprint, String> getSelfLink);
+	<U> ResponseEntity<Void> operate(UUID vnfInstanceId, U body, Function<VnfBlueprint, String> getSelfLink);
 
-	<U> ResponseEntity<Void> instantiate(@Nonnull UUID vnfInstanceId, U body, Function<VnfBlueprint, String> getSelfLink);
+	<U> ResponseEntity<Void> instantiate(UUID vnfInstanceId, U body, Function<VnfBlueprint, String> getSelfLink);
 
-	ResponseEntity<Void> heal(@Nonnull UUID vnfInstanceId, String cause, Map<String, String> hashMap, final Function<VnfBlueprint, String> getSelfLink);
+	ResponseEntity<Void> heal(UUID vnfInstanceId, String cause, Map<String, String> hashMap, final Function<VnfBlueprint, String> getSelfLink);
 
-	<U> ResponseEntity<U> findById(@Nonnull UUID vnfInstanceId, Class<U> clazz, Consumer<U> makeLink, String instanceSelfLink);
+	<U> ResponseEntity<U> findById(UUID vnfInstanceId, Class<U> clazz, Consumer<U> makeLink, String instanceSelfLink);
 
-	ResponseEntity<Void> deleteById(@Nonnull UUID vnfInstanceId);
+	ResponseEntity<Void> deleteById(UUID vnfInstanceId);
 
-	<U> ResponseEntity<Void> createSnapshot(@Nonnull UUID vnfInstanceId, U object, Function<VnfBlueprint, String> getSelfLink);
+	<U> ResponseEntity<Void> createSnapshot(UUID vnfInstanceId, U object, Function<VnfBlueprint, String> getSelfLink);
 
-	<U> ResponseEntity<Void> changeVnfPkg(@Nonnull UUID vnfInstanceId, U object, Function<VnfBlueprint, String> getSelfLink);
+	<U> ResponseEntity<Void> changeVnfPkg(UUID vnfInstanceId, U object, Function<VnfBlueprint, String> getSelfLink);
 
-	<U> ResponseEntity<Void> changeFlavour(@Nonnull UUID vnfInstanceId, U object, Function<VnfBlueprint, String> getSelfLink);
+	<U> ResponseEntity<Void> changeFlavour(UUID vnfInstanceId, U object, Function<VnfBlueprint, String> getSelfLink);
 
-	<U> ResponseEntity<Void> changeExtConn(@Nonnull UUID vnfInstanceId, U object, Function<VnfBlueprint, String> getSelfLink);
+	<U> ResponseEntity<Void> changeExtConn(UUID vnfInstanceId, U object, Function<VnfBlueprint, String> getSelfLink);
 
-	<U> ResponseEntity<U> create(@Nonnull String vnfdId, String vnfInstanceName, String vnfInstanceDescription, Class<U> clazz, Consumer<U> makeLink, String selfLink);
+	<U> ResponseEntity<U> create(String vnfdId, String vnfInstanceName, @Nullable String vnfInstanceDescription, Class<U> clazz, Consumer<U> makeLink, String selfLink);
 
-	<U> ResponseEntity<String> search(MultiValueMap<String, String> requestParams, Class<U> clazz, String nextpageOpaqueMarker, Consumer<U> makeLink);
+	<U> ResponseEntity<String> search(MultiValueMap<String, String> requestParams, Class<U> clazz, @Nullable String nextpageOpaqueMarker, Consumer<U> makeLink);
 
 }

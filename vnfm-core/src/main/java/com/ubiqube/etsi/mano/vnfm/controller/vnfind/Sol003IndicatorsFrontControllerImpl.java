@@ -26,6 +26,7 @@ import com.ubiqube.etsi.mano.em.client.vnfind.VnfIndRemoteService;
 import com.ubiqube.etsi.mano.em.v431.model.vnfind.VnfIndicator;
 import com.ubiqube.etsi.mano.vnfm.fc.vnfind.IndicatorsFrontController;
 
+import jakarta.annotation.Nullable;
 import ma.glasnost.orika.MapperFacade;
 
 /**
@@ -44,14 +45,14 @@ public class Sol003IndicatorsFrontControllerImpl implements IndicatorsFrontContr
 	}
 
 	@Override
-	public <U> ResponseEntity<List<U>> search(final String filter, final String nextpageOpaqueMarker, final Class<U> clazz, final Consumer<U> makeLink) {
+	public <U> ResponseEntity<List<U>> search(final @Nullable String filter, final @Nullable String nextpageOpaqueMarker, final Class<U> clazz, final Consumer<U> makeLink) {
 		final List<VnfIndicator> res = vnfIndRemoteService.indicatorsGet(filter, nextpageOpaqueMarker);
 		final List<U> ret = mapper.mapAsList(res, clazz);
 		return ResponseEntity.ok(ret);
 	}
 
 	@Override
-	public <U> ResponseEntity<List<U>> findByVnfInstanceId(final String vnfInstanceId, final String filter, final String nextpageOpaqueMarker, final Class<U> clazz, final Consumer<U> makeLink) {
+	public <U> ResponseEntity<List<U>> findByVnfInstanceId(final String vnfInstanceId, final @Nullable String filter, final @Nullable String nextpageOpaqueMarker, final Class<U> clazz, final Consumer<U> makeLink) {
 		final ResponseEntity<List<VnfIndicator>> res = vnfIndRemoteService.indicatorsVnfInstanceIdGet(vnfInstanceId, filter, nextpageOpaqueMarker);
 		final List<U> ret = mapper.mapAsList(res.getBody(), clazz);
 		return ResponseEntity.ok(ret);

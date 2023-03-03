@@ -21,11 +21,13 @@ import java.util.function.Consumer;
 
 import org.springframework.http.ResponseEntity;
 
+import jakarta.annotation.Nullable;
+
 public interface IndicatorsFrontController {
 
-	<U> ResponseEntity<List<U>> search(String filter, String nextpageOpaqueMarker, Class<U> clazz, Consumer<U> makeLink);
+	<U> ResponseEntity<List<U>> search(@Nullable String filter, @Nullable String nextpageOpaqueMarker, Class<U> clazz, Consumer<U> makeLink);
 
-	<U> ResponseEntity<List<U>> findByVnfInstanceId(String vnfInstanceId, String filter, String nextpageOpaqueMarker, Class<U> clazz, Consumer<U> makeLink);
+	<U> ResponseEntity<List<U>> findByVnfInstanceId(String vnfInstanceId, @Nullable String filter, @Nullable String nextpageOpaqueMarker, Class<U> clazz, Consumer<U> makeLink);
 
 	<U> ResponseEntity<U> findByVnfInstanceIdAndIndicatorId(String vnfInstanceId, String indicatorId, Class<U> clazz, Consumer<U> makeLink);
 

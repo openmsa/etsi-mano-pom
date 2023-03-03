@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -38,7 +39,6 @@ import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
 import com.ubiqube.etsi.mano.exception.ConflictException;
 import com.ubiqube.etsi.mano.exception.GenericException;
 
-import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 
@@ -62,9 +62,11 @@ public final class Constants {
 
 	public static final Set<String> VNFTHR_SEARCH_MANDATORY_FIELDS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("id")));
 
-	public static final String VNFTHR_SEARCH_DEFAULT_EXCLUDE_FIELDS = null;
+	// XXX:
+	public static final String VNFTHR_SEARCH_DEFAULT_EXCLUDE_FIELDS = "";
 
-	public static final String ALARM_SEARCH_DEFAULT_EXCLUDE_FIELDS = null;
+	// XXX:
+	public static final String ALARM_SEARCH_DEFAULT_EXCLUDE_FIELDS = "";
 
 	public static final Set<String> ALARM_SEARCH_MANDATORY_FIELDS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("id", "managedObjectId", "rootCauseFaultyResource", "alarmRaisedTime", "ackState",
 			"perceivedSeverity", "eventTime", "eventType", "probableCause", "isRootCause", "_links.self.href")));
@@ -227,9 +229,7 @@ public final class Constants {
 		}
 	}
 
-	@NotNull
-	@Nonnull
 	public static UUID getSafeUUID(final String uuid) {
-		return UUID.fromString(uuid);
+		return Objects.requireNonNull(UUID.fromString(uuid));
 	}
 }

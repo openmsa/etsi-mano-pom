@@ -59,8 +59,7 @@ public class VnfmPmControllerImpl implements VnfmPmController {
 
 	@Override
 	public PerformanceReport findReport(final UUID fromString, final UUID fromString2) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

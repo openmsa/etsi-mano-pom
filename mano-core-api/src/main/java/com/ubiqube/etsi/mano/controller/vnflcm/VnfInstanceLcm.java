@@ -19,15 +19,11 @@ package com.ubiqube.etsi.mano.controller.vnflcm;
 import java.util.List;
 import java.util.UUID;
 
-import jakarta.annotation.Nonnull;
-import jakarta.validation.constraints.NotNull;
-
 import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.dao.mano.CancelModeTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
-import com.ubiqube.etsi.mano.dao.mano.dto.VnfLcmOpOccs;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.vnfi.ChangeExtVnfConnRequest;
 import com.ubiqube.etsi.mano.model.VnfHealRequest;
@@ -35,6 +31,8 @@ import com.ubiqube.etsi.mano.model.VnfInstantiate;
 import com.ubiqube.etsi.mano.model.VnfOperateRequest;
 import com.ubiqube.etsi.mano.model.VnfScaleRequest;
 import com.ubiqube.etsi.mano.model.VnfScaleToLevelRequest;
+
+import jakarta.annotation.Nullable;
 
 /**
  * NFVO+VNFM & VNFM Implementation.
@@ -44,30 +42,30 @@ import com.ubiqube.etsi.mano.model.VnfScaleToLevelRequest;
  */
 public interface VnfInstanceLcm {
 
-	List<VnfInstance> get(Servers servers, final MultiValueMap<String, String> queryParameters);
+	List<VnfInstance> get(@Nullable Servers servers, final MultiValueMap<String, String> queryParameters);
 
-	VnfInstance post(Servers servers, final String vnfdId, final String vnfInstanceName, final String vnfInstanceDescription);
+	VnfInstance post(@Nullable Servers servers, final String vnfdId, final String vnfInstanceName, final String vnfInstanceDescription);
 
-	void delete(Servers servers, @Nonnull final UUID vnfInstanceId);
+	void delete(@Nullable Servers servers, final UUID vnfInstanceId);
 
-	VnfBlueprint instantiate(Servers servers, @Nonnull final UUID vnfInstanceId, final VnfInstantiate instantiateVnfRequest);
+	VnfBlueprint instantiate(@Nullable Servers servers, final UUID vnfInstanceId, final VnfInstantiate instantiateVnfRequest);
 
-	VnfBlueprint terminate(Servers servers, @Nonnull final UUID vnfInstanceId, final CancelModeTypeEnum terminationType, final Integer gracefulTerminationTimeout);
+	VnfBlueprint terminate(@Nullable Servers servers, final UUID vnfInstanceId, final CancelModeTypeEnum terminationType, @Nullable final Integer gracefulTerminationTimeout);
 
-	VnfBlueprint scaleToLevel(Servers servers, @Nonnull final UUID vnfInstanceId, final VnfScaleToLevelRequest scaleVnfToLevelRequest);
+	VnfBlueprint scaleToLevel(@Nullable Servers servers, final UUID vnfInstanceId, final VnfScaleToLevelRequest scaleVnfToLevelRequest);
 
-	VnfBlueprint scale(Servers servers, @Nonnull final UUID vnfInstanceId, final VnfScaleRequest scaleVnfRequest);
-	
-	VnfBlueprint heal(Servers servers, @Nonnull final UUID vnfInstanceId, final VnfHealRequest healVnfRequest);
+	VnfBlueprint scale(@Nullable Servers servers, final UUID vnfInstanceId, final VnfScaleRequest scaleVnfRequest);
 
-	VnfBlueprint operate(Servers servers, @Nonnull final UUID vnfInstanceId, final VnfOperateRequest operateVnfRequest);
+	VnfBlueprint heal(@Nullable Servers servers, final UUID vnfInstanceId, final VnfHealRequest healVnfRequest);
 
-	VnfBlueprint vnfLcmOpOccsGet(Servers servers, @NotNull UUID id);
+	VnfBlueprint operate(@Nullable Servers servers, final UUID vnfInstanceId, final VnfOperateRequest operateVnfRequest);
 
-	VnfBlueprint changeExtConn(Servers servers, @NotNull UUID vnfInstanceId, ChangeExtVnfConnRequest cevcr);
+	VnfBlueprint vnfLcmOpOccsGet(@Nullable Servers servers, UUID id);
 
-	VnfInstance findById(Servers servers, String vnfInstance);
+	VnfBlueprint changeExtConn(@Nullable Servers servers, UUID vnfInstanceId, ChangeExtVnfConnRequest cevcr);
 
-	List<VnfBlueprint> findByVnfInstanceId(Servers servers, @NotNull UUID id);
+	VnfInstance findById(@Nullable Servers servers, String vnfInstance);
+
+	List<VnfBlueprint> findByVnfInstanceId(@Nullable Servers servers, UUID id);
 
 }

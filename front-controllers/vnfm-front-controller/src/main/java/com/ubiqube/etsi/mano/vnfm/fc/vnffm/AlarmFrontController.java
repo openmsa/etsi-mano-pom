@@ -18,21 +18,21 @@ package com.ubiqube.etsi.mano.vnfm.fc.vnffm;
 
 import java.util.function.Consumer;
 
-import jakarta.annotation.Nonnull;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.dao.mano.alarm.AckState;
 import com.ubiqube.etsi.mano.dao.mano.alarm.PerceivedSeverityType;
 
+import jakarta.annotation.Nullable;
+
 public interface AlarmFrontController {
 
-	ResponseEntity<Void> escalate(String alarmId, @Nonnull PerceivedSeverityType perceivedSeverityRequest);
+	ResponseEntity<Void> escalate(String alarmId, PerceivedSeverityType perceivedSeverityRequest);
 
 	<U> ResponseEntity<U> findById(String alarmId, Class<U> clazz, Consumer<U> makeLink);
 
-	<U> ResponseEntity<U> patch(String alarmId, AckState ackState, String ifMatch, Class<U> clazz);
+	<U> ResponseEntity<U> patch(String alarmId, AckState ackState, @Nullable String ifMatch, Class<U> clazz);
 
 	<U> ResponseEntity<String> search(MultiValueMap<String, String> requestParams, Class<U> clazz, Consumer<U> makeLink);
 

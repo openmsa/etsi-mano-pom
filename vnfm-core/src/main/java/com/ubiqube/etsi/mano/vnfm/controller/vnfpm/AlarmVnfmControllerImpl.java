@@ -36,6 +36,7 @@ import com.ubiqube.etsi.mano.exception.PreConditionException;
 import com.ubiqube.etsi.mano.service.SearchableService;
 import com.ubiqube.etsi.mano.vnfm.service.AlarmService;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
@@ -68,7 +69,7 @@ public class AlarmVnfmControllerImpl implements AlarmVnfmController {
 	}
 
 	@Override
-	public Alarms modify(final UUID id, final AckState acknowledged, final String ifMatch) {
+	public Alarms modify(final UUID id, final AckState acknowledged, final @Nullable String ifMatch) {
 		final Alarms alarm = findById(id);
 		if ((ifMatch != null) && !ifMatch.equals(alarm.getVersion() + "")) {
 			throw new PreConditionException(ifMatch + " does not match " + alarm.getVersion());

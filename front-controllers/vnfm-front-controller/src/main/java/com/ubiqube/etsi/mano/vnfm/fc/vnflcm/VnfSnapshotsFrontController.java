@@ -23,9 +23,11 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 
+import jakarta.annotation.Nullable;
+
 public interface VnfSnapshotsFrontController {
 
-	<U> ResponseEntity<List<U>> search(MultiValueMap<String, String> requestParams, String nextpageOpaqueMarker, Class<U> clazz, Consumer<U> makeLink);
+	<U> ResponseEntity<List<U>> search(MultiValueMap<String, String> requestParams, @Nullable String nextpageOpaqueMarker, Class<U> clazz, Consumer<U> makeLink);
 
 	<U> ResponseEntity<U> create(Object body, Class<U> clazz, Consumer<U> makeLink);
 
@@ -35,7 +37,7 @@ public interface VnfSnapshotsFrontController {
 
 	<U> ResponseEntity<U> patch(String vnfSnapshotInfoId, Object body, Class<U> clazz);
 
-	ResponseEntity<Resource> fetch(String vnfSnapshotInfoId, String range);
+	ResponseEntity<Resource> fetch(String vnfSnapshotInfoId, @Nullable String range);
 
 	ResponseEntity<Resource> fetchArtifact(String vnfSnapshotPkgId, String artifactPath);
 

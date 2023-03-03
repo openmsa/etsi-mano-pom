@@ -37,6 +37,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.vnfm.fc.vnflcm.VnfLcmClassMaping;
 import com.ubiqube.etsi.mano.vnfm.fc.vnflcm.VnfLcmOpOccGenericFrontController;
 
+import jakarta.validation.constraints.NotNull;
 import ma.glasnost.orika.MapperFacade;
 
 /**
@@ -50,7 +51,6 @@ public class VnfLcmOpOccGenericFrontControllerImpl implements VnfLcmOpOccGeneric
 	private final MapperFacade mapper;
 
 	public VnfLcmOpOccGenericFrontControllerImpl(final VnfLcmController vnfLcmController, final MapperFacade mapper) {
-		super();
 		this.vnfLcmController = vnfLcmController;
 		this.mapper = mapper;
 	}
@@ -71,7 +71,7 @@ public class VnfLcmOpOccGenericFrontControllerImpl implements VnfLcmOpOccGeneric
 	}
 
 	@Override
-	public <U> ResponseEntity<U> lcmOpOccFindById(final VnfLcmClassMaping mapping, final UUID id, final Class<U> clazz, final Consumer<U> makeLink, final BiConsumer<U, Object> operationParameter) {
+	public <U> ResponseEntity<U> lcmOpOccFindById(final VnfLcmClassMaping mapping, final UUID id, final Class<U> clazz, final Consumer<U> makeLink, final BiConsumer<@NotNull U, Object> operationParameter) {
 		final VnfBlueprint resultDb = vnfLcmController.vnfLcmOpOccsVnfLcmOpOccIdGet(id);
 		final VnfLcmResourceChanges resourceChanged = new VnfLcmResourceChanges();
 		resultDb.getTasks().stream()

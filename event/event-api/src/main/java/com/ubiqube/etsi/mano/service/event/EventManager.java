@@ -19,8 +19,6 @@ package com.ubiqube.etsi.mano.service.event;
 import java.util.Map;
 import java.util.UUID;
 
-import jakarta.annotation.Nonnull;
-
 import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 
 /**
@@ -37,7 +35,7 @@ public interface EventManager {
 	 * @param notificationEvent The notification event type.
 	 * @param objectId          The Id.
 	 */
-	void sendNotification(@Nonnull NotificationEvent notificationEvent, @Nonnull UUID objectId, Map<String, String> additionalParameters);
+	void sendNotification(NotificationEvent notificationEvent, UUID objectId, Map<String, String> additionalParameters);
 
 	/**
 	 * Create an asynchronous task VNFM oriented.
@@ -46,7 +44,7 @@ public interface EventManager {
 	 * @param objectId   The object Id.
 	 * @param parameters Additional parameters if any.
 	 */
-	void sendActionVnfm(@Nonnull ActionType actionType, @Nonnull UUID objectId, @Nonnull Map<String, Object> parameters);
+	void sendActionVnfm(ActionType actionType, UUID objectId, Map<String, Object> parameters);
 
 	/**
 	 * Create an asynchronous task NFVO oriented.
@@ -55,7 +53,7 @@ public interface EventManager {
 	 * @param objectId   The object Id.
 	 * @param parameters Additional parameters if any.
 	 */
-	void sendActionNfvo(@Nonnull ActionType actionType, @Nonnull UUID objectId, @Nonnull Map<String, Object> parameters);
+	void sendActionNfvo(ActionType actionType, UUID objectId, Map<String, Object> parameters);
 
 	/**
 	 * Create an asynchronous task, inside the application.
@@ -63,7 +61,7 @@ public interface EventManager {
 	 * @param actionType The type of the action.
 	 * @param objectId   The object Id.
 	 */
-	void sendAction(@Nonnull ActionType actionType, @Nonnull UUID objectId);
+	void sendAction(ActionType actionType, UUID objectId);
 
 	/**
 	 * Send an asynchronous grant message.
@@ -71,7 +69,7 @@ public interface EventManager {
 	 * @param objectId   The grantResponse Id.
 	 * @param parameters Additional parameters if any.
 	 */
-	void sendGrant(@Nonnull final UUID objectId, final @Nonnull Map<String, Object> parameters);
+	void sendGrant(final UUID objectId, final Map<String, Object> parameters);
 
 	/**
 	 * Send the real notification.

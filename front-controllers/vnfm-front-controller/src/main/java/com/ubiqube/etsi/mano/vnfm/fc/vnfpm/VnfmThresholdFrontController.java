@@ -22,6 +22,8 @@ import java.util.function.Function;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 
+import jakarta.annotation.Nullable;
+
 public interface VnfmThresholdFrontController {
 
 	<U> ResponseEntity<U> thresholdsCreate(Object request, Class<U> clazz, Consumer<U> makeLink, Function<U, String> getSelfLink);
@@ -30,7 +32,7 @@ public interface VnfmThresholdFrontController {
 
 	<U> ResponseEntity<U> findById(String thresholdId, Class<U> clazz, Consumer<U> makeLink);
 
-	<U> ResponseEntity<String> search(MultiValueMap<String, String> requestParams, String nextpageOpaqueMarker, Class<U> clazz, Consumer<U> makeLink);
+	<U> ResponseEntity<String> search(MultiValueMap<String, String> requestParams, @Nullable String nextpageOpaqueMarker, Class<U> clazz, Consumer<U> makeLink);
 
 	<U> ResponseEntity<U> patch(String thresholdId, Object body, Class<U> clazz);
 

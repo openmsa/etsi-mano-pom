@@ -20,8 +20,6 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import jakarta.annotation.Nonnull;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 
@@ -72,7 +70,7 @@ public interface NsdSubscriptionFrontController {
 	 * structures, and response codes, as specified in the Table 5.4.9.3.3-2.
 	 *
 	 */
-	ResponseEntity<Void> delete(@Nonnull String subscriptionId);
+	ResponseEntity<Void> delete(String subscriptionId);
 
 	/**
 	 * Read an individual subscription resource.
@@ -85,6 +83,6 @@ public interface NsdSubscriptionFrontController {
 	 * terminate a subscription to notifications related to NSD management.
 	 *
 	 */
-	<U> ResponseEntity<U> findById(@Nonnull String subscriptionId, Class<U> clazz, Consumer<U> makeLink);
+	<U> ResponseEntity<U> findById(String subscriptionId, Class<U> clazz, Consumer<U> makeLink);
 
 }

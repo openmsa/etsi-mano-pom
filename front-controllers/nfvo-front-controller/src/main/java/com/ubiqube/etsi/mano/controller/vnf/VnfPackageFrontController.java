@@ -21,27 +21,26 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import jakarta.annotation.Nonnull;
-import jakarta.servlet.http.HttpServletRequest;
-
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 public interface VnfPackageFrontController {
 
-	ResponseEntity<Resource> getArtifactPath(HttpServletRequest request, @Nonnull UUID vnfPkgId, String includeSignature);
+	ResponseEntity<Resource> getArtifactPath(HttpServletRequest request, UUID vnfPkgId, String includeSignature);
 
-	<U> ResponseEntity<U> findById(@Nonnull UUID vnfPkgId, Class<U> clazz, Consumer<U> makeLinks);
+	<U> ResponseEntity<U> findById(UUID vnfPkgId, Class<U> clazz, Consumer<U> makeLinks);
 
-	<U> ResponseEntity<U> findByIdReadOnly(@Nonnull UUID vnfPkgId, Class<U> clazz, Consumer<U> makeLinks);
+	<U> ResponseEntity<U> findByIdReadOnly(UUID vnfPkgId, Class<U> clazz, Consumer<U> makeLinks);
 
-	ResponseEntity<Resource> getManifest(@Nonnull UUID vnfPkgId, @Nonnull String includeSignature);
+	ResponseEntity<Resource> getManifest(UUID vnfPkgId, String includeSignature);
 
-	ResponseEntity<Resource> getContent(@Nonnull UUID vnfPkgId);
+	ResponseEntity<Resource> getContent(UUID vnfPkgId);
 
-	ResponseEntity<Resource> getVfnd(@Nonnull UUID vnfPkgId, String contentType, String includeSignature);
+	ResponseEntity<Resource> getVfnd(UUID vnfPkgId, String contentType, String includeSignature);
 
 	ResponseEntity<Resource> getSelectArtifacts(HttpServletRequest request, UUID vnfPkgId);
 

@@ -19,10 +19,10 @@ package com.ubiqube.etsi.mano.controller.nsd;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import jakarta.annotation.Nonnull;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
+
+import jakarta.annotation.Nullable;
 
 public interface PnfFrontController {
 
@@ -33,7 +33,7 @@ public interface PnfFrontController {
 	 * resources.\&quot;
 	 *
 	 */
-	<U> ResponseEntity<String> search(@Nonnull MultiValueMap<String, String> requestParams, Class<U> clazz, Consumer<U> makeLink);
+	<U> ResponseEntity<String> search(MultiValueMap<String, String> requestParams, Class<U> clazz, Consumer<U> makeLink);
 
 	/**
 	 * Delete an individual PNF descriptor resource.
@@ -101,10 +101,10 @@ public interface PnfFrontController {
 	 */
 	<U> ResponseEntity<U> create(Map<String, Object> userDefinedData, Class<U> clazz, Consumer<U> makeLink);
 
-	ResponseEntity<Void> manifestGet(String pnfdInfoId, String includeSignatures);
+	ResponseEntity<Void> manifestGet(String pnfdInfoId, @Nullable String includeSignatures);
 
-	ResponseEntity<Void> getPnfd(String pnfdInfoId, String range, String includeSignatures);
+	ResponseEntity<Void> getPnfd(String pnfdInfoId, @Nullable String range, @Nullable String includeSignatures);
 
-	ResponseEntity<Void> getArtifact(String pnfdInfoId, String artifactPath, String range, String includeSignatures);
+	ResponseEntity<Void> getArtifact(String pnfdInfoId, String artifactPath, @Nullable String range, @Nullable String includeSignatures);
 
 }

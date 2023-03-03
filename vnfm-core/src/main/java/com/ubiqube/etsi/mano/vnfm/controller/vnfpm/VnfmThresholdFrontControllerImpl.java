@@ -30,6 +30,7 @@ import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.vnfm.fc.vnfpm.VnfmThresholdFrontController;
 
+import jakarta.annotation.Nullable;
 import ma.glasnost.orika.MapperFacade;
 
 /**
@@ -44,7 +45,6 @@ public class VnfmThresholdFrontControllerImpl implements VnfmThresholdFrontContr
 	private final MapperFacade mapper;
 
 	public VnfmThresholdFrontControllerImpl(final VnfmThresholdController vnfmThresholdController, final MapperFacade mapper) {
-		super();
 		this.vnfmThresholdController = vnfmThresholdController;
 		this.mapper = mapper;
 	}
@@ -74,7 +74,7 @@ public class VnfmThresholdFrontControllerImpl implements VnfmThresholdFrontContr
 	}
 
 	@Override
-	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final String nextpageOpaqueMarker, final Class<U> clazz, final Consumer<U> makeLink) {
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final @Nullable String nextpageOpaqueMarker, final Class<U> clazz, final Consumer<U> makeLink) {
 		return vnfmThresholdController.search(requestParams, clazz, VNFTHR_SEARCH_DEFAULT_EXCLUDE_FIELDS, VNFTHR_SEARCH_MANDATORY_FIELDS, makeLink);
 	}
 

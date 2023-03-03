@@ -28,6 +28,8 @@ import com.ubiqube.etsi.mano.controller.SubscriptionFrontController;
 import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
 import com.ubiqube.etsi.mano.vnfm.fc.vnflcm.VnfLcmSubscriptionFrontController;
 
+import jakarta.annotation.Nullable;
+
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
@@ -47,7 +49,7 @@ public class VnfLcmSubscriptionFrontControllerImpl implements VnfLcmSubscription
 	}
 
 	@Override
-	public <U> ResponseEntity<List<U>> search(final MultiValueMap<String, String> requestParams, final String nextpageOpaqueMarker, final Class<U> clazz, final Consumer<U> setLink) {
+	public <U> ResponseEntity<List<U>> search(final MultiValueMap<String, String> requestParams, final @Nullable String nextpageOpaqueMarker, final Class<U> clazz, final Consumer<U> setLink) {
 		return subscriptionService.search(requestParams, clazz, setLink, SubscriptionType.VNFLCM);
 	}
 

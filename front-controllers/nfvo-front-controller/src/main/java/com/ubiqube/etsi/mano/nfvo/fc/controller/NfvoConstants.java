@@ -16,9 +16,8 @@
  */
 package com.ubiqube.etsi.mano.nfvo.fc.controller;
 
+import java.util.Objects;
 import java.util.UUID;
-
-import jakarta.annotation.Nonnull;
 
 public final class NfvoConstants {
 
@@ -26,8 +25,7 @@ public final class NfvoConstants {
 		// Nothing.
 	}
 
-	@Nonnull
 	public static UUID getSafeUUID(final String uuid) {
-		return UUID.fromString(uuid);
+		return Objects.requireNonNull(UUID.fromString(uuid));
 	}
 }

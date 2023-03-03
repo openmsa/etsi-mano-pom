@@ -20,15 +20,15 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.dao.mano.alarm.AckState;
 import com.ubiqube.etsi.mano.dao.mano.alarm.Alarms;
 import com.ubiqube.etsi.mano.dao.mano.alarm.PerceivedSeverityType;
+
+import jakarta.annotation.Nullable;
+import jakarta.validation.Valid;
 
 /**
  *
@@ -39,9 +39,9 @@ public interface AlarmVnfmController {
 
 	Alarms findById(UUID id);
 
-	void escalate(UUID id, @NotNull @Valid PerceivedSeverityType proposedPerceivedSeverity);
+	void escalate(UUID id, @Valid PerceivedSeverityType proposedPerceivedSeverity);
 
-	Alarms modify(UUID id, AckState acknowledged, String ifMatch);
+	Alarms modify(UUID id, AckState acknowledged, @Nullable String ifMatch);
 
 	<U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink);
 
