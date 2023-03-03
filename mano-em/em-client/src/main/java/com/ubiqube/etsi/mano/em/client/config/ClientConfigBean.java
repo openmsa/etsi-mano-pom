@@ -16,6 +16,8 @@
  */
 package com.ubiqube.etsi.mano.em.client.config;
 
+import java.util.Optional;
+
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -30,11 +32,13 @@ import com.ubiqube.etsi.mano.em.client.vnfind.VnfIndSubscriptionRemoteService;
 import com.ubiqube.etsi.mano.vnfm.property.EmProperty;
 
 import io.micrometer.observation.ObservationRegistry;
+import jakarta.validation.constraints.NotNull;
 
 @Component
 public class ClientConfigBean {
-
+	@NotNull
 	private final DefaultClientRequestObservationConvention oc;
+	@NotNull
 	private final ObservationRegistry observationRegistry;
 	private final EmProperty conf;
 
@@ -58,8 +62,8 @@ public class ClientConfigBean {
 
 	private HttpServiceProxyFactory createProxyFactory() {
 		final Builder webBuilder = WebClient.builder()
-				.baseUrl("http://localhost:8110/sol002/");
-		webBuilder.defaultHeader("Version", "1.10.0");
+				.baseUrl(conf.getUrl());
+		Optional.ofNullable(conf.getVersion()).ifPresent(x -> webBuilder.defaultHeader("Version", x));
 		webBuilder.observationConvention(oc);
 		webBuilder.observationRegistry(observationRegistry);
 		final WebClient client = webBuilder

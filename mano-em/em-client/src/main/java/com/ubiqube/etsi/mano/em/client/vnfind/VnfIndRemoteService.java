@@ -26,15 +26,16 @@ import org.springframework.web.service.annotation.HttpExchange;
 
 import com.ubiqube.etsi.mano.em.v431.model.vnfind.VnfIndicator;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 
 @HttpExchange(url = "/vnfind/v1", accept = "application/json", contentType = "application/json")
 public interface VnfIndRemoteService {
 	@GetExchange("/indicators")
-	List<VnfIndicator> indicatorsGet(@Valid @RequestParam(value = "filter", required = false) final String filter, @Valid @RequestParam(value = "nextpage_opaque_marker", required = false) final String nextpageOpaqueMarker);
+	List<VnfIndicator> indicatorsGet(@Valid @RequestParam(value = "filter", required = false) @Nullable final String filter, @Valid @RequestParam(value = "nextpage_opaque_marker", required = false) @Nullable final String nextpageOpaqueMarker);
 
 	@GetExchange("indicators/{vnfInstanceId}")
-	ResponseEntity<List<VnfIndicator>> indicatorsVnfInstanceIdGet(@PathVariable("vnfInstanceId") final String vnfInstanceId, @Valid @RequestParam(value = "filter", required = false) final String filter, @Valid @RequestParam(value = "nextpage_opaque_marker", required = false) final String nextpageOpaqueMarker);
+	ResponseEntity<List<VnfIndicator>> indicatorsVnfInstanceIdGet(@PathVariable("vnfInstanceId") final String vnfInstanceId, @Valid @RequestParam(value = "filter", required = false) @Nullable final String filter, @Valid @RequestParam(value = "nextpage_opaque_marker", required = false) @Nullable final String nextpageOpaqueMarker);
 
 	@GetExchange("/indicators/{vnfInstanceId}/{indicatorId}")
 	ResponseEntity<VnfIndicator> indicatorsVnfInstanceIdIndicatorIdGet(@PathVariable("vnfInstanceId") final String vnfInstanceId, @PathVariable("indicatorId") final String indicatorId);

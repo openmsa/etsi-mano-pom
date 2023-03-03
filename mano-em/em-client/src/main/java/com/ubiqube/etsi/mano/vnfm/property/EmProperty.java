@@ -19,6 +19,7 @@ package com.ubiqube.etsi.mano.vnfm.property;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+import jakarta.annotation.Nullable;
 import lombok.Data;
 
 @Data
@@ -27,6 +28,9 @@ import lombok.Data;
 public class EmProperty {
 
 	private String url;
+
+	@Nullable
+	private String version;
 
 	private OAuth2 oauth2;
 
