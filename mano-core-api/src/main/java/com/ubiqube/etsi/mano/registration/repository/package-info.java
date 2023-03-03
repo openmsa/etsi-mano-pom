@@ -16,7 +16,7 @@
  */
 @NonNullApi
 @NonNullFields
-package com.ubiqube.etsi.mano.controller.vnffm;
+package com.ubiqube.etsi.mano.registration.repository;
 
 import org.springframework.lang.NonNullApi;
 import org.springframework.lang.NonNullFields;

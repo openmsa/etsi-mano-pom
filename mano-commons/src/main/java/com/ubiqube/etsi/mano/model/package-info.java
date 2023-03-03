@@ -14,9 +14,4 @@
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <https://www.gnu.org/licenses/>.
  */
-@NonNullApi
-@NonNullFields
 package com.ubiqube.etsi.mano.model;
-
-import org.springframework.lang.NonNullApi;
-import org.springframework.lang.NonNullFields;
