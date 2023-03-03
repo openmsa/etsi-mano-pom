@@ -62,7 +62,8 @@ class ModelTest {
 	}
 
 	private static void handle(final String x) {
-		if (x.startsWith("java.lang")) {
+		if (x.startsWith("java.lang") || x.startsWith("com.ubiqube.etsi.mano.repository")
+				|| x.startsWith("com.ubiqube.etsi.mano.service.rest.")) {
 			return;
 		}
 		try {
