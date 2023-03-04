@@ -32,6 +32,8 @@ import com.ubiqube.etsi.mano.dao.mano.pm.Threshold;
 import com.ubiqube.etsi.mano.service.event.model.EventMessage;
 import com.ubiqube.etsi.mano.utils.Version;
 
+import jakarta.annotation.Nullable;
+
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
@@ -48,11 +50,11 @@ public interface HttpGateway {
 	Class<?> getVnfPackageSubscriptionClass();
 
 	Class<?> getPkgmSubscriptionRequest();
-	
+
 	Class<?> getVnfIndicatorValueChangeSubscriptionClass();
-	
+
 	Class<?> getVnfIndicatorValueChangeSubscriptionRequest();
-	
+
 	Class<?> getGrantRequest();
 
 	Class<?> getGrantResponse();
@@ -80,19 +82,20 @@ public interface HttpGateway {
 	Object createVnfInstanceTerminate(CancelModeTypeEnum terminationType, Integer gracefulTerminationTimeout);
 
 	Class<?> getVnfInstanceScaleToLevelRequest();
-	
-	Object createVnfInstanceScaleRequest(ScaleTypeEnum scaleTypeEnum, String aspectId,  Integer numberOfSteps);
+
+	Object createVnfInstanceScaleRequest(ScaleTypeEnum scaleTypeEnum, String aspectId, Integer numberOfSteps);
 
 	Object createVnfInstanceHealRequest(String cause);
-	
+
 	Class<?> getVnfInstanceScaleRequest();
-	
+
 	Class<?> getVnfInstanceHealRequest();
 
 	Class<?> getVnfInstanceOperateRequest();
 
 	Class<?> getVnfInstanceChangeExtConnRequest();
 
+	@Nullable
 	Object createEvent(UUID uuid, EventMessage event);
 
 	Version getVersion();

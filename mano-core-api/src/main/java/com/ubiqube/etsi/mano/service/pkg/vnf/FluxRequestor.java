@@ -37,6 +37,8 @@ import com.ubiqube.etsi.mano.service.rest.model.AuthentificationInformations;
 import com.ubiqube.etsi.mano.service.rest.model.AuthentificationInformations.AuthentificationInformationsBuilder;
 import com.ubiqube.etsi.mano.service.rest.model.OAuth2GrantType;
 
+import jakarta.annotation.Nullable;
+
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
@@ -44,7 +46,7 @@ import com.ubiqube.etsi.mano.service.rest.model.OAuth2GrantType;
  */
 public class FluxRequestor implements HttpRequestor, Closeable {
 	private final FluxRest fr;
-
+	@Nullable
 	private Path tmpPath;
 
 	private FileInputStream fis;
@@ -79,7 +81,11 @@ public class FluxRequestor implements HttpRequestor, Closeable {
 		try {
 			tmpPath = Files.createTempFile("dwn", "mano");
 			fr.download(URI.create(params.getAddressInformation()), tmpPath, null);
-			fis = new FileInputStream(tmpPath.toFile());
+			final Path tmpPath2 = tmpPath;
+			if (tmpPath2 == null) {
+				throw new GenericException("");
+			}
+			fis = new FileInputStream(tmpPath2.toFile());
 			return fis;
 		} catch (final IOException e) {
 			throw new GenericException(e);

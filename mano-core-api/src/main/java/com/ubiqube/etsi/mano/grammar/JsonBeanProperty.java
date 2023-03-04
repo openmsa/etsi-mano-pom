@@ -20,29 +20,29 @@ import java.beans.PropertyDescriptor;
 import java.util.List;
 import java.util.Map;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
 public class JsonBeanProperty {
-
+	@Nonnull
 	private PropertyDescriptor propertyDescriptor;
-
+	@Nonnull
 	private String jsonName;
-
+	@Nonnull
 	private Map<String, JsonBeanProperty> right;
-
+	@Nonnull
 	private List<JsonBeanProperty> listAccessors;
 
-	public JsonBeanProperty() {
-		// Nothing.
-	}
-
-	public JsonBeanProperty(final PropertyDescriptor propertyDescriptor, final String _jsonName) {
-		super();
+	public JsonBeanProperty(final PropertyDescriptor propertyDescriptor, final String jsonName) {
 		this.propertyDescriptor = propertyDescriptor;
-		jsonName = _jsonName;
+		this.jsonName = jsonName;
+		this.right = Map.of();
+		this.listAccessors = List.of();
 	}
 
 	public PropertyDescriptor getPropertyDescriptor() {
@@ -74,7 +74,7 @@ public class JsonBeanProperty {
 		return sb.toString();
 	}
 
-	private static String toIndentedString(final java.lang.Object o) {
+	private static String toIndentedString(final @Nullable java.lang.Object o) {
 		if (o == null) {
 			return "null";
 		}

@@ -18,6 +18,8 @@ package com.ubiqube.etsi.mano.controller;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
+import jakarta.annotation.Nullable;
+
 public enum FrontApiTypesEnum {
 	SOL003(String.valueOf("SOL003")),
 	SOL005(String.valueOf("SOL005"));
@@ -38,7 +40,7 @@ public enum FrontApiTypesEnum {
 	}
 
 	@JsonCreator
-	public static FrontApiTypesEnum fromValue(final String v) {
+	public static @Nullable FrontApiTypesEnum fromValue(final String v) {
 		for (final FrontApiTypesEnum b : FrontApiTypesEnum.values()) {
 			if (String.valueOf(b.value).equals(v)) {
 				return b;

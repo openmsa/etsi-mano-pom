@@ -20,8 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import com.ubiqube.etsi.mano.service.event.ActionType;
-
 @SuppressWarnings("static-method")
 class ActionTypeTest {
 

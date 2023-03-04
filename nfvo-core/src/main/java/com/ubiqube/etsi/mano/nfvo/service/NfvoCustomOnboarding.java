@@ -33,8 +33,6 @@ import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import jakarta.validation.constraints.NotNull;
-
 import org.apache.commons.io.input.CountingInputStream;
 import org.springframework.stereotype.Service;
 
@@ -50,6 +48,9 @@ import com.ubiqube.etsi.mano.service.DownloadResult;
 import com.ubiqube.etsi.mano.service.pkg.ns.NsPackageProvider;
 import com.ubiqube.etsi.mano.service.pkg.vnf.CustomOnboarding;
 import com.ubiqube.etsi.mano.service.pkg.vnf.VnfPackageReader;
+
+import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.NotNull;
 
 /**
  *
@@ -79,7 +80,7 @@ public class NfvoCustomOnboarding implements CustomOnboarding {
 		repo.storeBinary(Objects.requireNonNull(vnfPackage.getId()), Constants.REPOSITORY_ZIP_ARTIFACT, new ByteArrayInputStream(fos.toByteArray()));
 	}
 
-	private void handleArtifact(final Set<String> cache, final ZipOutputStream zipOut, final VnfPackage vnfPackage, final VnfPackageReader vnfPackageReader, final Map<String, SoftwareImage> artifacts) {
+	private void handleArtifact(final Set<String> cache, final ZipOutputStream zipOut, final VnfPackage vnfPackage, final VnfPackageReader vnfPackageReader, final @Nullable Map<String, SoftwareImage> artifacts) {
 		if (null == artifacts) {
 			return;
 		}

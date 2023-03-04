@@ -28,6 +28,8 @@ import com.ubiqube.etsi.mano.service.graph.AbstractUnitOfWork;
 import com.ubiqube.etsi.mano.tf.ContrailApi;
 import com.ubiqube.etsi.mano.tf.entities.PtLinkTask;
 
+import jakarta.annotation.Nullable;
+
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
@@ -55,7 +57,7 @@ public class PtLinkUow extends AbstractUnitOfWork<PtLinkTask> {
 	}
 
 	@Override
-	public String rollback(final Context3d context) {
+	public @Nullable String rollback(final Context3d context) {
 		final ContrailApi api = new ContrailApi();
 		final String portTupleId = context.get(PortTupleNode.class, task.getPortTupleName());
 		api.rollbackVmi(vimConnectionInformation, portTupleId);

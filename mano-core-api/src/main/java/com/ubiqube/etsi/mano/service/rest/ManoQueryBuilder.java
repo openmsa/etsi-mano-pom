@@ -30,6 +30,8 @@ import org.springframework.http.ResponseEntity;
 
 import com.ubiqube.etsi.mano.service.HttpGateway;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import ma.glasnost.orika.MapperFacade;
 
 /**
@@ -38,8 +40,9 @@ import ma.glasnost.orika.MapperFacade;
  *
  */
 public class ManoQueryBuilder {
+	@Nonnull
 	private final MapperFacade mapper;
-
+	@Nonnull
 	private final ManoClient client;
 	private Function<HttpGateway, ParameterizedTypeReference<List<Class<?>>>> inClassList;
 	private Function<HttpGateway, Class<?>> wireInClass;
@@ -79,7 +82,7 @@ public class ManoQueryBuilder {
 		server.rest().delete(uri, Object.class, version);
 	}
 
-	public <T> ResponseEntity<T> getRaw() {
+	public @Nullable <T> ResponseEntity<T> getRaw() {
 		final ServerAdapter server = client.getServer();
 		final HttpGateway httpGateway = server.httpGateway();
 		final URI uri = buildUri(server);
@@ -87,12 +90,15 @@ public class ManoQueryBuilder {
 		return (ResponseEntity<T>) server.rest().getWithReturn(uri, this.wireOutClass.apply(httpGateway), version);
 	}
 
-	public <T> T getSingle() {
+	public @Nullable <T> T getSingle() {
 		final ServerAdapter server = client.getServer();
 		final HttpGateway httpGateway = server.httpGateway();
 		final URI uri = buildUri(server);
 		final String version = httpGateway.getHeaderVersion(client.getQueryType()).orElse(null);
 		final ResponseEntity<?> resp = server.rest().getWithReturn(uri, this.wireOutClass.apply(httpGateway), version);
+		if (null == resp) {
+			return null;
+		}
 		return (T) mapper.map(resp.getBody(), this.outClass);
 	}
 
@@ -117,7 +123,7 @@ public class ManoQueryBuilder {
 		return (T) mapper.map(res, this.outClass);
 	}
 
-	public <T> ResponseEntity<T> postRaw(final Object req) {
+	public @Nullable <T> ResponseEntity<T> postRaw(final Object req) {
 		final ServerAdapter server = client.getServer();
 		final HttpGateway httpGateway = server.httpGateway();
 		final URI uri = buildUri(server);
@@ -126,7 +132,7 @@ public class ManoQueryBuilder {
 		return (ResponseEntity<T>) server.rest().postWithReturn(uri, reqMap, this.wireOutClass.apply(httpGateway), version);
 	}
 
-	public <T> ResponseEntity<T> postRaw() {
+	public @Nullable <T> ResponseEntity<T> postRaw() {
 		final ServerAdapter server = client.getServer();
 		final HttpGateway httpGateway = server.httpGateway();
 		final URI uri = buildUri(server);
@@ -156,7 +162,8 @@ public class ManoQueryBuilder {
 	}
 
 	private URI buildUri(final ServerAdapter server) {
-		final Map<String, Object> uriParams = Optional.ofNullable(client.getObjectId()).map(x -> Map.of("id", (Object) x.toString())).orElseGet(Map::of);
+		final Map<String, Object> uriParams = Optional.ofNullable(client.getObjectId())
+				.map(x -> Map.of("id", (Object) x.toString())).orElseGet(Map::of);
 		return server.getUriFor(client.getQueryType(), client.getSetFragment(), uriParams);
 	}
 

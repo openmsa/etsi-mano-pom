@@ -27,15 +27,18 @@ import com.ubiqube.etsi.mano.service.graph.AbstractUnitOfWork;
 import com.ubiqube.etsi.mano.tf.ContrailApi;
 import com.ubiqube.etsi.mano.tf.entities.PortTupleTask;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
 public class PortTupleUow extends AbstractUnitOfWork<PortTupleTask> {
-
+	@Nonnull
 	private final SystemConnections vimConnectionInformation;
-
+	@Nonnull
 	private final PortTupleTask task;
 
 	public PortTupleUow(final VirtualTaskV3<PortTupleTask> task, final SystemConnections vimConnectionInformation) {
@@ -53,7 +56,7 @@ public class PortTupleUow extends AbstractUnitOfWork<PortTupleTask> {
 	}
 
 	@Override
-	public String rollback(final Context3d context) {
+	public @Nullable String rollback(final Context3d context) {
 		final ContrailApi api = new ContrailApi();
 		api.deletePortTuple(vimConnectionInformation, task.getVimResourceId());
 		return null;

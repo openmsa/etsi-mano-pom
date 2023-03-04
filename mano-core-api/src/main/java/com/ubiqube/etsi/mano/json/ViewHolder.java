@@ -20,23 +20,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
 public class ViewHolder {
 
 	private final List<String> propertyParts;
 
-	public ViewHolder(List<String> propertyParts) {
+	public ViewHolder(final List<String> propertyParts) {
 		this.propertyParts = propertyParts;
 	}
 
-	public ViewHolder(@Nonnull String expression) {
+	public ViewHolder(final String expression) {
 		final String[] parts = expression.split("\\.");
 		propertyParts = new ArrayList<>(Arrays.asList(parts));
 	}
 
-	public boolean shouldRemove(String element) {
+	public boolean shouldRemove(final String element) {
 		if (propertyParts.isEmpty()) {
 			return false;
 		}

@@ -26,21 +26,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpServletRequest;
 
 public interface VnfPackageFrontController {
 
-	ResponseEntity<Resource> getArtifactPath(HttpServletRequest request, UUID vnfPkgId, String includeSignature);
+	ResponseEntity<Resource> getArtifactPath(HttpServletRequest request, UUID vnfPkgId, @Nullable String includeSignature);
 
 	<U> ResponseEntity<U> findById(UUID vnfPkgId, Class<U> clazz, Consumer<U> makeLinks);
 
 	<U> ResponseEntity<U> findByIdReadOnly(UUID vnfPkgId, Class<U> clazz, Consumer<U> makeLinks);
 
-	ResponseEntity<Resource> getManifest(UUID vnfPkgId, String includeSignature);
+	ResponseEntity<Resource> getManifest(UUID vnfPkgId, @Nullable String includeSignature);
 
 	ResponseEntity<Resource> getContent(UUID vnfPkgId);
 
-	ResponseEntity<Resource> getVfnd(UUID vnfPkgId, String contentType, String includeSignature);
+	ResponseEntity<Resource> getVfnd(UUID vnfPkgId, String contentType, @Nullable String includeSignature);
 
 	ResponseEntity<Resource> getSelectArtifacts(HttpServletRequest request, UUID vnfPkgId);
 
@@ -54,12 +55,12 @@ public interface VnfPackageFrontController {
 
 	<U> ResponseEntity<U> putExternalArtifact(U body, UUID id);
 
-	ResponseEntity<Void> putContent(UUID id, String accept, MultipartFile file);
+	ResponseEntity<Void> putContent(UUID id, String accept, @Nullable MultipartFile file);
 
 	<U> ResponseEntity<Void> uploadFromUri(U body, UUID id, String contentType);
 
 	<U> ResponseEntity<U> modify(String body, UUID vnfPkgId, final String ifMatch, Class<U> clazz, Consumer<U> makeLinks);
 
-	ResponseEntity<Resource> searchArtifact(UUID safeUUID, String includeSignatures, String excludeAllManoArtifacts, String excludeAllNonManoArtifacts, String selectNonManoArtifactSets);
+	ResponseEntity<Resource> searchArtifact(UUID safeUUID, @Nullable String includeSignatures, @Nullable String excludeAllManoArtifacts, @Nullable String excludeAllNonManoArtifacts, @Nullable String selectNonManoArtifactSets);
 
 }

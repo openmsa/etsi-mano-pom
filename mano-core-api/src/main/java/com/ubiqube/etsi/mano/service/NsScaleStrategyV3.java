@@ -47,6 +47,8 @@ import com.ubiqube.etsi.mano.dao.mano.v2.PlanOperationType;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 import com.ubiqube.etsi.mano.exception.GenericException;
 
+import jakarta.annotation.Nullable;
+
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
@@ -106,6 +108,7 @@ public class NsScaleStrategyV3 {
 				});
 	}
 
+	@Nullable
 	private static String getInstantiateLevel(final NsBlueprint blueprint) {
 		return Optional.ofNullable(blueprint.getNsInstantiationLevelId()).orElse(blueprint.getInstance().getNsInstantiationLevelId());
 	}

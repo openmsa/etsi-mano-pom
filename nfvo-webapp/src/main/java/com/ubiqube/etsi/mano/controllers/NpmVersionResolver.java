@@ -42,6 +42,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import jakarta.annotation.Nonnull;
+
 @Controller
 public class NpmVersionResolver {
 
@@ -56,6 +58,7 @@ public class NpmVersionResolver {
 	private static final String POM_PROPERTIES = "/pom.properties";
 	private static final String PACKAGE_JSON = "/package.json";
 
+	@Nonnull
 	private final String contextPath;
 
 	public NpmVersionResolver(@Value("${server.servlet.contextPath:}") final String contextPath) {

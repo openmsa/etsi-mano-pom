@@ -44,25 +44,27 @@ import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
 import com.ubiqube.etsi.mano.service.rest.model.ApiTypesEnum;
 import com.ubiqube.etsi.mano.utils.Version;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.EntityManager;
 import ma.glasnost.orika.MapperFacade;
 
 @Service
 public class SubscriptionServiceImpl implements SubscriptionService {
 	private static final Logger LOG = LoggerFactory.getLogger(SubscriptionServiceImpl.class);
-
+	@Nonnull
 	private final EntityManager em;
-
+	@Nonnull
 	private final SubscriptionJpa subscriptionJpa;
-
+	@Nonnull
 	private final GrammarParser grammarParser;
-
+	@Nonnull
 	private final Notifications notifications;
-
+	@Nonnull
 	private final ServerService serverService;
-
+	@Nonnull
 	private final EvalService evalService;
-
+	@Nonnull
 	private final MapperFacade mapper;
 
 	public SubscriptionServiceImpl(final SubscriptionJpa repository, final EntityManager em, final GrammarParser grammarParser, final Notifications notifications,
@@ -100,7 +102,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 		notifications.check(server, subscription.getCallbackUri());
 	}
 
-	private String extractVersion(final Class<?> version, final SubscriptionType type) {
+	private @Nullable String extractVersion(final Class<?> version, final SubscriptionType type) {
 		final String v = extractVersion(version);
 		return serverService.convertManoVersionToFe(type, v).map(Version::toString).orElse(null);
 	}
@@ -123,7 +125,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 						.anyMatch(y -> y.getAttribute().equals(x.getAttribute()) && y.getValue().equals(x.getValue())));
 	}
 
-	private static String extractVersion(final Class<?> version) {
+	private static @Nullable String extractVersion(final Class<?> version) {
 		final RequestMapping ann = AnnotationUtils.findAnnotation(version, RequestMapping.class);
 		if (null == ann) {
 			return null;
@@ -156,6 +158,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 				.toList();
 	}
 
+	@Nullable
 	public static String convert(final NotificationEvent notificationEvent) {
 		return switch (notificationEvent) {
 		case VNF_PKG_ONBOARDING -> "VnfPackageOnboardingNotification";

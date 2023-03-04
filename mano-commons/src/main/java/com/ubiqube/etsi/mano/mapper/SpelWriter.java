@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.service.event.model.FilterAttributes;
 
+import jakarta.annotation.Nullable;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MappingContext;
 
@@ -34,7 +35,6 @@ public class SpelWriter {
 	private final MapperFacade mapper;
 
 	public SpelWriter(final MapperFacade mapperFacade) {
-		super();
 		this.mapper = mapperFacade;
 	}
 
@@ -64,7 +64,7 @@ public class SpelWriter {
 		return filterAttributes;
 	}
 
-	private static String handleElement(final AttrNode elem, final AttrNode prev) {
+	private static String handleElement(final AttrNode elem, final @Nullable AttrNode prev) {
 		if (elem instanceof final NamedAttrNode node) {
 			if (prev == null) {
 				return node.getName();
@@ -74,7 +74,6 @@ public class SpelWriter {
 				if ("userDefinedData".equals(previous.getName())) {
 					return '[' + node.getName() + ']';
 				}
-				return '.' + node.getName();
 			}
 			return '.' + node.getName();
 		}

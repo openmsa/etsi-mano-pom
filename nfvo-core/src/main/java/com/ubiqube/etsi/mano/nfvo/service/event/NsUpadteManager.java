@@ -65,7 +65,6 @@ import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.rest.ManoClient;
 import com.ubiqube.etsi.mano.service.rest.ManoClientFactory;
 
-import jakarta.validation.constraints.NotNull;
 import ma.glasnost.orika.MapperFacade;
 
 /**
@@ -95,7 +94,7 @@ public class NsUpadteManager {
 		this.nsInstanceService = nsInstanceService;
 	}
 
-	public void update(@NotNull final UUID objectId) {
+	public void update(final UUID objectId) {
 		final NsBlueprint nb = nsBlueprint.findById(objectId);
 		try {
 			updateNoEx(nb);

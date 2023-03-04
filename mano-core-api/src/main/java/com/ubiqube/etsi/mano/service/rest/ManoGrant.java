@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.service.rest;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
@@ -33,6 +34,8 @@ import com.ubiqube.etsi.mano.dao.mano.common.ApiVersionType;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.service.HttpGateway;
 
+import jakarta.annotation.Nonnull;
+
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
@@ -42,7 +45,7 @@ public class ManoGrant {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ManoGrant.class);
 	private static final Pattern UUID_REGEXP = Pattern.compile("(?<uuid>[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12})$");
-
+	@Nonnull
 	private final ManoClient client;
 	private UUID id;
 
@@ -64,7 +67,7 @@ public class ManoGrant {
 		final ResponseEntity<?> resp = client.createQuery()
 				.setWireOutClass(HttpGateway::getGrantResponse)
 				.getRaw();
-		return buildResponse(resp, id);
+		return buildResponse(resp, Objects.requireNonNull(id));
 	}
 
 	public GrantResponse create(final GrantInterface grant) {

@@ -35,6 +35,8 @@ import org.slf4j.LoggerFactory;
 
 import com.ubiqube.etsi.mano.exception.GenericException;
 
+import jakarta.annotation.Nullable;
+
 public class BeanWalker {
 	private static final Logger LOG = LoggerFactory.getLogger(BeanWalker.class);
 	private final Set<String> simpleTypes = new HashSet<>();
@@ -61,7 +63,7 @@ public class BeanWalker {
 		}
 	}
 
-	private void makeFieldInner(final Object source, final BeanListener beanListener) throws IntrospectionException, IllegalAccessException, InvocationTargetException {
+	private void makeFieldInner(final @Nullable Object source, final BeanListener beanListener) throws IntrospectionException, IllegalAccessException, InvocationTargetException {
 		if (null == source) {
 			beanListener.addProperty(source);
 			return;

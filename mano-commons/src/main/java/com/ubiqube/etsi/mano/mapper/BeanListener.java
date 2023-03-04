@@ -16,9 +16,11 @@
  */
 package com.ubiqube.etsi.mano.mapper;
 
+import jakarta.annotation.Nullable;
+
 public interface BeanListener {
 
-	void addProperty(Object source);
+	void addProperty(@Nullable Object source);
 
 	void startList(String name);
 

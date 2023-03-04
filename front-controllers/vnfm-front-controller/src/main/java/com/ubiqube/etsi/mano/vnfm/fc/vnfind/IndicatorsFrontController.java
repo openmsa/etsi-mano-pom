@@ -36,6 +36,7 @@ public interface IndicatorsFrontController {
 	 *
 	 * @param subscriptionId
 	 * @return
+	 * @deprecated Does not exist.
 	 */
 	@Deprecated(forRemoval = true)
 	ResponseEntity<Void> delete(String subscriptionId);
@@ -45,6 +46,7 @@ public interface IndicatorsFrontController {
 	 *
 	 * @param subscriptionId
 	 * @return
+	 * @deprecated Does not exist.
 	 */
 	@Deprecated(forRemoval = true)
 	<U> ResponseEntity<U> findById(String subscriptionId);

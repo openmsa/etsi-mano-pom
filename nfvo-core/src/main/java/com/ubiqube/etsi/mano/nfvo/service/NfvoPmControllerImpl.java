@@ -61,8 +61,7 @@ public class NfvoPmControllerImpl implements NfvoPmController {
 
 	@Override
 	public PerformanceReport getReportById(final String pmJobId, final String reportId) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

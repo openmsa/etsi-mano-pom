@@ -22,6 +22,7 @@ import java.util.function.Function;
 import com.ubiqube.etsi.mano.dao.mano.common.ApiVersionType;
 import com.ubiqube.etsi.mano.service.HttpGateway;
 
+import jakarta.annotation.Nonnull;
 import ma.glasnost.orika.MapperFacade;
 
 /**
@@ -30,7 +31,9 @@ import ma.glasnost.orika.MapperFacade;
  *
  */
 public class ManoClient {
+	@Nonnull
 	private final MapperFacade mapper;
+	@Nonnull
 	private final ServerAdapter server;
 	private Function<HttpGateway, ?> requestObject;
 	private String setFragment;
@@ -87,6 +90,10 @@ public class ManoClient {
 		return setFragment;
 	}
 
+	/**
+	 *
+	 * @return Cannot be null.
+	 */
 	public UUID getObjectId() {
 		return objectId;
 	}

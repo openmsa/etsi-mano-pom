@@ -50,26 +50,22 @@ public class VnfSnapshotPackagesFrontControllerImpl implements VnfSnapshotPackag
 
 	@Override
 	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final Consumer<U> makeLinks) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public <U> ResponseEntity<U> create(final Object body) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public ResponseEntity<Resource> getArtifact(final UUID uuid, final String artifactPath, final String range) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public ResponseEntity<Void> delete(final UUID safeUUID) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 }

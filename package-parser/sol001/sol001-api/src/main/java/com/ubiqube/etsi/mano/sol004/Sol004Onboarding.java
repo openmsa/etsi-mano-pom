@@ -299,6 +299,7 @@ public class Sol004Onboarding {
 		return csar.getCsarFile();
 	}
 
+	@NotNull
 	public com.ubiqube.etsi.mano.repository.VirtualFileSystem getVirtualFileSystem(final ManoResource vnfd) {
 		final CsarModeEnum mode = identify(vnfd);
 		if (mode == CsarModeEnum.DOUBLE_ZIP) {

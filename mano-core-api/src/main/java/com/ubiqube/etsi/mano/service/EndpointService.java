@@ -38,6 +38,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ubiqube.etsi.mano.utils.Version;
 
+import jakarta.annotation.Nullable;
+
 @Lazy
 @Service
 public class EndpointService {
@@ -81,7 +83,7 @@ public class EndpointService {
 		return dedupe;
 	}
 
-	private static String extractPart(final String string) {
+	private static @Nullable String extractPart(final String string) {
 		final Matcher m = p.matcher(string);
 		if (!m.matches()) {
 			return null;
@@ -89,7 +91,7 @@ public class EndpointService {
 		return m.group("part");
 	}
 
-	private static boolean haveUsableRequest(final RequestMapping req) {
+	private static boolean haveUsableRequest(final @Nullable RequestMapping req) {
 		return (null != req) && (req.headers() != null) && (req.value().length > 0);
 	}
 

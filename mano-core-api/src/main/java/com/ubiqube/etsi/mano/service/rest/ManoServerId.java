@@ -28,6 +28,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.dao.mano.v2.PlanStatusType;
+import com.ubiqube.etsi.mano.exception.GenericException;
+
+import jakarta.annotation.Nullable;
 
 /**
  *
@@ -51,10 +54,13 @@ public class ManoServerId {
 		server.rest().delete(uri, Object.class, null);
 	}
 
-	public Servers find(final String root) {
+	public @Nullable Servers find(final String root) {
 		final ServerAdapter server = client.getServer();
 		final URI uri = buildUri(root, "admin/server/{id}");
 		final ResponseEntity<Servers> resp = server.rest().getWithReturn(uri, Servers.class, null);
+		if (resp == null) {
+			return null;
+		}
 		return resp.getBody();
 	}
 
@@ -67,9 +73,12 @@ public class ManoServerId {
 				Thread.currentThread().interrupt();
 			}
 			final Servers srv = find(root);
+			if (srv == null) {
+				throw new GenericException("Unable to get server: " + root);
+			}
 			final PlanStatusType state = srv.getServerStatus();
 			LOG.debug("state {}", state);
-			if (state == PlanStatusType.FAILED || state == PlanStatusType.SUCCESS) {
+			if ((state == PlanStatusType.FAILED) || (state == PlanStatusType.SUCCESS)) {
 				return srv;
 			}
 		}

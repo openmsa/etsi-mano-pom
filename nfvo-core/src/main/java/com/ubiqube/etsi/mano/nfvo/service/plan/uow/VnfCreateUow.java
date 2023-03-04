@@ -28,6 +28,9 @@ import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.VnfmInterface;
 import com.ubiqube.etsi.mano.service.graph.AbstractUnitOfWork;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
@@ -36,9 +39,9 @@ import com.ubiqube.etsi.mano.service.graph.AbstractUnitOfWork;
 public class VnfCreateUow extends AbstractUnitOfWork<NsVnfTask> {
 
 	private static final Logger LOG = LoggerFactory.getLogger(VnfCreateUow.class);
-
+	@Nonnull
 	private final VnfmInterface vnfm;
-
+	@Nonnull
 	private final NsVnfTask task;
 
 	public VnfCreateUow(final VirtualTaskV3<NsVnfTask> task, final VnfmInterface vnfm) {
@@ -55,7 +58,7 @@ public class VnfCreateUow extends AbstractUnitOfWork<NsVnfTask> {
 	}
 
 	@Override
-	public String rollback(final Context3d context) {
+	public @Nullable String rollback(final Context3d context) {
 		if (null != task.getVimResourceId()) {
 			try {
 				vnfm.delete(task.getServer(), task.getVimResourceId());

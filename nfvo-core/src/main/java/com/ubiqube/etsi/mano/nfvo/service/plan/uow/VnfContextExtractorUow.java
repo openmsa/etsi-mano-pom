@@ -37,6 +37,9 @@ import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.VnfmInterface;
 import com.ubiqube.etsi.mano.service.graph.AbstractUnitOfWork;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+
 /**
  * Extract VNF instance information and put them inside the WF context.
  *
@@ -45,8 +48,11 @@ import com.ubiqube.etsi.mano.service.graph.AbstractUnitOfWork;
  */
 public class VnfContextExtractorUow extends AbstractUnitOfWork<NsVnfExtractorTask> {
 	private static final Pattern pVl = Pattern.compile("virtual_link_(?<idx>\\d+)");
+	@Nonnull
 	private final VnfmInterface vnfm;
+	@Nonnull
 	private final NsdPackage pack;
+	@Nonnull
 	private final NsVnfExtractorTask task;
 
 	public VnfContextExtractorUow(final VirtualTaskV3<NsVnfExtractorTask> task, final VnfmInterface vnfm, final NsdPackage pack) {
@@ -57,7 +63,7 @@ public class VnfContextExtractorUow extends AbstractUnitOfWork<NsVnfExtractorTas
 	}
 
 	@Override
-	public String execute(final Context3d context) {
+	public @Nullable String execute(final Context3d context) {
 		final String vnfInstanceId = context.get(VnfCreateNode.class, task.getToscaName());
 		final VnfInstance inst = vnfm.getVnfInstance(task.getServer(), vnfInstanceId);
 		Optional.ofNullable(inst.getInstantiatedVnfInfo())
@@ -120,7 +126,7 @@ public class VnfContextExtractorUow extends AbstractUnitOfWork<NsVnfExtractorTas
 	}
 
 	@Override
-	public String rollback(final Context3d context) {
+	public @Nullable String rollback(final Context3d context) {
 		// Nothing.
 		return null;
 	}

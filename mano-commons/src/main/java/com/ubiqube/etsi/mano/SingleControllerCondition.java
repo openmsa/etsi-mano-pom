@@ -36,7 +36,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ubiqube.etsi.mano.exception.GenericException;
 
 import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.NotNull;
 
 /**
  *
@@ -82,7 +81,6 @@ public class SingleControllerCondition extends SpringBootCondition implements Co
 		return src;
 	}
 
-	@NotNull
 	private static Class<?> buildClass(final Object src) {
 		try {
 			return Class.forName(src.toString());

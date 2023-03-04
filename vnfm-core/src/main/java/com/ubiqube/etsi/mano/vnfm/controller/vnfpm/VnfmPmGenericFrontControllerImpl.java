@@ -98,7 +98,7 @@ public class VnfmPmGenericFrontControllerImpl implements VnfmPmGenericFrontContr
 
 	@Override
 	public <U> ResponseEntity<U> findReportById(final String pmJobId, final String reportId, final Class<U> clazz) {
-		final com.ubiqube.etsi.mano.dao.mano.pm.PerformanceReport pm = vnfmPmController.findReport(UUID.fromString(pmJobId), UUID.fromString(reportId));
+		final com.ubiqube.etsi.mano.dao.mano.pm.PerformanceReport pm = vnfmPmController.findReport(getSafeUUID(pmJobId), getSafeUUID(reportId));
 		return ResponseEntity.ok(mapper.map(pm, clazz));
 	}
 
@@ -181,6 +181,6 @@ public class VnfmPmGenericFrontControllerImpl implements VnfmPmGenericFrontContr
 	@Override
 	public <U> ResponseEntity<U> pmJobsPmJobIdPatch(final UUID pmJobId, final Object pmJobModifications) {
 		// XXX
-		return null;
+		throw new UnsupportedOperationException();
 	}
 }

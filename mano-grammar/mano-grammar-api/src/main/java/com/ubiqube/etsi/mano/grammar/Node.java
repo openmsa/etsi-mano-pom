@@ -33,6 +33,7 @@ package com.ubiqube.etsi.mano.grammar;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
 /**
@@ -64,6 +65,7 @@ public class Node<U> {
 	@Nullable
 	private String name;
 	private Operand op;
+	@Nonnull
 	private List<U> value = new ArrayList<>();
 
 	public Node() {

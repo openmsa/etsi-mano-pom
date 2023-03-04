@@ -77,7 +77,7 @@ public class NotificationsImpl implements Notifications {
 
 	private static void doRealCheck(final FluxRest rest, final String uri) {
 		final ResponseEntity<Void> status = rest.getWithReturn(URI.create(uri), Void.class, null);
-		if (status.getStatusCode() != HttpStatus.NO_CONTENT) {
+		if ((null == status) || (status.getStatusCode() != HttpStatus.NO_CONTENT)) {
 			LOG.error("Status response must be 204 by was: {} <=> {}", status, uri);
 			throw new GenericException("HttpClient got an error: " + status + ", must be 204");
 		}

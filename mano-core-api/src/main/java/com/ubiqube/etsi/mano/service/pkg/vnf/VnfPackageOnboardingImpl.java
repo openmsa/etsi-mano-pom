@@ -16,6 +16,8 @@
  */
 package com.ubiqube.etsi.mano.service.pkg.vnf;
 
+import static com.ubiqube.etsi.mano.Constants.getSafeUUID;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.DigestInputStream;
@@ -23,9 +25,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
-
-import jakarta.annotation.Nonnull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,6 +47,8 @@ import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 import com.ubiqube.etsi.mano.service.pkg.PackageDescriptor;
 import com.ubiqube.etsi.mano.service.pkg.bean.ProviderData;
+
+import jakarta.annotation.Nullable;
 
 /**
  *
@@ -82,17 +83,17 @@ public class VnfPackageOnboardingImpl {
 		this.onboardingMapper = onboardingMapper;
 	}
 
-	public VnfPackage vnfPackagesVnfPkgIdPackageContentPut(@Nonnull final String vnfPkgId) {
-		final ManoResource data = vnfPackageRepository.getBinary(UUID.fromString(vnfPkgId), Constants.REPOSITORY_FILENAME_PACKAGE);
-		VnfPackage vnfPpackage = vnfPackageService.findById(UUID.fromString(vnfPkgId));
+	public VnfPackage vnfPackagesVnfPkgIdPackageContentPut(final String vnfPkgId) {
+		final ManoResource data = vnfPackageRepository.getBinary(getSafeUUID(vnfPkgId), Constants.REPOSITORY_FILENAME_PACKAGE);
+		VnfPackage vnfPpackage = vnfPackageService.findById(getSafeUUID(vnfPkgId));
 		// MSA-11833
 		ensureNotProcessing(vnfPpackage);
 		vnfPpackage = startOnboarding(vnfPpackage);
 		return uploadAndFinishOnboarding(vnfPpackage, data);
 	}
 
-	public VnfPackage vnfPackagesVnfPkgIdPackageContentUploadFromUriPost(@Nonnull final String vnfPkgId) {
-		final VnfPackage vnfPackage = vnfPackageService.findById(UUID.fromString(vnfPkgId));
+	public VnfPackage vnfPackagesVnfPkgIdPackageContentUploadFromUriPost(final String vnfPkgId) {
+		final VnfPackage vnfPackage = vnfPackageService.findById(getSafeUUID(vnfPkgId));
 		startOnboarding(vnfPackage);
 		final UploadUriParameters params = vnfPackage.getUploadUriParameters();
 		LOG.info("Async. Download of {}", params);
@@ -132,9 +133,6 @@ public class VnfPackageOnboardingImpl {
 	}
 
 	public void mapVnfPackage(final VnfPackage vnfPackage, final ManoResource data, final PackageDescriptor<VnfPackageReader> packageProvider) {
-		if (null == packageProvider) {
-			return;
-		}
 		vnfPackage.setPackageProvider(packageProvider.getProviderName());
 		try (InputStream stream = data.getInputStream();
 				final VnfPackageReader reader = packageProvider.getNewReaderInstance(stream, vnfPackage.getId())) {
@@ -146,9 +144,6 @@ public class VnfPackageOnboardingImpl {
 
 	private void mapVnfPackage(final VnfPackageReader vnfPackageReader, final VnfPackage vnfPackage) {
 		final ProviderData pd = vnfPackageReader.getProviderPadata();
-		if (null == pd.getVnfdId()) {
-			throw new GenericException("VNFD cannot be null.");
-		}
 		final Optional<VnfPackage> optPackage = getVnfPackage(pd);
 		optPackage.ifPresent(x -> {
 			throw new GenericException("Package " + x.getDescriptorId() + " already onboarded in " + x.getId() + ".");
@@ -194,7 +189,7 @@ public class VnfPackageOnboardingImpl {
 		return getVnfPackage(pd.getFlavorId(), pd.getDescriptorId(), pd.getVnfdVersion());
 	}
 
-	private Optional<VnfPackage> getVnfPackage(final String flavor, final String descriptorId, final String version) {
+	private Optional<VnfPackage> getVnfPackage(final @Nullable String flavor, final @Nullable String descriptorId, final @Nullable String version) {
 		int part = 0;
 		if (flavor != null) {
 			part++;
@@ -219,12 +214,12 @@ public class VnfPackageOnboardingImpl {
 		}
 		throw new GenericException("Unknown version " + part);
 	}
-	
+
 	// MSA-11833
 	public static void ensureNotProcessing(final VnfPackage vnfPackage) {
 		if (OnboardingStateType.PROCESSING == vnfPackage.getOnboardingState()) {
 			throw new ConflictException("THE_VNF_PACKAGE" + vnfPackage.getId() + " is already stared ONBOARDING..");
 		}
 	}
-	
+
 }

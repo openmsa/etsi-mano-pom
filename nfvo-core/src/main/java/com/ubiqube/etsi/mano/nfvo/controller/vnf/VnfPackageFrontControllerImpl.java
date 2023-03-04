@@ -48,6 +48,7 @@ import com.ubiqube.etsi.mano.repository.ManoResource;
 import com.ubiqube.etsi.mano.service.rest.model.AuthType;
 import com.ubiqube.etsi.mano.utils.SpringUtils;
 
+import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpServletRequest;
 import ma.glasnost.orika.MapperFacade;
 
@@ -71,7 +72,7 @@ public class VnfPackageFrontControllerImpl implements VnfPackageFrontController 
 	}
 
 	@Override
-	public ResponseEntity<Resource> getArtifactPath(final HttpServletRequest request, final UUID vnfPkgId, final String includeSignature) {
+	public ResponseEntity<Resource> getArtifactPath(final HttpServletRequest request, final UUID vnfPkgId, final @Nullable String includeSignature) {
 		final String artifactPath = SpringUtils.extractParams(request);
 		return vnfManagement.vnfPackagesVnfPkgIdArtifactsArtifactPathGet(vnfPkgId, artifactPath);
 	}
@@ -96,7 +97,7 @@ public class VnfPackageFrontControllerImpl implements VnfPackageFrontController 
 	}
 
 	@Override
-	public ResponseEntity<Resource> getManifest(final UUID vnfPkgId, final String includeSignature) {
+	public ResponseEntity<Resource> getManifest(final UUID vnfPkgId, final @Nullable String includeSignature) {
 		final ManoResource ms = vnfManagement.getPackageManifest(vnfPkgId, includeSignature);
 		final MetaStreamResource res = new MetaStreamResource(ms);
 		return ResponseEntity.status(HttpStatus.OK).contentType(MediaTypeFactory
@@ -110,7 +111,7 @@ public class VnfPackageFrontControllerImpl implements VnfPackageFrontController 
 	}
 
 	@Override
-	public ResponseEntity<Resource> getVfnd(final UUID vnfPkgId, final String contentType, final String includeSignature) {
+	public ResponseEntity<Resource> getVfnd(final UUID vnfPkgId, final String contentType, final @Nullable String includeSignature) {
 		final ManoResource ms = vnfManagement.vnfPackagesVnfPkgIdVnfdGet(vnfPkgId, contentType, includeSignature != null);
 		final MetaStreamResource res = new MetaStreamResource(ms);
 		return ResponseEntity.status(HttpStatus.OK)
@@ -122,7 +123,7 @@ public class VnfPackageFrontControllerImpl implements VnfPackageFrontController 
 
 	@Override
 	public ResponseEntity<Resource> getSelectArtifacts(final HttpServletRequest request, final UUID vnfPkgId) {
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -147,18 +148,16 @@ public class VnfPackageFrontControllerImpl implements VnfPackageFrontController 
 
 	@Override
 	public <U> ResponseEntity<U> getExternalArtifacts(final UUID id) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public <U> ResponseEntity<U> putExternalArtifact(final U body, final UUID id) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public ResponseEntity<Void> putContent(final UUID id, final String accept, final MultipartFile file) {
+	public ResponseEntity<Void> putContent(final UUID id, final String accept, final @Nullable MultipartFile file) {
 		if (null == file) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "'file' multi part parameter MUST be present.");
 		}
@@ -189,9 +188,8 @@ public class VnfPackageFrontControllerImpl implements VnfPackageFrontController 
 	}
 
 	@Override
-	public ResponseEntity<Resource> searchArtifact(final UUID safeUUID, final String includeSignatures, final String excludeAllManoArtifacts, final String excludeAllNonManoArtifacts, final String selectNonManoArtifactSets) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResponseEntity<Resource> searchArtifact(final UUID safeUUID, final @Nullable String includeSignatures, final @Nullable String excludeAllManoArtifacts, final @Nullable String excludeAllNonManoArtifacts, final @Nullable String selectNonManoArtifactSets) {
+		throw new UnsupportedOperationException();
 	}
 
 }

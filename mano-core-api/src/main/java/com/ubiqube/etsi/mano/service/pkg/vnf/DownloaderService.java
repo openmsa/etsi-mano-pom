@@ -58,6 +58,7 @@ import com.ubiqube.etsi.mano.service.rest.ExceptionHandler;
 import com.ubiqube.etsi.mano.service.vim.VimException;
 
 import io.micrometer.context.ContextExecutorService;
+import jakarta.annotation.Nullable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.SignalType;
@@ -104,7 +105,7 @@ public class DownloaderService {
 		}
 	}
 
-	private static Throwable waitForCompletion(final CompletionService<String> completionService, final List<Future<String>> all) {
+	private static @Nullable Throwable waitForCompletion(final CompletionService<String> completionService, final List<Future<String>> all) {
 		int received = 0;
 		while (received < all.size()) {
 			try {
@@ -154,8 +155,7 @@ public class DownloaderService {
 			packageRepository.storeBinary(vnfPkgId, target, isPipe);
 			return new DownloadResult(inMd5.getMessageDigest().digest(), inSha256.getMessageDigest().digest(), isPipe.getMessageDigest().digest(), count.getByteCount());
 		} catch (final IOException | NoSuchAlgorithmException e) {
-			LOG.error("", e);
-			return null;
+			throw new GenericException(e);
 		}
 	}
 
@@ -188,7 +188,7 @@ public class DownloaderService {
 	private static Function<ClientResponse, Mono<? extends Throwable>> exepctionFunction(final PipedOutputStream osPipe) {
 		return response -> {
 			closePipe(osPipe);
-			throw new GenericException("An error occured." + response.rawStatusCode());
+			throw new GenericException("An error occured." + response.statusCode());
 		};
 	}
 

@@ -36,6 +36,9 @@ import com.ubiqube.etsi.mano.model.VnfScaleRequest;
 import com.ubiqube.etsi.mano.model.VnfScaleToLevelRequest;
 import com.ubiqube.etsi.mano.service.HttpGateway;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
@@ -44,7 +47,7 @@ import com.ubiqube.etsi.mano.service.HttpGateway;
 public class ManoVnfInstanceId {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ManoVnfInstanceId.class);
-
+	@Nonnull
 	private final ManoClient client;
 
 	public ManoVnfInstanceId(final ManoClient manoClient, final UUID vnfInstanceId) {
@@ -99,7 +102,7 @@ public class ManoVnfInstanceId {
 				.setOutClass(VnfBlueprint.class)
 				.post(scaleVnfRequest);
 	}
-	
+
 	public VnfBlueprint heal(final VnfHealRequest healVnfRequest) {
 		client.setFragment("vnf_instances/{id}/heal");
 		return client.createQuery(httpGateway -> httpGateway.createVnfInstanceHealRequest(healVnfRequest.getCause()))
@@ -127,7 +130,7 @@ public class ManoVnfInstanceId {
 				.post(cevcr);
 	}
 
-	public VnfInstance find() {
+	public @Nullable VnfInstance find() {
 		return client.createQuery()
 				.setWireOutClass(HttpGateway::getVnfInstanceClass)
 				.setOutClass(VnfInstance.class)

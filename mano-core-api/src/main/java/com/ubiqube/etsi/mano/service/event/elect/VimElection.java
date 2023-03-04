@@ -24,7 +24,9 @@ import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.VnfCompute;
 import com.ubiqube.etsi.mano.dao.mano.VnfStorage;
 
-public interface VimElection {
+import jakarta.annotation.Nullable;
 
+public interface VimElection {
+	@Nullable
 	VimConnectionInformation doElection(List<VimConnectionInformation> vims, GrantResponse grant, Set<VnfCompute> vnfcs, Set<VnfStorage> storages);
 }

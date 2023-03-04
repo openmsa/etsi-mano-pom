@@ -39,6 +39,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
 import com.ubiqube.etsi.mano.exception.ConflictException;
 import com.ubiqube.etsi.mano.exception.GenericException;
 
+import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 
@@ -57,9 +58,9 @@ public final class Constants {
 	public static final Set<String> VNF_SEARCH_MANDATORY_FIELDS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("id", "onboardingState", "operationalState", "usageState", "_links.self.href", "_links.vnfd.href", "_links.packageContent.href")));
 
 	public static final String VNFPMJOB_SEARCH_DEFAULT_EXCLUDE_FIELDS = "reports";
-
+	@Nonnull
 	public static final Set<String> VNFPMJOB_SEARCH_MANDATORY_FIELDS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("id", "criteria.collectionPeriod", "criteria.reportingPeriod", "objectInstanceIds")));
-
+	@Nonnull
 	public static final Set<String> VNFTHR_SEARCH_MANDATORY_FIELDS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("id")));
 
 	// XXX:

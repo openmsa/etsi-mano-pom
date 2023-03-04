@@ -19,12 +19,12 @@ package com.ubiqube.etsi.mano.controller.vnf;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
-
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
+
+import jakarta.annotation.Nullable;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -32,19 +32,19 @@ import org.springframework.util.MultiValueMap;
  *
  */
 public interface OnboardedPackageFrontController {
-	ResponseEntity<Resource> onboardedGetContentByVnfdId(String vnfdId, String accept, String includeSignature);
+	ResponseEntity<Resource> onboardedGetContentByVnfdId(String vnfdId, String accept, @Nullable String includeSignature);
 
 	<U> ResponseEntity<String> onboardedSearch(MultiValueMap<String, String> requestParams, Class<U> class1, Consumer<U> makeLinks);
 
-	ResponseEntity<Resource> onboardedGetArtifact(HttpServletRequest request, UUID safeUUID, @Valid String includeSignature);
+	ResponseEntity<Resource> onboardedGetArtifact(HttpServletRequest request, UUID safeUUID, @Nullable String includeSignature);
 
 	ResponseEntity<Resource> onboardedGetVnfdByVnfdId(UUID safeUUID, String accept);
 
 	<U> ResponseEntity<U> onboardedFindById(UUID safeUUID, Class<U> class1, Consumer<U> makeLinks);
 
-	ResponseEntity<Resource> onboardedGetManifestByVnfd(UUID fromString, @Valid String includeSignature);
+	ResponseEntity<Resource> onboardedGetManifestByVnfd(UUID fromString, @Nullable String includeSignature);
 
-	ResponseEntity<Resource> onboardedGetVnfdByVnfdId(String vnfdId, @Valid String includeSignature);
+	ResponseEntity<Resource> onboardedGetVnfdByVnfdId(String vnfdId, @Nullable String includeSignature);
 
 	ResponseEntity<Resource> onboardedGetArtifactByVnfdId(UUID safeUUID);
 

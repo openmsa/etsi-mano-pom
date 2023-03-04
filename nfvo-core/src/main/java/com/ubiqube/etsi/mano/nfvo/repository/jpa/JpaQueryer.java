@@ -27,6 +27,7 @@ import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.grammar.Node;
 import com.ubiqube.etsi.mano.grammar.Node.Operand;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.From;
@@ -45,7 +46,7 @@ public class JpaQueryer {
 		this.em = em;
 	}
 
-	public <U> Predicate getCriteria(final List<Node<U>> nodes, final Map<String, From<?, ?>> joins) {
+	public @Nullable <U> Predicate getCriteria(final List<Node<U>> nodes, final Map<String, From<?, ?>> joins) {
 		final CriteriaBuilder cb = em.getCriteriaBuilder();
 		final List<Predicate> predicates = new ArrayList<>();
 		for (final Node<U> node : nodes) {
@@ -76,7 +77,7 @@ public class JpaQueryer {
 		return Optional.ofNullable(pred);
 	}
 
-	private Attr getParent(final String name, final Map<String, From<?, ?>> joins) {
+	private static Attr getParent(final String name, final Map<String, From<?, ?>> joins) {
 		final String[] arr = name.split("\\/");
 		final Attr attr = new Attr();
 		if (arr.length > 1) {

@@ -29,6 +29,8 @@ import java.util.Map;
 
 import com.ubiqube.etsi.mano.exception.GenericException;
 
+import jakarta.annotation.Nullable;
+
 public class CollectHashMapListener extends AbstractCollectListener {
 	private final LinkedList<ClassTypeHolder> obj = new LinkedList<>();
 
@@ -72,7 +74,7 @@ public class CollectHashMapListener extends AbstractCollectListener {
 		return (Class<?>) type[0];
 	}
 
-	private static PropertyDescriptor find(final String name, final PropertyDescriptor[] propDescs) {
+	private static @Nullable PropertyDescriptor find(final String name, final PropertyDescriptor[] propDescs) {
 		for (final PropertyDescriptor propertyDescriptor : propDescs) {
 			if (propertyDescriptor.getName().equals(name)) {
 				return propertyDescriptor;
@@ -95,6 +97,6 @@ public class CollectHashMapListener extends AbstractCollectListener {
 		obj.pop();
 	}
 
-	record ClassTypeHolder(Class<?> clazz, Class<?> param) {
+	record ClassTypeHolder(Class<?> clazz, @Nullable Class<?> param) {
 		/**/}
 }

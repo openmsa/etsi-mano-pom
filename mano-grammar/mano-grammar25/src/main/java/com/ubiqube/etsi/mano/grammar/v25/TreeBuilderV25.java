@@ -32,6 +32,7 @@ package com.ubiqube.etsi.mano.grammar.v25;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import com.mano.etsi.mano.grammar.v25.EtsiFilterV25.AttrNameContext;
 import com.mano.etsi.mano.grammar.v25.EtsiFilterV25.FilterContext;
@@ -44,6 +45,8 @@ import com.mano.etsi.mano.grammar.v25.EtsiFilterV25BaseListener;
 import com.ubiqube.etsi.mano.grammar.Node;
 import com.ubiqube.etsi.mano.grammar.Node.Operand;
 
+import jakarta.annotation.Nullable;
+
 public class TreeBuilderV25 extends EtsiFilterV25BaseListener {
 	private Node<String> currentNode;
 	private final List<Node<String>> listNode = new ArrayList<>();
@@ -53,46 +56,50 @@ public class TreeBuilderV25 extends EtsiFilterV25BaseListener {
 	}
 
 	@Override
-	public void enterSimpleFilterExprOne(final SimpleFilterExprOneContext ctx) {
+	public void enterSimpleFilterExprOne(final @Nullable SimpleFilterExprOneContext ctx) {
 		currentNode = new Node<>();
 	}
 
 	@Override
-	public void enterSimpleFilterExprMulti(final SimpleFilterExprMultiContext ctx) {
+	public void enterSimpleFilterExprMulti(final @Nullable SimpleFilterExprMultiContext ctx) {
 		currentNode = new Node<>();
 	}
 
 	@Override
-	public void exitSimpleFilterExprOne(final SimpleFilterExprOneContext ctx) {
+	public void exitSimpleFilterExprOne(final @Nullable SimpleFilterExprOneContext ctx) {
 		listNode.add(currentNode);
 		currentNode = null;
 	}
 
 	@Override
-	public void exitSimpleFilterExprMulti(final SimpleFilterExprMultiContext ctx) {
+	public void exitSimpleFilterExprMulti(final @Nullable SimpleFilterExprMultiContext ctx) {
 		listNode.add(currentNode);
 		currentNode = null;
 	}
 
 	@Override
-	public void exitFilter(final FilterContext ctx) {
+	public void exitFilter(final @Nullable FilterContext ctx) {
+		Objects.requireNonNull(ctx);
 		currentNode.addValue(ctx.getText());
 	}
 
 	@Override
-	public void exitOpOne(final OpOneContext ctx) {
+	public void exitOpOne(final @Nullable OpOneContext ctx) {
+		Objects.requireNonNull(ctx);
 		final Operand op = Operand.valueOf(ctx.getText().toUpperCase());
 		currentNode.setOp(op);
 	}
 
 	@Override
-	public void exitOpMulti(final OpMultiContext ctx) {
+	public void exitOpMulti(final @Nullable OpMultiContext ctx) {
+		Objects.requireNonNull(ctx);
 		final Operand op = Operand.valueOf(ctx.getText().toUpperCase());
 		currentNode.setOp(op);
 	}
 
 	@Override
-	public void exitAttrName(final AttrNameContext ctx) {
+	public void exitAttrName(final @Nullable AttrNameContext ctx) {
+		Objects.requireNonNull(ctx);
 		final String currentName = currentNode.getName();
 		if (null == currentName) {
 			currentNode.setName(ctx.getText());
@@ -102,7 +109,8 @@ public class TreeBuilderV25 extends EtsiFilterV25BaseListener {
 	}
 
 	@Override
-	public void exitValue(final ValueContext ctx) {
+	public void exitValue(final @Nullable ValueContext ctx) {
+		Objects.requireNonNull(ctx);
 		currentNode.addValue(ctx.getText());
 	}
 

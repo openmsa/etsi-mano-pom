@@ -18,6 +18,8 @@ package com.ubiqube.etsi.mano.mapper;
 
 import java.util.Deque;
 
+import jakarta.annotation.Nullable;
+
 public class AttrHolder {
 	private Deque<AttrNode> stack;
 	private Object value;
@@ -30,6 +32,7 @@ public class AttrHolder {
 		this.stack = stack;
 	}
 
+	@Nullable
 	public Object getValue() {
 		return value;
 	}

@@ -18,6 +18,8 @@ package com.ubiqube.etsi.mano.service.event;
 
 import java.util.stream.Stream;
 
+import jakarta.annotation.Nonnull;
+
 /**
  * Enum for all asynchronous event.
  *
@@ -51,6 +53,7 @@ public enum ActionType {
 	NS_HEAL("NS_HEAL"),
 	;
 
+	@Nonnull
 	private String value;
 
 	ActionType(final String v) {
@@ -66,6 +69,11 @@ public enum ActionType {
 		return String.valueOf(value);
 	}
 
+	/**
+	 *
+	 * @param v
+	 * @return Returning null pose some problem.
+	 */
 	public static ActionType fromValue(final String v) {
 		return Stream.of(ActionType.values())
 				.filter(x -> String.valueOf(x.value).equals(v))

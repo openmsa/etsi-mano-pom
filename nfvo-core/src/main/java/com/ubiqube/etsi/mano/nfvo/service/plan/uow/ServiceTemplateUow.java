@@ -24,8 +24,13 @@ import com.ubiqube.etsi.mano.service.graph.AbstractUnitOfWork;
 import com.ubiqube.etsi.mano.tf.ContrailApi;
 import com.ubiqube.etsi.mano.tf.entities.ServiceTemplateTask;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+
 public class ServiceTemplateUow extends AbstractUnitOfWork<ServiceTemplateTask> {
+	@Nonnull
 	private final SystemConnections vimConnectionInformation;
+	@Nonnull
 	private final ServiceTemplateTask task;
 
 	public ServiceTemplateUow(final VirtualTaskV3<ServiceTemplateTask> task, final SystemConnections vimConnectionInformation) {
@@ -42,7 +47,7 @@ public class ServiceTemplateUow extends AbstractUnitOfWork<ServiceTemplateTask> 
 	}
 
 	@Override
-	public String rollback(final Context3d context) {
+	public @Nullable String rollback(final Context3d context) {
 		final ContrailApi api = new ContrailApi();
 		api.deleteServiceTemplate(vimConnectionInformation, task.getVimResourceId());
 		return null;

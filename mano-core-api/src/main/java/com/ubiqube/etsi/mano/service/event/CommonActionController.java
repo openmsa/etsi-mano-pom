@@ -66,7 +66,6 @@ import com.ubiqube.etsi.mano.service.rest.model.AuthentificationInformations;
 import com.ubiqube.etsi.mano.service.rest.model.ServerType;
 
 import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.NotNull;
 import ma.glasnost.orika.MapperFacade;
 
 /**
@@ -103,7 +102,7 @@ public class CommonActionController {
 		this.serverService = serverService;
 	}
 
-	public Object registerServer(@NotNull final UUID objectId, @NotNull final Map<String, Object> parameters) {
+	public Object registerServer(final UUID objectId, final Map<String, Object> parameters) {
 		final Servers server = serversJpa.findById(objectId).orElseThrow(() -> new GenericException("Could not find server: " + objectId));
 		if (server.getServerType() == ServerType.NFVO) {
 			LOG.debug("Registrating an NFVO.");
@@ -113,7 +112,7 @@ public class CommonActionController {
 		return register(server, this::registerVnfmEx, parameters);
 	}
 
-	public Servers register(@NotNull final Servers server, final BiFunction<ServerAdapter, Map<String, Object>, Servers> func, @NotNull final Map<String, Object> parameters) {
+	public Servers register(final Servers server, final BiFunction<ServerAdapter, Map<String, Object>, Servers> func, final Map<String, Object> parameters) {
 		try {
 			final ServerAdapter serverAdapter = serverService.buildServerAdapter(server);
 			final Servers res = func.apply(serverAdapter, parameters);
@@ -169,7 +168,7 @@ public class CommonActionController {
 		return null;
 	}
 
-	private Servers registerNfvoEx(@NotNull final ServerAdapter serverAdapter, @NotNull final Map<String, Object> parameters) {
+	private Servers registerNfvoEx(final ServerAdapter serverAdapter, final Map<String, Object> parameters) {
 		final Servers server = serverAdapter.getServer();
 		extractVersions(server);
 		server.setRemoteSubscriptions(removeStalledSubscription(server.getRemoteSubscriptions()));

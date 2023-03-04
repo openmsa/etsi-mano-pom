@@ -45,6 +45,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ubiqube.etsi.mano.model.ApiVersionInformation;
 import com.ubiqube.etsi.mano.model.ApiVersionInformationApiVersions;
 
+import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -102,7 +103,7 @@ public class NfvoApiVersion {
 		return "nfvoApiVersion".equals(versionName) || "vnfmApiVersion".equals(versionName) || "swaggerWelcome".equals(versionName);
 	}
 
-	private static String findMatch(final String url) {
+	private static @Nullable String findMatch(final String url) {
 		for (final String string : FRAGMENTS) {
 			if (url.contains(string)) {
 				return getFragment(url, string);

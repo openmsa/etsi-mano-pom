@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import jakarta.annotation.Nullable;
+
 /**
  *
  * @author olivier
@@ -30,7 +32,7 @@ public abstract class AbstractCollectListener implements BeanListener {
 	private final List<AttrHolder> attrs = new ArrayList<>();
 
 	@Override
-	public final void addProperty(final Object source) {
+	public final void addProperty(final @Nullable Object source) {
 		final AttrHolder ah = new AttrHolder();
 		ah.setStack((LinkedList<AttrNode>) stack.clone());
 		ah.setValue(source);

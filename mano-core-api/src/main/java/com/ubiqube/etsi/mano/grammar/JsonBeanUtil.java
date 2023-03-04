@@ -38,14 +38,15 @@ import java.util.Set;
 import java.util.StringJoiner;
 import java.util.concurrent.ConcurrentHashMap;
 
-import jakarta.annotation.Nonnull;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.exception.GenericException;
+
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  *
@@ -57,7 +58,7 @@ public class JsonBeanUtil {
 	/** Logger instance. */
 	private static final Logger LOG = LoggerFactory.getLogger(JsonBeanUtil.class);
 	private final Set<String> simpleTypes = new HashSet<>();
-	private static final Map<String, Map<String, JsonBeanProperty>> CACHE = new ConcurrentHashMap<>();
+	private static final Map<String, @Nonnull Map<String, JsonBeanProperty>> CACHE = new ConcurrentHashMap<>();
 
 	public JsonBeanUtil() {
 		simpleTypes.add("java.lang.String");
@@ -73,7 +74,7 @@ public class JsonBeanUtil {
 		simpleTypes.add("java.time.OffsetDateTime");
 	}
 
-	public Map<String, JsonBeanProperty> getPropertiesFromClass(@Nonnull final Class<?> object) {
+	public Map<String, JsonBeanProperty> getPropertiesFromClass(final Class<?> object) {
 		Map<String, JsonBeanProperty> cached = CACHE.get(object.getName());
 		if (cached != null) {
 			return cached;
@@ -85,7 +86,7 @@ public class JsonBeanUtil {
 		return cached;
 	}
 
-	public Map<String, JsonBeanProperty> getProperties(@Nonnull final Object object) {
+	public Map<String, JsonBeanProperty> getProperties(final Object object) {
 		return getPropertiesFromClass(object.getClass());
 	}
 
@@ -104,7 +105,7 @@ public class JsonBeanUtil {
 			final Map<String, JsonBeanProperty> right = jsonBeanProperty.getRight();
 			stackName.push(key);
 			stackObject.push(jsonBeanProperty);
-			if (right != null) {
+			if (right.isEmpty()) {
 				rebuildPropertiesInner(right, stackName, stackObject, ret);
 			}
 			final String newKey = createKey(stackName);
@@ -188,7 +189,7 @@ public class JsonBeanUtil {
 				|| "java.lang.ClassLoader".equals(name);
 	}
 
-	private static JsonProperty findNamedAnnotaion(final PropertyDescriptor propertyDescriptor, final Class<?> clazz) {
+	private static @Nullable JsonProperty findNamedAnnotaion(final PropertyDescriptor propertyDescriptor, final Class<?> clazz) {
 		Method method = propertyDescriptor.getWriteMethod();
 		if (method != null) {
 			final JsonProperty ann = method.getAnnotation(JsonProperty.class);
@@ -216,16 +217,10 @@ public class JsonBeanUtil {
 	}
 
 	private boolean isContainer(final Class<?> clazz) {
-		if (clazz.getName().contentEquals("java.util.List")) {
+		if (clazz.getName().contentEquals("java.util.List") || clazz.getName().contentEquals("java.util.Map")) {
 			return true;
 		}
-		if (clazz.getName().contentEquals("java.util.Map")) {
-			return true;
-		}
-		if (simpleTypes.contains(clazz.getName())) {
-			return false;
-		}
-		if (clazz.isEnum()) {
+		if (simpleTypes.contains(clazz.getName()) || clazz.isEnum()) {
 			return false;
 		}
 		LOG.trace("not in List/Map => {}", clazz.getName());
@@ -243,7 +238,8 @@ public class JsonBeanUtil {
 		final String name = propertyType.getName();
 		if (simpleTypes.contains(name)) {
 			return false;
-		} else if ("java.lang.Object".equals(name)) {
+		}
+		if ("java.lang.Object".equals(name)) {
 			LOG.warn("Could not handle {}, considering as a simple type.", name);
 			return false;
 		}

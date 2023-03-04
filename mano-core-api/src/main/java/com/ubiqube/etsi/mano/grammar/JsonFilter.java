@@ -21,14 +21,14 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 
-import jakarta.annotation.Nonnull;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.grammar.Node.Operand;
+
+import jakarta.annotation.Nullable;
 
 /**
  *
@@ -52,7 +52,7 @@ public class JsonFilter {
 	 * @param _astBuilder An AST Builder.
 	 * @return
 	 */
-	public boolean apply(@Nonnull final Object object, @Nonnull final List<Node<String>> node) {
+	public boolean apply(final Object object, final List<Node<String>> node) {
 		final Node<String> selectedNode = node.stream()
 				.filter(x -> !apply(object, x))
 				.findFirst()
@@ -60,7 +60,7 @@ public class JsonFilter {
 		return null == selectedNode;
 	}
 
-	private boolean apply(@Nonnull final Object object, @Nonnull final Node<String> node) {
+	private boolean apply(final Object object, final Node<String> node) {
 		final Map<String, JsonBeanProperty> props = jsonBeanUtil.getProperties(object);
 		final JsonBeanProperty realProperty = props.get(node.getName());
 		if (realProperty == null) {
@@ -115,7 +115,7 @@ public class JsonFilter {
 		return new DocumentStatus(DocumentStatus.Status.NOSTATE);
 	}
 
-	private static boolean decide(final String objectValue, final String value, final Operand operand) {
+	private static boolean decide(final String objectValue, final String value, final @Nullable Operand operand) {
 		if (null == operand) {
 			return true;
 		}

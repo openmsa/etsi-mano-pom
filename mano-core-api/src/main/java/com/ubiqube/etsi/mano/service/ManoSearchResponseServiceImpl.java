@@ -29,9 +29,6 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.NotNull;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -45,6 +42,8 @@ import com.ubiqube.etsi.mano.grammar.JsonBeanProperty;
 import com.ubiqube.etsi.mano.grammar.JsonBeanUtil;
 import com.ubiqube.etsi.mano.json.MapperForView;
 
+import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.NotNull;
 import ma.glasnost.orika.MapperFacade;
 
 /**
@@ -67,7 +66,7 @@ public class ManoSearchResponseServiceImpl implements ManoSearchResponseService 
 	}
 
 	@Override
-	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> parameters, final Class<?> clazz, @Nullable final String excludeDefaults, final Set<String> mandatoryFields, final List<?> list, final Class<U> target, final Consumer<U> makeLink) {
+	public <U> ResponseEntity<String> search(final @Nullable MultiValueMap<String, String> parameters, final Class<?> clazz, @Nullable final String excludeDefaults, final Set<String> mandatoryFields, final List<?> list, final Class<U> target, final Consumer<U> makeLink) {
 		final MultiValueMap<String, String> params = Optional.ofNullable(parameters).orElse(new LinkedMultiValueMap<>());
 		checkParameters(params);
 		final List<String> fields = params.get("fields");
@@ -83,7 +82,7 @@ public class ManoSearchResponseServiceImpl implements ManoSearchResponseService 
 		checkAllFields(fieldsSet, clazz);
 
 		Set<String> excluded = getExcludedFields(excludeFields);
-		if (haveDefaultFields || excluded.isEmpty() && fieldsSet.isEmpty() && !allFields) {
+		if (haveDefaultFields || (excluded.isEmpty() && fieldsSet.isEmpty() && !allFields)) {
 			excluded = applyDefault(excludeDefaults);
 		}
 		final ObjectMapper mapperForQuery = MapperForView.getMapperForView(excluded, fieldsSet);
@@ -117,7 +116,7 @@ public class ManoSearchResponseServiceImpl implements ManoSearchResponseService 
 		}
 	}
 
-	private void checkParameters(@NotNull final MultiValueMap<String, String> parameters) {
+	private void checkParameters(final MultiValueMap<String, String> parameters) {
 		final HashSet<String> section = new HashSet<>(parameters.keySet());
 		section.removeAll(officialParameters);
 		if (!section.isEmpty()) {
@@ -125,15 +124,14 @@ public class ManoSearchResponseServiceImpl implements ManoSearchResponseService 
 		}
 	}
 
-	private static Set<String> applyDefault(final String excludeDefaults) {
+	private static Set<String> applyDefault(final @Nullable String excludeDefaults) {
 		if (null == excludeDefaults) {
 			return new HashSet<>();
 		}
 		return Arrays.stream(excludeDefaults.split(",")).collect(Collectors.toSet());
 	}
 
-	@NotNull
-	private static Set<String> getExcludedFields(final List<String> excludeFields) {
+	private static Set<String> getExcludedFields(final @Nullable List<String> excludeFields) {
 		final Set<String> fieldsSet = new HashSet<>();
 		if (null == excludeFields) {
 			return fieldsSet;
@@ -141,8 +139,7 @@ public class ManoSearchResponseServiceImpl implements ManoSearchResponseService 
 		return excludeFields.stream().flatMap(x -> Arrays.stream(x.split(","))).collect(Collectors.toSet());
 	}
 
-	@NotNull
-	private static Set<String> getFields(final List<String> fields, final Set<String> mandatoryFields) {
+	private static Set<String> getFields(final @Nullable List<String> fields, final Set<String> mandatoryFields) {
 		if (null == fields) {
 			return new HashSet<>();
 		}

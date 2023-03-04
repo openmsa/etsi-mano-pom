@@ -43,6 +43,7 @@ import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.repository.ManoResource;
 
+import jakarta.annotation.Nonnull;
 import ma.glasnost.orika.MapperFacade;
 
 /**
@@ -54,7 +55,7 @@ import ma.glasnost.orika.MapperFacade;
 public class NsDescriptorGenericFrontControllerImpl implements NsDescriptorGenericFrontController {
 
 	private static final String NSD_SEARCH_DEFAULT_EXCLUDE_FIELDS = "userDefinedData";
-
+	@Nonnull
 	private static final Set<String> NSD_SEARCH_MANDATORY_FIELDS = new HashSet<>(Arrays.asList("id", "nsdOnboardingState", "nsdOperationalState", "nsdUsageState", "_links", "_links.self.href", "_links.nsd_content.href"));
 
 	private final MapperFacade mapper;
@@ -214,20 +215,17 @@ public class NsDescriptorGenericFrontControllerImpl implements NsDescriptorGener
 
 	@Override
 	public ResponseEntity<Resource> getArtifact(final String nsdInfoId, final String artifactPath, final String includeSignatures) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public ResponseEntity<Resource> getManifest(final String nsdInfoId, final String includeSignatures) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public ResponseEntity<Resource> getNsd(final String nsdInfoId, final String includeSignatures) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 }

@@ -33,6 +33,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.ubiqube.etsi.mano.controller.nsd.PnfFrontController;
 import com.ubiqube.etsi.mano.dao.mano.PnfDescriptor;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import ma.glasnost.orika.MapperFacade;
 
 /**
@@ -42,7 +44,7 @@ import ma.glasnost.orika.MapperFacade;
  */
 @Service
 public class PnfFrontControllerImpl implements PnfFrontController {
-
+	@Nonnull
 	private static final Set<String> PNFD_SEARCH_MANDATORY_FIELDS = new HashSet<>(Arrays.asList("id"));
 
 	private static final String PNFD_SEARCH_DEFAULT_EXCLUDE_FIELDS = "userDefinedData";
@@ -113,9 +115,7 @@ public class PnfFrontControllerImpl implements PnfFrontController {
 	 */
 	@Override
 	public <U> ResponseEntity<U> modify(final String pnfdInfoId, final String contentType, final Object body) {
-		// : Implement...
-
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -164,21 +164,18 @@ public class PnfFrontControllerImpl implements PnfFrontController {
 	}
 
 	@Override
-	public ResponseEntity<Void> manifestGet(final String pnfdInfoId, final String includeSignatures) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResponseEntity<Void> manifestGet(final String pnfdInfoId, final @Nullable String includeSignatures) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public ResponseEntity<Void> getPnfd(final String pnfdInfoId, final String range, final String includeSignatures) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResponseEntity<Void> getPnfd(final String pnfdInfoId, final @Nullable String range, final @Nullable String includeSignatures) {
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public ResponseEntity<Void> getArtifact(final String pnfdInfoId, final String artifactPath, final String range, final String includeSignatures) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResponseEntity<Void> getArtifact(final String pnfdInfoId, final String artifactPath, final @Nullable String range, final @Nullable String includeSignatures) {
+		throw new UnsupportedOperationException();
 	}
 
 }

@@ -20,14 +20,20 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
+import java.util.Objects;
+
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 public class QueryFilterListener implements BeanListener {
 	private ListRecord lr;
+	@Nonnull
 	private final Deque<ListRecord> queue = new ArrayDeque<>();
+	@Nonnull
 	private final List<ListRecord> results = new ArrayList<>();
 
 	@Override
-	public void addProperty(final Object source) {
+	public void addProperty(final @Nullable Object source) {
 		if (lr == null) {
 			throw new IllegalArgumentException("");
 		}
@@ -54,7 +60,7 @@ public class QueryFilterListener implements BeanListener {
 		} else {
 			final ListRecord tmp = lr;
 			lr = queue.pop();
-			lr.addChild(tmp);
+			lr.addChild(Objects.requireNonNull(tmp));
 		}
 	}
 
@@ -108,8 +114,10 @@ public class QueryFilterListener implements BeanListener {
 
 	public class ListRecord {
 		private final String name;
+		@Nonnull
 		private final List<Object> list;
-		private List<ListRecord> child;
+		@Nonnull
+		private final List<ListRecord> child;
 
 		public ListRecord(final String name) {
 			this(name, new ArrayList<>());
@@ -118,6 +126,7 @@ public class QueryFilterListener implements BeanListener {
 		public ListRecord(final String name, final List<Object> list) {
 			this.name = name;
 			this.list = list;
+			child = new ArrayList<>();
 		}
 
 		public List<ListRecord> getChild() {
@@ -125,13 +134,10 @@ public class QueryFilterListener implements BeanListener {
 		}
 
 		public void addChild(final ListRecord childIn) {
-			if (null == this.child) {
-				this.child = new ArrayList<>();
-			}
 			this.child.add(childIn);
 		}
 
-		public String getName() {
+		public @Nullable String getName() {
 			return name;
 		}
 

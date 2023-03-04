@@ -23,9 +23,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import jakarta.annotation.Nonnull;
-import jakarta.validation.constraints.NotNull;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,7 +67,7 @@ public abstract class AbstractGenericActionV3 {
 		this.nsScaleStrategy = nsScaleStrategy;
 	}
 
-	public final void instantiate(@Nonnull final UUID blueprintId) {
+	public final void instantiate(final UUID blueprintId) {
 		instantiateShield(blueprintId, WorkflowEvent.INSTANTIATE_SUCCESS, WorkflowEvent.INSTANTIATE_FAILED);
 	}
 
@@ -171,7 +168,7 @@ public abstract class AbstractGenericActionV3 {
 		return scaleInfos.stream().noneMatch(x -> x.getAspectId().equals(aspectId));
 	}
 
-	private static void setResultLcmInstance(@NotNull final Blueprint<?, ?> blueprint, final OrchExecutionResults<?> res) {
+	private static void setResultLcmInstance(final Blueprint<?, ?> blueprint, final OrchExecutionResults<?> res) {
 		if (res.getErrored().isEmpty()) {
 			blueprint.setOperationStatus(OperationStatusType.COMPLETED);
 		} else {
@@ -180,15 +177,15 @@ public abstract class AbstractGenericActionV3 {
 		blueprint.setStateEnteredTime(OffsetDateTime.now());
 	}
 
-	public final void terminate(@Nonnull final UUID blueprintId) {
+	public final void terminate(final UUID blueprintId) {
 		instantiateShield(blueprintId, WorkflowEvent.TERMINATE_SUCCESS, WorkflowEvent.TERMINATE_FAILED);
 	}
 
-	public final void scaleToLevel(@NotNull final UUID blueprintId) {
+	public final void scaleToLevel(final UUID blueprintId) {
 		instantiateShield(blueprintId, WorkflowEvent.SCALETOLEVEL_SUCCESS, WorkflowEvent.SCALETOLEVEL_FAILED);
 	}
 
-	public final void scale(@NotNull final UUID blueprintId) {
+	public final void scale(final UUID blueprintId) {
 		instantiateShield(blueprintId, WorkflowEvent.SCALE_SUCCESS, WorkflowEvent.SCALE_FAILED);
 	}
 

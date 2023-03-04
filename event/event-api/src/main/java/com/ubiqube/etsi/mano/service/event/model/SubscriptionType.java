@@ -16,6 +16,8 @@
  */
 package com.ubiqube.etsi.mano.service.event.model;
 
+import jakarta.annotation.Nonnull;
+
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
@@ -42,6 +44,7 @@ public enum SubscriptionType {
 		value = string;
 	}
 
+	@Nonnull
 	@Override
 	public String toString() {
 		return value;
