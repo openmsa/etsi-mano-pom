@@ -20,7 +20,6 @@ import java.io.Serializable;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -62,7 +61,7 @@ public class MonitoringData implements Serializable {
 		time = OffsetDateTime.now();
 	}
 
-	public MonitoringData(final String key2, final String masterJobId2, final @Nonnull OffsetDateTime timestamp, final Double value2, final String text, final String vnfInstanceId2, final boolean status) {
+	public MonitoringData(final String key2, final String masterJobId2, final OffsetDateTime timestamp, final Double value2, final String text, final String vnfInstanceId2, final boolean status) {
 		this.id = UUID.randomUUID();
 		this.time = timestamp;
 		this.masterJobId = masterJobId2;

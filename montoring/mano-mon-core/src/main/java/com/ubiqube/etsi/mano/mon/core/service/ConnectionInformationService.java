@@ -26,8 +26,6 @@ import org.springframework.stereotype.Service;
 import com.ubiqube.etsi.mano.mon.core.repository.ConnectionInformationRepository;
 import com.ubiqube.etsi.mano.service.mon.data.MonConnInformation;
 
-import jakarta.annotation.Nonnull;
-
 @Service
 public class ConnectionInformationService {
 	private final ConnectionInformationRepository connRepository;
@@ -51,7 +49,7 @@ public class ConnectionInformationService {
 		return ret;
 	}
 
-	public void deleteById(@Nonnull final UUID id) {
+	public void deleteById(final UUID id) {
 		connRepository.deleteById(id);
 	}
 }

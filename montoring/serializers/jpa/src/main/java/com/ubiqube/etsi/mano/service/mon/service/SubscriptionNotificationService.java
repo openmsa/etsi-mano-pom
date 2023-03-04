@@ -44,7 +44,7 @@ import com.ubiqube.etsi.mano.service.mon.model.MonitoringData;
 import com.ubiqube.etsi.mano.service.mon.model.Subscription;
 import com.ubiqube.etsi.mano.service.mon.repository.SubscriptionRepository;
 
-import io.micrometer.common.lang.Nullable;
+import jakarta.annotation.Nullable;
 
 public class SubscriptionNotificationService {
 	private static final Logger LOG = LoggerFactory.getLogger(SubscriptionNotificationService.class);

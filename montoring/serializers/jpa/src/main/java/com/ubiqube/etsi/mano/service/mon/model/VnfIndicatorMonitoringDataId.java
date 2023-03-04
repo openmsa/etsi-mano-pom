@@ -20,6 +20,7 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
+import jakarta.annotation.Nullable;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -37,14 +38,11 @@ public class VnfIndicatorMonitoringDataId implements Serializable {
 	}
 
 	@Override
-	public boolean equals(final Object obj) {
+	public boolean equals(final @Nullable Object obj) {
 		if (this == obj) {
 			return true;
 		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
+		if ((obj == null) || (getClass() != obj.getClass())) {
 			return false;
 		}
 		final VnfIndicatorMonitoringDataId other = (VnfIndicatorMonitoringDataId) obj;
@@ -52,4 +50,3 @@ public class VnfIndicatorMonitoringDataId implements Serializable {
 	}
 
 }
-

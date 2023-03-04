@@ -44,8 +44,6 @@ import com.ubiqube.etsi.mano.service.mon.data.JmsMetricHolder;
 import com.ubiqube.etsi.mano.service.mon.data.Metric;
 import com.ubiqube.etsi.mano.service.mon.data.MonConnInformation;
 
-import jakarta.annotation.Nonnull;
-
 /**
  *
  * @author olivier
@@ -65,7 +63,7 @@ public class GnocchiPollerListener {
 	}
 
 	@JmsListener(destination = Constants.QUEUE_GNOCCHI_DATA_POLLING, concurrency = "5")
-	public void onEvent(@Nonnull final BatchPollingJob batchPollingJob) {
+	public void onEvent(final BatchPollingJob batchPollingJob) {
 		final UUID id = Objects.requireNonNull(batchPollingJob.getId());
 		final MonConnInformation conn = batchPollingJob.getConnection();
 		final OSClientV3 os = OsUtils.authenticate(conn.getInterfaceInfo(), conn.getAccessInfo());
@@ -73,7 +71,7 @@ public class GnocchiPollerListener {
 		jmsTemplate.convertAndSend(resolvQueueName(BusHelper.TOPIC_SERIALZE_DATA), JmsMetricHolder.of(metrics));
 	}
 
-	private static List<TelemetryMetricsResult> getMetrics(final @Nonnull UUID jobId, final String resourceId, final List<Metric> collectedMetrics, final OSClientV3 os) {
+	private static List<TelemetryMetricsResult> getMetrics(final UUID jobId, final String resourceId, final List<Metric> collectedMetrics, final OSClientV3 os) {
 		final List<String> colls = collectedMetrics.stream().map(Metric::getMetricName).toList();
 		final Resource instanceResources = os.telemetry().resources().instance(resourceId);
 		if (null == instanceResources) {
@@ -84,7 +82,7 @@ public class GnocchiPollerListener {
 		return colMeter.stream().map(x -> map(x, resourceId, jobId, os)).toList();
 	}
 
-	private static TelemetryMetricsResult map(final Entry<String, String> x, final String resourceId, @Nonnull final UUID jobId, final OSClientV3 os) {
+	private static TelemetryMetricsResult map(final Entry<String, String> x, final String resourceId, final UUID jobId, final OSClientV3 os) {
 		final MeasureFilter mf = new MeasureFilter();
 		mf.start(OffsetDateTime.now().minus(10, ChronoUnit.MINUTES));
 		final String jobStr = Objects.requireNonNull(jobId.toString());
@@ -105,7 +103,6 @@ public class GnocchiPollerListener {
 		return new TelemetryMetricsResult(jobStr, resourceId, x.getKey(), value, null, ts, true);
 	}
 
-	@Nonnull
 	private String resolvQueueName(final String queueName) {
 		final ConfigurableListableBeanFactory configurableListableBeanFactory = configurableApplicationContext.getBeanFactory();
 		final String ret = configurableListableBeanFactory.resolveEmbeddedValue(queueName);
@@ -113,7 +110,7 @@ public class GnocchiPollerListener {
 		return ret;
 	}
 
-	private static List<TelemetryMetricsResult> prepareErrors(final @Nonnull UUID jobId, final List<Metric> collectedMetrics, final String resourceId) {
+	private static List<TelemetryMetricsResult> prepareErrors(final UUID jobId, final List<Metric> collectedMetrics, final String resourceId) {
 		return collectedMetrics.stream()
 				.map(x -> new TelemetryMetricsResult(jobId.toString(), resourceId, x.getMetricName(), 0d, null, OffsetDateTime.now(), false))
 				.toList();

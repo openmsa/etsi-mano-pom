@@ -20,6 +20,7 @@ import java.util.List;
 
 import com.ubiqube.etsi.mano.mon.dao.TelemetryMetricsResult;
 
+import jakarta.annotation.Nonnull;
 import lombok.Data;
 
 @Data
@@ -34,6 +35,7 @@ public class JmsMetricHolder {
 		this.metrics = metrics;
 	}
 
+	@Nonnull
 	public static JmsMetricHolder of(final List<TelemetryMetricsResult> metrics) {
 		return new JmsMetricHolder(metrics);
 	}

@@ -26,8 +26,6 @@ import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
 
-import jakarta.annotation.Nonnull;
-
 /**
  *
  * @author olivier
@@ -53,7 +51,7 @@ public class PollingService {
 		jobs.forEach(this::run);
 	}
 
-	private void run(final @Nonnull BatchPollingJob batchpollingjob) {
+	private void run(final BatchPollingJob batchpollingjob) {
 		LOG.trace("polling {}", batchpollingjob);
 		busService.emit(batchpollingjob);
 		batchpollingjob.setLastRun(ZonedDateTime.now());
