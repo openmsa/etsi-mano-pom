@@ -23,6 +23,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
+import org.springframework.lang.Nullable;
 
 import com.ubiqube.etsi.mano.grammar.GrammarException;
 import com.ubiqube.etsi.mano.grammar.GrammarParser;
@@ -31,7 +32,7 @@ import com.ubiqube.etsi.mano.grammar.Node;
 public abstract class AbstractAntlrGrammar<T extends ParseTreeListener> implements GrammarParser {
 
 	@Override
-	public final List<Node<String>> parse(final String query) {
+	public final List<Node<String>> parse(final @Nullable String query) {
 		List<Node<String>> nodes = new ArrayList<>();
 		final T treeBuilder = createTreeBuilder();
 		if ((null != query) && !query.isEmpty()) {

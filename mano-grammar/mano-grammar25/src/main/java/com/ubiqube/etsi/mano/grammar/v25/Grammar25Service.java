@@ -42,7 +42,6 @@ import org.springframework.stereotype.Service;
 
 import com.mano.etsi.mano.grammar.v25.EtsiFilterV25;
 import com.mano.etsi.mano.grammar.v25.EtsiLexerV25;
-import com.ubiqube.etsi.mano.grammar.GrammarParser;
 import com.ubiqube.etsi.mano.grammar.Node;
 import com.ubiqube.etsi.mano.grammar.antlr.AbstractAntlrGrammar;
 
@@ -51,10 +50,9 @@ import com.ubiqube.etsi.mano.grammar.antlr.AbstractAntlrGrammar;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-@SuppressWarnings("unchecked")
 @Service
 @Primary
-public class Grammar25Service extends AbstractAntlrGrammar<TreeBuilderV25> implements GrammarParser {
+public class Grammar25Service extends AbstractAntlrGrammar<TreeBuilderV25> {
 
 	@Override
 	protected Parser createParser(final CommonTokenStream tokens, final ParseTreeListener treeBuilder) {

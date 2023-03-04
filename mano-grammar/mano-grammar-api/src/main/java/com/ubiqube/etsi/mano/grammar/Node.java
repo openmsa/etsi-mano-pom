@@ -33,6 +33,8 @@ package com.ubiqube.etsi.mano.grammar;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.annotation.Nullable;
+
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
@@ -59,6 +61,7 @@ public class Node<U> {
 		}
 	}
 
+	@Nullable
 	private String name;
 	private Operand op;
 	private List<U> value = new ArrayList<>();
@@ -67,8 +70,7 @@ public class Node<U> {
 		// Nothing.
 	}
 
-	public Node(final String name, final Operand op, final List<U> value) {
-		super();
+	public Node(final @Nullable String name, @Nullable final Operand op, final List<U> value) {
 		this.name = name;
 		this.op = op;
 		this.value = new ArrayList<>(value);
@@ -82,7 +84,7 @@ public class Node<U> {
 		return new Node<>(name, op, List.of(value));
 	}
 
-	public String getName() {
+	public @Nullable String getName() {
 		return name;
 	}
 
@@ -90,7 +92,7 @@ public class Node<U> {
 		this.name = name;
 	}
 
-	public Operand getOp() {
+	public @Nullable Operand getOp() {
 		return op;
 	}
 
@@ -98,7 +100,7 @@ public class Node<U> {
 		this.op = op;
 	}
 
-	public U getValue() {
+	public @Nullable U getValue() {
 		if (value.size() > 1) {
 			throw new GrammarException("Calling a multivalue.");
 		}
@@ -109,6 +111,9 @@ public class Node<U> {
 	}
 
 	public List<U> getValues() {
+		if (null == value) {
+			return List.of();
+		}
 		return value;
 	}
 
