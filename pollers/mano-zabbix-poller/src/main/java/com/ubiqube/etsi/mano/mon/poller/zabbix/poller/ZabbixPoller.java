@@ -35,8 +35,6 @@ import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
 import com.ubiqube.etsi.mano.service.mon.data.JmsMetricHolder;
 import com.ubiqube.etsi.mano.service.mon.data.Metric;
 
-import jakarta.annotation.Nonnull;
-
 @Service
 public class ZabbixPoller {
 
@@ -55,7 +53,7 @@ public class ZabbixPoller {
 	}
 
 	@JmsListener(destination = Constants.QUEUE_ZABBIX_DATA_POLLING, concurrency = "5")
-	public void onEvent(@Nonnull final BatchPollingJob batchPollingJob) {
+	public void onEvent(final BatchPollingJob batchPollingJob) {
 		final List<TelemetryMetricsResult> metrics = getMetrics(batchPollingJob);
 		jmsTemplate.convertAndSend(resolvQueueName(BusHelper.TOPIC_SERIALZE_DATA), JmsMetricHolder.of(metrics));
 	}
@@ -84,7 +82,6 @@ public class ZabbixPoller {
 		}
 	}
 
-	@Nonnull
 	private String resolvQueueName(final String queueName) {
 		final ConfigurableListableBeanFactory configurableListableBeanFactory = configurableApplicationContext.getBeanFactory();
 		final String ret = configurableListableBeanFactory.resolveEmbeddedValue(queueName);

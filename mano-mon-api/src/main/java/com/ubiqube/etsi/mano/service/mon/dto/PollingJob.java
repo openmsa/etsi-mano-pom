@@ -20,6 +20,7 @@ import java.util.List;
 
 import com.ubiqube.etsi.mano.service.mon.data.Metric;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
@@ -51,5 +52,6 @@ public class PollingJob {
 	private long interval;
 
 	@NotNull
+	@Nonnull
 	private ConnInfo connection;
 }

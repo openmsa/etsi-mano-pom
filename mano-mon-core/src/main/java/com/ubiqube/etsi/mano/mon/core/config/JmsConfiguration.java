@@ -42,7 +42,6 @@ import jakarta.jms.ConnectionFactory;
 @SuppressWarnings("static-method")
 @Configuration
 public class JmsConfiguration {
-	@SuppressWarnings("static-method")
 	@Bean
 	MessageConverter jacksonJmsMessageConverter(final ObjectMapper mapper) {
 		final MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();

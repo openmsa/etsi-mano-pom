@@ -28,10 +28,13 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 import com.ubiqube.etsi.mano.service.mon.cli.MonPollingRemoteService;
 
 import io.micrometer.observation.ObservationRegistry;
+import jakarta.annotation.Nonnull;
 
 @Configuration(proxyBeanMethods = false)
 public class MonitoringRemoteService {
+	@Nonnull
 	private final DefaultClientRequestObservationConvention oc;
+	@Nonnull
 	private final ObservationRegistry observationRegistry;
 
 	public MonitoringRemoteService(final ConfigurableApplicationContext configurableApplicationContext) {

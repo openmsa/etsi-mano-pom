@@ -51,6 +51,7 @@ public class BatchPollingJob {
 	/***
 	 * Resource Id to poll.
 	 */
+	@Nonnull
 	private String resourceId;
 
 	/**

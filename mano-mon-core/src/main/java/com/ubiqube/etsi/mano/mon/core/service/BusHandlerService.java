@@ -26,8 +26,6 @@ import com.ubiqube.etsi.mano.mon.core.Constants;
 import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
 import com.ubiqube.etsi.mano.service.mon.data.MonConnInformation;
 
-import jakarta.annotation.Nonnull;
-
 @Service
 public class BusHandlerService {
 	private static final Logger LOG = LoggerFactory.getLogger(BusHandlerService.class);
@@ -38,14 +36,13 @@ public class BusHandlerService {
 		this.jmsTemplate = jmsTemplate;
 	}
 
-	public void emit(@Nonnull final BatchPollingJob batchPollingJob) {
+	public void emit(final BatchPollingJob batchPollingJob) {
 		final String queueName = buildQueueName(batchPollingJob);
 		LOG.trace("Sending to pollster: {}", queueName);
 		Hibernate.initialize(batchPollingJob.getConnection());
 		jmsTemplate.convertAndSend(queueName, batchPollingJob, Constants.MANO_MON_TICK_MILLIS - 1);
 	}
 
-	@Nonnull
 	private static String buildQueueName(final BatchPollingJob batchPollingJob) {
 		final MonConnInformation conn = batchPollingJob.getConnection();
 		final String connQueue = conn.getConnType().toLowerCase().replace("_", "-");
