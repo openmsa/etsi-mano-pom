@@ -45,7 +45,6 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.exception.GenericException;
 
-import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
 /**
@@ -58,7 +57,7 @@ public class JsonBeanUtil {
 	/** Logger instance. */
 	private static final Logger LOG = LoggerFactory.getLogger(JsonBeanUtil.class);
 	private final Set<String> simpleTypes = new HashSet<>();
-	private static final Map<String, @Nonnull Map<String, JsonBeanProperty>> CACHE = new ConcurrentHashMap<>();
+	private static final Map<String, Map<String, JsonBeanProperty>> CACHE = new ConcurrentHashMap<>();
 
 	public JsonBeanUtil() {
 		simpleTypes.add("java.lang.String");
@@ -105,7 +104,7 @@ public class JsonBeanUtil {
 			final Map<String, JsonBeanProperty> right = jsonBeanProperty.getRight();
 			stackName.push(key);
 			stackObject.push(jsonBeanProperty);
-			if (right.isEmpty()) {
+			if (!right.isEmpty()) {
 				rebuildPropertiesInner(right, stackName, stackObject, ret);
 			}
 			final String newKey = createKey(stackName);
