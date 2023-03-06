@@ -27,8 +27,6 @@ import org.springframework.stereotype.Service;
 import com.ubiqube.etsi.mano.service.mon.model.MonitoringData;
 import com.ubiqube.etsi.mano.service.mon.repository.MonitoringDataJpa;
 
-import jakarta.annotation.Nonnull;
-
 @Service
 public class ChangEvaluatorListener {
 	private static final Logger LOG = LoggerFactory.getLogger(ChangEvaluatorListener.class);
@@ -42,7 +40,7 @@ public class ChangEvaluatorListener {
 	}
 
 	@JmsListener(destination = Constants.QUEUE_CHANGE_EVALUATOR)
-	public void changeEvaluator(final @Nonnull MonitoringData result) {
+	public void changeEvaluator(final MonitoringData result) {
 		result.getKey();
 		result.getMasterJobId();
 		final List<MonitoringData> res = monitoringDataJpa.getLastMetrics(result.getKey(), result.getMasterJobId());
