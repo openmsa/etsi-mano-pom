@@ -21,6 +21,8 @@ import java.util.Objects;
 
 import org.springframework.core.env.EnumerablePropertySource;
 
+import jakarta.annotation.Nullable;
+
 public class DockerSecretPropertySource extends EnumerablePropertySource<Map<String, Object>> {
 
 	private final Map<String, Object> secrets;
@@ -48,11 +50,11 @@ public class DockerSecretPropertySource extends EnumerablePropertySource<Map<Str
 	}
 
 	@Override
-	public boolean equals(final Object obj) {
+	public boolean equals(final @Nullable Object obj) {
 		if (this == obj) {
 			return true;
 		}
-		if (!super.equals(obj) || (getClass() != obj.getClass())) {
+		if ((null == obj) || !super.equals(obj) || (getClass() != obj.getClass())) {
 			return false;
 		}
 		final DockerSecretPropertySource other = (DockerSecretPropertySource) obj;

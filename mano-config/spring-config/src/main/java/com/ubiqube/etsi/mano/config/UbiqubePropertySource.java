@@ -23,6 +23,7 @@ import java.util.ResourceBundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.EnumerablePropertySource;
+import org.springframework.lang.Nullable;
 
 public class UbiqubePropertySource extends EnumerablePropertySource<Map<String, Object>> {
 
@@ -58,11 +59,11 @@ public class UbiqubePropertySource extends EnumerablePropertySource<Map<String, 
 	}
 
 	@Override
-	public boolean equals(final Object obj) {
+	public boolean equals(final @Nullable Object obj) {
 		if (this == obj) {
 			return true;
 		}
-		if (!super.equals(obj) || (getClass() != obj.getClass())) {
+		if ((null == obj) || !super.equals(obj) || (getClass() != obj.getClass())) {
 			return false;
 		}
 		final UbiqubePropertySource other = (UbiqubePropertySource) obj;
