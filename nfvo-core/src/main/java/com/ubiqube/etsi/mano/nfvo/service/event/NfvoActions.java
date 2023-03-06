@@ -16,19 +16,31 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service.event;
 
+import java.util.List;
 import java.util.UUID;
-
-import jakarta.validation.constraints.NotNull;
 
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.Instance;
+import com.ubiqube.etsi.mano.dao.mano.NsLiveInstance;
+import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
+import com.ubiqube.etsi.mano.dao.mano.VimTask;
+import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
+import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVnfInstantiateTask;
+import com.ubiqube.etsi.mano.model.VnfHealRequest;
+import com.ubiqube.etsi.mano.nfvo.service.NsBlueprintService;
+import com.ubiqube.etsi.mano.nfvo.service.NsInstanceService;
 import com.ubiqube.etsi.mano.nfvo.service.graph.NfvoOrchestrationV3;
 import com.ubiqube.etsi.mano.nfvo.service.graph.NsOrchestrationAdapter;
 import com.ubiqube.etsi.mano.service.NsScaleStrategyV3;
 import com.ubiqube.etsi.mano.service.VimResourceService;
+import com.ubiqube.etsi.mano.service.VnfInstanceGatewayService;
 import com.ubiqube.etsi.mano.service.event.AbstractGenericActionV3;
+import com.ubiqube.etsi.mano.service.rest.ManoClient;
+import com.ubiqube.etsi.mano.service.rest.ManoClientFactory;
+
+import jakarta.validation.constraints.NotNull;
 
 /**
  *
@@ -37,12 +49,31 @@ import com.ubiqube.etsi.mano.service.event.AbstractGenericActionV3;
  */
 @Service
 public class NfvoActions extends AbstractGenericActionV3 {
-	public NfvoActions(final NfvoOrchestrationV3 workflow, final VimResourceService vimResourceService, final NsOrchestrationAdapter orchestrationAdapter, final NsScaleStrategyV3 nsScaleStrategy) {
+
+	private final NsBlueprintService blueprintService;
+	private final NsInstanceService nsInstanceService;
+	private final VnfInstanceGatewayService vnfInstancesService;
+	private final ManoClientFactory manoClientFactory;
+	
+	public NfvoActions(final NfvoOrchestrationV3 workflow, final VimResourceService vimResourceService, final NsOrchestrationAdapter orchestrationAdapter, final NsScaleStrategyV3 nsScaleStrategy,
+			NsBlueprintService blueprintService, NsInstanceService nsInstanceService, VnfInstanceGatewayService vnfInstancesService, ManoClientFactory manoClientFactory) {
 		super(workflow, vimResourceService, orchestrationAdapter, nsScaleStrategy);
+		this.blueprintService = blueprintService;
+		this.nsInstanceService = nsInstanceService;
+		this.vnfInstancesService = vnfInstancesService;
+		this.manoClientFactory = manoClientFactory;
 	}
 
 	public void heal(@NotNull final UUID objectId) {
-		//
+		final Blueprint<? extends VimTask, ? extends Instance> blueprint = orchestrationAdapter.getBluePrint(objectId);
+		final NsdInstance nsi = nsInstanceService.findById(blueprint.getInstance().getId());
+		final List<NsLiveInstance> vnfs = blueprintService.findByNsdInstanceAndClass(nsi, NsVnfInstantiateTask.class);
+		vnfs.stream().forEach((nsli) -> {
+			VnfInstance vnfInstance = vnfInstancesService.findById(UUID.fromString(nsli.getResourceId()));
+			NsVnfInstantiateTask t = (NsVnfInstantiateTask) nsli.getNsTask();
+			ManoClient mc = manoClientFactory.getClient(t.getServer());
+			mc.vnfInstance(vnfInstance.getId()).heal(new VnfHealRequest());
+		});
 	}
 
 	@Override

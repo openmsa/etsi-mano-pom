@@ -56,7 +56,7 @@ public abstract class AbstractGenericActionV3 {
 
 	private final VimResourceService vimResourceService;
 
-	private final OrchestrationAdapter<?, ?> orchestrationAdapter;
+	protected final OrchestrationAdapter<?, ?> orchestrationAdapter;
 
 	private final NsScaleStrategyV3 nsScaleStrategy;
 
