@@ -49,6 +49,7 @@ public class MonitoringData implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private OffsetDateTime time;
 	private String masterJobId;
+	@Nullable
 	private Double value;
 	@Nullable
 	private String text;
@@ -61,7 +62,7 @@ public class MonitoringData implements Serializable {
 		time = OffsetDateTime.now();
 	}
 
-	public MonitoringData(final String key2, final String masterJobId2, final OffsetDateTime timestamp, final Double value2, final String text, final String vnfInstanceId2, final boolean status) {
+	public MonitoringData(final String key2, final String masterJobId2, final OffsetDateTime timestamp, @Nullable final Double value2, @Nullable final String text, final String vnfInstanceId2, final boolean status) {
 		this.id = UUID.randomUUID();
 		this.time = timestamp;
 		this.masterJobId = masterJobId2;

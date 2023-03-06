@@ -28,8 +28,6 @@ import com.ubiqube.etsi.mano.service.mon.data.JmsMetricHolder;
 import com.ubiqube.etsi.mano.service.mon.model.MonitoringData;
 import com.ubiqube.etsi.mano.service.mon.repository.MonitoringDataJpa;
 
-import jakarta.annotation.Nonnull;
-
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
@@ -48,7 +46,7 @@ public class PostgresDataListener {
 	}
 
 	@JmsListener(destination = BusHelper.TOPIC_SERIALZE_DATA, subscription = "mano.monitoring.gnocchi.data", concurrency = "1", containerFactory = "serialzeDataFactory")
-	public void onGnocchiData(final @Nonnull JmsMetricHolder results) {
+	public void onGnocchiData(final JmsMetricHolder results) {
 		LOG.trace(POSTGRESQL_RECEIVE, results);
 		final List<MonitoringData> metrics = results.getMetrics().stream()
 				.map(x -> new MonitoringData(x.getMasterJobId(), x.getKey(), x.getTimestamp(), x.getValue(), x.getTxt(), x.getMasterJobId(), x.isStatus()))

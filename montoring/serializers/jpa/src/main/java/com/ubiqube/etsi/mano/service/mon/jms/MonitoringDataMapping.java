@@ -14,15 +14,21 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service.mon.service;
+package com.ubiqube.etsi.mano.service.mon.jms;
 
-import java.util.List;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.factory.Mappers;
 
 import com.ubiqube.etsi.mano.mon.dao.TelemetryMetricsResult;
+import com.ubiqube.etsi.mano.service.mon.model.MonitoringData;
 
-public class JpsSearchService {
+@Mapper
+public interface MonitoringDataMapping {
+	MonitoringDataMapping INSTANCE = Mappers.getMapper(MonitoringDataMapping.class);
 
-	List<TelemetryMetricsResult> search() {
-		return List.of();
-	}
+	@Mapping(target = "timestamp", source = "time")
+	@Mapping(target = "txt", source = "text")
+	@Mapping(target = "vnfcId", source = "id")
+	TelemetryMetricsResult fromDto(MonitoringData ci);
 }
