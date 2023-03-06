@@ -36,12 +36,11 @@ public class SwaggerDocumentationConfigMain {
 	private final SecutiryConfig secutiryConfig;
 
 	public SwaggerDocumentationConfigMain(final SecutiryConfig secutiryConfig) {
-		super();
 		this.secutiryConfig = secutiryConfig;
 	}
 
 	@Bean
-	public OpenAPI openApiMain(final ManoProperties oauth2Params) {
+	OpenAPI openApiMain(final ManoProperties oauth2Params) {
 		final OpenAPI openApi = new OpenAPI();
 		final SecurityScheme sec = secutiryConfig.getSwaggerSecurityScheme(oauth2Params);
 		if (null != sec) {
@@ -58,7 +57,7 @@ public class SwaggerDocumentationConfigMain {
 
 	@SuppressWarnings("static-method")
 	@Bean
-	public GroupedOpenApi customImplementationMain() {
+	GroupedOpenApi customImplementationMain() {
 		return GroupedOpenApi.builder()
 				.group("main")
 				.packagesToScan("com.ubiqube.etsi.mano.controller", "com.ubiqube.etsi.mano.nfvo.controller")

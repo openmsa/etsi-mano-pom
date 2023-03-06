@@ -39,13 +39,13 @@ public class GlobalConfiguraton {
 	private static final Logger LOG = LoggerFactory.getLogger(GlobalConfiguraton.class);
 
 	@Bean
-	public HttpMessageConverter<BufferedImage> bufferedImageHttpMessageConverter() {
+	HttpMessageConverter<BufferedImage> bufferedImageHttpMessageConverter() {
 		LOG.debug("Registering BufferedImage converter");
 		return new BufferedImageHttpMessageConverter();
 	}
 
 	@Bean
-	public ConditionService conditionService() {
+	ConditionService conditionService() {
 		return new ConditionService();
 	}
 }

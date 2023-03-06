@@ -45,7 +45,7 @@ public class NfvoApplication extends SpringBootServletInitializer {
 	}
 
 	@Bean
-	public JibDockerService jib() {
+	JibDockerService jib() {
 		return new JibDockerService();
 	}
 }

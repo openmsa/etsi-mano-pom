@@ -29,7 +29,7 @@ import org.springframework.context.annotation.Configuration;
 public class VnfmSwaggerDocumentationConfig281 {
 	@SuppressWarnings("static-method")
 	@Bean
-	public GroupedOpenApi customImplementationVnfm281() {
+	GroupedOpenApi customImplementationVnfm281() {
 		return GroupedOpenApi.builder()
 				.group("vnfm-etsi-mano-2.8.1")
 				.packagesToScan("com.ubiqube.etsi.mano.vnfm.v281")

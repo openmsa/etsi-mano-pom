@@ -29,7 +29,7 @@ import org.springframework.context.annotation.Configuration;
 public class NfvoSwaggerDocumentationConfig351 {
 	@SuppressWarnings("static-method")
 	@Bean
-	public GroupedOpenApi customImplementationNfvo351() {
+	GroupedOpenApi customImplementationNfvo351() {
 		return GroupedOpenApi.builder()
 				.group("nfvo-etsi-mano-3.5.1")
 				.packagesToScan("com.ubiqube.etsi.mano.nfvo.v351")

@@ -31,7 +31,7 @@ import jakarta.jms.ConnectionFactory;
 public class JmsTemplateConfig {
 
 	@Bean
-	public JmsTemplate jmsTopicTemplate(final ConnectionFactory connectionFactory) {
+	JmsTemplate jmsTopicTemplate(final ConnectionFactory connectionFactory) {
 		final JmsTemplate jmsTemplate = new JmsTemplate(connectionFactory);
 		jmsTemplate.setPubSubDomain(true);
 		return jmsTemplate;

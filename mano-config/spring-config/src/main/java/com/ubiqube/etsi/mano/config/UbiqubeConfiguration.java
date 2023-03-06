@@ -40,7 +40,7 @@ public class UbiqubeConfiguration {
 
 	@SuppressWarnings("static-method")
 	@Bean
-	public UbiqubeSourceLocator getSourceLocator() {
+	UbiqubeSourceLocator getSourceLocator() {
 		return new UbiqubeSourceLocator();
 	}
 

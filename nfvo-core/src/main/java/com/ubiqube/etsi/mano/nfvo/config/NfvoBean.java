@@ -27,7 +27,7 @@ import com.ubiqube.etsi.mano.docker.JibDockerService;
 public class NfvoBean {
 
 	@Bean
-	public DockerService dockerService() {
+	DockerService dockerService() {
 		return new JibDockerService();
 	}
 }

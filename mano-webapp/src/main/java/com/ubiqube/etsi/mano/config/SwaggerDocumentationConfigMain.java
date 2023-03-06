@@ -33,7 +33,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 public class SwaggerDocumentationConfigMain {
 	@SuppressWarnings("static-method")
 	@Bean
-	public OpenAPI openApiMain() {
+	OpenAPI openApiMain() {
 		return new OpenAPI()
 				.components(new Components().addSecuritySchemes("basicScheme", new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("basic"))
 						.addHeaders("Content-Type", new Header().description("myHeader2 header").schema(new StringSchema()._default("application/json")).required(true))
@@ -46,7 +46,7 @@ public class SwaggerDocumentationConfigMain {
 
 	@SuppressWarnings("static-method")
 	@Bean
-	public GroupedOpenApi customImplementationMain() {
+	GroupedOpenApi customImplementationMain() {
 		return GroupedOpenApi.builder()
 				.group("main")
 				.packagesToScan("com.ubiqube.etsi.mano.controllers")
