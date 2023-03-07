@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.ubiqube.mano.remote</groupId>
 		<artifactId>remote-aggregator</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>3.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>remote-ssh</artifactId>
 
@@ -44,7 +44,7 @@
 		<dependency>
 			<groupId>com.ubiqube.mano.remote</groupId>
 			<artifactId>remote-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
