@@ -23,6 +23,7 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -71,7 +72,7 @@ public class ContextBuilderService {
 		}
 		final PropertyDescriptor[] clspd = cls.getPropertyDescriptors();
 		for (final PropertyDescriptor pd : clspd) {
-			final Method rm = pd.getReadMethod();
+			final Method rm = Objects.requireNonNull(pd.getReadMethod());
 			final Object oRes = ReflectionUtils.invoke(rm, res);
 			if (null != oRes) {
 				ctx.put(pd.getName(), oRes);

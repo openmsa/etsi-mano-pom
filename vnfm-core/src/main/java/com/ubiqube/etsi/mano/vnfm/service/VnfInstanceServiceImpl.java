@@ -40,6 +40,7 @@ import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
 
+import jakarta.annotation.Nullable;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 
@@ -123,7 +124,7 @@ public class VnfInstanceServiceImpl implements VnfInstanceService {
 	}
 
 	@Override
-	public VnfInstance vnfLcmPatch(final VnfInstance vnfInstance, final String body, final String ifMatch) {
+	public VnfInstance vnfLcmPatch(final VnfInstance vnfInstance, final String body, final @Nullable String ifMatch) {
 		if ((ifMatch != null) && !ifMatch.equals(vnfInstance.getVersion() + "")) {
 			throw new PreConditionException(ifMatch + " does not match " + vnfInstance.getVersion());
 		}
@@ -138,7 +139,7 @@ public class VnfInstanceServiceImpl implements VnfInstanceService {
 	}
 
 	@Override
-	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink) {
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final @Nullable String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink) {
 		return searchableService.search(VnfInstance.class, requestParams, clazz, excludeDefaults, mandatoryFields, makeLink, List.of());
 	}
 
@@ -147,6 +148,7 @@ public class VnfInstanceServiceImpl implements VnfInstanceService {
 		return vnfInstanceJpa.findById(safeUUID).orElseThrow(() -> new GenericException("Unqble to find VNF instance: " + safeUUID));
 	}
 
+	@Override
 	public List<VnfLiveInstance> findByVnfInstanceId(final UUID id) {
 		return vnfLiveInstanceJpa.findByVnfInstanceId(id);
 	}

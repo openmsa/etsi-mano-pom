@@ -71,6 +71,7 @@ public class VnfInstantiateUow extends AbstractUnitOfWork<NsVnfInstantiateTask> 
 	}
 
 	@Override
+	@Nullable
 	public String execute(final Context3d context) {
 		final String inst = context.get(VnfCreateNode.class, task.getVnfInstanceName());
 		final List<ExternalManagedVirtualLink> net = task.getParam().getForwardMapping().stream().map(x -> {

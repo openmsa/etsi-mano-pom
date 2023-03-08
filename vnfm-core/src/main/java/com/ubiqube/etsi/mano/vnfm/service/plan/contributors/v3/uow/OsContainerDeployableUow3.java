@@ -28,10 +28,15 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerDeployableNode;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 
-public class OsContainerDeployableUow3 extends AbstractVnfmUowV3<OsContainerDeployableTask> {
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
+public class OsContainerDeployableUow3 extends AbstractVnfmUowV3<OsContainerDeployableTask> {
+	@Nonnull
 	private final Vim vim;
+	@Nonnull
 	private final VimConnectionInformation vci;
+	@Nonnull
 	private final OsContainerDeployableTask task;
 
 	public OsContainerDeployableUow3(final VirtualTaskV3<OsContainerDeployableTask> task, final Vim vim, final VimConnectionInformation vimConnectionInformation) {
@@ -42,7 +47,7 @@ public class OsContainerDeployableUow3 extends AbstractVnfmUowV3<OsContainerDepl
 	}
 
 	@Override
-	public String execute(final Context3d context) {
+	public @Nullable String execute(final Context3d context) {
 		final String network = Optional.ofNullable(task.getNetwork()).map(x -> context.get(Network.class, x)).orElse(null);
 		final OsContainerDeployableUnit du = task.getOsContainerDeployableUnit();
 		final CnfInformations ci = vci.getCnfInfo();
@@ -50,7 +55,7 @@ public class OsContainerDeployableUow3 extends AbstractVnfmUowV3<OsContainerDepl
 	}
 
 	@Override
-	public String rollback(final Context3d context) {
+	public @Nullable String rollback(final Context3d context) {
 		vim.cnf(vci).deleteK8s(task.getVimResourceId());
 		return null;
 	}

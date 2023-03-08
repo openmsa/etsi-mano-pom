@@ -63,7 +63,7 @@ public class GroovyElection implements VimElection {
 	}
 
 	@Override
-	public @Nullable VimConnectionInformation doElection(final List<VimConnectionInformation> inVims, final GrantResponse grant, final Set<VnfCompute> vnfcs, final Set<VnfStorage> storages) {
+	public @Nullable VimConnectionInformation doElection(final List<VimConnectionInformation> inVims, final @Nullable GrantResponse grant, final Set<VnfCompute> vnfcs, final Set<VnfStorage> storages) {
 		final ExecutorService executor = Executors.newFixedThreadPool(5);
 		final CompletionService<VoteResponse> completionService = new ExecutorCompletionService<>(executor);
 		final List<Path> scripts = findScript();

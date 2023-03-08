@@ -22,6 +22,8 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.SapNode;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.graph.AbstractUnitOfWork;
 
+import jakarta.annotation.Nullable;
+
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
@@ -36,13 +38,13 @@ public class NsSapUow extends AbstractUnitOfWork<NsSapTask> {
 	}
 
 	@Override
-	public String execute(final Context3d context) {
+	public @Nullable String execute(final Context3d context) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String rollback(final Context3d context) {
+	public @Nullable String rollback(final Context3d context) {
 		// TODO Auto-generated method stub
 		return null;
 	}

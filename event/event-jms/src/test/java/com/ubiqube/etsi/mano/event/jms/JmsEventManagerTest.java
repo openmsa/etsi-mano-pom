@@ -38,7 +38,7 @@ import com.ubiqube.etsi.mano.service.event.jms.JmsEventManager;
 import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 
 @ExtendWith(MockitoExtension.class)
-public class JmsEventManagerTest {
+class JmsEventManagerTest {
 
 	@Mock
 	private JmsTemplate jmsTemplate;
@@ -55,7 +55,7 @@ public class JmsEventManagerTest {
 	}
 
 	@Test
-	void testNotificationSender() throws Exception {
+	void testNotificationSender() {
 		final JmsEventManager jem = new JmsEventManager(jmsTemplate, eventMessageJpa, configurable);
 		final SubscriptionEvent se = new SubscriptionEvent();
 		mockQueueName();
@@ -64,7 +64,7 @@ public class JmsEventManagerTest {
 	}
 
 	@Test
-	void testSendAction() throws Exception {
+	void testSendAction() {
 		final JmsEventManager jem = new JmsEventManager(jmsTemplate, eventMessageJpa, configurable);
 		final SubscriptionEvent se = new SubscriptionEvent();
 		mockQueueName();
@@ -73,7 +73,7 @@ public class JmsEventManagerTest {
 	}
 
 	@Test
-	void testSendActionNfvo() throws Exception {
+	void testSendActionNfvo() {
 		final JmsEventManager jem = new JmsEventManager(jmsTemplate, eventMessageJpa, configurable);
 		final SubscriptionEvent se = new SubscriptionEvent();
 		mockQueueName();
@@ -82,7 +82,7 @@ public class JmsEventManagerTest {
 	}
 
 	@Test
-	void testSendActionVnfm() throws Exception {
+	void testSendActionVnfm() {
 		final JmsEventManager jem = new JmsEventManager(jmsTemplate, eventMessageJpa, configurable);
 		final SubscriptionEvent se = new SubscriptionEvent();
 		mockQueueName();
@@ -91,7 +91,7 @@ public class JmsEventManagerTest {
 	}
 
 	@Test
-	void testSendGrant() throws Exception {
+	void testSendGrant() {
 		final JmsEventManager jem = new JmsEventManager(jmsTemplate, eventMessageJpa, configurable);
 		final SubscriptionEvent se = new SubscriptionEvent();
 		mockQueueName();
@@ -100,7 +100,7 @@ public class JmsEventManagerTest {
 	}
 
 	@Test
-	void testSendNotification() throws Exception {
+	void testSendNotification() {
 		final JmsEventManager jem = new JmsEventManager(jmsTemplate, eventMessageJpa, configurable);
 		final SubscriptionEvent se = new SubscriptionEvent();
 		mockQueueName();

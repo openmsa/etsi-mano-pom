@@ -95,7 +95,7 @@ public class NfvoApiVersion {
 		res.entrySet().forEach(x -> dedupe.add(x.getValue().part, x.getValue().version));
 	}
 
-	private static boolean haveUsableRequest(final RequestMapping req) {
+	private static boolean haveUsableRequest(final @Nullable RequestMapping req) {
 		return (null != req) && (req.headers() != null) && (req.value().length > 0);
 	}
 
@@ -161,7 +161,7 @@ public class NfvoApiVersion {
 		return handleQuery(module, request.getRequestURI(), null);
 	}
 
-	private ResponseEntity<ApiVersionInformation> handleQuery(final String module, final String url, final Integer v) {
+	private ResponseEntity<ApiVersionInformation> handleQuery(final String module, final String url, @Nullable final Integer v) {
 		final ApiVersionInformation apiVersion = new ApiVersionInformation();
 		final String frag = getFragment(url, module);
 		String key = null;

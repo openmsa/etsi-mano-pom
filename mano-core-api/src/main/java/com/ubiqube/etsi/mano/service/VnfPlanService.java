@@ -135,7 +135,7 @@ public class VnfPlanService {
 			vnfPkg.getVnfCompute().forEach(z -> g.from(VnfIndicator.class, x.getName()).dependency(Compute.class, z.getToscaName(), Relation.ONE_TO_MANY));
 			// x.getMonitoringParameters().forEach(y -> g.from(VnfIndicator.class,
 			// x.getName()).addNext(Monitoring.class, x.getName() + "-" + y.getName(),
-			// Relation.ONE_TO_ONE));
+			// Relation.ONE_TO_ONE))
 		});
 		return g.build();
 	}

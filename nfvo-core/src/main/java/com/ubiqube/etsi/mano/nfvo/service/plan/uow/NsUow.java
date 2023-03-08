@@ -31,6 +31,8 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.NsdInstantiateNode;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.graph.AbstractUnitOfWork;
 
+import jakarta.annotation.Nullable;
+
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
@@ -52,7 +54,7 @@ public class NsUow extends AbstractUnitOfWork<NsdTask> {
 	}
 
 	@Override
-	public String execute(final Context3d context) {
+	public @Nullable String execute(final Context3d context) {
 		final VnfInstantiate instantiateRequest = createInstantiateRequest();
 		instantiateRequest.setFlavourId(nsdTask.getFlavourId());
 		instantiateRequest.setInstantiationLevelId(nsdTask.getInstantiationLevelId());
@@ -78,6 +80,7 @@ public class NsUow extends AbstractUnitOfWork<NsdTask> {
 	}
 
 	@Override
+	@Nullable
 	public String rollback(final Context3d context) {
 		final VnfBlueprint lcm = nsLcmOpOccsService.terminate(nsdTask.getServer(), nsdTask.getNsInstanceId(), null, 0);
 		final VnfBlueprint result = UowUtils.waitLcmCompletion(lcm, func, nsdTask.getServer());

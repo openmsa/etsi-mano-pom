@@ -25,10 +25,11 @@ import org.junit.jupiter.api.Test;
 
 import com.ubiqube.etsi.mano.service.event.jms.GrantMessage;
 
-public class GrantMessageTest {
+@SuppressWarnings("static-method")
+class GrantMessageTest {
 
 	@Test
-	void testName() throws Exception {
+	void testName() {
 		final GrantMessage gm = new GrantMessage();
 		gm.setObjectId(UUID.randomUUID());
 		gm.setParameters(Map.of());

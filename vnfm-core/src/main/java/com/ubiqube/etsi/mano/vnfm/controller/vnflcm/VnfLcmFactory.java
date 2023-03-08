@@ -33,6 +33,8 @@ import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.PlanOperationType;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 
+import jakarta.annotation.Nullable;
+
 public class VnfLcmFactory {
 
 	private VnfLcmFactory() {
@@ -40,7 +42,7 @@ public class VnfLcmFactory {
 	}
 
 	// XXX Is it to be in LCM ?
-	public static VnfInstance createVnfInstance(final String vnfInstanceName, final String vnfInstanceDescription, final VnfPackage vnfPkgInfo) {
+	public static VnfInstance createVnfInstance(final String vnfInstanceName, @Nullable final String vnfInstanceDescription, final VnfPackage vnfPkgInfo) {
 		final VnfInstance vnfInstance = new VnfInstance();
 		vnfInstance.setVnfPkg(vnfPkgInfo);
 		vnfInstance.setVnfInstanceName(vnfInstanceName);

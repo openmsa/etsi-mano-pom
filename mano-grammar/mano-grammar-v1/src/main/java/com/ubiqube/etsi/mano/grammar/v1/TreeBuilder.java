@@ -50,6 +50,7 @@ import jakarta.annotation.Nullable;
  *
  */
 public class TreeBuilder extends EtsiFilterBaseListener {
+	@Nullable
 	private Node<String> currentNode;
 	private final List<Node<String>> listNode = new ArrayList<>();
 
@@ -57,6 +58,7 @@ public class TreeBuilder extends EtsiFilterBaseListener {
 	public void exitOp(final @Nullable OpContext ctx) {
 		Objects.requireNonNull(ctx);
 		final Operand op = Operand.valueOf(ctx.getText().toUpperCase());
+		Objects.requireNonNull(currentNode);
 		currentNode.setOp(op);
 		super.exitOp(ctx);
 	}
@@ -70,6 +72,7 @@ public class TreeBuilder extends EtsiFilterBaseListener {
 	@Override
 	public void exitValue(final @Nullable ValueContext ctx) {
 		Objects.requireNonNull(ctx);
+		Objects.requireNonNull(currentNode);
 		currentNode.addValue(ctx.getText());
 		super.exitValue(ctx);
 	}
@@ -83,11 +86,12 @@ public class TreeBuilder extends EtsiFilterBaseListener {
 	@Override
 	public void exitAttrName(final @Nullable AttrNameContext ctx) {
 		Objects.requireNonNull(ctx);
-		final String currentName = currentNode.getName();
+		final Node<String> cn = Objects.requireNonNull(currentNode);
+		final String currentName = cn.getName();
 		if (null == currentName) {
-			currentNode.setName(ctx.getText());
+			cn.setName(ctx.getText());
 		} else {
-			currentNode.setName(currentNode.getName() + "." + ctx.getText());
+			cn.setName(cn.getName() + "." + ctx.getText());
 		}
 		super.exitAttrName(ctx);
 	}

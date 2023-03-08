@@ -40,7 +40,6 @@ import java.util.function.Function;
 import org.apache.commons.io.input.CountingInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.MediaType;
@@ -76,11 +75,8 @@ public class DownloaderService {
 
 	private final VnfPackageRepository packageRepository;
 
-	private final BeanFactory beanFactory;
-
-	public DownloaderService(final VnfPackageRepository packageRepository, final BeanFactory beanFactory) {
+	public DownloaderService(final VnfPackageRepository packageRepository) {
 		this.packageRepository = packageRepository;
-		this.beanFactory = beanFactory;
 	}
 
 	public void doDownload(final List<SoftwareImage> sws, final UUID vnfPkgId) {

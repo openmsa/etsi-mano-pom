@@ -34,6 +34,7 @@ import com.ubiqube.etsi.mano.dao.mano.nsd.VnffgInstance;
 import com.ubiqube.etsi.mano.nfvo.service.pkg.ns.NsOnboardingVisitor;
 import com.ubiqube.etsi.mano.service.pkg.ns.NsPackageProvider;
 
+import jakarta.annotation.Nullable;
 import jakarta.annotation.Priority;
 
 /**
@@ -61,7 +62,7 @@ public class VnffgVisitor implements NsOnboardingVisitor {
 		});
 	}
 
-	private static String getLogicalDestinationPort(final VnffgDescriptor vnffg) {
+	private static @Nullable String getLogicalDestinationPort(final VnffgDescriptor vnffg) {
 		if (vnffg.getNfpd().isEmpty()) {
 			return null;
 		}
@@ -81,7 +82,7 @@ public class VnffgVisitor implements NsOnboardingVisitor {
 		return p.getIngress();
 	}
 
-	private static String getLogicalSourcePort(final VnffgDescriptor vnffg) {
+	private static @Nullable String getLogicalSourcePort(final VnffgDescriptor vnffg) {
 		if (vnffg.getNfpd().isEmpty()) {
 			return null;
 		}

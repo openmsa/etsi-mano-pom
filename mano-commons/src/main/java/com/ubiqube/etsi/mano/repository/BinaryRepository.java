@@ -19,19 +19,19 @@ package com.ubiqube.etsi.mano.repository;
 import java.io.InputStream;
 import java.util.UUID;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.annotation.Nullable;
 
 public interface BinaryRepository {
 
-	void storeObject(@NotNull UUID id, @NotNull String filename, Object object);
+	void storeObject(UUID id, String filename, Object object);
 
-	void storeBinary(@NotNull UUID id, @NotNull String filename, InputStream stream);
+	void storeBinary(UUID id, String filename, InputStream stream);
 
-	ManoResource getBinary(@NotNull UUID id, @NotNull String filename);
+	ManoResource getBinary(UUID id, String filename);
 
-	ManoResource getBinary(@NotNull UUID id, @NotNull String filename, int min, Long max);
+	ManoResource getBinary(UUID id, String filename, int min, @Nullable Long max);
 
-	void delete(@NotNull UUID id, @NotNull String filename);
+	void delete(UUID id, String filename);
 
-	void delete(@NotNull UUID id);
+	void delete(UUID id);
 }

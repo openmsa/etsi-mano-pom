@@ -35,7 +35,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StreamUtils;
 import org.springframework.util.StringUtils;
@@ -43,6 +42,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 @Controller
 public class NpmVersionResolver {
@@ -121,7 +121,7 @@ public class NpmVersionResolver {
 		return "https://unpkg.com/" + webjar + remainder;
 	}
 
-	private static String findLocalPath(final String path) {
+	private static @Nullable String findLocalPath(final String path) {
 		final File module = new File("node_modules", path);
 		if (module.exists() && module.isDirectory()) {
 			return "/" + module.getPath();
@@ -143,7 +143,7 @@ public class NpmVersionResolver {
 		return null;
 	}
 
-	private static String path(final String webjar, final String version, final String path) {
+	private static @Nullable String path(final String webjar, final String version, final String path) {
 		if (path.equals("/")) {
 			return module(webjar, version, path);
 		}
@@ -159,7 +159,7 @@ public class NpmVersionResolver {
 		return null;
 	}
 
-	private static String module(final String webjar, final String version, final String path) {
+	private static @Nullable String module(final String webjar, final String version, final String path) {
 		final Resource resource = new ClassPathResource(RESOURCE_ROOT + webjar + "/" + version + PACKAGE_JSON);
 		if (resource.isReadable()) {
 			try {
@@ -196,7 +196,7 @@ public class NpmVersionResolver {
 		return (String) sub.getOrDefault(elements[elements.length - 1], defaultValue);
 	}
 
-	private static String version(final String webjar) {
+	private static @Nullable String version(final String webjar) {
 		Resource resource = new ClassPathResource(PROPERTIES_ROOT + NPM + webjar + POM_PROPERTIES);
 		if (!resource.isReadable()) {
 			resource = new ClassPathResource(PROPERTIES_ROOT + PLAIN + webjar + POM_PROPERTIES);

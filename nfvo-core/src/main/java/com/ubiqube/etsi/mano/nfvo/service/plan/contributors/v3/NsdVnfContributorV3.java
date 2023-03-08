@@ -50,6 +50,8 @@ import com.ubiqube.etsi.mano.service.NsScaleStrategyV3;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.rest.model.ServerType;
 
+import jakarta.annotation.Nullable;
+
 /**
  *
  * @author olivier
@@ -140,7 +142,7 @@ public class NsdVnfContributorV3 extends AbstractNsdContributorV3<Object> {
 				.orElse(lp.getValue());
 	}
 
-	private Servers selectServer(final VnfPackage vnfPackage) {
+	private @Nullable Servers selectServer(final VnfPackage vnfPackage) {
 		final List<Servers> servers = serversJpa.findByServerTypeAndServerStatusIn(ServerType.VNFM, Arrays.asList(PlanStatusType.SUCCESS));
 		if (servers.isEmpty()) {
 			return null;

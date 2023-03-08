@@ -19,6 +19,7 @@ package com.ubiqube.etsi.mano.service.event;
 import java.util.stream.Stream;
 
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * Enum for all asynchronous event.
@@ -74,6 +75,7 @@ public enum ActionType {
 	 * @param v
 	 * @return Returning null pose some problem.
 	 */
+	@Nullable
 	public static ActionType fromValue(final String v) {
 		return Stream.of(ActionType.values())
 				.filter(x -> String.valueOf(x.value).equals(v))

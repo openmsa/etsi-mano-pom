@@ -25,22 +25,19 @@ import com.ubiqube.etsi.mano.model.VnfHealRequest;
 import com.ubiqube.etsi.mano.model.VnfInstantiate;
 import com.ubiqube.etsi.mano.model.VnfScaleRequest;
 
-import jakarta.annotation.Nonnull;
-import jakarta.validation.constraints.NotNull;
-
 public interface VnfmInterface {
 
 	VnfInstance createVnfInstance(Servers servers, String vnfdId, String vnfInstanceDescription, String vnfInstanceName);
 
-	VnfBlueprint vnfInstatiate(Servers servers, @Nonnull String vnfInstanceId, VnfInstantiate instantiateVnfRequest);
+	VnfBlueprint vnfInstatiate(Servers servers, String vnfInstanceId, VnfInstantiate instantiateVnfRequest);
 
-	VnfBlueprint vnfLcmOpOccsGet(Servers servers, @NotNull UUID id);
+	VnfBlueprint vnfLcmOpOccsGet(Servers servers, UUID id);
 
-	VnfBlueprint vnfTerminate(Servers servers, @Nonnull String nsInstanceId);
+	VnfBlueprint vnfTerminate(Servers servers, String nsInstanceId);
 
-	VnfBlueprint vnfScale(Servers servers, @Nonnull UUID vnfInstanceId, VnfScaleRequest vnfScaleRequest);
+	VnfBlueprint vnfScale(Servers servers, UUID vnfInstanceId, VnfScaleRequest vnfScaleRequest);
 
-	VnfBlueprint vnfHeal(Servers servers, @Nonnull UUID vnfInstanceId, VnfHealRequest vnfHealRequest);
+	VnfBlueprint vnfHeal(Servers servers, UUID vnfInstanceId, VnfHealRequest vnfHealRequest);
 
 	VnfInstance getVnfInstance(Servers servers, String vnfInstance);
 

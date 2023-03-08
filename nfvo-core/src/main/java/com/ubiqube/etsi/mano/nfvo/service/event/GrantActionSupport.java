@@ -60,6 +60,7 @@ import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  *
@@ -114,7 +115,7 @@ public class GrantActionSupport implements GrantSupport {
 		return pkg.getOsContainer();
 	}
 
-	private VimConnectionInformation electVim(final String vnfPackageVimId, final GrantResponse grantResponse, final VnfPackage vnfPackage) {
+	private VimConnectionInformation electVim(@Nullable final String vnfPackageVimId, final GrantResponse grantResponse, final VnfPackage vnfPackage) {
 		final Set<VimConnectionInformation> vimConns = grantResponse.getVimConnections();
 		String vimId;
 		if ((null != vimConns) && !vimConns.isEmpty()) {

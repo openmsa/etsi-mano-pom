@@ -154,7 +154,7 @@ public class CommonActionController {
 		fragments.forEach(x -> Optional.ofNullable(getVersion(x, server)).ifPresent(versions::add));
 	}
 
-	private ApiVersion getVersion(final String fragment, final Servers server) {
+	private @Nullable ApiVersion getVersion(final String fragment, final Servers server) {
 		try {
 			final Map<String, Object> uriVariables = Map.of("fragment", fragment);
 			final FluxRest rest = new FluxRest(server);
@@ -271,7 +271,7 @@ public class CommonActionController {
 				.build();
 	}
 
-	private Subscription postSubscription(final FluxRest rest, final URI uri, final Object subsOut, final Class<?> clazzWire, final Class<?> clazz, final String version) {
+	private Subscription postSubscription(final FluxRest rest, final URI uri, final Object subsOut, final Class<?> clazzWire, final Class<?> clazz, @Nullable final String version) {
 		final Object wire = mapper.map(subsOut, clazzWire);
 		final Object res = rest.post(uri, wire, clazz, version);
 		return mapper.map(res, Subscription.class);

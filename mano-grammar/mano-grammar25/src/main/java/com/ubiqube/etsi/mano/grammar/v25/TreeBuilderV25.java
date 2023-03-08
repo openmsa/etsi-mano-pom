@@ -45,10 +45,14 @@ import com.mano.etsi.mano.grammar.v25.EtsiFilterV25BaseListener;
 import com.ubiqube.etsi.mano.grammar.Node;
 import com.ubiqube.etsi.mano.grammar.Node.Operand;
 
+import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
 public class TreeBuilderV25 extends EtsiFilterV25BaseListener {
+	private static final String CURRENT_NODE_IS_NULL = "Current node is null";
+	@Nullable
 	private Node<String> currentNode;
+	@Nonnull
 	private final List<Node<String>> listNode = new ArrayList<>();
 
 	public List<Node<String>> getListNode() {
@@ -80,6 +84,7 @@ public class TreeBuilderV25 extends EtsiFilterV25BaseListener {
 	@Override
 	public void exitFilter(final @Nullable FilterContext ctx) {
 		Objects.requireNonNull(ctx);
+		Objects.requireNonNull(currentNode, CURRENT_NODE_IS_NULL);
 		currentNode.addValue(ctx.getText());
 	}
 
@@ -87,6 +92,7 @@ public class TreeBuilderV25 extends EtsiFilterV25BaseListener {
 	public void exitOpOne(final @Nullable OpOneContext ctx) {
 		Objects.requireNonNull(ctx);
 		final Operand op = Operand.valueOf(ctx.getText().toUpperCase());
+		Objects.requireNonNull(currentNode, CURRENT_NODE_IS_NULL);
 		currentNode.setOp(op);
 	}
 
@@ -94,23 +100,26 @@ public class TreeBuilderV25 extends EtsiFilterV25BaseListener {
 	public void exitOpMulti(final @Nullable OpMultiContext ctx) {
 		Objects.requireNonNull(ctx);
 		final Operand op = Operand.valueOf(ctx.getText().toUpperCase());
+		Objects.requireNonNull(currentNode, CURRENT_NODE_IS_NULL);
 		currentNode.setOp(op);
 	}
 
 	@Override
 	public void exitAttrName(final @Nullable AttrNameContext ctx) {
 		Objects.requireNonNull(ctx);
-		final String currentName = currentNode.getName();
+		final Node<String> cn = Objects.requireNonNull(currentNode, CURRENT_NODE_IS_NULL);
+		final String currentName = cn.getName();
 		if (null == currentName) {
-			currentNode.setName(ctx.getText());
+			cn.setName(ctx.getText());
 		} else {
-			currentNode.setName(currentNode.getName() + "." + ctx.getText());
+			cn.setName(cn.getName() + "." + ctx.getText());
 		}
 	}
 
 	@Override
 	public void exitValue(final @Nullable ValueContext ctx) {
 		Objects.requireNonNull(ctx);
+		Objects.requireNonNull(currentNode, CURRENT_NODE_IS_NULL);
 		currentNode.addValue(ctx.getText());
 	}
 

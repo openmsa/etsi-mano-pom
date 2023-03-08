@@ -37,6 +37,7 @@ import com.ubiqube.etsi.mano.nfvo.service.pkg.ns.NsOnboardingVisitor;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.pkg.ns.NsPackageProvider;
 
+import jakarta.annotation.Nullable;
 import jakarta.annotation.Priority;
 
 /**
@@ -116,7 +117,7 @@ public class VnfPackageVisitor implements NsOnboardingVisitor {
 		vnfPackage.setVirtualLinks(newList);
 	}
 
-	private Optional<VnfPackage> getVnfPackage(final String flavor, final String descriptorId, final String version) {
+	private Optional<VnfPackage> getVnfPackage(final @Nullable String flavor, final @Nullable String descriptorId, final @Nullable String version) {
 		int part = 0;
 		if (flavor != null) {
 			part++;

@@ -26,6 +26,8 @@ import com.ubiqube.etsi.mano.service.graph.AbstractUnitOfWork;
 import com.ubiqube.etsi.mano.tf.ContrailApi;
 import com.ubiqube.etsi.mano.tf.entities.NetworkPolicyTask;
 
+import jakarta.annotation.Nullable;
+
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
@@ -41,7 +43,7 @@ public class NetworkPolicyUow extends AbstractUnitOfWork<NetworkPolicyTask> {
 	}
 
 	@Override
-	public String execute(final Context3d context) {
+	public @Nullable String execute(final Context3d context) {
 		final ContrailApi api = new ContrailApi();
 		final NetworkPolicyTask p = getTask().getTemplateParameters();
 		final String serviceInstance = context.get(ServiceInstanceNode.class, p.getToscaName());
@@ -52,7 +54,7 @@ public class NetworkPolicyUow extends AbstractUnitOfWork<NetworkPolicyTask> {
 	}
 
 	@Override
-	public String rollback(final Context3d context) {
+	public @Nullable String rollback(final Context3d context) {
 		final ContrailApi api = new ContrailApi();
 		api.deleteNetworkPolicy(vimConnectionInformation, getTask().getTemplateParameters().getVimResourceId());
 		return null;

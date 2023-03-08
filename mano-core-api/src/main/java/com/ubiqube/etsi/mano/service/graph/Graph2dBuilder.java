@@ -30,6 +30,10 @@ import com.ubiqube.etsi.mano.orchestrator.Relation;
 import com.ubiqube.etsi.mano.orchestrator.Vertex2d;
 import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.NotNull;
+
 /**
  *
  * @author olivier
@@ -38,7 +42,7 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
 public class Graph2dBuilder {
 
 	private static final Logger LOG = LoggerFactory.getLogger(Graph2dBuilder.class);
-
+	@NotNull
 	private final ListenableGraph<Vertex2d, Edge2d> g;
 
 	public Graph2dBuilder() {
@@ -54,7 +58,7 @@ public class Graph2dBuilder {
 		return new ChildBuilder(class1, name);
 	}
 
-	protected Vertex2d addOrGet(final Class<? extends Node> class1, final String name, final Vertex2d parent) {
+	protected Vertex2d addOrGet(final Class<? extends Node> class1, final String name, @Nullable final Vertex2d parent) {
 		LOG.trace("Asking: {}, {}, {}", class1.getSimpleName(), name, Optional.ofNullable(parent).map(x -> x.toString().replace("\n", "-")));
 		return g.vertexSet().stream().filter(x -> x.match(class1, name, parent)).findFirst().orElseGet(() -> {
 			final Vertex2d v = new Vertex2d(class1, name, parent);
@@ -65,8 +69,9 @@ public class Graph2dBuilder {
 	}
 
 	public class ChildBuilder {
-
+		@Nonnull
 		private final Class<? extends Node> class1;
+		@Nonnull
 		private final String name;
 
 		public ChildBuilder(final Class<? extends Node> class1, final String name) {

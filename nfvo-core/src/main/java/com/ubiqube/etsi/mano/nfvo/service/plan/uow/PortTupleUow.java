@@ -48,7 +48,7 @@ public class PortTupleUow extends AbstractUnitOfWork<PortTupleTask> {
 	}
 
 	@Override
-	public String execute(final Context3d context) {
+	public @Nullable String execute(final Context3d context) {
 		final ContrailApi api = new ContrailApi();
 		final List<String> serviceInstanceId = context.getParent(ServiceInstanceNode.class, task.getServiceInstanceName());
 		final String name = UowNameHelper.buildName(task.getToscaName(), task.getInstanceId());

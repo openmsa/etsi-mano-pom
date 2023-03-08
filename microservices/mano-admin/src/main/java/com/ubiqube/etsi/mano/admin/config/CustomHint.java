@@ -25,6 +25,8 @@ import org.springframework.aot.hint.RuntimeHintsRegistrar;
 import org.springframework.aot.hint.TypeReference;
 import org.springframework.boot.web.context.WebServerInitializedEvent;
 
+import com.ubiqube.etsi.mano.admin.AdminException;
+
 import de.codecentric.boot.admin.client.registration.DefaultApplicationFactory;
 import de.codecentric.boot.admin.server.domain.entities.Application;
 import de.codecentric.boot.admin.server.domain.entities.Instance;
@@ -65,7 +67,7 @@ public class CustomHint implements RuntimeHintsRegistrar {
 		hints.reflection().registerType(StatusUpdateTrigger.class, MemberCategory.INVOKE_PUBLIC_METHODS);
 		// hints.reflection().registerType(AdminController.class,
 		// MemberCategory.INVOKE_DECLARED_METHODS,
-		// MemberCategory.INVOKE_DECLARED_CONSTRUCTORS);
+		// MemberCategory.INVOKE_DECLARED_CONSTRUCTORS)
 		hints.reflection().registerType(BuildVersion.class, MemberCategory.INVOKE_PUBLIC_METHODS);
 		hints.reflection().registerType(Instance.class, MemberCategory.INVOKE_PUBLIC_METHODS);
 		hints.reflection().registerType(Registration.class, MemberCategory.INVOKE_PUBLIC_METHODS);
@@ -81,7 +83,7 @@ public class CustomHint implements RuntimeHintsRegistrar {
 		try {
 			method = DefaultApplicationFactory.class.getMethod("onWebServerInitialized", WebServerInitializedEvent.class);
 		} catch (final NoSuchMethodException | SecurityException e) {
-			throw new RuntimeException(e);
+			throw new AdminException(e);
 		}
 		hints.reflection().registerMethod(method, ExecutableMode.INVOKE);
 		hints.reflection().registerType(TypeReference.of("org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler$SupplierCsrfToken"), MemberCategory.INVOKE_PUBLIC_METHODS);

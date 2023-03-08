@@ -68,15 +68,16 @@ public final class Constants {
 
 	// XXX:
 	public static final String ALARM_SEARCH_DEFAULT_EXCLUDE_FIELDS = "";
-
+	@Nonnull
 	public static final Set<String> ALARM_SEARCH_MANDATORY_FIELDS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("id", "managedObjectId", "rootCauseFaultyResource", "alarmRaisedTime", "ackState",
 			"perceivedSeverity", "eventTime", "eventType", "probableCause", "isRootCause", "_links.self.href")));
-
+	@Nonnull
 	public static final Set<String> VNFLCMOPOCC_SEARCH_MANDATORY_FIELDS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("id", "operationState", "stateEnteredTime",
 			"isAutomaticInvocation", "operationParams", "isCancelPending", "startTime", "vnfInstanceId", "operation")));
-
+	@Nonnull
 	public static final String VNFLCMOPOCC_SEARCH_DEFAULT_EXCLUDE_FIELDS = "error,resourceChanges,changedInfo,changedExtConnectivity";
 
+	@Nonnull
 	public static final Set<String> VNFLCM_SEARCH_MANDATORY_FIELDS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("id", "vnfProvider", "vnfProductName",
 			"vnfSoftwareVersion", "vnfdVersion", "instantiationState", "vnfdId")));
 

@@ -16,13 +16,18 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service.pkg;
 
+import jakarta.annotation.Nullable;
+
 public class PackageVersion {
+	@Nullable
 	private String flavorId;
+	@Nullable
 	private String name;
+	@Nullable
 	private String version;
 
-	public PackageVersion(final String _version) {
-		final String[] parts = _version.split("/");
+	public PackageVersion(final String versionIn) {
+		final String[] parts = versionIn.split("/");
 		if (parts.length == 3) {
 			flavorId = parts[0];
 			name = parts[1];
@@ -35,7 +40,7 @@ public class PackageVersion {
 		}
 	}
 
-	public String getFlavorId() {
+	public @Nullable String getFlavorId() {
 		return flavorId;
 	}
 
@@ -43,7 +48,7 @@ public class PackageVersion {
 		this.flavorId = flavorId;
 	}
 
-	public String getName() {
+	public @Nullable String getName() {
 		return name;
 	}
 
@@ -51,7 +56,7 @@ public class PackageVersion {
 		this.name = name;
 	}
 
-	public String getVersion() {
+	public @Nullable String getVersion() {
 		return version;
 	}
 
@@ -74,7 +79,7 @@ public class PackageVersion {
 	}
 
 	@Override
-	public String toString() {
+	public @Nullable String toString() {
 		if (countPart() == 1) {
 			return name;
 		}

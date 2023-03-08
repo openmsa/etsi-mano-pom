@@ -26,23 +26,26 @@ import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.vim.K8sStatus;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 
-public class WaitK8sClusterUowV3 extends AbstractVnfmUowV3<OsContainerDeployableTask> {
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
+public class WaitK8sClusterUowV3 extends AbstractVnfmUowV3<OsContainerDeployableTask> {
+	@Nonnull
 	private final VimConnectionInformation vimConnectionInformation;
+	@Nonnull
 	private final Vim vim;
+	@Nonnull
 	private final String toscaName;
-	private final OsContainerDeployableTask task;
 
 	protected WaitK8sClusterUowV3(final VirtualTaskV3<OsContainerDeployableTask> task, final Vim vim, final VimConnectionInformation vimConnectionInformation) {
 		super(task, OsContainerDeployableNode.class);
 		this.vim = vim;
 		this.vimConnectionInformation = vimConnectionInformation;
 		this.toscaName = task.getName();
-		this.task = task.getTemplateParameters();
 	}
 
 	@Override
-	public String execute(final Context3d context) {
+	public @Nullable String execute(final Context3d context) {
 		final String id = context.get(OsContainerDeployableNode.class, toscaName);
 		K8sStatus st = vim.cnf(vimConnectionInformation).k8sStatus(id);
 		// XXX
@@ -59,7 +62,7 @@ public class WaitK8sClusterUowV3 extends AbstractVnfmUowV3<OsContainerDeployable
 	}
 
 	@Override
-	public String rollback(final Context3d context) {
+	public @Nullable String rollback(final Context3d context) {
 		// Nothing.
 		return null;
 	}

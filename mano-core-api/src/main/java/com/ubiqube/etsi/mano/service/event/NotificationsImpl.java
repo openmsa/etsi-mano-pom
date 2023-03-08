@@ -32,6 +32,8 @@ import com.ubiqube.etsi.mano.service.rest.FluxRest;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
 import com.ubiqube.etsi.mano.service.rest.model.AuthentificationInformations;
 
+import jakarta.annotation.Nullable;
+
 @Service
 public class NotificationsImpl implements Notifications {
 	/** Logger instance. */
@@ -62,10 +64,10 @@ public class NotificationsImpl implements Notifications {
 		sendRequest(content, server, uri, null);
 	}
 
-	private static void sendRequest(final String _content, final ServerAdapter server, final String uri, final String version) {
+	private static void sendRequest(final String content, final ServerAdapter server, final String uri, @Nullable final String version) {
 		final var rest = server.rest();
 		LOG.info("Sending to {}", uri);
-		rest.post(URI.create(uri), _content, Void.class, version);
+		rest.post(URI.create(uri), content, Void.class, version);
 		LOG.debug("Event Sent to {}", uri);
 	}
 

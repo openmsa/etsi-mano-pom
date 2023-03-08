@@ -16,6 +16,8 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service.plan.uow;
 
+import java.util.Objects;
+
 import com.ubiqube.etsi.mano.dao.mano.IpPool;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.VlProtocolData;
@@ -27,6 +29,7 @@ import com.ubiqube.etsi.mano.service.graph.AbstractUnitOfWork;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 public class NsVlUow extends AbstractUnitOfWork<NsVirtualLinkTask> {
 	@Nonnull
@@ -50,14 +53,17 @@ public class NsVlUow extends AbstractUnitOfWork<NsVirtualLinkTask> {
 	}
 
 	@Override
+	@Nullable
 	public String execute(final Context3d context) {
-		final String ret = vim.network(vimConnectionInformation).createNetwork(vlProtocolData, task.getAlias(), null, null);
+		final VlProtocolData vlp = Objects.requireNonNull(vlProtocolData);
+		final String ret = vim.network(vimConnectionInformation).createNetwork(vlp, task.getAlias(), null, null);
 		final IpPool ipAllocationPool = null;
-		vim.network(vimConnectionInformation).createSubnet(vlProtocolData.getL3ProtocolData(), ipAllocationPool, ret);
+		vim.network(vimConnectionInformation).createSubnet(vlp.getL3ProtocolData(), ipAllocationPool, ret);
 		return ret;
 	}
 
 	@Override
+	@Nullable
 	public String rollback(final Context3d context) {
 		vim.network(vimConnectionInformation).deleteVirtualLink(task.getVimResourceId());
 		return null;

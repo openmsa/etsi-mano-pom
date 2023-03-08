@@ -46,6 +46,7 @@ import com.ubiqube.etsi.mano.vnfm.fc.vnflcm.VnfInstanceGenericFrontController;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceService;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceServiceVnfm;
 
+import jakarta.annotation.Nonnull;
 import ma.glasnost.orika.MapperFacade;
 
 @ExtendWith(MockitoExtension.class)
@@ -57,9 +58,13 @@ class VnfInstanceGenericFrontControllerTest {
 	private final MapperFacade mapper;
 	@Mock
 	private VnfInstanceServiceVnfm vnfInstanceServiceVnfm;
+	@Nonnull
 	private final Function<VnfBlueprint, String> getSelfLink = (x) -> "http://test-link";
+	@Nonnull
 	private final Function<VnfInstance, String> getInstanceSelfLink = (x) -> "http://test-link";
+	@Nonnull
 	private final Consumer<Object> makeLink = x -> {
+		//
 	};
 
 	public VnfInstanceGenericFrontControllerTest() {
@@ -171,7 +176,8 @@ class VnfInstanceGenericFrontControllerTest {
 		final UUID id = UUID.randomUUID();
 		vnfInstance.setInstantiationState(InstantiationState.INSTANTIATED);
 		when(vnfInstanceServiceVnfm.findById(id)).thenReturn(vnfInstance);
-		assertThrows(GenericException.class, () -> fc.createSnapshot(id, new Object(), getSelfLink));
+		final Object obj = new Object();
+		assertThrows(GenericException.class, () -> fc.createSnapshot(id, obj, getSelfLink));
 	}
 
 	@Test
@@ -181,7 +187,8 @@ class VnfInstanceGenericFrontControllerTest {
 		final VnfInstance vnfInstance = TestFactory.createVnfInstance();
 		vnfInstance.setInstantiationState(InstantiationState.INSTANTIATED);
 		when(vnfInstanceServiceVnfm.findById(id)).thenReturn(vnfInstance);
-		assertThrows(GenericException.class, () -> fc.changeVnfPkg(id, new Object(), getSelfLink));
+		final Object obj = new Object();
+		assertThrows(GenericException.class, () -> fc.changeVnfPkg(id, obj, getSelfLink));
 	}
 
 	@Test
@@ -191,7 +198,8 @@ class VnfInstanceGenericFrontControllerTest {
 		final UUID id = UUID.randomUUID();
 		vnfInstance.setInstantiationState(InstantiationState.INSTANTIATED);
 		when(vnfInstanceServiceVnfm.findById(id)).thenReturn(vnfInstance);
-		assertThrows(GenericException.class, () -> fc.changeFlavour(id, new Object(), getSelfLink));
+		final Object obj = new Object();
+		assertThrows(GenericException.class, () -> fc.changeFlavour(id, obj, getSelfLink));
 	}
 
 	@Test

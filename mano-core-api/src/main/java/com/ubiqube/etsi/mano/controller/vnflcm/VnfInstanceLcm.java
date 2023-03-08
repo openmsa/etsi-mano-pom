@@ -50,7 +50,7 @@ public interface VnfInstanceLcm {
 
 	VnfBlueprint instantiate(@Nullable Servers servers, final UUID vnfInstanceId, final VnfInstantiate instantiateVnfRequest);
 
-	VnfBlueprint terminate(@Nullable Servers servers, final UUID vnfInstanceId, final CancelModeTypeEnum terminationType, @Nullable final Integer gracefulTerminationTimeout);
+	VnfBlueprint terminate(@Nullable Servers servers, final UUID vnfInstanceId, @Nullable final CancelModeTypeEnum terminationType, @Nullable final Integer gracefulTerminationTimeout);
 
 	VnfBlueprint scaleToLevel(@Nullable Servers servers, final UUID vnfInstanceId, final VnfScaleToLevelRequest scaleVnfToLevelRequest);
 

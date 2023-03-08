@@ -23,6 +23,8 @@ import java.lang.reflect.Type;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import jakarta.annotation.Nullable;
+
 public class ReflectionUtils {
 
 	private ReflectionUtils() {
@@ -72,6 +74,7 @@ public class ReflectionUtils {
 		}
 	}
 
+	@Nullable
 	public static <U> U invoke(final Method meth, final Object obj, final Object... args) {
 		try {
 			return (U) meth.invoke(obj, args);

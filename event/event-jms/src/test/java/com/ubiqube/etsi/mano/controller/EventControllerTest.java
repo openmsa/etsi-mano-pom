@@ -31,13 +31,13 @@ import org.springframework.jms.core.JmsTemplate;
 import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 
 @ExtendWith(MockitoExtension.class)
-public class EventControllerTest {
+class EventControllerTest {
 
 	@Mock
 	private JmsTemplate JmsTemplate;
 
 	@Test
-	void testName() throws Exception {
+	void testName() {
 		final EventController ec = new EventController(JmsTemplate);
 		final EventMessageDto ev = new EventMessageDto();
 		ev.setAdditionalParameters(Map.of());

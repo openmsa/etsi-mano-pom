@@ -22,6 +22,7 @@ import jakarta.annotation.Nullable;
 
 public class AttrHolder {
 	private Deque<AttrNode> stack;
+	@Nullable
 	private Object value;
 
 	public Deque<AttrNode> getStack() {
@@ -37,7 +38,7 @@ public class AttrHolder {
 		return value;
 	}
 
-	public void setValue(final Object value) {
+	public void setValue(final @Nullable Object value) {
 		this.value = value;
 	}
 

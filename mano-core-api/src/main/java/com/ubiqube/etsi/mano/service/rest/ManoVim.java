@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.service.rest;
 
 import java.net.URI;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.web.util.UriComponentsBuilder;
@@ -35,7 +36,7 @@ public class ManoVim {
 	public VimConnectionInformation register(final VimConnectionInformation vim, final String root) {
 		final ServerAdapter server = client.getServer();
 		final URI uri = buildUri(root, "admin/vim/register");
-		return server.rest().post(uri, vim, VimConnectionInformation.class, null);
+		return Objects.requireNonNull(server.rest().post(uri, vim, VimConnectionInformation.class, null));
 	}
 
 	private URI buildUri(final String urlRoot, final String url) {

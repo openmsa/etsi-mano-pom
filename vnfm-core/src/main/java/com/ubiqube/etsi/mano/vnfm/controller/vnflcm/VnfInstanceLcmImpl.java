@@ -115,10 +115,10 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 	}
 
 	@Override
-	public VnfInstance post(final @Nullable Servers servers, final String vnfdId, final String vnfInstanceName, final String vnfInstanceDescription) {
+	public VnfInstance post(final @Nullable Servers servers, final String vnfdId, final String vnfInstanceName, @Nullable final String vnfInstanceDescription) {
 		VnfPackage vnfPkgInfo;
 		try {
-			vnfPkgInfo = vnfPackageService.findByVnfdId(UUID.fromString(vnfdId));
+			vnfPkgInfo = vnfPackageService.findByVnfdId(getSafeUUID(vnfdId));
 		} catch (final NotFoundException e) {
 			LOG.trace("", e);
 			vnfPkgInfo = onboardPackage(vnfdId);
@@ -134,7 +134,7 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 	}
 
 	private VnfPackage onboardPackage(final String vnfdId) {
-		final VnfPackage vnfPkg = manoClientFactory.getClient().onbardedVnfPackage(UUID.fromString(vnfdId)).find();
+		final VnfPackage vnfPkg = manoClientFactory.getClient().onbardedVnfPackage(getSafeUUID(vnfdId)).find();
 		vnfPkg.setNfvoId(vnfPkg.getId().toString());
 		vnfPkg.setOnboardingState(OnboardingStateType.CREATED);
 		vnfPkg.setUsageState(UsageStateEnum.NOT_IN_USE);
@@ -219,7 +219,7 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 	}
 
 	@Override
-	public VnfBlueprint terminate(final @Nullable Servers servers, @Nonnull final UUID vnfInstanceId, final CancelModeTypeEnum terminationType, final @Nullable Integer gracefulTerminationTimeout) {
+	public VnfBlueprint terminate(final @Nullable Servers servers, @Nonnull final UUID vnfInstanceId, final @Nullable CancelModeTypeEnum terminationType, final @Nullable Integer gracefulTerminationTimeout) {
 		final VnfInstance vnfInstance = vnfInstanceServiceVnfm.findById(vnfInstanceId);
 		ensureInstantiated(vnfInstance);
 		ensureNotLocked(vnfInstance);

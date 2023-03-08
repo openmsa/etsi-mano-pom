@@ -54,9 +54,9 @@ public class NfvoActions extends AbstractGenericActionV3 {
 	private final NsInstanceService nsInstanceService;
 	private final VnfInstanceGatewayService vnfInstancesService;
 	private final ManoClientFactory manoClientFactory;
-	
+
 	public NfvoActions(final NfvoOrchestrationV3 workflow, final VimResourceService vimResourceService, final NsOrchestrationAdapter orchestrationAdapter, final NsScaleStrategyV3 nsScaleStrategy,
-			NsBlueprintService blueprintService, NsInstanceService nsInstanceService, VnfInstanceGatewayService vnfInstancesService, ManoClientFactory manoClientFactory) {
+			final NsBlueprintService blueprintService, final NsInstanceService nsInstanceService, final VnfInstanceGatewayService vnfInstancesService, final ManoClientFactory manoClientFactory) {
 		super(workflow, vimResourceService, orchestrationAdapter, nsScaleStrategy);
 		this.blueprintService = blueprintService;
 		this.nsInstanceService = nsInstanceService;
@@ -68,10 +68,10 @@ public class NfvoActions extends AbstractGenericActionV3 {
 		final Blueprint<? extends VimTask, ? extends Instance> blueprint = orchestrationAdapter.getBluePrint(objectId);
 		final NsdInstance nsi = nsInstanceService.findById(blueprint.getInstance().getId());
 		final List<NsLiveInstance> vnfs = blueprintService.findByNsdInstanceAndClass(nsi, NsVnfInstantiateTask.class);
-		vnfs.stream().forEach((nsli) -> {
-			VnfInstance vnfInstance = vnfInstancesService.findById(UUID.fromString(nsli.getResourceId()));
-			NsVnfInstantiateTask t = (NsVnfInstantiateTask) nsli.getNsTask();
-			ManoClient mc = manoClientFactory.getClient(t.getServer());
+		vnfs.stream().forEach(nsli -> {
+			final VnfInstance vnfInstance = vnfInstancesService.findById(UUID.fromString(nsli.getResourceId()));
+			final NsVnfInstantiateTask t = (NsVnfInstantiateTask) nsli.getNsTask();
+			final ManoClient mc = manoClientFactory.getClient(t.getServer());
 			mc.vnfInstance(vnfInstance.getId()).heal(new VnfHealRequest());
 		});
 	}

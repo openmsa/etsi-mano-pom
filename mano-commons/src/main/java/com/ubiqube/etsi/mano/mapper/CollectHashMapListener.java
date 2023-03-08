@@ -26,6 +26,7 @@ import java.lang.reflect.Type;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import com.ubiqube.etsi.mano.exception.GenericException;
 
@@ -57,7 +58,7 @@ public class CollectHashMapListener extends AbstractCollectListener {
 		if (props == null) {
 			throw new GenericException("Unable to find property [" + name + "] on " + curr.clazz);
 		}
-		final Class<?> ret = props.getPropertyType();
+		final Class<?> ret = Objects.requireNonNull(props.getPropertyType());
 		ClassTypeHolder newVal = new ClassTypeHolder(ret, null);
 		if (ret.isAssignableFrom(Map.class) || ret.isAssignableFrom(List.class)) {
 			final Class<?> subClass = extractInnerListType(props);
@@ -74,7 +75,10 @@ public class CollectHashMapListener extends AbstractCollectListener {
 		return (Class<?>) type[0];
 	}
 
-	private static @Nullable PropertyDescriptor find(final String name, final PropertyDescriptor[] propDescs) {
+	private static @Nullable PropertyDescriptor find(final String name, final @Nullable PropertyDescriptor[] propDescs) {
+		if (null == propDescs) {
+			return null;
+		}
 		for (final PropertyDescriptor propertyDescriptor : propDescs) {
 			if (propertyDescriptor.getName().equals(name)) {
 				return propertyDescriptor;
@@ -83,6 +87,13 @@ public class CollectHashMapListener extends AbstractCollectListener {
 		return null;
 	}
 
+	/**
+	 * getBeanInfo cannot be null.
+	 *
+	 * @param clazz The class to introspect.
+	 * @return Non null BeanInfo
+	 */
+	@SuppressWarnings("null")
 	private static BeanInfo getIntrospector(final Class<?> clazz) {
 		try {
 			return Introspector.getBeanInfo(clazz);

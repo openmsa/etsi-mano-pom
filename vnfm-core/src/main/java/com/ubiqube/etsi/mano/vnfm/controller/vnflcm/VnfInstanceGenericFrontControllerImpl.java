@@ -183,7 +183,7 @@ public class VnfInstanceGenericFrontControllerImpl implements VnfInstanceGeneric
 	}
 
 	@Override
-	public <U> ResponseEntity<U> create(final @Nonnull String vnfdId, final String vnfInstanceName, final String vnfInstanceDescription, final Class<U> clazz, final Consumer<U> makeLink, final String selfLink) {
+	public <U> ResponseEntity<U> create(final @Nonnull String vnfdId, final String vnfInstanceName, final @Nullable String vnfInstanceDescription, final Class<U> clazz, final Consumer<U> makeLink, final String selfLink) {
 		final VnfInstance vnfInstance = vnfInstanceLcm.post(null, vnfdId, vnfInstanceName, vnfInstanceDescription);
 		final U inst = mapper.map(vnfInstance, clazz);
 		makeLink.accept(inst);
@@ -191,7 +191,7 @@ public class VnfInstanceGenericFrontControllerImpl implements VnfInstanceGeneric
 	}
 
 	@Override
-	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String nextpageOpaqueMarker, final Consumer<U> makeLink) {
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final @Nullable String nextpageOpaqueMarker, final Consumer<U> makeLink) {
 		return vnfInstancesService.search(requestParams, clazz, VNFLCM_SEARCH_DEFAULT_EXCLUDE_FIELDS, VNFLCM_SEARCH_MANDATORY_FIELDS, makeLink);
 	}
 

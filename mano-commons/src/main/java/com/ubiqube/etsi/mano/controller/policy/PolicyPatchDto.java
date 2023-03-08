@@ -20,6 +20,7 @@ import java.util.List;
 
 import com.ubiqube.etsi.mano.dao.mano.policy.ActivationStatusType;
 
+import jakarta.annotation.Nullable;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -35,8 +36,10 @@ public class PolicyPatchDto {
 
 	private String selectedVersion;
 
+	@Nullable
 	private List<String> addAssociations;
 
+	@Nullable
 	private List<String> removeAssociations;
 
 	private boolean removeAllAssociations;

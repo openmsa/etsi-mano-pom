@@ -23,8 +23,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
-import jakarta.validation.constraints.NotNull;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -44,6 +42,9 @@ import com.ubiqube.etsi.mano.service.pkg.vnf.VnfPackageReader;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 import com.ubiqube.etsi.mano.vim.dto.SwImage;
+
+import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.NotNull;
 
 /**
  *
@@ -103,7 +104,7 @@ public class SoftwareImageService {
 		return vimImage.getName().equals(swIn.getName());
 	}
 
-	private static boolean checksumComparable(final Checksum checksum, final Checksum checksum2) {
+	private static boolean checksumComparable(@Nullable final Checksum checksum, @Nullable final Checksum checksum2) {
 		if ((null == checksum) || (null == checksum2)) {
 			LOG.trace("One checksum is null {}/{}", checksum, checksum2);
 			return false;

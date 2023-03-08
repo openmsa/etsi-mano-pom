@@ -21,6 +21,7 @@ import java.util.UUID;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -50,7 +51,7 @@ import ma.glasnost.orika.MapperFacade;
  */
 @RestController
 @RequestMapping("/admin")
-
+@Validated
 public class VimController {
 	private final VimService vimService;
 	private final MapperFacade mapper;
@@ -84,8 +85,8 @@ public class VimController {
 	}
 
 	@PatchMapping(value = "/vim/{id}")
-	public ResponseEntity<VimConnectionInformation> patchVim(@PathVariable("id") final UUID id, @Nullable @RequestBody final String body,
-			@RequestHeader(name = HttpHeaders.IF_MATCH, required = false) final String ifMatch) {
+	public ResponseEntity<VimConnectionInformation> patchVim(@PathVariable("id") final UUID id, @RequestBody final String body,
+			@RequestHeader(name = HttpHeaders.IF_MATCH, required = false) @Nullable final String ifMatch) {
 		final VimConnectionInformation vim = vimManager.findVimById(id);
 		if ((ifMatch != null) && !(vim.getVersion() + "").equals(ifMatch)) {
 			throw new PreConditionException(ifMatch + " does not match " + vim.getVersion());

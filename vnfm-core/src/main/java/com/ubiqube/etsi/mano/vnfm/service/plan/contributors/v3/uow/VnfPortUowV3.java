@@ -27,9 +27,15 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfPortNode;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+
 public class VnfPortUowV3 extends AbstractVnfmUowV3<VnfPortTask> {
+	@Nonnull
 	private final Vim vim;
+	@Nonnull
 	private final VimConnectionInformation vimConnectionInformation;
+	@Nonnull
 	private final VnfPortTask task;
 
 	public VnfPortUowV3(final VirtualTaskV3<VnfPortTask> task, final Vim vim, final VimConnectionInformation vimConnectionInformation) {
@@ -40,7 +46,7 @@ public class VnfPortUowV3 extends AbstractVnfmUowV3<VnfPortTask> {
 	}
 
 	@Override
-	public String execute(final Context3d context) {
+	public @Nullable String execute(final Context3d context) {
 		if (task.getExternal() != null) {
 			final ExtManagedVirtualLinkDataEntity ext = task.getExternal();
 			return vim.network(vimConnectionInformation).createPort(getTask().getAlias(), ext.getResourceId(), null, null, NicType.fromValue(getTask().getTemplateParameters().getVnfLinkPort().getVnicType()));
@@ -51,7 +57,7 @@ public class VnfPortUowV3 extends AbstractVnfmUowV3<VnfPortTask> {
 	}
 
 	@Override
-	public String rollback(final Context3d context) {
+	public @Nullable String rollback(final Context3d context) {
 		final VnfPortTask param = getTask().getTemplateParameters();
 		vim.network(vimConnectionInformation).deletePort(param.getVimResourceId());
 		return null;

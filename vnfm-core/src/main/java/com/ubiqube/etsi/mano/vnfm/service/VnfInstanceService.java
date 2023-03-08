@@ -29,6 +29,8 @@ import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfLiveInstance;
 
+import jakarta.annotation.Nullable;
+
 public interface VnfInstanceService {
 
 	VnfInstance findBVnfInstanceyVnfPackageId(final NsdInstance nsdInstance, final UUID vnfPackageId);
@@ -51,13 +53,13 @@ public interface VnfInstanceService {
 
 	boolean isInstantiate(UUID id);
 
-	VnfInstance vnfLcmPatch(VnfInstance vnfInstance, String body, String ifMatch);
+	VnfInstance vnfLcmPatch(VnfInstance vnfInstance, String body, @Nullable String ifMatch);
 
-	<U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink);
+	<U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, @Nullable final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink);
 
 	List<VnfLiveInstance> findByResourceIdIn(List<String> objectInstanceIds);
 
-	VnfInstance findById(UUID safeUUID);
+	VnfInstance findById(UUID id);
 
 	List<VnfLiveInstance> findByVnfInstanceId(final UUID id);
 }

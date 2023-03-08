@@ -28,5 +28,5 @@ import jakarta.annotation.Nullable;
 
 public interface VimElection {
 	@Nullable
-	VimConnectionInformation doElection(List<VimConnectionInformation> vims, GrantResponse grant, Set<VnfCompute> vnfcs, Set<VnfStorage> storages);
+	VimConnectionInformation doElection(List<VimConnectionInformation> vims, @Nullable GrantResponse grant, Set<VnfCompute> vnfcs, Set<VnfStorage> storages);
 }

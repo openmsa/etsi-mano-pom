@@ -21,6 +21,8 @@ import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.graph.AbstractUnitOfWork;
 
+import jakarta.annotation.Nullable;
+
 public class NsStartUow extends AbstractUnitOfWork<NsTask> {
 
 	public NsStartUow(final VirtualTaskV3 task, final Class node) {
@@ -28,12 +30,12 @@ public class NsStartUow extends AbstractUnitOfWork<NsTask> {
 	}
 
 	@Override
-	public String execute(final Context3d context) {
+	public @Nullable String execute(final Context3d context) {
 		return null;
 	}
 
 	@Override
-	public String rollback(final Context3d context) {
+	public @Nullable String rollback(final Context3d context) {
 		return null;
 	}
 

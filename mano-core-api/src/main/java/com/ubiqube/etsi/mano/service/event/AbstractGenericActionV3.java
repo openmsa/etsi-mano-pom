@@ -135,12 +135,11 @@ public abstract class AbstractGenericActionV3 {
 		}
 	}
 
-	private static Object setScaleStatus(final Instance instance, final Set<ScaleInfo> si, final ScaleTypeEnum scaleTypeEnum) {
+	private static void setScaleStatus(final Instance instance, final Set<ScaleInfo> si, final ScaleTypeEnum scaleTypeEnum) {
 		si.stream().forEach(x -> instance.getInstantiatedVnfInfo().getScaleStatus().stream()
 				.filter(y -> y.getAspectId().equals(x.getAspectId()))
 				.findFirst()
 				.ifPresent(y -> y.setScaleLevel(getNewStep(scaleTypeEnum, y.getScaleLevel(), x.getScaleLevel()))));
-		return null;
 	}
 
 	private static int getNewStep(final ScaleTypeEnum scaleTypeEnum, final int orig, final int adder) {

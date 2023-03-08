@@ -50,36 +50,32 @@ public class VnfLcmNotificationService {
 	}
 
 	public void onCreationNotification(final VnfLcmNotification event, final String version) {
-		final Optional<RemoteSubscription> subscription = remoteSubscriptionJpa.findByRemoteSubscriptionId(event.getSubscriptionId());
-		if (subscription.isEmpty()) {
-			LOG.warn(UNABLE_TO_FIND_NOTIFICATION_EVENT_IN_DATABASE, event.getSubscriptionId());
-			throw new NotFoundException(UNABLE_TO_FIND_NOTIFICATION_EVENT + event.getSubscriptionId());
-		}
-		event.setNfvoId(subscription.get().getRemoteServerId());
+		final RemoteSubscription subscription = getAndCheckSubscription(event);
+		event.setNfvoId(subscription.getRemoteServerId());
 		final VnfLcmNotification newEvent = vnfLcmJpa.save(event);
 		LOG.info(EVENT_RECEIVED_ID, newEvent.getNfvoId(), newEvent.getId());
 	}
 
 	public void onDeletionNotification(final VnfLcmNotification event, final String version) {
-		final Optional<RemoteSubscription> subscription = remoteSubscriptionJpa.findByRemoteSubscriptionId(event.getSubscriptionId());
-		if (subscription.isEmpty()) {
-			LOG.warn(UNABLE_TO_FIND_NOTIFICATION_EVENT_IN_DATABASE, event.getSubscriptionId());
-			throw new NotFoundException(UNABLE_TO_FIND_NOTIFICATION_EVENT + event.getSubscriptionId());
-		}
-		event.setNfvoId(subscription.get().getRemoteServerId());
+		final RemoteSubscription subscription = getAndCheckSubscription(event);
+		event.setNfvoId(subscription.getRemoteServerId());
 		final VnfLcmNotification newEvent = vnfLcmJpa.save(event);
 		LOG.info(EVENT_RECEIVED_ID, newEvent.getNfvoId(), newEvent.getId());
 	}
 
 	public void onVnfLcmOpOccsNotification(final VnfLcmNotification event, final String version) {
+		final RemoteSubscription subscription = getAndCheckSubscription(event);
+		event.setNfvoId(subscription.getRemoteServerId());
+		final VnfLcmNotification newEvent = vnfLcmJpa.save(event);
+		LOG.info(EVENT_RECEIVED_ID, newEvent.getNfvoId(), newEvent.getId());
+	}
+
+	private RemoteSubscription getAndCheckSubscription(final VnfLcmNotification event) {
 		final Optional<RemoteSubscription> subscription = remoteSubscriptionJpa.findByRemoteSubscriptionId(event.getSubscriptionId());
 		if (subscription.isEmpty()) {
 			LOG.warn(UNABLE_TO_FIND_NOTIFICATION_EVENT_IN_DATABASE, event.getSubscriptionId());
 			throw new NotFoundException(UNABLE_TO_FIND_NOTIFICATION_EVENT + event.getSubscriptionId());
 		}
-		event.setNfvoId(subscription.get().getRemoteServerId());
-		final VnfLcmNotification newEvent = vnfLcmJpa.save(event);
-		LOG.info(EVENT_RECEIVED_ID, newEvent.getNfvoId(), newEvent.getId());
+		return subscription.get();
 	}
-
 }

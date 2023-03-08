@@ -96,6 +96,8 @@ import com.ubiqube.etsi.mano.tf.entities.PtLinkTask;
 import com.ubiqube.etsi.mano.tf.entities.ServiceInstanceTask;
 import com.ubiqube.etsi.mano.tf.entities.ServiceTemplateTask;
 
+import jakarta.annotation.Nullable;
+
 /**
  *
  * @author olivier
@@ -205,7 +207,7 @@ public class NfvoOrchestrationV3 implements WorkflowV3<NsdPackage, NsBlueprint, 
 				});
 	}
 
-	private static NsTask find(final String id, final Blueprint<NsTask, ?> localPlan) {
+	private static @Nullable NsTask find(final String id, final Blueprint<NsTask, ?> localPlan) {
 		return localPlan.getTasks().stream()
 				.filter(x -> x.getToscaId().equals(id))
 				.findFirst()

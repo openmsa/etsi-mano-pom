@@ -71,7 +71,7 @@ public class ManoVnfInstanceId {
 				.delete();
 	}
 
-	public VnfBlueprint terminate(final CancelModeTypeEnum terminationType, final Integer gracefulTerminationTimeout) {
+	public @Nullable VnfBlueprint terminate(final CancelModeTypeEnum terminationType, final Integer gracefulTerminationTimeout) {
 		try {
 			client.setFragment("vnf_instances/{id}/terminate");
 			return client.createQuery(httpGateway -> httpGateway.createVnfInstanceTerminate(terminationType, gracefulTerminationTimeout))

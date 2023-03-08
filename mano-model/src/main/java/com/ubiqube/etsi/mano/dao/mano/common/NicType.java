@@ -19,6 +19,8 @@ package com.ubiqube.etsi.mano.dao.mano.common;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
+import jakarta.annotation.Nonnull;
+
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
@@ -46,6 +48,7 @@ public enum NicType {
 	}
 
 	@JsonCreator
+	@Nonnull
 	public static NicType fromValue(final String text) {
 		for (final NicType b : NicType.values()) {
 			if (b.value.equals(text)) {

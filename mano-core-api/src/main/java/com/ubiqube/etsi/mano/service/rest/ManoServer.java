@@ -26,6 +26,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 
+import jakarta.annotation.Nullable;
 import ma.glasnost.orika.MapperFacade;
 
 /**
@@ -56,7 +57,7 @@ public class ManoServer {
 		return UriComponentsBuilder.fromHttpUrl(urlRoot).pathSegment(url).buildAndExpand(uriParams).toUri();
 	}
 
-	public Servers create(final Servers srv, final String root) {
+	public @Nullable Servers create(final Servers srv, final String root) {
 		final ServerAdapter server = client.getServer();
 		final URI uri = buildUri(root, "admin/server/");
 		return server.rest().post(uri, srv, Servers.class, null);

@@ -22,9 +22,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 
-import jakarta.persistence.EntityManager;
-import jakarta.transaction.Transactional;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
@@ -32,6 +29,10 @@ import org.springframework.util.MultiValueMap;
 import com.ubiqube.etsi.mano.grammar.GrammarParser;
 import com.ubiqube.etsi.mano.grammar.Node;
 import com.ubiqube.etsi.mano.repository.jpa.SearchQueryer;
+
+import jakarta.annotation.Nullable;
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 
 /**
  *
@@ -53,7 +54,7 @@ public class SearchableService {
 	}
 
 	@Transactional
-	public <U> ResponseEntity<String> search(final Class<?> dbClass, final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink, final List<Node<String>> additionalNodes) {
+	public <U> ResponseEntity<String> search(final Class<?> dbClass, final MultiValueMap<String, String> requestParams, final Class<U> clazz, @Nullable final String excludeDefaults, @Nullable final Set<String> mandatoryFields, final Consumer<U> makeLink, final List<Node<String>> additionalNodes) {
 		final String filter = getSingleField(requestParams, "filter");
 		final List<Node<String>> nodes = grammarParser.parse(filter);
 		nodes.addAll(additionalNodes);

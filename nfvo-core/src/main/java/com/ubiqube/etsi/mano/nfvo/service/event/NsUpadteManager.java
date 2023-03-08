@@ -65,6 +65,7 @@ import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.rest.ManoClient;
 import com.ubiqube.etsi.mano.service.rest.ManoClientFactory;
 
+import jakarta.annotation.Nullable;
 import ma.glasnost.orika.MapperFacade;
 
 /**
@@ -186,7 +187,7 @@ public class NsUpadteManager {
 		return vnfPkgIds.stream().filter(x -> toscaName.startsWith(x.getToscaName())).findFirst().orElseThrow(() -> new NotFoundException("Unable to find " + toscaName + " in " + vnfPkgIds));
 	}
 
-	private Object vnfOperate(final NsdInstance inst, final List<OperateVnfData> operateVnfData) {
+	private @Nullable Object vnfOperate(final NsdInstance inst, final List<OperateVnfData> operateVnfData) {
 		operateVnfData.forEach(x -> {
 			final NsLiveInstance liveInst = liveInstanceJpa.findByResourceIdAndNsInstanceId(x.getVnfInstanceId(), inst.getId());
 			final NsVnfTask t = (NsVnfTask) liveInst.getNsTask();
@@ -201,7 +202,7 @@ public class NsUpadteManager {
 		mc.vnfInstance(getSafeUUID(resourceId)).operate(req);
 	}
 
-	private Object modifyVnfInformation(final NsdInstance inst, final List<ModifyVnfInfoData> modifyVnfInfoData) {
+	private @Nullable Object modifyVnfInformation(final NsdInstance inst, final List<ModifyVnfInfoData> modifyVnfInfoData) {
 		// Send a request to vnf to change the name descr ...
 		final List<NsLiveInstance> liveInst = liveInstanceJpa.findByNsdInstanceAndClass(inst, VnfCreateNode.class);
 		modifyVnfInfoData.stream().forEach(x -> {
@@ -234,12 +235,12 @@ public class NsUpadteManager {
 		return liveInst.stream().filter(x -> x.getId().toString().equals(vnfInstanceId)).findFirst().orElseThrow();
 	}
 
-	private Object instantiateVnf(final List<InstantiateVnfData> instantiateVnfData) {
+	private @Nullable Object instantiateVnf(final List<InstantiateVnfData> instantiateVnfData) {
 		instantiateVnfData.stream().forEach(x -> mapper.map(x, NsBlueprint.class));
 		return null;
 	}
 
-	private Object changeVnfDf(final NsdInstance inst, final List<ChangeVnfFlavourData> changeVnfFlavourData) {
+	private @Nullable Object changeVnfDf(final NsdInstance inst, final List<ChangeVnfFlavourData> changeVnfFlavourData) {
 		changeVnfFlavourData.forEach(x -> {
 			final NsLiveInstance liveInstance = liveInstanceJpa.findByResourceIdAndNsInstanceId(x.getVnfInstanceId(), inst.getId());
 			final NsVnfTask t = (NsVnfTask) liveInstance.getNsTask();
@@ -254,7 +255,7 @@ public class NsUpadteManager {
 		mc.vnfInstance(getSafeUUID(resourceId)).changeFlavour(req);
 	}
 
-	private Object changeExtVnfConn(final NsdInstance inst, final List<ChangeExtVnfConnectivityData> changeExtVnfConnectivityData) {
+	private @Nullable Object changeExtVnfConn(final NsdInstance inst, final List<ChangeExtVnfConnectivityData> changeExtVnfConnectivityData) {
 		changeExtVnfConnectivityData.forEach(x -> {
 			final NsLiveInstance liveInstance = liveInstanceJpa.findByResourceIdAndNsInstanceId(x.getVnfInstanceId(), inst.getId());
 			final NsVnfTask t = (NsVnfTask) liveInstance.getNsTask();

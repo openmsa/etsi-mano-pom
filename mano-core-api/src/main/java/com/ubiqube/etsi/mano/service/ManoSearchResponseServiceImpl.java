@@ -43,7 +43,6 @@ import com.ubiqube.etsi.mano.grammar.JsonBeanUtil;
 import com.ubiqube.etsi.mano.json.MapperForView;
 
 import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.NotNull;
 import ma.glasnost.orika.MapperFacade;
 
 /**
@@ -97,7 +96,7 @@ public class ManoSearchResponseServiceImpl implements ManoSearchResponseService 
 
 	}
 
-	private void checkAllFields(final Set<String> fieldsSet, @NotNull final Class<?> clazz) {
+	private void checkAllFields(final Set<String> fieldsSet, final Class<?> clazz) {
 		final Map<String, JsonBeanProperty> res = jsonBeanUtil.getPropertiesFromClass(clazz);
 		fieldsSet.forEach(x -> {
 			if (!res.containsKey(x) && !innerClass(x, clazz)) {

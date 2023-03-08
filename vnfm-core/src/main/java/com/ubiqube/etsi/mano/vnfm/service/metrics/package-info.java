@@ -16,7 +16,7 @@
  */
 @NonNullApi
 @NonNullFields
-package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3;
+package com.ubiqube.etsi.mano.vnfm.service.metrics;
 
 import org.springframework.lang.NonNullApi;
 import org.springframework.lang.NonNullFields;
