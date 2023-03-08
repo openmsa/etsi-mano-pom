@@ -68,17 +68,15 @@ public class VnfContextExtractorUow extends AbstractUnitOfWork<NsVnfExtractorTas
 		final VnfInstance inst = vnfm.getVnfInstance(task.getServer(), vnfInstanceId);
 		Optional.ofNullable(inst.getInstantiatedVnfInfo())
 				.map(x -> x.getExtCpInfo())
-				.ifPresent(z -> {
-					z.forEach(x -> {
-						final NsdPackageVnfPackage vnfd = findVnfd(inst.getVnfdId());
-						final int idx = toscaNameToVlId(x.getCpdId());
-						// virtual_link(_x) -> forwardName
-						final ListKeyPair vl = vnfd.getVirtualLinks().stream().filter(y -> y.getIdx() == idx).findFirst().orElseThrow(() -> new GenericException("unable to find index " + idx));
-						// forwad to VL
-						final ExtVirtualLinkDataEntity extVl = findExtVl(inst.getInstantiatedVnfInfo().getExtVirtualLinkInfo(), x.getAssociatedVnfVirtualLinkId());
-						context.add(VnfPortNode.class, vl.getValue(), extVl.getResourceId());
-					});
-				});
+				.ifPresent(z -> z.forEach(x -> {
+					final NsdPackageVnfPackage vnfd = findVnfd(inst.getVnfdId());
+					final int idx = toscaNameToVlId(x.getCpdId());
+					// virtual_link(_x) -> forwardName
+					final ListKeyPair vl = vnfd.getVirtualLinks().stream().filter(y -> y.getIdx() == idx).findFirst().orElseThrow(() -> new GenericException("unable to find index " + idx));
+					// forwad to VL
+					final ExtVirtualLinkDataEntity extVl = findExtVl(inst.getInstantiatedVnfInfo().getExtVirtualLinkInfo(), x.getAssociatedVnfVirtualLinkId());
+					context.add(VnfPortNode.class, vl.getValue(), extVl.getResourceId());
+				}));
 		return null;
 	}
 

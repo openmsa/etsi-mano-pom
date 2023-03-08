@@ -19,9 +19,8 @@ package com.ubiqube.etsi.mano.service.eval;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
-
-import jakarta.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,6 +42,7 @@ import com.ubiqube.etsi.mano.service.cond.ast.BooleanListExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.BooleanValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.GenericCondition;
 import com.ubiqube.etsi.mano.service.cond.ast.LabelExpression;
+import com.ubiqube.etsi.mano.service.cond.ast.NoopNode;
 import com.ubiqube.etsi.mano.service.cond.ast.NumberValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.TestValueExpr;
 import com.ubiqube.etsi.mano.service.cond.visitor.BooleanListExprRemoverVisitor;
@@ -69,6 +69,7 @@ public class EvalService {
 		final Method meth = ReflectionUtils.getMethod(obj.getClass(), "getFilter");
 		LOG.debug("{}", obj.getClass());
 		final Object res = ReflectionUtils.invoke(meth, obj);
+		Objects.requireNonNull(res, "Null when calling getFilter() method.");
 		return convertToNode(res);
 	}
 
@@ -99,7 +100,10 @@ public class EvalService {
 	private static Node toNodes(final List<ListRecord> attrs) {
 		final BooleanExpression node = toManoCondition(attrs);
 		final BooleanListExprRemoverVisitor visitor = new BooleanListExprRemoverVisitor();
-		Node tmp = node.accept(visitor, null);
+		final Node tmp = node.accept(visitor, null);
+		if (null == tmp) {
+			return new NoopNode();
+		}
 		return tmp.accept(visitor, null);
 	}
 
@@ -147,7 +151,7 @@ public class EvalService {
 		throw new IllegalArgumentException("Could not convert: " + obj.getClass());
 	}
 
-	public boolean evaluate(final Node nodes, final UUID objectId, @NotNull final SubscriptionType subscriptionType, final String eventName) {
+	public boolean evaluate(final Node nodes, final UUID objectId, final SubscriptionType subscriptionType, final String eventName) {
 		final EvaluatorVisitor eval = new EvaluatorVisitor();
 		final Context ctx = contextBuilderService.build(subscriptionType, objectId, eventName);
 		return nodes.accept(eval, ctx);

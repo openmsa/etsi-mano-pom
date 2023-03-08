@@ -58,7 +58,7 @@ public class ContextBuilderService {
 		case NSDVNF -> vnfPackageService.findById(id);
 		default -> throw new IllegalArgumentException("Unexpected value: " + type);
 		};
-
+		Objects.requireNonNull(res, "No result for " + type + '#' + id);
 		return buildContext(res, eventName);
 	}
 
