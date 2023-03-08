@@ -24,7 +24,7 @@ import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.service.mon.model.MonitoringData;
+import com.ubiqube.etsi.mano.service.mon.model.MonitoringDataSlim;
 import com.ubiqube.etsi.mano.service.mon.repository.MonitoringDataJpa;
 
 @Service
@@ -40,10 +40,10 @@ public class ChangEvaluatorListener {
 	}
 
 	@JmsListener(destination = Constants.QUEUE_CHANGE_EVALUATOR)
-	public void changeEvaluator(final MonitoringData result) {
+	public void changeEvaluator(final MonitoringDataSlim result) {
 		result.getKey();
 		result.getMasterJobId();
-		final List<MonitoringData> res = monitoringDataJpa.getLastMetrics(result.getKey(), result.getMasterJobId());
+		final List<MonitoringDataSlim> res = monitoringDataJpa.getLastMetrics(result.getKey(), result.getMasterJobId());
 		if (res.size() != 2) {
 			LOG.warn("Not enought element for {}/{}", result.getKey(), result.getMasterJobId());
 			return;

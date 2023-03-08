@@ -16,8 +16,8 @@
  */
 package com.ubiqube.etsi.mano.service.mon.jms;
 
-import com.ubiqube.etsi.mano.service.mon.model.MonitoringData;
+import com.ubiqube.etsi.mano.service.mon.model.MonitoringDataSlim;
 
-public record MetricChange(MonitoringData latest, MonitoringData old) {
+public record MetricChange(MonitoringDataSlim latest, MonitoringDataSlim old) {
 	//
 }

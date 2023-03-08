@@ -40,7 +40,7 @@ import org.springframework.web.reactive.function.client.WebClient.Builder;
 import com.ubiqube.etsi.mano.mon.MonGenericException;
 import com.ubiqube.etsi.mano.service.mon.data.AuthParamOauth2;
 import com.ubiqube.etsi.mano.service.mon.jms.MetricChange;
-import com.ubiqube.etsi.mano.service.mon.model.MonitoringData;
+import com.ubiqube.etsi.mano.service.mon.model.MonitoringDataSlim;
 import com.ubiqube.etsi.mano.service.mon.model.Subscription;
 import com.ubiqube.etsi.mano.service.mon.repository.SubscriptionRepository;
 
@@ -61,7 +61,7 @@ public class SubscriptionNotificationService {
 		subscriptions.forEach(x -> safeSendSubscription(x, metricChange.latest()));
 	}
 
-	private void safeSendSubscription(final Subscription subscription, final MonitoringData monitoringData) {
+	private void safeSendSubscription(final Subscription subscription, final MonitoringDataSlim monitoringDataSlim) {
 		try {
 			final Builder wc = WebClient.builder()
 					.baseUrl(subscription.getCallBackUrl());
@@ -70,7 +70,7 @@ public class SubscriptionNotificationService {
 					.method(HttpMethod.POST)
 					.accept(MediaType.APPLICATION_JSON)
 					.contentType(MediaType.APPLICATION_JSON)
-					.bodyValue(monitoringData)
+					.bodyValue(monitoringDataSlim)
 					.retrieve()
 					.toEntity(String.class)
 					.block();

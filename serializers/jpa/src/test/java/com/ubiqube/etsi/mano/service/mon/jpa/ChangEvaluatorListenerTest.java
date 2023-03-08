@@ -21,7 +21,8 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
-import java.time.OffsetDateTime;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -33,7 +34,7 @@ import org.springframework.jms.core.JmsTemplate;
 
 import com.ubiqube.etsi.mano.service.mon.jms.ChangEvaluatorListener;
 import com.ubiqube.etsi.mano.service.mon.jms.Constants;
-import com.ubiqube.etsi.mano.service.mon.model.MonitoringData;
+import com.ubiqube.etsi.mano.service.mon.model.MonitoringDataSlim;
 import com.ubiqube.etsi.mano.service.mon.repository.MonitoringDataJpa;
 
 @ExtendWith(MockitoExtension.class)
@@ -46,7 +47,7 @@ class ChangEvaluatorListenerTest {
 	@Test
 	void testBasic() throws Exception {
 		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(monitoringJpa, jmsTemplate);
-		final MonitoringData result = new MonitoringData("key2", "masterJobId2", OffsetDateTime.now(), 123D, null, "vnfInstanceId2", true);
+		final MonitoringDataSlim result = new MonitoringDataSlimTest(Timestamp.from(Instant.now()), "masterJobId2", "key2", 123D, null);
 		changEvaluatorListener.changeEvaluator(result);
 		assertTrue(true);
 	}
@@ -54,7 +55,7 @@ class ChangEvaluatorListenerTest {
 	@Test
 	void testOneElement() throws Exception {
 		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(monitoringJpa, jmsTemplate);
-		final MonitoringData result = new MonitoringData("key2", "masterJobId2", OffsetDateTime.now(), 123D, null, "vnfInstanceId2", true);
+		final MonitoringDataSlim result = new MonitoringDataSlimTest(Timestamp.from(Instant.now()), "masterJobId2", "key2", 123D, null);
 		//
 		when(monitoringJpa.getLastMetrics("key2", "masterJobId2")).thenReturn(List.of());
 		changEvaluatorListener.changeEvaluator(result);
@@ -64,8 +65,8 @@ class ChangEvaluatorListenerTest {
 	@Test
 	void testSameOnValue() throws Exception {
 		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(monitoringJpa, jmsTemplate);
-		final MonitoringData result = new MonitoringData("key2", "masterJobId2", OffsetDateTime.now(), 123D, null, "vnfInstanceId2", true);
-		final MonitoringData result2 = new MonitoringData("key2", "masterJobId2", OffsetDateTime.now(), 123D, null, "vnfInstanceId2", true);
+		final MonitoringDataSlim result = new MonitoringDataSlimTest(Timestamp.from(Instant.now()), "masterJobId2", "key2", 123D, null);
+		final MonitoringDataSlim result2 = new MonitoringDataSlimTest(Timestamp.from(Instant.now()), "masterJobId2", "key2", 123D, null);
 		//
 		when(monitoringJpa.getLastMetrics("key2", "masterJobId2")).thenReturn(List.of(result, result2));
 		changEvaluatorListener.changeEvaluator(result);
@@ -75,8 +76,8 @@ class ChangEvaluatorListenerTest {
 	@Test
 	void testDiffOnValue() throws Exception {
 		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(monitoringJpa, jmsTemplate);
-		final MonitoringData result = new MonitoringData("key2", "masterJobId2", OffsetDateTime.now(), 123D, null, "vnfInstanceId2", true);
-		final MonitoringData result2 = new MonitoringData("key2", "masterJobId2", OffsetDateTime.now(), 456D, null, "vnfInstanceId2", true);
+		final MonitoringDataSlim result = new MonitoringDataSlimTest(Timestamp.from(Instant.now()), "masterJobId2", "key2", 123D, null);
+		final MonitoringDataSlim result2 = new MonitoringDataSlimTest(Timestamp.from(Instant.now()), "masterJobId2", "key2", 456D, null);
 		//
 		when(monitoringJpa.getLastMetrics("key2", "masterJobId2")).thenReturn(List.of(result, result2));
 		final ArgumentCaptor<Object> valueCapture = ArgumentCaptor.forClass(Object.class);
@@ -88,8 +89,8 @@ class ChangEvaluatorListenerTest {
 	@Test
 	void testSameOnText() throws Exception {
 		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(monitoringJpa, jmsTemplate);
-		final MonitoringData result = new MonitoringData("key2", "masterJobId2", OffsetDateTime.now(), null, "Hello", "vnfInstanceId2", true);
-		final MonitoringData result2 = new MonitoringData("key2", "masterJobId2", OffsetDateTime.now(), null, "Hello", "vnfInstanceId2", true);
+		final MonitoringDataSlim result = new MonitoringDataSlimTest(Timestamp.from(Instant.now()), "masterJobId2", "key2", null, "Hello");
+		final MonitoringDataSlim result2 = new MonitoringDataSlimTest(Timestamp.from(Instant.now()), "masterJobId2", "key2", null, "Hello");
 		//
 		when(monitoringJpa.getLastMetrics("key2", "masterJobId2")).thenReturn(List.of(result, result2));
 		changEvaluatorListener.changeEvaluator(result);
@@ -99,8 +100,8 @@ class ChangEvaluatorListenerTest {
 	@Test
 	void testDiffOnText() throws Exception {
 		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(monitoringJpa, jmsTemplate);
-		final MonitoringData result = new MonitoringData("key2", "masterJobId2", OffsetDateTime.now(), null, "Hello22", "vnfInstanceId2", true);
-		final MonitoringData result2 = new MonitoringData("key2", "masterJobId2", OffsetDateTime.now(), null, "Hello", "vnfInstanceId2", true);
+		final MonitoringDataSlim result = new MonitoringDataSlimTest(Timestamp.from(Instant.now()), "masterJobId2", "key2", null, "Hello22");
+		final MonitoringDataSlim result2 = new MonitoringDataSlimTest(Timestamp.from(Instant.now()), "masterJobId2", "key2", null, "Hello");
 		//
 		when(monitoringJpa.getLastMetrics("key2", "masterJobId2")).thenReturn(List.of(result, result2));
 		final ArgumentCaptor<Object> valueCapture = ArgumentCaptor.forClass(Object.class);
