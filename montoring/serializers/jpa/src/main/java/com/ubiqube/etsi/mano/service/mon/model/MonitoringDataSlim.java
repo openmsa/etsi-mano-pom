@@ -14,22 +14,19 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service.mon.jms;
+package com.ubiqube.etsi.mano.service.mon.model;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
+import java.sql.Timestamp;
 
-import com.ubiqube.etsi.mano.mon.dao.TelemetryMetricsResult;
-import com.ubiqube.etsi.mano.service.mon.model.MonitoringDataSlim;
+public interface MonitoringDataSlim {
+	Timestamp getTime();
 
-@Mapper
-public interface MonitoringDataMapping {
-	MonitoringDataMapping INSTANCE = Mappers.getMapper(MonitoringDataMapping.class);
+	String getMasterJobId();
 
-	@Mapping(target = "status", ignore = true)
-	@Mapping(target = "vnfcId", ignore = true)
-	@Mapping(target = "timestamp", ignore = true)
-	@Mapping(target = "txt", source = "text")
-	TelemetryMetricsResult fromDto(MonitoringDataSlim ci);
+	String getKey();
+
+	Double getValue();
+
+	String getText();
+
 }

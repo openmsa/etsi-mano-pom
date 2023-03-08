@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
 import com.ubiqube.etsi.mano.mon.api.SearchApi;
 import com.ubiqube.etsi.mano.mon.dao.TelemetryMetricsResult;
 import com.ubiqube.etsi.mano.service.mon.jms.MonitoringDataMapping;
-import com.ubiqube.etsi.mano.service.mon.model.MonitoringData;
+import com.ubiqube.etsi.mano.service.mon.model.MonitoringDataSlim;
 import com.ubiqube.etsi.mano.service.mon.repository.MonitoringDataJpa;
 
 @Service
@@ -39,8 +39,8 @@ public class JpaSearchService implements SearchApi {
 
 	@Override
 	public TelemetryMetricsResult search(final String instance, final String object) {
-		final List<MonitoringData> ress = monitoringDataJpa.getLastMetrics(instance, object);
-		final MonitoringData res = ress.get(0);
+		final List<MonitoringDataSlim> ress = monitoringDataJpa.getLastMetrics(instance, object);
+		final MonitoringDataSlim res = ress.get(0);
 		return mapper.fromDto(res);
 	}
 }

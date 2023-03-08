@@ -24,6 +24,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import com.ubiqube.etsi.mano.service.mon.model.MonitoringData;
+import com.ubiqube.etsi.mano.service.mon.model.MonitoringDataSlim;
 
 /**
  *
@@ -38,5 +39,5 @@ public interface MonitoringDataJpa extends CrudRepository<MonitoringData, Offset
 				group by time , master_job_id , "key", value ,"text"
 				order by time desc limit 2;
 			""", nativeQuery = true)
-	List<MonitoringData> getLastMetrics(@Param("key") String key, @Param("masterJobId") String masterJobId);
+	List<MonitoringDataSlim> getLastMetrics(@Param("key") String key, @Param("masterJobId") String masterJobId);
 }

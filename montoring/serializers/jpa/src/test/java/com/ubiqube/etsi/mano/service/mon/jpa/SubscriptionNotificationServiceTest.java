@@ -20,7 +20,8 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
-import java.time.OffsetDateTime;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,7 +36,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.ubiqube.etsi.mano.service.mon.data.AuthParamOauth2;
 import com.ubiqube.etsi.mano.service.mon.data.OAuth2GrantType;
 import com.ubiqube.etsi.mano.service.mon.jms.MetricChange;
-import com.ubiqube.etsi.mano.service.mon.model.MonitoringData;
+import com.ubiqube.etsi.mano.service.mon.model.MonitoringDataSlim;
 import com.ubiqube.etsi.mano.service.mon.model.Subscription;
 import com.ubiqube.etsi.mano.service.mon.repository.SubscriptionRepository;
 import com.ubiqube.etsi.mano.service.mon.service.SubscriptionNotificationService;
@@ -76,8 +77,8 @@ class SubscriptionNotificationServiceTest {
 	@Test
 	void testName() throws Exception {
 		final SubscriptionNotificationService sns = new SubscriptionNotificationService(subscriptionRepo);
-		final MonitoringData latest = new MonitoringData("5f57786c-b457-11ed-ac52-c8f750509d3b", "masterJobId2", OffsetDateTime.now(), 123d, null, "vnfInstanceId2", true);
-		final MonitoringData old = new MonitoringData("5f57786c-b457-11ed-ac52-c8f750509d3b", "masterJobId2", OffsetDateTime.now(), 456d, null, "vnfInstanceId2", true);
+		final MonitoringDataSlim latest = new MonitoringDataSlimTest(Timestamp.from(Instant.now()), "masterJobId2", "key2", 123D, null);
+		final MonitoringDataSlim old = new MonitoringDataSlimTest(Timestamp.from(Instant.now()), "masterJobId2", "key2", 456D, null);
 		final MetricChange metricChange = new MetricChange(latest, old);
 		final Subscription subscription = new Subscription();
 		final AuthParamOauth2 authParamOauth2 = new AuthParamOauth2();
