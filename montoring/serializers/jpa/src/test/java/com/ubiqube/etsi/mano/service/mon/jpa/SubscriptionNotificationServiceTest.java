@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.service.mon.jpa;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
@@ -92,8 +93,13 @@ class SubscriptionNotificationServiceTest {
 		subscription.setCallBackUrl(baseUrl);
 		subscription.setId(id);
 		subscription.setKey(id.toString());
+		subscription.hashCode();
+		subscription.equals(null);
+		subscription.equals(authParamOauth2);
+		subscription.equals(subscription);
+		subscription.toString();
 		//
-		when(subscriptionRepo.findByKey(id.toString())).thenReturn(List.of(subscription));
+		when(subscriptionRepo.findByKey("key2")).thenReturn(List.of(subscription));
 		//
 		mockBackEnd.enqueue(new MockResponse()
 				.setBody(JSON_TOKEN)
@@ -108,5 +114,16 @@ class SubscriptionNotificationServiceTest {
 		final RecordedRequest recordedRequest2 = mockBackEnd.takeRequest();
 		assertEquals("POST", recordedRequest2.getMethod());
 		assertEquals("/", recordedRequest2.getPath());
+	}
+
+	@Test
+	void testSubscription() {
+		final Subscription subscription = new Subscription();
+		final AuthParamOauth2 authParamOauth2 = new AuthParamOauth2();
+		subscription.setAuthParamOauth2(authParamOauth2);
+		final Subscription subscription2 = new Subscription();
+		final AuthParamOauth2 authParamOauth3 = new AuthParamOauth2();
+		subscription2.setAuthParamOauth2(authParamOauth3);
+		assertTrue(subscription.equals(subscription2));
 	}
 }
