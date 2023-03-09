@@ -23,6 +23,8 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SecurityGroupNode;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 
+import jakarta.annotation.Nullable;
+
 public class SecurityGroupUowV3 extends AbstractVnfmUowV3<SecurityGroupTask> {
 	private final Vim vim;
 	private final VimConnectionInformation vimConnectionInformation;
@@ -36,12 +38,12 @@ public class SecurityGroupUowV3 extends AbstractVnfmUowV3<SecurityGroupTask> {
 	}
 
 	@Override
-	public String execute(final Context3d context) {
+	public @Nullable String execute(final Context3d context) {
 		return vim.network(vimConnectionInformation).createSecurityGroup(task.getAlias());
 	}
 
 	@Override
-	public String rollback(final Context3d context) {
+	public @Nullable String rollback(final Context3d context) {
 		vim.network(vimConnectionInformation).deleteSecurityGroup(task.getVimResourceId());
 		return null;
 	}

@@ -53,6 +53,7 @@ import com.ubiqube.etsi.mano.service.VnfInstanceGatewayService;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
 import com.ubiqube.etsi.mano.vnfm.service.graph.DefaultVduNamingStrategy;
 
+import jakarta.annotation.Nullable;
 import ma.glasnost.orika.MapperFacade;
 
 /**
@@ -229,7 +230,7 @@ public class VnfInstanceServiceVnfm implements VnfInstanceGatewayService {
 		return VIRTUAL_LINK + "_" + x.getIdx();
 	}
 
-	private static String getPort(final List<VnfLiveInstance> portVli, final String toscaName) {
+	private static @Nullable String getPort(final List<VnfLiveInstance> portVli, final String toscaName) {
 		return portVli.stream()
 				.filter(x -> toscaName.equals(((VnfPortTask) x.getTask()).getVnfLinkPort().getToscaName()))
 				.findFirst()

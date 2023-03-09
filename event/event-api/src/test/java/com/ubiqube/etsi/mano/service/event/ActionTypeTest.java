@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.service.event;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +27,9 @@ class ActionTypeTest {
 	@Test
 	void testfromValue() throws Exception {
 		assertEquals(ActionType.REGISTER_SERVER, ActionType.fromValue("REGISTER_SERVER"));
-		assertEquals("REGISTER_SERVER", ActionType.fromValue("REGISTER_SERVER").value());
+		final ActionType at = ActionType.fromValue("REGISTER_SERVER");
+		assertNotNull(at);
+		assertEquals("REGISTER_SERVER", at.value());
 	}
 
 	@Test

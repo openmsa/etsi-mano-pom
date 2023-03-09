@@ -24,8 +24,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.UUID;
 
-import jakarta.validation.constraints.NotNull;
-
 import com.ubiqube.etsi.mano.Constants;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.dao.mano.k8s.K8sServers;
@@ -39,6 +37,9 @@ import com.ubiqube.etsi.mano.repository.ManoResource;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 import com.ubiqube.etsi.mano.service.vim.k8s.K8sClient;
 import com.ubiqube.etsi.mano.vnfm.jpa.K8sServerInfoJpa;
+
+import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.NotNull;
 
 /**
  *
@@ -66,7 +67,7 @@ public class HelmV3DeployUowV3 extends AbstractVnfmUowV3<HelmTask> {
 	}
 
 	@Override
-	public String execute(final Context3d context) {
+	public @Nullable String execute(final Context3d context) {
 		final String server = context.get(OsContainerDeployableNode.class, task.getParentVdu());
 		final K8sServers s = serverInfoJpa.findById(UUID.fromString(server)).orElseThrow(() -> new GenericException("Unable to find erver " + server));
 		final File tmpFile = copyFile(task.getMciop().getArtifacts().entrySet().iterator().next().getValue().getImagePath(), task.getVnfPackageId());
@@ -74,8 +75,8 @@ public class HelmV3DeployUowV3 extends AbstractVnfmUowV3<HelmTask> {
 	}
 
 	@Override
-	public String rollback(final Context3d context) {
-		// TODO Auto-generated method stub
+	public @Nullable String rollback(final Context3d context) {
+		// No rollback.
 		return null;
 	}
 

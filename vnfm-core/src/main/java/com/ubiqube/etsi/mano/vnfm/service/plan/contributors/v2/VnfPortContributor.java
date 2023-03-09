@@ -35,6 +35,8 @@ import com.ubiqube.etsi.mano.orchestrator.SclableResources;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfPortNode;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
 
+import jakarta.annotation.Nullable;
+
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
@@ -49,7 +51,7 @@ public class VnfPortContributor extends AbstractContributorV3Base<VnfPortTask> {
 		super(vnfLiveInstanceJpa);
 	}
 
-	private static ExtManagedVirtualLinkDataEntity findExtManagedInfo(final VnfBlueprint plan, final String vlName) {
+	private static @Nullable ExtManagedVirtualLinkDataEntity findExtManagedInfo(final VnfBlueprint plan, final String vlName) {
 		return plan.getParameters().getExtManagedVirtualLinks().stream()
 				.filter(x -> x.getVnfVirtualLinkDescId().equals(vlName))
 				.findFirst()

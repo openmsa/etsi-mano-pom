@@ -24,6 +24,8 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfExtCp;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 
+import jakarta.annotation.Nullable;
+
 public class VnfExtCpUowV3 extends AbstractVnfmUowV3<ExternalCpTask> {
 	private final Vim vim;
 	private final VimConnectionInformation vimConnectionInformation;
@@ -37,7 +39,7 @@ public class VnfExtCpUowV3 extends AbstractVnfmUowV3<ExternalCpTask> {
 	}
 
 	@Override
-	public String execute(final Context3d context) {
+	public @Nullable String execute(final Context3d context) {
 		final com.ubiqube.etsi.mano.dao.mano.VnfExtCp extCp = task.getVnfExtCp();
 		final String networkId = context.get(Network.class, extCp.getInternalVirtualLink());
 		final String extNetwork = context.get(Network.class, extCp.getExternalVirtualLink());
@@ -45,7 +47,7 @@ public class VnfExtCpUowV3 extends AbstractVnfmUowV3<ExternalCpTask> {
 	}
 
 	@Override
-	public String rollback(final Context3d context) {
+	public @Nullable String rollback(final Context3d context) {
 		final ExternalCpTask param = getTask().getTemplateParameters();
 		vim.network(vimConnectionInformation).deleteRouter(param.getVimResourceId());
 		return null;

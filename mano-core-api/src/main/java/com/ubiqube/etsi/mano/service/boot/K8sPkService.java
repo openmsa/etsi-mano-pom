@@ -51,6 +51,8 @@ import com.ubiqube.etsi.mano.dao.mano.config.Configurations;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.jpa.config.ConfigurationsJpa;
 
+import jakarta.annotation.Nullable;
+
 /**
  * The role of this service is to create and store a RSA private key for k8s
  * communications. There must be only one PK in the luster, and it should
@@ -69,44 +71,42 @@ public class K8sPkService {
 
 	private final ConfigurationsJpa configurations;
 
-	private KeyPair keyPair;
+	private final KeyPair keyPair;
 
 	public K8sPkService(final ConfigurationsJpa configurations) {
-		super();
 		this.configurations = configurations;
-		run();
+		keyPair = run();
 	}
 
-	public void run() {
-		if (loadKeys()) {
-			return;
+	public KeyPair run() {
+		final KeyPair kp = loadKeys();
+		if (null != kp) {
+			return kp;
 		}
 		LOG.info("Creating a Private key for K8s communications.");
-		generateAndSaveKey();
+		return generateAndSaveKey();
 	}
 
-	private boolean loadKeys() {
+	private @Nullable KeyPair loadKeys() {
 		final Optional<Configurations> privDbOpt = configurations.findById(K8S_PRIVATE_KEY);
 		if (privDbOpt.isEmpty()) {
-			return false;
+			return null;
 		}
 		final Object o = decodePem(privDbOpt.get().getWalue());
 		if (o instanceof final PEMKeyPair pkp) {
-			keyPair = convert(pkp);
-			return true;
+			return convert(pkp);
 		}
 		if (!(o instanceof final PrivateKeyInfo pki)) {
 			throw new GenericException("Could not load private key of type :" + o.getClass());
 		}
 		final Optional<Configurations> pubDbOpt = configurations.findById(K8S_PUBLIC_KEY);
 		if (pubDbOpt.isEmpty()) {
-			return false;
+			return null;
 		}
 		final String pubDb = pubDbOpt.get().getWalue();
 		final RSAPublicKey pub = decodePem(pubDb);
 		final PrivateKey privKey = converter(pki);
-		keyPair = new KeyPair(pub, privKey);
-		return true;
+		return new KeyPair(pub, privKey);
 	}
 
 	private static PrivateKey converter(final PrivateKeyInfo pki) {
@@ -137,10 +137,11 @@ public class K8sPkService {
 		}
 	}
 
-	private void generateAndSaveKey() {
-		keyPair = generateKeyPair("RSA", 4096);
-		save(K8S_PRIVATE_KEY, keyPair.getPrivate());
-		save(K8S_PUBLIC_KEY, keyPair.getPublic());
+	private KeyPair generateAndSaveKey() {
+		final KeyPair kp = generateKeyPair("RSA", 4096);
+		save(K8S_PRIVATE_KEY, kp.getPrivate());
+		save(K8S_PUBLIC_KEY, kp.getPublic());
+		return kp;
 	}
 
 	private Configurations save(final String k8sKey, final Key key) {

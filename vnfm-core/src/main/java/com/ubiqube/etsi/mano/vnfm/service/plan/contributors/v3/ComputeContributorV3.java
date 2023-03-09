@@ -52,6 +52,8 @@ import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceServiceVnfm;
 import com.ubiqube.etsi.mano.vnfm.service.plan.ScalingStrategy;
 import com.ubiqube.etsi.mano.vnfm.service.plan.ScalingStrategy.NumberOfCompute;
 
+import jakarta.annotation.Nullable;
+
 /**
  *
  * @author olivier
@@ -146,7 +148,7 @@ public class ComputeContributorV3 extends AbstractVnfmContributorV3<Object> {
 		return ret;
 	}
 
-	private static ExtManagedVirtualLinkDataEntity findExtManagedInfo(final VnfBlueprint plan, final String vlName) {
+	private static @Nullable ExtManagedVirtualLinkDataEntity findExtManagedInfo(final VnfBlueprint plan, final String vlName) {
 		if (null == plan.getParameters().getExtManagedVirtualLinks()) {
 			return null;
 		}

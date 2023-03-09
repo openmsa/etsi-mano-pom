@@ -29,6 +29,8 @@ import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.vnfm.jpa.K8sServerInfoJpa;
 
+import jakarta.annotation.Nullable;
+
 public class MciopUserUowV3 extends AbstractVnfmUowV3<MciopUserTask> {
 	private final MciopUserTask task;
 	private final K8sServerInfoJpa serverInfoJpa;
@@ -47,7 +49,7 @@ public class MciopUserUowV3 extends AbstractVnfmUowV3<MciopUserTask> {
 	}
 
 	@Override
-	public String execute(final Context3d context) {
+	public @Nullable String execute(final Context3d context) {
 		final String db = context.get(OsK8sInformationsNode.class, task.getParentVdu());
 		final K8sServers server = serverInfoJpa.findById(UUID.fromString(db)).orElseThrow(() -> new GenericException("Unable to find k8s server: " + db));
 		final K8sServers res = vim.cnf(vci).sign(userCn, server);
@@ -56,7 +58,7 @@ public class MciopUserUowV3 extends AbstractVnfmUowV3<MciopUserTask> {
 	}
 
 	@Override
-	public String rollback(final Context3d context) {
+	public @Nullable String rollback(final Context3d context) {
 		// Nothing.
 		return null;
 	}

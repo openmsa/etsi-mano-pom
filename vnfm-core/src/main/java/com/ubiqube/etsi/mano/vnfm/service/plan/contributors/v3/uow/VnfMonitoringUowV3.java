@@ -28,6 +28,8 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Monitoring;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.vnfm.service.VnfMonitoringService;
 
+import jakarta.annotation.Nullable;
+
 public class VnfMonitoringUowV3 extends AbstractVnfmUowV3<MonitoringTask> {
 	private final VnfMonitoringService vnfMonitoringService;
 	private final VimConnectionInformation vimConnectionInformation;
@@ -41,7 +43,7 @@ public class VnfMonitoringUowV3 extends AbstractVnfmUowV3<MonitoringTask> {
 	}
 
 	@Override
-	public String execute(final Context3d context) {
+	public @Nullable String execute(final Context3d context) {
 		String toscaName = "";
 		List<String> l = new ArrayList<>();
 		if (task.getMonitoringParams().getObjectType().equals(PmType.VNFC)) {
@@ -54,7 +56,7 @@ public class VnfMonitoringUowV3 extends AbstractVnfmUowV3<MonitoringTask> {
 	}
 
 	@Override
-	public String rollback(final Context3d context) {
+	public @Nullable String rollback(final Context3d context) {
 		final MonitoringTask params = getTask().getTemplateParameters();
 		vnfMonitoringService.unregister(params.getVimResourceId());
 		return null;

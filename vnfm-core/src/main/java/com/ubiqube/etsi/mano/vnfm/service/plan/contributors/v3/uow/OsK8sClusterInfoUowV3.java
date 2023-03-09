@@ -34,6 +34,8 @@ import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.vnfm.jpa.K8sServerInfoJpa;
 
+import jakarta.annotation.Nullable;
+
 public class OsK8sClusterInfoUowV3 extends AbstractVnfmUowV3<K8sInformationsTask> {
 
 	private static final Logger LOG = LoggerFactory.getLogger(OsK8sClusterInfoUowV3.class);
@@ -53,7 +55,7 @@ public class OsK8sClusterInfoUowV3 extends AbstractVnfmUowV3<K8sInformationsTask
 	}
 
 	@Override
-	public String execute(final Context3d context) {
+	public @Nullable String execute(final Context3d context) {
 		final String srv = context.get(OsContainerDeployableNode.class, task.getToscaName());
 		final Optional<K8sServers> obj = serverInfoJpa.findByVimResourceId(srv);
 		if (obj.isPresent()) {
@@ -80,7 +82,7 @@ public class OsK8sClusterInfoUowV3 extends AbstractVnfmUowV3<K8sInformationsTask
 	}
 
 	@Override
-	public String rollback(final Context3d context) {
+	public @Nullable String rollback(final Context3d context) {
 		final Optional<K8sServers> obj = serverInfoJpa.findByVimResourceId(task.getVimResourceId());
 		if (obj.isPresent()) {
 			serverInfoJpa.deleteById(obj.get().getId());

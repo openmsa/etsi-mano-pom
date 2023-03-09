@@ -21,6 +21,8 @@ import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 
+import jakarta.annotation.Nullable;
+
 public class VnfIndicatorUowV3 extends AbstractVnfmUowV3<VnfIndicatorTask> {
 
 	public VnfIndicatorUowV3(final VirtualTaskV3<VnfIndicatorTask> task, final Class<? extends Node> node) {
@@ -29,12 +31,12 @@ public class VnfIndicatorUowV3 extends AbstractVnfmUowV3<VnfIndicatorTask> {
 	}
 
 	@Override
-	public String execute(final Context3d context) {
+	public @Nullable String execute(final Context3d context) {
 		return "";
 	}
 
 	@Override
-	public String rollback(final Context3d context) {
+	public @Nullable String rollback(final Context3d context) {
 		// TODO Auto-generated method stub
 		return null;
 	}

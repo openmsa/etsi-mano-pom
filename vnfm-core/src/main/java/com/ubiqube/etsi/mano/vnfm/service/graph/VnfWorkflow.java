@@ -107,6 +107,8 @@ import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.VnfIndicatorVt
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.VnfPortVt;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.AbstractVnfmContributorV3;
 
+import jakarta.annotation.Nullable;
+
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
@@ -252,7 +254,7 @@ public class VnfWorkflow implements WorkflowV3<VnfPackage, VnfBlueprint, VnfTask
 				});
 	}
 
-	private static VnfTask find(final String id, final Blueprint<VnfTask, ?> localPlan) {
+	private static @Nullable VnfTask find(final String id, final Blueprint<VnfTask, ?> localPlan) {
 		return localPlan.getTasks().stream()
 				.filter(x -> x.getToscaId().equals(id))
 				.findFirst()

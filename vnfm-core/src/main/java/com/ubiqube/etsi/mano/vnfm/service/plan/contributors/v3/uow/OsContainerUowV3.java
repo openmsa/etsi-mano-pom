@@ -26,6 +26,8 @@ import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.vim.CnfK8sParams;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 
+import jakarta.annotation.Nullable;
+
 public class OsContainerUowV3 extends AbstractVnfmUowV3<OsContainerTask> {
 	private final Vim vim;
 	private final VimConnectionInformation vimConnectionInformation;
@@ -39,7 +41,7 @@ public class OsContainerUowV3 extends AbstractVnfmUowV3<OsContainerTask> {
 	}
 
 	@Override
-	public String execute(final Context3d context) {
+	public @Nullable String execute(final Context3d context) {
 		final CnfInformations cnfi = vimConnectionInformation.getCnfInfo();
 		final OsContainer osc = task.getOsContainer();
 		osc.getCpuResourceLimit();
@@ -67,7 +69,7 @@ public class OsContainerUowV3 extends AbstractVnfmUowV3<OsContainerTask> {
 	}
 
 	@Override
-	public String rollback(final Context3d context) {
+	public @Nullable String rollback(final Context3d context) {
 		vim.cnf(vimConnectionInformation).deleteContainer(task.getVimResourceId());
 		return null;
 	}

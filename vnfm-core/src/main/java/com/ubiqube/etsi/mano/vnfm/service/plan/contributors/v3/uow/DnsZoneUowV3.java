@@ -23,6 +23,8 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.DnsZone;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 
+import jakarta.annotation.Nullable;
+
 public class DnsZoneUowV3 extends AbstractVnfmUowV3<DnsZoneTask> {
 	private final DnsZoneTask task;
 	private final Vim vim;
@@ -36,12 +38,12 @@ public class DnsZoneUowV3 extends AbstractVnfmUowV3<DnsZoneTask> {
 	}
 
 	@Override
-	public String execute(final Context3d context) {
+	public @Nullable String execute(final Context3d context) {
 		return vim.dns(vimConnectionInformation).createDnsZone(task.getDomainName());
 	}
 
 	@Override
-	public String rollback(final Context3d context) {
+	public @Nullable String rollback(final Context3d context) {
 		vim.dns(vimConnectionInformation).deleteDnsZone(task.getVimResourceId());
 		return null;
 	}

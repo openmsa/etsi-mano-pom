@@ -25,6 +25,8 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 
+import jakarta.annotation.Nullable;
+
 public class VirtualLinkUowV3 extends AbstractVnfmUowV3<NetworkTask> {
 	private final Vim vim;
 	private final VimConnectionInformation vimConnectionInformation;
@@ -40,13 +42,13 @@ public class VirtualLinkUowV3 extends AbstractVnfmUowV3<NetworkTask> {
 	}
 
 	@Override
-	public String execute(final Context3d context) {
+	public @Nullable String execute(final Context3d context) {
 		final String domainName = context.getOptional(DnsZone.class, getTask().getTemplateParameters().getToscaName());
 		return vim.network(vimConnectionInformation).createNetwork(vlProtocolData, task.getAlias(), domainName, task.getQosPolicy());
 	}
 
 	@Override
-	public String rollback(final Context3d context) {
+	public @Nullable String rollback(final Context3d context) {
 		final NetworkTask params = getTask().getTemplateParameters();
 		vim.network(vimConnectionInformation).deleteVirtualLink(params.getVimResourceId());
 		return null;

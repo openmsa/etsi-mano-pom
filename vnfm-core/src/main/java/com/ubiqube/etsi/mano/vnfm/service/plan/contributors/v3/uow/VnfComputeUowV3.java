@@ -33,6 +33,8 @@ import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.vim.ComputeParameters;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 
+import jakarta.annotation.Nullable;
+
 public class VnfComputeUowV3 extends AbstractVnfmUowV3<ComputeTask> {
 
 	private final Vim vim;
@@ -47,7 +49,7 @@ public class VnfComputeUowV3 extends AbstractVnfmUowV3<ComputeTask> {
 	}
 
 	@Override
-	public String execute(final Context3d context) {
+	public @Nullable String execute(final Context3d context) {
 		final List<String> storages = task.getVnfCompute().getStorages().stream()
 				.map(x -> context.getParent(Storage.class, getTask().getToscaName() + "-" + x))
 				.flatMap(List::stream)
@@ -85,7 +87,7 @@ public class VnfComputeUowV3 extends AbstractVnfmUowV3<ComputeTask> {
 	}
 
 	@Override
-	public String rollback(final Context3d context) {
+	public @Nullable String rollback(final Context3d context) {
 		final ComputeTask t = getTask().getTemplateParameters();
 		vim.deleteCompute(vimConnectionInformation, t.getVimResourceId());
 		return null;

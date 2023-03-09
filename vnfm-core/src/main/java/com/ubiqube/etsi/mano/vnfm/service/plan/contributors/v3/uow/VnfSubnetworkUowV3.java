@@ -24,6 +24,8 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SubNetwork;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 
+import jakarta.annotation.Nullable;
+
 public class VnfSubnetworkUowV3 extends AbstractVnfmUowV3<SubNetworkTask> {
 	private final Vim vim;
 	private final VimConnectionInformation vimConnectionInformation;
@@ -37,13 +39,13 @@ public class VnfSubnetworkUowV3 extends AbstractVnfmUowV3<SubNetworkTask> {
 	}
 
 	@Override
-	public String execute(final Context3d context) {
+	public @Nullable String execute(final Context3d context) {
 		final String networkId = context.get(Network.class, task.getParentName());
 		return vim.network(vimConnectionInformation).createSubnet(task.getL3Data(), task.getIpPool(), networkId);
 	}
 
 	@Override
-	public String rollback(final Context3d context) {
+	public @Nullable String rollback(final Context3d context) {
 		// params.getVim().deleteSubnet(params.getVimConnectionInformation(),
 		// params.getVimResourceId());
 		return null;
