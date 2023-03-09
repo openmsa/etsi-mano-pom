@@ -47,7 +47,7 @@ class ChangEvaluatorListenerTest {
 	@Test
 	void testBasic() throws Exception {
 		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(monitoringJpa, jmsTemplate);
-		final MonitoringDataSlim result = new MonitoringDataSlimTest(Timestamp.from(Instant.now()), "masterJobId2", "key2", 123D, null);
+		final MonitoringDataSlim result = new TestMonitoringDataSlim(Timestamp.from(Instant.now()), "masterJobId2", "key2", 123D, null);
 		changEvaluatorListener.changeEvaluator(result);
 		assertTrue(true);
 	}
@@ -55,7 +55,7 @@ class ChangEvaluatorListenerTest {
 	@Test
 	void testOneElement() throws Exception {
 		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(monitoringJpa, jmsTemplate);
-		final MonitoringDataSlim result = new MonitoringDataSlimTest(Timestamp.from(Instant.now()), "masterJobId2", "key2", 123D, null);
+		final MonitoringDataSlim result = new TestMonitoringDataSlim(Timestamp.from(Instant.now()), "masterJobId2", "key2", 123D, null);
 		//
 		when(monitoringJpa.getLastMetrics("key2", "masterJobId2")).thenReturn(List.of());
 		changEvaluatorListener.changeEvaluator(result);
@@ -65,8 +65,8 @@ class ChangEvaluatorListenerTest {
 	@Test
 	void testSameOnValue() throws Exception {
 		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(monitoringJpa, jmsTemplate);
-		final MonitoringDataSlim result = new MonitoringDataSlimTest(Timestamp.from(Instant.now()), "masterJobId2", "key2", 123D, null);
-		final MonitoringDataSlim result2 = new MonitoringDataSlimTest(Timestamp.from(Instant.now()), "masterJobId2", "key2", 123D, null);
+		final MonitoringDataSlim result = new TestMonitoringDataSlim(Timestamp.from(Instant.now()), "masterJobId2", "key2", 123D, null);
+		final MonitoringDataSlim result2 = new TestMonitoringDataSlim(Timestamp.from(Instant.now()), "masterJobId2", "key2", 123D, null);
 		//
 		when(monitoringJpa.getLastMetrics("key2", "masterJobId2")).thenReturn(List.of(result, result2));
 		changEvaluatorListener.changeEvaluator(result);
@@ -76,8 +76,8 @@ class ChangEvaluatorListenerTest {
 	@Test
 	void testDiffOnValue() throws Exception {
 		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(monitoringJpa, jmsTemplate);
-		final MonitoringDataSlim result = new MonitoringDataSlimTest(Timestamp.from(Instant.now()), "masterJobId2", "key2", 123D, null);
-		final MonitoringDataSlim result2 = new MonitoringDataSlimTest(Timestamp.from(Instant.now()), "masterJobId2", "key2", 456D, null);
+		final MonitoringDataSlim result = new TestMonitoringDataSlim(Timestamp.from(Instant.now()), "masterJobId2", "key2", 123D, null);
+		final MonitoringDataSlim result2 = new TestMonitoringDataSlim(Timestamp.from(Instant.now()), "masterJobId2", "key2", 456D, null);
 		//
 		when(monitoringJpa.getLastMetrics("key2", "masterJobId2")).thenReturn(List.of(result, result2));
 		final ArgumentCaptor<Object> valueCapture = ArgumentCaptor.forClass(Object.class);
@@ -89,8 +89,8 @@ class ChangEvaluatorListenerTest {
 	@Test
 	void testSameOnText() throws Exception {
 		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(monitoringJpa, jmsTemplate);
-		final MonitoringDataSlim result = new MonitoringDataSlimTest(Timestamp.from(Instant.now()), "masterJobId2", "key2", null, "Hello");
-		final MonitoringDataSlim result2 = new MonitoringDataSlimTest(Timestamp.from(Instant.now()), "masterJobId2", "key2", null, "Hello");
+		final MonitoringDataSlim result = new TestMonitoringDataSlim(Timestamp.from(Instant.now()), "masterJobId2", "key2", null, "Hello");
+		final MonitoringDataSlim result2 = new TestMonitoringDataSlim(Timestamp.from(Instant.now()), "masterJobId2", "key2", null, "Hello");
 		//
 		when(monitoringJpa.getLastMetrics("key2", "masterJobId2")).thenReturn(List.of(result, result2));
 		changEvaluatorListener.changeEvaluator(result);
@@ -100,8 +100,8 @@ class ChangEvaluatorListenerTest {
 	@Test
 	void testDiffOnText() throws Exception {
 		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(monitoringJpa, jmsTemplate);
-		final MonitoringDataSlim result = new MonitoringDataSlimTest(Timestamp.from(Instant.now()), "masterJobId2", "key2", null, "Hello22");
-		final MonitoringDataSlim result2 = new MonitoringDataSlimTest(Timestamp.from(Instant.now()), "masterJobId2", "key2", null, "Hello");
+		final MonitoringDataSlim result = new TestMonitoringDataSlim(Timestamp.from(Instant.now()), "masterJobId2", "key2", null, "Hello22");
+		final MonitoringDataSlim result2 = new TestMonitoringDataSlim(Timestamp.from(Instant.now()), "masterJobId2", "key2", null, "Hello");
 		//
 		when(monitoringJpa.getLastMetrics("key2", "masterJobId2")).thenReturn(List.of(result, result2));
 		final ArgumentCaptor<Object> valueCapture = ArgumentCaptor.forClass(Object.class);

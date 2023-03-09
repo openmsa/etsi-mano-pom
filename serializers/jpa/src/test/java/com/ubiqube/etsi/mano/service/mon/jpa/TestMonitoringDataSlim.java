@@ -28,7 +28,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class MonitoringDataSlimTest implements MonitoringDataSlim {
+public class TestMonitoringDataSlim implements MonitoringDataSlim {
 	private Timestamp time;
 	private String masterJobId;
 	private String key;

@@ -78,8 +78,8 @@ class SubscriptionNotificationServiceTest {
 	@Test
 	void testName() throws Exception {
 		final SubscriptionNotificationService sns = new SubscriptionNotificationService(subscriptionRepo);
-		final MonitoringDataSlim latest = new MonitoringDataSlimTest(Timestamp.from(Instant.now()), "masterJobId2", "key2", 123D, null);
-		final MonitoringDataSlim old = new MonitoringDataSlimTest(Timestamp.from(Instant.now()), "masterJobId2", "key2", 456D, null);
+		final MonitoringDataSlim latest = new TestMonitoringDataSlim(Timestamp.from(Instant.now()), "masterJobId2", "key2", 123D, null);
+		final MonitoringDataSlim old = new TestMonitoringDataSlim(Timestamp.from(Instant.now()), "masterJobId2", "key2", 456D, null);
 		final MetricChange metricChange = new MetricChange(latest, old);
 		final Subscription subscription = new Subscription();
 		final AuthParamOauth2 authParamOauth2 = new AuthParamOauth2();
