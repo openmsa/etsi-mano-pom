@@ -101,6 +101,7 @@ public class ScalingVisitor implements OnboardVisitor {
 			if (null == aspect.getStepDeltas()) {
 				return;
 			}
+			// XXX Unreachable code.
 			// Missing 0 => initial inst level.
 			for (final String delta : aspect.getStepDeltas()) {
 				final VduLevel step = x.getDeltas().get(delta);

@@ -72,7 +72,10 @@ public class FluxRequestor implements HttpRequestor, Closeable {
 			final AuthParamBasic authParamBasic = AuthParamBasic.builder().userName(params.getUsername()).password(params.getPassword()).build();
 			authentification = authentificationBuilder.authParamBasic(authParamBasic).build();
 		}
-		final Servers server = Servers.builder().authentification(authentification).build();
+		final Servers server = Servers.builder()
+				.url(params.getAddressInformation())
+				.authentification(authentification)
+				.build();
 		this.fr = new FluxRest(server);
 	}
 

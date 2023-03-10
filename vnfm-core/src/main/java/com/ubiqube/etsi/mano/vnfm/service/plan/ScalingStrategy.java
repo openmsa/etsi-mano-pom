@@ -24,6 +24,7 @@ import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 
+import jakarta.annotation.Nullable;
 import lombok.ToString;
 
 public interface ScalingStrategy {
@@ -33,8 +34,7 @@ public interface ScalingStrategy {
 		private int wanted;
 		private ScaleInfo scaleInfo;
 
-		public NumberOfCompute(final int current, final int wanted, final ScaleInfo scaleInfo) {
-			super();
+		public NumberOfCompute(final int current, final int wanted, @Nullable final ScaleInfo scaleInfo) {
 			this.current = current;
 			this.wanted = wanted;
 			this.scaleInfo = scaleInfo;
@@ -56,6 +56,7 @@ public interface ScalingStrategy {
 			this.wanted = wanted;
 		}
 
+		@Nullable
 		public ScaleInfo getScaleInfo() {
 			return scaleInfo;
 		}

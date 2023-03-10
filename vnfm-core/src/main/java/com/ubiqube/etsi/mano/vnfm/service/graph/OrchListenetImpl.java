@@ -31,6 +31,8 @@ import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWorkV3;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
 
+import jakarta.annotation.Nullable;
+
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
@@ -56,7 +58,7 @@ public class OrchListenetImpl implements OrchExecutionListener<VnfTask> {
 	}
 
 	@Override
-	public void onTerminate(final UnitOfWorkV3<VnfTask> uaow, final String res) {
+	public void onTerminate(final UnitOfWorkV3<VnfTask> uaow, final @Nullable String res) {
 		LOG.info("Terminate {} => {}", uaow.getTask(), res);
 		final VnfTask resource = uaow.getTask().getTemplateParameters();
 		resource.setVimResourceId(res);

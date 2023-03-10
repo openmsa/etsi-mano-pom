@@ -43,7 +43,9 @@ public class UploadUriParameters implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
-
+	/**
+	 * The URL.
+	 */
 	private String addressInformation;
 
 	private AuthType authType;

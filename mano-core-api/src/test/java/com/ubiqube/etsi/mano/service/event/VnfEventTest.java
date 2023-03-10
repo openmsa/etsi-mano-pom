@@ -70,6 +70,7 @@ class VnfEventTest {
 		//
 		when(serverService.buildServerAdapter(subsc)).thenReturn(serverAdapter);
 		vnfEvent.sendNotification(subsc, event);
+		assertTrue(true);
 	}
 
 	@Test

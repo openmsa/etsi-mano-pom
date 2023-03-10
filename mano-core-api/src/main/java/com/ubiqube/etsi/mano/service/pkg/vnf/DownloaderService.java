@@ -25,6 +25,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.CompletionService;
 import java.util.concurrent.ExecutionException;
@@ -158,7 +159,8 @@ public class DownloaderService {
 	private String doDownload(final SoftwareImage si, final UUID vnfPkgId) {
 		LOG.info("Downloading: {}", si.getImagePath());
 		si.setNfvoPath(UUID.randomUUID().toString());
-		final DownloadResult hash = doDownload(vnfPkgId, si.getImagePath(), si.getNfvoPath());
+		final String imgUrl = Objects.requireNonNull(si.getImagePath(), "Software image url is null, ID: " + si.getId());
+		final DownloadResult hash = doDownload(vnfPkgId, imgUrl, si.getNfvoPath());
 		final Checksum chk = si.getChecksum();
 		chk.setMd5(hash.md5String());
 		chk.setSha256(hash.sha256String());

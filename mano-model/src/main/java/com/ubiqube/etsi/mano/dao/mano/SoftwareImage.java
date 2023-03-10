@@ -88,6 +88,7 @@ public class SoftwareImage implements Auditable {
 	@Nullable
 	private String imagePath;
 
+	@Nullable
 	private String imageUri;
 
 	/**
