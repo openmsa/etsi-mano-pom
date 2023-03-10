@@ -42,8 +42,8 @@ public class VimCapabilitiesVisitor implements OnboardingPostProcessorVisitor {
 		final Set<VimCapability> vimCapabilities = new HashSet<>();
 		vnfPackage.setVimCapabilities(vimCapabilities);
 		addIfNeeded(VimCapability.HAVE_NET_MTU, vimCapabilities, vnfPackage, x -> x.getL2ProtocolData().getMtu(), Objects::nonNull);
-		addIfNeeded(VimCapability.HAVE_VLAN_TRANSPARENT, vimCapabilities, vnfPackage, x -> x.getL2ProtocolData().getVlanTransparent(), x -> !x.booleanValue());
-		addIfNeeded(VimCapability.HAVE_VXNET, vimCapabilities, vnfPackage, x -> x.getL2ProtocolData().getNetworkType(), x -> !x.equalsIgnoreCase("vxlan"));
+		addIfNeeded(VimCapability.HAVE_VLAN_TRANSPARENT, vimCapabilities, vnfPackage, x -> x.getL2ProtocolData().getVlanTransparent(), Boolean::booleanValue);
+		addIfNeeded(VimCapability.HAVE_VXNET, vimCapabilities, vnfPackage, x -> x.getL2ProtocolData().getNetworkType(), x -> x.equalsIgnoreCase("vxlan"));
 	}
 
 	private static <U> void addIfNeeded(final VimCapability vc, final Set<VimCapability> svc, final VnfPackage vnfPackage, final Function<VlProtocolData, U> tr, final Predicate<U> p) {
