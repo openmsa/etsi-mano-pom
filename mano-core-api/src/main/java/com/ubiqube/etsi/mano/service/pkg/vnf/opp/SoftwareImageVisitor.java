@@ -78,7 +78,7 @@ public class SoftwareImageVisitor implements OnboardingPostProcessorVisitor {
 	private static boolean isRemote(final String p) {
 		try {
 			final URI uri = URI.create(p);
-			return !uri.getScheme().isEmpty();
+			return uri.getScheme() != null;
 		} catch (final RuntimeException e) {
 			LOG.trace("", e);
 		}
