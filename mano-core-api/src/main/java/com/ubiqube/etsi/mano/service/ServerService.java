@@ -46,7 +46,6 @@ import com.ubiqube.etsi.mano.utils.Version;
 
 import jakarta.annotation.Nullable;
 import jakarta.transaction.Transactional;
-import jakarta.validation.constraints.NotNull;
 
 /**
  *
@@ -168,12 +167,12 @@ public class ServerService {
 		return res.map(Version::toString).orElse(null);
 	}
 
-	public Optional<Version> convertManoVersionToFe(@NotNull final SubscriptionType subscriptionType, final String version) {
+	public Optional<Version> convertManoVersionToFe(final SubscriptionType subscriptionType, @Nullable final String version) {
 		final ApiVersionType av = subscriptionTypeToApiVersion(subscriptionType);
 		return httpGateway.stream().filter(x -> x.isMatching(av, version)).findFirst().map(HttpGateway::getVersion);
 	}
 
-	private static ApiVersionType subscriptionTypeToApiVersion(@NotNull final SubscriptionType subscriptionType) {
+	private static ApiVersionType subscriptionTypeToApiVersion(final SubscriptionType subscriptionType) {
 		return switch (subscriptionType) {
 		case VNF -> ApiVersionType.SOL003_VNFPKGM;
 		case VNFLCM -> ApiVersionType.SOL003_VNFLCM;

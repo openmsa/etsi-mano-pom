@@ -34,6 +34,8 @@ import com.ubiqube.etsi.mano.dao.mano.common.ApiVersionType;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.utils.Version;
 
+import jakarta.annotation.Nullable;
+
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
@@ -117,7 +119,7 @@ public abstract class AbstractHttpGateway implements HttpGateway {
 	}
 
 	@Override
-	public boolean isMatching(final ApiVersionType verType, final String version) {
+	public boolean isMatching(final ApiVersionType verType, final @Nullable String version) {
 		final Optional<Version> matching = getUrlFor(verType, this::getMatchingProtocols);
 		if (matching.isEmpty()) {
 			return false;

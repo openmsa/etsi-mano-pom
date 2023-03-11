@@ -106,7 +106,7 @@ public interface HttpGateway {
 
 	Object createNsdPackageRequest(Map<String, Object> userDefinedData);
 
-	boolean isMatching(final ApiVersionType verType, String version);
+	boolean isMatching(final ApiVersionType verType, @Nullable String version);
 
 	Class<?> getVnfPmJobClass();
 
