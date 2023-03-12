@@ -37,6 +37,8 @@ import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.vnfm.service.VnfBlueprintService;
 
+import jakarta.annotation.Nullable;
+
 public class DefaultScalingStrategy implements ScalingStrategy {
 
 	private static final Logger LOG = LoggerFactory.getLogger(DefaultScalingStrategy.class);
@@ -48,7 +50,7 @@ public class DefaultScalingStrategy implements ScalingStrategy {
 	}
 
 	@Override
-	public NumberOfCompute getNumberOfCompute(final VnfBlueprint blueprint, final VnfPackage vnfPakage, final Set<ScaleInfo> scaling, final VnfCompute vnfCompute, final VnfInstance instance) {
+	public NumberOfCompute getNumberOfCompute(final VnfBlueprint blueprint, final VnfPackage vnfPakage, final @Nullable Set<ScaleInfo> scaling, final VnfCompute vnfCompute, final VnfInstance instance) {
 		final String instantiationLevelId = blueprint.getParameters().getInstantiationLevelId();
 		Set<VnfInstantiationLevels> instantiationLevels = vnfPakage.getVnfInstantiationLevels();
 		if (instantiationLevels.isEmpty()) {

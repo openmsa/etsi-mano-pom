@@ -67,5 +67,5 @@ public interface ScalingStrategy {
 
 	}
 
-	NumberOfCompute getNumberOfCompute(VnfBlueprint plan, VnfPackage vnfPackage, Set<ScaleInfo> scaling, VnfCompute x, VnfInstance instance);
+	NumberOfCompute getNumberOfCompute(VnfBlueprint plan, VnfPackage vnfPackage, @Nullable Set<ScaleInfo> scaling, VnfCompute x, VnfInstance instance);
 }

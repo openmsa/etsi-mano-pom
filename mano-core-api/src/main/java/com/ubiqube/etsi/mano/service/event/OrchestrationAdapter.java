@@ -18,9 +18,6 @@ package com.ubiqube.etsi.mano.service.event;
 
 import java.util.UUID;
 
-import jakarta.annotation.Nonnull;
-import jakarta.validation.constraints.NotNull;
-
 import com.ubiqube.etsi.mano.dao.mano.Instance;
 import com.ubiqube.etsi.mano.dao.mano.PackageBase;
 import com.ubiqube.etsi.mano.dao.mano.VimTask;
@@ -31,27 +28,24 @@ import com.ubiqube.etsi.mano.service.graph.WorkflowEvent;
 
 public interface OrchestrationAdapter<B extends VimTask, V extends Instance> {
 
-	void createLiveInstance(@NotNull Instance instance, String il, Task task, @NotNull Blueprint<? extends Task, ? extends Instance> blueprint);
+	void createLiveInstance(Instance instance, String il, Task task, Blueprint<? extends Task, ? extends Instance> blueprint);
 
-	void deleteLiveInstance(@Nonnull UUID removedLiveInstanceId);
+	void deleteLiveInstance(UUID removedLiveInstanceId);
 
-	@Nonnull
-	Blueprint<B, V> getBluePrint(@Nonnull UUID blueprintId);
+	Blueprint<B, V> getBluePrint(UUID blueprintId);
 
-	@Nonnull
-	Instance getInstance(@Nonnull UUID blueprintId);
+	Instance getInstance(UUID blueprintId);
 
-	PackageBase getPackage(@Nonnull Instance instance);
+	PackageBase getPackage(Instance instance);
 
-	Instance getInstance(@Nonnull Blueprint<B, V> blueprint);
+	Instance getInstance(Blueprint<B, V> blueprint);
 
-	@NotNull
-	Blueprint<B, V> save(@Nonnull Blueprint blueprint);
+	Blueprint<B, V> save(Blueprint blueprint);
 
-	Instance save(@Nonnull Instance instance);
+	Instance save(Instance instance);
 
-	Blueprint<B, V> updateState(@Nonnull Blueprint<B, V> localPlan, OperationStatusType processing);
+	Blueprint<B, V> updateState(Blueprint<B, V> localPlan, OperationStatusType processing);
 
-	void fireEvent(@Nonnull WorkflowEvent instantiateProcessing, @Nonnull UUID id);
+	void fireEvent(WorkflowEvent instantiateProcessing, UUID id);
 
 }

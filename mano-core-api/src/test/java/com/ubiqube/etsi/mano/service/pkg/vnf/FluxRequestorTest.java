@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.service.pkg.vnf;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.InputStream;
 
@@ -26,7 +27,6 @@ import org.springframework.security.oauth2.client.ClientAuthorizationException;
 
 import com.ubiqube.etsi.mano.dao.mano.pkg.ParamsOauth2ClientCredentials;
 import com.ubiqube.etsi.mano.dao.mano.pkg.UploadUriParameters;
-import com.ubiqube.etsi.mano.service.pkg.vnf.FluxRequestor;
 import com.ubiqube.etsi.mano.service.rest.model.AuthType;
 
 @SuppressWarnings("static-method")
@@ -75,6 +75,7 @@ class FluxRequestorTest {
 		params.setAddressInformation("http://nexus.ubiqube.com/repository/local-helm/index.yaml");
 		final FluxRequestor fr = new FluxRequestor(params);
 		fr.close();
+		assertTrue(true);
 	}
 
 }

@@ -14,47 +14,49 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service;
+package com.ubiqube.etsi.mano.service.event;
 
-import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
-import com.ubiqube.etsi.mano.dao.mano.ScaleInfo;
-import com.ubiqube.etsi.mano.dao.mano.v2.AbstractTask;
+import com.ubiqube.etsi.mano.orchestrator.Context3d;
+import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
+import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWorkV3;
+import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
+import com.ubiqube.etsi.mano.service.TestTask;
 
-public class TestTask extends AbstractTask {
+public class TestUnitOfWorkV3 implements UnitOfWorkV3<TestTask> {
 
-	private final ResourceTypeEnum Rtype;
+	private VirtualTaskV3<TestTask> task;
 
-	public TestTask(final ResourceTypeEnum type) {
-		this.Rtype = type;
+	@Override
+	public VirtualTaskV3<TestTask> getTask() {
+		return task;
+	}
+
+	public void setTask(final VirtualTaskV3<TestTask> task) {
+		this.task = task;
 	}
 
 	@Override
-	public void setVimReservationId(final String reservationId) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setResourceGroupId(final String resourceGroupId) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setZoneId(final String zoneId) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public ResourceTypeEnum getType() {
-		return Rtype;
-	}
-
-	@Override
-	public ScaleInfo getScaleInfo() {
+	public String execute(final Context3d context) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String rollback(final Context3d context) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Class<? extends Node> getType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setResource(final String res) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

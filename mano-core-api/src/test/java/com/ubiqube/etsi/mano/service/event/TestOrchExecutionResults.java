@@ -14,47 +14,40 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service;
+package com.ubiqube.etsi.mano.service.event;
 
-import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
-import com.ubiqube.etsi.mano.dao.mano.ScaleInfo;
-import com.ubiqube.etsi.mano.dao.mano.v2.AbstractTask;
+import java.util.ArrayList;
+import java.util.List;
 
-public class TestTask extends AbstractTask {
+import com.ubiqube.etsi.mano.orchestrator.OrchExecutionResult;
+import com.ubiqube.etsi.mano.orchestrator.OrchExecutionResults;
 
-	private final ResourceTypeEnum Rtype;
+public class TestOrchExecutionResults<U> implements OrchExecutionResults<U> {
 
-	public TestTask(final ResourceTypeEnum type) {
-		this.Rtype = type;
+	private final List<OrchExecutionResult<U>> success = new ArrayList<>();
+	private final List<OrchExecutionResult<U>> error = new ArrayList<>();
+
+	@Override
+	public List<OrchExecutionResult<U>> getSuccess() {
+		return success;
 	}
 
 	@Override
-	public void setVimReservationId(final String reservationId) {
+	public List<OrchExecutionResult<U>> getErrored() {
+		return error;
+	}
+
+	@Override
+	public void addAll(final OrchExecutionResults<U> convertResults) {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
-	public void setResourceGroupId(final String resourceGroupId) {
-		// TODO Auto-generated method stub
-
+	void addSuccess(final OrchExecutionResult<U> elem) {
+		success.add(elem);
 	}
 
-	@Override
-	public void setZoneId(final String zoneId) {
-		// TODO Auto-generated method stub
-
+	void addError(final OrchExecutionResult<U> elem) {
+		error.add(elem);
 	}
-
-	@Override
-	public ResourceTypeEnum getType() {
-		return Rtype;
-	}
-
-	@Override
-	public ScaleInfo getScaleInfo() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

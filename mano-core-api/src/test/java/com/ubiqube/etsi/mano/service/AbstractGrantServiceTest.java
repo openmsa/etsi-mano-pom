@@ -29,11 +29,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.dao.mano.ChangeType;
+import com.ubiqube.etsi.mano.dao.mano.GrantInformationExt;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
-import com.ubiqube.etsi.mano.dao.mano.Instance;
+import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
-import com.ubiqube.etsi.mano.dao.mano.VimTask;
-import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
 import com.ubiqube.etsi.mano.jpa.ConnectionInformationJpa;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 
@@ -59,10 +58,12 @@ class AbstractGrantServiceTest {
 	@Test
 	void testBasic() throws Exception {
 		final TestAbstractGrantService srv = new TestAbstractGrantService(mapper, nfvo, vimManager, connectionJpa);
-		final Blueprint<? extends VimTask, ? extends Instance> bp = new TestBluePrint();
+		final TestBluePrint bp = new TestBluePrint();
+		bp.setTasks(Set.of());
 		final GrantResponse response = new GrantResponse();
 		final UUID id = UUID.randomUUID();
 		response.setId(id);
+		response.setZoneGroups(Set.of());
 		final VimConnectionInformation vim01 = new VimConnectionInformation();
 		bp.setVimConnections(Set.of(vim01));
 		when(nfvo.sendSyncGrantRequest(any())).thenReturn(response);
@@ -70,19 +71,58 @@ class AbstractGrantServiceTest {
 		assertTrue(true);
 	}
 
+	/**
+	 * Pre grant request.
+	 *
+	 * @throws Exception
+	 */
+	@Test
 	void testOneTask() throws Exception {
 		final TestAbstractGrantService srv = new TestAbstractGrantService(mapper, nfvo, vimManager, connectionJpa);
 		final TestBluePrint bp = new TestBluePrint();
-		final TestTask task = new TestTask();
+		//
+		final TestTask task = new TestTask(ResourceTypeEnum.COMPUTE);
 		task.setChangeType(ChangeType.ADDED);
-		bp.setTasks(Set.of(task));
+		//
+		final TestTask task2 = new TestTask(ResourceTypeEnum.VL);
+		task2.setChangeType(ChangeType.REMOVED);
+		task2.setVimResourceId("");
+		task2.setVimConnectionId("");
+		bp.setTasks(Set.of(task, task2));
+		//
 		final GrantResponse response = new GrantResponse();
 		final UUID id = UUID.randomUUID();
 		response.setId(id);
+		response.setZoneGroups(Set.of());
 		final VimConnectionInformation vim01 = new VimConnectionInformation();
 		bp.setVimConnections(Set.of(vim01));
 		when(nfvo.sendSyncGrantRequest(any())).thenReturn(response);
 		srv.allocate(bp);
 		assertTrue(true);
 	}
+
+	@Test
+	void testPostRequest() throws Exception {
+		final TestAbstractGrantService srv = new TestAbstractGrantService(mapper, nfvo, vimManager, connectionJpa);
+		final UUID tid = UUID.randomUUID();
+		final TestBluePrint bp = new TestBluePrint();
+		bp.setTasks(Set.of());
+		final GrantResponse response = new GrantResponse();
+		final GrantInformationExt gie01 = new GrantInformationExt();
+		gie01.setResourceDefinitionId(tid.toString());
+		response.setAddResources(Set.of(gie01));
+		final UUID id = UUID.randomUUID();
+		response.setId(id);
+		response.setZoneGroups(Set.of());
+		final TestTask task = new TestTask(ResourceTypeEnum.STORAGE);
+		task.setChangeType(ChangeType.ADDED);
+		task.setId(tid);
+		bp.setTasks(Set.of(task));
+		final VimConnectionInformation vim01 = new VimConnectionInformation();
+		bp.setVimConnections(Set.of(vim01));
+		when(nfvo.sendSyncGrantRequest(any())).thenReturn(response);
+		srv.allocate(bp);
+		assertTrue(true);
+	}
+
 }

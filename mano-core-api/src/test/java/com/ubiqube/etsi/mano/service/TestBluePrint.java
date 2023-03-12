@@ -33,6 +33,9 @@ public class TestBluePrint extends AbstractBlueprint<TestTask, TestInstance> {
 	private final Set<TestTask> task = Set.of();
 	private Set<VimConnectionInformation> vimConn;
 	private Set<TestTask> tasks;
+	private TestInstance instance;
+	private UUID id;
+	private BlueprintParameters parameters = new BlueprintParameters();
 
 	@Override
 	public Set<TestTask> getTasks() {
@@ -49,8 +52,11 @@ public class TestBluePrint extends AbstractBlueprint<TestTask, TestInstance> {
 
 	@Override
 	public BlueprintParameters getParameters() {
-		// TODO Auto-generated method stub
-		return null;
+		return parameters;
+	}
+
+	public void setParameters(final BlueprintParameters parameters) {
+		this.parameters = parameters;
 	}
 
 	@Override
@@ -90,8 +96,11 @@ public class TestBluePrint extends AbstractBlueprint<TestTask, TestInstance> {
 
 	@Override
 	public TestInstance getInstance() {
-		// TODO Auto-generated method stub
-		return null;
+		return instance;
+	}
+
+	public void setInstance(final TestInstance instance) {
+		this.instance = instance;
 	}
 
 	@Override
@@ -108,8 +117,11 @@ public class TestBluePrint extends AbstractBlueprint<TestTask, TestInstance> {
 
 	@Override
 	public UUID getId() {
-		// TODO Auto-generated method stub
-		return null;
+		return id;
+	}
+
+	public void setId(final UUID id) {
+		this.id = id;
 	}
 
 	@Override
