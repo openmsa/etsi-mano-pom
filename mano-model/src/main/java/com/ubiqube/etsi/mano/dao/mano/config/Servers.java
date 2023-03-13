@@ -73,9 +73,6 @@ public class Servers extends ServerConnection {
 	@Enumerated(EnumType.STRING)
 	private PlanStatusType serverStatus;
 
-	@Enumerated(EnumType.STRING)
-	private ServerType serverType;
-
 	private FailureDetails failureDetails;
 
 	@ElementCollection(fetch = FetchType.EAGER)

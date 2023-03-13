@@ -102,7 +102,7 @@ public class CommonActionController {
 		this.serverService = serverService;
 	}
 
-	public Object registerServer(final UUID objectId, final Map<String, Object> parameters) {
+	public Servers registerServer(final UUID objectId, final Map<String, Object> parameters) {
 		final Servers server = serversJpa.findById(objectId).orElseThrow(() -> new GenericException("Could not find server: " + objectId));
 		if (server.getServerType() == ServerType.NFVO) {
 			LOG.debug("Registrating an NFVO.");

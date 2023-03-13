@@ -108,7 +108,6 @@ public class VimManager {
 		vimsIs.forEach(x -> vimAssociation.put(x.getId(), vim));
 	}
 
-	@Nonnull
 	public Vim getVimById(final UUID id) {
 		return Optional.ofNullable(vimAssociation.get(id)).orElseThrow(() -> new NotFoundException("No such Vim: " + id));
 	}
@@ -125,7 +124,6 @@ public class VimManager {
 		return vimConnectionInformationJpa.findByVimId(id).orElseThrow(() -> new NotFoundException("No connection vimId " + id));
 	}
 
-	@Nonnull
 	public Set<VimConnectionInformation> getVimByType(final String type) {
 		return vimConnectionInformationJpa.findByVimType(type);
 	}

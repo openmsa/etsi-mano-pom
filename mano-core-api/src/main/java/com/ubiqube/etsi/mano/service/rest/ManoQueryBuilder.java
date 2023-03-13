@@ -191,7 +191,7 @@ public class ManoQueryBuilder {
 		server.rest().upload(uri, path, accept, version);
 	}
 
-	public <T> T patch(final String ifMatch, final Map<String, Object> patch) {
+	public <T> T patch(@Nullable final String ifMatch, final Map<String, Object> patch) {
 		final ServerAdapter server = client.getServer();
 		final URI uri = buildUri(server);
 		final HttpGateway httpGateway = server.httpGateway();
