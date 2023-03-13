@@ -105,7 +105,7 @@ public class GroovyElection implements VimElection {
 		}
 		try (Stream<Path> stream = Files.walk(path)) {
 			return stream.filter(x -> x.toFile().isFile())
-					.filter(x -> x.getFileName().endsWith("elect"))
+					.filter(x -> x.getFileName().toString().endsWith("elect"))
 					.toList();
 		} catch (final IOException e) {
 			throw new GenericException(e);

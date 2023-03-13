@@ -29,8 +29,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubiqube.etsi.mano.exception.GenericException;
 
-import jakarta.annotation.Nonnull;
-
 @Service
 public class MetricGroupService {
 
@@ -50,7 +48,6 @@ public class MetricGroupService {
 		}
 	}
 
-	@Nonnull
 	public List<String> findByGroupName(final String name) {
 		final List<String> res = mapping.get(name);
 		if (null == res) {

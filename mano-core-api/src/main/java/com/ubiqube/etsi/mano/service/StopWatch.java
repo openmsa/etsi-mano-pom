@@ -24,7 +24,8 @@ import java.util.Deque;
 import org.slf4j.Logger;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 public class StopWatch {
 
@@ -76,7 +77,8 @@ public class StopWatch {
 		return String.format("%02d:%02d:%02d:%03d %d", d.toHoursPart(), d.toMinutesPart(), d.toSecondsPart(), d.toMillisPart(), d.toNanosPart());
 	}
 
-	@Data
+	@Getter
+	@Setter
 	@Builder
 	private static class Metric {
 		private Instant start;
