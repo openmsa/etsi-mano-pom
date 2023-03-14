@@ -24,6 +24,8 @@ import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
 import com.ubiqube.etsi.mano.service.rest.model.ApiTypesEnum;
 
+import jakarta.annotation.Nullable;
+
 public interface SubscriptionService {
 
 	List<Subscription> query(String filter, SubscriptionType type);
@@ -36,6 +38,6 @@ public interface SubscriptionService {
 
 	List<Subscription> selectNotifications(EventMessage event);
 
-	List<Subscription> findByApiAndCallbackUriSubscriptionType(ApiTypesEnum api, String callbackUri, SubscriptionType subscriptionType);
+	List<Subscription> findByApiAndCallbackUriSubscriptionType(@Nullable ApiTypesEnum api, String callbackUri, SubscriptionType subscriptionType);
 
 }

@@ -21,18 +21,18 @@ import java.util.UUID;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
 
 import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
 import com.ubiqube.etsi.mano.service.rest.model.ApiTypesEnum;
 
-@Repository
+import jakarta.annotation.Nullable;
+
 public interface SubscriptionJpa extends CrudRepository<Subscription, UUID> {
 
 	@Query("select s from Subscription s")
 	List<Subscription> findEventAndVnfPkg(NotificationEvent notificationTypesEnum, String vnfPkgId);
 
-	List<Subscription> findByApiAndCallbackUriAndSubscriptionType(ApiTypesEnum api, String callbackUri, SubscriptionType subscriptionType);
+	List<Subscription> findByApiAndCallbackUriAndSubscriptionType(@Nullable ApiTypesEnum api, String callbackUri, SubscriptionType subscriptionType);
 }

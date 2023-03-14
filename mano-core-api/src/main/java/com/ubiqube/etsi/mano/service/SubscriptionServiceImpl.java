@@ -89,8 +89,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 	@Override
 	public Subscription save(final Object subscriptionRequest, final Class<?> version, final SubscriptionType type) {
 		final Subscription subscription = mapper.map(subscriptionRequest, Subscription.class);
-		ensureUniqueness(subscription);
 		subscription.setSubscriptionType(type);
+		ensureUniqueness(subscription);
 		subscription.setNodeFilter(evalService.convertRequestToString(subscriptionRequest));
 		subscription.setVersion(extractVersion(version, type));
 		checkAvailability(subscription);
@@ -185,7 +185,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 	}
 
 	@Override
-	public List<Subscription> findByApiAndCallbackUriSubscriptionType(final ApiTypesEnum api, final String callbackUri, final SubscriptionType subscriptionType) {
+	public List<Subscription> findByApiAndCallbackUriSubscriptionType(final @Nullable ApiTypesEnum api, final String callbackUri, final SubscriptionType subscriptionType) {
 		return subscriptionJpa.findByApiAndCallbackUriAndSubscriptionType(api, callbackUri, subscriptionType);
 	}
 
