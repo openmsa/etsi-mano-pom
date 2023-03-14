@@ -110,7 +110,7 @@ public class EvalService {
 	private static BooleanExpression toManoCondition(final List<ListRecord> lrs) {
 		final List<BooleanExpression> res = new ArrayList<>();
 		lrs.forEach(x -> {
-			if (x.getChild() == null) {
+			if (x.getChild().isEmpty()) {
 				res.add(createSimpleEqual(x));
 			} else {
 				res.addAll(handleTree(x));
