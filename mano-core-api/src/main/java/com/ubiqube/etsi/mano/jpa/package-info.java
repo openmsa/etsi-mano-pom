@@ -14,9 +14,12 @@
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <https://www.gnu.org/licenses/>.
  */
-@NonNullApi
-@NonNullFields
+//@NonNullApi
+//@NonNullFields
+/**
+ * Do not use null annotations, or make sure
+ * {@link org.springframework.data.repository.core.support.MethodInvocationValidator}
+ * and {@link org.springframework.data.util.NullableUtils} is supporting jakarta
+ * annotations.
+ */
 package com.ubiqube.etsi.mano.jpa;
-
-import org.springframework.lang.NonNullApi;
-import org.springframework.lang.NonNullFields;
