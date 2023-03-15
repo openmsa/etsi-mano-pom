@@ -52,11 +52,12 @@ public class Servers extends ServerConnection {
 
 	@Builder
 	public Servers(final UUID id, final String name, final AuthentificationInformations authentification, final String url, final boolean ignoreSsl, final String tlsCert, final String version, final ServerType serverType, final long tupleVersion,
-			final Set<RemoteSubscription> remoteSubscriptions, final PlanStatusType serverStatus, final SubscriptionType subscriptionType) {
+			final Set<RemoteSubscription> remoteSubscriptions, final PlanStatusType serverStatus, final SubscriptionType subscriptionType, final Set<String> capabilities) {
 		super(id, name, authentification, url, ignoreSsl, tlsCert, version, serverType, tupleVersion);
 		this.remoteSubscriptions = remoteSubscriptions;
 		this.serverStatus = serverStatus;
 		this.subscriptionType = subscriptionType;
+		this.capabilities = capabilities;
 	}
 
 	@Enumerated(EnumType.STRING)
