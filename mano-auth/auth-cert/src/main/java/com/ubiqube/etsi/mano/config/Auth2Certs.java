@@ -47,9 +47,9 @@ public class Auth2Certs implements SecutiryConfig {
 			http
 					.anyRequest().authenticated()
 					.and()
-					.x509()
-					.subjectPrincipalRegex("CN=(.*?)(?:,|$)")
-					.authenticationUserDetailsService(new UserDetailSsl());
+					.x509(x9 -> x9
+							.subjectPrincipalRegex("CN=(.*?)(?:,|$)")
+							.authenticationUserDetailsService(new UserDetailSsl()));
 		} catch (final Exception e) {
 			throw new AuthException(e);
 		}

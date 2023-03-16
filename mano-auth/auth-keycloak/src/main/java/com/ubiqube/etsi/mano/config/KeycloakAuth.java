@@ -52,9 +52,9 @@ public class KeycloakAuth implements SecutiryConfig {
 			http
 					.anyRequest().authenticated()
 					.and()
-					.oauth2ResourceServer()
-					.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
-					.authenticationEntryPoint(http403EntryPoint);
+					.oauth2ResourceServer(server -> server
+							.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
+							.authenticationEntryPoint(http403EntryPoint));
 		} catch (final Exception e) {
 			throw new AuthException(e);
 		}

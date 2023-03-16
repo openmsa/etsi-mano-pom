@@ -54,8 +54,8 @@ public class SecuritySecureConfig {
 		successHandler.setDefaultTargetUrl(this.adminServer.path("/"));
 
 		try {
-			http.headers().frameOptions().sameOrigin();
-			http.csrf().disable();
+			http.headers(headers -> headers.frameOptions().sameOrigin());
+			http.csrf(csrf -> csrf.disable());
 			http.authorizeHttpRequests(
 					authorizeRequests -> authorizeRequests.requestMatchers(this.adminServer.path("/assets/**")).permitAll()
 							.requestMatchers(this.adminServer.path("/actuator/**")).permitAll()
@@ -70,7 +70,7 @@ public class SecuritySecureConfig {
 									new AntPathRequestMatcher(this.adminServer.path("/instances/*"),
 											HttpMethod.DELETE.toString()),
 									new AntPathRequestMatcher(this.adminServer.path("/actuator/**"))))
-					.rememberMe(rememberMe -> rememberMe.key(UUID.randomUUID().toString()).tokenValiditySeconds(1209600));
+					.rememberMe(rememberMe -> rememberMe.key(UUID.randomUUID().toString()).tokenValiditySeconds(1_209_600));
 			return http.build();
 		} catch (final Exception e) {
 			throw new AdminException(e);

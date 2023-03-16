@@ -40,8 +40,8 @@ public class WebSecurityConfig {
 	@Bean
 	SecurityFilterChain configure(final HttpSecurity http) {
 		try {
-			http.headers().frameOptions().sameOrigin();
-			http.csrf().disable();
+			http.headers(headers -> headers.frameOptions().sameOrigin());
+			http.csrf(csrf -> csrf.disable());
 			final var res = http.authorizeHttpRequests()
 					.requestMatchers("/").permitAll()
 					.requestMatchers("/api/**").permitAll()

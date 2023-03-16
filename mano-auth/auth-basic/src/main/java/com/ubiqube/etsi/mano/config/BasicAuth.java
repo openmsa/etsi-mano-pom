@@ -47,8 +47,8 @@ public class BasicAuth implements SecutiryConfig {
 	public void configure(final AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry http) {
 		try {
 			http.anyRequest().authenticated()
-					.and().httpBasic().authenticationEntryPoint(http403EntryPoint)
-					.and().csrf().disable();
+					.and().httpBasic(basic -> basic.authenticationEntryPoint(http403EntryPoint))
+					.csrf(csrf -> csrf.disable());
 		} catch (final Exception e) {
 			throw new AuthException(e);
 		}
