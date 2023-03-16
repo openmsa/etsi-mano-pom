@@ -48,8 +48,10 @@ public class ChangEvaluatorListener {
 			LOG.warn("Not enought element for {}/{}", result.getKey(), result.getMasterJobId());
 			return;
 		}
-		if (((res.get(0).getValue() != null) && (res.get(0).getValue().equals(res.get(1).getValue())))
-				|| ((res.get(0).getText() != null) && (res.get(0).getText().equals(res.get(1).getText())))) {
+		final Double value = res.get(0).getValue();
+		final String text = res.get(0).getText();
+		if (((value != null) && (value.equals(res.get(1).getValue())))
+				|| ((text != null) && (text.equals(res.get(1).getText())))) {
 			return;
 		}
 		LOG.trace("Metric change {}", res);
