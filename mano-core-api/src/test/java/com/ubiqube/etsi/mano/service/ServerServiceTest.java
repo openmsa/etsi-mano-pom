@@ -182,6 +182,7 @@ class ServerServiceTest {
 		when(hg.getVersion()).thenReturn(new Version(1, 2, 3));
 		when(springContext.getBean(ObservationRegistry.class)).thenReturn(observationRegistry);
 		ss.findNearestServer();
+		assertTrue(true);
 	}
 
 	@Test

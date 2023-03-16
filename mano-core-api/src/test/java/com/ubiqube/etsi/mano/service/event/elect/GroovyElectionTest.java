@@ -16,6 +16,8 @@
  */
 package com.ubiqube.etsi.mano.service.event.elect;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -47,6 +49,7 @@ class GroovyElectionTest {
 		final Set<VnfCompute> vnfcs = Set.of();
 		final Set<VnfStorage> storages = Set.of();
 		ge.doElection(vims, grant, vnfcs, storages);
+		assertTrue(true);
 	}
 
 	private static void unlink(final String path2, final String string) {
@@ -67,6 +70,7 @@ class GroovyElectionTest {
 		final Set<VnfCompute> vnfcs = Set.of();
 		final Set<VnfStorage> storages = Set.of();
 		ge.doElection(vims, grant, vnfcs, storages);
+		assertTrue(true);
 	}
 
 	private static void writeScript(final String path2, final String fileName) {

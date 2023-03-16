@@ -34,6 +34,7 @@ import jakarta.annotation.Nullable;
 public class NsVlUow extends AbstractUnitOfWork<NsVirtualLinkTask> {
 	@Nonnull
 	private final NsVirtualLinkTask task;
+	@Nullable
 	private final VlProtocolData vlProtocolData;
 	@Nonnull
 	private final Vim vim;

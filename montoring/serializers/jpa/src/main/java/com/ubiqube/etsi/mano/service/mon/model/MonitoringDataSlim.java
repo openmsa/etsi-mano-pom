@@ -18,6 +18,8 @@ package com.ubiqube.etsi.mano.service.mon.model;
 
 import java.sql.Timestamp;
 
+import jakarta.annotation.Nullable;
+
 public interface MonitoringDataSlim {
 	Timestamp getTime();
 
@@ -25,8 +27,10 @@ public interface MonitoringDataSlim {
 
 	String getKey();
 
+	@Nullable
 	Double getValue();
 
+	@Nullable
 	String getText();
 
 }

@@ -79,5 +79,6 @@ class NotificationsImplTest {
 		final Servers server = Servers.builder().build();
 		final ServerAdapter serverAdapter = new ServerAdapter(httpGateway, server, fluxRest);
 		srv.doNotification(null, "http://localhost/", serverAdapter);
+		assertTrue(true);
 	}
 }

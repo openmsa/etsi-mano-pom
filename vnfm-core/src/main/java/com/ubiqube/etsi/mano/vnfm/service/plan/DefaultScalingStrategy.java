@@ -100,7 +100,7 @@ public class DefaultScalingStrategy implements ScalingStrategy {
 				.toList().isEmpty();
 	}
 
-	public static int getNumberOfInstance(final Set<VnfInstantiationLevels> vnfInstantiationLevels, final VnfCompute vnfCompute, final String instantiationLevel, final ScaleInfo myscaling) {
+	public static int getNumberOfInstance(final Set<VnfInstantiationLevels> vnfInstantiationLevels, final VnfCompute vnfCompute, @Nullable final String instantiationLevel, final ScaleInfo myscaling) {
 		if (null == instantiationLevel) {
 			return Optional.ofNullable(vnfCompute.getInitialNumberOfInstance()).orElse(Integer.valueOf(1)).intValue();
 		}
