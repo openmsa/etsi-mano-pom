@@ -35,7 +35,6 @@ import com.ubiqube.etsi.mano.service.VnfmInterface;
 
 import jakarta.annotation.Nonnull;
 import jakarta.transaction.Transactional;
-import jakarta.validation.constraints.NotNull;
 
 @Service
 public class VnfmNfvo implements VnfmInterface {
@@ -58,7 +57,7 @@ public class VnfmNfvo implements VnfmInterface {
 	}
 
 	@Override
-	public VnfBlueprint vnfLcmOpOccsGet(final Servers servers, @NotNull final UUID id) {
+	public VnfBlueprint vnfLcmOpOccsGet(final Servers servers, final UUID id) {
 		return lcm.vnfLcmOpOccsGet(servers, id);
 	}
 
