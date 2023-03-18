@@ -40,4 +40,6 @@ public interface SubscriptionService {
 
 	List<Subscription> findByApiAndCallbackUriSubscriptionType(@Nullable ApiTypesEnum api, String callbackUri, SubscriptionType subscriptionType);
 
+	Subscription save(Subscription subscription);
+
 }

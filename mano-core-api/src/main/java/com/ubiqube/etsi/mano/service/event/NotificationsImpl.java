@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.service.event;
 
 import java.net.URI;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,9 +81,17 @@ public class NotificationsImpl implements Notifications {
 	private static void doRealCheck(final FluxRest rest, final String uri) {
 		final ResponseEntity<Void> status = rest.getWithReturn(URI.create(uri), Void.class, null);
 		if ((null == status) || (status.getStatusCode() != HttpStatus.NO_CONTENT)) {
-			LOG.error("Status response must be 204 by was: {} <=> {}", status, uri);
-			throw new GenericException("HttpClient got an error: " + status + ", must be 204");
+			final String code = getStatucCode(status);
+			LOG.error("Status response must be 204 by was: {} <=> {}", code, uri);
+			throw new GenericException("HttpClient got an error: " + code + ", must be 204");
 		}
+	}
+
+	private static String getStatucCode(@Nullable final ResponseEntity<Void> status) {
+		return Optional.of(status)
+				.map(x -> x.getStatusCode())
+				.map(x -> x.toString())
+				.orElse("[No Code]");
 	}
 
 	@Override

@@ -87,6 +87,13 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 	}
 
 	@Override
+	public Subscription save(final Subscription subscription) {
+		ensureUniqueness(subscription);
+		checkAvailability(subscription);
+		return subscriptionJpa.save(subscription);
+	}
+
+	@Override
 	public Subscription save(final Object subscriptionRequest, final Class<?> version, final SubscriptionType type) {
 		final Subscription subscription = mapper.map(subscriptionRequest, Subscription.class);
 		subscription.setSubscriptionType(type);

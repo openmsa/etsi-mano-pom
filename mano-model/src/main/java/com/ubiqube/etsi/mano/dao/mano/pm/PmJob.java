@@ -33,6 +33,7 @@ import com.ubiqube.etsi.mano.utils.ToStringIgnore;
 import com.ubiqube.etsi.mano.utils.ToStringUtil;
 import com.ubiqube.etsi.mano.utils.UriConverter;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Convert;
 import jakarta.persistence.ElementCollection;
@@ -108,6 +109,8 @@ public class PmJob implements Serializable {
 	@ElementCollection // (fetch = FetchType.EAGER)
 	private List<String> subObjectInstanceIds;
 
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Set<ResolvedObjectId> resolvedSubObjectInstanceIds;
 	/**
 	 * Criteria of the collection of performance information.
 	 */
@@ -130,11 +133,14 @@ public class PmJob implements Serializable {
 
 	@ToStringIgnore
 	@Embedded
-	private AuthentificationInformations subscription;
+	@Nullable
+	private AuthentificationInformations authentication;
 
 	@ToStringIgnore
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
 	private VimConnectionInformation vimConnectionInformation;
+
+	private UUID subscriptionRemoteId;
 
 	@Override
 	public String toString() {
