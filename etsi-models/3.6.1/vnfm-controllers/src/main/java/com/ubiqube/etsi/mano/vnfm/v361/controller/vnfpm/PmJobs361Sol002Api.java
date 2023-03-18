@@ -21,13 +21,19 @@
  */
 package com.ubiqube.etsi.mano.vnfm.v361.controller.vnfpm;
 
-import jakarta.annotation.security.RolesAllowed;
-import jakarta.validation.Valid;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.ubiqube.etsi.mano.em.v361.model.vnfconfig.ProblemDetails;
 import com.ubiqube.etsi.mano.em.v361.model.vnfpm.CreatePmJobRequest;
 import com.ubiqube.etsi.mano.em.v361.model.vnfpm.PerformanceReport;
@@ -42,13 +48,15 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.validation.Valid;
 
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-@RequestMapping(value = "/sol002/vnffm/v2", headers = { "Version=2.1.0" })
+@RequestMapping(value = "/sol002/vnfpm/v2", headers = { "Version=2.1.0" })
 @RolesAllowed({ "ROLE_EM" })
 public interface PmJobs361Sol002Api {
 
@@ -67,7 +75,7 @@ public interface PmJobs361Sol002Api {
 			@ApiResponse(responseCode = "500", description = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "503", description = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "504", description = "504 GATEWAY TIMEOUT If the API producer encounters a timeout while waiting for a response from an upstream server (i.e. a server that the API producer communicates with when fulfilling a request), it should respond with this response code. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))) })
-            @GetMapping(value = "/pm_jobs", produces = {"application/json"})
+	@GetMapping(value = "/pm_jobs", produces = { "application/json" })
 	ResponseEntity<String> pmJobsGet(
 			@Parameter(in = ParameterIn.QUERY, description = "Attribute-based filtering expression according to clause 5.2 of ETSI GS NFV-SOL 013 [6]. The VNFM shall support receiving this parameter as part of the URI query string. The API consumer may supply this parameter. All attribute names that appear in the PmJob and in data types referenced from it shall be supported by the VNFM in the filter expression. ", schema = @Schema()) MultiValueMap<String, String> requestParams,
 			@Parameter(in = ParameterIn.QUERY, description = "Marker to obtain the next page of a paged response. Shall be supported by the VNFM if the VNFM supports alternative 2 (paging) according to clause 5.4.2.1 of ETSI GS NFV-SOL 013 [6] for this resource. ", schema = @Schema()) @Valid @RequestParam(value = "nextpage_opaque_marker", required = false) final String nextpageOpaqueMarker);
@@ -87,7 +95,7 @@ public interface PmJobs361Sol002Api {
 			@ApiResponse(responseCode = "500", description = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "503", description = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "504", description = "504 GATEWAY TIMEOUT If the API producer encounters a timeout while waiting for a response from an upstream server (i.e. a server that the API producer communicates with when fulfilling a request), it should respond with this response code. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))) })
-            @DeleteMapping(value = "/pm_jobs/{pmJobId}", produces = {"application/json"})
+	@DeleteMapping(value = "/pm_jobs/{pmJobId}", produces = { "application/json" })
 	ResponseEntity<Void> pmJobsPmJobIdDelete(
 			@Parameter(in = ParameterIn.PATH, description = "Identifier of the PM job. This identifier can be retrieved from the resource referenced by the \"Location\" HTTP header in the response to a POST request creating a new PM job resource. It can also be retrieved from the \"id\" attribute in the payload body of that response. ", required = true, schema = @Schema()) @PathVariable("pmJobId") final String pmJobId);
 
@@ -106,7 +114,7 @@ public interface PmJobs361Sol002Api {
 			@ApiResponse(responseCode = "500", description = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "503", description = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "504", description = "504 GATEWAY TIMEOUT If the API producer encounters a timeout while waiting for a response from an upstream server (i.e. a server that the API producer communicates with when fulfilling a request), it should respond with this response code. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))) })
-            @GetMapping(value = "/pm_jobs/{pmJobId}", produces = {"application/json"})
+	@GetMapping(value = "/pm_jobs/{pmJobId}", produces = { "application/json" })
 	ResponseEntity<PmJob> pmJobsPmJobIdGet(
 			@Parameter(in = ParameterIn.PATH, description = "Identifier of the PM job. This identifier can be retrieved from the resource referenced by the \"Location\" HTTP header in the response to a POST request creating a new PM job resource. It can also be retrieved from the \"id\" attribute in the payload body of that response. ", required = true, schema = @Schema()) @PathVariable("pmJobId") final String pmJobId);
 
@@ -127,7 +135,7 @@ public interface PmJobs361Sol002Api {
 			@ApiResponse(responseCode = "500", description = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "503", description = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "504", description = "504 GATEWAY TIMEOUT If the API producer encounters a timeout while waiting for a response from an upstream server (i.e. a server that the API producer communicates with when fulfilling a request), it should respond with this response code. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))) })
-            @PatchMapping(value = "/pm_jobs/{pmJobId}", produces = {"application/json"}, consumes = {"application/json"})
+	@PatchMapping(value = "/pm_jobs/{pmJobId}", produces = { "application/json" }, consumes = { "application/json" })
 	ResponseEntity<PmJobModifications> pmJobsPmJobIdPatch(
 			@Parameter(in = ParameterIn.PATH, description = "Identifier of the PM job. This identifier can be retrieved from the resource referenced by the \"Location\" HTTP header in the response to a POST request creating a new PM job resource. It can also be retrieved from the \"id\" attribute in the payload body of that response. ", required = true, schema = @Schema()) @PathVariable("pmJobId") final String pmJobId,
 			@Parameter(in = ParameterIn.DEFAULT, description = "Parameters for the PM job modification", required = true, schema = @Schema()) @Valid @RequestBody final PmJobModifications body,
@@ -148,7 +156,7 @@ public interface PmJobs361Sol002Api {
 			@ApiResponse(responseCode = "500", description = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "503", description = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "504", description = "504 GATEWAY TIMEOUT If the API producer encounters a timeout while waiting for a response from an upstream server (i.e. a server that the API producer communicates with when fulfilling a request), it should respond with this response code. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))) })
-            @GetMapping(value = "/pm_jobs/{pmJobId}/reports/{reportId}", produces = {"application/json"})
+	@GetMapping(value = "/pm_jobs/{pmJobId}/reports/{reportId}", produces = { "application/json" })
 	ResponseEntity<PerformanceReport> pmJobsPmJobIdReportsReportIdGet(
 			@Parameter(in = ParameterIn.PATH, description = "Identifier of the PM job. This identifier can be retrieved from the resource referenced by the \"Location\" HTTP header in the response to a POST request creating a new PM job resource. It can also be retrieved from the \"id\" attribute in the payload body of that response. ", required = true, schema = @Schema()) @PathVariable("pmJobId") final String pmJobId,
 			@Parameter(in = ParameterIn.PATH, description = "Identifier of the performance report. ", required = true, schema = @Schema()) @PathVariable("reportId") final String reportId);
@@ -168,7 +176,7 @@ public interface PmJobs361Sol002Api {
 			@ApiResponse(responseCode = "500", description = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "503", description = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "504", description = "504 GATEWAY TIMEOUT If the API producer encounters a timeout while waiting for a response from an upstream server (i.e. a server that the API producer communicates with when fulfilling a request), it should respond with this response code. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))) })
-            @PostMapping(value = "/pm_jobs", produces = {"application/json"}, consumes = {"application/json"})
+	@PostMapping(value = "/pm_jobs", produces = { "application/json" }, consumes = { "application/json" })
 	ResponseEntity<PmJob> pmJobsPost(
 			@Parameter(in = ParameterIn.DEFAULT, description = "The VNF creation parameters", required = true, schema = @Schema()) @Valid @RequestBody final CreatePmJobRequest body);
 }
