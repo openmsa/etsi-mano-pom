@@ -88,7 +88,7 @@ public class NotificationsImpl implements Notifications {
 	}
 
 	private static String getStatucCode(@Nullable final ResponseEntity<Void> status) {
-		return Optional.of(status)
+		return Optional.ofNullable(status)
 				.map(x -> x.getStatusCode())
 				.map(x -> x.toString())
 				.orElse("[No Code]");
