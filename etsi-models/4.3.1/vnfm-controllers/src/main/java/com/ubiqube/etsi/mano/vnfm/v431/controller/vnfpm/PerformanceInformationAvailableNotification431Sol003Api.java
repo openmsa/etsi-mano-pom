@@ -21,9 +21,6 @@
  */
 package com.ubiqube.etsi.mano.vnfm.v431.controller.vnfpm;
 
-import jakarta.annotation.security.RolesAllowed;
-import jakarta.validation.Valid;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,9 +39,11 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.validation.Valid;
 
 @Validated
-@RequestMapping(value = "/sol003/vnffm/v2", headers = { "Version=2.10.0" })
+@RequestMapping(value = "/sol003/vnfpm/v2", headers = { "Version=2.10.0" })
 @RolesAllowed({ "ROLE_VNFM" })
 public interface PerformanceInformationAvailableNotification431Sol003Api {
 
