@@ -131,7 +131,7 @@ public class NsUpadteManager {
 		updateVnffg.forEach(x -> {
 			final VnffgDescriptor vnffg = inst.getVnffgs().stream().filter(y -> x.getVnffgInfoId().equals(y.getName())).findFirst().orElseThrow(() -> new GenericException("Could not find VNFFGd: " + x.getVnffgInfoId()));
 			final List<NfpDescriptor> notDeleted = vnffg.getNfpd().stream().filter(y -> !x.getNfpInfoId().contains(y.getToscaName())).toList();
-			vnffg.setNfpd(notDeleted);
+			vnffg.setNfpd(new ArrayList<>(notDeleted));
 			//
 			final List<@NonNull NfpDescriptor> newNfp = mapper.mapAsList(x.getNfp(), NfpDescriptor.class);
 			vnffg.getNfpd().addAll(newNfp);
