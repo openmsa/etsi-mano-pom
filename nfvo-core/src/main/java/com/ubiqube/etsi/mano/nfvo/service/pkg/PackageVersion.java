@@ -33,8 +33,8 @@ public class PackageVersion {
 			name = parts[1];
 			version = parts[2];
 		} else if (parts.length == 2) {
-			name = parts[1];
-			version = parts[2];
+			name = parts[0];
+			version = parts[1];
 		} else if (parts.length == 1) {
 			name = parts[0];
 		}

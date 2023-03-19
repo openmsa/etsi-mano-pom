@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.nsd.ForwarderMapping;
+import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.nfvo.service.pkg.ns.NsOnboardingPostProcessor;
 
 /**
@@ -46,7 +47,7 @@ public class ResolvEndpoint implements NsOnboardingPostProcessor {
 				.flatMap(x -> x.getForwardMapping().stream())
 				.filter(x -> x.getForwardingName().equals(egress))
 				.findFirst()
-				.orElseThrow();
+				.orElseThrow(() -> new NotFoundException("Unable to find egress: " + egress));
 	}
 
 }
