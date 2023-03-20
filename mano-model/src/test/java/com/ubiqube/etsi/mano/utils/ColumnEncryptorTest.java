@@ -16,26 +16,18 @@
  */
 package com.ubiqube.etsi.mano.utils;
 
-/**
- *
- * @author Olivier Vignaud <ovi@ubiqube.com>
- *
- */
-public class DatabaseException extends RuntimeException {
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-	/** Serial. */
-	private static final long serialVersionUID = 1L;
+import org.junit.jupiter.api.Test;
 
-	public DatabaseException(final Throwable e) {
-		super(e);
-	}
+class ColumnEncryptorTest {
 
-	public DatabaseException(final String string) {
-		super(string);
-	}
-
-	public DatabaseException(final String string, final Throwable e) {
-		super(string, e);
+	@Test
+	void test() {
+		final ColumnEncryptor ce = new ColumnEncryptor();
+		final String res = ce.convertToDatabaseColumn("test");
+		final String tmp = ce.convertToEntityAttribute(res);
+		assertEquals("test", tmp);
 	}
 
 }

@@ -41,6 +41,10 @@ import org.reflections.scanners.SubTypesScanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.EqualsVerifierReport;
+import nl.jqno.equalsverifier.Warning;
+
 class ModelTest {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ModelTest.class);
@@ -74,7 +78,7 @@ class ModelTest {
 	}
 
 	private static void realHandle(final String x) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, IntrospectionException {
-		if (x.startsWith("com.ubiqube.etsi.mano.utils") || x.endsWith("Builder")) {
+		if (x.startsWith("com.ubiqube.etsi.mano.utils") || x.endsWith("Builder") || x.endsWith("Test") || !x.startsWith("com.ubiqube.etsi.mano")) {
 			return;
 		}
 		final Class<?> clazz = Class.forName(x);
@@ -94,7 +98,6 @@ class ModelTest {
 		for (final PropertyDescriptor propertyDescriptor : props) {
 			final Method mr = propertyDescriptor.getReadMethod();
 			if (null != mr) {
-				System.out.println("" + mr);
 				mr.invoke(obj);
 			}
 			final Method mw = propertyDescriptor.getWriteMethod();
@@ -111,6 +114,12 @@ class ModelTest {
 		obj.equals(null);
 		obj.equals(props);
 		obj.equals(obj);
+		final EqualsVerifierReport rep = EqualsVerifier
+				.simple()
+				.forClass(obj.getClass())
+				.suppress(Warning.INHERITED_DIRECTLY_FROM_OBJECT, Warning.SURROGATE_KEY)
+				.report();
+		System.out.println("" + rep.getMessage());
 	}
 
 	private static Object createType(final Class<?> ret) throws NoSuchMethodException, SecurityException, IllegalArgumentException {

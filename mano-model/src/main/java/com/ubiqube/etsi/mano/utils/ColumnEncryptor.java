@@ -16,6 +16,8 @@
  */
 package com.ubiqube.etsi.mano.utils;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.Key;
@@ -29,9 +31,10 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import jakarta.persistence.AttributeConverter;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
+import jakarta.persistence.AttributeConverter;
 
 /**
  *
@@ -41,7 +44,6 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 public class ColumnEncryptor implements AttributeConverter<String, String> {
 
 	private static final String AES = "AES/GCM/NoPadding";
-	private static final String SECRET = "YL,Ke.LHrxjt/ub,6KrH(Kq6376ZC%.P";
 
 	private static final int GCM_TAG_LENGTH = 16;
 	private static final byte[] GCM_IV = { 53, 25, -105, 34, -59, -79, 4, -75, -13, -54, 61, -126 };
@@ -50,7 +52,16 @@ public class ColumnEncryptor implements AttributeConverter<String, String> {
 
 	public ColumnEncryptor() {
 		Security.addProvider(new BouncyCastleProvider());
-		key = new SecretKeySpec(SECRET.getBytes(), AES);
+		final byte[] secret = readSecret();
+		key = new SecretKeySpec(secret, AES);
+	}
+
+	private byte[] readSecret() {
+		try (InputStream is = this.getClass().getResourceAsStream("/mano-column-encryption")) {
+			return is.readAllBytes();
+		} catch (final IOException e) {
+			throw new DatabaseException("Unabme to find resource secret files.", e);
+		}
 	}
 
 	@Override

@@ -27,9 +27,7 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 /**
  * AKA: VduCp
@@ -39,9 +37,7 @@ import lombok.ToString;
  */
 @Entity
 @EntityListeners(AuditListener.class)
-@Getter
-@Setter
-@ToString
+@Data
 public class VnfLinkPort extends ConnectionPoint implements BaseEntity, Auditable {
 	/** Serial. */
 	private static final long serialVersionUID = 1L;

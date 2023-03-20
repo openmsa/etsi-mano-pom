@@ -18,15 +18,13 @@ package com.ubiqube.etsi.mano.dao.mano.pkg;
 
 import java.util.Set;
 
+import com.ubiqube.etsi.mano.dao.mano.VlProtocolData;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
-
-import com.ubiqube.etsi.mano.dao.mano.VlProtocolData;
-
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * AKA: Cp
@@ -34,8 +32,7 @@ import lombok.Setter;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-@Getter
-@Setter
+@Data
 public class ConnectionPoint {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<VlProtocolData> protocol;
