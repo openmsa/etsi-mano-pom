@@ -32,7 +32,6 @@ public class VerifyDependencies implements NsOnboardingPostProcessor {
 	private final NsdPackageJpa nsdPackageJpa;
 
 	public VerifyDependencies(final NsdPackageJpa nsdPackageJpa) {
-		super();
 		this.nsdPackageJpa = nsdPackageJpa;
 	}
 
@@ -42,11 +41,11 @@ public class VerifyDependencies implements NsOnboardingPostProcessor {
 	}
 
 	private void verifyCircularDependencies(final NsdPackage nsPackage, final Deque<UUID> stack) {
+		if (stack.contains(nsPackage.getId())) {
+			throw new GenericException("Circular dependency detected, trying to include " + nsPackage.getId() + ", chain: " + stack);
+		}
 		stack.push(nsPackage.getId());
 		nsPackage.getNestedNsdInfoIds().forEach(x -> {
-			if (stack.contains(x.getId())) {
-				throw new GenericException("Circular dependency detected, trying to include " + x.getId() + ", chain: " + stack);
-			}
 			final NsdPackage p = nsdPackageJpa.findById(x.getChild().getId()).orElseThrow();
 			verifyCircularDependencies(p, stack);
 		});

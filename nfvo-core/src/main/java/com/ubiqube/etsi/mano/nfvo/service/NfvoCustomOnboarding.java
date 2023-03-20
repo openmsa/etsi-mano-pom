@@ -95,6 +95,7 @@ public class NfvoCustomOnboarding implements CustomOnboarding {
 		addEntry(zipOut, value.getImagePath());
 		final DownloadResult hash = copyFile(zipOut, vnfPackageReader, id, value.getImagePath());
 		setHash(value, hash);
+		cache.add(value.getImagePath());
 	}
 
 	private void handleArtifact(final Set<String> cache, final ZipOutputStream zipOut, final VnfPackage vnfPackage, final VnfPackageReader vnfPackageReader, final AdditionalArtifact artifact) {
@@ -156,7 +157,7 @@ public class NfvoCustomOnboarding implements CustomOnboarding {
 		return Paths.get(Constants.REPOSITORY_FOLDER_ARTIFACTS, path).toString();
 	}
 
-	private DownloadResult copyFile(final ZipOutputStream zipOut, final VnfPackageReader vnfPackageReader, @NotNull final UUID id, final String artifactPath) {
+	private DownloadResult copyFile(final ZipOutputStream zipOut, final VnfPackageReader vnfPackageReader, final UUID id, final String artifactPath) {
 		DownloadResult ret = new DownloadResult(null, null, null, 0L);
 		try (final InputStream tgtIn = vnfPackageReader.getFileInputStream(artifactPath);
 				final CountingInputStream count = new CountingInputStream(tgtIn);
