@@ -24,6 +24,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -76,6 +77,7 @@ class VrQanServiceTest {
 		final ResourceQuota resource = new TestResourceQuota();
 		when(vim.getQuota(vim01)).thenReturn(resource);
 		srv.run();
+		srv.await(1, TimeUnit.MINUTES);
 		srv.onClose();
 		assertTrue(true);
 	}
@@ -102,6 +104,7 @@ class VrQanServiceTest {
 		final ResourceQuota resource = new TestResourceQuota();
 		when(vim.getQuota(vim01)).thenReturn(resource);
 		srv.run();
+		srv.await(1, TimeUnit.MINUTES);
 		srv.onClose();
 		verify(em).sendNotification(any(), any(), anyMap());
 		assertTrue(true);

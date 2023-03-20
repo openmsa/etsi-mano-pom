@@ -22,6 +22,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.StreamSupport;
 
 import org.slf4j.Logger;
@@ -31,6 +32,7 @@ import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.vrqan.VrQan;
+import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.jpa.VrQanJpa;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
@@ -93,6 +95,21 @@ public class VrQanService {
 		} catch (final RuntimeException e) {
 			LOG.trace("", e);
 			LOG.error("Error while getting quota on vim {}: {}", vimConnection.getVimId(), e.getMessage());
+		}
+	}
+
+	/**
+	 * Added mainly for test unit.
+	 *
+	 * @param to   Duration before shutdown
+	 * @param unit Unit of the timeout.
+	 */
+	public void await(final long to, final TimeUnit unit) {
+		try {
+			es.awaitTermination(to, unit);
+		} catch (final InterruptedException e) {
+			Thread.currentThread().interrupt();
+			throw new GenericException(e);
 		}
 	}
 
