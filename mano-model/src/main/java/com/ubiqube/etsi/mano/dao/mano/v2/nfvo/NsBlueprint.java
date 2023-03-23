@@ -127,6 +127,9 @@ public class NsBlueprint extends AbstractBlueprint<NsTask, NsdInstance> {
 
 	@Override
 	public void addTask(final NsTask task) {
+		if (null == tasks) {
+			tasks = new LinkedHashSet<>();
+		}
 		tasks.add(task);
 	}
 
