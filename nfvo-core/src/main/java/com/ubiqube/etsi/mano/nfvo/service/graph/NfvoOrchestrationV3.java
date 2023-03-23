@@ -41,6 +41,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVnfExtractorTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVnfInstantiateTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVnfTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsdExtractorTask;
+import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsdInstantiateTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsdTask;
 import com.ubiqube.etsi.mano.dao.mano.vnffg.VnffgLoadbalancerTask;
 import com.ubiqube.etsi.mano.dao.mano.vnffg.VnffgPortPairTask;
@@ -129,7 +130,7 @@ public class NfvoOrchestrationV3 implements WorkflowV3<NsdPackage, NsBlueprint, 
 		vts.put(ResourceTypeEnum.VNFFG_POST, x -> new NsVnffgPostVt((VnffgPostTask) x));
 		vts.put(ResourceTypeEnum.VNFFG_PORT_PAIR, x -> new NsVnffgPortPairVt((VnffgPortPairTask) x));
 		vts.put(ResourceTypeEnum.NSD_CREATE, x -> new NsCreateVt((NsdTask) x));
-		vts.put(ResourceTypeEnum.NSD_INSTANTIATE, x -> new NsInstantiateVt((NsVnfInstantiateTask) x));
+		vts.put(ResourceTypeEnum.NSD_INSTANTIATE, x -> new NsInstantiateVt((NsdInstantiateTask) x));
 		vts.put(ResourceTypeEnum.NSD_EXTRACTOR, x -> new NsExtratorVt((NsdExtractorTask) x));
 		vts.put(ResourceTypeEnum.VNF_CREATE, x -> new NsVnfCreateVt((NsVnfTask) x));
 		vts.put(ResourceTypeEnum.VNF_INSTANTIATE, x -> new NsVnfInstantiateVt((NsVnfInstantiateTask) x));

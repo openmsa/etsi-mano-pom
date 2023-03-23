@@ -14,22 +14,22 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt;
+package com.ubiqube.etsi.mano.nfvo.service.graph;
 
-import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsdInstantiateTask;
-import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
-import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.NsdInstantiateNode;
-import com.ubiqube.etsi.mano.service.graph.vt.NsVtBase;
+import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
+import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
 
-public class NsInstantiateVt extends NsVtBase<NsdInstantiateTask> {
+public class TestNsTask extends NsTask {
 
-	public NsInstantiateVt(final NsdInstantiateTask nt) {
-		super(nt);
+	private static final long serialVersionUID = 1L;
+
+	public TestNsTask(final ResourceTypeEnum type) {
+		super(type);
 	}
 
 	@Override
-	public Class<? extends Node> getType() {
-		return NsdInstantiateNode.class;
+	public NsTask copy() {
+		return this;
 	}
 
 }

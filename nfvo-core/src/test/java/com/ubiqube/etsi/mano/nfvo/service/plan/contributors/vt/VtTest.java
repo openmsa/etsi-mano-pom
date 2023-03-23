@@ -35,6 +35,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVnfExtractorTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVnfInstantiateTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVnfTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsdExtractorTask;
+import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsdInstantiateTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsdTask;
 import com.ubiqube.etsi.mano.dao.mano.vnffg.VnffgLoadbalancerTask;
 import com.ubiqube.etsi.mano.dao.mano.vnffg.VnffgPortPairTask;
@@ -54,7 +55,7 @@ class VtTest {
 				Arguments.of(args.of(() -> new NetworkPolicyVt(new NetworkPolicyTask()))),
 				Arguments.of(args.of(() -> new NsCreateVt(new NsdTask()))),
 				Arguments.of(args.of(() -> new NsExtratorVt(new NsdExtractorTask()))),
-				Arguments.of(args.of(() -> new NsInstantiateVt(new NsVnfInstantiateTask()))),
+				Arguments.of(args.of(() -> new NsInstantiateVt(new NsdInstantiateTask()))),
 				Arguments.of(args.of(() -> new NsSapVt(new NsSapTask()))),
 				Arguments.of(args.of(() -> new NsVirtualLinkVt(new NsVirtualLinkTask()))),
 				Arguments.of(args.of(() -> new NsVnfCreateVt(new NsVnfTask()))),

@@ -25,6 +25,7 @@ import com.ubiqube.etsi.mano.orchestrator.ResultType;
 import com.ubiqube.etsi.mano.orchestrator.SystemBuilder;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 
+import jakarta.annotation.Nullable;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -39,6 +40,7 @@ import lombok.Setter;
 public abstract class VnfVtBase<U extends VnfTask> implements VirtualTaskV3<U> {
 
 	private U templateParameters;
+	@Nullable
 	private SystemBuilder<U> systemBuilder;
 
 	protected VnfVtBase(final U nt) {
