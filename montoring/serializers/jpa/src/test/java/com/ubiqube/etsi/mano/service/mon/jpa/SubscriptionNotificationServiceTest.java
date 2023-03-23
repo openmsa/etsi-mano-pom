@@ -38,7 +38,7 @@ import com.ubiqube.etsi.mano.service.mon.data.AuthParamOauth2;
 import com.ubiqube.etsi.mano.service.mon.data.OAuth2GrantType;
 import com.ubiqube.etsi.mano.service.mon.jms.MetricChange;
 import com.ubiqube.etsi.mano.service.mon.model.MonitoringDataSlim;
-import com.ubiqube.etsi.mano.service.mon.model.Subscription;
+import com.ubiqube.etsi.mano.service.mon.model.MonSubscription;
 import com.ubiqube.etsi.mano.service.mon.repository.SubscriptionRepository;
 import com.ubiqube.etsi.mano.service.mon.service.SubscriptionNotificationService;
 
@@ -81,7 +81,7 @@ class SubscriptionNotificationServiceTest {
 		final MonitoringDataSlim latest = new TestMonitoringDataSlim(Timestamp.from(Instant.now()), "masterJobId2", "key2", 123D, null);
 		final MonitoringDataSlim old = new TestMonitoringDataSlim(Timestamp.from(Instant.now()), "masterJobId2", "key2", 456D, null);
 		final MetricChange metricChange = new MetricChange(latest, old);
-		final Subscription subscription = new Subscription();
+		final MonSubscription subscription = new MonSubscription();
 		final AuthParamOauth2 authParamOauth2 = new AuthParamOauth2();
 		authParamOauth2.setClientId("aa");
 		authParamOauth2.setClientSecret("aa");
@@ -118,10 +118,10 @@ class SubscriptionNotificationServiceTest {
 
 	@Test
 	void testSubscription() {
-		final Subscription subscription = new Subscription();
+		final MonSubscription subscription = new MonSubscription();
 		final AuthParamOauth2 authParamOauth2 = new AuthParamOauth2();
 		subscription.setAuthParamOauth2(authParamOauth2);
-		final Subscription subscription2 = new Subscription();
+		final MonSubscription subscription2 = new MonSubscription();
 		final AuthParamOauth2 authParamOauth3 = new AuthParamOauth2();
 		subscription2.setAuthParamOauth2(authParamOauth3);
 		assertTrue(subscription.equals(subscription2));

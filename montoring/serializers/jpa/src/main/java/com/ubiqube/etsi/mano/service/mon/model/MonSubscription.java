@@ -28,7 +28,7 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Subscription {
+public class MonSubscription {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;

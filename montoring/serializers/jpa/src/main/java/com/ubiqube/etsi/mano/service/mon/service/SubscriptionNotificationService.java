@@ -41,7 +41,7 @@ import com.ubiqube.etsi.mano.mon.MonGenericException;
 import com.ubiqube.etsi.mano.service.mon.data.AuthParamOauth2;
 import com.ubiqube.etsi.mano.service.mon.jms.MetricChange;
 import com.ubiqube.etsi.mano.service.mon.model.MonitoringDataSlim;
-import com.ubiqube.etsi.mano.service.mon.model.Subscription;
+import com.ubiqube.etsi.mano.service.mon.model.MonSubscription;
 import com.ubiqube.etsi.mano.service.mon.repository.SubscriptionRepository;
 
 import jakarta.annotation.Nullable;
@@ -57,11 +57,11 @@ public class SubscriptionNotificationService {
 
 	@JmsListener(destination = "")
 	public void onNotification(final MetricChange metricChange) {
-		final List<Subscription> subscriptions = subscriptionRepository.findByKey(metricChange.latest().getKey());
+		final List<MonSubscription> subscriptions = subscriptionRepository.findByKey(metricChange.latest().getKey());
 		subscriptions.forEach(x -> safeSendSubscription(x, metricChange.latest()));
 	}
 
-	private void safeSendSubscription(final Subscription subscription, final MonitoringDataSlim monitoringDataSlim) {
+	private void safeSendSubscription(final MonSubscription subscription, final MonitoringDataSlim monitoringDataSlim) {
 		try {
 			final Builder wc = WebClient.builder()
 					.baseUrl(subscription.getCallBackUrl());
