@@ -41,6 +41,9 @@ import org.reflections.scanners.SubTypesScanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
+import com.ubiqube.etsi.mano.tf.entities.NetworkPolicyTask;
+
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.EqualsVerifierReport;
 import nl.jqno.equalsverifier.Warning;
@@ -173,6 +176,9 @@ class ModelTest {
 		}
 		if (ret.isAssignableFrom(URI.class)) {
 			return URI.create("http://localhost/");
+		}
+		if (ret.isAssignableFrom(NsTask.class)) {
+			return new NetworkPolicyTask();
 		}
 		return createComplex(ret);
 	}
