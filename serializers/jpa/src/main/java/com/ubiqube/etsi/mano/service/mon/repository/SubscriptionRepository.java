@@ -21,10 +21,10 @@ import java.util.UUID;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.ubiqube.etsi.mano.service.mon.model.Subscription;
+import com.ubiqube.etsi.mano.service.mon.model.MonSubscription;
 
-public interface SubscriptionRepository extends CrudRepository<Subscription, UUID> {
+public interface SubscriptionRepository extends CrudRepository<MonSubscription, UUID> {
 
-	List<Subscription> findByKey(String key);
+	List<MonSubscription> findByKey(String key);
 
 }

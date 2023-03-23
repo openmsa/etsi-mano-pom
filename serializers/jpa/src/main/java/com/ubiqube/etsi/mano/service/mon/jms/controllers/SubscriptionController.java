@@ -25,15 +25,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ubiqube.etsi.mano.service.mon.model.Subscription;
+import com.ubiqube.etsi.mano.service.mon.model.MonSubscription;
 import com.ubiqube.etsi.mano.service.mon.repository.SubscriptionRepository;
 
 @RestController("/subscription")
 public class SubscriptionController {
 	private SubscriptionRepository subscriptionRepository;
 
-	ResponseEntity<Iterable<Subscription>> list() {
-		final Iterable<Subscription> res = subscriptionRepository.findAll();
+	ResponseEntity<Iterable<MonSubscription>> list() {
+		final Iterable<MonSubscription> res = subscriptionRepository.findAll();
 		return ResponseEntity.ok(res);
 	}
 
@@ -44,8 +44,8 @@ public class SubscriptionController {
 	}
 
 	@GetMapping("/{id}")
-	ResponseEntity<Optional<Subscription>> findById(@PathVariable("id") final UUID id) {
-		final Optional<Subscription> res = subscriptionRepository.findById(id);
+	ResponseEntity<Optional<MonSubscription>> findById(@PathVariable("id") final UUID id) {
+		final Optional<MonSubscription> res = subscriptionRepository.findById(id);
 		return ResponseEntity.ok(res);
 	}
 }
