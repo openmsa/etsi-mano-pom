@@ -66,7 +66,7 @@ public class NsOrchestrationAdapter implements OrchestrationAdapter<NsTask, NsdI
 	}
 
 	@Override
-	public void createLiveInstance(@NotNull final Instance instance, final String il, final Task task, @NotNull final Blueprint<? extends Task, ? extends Instance> blueprint) {
+	public void createLiveInstance(final Instance instance, final String il, final Task task, final Blueprint<? extends Task, ? extends Instance> blueprint) {
 		final NsLiveInstance nli = new NsLiveInstance(null, (NsTask) task, (NsBlueprint) blueprint, (NsdInstance) instance);
 		liveInstanceJpa.save(nli);
 	}
@@ -122,7 +122,6 @@ public class NsOrchestrationAdapter implements OrchestrationAdapter<NsTask, NsdI
 		eventManager.sendNotification(notificationEvent, id, Map.of());
 	}
 
-	@Nonnull
 	private static NotificationEvent convert(final WorkflowEvent instantiateProcessing) {
 		return switch (instantiateProcessing) {
 		case INSTANTIATE_PROCESSING -> NotificationEvent.NS_INSTANCE_CREATE;
