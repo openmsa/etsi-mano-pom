@@ -18,15 +18,15 @@ package com.ubiqube.etsi.mano.dao.mano.v2.nfvo;
 
 import java.util.Set;
 
+import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
+import com.ubiqube.etsi.mano.dao.mano.config.Servers;
+import com.ubiqube.etsi.mano.dao.mano.nsd.NsdVnfPackageCopy;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToOne;
-
-import com.ubiqube.etsi.mano.dao.mano.config.Servers;
-import com.ubiqube.etsi.mano.dao.mano.nsd.NsdVnfPackageCopy;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -62,6 +62,10 @@ public class NsVnfInstantiateTask extends NsTask {
 
 	@ElementCollection(fetch = FetchType.EAGER)
 	private Set<String> vlInstances;
+
+	public NsVnfInstantiateTask() {
+		super(ResourceTypeEnum.VNF_INSTANTIATE);
+	}
 
 	@Override
 	public NsTask copy() {

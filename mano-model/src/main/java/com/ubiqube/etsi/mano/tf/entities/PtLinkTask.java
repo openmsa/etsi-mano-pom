@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.tf.entities;
 
 import java.util.UUID;
 
+import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
 
 import jakarta.persistence.Entity;
@@ -44,6 +45,10 @@ public class PtLinkTask extends NsTask {
 	private String portTupleName;
 
 	private UUID instanceId;
+
+	public PtLinkTask() {
+		super(ResourceTypeEnum.TF_PT_LINK);
+	}
 
 	@Override
 	public NsTask copy() {

@@ -16,11 +16,12 @@
  */
 package com.ubiqube.etsi.mano.dao.mano.v2.nfvo;
 
+import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToOne;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,6 +34,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class NsVirtualLinkTask extends NsTask {
+
+	public NsVirtualLinkTask() {
+		super(ResourceTypeEnum.VL);
+	}
 
 	/** Serial. */
 	private static final long serialVersionUID = 1L;

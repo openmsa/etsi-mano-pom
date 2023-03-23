@@ -39,6 +39,11 @@ public class NsSapTask extends NsTask {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private NsSap nsSap;
 
+	public NsSapTask() {
+		// XXX No SAP ?
+		super(null);
+	}
+
 	@Override
 	public NsTask copy() {
 		final NsSapTask task = new NsSapTask();

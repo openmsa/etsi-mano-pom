@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.tf.entities;
 
 import java.util.UUID;
 
+import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
 
 import jakarta.persistence.Entity;
@@ -38,6 +39,10 @@ public class ServiceTemplateTask extends NsTask {
 	private static final long serialVersionUID = 1L;
 
 	private UUID instanceId;
+
+	public ServiceTemplateTask() {
+		super(ResourceTypeEnum.TF_SERVICE_TEMPLATE);
+	}
 
 	@Override
 	public NsTask copy() {

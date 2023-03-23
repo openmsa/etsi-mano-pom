@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.tf.entities;
 
 import java.util.UUID;
 
+import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
 
 import jakarta.persistence.Entity;
@@ -40,6 +41,10 @@ public class PortTupleTask extends NsTask {
 	private String serviceInstanceName;
 
 	private UUID instanceId;
+
+	public PortTupleTask() {
+		super(ResourceTypeEnum.TF_PORT_TUPLE);
+	}
 
 	@Override
 	public NsTask copy() {

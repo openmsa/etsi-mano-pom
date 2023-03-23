@@ -52,6 +52,10 @@ public abstract class NsTask extends AbstractTask {
 
 	private String resourceGroupId;
 
+	protected NsTask(final ResourceTypeEnum type) {
+		this.type = type;
+	}
+
 	@Override
 	public ScaleInfo getScaleInfo() {
 		return null;

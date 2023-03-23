@@ -20,6 +20,10 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
+import com.ubiqube.etsi.mano.dao.mano.config.Servers;
+import com.ubiqube.etsi.mano.dao.mano.nsd.NsdVnfPackageCopy;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -29,10 +33,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
-
-import com.ubiqube.etsi.mano.dao.mano.config.Servers;
-import com.ubiqube.etsi.mano.dao.mano.nsd.NsdVnfPackageCopy;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -79,6 +79,10 @@ public class NsVnfTask extends NsTask {
 
 	@ElementCollection(fetch = FetchType.EAGER)
 	private Set<String> vlInstances;
+
+	public NsVnfTask() {
+		super(ResourceTypeEnum.VNF_CREATE);
+	}
 
 	@Override
 	public UUID getId() {

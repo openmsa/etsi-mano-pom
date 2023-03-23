@@ -16,14 +16,14 @@
  */
 package com.ubiqube.etsi.mano.dao.mano.v2.nfvo;
 
+import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
+import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
+import com.ubiqube.etsi.mano.dao.mano.config.Servers;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToOne;
-
-import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
-import com.ubiqube.etsi.mano.dao.mano.config.Servers;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -52,6 +52,10 @@ public class VnfContextExtractorTask extends NsTask {
 	private String vnfdId;
 
 	private String vnfInstanceName;
+
+	public VnfContextExtractorTask() {
+		super(ResourceTypeEnum.VNF_EXTRACTOR);
+	}
 
 	@Override
 	public NsTask copy() {

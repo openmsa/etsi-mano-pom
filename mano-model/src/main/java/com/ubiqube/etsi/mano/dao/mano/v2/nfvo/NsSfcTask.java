@@ -49,9 +49,8 @@ public class NsSfcTask extends NsTask {
 	@ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
 	private VnffgDescriptor vnffg;
 
-	@Override
-	public ResourceTypeEnum getType() {
-		return ResourceTypeEnum.VNFFG;
+	public NsSfcTask() {
+		super(ResourceTypeEnum.VNFFG);
 	}
 
 	@Override

@@ -19,18 +19,18 @@ package com.ubiqube.etsi.mano.dao.mano.v2.nfvo;
 import java.util.Set;
 import java.util.UUID;
 
+import com.ubiqube.etsi.mano.dao.mano.NsdPackageNsdPackage;
+import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
+import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
+import com.ubiqube.etsi.mano.dao.mano.VnfExtCp;
+import com.ubiqube.etsi.mano.dao.mano.config.Servers;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
-
-import com.ubiqube.etsi.mano.dao.mano.NsdPackageNsdPackage;
-import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
-import com.ubiqube.etsi.mano.dao.mano.VnfExtCp;
-import com.ubiqube.etsi.mano.dao.mano.config.Servers;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -71,6 +71,10 @@ public class NsdTask extends NsTask {
 
 	@OneToOne(fetch = FetchType.LAZY)
 	private NsdPackageNsdPackage nsdParam;
+
+	public NsdTask() {
+		super(ResourceTypeEnum.NSD_CREATE);
+	}
 
 	@Override
 	public NsTask copy() {

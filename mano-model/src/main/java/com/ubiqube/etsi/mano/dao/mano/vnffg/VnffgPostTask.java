@@ -18,17 +18,17 @@ package com.ubiqube.etsi.mano.dao.mano.vnffg;
 
 import java.util.Set;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-
+import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
 import com.ubiqube.etsi.mano.dao.mano.nsd.Classifier;
 import com.ubiqube.etsi.mano.dao.mano.nsd.VnffgDescriptor;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -51,6 +51,10 @@ public class VnffgPostTask extends NsTask {
 	private String srcPort;
 
 	private String dstPort;
+
+	public VnffgPostTask() {
+		super(ResourceTypeEnum.VNFFG_POST);
+	}
 
 	@Override
 	public NsTask copy() {

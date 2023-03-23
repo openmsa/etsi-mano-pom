@@ -18,16 +18,16 @@ package com.ubiqube.etsi.mano.dao.mano.vnffg;
 
 import java.util.Set;
 
+import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
+import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
+import com.ubiqube.etsi.mano.dao.mano.nsd.NfpDescriptor;
+import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
-
-import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
-import com.ubiqube.etsi.mano.dao.mano.nsd.NfpDescriptor;
-import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -50,6 +50,10 @@ public class VnffgLoadbalancerTask extends NsTask {
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<ListKeyPair> constituant;
+
+	public VnffgLoadbalancerTask() {
+		super(ResourceTypeEnum.VNFFG_LOADBALANCER);
+	}
 
 	@Override
 	public NsTask copy() {

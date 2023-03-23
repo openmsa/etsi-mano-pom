@@ -16,15 +16,15 @@
  */
 package com.ubiqube.etsi.mano.dao.mano.vnffg;
 
+import com.ubiqube.etsi.mano.dao.mano.NsdPackageVnfPackage;
+import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
+import com.ubiqube.etsi.mano.dao.mano.nsd.CpPair;
+import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToOne;
-
-import com.ubiqube.etsi.mano.dao.mano.NsdPackageVnfPackage;
-import com.ubiqube.etsi.mano.dao.mano.nsd.CpPair;
-import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -51,6 +51,10 @@ public class VnffgPortPairTask extends NsTask {
 
 	@OneToOne(fetch = FetchType.LAZY)
 	private CpPair cpPair;
+
+	public VnffgPortPairTask() {
+		super(ResourceTypeEnum.VNFFG_PORT_PAIR);
+	}
 
 	@Override
 	public NsTask copy() {

@@ -16,8 +16,9 @@
  */
 package com.ubiqube.etsi.mano.dao.mano.v2.nfvo;
 
-import jakarta.persistence.Entity;
+import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 
+import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -34,9 +35,13 @@ public class NsdExtractorTask extends NsTask {
 	/** Serial. */
 	private static final long serialVersionUID = 1L;
 
+	public NsdExtractorTask() {
+		super(ResourceTypeEnum.NSD_EXTRACTOR);
+	}
+
 	@Override
 	public NsTask copy() {
-		final NsdTask task = new NsdTask();
+		final NsdExtractorTask task = new NsdExtractorTask();
 		super.copy(task);
 		return task;
 	}
