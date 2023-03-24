@@ -31,6 +31,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.env.Environment;
 
+import com.ubiqube.etsi.mano.config.docker.DockerSecretLocator;
+import com.ubiqube.etsi.mano.config.docker.DockerSecretPropertySource;
+
 @ExtendWith(MockitoExtension.class)
 @SuppressWarnings("static-method")
 class DockerTest {

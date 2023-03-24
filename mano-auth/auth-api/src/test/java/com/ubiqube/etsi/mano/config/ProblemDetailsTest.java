@@ -22,6 +22,8 @@ import java.net.URI;
 
 import org.junit.jupiter.api.Test;
 
+import com.ubiqube.etsi.mano.auth.config.ProblemDetails;
+
 class ProblemDetailsTest {
 
 	@Test

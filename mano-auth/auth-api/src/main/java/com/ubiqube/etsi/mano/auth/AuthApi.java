@@ -14,17 +14,16 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.config;
+package com.ubiqube.etsi.mano.auth;
 
-import com.ubiqube.etsi.mano.auth.config.SecurityType;
-import com.ubiqube.etsi.mano.auth.config.SecutiryConfig;
+/**
+ *
+ * @author olivier
+ *
+ */
+public interface AuthApi {
 
-public class TestSecutiryConfig implements SecutiryConfig {
+	ServerCredentials createServerCredential(String serverName);
 
-	@Override
-	public SecurityType getSecurityType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	void revokeServer(String serverName);
 }

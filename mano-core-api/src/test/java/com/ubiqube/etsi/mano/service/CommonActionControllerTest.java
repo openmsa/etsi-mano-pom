@@ -36,7 +36,7 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.core.env.Environment;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.ubiqube.etsi.mano.config.SecutiryConfig;
+import com.ubiqube.etsi.mano.auth.config.SecutiryConfig;
 import com.ubiqube.etsi.mano.config.properties.ManoProperties;
 import com.ubiqube.etsi.mano.dao.mano.common.ApiVersionType;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;

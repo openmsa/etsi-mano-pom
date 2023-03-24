@@ -14,17 +14,21 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.config;
+package com.ubiqube.etsi.mano.auth.config;
 
-import com.ubiqube.etsi.mano.auth.config.SecurityType;
-import com.ubiqube.etsi.mano.auth.config.SecutiryConfig;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 
-public class TestSecutiryConfig implements SecutiryConfig {
+public class NoneAuth implements SecutiryConfig {
+
+	@Override
+	public void configure(final AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry http) {
+		http.anyRequest().permitAll();
+	}
 
 	@Override
 	public SecurityType getSecurityType() {
-		// TODO Auto-generated method stub
-		return null;
+		return SecurityType.NONE;
 	}
 
 }

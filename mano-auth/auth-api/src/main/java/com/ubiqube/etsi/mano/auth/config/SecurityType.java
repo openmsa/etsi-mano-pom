@@ -14,17 +14,17 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.config;
+package com.ubiqube.etsi.mano.auth.config;
 
-import com.ubiqube.etsi.mano.auth.config.SecurityType;
-import com.ubiqube.etsi.mano.auth.config.SecutiryConfig;
-
-public class TestSecutiryConfig implements SecutiryConfig {
-
-	@Override
-	public SecurityType getSecurityType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+/**
+ *
+ * @author Olivier Vignaud <ovi@ubiqube.com>
+ *
+ */
+public enum SecurityType {
+	NONE,
+	OAUTH2,
+	BASIC,
+	CERT,
+	DIGEST,
 }

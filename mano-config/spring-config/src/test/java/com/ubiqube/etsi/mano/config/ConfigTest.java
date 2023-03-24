@@ -31,6 +31,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.PropertySource;
 
+import com.ubiqube.etsi.mano.config.ubi.UbiqubeSourceLocator;
+
 @ExtendWith(MockitoExtension.class)
 class ConfigTest {
 	@Mock

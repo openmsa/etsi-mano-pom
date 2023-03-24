@@ -29,6 +29,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ubiqube.etsi.mano.auth.config.Http403EntryPoint;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

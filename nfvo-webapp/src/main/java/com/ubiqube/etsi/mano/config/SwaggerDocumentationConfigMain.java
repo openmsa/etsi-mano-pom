@@ -22,6 +22,7 @@ import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.ubiqube.etsi.mano.auth.config.SecutiryConfig;
 import com.ubiqube.etsi.mano.config.properties.ManoProperties;
 
 import io.swagger.v3.oas.models.Components;

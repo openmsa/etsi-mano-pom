@@ -14,17 +14,19 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.config;
+package com.ubiqube.etsi.mano.auth.config;
 
-import com.ubiqube.etsi.mano.auth.config.SecurityType;
-import com.ubiqube.etsi.mano.auth.config.SecutiryConfig;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-public class TestSecutiryConfig implements SecutiryConfig {
+@Configuration
+public class NoneConfig {
 
-	@Override
-	public SecurityType getSecurityType() {
-		// TODO Auto-generated method stub
-		return null;
+	@Bean
+	@SuppressWarnings("static-method")
+	@ConditionalOnMissingBean
+	SecutiryConfig noneAuth() {
+		return new NoneAuth();
 	}
-
 }

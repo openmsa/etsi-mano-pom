@@ -14,17 +14,28 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.config;
+package com.ubiqube.etsi.mano.auth.cert.config;
 
-import com.ubiqube.etsi.mano.auth.config.SecurityType;
-import com.ubiqube.etsi.mano.auth.config.SecutiryConfig;
+import javax.sql.DataSource;
 
-public class TestSecutiryConfig implements SecutiryConfig {
+import org.springframework.boot.web.server.WebServerFactoryCustomizer;
+import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
 
-	@Override
-	public SecurityType getSecurityType() {
-		// TODO Auto-generated method stub
-		return null;
+/**
+ * Set our customized provider. Add Component on it to enable it.
+ *
+ * @author Olivier Vignaud <ovi@ubiqube.com>
+ *
+ */
+public class SslServletCustomier implements WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> {
+	private final DataSource ds;
+
+	public SslServletCustomier(final DataSource ds) {
+		this.ds = ds;
 	}
 
+	@Override
+	public void customize(final ConfigurableServletWebServerFactory factory) {
+		factory.setSslStoreProvider(new ManoSslStoreProvider(ds));
+	}
 }

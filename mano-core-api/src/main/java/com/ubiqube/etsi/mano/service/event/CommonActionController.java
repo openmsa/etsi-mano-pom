@@ -38,8 +38,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.util.UriComponents;
 
-import com.ubiqube.etsi.mano.config.SecurityType;
-import com.ubiqube.etsi.mano.config.SecutiryConfig;
+import com.ubiqube.etsi.mano.auth.config.SecurityType;
+import com.ubiqube.etsi.mano.auth.config.SecutiryConfig;
 import com.ubiqube.etsi.mano.config.properties.ManoProperties;
 import com.ubiqube.etsi.mano.dao.mano.common.ApiVersion;
 import com.ubiqube.etsi.mano.dao.mano.common.ApiVersionType;

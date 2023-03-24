@@ -14,17 +14,23 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.config;
+package com.ubiqube.etsi.mano.auth;
 
-import com.ubiqube.etsi.mano.auth.config.SecurityType;
-import com.ubiqube.etsi.mano.auth.config.SecutiryConfig;
+/**
+ *
+ * @author Olivier Vignaud <ovi@ubiqube.com>
+ *
+ */
+public class AuthException extends RuntimeException {
+	/** Serial. */
+	private static final long serialVersionUID = 1L;
 
-public class TestSecutiryConfig implements SecutiryConfig {
+	public AuthException(final String string) {
+		super(string);
+	}
 
-	@Override
-	public SecurityType getSecurityType() {
-		// TODO Auto-generated method stub
-		return null;
+	public AuthException(final Throwable e) {
+		super(e);
 	}
 
 }
