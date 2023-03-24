@@ -16,16 +16,16 @@
  */
 package com.ubiqube.etsi.mano.auth;
 
-import lombok.Getter;
-import lombok.Setter;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-/**
- *
- * @author olivier
- *
- */
-@Getter
-@Setter
-public class ServerCredentials {
-	// Why this is empty ?
+import org.junit.jupiter.api.Test;
+
+class AuthExceptionTest {
+
+	@Test
+	void test() {
+		final AuthException ae = new AuthException("");
+		assertNotNull(ae);
+	}
+
 }

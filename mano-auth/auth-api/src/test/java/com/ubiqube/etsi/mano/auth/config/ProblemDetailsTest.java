@@ -14,18 +14,26 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.auth;
+package com.ubiqube.etsi.mano.auth.config;
 
-import lombok.Getter;
-import lombok.Setter;
+import org.junit.jupiter.api.Test;
 
-/**
- *
- * @author olivier
- *
- */
-@Getter
-@Setter
-public class ServerCredentials {
-	// Why this is empty ?
+import nl.jqno.equalsverifier.EqualsVerifier;
+
+class ProblemDetailsTest {
+
+	@Test
+	void test() {
+		EqualsVerifier
+				.simple()
+				.forClass(ProblemDetails.class)
+				.verify();
+	}
+
+	@Test
+	void testIdent() {
+		final ProblemDetails prob = new ProblemDetails();
+		prob.setDetail("");
+		prob.toString();
+	}
 }

@@ -14,18 +14,18 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.auth;
+package com.ubiqube.etsi.mano.auth.config;
 
-import lombok.Getter;
-import lombok.Setter;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-/**
- *
- * @author olivier
- *
- */
-@Getter
-@Setter
-public class ServerCredentials {
-	// Why this is empty ?
+import org.junit.jupiter.api.Test;
+
+class NoneConfigTest {
+
+	@Test
+	void test() {
+		final NoneConfig nc = new NoneConfig();
+		assertNotNull(nc.noneAuth());
+	}
+
 }
