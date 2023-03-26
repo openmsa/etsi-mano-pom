@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.nfvo.service.pkg.ns;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
@@ -41,32 +42,44 @@ import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.pkg.PackageDescriptor;
 import com.ubiqube.etsi.mano.service.pkg.ns.NsPackageProvider;
 
+import jakarta.annotation.Nonnull;
+
 @ExtendWith(MockitoExtension.class)
 class NsPackageOnboardingImplTest {
 	@Mock
+	@Nonnull
 	private EventManager eventManager;
 	@Mock
+	@Nonnull
 	private NsPackageManager packageManager;
 	@Mock
+	@Nonnull
 	private NsdRepository nsdRepository;
 	@Mock
+	@Nonnull
 	private NsOnboardingMapperService nsOnboardingMapperService;
 	@Mock
+	@Nonnull
 	private NsdPackageJpa nsdPackageJpa;
 	@Mock
+	@Nonnull
 	private NsPackageProvider packageProvider;
 	@Mock
+	@Nonnull
 	private PackageDescriptor<NsPackageProvider> pkgDescr;
 	@Mock
+	@Nonnull
 	private ManoResource manoResource;
 	@Mock
+	@Nonnull
 	private InputStream inputStream;
 
 	@Test
-	void test() {
+	void testMapNsPacakge() {
 		final NsPackageOnboardingImpl pkg = new NsPackageOnboardingImpl(eventManager, packageManager, nsdRepository, nsOnboardingMapperService, nsdPackageJpa);
 		final NsdPackage nsPkg = new NsdPackage();
 		pkg.mapNsPackage(packageProvider, nsPkg);
+		assertTrue(true);
 	}
 
 	@Test

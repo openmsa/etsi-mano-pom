@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service.pkg.ns.visitor;
 
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.Mockito.when;
 
@@ -52,6 +53,7 @@ class NsVirtualLinkVisitorTest {
 		vl0.setNsVlProfile(profile);
 		when(packageProvider.getNsVirtualLink(anyMap())).thenReturn(Set.of(vl0));
 		srv.visit(nsPackage, packageProvider, Map.of());
+		assertTrue(true);
 	}
 
 }

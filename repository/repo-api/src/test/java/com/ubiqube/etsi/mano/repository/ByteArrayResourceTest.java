@@ -14,30 +14,31 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.auth.config;
+package com.ubiqube.etsi.mano.repository;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
 
-import nl.jqno.equalsverifier.EqualsVerifier;
-
-@SuppressWarnings("static-method")
-class ProblemDetailsTest {
+class ByteArrayResourceTest {
 
 	@Test
-	void test() {
-		EqualsVerifier
-				.simple()
-				.forClass(ProblemDetails.class)
-				.verify();
+	void testGetFilename() {
+		final ByteArrayResource bar = new ByteArrayResource("".getBytes(), "fn");
+		assertNotNull(bar.getFileName());
 	}
 
 	@Test
-	void testIdent() {
-		final ProblemDetails prob = new ProblemDetails();
-		prob.setDetail("");
-		prob.toString();
-		assertTrue(true);
+	void testgetSize() {
+		final ByteArrayResource bar = new ByteArrayResource("".getBytes(), "fn");
+		assertEquals(0, bar.getSize());
 	}
+
+	@Test
+	void testInputStream() {
+		final ByteArrayResource bar = new ByteArrayResource("".getBytes(), "fn");
+		assertNotNull(bar.getInputStream());
+	}
+
 }

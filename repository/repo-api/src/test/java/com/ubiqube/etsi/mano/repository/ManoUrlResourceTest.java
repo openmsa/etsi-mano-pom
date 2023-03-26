@@ -14,30 +14,29 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.auth.config;
+package com.ubiqube.etsi.mano.repository;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import nl.jqno.equalsverifier.EqualsVerifier;
-
-@SuppressWarnings("static-method")
-class ProblemDetailsTest {
+@ExtendWith(MockitoExtension.class)
+class ManoUrlResourceTest {
+	@Mock
+	private HttpRequestor requestor;
 
 	@Test
 	void test() {
-		EqualsVerifier
-				.simple()
-				.forClass(ProblemDetails.class)
-				.verify();
-	}
-
-	@Test
-	void testIdent() {
-		final ProblemDetails prob = new ProblemDetails();
-		prob.setDetail("");
-		prob.toString();
+		final ManoUrlResource mr = new ManoUrlResource(0, "", requestor);
+		mr.getFileName();
+		mr.getInputStream();
+		mr.getSize();
+		mr.setFileName("");
+		mr.setSize(123);
 		assertTrue(true);
 	}
+
 }

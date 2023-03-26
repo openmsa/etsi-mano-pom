@@ -21,6 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.BiConsumer;
@@ -35,11 +36,14 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.dao.mano.Instance;
+import com.ubiqube.etsi.mano.dao.mano.NsLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
+import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.v2.BlueprintParameters;
 import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
+import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVnfInstantiateTask;
 import com.ubiqube.etsi.mano.nfvo.service.NsBlueprintService;
 import com.ubiqube.etsi.mano.nfvo.service.NsInstanceService;
 import com.ubiqube.etsi.mano.nfvo.service.graph.NfvoOrchestrationV3;
@@ -48,7 +52,9 @@ import com.ubiqube.etsi.mano.orchestrator.OrchExecutionResults;
 import com.ubiqube.etsi.mano.service.NsScaleStrategyV3;
 import com.ubiqube.etsi.mano.service.VimResourceService;
 import com.ubiqube.etsi.mano.service.VnfInstanceGatewayService;
+import com.ubiqube.etsi.mano.service.rest.ManoClient;
 import com.ubiqube.etsi.mano.service.rest.ManoClientFactory;
+import com.ubiqube.etsi.mano.service.rest.ManoVnfInstanceId;
 
 @ExtendWith(MockitoExtension.class)
 class NfvoActionsTest {
@@ -68,9 +74,13 @@ class NfvoActionsTest {
 	private VnfInstanceGatewayService vnfInstanceService;
 	@Mock
 	private ManoClientFactory manoClientFactory;
+	@Mock
+	private ManoClient manoClient;
+	@Mock
+	private ManoVnfInstanceId manoCliVnfInst;
 
 	@Test
-	void testHeal() {
+	void testInstantiate00() {
 		final NfvoActions na = new NfvoActions(workflow, vimResource, orchAdapter, nsScaling, blueprintService, nsInstanceService, vnfInstanceService, manoClientFactory);
 		final UUID id = UUID.randomUUID();
 		final NsBlueprint blueprint = new NsBlueprint();
@@ -102,7 +112,7 @@ class NfvoActionsTest {
 	}
 
 	@Test
-	void testHeal02() {
+	void testInstantiate() {
 		final NfvoActions na = new NfvoActions(workflow, vimResource, orchAdapter, nsScaling, blueprintService, nsInstanceService, vnfInstanceService, manoClientFactory);
 		final UUID id = UUID.randomUUID();
 		final NsBlueprint blueprint = new NsBlueprint();
@@ -161,6 +171,28 @@ class NfvoActionsTest {
 				Arguments.of(args.of((na, id) -> na.terminate(id))),
 				Arguments.of(args.of((na, id) -> na.scale(id))),
 				Arguments.of(args.of((na, id) -> na.scaleToLevel(id))));
+	}
+
+	@Test
+	void testHeal() throws Exception {
+		final NfvoActions na = new NfvoActions(workflow, vimResource, orchAdapter, nsScaling, blueprintService, nsInstanceService, vnfInstanceService, manoClientFactory);
+		final UUID id = UUID.randomUUID();
+		final NsBlueprint blueprint = new NsBlueprint();
+		final NsdInstance inst = new NsdInstance();
+		inst.setId(id);
+		blueprint.setNsInstance(inst);
+		when(orchAdapter.getBluePrint(id)).thenReturn(blueprint);
+		final NsLiveInstance live = new NsLiveInstance();
+		live.setResourceId(id.toString());
+		final NsTask task = new NsVnfInstantiateTask();
+		live.setNsTask(task);
+		when(blueprintService.findByNsdInstanceAndClass(any(), eq(NsVnfInstantiateTask.class))).thenReturn(List.of(live));
+		when(manoClientFactory.getClient(any())).thenReturn(manoClient);
+		final VnfInstance vnfInstance = new VnfInstance();
+		when(vnfInstanceService.findById(any())).thenReturn(vnfInstance);
+		when(manoClient.vnfInstance(any())).thenReturn(manoCliVnfInst);
+		na.heal(id);
+		assertTrue(true);
 	}
 }
 

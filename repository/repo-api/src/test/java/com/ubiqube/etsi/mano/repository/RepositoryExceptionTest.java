@@ -14,30 +14,20 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.auth.config;
+package com.ubiqube.etsi.mano.repository;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
 
-import nl.jqno.equalsverifier.EqualsVerifier;
-
-@SuppressWarnings("static-method")
-class ProblemDetailsTest {
+class RepositoryExceptionTest {
 
 	@Test
 	void test() {
-		EqualsVerifier
-				.simple()
-				.forClass(ProblemDetails.class)
-				.verify();
+		final RepositoryException ex = new RepositoryException("");
+		assertNotNull(ex);
+		final RepositoryException ex2 = new RepositoryException(ex);
+		assertNotNull(ex2);
 	}
 
-	@Test
-	void testIdent() {
-		final ProblemDetails prob = new ProblemDetails();
-		prob.setDetail("");
-		prob.toString();
-		assertTrue(true);
-	}
 }

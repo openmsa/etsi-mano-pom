@@ -40,8 +40,6 @@ import com.ubiqube.etsi.mano.service.event.AbstractGenericActionV3;
 import com.ubiqube.etsi.mano.service.rest.ManoClient;
 import com.ubiqube.etsi.mano.service.rest.ManoClientFactory;
 
-import jakarta.validation.constraints.NotNull;
-
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
@@ -64,7 +62,7 @@ public class NfvoActions extends AbstractGenericActionV3 {
 		this.manoClientFactory = manoClientFactory;
 	}
 
-	public void heal(@NotNull final UUID objectId) {
+	public void heal(final UUID objectId) {
 		final Blueprint<? extends VimTask, ? extends Instance> blueprint = orchestrationAdapter.getBluePrint(objectId);
 		final NsdInstance nsi = nsInstanceService.findById(blueprint.getInstance().getId());
 		final List<NsLiveInstance> vnfs = blueprintService.findByNsdInstanceAndClass(nsi, NsVnfInstantiateTask.class);
@@ -81,7 +79,7 @@ public class NfvoActions extends AbstractGenericActionV3 {
 		// Nothing to merge.
 	}
 
-	public void update(@NotNull final UUID objectId) {
+	public void update(final UUID objectId) {
 		instantiate(objectId);
 	}
 

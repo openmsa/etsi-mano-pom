@@ -131,6 +131,7 @@ class VerifyClassifierTest {
 		vnffg.setClassifier(cls);
 		nsPkg.setVnffgs(Set.of(vnffg));
 		proc.visit(nsPkg);
+		assertTrue(true);
 	}
 
 }

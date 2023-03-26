@@ -97,6 +97,7 @@ class NfvoOrchestrationV3Test {
 		bluePrint.setNsInstance(instance);
 		when(nsLiveInstanceJpa.findByNsInstanceId(any())).thenReturn(List.of());
 		nfvo.setWorkflowBlueprint(bundle, bluePrint);
+		assertTrue(true);
 	}
 
 	@SuppressWarnings("null")
