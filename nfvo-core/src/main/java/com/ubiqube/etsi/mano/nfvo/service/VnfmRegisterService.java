@@ -28,6 +28,7 @@ import com.ubiqube.etsi.mano.jpa.config.ServersJpa;
 import com.ubiqube.etsi.mano.service.event.ActionType;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 
+import jakarta.annotation.Nullable;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -43,7 +44,7 @@ public class VnfmRegisterService implements CommandLineRunner {
 	}
 
 	@Override
-	public void run(final String... args) throws Exception {
+	public void run(final @Nullable String... args) throws Exception {
 		final List<Servers> servers = serversJpa.findByServerStatusIn(Arrays.asList(PlanStatusType.FAILED));
 		servers.forEach(x -> eventManager.sendAction(ActionType.REGISTER_SERVER, x.getId()));
 	}

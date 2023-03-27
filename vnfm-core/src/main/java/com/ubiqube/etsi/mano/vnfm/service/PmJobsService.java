@@ -34,7 +34,6 @@ public class PmJobsService {
 	private final PmJobsJpa pmJobsJpa;
 
 	public PmJobsService(final PmJobsJpa pmJobsJpa) {
-		super();
 		this.pmJobsJpa = pmJobsJpa;
 	}
 
