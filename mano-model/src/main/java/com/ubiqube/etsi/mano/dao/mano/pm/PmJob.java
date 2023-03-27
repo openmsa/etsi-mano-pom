@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.dao.mano.pm;
 
 import java.io.Serializable;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -142,9 +143,18 @@ public class PmJob implements Serializable {
 
 	private UUID subscriptionRemoteId;
 
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<RemoteMetric> remoteMonitoring = new ArrayList<>();
+
 	@Override
 	public String toString() {
 		return ToStringUtil.toString(this);
 	}
 
+	public void addRemoteMonitoring(final RemoteMetric rm) {
+		if (null == remoteMonitoring) {
+			remoteMonitoring = new ArrayList<>();
+		}
+		remoteMonitoring.add(rm);
+	}
 }

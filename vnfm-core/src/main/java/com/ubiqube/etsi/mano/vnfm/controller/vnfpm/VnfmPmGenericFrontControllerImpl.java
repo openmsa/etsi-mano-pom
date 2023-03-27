@@ -24,7 +24,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -55,9 +54,12 @@ import com.ubiqube.etsi.mano.service.cond.ast.LabelExpression;
 import com.ubiqube.etsi.mano.service.cond.ast.TestValueExpr;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
+import com.ubiqube.etsi.mano.service.mon.MonitoringManager;
 import com.ubiqube.etsi.mano.service.rest.model.AuthentificationInformations;
 import com.ubiqube.etsi.mano.vnfm.fc.vnfpm.VnfmPmGenericFrontController;
 
+import jakarta.annotation.Nullable;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import ma.glasnost.orika.MapperFacade;
 
@@ -74,14 +76,19 @@ public class VnfmPmGenericFrontControllerImpl implements VnfmPmGenericFrontContr
 	private final MetricGroupService metricGroupService;
 	private final SubscriptionService subscriptionService;
 	private final ObjectMapper objectMapper;
+	private final MonitoringManager monitoringManager;
+	@Nullable
+	private final String frontendUrl;
 
 	public VnfmPmGenericFrontControllerImpl(final VnfmPmController vnfmPmController, final VnfInstanceGatewayService vnfInstanceGatewayService, final MapperFacade mapper,
-			final MetricGroupService metricGroupService, final SubscriptionService subscriptionService) {
+			final MetricGroupService metricGroupService, final SubscriptionService subscriptionService, final MonitoringManager monitoringManager, final com.ubiqube.etsi.mano.config.properties.ManoProperties props) {
 		this.vnfmPmController = vnfmPmController;
 		this.vnfInstanceGatewayService = vnfInstanceGatewayService;
 		this.mapper = mapper;
 		this.metricGroupService = metricGroupService;
 		this.subscriptionService = subscriptionService;
+		this.monitoringManager = monitoringManager;
+		this.frontendUrl = props.getFrontendUrl();
 		objectMapper = new ObjectMapper();
 	}
 
@@ -92,9 +99,8 @@ public class VnfmPmGenericFrontControllerImpl implements VnfmPmGenericFrontContr
 
 	@Override
 	public ResponseEntity<Void> deleteById(final UUID pmJobId) {
-		Optional.ofNullable(vnfmPmController.findById(pmJobId))
-				.map(PmJob::getSubscriptionRemoteId)
-				.ifPresent(x -> subscriptionService.delete(x, SubscriptionType.VNFPM));
+		final PmJob pmJob = vnfmPmController.findById(pmJobId);
+		monitoringManager.delete(pmJob);
 		vnfmPmController.delete(pmJobId);
 		return ResponseEntity.noContent().build();
 	}
@@ -113,6 +119,7 @@ public class VnfmPmGenericFrontControllerImpl implements VnfmPmGenericFrontContr
 		return ResponseEntity.ok(mapper.map(pm, clazz));
 	}
 
+	@Transactional
 	@Override
 	public <U> ResponseEntity<U> pmJobsPost(@Valid final Object createPmJobRequest, final Class<U> clazz, final Consumer<U> makeLinks, final Function<U, String> getSelfLink) {
 		com.ubiqube.etsi.mano.dao.mano.pm.PmJob res = mapper.map(createPmJobRequest, com.ubiqube.etsi.mano.dao.mano.pm.PmJob.class);
@@ -122,6 +129,8 @@ public class VnfmPmGenericFrontControllerImpl implements VnfmPmGenericFrontContr
 		resolvSubObjectsId(res, insts);
 		res = vnfmPmController.save(res);
 		createSubscriptionIfNeeded(res);
+		monitoringManager.create(res);
+		res = vnfmPmController.save(res);
 		final U obj = mapper.map(res, clazz);
 		makeLinks.accept(obj);
 		final String link = getSelfLink.apply(obj);
@@ -194,13 +203,14 @@ public class VnfmPmGenericFrontControllerImpl implements VnfmPmGenericFrontContr
 	 * @param A PM job with an Id.
 	 */
 	private void createSubscriptionIfNeeded(final PmJob res) {
-		if (null == res.getCallbackUri()) {
+		if (null != res.getCallbackUri()) {
 			return;
 		}
+		// XXX: It is more complex, need my URL.
 		final String cond = createCondition(res.getId());
 		final Subscription subscription = Subscription.builder()
 				.authentication(copy(res.getAuthentication()))
-				.callbackUri(res.getCallbackUri().toString())
+				.callbackUri(frontendUrl)
 				.subscriptionType(SubscriptionType.VNFPM)
 				.nodeFilter(cond)
 				.build();

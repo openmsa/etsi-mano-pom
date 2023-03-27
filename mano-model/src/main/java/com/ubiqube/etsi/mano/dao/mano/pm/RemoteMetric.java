@@ -14,16 +14,37 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service.mon;
+package com.ubiqube.etsi.mano.dao.mano.pm;
 
-import java.util.Set;
 import java.util.UUID;
 
-import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.Data;
 
-public interface ExternalMonitoring {
+@Data
+@Entity
+public class RemoteMetric {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private UUID id;
 
-	UUID createBatch(String resourceId, Set<String> set, Long pollingInterval, VimConnectionInformation vimConnectionInformation);
+	private String remoteId;
 
-	void deleteResources(String resourceId);
+	private String toscaName;
+
+	private String alias;
+
+	public RemoteMetric() {
+		//
+	}
+
+	public RemoteMetric(final String remoteId, final String toscaName, final String alias) {
+		this.remoteId = remoteId;
+		this.toscaName = toscaName;
+		this.alias = alias;
+	}
+
 }

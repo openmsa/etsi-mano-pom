@@ -19,6 +19,7 @@ package com.ubiqube.etsi.mano.service.mon;
 import static com.ubiqube.etsi.mano.Constants.getSafeUUID;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,10 +28,15 @@ import org.springframework.stereotype.Service;
 import com.ubiqube.etsi.mano.dao.mano.VnfLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.pm.PmJob;
 import com.ubiqube.etsi.mano.dao.mano.pm.PmJobCriteria;
+import com.ubiqube.etsi.mano.dao.mano.pm.RemoteMetric;
+import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceService;
 
-import jakarta.validation.constraints.NotNull;
-
+/**
+ *
+ * @author Olivier Vignaud
+ *
+ */
 @Service
 public class MonitoringManager {
 
@@ -50,24 +56,23 @@ public class MonitoringManager {
 	 *
 	 * @param pmJob
 	 */
-	public void create(@NotNull final PmJob pmJob) {
+	public void create(final PmJob pmJob) {
 		pmJob.getObjectInstanceIds().forEach(x -> {
-			final PmJobCriteria crit = pmJob.getCriteria();
 			final List<VnfLiveInstance> lives = vnfInstanceService.findByVnfInstanceId(getSafeUUID(x));
 			lives.forEach(z -> {
-				if (pmJob.getSubObjectInstanceIds().contains(z.getTask().getToscaName())) {
+				final VnfTask task = z.getTask();
+				if (pmJob.getSubObjectInstanceIds().contains(task.getToscaName())) {
 					LOG.debug("Registrating: {}", z.getResourceId());
-					em.createBatch(z.getResourceId(), crit.getPerformanceMetric(), crit.getCollectionPeriod());
+					final PmJobCriteria crit = pmJob.getCriteria();
+					final UUID ret = em.createBatch(z.getResourceId(), crit.getPerformanceMetric(), crit.getCollectionPeriod(), pmJob.getVimConnectionInformation());
+					pmJob.addRemoteMonitoring(new RemoteMetric(ret.toString(), task.getToscaName(), task.getAlias()));
 				}
 			});
 		});
 	}
 
 	public void delete(final PmJob pmJob) {
-		pmJob.getObjectInstanceIds().forEach(x -> {
-			final List<VnfLiveInstance> lives = vnfInstanceService.findByVnfInstanceId(getSafeUUID(x));
-			lives.forEach(z -> deleteResource(z.getResourceId()));
-		});
+		pmJob.getRemoteMonitoring().forEach(x -> deleteResource(x.getRemoteId()));
 	}
 
 	public void deleteResource(final String id) {
@@ -76,6 +81,6 @@ public class MonitoringManager {
 
 	public void addResource(final PmJob pmJob, final String resourceId) {
 		final PmJobCriteria crit = pmJob.getCriteria();
-		em.createBatch(resourceId, crit.getPerformanceMetric(), crit.getCollectionPeriod());
+		em.createBatch(resourceId, crit.getPerformanceMetric(), crit.getCollectionPeriod(), pmJob.getVimConnectionInformation());
 	}
 }

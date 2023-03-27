@@ -22,6 +22,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -90,7 +91,7 @@ public class NotificationsImpl implements Notifications {
 	private static String getStatucCode(@Nullable final ResponseEntity<Void> status) {
 		return Optional.ofNullable(status)
 				.map(x -> x.getStatusCode())
-				.map(x -> x.toString())
+				.map(HttpStatusCode::toString)
 				.orElse("[No Code]");
 	}
 

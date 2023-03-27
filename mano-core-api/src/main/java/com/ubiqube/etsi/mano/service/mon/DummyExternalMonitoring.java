@@ -16,28 +16,70 @@
  */
 package com.ubiqube.etsi.mano.service.mon;
 
+import static com.ubiqube.etsi.mano.Constants.getSafeUUID;
+
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
+import com.ubiqube.etsi.mano.service.mon.cli.MonPollingRemoteService;
+import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
+import com.ubiqube.etsi.mano.service.mon.data.Metric;
+import com.ubiqube.etsi.mano.service.mon.dto.ConnInfo;
+import com.ubiqube.etsi.mano.service.mon.dto.PollingJob;
+
+/**
+ *
+ * @author olivier
+ *
+ */
 @Service
 public class DummyExternalMonitoring implements ExternalMonitoring {
 
 	private static final Logger LOG = LoggerFactory.getLogger(DummyExternalMonitoring.class);
+	private final MonPollingRemoteService remoteService;
+
+	public DummyExternalMonitoring(final MonPollingRemoteService remoteService) {
+		this.remoteService = remoteService;
+	}
 
 	@Override
-	public UUID createBatch(final String resourceId, final Set<String> set, final Long pollingInterval) {
+	public UUID createBatch(final String resourceId, final Set<String> metrics, final Long pollingInterval, final VimConnectionInformation vimConnectionInformation) {
 		LOG.info("registering {}", resourceId);
-		return null;
+		final PollingJob pj = new PollingJob();
+		pj.setInterval(pollingInterval);
+		pj.setConnection(convert(vimConnectionInformation));
+		final List<Metric> lst = metrics.stream().map(x -> new Metric(x, x)).toList();
+		pj.setMetrics(lst);
+		pj.setResourceId(resourceId);
+		final ResponseEntity<BatchPollingJob> ret = remoteService.register(pj);
+		return Objects.requireNonNull(ret.getBody()).getId();
+	}
+
+	private static ConnInfo convert(final VimConnectionInformation vimConnectionInformation) {
+		final ConnInfo ci = new ConnInfo();
+		// Not sure every VIMId are UUID.
+		ci.setConnId(UUID.fromString(vimConnectionInformation.getVimId()));
+		ci.setAccessInfo(vimConnectionInformation.getAccessInfo());
+		ci.setExtra(vimConnectionInformation.getExtra());
+		ci.setIgnoreSsl(true);
+		ci.setInterfaceInfo(vimConnectionInformation.getInterfaceInfo());
+		ci.setName(vimConnectionInformation.getVimId());
+		ci.setType(vimConnectionInformation.getVimType());
+		return ci;
 	}
 
 	@Override
 	public void deleteResources(final String resourceId) {
 		LOG.info("Deleting {}", resourceId);
-
+		remoteService.delete(getSafeUUID(resourceId));
 	}
 
 }
