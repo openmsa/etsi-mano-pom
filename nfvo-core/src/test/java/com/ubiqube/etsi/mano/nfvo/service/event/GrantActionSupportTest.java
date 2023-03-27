@@ -18,6 +18,8 @@ package com.ubiqube.etsi.mano.nfvo.service.event;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -34,8 +36,12 @@ import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.dao.mano.NsLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
+import com.ubiqube.etsi.mano.dao.mano.nsd.ForwarderMapping;
 import com.ubiqube.etsi.mano.dao.mano.nsd.NsdVnfPackageCopy;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
+import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVirtualLink;
+import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVirtualLinkTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVnfTask;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.jpa.GrantsResponseJpa;
@@ -133,12 +139,27 @@ class GrantActionSupportTest {
 		nsLive.setNsBlueprint(nsBlue);
 		final NsVnfTask task = new NsVnfTask();
 		final NsdVnfPackageCopy nsPkg = new NsdVnfPackageCopy();
-		nsPkg.setForwardMapping(Set.of());
-		nsPkg.setVirtualLinks(Set.of());
+		nsPkg.setToscaName("vdu");
+		final ListKeyPair lkp = new ListKeyPair("vl", 1);
+		nsPkg.setVirtualLinks(Set.of(lkp));
 		task.setNsPackageVnfPackage(nsPkg);
+		final ForwarderMapping fw01 = new ForwarderMapping();
+		fw01.setVduName("vdu");
+		fw01.setForwardingName("fwName");
+		fw01.setVlName("vl");
+		task.getNsPackageVnfPackage().addForwardMapping(fw01);
 		nsLive.setNsTask(task);
 		//
 		when(nsLiveInstance.findByResourceId(null)).thenReturn(List.of(nsLive));
+		//
+		final NsLiveInstance nsLive2 = new NsLiveInstance();
+		final NsVirtualLinkTask vlTask = new NsVirtualLinkTask();
+		final NsVirtualLink nsVl = new NsVirtualLink();
+		nsVl.setToscaName("vl");
+		vlTask.setNsVirtualLink(nsVl);
+		vlTask.setToscaName("vl");
+		nsLive2.setNsTask(vlTask);
+		when(nsLiveInstance.findByNsdInstanceAndClass(any(), eq(NsVirtualLinkTask.class))).thenReturn(List.of(nsLive2));
 		gas.getUnmanagedNetworks(response, vim, vimConn);
 		assertTrue(true);
 	}
