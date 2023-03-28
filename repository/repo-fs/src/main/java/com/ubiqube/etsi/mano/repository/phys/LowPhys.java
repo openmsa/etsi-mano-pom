@@ -110,7 +110,7 @@ public class LowPhys implements Low {
 	}
 
 	private static boolean deleteRecursively(final Path root) throws IOException {
-		if (root == null || !Files.exists(root)) {
+		if (!Files.exists(root)) {
 			return false;
 		}
 
