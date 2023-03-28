@@ -65,14 +65,4 @@ public class Sol003IndicatorsFrontControllerImpl implements IndicatorsFrontContr
 		return ResponseEntity.ok(ret);
 	}
 
-	@Override
-	public ResponseEntity<Void> delete(final String subscriptionId) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public <U> ResponseEntity<U> findById(final String subscriptionId) {
-		throw new UnsupportedOperationException();
-	}
-
 }
