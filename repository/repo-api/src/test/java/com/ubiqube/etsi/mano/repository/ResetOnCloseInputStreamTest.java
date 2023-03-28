@@ -40,8 +40,10 @@ class ResetOnCloseInputStreamTest {
 	void testByteArray() throws IOException {
 		final InputStream mainIs = new ByteArrayInputStream("/test-input-stream.txt".getBytes());
 		final ResetOnCloseInputStream is = new ResetOnCloseInputStream(mainIs);
-		final int i = is.read();
-		assertEquals(47, i);
+		final byte[] b = new byte[5];
+		final int i = is.read(b, 0, 5);
+		assertEquals(5, i);
+		assertEquals(47, b[0]);
 		is.close();
 	}
 }
