@@ -21,8 +21,6 @@ import static com.ubiqube.etsi.mano.uri.ManoWebMvcLinkBuilder.methodOn;
 
 import java.util.List;
 
-import jakarta.validation.Valid;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,6 +31,8 @@ import com.ubiqube.etsi.mano.em.v271.model.vnfind.VnfIndicatorSubscriptionLinks;
 import com.ubiqube.etsi.mano.em.v271.model.vnfind.VnfIndicatorSubscriptionRequest;
 import com.ubiqube.etsi.mano.em.v271.model.vnflcm.Link;
 import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
+
+import jakarta.validation.Valid;
 
 @RestController
 public class VnfIndSubscriptions271Sol003Controller implements VnfIndSubscriptions271Sol003Api {
@@ -59,7 +59,7 @@ public class VnfIndSubscriptions271Sol003Controller implements VnfIndSubscriptio
 
 	@Override
 	public ResponseEntity<VnfIndicatorSubscription> subscriptionsSubscriptionIdGet(final String subscriptionId) {
-		return subscriptionService.findById(subscriptionId, VnfIndicatorSubscription.class, VnfIndSubscriptions271Sol003Controller::makeLinks, SubscriptionType.ALARM);
+		return subscriptionService.findById(subscriptionId, VnfIndicatorSubscription.class, VnfIndSubscriptions271Sol003Controller::makeLinks, SubscriptionType.VNFIND);
 	}
 
 	private static String makeSelf(final VnfIndicatorSubscription subscription) {

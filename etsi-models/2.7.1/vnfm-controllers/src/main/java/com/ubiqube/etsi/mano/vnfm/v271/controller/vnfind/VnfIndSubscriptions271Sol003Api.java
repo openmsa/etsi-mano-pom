@@ -23,13 +23,16 @@ package com.ubiqube.etsi.mano.vnfm.v271.controller.vnfind;
 
 import java.util.List;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.security.RolesAllowed;
-import jakarta.validation.Valid;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.ubiqube.etsi.mano.em.v271.model.vnfconfig.ProblemDetails2;
 import com.ubiqube.etsi.mano.em.v271.model.vnfind.VnfIndicatorSubscription;
 import com.ubiqube.etsi.mano.em.v271.model.vnfind.VnfIndicatorSubscriptionRequest;
@@ -40,6 +43,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.validation.Valid;
 
 @Api(value = "subscriptions", description = "the subscriptions API")
 @RequestMapping(value = "/sol003/vnfind/v1", headers = "Version=1.2.1")
@@ -59,7 +65,7 @@ public interface VnfIndSubscriptions271Sol003Api {
 			@ApiResponse(code = 500, message = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = ProblemDetails2.class),
 			@ApiResponse(code = 503, message = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = ProblemDetails2.class),
 			@ApiResponse(code = 504, message = "504 GATEWAY TIMEOUT If the API producer encounters a timeout while waiting for a response from an upstream server (i.e. a server that the API producer communicates with when fulfilling a request), it should respond with this response code. ", response = ProblemDetails2.class) })
-            @GetMapping(value = "/subscriptions", produces = {"application/json"})
+	@GetMapping(value = "/subscriptions", produces = { "application/json" })
 	ResponseEntity<List<VnfIndicatorSubscription>> subscriptionsGet(
 			@ApiParam(value = "Attribute-based filtering expression according to clause 5.2 of ETSI GS NFV SOL 013. The VNFM shall support receiving this parameter as part of the  URI query string. The NFVO may supply this parameter.  All attribute names that appear in the VnfIndicatorSubscription and in data types referenced from it shall be supported by the  VNFM in the filter expression. ") @Nonnull @RequestParam MultiValueMap<String, String> requestParams,
 			@ApiParam(value = "Marker to obtain the next page of a paged response. Shall be  supported by the VNFM if the VNFM supports alternative 2 (paging)  according to clause 5.4.2.1 of ETSI GS NFV-SOL 013 for this resource. ") @Valid @RequestParam(value = "nextpage_opaque_marker", required = false) String nextpageOpaqueMarker);
@@ -78,7 +84,7 @@ public interface VnfIndSubscriptions271Sol003Api {
 			@ApiResponse(code = 500, message = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = ProblemDetails2.class),
 			@ApiResponse(code = 503, message = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = ProblemDetails2.class),
 			@ApiResponse(code = 504, message = "504 GATEWAY TIMEOUT If the API producer encounters a timeout while waiting for a response from an upstream server (i.e. a server that the API producer communicates with when fulfilling a request), it should respond with this response code. ", response = ProblemDetails2.class) })
-            @PostMapping(value = "/subscriptions", produces = {"application/json"}, consumes = {"application/json"})
+	@PostMapping(value = "/subscriptions", produces = { "application/json" }, consumes = { "application/json" })
 	ResponseEntity<VnfIndicatorSubscription> subscriptionsPost(@ApiParam(value = "Details of the subscription to be created.", required = true) @Valid @RequestBody VnfIndicatorSubscriptionRequest vnfIndicatorSubscriptionRequest);
 
 	@ApiOperation(value = "", nickname = "subscriptionsSubscriptionIdDelete", notes = "Terminate Subscription. This method terminates an individual subscription. This method shall follow the provisions specified in the tables 6.4.8.3.5-1 and 6.4.8.3.5-2 for URI query parameters, request and response data structures, and response codes. As the result of successfully executing this method, the \"Individual subscription\" resource shall not exist any longer. This means that no notifications for that subscription shall be sent to the formerly-subscribed API consumer.    NOTE: Due to race conditions, some notifications might still be received by the formerly-subscribed         API consumer for a certain time period after the deletion. ", tags = {})
@@ -94,7 +100,7 @@ public interface VnfIndSubscriptions271Sol003Api {
 			@ApiResponse(code = 500, message = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = ProblemDetails.class),
 			@ApiResponse(code = 503, message = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = ProblemDetails.class),
 			@ApiResponse(code = 504, message = "504 GATEWAY TIMEOUT If the API producer encounters a timeout while waiting for a response from an upstream server (i.e. a server that the API producer communicates with when fulfilling a request), it should respond with this response code. ", response = ProblemDetails.class) })
-	@DeleteMapping(value = "/{subscriptionId}", produces = { "application/json" })
+	@DeleteMapping(value = "/subscriptions/{subscriptionId}", produces = { "application/json" })
 	ResponseEntity<Void> subscriptionsSubscriptionIdDelete(@ApiParam(value = "This identifier can be retrieved from the resource referenced by the \"Location\" HTTP header in the response to a POST request creating a new \"Individual subscription\" resource. It can also be retrieved from the \"id\" attribute in the payload body of that response. ", required = true) @PathVariable("subscriptionId") final String subscriptionId);
 
 	@ApiOperation(value = "", nickname = "subscriptionsSubscriptionIdGet", notes = "Query Subscription Information. The client can use this method for reading an individual subscription about Performance management notifications subscribed by the client. This method shall follow the provisions specified in the tables 6.4.8.3.2-1 and 6.4.8.3.2-2 for URI query parameters, request and response data structures, and response codes. ", response = VnfIndicatorSubscription.class, tags = {})
@@ -110,7 +116,7 @@ public interface VnfIndSubscriptions271Sol003Api {
 			@ApiResponse(code = 500, message = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = ProblemDetails.class),
 			@ApiResponse(code = 503, message = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = ProblemDetails.class),
 			@ApiResponse(code = 504, message = "504 GATEWAY TIMEOUT If the API producer encounters a timeout while waiting for a response from an upstream server (i.e. a server that the API producer communicates with when fulfilling a request), it should respond with this response code. ", response = ProblemDetails.class) })
-	@GetMapping(value = "/{subscriptionId}", produces = { "application/json" })
+	@GetMapping(value = "/subscriptions/{subscriptionId}", produces = { "application/json" })
 	ResponseEntity<VnfIndicatorSubscription> subscriptionsSubscriptionIdGet(@ApiParam(value = "This identifier can be retrieved from the resource referenced by the \"Location\" HTTP header in the response to a POST request creating a new \"Individual subscription\" resource. It can also be retrieved from the \"id\" attribute in the payload body of that response. ", required = true) @PathVariable("subscriptionId") final String subscriptionId);
 
 }
