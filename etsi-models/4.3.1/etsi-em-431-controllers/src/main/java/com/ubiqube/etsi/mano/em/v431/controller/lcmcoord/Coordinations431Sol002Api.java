@@ -42,7 +42,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 
 @Validated
-public interface CoordinationsApi {
+public interface Coordinations431Sol002Api {
 
 	@Operation(summary = "", description = "The POST method initiates the cancellation of an ongoing coordination action. See clause 10.4.4.3.1. ", tags = {})
 	@ApiResponses(value = {

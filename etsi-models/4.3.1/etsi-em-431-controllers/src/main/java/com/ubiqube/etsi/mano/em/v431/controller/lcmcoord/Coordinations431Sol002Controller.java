@@ -25,7 +25,7 @@ import com.ubiqube.etsi.mano.em.v431.model.lcmcoord.LcmCoordRequest;
 import jakarta.validation.Valid;
 
 @RestController
-public class CoordinationsApiController implements CoordinationsApi {
+public class Coordinations431Sol002Controller implements Coordinations431Sol002Api {
 
 	@Override
 	public ResponseEntity<Void> coordinationsCoordinationIdCancelPost(final String coordinationId) {
