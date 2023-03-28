@@ -23,10 +23,10 @@ package com.ubiqube.etsi.mano.em.v431.controller.lcmcoord;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.ubiqube.etsi.mano.em.v431.model.lcmcoord.LcmCoord;
 import com.ubiqube.etsi.mano.em.v431.model.lcmcoord.LcmCoordRequest;
@@ -60,7 +60,7 @@ public interface CoordinationsApi {
 			@ApiResponse(responseCode = "500", description = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "503", description = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "504", description = "504 GATEWAY TIMEOUT If the API producer encounters a timeout while waiting for a response from an upstream server (i.e. a server that the API producer communicates with when fulfilling a request), it should respond with this response code. ", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProblemDetails.class))) })
-	@RequestMapping(value = "/coordinations/{coordinationId}/cancel", produces = { "application/json" }, method = RequestMethod.POST)
+            @PostMapping(value = "/coordinations/{coordinationId}/cancel", produces = {"application/json"})
 	ResponseEntity<Void> coordinationsCoordinationIdCancelPost(
 			@Parameter(in = ParameterIn.PATH, description = "Identifier of the LCM coordination. This identifier can be retrieved from the resource referenced by the \"Location\" HTTP header in the response to a POST request to the \"Coordinations\" resource ", required = true, schema = @Schema()) @PathVariable("coordinationId") final String coordinationId);
 
@@ -80,7 +80,7 @@ public interface CoordinationsApi {
 			@ApiResponse(responseCode = "500", description = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "503", description = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "504", description = "504 GATEWAY TIMEOUT If the API producer encounters a timeout while waiting for a response from an upstream server (i.e. a server that the API producer communicates with when fulfilling a request), it should respond with this response code. ", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProblemDetails.class))) })
-	@RequestMapping(value = "/coordinations/{coordinationId}", produces = { "application/json" }, method = RequestMethod.GET)
+            @GetMapping(value = "/coordinations/{coordinationId}", produces = {"application/json"})
 	ResponseEntity<LcmCoord> coordinationsCoordinationIdGet(
 			@Parameter(in = ParameterIn.PATH, description = "Identifier of the LCM coordination. This identifier can be retrieved from the resource referenced by the \"Location\" HTTP header in the response to a POST request to the \"Coordinations\" resource ", required = true, schema = @Schema()) @PathVariable("coordinationId") final String coordinationId);
 
@@ -100,7 +100,7 @@ public interface CoordinationsApi {
 			@ApiResponse(responseCode = "500", description = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "503", description = "503 SERVICE UNAVAILABLE Shall be returned upon the following error: The API producer has chosen the synchronous mode and cannot perform the requested coordination currently, but expects to be able to perform it sometime in the future. No \"individual coordination action\" resource shall be created. A ProblemDetails structure shall be included in the response to provide more details about the rejection in the \"details\" attribute. The HTTP response shall include a \"Retry-After\" HTTP header that indicates the delay after which it is suggested to repeat the coordination request with the same set of parameters. The VNFM shall record the signalled delay value in the \"delay\" attribute of the applicable entry in the \"rejectedLcmCoordinations\" array in the \"VnfLcmOpOcc\" structure. ", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "504", description = "504 GATEWAY TIMEOUT If the API producer encounters a timeout while waiting for a response from an upstream server (i.e. a server that the API producer communicates with when fulfilling a request), it should respond with this response code. ", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProblemDetails.class))) })
-	@RequestMapping(value = "/coordinations", produces = { "application/json" }, consumes = { "application/json" }, method = RequestMethod.POST)
+            @PostMapping(value = "/coordinations", produces = {"application/json"}, consumes = {"application/json"})
 	ResponseEntity<LcmCoord> coordinationsPost(
 			@Parameter(in = ParameterIn.DEFAULT, description = "Parameters for the coordination action as defined in clause 10.5.2.2.", required = true, schema = @Schema()) @Valid @RequestBody LcmCoordRequest body);
 }
