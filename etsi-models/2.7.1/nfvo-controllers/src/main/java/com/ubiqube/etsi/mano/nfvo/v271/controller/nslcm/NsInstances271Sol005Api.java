@@ -27,12 +27,7 @@ import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.bind.annotation.*;
 import com.ubiqube.etsi.mano.model.ProblemDetails;
 import com.ubiqube.etsi.mano.model.v271.sol005.nslcm.CreateNsRequest;
 import com.ubiqube.etsi.mano.model.v271.sol005.nslcm.HealNsRequest;
@@ -72,7 +67,7 @@ public interface NsInstances271Sol005Api {
 			@ApiResponse(code = 500, message = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = ProblemDetails.class),
 			@ApiResponse(code = 503, message = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = ProblemDetails.class),
 			@ApiResponse(code = 504, message = "504 GATEWAY TIMEOUT If the API producer encounters a timeout while waiting for a response from an upstream server (i.e. a server that the API producer communicates with when fulfilling a request), it should respond with this response code. ", response = ProblemDetails.class) })
-	@RequestMapping(produces = { "application/json" }, method = RequestMethod.GET)
+            @GetMapping(produces = {"application/json"})
 	ResponseEntity<String> nsInstancesGet(@ApiParam(value = "All query parameters. ", required = true) @Nonnull @RequestParam MultiValueMap<String, String> requestParams);
 
 	@ApiOperation(value = "Delete NS instance resource.", nickname = "nsInstancesNsInstanceIdDelete", notes = "Delete NS Identifier This method deletes an individual NS instance resource. As the result of successfully executing this method, the \"Individual NS instance\" resource shall not exist any longer. A notification of type \"NsIdentifierDeletionNotification\" shall be triggered as part of successfully executing this method as defined in clause 6.5.2.7. ", tags = {})
@@ -89,7 +84,7 @@ public interface NsInstances271Sol005Api {
 			@ApiResponse(code = 500, message = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = ProblemDetails.class),
 			@ApiResponse(code = 503, message = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = ProblemDetails.class),
 			@ApiResponse(code = 504, message = "504 GATEWAY TIMEOUT If the API producer encounters a timeout while waiting for a response from an upstream server (i.e. a server that the API producer communicates with when fulfilling a request), it should respond with this response code. ", response = ProblemDetails.class) })
-	@RequestMapping(value = "/{nsInstanceId}", produces = { "application/json" }, method = RequestMethod.DELETE)
+            @DeleteMapping(value = "/{nsInstanceId}", produces = {"application/json"})
 	ResponseEntity<Void> nsInstancesNsInstanceIdDelete(@ApiParam(value = "Identifier of the NS instance. ", required = true) @PathVariable("nsInstanceId") final String nsInstanceId);
 
 	@ApiOperation(value = "Read an individual NS instance resource.", nickname = "nsInstancesNsInstanceIdGet", notes = "The GET method retrieves information about a NS instance by  reading an individual NS instance resource.    ", response = NsInstance.class, tags = {})
@@ -105,7 +100,7 @@ public interface NsInstances271Sol005Api {
 			@ApiResponse(code = 500, message = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = ProblemDetails.class),
 			@ApiResponse(code = 503, message = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = ProblemDetails.class),
 			@ApiResponse(code = 504, message = "504 GATEWAY TIMEOUT If the API producer encounters a timeout while waiting for a response from an upstream server (i.e. a server that the API producer communicates with when fulfilling a request), it should respond with this response code. ", response = ProblemDetails.class) })
-	@RequestMapping(value = "/{nsInstanceId}", produces = { "application/json" }, method = RequestMethod.GET)
+            @GetMapping(value = "/{nsInstanceId}", produces = {"application/json"})
 	ResponseEntity<NsInstance> nsInstancesNsInstanceIdGet(@ApiParam(value = "Identifier of the NS instance. ", required = true) @PathVariable("nsInstanceId") final String nsInstanceId);
 
 	@ApiOperation(value = "Heal a NS instance.", nickname = "nsInstancesNsInstanceIdHealPost", notes = "The POST method requests to heal an NS instance. This method shall follow the provisions specified in the Tables 6.4.7.3.1-1 and 6.4.7.3.1-2 for URI query parameters, request and response data structures, and response codes. The steps and conditions that apply as the result of successfully executing this method are specified in clause 6.4.1.2. ", tags = {})
@@ -121,7 +116,7 @@ public interface NsInstances271Sol005Api {
 			@ApiResponse(code = 500, message = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = ProblemDetails.class),
 			@ApiResponse(code = 503, message = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = ProblemDetails.class),
 			@ApiResponse(code = 504, message = "504 GATEWAY TIMEOUT If the API producer encounters a timeout while waiting for a response from an upstream server (i.e. a server that the API producer communicates with when fulfilling a request), it should respond with this response code. ", response = ProblemDetails.class) })
-	@RequestMapping(value = "/{nsInstanceId}/heal", produces = { "application/json" }, consumes = { "application/json" }, method = RequestMethod.POST)
+            @PostMapping(value = "/{nsInstanceId}/heal", produces = {"application/json"}, consumes = {"application/json"})
 	ResponseEntity<NsInstance> nsInstancesNsInstanceIdHealPost(
 			@ApiParam(value = "Identifier of the NS instance to be healed. ", required = true) @PathVariable("nsInstanceId") final String nsInstanceId,
 			@ApiParam(value = "Parameters for the heal NS operation, as defined in clause 6.5.2.13. ", required = true) @Valid @RequestBody final HealNsRequest body);
@@ -140,7 +135,7 @@ public interface NsInstances271Sol005Api {
 			@ApiResponse(code = 500, message = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = ProblemDetails.class),
 			@ApiResponse(code = 503, message = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = ProblemDetails.class),
 			@ApiResponse(code = 504, message = "504 GATEWAY TIMEOUT If the API producer encounters a timeout while waiting for a response from an upstream server (i.e. a server that the API producer communicates with when fulfilling a request), it should respond with this response code. ", response = ProblemDetails.class) })
-	@RequestMapping(value = "/{nsInstanceId}/instantiate", produces = { "application/json" }, consumes = { "application/json" }, method = RequestMethod.POST)
+            @PostMapping(value = "/{nsInstanceId}/instantiate", produces = {"application/json"}, consumes = {"application/json"})
 	ResponseEntity<NsInstance> nsInstancesNsInstanceIdInstantiatePost(
 			@ApiParam(value = "Identifier of the NS instance to be instantiated. ", required = true) @PathVariable("nsInstanceId") final String nsInstanceId,
 			@ApiParam(value = "Parameters for the instantiate NS operation, as defined in clause 6.5.2.11. ", required = true) @Valid @RequestBody final InstantiateNsRequest body);
@@ -158,7 +153,7 @@ public interface NsInstances271Sol005Api {
 			@ApiResponse(code = 500, message = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = ProblemDetails.class),
 			@ApiResponse(code = 503, message = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = ProblemDetails.class),
 			@ApiResponse(code = 504, message = "504 GATEWAY TIMEOUT If the API producer encounters a timeout while waiting for a response from an upstream server (i.e. a server that the API producer communicates with when fulfilling a request), it should respond with this response code. ", response = ProblemDetails.class) })
-	@RequestMapping(value = "/{nsInstanceId}/scale", produces = { "application/json" }, consumes = { "application/json" }, method = RequestMethod.POST)
+            @PostMapping(value = "/{nsInstanceId}/scale", produces = {"application/json"}, consumes = {"application/json"})
 	ResponseEntity<NsInstance> nsInstancesNsInstanceIdScalePost(
 			@ApiParam(value = "Identifier of the NS instance to be scaled. ", required = true) @PathVariable("nsInstanceId") final String nsInstanceId,
 			@ApiParam(value = "Parameters for the scale NS operation, as defined in clause 6.5.2.14. ", required = true) @Valid @RequestBody final ScaleNsRequest body);
@@ -176,7 +171,7 @@ public interface NsInstances271Sol005Api {
 			@ApiResponse(code = 500, message = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = ProblemDetails.class),
 			@ApiResponse(code = 503, message = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = ProblemDetails.class),
 			@ApiResponse(code = 504, message = "504 GATEWAY TIMEOUT If the API producer encounters a timeout while waiting for a response from an upstream server (i.e. a server that the API producer communicates with when fulfilling a request), it should respond with this response code. ", response = ProblemDetails.class) })
-	@RequestMapping(value = "/{nsInstanceId}/terminate", produces = { "application/json" }, consumes = { "application/json" }, method = RequestMethod.POST)
+            @PostMapping(value = "/{nsInstanceId}/terminate", produces = {"application/json"}, consumes = {"application/json"})
 	ResponseEntity<NsInstance> nsInstancesNsInstanceIdTerminatePost(
 			@ApiParam(value = "The identifier of the NS instance to be terminated. ", required = true) @PathVariable("nsInstanceId") final String nsInstanceId,
 			@ApiParam(value = "The terminate NS request parameters, as defined in  clause 6.5.2.15. ", required = true) @Valid @RequestBody final TerminateNsRequest body);
@@ -194,7 +189,7 @@ public interface NsInstances271Sol005Api {
 			@ApiResponse(code = 500, message = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = ProblemDetails.class),
 			@ApiResponse(code = 503, message = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = ProblemDetails.class),
 			@ApiResponse(code = 504, message = "504 GATEWAY TIMEOUT If the API producer encounters a timeout while waiting for a response from an upstream server (i.e. a server that the API producer communicates with when fulfilling a request), it should respond with this response code. ", response = ProblemDetails.class) })
-	@RequestMapping(value = "/{nsInstanceId}/update", produces = { "application/json" }, consumes = { "application/json" }, method = RequestMethod.POST)
+            @PostMapping(value = "/{nsInstanceId}/update", produces = {"application/json"}, consumes = {"application/json"})
 	ResponseEntity<NsInstance> nsInstancesNsInstanceIdUpdatePost(
 			@ApiParam(value = "Identifier of the NS instance to be updated. ", required = true) @PathVariable("nsInstanceId") final String nsInstanceId,
 			@ApiParam(value = "Parameters for the update NS operation, as defined in clause 6.5.2.12. ", required = true) @Valid @RequestBody final UpdateNsRequest body);
@@ -213,7 +208,7 @@ public interface NsInstances271Sol005Api {
 			@ApiResponse(code = 500, message = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = ProblemDetails.class),
 			@ApiResponse(code = 503, message = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = ProblemDetails.class),
 			@ApiResponse(code = 504, message = "504 GATEWAY TIMEOUT If the API producer encounters a timeout while waiting for a response from an upstream server (i.e. a server that the API producer communicates with when fulfilling a request), it should respond with this response code. ", response = ProblemDetails.class) })
-	@RequestMapping(produces = { "application/json" }, consumes = { "application/json" }, method = RequestMethod.POST)
+            @PostMapping(produces = {"application/json"}, consumes = {"application/json"})
 	ResponseEntity<NsInstance> nsInstancesPost(@ApiParam(value = "The NS creation parameters, as defined in clause 6.5.2.7. ", required = true) @Valid @RequestBody final CreateNsRequest body);
 
 }
