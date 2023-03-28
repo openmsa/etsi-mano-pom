@@ -25,9 +25,10 @@ import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.ubiqube.etsi.mano.em.v281.model.vnfconfig.ProblemDetails2;
 import com.ubiqube.etsi.mano.em.v281.model.vnfconfig.VnfConfigModifications;
@@ -63,7 +64,7 @@ public interface Configuration281Sol002Api {
 			@ApiResponse(code = 500, message = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = ProblemDetails2.class),
 			@ApiResponse(code = 503, message = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = ProblemDetails2.class),
 			@ApiResponse(code = 504, message = "504 GATEWAY TIMEOUT If the API producer encounters a timeout while waiting for a response from an upstream server (i.e. a server that the API producer communicates with when fulfilling a request), it should respond with this response code. ", response = ProblemDetails2.class) })
-	@RequestMapping(value = "/configuration", produces = { "application/json" }, method = RequestMethod.GET)
+            @GetMapping(value = "/configuration", produces = {"application/json"})
 	ResponseEntity<VnfConfiguration> configurationGet();
 
 	@ApiOperation(value = "", nickname = "configurationPatch", notes = "This method sets or modifies a configuration resource.", response = VnfConfigModifications.class, tags = {})
@@ -82,6 +83,6 @@ public interface Configuration281Sol002Api {
 			@ApiResponse(code = 500, message = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = ProblemDetails2.class),
 			@ApiResponse(code = 503, message = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = ProblemDetails2.class),
 			@ApiResponse(code = 504, message = "504 GATEWAY TIMEOUT If the API producer encounters a timeout while waiting for a response from an upstream server (i.e. a server that the API producer communicates with when fulfilling a request), it should respond with this response code. ", response = ProblemDetails2.class) })
-	@RequestMapping(value = "/configuration", produces = { "application/json" }, consumes = { "application/json" }, method = RequestMethod.PATCH)
+            @PatchMapping(value = "/configuration", produces = {"application/json"}, consumes = {"application/json"})
 	ResponseEntity<VnfConfigModifications> configurationPatch(@ApiParam(value = "The parameter for the configuration modification, as defined in clause 9.5.2.2. ", required = true) @Valid @RequestBody VnfConfigModifications configModifications);
 }

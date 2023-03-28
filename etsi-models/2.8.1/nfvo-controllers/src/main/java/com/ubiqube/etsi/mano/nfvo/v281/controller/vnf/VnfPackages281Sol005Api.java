@@ -30,13 +30,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ubiqube.etsi.mano.em.v281.model.vnfconfig.ProblemDetails;
@@ -72,7 +66,7 @@ public interface VnfPackages281Sol005Api {
 			@ApiResponse(code = 416, message = "416 RANGE NOT SATISFIABLE ", response = ProblemDetails.class),
 			@ApiResponse(code = 500, message = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = ProblemDetails.class),
 			@ApiResponse(code = 503, message = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = ProblemDetails.class) })
-	@RequestMapping(value = "/vnf_packages", produces = { "application/json" }, method = RequestMethod.GET)
+            @GetMapping(value = "/vnf_packages", produces = {"application/json"})
 	ResponseEntity<String> vnfPackagesGet(@Nonnull @RequestParam MultiValueMap<String, String> requestParams,
 			@ApiParam(value = "Marker to obtain the next page of a paged response. Shall be supported by the NFVO if the NFVO supports alternative 2 (paging) according to clause 5.4.2.1 of ETSI GS NFV SOL 013 for this resource. ") @Valid @RequestParam(value = "nextpage_opaque_marker", required = false) final String nextpageOpaqueMarker);
 
@@ -90,7 +84,7 @@ public interface VnfPackages281Sol005Api {
 			@ApiResponse(code = 500, message = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = ProblemDetails.class),
 			@ApiResponse(code = 503, message = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = ProblemDetails.class),
 			@ApiResponse(code = 504, message = "504 GATEWAY TIMEOUT If the API producer encounters a timeout while waiting for a response from an upstream server (i.e. a server that the API producer communicates with when fulfilling a request), it should respond with this response code. ", response = ProblemDetails.class) })
-	@RequestMapping(value = "/vnf_packages", produces = { "application/json" }, consumes = { "application/json" }, method = RequestMethod.POST)
+            @PostMapping(value = "/vnf_packages", produces = {"application/json"}, consumes = {"application/json"})
 	ResponseEntity<VnfPkgInfo> vnfPackagesPost(
 			@ApiParam(value = "IndividualVNF package resource creation parameters, as defined in clause 9.5.2.2 ", required = true) @Valid @RequestBody final CreateVnfPkgInfoRequest body);
 
@@ -108,7 +102,7 @@ public interface VnfPackages281Sol005Api {
 			@ApiResponse(code = 416, message = "416 RANGE NOT SATISFIABLE ", response = ProblemDetails.class),
 			@ApiResponse(code = 500, message = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = ProblemDetails.class),
 			@ApiResponse(code = 503, message = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = ProblemDetails.class) })
-	@RequestMapping(value = "/vnf_packages/{vnfPkgId}/artifacts/**", produces = { "application/json" }, method = RequestMethod.GET)
+            @GetMapping(value = "/vnf_packages/{vnfPkgId}/artifacts/**", produces = {"application/json"})
 	ResponseEntity<Resource> vnfPackagesVnfPkgIdArtifactsArtifactPathGet(
 			@ApiParam(value = "Identifier of the on-boarded VNF package. The identifier is allocated by the NFVO. This identifier can be retrieved from the \"vnfPkgId\" attribute in the VnfPackageOnboardingNotification or VnfPackageChangeNotification. ", required = true) @PathVariable("vnfPkgId") final String vnfPkgId,
 			@ApiParam(value = "For an artifact contained as a file in the VNF package, this variable shall contain a sequence of one or more path segments representing the path of the artifact within the VNF package, relative to the root of the package. See note 3. EXAMPLE: foo/bar/m%40ster.sh For an external artifact represented as a URI in the VNF package manifest, this variable shall contain a sequence of one or more path segments as synthesized by the NFVO (see clause 9.5.3.3), representing this artifact. See note 2 and note 3 ", required = true) @PathVariable("artifactPath") final HttpServletRequest requestParams,
@@ -129,7 +123,7 @@ public interface VnfPackages281Sol005Api {
 			@ApiResponse(code = 416, message = "416 RANGE NOT SATISFIABLE ", response = ProblemDetails.class),
 			@ApiResponse(code = 500, message = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = ProblemDetails.class),
 			@ApiResponse(code = 503, message = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = ProblemDetails.class) })
-	@RequestMapping(value = "/vnf_packages/{vnfPkgId}/artifacts", produces = { "application/json" }, method = RequestMethod.GET)
+            @GetMapping(value = "/vnf_packages/{vnfPkgId}/artifacts", produces = {"application/json"})
 	ResponseEntity<Resource> vnfPackagesVnfPkgIdArtifactsGet(
 			@ApiParam(value = "Identifier of the on-boarded VNF package. The identifier is allocated by the NFVO. This identifier can be retrieved from the \"vnfPkgId\" attribute in the VnfPackageOnboardingNotification or VnfPackageChangeNotification. ", required = true) @PathVariable("vnfPkgId") final String vnfPkgId,
 
@@ -155,7 +149,7 @@ public interface VnfPackages281Sol005Api {
 			@ApiResponse(code = 416, message = "416 RANGE NOT SATISFIABLE ", response = ProblemDetails.class),
 			@ApiResponse(code = 500, message = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = ProblemDetails.class),
 			@ApiResponse(code = 503, message = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = ProblemDetails.class) })
-	@RequestMapping(value = "/vnf_packages/{vnfPkgId}", produces = { "application/json" }, method = RequestMethod.DELETE)
+            @DeleteMapping(value = "/vnf_packages/{vnfPkgId}", produces = {"application/json"})
 	ResponseEntity<Void> vnfPackagesVnfPkgIdDelete(
 			@ApiParam(value = "Identifier of the VNF package. The identifier is allocated by the NFVO.   ", required = true) @PathVariable("vnfPkgId") final String vnfPkgId);
 
@@ -171,7 +165,7 @@ public interface VnfPackages281Sol005Api {
 			@ApiResponse(code = 416, message = "416 RANGE NOT SATISFIABLE ", response = ProblemDetails.class),
 			@ApiResponse(code = 500, message = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = ProblemDetails.class),
 			@ApiResponse(code = 503, message = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = ProblemDetails.class) })
-	@RequestMapping(value = "/vnf_packages/{vnfPkgId}/ext_artifacts_access", produces = { "application/json" }, method = RequestMethod.GET)
+            @GetMapping(value = "/vnf_packages/{vnfPkgId}/ext_artifacts_access", produces = {"application/json"})
 	ResponseEntity<ExternalArtifactsAccessConfig> vnfPackagesVnfPkgIdExtArtifactsAccessGet(
 			@ApiParam(value = "Identifier of the on-boarded VNF package. The identifier is allocated by the NFVO. This identifier can be retrieved from the resource referenced by the \"Location\" HTTP header in the response to a POST request creating a new Individual VNF package resource. ", required = true) @PathVariable("vnfPkgId") final String vnfPkgId);
 
@@ -189,7 +183,7 @@ public interface VnfPackages281Sol005Api {
 			@ApiResponse(code = 416, message = "416 RANGE NOT SATISFIABLE ", response = ProblemDetails.class),
 			@ApiResponse(code = 500, message = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = ProblemDetails.class),
 			@ApiResponse(code = 503, message = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = ProblemDetails.class) })
-	@RequestMapping(value = "/vnf_packages/{vnfPkgId}/ext_artifacts_access", produces = { "application/json" }, consumes = { "application/json" }, method = RequestMethod.PUT)
+            @PutMapping(value = "/vnf_packages/{vnfPkgId}/ext_artifacts_access", produces = {"application/json"}, consumes = {"application/json"})
 	ResponseEntity<ExternalArtifactsAccessConfig> vnfPackagesVnfPkgIdExtArtifactsAccessPut(
 			@ApiParam(value = "The payload body contains the access configuration information based on which the NFVO can obtain the external VNF package artifact files. ", required = true) @Valid @RequestBody final ExternalArtifactsAccessConfig body,
 			@ApiParam(value = "Identifier of the on-boarded VNF package. The identifier is allocated by the NFVO. This identifier can be retrieved from the resource referenced by the \"Location\" HTTP header in the response to a POST request creating a new Individual VNF package resource. ", required = true) @PathVariable("vnfPkgId") final String vnfPkgId);
@@ -206,7 +200,7 @@ public interface VnfPackages281Sol005Api {
 			@ApiResponse(code = 416, message = "416 RANGE NOT SATISFIABLE ", response = ProblemDetails.class),
 			@ApiResponse(code = 500, message = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = ProblemDetails.class),
 			@ApiResponse(code = 503, message = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = ProblemDetails.class) })
-	@RequestMapping(value = "/vnf_packages/{vnfPkgId}", produces = { "application/json" }, method = RequestMethod.GET)
+            @GetMapping(value = "/vnf_packages/{vnfPkgId}", produces = {"application/json"})
 	ResponseEntity<VnfPkgInfo> vnfPackagesVnfPkgIdGet(@ApiParam(value = "Identifier of the VNF package. The identifier is allocated by the NFVO.   ", required = true) @PathVariable("vnfPkgId") final String vnfPkgId);
 
 	@ApiOperation(value = "", nickname = "vnfPackagesVnfPkgIdManifestGet", notes = "The GET method reads the content of the manifest within a VNF package. ", tags = {})
@@ -222,7 +216,7 @@ public interface VnfPackages281Sol005Api {
 			@ApiResponse(code = 416, message = "416 RANGE NOT SATISFIABLE ", response = ProblemDetails.class),
 			@ApiResponse(code = 500, message = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = ProblemDetails.class),
 			@ApiResponse(code = 503, message = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = ProblemDetails.class) })
-	@RequestMapping(value = "/vnf_packages/{vnfPkgId}/manifest", produces = { "application/json" }, method = RequestMethod.GET)
+            @GetMapping(value = "/vnf_packages/{vnfPkgId}/manifest", produces = {"application/json"})
 	ResponseEntity<Resource> vnfPackagesVnfPkgIdManifestGet(
 			@ApiParam(value = "Identifier of the on-boarded VNF package. The identifier is allocated by the NFVO. This identifier can be retrieved from the \"vnfPkgId\" attribute in the VnfPackageOnboardingNotification or VnfPackageChangeNotification. ", required = true) @PathVariable("vnfPkgId") final String vnfPkgId,
 			@ApiParam(value = "If this parameter is provided, the NFVO shall return the manifest and related security information (such as certificate) in a ZIP archive. If this parameter is not given, the NFVO shall provide only a copy of the manifest file. This URI query parameter is a flag, i.e. it shall have no value. The NFVO shall support this parameter. ") @Valid @RequestParam(value = "include_signatures", required = false) final String includeSignatures);
@@ -241,7 +235,7 @@ public interface VnfPackages281Sol005Api {
 			@ApiResponse(code = 416, message = "416 RANGE NOT SATISFIABLE ", response = ProblemDetails.class),
 			@ApiResponse(code = 500, message = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = ProblemDetails.class),
 			@ApiResponse(code = 503, message = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = ProblemDetails.class) })
-	@RequestMapping(value = "/vnf_packages/{vnfPkgId}/package_content", produces = { "application/json" }, method = RequestMethod.GET)
+            @GetMapping(value = "/vnf_packages/{vnfPkgId}/package_content", produces = {"application/json"})
 	ResponseEntity<Resource> vnfPackagesVnfPkgIdPackageContentGet(
 			@ApiParam(value = "Identifier of the on-boarded VNF package. The identifier is allocated by the NFVO. ", required = true) @PathVariable("vnfPkgId") final String vnfPkgId,
 			@ApiParam(value = "The request may contain a \"Range\" HTTP header to obtain single range of bytes from the VNF package file. This can be used to continue an aborted transmission. If the NFVO does not support range requests, it should return the whole file with a 200 OK response instead. ") @RequestHeader(value = "Range", required = false) final String range);
@@ -258,7 +252,7 @@ public interface VnfPackages281Sol005Api {
 			@ApiResponse(code = 409, message = "409 CONFLICT ", response = ProblemDetails.class),
 			@ApiResponse(code = 500, message = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = ProblemDetails.class),
 			@ApiResponse(code = 503, message = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = ProblemDetails.class) })
-	@RequestMapping(value = "/vnf_packages/{vnfPkgId}/package_content", produces = { "application/json" }, consumes = { "multipart/form-data" }, method = RequestMethod.PUT)
+            @PutMapping(value = "/vnf_packages/{vnfPkgId}/package_content", produces = {"application/json"}, consumes = {"multipart/form-data"})
 	ResponseEntity<Void> vnfPackagesVnfPkgIdPackageContentPut(@ApiParam(value = "file detail") @Valid @RequestPart("file") final MultipartFile file,
 			@ApiParam(value = "Content-Types that are acceptable for the response. ", required = true, allowableValues = "application/zip") @RequestHeader(value = "Accept", required = true) final String accept,
 			@ApiParam(value = "Identifier of the on-boarded VNF package. The identifier is allocated by the NFVO. ", required = true) @PathVariable("vnfPkgId") final String vnfPkgId);
@@ -275,7 +269,7 @@ public interface VnfPackages281Sol005Api {
 			@ApiResponse(code = 409, message = "409 CONFLICT ", response = ProblemDetails.class),
 			@ApiResponse(code = 500, message = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = ProblemDetails.class),
 			@ApiResponse(code = 503, message = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = ProblemDetails.class) })
-	@RequestMapping(value = "/vnf_packages/{vnfPkgId}/package_content/upload_from_uri", produces = { "application/json" }, consumes = { "application/json" }, method = RequestMethod.POST)
+            @PostMapping(value = "/vnf_packages/{vnfPkgId}/package_content/upload_from_uri", produces = {"application/json"}, consumes = {"application/json"})
 	ResponseEntity<Void> vnfPackagesVnfPkgIdPackageContentUploadFromUriPost(
 			@ApiParam(value = "The payload body contains the address information based on which the NFVO can obtain the content of the VNF package. ", required = true) @Valid @RequestBody final UploadVnfPkgFromUriRequest body,
 			@ApiParam(value = "Identifier of the VNF package. The identifier is allocated by the NFVO. ", required = true) @PathVariable("vnfPkgId") final String vnfPkgId,
@@ -293,7 +287,7 @@ public interface VnfPackages281Sol005Api {
 			@ApiResponse(code = 416, message = "416 RANGE NOT SATISFIABLE ", response = ProblemDetails.class),
 			@ApiResponse(code = 500, message = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = ProblemDetails.class),
 			@ApiResponse(code = 503, message = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = ProblemDetails.class) })
-	@RequestMapping(value = "/vnf_packages/{vnfPkgId}", produces = { "application/json" }, consumes = { "application/json" }, method = RequestMethod.PATCH)
+            @PatchMapping(value = "/vnf_packages/{vnfPkgId}", produces = {"application/json"}, consumes = {"application/json"})
 	ResponseEntity<VnfPkgInfo> vnfPackagesVnfPkgIdPatch(@ApiParam(value = "Parameters for VNF package information modifications. ", required = true) @Valid @RequestBody final /* VnfPkgInfoModification */ String body,
 			@ApiParam(value = "Identifier of the VNF package. The identifier is allocated by the NFVO.   ", required = true) @PathVariable("vnfPkgId") final String vnfPkgId,
 			@RequestHeader(name = HttpHeaders.IF_MATCH, required = false) String ifMatch);
@@ -311,7 +305,7 @@ public interface VnfPackages281Sol005Api {
 			@ApiResponse(code = 416, message = "416 RANGE NOT SATISFIABLE ", response = ProblemDetails.class),
 			@ApiResponse(code = 500, message = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", response = ProblemDetails.class),
 			@ApiResponse(code = 503, message = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", response = ProblemDetails.class) })
-	@RequestMapping(value = "/vnf_packages/{vnfPkgId}/vnfd", produces = { "application/json" }, method = RequestMethod.GET)
+            @GetMapping(value = "/vnf_packages/{vnfPkgId}/vnfd", produces = {"application/json"})
 	ResponseEntity<Resource> vnfPackagesVnfPkgIdVnfdGet(@ApiParam(value = "Identifier of the on-boarded VNF package. The identifier is allocated by the NFVO. This identifier can be retrieved from the \"vnfPkgId\" attribute in the VnfPackageOnboardingNotification or VnfPackageChangeNotification. ", required = true) @PathVariable("vnfPkgId") final String vnfPkgId,
 			@Parameter(in = ParameterIn.HEADER, description = "Content-Types that are acceptable for the response. Reference: IETF RFC 7231 ", required = true, schema = @Schema()) @RequestHeader(value = "Accept", required = true) String accept,
 			@ApiParam(value = "If this parameter is provided, the NFVO shall include in the ZIP archive the security information as specified above. This URI query parameter is a flag, i.e. it shall have no value. The NFVO shall support this parameter. ") @Valid @RequestParam(value = "include_signatures", required = false) final String includeSignatures);
