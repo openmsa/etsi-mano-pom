@@ -34,6 +34,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.K8sInformationsTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.MciopUserTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerDeployableTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerTask;
+import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.orchestrator.SclableResources;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.HelmNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.MciopUser;
@@ -115,10 +116,13 @@ public class OsContainerContributorV3 extends AbstractVnfmContributorV3<Object> 
 				.filter(x -> x.getContainerReq().contains(name))
 				.map(OsContainerDeployableUnit::getName)
 				.findFirst()
-				.orElseThrow();
+				.orElseThrow(() -> new NotFoundException("Unable to find Deployable unit [" + name + "]"));
 	}
 
-	private static VnfStorage findStorage(final VnfPackage vnfPackage, final String y) {
-		return vnfPackage.getVnfStorage().stream().filter(x -> x.getToscaName().equals(y)).findFirst().orElseThrow();
+	private static VnfStorage findStorage(final VnfPackage vnfPackage, final String namey) {
+		return vnfPackage.getVnfStorage().stream()
+				.filter(x -> x.getToscaName().equals(namey))
+				.findFirst()
+				.orElseThrow(() -> new NotFoundException("Unable to find storage [" + namey + "]"));
 	}
 }
