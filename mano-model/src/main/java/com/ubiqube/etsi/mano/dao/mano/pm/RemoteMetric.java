@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.dao.mano.pm;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 import jakarta.persistence.Entity;
@@ -26,7 +27,10 @@ import lombok.Data;
 
 @Data
 @Entity
-public class RemoteMetric {
+public class RemoteMetric implements Serializable {
+	/** Serial. */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
