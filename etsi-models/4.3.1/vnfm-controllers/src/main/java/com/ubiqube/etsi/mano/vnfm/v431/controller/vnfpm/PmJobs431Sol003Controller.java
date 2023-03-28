@@ -16,13 +16,11 @@
  */
 package com.ubiqube.etsi.mano.vnfm.v431.controller.vnfpm;
 
+import static com.ubiqube.etsi.mano.Constants.getSafeUUID;
 import static com.ubiqube.etsi.mano.uri.ManoWebMvcLinkBuilder.linkTo;
 import static com.ubiqube.etsi.mano.uri.ManoWebMvcLinkBuilder.methodOn;
 
 import java.time.OffsetDateTime;
-import java.util.UUID;
-
-import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
@@ -35,6 +33,8 @@ import com.ubiqube.etsi.mano.vnfm.v431.model.vnfpm.PmJob;
 import com.ubiqube.etsi.mano.vnfm.v431.model.vnfpm.PmJobLinks;
 import com.ubiqube.etsi.mano.vnfm.v431.model.vnfpm.PmJobModifications;
 import com.ubiqube.etsi.mano.vnfm.v431.model.vrqan.Link;
+
+import jakarta.validation.Valid;
 
 @RestController
 public class PmJobs431Sol003Controller implements PmJobs431Sol003Api {
@@ -58,8 +58,7 @@ public class PmJobs431Sol003Controller implements PmJobs431Sol003Api {
 
 		link = new Link();
 		link.setHref("");
-		// links.setObjects(link);
-
+		// links.setObjects(link)
 		x.setLinks(links);
 	}
 
@@ -69,12 +68,12 @@ public class PmJobs431Sol003Controller implements PmJobs431Sol003Api {
 
 	@Override
 	public ResponseEntity<Void> pmJobsPmJobIdDelete(final String pmJobId) {
-		return vnfmPmGenericFrontController.deleteById(UUID.fromString(pmJobId));
+		return vnfmPmGenericFrontController.deleteById(getSafeUUID(pmJobId));
 	}
 
 	@Override
 	public ResponseEntity<PmJob> pmJobsPmJobIdGet(final String pmJobIdn) {
-		return vnfmPmGenericFrontController.findById(UUID.fromString(pmJobIdn), PmJob.class, PmJobs431Sol003Controller::makeLinks);
+		return vnfmPmGenericFrontController.findById(getSafeUUID(pmJobIdn), PmJob.class, PmJobs431Sol003Controller::makeLinks);
 	}
 
 	@Override
@@ -89,7 +88,7 @@ public class PmJobs431Sol003Controller implements PmJobs431Sol003Api {
 
 	@Override
 	public ResponseEntity<PmJobModifications> pmJobsPmJobIdPatch(final String pmJobId, final PmJobModifications pmJobModifications, final OffsetDateTime ifUnmodifiedSince, final String ifMatch) {
-		return vnfmPmGenericFrontController.pmJobsPmJobIdPatch(UUID.fromString(pmJobId), pmJobModifications);
+		return vnfmPmGenericFrontController.pmJobsPmJobIdPatch(getSafeUUID(pmJobId), pmJobModifications);
 	}
 
 }
