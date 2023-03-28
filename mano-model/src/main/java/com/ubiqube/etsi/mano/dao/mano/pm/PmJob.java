@@ -28,7 +28,6 @@ import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextFi
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
-import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.service.rest.model.AuthentificationInformations;
 import com.ubiqube.etsi.mano.utils.ToStringIgnore;
 import com.ubiqube.etsi.mano.utils.ToStringUtil;
@@ -88,13 +87,6 @@ public class PmJob implements Serializable {
 	 */
 	@ElementCollection(fetch = FetchType.EAGER)
 	private List<String> objectInstanceIds;
-
-	/**
-	 * @deprecated Useless as there must be multiple instances.
-	 */
-	@Deprecated(forRemoval = true)
-	@ManyToOne
-	private VnfInstance vnfInstance;
 
 	/**
 	 * Identifiers of the sub-object instances of the measured object instance for
