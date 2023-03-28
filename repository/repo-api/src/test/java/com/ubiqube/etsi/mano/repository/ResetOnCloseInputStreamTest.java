@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -32,6 +33,15 @@ class ResetOnCloseInputStreamTest {
 		final ResetOnCloseInputStream is = new ResetOnCloseInputStream(mainIs);
 		final int i = is.read();
 		assertEquals(84, i);
+		is.close();
+	}
+
+	@Test
+	void testByteArray() throws IOException {
+		final InputStream mainIs = new ByteArrayInputStream("/test-input-stream.txt".getBytes());
+		final ResetOnCloseInputStream is = new ResetOnCloseInputStream(mainIs);
+		final int i = is.read();
+		assertEquals(47, i);
 		is.close();
 	}
 }

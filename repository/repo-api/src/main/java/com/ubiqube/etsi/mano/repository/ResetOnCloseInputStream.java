@@ -42,7 +42,7 @@ public class ResetOnCloseInputStream extends InputStream {
 		} else {
 			this.decorated = anInputStream;
 		}
-		anInputStream.mark(1 << 24);
+		decorated.mark(1 << 24);
 	}
 
 	@Override
