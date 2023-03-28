@@ -41,6 +41,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.StorageTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfIndicatorTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfPortTask;
+import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.orchestrator.SclableResources;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Compute;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Monitoring;
@@ -174,11 +175,17 @@ public class ComputeContributorV3 extends AbstractVnfmContributorV3<Object> {
 	}
 
 	private static VnfStorage findVnfStorage(final VnfPackage vnfPackage, final String y) {
-		return vnfPackage.getVnfStorage().stream().filter(x -> x.getToscaName().equals(y)).findFirst().orElseThrow();
+		return vnfPackage.getVnfStorage().stream()
+				.filter(x -> x.getToscaName().equals(y))
+				.findFirst()
+				.orElseThrow(() -> new NotFoundException("Unable to find storage: [" + y + "]"));
 	}
 
 	private static Set<ScaleInfo> merge(final Blueprint plan, final Instance vnfInstance) {
-		final Set<ScaleInfo> tmp = vnfInstance.getInstantiatedVnfInfo().getScaleStatus().stream().filter(x -> notIn(x.getAspectId(), plan.getParameters().getScaleStatus())).map(x -> new ScaleInfo(x.getAspectId(), x.getScaleLevel())).collect(Collectors.toSet());
+		final Set<ScaleInfo> tmp = vnfInstance.getInstantiatedVnfInfo().getScaleStatus().stream()
+				.filter(x -> notIn(x.getAspectId(), plan.getParameters().getScaleStatus()))
+				.map(x -> new ScaleInfo(x.getAspectId(), x.getScaleLevel()))
+				.collect(Collectors.toSet());
 		tmp.addAll(plan.getParameters().getScaleStatus());
 		return tmp;
 	}
