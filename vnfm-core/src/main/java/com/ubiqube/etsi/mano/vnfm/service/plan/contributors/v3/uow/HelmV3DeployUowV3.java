@@ -39,7 +39,6 @@ import com.ubiqube.etsi.mano.service.vim.k8s.K8sClient;
 import com.ubiqube.etsi.mano.vnfm.jpa.K8sServerInfoJpa;
 
 import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.NotNull;
 
 /**
  *
@@ -80,7 +79,7 @@ public class HelmV3DeployUowV3 extends AbstractVnfmUowV3<HelmTask> {
 		return null;
 	}
 
-	private File copyFile(final String url, @NotNull final UUID id) {
+	private File copyFile(final String url, final UUID id) {
 		final ManoResource f = vnfRepo.getBinary(id, new File(Constants.REPOSITORY_FOLDER_ARTIFACTS, url).toString());
 		final Path tmp = createTempFile();
 		try (final FileOutputStream fos = new FileOutputStream(tmp.toFile());
