@@ -60,7 +60,7 @@ class ManoClientTest {
 				Arguments.of(args.of(srv -> srv.vnfPackage(null))),
 				Arguments.of(args.of(srv -> srv.vnfPm())),
 				Arguments.of(args.of(srv -> srv.vnfThreshold())),
-				Arguments.of(args.of(srv -> srv.createQuery(null))),
+				Arguments.of(args.of(srv -> srv.createQuery(x -> ""))),
 				Arguments.of(args.of(srv -> srv.createQuery())));
 	}
 
