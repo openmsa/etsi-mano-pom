@@ -18,13 +18,8 @@ package com.ubiqube.etsi.mano.controllers;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -35,11 +30,6 @@ import javax.annotation.Nonnull;
 import org.jgrapht.Graph;
 import org.jgrapht.ListenableGraph;
 import org.jgrapht.ext.JGraphXAdapter;
-import org.jgrapht.graph.DefaultListenableGraph;
-import org.jgrapht.graph.DirectedAcyclicGraph;
-import org.jgrapht.nio.Attribute;
-import org.jgrapht.nio.DefaultAttribute;
-import org.jgrapht.nio.dot.DOTExporter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -56,7 +46,6 @@ import com.mxgraph.layout.hierarchical.mxHierarchicalLayout;
 import com.mxgraph.util.mxCellRenderer;
 import com.mxgraph.util.mxConstants;
 import com.mxgraph.util.mxStyleUtils;
-import com.ubiqube.etsi.mano.dao.mano.NsLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.nsd.upd.UpdateRequest;
@@ -71,7 +60,6 @@ import com.ubiqube.etsi.mano.nfvo.service.NsdPackageService;
 import com.ubiqube.etsi.mano.nfvo.service.graph.NsPlanService;
 import com.ubiqube.etsi.mano.orchestrator.Edge2d;
 import com.ubiqube.etsi.mano.orchestrator.Vertex2d;
-import com.ubiqube.etsi.mano.orchestrator.nodes.ConnectivityEdge;
 import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
 import com.ubiqube.etsi.mano.orchestrator.nodes.contrail.PtLinkNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.contrail.ServiceInstanceNode;
@@ -85,9 +73,6 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerNode;
 import com.ubiqube.etsi.mano.orchestrator.scale.ScalingEngine;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.VnfPlanService;
-import com.ubiqube.etsi.mano.service.graph.GraphGenerator;
-import com.ubiqube.etsi.mano.service.graph.TaskVertex;
-import com.ubiqube.etsi.mano.service.graph.VertexStatusType;
 
 import jakarta.validation.constraints.NotNull;
 
@@ -222,51 +207,6 @@ public class Poc {
 			}
 		});
 		return ResponseEntity.ok(obj.get());
-	}
-
-	@GetMapping("/ns/lcm-op-occs/{id}")
-	public ResponseEntity<BufferedImage> getDeployementPicture(@PathVariable("id") final UUID id) {
-		final NsBlueprint blueprint = nsBlueprintJpa.findById(id).orElseThrow();
-		final List<NsLiveInstance> liveInst = nsLiveInstanceJpa.findByNsInstanceId(blueprint.getInstance().getId());
-		final List<TaskVertex> vertices = blueprint.getTasks().stream().map(x -> toVertex(x, liveInst)).toList();
-		final ListenableGraph<TaskVertex, ConnectivityEdge<TaskVertex>> g = new DefaultListenableGraph(new DirectedAcyclicGraph<>(ConnectivityEdge.class));
-		final DOTExporter<TaskVertex, ConnectivityEdge<TaskVertex>> exporter = new DOTExporter<>();
-		vertices.forEach(g::addVertex);
-		exporter.setVertexAttributeProvider(x -> {
-			final Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("label", DefaultAttribute.createAttribute(x.getAlias()));
-			if (x.getStatus() == VertexStatusType.FAILED) {
-				map.put("fillcolor", DefaultAttribute.createAttribute("brown1"));
-			} else {
-				map.put("fillcolor", DefaultAttribute.createAttribute("aquamarine1"));
-			}
-			return map;
-		});
-		try (final FileOutputStream out = new FileOutputStream("/home/olivier/graph.dot")) {
-			exporter.exportGraph(g, out);
-		} catch (final IOException e) {
-			LOG.trace("Error in graph export", e);
-		}
-		final Iterator<TaskVertex> vs = g.vertexSet().iterator();
-		g.addEdge(vs.next(), vs.next());
-		return ResponseEntity
-				.ok().contentType(MediaType.IMAGE_PNG)
-				.body(GraphGenerator.drawGraph(g));
-	}
-
-	private static TaskVertex toVertex(final NsTask x, final List<NsLiveInstance> liveInst) {
-		return new TaskVertex(x.getAlias(), mapStatus(liveInst, x));
-	}
-
-	private static VertexStatusType mapStatus(final List<NsLiveInstance> liveInst, final NsTask nsTask) {
-		final Optional<NsTask> live = liveInst.stream()
-				.map(NsLiveInstance::getNsTask)
-				.filter(x -> x.getAlias().equals(nsTask.getAlias()) && (x.getType() == nsTask.getType()))
-				.findFirst();
-		if (live.isPresent()) {
-			return VertexStatusType.SUCCESS;
-		}
-		return VertexStatusType.FAILED;
 	}
 
 	public static <V, E> BufferedImage drawGraph2(final Graph<V, E> graph) {
