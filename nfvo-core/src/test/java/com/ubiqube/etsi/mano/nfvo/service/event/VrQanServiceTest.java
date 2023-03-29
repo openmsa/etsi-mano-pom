@@ -35,10 +35,10 @@ import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.vrqan.VrQan;
 import com.ubiqube.etsi.mano.jpa.VrQanJpa;
 import com.ubiqube.etsi.mano.service.event.EventManager;
+import com.ubiqube.etsi.mano.service.vim.DefaultQuotas;
 import com.ubiqube.etsi.mano.service.vim.ResourceQuota;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
-import com.ubiqube.etsi.mano.vim.dummy.TestResourceQuota;
 
 @ExtendWith(MockitoExtension.class)
 class VrQanServiceTest {
@@ -74,7 +74,7 @@ class VrQanServiceTest {
 		when(vimManager.getVimById(vim01.getId())).thenReturn(vim);
 		final VrQan vrQan = new VrQan();
 		when(vrQanJpa.save(any())).thenReturn(vrQan);
-		final ResourceQuota resource = new TestResourceQuota();
+		final ResourceQuota resource = new DefaultQuotas();
 		when(vim.getQuota(vim01)).thenReturn(resource);
 		srv.run();
 		srv.await(1, TimeUnit.MINUTES);
@@ -101,7 +101,7 @@ class VrQanServiceTest {
 		final VrQan vrQan = new VrQan();
 		vrQan.setFloatingFree(123);
 		when(vrQanJpa.save(any())).thenReturn(vrQan);
-		final ResourceQuota resource = new TestResourceQuota();
+		final ResourceQuota resource = new DefaultQuotas();
 		when(vim.getQuota(vim01)).thenReturn(resource);
 		srv.run();
 		srv.await(1, TimeUnit.MINUTES);

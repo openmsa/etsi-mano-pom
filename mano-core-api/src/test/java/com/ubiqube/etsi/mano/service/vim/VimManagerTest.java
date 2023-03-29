@@ -49,7 +49,6 @@ import com.ubiqube.etsi.mano.service.SystemService;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 import com.ubiqube.etsi.mano.vim.dummy.DummyVim;
-import com.ubiqube.etsi.mano.vim.dummy.TestResourceQuota;
 
 import jakarta.persistence.EntityManager;
 
@@ -83,7 +82,7 @@ class VimManagerTest {
 		final DummyVim vim001 = new DummyVim();
 		final VimManager vm = createVimManager(vim001);
 		final VimConnectionInformation vci = createVimConnection();
-		final ResourceQuota quotas = new TestResourceQuota();
+		final ResourceQuota quotas = new DefaultQuotas();
 		vim001.setQuota(quotas);
 		final VrQan vrquan = new VrQan(uuid);
 		when(vrQanJpa.save(any())).thenReturn(vrquan);
@@ -96,7 +95,7 @@ class VimManagerTest {
 		final DummyVim vim001 = new DummyVim();
 		final VimManager vm = createVimManager(vim001);
 		final VimConnectionInformation vci = createVimConnection();
-		final ResourceQuota quotas = new TestResourceQuota();
+		final ResourceQuota quotas = new DefaultQuotas();
 		vim001.setQuota(quotas);
 		final VrQan vrquan = new VrQan(uuid);
 		vrquan.setFloatingIpMax(123);
