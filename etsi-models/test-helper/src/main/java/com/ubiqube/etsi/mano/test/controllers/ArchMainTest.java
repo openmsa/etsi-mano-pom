@@ -18,8 +18,6 @@ package com.ubiqube.etsi.mano.test.controllers;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 
-import jakarta.annotation.security.RolesAllowed;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,27 +26,39 @@ import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 
+import jakarta.annotation.security.RolesAllowed;
+
 @AnalyzeClasses(packages = { "com.ubiqube.etsi.mano" }, importOptions = ImportOption.DoNotIncludeTests.class)
 public class ArchMainTest {
 
+	private static final String PACKAGE_INFO = "package-info";
+
+	private static final String V_CONTROLLER = "..v*.controller..";
+
 	@ArchTest
 	public static final ArchRule ensure_interface_name = classes()
-			.that().resideInAPackage("..v*.controller..").and().areInterfaces()
+			.that().resideInAPackage(V_CONTROLLER)
+			.and().areInterfaces()
+			.and().doNotHaveSimpleName(PACKAGE_INFO)
 			.should().haveNameMatching(".*[0-9]{3}Sol0[0-1][1-9]Api");
 
 	@ArchTest
 	public static final ArchRule ensure_interface_annotations = classes()
-			.that().resideInAPackage("..v*.controller..").and().areInterfaces()
+			.that().resideInAPackage(V_CONTROLLER)
+			.and().areInterfaces()
+			.and().doNotHaveSimpleName(PACKAGE_INFO)
 			.should().beAnnotatedWith(RolesAllowed.class).andShould().beAnnotatedWith(RequestMapping.class);
 
 	@ArchTest
 	public static final ArchRule ensure_controller_name = classes()
-			.that().resideInAPackage("..v*.controller..").and().areNotInterfaces()
+			.that().resideInAPackage(V_CONTROLLER).and().areNotInterfaces()
 			.should().haveNameMatching(".*[0-9]{3}Sol0[0-1][1-9]Controller");
 
 	@ArchTest
 	public static final ArchRule ensure_rest_controller = classes()
-			.that().resideInAPackage("..v*.controller..").and().areNotInterfaces()
+			.that().resideInAPackage(V_CONTROLLER)
+			.and().areNotInterfaces()
+			.and().doNotHaveSimpleName(PACKAGE_INFO)
 			.should().beAnnotatedWith(RestController.class);
 
 	/**
