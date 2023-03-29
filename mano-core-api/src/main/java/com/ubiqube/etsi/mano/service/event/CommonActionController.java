@@ -216,10 +216,18 @@ public class CommonActionController {
 	}
 
 	private Subscription vnfPackageOnboardingSubscribe(final ServerAdapter serverAdapter) {
+		return vnfPackageSubscribe(serverAdapter, "VnfPackageOnboardingNotification", "/vnfpkgm/v1/notification/onboarding");
+	}
+
+	private Subscription vnfPackageChangeSubscribe(final ServerAdapter serverAdapter) {
+		return vnfPackageSubscribe(serverAdapter, "VnfPackageChangeNotification", "/vnfpkgm/v1/notification/change");
+	}
+
+	private Subscription vnfPackageSubscribe(final ServerAdapter serverAdapter, final String eventName, final String url) {
 		final FluxRest rest = serverAdapter.rest();
 		final Servers server = serverAdapter.getServer();
-		final List<FilterAttributes> filters = List.of(FilterAttributes.of(NOTIFICATION_TYPES_0, "VnfPackageOnboardingNotification"));
-		final Subscription subsOut = createSubscriptionWithFilter(ApiTypesEnum.SOL003, "/vnfpkgm/v1/notification/onboarding", SubscriptionType.NSDVNF, filters);
+		final List<FilterAttributes> filters = List.of(FilterAttributes.of(NOTIFICATION_TYPES_0, eventName));
+		final Subscription subsOut = createSubscriptionWithFilter(ApiTypesEnum.SOL003, url, SubscriptionType.NSDVNF, filters);
 		final URI uri = serverAdapter.getUriFor(ApiVersionType.SOL003_VNFPKGM, SUBSCRIPTIONS);
 		final HttpGateway hg = selectGateway(server);
 		final Class<?> clazz = hg.getVnfPackageSubscriptionClass();
@@ -242,21 +250,6 @@ public class CommonActionController {
 		final String v = hg.getHeaderVersion(ApiVersionType.SOL003_VNFIND).orElse(null);
 		final Subscription res = postSubscription(rest, uri, subsOut, clazzWire, clazz, v);
 		res.setSubscriptionType(SubscriptionType.VNFIND);
-		return res;
-	}
-
-	private Subscription vnfPackageChangeSubscribe(final ServerAdapter serverAdapter) {
-		final FluxRest rest = serverAdapter.rest();
-		final Servers server = serverAdapter.getServer();
-		final List<FilterAttributes> filters = List.of(FilterAttributes.of(NOTIFICATION_TYPES_0, "VnfPackageChangeNotification"));
-		final Subscription subsOut = createSubscriptionWithFilter(ApiTypesEnum.SOL003, "/vnfpkgm/v1/notification/change", SubscriptionType.NSDVNF, filters);
-		final URI uri = serverAdapter.getUriFor(ApiVersionType.SOL003_VNFPKGM, SUBSCRIPTIONS);
-		final HttpGateway hg = selectGateway(server);
-		final Class<?> clazz = hg.getVnfPackageSubscriptionClass();
-		final Class<?> clazzWire = hg.getPkgmSubscriptionRequest();
-		final String v = hg.getHeaderVersion(ApiVersionType.SOL003_VNFPKGM).orElse(null);
-		final Subscription res = postSubscription(rest, uri, subsOut, clazzWire, clazz, v);
-		res.setSubscriptionType(SubscriptionType.VNF);
 		return res;
 	}
 
