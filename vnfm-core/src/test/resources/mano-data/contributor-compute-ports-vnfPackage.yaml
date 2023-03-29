@@ -1,0 +1,36 @@
+#
+# This represent a VNF package with some ports.
+# - vl01: Is the out put VL
+# - p01: Will be ignored. 
+#
+id: "b8e5a423-8b05-435e-a0d8-33ad3670692d"
+virtualLinks:
+- id: "6667c2a6-076e-4890-b58d-9d10bcc23f5d"
+  idx: 0
+  value: "vl01"
+vnfCompute:
+- id: "60542b69-c2e5-4c18-a882-7623c56df3b4"
+  toscaName: "comp01"
+  virtualCpu:
+    numVirtualCpu: 0
+  virtualMemory:
+    virtualMemSize: 0
+  diskSize: 0
+  storages: []
+  ports:
+  - toscaName: "vl01"
+    interfaceOrder: 0
+  - toscaName: "p01"
+    interfaceOrder: 0
+  monitoringParameters: []
+  vduProfile:
+    minNumberOfInstances: 0
+    maxNumberOfInstances: 0
+vnfIndicator:
+- id: "b750aa40-2e19-421f-9100-55bb43b04124"
+  toscaName: "ind01"
+vnfVl: []
+vnfStorage: []
+vnfLinkPort: []
+vnfExtCp: []
+version: 0

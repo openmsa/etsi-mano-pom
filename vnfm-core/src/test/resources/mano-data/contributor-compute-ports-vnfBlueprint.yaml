@@ -1,0 +1,13 @@
+automaticInvocation: false
+cancelPending: false
+vnfInstance:
+  instantiatedVnfInfo:
+    scaleStatus: []
+  vimConnectionInfo: []
+  version: 0
+  audit: {}
+tasks: []
+parameters:
+  scaleStatus: []
+operateChanges:
+  gracefulTerminationTimeout: 0

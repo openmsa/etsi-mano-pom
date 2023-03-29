@@ -1,0 +1,24 @@
+---
+vnfCompute:
+- virtualCpu:
+    numVirtualCpu: 0
+  virtualMemory:
+    virtualMemSize: 0
+  diskSize: 0
+  storages:
+  - "sto01"
+  ports: []
+  monitoringParameters:
+  - name: "mon"
+    objectType: "VNFC"
+  vduProfile:
+    minNumberOfInstances: 0
+    maxNumberOfInstances: 0
+vnfIndicator: []
+vnfVl: []
+vnfStorage:
+- toscaName: "sto01"
+  size: 0
+vnfLinkPort: []
+vnfExtCp: []
+version: 0
