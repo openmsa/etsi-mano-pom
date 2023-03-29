@@ -21,6 +21,7 @@ import java.net.URI;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -136,7 +137,7 @@ public class ManoQueryBuilder {
 		final ServerAdapter server = client.getServer();
 		final HttpGateway httpGateway = server.httpGateway();
 		final URI uri = buildUri(server);
-		final Object reqMap = client.getRequestObject().apply(httpGateway);
+		final Object reqMap = Objects.requireNonNull(client.getRequestObject()).apply(httpGateway);
 		final String version = httpGateway.getHeaderVersion(client.getQueryType()).orElse(null);
 		return (ResponseEntity<T>) server.rest().postWithReturn(uri, reqMap, this.wireOutClass.apply(httpGateway), version);
 	}
@@ -154,7 +155,7 @@ public class ManoQueryBuilder {
 		final ServerAdapter server = client.getServer();
 		final URI uri = buildUri(server);
 		final HttpGateway httpGateway = server.httpGateway();
-		final Object reqMap = client.getRequestObject().apply(httpGateway);
+		final Object reqMap = Objects.requireNonNull(client.getRequestObject()).apply(httpGateway);
 		final Class<?> clazz = wireOutClass.apply(httpGateway);
 		final String version = httpGateway.getHeaderVersion(client.getQueryType()).orElse(null);
 		final var res = server.rest().post(uri, reqMap, clazz, version);

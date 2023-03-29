@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.service.rest;
 
+import java.util.Objects;
 import java.util.UUID;
 import java.util.function.Function;
 
@@ -23,6 +24,7 @@ import com.ubiqube.etsi.mano.dao.mano.common.ApiVersionType;
 import com.ubiqube.etsi.mano.service.HttpGateway;
 
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import ma.glasnost.orika.MapperFacade;
 
 /**
@@ -35,6 +37,7 @@ public class ManoClient {
 	private final MapperFacade mapper;
 	@Nonnull
 	private final ServerAdapter server;
+	@Nullable
 	private Function<HttpGateway, ?> requestObject;
 	private String setFragment;
 	private ApiVersionType setQueryType;
@@ -57,10 +60,6 @@ public class ManoClient {
 		return new ManoVnfLcmOpOccs(this, id);
 	}
 
-	public ManoQueryBuilder createQuery() {
-		return new ManoQueryBuilder(mapper, this);
-	}
-
 	public void setQueryType(final ApiVersionType sol003Vnflcm) {
 		this.setQueryType = sol003Vnflcm;
 	}
@@ -69,8 +68,12 @@ public class ManoClient {
 		this.objectId = vnfInstanceId;
 	}
 
+	public ManoQueryBuilder createQuery() {
+		return new ManoQueryBuilder(mapper, this);
+	}
+
 	public ManoQueryBuilder createQuery(final Function<HttpGateway, ?> func) {
-		this.requestObject = func;
+		this.requestObject = Objects.requireNonNull(func, "HttpGateway function cannot be null.");
 		return new ManoQueryBuilder(mapper, this);
 	}
 
@@ -82,6 +85,7 @@ public class ManoClient {
 		return server;
 	}
 
+	@Nullable
 	public <T> Function<HttpGateway, T> getRequestObject() {
 		return (Function<HttpGateway, T>) requestObject;
 	}
