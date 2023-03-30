@@ -16,11 +16,15 @@
  */
 package com.ubiqube.etsi.mano.service.mon.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ubiqube.etsi.mano.mon.api.SearchApi;
@@ -35,6 +39,12 @@ public class SearchController {
 
 	public SearchController(final SearchApi searchApi) {
 		this.searchApi = searchApi;
+	}
+
+	@GetMapping
+	public ResponseEntity<List<TelemetryMetricsResult>> searchApi(@RequestParam final MultiValueMap<String, String> params) {
+		final List<TelemetryMetricsResult> metrics = searchApi.search(params);
+		return ResponseEntity.ok(metrics);
 	}
 
 	@GetMapping("/{instance}/{subObject}")
