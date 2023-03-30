@@ -16,25 +16,36 @@
  */
 package com.ubiqube.etsi.mano.service.mon.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.mon.api.SearchApi;
 import com.ubiqube.etsi.mano.mon.dao.TelemetryMetricsResult;
 import com.ubiqube.etsi.mano.service.mon.jms.MonitoringDataMapping;
+import com.ubiqube.etsi.mano.service.mon.model.MonitoringData;
 import com.ubiqube.etsi.mano.service.mon.model.MonitoringDataSlim;
 import com.ubiqube.etsi.mano.service.mon.repository.MonitoringDataJpa;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
+
 @Service
 public class JpaSearchService implements SearchApi {
-
+	private final EntityManager em;
 	private final MonitoringDataJpa monitoringDataJpa;
 	private final MonitoringDataMapping mapper;
 
-	public JpaSearchService(final MonitoringDataJpa monitoringDataJpa) {
+	public JpaSearchService(final MonitoringDataJpa monitoringDataJpa, final EntityManager em) {
 		this.monitoringDataJpa = monitoringDataJpa;
 		this.mapper = MonitoringDataMapping.INSTANCE;
+		this.em = em;
 	}
 
 	@Override
@@ -42,5 +53,41 @@ public class JpaSearchService implements SearchApi {
 		final List<MonitoringDataSlim> ress = monitoringDataJpa.getLastMetrics(instance, object);
 		final MonitoringDataSlim res = ress.get(0);
 		return mapper.fromDto(res);
+	}
+
+	@Override
+	public List<TelemetryMetricsResult> search(final MultiValueMap<String, String> params) {
+		final CriteriaBuilder cb = em.getCriteriaBuilder();
+		final CriteriaQuery<MonitoringData> cq = cb.createQuery(MonitoringData.class);
+		final Root<MonitoringData> itemRoot = cq.from(MonitoringData.class);
+		final List<Predicate> p2 = new ArrayList<>();
+		for (final Map.Entry<String, List<String>> entry : params.entrySet()) {
+			final String key = entry.getKey();
+			final List<Predicate> preds = entry.getValue().stream()
+					.map(x -> cb.equal(itemRoot.get(key), x))
+					.toList();
+			if (!preds.isEmpty()) {
+				final Predicate pp = cb.or(preds.toArray(new Predicate[0]));
+				p2.add(pp);
+			}
+		}
+		Predicate finalPred = null;
+		if (!p2.isEmpty()) {
+			finalPred = cb.and(p2.toArray(new Predicate[0]));
+		}
+		cq.where(finalPred);
+		return em.createQuery(cq).getResultList().stream()
+				.map(x -> convert(x))
+				.toList();
+	}
+
+	private static TelemetryMetricsResult convert(final MonitoringData x) {
+		final TelemetryMetricsResult m = new TelemetryMetricsResult();
+		m.setKey(x.getKey());
+		m.setMasterJobId(x.getMasterJobId());
+		m.setTxt(x.getText());
+		m.setTimestamp(x.getTime());
+		m.setValue(x.getValue());
+		return m;
 	}
 }

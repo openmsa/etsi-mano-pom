@@ -25,6 +25,7 @@ import org.springframework.web.reactive.function.client.WebClient.Builder;
 import org.springframework.web.reactive.function.client.support.WebClientAdapter;
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
+import com.ubiqube.etsi.mano.service.mon.cli.MetricsRemoteService;
 import com.ubiqube.etsi.mano.service.mon.cli.MonPollingRemoteService;
 
 import io.micrometer.observation.ObservationRegistry;
@@ -48,9 +49,15 @@ public class MonitoringRemoteService {
 		return proxyFactory.createClient(MonPollingRemoteService.class);
 	}
 
+	@Bean
+	MetricsRemoteService createMetricsRemoteService() {
+		final HttpServiceProxyFactory proxyFactory = createProxyFactory();
+		return proxyFactory.createClient(MetricsRemoteService.class);
+	}
+
 	private HttpServiceProxyFactory createProxyFactory() {
 		final Builder webBuilder = WebClient.builder()
-				.baseUrl("http://mano-mon:8080/");
+				.baseUrl("http://mano-mon:8082/");
 		webBuilder.observationConvention(oc);
 		webBuilder.observationRegistry(observationRegistry);
 		final WebClient client = webBuilder

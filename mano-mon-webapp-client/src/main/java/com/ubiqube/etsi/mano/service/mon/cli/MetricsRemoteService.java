@@ -14,21 +14,28 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.mon.api;
+package com.ubiqube.etsi.mano.service.mon.cli;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.service.annotation.GetExchange;
+import org.springframework.web.service.annotation.HttpExchange;
 
 import com.ubiqube.etsi.mano.mon.dao.TelemetryMetricsResult;
 
 import jakarta.annotation.Nonnull;
 
-public interface SearchApi {
-	@Nonnull
-	TelemetryMetricsResult search(@Nonnull String instance, @Nonnull String object);
+@HttpExchange(url = "/metrics", accept = "application/json", contentType = "application/json")
+public interface MetricsRemoteService {
 
+	@GetExchange
 	@Nonnull
-	List<TelemetryMetricsResult> search(@Nonnull MultiValueMap<String, String> params);
+	ResponseEntity<List<TelemetryMetricsResult>> searchApi(@RequestParam final MultiValueMap<String, String> params);
 
+	@GetExchange("/{instance}/{subObject}")
+	ResponseEntity<TelemetryMetricsResult> search(final @PathVariable("instance") String instance, final @PathVariable("subObject") String object);
 }
