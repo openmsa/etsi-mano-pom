@@ -19,17 +19,27 @@ package com.ubiqube.etsi.mano.service.mon;
 import static com.ubiqube.etsi.mano.Constants.getSafeUUID;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.pm.PmJob;
 import com.ubiqube.etsi.mano.dao.mano.pm.PmJobCriteria;
 import com.ubiqube.etsi.mano.dao.mano.pm.RemoteMetric;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
+import com.ubiqube.etsi.mano.em.v431.model.vnfind.VnfIndicator;
+import com.ubiqube.etsi.mano.exception.GenericException;
+import com.ubiqube.etsi.mano.grammar.GrammarParser;
+import com.ubiqube.etsi.mano.grammar.Node;
+import com.ubiqube.etsi.mano.grammar.Node.Operand;
+import com.ubiqube.etsi.mano.mon.dao.TelemetryMetricsResult;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceService;
 
 /**
@@ -46,9 +56,12 @@ public class MonitoringManager {
 
 	private final VnfInstanceService vnfInstanceService;
 
-	public MonitoringManager(final ExternalMonitoring em, final VnfInstanceService vnfInstanceService) {
+	private final GrammarParser grammar;
+
+	public MonitoringManager(final ExternalMonitoring em, final VnfInstanceService vnfInstanceService, final GrammarParser grammar) {
 		this.em = em;
 		this.vnfInstanceService = vnfInstanceService;
+		this.grammar = grammar;
 	}
 
 	/**
@@ -82,5 +95,38 @@ public class MonitoringManager {
 	public void addResource(final PmJob pmJob, final String resourceId) {
 		final PmJobCriteria crit = pmJob.getCriteria();
 		em.createBatch(resourceId, crit.getPerformanceMetric(), crit.getCollectionPeriod(), pmJob.getVimConnectionInformation());
+	}
+
+	public List<VnfIndicator> search(final String filter, final String nextpageOpaqueMarker) {
+		final List<Node<String>> res = grammar.parse(filter);
+		final MultiValueMap<String, String> params = convert(res);
+		final List<TelemetryMetricsResult> ret = em.searchMetric(params);
+		return ret.stream()
+				.map(x -> convertToVnfIndicator(x))
+				.toList();
+	}
+
+	private static VnfIndicator convertToVnfIndicator(final TelemetryMetricsResult x) {
+		final VnfIndicator ret = new VnfIndicator();
+		// Id
+		ret.setName(x.getMasterJobId());
+		ret.setValue(Optional.ofNullable((Object) x.getValue()).orElse(x.getText()));
+		ret.setVnfInstanceId(x.getKey());
+		return ret;
+	}
+
+	private MultiValueMap<String, String> convert(final List<Node<String>> res) {
+		final MultiValueMap<String, String> ret = new LinkedMultiValueMap<>();
+		final List<Node<String>> badNode = res.stream().filter(x -> x.getOp() != Operand.EQ).toList();
+		if (!badNode.isEmpty()) {
+			throw new GenericException("Only equal node are accepted: " + badNode);
+		}
+		res.forEach(x -> ret.add(x.getName(), x.getValue()));
+		return ret;
+	}
+
+	public ResponseEntity<List<VnfIndicator>> findByVnfInstanceId(final String vnfInstanceId, final String filter, final String nextpageOpaqueMarker) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

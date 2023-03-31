@@ -16,14 +16,20 @@
  */
 package com.ubiqube.etsi.mano.service.mon;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import org.springframework.util.MultiValueMap;
+
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
+import com.ubiqube.etsi.mano.mon.dao.TelemetryMetricsResult;
 
 public interface ExternalMonitoring {
 
 	UUID createBatch(String resourceId, Set<String> set, Long pollingInterval, VimConnectionInformation vimConnectionInformation);
 
 	void deleteResources(String resourceId);
+
+	List<TelemetryMetricsResult> searchMetric(MultiValueMap<String, String> params);
 }

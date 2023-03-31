@@ -20,15 +20,20 @@ import static com.ubiqube.etsi.mano.Constants.getSafeUUID;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
+import com.ubiqube.etsi.mano.mon.dao.TelemetryMetricsResult;
+import com.ubiqube.etsi.mano.service.mon.cli.MetricsRemoteService;
 import com.ubiqube.etsi.mano.service.mon.cli.MonPollingRemoteService;
 import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
 import com.ubiqube.etsi.mano.service.mon.data.Metric;
@@ -45,9 +50,11 @@ public class DummyExternalMonitoring implements ExternalMonitoring {
 
 	private static final Logger LOG = LoggerFactory.getLogger(DummyExternalMonitoring.class);
 	private final MonPollingRemoteService remoteService;
+	private final MetricsRemoteService metricsRemoteService;
 
-	public DummyExternalMonitoring(final MonPollingRemoteService remoteService) {
+	public DummyExternalMonitoring(final MonPollingRemoteService remoteService, final MetricsRemoteService metricsRemoteService) {
 		this.remoteService = remoteService;
+		this.metricsRemoteService = metricsRemoteService;
 	}
 
 	@Override
@@ -80,6 +87,13 @@ public class DummyExternalMonitoring implements ExternalMonitoring {
 	public void deleteResources(final String resourceId) {
 		LOG.info("Deleting {}", resourceId);
 		remoteService.delete(getSafeUUID(resourceId));
+	}
+
+	@Override
+	public List<TelemetryMetricsResult> searchMetric(final MultiValueMap<String, String> params) {
+		return Optional.ofNullable(metricsRemoteService.searchApi(params))
+				.map(HttpEntity::getBody)
+				.orElseGet(List::of);
 	}
 
 }

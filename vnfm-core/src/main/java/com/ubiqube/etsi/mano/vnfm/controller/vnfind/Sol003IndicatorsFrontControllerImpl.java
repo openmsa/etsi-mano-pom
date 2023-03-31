@@ -22,8 +22,8 @@ import java.util.function.Consumer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.em.client.vnfind.VnfIndRemoteService;
 import com.ubiqube.etsi.mano.em.v431.model.vnfind.VnfIndicator;
+import com.ubiqube.etsi.mano.service.mon.MonitoringManager;
 import com.ubiqube.etsi.mano.vnfm.fc.vnfind.IndicatorsFrontController;
 
 import jakarta.annotation.Nullable;
@@ -36,32 +36,32 @@ import ma.glasnost.orika.MapperFacade;
  */
 @Service
 public class Sol003IndicatorsFrontControllerImpl implements IndicatorsFrontController {
-	private final VnfIndRemoteService vnfIndRemoteService;
+	private final MonitoringManager monitoringManager;
 	private final MapperFacade mapper;
 
-	public Sol003IndicatorsFrontControllerImpl(final VnfIndRemoteService vnfIndRemoteService, final MapperFacade mapper) {
-		this.vnfIndRemoteService = vnfIndRemoteService;
+	public Sol003IndicatorsFrontControllerImpl(final MonitoringManager monitoringManager, final MapperFacade mapper) {
+		this.monitoringManager = monitoringManager;
 		this.mapper = mapper;
 	}
 
 	@Override
 	public <U> ResponseEntity<List<U>> search(final @Nullable String filter, final @Nullable String nextpageOpaqueMarker, final Class<U> clazz, final Consumer<U> makeLink) {
-		final List<VnfIndicator> res = vnfIndRemoteService.indicatorsGet(filter, nextpageOpaqueMarker);
+		final List<VnfIndicator> res = monitoringManager.search(filter, nextpageOpaqueMarker);
 		final List<U> ret = mapper.mapAsList(res, clazz);
 		return ResponseEntity.ok(ret);
 	}
 
 	@Override
 	public <U> ResponseEntity<List<U>> findByVnfInstanceId(final String vnfInstanceId, final @Nullable String filter, final @Nullable String nextpageOpaqueMarker, final Class<U> clazz, final Consumer<U> makeLink) {
-		final ResponseEntity<List<VnfIndicator>> res = vnfIndRemoteService.indicatorsVnfInstanceIdGet(vnfInstanceId, filter, nextpageOpaqueMarker);
+		final ResponseEntity<List<VnfIndicator>> res = monitoringManager.findByVnfInstanceId(vnfInstanceId, filter, nextpageOpaqueMarker);
 		final List<U> ret = mapper.mapAsList(res.getBody(), clazz);
 		return ResponseEntity.ok(ret);
 	}
 
 	@Override
 	public <U> ResponseEntity<U> findByVnfInstanceIdAndIndicatorId(final String vnfInstanceId, final String indicatorId, final Class<U> clazz, final Consumer<U> makeLink) {
-		final ResponseEntity<VnfIndicator> res = vnfIndRemoteService.indicatorsVnfInstanceIdIndicatorIdGet(vnfInstanceId, indicatorId);
-		final U ret = mapper.map(res.getBody(), clazz);
+		final List<VnfIndicator> res = monitoringManager.search(vnfInstanceId, indicatorId);
+		final U ret = mapper.map(res.get(0), clazz);
 		return ResponseEntity.ok(ret);
 	}
 
