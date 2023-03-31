@@ -23,8 +23,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import com.ubiqube.etsi.mano.service.mon.data.MonitoringDataSlim;
 import com.ubiqube.etsi.mano.service.mon.model.MonitoringData;
-import com.ubiqube.etsi.mano.service.mon.model.MonitoringDataSlim;
 
 /**
  *

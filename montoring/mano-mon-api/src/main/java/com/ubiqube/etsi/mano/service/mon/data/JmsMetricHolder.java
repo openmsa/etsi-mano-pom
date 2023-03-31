@@ -18,25 +18,23 @@ package com.ubiqube.etsi.mano.service.mon.data;
 
 import java.util.List;
 
-import com.ubiqube.etsi.mano.mon.dao.TelemetryMetricsResult;
-
 import jakarta.annotation.Nonnull;
 import lombok.Data;
 
 @Data
 public class JmsMetricHolder {
-	private List<TelemetryMetricsResult> metrics;
+	private List<MonitoringDataSlim> metrics;
 
 	public JmsMetricHolder() {
 		//
 	}
 
-	public JmsMetricHolder(final List<TelemetryMetricsResult> metrics) {
+	public JmsMetricHolder(final List<MonitoringDataSlim> metrics) {
 		this.metrics = metrics;
 	}
 
 	@Nonnull
-	public static JmsMetricHolder of(final List<TelemetryMetricsResult> metrics) {
+	public static JmsMetricHolder of(final List<MonitoringDataSlim> metrics) {
 		return new JmsMetricHolder(metrics);
 	}
 }

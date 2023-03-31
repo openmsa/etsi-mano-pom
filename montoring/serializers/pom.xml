@@ -20,5 +20,6 @@
 	<modules>
 		<module>jpa</module>
 		<module>influxdb</module>
+		<module>data-change</module>
 	</modules>
 </project>

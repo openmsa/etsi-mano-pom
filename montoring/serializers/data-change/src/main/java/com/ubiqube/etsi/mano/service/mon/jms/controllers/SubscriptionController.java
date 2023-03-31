@@ -30,7 +30,11 @@ import com.ubiqube.etsi.mano.service.mon.repository.SubscriptionRepository;
 
 @RestController("/subscription")
 public class SubscriptionController {
-	private SubscriptionRepository subscriptionRepository;
+	private final SubscriptionRepository subscriptionRepository;
+
+	public SubscriptionController(final SubscriptionRepository subscriptionRepository) {
+		this.subscriptionRepository = subscriptionRepository;
+	}
 
 	ResponseEntity<Iterable<MonSubscription>> list() {
 		final Iterable<MonSubscription> res = subscriptionRepository.findAll();

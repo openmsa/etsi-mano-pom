@@ -40,6 +40,7 @@ import com.ubiqube.etsi.mano.mon.dao.TelemetryMetricsResult;
 import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
 import com.ubiqube.etsi.mano.service.mon.data.JmsMetricHolder;
 import com.ubiqube.etsi.mano.service.mon.data.Metric;
+import com.ubiqube.etsi.mano.service.mon.data.MonitoringDataSlim;
 
 import jakarta.annotation.Nonnull;
 
@@ -57,27 +58,27 @@ public abstract class AbstractSnmpPoller {
 
 	protected void getMetrics(final BatchPollingJob pj) {
 		final PDU resp = getResponse(pj);
-		final List<TelemetryMetricsResult> metrics = prepareResponse(pj, resp);
+		final List<MonitoringDataSlim> metrics = prepareResponse(pj, resp);
 		jmsTemplate.convertAndSend(resolvQueueName(BusHelper.TOPIC_SERIALZE_DATA), JmsMetricHolder.of(metrics));
 	}
 
-	private static List<TelemetryMetricsResult> prepareResponse(final BatchPollingJob pj, final PDU resp) {
+	private static List<MonitoringDataSlim> prepareResponse(final BatchPollingJob pj, final PDU resp) {
 		if (null == resp) {
 			LOG.warn("Time out: {}", resp);
-			return prepareError(pj);
+			return (List<MonitoringDataSlim>) prepareError(pj);
 		}
-		return prepareReponse(pj, resp);
+		return (List<MonitoringDataSlim>) prepareReponse(pj, resp);
 	}
 
 	abstract PDU getResponse(BatchPollingJob pj);
 
-	private static List<TelemetryMetricsResult> prepareReponse(final BatchPollingJob pj, final PDU resp) {
+	private static List<? extends MonitoringDataSlim> prepareReponse(final BatchPollingJob pj, final PDU resp) {
 		return pj.getMetrics().stream()
 				.map(x -> map(pj, x, resp))
 				.toList();
 	}
 
-	protected static List<TelemetryMetricsResult> prepareError(final BatchPollingJob pj) {
+	protected static List<? extends MonitoringDataSlim> prepareError(final BatchPollingJob pj) {
 		final List<Metric> metrics = pj.getMetrics();
 		return metrics.stream()
 				.map(x -> new TelemetryMetricsResult(pj.getResourceId(), pj.getResourceId(), x.getMetricName(), Double.valueOf(0), null, OffsetDateTime.now(), false))
@@ -94,7 +95,7 @@ public abstract class AbstractSnmpPoller {
 		}
 		final TelemetryMetricsResult tmr = new TelemetryMetricsResult(pj.getId().toString(), x.getMetricName(), x.getMetricName(), value, null, OffsetDateTime.now(), success);
 		if (variable instanceof final OctetString os) {
-			tmr.setTxt(os.toString());
+			tmr.setText(os.toString());
 		}
 		return tmr;
 	}

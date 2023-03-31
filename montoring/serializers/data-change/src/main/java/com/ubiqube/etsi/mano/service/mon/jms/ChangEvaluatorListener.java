@@ -16,45 +16,52 @@
  */
 package com.ubiqube.etsi.mano.service.mon.jms;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.service.mon.model.MonitoringDataSlim;
-import com.ubiqube.etsi.mano.service.mon.repository.MonitoringDataJpa;
+import com.ubiqube.etsi.mano.mon.api.BusHelper;
+import com.ubiqube.etsi.mano.service.mon.data.JmsMetricHolder;
+import com.ubiqube.etsi.mano.service.mon.data.MonitoringDataSlim;
 
 @Service
 public class ChangEvaluatorListener {
 	private static final Logger LOG = LoggerFactory.getLogger(ChangEvaluatorListener.class);
-	private final MonitoringDataJpa monitoringDataJpa;
+	private final DataBackend dataBackend;
 
 	private final JmsTemplate jmsTemplate;
 
-	public ChangEvaluatorListener(final MonitoringDataJpa monitoringDataJpa, final JmsTemplate jmsTemplate) {
-		this.monitoringDataJpa = monitoringDataJpa;
+	public ChangEvaluatorListener(final DataBackend dataBackend, final JmsTemplate jmsTemplate) {
+		this.dataBackend = dataBackend;
 		this.jmsTemplate = jmsTemplate;
 	}
 
-	@JmsListener(destination = Constants.QUEUE_CHANGE_EVALUATOR)
-	public void changeEvaluator(final MonitoringDataSlim result) {
-		result.getKey();
-		result.getMasterJobId();
-		final List<MonitoringDataSlim> res = monitoringDataJpa.getLastMetrics(result.getKey(), result.getMasterJobId());
-		if (res.size() != 2) {
+	@JmsListener(destination = BusHelper.TOPIC_SERIALZE_DATA)
+	public void changeEvaluator(final JmsMetricHolder results) {
+		results.getMetrics().forEach(this::handleOneMetric);
+	}
+
+	private void handleOneMetric(final MonitoringDataSlim result) {
+		final MonitoringDataSlim res = dataBackend.getLastMetrics(result.getKey(), result.getMasterJobId());
+		if (res == null) {
 			LOG.warn("Not enought element for {}/{}", result.getKey(), result.getMasterJobId());
+			updateMetric(result);
 			return;
 		}
-		final Double value = res.get(0).getValue();
-		final String text = res.get(0).getText();
-		if (((value != null) && (value.equals(res.get(1).getValue())))
-				|| ((text != null) && (text.equals(res.get(1).getText())))) {
+		final Double value = res.getValue();
+		final String text = res.getText();
+		if (((value != null) && (value.equals(result.getValue())))
+				|| ((text != null) && (text.equals(result.getText())))) {
 			return;
 		}
 		LOG.trace("Metric change {}", res);
-		jmsTemplate.convertAndSend(Constants.QUEUE_CHANGE_NOTIFICATION, new MetricChange(res.get(0), res.get(1)));
+		updateMetric(result);
+		jmsTemplate.convertAndSend(Constants.QUEUE_CHANGE_NOTIFICATION, new MetricChange(res, result));
+	}
+
+	private void updateMetric(final MonitoringDataSlim slim) {
+		dataBackend.updateMetric(slim);
 	}
 }

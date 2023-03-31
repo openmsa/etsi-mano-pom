@@ -14,23 +14,16 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service.mon.model;
+package com.ubiqube.etsi.mano.service.mon.jms;
 
-import java.sql.Timestamp;
+import com.ubiqube.etsi.mano.service.mon.data.MonitoringDataSlim;
 
 import jakarta.annotation.Nullable;
 
-public interface MonitoringDataSlim {
-	Timestamp getTime();
-
-	String getMasterJobId();
-
-	String getKey();
-
+public interface DataBackend {
 	@Nullable
-	Double getValue();
+	MonitoringDataSlim getLastMetrics(String key, String masterJobId);
 
-	@Nullable
-	String getText();
+	void updateMetric(MonitoringDataSlim slim);
 
 }

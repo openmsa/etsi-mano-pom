@@ -25,9 +25,8 @@ import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.mon.api.SearchApi;
 import com.ubiqube.etsi.mano.mon.dao.TelemetryMetricsResult;
-import com.ubiqube.etsi.mano.service.mon.jms.MonitoringDataMapping;
+import com.ubiqube.etsi.mano.service.mon.data.MonitoringDataSlim;
 import com.ubiqube.etsi.mano.service.mon.model.MonitoringData;
-import com.ubiqube.etsi.mano.service.mon.model.MonitoringDataSlim;
 import com.ubiqube.etsi.mano.service.mon.repository.MonitoringDataJpa;
 
 import jakarta.persistence.EntityManager;
@@ -40,23 +39,20 @@ import jakarta.persistence.criteria.Root;
 public class JpaSearchService implements SearchApi {
 	private final EntityManager em;
 	private final MonitoringDataJpa monitoringDataJpa;
-	private final MonitoringDataMapping mapper;
 
 	public JpaSearchService(final MonitoringDataJpa monitoringDataJpa, final EntityManager em) {
 		this.monitoringDataJpa = monitoringDataJpa;
-		this.mapper = MonitoringDataMapping.INSTANCE;
 		this.em = em;
 	}
 
 	@Override
-	public TelemetryMetricsResult search(final String instance, final String object) {
+	public MonitoringDataSlim search(final String instance, final String object) {
 		final List<MonitoringDataSlim> ress = monitoringDataJpa.getLastMetrics(instance, object);
-		final MonitoringDataSlim res = ress.get(0);
-		return mapper.fromDto(res);
+		return ress.get(0);
 	}
 
 	@Override
-	public List<TelemetryMetricsResult> search(final MultiValueMap<String, String> params) {
+	public List<MonitoringDataSlim> search(final MultiValueMap<String, String> params) {
 		final CriteriaBuilder cb = em.getCriteriaBuilder();
 		final CriteriaQuery<MonitoringData> cq = cb.createQuery(MonitoringData.class);
 		final Root<MonitoringData> itemRoot = cq.from(MonitoringData.class);
@@ -81,12 +77,12 @@ public class JpaSearchService implements SearchApi {
 				.toList();
 	}
 
-	private static TelemetryMetricsResult convert(final MonitoringData x) {
+	private static MonitoringDataSlim convert(final MonitoringData x) {
 		final TelemetryMetricsResult m = new TelemetryMetricsResult();
 		m.setKey(x.getKey());
 		m.setMasterJobId(x.getMasterJobId());
-		m.setTxt(x.getText());
-		m.setTimestamp(x.getTime());
+		m.setText(x.getText());
+		m.setTime(x.getTime());
 		m.setValue(x.getValue());
 		return m;
 	}

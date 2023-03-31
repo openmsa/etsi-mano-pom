@@ -14,10 +14,23 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service.mon.jms;
+package com.ubiqube.etsi.mano.service.mon.data;
 
-import com.ubiqube.etsi.mano.service.mon.model.MonitoringDataSlim;
+import java.time.OffsetDateTime;
 
-public record MetricChange(MonitoringDataSlim latest, MonitoringDataSlim old) {
-	//
+import jakarta.annotation.Nullable;
+
+public interface MonitoringDataSlim {
+	OffsetDateTime getTime();
+
+	String getMasterJobId();
+
+	String getKey();
+
+	@Nullable
+	Double getValue();
+
+	@Nullable
+	String getText();
+
 }
