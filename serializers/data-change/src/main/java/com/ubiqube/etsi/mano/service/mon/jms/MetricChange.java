@@ -14,26 +14,10 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service.mon.jpa;
+package com.ubiqube.etsi.mano.service.mon.jms;
 
-import java.sql.Timestamp;
+import com.ubiqube.etsi.mano.service.mon.data.MonitoringDataSlim;
 
-import com.ubiqube.etsi.mano.service.mon.model.MonitoringDataSlim;
-
-import jakarta.annotation.Nullable;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
-public class TestMonitoringDataSlim implements MonitoringDataSlim {
-	private Timestamp time;
-	private String masterJobId;
-	private String key;
-	@Nullable
-	private Double value;
-	@Nullable
-	private String text;
+public record MetricChange(MonitoringDataSlim latest, MonitoringDataSlim old) {
+	//
 }

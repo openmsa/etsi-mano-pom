@@ -34,6 +34,7 @@ import com.ubiqube.etsi.mano.mon.dao.TelemetryMetricsResult;
 import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
 import com.ubiqube.etsi.mano.service.mon.data.JmsMetricHolder;
 import com.ubiqube.etsi.mano.service.mon.data.Metric;
+import com.ubiqube.etsi.mano.service.mon.data.MonitoringDataSlim;
 
 @Service
 public class ZabbixPoller {
@@ -54,11 +55,11 @@ public class ZabbixPoller {
 
 	@JmsListener(destination = Constants.QUEUE_ZABBIX_DATA_POLLING, concurrency = "5")
 	public void onEvent(final BatchPollingJob batchPollingJob) {
-		final List<TelemetryMetricsResult> metrics = getMetrics(batchPollingJob);
+		final List<MonitoringDataSlim> metrics = (List<MonitoringDataSlim>) getMetrics(batchPollingJob);
 		jmsTemplate.convertAndSend(resolvQueueName(BusHelper.TOPIC_SERIALZE_DATA), JmsMetricHolder.of(metrics));
 	}
 
-	private List<TelemetryMetricsResult> getMetrics(final BatchPollingJob batchPollingJob) {
+	private List<? extends MonitoringDataSlim> getMetrics(final BatchPollingJob batchPollingJob) {
 		final String resourceId = batchPollingJob.getResourceId();
 		final List<Metric> metrics = batchPollingJob.getMetrics();
 		final int port = getPort(resourceId);
@@ -73,7 +74,7 @@ public class ZabbixPoller {
 			if ((x.getType() != null) && "numeric".equalsIgnoreCase(x.getType())) {
 				tmr.setValue(Double.valueOf(res.get(0)));
 			} else {
-				tmr.setTxt(res.get(0));
+				tmr.setText(res.get(0));
 			}
 			return tmr;
 		} catch (final RuntimeException e) {

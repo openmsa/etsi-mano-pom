@@ -18,6 +18,8 @@ package com.ubiqube.etsi.mano.mon.dao;
 
 import java.time.OffsetDateTime;
 
+import com.ubiqube.etsi.mano.service.mon.data.MonitoringDataSlim;
+
 import jakarta.annotation.Nonnull;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,7 +33,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class TelemetryMetricsResult {
+public class TelemetryMetricsResult implements MonitoringDataSlim {
 	@Nonnull
 	private String masterJobId;
 
@@ -41,9 +43,9 @@ public class TelemetryMetricsResult {
 
 	private Double value;
 
-	private String txt;
+	private String text;
 
-	private OffsetDateTime timestamp;
+	private OffsetDateTime time;
 
 	private boolean status;
 
@@ -56,9 +58,9 @@ public class TelemetryMetricsResult {
 		this.vnfcId = vnfcId;
 		this.key = key;
 		this.value = value;
-		this.timestamp = timestamp;
+		this.time = timestamp;
 		this.status = status;
-		this.txt = txt;
+		this.text = txt;
 	}
 
 }

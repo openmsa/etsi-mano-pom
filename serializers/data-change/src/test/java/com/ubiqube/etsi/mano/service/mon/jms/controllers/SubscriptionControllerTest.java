@@ -14,21 +14,29 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.mon.api;
+package com.ubiqube.etsi.mano.service.mon.jms.controllers;
 
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.springframework.util.MultiValueMap;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.ubiqube.etsi.mano.service.mon.data.MonitoringDataSlim;
+import com.ubiqube.etsi.mano.service.mon.repository.SubscriptionRepository;
 
-import jakarta.annotation.Nonnull;
+@ExtendWith(MockitoExtension.class)
+class SubscriptionControllerTest {
+	@Mock
+	private SubscriptionRepository subscription;
 
-public interface SearchApi {
-	@Nonnull
-	MonitoringDataSlim search(@Nonnull String instance, @Nonnull String object);
-
-	@Nonnull
-	List<MonitoringDataSlim> search(@Nonnull MultiValueMap<String, String> params);
+	@Test
+	void test() {
+		final SubscriptionController sc = new SubscriptionController(subscription);
+		sc.delete(null);
+		sc.findById(null);
+		sc.list();
+		assertTrue(true);
+	}
 
 }

@@ -43,6 +43,7 @@ import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
 import com.ubiqube.etsi.mano.service.mon.data.JmsMetricHolder;
 import com.ubiqube.etsi.mano.service.mon.data.Metric;
 import com.ubiqube.etsi.mano.service.mon.data.MonConnInformation;
+import com.ubiqube.etsi.mano.service.mon.data.MonitoringDataSlim;
 
 /**
  *
@@ -67,22 +68,22 @@ public class GnocchiPollerListener {
 		final UUID id = Objects.requireNonNull(batchPollingJob.getId());
 		final MonConnInformation conn = batchPollingJob.getConnection();
 		final OSClientV3 os = OsUtils.authenticate(conn.getInterfaceInfo(), conn.getAccessInfo());
-		final List<TelemetryMetricsResult> metrics = getMetrics(id, batchPollingJob.getResourceId(), batchPollingJob.getMetrics(), os);
+		final List<MonitoringDataSlim> metrics = getMetrics(id, batchPollingJob.getResourceId(), batchPollingJob.getMetrics(), os);
 		jmsTemplate.convertAndSend(resolvQueueName(BusHelper.TOPIC_SERIALZE_DATA), JmsMetricHolder.of(metrics));
 	}
 
-	private static List<TelemetryMetricsResult> getMetrics(final UUID jobId, final String resourceId, final List<Metric> collectedMetrics, final OSClientV3 os) {
+	private static List<MonitoringDataSlim> getMetrics(final UUID jobId, final String resourceId, final List<Metric> collectedMetrics, final OSClientV3 os) {
 		final List<String> colls = collectedMetrics.stream().map(Metric::getMetricName).toList();
 		final Resource instanceResources = os.telemetry().resources().instance(resourceId);
 		if (null == instanceResources) {
 			LOG.warn("Could not fetch resource {}", resourceId);
-			return prepareErrors(jobId, collectedMetrics, resourceId);
+			return (List<MonitoringDataSlim>) prepareErrors(jobId, collectedMetrics, resourceId);
 		}
 		final List<Entry<String, String>> colMeter = instanceResources.getMetrics().entrySet().stream().filter(x -> colls.contains(x.getKey())).toList();
 		return colMeter.stream().map(x -> map(x, resourceId, jobId, os)).toList();
 	}
 
-	private static TelemetryMetricsResult map(final Entry<String, String> x, final String resourceId, final UUID jobId, final OSClientV3 os) {
+	private static MonitoringDataSlim map(final Entry<String, String> x, final String resourceId, final UUID jobId, final OSClientV3 os) {
 		final MeasureFilter mf = new MeasureFilter();
 		mf.start(OffsetDateTime.now().minus(10, ChronoUnit.MINUTES));
 		final String jobStr = Objects.requireNonNull(jobId.toString());
@@ -110,7 +111,7 @@ public class GnocchiPollerListener {
 		return ret;
 	}
 
-	private static List<TelemetryMetricsResult> prepareErrors(final UUID jobId, final List<Metric> collectedMetrics, final String resourceId) {
+	private static List<? extends MonitoringDataSlim> prepareErrors(final UUID jobId, final List<Metric> collectedMetrics, final String resourceId) {
 		return collectedMetrics.stream()
 				.map(x -> new TelemetryMetricsResult(jobId.toString(), resourceId, x.getMetricName(), 0d, null, OffsetDateTime.now(), false))
 				.toList();

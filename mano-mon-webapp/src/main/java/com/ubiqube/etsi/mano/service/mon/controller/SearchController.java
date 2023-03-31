@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ubiqube.etsi.mano.mon.api.SearchApi;
-import com.ubiqube.etsi.mano.mon.dao.TelemetryMetricsResult;
+import com.ubiqube.etsi.mano.service.mon.data.MonitoringDataSlim;
 
 @RestController
 @RequestMapping("/search")
@@ -42,14 +42,14 @@ public class SearchController {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<TelemetryMetricsResult>> searchApi(@RequestParam final MultiValueMap<String, String> params) {
-		final List<TelemetryMetricsResult> metrics = searchApi.search(params);
+	public ResponseEntity<List<MonitoringDataSlim>> searchApi(@RequestParam final MultiValueMap<String, String> params) {
+		final List<MonitoringDataSlim> metrics = searchApi.search(params);
 		return ResponseEntity.ok(metrics);
 	}
 
 	@GetMapping("/{instance}/{subObject}")
-	public ResponseEntity<TelemetryMetricsResult> search(final @PathVariable("instance") String instance, final @PathVariable("subObject") String object) {
-		final TelemetryMetricsResult metric = searchApi.search(instance, object);
+	public ResponseEntity<MonitoringDataSlim> search(final @PathVariable("instance") String instance, final @PathVariable("subObject") String object) {
+		final MonitoringDataSlim metric = searchApi.search(instance, object);
 		return ResponseEntity.ok(metric);
 	}
 }

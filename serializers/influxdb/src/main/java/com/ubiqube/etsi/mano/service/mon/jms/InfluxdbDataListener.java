@@ -53,8 +53,8 @@ public class InfluxdbDataListener {
 		final List<Point> points = action.getMetrics().stream().map(x -> Point.measurement(x.getMasterJobId())
 				.addField("value", x.getValue())
 				.addTag("key", x.getKey())
-				.addTag("status", x.isStatus() ? "success" : "fail")
-				.addTag("vnf-instance-id", x.getVnfcId())
+				.addTag("status", "success")
+				.addTag("vnf-instance-id", x.getMasterJobId())
 				.time(Instant.now(), WritePrecision.MS))
 				.toList();
 		try (WriteApi client = influxClient.getWriteApi()) {

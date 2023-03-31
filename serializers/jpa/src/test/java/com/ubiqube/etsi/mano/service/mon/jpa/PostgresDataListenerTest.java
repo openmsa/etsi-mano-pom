@@ -28,6 +28,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.mon.dao.TelemetryMetricsResult;
 import com.ubiqube.etsi.mano.service.mon.data.JmsMetricHolder;
+import com.ubiqube.etsi.mano.service.mon.data.MonitoringDataSlim;
 import com.ubiqube.etsi.mano.service.mon.jms.PostgresDataListener;
 import com.ubiqube.etsi.mano.service.mon.repository.MonitoringDataJpa;
 
@@ -39,7 +40,7 @@ class PostgresDataListenerTest {
 	@Test
 	void testName() throws Exception {
 		final PostgresDataListener postgresDataListener = new PostgresDataListener(monitoringJpa);
-		final List<TelemetryMetricsResult> metrics = List.of();
+		final List<MonitoringDataSlim> metrics = List.of();
 		final JmsMetricHolder results = new JmsMetricHolder(metrics);
 		postgresDataListener.onGnocchiData(results);
 		assertTrue(true);
@@ -49,7 +50,7 @@ class PostgresDataListenerTest {
 	void testNotEmpty() throws Exception {
 		final PostgresDataListener postgresDataListener = new PostgresDataListener(monitoringJpa);
 		final TelemetryMetricsResult tmp = new TelemetryMetricsResult("masterJobId", "vnfcId", "key", 123D, null, OffsetDateTime.now(), true);
-		final List<TelemetryMetricsResult> metrics = List.of(tmp);
+		final List<MonitoringDataSlim> metrics = List.of(tmp);
 		final JmsMetricHolder results = new JmsMetricHolder(metrics);
 		postgresDataListener.onGnocchiData(results);
 		assertTrue(true);

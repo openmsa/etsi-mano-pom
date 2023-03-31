@@ -39,8 +39,8 @@ import org.springframework.web.reactive.function.client.WebClient.Builder;
 
 import com.ubiqube.etsi.mano.mon.MonGenericException;
 import com.ubiqube.etsi.mano.service.mon.data.AuthParamOauth2;
+import com.ubiqube.etsi.mano.service.mon.data.MonitoringDataSlim;
 import com.ubiqube.etsi.mano.service.mon.jms.MetricChange;
-import com.ubiqube.etsi.mano.service.mon.model.MonitoringDataSlim;
 import com.ubiqube.etsi.mano.service.mon.model.MonSubscription;
 import com.ubiqube.etsi.mano.service.mon.repository.SubscriptionRepository;
 
