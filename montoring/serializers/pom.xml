@@ -11,15 +11,15 @@
 	</parent>
 	<groupId>com.ubiqube.mano.service.mon.ser</groupId>
 	<artifactId>mon-ser-parent</artifactId>
-	<description>Build document for ETSI-MANO Monitoring Serialization.</description>
 	<packaging>pom</packaging>
-	<properties>
-		<maven.compiler.target>17</maven.compiler.target>
-		<maven.compiler.source>17</maven.compiler.source>
-	</properties>
+	<description>Build document for ETSI-MANO Monitoring Serialization.</description>
 	<modules>
 		<module>jpa</module>
 		<module>influxdb</module>
 		<module>data-change</module>
 	</modules>
+	<properties>
+		<maven.compiler.target>17</maven.compiler.target>
+		<maven.compiler.source>17</maven.compiler.source>
+	</properties>
 </project>
