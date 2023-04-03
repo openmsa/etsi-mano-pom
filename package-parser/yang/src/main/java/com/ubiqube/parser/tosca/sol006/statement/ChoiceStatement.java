@@ -16,16 +16,87 @@
  */
 package com.ubiqube.parser.tosca.sol006.statement;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.ubiqube.parser.tosca.sol006.ir.IrStatement;
+
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
+@Getter
+@Setter
 public class ChoiceStatement implements Statement {
+	private List<ListStatement> list = new ArrayList<>();
+	private List<LeafStatement> leaf = new ArrayList<>();
+	private List<LeafListStatement> leafList = new ArrayList<>();
+	private List<ChoiceStatement> choice = new ArrayList<>();
+	private List<ContainerStatement> container = new ArrayList<>();
+
+	private String description;
+	private String reference;
+	private String name;
+	private String mandatory;
 
 	@Override
 	public String getYangName() {
 		return "choice";
+	}
+
+	@Override
+	public void load(final IrStatement res) {
+		name = res.getArgument().toString();
+		final List<IrStatement> stmts = res.getStatements();
+		stmts.forEach(x -> doSwitch(x));
+	}
+
+	private void doSwitch(final IrStatement x) {
+		switch (x.getKeyword().identifier()) {
+		case "description" -> description = x.getArgument().toString();
+		case "reference" -> reference = x.getArgument().toString();
+		case "leaf" -> handleLeaf(x);
+		case "leaf-list" -> handleLeafList(x);
+		case "list" -> handleList(x);
+		case "choice" -> handleChoice(x);
+		case "container" -> handleContainer(x);
+		case "mandatory" -> mandatory = x.getArgument().toString();
+		default -> throw new IllegalArgumentException(x.getKeyword() + "");
+		}
+	}
+
+	private void handleContainer(final IrStatement x) {
+		final ContainerStatement l = new ContainerStatement();
+		l.load(x);
+		container.add(l);
+	}
+
+	private void handleChoice(final IrStatement x) {
+		final ChoiceStatement l = new ChoiceStatement();
+		l.load(x);
+		choice.add(l);
+	}
+
+	private void handleList(final IrStatement x) {
+		final ListStatement l = new ListStatement();
+		l.load(x);
+		list.add(l);
+	}
+
+	private void handleLeafList(final IrStatement x) {
+		final LeafListStatement ls = new LeafListStatement();
+		ls.load(x);
+		leafList.add(ls);
+	}
+
+	private void handleLeaf(final IrStatement x) {
+		final LeafStatement ls = new LeafStatement();
+		ls.load(x);
+		leaf.add(ls);
 	}
 
 }

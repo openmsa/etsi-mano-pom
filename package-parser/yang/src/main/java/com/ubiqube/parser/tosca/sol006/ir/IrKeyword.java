@@ -40,6 +40,11 @@ public abstract class IrKeyword implements IrNode {
 			return prefix + ':' + identifier();
 		}
 
+		@Override
+		public String toString() {
+			return "Qualified [prefix=" + prefix + ", identifier()=" + identifier() + "]";
+		}
+
 	}
 
 	public static final class Unqualified extends IrKeyword {
@@ -55,6 +60,11 @@ public abstract class IrKeyword implements IrNode {
 		@Override
 		public String asStringDeclaration() {
 			return identifier();
+		}
+
+		@Override
+		public String toString() {
+			return "Unqualified [prefix()=" + prefix() + ", identifier()=" + identifier() + "]";
 		}
 
 	}

@@ -16,16 +16,45 @@
  */
 package com.ubiqube.parser.tosca.sol006.statement;
 
+import java.util.List;
+
+import com.ubiqube.parser.tosca.sol006.ir.IrStatement;
+
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
+@Getter
+@Setter
 public class RevisionStatement implements Statement {
+
+	private String value;
+	private String description;
+	private String reference;
 
 	@Override
 	public String getYangName() {
 		return "revision";
+	}
+
+	@Override
+	public void load(final IrStatement res) {
+		value = res.getArgument().toString();
+		final List<IrStatement> stmts = res.getStatements();
+		stmts.forEach(x -> doSwitch(x));
+	}
+
+	private void doSwitch(final IrStatement x) {
+		switch (x.getKeyword().identifier()) {
+		case "description" -> description = x.getArgument().toString();
+		case "reference" -> reference = x.getArgument().toString();
+		default -> throw new IllegalArgumentException(x.getKeyword() + "");
+		}
+
 	}
 
 }

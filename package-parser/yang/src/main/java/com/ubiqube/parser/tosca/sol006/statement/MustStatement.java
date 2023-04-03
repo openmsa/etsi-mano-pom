@@ -16,11 +16,43 @@
  */
 package com.ubiqube.parser.tosca.sol006.statement;
 
+import java.util.List;
+
+import com.ubiqube.parser.tosca.sol006.ir.IrStatement;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class MustStatement implements Statement {
+
+	private String name;
+	private String description;
+	private String reference;
+	private String errorAppTag;
+	private String errorMessage;
 
 	@Override
 	public String getYangName() {
 		return "must";
+	}
+
+	@Override
+	public void load(final IrStatement res) {
+		name = res.getArgument().toString();
+		final List<IrStatement> stmts = res.getStatements();
+		stmts.forEach(x -> doSwitch(x));
+	}
+
+	private void doSwitch(final IrStatement x) {
+		switch (x.getKeyword().identifier()) {
+		case "description" -> description = x.getArgument().toString();
+		case "reference" -> reference = x.getArgument().toString();
+		case "error-app-tag" -> errorAppTag = x.getArgument().toString();
+		case "error-message" -> errorMessage = x.getArgument().toString();
+		default -> throw new IllegalArgumentException(x.getKeyword() + "");
+		}
 	}
 
 }

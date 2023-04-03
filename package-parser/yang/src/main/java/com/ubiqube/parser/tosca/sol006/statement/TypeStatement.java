@@ -19,7 +19,7 @@ package com.ubiqube.parser.tosca.sol006.statement;
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
- *
+ * @see https://www.rfc-editor.org/rfc/rfc7950#section-7.4
  */
 public class TypeStatement implements Statement {
 

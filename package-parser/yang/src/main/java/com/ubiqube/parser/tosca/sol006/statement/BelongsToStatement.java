@@ -16,16 +16,42 @@
  */
 package com.ubiqube.parser.tosca.sol006.statement;
 
+import java.util.List;
+
+import com.ubiqube.parser.tosca.sol006.ir.IrStatement;
+
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
+@Getter
+@Setter
 public class BelongsToStatement implements Statement {
+
+	private String name;
+	private String prefix;
 
 	@Override
 	public String getYangName() {
 		return "belongs-to";
+	}
+
+	@Override
+	public void load(final IrStatement res) {
+		name = res.getArgument().toString();
+		final List<IrStatement> stmts = res.getStatements();
+		stmts.forEach(x -> doSwitch(x));
+	}
+
+	private void doSwitch(final IrStatement x) {
+		switch (x.getKeyword().identifier()) {
+		case "prefix" -> prefix = x.getArgument().toString();
+		default -> throw new IllegalArgumentException(x.getKeyword() + "");
+		}
 	}
 
 }

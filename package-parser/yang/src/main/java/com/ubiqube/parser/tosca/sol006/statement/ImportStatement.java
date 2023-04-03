@@ -16,16 +16,47 @@
  */
 package com.ubiqube.parser.tosca.sol006.statement;
 
+import java.util.List;
+
+import com.ubiqube.parser.tosca.sol006.ir.IrStatement;
+
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
+@Getter
+@Setter
 public class ImportStatement implements Statement {
+
+	private String description;
+	private String prefix;
+	private String revisionDate;
+	private String reference;
+	private String name;
 
 	@Override
 	public String getYangName() {
 		return "import";
 	}
 
+	@Override
+	public void load(final IrStatement res) {
+		name = res.getArgument().toString();
+		final List<IrStatement> stmts = res.getStatements();
+		stmts.forEach(x -> doSwitch(x));
+	}
+
+	private void doSwitch(final IrStatement x) {
+		switch (x.getKeyword().identifier()) {
+		case "description" -> description = x.getArgument().toString();
+		case "prefix" -> prefix = x.getArgument().toString();
+		case "reference" -> reference = x.getArgument().toString();
+		case "revision-date" -> revisionDate = x.getArgument().toString();
+		default -> throw new IllegalArgumentException(x.getKeyword() + "");
+		}
+	}
 }

@@ -1,5 +1,5 @@
 /**
- *     Copyright (C) 2019-2020 Ubiqube.
+ *     Copyright (C) 2019-2023 Ubiqube.
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -16,16 +16,67 @@
  */
 package com.ubiqube.parser.tosca.sol006.statement;
 
+import java.util.List;
+
+import com.ubiqube.parser.tosca.generator.ErrorHelper;
+import com.ubiqube.parser.tosca.generator.StatusType;
+import com.ubiqube.parser.tosca.generator.YangUtils;
+import com.ubiqube.parser.tosca.sol006.ir.IrStatement;
+
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
+@Getter
+@Setter
 public class LeafStatement implements Statement {
+
+	private String name;
+	private String description;
+	private String reference;
+	private String type;
+	private String mandatory;
+	private String units;
+	private String must;
+	private String def;
+	private StatusType status;
+	private String when;
 
 	@Override
 	public String getYangName() {
 		return "leaf";
+	}
+
+	@Override
+	public void load(final IrStatement res) {
+		name = res.getArgument().toString();
+		final List<IrStatement> stmts = res.getStatements();
+		stmts.forEach(this::doSwitch);
+	}
+
+	private void doSwitch(final IrStatement x) {
+		switch (x.getKeyword().identifier()) {
+		case "description" -> description = YangUtils.argumentToString(x.getArgument());
+		case "reference" -> reference = YangUtils.argumentToString(x.getArgument());
+		case "config" -> handleError(x);
+		case "default" -> def = YangUtils.argumentToString(x.getArgument());
+		case "if-feature" -> handleError(x);
+		case "mandatory" -> mandatory = YangUtils.argumentToString(x.getArgument());
+		case "type" -> type = YangUtils.argumentToString(x.getArgument());
+		case "units" -> units = YangUtils.argumentToString(x.getArgument());
+		case "must" -> must = YangUtils.argumentToString(x.getArgument());
+		case "status" -> status = StatusType.fromValue(YangUtils.argumentToString(x.getArgument()));
+		case "when" -> when = YangUtils.argumentToString(x.getArgument());
+		default -> ErrorHelper.handleError(x);
+		}
+	}
+
+	private static void handleError(final IrStatement x) {
+		throw new IllegalArgumentException(x.getKeyword() + "");
 	}
 
 }

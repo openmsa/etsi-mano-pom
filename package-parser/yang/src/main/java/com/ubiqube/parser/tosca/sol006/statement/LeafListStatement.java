@@ -16,16 +16,77 @@
  */
 package com.ubiqube.parser.tosca.sol006.statement;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.ubiqube.parser.tosca.generator.StatusType;
+import com.ubiqube.parser.tosca.generator.YangUtils;
+import com.ubiqube.parser.tosca.sol006.ir.IrStatement;
+
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
+@Getter
+@Setter
 public class LeafListStatement implements Statement {
+	private List<MustStatement> must = new ArrayList<>();
+	private String name;
+	private String description;
+	private String reference;
+	private String type;
+	private String minElement;
+	private String maxElement;
+	private String def;
+	private String orderBy;
+	private StatusType status;
+	private String units;
+	private String when;
 
 	@Override
 	public String getYangName() {
 		return "leaf-list";
+	}
+
+	@Override
+	public void load(final IrStatement res) {
+		name = res.getArgument().toString();
+		final List<IrStatement> stmts = res.getStatements();
+		stmts.forEach(this::doSwitch);
+	}
+
+	private void doSwitch(final IrStatement x) {
+		switch (x.getKeyword().identifier()) {
+		case "config" -> handleError(x);
+		case "default" -> def = YangUtils.argumentToString(x.getArgument());
+		case "description" -> description = YangUtils.argumentToString(x.getArgument());
+		case "if-feature" -> handleError(x);
+		case "min-elements" -> minElement = YangUtils.argumentToString(x.getArgument());
+		case "max-elements" -> maxElement = YangUtils.argumentToString(x.getArgument());
+		case "must" -> handleMust(x);
+		case "order-by" -> orderBy = YangUtils.argumentToString(x.getArgument());
+		case "reference" -> reference = YangUtils.argumentToString(x.getArgument());
+		case "status" -> status = StatusType.fromValue(YangUtils.argumentToString(x.getArgument()));
+		case "type" -> type = YangUtils.argumentToString(x.getArgument());
+		case "units" -> units = YangUtils.argumentToString(x.getArgument());
+		case "when" -> when = YangUtils.argumentToString(x.getArgument());
+		default -> throw new IllegalArgumentException(x.getKeyword() + "");
+		}
+		// Objects.requireNonNull(type, "Type is mandatory on leaf-list object.")
+	}
+
+	private void handleMust(final IrStatement x) {
+		final MustStatement l = new MustStatement();
+		l.load(x);
+		must.add(l);
+	}
+
+	private void handleError(final IrStatement x) {
+		throw new IllegalArgumentException(x.getKeyword() + "");
 	}
 
 }

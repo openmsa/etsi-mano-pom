@@ -127,6 +127,11 @@ public class IrArgument implements IrNode {
 			return this instanceof Identifier;
 		}
 
+		@Override
+		public String toString() {
+			return string;
+		}
+
 	}
 
 	public static final class DoubleQuoted extends Single {
