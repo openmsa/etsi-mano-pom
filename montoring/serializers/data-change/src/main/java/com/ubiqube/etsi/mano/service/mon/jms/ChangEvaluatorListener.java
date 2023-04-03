@@ -38,7 +38,7 @@ public class ChangEvaluatorListener {
 		this.jmsTemplate = jmsTemplate;
 	}
 
-	@JmsListener(destination = BusHelper.TOPIC_SERIALZE_DATA)
+	@JmsListener(destination = BusHelper.TOPIC_SERIALZE_DATA, containerFactory = "serialzeDataFactory")
 	public void changeEvaluator(final JmsMetricHolder results) {
 		results.getMetrics().forEach(this::handleOneMetric);
 	}
