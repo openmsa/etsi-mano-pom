@@ -57,7 +57,6 @@
 		<dependency>
 			<groupId>de.codecentric</groupId>
 			<artifactId>spring-boot-admin-starter-client</artifactId>
-			<version>3.0.0</version>
 		</dependency>
 		<!--
 		<dependency>
@@ -90,6 +89,11 @@
 		<dependency>
 			<groupId>com.ubiqube.mano.service.mon.poller</groupId>
 			<artifactId>mano-snmp-poller</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ubiqube.mano.service.mon.ser</groupId>
+			<artifactId>data-change</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<!--
