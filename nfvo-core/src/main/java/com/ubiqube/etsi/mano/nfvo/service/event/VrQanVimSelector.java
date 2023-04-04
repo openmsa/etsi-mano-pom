@@ -124,11 +124,11 @@ public class VrQanVimSelector implements PreVimSelection {
 		// If not get it on vim
 		final VrQan vrQan = ovq.get();
 		if (vrQan.getRamFree() < needed.getRam()) {
-			LOG.info("Vim rejected due to RAM {}", x.getId());
+			LOG.info("Vim rejected due to RAM {}, want: {}, have: {}", x.getId(), needed.getVcpu(), vrQan.getVcpuFree());
 			return false;
 		}
 		if (vrQan.getVcpuFree() < needed.getVcpu()) {
-			LOG.info("Vim rejected due to VCPU {}", x.getId());
+			LOG.info("Vim rejected due to VCPU {}, want: {}, have: {}", x.getId(), needed.getVcpu(), vrQan.getVcpuFree());
 			return false;
 		}
 		return true;
