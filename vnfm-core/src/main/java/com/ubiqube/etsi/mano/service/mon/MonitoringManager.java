@@ -115,7 +115,7 @@ public class MonitoringManager {
 		return ret;
 	}
 
-	private MultiValueMap<String, String> convert(final List<Node<String>> res) {
+	private static MultiValueMap<String, String> convert(final List<Node<String>> res) {
 		final MultiValueMap<String, String> ret = new LinkedMultiValueMap<>();
 		final List<Node<String>> badNode = res.stream().filter(x -> x.getOp() != Operand.EQ).toList();
 		if (!badNode.isEmpty()) {
