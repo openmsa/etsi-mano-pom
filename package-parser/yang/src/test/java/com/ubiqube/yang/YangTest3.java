@@ -18,6 +18,7 @@ package com.ubiqube.yang;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -25,12 +26,12 @@ import java.util.Set;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 import org.junit.jupiter.api.Test;
 
 import com.ubiqube.etsi.mano.yang.YangStatementLexer;
 import com.ubiqube.etsi.mano.yang.YangStatementParser;
 import com.ubiqube.etsi.mano.yang.YangStatementParser.FileContext;
+import com.ubiqube.parser.tosca.generator.YangLoader;
 import com.ubiqube.parser.tosca.sol006.ir.IrArgument;
 import com.ubiqube.parser.tosca.sol006.ir.IrArgument.Concatenation;
 import com.ubiqube.parser.tosca.sol006.ir.IrArgument.Single;
@@ -38,17 +39,20 @@ import com.ubiqube.parser.tosca.sol006.ir.IrKeyword;
 import com.ubiqube.parser.tosca.sol006.ir.IrKeyword.Unqualified;
 import com.ubiqube.parser.tosca.sol006.ir.IrStatement;
 import com.ubiqube.parser.tosca.sol006.ir.YangRoot;
+import com.ubiqube.parser.tosca.sol006.statement.ModuleStatement;
 
 class YangTest3 {
 	@Test
 	void testName() throws Exception {
-		final InputStream stream = new FileInputStream("src/main/resources/etsi-nfv-vnf.yang");
+		final InputStream stream = new FileInputStream("src/main/resources/4.3.1/etsi-nfv-vnfd.yang");
 		final YangStatementLexer lexer = new YangStatementLexer(CharStreams.fromStream(stream));
 		final YangStatementParser parser = new YangStatementParser(new CommonTokenStream(lexer));
 		final FileContext result = parser.file();
-		final ParseTreeVisitor visitor = new YangVisitor();
-		result.accept(visitor);
-		// doParse(result.children);
+	}
+
+	@Test
+	void testName2() throws Exception {
+		YangLoader.loadDirectory(Paths.get("src/main/resources/4.3.1/"));
 	}
 
 	private void doParse(final List<ParseTree> children) {
@@ -61,7 +65,15 @@ class YangTest3 {
 		System.out.println("" + res.getKeyword());
 		final YangRoot yr = new YangRoot();
 		yr.load(res);
+		final List<ModuleStatement> module = yr.getModule();
+		module.forEach(x -> doImport(x));
+	}
 
+	private static Object doImport(final ModuleStatement module) {
+		module.getImp().forEach(x -> {
+			System.out.println("" + x.getPrefix());
+		});
+		return null;
 	}
 
 	private Set<ModuleImport> parseImports(final IrStatement module) {
