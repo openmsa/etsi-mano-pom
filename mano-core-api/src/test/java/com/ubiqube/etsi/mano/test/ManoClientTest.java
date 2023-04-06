@@ -117,7 +117,7 @@ class ManoClientTest {
 				.clientId("mano-nfvo")
 				.clientSecret("ed9aeb6d-3ea5-4392-bb22-835603cf3dfc")
 				.grantType(OAuth2GrantType.CLIENT_CREDENTIAL)
-				.tokenEndpoint("http://keycloak.mano.ubiqube.com/auth/realms/mano-realm/protocol/openid-connect/token")
+				.tokenEndpoint("http://mano-auth/auth/realms/mano-realm/protocol/openid-connect/token")
 				.build();
 	}
 
