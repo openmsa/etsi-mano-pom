@@ -29,7 +29,7 @@ import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.system.AbstractVimSystemV3;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow.VnfExtCpUowV3;
+import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.uow.VnfExtCpUow;
 
 /**
  *
@@ -48,7 +48,7 @@ public class VnfExtSystem extends AbstractVimSystemV3<ExternalCpTask> {
 
 	@Override
 	protected SystemBuilder<UnitOfWorkV3<ExternalCpTask>> getImplementation(final OrchestrationServiceV3<ExternalCpTask> orchestrationService, final VirtualTaskV3<ExternalCpTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
-		return orchestrationService.systemBuilderOf(new VnfExtCpUowV3(virtualTask, vim, vimConnectionInformation));
+		return orchestrationService.systemBuilderOf(new VnfExtCpUow(virtualTask, vim, vimConnectionInformation));
 	}
 
 	@Override

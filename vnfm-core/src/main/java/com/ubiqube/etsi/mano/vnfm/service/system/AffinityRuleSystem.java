@@ -29,7 +29,7 @@ import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.system.AbstractVimSystemV3;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow.VnfAffinityUowV3;
+import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.uow.VnfAffinityUow;
 
 /**
  *
@@ -52,7 +52,7 @@ public class AffinityRuleSystem extends AbstractVimSystemV3<AffinityRuleTask> {
 
 	@Override
 	protected SystemBuilder<UnitOfWorkV3<AffinityRuleTask>> getImplementation(final OrchestrationServiceV3<AffinityRuleTask> orchestrationService, final VirtualTaskV3<AffinityRuleTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
-		return orchestrationService.systemBuilderOf(new VnfAffinityUowV3(virtualTask, vim, vimConnectionInformation));
+		return orchestrationService.systemBuilderOf(new VnfAffinityUow(virtualTask, vim, vimConnectionInformation));
 	}
 
 	@Override

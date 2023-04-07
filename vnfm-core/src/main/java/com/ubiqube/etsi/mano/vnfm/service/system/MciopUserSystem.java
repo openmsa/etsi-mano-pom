@@ -31,7 +31,7 @@ import com.ubiqube.etsi.mano.service.system.AbstractVimSystemV3;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 import com.ubiqube.etsi.mano.vnfm.jpa.K8sServerInfoJpa;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow.MciopUserUowV3;
+import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.uow.MciopUserUow;
 
 @Service
 public class MciopUserSystem extends AbstractVimSystemV3<MciopUserTask> {
@@ -60,7 +60,7 @@ public class MciopUserSystem extends AbstractVimSystemV3<MciopUserTask> {
 	@Override
 	protected SystemBuilder<UnitOfWorkV3<MciopUserTask>> getImplementation(final OrchestrationServiceV3<MciopUserTask> orchestrationService, final VirtualTaskV3<MciopUserTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
 		final String crt = k8sPkService.createCsr("CN=kubernetes-admin,O=system:masters");
-		return orchestrationService.systemBuilderOf(new MciopUserUowV3(virtualTask, vim, vimConnectionInformation, serverInfoJpa, crt));
+		return orchestrationService.systemBuilderOf(new MciopUserUow(virtualTask, vim, vimConnectionInformation, serverInfoJpa, crt));
 	}
 
 }

@@ -28,7 +28,7 @@ import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.system.AbstractVimSystemV3;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow.VirtualLinkUowV3;
+import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.uow.VirtualLinkUow;
 
 /**
  *
@@ -46,7 +46,7 @@ public class VimNetworkSystem extends AbstractVimSystemV3<NetworkTask> {
 
 	@Override
 	protected SystemBuilder getImplementation(final OrchestrationServiceV3<NetworkTask> orchestrationService, final VirtualTaskV3<NetworkTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
-		final VirtualLinkUowV3 net = new VirtualLinkUowV3(virtualTask, vim, vimConnectionInformation);
+		final VirtualLinkUow net = new VirtualLinkUow(virtualTask, vim, vimConnectionInformation);
 		return orchestrationService.systemBuilderOf(net);
 	}
 

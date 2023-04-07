@@ -30,7 +30,7 @@ import com.ubiqube.etsi.mano.service.system.AbstractVimSystemV3;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 import com.ubiqube.etsi.mano.vnfm.jpa.K8sServerInfoJpa;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow.OsK8sClusterInfoUowV3;
+import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.uow.OsK8sClusterInfoUow;
 
 @Service
 public class OsK8sInformationsSystem extends AbstractVimSystemV3<K8sInformationsTask> {
@@ -55,7 +55,7 @@ public class OsK8sInformationsSystem extends AbstractVimSystemV3<K8sInformations
 
 	@Override
 	protected SystemBuilder<UnitOfWorkV3<K8sInformationsTask>> getImplementation(final OrchestrationServiceV3<K8sInformationsTask> orchestrationService, final VirtualTaskV3<K8sInformationsTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
-		return orchestrationService.systemBuilderOf(new OsK8sClusterInfoUowV3(virtualTask, vim, vimConnectionInformation, serverInfoJpa));
+		return orchestrationService.systemBuilderOf(new OsK8sClusterInfoUow(virtualTask, vim, vimConnectionInformation, serverInfoJpa));
 	}
 
 }

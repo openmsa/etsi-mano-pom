@@ -29,7 +29,7 @@ import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.system.AbstractVimSystemV3;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow.VnfComputeUowV3;
+import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.uow.VnfComputeUow;
 
 /**
  *
@@ -48,7 +48,7 @@ public class OsComputeSystem extends AbstractVimSystemV3<ComputeTask> {
 
 	@Override
 	public SystemBuilder<UnitOfWorkV3<ComputeTask>> getImplementation(final OrchestrationServiceV3<ComputeTask> orchestrationService, final VirtualTaskV3<ComputeTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
-		return orchestrationService.systemBuilderOf(new VnfComputeUowV3(virtualTask, vim, vimConnectionInformation));
+		return orchestrationService.systemBuilderOf(new VnfComputeUow(virtualTask, vim, vimConnectionInformation));
 	}
 
 	@Override

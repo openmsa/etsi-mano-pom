@@ -29,7 +29,7 @@ import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.system.AbstractVimSystemV3;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow.VnfSubnetworkUowV3;
+import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.uow.VnfSubnetworkUow;
 
 /**
  *
@@ -57,7 +57,7 @@ public class SubNetworkSystem extends AbstractVimSystemV3<SubNetworkTask> {
 
 	@Override
 	protected SystemBuilder<UnitOfWorkV3<SubNetworkTask>> getImplementation(final OrchestrationServiceV3<SubNetworkTask> orchestrationService, final VirtualTaskV3<SubNetworkTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
-		return orchestrationService.systemBuilderOf(new VnfSubnetworkUowV3(virtualTask, vim, vimConnectionInformation));
+		return orchestrationService.systemBuilderOf(new VnfSubnetworkUow(virtualTask, vim, vimConnectionInformation));
 	}
 
 }

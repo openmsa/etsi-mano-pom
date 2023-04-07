@@ -29,7 +29,7 @@ import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.system.AbstractVimSystemV3;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow.VnfPortUowV3;
+import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.uow.VnfPortUow;
 
 /**
  *
@@ -48,7 +48,7 @@ public class PortSystem extends AbstractVimSystemV3<VnfPortTask> {
 
 	@Override
 	protected SystemBuilder<UnitOfWorkV3<VnfPortTask>> getImplementation(final OrchestrationServiceV3<VnfPortTask> orchestrationService, final VirtualTaskV3<VnfPortTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
-		return orchestrationService.systemBuilderOf(new VnfPortUowV3(virtualTask, vim, vimConnectionInformation));
+		return orchestrationService.systemBuilderOf(new VnfPortUow(virtualTask, vim, vimConnectionInformation));
 	}
 
 	@Override

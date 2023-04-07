@@ -29,7 +29,7 @@ import com.ubiqube.etsi.mano.service.system.AbstractVimSystemV3;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 import com.ubiqube.etsi.mano.vnfm.jpa.K8sServerInfoJpa;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow.OsContainerDeployableUow3;
+import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.uow.OsContainerDeployableUow3;
 
 /**
  *

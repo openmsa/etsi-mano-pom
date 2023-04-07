@@ -29,9 +29,9 @@ import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.system.AbstractVimSystemV3;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.SecurityRuleVt;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow.SecurityGroupUowV3;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow.SecurityRuleUowV3;
+import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.uow.SecurityGroupUow;
+import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.uow.SecurityRuleUow;
+import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.vt.SecurityRuleVt;
 
 /**
  *
@@ -50,9 +50,9 @@ public class SecurityGroupSystem extends AbstractVimSystemV3<SecurityGroupTask> 
 	@Override
 	protected SystemBuilder getImplementation(final OrchestrationServiceV3<SecurityGroupTask> orchestrationService, final VirtualTaskV3<SecurityGroupTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
 		final SystemBuilder s = orchestrationService.createEmptySystemBuilder();
-		final SecurityGroupUowV3 src = new SecurityGroupUowV3(virtualTask, vim, vimConnectionInformation);
+		final SecurityGroupUow src = new SecurityGroupUow(virtualTask, vim, vimConnectionInformation);
 		final SecurityRuleTask task = new SecurityRuleTask(virtualTask.getTemplateParameters().getToscaName(), virtualTask.getTemplateParameters().getSecurityGroup(), virtualTask.getTemplateParameters().getToscaName());
-		final SecurityRuleUowV3 dst = new SecurityRuleUowV3(new SecurityRuleVt(task), vim, vimConnectionInformation);
+		final SecurityRuleUow dst = new SecurityRuleUow(new SecurityRuleVt(task), vim, vimConnectionInformation);
 		s.add(src, dst);
 		return s;
 	}

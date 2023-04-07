@@ -37,7 +37,7 @@ import com.ubiqube.etsi.mano.service.vim.VimManager;
 import com.ubiqube.etsi.mano.service.vim.k8s.K8sClient;
 import com.ubiqube.etsi.mano.vnfm.jpa.K8sServerInfoJpa;
 import com.ubiqube.etsi.mano.vnfm.property.HelmWrapperProperty;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow.HelmV3DeployUowV3;
+import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.uow.HelmV3DeployUow;
 
 /**
  *
@@ -80,7 +80,7 @@ public class HelmSystem extends AbstractVimSystemV3<HelmTask> {
 				.build();
 		// final UnitOfWorkV3<MciopTask> createUser = new MciopUserUowV3(virtualTask,
 		// vim, vimConnectionInformation, serverInfoJpa, crt);
-		final UnitOfWorkV3<HelmTask> uow = new HelmV3DeployUowV3(virtualTask, client, serverInfoJpa, repo, pk, srv);
+		final UnitOfWorkV3<HelmTask> uow = new HelmV3DeployUow(virtualTask, client, serverInfoJpa, repo, pk, srv);
 		return orchestrationService.systemBuilderOf(uow);
 	}
 
