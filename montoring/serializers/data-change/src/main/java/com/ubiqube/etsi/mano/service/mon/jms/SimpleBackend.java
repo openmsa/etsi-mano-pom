@@ -35,7 +35,7 @@ public class SimpleBackend implements DataBackend {
 	@Override
 	public MonitoringDataSlim getLastMetrics(final String key, final String masterJobId) {
 		final Key k = new Key(key, masterJobId);
-		return cache.get(key);
+		return cache.get(k);
 	}
 
 	@Override
