@@ -70,7 +70,8 @@ class TemporaryDownloadServiceTest {
 		final TemporaryDownload temp = new TemporaryDownload();
 		temp.setObjectId(id);
 		when(temporaryJpa.findByIdAndExpirationDateAfter(anyString(), any())).thenReturn(Optional.of(temp));
-		assertThrows(GenericException.class, () -> tds.getDocument(id.toString()));
+		final String sid = id.toString();
+		assertThrows(GenericException.class, () -> tds.getDocument(sid));
 	}
 
 	@Test

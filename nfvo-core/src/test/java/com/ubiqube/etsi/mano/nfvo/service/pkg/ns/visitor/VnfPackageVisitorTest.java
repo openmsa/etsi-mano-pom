@@ -55,7 +55,8 @@ class VnfPackageVisitorTest {
 		final NsVnf nsVnf = new NsVnf();
 		nsVnf.setVnfdId("a707412c-c68d-11ed-98ec-c8f750509d3b");
 		when(packageProvider.getVnfd(any())).thenReturn(Set.of(nsVnf));
-		assertThrows(NotFoundException.class, () -> vis.visit(nsPackage, packageProvider, Map.of()));
+		final Map<String, String> map = Map.of();
+		assertThrows(NotFoundException.class, () -> vis.visit(nsPackage, packageProvider, map));
 	}
 
 	@Test

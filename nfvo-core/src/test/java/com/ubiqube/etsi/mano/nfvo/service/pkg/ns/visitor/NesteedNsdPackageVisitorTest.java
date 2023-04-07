@@ -73,7 +73,8 @@ class NesteedNsdPackageVisitorTest {
 		final NsdPackage nsPkg = new NsdPackage();
 		final NsNsd nsd001 = new NsNsd();
 		when(packageProvider.getNestedNsd(any())).thenReturn(Set.of(nsd001));
-		assertThrows(NotFoundException.class, () -> nesteed.visit(nsPkg, packageProvider, Map.of()));
+		final Map<String, String> map = Map.of();
+		assertThrows(NotFoundException.class, () -> nesteed.visit(nsPkg, packageProvider, map));
 	}
 
 }
