@@ -23,6 +23,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 
+import com.ubiqube.etsi.mano.mon.MonGenericException;
 import com.ubiqube.etsi.mano.mon.api.SearchApi;
 import com.ubiqube.etsi.mano.mon.dao.TelemetryMetricsResult;
 import com.ubiqube.etsi.mano.service.mon.data.MonitoringDataSlim;
@@ -48,6 +49,9 @@ public class JpaSearchService implements SearchApi {
 	@Override
 	public MonitoringDataSlim search(final String instance, final String object) {
 		final List<MonitoringDataSlim> ress = monitoringDataJpa.getLastMetrics(instance, object);
+		if (ress.isEmpty()) {
+			throw new MonGenericException("Unablde to find metric: " + instance + "/" + object);
+		}
 		return ress.get(0);
 	}
 
