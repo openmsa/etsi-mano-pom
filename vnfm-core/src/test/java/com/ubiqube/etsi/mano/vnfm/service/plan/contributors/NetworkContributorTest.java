@@ -14,7 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3;
+package com.ubiqube.etsi.mano.vnfm.service.plan.contributors;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -33,6 +33,7 @@ import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.VnfVl;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
+import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.NetworkContributor;
 
 @ExtendWith(MockitoExtension.class)
 class NetworkContributorTest {

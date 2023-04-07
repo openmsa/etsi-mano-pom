@@ -14,7 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3;
+package com.ubiqube.etsi.mano.vnfm.service.plan.contributors;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -42,9 +42,10 @@ import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceServiceVnfm;
 import com.ubiqube.etsi.mano.vnfm.service.plan.ScalingStrategy;
 import com.ubiqube.etsi.mano.vnfm.service.plan.ScalingStrategy.NumberOfCompute;
+import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.ComputeContributor;
 
 @ExtendWith({ MockitoExtension.class, YamlParameterResolver.class })
-class ComputeContributorV3Test {
+class ComputeContributorTest {
 	@Mock
 	private VnfLiveInstanceJpa vnfLiveInstance;
 	@Mock
@@ -54,7 +55,7 @@ class ComputeContributorV3Test {
 
 	@Test
 	void testContribute_Minimal() {
-		final ComputeContributorV3 con = new ComputeContributorV3(vnfLiveInstance, scalingStrategy, vnfInstanceServiceVnfm);
+		final ComputeContributor con = new ComputeContributor(vnfLiveInstance, scalingStrategy, vnfInstanceServiceVnfm);
 		final VnfPackage pkg = new VnfPackage();
 		pkg.setVnfCompute(Set.of());
 		final VnfBlueprint bp = new VnfBlueprint();
@@ -72,7 +73,7 @@ class ComputeContributorV3Test {
 	@Test
 	void testContribute_GoodStorage(@YamlTestData("contributor-compute-good-storage-vnfPackage.yaml") final VnfPackage pkgIn,
 			@YamlTestData("contributor-compute-good-storage-vnfBlueprint.yaml") final VnfBlueprint bpIn) {
-		final ComputeContributorV3 con = new ComputeContributorV3(vnfLiveInstance, scalingStrategy, vnfInstanceServiceVnfm);
+		final ComputeContributor con = new ComputeContributor(vnfLiveInstance, scalingStrategy, vnfInstanceServiceVnfm);
 		when(vnfInstanceServiceVnfm.findById(any())).thenReturn(bpIn.getInstance());
 		final NumberOfCompute numComp = new NumberOfCompute(0, 1, null);
 		when(scalingStrategy.getNumberOfCompute(any(), any(), any(), any(), any())).thenReturn(numComp);
@@ -83,7 +84,7 @@ class ComputeContributorV3Test {
 	@Test
 	void testContributePotrs(@YamlTestData("contributor-compute-ports-vnfPackage.yaml") final VnfPackage pkgIn,
 			@YamlTestData("contributor-compute-ports-vnfBlueprint.yaml") final VnfBlueprint bpIn) {
-		final ComputeContributorV3 con = new ComputeContributorV3(vnfLiveInstance, scalingStrategy, vnfInstanceServiceVnfm);
+		final ComputeContributor con = new ComputeContributor(vnfLiveInstance, scalingStrategy, vnfInstanceServiceVnfm);
 		when(vnfInstanceServiceVnfm.findById(any())).thenReturn(bpIn.getVnfInstance());
 		final NumberOfCompute numComp = new NumberOfCompute(0, 1, null);
 		when(scalingStrategy.getNumberOfCompute(any(), any(), any(), any(), any())).thenReturn(numComp);
@@ -94,7 +95,7 @@ class ComputeContributorV3Test {
 	@Test
 	void testContribute_CrashOnUnknownStorage(@YamlTestData("contributor-compute-bad-storage-vnfPackage.yaml") final VnfPackage pkgIn,
 			@YamlTestData("contributor-compute-bad-storage-vnfBlueprint.yaml") final VnfBlueprint bpIn) {
-		final ComputeContributorV3 con = new ComputeContributorV3(vnfLiveInstance, scalingStrategy, vnfInstanceServiceVnfm);
+		final ComputeContributor con = new ComputeContributor(vnfLiveInstance, scalingStrategy, vnfInstanceServiceVnfm);
 		when(vnfInstanceServiceVnfm.findById(any())).thenReturn(bpIn.getInstance());
 		final NumberOfCompute numComp = new NumberOfCompute(0, 1, null);
 		when(scalingStrategy.getNumberOfCompute(any(), any(), any(), any(), any())).thenReturn(numComp);

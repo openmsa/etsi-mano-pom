@@ -14,7 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3;
+package com.ubiqube.etsi.mano.vnfm.service.plan.contributors;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -25,32 +25,34 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.ubiqube.etsi.mano.dao.mano.AffinityRule;
+import com.ubiqube.etsi.mano.dao.mano.SecurityGroup;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
+import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.SecurityContributor;
 
 @ExtendWith(MockitoExtension.class)
-class AffinityRuleContributorV3Test {
+class SecurityContributorTest {
 	@Mock
-	private VnfLiveInstanceJpa vnfInstanceJpa;
+	private VnfLiveInstanceJpa vnfLiveInstance;
 
 	@Test
-	void testContribute_Minimal() {
-		final AffinityRuleContributorV3 con = new AffinityRuleContributorV3(vnfInstanceJpa);
+	void test() {
+		final SecurityContributor con = new SecurityContributor(vnfLiveInstance);
 		final VnfPackage pkg = new VnfPackage();
-		pkg.setAffinityRules(Set.of());
+		pkg.setSecurityGroups(Set.of());
 		final VnfBlueprint params = new VnfBlueprint();
 		con.contribute(pkg, params);
 		assertTrue(true);
 	}
 
 	@Test
-	void testContribute() {
-		final AffinityRuleContributorV3 con = new AffinityRuleContributorV3(vnfInstanceJpa);
+	void testOk() {
+		final SecurityContributor con = new SecurityContributor(vnfLiveInstance);
 		final VnfPackage pkg = new VnfPackage();
-		final AffinityRule af = new AffinityRule();
-		pkg.setAffinityRules(Set.of(af));
+		final SecurityGroup sg = new SecurityGroup();
+		sg.setToscaName("sg");
+		pkg.setSecurityGroups(Set.of(sg));
 		final VnfBlueprint params = new VnfBlueprint();
 		con.contribute(pkg, params);
 		assertTrue(true);

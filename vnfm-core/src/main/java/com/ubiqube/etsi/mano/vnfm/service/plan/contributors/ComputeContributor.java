@@ -14,7 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3;
+package com.ubiqube.etsi.mano.vnfm.service.plan.contributors;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,14 +61,14 @@ import jakarta.annotation.Nullable;
  *
  */
 @Service
-public class ComputeContributorV3 extends AbstractVnfmContributorV3<Object> {
+public class ComputeContributor extends AbstractVnfmContributor<Object> {
 
-	private static final Logger LOG = LoggerFactory.getLogger(ComputeContributorV3.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ComputeContributor.class);
 
 	private final ScalingStrategy scalingStrategy;
 	private final VnfInstanceServiceVnfm vnfInstanceServiceVnfm;
 
-	protected ComputeContributorV3(final VnfLiveInstanceJpa vnfInstanceJpa, final ScalingStrategy scalingStrategy, final VnfInstanceServiceVnfm vnfInstanceServiceVnfm) {
+	protected ComputeContributor(final VnfLiveInstanceJpa vnfInstanceJpa, final ScalingStrategy scalingStrategy, final VnfInstanceServiceVnfm vnfInstanceServiceVnfm) {
 		super(vnfInstanceJpa);
 		this.scalingStrategy = scalingStrategy;
 		this.vnfInstanceServiceVnfm = vnfInstanceServiceVnfm;
@@ -163,7 +163,7 @@ public class ComputeContributorV3 extends AbstractVnfmContributorV3<Object> {
 		return vnfPackage.getVirtualLinks().stream()
 				.filter(x -> x.getValue() != null)
 				.filter(x -> x.getValue().equals(toscaName))
-				.map(ComputeContributorV3::getVl)
+				.map(ComputeContributor::getVl)
 				.findFirst();
 	}
 

@@ -14,7 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3;
+package com.ubiqube.etsi.mano.vnfm.service.plan.contributors;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,9 +37,9 @@ import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
  *
  */
 @Service
-public class DnsContributorV3 extends AbstractVnfmContributorV3<Object> {
+public class DnsContributor extends AbstractVnfmContributor<Object> {
 
-	public DnsContributorV3(final VnfLiveInstanceJpa vnfLiveInstanceJpa) {
+	public DnsContributor(final VnfLiveInstanceJpa vnfLiveInstanceJpa) {
 		super(vnfLiveInstanceJpa);
 	}
 

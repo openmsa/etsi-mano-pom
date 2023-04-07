@@ -14,7 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3;
+package com.ubiqube.etsi.mano.vnfm.service.plan.contributors;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -37,10 +37,10 @@ import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
  * @author olivier
  *
  */
-public abstract class AbstractVnfmContributorV3<U> implements TemplateExtractorV3<U, VnfBlueprint, VnfPackage> {
+public abstract class AbstractVnfmContributor<U> implements TemplateExtractorV3<U, VnfBlueprint, VnfPackage> {
 	protected final VnfLiveInstanceJpa vnfInstanceJpa;
 
-	protected AbstractVnfmContributorV3(final VnfLiveInstanceJpa vnfInstanceJpa) {
+	protected AbstractVnfmContributor(final VnfLiveInstanceJpa vnfInstanceJpa) {
 		this.vnfInstanceJpa = vnfInstanceJpa;
 	}
 

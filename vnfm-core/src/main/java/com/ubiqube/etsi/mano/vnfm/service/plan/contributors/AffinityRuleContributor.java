@@ -14,43 +14,45 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3;
+package com.ubiqube.etsi.mano.vnfm.service.plan.contributors;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.dao.mano.ChangeType;
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
-import com.ubiqube.etsi.mano.dao.mano.v2.ExternalCpTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
+import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.AffinityRuleTask;
 import com.ubiqube.etsi.mano.orchestrator.SclableResources;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfExtCp;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.AffinityRuleNode;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
 
-import jakarta.annotation.Priority;
-
+/**
+ *
+ * @author olivier
+ *
+ */
 @Service
-@Priority(100)
-public class VnfExtCpContributor extends AbstractVnfmContributorV3<ExternalCpTask> {
+public class AffinityRuleContributor extends AbstractVnfmContributor<AffinityRuleTask> {
 
-	protected VnfExtCpContributor(final VnfLiveInstanceJpa vnfInstanceJpa) {
+	protected AffinityRuleContributor(final VnfLiveInstanceJpa vnfInstanceJpa) {
 		super(vnfInstanceJpa);
 	}
 
 	@Override
-	public List<SclableResources<ExternalCpTask>> contribute(final VnfPackage bundle, final VnfBlueprint parameters) {
-		return bundle.getVnfExtCp().stream().map(vnfExtCp -> {
-			final ExternalCpTask task = createTask(ExternalCpTask::new);
-			task.setToscaName(vnfExtCp.getToscaName());
-			task.setChangeType(ChangeType.ADDED);
-			task.setType(ResourceTypeEnum.VNF_EXTCP);
-			task.setVnfExtCp(vnfExtCp);
-			task.setPort(true);
-			return create(VnfExtCp.class, task.getClass(), task.getToscaName(), 1, task, parameters.getInstance(), parameters);
-		})
-				.toList();
+	public List<SclableResources<AffinityRuleTask>> contribute(final VnfPackage bundle, final VnfBlueprint parameters) {
+		final VnfPackage vnfPackage = bundle;
+		final List<SclableResources<AffinityRuleTask>> ret = new ArrayList<>();
+		vnfPackage.getAffinityRules().forEach(x -> {
+			final AffinityRuleTask task = createTask(AffinityRuleTask::new);
+			task.setType(ResourceTypeEnum.AFFINITY_RULE);
+			task.setToscaName(x.getToscaName());
+			task.setAffinityRule(x);
+			ret.add(create(AffinityRuleNode.class, task.getClass(), x.getToscaName(), 1, task, parameters.getInstance(), parameters));
+		});
+		return ret;
 	}
 
 }

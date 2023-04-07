@@ -14,45 +14,43 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3;
+package com.ubiqube.etsi.mano.vnfm.service.plan.contributors;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.ubiqube.etsi.mano.dao.mano.ChangeType;
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+import com.ubiqube.etsi.mano.dao.mano.v2.ExternalCpTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
-import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.SecurityGroupTask;
 import com.ubiqube.etsi.mano.orchestrator.SclableResources;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SecurityGroupNode;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfExtCp;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
 
-/**
- *
- * @author olivier
- *
- */
-@Service
-public class SecurityContributorV3 extends AbstractVnfmContributorV3<SecurityGroupTask> {
+import jakarta.annotation.Priority;
 
-	protected SecurityContributorV3(final VnfLiveInstanceJpa vnfInstanceJpa) {
+@Service
+@Priority(100)
+public class VnfExtCpContributor extends AbstractVnfmContributor<ExternalCpTask> {
+
+	protected VnfExtCpContributor(final VnfLiveInstanceJpa vnfInstanceJpa) {
 		super(vnfInstanceJpa);
 	}
 
 	@Override
-	public List<SclableResources<SecurityGroupTask>> contribute(final VnfPackage bundle, final VnfBlueprint parameters) {
-		final VnfPackage vnfPackage = bundle;
-		final List<SclableResources<SecurityGroupTask>> ret = new ArrayList<>();
-		vnfPackage.getSecurityGroups().forEach(x -> {
-			final SecurityGroupTask task = createTask(SecurityGroupTask::new);
-			task.setType(ResourceTypeEnum.SECURITY_GROUP);
-			task.setToscaName(x.getToscaName());
-			task.setSecurityGroup(x);
-			ret.add(create(SecurityGroupNode.class, task.getClass(), task.getToscaName(), 1, task, parameters.getInstance(), parameters));
-		});
-		return ret;
+	public List<SclableResources<ExternalCpTask>> contribute(final VnfPackage bundle, final VnfBlueprint parameters) {
+		return bundle.getVnfExtCp().stream().map(vnfExtCp -> {
+			final ExternalCpTask task = createTask(ExternalCpTask::new);
+			task.setToscaName(vnfExtCp.getToscaName());
+			task.setChangeType(ChangeType.ADDED);
+			task.setType(ResourceTypeEnum.VNF_EXTCP);
+			task.setVnfExtCp(vnfExtCp);
+			task.setPort(true);
+			return create(VnfExtCp.class, task.getClass(), task.getToscaName(), 1, task, parameters.getInstance(), parameters);
+		})
+				.toList();
 	}
 
 }

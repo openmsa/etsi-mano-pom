@@ -14,7 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3;
+package com.ubiqube.etsi.mano.vnfm.service.plan.contributors;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -25,50 +25,35 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.ubiqube.etsi.mano.dao.mano.VnfCompute;
+import com.ubiqube.etsi.mano.dao.mano.AffinityRule;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
-import com.ubiqube.etsi.mano.dao.mano.VnfVl;
-import com.ubiqube.etsi.mano.dao.mano.v2.PlanOperationType;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
+import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.AffinityRuleContributor;
 
 @ExtendWith(MockitoExtension.class)
-class DnsContributorV3Test {
+class AffinityRuleContributorTest {
 	@Mock
-	private VnfLiveInstanceJpa vnfLiveInstance;
+	private VnfLiveInstanceJpa vnfInstanceJpa;
 
 	@Test
-	void test() {
-		final DnsContributorV3 con = new DnsContributorV3(vnfLiveInstance);
+	void testContribute_Minimal() {
+		final AffinityRuleContributor con = new AffinityRuleContributor(vnfInstanceJpa);
 		final VnfPackage pkg = new VnfPackage();
+		pkg.setAffinityRules(Set.of());
 		final VnfBlueprint params = new VnfBlueprint();
 		con.contribute(pkg, params);
 		assertTrue(true);
 	}
 
 	@Test
-	void test_Vl() {
-		final DnsContributorV3 con = new DnsContributorV3(vnfLiveInstance);
+	void testContribute() {
+		final AffinityRuleContributor con = new AffinityRuleContributor(vnfInstanceJpa);
 		final VnfPackage pkg = new VnfPackage();
-		final VnfVl vl = new VnfVl();
-		vl.setToscaName("vl");
-		pkg.setVnfVl(Set.of(vl));
-		final VnfBlueprint params = new VnfBlueprint();
-		params.setOperation(PlanOperationType.TERMINATE);
-		con.contribute(pkg, params);
-		assertTrue(true);
-	}
-
-	@Test
-	void test_COmpute() {
-		final DnsContributorV3 con = new DnsContributorV3(vnfLiveInstance);
-		final VnfPackage pkg = new VnfPackage();
-		final VnfCompute comp = new VnfCompute();
-		comp.setToscaName("comp");
-		pkg.setVnfCompute(Set.of(comp));
+		final AffinityRule af = new AffinityRule();
+		pkg.setAffinityRules(Set.of(af));
 		final VnfBlueprint params = new VnfBlueprint();
 		con.contribute(pkg, params);
 		assertTrue(true);
 	}
-
 }

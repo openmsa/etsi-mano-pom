@@ -89,6 +89,7 @@ import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.VnfPlanService;
 import com.ubiqube.etsi.mano.service.event.WorkflowV3;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
+import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.AbstractVnfmContributor;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.ComputeVt;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.DnsHostVt;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.DnsZoneVt;
@@ -105,7 +106,6 @@ import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.SubNetworkVt;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.VnfExtCpVt;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.VnfIndicatorVt;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v2.vt.VnfPortVt;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.AbstractVnfmContributorV3;
 
 import jakarta.annotation.Nullable;
 
@@ -120,7 +120,7 @@ public class VnfWorkflow implements WorkflowV3<VnfPackage, VnfBlueprint, VnfTask
 	private static final Logger LOG = LoggerFactory.getLogger(VnfWorkflow.class);
 	private static final Pattern pVl = Pattern.compile("virtual_link_(?<idx>\\d+)");
 
-	private final List<AbstractVnfmContributorV3<VnfTask>> contributors;
+	private final List<AbstractVnfmContributor<VnfTask>> contributors;
 	private final VnfPlanService planService;
 	private final BlueprintBuilder blueprintBuilder;
 	private final List<Class<? extends Node>> masterVertex;
@@ -131,11 +131,11 @@ public class VnfWorkflow implements WorkflowV3<VnfPackage, VnfBlueprint, VnfTask
 	private final VnfPackageService vnfPackageService;
 
 	public VnfWorkflow(final Planner<VnfTask> planv2, final VnfLiveInstanceJpa vnfInstanceJpa,
-			final List<AbstractVnfmContributorV3<?>> contributors, final VnfPlanService planService, final BlueprintBuilder blueprintBuilder,
+			final List<AbstractVnfmContributor<?>> contributors, final VnfPlanService planService, final BlueprintBuilder blueprintBuilder,
 			final VnfPackageService vnfPackageService) {
 		this.planv2 = planv2;
 		this.liveInstanceJpa = vnfInstanceJpa;
-		this.contributors = (List<AbstractVnfmContributorV3<VnfTask>>) ((Object) contributors);
+		this.contributors = (List<AbstractVnfmContributor<VnfTask>>) ((Object) contributors);
 		this.planService = planService;
 		this.blueprintBuilder = blueprintBuilder;
 		this.vnfPackageService = vnfPackageService;

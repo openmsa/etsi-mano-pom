@@ -14,7 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3;
+package com.ubiqube.etsi.mano.vnfm.service.plan.contributors;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -34,15 +34,16 @@ import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.vnfm.McIops;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
+import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.OsContainerContributor;
 
 @ExtendWith(MockitoExtension.class)
-class OsContainerContributorV3Test {
+class OsContainerContributorTest {
 	@Mock
 	private VnfLiveInstanceJpa vnfLiveInstanceJpa;
 
 	@Test
 	void test() {
-		final OsContainerContributorV3 con = new OsContainerContributorV3(vnfLiveInstanceJpa);
+		final OsContainerContributor con = new OsContainerContributor(vnfLiveInstanceJpa);
 		final VnfBlueprint params = new VnfBlueprint();
 		final VnfPackage pkg = new VnfPackage();
 		pkg.setOsContainerDeployableUnits(Set.of());
@@ -54,7 +55,7 @@ class OsContainerContributorV3Test {
 
 	@Test
 	void test_Mciops() {
-		final OsContainerContributorV3 con = new OsContainerContributorV3(vnfLiveInstanceJpa);
+		final OsContainerContributor con = new OsContainerContributor(vnfLiveInstanceJpa);
 		final VnfBlueprint params = new VnfBlueprint();
 		final VnfPackage pkg = new VnfPackage();
 		pkg.setOsContainerDeployableUnits(Set.of());
@@ -69,7 +70,7 @@ class OsContainerContributorV3Test {
 
 	@Test
 	void test_Du() {
-		final OsContainerContributorV3 con = new OsContainerContributorV3(vnfLiveInstanceJpa);
+		final OsContainerContributor con = new OsContainerContributor(vnfLiveInstanceJpa);
 		final VnfBlueprint params = new VnfBlueprint();
 		final VnfPackage pkg = new VnfPackage();
 		final OsContainerDeployableUnit du = new OsContainerDeployableUnit();
@@ -90,7 +91,7 @@ class OsContainerContributorV3Test {
 
 	@Test
 	void test_Du_NotFound() {
-		final OsContainerContributorV3 con = new OsContainerContributorV3(vnfLiveInstanceJpa);
+		final OsContainerContributor con = new OsContainerContributor(vnfLiveInstanceJpa);
 		final VnfBlueprint params = new VnfBlueprint();
 		final VnfPackage pkg = new VnfPackage();
 		final OsContainerDeployableUnit du = new OsContainerDeployableUnit();
@@ -110,7 +111,7 @@ class OsContainerContributorV3Test {
 
 	@Test
 	void test_Du_StorageNotFound() {
-		final OsContainerContributorV3 con = new OsContainerContributorV3(vnfLiveInstanceJpa);
+		final OsContainerContributor con = new OsContainerContributor(vnfLiveInstanceJpa);
 		final VnfBlueprint params = new VnfBlueprint();
 		final VnfPackage pkg = new VnfPackage();
 		final OsContainerDeployableUnit du = new OsContainerDeployableUnit();
