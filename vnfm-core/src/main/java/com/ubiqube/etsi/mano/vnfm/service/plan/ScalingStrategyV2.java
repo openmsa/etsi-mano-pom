@@ -73,16 +73,12 @@ public class ScalingStrategyV2 implements ScalingStrategy {
 	}
 
 	private NumberOfCompute handleScale(final VnfBlueprint plan, final VnfPackage vnfPackage, final VnfCompute compute, final VnfInstance vnfInstance) {
-		switch (getScalingType(plan.getParameters())) {
-		case NS_SCALE_LEVEL_INST_LEVEL:
-			return handleInstantiationLevel(plan.getParameters().getInstantiationLevelId(), compute);
-		case NS_SCALE_LEVEL_SCALE_INFO:
-			return handleScaleInfo(plan.getParameters().getScaleStatus(), compute);
-		case NS_SCALE_STEP:
-			return handleStep(plan.getParameters(), vnfPackage, compute, vnfInstance);
-		default:
-			throw new IllegalArgumentException("Unexpected value: " + getScalingType(plan.getParameters()));
-		}
+		return switch (getScalingType(plan.getParameters())) {
+		case NS_SCALE_LEVEL_INST_LEVEL -> handleInstantiationLevel(plan.getParameters().getInstantiationLevelId(), compute);
+		case NS_SCALE_LEVEL_SCALE_INFO -> handleScaleInfo(plan.getParameters().getScaleStatus(), compute);
+		case NS_SCALE_STEP -> handleStep(plan.getParameters(), vnfPackage, compute, vnfInstance);
+		default -> throw new IllegalArgumentException("Unexpected value: " + getScalingType(plan.getParameters()));
+		};
 	}
 
 	private NumberOfCompute handleStep(final BlueprintParameters parameters, final VnfPackage vnfPackage, final VnfCompute compute, final VnfInstance instance) {

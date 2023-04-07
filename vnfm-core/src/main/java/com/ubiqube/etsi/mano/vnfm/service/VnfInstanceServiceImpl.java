@@ -145,7 +145,7 @@ public class VnfInstanceServiceImpl implements VnfInstanceService {
 
 	@Override
 	public VnfInstance findById(@NotNull final UUID safeUUID) {
-		return vnfInstanceJpa.findById(safeUUID).orElseThrow(() -> new GenericException("Unqble to find VNF instance: " + safeUUID));
+		return vnfInstanceJpa.findById(safeUUID).orElseThrow(() -> new GenericException("Unable to find VNF instance: " + safeUUID));
 	}
 
 	@Override
