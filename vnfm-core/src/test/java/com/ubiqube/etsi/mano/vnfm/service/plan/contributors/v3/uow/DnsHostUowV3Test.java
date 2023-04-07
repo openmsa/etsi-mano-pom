@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -34,9 +35,10 @@ class DnsHostUowV3Test {
 	@Test
 	void test() {
 		final DnsHostTask nt = new DnsHostTask();
-		final VirtualTaskV3<DnsHostTask> task = new DnsHostVt(nt);
+		final VirtualTaskV3<DnsHostTask> vt = new DnsHostVt(nt);
+		assertNotNull(vt.getType());
 		final VimConnectionInformation vimConn = new VimConnectionInformation();
-		final DnsHostUowV3 uow = new DnsHostUowV3(task, vim, vimConn);
+		final DnsHostUowV3 uow = new DnsHostUowV3(vt, vim, vimConn);
 		uow.execute(null);
 		assertTrue(true);
 	}

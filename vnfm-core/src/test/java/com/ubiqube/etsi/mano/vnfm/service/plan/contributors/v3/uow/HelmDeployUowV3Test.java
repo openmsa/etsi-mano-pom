@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -70,6 +71,7 @@ class HelmDeployUowV3Test {
 		mciop.setArtifacts(Map.of("img", si));
 		nt.setMciop(mciop);
 		final VirtualTaskV3<HelmTask> task = new HelmVt(nt);
+		assertNotNull(task.getType());
 		final HelmDeployUowV3 uow = new HelmDeployUowV3(task, client, serverInfoJpa, vnfRepo, manoKey);
 		final K8sServers k8sServer = new K8sServers();
 		when(ctx.get(any(), any())).thenReturn("e4950a2a-cd80-11ed-80f9-c8f750509d3b");

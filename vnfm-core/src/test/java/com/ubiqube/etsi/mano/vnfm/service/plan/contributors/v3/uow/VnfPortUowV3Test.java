@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -51,6 +52,7 @@ class VnfPortUowV3Test {
 		final VnfLinkPort vnfLinkPort = new VnfLinkPort();
 		nt.setVnfLinkPort(vnfLinkPort);
 		final VirtualTaskV3<VnfPortTask> vt = new VnfPortVt(nt);
+		assertNotNull(vt.getType());
 		final VimConnectionInformation vimConn = new VimConnectionInformation();
 		final VnfPortUowV3 uow = new VnfPortUowV3(vt, vim, vimConn);
 		when(context.get(eq(Network.class), any())).thenReturn("");

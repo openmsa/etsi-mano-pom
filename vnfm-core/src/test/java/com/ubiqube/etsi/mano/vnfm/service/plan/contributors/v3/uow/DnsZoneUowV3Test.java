@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -35,6 +36,7 @@ class DnsZoneUowV3Test {
 		final VimConnectionInformation vimConn = new VimConnectionInformation();
 		final DnsZoneTask nt = new DnsZoneTask();
 		final VirtualTaskV3<DnsZoneTask> task = new DnsZoneVt(nt);
+		assertNotNull(task.getType());
 		final DnsZoneUowV3 uow = new DnsZoneUowV3(task, vim, vimConn);
 		uow.execute(null);
 		assertTrue(true);

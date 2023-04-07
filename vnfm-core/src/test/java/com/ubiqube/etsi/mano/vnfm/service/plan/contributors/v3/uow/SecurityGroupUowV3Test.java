@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -45,6 +46,7 @@ class SecurityGroupUowV3Test {
 	void test() {
 		final SecurityGroupTask nt = new SecurityGroupTask();
 		final VirtualTaskV3<SecurityGroupTask> vt = new SecurityGroupVt(nt);
+		assertNotNull(vt.getType());
 		final VimConnectionInformation vimConn = new VimConnectionInformation();
 		final SecurityGroupUowV3 uow = new SecurityGroupUowV3(vt, vim, vimConn);
 		when(vim.network(vimConn)).thenReturn(network);

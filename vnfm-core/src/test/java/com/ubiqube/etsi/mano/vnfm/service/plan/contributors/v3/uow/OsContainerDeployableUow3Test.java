@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -52,6 +53,7 @@ class OsContainerDeployableUow3Test {
 		odu.setVduProfile(profile);
 		nt.setOsContainerDeployableUnit(odu);
 		final VirtualTaskV3<OsContainerDeployableTask> vt = new OsContainerDeployableVt(nt);
+		assertNotNull(vt.getType());
 		final VimConnectionInformation vimConn = new VimConnectionInformation();
 		final CnfInformations vnfInfo = new CnfInformations();
 		vimConn.setCnfInfo(vnfInfo);

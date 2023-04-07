@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -45,6 +46,7 @@ class SecurityRuleUowV3Test {
 	void test() {
 		final SecurityRuleTask task = new SecurityRuleTask();
 		final VirtualTaskV3<SecurityRuleTask> vt = new SecurityRuleVt(task);
+		assertNotNull(vt.getType());
 		final VimConnectionInformation vimConn = new VimConnectionInformation();
 		final SecurityRuleUowV3 uow = new SecurityRuleUowV3(vt, vim, vimConn);
 		when(vim.network(vimConn)).thenReturn(network);

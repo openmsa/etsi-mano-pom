@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -57,6 +58,7 @@ class MciopUserUowV3Test {
 	void test() {
 		final MciopUserTask nt = new MciopUserTask();
 		final VirtualTaskV3<MciopUserTask> vt = new MciopUserVt(nt);
+		assertNotNull(vt.getType());
 		final VimConnectionInformation vimConn = new VimConnectionInformation();
 		final MciopUserUowV3 uow = new MciopUserUowV3(vt, vim, vimConn, serverInfoJpa, "cn");
 		when(context.get(eq(OsK8sInformationsNode.class), any())).thenReturn(UUID.randomUUID().toString());

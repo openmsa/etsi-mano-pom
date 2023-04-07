@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -57,6 +58,7 @@ class OsK8sClusterInfoUowV3Test {
 		final VimConnectionInformation vimConn = new VimConnectionInformation();
 		final K8sInformationsTask task = new K8sInformationsTask();
 		final VirtualTaskV3<K8sInformationsTask> vt = new OsK8sClusterVt(task);
+		assertNotNull(vt.getType());
 		final OsK8sClusterInfoUowV3 uow = new OsK8sClusterInfoUowV3(vt, vim, vimConn, serverInfoJpa);
 		when(context.get(any(), any())).thenReturn(UUID.randomUUID().toString());
 		when(vim.cnf(vimConn)).thenReturn(cnf);

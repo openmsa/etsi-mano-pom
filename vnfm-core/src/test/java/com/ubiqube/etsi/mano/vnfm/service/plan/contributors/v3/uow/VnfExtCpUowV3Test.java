@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -48,6 +49,7 @@ class VnfExtCpUowV3Test {
 		final VnfExtCp vnfExt = new VnfExtCp();
 		nt.setVnfExtCp(vnfExt);
 		final VirtualTaskV3<ExternalCpTask> vt = new VnfExtCpVt(nt);
+		assertNotNull(vt.getType());
 		final VimConnectionInformation vimConn = new VimConnectionInformation();
 		final VnfExtCpUowV3 uow = new VnfExtCpUowV3(vt, vim, vimConn);
 		when(vim.network(vimConn)).thenReturn(netwok);

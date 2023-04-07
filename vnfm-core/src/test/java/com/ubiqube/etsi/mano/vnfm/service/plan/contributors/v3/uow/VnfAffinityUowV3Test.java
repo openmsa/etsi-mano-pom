@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -41,6 +42,7 @@ class VnfAffinityUowV3Test {
 	void test() {
 		final AffinityRuleTask task = new AffinityRuleTask();
 		final VirtualTaskV3<AffinityRuleTask> vt = new AffinityRuleVt(task);
+		assertNotNull(vt.getType());
 		final VimConnectionInformation vimConn = new VimConnectionInformation();
 		final VnfAffinityUowV3 uow = new VnfAffinityUowV3(vt, vim, vimConn);
 		uow.execute(context);

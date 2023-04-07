@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -56,6 +57,7 @@ class VirtualLinkUowV3Test {
 		vnfVl.setVlProfileEntity(profile);
 		nt.setVnfVl(vnfVl);
 		final VirtualTaskV3<NetworkTask> vt = new NetWorkVt(nt);
+		assertNotNull(vt.getType());
 		final VimConnectionInformation vimConn = new VimConnectionInformation();
 		final VirtualLinkUowV3 uow = new VirtualLinkUowV3(vt, vim, vimConn);
 		when(vim.network(vimConn)).thenReturn(netwok);

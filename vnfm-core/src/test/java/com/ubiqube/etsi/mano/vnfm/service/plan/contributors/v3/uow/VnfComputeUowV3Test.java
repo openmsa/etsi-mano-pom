@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Set;
@@ -51,6 +52,7 @@ class VnfComputeUowV3Test {
 		comp.setPorts(Set.of());
 		task.setVnfCompute(comp);
 		final VirtualTaskV3<ComputeTask> vt = new ComputeVt(task);
+		assertNotNull(vt.getType());
 		final VimConnectionInformation vimConnection = new VimConnectionInformation();
 		final VnfComputeUowV3 uow = new VnfComputeUowV3(vt, vim, vimConnection);
 		uow.execute(context);

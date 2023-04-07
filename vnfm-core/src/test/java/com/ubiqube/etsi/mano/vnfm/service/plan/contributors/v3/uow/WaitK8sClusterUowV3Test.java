@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.v3.uow;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -48,6 +49,7 @@ class WaitK8sClusterUowV3Test {
 	void test() {
 		final OsContainerDeployableTask task = new OsContainerDeployableTask();
 		final VirtualTaskV3<OsContainerDeployableTask> vt = new OsContainerDeployableVt(task);
+		assertNotNull(vt.getType());
 		final VimConnectionInformation vimConn = new VimConnectionInformation();
 		final WaitK8sClusterUowV3 uow = new WaitK8sClusterUowV3(vt, vim, vimConn);
 		when(vim.cnf(vimConn)).thenReturn(cnf);
