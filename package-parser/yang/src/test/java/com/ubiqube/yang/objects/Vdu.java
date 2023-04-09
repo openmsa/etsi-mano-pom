@@ -1,5 +1,5 @@
 /**
- *     Copyright (C) 2019-2020 Ubiqube.
+ *     Copyright (C) 2019-2023 Ubiqube.
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -14,40 +14,19 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.parser.tosca.sol006.statement;
+package com.ubiqube.yang.objects;
 
-import java.util.List;
-
-import com.ubiqube.parser.tosca.sol006.ir.IrStatement;
-
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- *
- * @author Olivier Vignaud <ovi@ubiqube.com>
- * @see https://www.rfc-editor.org/rfc/rfc7950#section-7.1.6
- *
- */
 @Getter
 @Setter
-public class IncludeStatement extends AbstractStatementImpl {
+@AllArgsConstructor
+@NoArgsConstructor
+public class Vdu {
 
 	private String name;
-
-	// description reference revision-date
-	@Override
-	public String getYangName() {
-		return "include";
-	}
-
-	@Override
-	public void load(final IrStatement res) {
-		name = res.getArgument().toString();
-		final List<IrStatement> lst = res.getStatements();
-		if (!lst.isEmpty()) {
-			throw new IllegalArgumentException("TODO");
-		}
-	}
 
 }

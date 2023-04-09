@@ -30,7 +30,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class RevisionStatement implements Statement {
+public class RevisionStatement extends AbstractStatementImpl {
 
 	private String value;
 	private String description;
@@ -45,7 +45,7 @@ public class RevisionStatement implements Statement {
 	public void load(final IrStatement res) {
 		value = res.getArgument().toString();
 		final List<IrStatement> stmts = res.getStatements();
-		stmts.forEach(x -> doSwitch(x));
+		stmts.forEach(this::doSwitch);
 	}
 
 	private void doSwitch(final IrStatement x) {

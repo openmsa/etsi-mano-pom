@@ -21,7 +21,7 @@ package com.ubiqube.parser.tosca.sol006.statement;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public class ErrorMessageStatement implements Statement {
+public class ErrorMessageStatement extends AbstractStatementImpl {
 
 	@Override
 	public String getYangName() {

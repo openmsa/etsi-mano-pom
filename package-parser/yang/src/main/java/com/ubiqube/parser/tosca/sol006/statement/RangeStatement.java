@@ -16,16 +16,47 @@
  */
 package com.ubiqube.parser.tosca.sol006.statement;
 
+import java.util.List;
+
+import com.ubiqube.parser.tosca.generator.ErrorHelper;
+import com.ubiqube.parser.tosca.generator.YangUtils;
+import com.ubiqube.parser.tosca.sol006.ir.IrStatement;
+
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public class RangeStatement implements Statement {
+@Getter
+@Setter
+public class RangeStatement extends AbstractStatementImpl {
+
+	private String name;
+	private String description;
+	private String reference;
 
 	@Override
 	public String getYangName() {
 		return "range";
 	}
 
+	@Override
+	public void load(final IrStatement res) {
+		name = YangUtils.argumentToString(res.getArgument());
+		final List<IrStatement> stmts = res.getStatements();
+		stmts.forEach(this::doSwitch);
+	}
+
+	private void doSwitch(final IrStatement x) {
+		switch (x.getKeyword().identifier()) {
+		case "description" -> description = YangUtils.argumentToString(x.getArgument());
+		case "reference" -> reference = YangUtils.argumentToString(x.getArgument());
+		case "error-app-tag" -> ErrorHelper.handleError(x);
+		case "error-message" -> ErrorHelper.handleError(x);
+		default -> ErrorHelper.handleError(x);
+		}
+	}
 }

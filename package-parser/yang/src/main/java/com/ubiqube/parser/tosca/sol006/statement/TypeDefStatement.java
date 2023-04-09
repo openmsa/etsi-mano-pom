@@ -24,19 +24,24 @@ import com.ubiqube.parser.tosca.generator.StatusType;
 import com.ubiqube.parser.tosca.generator.YangUtils;
 import com.ubiqube.parser.tosca.sol006.ir.IrStatement;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  * @see https://www.rfc-editor.org/rfc/rfc7950#section-7.3
  */
-public class TypeDefStatement implements Statement {
+@Getter
+@Setter
+public class TypeDefStatement extends AbstractStatementImpl implements NamedStatement {
 
 	private String name;
 	private String def;
 	private String description;
 	private String reference;
 	private StatusType status;
-	private String type;
+	private TypeStatement type;
 	private String units;
 
 	@Override
@@ -57,7 +62,7 @@ public class TypeDefStatement implements Statement {
 		case "description" -> description = YangUtils.argumentToString(x.getArgument());
 		case "reference" -> reference = YangUtils.argumentToString(x.getArgument());
 		case "status" -> status = StatusType.fromValue(YangUtils.argumentToString(x.getArgument()));
-		case "type" -> type = YangUtils.argumentToString(x.getArgument());
+		case "type" -> type = YangUtils.genericHandleSingle(x, TypeStatement::new);
 		case "units" -> units = YangUtils.argumentToString(x.getArgument());
 		default -> ErrorHelper.handleError(x);
 		}

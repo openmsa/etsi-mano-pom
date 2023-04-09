@@ -16,9 +16,14 @@
  */
 package com.ubiqube.parser.tosca.sol006;
 
+import lombok.Getter;
+
+@Getter
 public class Revision {
 
+	private final String version;
+
 	public Revision(final String version) {
-		// TODO Auto-generated constructor stub
+		this.version = version;
 	}
 }

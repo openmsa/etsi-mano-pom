@@ -16,7 +16,7 @@
  */
 package com.ubiqube.parser.tosca.sol006.statement;
 
-public class DescriptionStatement implements Statement {
+public class DescriptionStatement extends AbstractStatementImpl {
 
 	@Override
 	public String getYangName() {

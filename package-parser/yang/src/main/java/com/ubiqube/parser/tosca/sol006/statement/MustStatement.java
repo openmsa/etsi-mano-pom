@@ -25,7 +25,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MustStatement implements Statement {
+public class MustStatement extends AbstractStatementImpl {
 
 	private String name;
 	private String description;

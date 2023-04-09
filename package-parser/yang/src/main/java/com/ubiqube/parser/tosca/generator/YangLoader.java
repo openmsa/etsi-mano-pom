@@ -18,6 +18,7 @@ package com.ubiqube.parser.tosca.generator;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.stream.Stream;
 
 import com.ubiqube.parser.tosca.sol006.ir.YangRoot;
@@ -26,12 +27,12 @@ public class YangLoader {
 
 	private final YangFileLoader yfl = new YangFileLoader();
 
-	public void loadDirectory(final Path path) {
+	public List<YangRoot> loadDirectory(final Path path) {
 		final String[] res = path.toFile().list((x, y) -> y.endsWith(".yang"));
-		Stream.of(res).map(x -> loafFile(x));
+		return Stream.of(res).map(x -> loafFile(new File(path.toString(), x))).toList();
 	}
 
-	private YangRoot loafFile(final String x) {
-		return yfl.loadFile(new File(x));
+	private YangRoot loafFile(final File x) {
+		return yfl.loadFile(x);
 	}
 }

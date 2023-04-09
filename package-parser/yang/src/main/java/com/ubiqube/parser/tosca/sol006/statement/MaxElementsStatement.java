@@ -16,7 +16,7 @@
  */
 package com.ubiqube.parser.tosca.sol006.statement;
 
-public class MaxElementsStatement implements Statement {
+public class MaxElementsStatement extends AbstractStatementImpl {
 
 	@Override
 	public String getYangName() {

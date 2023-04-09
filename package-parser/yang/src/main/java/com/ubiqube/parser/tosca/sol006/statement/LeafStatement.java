@@ -33,12 +33,12 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class LeafStatement implements Statement {
+public class LeafStatement extends AbstractStatementImpl {
 
 	private String name;
 	private String description;
 	private String reference;
-	private String type;
+	private TypeStatement type;
 	private String mandatory;
 	private String units;
 	private String must;
@@ -66,7 +66,7 @@ public class LeafStatement implements Statement {
 		case "default" -> def = YangUtils.argumentToString(x.getArgument());
 		case "if-feature" -> handleError(x);
 		case "mandatory" -> mandatory = YangUtils.argumentToString(x.getArgument());
-		case "type" -> type = YangUtils.argumentToString(x.getArgument());
+		case "type" -> type = YangUtils.genericHandleSingle(x, TypeStatement::new);
 		case "units" -> units = YangUtils.argumentToString(x.getArgument());
 		case "must" -> must = YangUtils.argumentToString(x.getArgument());
 		case "status" -> status = StatusType.fromValue(YangUtils.argumentToString(x.getArgument()));

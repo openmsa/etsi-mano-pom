@@ -30,7 +30,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class ImportStatement implements Statement {
+public class ImportStatement extends AbstractStatementImpl {
 
 	private String description;
 	private String prefix;

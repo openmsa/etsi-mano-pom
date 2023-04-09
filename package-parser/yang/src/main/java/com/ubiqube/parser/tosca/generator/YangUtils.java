@@ -77,4 +77,14 @@ public class YangUtils {
 		lst.add(n);
 	}
 
+	public static void handleListable(final IrArgument arg, final List<String> lst) {
+		lst.add(argumentToString(arg));
+	}
+
+	public static <U extends Statement> U genericHandleSingle(final IrStatement x, final Supplier<U> supp) {
+		final U n = supp.get();
+		n.load(x);
+		return n;
+	}
+
 }

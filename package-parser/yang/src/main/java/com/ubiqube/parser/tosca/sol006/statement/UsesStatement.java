@@ -30,7 +30,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class UsesStatement implements Statement {
+public class UsesStatement extends AbstractStatementImpl implements NamedStatement {
 
 	private String name;
 	private String description;

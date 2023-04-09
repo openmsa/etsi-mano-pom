@@ -23,6 +23,10 @@ public interface Statement {
 
 	String getYangName();
 
+	String getNamespace();
+
+	RevisionStatement getLatestRevision();
+
 	default void load(final IrStatement res) {
 		ErrorHelper.handleError(res);
 	}

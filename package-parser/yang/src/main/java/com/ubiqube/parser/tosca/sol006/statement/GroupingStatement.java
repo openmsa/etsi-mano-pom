@@ -31,7 +31,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class GroupingStatement implements Statement {
+public class GroupingStatement extends AbstractStatementImpl implements NamedStatement {
 	private List<ContainerStatement> container = new ArrayList<>();
 	private List<UsesStatement> uses = new ArrayList<>();
 	private List<ListStatement> list = new ArrayList<>();

@@ -18,7 +18,6 @@ package com.ubiqube.parser.tosca.sol006.statement;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 
 import com.ubiqube.parser.tosca.generator.ErrorHelper;
 import com.ubiqube.parser.tosca.generator.YangUtils;
@@ -36,9 +35,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class ModuleStatement implements Statement {
-
-	private List<RevisionStatement> revision = new ArrayList<>();
+public class ModuleStatement extends AbstractStatementImpl implements NamedStatement {
 
 	private YangVersionStatement yangVersion;
 
@@ -60,8 +57,6 @@ public class ModuleStatement implements Statement {
 	private Revision version;
 
 	private BelongsToStatement belongsTo;
-
-	private String namespace;
 
 	private String prefix;
 
@@ -85,51 +80,21 @@ public class ModuleStatement implements Statement {
 	private Object parseStatement(final IrStatement x) {
 		switch (x.getKeyword().identifier()) {
 		case "contact" -> contact = YangUtils.argumentToString(x.getArgument());
-		case "container" -> genericHandle(x, ContainerStatement::new, container);
+		case "container" -> YangUtils.genericHandle(x, ContainerStatement::new, container);
 		case "description" -> description = YangUtils.argumentToString(x.getArgument());
-		case "grouping" -> handleGrouping(x);
-		case "include" -> handleInclude(x);
-		case "import" -> handleImport(x);
+		case "grouping" -> YangUtils.genericHandle(x, GroupingStatement::new, grouping);
+		case "include" -> YangUtils.genericHandle(x, IncludeStatement::new, include);
+		case "import" -> YangUtils.genericHandle(x, ImportStatement::new, imp);
 		case "namespace" -> namespace = YangUtils.argumentToString(x.getArgument());
 		case "organization" -> organization = YangUtils.argumentToString(x.getArgument());
 		case "prefix" -> prefix = YangUtils.argumentToString(x.getArgument());
-		case "revision" -> genericHandle(x, RevisionStatement::new, revision);
-		case "typedef" -> genericHandle(x, TypeDefStatement::new, typeDef);
-		case "uses" -> genericHandle(x, UsesStatement::new, uses);
+		case "revision" -> YangUtils.genericHandle(x, RevisionStatement::new, revision);
+		case "typedef" -> YangUtils.genericHandle(x, TypeDefStatement::new, typeDef);
+		case "uses" -> YangUtils.genericHandle(x, UsesStatement::new, uses);
 		case "yang-version" -> version = new Revision(x.getArgument().toString());
 		default -> ErrorHelper.handleError(x);
 		}
 		return null;
-	}
-
-	private static <U extends Statement> void genericHandle(final IrStatement x, final Supplier<U> supp, final List<U> lst) {
-		final U n = supp.get();
-		n.load(x);
-		lst.add(n);
-	}
-
-	private void handleImport(final IrStatement x) {
-		final ImportStatement is = new ImportStatement();
-		is.load(x);
-		imp.add(is);
-	}
-
-	private void handleGrouping(final IrStatement x) {
-		final GroupingStatement gs = new GroupingStatement();
-		gs.load(x);
-		grouping.add(gs);
-	}
-
-	private void handleRevision(final IrStatement x) {
-		final RevisionStatement rs = new RevisionStatement();
-		rs.load(x);
-		revision.add(rs);
-	}
-
-	private void handleInclude(final IrStatement x) {
-		final IncludeStatement is = new IncludeStatement();
-		is.load(x);
-		include.add(is);
 	}
 
 }

@@ -21,7 +21,7 @@ package com.ubiqube.parser.tosca.sol006.statement;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public class FractionDigitsStatement implements Statement {
+public class FractionDigitsStatement extends AbstractStatementImpl {
 
 	@Override
 	public String getYangName() {

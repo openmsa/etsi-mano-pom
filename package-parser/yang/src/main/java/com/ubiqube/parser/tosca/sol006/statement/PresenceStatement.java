@@ -21,7 +21,7 @@ package com.ubiqube.parser.tosca.sol006.statement;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public class PresenceStatement implements Statement {
+public class PresenceStatement extends AbstractStatementImpl {
 
 	@Override
 	public String getYangName() {

@@ -1,5 +1,5 @@
 /**
- *     Copyright (C) 2019-2020 Ubiqube.
+ *     Copyright (C) 2019-2023 Ubiqube.
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -16,38 +16,26 @@
  */
 package com.ubiqube.parser.tosca.sol006.statement;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import com.ubiqube.parser.tosca.sol006.ir.IrStatement;
-
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  *
- * @author Olivier Vignaud <ovi@ubiqube.com>
- * @see https://www.rfc-editor.org/rfc/rfc7950#section-7.1.6
+ * @author Olivier Vignaud
  *
  */
-@Getter
-@Setter
-public class IncludeStatement extends AbstractStatementImpl {
+public abstract class AbstractStatementImpl implements Statement {
+	protected String namespace;
+	protected List<RevisionStatement> revision = new ArrayList<>();
 
-	private String name;
-
-	// description reference revision-date
 	@Override
-	public String getYangName() {
-		return "include";
+	public final String getNamespace() {
+		return namespace;
 	}
 
 	@Override
-	public void load(final IrStatement res) {
-		name = res.getArgument().toString();
-		final List<IrStatement> lst = res.getStatements();
-		if (!lst.isEmpty()) {
-			throw new IllegalArgumentException("TODO");
-		}
+	public RevisionStatement getLatestRevision() {
+		return revision.get(0);
 	}
 
 }

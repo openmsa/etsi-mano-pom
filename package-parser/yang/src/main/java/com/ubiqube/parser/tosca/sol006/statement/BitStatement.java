@@ -1,5 +1,5 @@
 /**
- *     Copyright (C) 2019-2020 Ubiqube.
+ *     Copyright (C) 2019-2023 Ubiqube.
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU General Public License as published by
@@ -16,38 +16,11 @@
  */
 package com.ubiqube.parser.tosca.sol006.statement;
 
-import java.util.List;
+public class BitStatement extends AbstractStatementImpl {
 
-import com.ubiqube.parser.tosca.sol006.ir.IrStatement;
-
-import lombok.Getter;
-import lombok.Setter;
-
-/**
- *
- * @author Olivier Vignaud <ovi@ubiqube.com>
- * @see https://www.rfc-editor.org/rfc/rfc7950#section-7.1.6
- *
- */
-@Getter
-@Setter
-public class IncludeStatement extends AbstractStatementImpl {
-
-	private String name;
-
-	// description reference revision-date
 	@Override
 	public String getYangName() {
-		return "include";
-	}
-
-	@Override
-	public void load(final IrStatement res) {
-		name = res.getArgument().toString();
-		final List<IrStatement> lst = res.getStatements();
-		if (!lst.isEmpty()) {
-			throw new IllegalArgumentException("TODO");
-		}
+		return "bit";
 	}
 
 }

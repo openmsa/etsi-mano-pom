@@ -21,7 +21,7 @@ package com.ubiqube.parser.tosca.sol006.statement;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public class MinElementsStatement implements Statement {
+public class MinElementsStatement extends AbstractStatementImpl {
 
 	@Override
 	public String getYangName() {

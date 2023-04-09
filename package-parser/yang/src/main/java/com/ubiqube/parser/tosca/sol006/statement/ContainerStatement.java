@@ -32,7 +32,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class ContainerStatement implements Statement {
+public class ContainerStatement extends AbstractStatementImpl {
 	private List<ListStatement> list = new ArrayList<>();
 	private List<LeafStatement> leaf = new ArrayList<>();
 	private List<LeafListStatement> leafList = new ArrayList<>();
@@ -54,7 +54,7 @@ public class ContainerStatement implements Statement {
 	public void load(final IrStatement res) {
 		name = res.getArgument().toString();
 		final List<IrStatement> stmts = res.getStatements();
-		stmts.forEach(x -> doSwitch(x));
+		stmts.forEach(this::doSwitch);
 	}
 
 	private void doSwitch(final IrStatement x) {

@@ -16,7 +16,7 @@
  */
 package com.ubiqube.parser.tosca.sol006.statement;
 
-public class DefaultStatement implements Statement {
+public class DefaultStatement extends AbstractStatementImpl {
 
 	@Override
 	public String getYangName() {

@@ -33,12 +33,12 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class LeafListStatement implements Statement {
+public class LeafListStatement extends AbstractStatementImpl {
 	private List<MustStatement> must = new ArrayList<>();
 	private String name;
 	private String description;
 	private String reference;
-	private String type;
+	private TypeStatement type;
 	private String minElement;
 	private String maxElement;
 	private String def;
@@ -67,11 +67,11 @@ public class LeafListStatement implements Statement {
 		case "if-feature" -> handleError(x);
 		case "min-elements" -> minElement = YangUtils.argumentToString(x.getArgument());
 		case "max-elements" -> maxElement = YangUtils.argumentToString(x.getArgument());
-		case "must" -> handleMust(x);
+		case "must" -> YangUtils.genericHandle(x, MustStatement::new, must);
 		case "order-by" -> orderBy = YangUtils.argumentToString(x.getArgument());
 		case "reference" -> reference = YangUtils.argumentToString(x.getArgument());
 		case "status" -> status = StatusType.fromValue(YangUtils.argumentToString(x.getArgument()));
-		case "type" -> type = YangUtils.argumentToString(x.getArgument());
+		case "type" -> type = YangUtils.genericHandleSingle(x, TypeStatement::new);
 		case "units" -> units = YangUtils.argumentToString(x.getArgument());
 		case "when" -> when = YangUtils.argumentToString(x.getArgument());
 		default -> throw new IllegalArgumentException(x.getKeyword() + "");
@@ -79,13 +79,7 @@ public class LeafListStatement implements Statement {
 		// Objects.requireNonNull(type, "Type is mandatory on leaf-list object.")
 	}
 
-	private void handleMust(final IrStatement x) {
-		final MustStatement l = new MustStatement();
-		l.load(x);
-		must.add(l);
-	}
-
-	private void handleError(final IrStatement x) {
+	private static void handleError(final IrStatement x) {
 		throw new IllegalArgumentException(x.getKeyword() + "");
 	}
 

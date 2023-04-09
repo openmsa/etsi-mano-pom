@@ -34,7 +34,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class IdentityStatement implements Statement {
+public class IdentityStatement extends AbstractStatementImpl {
 	private List<String> base = new ArrayList<>();
 	private String name;
 	private String description;

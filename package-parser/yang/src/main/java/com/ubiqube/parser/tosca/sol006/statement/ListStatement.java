@@ -28,7 +28,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ListStatement implements Statement {
+public class ListStatement extends AbstractStatementImpl {
 	private List<ListStatement> list = new ArrayList<>();
 	private List<LeafStatement> leaf = new ArrayList<>();
 	private List<LeafListStatement> leafList = new ArrayList<>();
