@@ -19,6 +19,7 @@ package com.ubiqube.parser.tosca.sol006.statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ubiqube.parser.tosca.generator.YangUtils;
 import com.ubiqube.parser.tosca.sol006.ir.IrStatement;
 
 import lombok.Getter;
@@ -50,49 +51,19 @@ public class GroupingStatement extends AbstractStatementImpl implements NamedSta
 	public void load(final IrStatement res) {
 		name = res.getArgument().toString();
 		final List<IrStatement> stmts = res.getStatements();
-		stmts.forEach(x -> doSwitch(x));
+		stmts.forEach(this::doSwitch);
 	}
 
 	private void doSwitch(final IrStatement x) {
 		switch (x.getKeyword().identifier()) {
-		case "description" -> description = x.getArgument().toString();
-		case "reference" -> reference = x.getArgument().toString();
-		case "leaf" -> handleLeaf(x);
-		case "leaf-list" -> handleLeafList(x);
-		case "list" -> handleList(x);
-		case "uses" -> handleUses(x);
-		case "container" -> handleContainser(x);
+		case "description" -> description = YangUtils.argumentToString(x.getArgument());
+		case "reference" -> reference = YangUtils.argumentToString(x.getArgument());
+		case "leaf" -> YangUtils.genericHandle(this, x, LeafStatement::new, leaf);
+		case "leaf-list" -> YangUtils.genericHandle(this, x, LeafListStatement::new, leafList);
+		case "list" -> YangUtils.genericHandle(this, x, ListStatement::new, list);
+		case "uses" -> YangUtils.genericHandle(this, x, UsesStatement::new, uses);
+		case "container" -> YangUtils.genericHandle(this, x, ContainerStatement::new, container);
 		default -> throw new IllegalArgumentException(x.getKeyword() + "");
 		}
-	}
-
-	private void handleContainser(final IrStatement x) {
-		final ContainerStatement cs = new ContainerStatement();
-		cs.load(x);
-		container.add(cs);
-	}
-
-	private void handleUses(final IrStatement x) {
-		final UsesStatement us = new UsesStatement();
-		us.load(x);
-		uses.add(us);
-	}
-
-	private void handleLeafList(final IrStatement x) {
-		final LeafListStatement ls = new LeafListStatement();
-		ls.load(x);
-		leafList.add(ls);
-	}
-
-	private void handleLeaf(final IrStatement x) {
-		final LeafStatement ls = new LeafStatement();
-		ls.load(x);
-		leaf.add(ls);
-	}
-
-	private void handleList(final IrStatement x) {
-		final ListStatement l = new ListStatement();
-		l.load(x);
-		list.add(l);
 	}
 }

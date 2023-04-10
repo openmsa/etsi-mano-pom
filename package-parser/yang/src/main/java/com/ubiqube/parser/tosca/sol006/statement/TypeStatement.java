@@ -63,15 +63,15 @@ public class TypeStatement extends AbstractStatementImpl {
 	private void doSwitch(final IrStatement x) {
 		switch (x.getKeyword().identifier()) {
 		case "base" -> YangUtils.handleListable(x.getArgument(), base);
-		case "bit" -> YangUtils.genericHandle(x, BitStatement::new, bit);
-		case "enum" -> YangUtils.genericHandle(x, EnumStatement::new, enu);
+		case "bit" -> YangUtils.genericHandle(this, x, BitStatement::new, bit);
+		case "enum" -> YangUtils.genericHandle(this, x, EnumStatement::new, enu);
 		case "fraction-digits" -> fractionDigit = YangUtils.argumentToString(x.getArgument());
 		case "length" -> length = YangUtils.argumentToString(x.getArgument());
 		case "path" -> path = YangUtils.argumentToString(x.getArgument());
 		case "pattern" -> YangUtils.argumentToString(x.getArgument());
-		case "range" -> range = YangUtils.genericHandleSingle(x, RangeStatement::new);
+		case "range" -> range = YangUtils.genericHandleSingle(this, x, RangeStatement::new);
 		case "require-instance" -> requireInstance = YangUtils.argumentToString(x.getArgument());
-		case "type" -> YangUtils.genericHandle(x, TypeStatement::new, type);
+		case "type" -> YangUtils.genericHandle(this, x, TypeStatement::new, type);
 		default -> ErrorHelper.handleError(x);
 		}
 	}

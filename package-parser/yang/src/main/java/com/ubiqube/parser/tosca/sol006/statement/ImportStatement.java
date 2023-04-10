@@ -18,6 +18,7 @@ package com.ubiqube.parser.tosca.sol006.statement;
 
 import java.util.List;
 
+import com.ubiqube.parser.tosca.generator.YangUtils;
 import com.ubiqube.parser.tosca.sol006.ir.IrStatement;
 
 import lombok.Getter;
@@ -47,15 +48,15 @@ public class ImportStatement extends AbstractStatementImpl {
 	public void load(final IrStatement res) {
 		name = res.getArgument().toString();
 		final List<IrStatement> stmts = res.getStatements();
-		stmts.forEach(x -> doSwitch(x));
+		stmts.forEach(this::doSwitch);
 	}
 
 	private void doSwitch(final IrStatement x) {
 		switch (x.getKeyword().identifier()) {
-		case "description" -> description = x.getArgument().toString();
-		case "prefix" -> prefix = x.getArgument().toString();
-		case "reference" -> reference = x.getArgument().toString();
-		case "revision-date" -> revisionDate = x.getArgument().toString();
+		case "description" -> description = YangUtils.argumentToString(x.getArgument());
+		case "prefix" -> prefix = YangUtils.argumentToString(x.getArgument());
+		case "reference" -> reference = YangUtils.argumentToString(x.getArgument());
+		case "revision-date" -> revisionDate = YangUtils.argumentToString(x.getArgument());
 		default -> throw new IllegalArgumentException(x.getKeyword() + "");
 		}
 	}

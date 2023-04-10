@@ -19,6 +19,7 @@ package com.ubiqube.parser.tosca.sol006.statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ubiqube.parser.tosca.generator.YangUtils;
 import com.ubiqube.parser.tosca.sol006.ir.IrStatement;
 
 import lombok.Getter;
@@ -57,14 +58,14 @@ public class ChoiceStatement extends AbstractStatementImpl {
 
 	private void doSwitch(final IrStatement x) {
 		switch (x.getKeyword().identifier()) {
-		case "description" -> description = x.getArgument().toString();
-		case "reference" -> reference = x.getArgument().toString();
-		case "leaf" -> handleLeaf(x);
-		case "leaf-list" -> handleLeafList(x);
-		case "list" -> handleList(x);
-		case "choice" -> handleChoice(x);
-		case "container" -> handleContainer(x);
-		case "mandatory" -> mandatory = x.getArgument().toString();
+		case "description" -> description = YangUtils.argumentToString(x.getArgument());
+		case "reference" -> reference = YangUtils.argumentToString(x.getArgument());
+		case "leaf" -> YangUtils.genericHandle(this, x, LeafStatement::new, leaf);
+		case "leaf-list" -> YangUtils.genericHandle(this, x, LeafListStatement::new, leafList);
+		case "list" -> YangUtils.genericHandle(this, x, ListStatement::new, list);
+		case "choice" -> YangUtils.genericHandle(this, x, ChoiceStatement::new, choice);
+		case "container" -> YangUtils.genericHandle(this, x, ContainerStatement::new, container);
+		case "mandatory" -> mandatory = YangUtils.argumentToString(x.getArgument());
 		default -> throw new IllegalArgumentException(x.getKeyword() + "");
 		}
 	}

@@ -18,6 +18,7 @@ package com.ubiqube.parser.tosca.sol006.statement;
 
 import java.util.List;
 
+import com.ubiqube.parser.tosca.generator.YangUtils;
 import com.ubiqube.parser.tosca.sol006.ir.IrStatement;
 
 import lombok.Getter;
@@ -27,6 +28,7 @@ import lombok.Setter;
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
+ *         https://www.rfc-editor.org/rfc/rfc7950#section-7.1.9.1
  */
 @Getter
 @Setter
@@ -50,8 +52,8 @@ public class RevisionStatement extends AbstractStatementImpl {
 
 	private void doSwitch(final IrStatement x) {
 		switch (x.getKeyword().identifier()) {
-		case "description" -> description = x.getArgument().toString();
-		case "reference" -> reference = x.getArgument().toString();
+		case "description" -> description = YangUtils.argumentToString(x.getArgument());
+		case "reference" -> reference = YangUtils.argumentToString(x.getArgument());
 		default -> throw new IllegalArgumentException(x.getKeyword() + "");
 		}
 

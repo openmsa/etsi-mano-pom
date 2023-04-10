@@ -19,6 +19,7 @@ package com.ubiqube.parser.tosca.sol006.statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ubiqube.parser.tosca.generator.ErrorHelper;
 import com.ubiqube.parser.tosca.generator.StatusType;
 import com.ubiqube.parser.tosca.generator.YangUtils;
 import com.ubiqube.parser.tosca.sol006.ir.IrStatement;
@@ -61,26 +62,22 @@ public class LeafListStatement extends AbstractStatementImpl {
 
 	private void doSwitch(final IrStatement x) {
 		switch (x.getKeyword().identifier()) {
-		case "config" -> handleError(x);
+		case "config" -> ErrorHelper.handleError(x);
 		case "default" -> def = YangUtils.argumentToString(x.getArgument());
 		case "description" -> description = YangUtils.argumentToString(x.getArgument());
-		case "if-feature" -> handleError(x);
+		case "if-feature" -> ErrorHelper.handleError(x);
 		case "min-elements" -> minElement = YangUtils.argumentToString(x.getArgument());
 		case "max-elements" -> maxElement = YangUtils.argumentToString(x.getArgument());
-		case "must" -> YangUtils.genericHandle(x, MustStatement::new, must);
+		case "must" -> YangUtils.genericHandle(this, x, MustStatement::new, must);
 		case "order-by" -> orderBy = YangUtils.argumentToString(x.getArgument());
 		case "reference" -> reference = YangUtils.argumentToString(x.getArgument());
 		case "status" -> status = StatusType.fromValue(YangUtils.argumentToString(x.getArgument()));
-		case "type" -> type = YangUtils.genericHandleSingle(x, TypeStatement::new);
+		case "type" -> type = YangUtils.genericHandleSingle(this, x, TypeStatement::new);
 		case "units" -> units = YangUtils.argumentToString(x.getArgument());
 		case "when" -> when = YangUtils.argumentToString(x.getArgument());
 		default -> throw new IllegalArgumentException(x.getKeyword() + "");
 		}
 		// Objects.requireNonNull(type, "Type is mandatory on leaf-list object.")
-	}
-
-	private static void handleError(final IrStatement x) {
-		throw new IllegalArgumentException(x.getKeyword() + "");
 	}
 
 }

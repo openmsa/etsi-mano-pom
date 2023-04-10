@@ -62,7 +62,7 @@ public class TypeDefStatement extends AbstractStatementImpl implements NamedStat
 		case "description" -> description = YangUtils.argumentToString(x.getArgument());
 		case "reference" -> reference = YangUtils.argumentToString(x.getArgument());
 		case "status" -> status = StatusType.fromValue(YangUtils.argumentToString(x.getArgument()));
-		case "type" -> type = YangUtils.genericHandleSingle(x, TypeStatement::new);
+		case "type" -> type = YangUtils.genericHandleSingle(this, x, TypeStatement::new);
 		case "units" -> units = YangUtils.argumentToString(x.getArgument());
 		default -> ErrorHelper.handleError(x);
 		}

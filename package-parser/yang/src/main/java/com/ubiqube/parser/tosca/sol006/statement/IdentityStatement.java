@@ -55,22 +55,13 @@ public class IdentityStatement extends AbstractStatementImpl {
 
 	private void doSwitch(final IrStatement x) {
 		switch (x.getKeyword().identifier()) {
-		case "base" -> handleBase(x);
+		case "base" -> YangUtils.handleListable(x.getArgument(), base);
 		case "description" -> description = YangUtils.argumentToString(x.getArgument());
 		case "reference" -> reference = YangUtils.argumentToString(x.getArgument());
-		case "if-feature" -> handleError(x);
+		case "if-feature" -> ErrorHelper.handleError(x);
 		case "status" -> status = StatusType.fromValue(YangUtils.argumentToString(x.getArgument()));
 		default -> ErrorHelper.handleError(x);
 		}
-	}
-
-	private void handleBase(final IrStatement x) {
-		final String str = YangUtils.argumentToString(x.getArgument());
-		base.add(str);
-	}
-
-	private static void handleError(final IrStatement x) {
-		throw new IllegalArgumentException(x.getKeyword() + "");
 	}
 
 }

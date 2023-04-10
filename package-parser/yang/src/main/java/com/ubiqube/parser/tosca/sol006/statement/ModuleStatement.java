@@ -80,17 +80,17 @@ public class ModuleStatement extends AbstractStatementImpl implements NamedState
 	private Object parseStatement(final IrStatement x) {
 		switch (x.getKeyword().identifier()) {
 		case "contact" -> contact = YangUtils.argumentToString(x.getArgument());
-		case "container" -> YangUtils.genericHandle(x, ContainerStatement::new, container);
+		case "container" -> YangUtils.genericHandle(this, x, ContainerStatement::new, container);
 		case "description" -> description = YangUtils.argumentToString(x.getArgument());
-		case "grouping" -> YangUtils.genericHandle(x, GroupingStatement::new, grouping);
-		case "include" -> YangUtils.genericHandle(x, IncludeStatement::new, include);
-		case "import" -> YangUtils.genericHandle(x, ImportStatement::new, imp);
+		case "grouping" -> YangUtils.genericHandle(this, x, GroupingStatement::new, grouping);
+		case "include" -> YangUtils.genericHandle(this, x, IncludeStatement::new, include);
+		case "import" -> YangUtils.genericHandle(this, x, ImportStatement::new, imp);
 		case "namespace" -> namespace = YangUtils.argumentToString(x.getArgument());
 		case "organization" -> organization = YangUtils.argumentToString(x.getArgument());
 		case "prefix" -> prefix = YangUtils.argumentToString(x.getArgument());
-		case "revision" -> YangUtils.genericHandle(x, RevisionStatement::new, revision);
-		case "typedef" -> YangUtils.genericHandle(x, TypeDefStatement::new, typeDef);
-		case "uses" -> YangUtils.genericHandle(x, UsesStatement::new, uses);
+		case "revision" -> YangUtils.genericHandle(this, x, RevisionStatement::new, revision);
+		case "typedef" -> YangUtils.genericHandle(this, x, TypeDefStatement::new, typeDef);
+		case "uses" -> YangUtils.genericHandle(this, x, UsesStatement::new, uses);
 		case "yang-version" -> version = new Revision(x.getArgument().toString());
 		default -> ErrorHelper.handleError(x);
 		}

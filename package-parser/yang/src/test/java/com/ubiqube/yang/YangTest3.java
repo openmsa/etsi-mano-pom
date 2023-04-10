@@ -34,7 +34,6 @@ import com.ubiqube.etsi.mano.yang.YangStatementParser;
 import com.ubiqube.etsi.mano.yang.YangStatementParser.FileContext;
 import com.ubiqube.parser.tosca.generator.YangException;
 import com.ubiqube.parser.tosca.generator.YangLoader;
-import com.ubiqube.parser.tosca.sol006.DebugWalkerListener;
 import com.ubiqube.parser.tosca.sol006.ir.IrArgument;
 import com.ubiqube.parser.tosca.sol006.ir.IrArgument.Concatenation;
 import com.ubiqube.parser.tosca.sol006.ir.IrArgument.Single;
@@ -47,6 +46,7 @@ import com.ubiqube.parser.tosca.sol006.statement.IncludeStatement;
 import com.ubiqube.parser.tosca.sol006.statement.ModuleStatement;
 import com.ubiqube.parser.tosca.sol006.statement.NamedStatement;
 import com.ubiqube.parser.tosca.sol006.statement.SubMouduleStatement;
+import com.ubiqube.parser.tosca.walker.JavaPoetListener;
 
 class YangTest3 {
 	@Test
@@ -62,11 +62,12 @@ class YangTest3 {
 		final YangLoader yl = new YangLoader();
 		final List<YangRoot> res = yl.loadDirectory(Paths.get("src/main/resources/4.3.1/"));
 		final YangRoot yr = mergeRoot(res);
+		yr.rebuildNameSpaces();
 		final List<ModuleStatement> r = findRoots(yr);
 		System.out.println("" + r.size());
 		final ModuleStatement root = r.get(0);
 		resolvInclude(yr, root);
-		Recurse.doIt(root, new DebugWalkerListener());
+		Recurse.doIt(root, new JavaPoetListener("src/main/javapoet"));
 	}
 
 	private static void resolvInclude(final YangRoot res, final ModuleStatement root) {

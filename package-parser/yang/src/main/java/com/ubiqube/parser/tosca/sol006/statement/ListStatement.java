@@ -66,12 +66,12 @@ public class ListStatement extends AbstractStatementImpl {
 		case "config" -> handleError(x);
 		case "typedef" -> typedef = YangUtils.argumentToString(x.getArgument());
 		case "key" -> key = YangUtils.argumentToString(x.getArgument());
-		case "leaf" -> handleLeaf(x);
-		case "leaf-list" -> handleLeafList(x);
-		case "list" -> handleList(x);
-		case "choice" -> handleChoice(x);
-		case "uses" -> handleUses(x);
-		case "container" -> handleContainer(x);
+		case "leaf" -> YangUtils.genericHandle(this, x, LeafStatement::new, leaf);
+		case "leaf-list" -> YangUtils.genericHandle(this, x, LeafListStatement::new, leafList);
+		case "list" -> YangUtils.genericHandle(this, x, ListStatement::new, list);
+		case "choice" -> YangUtils.genericHandle(this, x, ChoiceStatement::new, choice);
+		case "uses" -> YangUtils.genericHandle(this, x, UsesStatement::new, uses);
+		case "container" -> YangUtils.genericHandle(this, x, ContainerStatement::new, container);
 		case "min-elements" -> minElements = YangUtils.argumentToString(x.getArgument());
 		case "max-elements" -> maxElements = YangUtils.argumentToString(x.getArgument());
 		case "must" -> must = YangUtils.argumentToString(x.getArgument());
@@ -80,42 +80,6 @@ public class ListStatement extends AbstractStatementImpl {
 		case "status" -> status = StatusType.fromValue(YangUtils.argumentToString(x.getArgument()));
 		default -> throw new IllegalArgumentException(x.getKeyword() + "");
 		}
-	}
-
-	private void handleContainer(final IrStatement x) {
-		final ContainerStatement l = new ContainerStatement();
-		l.load(x);
-		container.add(l);
-	}
-
-	private void handleUses(final IrStatement x) {
-		final UsesStatement l = new UsesStatement();
-		l.load(x);
-		uses.add(l);
-	}
-
-	private void handleChoice(final IrStatement x) {
-		final ChoiceStatement l = new ChoiceStatement();
-		l.load(x);
-		choice.add(l);
-	}
-
-	private void handleList(final IrStatement x) {
-		final ListStatement l = new ListStatement();
-		l.load(x);
-		list.add(l);
-	}
-
-	private void handleLeafList(final IrStatement x) {
-		final LeafListStatement ls = new LeafListStatement();
-		ls.load(x);
-		leafList.add(ls);
-	}
-
-	private void handleLeaf(final IrStatement x) {
-		final LeafStatement ls = new LeafStatement();
-		ls.load(x);
-		leaf.add(ls);
 	}
 
 	private static void handleError(final IrStatement x) {

@@ -17,6 +17,10 @@
 package com.ubiqube.parser.tosca.walker;
 
 import com.ubiqube.parser.tosca.sol006.statement.ContainerStatement;
+import com.ubiqube.parser.tosca.sol006.statement.LeafListStatement;
+import com.ubiqube.parser.tosca.sol006.statement.LeafStatement;
+import com.ubiqube.parser.tosca.sol006.statement.ListStatement;
+import com.ubiqube.parser.tosca.sol006.statement.UsesStatement;
 
 /**
  *
@@ -28,5 +32,21 @@ public interface WalkerListener {
 	void startContainer(ContainerStatement container);
 
 	void endContainer(ContainerStatement x);
+
+	void listStart(ListStatement x);
+
+	void listEnd(ListStatement x);
+
+	void leafStart(LeafStatement x);
+
+	void leafEnd(LeafStatement x);
+
+	void leafListStart(LeafListStatement x);
+
+	void leafListEnd(LeafListStatement x);
+
+	void usesStart(UsesStatement x);
+
+	void usesEnd(UsesStatement x);
 
 }

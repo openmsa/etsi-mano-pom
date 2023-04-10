@@ -18,6 +18,7 @@ package com.ubiqube.parser.tosca.sol006.statement;
 
 import java.util.List;
 
+import com.ubiqube.parser.tosca.generator.YangUtils;
 import com.ubiqube.parser.tosca.sol006.ir.IrStatement;
 
 import lombok.Getter;
@@ -47,10 +48,10 @@ public class MustStatement extends AbstractStatementImpl {
 
 	private void doSwitch(final IrStatement x) {
 		switch (x.getKeyword().identifier()) {
-		case "description" -> description = x.getArgument().toString();
-		case "reference" -> reference = x.getArgument().toString();
-		case "error-app-tag" -> errorAppTag = x.getArgument().toString();
-		case "error-message" -> errorMessage = x.getArgument().toString();
+		case "description" -> description = YangUtils.argumentToString(x.getArgument());
+		case "reference" -> reference = YangUtils.argumentToString(x.getArgument());
+		case "error-app-tag" -> errorAppTag = YangUtils.argumentToString(x.getArgument());
+		case "error-message" -> errorMessage = YangUtils.argumentToString(x.getArgument());
 		default -> throw new IllegalArgumentException(x.getKeyword() + "");
 		}
 	}

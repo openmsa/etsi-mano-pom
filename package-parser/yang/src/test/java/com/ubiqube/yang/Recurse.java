@@ -36,52 +36,52 @@ public class Recurse {
 		root.getContainer().forEach(x -> {
 			//
 			listener.startContainer(x);
-			LOG.info("cont: {}", x.getName());
-			handleList(root, x.getList());
+			handleList(listener, root, x.getList());
 			listener.endContainer(x);
 		});
-		System.out.println("");
 	}
 
-	private static void handleList(final ModuleStatement root, final List<ListStatement> list) {
-		LOG.info("List:");
+	private static void handleList(final WalkerListener listener, final ModuleStatement root, final List<ListStatement> list) {
 		list.forEach(x -> {
-			LOG.info(" - {} / {}", x.getKey(), x.getName());
-			handleList(root, x.getList());
-			handleLeaf(root, x.getLeaf());
-			handleLeafList(root, x.getLeafList());
+			listener.listStart(x);
+			handleList(listener, root, x.getList());
+			handleLeaf(listener, root, x.getLeaf());
+			handleLeafList(listener, root, x.getLeafList());
 			// choice
-			handleUses(root, x.getUses());
+			handleUses(listener, root, x.getUses());
 			// container
+			listener.listEnd(x);
 		});
 	}
 
-	private static void handleLeafList(final ModuleStatement root, final List<LeafListStatement> leafList) {
+	private static void handleLeafList(final WalkerListener listener, final ModuleStatement root, final List<LeafListStatement> leafList) {
 		leafList.forEach(x -> {
-			LOG.info("- list-leaf {} / {}", x.getName(), x.getType());
+			listener.leafListStart(x);
+			listener.leafListEnd(x);
 		});
 	}
 
-	private static void handleLeaf(final ModuleStatement root, final List<LeafStatement> leaf) {
+	private static void handleLeaf(final WalkerListener listener, final ModuleStatement root, final List<LeafStatement> leaf) {
 		leaf.forEach(x -> {
-			LOG.info("- leaf: {} / {}", x.getName(), x.getType());
+			listener.leafStart(x);
+			listener.leafEnd(x);
 		});
 	}
 
-	private static void handleUses(final ModuleStatement root, final List<UsesStatement> uses) {
-		LOG.info("Uses:");
+	private static void handleUses(final WalkerListener listener, final ModuleStatement root, final List<UsesStatement> uses) {
 		uses.forEach(x -> {
+			listener.usesStart(x);
 			final GroupingStatement gs = findGrouping(root, x.getName());
-			LOG.info(" - {}", gs.getName());
-			handleGrouping(root, gs);
+			handleGrouping(listener, root, gs);
+			listener.usesEnd(x);
 		});
 	}
 
-	private static void handleGrouping(final ModuleStatement root, final GroupingStatement gs) {
-		handleLeaf(root, gs.getLeaf());
-		handleLeafList(root, gs.getLeafList());
-		handleList(root, gs.getList());
-		handleUses(root, gs.getUses());
+	private static void handleGrouping(final WalkerListener listener, final ModuleStatement root, final GroupingStatement gs) {
+		handleLeaf(listener, root, gs.getLeaf());
+		handleLeafList(listener, root, gs.getLeafList());
+		handleList(listener, root, gs.getList());
+		handleUses(listener, root, gs.getUses());
 	}
 
 	private static GroupingStatement findGrouping(final ModuleStatement root, final String name) {

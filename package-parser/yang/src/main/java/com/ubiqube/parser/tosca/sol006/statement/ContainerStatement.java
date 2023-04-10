@@ -19,6 +19,7 @@ package com.ubiqube.parser.tosca.sol006.statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ubiqube.parser.tosca.generator.ErrorHelper;
 import com.ubiqube.parser.tosca.generator.YangUtils;
 import com.ubiqube.parser.tosca.sol006.ir.IrStatement;
 
@@ -61,61 +62,21 @@ public class ContainerStatement extends AbstractStatementImpl {
 		switch (x.getKeyword().identifier()) {
 		case "description" -> description = YangUtils.argumentToString(x.getArgument());
 		case "reference" -> reference = YangUtils.argumentToString(x.getArgument());
-		case "action" -> handleError(x);
-		case "choice" -> handleChoice(x);
-		case "config" -> handleError(x);
-		case "container" -> handleContainer(x);
-		case "grouping" -> handleError(x);
-		case "if-feature" -> handleError(x);
-		case "leaf" -> handleLeaf(x);
-		case "leaf-list" -> handleLeafList(x);
-		case "list" -> handleList(x);
-		case "typedef" -> handleError(x);
-		case "uses" -> handleUses(x);
+		case "action" -> ErrorHelper.handleError(x);
+		case "choice" -> YangUtils.genericHandle(this, x, ChoiceStatement::new, choice);
+		case "config" -> ErrorHelper.handleError(x);
+		case "container" -> YangUtils.genericHandle(this, x, ContainerStatement::new, container);
+		case "grouping" -> ErrorHelper.handleError(x);
+		case "if-feature" -> ErrorHelper.handleError(x);
+		case "leaf" -> YangUtils.genericHandle(this, x, LeafStatement::new, leaf);
+		case "leaf-list" -> YangUtils.genericHandle(this, x, LeafListStatement::new, leafList);
+		case "list" -> YangUtils.genericHandle(this, x, ListStatement::new, list);
+		case "typedef" -> ErrorHelper.handleError(x);
+		case "uses" -> YangUtils.genericHandle(this, x, UsesStatement::new, uses);
 		case "presence" -> presence = YangUtils.argumentToString(x.getArgument());
 		case "when" -> when = YangUtils.argumentToString(x.getArgument());
 		default -> throw new IllegalArgumentException(x.getKeyword() + "");
 		}
-	}
-
-	private void handleUses(final IrStatement x) {
-		final UsesStatement us = new UsesStatement();
-		us.load(x);
-		uses.add(us);
-	}
-
-	private void handleChoice(final IrStatement x) {
-		final ChoiceStatement us = new ChoiceStatement();
-		us.load(x);
-		choice.add(us);
-	}
-
-	private void handleList(final IrStatement x) {
-		final ListStatement us = new ListStatement();
-		us.load(x);
-		list.add(us);
-	}
-
-	private void handleLeafList(final IrStatement x) {
-		final LeafListStatement us = new LeafListStatement();
-		us.load(x);
-		leafList.add(us);
-	}
-
-	private void handleContainer(final IrStatement x) {
-		final ContainerStatement us = new ContainerStatement();
-		us.load(x);
-		container.add(us);
-	}
-
-	private void handleLeaf(final IrStatement x) {
-		final LeafStatement us = new LeafStatement();
-		us.load(x);
-		leaf.add(us);
-	}
-
-	private void handleError(final IrStatement x) {
-		throw new IllegalArgumentException(x.getKeyword() + "");
 	}
 
 }

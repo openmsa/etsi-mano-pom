@@ -31,4 +31,8 @@ public interface Statement {
 		ErrorHelper.handleError(res);
 	}
 
+	void setParent(Statement parent);
+
+	Statement getParent();
+
 }

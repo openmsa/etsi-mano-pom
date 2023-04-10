@@ -18,6 +18,7 @@ package com.ubiqube.parser.tosca.sol006.statement;
 
 import java.util.List;
 
+import com.ubiqube.parser.tosca.generator.ErrorHelper;
 import com.ubiqube.parser.tosca.sol006.ir.IrStatement;
 
 import lombok.Getter;
@@ -50,35 +51,15 @@ public class UsesStatement extends AbstractStatementImpl implements NamedStateme
 
 	private void doSwitch(final IrStatement x) {
 		switch (x.getKeyword().identifier()) {
-		case "augment" -> handleAugment(x);
+		case "augment" -> ErrorHelper.handleError(x);
 		case "description" -> description = x.getArgument().toString();
 		case "reference" -> reference = x.getArgument().toString();
-		case "if-feature" -> handleIfFeature(x);
-		case "refine" -> handleRefine(x);
-		case "status" -> handleStatus(x);
-		case "when" -> handleWhen(x);
+		case "if-feature" -> ErrorHelper.handleError(x);
+		case "refine" -> ErrorHelper.handleError(x);
+		case "status" -> ErrorHelper.handleError(x);
+		case "when" -> ErrorHelper.handleError(x);
 		default -> throw new IllegalArgumentException(x.getKeyword() + "");
 		}
-	}
-
-	private void handleWhen(final IrStatement x) {
-		throw new IllegalArgumentException(x.getKeyword() + "");
-	}
-
-	private Object handleStatus(final IrStatement x) {
-		throw new IllegalArgumentException(x.getKeyword() + "");
-	}
-
-	private Object handleRefine(final IrStatement x) {
-		throw new IllegalArgumentException(x.getKeyword() + "");
-	}
-
-	private Object handleIfFeature(final IrStatement x) {
-		throw new IllegalArgumentException(x.getKeyword() + "");
-	}
-
-	private Object handleAugment(final IrStatement x) {
-		throw new IllegalArgumentException(x.getKeyword() + "");
 	}
 
 }

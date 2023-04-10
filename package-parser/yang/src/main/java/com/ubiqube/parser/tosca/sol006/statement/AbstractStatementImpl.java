@@ -27,15 +27,30 @@ import java.util.List;
 public abstract class AbstractStatementImpl implements Statement {
 	protected String namespace;
 	protected List<RevisionStatement> revision = new ArrayList<>();
+	protected Statement parent;
 
 	@Override
 	public final String getNamespace() {
 		return namespace;
 	}
 
+	public void setNamespace(final String namespace) {
+		this.namespace = namespace;
+	}
+
 	@Override
 	public RevisionStatement getLatestRevision() {
 		return revision.get(0);
+	}
+
+	@Override
+	public Statement getParent() {
+		return parent;
+	}
+
+	@Override
+	public void setParent(final Statement parent) {
+		this.parent = parent;
 	}
 
 }

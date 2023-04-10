@@ -71,9 +71,10 @@ public class YangUtils {
 		return (keyword instanceof Unqualified) && localName.equals(keyword.identifier());
 	}
 
-	public static <U extends Statement> void genericHandle(final IrStatement x, final Supplier<U> supp, final List<U> lst) {
+	public static <U extends Statement> void genericHandle(final Statement parent, final IrStatement x, final Supplier<U> supp, final List<U> lst) {
 		final U n = supp.get();
 		n.load(x);
+		n.setParent(parent);
 		lst.add(n);
 	}
 
@@ -81,9 +82,10 @@ public class YangUtils {
 		lst.add(argumentToString(arg));
 	}
 
-	public static <U extends Statement> U genericHandleSingle(final IrStatement x, final Supplier<U> supp) {
+	public static <U extends Statement> U genericHandleSingle(final Statement parent, final IrStatement x, final Supplier<U> supp) {
 		final U n = supp.get();
 		n.load(x);
+		n.setParent(parent);
 		return n;
 	}
 

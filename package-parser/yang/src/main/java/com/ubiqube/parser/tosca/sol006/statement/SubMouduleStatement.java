@@ -37,7 +37,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SubMouduleStatement extends AbstractStatementImpl {
-	private List<RevisionStatement> revision = new ArrayList<>();
 
 	private YangVersionStatement yangVersion;
 
@@ -78,54 +77,19 @@ public class SubMouduleStatement extends AbstractStatementImpl {
 
 	private void parseStatement(final IrStatement x) {
 		switch (x.getKeyword().identifier()) {
-		case "belongs-to" -> handleBelongsTo(x);
+		case "belongs-to" -> belongsTo = YangUtils.genericHandleSingle(this, x, BelongsToStatement::new);
 		case "description" -> description = YangUtils.argumentToString(x.getArgument());
-		case "identity" -> handleIdentity(x);
-		case "include" -> handleInclude(x);
-		case "import" -> handleImport(x);
-		case "grouping" -> handleGrouping(x);
+		case "identity" -> YangUtils.genericHandle(this, x, IdentityStatement::new, identity);
+		case "include" -> YangUtils.genericHandle(this, x, IncludeStatement::new, include);
+		case "import" -> YangUtils.genericHandle(this, x, ImportStatement::new, imp);
+		case "grouping" -> YangUtils.genericHandle(this, x, GroupingStatement::new, grouping);
 		case "organization" -> organization = YangUtils.argumentToString(x.getArgument());
 		case "prefix" -> prefix = YangUtils.argumentToString(x.getArgument());
-		case "revision" -> handleRevision(x);
-		case "typedef" -> YangUtils.genericHandle(x, TypeDefStatement::new, typedef);
+		case "revision" -> YangUtils.genericHandle(this, x, RevisionStatement::new, revision);
+		case "typedef" -> YangUtils.genericHandle(this, x, TypeDefStatement::new, typedef);
 		case "yang-version" -> version = new Revision(YangUtils.argumentToString(x.getArgument()));
 		default -> ErrorHelper.handleError(x);
 		}
-	}
-
-	private void handleIdentity(final IrStatement x) {
-		final IdentityStatement is = new IdentityStatement();
-		is.load(x);
-		identity.add(is);
-	}
-
-	private void handleImport(final IrStatement x) {
-		final ImportStatement is = new ImportStatement();
-		is.load(x);
-		imp.add(is);
-	}
-
-	private void handleGrouping(final IrStatement x) {
-		final GroupingStatement gs = new GroupingStatement();
-		gs.load(x);
-		grouping.add(gs);
-	}
-
-	private void handleRevision(final IrStatement x) {
-		final RevisionStatement rs = new RevisionStatement();
-		rs.load(x);
-		revision.add(rs);
-	}
-
-	private void handleInclude(final IrStatement x) {
-		final IncludeStatement is = new IncludeStatement();
-		is.load(x);
-		include.add(is);
-	}
-
-	private void handleBelongsTo(final IrStatement x) {
-		belongsTo = new BelongsToStatement();
-		belongsTo.load(x);
 	}
 
 }

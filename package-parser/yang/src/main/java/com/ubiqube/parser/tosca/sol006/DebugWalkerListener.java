@@ -16,21 +16,82 @@
  */
 package com.ubiqube.parser.tosca.sol006;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.ubiqube.parser.tosca.sol006.statement.ContainerStatement;
+import com.ubiqube.parser.tosca.sol006.statement.LeafListStatement;
+import com.ubiqube.parser.tosca.sol006.statement.LeafStatement;
+import com.ubiqube.parser.tosca.sol006.statement.ListStatement;
+import com.ubiqube.parser.tosca.sol006.statement.UsesStatement;
 import com.ubiqube.parser.tosca.walker.WalkerListener;
 
 public class DebugWalkerListener implements WalkerListener {
+	private static final Logger LOG = LoggerFactory.getLogger(DebugWalkerListener.class);
+
+	int indent = 0;
 
 	@Override
-	public void startContainer(ContainerStatement container) {
-		// TODO Auto-generated method stub
-
+	public void startContainer(final ContainerStatement x) {
+		indent("co " + x.getName());
+		indent++;
 	}
 
 	@Override
-	public void endContainer(ContainerStatement x) {
-		// TODO Auto-generated method stub
+	public void endContainer(final ContainerStatement x) {
+		indent--;
+	}
 
+	@Override
+	public void listStart(final ListStatement x) {
+		indent("li " + x.getName());
+		indent++;
+	}
+
+	@Override
+	public void listEnd(final ListStatement x) {
+		indent--;
+	}
+
+	@Override
+	public void leafStart(final LeafStatement x) {
+		indent("le " + x.getName());
+	}
+
+	@Override
+	public void leafEnd(final LeafStatement x) {
+		// LOG.info("leaf-end: {}", x.getName());
+	}
+
+	@Override
+	public void leafListStart(final LeafListStatement x) {
+		indent("ll " + x.getName());
+		indent++;
+	}
+
+	@Override
+	public void leafListEnd(final LeafListStatement x) {
+		indent--;
+	}
+
+	@Override
+	public void usesStart(final UsesStatement x) {
+		indent("us " + x.getName());
+		// indent++;
+	}
+
+	@Override
+	public void usesEnd(final UsesStatement x) {
+		// indent--;
+	}
+
+	private void indent(final String name) {
+		final StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < indent; i++) {
+			sb.append("    ");
+		}
+		sb.append("+ ").append(name);
+		LOG.info(sb.toString());
 	}
 
 }

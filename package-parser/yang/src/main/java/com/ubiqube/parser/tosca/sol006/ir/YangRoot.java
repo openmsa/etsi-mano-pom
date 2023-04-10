@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import com.ubiqube.parser.tosca.generator.YangException;
 import com.ubiqube.parser.tosca.sol006.statement.DescriptionStatement;
 import com.ubiqube.parser.tosca.sol006.statement.GroupingStatement;
 import com.ubiqube.parser.tosca.sol006.statement.ImportStatement;
@@ -67,7 +68,22 @@ public class YangRoot {
 			sub.load(res);
 			module.add(sub);
 		}
-		System.out.println("");
+	}
 
+	public void rebuildNameSpaces() {
+		submodule.stream()
+				.filter(x -> x.getNamespace() == null)
+				.forEach(x -> {
+					final ModuleStatement mod = findModuleByName(x.getBelongsTo().getName());
+					x.setNamespace(mod.getNamespace());
+				});
+
+	}
+
+	private ModuleStatement findModuleByName(final String name) {
+		return module.stream()
+				.filter(x -> name.equals(x.getName()))
+				.findFirst()
+				.orElseThrow(() -> new YangException("Could not find " + name));
 	}
 }
