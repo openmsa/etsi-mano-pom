@@ -29,12 +29,11 @@ import javax.lang.model.element.Modifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
-import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeSpec.Builder;
+import com.ubiqube.parser.tosca.generator.YangException;
 import com.ubiqube.parser.tosca.sol006.javapoet.JavaPoetHelper;
 import com.ubiqube.parser.tosca.sol006.javapoet.ManoEnumJavapoet;
 import com.ubiqube.parser.tosca.sol006.statement.ContainerStatement;
@@ -43,10 +42,6 @@ import com.ubiqube.parser.tosca.sol006.statement.LeafStatement;
 import com.ubiqube.parser.tosca.sol006.statement.ListStatement;
 import com.ubiqube.parser.tosca.sol006.statement.TypeStatement;
 import com.ubiqube.parser.tosca.sol006.statement.UsesStatement;
-
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
-import jakarta.xml.bind.annotation.XmlElement;
 
 public class JavaPoetListener implements WalkerListener {
 	private static final Logger LOG = LoggerFactory.getLogger(JavaPoetListener.class);
@@ -86,7 +81,12 @@ public class JavaPoetListener implements WalkerListener {
 
 	@Override
 	public void endContainer(final ContainerStatement x) {
+		final Context tmp = currentContext;
 		serializeClass();
+		final ClassName typ = ClassName.get(tmp.pkg, tmp.className);
+		final FieldSpec fieldList = JavaPoetHelper.createField(tmp.fieldName, typ, x.getDescription(), null);
+		currentContext.builder.addField(fieldList);
+		createGetterSetter(fieldList, false);
 	}
 
 	private TypeSpec serializeClass() {
@@ -110,23 +110,12 @@ public class JavaPoetListener implements WalkerListener {
 	public void listEnd(final ListStatement x) {
 		final Context tmp = currentContext;
 		serializeClass();
-		final ClassName list = ClassName.get(List.class);
 		final ClassName typ = ClassName.get(tmp.pkg, tmp.className);
-		final ParameterizedTypeName ptn = ParameterizedTypeName.get(list, typ);
-		final String javaFieldName = ClassUtils.toJavaVariableName(tmp.fieldName);
-		final com.squareup.javapoet.FieldSpec.Builder fieldBuilder = FieldSpec.builder(ptn, javaFieldName, Modifier.PRIVATE)
-				.addAnnotation(Valid.class);
-		if (null != x.getMinElements()) {
-			final AnnotationSpec spec = AnnotationSpec.builder(Min.class).addMember("value", "$L", x.getMinElements()).build();
-			fieldBuilder.addAnnotation(spec);
-		}
-		if (!javaFieldName.equals(tmp.fieldName)) {
-			final AnnotationSpec spec = AnnotationSpec.builder(XmlElement.class).addMember("name", "$L", "\"" + tmp.fieldName + "\"").build();
-			fieldBuilder.addAnnotation(spec);
-		}
-		final FieldSpec field = fieldBuilder.build();
-		currentContext.builder.addField(field);
-		createGetterSetter(field, false);
+		final Integer min = x.getMinElements() == null ? null : Integer.valueOf(x.getMinElements());
+		final Integer max = x.getMaxElements() == null ? null : Integer.valueOf(x.getMaxElements());
+		final FieldSpec fieldList = JavaPoetHelper.createListField(tmp.fieldName, typ, x.getDescription(), min, max);
+		currentContext.builder.addField(fieldList);
+		createGetterSetter(fieldList, false);
 	}
 
 	@Override
@@ -149,6 +138,10 @@ public class JavaPoetListener implements WalkerListener {
 			final FieldSpec field = JavaPoetHelper.createField(x.getName(), clazz, x.getDescription(), x.getMandatory());
 			currentContext.builder.addField(field);
 			JavaPoetHelper.createGetterSetter(currentContext.builder, field, false);
+		} else if ("leafref".equals(x.getType().getName()) || "identityref".equals(x.getType().getName())) {
+			final FieldSpec field = JavaPoetHelper.createField(x.getName(), String.class, x.getDescription(), x.getMandatory());
+			currentContext.builder.addField(field);
+			createGetterSetter(field, x.getMandatory() != null);
 		} else {
 			LOG.warn("Ignoring {}/{}", x.getName(), x.getType().getName());
 		}
@@ -161,26 +154,42 @@ public class JavaPoetListener implements WalkerListener {
 
 	@Override
 	public void leafListStart(final LeafListStatement x) {
-		System.out.println("leaf-ref: " + x.getName() + " " + x.getType().getName());
-		// System.out.println(" " + pkg + " " + x.getName());
+		final TypeStatement typ = x.getType();
+		if (!typ.getBase().isEmpty()) {
+			final ClassName clazz = ClassName.get(String.class);
+			final FieldSpec field = JavaPoetHelper.createField(x.getName(), clazz, x.getDescription(), null);
+			currentContext.builder.addField(field);
+			createGetterSetter(field, false);
+		}
+		if (!typ.getEnu().isEmpty()) {
+			final String className = ClassUtils.toJavaClassName(x.getName() + "Type");
+			final TypeSpec ts = createEnumeration(className, x.getType());
+			JavaPoetHelper.serializeClass(targetFolder, currentContext.pkg, ts);
+			final ClassName clazz = ClassName.get(currentContext.pkg, className);
+			final Integer min = x.getMinElement() == null ? null : Integer.valueOf(x.getMinElement());
+			final Integer max = x.getMaxElement() == null ? null : Integer.valueOf(x.getMaxElement());
+			final FieldSpec field = JavaPoetHelper.createListField(className, clazz, x.getDescription(), min, max);
+			currentContext.builder.addField(field);
+			createGetterSetter(field, false);
+		}
+		if (!typ.getPattern().isEmpty()) {
+			throw new YangException("Pattern is not null");
+		}
 	}
 
 	@Override
 	public void leafListEnd(final LeafListStatement x) {
-		// TODO Auto-generated method stub
-
+		// Nothing.
 	}
 
 	@Override
 	public void usesStart(final UsesStatement x) {
 		// Nothing.
-
 	}
 
 	@Override
 	public void usesEnd(final UsesStatement x) {
 		// Nothing.
-
 	}
 
 	void createGetterSetter(final FieldSpec cf, final boolean nonnull) {

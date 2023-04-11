@@ -16,6 +16,7 @@
  */
 package com.ubiqube.yang;
 
+import java.io.File;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,7 @@ import com.ubiqube.yang.objects.Vdu;
 
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.Unmarshaller;
 
 class JaxbTest {
 
@@ -34,5 +36,13 @@ class JaxbTest {
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 		final List<Vdu> lst = List.of(new Vdu("vdu-name"), new Vdu("vdu-name2"));
 		marshaller.marshal(new Nfv("name", lst), System.out);
+	}
+
+	@Test
+	void testName2() throws Exception {
+		final Unmarshaller marshaller = JAXBContext.newInstance(urn.etsi.nfv.yang.etsi.nfv.descriptors.v20220308.Nfv.class).createUnmarshaller();
+		final File is = new File("src/main/resources/data.xml");
+		final Object obj = marshaller.unmarshal(is);
+		System.out.println("" + obj);
 	}
 }

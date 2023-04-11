@@ -21,6 +21,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ubiqube.parser.tosca.sol006.statement.ContainerStatement;
 import com.ubiqube.parser.tosca.sol006.statement.GroupingStatement;
 import com.ubiqube.parser.tosca.sol006.statement.LeafListStatement;
 import com.ubiqube.parser.tosca.sol006.statement.LeafStatement;
@@ -49,9 +50,21 @@ public class Recurse {
 			handleLeafList(listener, root, x.getLeafList());
 			// choice
 			handleUses(listener, root, x.getUses());
-			// container
+			handleContainer(listener, root, x.getContainer());
 			listener.listEnd(x);
 		});
+	}
+
+	private static void handleContainer(final WalkerListener listener, final ModuleStatement root, final List<ContainerStatement> container) {
+		container.forEach(x -> {
+			listener.startContainer(x);
+			handleList(listener, root, x.getList());
+			handleLeaf(listener, root, x.getLeaf());
+			handleLeafList(listener, root, x.getLeafList());
+			handleContainer(listener, root, x.getContainer());
+			listener.endContainer(x);
+		});
+
 	}
 
 	private static void handleLeafList(final WalkerListener listener, final ModuleStatement root, final List<LeafListStatement> leafList) {

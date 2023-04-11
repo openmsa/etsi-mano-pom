@@ -86,7 +86,11 @@ public class ClassUtils {
 
 	static String normalizePackageName(final String pkg) {
 		return pkg.replace(":", ".")
-				.replace("-", ".");
+				.replace("-", ".")
+				.replace(".int.", "._int.")
+				.replace("int.", "_int.")
+				.replace(".interface.", "._interface.")
+				.replace(".package.", "._package.");
 	}
 
 }
