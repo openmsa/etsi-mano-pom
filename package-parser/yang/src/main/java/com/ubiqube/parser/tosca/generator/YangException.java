@@ -33,4 +33,8 @@ public class YangException extends RuntimeException {
 		super(string);
 	}
 
+	public YangException(final String string, final Throwable e) {
+		super(string, e);
+	}
+
 }

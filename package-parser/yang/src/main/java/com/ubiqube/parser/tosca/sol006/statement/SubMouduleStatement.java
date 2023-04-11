@@ -36,7 +36,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class SubMouduleStatement extends AbstractStatementImpl {
+public class SubMouduleStatement extends AbstractStatementImpl implements NamedStatement {
 
 	private YangVersionStatement yangVersion;
 

@@ -19,6 +19,8 @@ package com.ubiqube.parser.tosca.sol006.statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ubiqube.parser.tosca.generator.YangException;
+
 /**
  *
  * @author Olivier Vignaud
@@ -40,6 +42,9 @@ public abstract class AbstractStatementImpl implements Statement {
 
 	@Override
 	public RevisionStatement getLatestRevision() {
+		if (revision.isEmpty()) {
+			throw new YangException("No revision in " + this.getClass());
+		}
 		return revision.get(0);
 	}
 

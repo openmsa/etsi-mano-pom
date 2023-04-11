@@ -28,7 +28,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@XmlRootElement(name = "nfv")
+@XmlRootElement(name = "nfv", namespace = "urn:etsi:nfv:yang:etsi-nfv-descriptors")
 public class Nfv {
 	private String name;
 

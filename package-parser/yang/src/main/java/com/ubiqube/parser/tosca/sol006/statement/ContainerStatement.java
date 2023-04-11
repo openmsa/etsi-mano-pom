@@ -33,13 +33,14 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class ContainerStatement extends AbstractStatementImpl {
+public class ContainerStatement extends AbstractStatementImpl implements NamedStatement {
 	private List<ListStatement> list = new ArrayList<>();
 	private List<LeafStatement> leaf = new ArrayList<>();
 	private List<LeafListStatement> leafList = new ArrayList<>();
 	private List<ContainerStatement> container = new ArrayList<>();
 	private List<ChoiceStatement> choice = new ArrayList<>();
 	private List<UsesStatement> uses = new ArrayList<>();
+	private List<GroupingStatement> grouping = new ArrayList<>();
 	private String name;
 	private String description;
 	private String reference;
@@ -66,7 +67,7 @@ public class ContainerStatement extends AbstractStatementImpl {
 		case "choice" -> YangUtils.genericHandle(this, x, ChoiceStatement::new, choice);
 		case "config" -> ErrorHelper.handleError(x);
 		case "container" -> YangUtils.genericHandle(this, x, ContainerStatement::new, container);
-		case "grouping" -> ErrorHelper.handleError(x);
+		case "grouping" -> YangUtils.genericHandle(this, x, GroupingStatement::new, grouping);
 		case "if-feature" -> ErrorHelper.handleError(x);
 		case "leaf" -> YangUtils.genericHandle(this, x, LeafStatement::new, leaf);
 		case "leaf-list" -> YangUtils.genericHandle(this, x, LeafListStatement::new, leafList);
