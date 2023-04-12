@@ -29,6 +29,7 @@ import javax.lang.model.element.Modifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.TypeSpec;
@@ -42,6 +43,9 @@ import com.ubiqube.parser.tosca.sol006.statement.LeafStatement;
 import com.ubiqube.parser.tosca.sol006.statement.ListStatement;
 import com.ubiqube.parser.tosca.sol006.statement.TypeStatement;
 import com.ubiqube.parser.tosca.sol006.statement.UsesStatement;
+
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
 
 public class JavaPoetListener implements WalkerListener {
 	private static final Logger LOG = LoggerFactory.getLogger(JavaPoetListener.class);
@@ -76,6 +80,8 @@ public class JavaPoetListener implements WalkerListener {
 			stack.push(currentContext);
 		}
 		final Builder builder = TypeSpec.classBuilder(className).addModifiers(Modifier.PUBLIC);
+		final AnnotationSpec spec = AnnotationSpec.builder(XmlAccessorType.class).addMember("value", "$T.$L", XmlAccessType.class, "FIELD").build();
+		builder.addAnnotation(spec);
 		currentContext = new Context(pkg, className, fieldName, builder);
 	}
 
