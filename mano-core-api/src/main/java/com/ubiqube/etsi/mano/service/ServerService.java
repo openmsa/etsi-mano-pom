@@ -118,9 +118,7 @@ public class ServerService {
 	public ServerAdapter findNearestServer() {
 		final List<Servers> lst = serversJpa.findByServerStatusIn(List.of(PlanStatusType.SUCCESS));
 		if (lst.isEmpty()) {
-			LOG.warn("Unable to find a remote server.");
-			final Servers srv = new Servers();
-			return new ServerAdapter(httpGateway.get(0), srv, new TracingFluxRest(srv, springContext));
+			throw new GenericException("Unable to find a valid remote server.");
 		}
 		if (lst.size() > 1) {
 			LOG.warn("More than one server exist, picking the first one.");
@@ -159,6 +157,7 @@ public class ServerService {
 				.orElseThrow(() -> new GenericException("Unable to find version " + servers.getVersion()));
 	}
 
+	@Nullable
 	public String convertFeVersionToMano(final ApiVersionType verType, @Nullable final String version) {
 		if (version == null) {
 			return "2.6.1";
@@ -179,7 +178,7 @@ public class ServerService {
 		case VNFIND -> ApiVersionType.SOL003_VNFIND;
 		case VRQAN -> ApiVersionType.SOL003_VRQAN;
 		case VNFPM -> ApiVersionType.SOL003_VNFPM;
-		default -> throw new GenericException("unable to find " + subscriptionType);
+		default -> throw new GenericException("Unable to find " + subscriptionType);
 		};
 	}
 }

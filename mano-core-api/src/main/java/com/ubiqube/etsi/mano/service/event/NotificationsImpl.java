@@ -97,9 +97,7 @@ public class NotificationsImpl implements Notifications {
 
 	@Override
 	public void check(final AuthentificationInformations authentication, final String callbackUri) {
-		final Servers server = new Servers();
-		server.setAuthentification(authentication);
-		server.setUrl(callbackUri);
+		final Servers server = new Servers(authentication, callbackUri);
 		final FluxRest rest = new FluxRest(server);
 		doRealCheck(rest, callbackUri);
 	}
