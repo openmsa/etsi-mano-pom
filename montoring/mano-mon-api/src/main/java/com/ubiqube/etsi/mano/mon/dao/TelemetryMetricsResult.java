@@ -21,6 +21,8 @@ import java.time.OffsetDateTime;
 import com.ubiqube.etsi.mano.service.mon.data.MonitoringDataSlim;
 
 import jakarta.annotation.Nonnull;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -45,6 +47,7 @@ public class TelemetryMetricsResult implements MonitoringDataSlim {
 
 	private String text;
 
+	@Temporal(TemporalType.TIMESTAMP)
 	private OffsetDateTime time;
 
 	private boolean status;

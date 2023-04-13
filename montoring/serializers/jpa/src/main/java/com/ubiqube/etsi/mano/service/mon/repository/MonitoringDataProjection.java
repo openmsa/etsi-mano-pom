@@ -14,23 +14,28 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service.mon.config;
+package com.ubiqube.etsi.mano.service.mon.repository;
 
-import org.apache.activemq.artemis.jms.client.ActiveMQConnectionFactory;
-import org.postgresql.util.PGobject;
-import org.springframework.aot.hint.MemberCategory;
-import org.springframework.aot.hint.RuntimeHints;
-import org.springframework.aot.hint.RuntimeHintsRegistrar;
+import java.sql.Timestamp;
 
 import jakarta.annotation.Nullable;
 
-public class CustomHint implements RuntimeHintsRegistrar {
+/**
+ *
+ * @author Olivier Vignaud
+ *
+ */
+public interface MonitoringDataProjection {
+	Timestamp getTime();
 
-	@Override
-	public void registerHints(final RuntimeHints hints, final @Nullable ClassLoader classLoader) {
-		hints.reflection().registerType(ActiveMQConnectionFactory.class, MemberCategory.INVOKE_PUBLIC_CONSTRUCTORS);
-		// Postgresql
-		hints.reflection().registerType(PGobject.class, MemberCategory.INVOKE_PUBLIC_CONSTRUCTORS, MemberCategory.INVOKE_PUBLIC_METHODS);
-	}
+	String getMasterJobId();
+
+	String getKey();
+
+	@Nullable
+	Double getValue();
+
+	@Nullable
+	String getText();
 
 }

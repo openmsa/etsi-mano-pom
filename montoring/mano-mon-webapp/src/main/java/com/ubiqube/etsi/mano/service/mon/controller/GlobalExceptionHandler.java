@@ -34,6 +34,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex, final HttpHeaders headers, final HttpStatusCode status, final WebRequest request) {
+		LOG.error(ex.getMessage(), ex);
 		return ResponseEntity.badRequest().body(ex.getBody());
 	}
 
@@ -41,6 +42,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleBindException(final BindException ex, final HttpHeaders headers, final HttpStatusCode status, final WebRequest request) {
 		LOG.error(ex.getMessage(), ex);
 		return super.handleBindException(ex, headers, status, request);
+	}
+
+	@Override
+	protected ResponseEntity<Object> handleExceptionInternal(final Exception ex, final Object body, final HttpHeaders headers, final HttpStatusCode statusCode, final WebRequest request) {
+		LOG.error(ex.getMessage(), ex);
+		return super.handleExceptionInternal(ex, body, headers, statusCode, request);
 	}
 
 }
