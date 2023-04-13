@@ -42,7 +42,7 @@ class ScalingStepTest {
 
 	@Test
 	void testByLevelId() {
-		final ScalingStrategyV2 srv = new ScalingStrategyV2(planService);
+		final ScalingStrategyV2 srv = new ScalingStrategyV2(new ScaleByStep(planService));
 		final VnfBlueprint blueprint = ScalingFactory.createBaseBlueprint();
 		blueprint.getParameters().setAspectId("aspect");
 		final VnfPackage bundle = ScalingFactory.createBaseVnfPackage();
@@ -56,7 +56,7 @@ class ScalingStepTest {
 
 	@Test
 	void testByLevelId2() {
-		final ScalingStrategyV2 srv = new ScalingStrategyV2(planService);
+		final ScalingStrategyV2 srv = new ScalingStrategyV2(new ScaleByStep(planService));
 		final VnfBlueprint blueprint = ScalingFactory.createBaseBlueprint();
 		blueprint.getParameters().setAspectId("aspect");
 		final VnfPackage bundle = ScalingFactory.createBaseVnfPackage();
@@ -76,7 +76,7 @@ class ScalingStepTest {
 
 	@Test
 	void testByLevelId3() {
-		final ScalingStrategyV2 srv = new ScalingStrategyV2(planService);
+		final ScalingStrategyV2 srv = new ScalingStrategyV2(new ScaleByStep(planService));
 		final VnfBlueprint blueprint = ScalingFactory.createBaseBlueprint();
 		blueprint.getParameters().setAspectId("aspect");
 		blueprint.getParameters().setNumberOfSteps(2);
@@ -99,7 +99,7 @@ class ScalingStepTest {
 
 	@Test
 	void testByLevelId4() {
-		final ScalingStrategyV2 srv = new ScalingStrategyV2(planService);
+		final ScalingStrategyV2 srv = new ScalingStrategyV2(new ScaleByStep(planService));
 		final VnfBlueprint blueprint = ScalingFactory.createBaseBlueprint();
 		blueprint.getParameters().setAspectId("aspect");
 		blueprint.getParameters().setNumberOfSteps(2);
@@ -123,7 +123,7 @@ class ScalingStepTest {
 
 	@Test
 	void testByLevelId_scaleIn() {
-		final ScalingStrategyV2 srv = new ScalingStrategyV2(planService);
+		final ScalingStrategyV2 srv = new ScalingStrategyV2(new ScaleByStep(planService));
 		final VnfBlueprint blueprint = ScalingFactory.createBaseBlueprint();
 		blueprint.getParameters().setAspectId("aspect");
 		blueprint.getParameters().setNumberOfSteps(7);
@@ -143,7 +143,7 @@ class ScalingStepTest {
 
 	@Test
 	void testByLevelId_scaleOut() {
-		final ScalingStrategyV2 srv = new ScalingStrategyV2(planService);
+		final ScalingStrategyV2 srv = new ScalingStrategyV2(new ScaleByStep(planService));
 		final VnfBlueprint blueprint = ScalingFactory.createBaseBlueprint();
 		blueprint.getParameters().setAspectId("aspect");
 		blueprint.getParameters().setNumberOfSteps(7);
@@ -164,7 +164,7 @@ class ScalingStepTest {
 
 	@Test
 	void testByLevelId_scaleOut_0() {
-		final ScalingStrategyV2 srv = new ScalingStrategyV2(planService);
+		final ScalingStrategyV2 srv = new ScalingStrategyV2(new ScaleByStep(planService));
 		final VnfBlueprint blueprint = ScalingFactory.createBaseBlueprint();
 		blueprint.getParameters().setAspectId("aspect");
 		blueprint.getParameters().setNumberOfSteps(0);

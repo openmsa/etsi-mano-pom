@@ -42,7 +42,7 @@ class ScalingStrategyV2InstantiateTest {
 
 	@Test
 	void testInstantiate() {
-		final ScalingStrategyV2 srv = new ScalingStrategyV2(planService);
+		final ScalingStrategyV2 srv = new ScalingStrategyV2(new ScaleByStep(planService));
 		final VnfBlueprint blueprint = ScalingFactory.createBaseBlueprint();
 		blueprint.setOperation(PlanOperationType.INSTANTIATE);
 		final VnfPackage bundle = ScalingFactory.createBaseVnfPackage();
@@ -56,7 +56,7 @@ class ScalingStrategyV2InstantiateTest {
 
 	@Test
 	void testInstantiateWithLevelId_defaultPlan() {
-		final ScalingStrategyV2 srv = new ScalingStrategyV2(planService);
+		final ScalingStrategyV2 srv = new ScalingStrategyV2(new ScaleByStep(planService));
 		final VnfBlueprint blueprint = ScalingFactory.createBaseBlueprint();
 		blueprint.setOperation(PlanOperationType.INSTANTIATE);
 		blueprint.getParameters().setInstantiationLevelId("level");

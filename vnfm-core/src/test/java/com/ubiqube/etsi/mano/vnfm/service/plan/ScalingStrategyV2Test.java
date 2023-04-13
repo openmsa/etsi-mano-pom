@@ -43,7 +43,7 @@ class ScalingStrategyV2Test {
 
 	@Test
 	void testUnknownScalingMode() {
-		final ScalingStrategyV2 srv = new ScalingStrategyV2(planService);
+		final ScalingStrategyV2 srv = new ScalingStrategyV2(new ScaleByStep(planService));
 		final VnfBlueprint blueprint = ScalingFactory.createBaseBlueprint();
 		final VnfPackage bundle = ScalingFactory.createBaseVnfPackage();
 		final Set<ScaleInfo> scaling = Set.of();
@@ -54,7 +54,7 @@ class ScalingStrategyV2Test {
 
 	@Test
 	void testByLEvelId() {
-		final ScalingStrategyV2 srv = new ScalingStrategyV2(planService);
+		final ScalingStrategyV2 srv = new ScalingStrategyV2(new ScaleByStep(planService));
 		final VnfBlueprint blueprint = ScalingFactory.createBaseBlueprint();
 		blueprint.getParameters().setInstantiationLevelId("level");
 		final VnfPackage bundle = ScalingFactory.createBaseVnfPackage();
@@ -68,7 +68,7 @@ class ScalingStrategyV2Test {
 
 	@Test
 	void testByLevelIdOneCompute() {
-		final ScalingStrategyV2 srv = new ScalingStrategyV2(planService);
+		final ScalingStrategyV2 srv = new ScalingStrategyV2(new ScaleByStep(planService));
 		final VnfBlueprint blueprint = ScalingFactory.createBaseBlueprint();
 		blueprint.getParameters().setInstantiationLevelId("level");
 		final VnfPackage bundle = ScalingFactory.createBaseVnfPackage();
