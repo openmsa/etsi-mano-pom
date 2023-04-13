@@ -166,8 +166,8 @@ class ServerServiceTest {
 
 	@Test
 	void testFindNearest() throws Exception {
-		// NPE because server doesnot have an URL.
-		assertThrows(NullPointerException.class, () -> ss.findNearestServer());
+		// NPE because server does not have an URL.
+		assertThrows(GenericException.class, () -> ss.findNearestServer());
 	}
 
 	@Test
