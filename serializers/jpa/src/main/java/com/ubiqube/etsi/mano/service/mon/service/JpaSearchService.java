@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.service.mon.service;
 
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,7 @@ import com.ubiqube.etsi.mano.mon.dao.TelemetryMetricsResult;
 import com.ubiqube.etsi.mano.service.mon.data.MonitoringDataSlim;
 import com.ubiqube.etsi.mano.service.mon.model.MonitoringData;
 import com.ubiqube.etsi.mano.service.mon.repository.MonitoringDataJpa;
+import com.ubiqube.etsi.mano.service.mon.repository.MonitoringDataProjection;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -48,11 +50,15 @@ public class JpaSearchService implements SearchApi {
 
 	@Override
 	public MonitoringDataSlim search(final String instance, final String object) {
-		final List<MonitoringDataSlim> ress = monitoringDataJpa.getLastMetrics(instance, object);
+		final List<MonitoringDataProjection> ress = monitoringDataJpa.getLastMetrics(instance, object);
 		if (ress.isEmpty()) {
 			throw new MonGenericException("Unablde to find metric: " + instance + "/" + object);
 		}
-		return ress.get(0);
+		return convert(ress.get(0));
+	}
+
+	private static MonitoringDataSlim convert(final MonitoringDataProjection mdp) {
+		return new TelemetryMetricsResult(mdp.getMasterJobId(), mdp.getKey(), mdp.getKey(), mdp.getValue(), mdp.getText(), mdp.getTime().toInstant().atOffset(ZoneOffset.UTC), true);
 	}
 
 	@Override
