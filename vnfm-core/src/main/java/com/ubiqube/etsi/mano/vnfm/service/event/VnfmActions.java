@@ -22,8 +22,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.BiConsumer;
 
-import jakarta.validation.constraints.NotNull;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -80,7 +78,7 @@ public class VnfmActions extends AbstractGenericActionV3 {
 		this.vnfInstanceServiceVnfm = vnfInstanceServiceVnfm;
 	}
 
-	public void vnfOperate(@NotNull final UUID blueprintId) {
+	public void vnfOperate(final UUID blueprintId) {
 		actionShield(blueprintId, (x, actionParameter) -> {
 			final Vim vim = vimManager.getVimById(actionParameter.vimConnection.getId());
 			if (actionParameter.blueprint.getOperateChanges().getTerminationType() == OperationalStateType.STARTED) {
@@ -93,7 +91,7 @@ public class VnfmActions extends AbstractGenericActionV3 {
 		});
 	}
 
-	public void vnfHeal(@NotNull final UUID blueprintId) {
+	public void vnfHeal(final UUID blueprintId) {
 		actionShield(blueprintId, (x, actionParameter) -> {
 			LOG.info("Rebooting: {}", x.getVimResourceId());
 			final Vim vim = vimManager.getVimById(actionParameter.vimConnection.getId());
@@ -101,7 +99,7 @@ public class VnfmActions extends AbstractGenericActionV3 {
 		});
 	}
 
-	private void actionShield(@NotNull final UUID blueprintId, final BiConsumer<VnfTask, ActionParameter> func) {
+	private void actionShield(final UUID blueprintId, final BiConsumer<VnfTask, ActionParameter> func) {
 		final VnfBlueprint blueprint = blueprintService.findById(blueprintId);
 		final VnfInstance vnfInstance = vnfInstanceServiceVnfm.findById(blueprint.getVnfInstance().getId());
 		try {
@@ -122,7 +120,7 @@ public class VnfmActions extends AbstractGenericActionV3 {
 		vnfInstancesService.save(vnfInstance);
 	}
 
-	public void vnfChangeVnfConn(@NotNull final UUID blueprintId) {
+	public void vnfChangeVnfConn(final UUID blueprintId) {
 		final VnfBlueprint blueprint = blueprintService.findById(blueprintId);
 		final VnfInstance vnfInstance = vnfInstanceServiceVnfm.findById(blueprint.getVnfInstance().getId());
 		final Set<ExtVirtualLinkDataEntity> evl = blueprint.getChangeExtVnfConnRequest().getExtVirtualLinks();

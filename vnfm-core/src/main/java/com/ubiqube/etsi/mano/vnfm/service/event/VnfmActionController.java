@@ -19,8 +19,6 @@ package com.ubiqube.etsi.mano.vnfm.service.event;
 import java.util.Map;
 import java.util.UUID;
 
-import jakarta.validation.constraints.NotNull;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -40,7 +38,7 @@ public class VnfmActionController {
 		this.notificationActions = notificationActions;
 	}
 
-	public void dispatch(final ActionType eventType, @NotNull final UUID objectId, final Map<String, Object> parameters) {
+	public void dispatch(final ActionType eventType, final UUID objectId, final Map<String, Object> parameters) {
 		switch (eventType) {
 		case VNF_SCALE_TO_LEVEL -> vnfmActions.scaleToLevel(objectId);
 		case VNF_INSTANTIATE -> vnfmActions.instantiate(objectId);

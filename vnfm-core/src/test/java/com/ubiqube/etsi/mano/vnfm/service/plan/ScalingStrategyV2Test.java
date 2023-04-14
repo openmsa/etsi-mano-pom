@@ -36,9 +36,12 @@ import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.vnfm.service.VnfBlueprintService;
 import com.ubiqube.etsi.mano.vnfm.service.plan.ScalingStrategy.NumberOfCompute;
 
+import jakarta.annotation.Nonnull;
+
 @ExtendWith(MockitoExtension.class)
 class ScalingStrategyV2Test {
 	@Mock
+	@Nonnull
 	private VnfBlueprintService planService;
 
 	@Test
@@ -62,8 +65,8 @@ class ScalingStrategyV2Test {
 		final VnfCompute compute = ScalingFactory.createBaseVnfCompute();
 		final VnfInstance instance = ScalingFactory.createBaseInstance();
 		final NumberOfCompute res = srv.getNumberOfCompute(blueprint, bundle, scaling, compute, instance);
-		assertEquals(res.getCurrent(), 0);
-		assertEquals(res.getWanted(), 0);
+		assertEquals(0, res.getCurrent());
+		assertEquals(0, res.getWanted());
 	}
 
 	@Test
@@ -80,8 +83,8 @@ class ScalingStrategyV2Test {
 		compute.addVduInstantiationLevel(instLevel);
 		final VnfInstance instance = ScalingFactory.createBaseInstance();
 		final NumberOfCompute res = srv.getNumberOfCompute(blueprint, bundle, scaling, compute, instance);
-		assertEquals(res.getCurrent(), 0);
-		assertEquals(res.getWanted(), 55);
+		assertEquals(0, res.getCurrent());
+		assertEquals(55, res.getWanted());
 	}
 
 }

@@ -16,11 +16,13 @@
  */
 package com.ubiqube.etsi.mano.test.controllers;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.UUID;
 
 import com.ubiqube.etsi.mano.dao.mano.CancelModeTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.OnboardingStateType;
+import com.ubiqube.etsi.mano.dao.mano.OperateChanges;
 import com.ubiqube.etsi.mano.dao.mano.PackageOperationalState;
 import com.ubiqube.etsi.mano.dao.mano.VnfCompute;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
@@ -40,6 +42,8 @@ public class TestFactory {
 	public static VnfBlueprint createBlueprint() {
 		final VnfBlueprint bp = new VnfBlueprint();
 		bp.setCancelMode(CancelModeTypeEnum.FORCEFUL);
+		bp.setVimConnections(new LinkedHashSet<>());
+		bp.setOperateChanges(new OperateChanges());
 		return bp;
 	}
 
@@ -48,6 +52,7 @@ public class TestFactory {
 		vnfInstance.setId(UUID.randomUUID());
 		vnfInstance.setVnfPkg(createVnfPkg(UUID.randomUUID()));
 		vnfInstance.setInstantiatedVnfInfo(new BlueprintParameters());
+		vnfInstance.setVimConnectionInfo(new LinkedHashSet<>());
 		return vnfInstance;
 	}
 
