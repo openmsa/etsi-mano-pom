@@ -58,7 +58,7 @@ public class JpaSearchService implements SearchApi {
 	}
 
 	private static MonitoringDataSlim convert(final MonitoringDataProjection mdp) {
-		return new TelemetryMetricsResult(mdp.getMasterJobId(), mdp.getKey(), mdp.getKey(), mdp.getValue(), mdp.getText(), mdp.getTime().toInstant().atOffset(ZoneOffset.UTC), true);
+		return new TelemetryMetricsResult(mdp.getMasterJobId(), null, mdp.getKey(), mdp.getValue(), mdp.getText(), mdp.getTime().toInstant().atOffset(ZoneOffset.UTC), true);
 	}
 
 	@Override
