@@ -33,7 +33,7 @@ import com.ubiqube.etsi.mano.service.mon.model.MonitoringData;
 public interface MonitoringDataJpa extends CrudRepository<MonitoringData, OffsetDateTime> {
 
 	@Query(value = """
-			select time , master_job_id , "key",value ,"text"  from monitoring_data
+			select time , master_job_id as masterJobId, "key",value ,"text"  from monitoring_data
 				where key = :key and master_job_id = :masterJobId
 				group by time , master_job_id , "key", value ,"text"
 				order by time desc limit 2;
