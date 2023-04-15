@@ -63,6 +63,15 @@ public class ModuleStatement extends AbstractStatementImpl implements NamedState
 	private String organization;
 
 	private String contact;
+	private String className;
+
+	@Override
+	public String getClassName() {
+		if (null != className) {
+			return className;
+		}
+		return name;
+	}
 
 	@Override
 	public String getYangName() {

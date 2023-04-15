@@ -46,6 +46,15 @@ public class ContainerStatement extends AbstractStatementImpl implements NamedSt
 	private String reference;
 	private String presence;
 	private String when;
+	private String className;
+
+	@Override
+	public String getClassName() {
+		if (null != className) {
+			return className;
+		}
+		return name;
+	}
 
 	@Override
 	public String getYangName() {

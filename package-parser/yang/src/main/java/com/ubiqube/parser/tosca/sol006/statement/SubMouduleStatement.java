@@ -61,6 +61,15 @@ public class SubMouduleStatement extends AbstractStatementImpl implements NamedS
 	private String prefix;
 
 	private String organization;
+	private String className;
+
+	@Override
+	public String getClassName() {
+		if (null != className) {
+			return className;
+		}
+		return name;
+	}
 
 	@Override
 	public String getYangName() {

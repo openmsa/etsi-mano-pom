@@ -14,18 +14,33 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.parser.tosca.sol006.statement;
+package com.ubiqube.parser.tosca.walker;
 
-/**
- *
- * @author Olivier Vignaud
- *
- */
-public interface NamedStatement extends Statement {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-	String getName();
+import com.ubiqube.parser.tosca.sol006.statement.NamedStatement;
 
-	void setClassName(String className);
+public class MultiValueMap {
+	private final Map<String, List<NamedStatement>> map = new HashMap<>();
 
-	String getClassName();
+	public MultiValueMap() {
+		//
+	}
+
+	public void add(final NamedStatement smt) {
+		final List<NamedStatement> r = map.computeIfAbsent(smt.getClassName(), x -> new ArrayList<>());
+		r.add(smt);
+	}
+
+	public Map<String, List<NamedStatement>> getMap() {
+		return map;
+	}
+
+	@Override
+	public String toString() {
+		return map.toString();
+	}
 }

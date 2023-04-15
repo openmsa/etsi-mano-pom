@@ -71,7 +71,7 @@ public class JavaPoetListener implements WalkerListener {
 	@Override
 	public void startContainer(final ContainerStatement container) {
 		final String pkg = ClassUtils.getPackage(container);
-		final String className = ClassUtils.toJavaClassName(container.getName());
+		final String className = ClassUtils.toJavaClassName(container.getClassName());
 		createClass(pkg, className, container.getName());
 	}
 
@@ -96,9 +96,11 @@ public class JavaPoetListener implements WalkerListener {
 	}
 
 	private TypeSpec serializeClass() {
-		final TypeSpec cls = currentContext.builder.build();
-		cache.put(currentContext.pkg + "." + currentContext.className, cls);
-		JavaPoetHelper.serializeClass(targetFolder, currentContext.pkg, cls);
+		final TypeSpec cls = cache.computeIfAbsent(currentContext.pkg + "." + currentContext.className, x -> {
+			final TypeSpec clz = currentContext.builder.build();
+			JavaPoetHelper.serializeClass(targetFolder, currentContext.pkg, clz);
+			return clz;
+		});
 		if (!stack.isEmpty()) {
 			currentContext = stack.pop();
 		}
@@ -108,7 +110,7 @@ public class JavaPoetListener implements WalkerListener {
 	@Override
 	public void listStart(final ListStatement x) {
 		final String pkg = ClassUtils.getPackage(x);
-		final String className = ClassUtils.toJavaClassName(x.getName());
+		final String className = ClassUtils.toJavaClassName(x.getClassName());
 		createClass(pkg, className, x.getName());
 	}
 
@@ -137,7 +139,7 @@ public class JavaPoetListener implements WalkerListener {
 			currentContext.builder.addField(field);
 			JavaPoetHelper.createGetterSetter(currentContext.builder, field, false);
 		} else if ("enumeration".equals(x.getType().getName())) {
-			final String className = ClassUtils.toJavaClassName(x.getName() + "Type");
+			final String className = ClassUtils.toJavaClassName(x.getClassName() + "Type");
 			final TypeSpec ts = createEnumeration(className, x.getType());
 			JavaPoetHelper.serializeClass(targetFolder, currentContext.pkg, ts);
 			final ClassName clazz = ClassName.get(currentContext.pkg, className);

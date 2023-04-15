@@ -33,7 +33,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class LeafStatement extends AbstractStatementImpl {
+public class LeafStatement extends AbstractStatementImpl implements NamedStatement {
 
 	private String name;
 	private String description;
@@ -45,6 +45,15 @@ public class LeafStatement extends AbstractStatementImpl {
 	private String def;
 	private StatusType status;
 	private String when;
+	private String className;
+
+	@Override
+	public String getClassName() {
+		if (null != className) {
+			return className;
+		}
+		return name;
+	}
 
 	@Override
 	public String getYangName() {

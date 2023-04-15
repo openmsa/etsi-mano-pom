@@ -1,10 +1,11 @@
-<nfv xmlns="urn:etsi:nfv:yang:etsi-nfv-descriptors">
+<ns:nfv xmlns:ns="urn:etsi:nfv:yang:etsi-nfv-descriptors">
 	<vnfd>
 		<id>complex-vnf</id>
 		<provider>My Company</provider>
 		<product-name>complex-vnf</product-name>
 		<software-version>1.0</software-version>
 		<version>1.0</version>
+		<bad>ddd</bad>
 		<vnfm-info>netconf</vnfm-info>
 		<vdu>
 			<id>control-plane-active</id>
@@ -339,4 +340,4 @@
 			</affinity-or-anti-affinity-group>
 		</df>
 	</vnfd>
-</nfv>
+</ns:nfv>

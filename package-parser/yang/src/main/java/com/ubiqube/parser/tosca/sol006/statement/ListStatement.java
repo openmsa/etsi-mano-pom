@@ -46,6 +46,15 @@ public class ListStatement extends AbstractStatementImpl implements NamedStateme
 	private String orderBy;
 	private String when;
 	private StatusType status;
+	private String className;
+
+	@Override
+	public String getClassName() {
+		if (null != className) {
+			return className;
+		}
+		return name;
+	}
 
 	@Override
 	public String getYangName() {

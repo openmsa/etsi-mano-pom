@@ -21,28 +21,31 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import com.ubiqube.yang.objects.Nfv;
-import com.ubiqube.yang.objects.Vdu;
-
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.Unmarshaller;
+import urn.etsi.nfv.yang.etsi.nfv.descriptors.v20220308.Nfv;
+import urn.etsi.nfv.yang.etsi.nfv.descriptors.v20220308.nfv.Vnfd;
 
-class JaxbTest {
+class Jaxb2Test {
 
 	@Test
 	void testName() throws Exception {
-		final Marshaller marshaller = JAXBContext.newInstance(Nfv.class).createMarshaller();
+		final Marshaller marshaller = JAXBContext.newInstance(urn.etsi.nfv.yang.etsi.nfv.descriptors.v20220308.Nfv.class).createMarshaller();
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-		final List<Vdu> lst = List.of(new Vdu("vdu-name"), new Vdu("vdu-name2"));
-		marshaller.marshal(new Nfv("name", lst), System.out);
+		final Nfv nfv = new Nfv();
+		final Vnfd vnfd = new Vnfd();
+		vnfd.setId("id");
+		nfv.setVnfd(List.of(vnfd));
+		marshaller.marshal(nfv, System.out);
 	}
 
 	@Test
 	void testName2() throws Exception {
 		final Unmarshaller marshaller = JAXBContext.newInstance(urn.etsi.nfv.yang.etsi.nfv.descriptors.v20220308.Nfv.class).createUnmarshaller();
-		final File is = new File("src/main/resources/data.xml");
-		final urn.etsi.nfv.yang.etsi.nfv.descriptors.v20220308.Nfv obj = (urn.etsi.nfv.yang.etsi.nfv.descriptors.v20220308.Nfv) marshaller.unmarshal(is);
-		System.out.println(">>>" + obj.getVnfd());
+		final File is = new File("src/main/resources/data2.xml");
+		final Nfv obj = (Nfv) marshaller.unmarshal(is);
+		System.out.println("" + obj.getVnfd());
 	}
+
 }

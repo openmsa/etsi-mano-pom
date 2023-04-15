@@ -36,6 +36,15 @@ public class UsesStatement extends AbstractStatementImpl implements NamedStateme
 	private String name;
 	private String description;
 	private String reference;
+	private String className;
+
+	@Override
+	public String getClassName() {
+		if (null != className) {
+			return className;
+		}
+		return name;
+	}
 
 	@Override
 	public String getYangName() {

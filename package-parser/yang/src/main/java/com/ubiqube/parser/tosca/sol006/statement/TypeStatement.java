@@ -33,7 +33,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class TypeStatement extends AbstractStatementImpl {
+public class TypeStatement extends AbstractStatementImpl implements NamedStatement {
 
 	private List<String> base = new ArrayList<>();
 	private List<BitStatement> bit = new ArrayList<>();
@@ -47,6 +47,15 @@ public class TypeStatement extends AbstractStatementImpl {
 	private String requireInstance;
 	private List<TypeStatement> type = new ArrayList<>();
 	private String name;
+	private String className;
+
+	@Override
+	public String getClassName() {
+		if (null != className) {
+			return className;
+		}
+		return name;
+	}
 
 	@Override
 	public String getYangName() {

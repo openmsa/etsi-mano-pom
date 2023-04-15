@@ -22,12 +22,16 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.ubiqube.etsi.mano.yang.YangStatementLexer;
 import com.ubiqube.etsi.mano.yang.YangStatementParser;
@@ -46,9 +50,12 @@ import com.ubiqube.parser.tosca.sol006.statement.IncludeStatement;
 import com.ubiqube.parser.tosca.sol006.statement.ModuleStatement;
 import com.ubiqube.parser.tosca.sol006.statement.NamedStatement;
 import com.ubiqube.parser.tosca.sol006.statement.SubMouduleStatement;
+import com.ubiqube.parser.tosca.walker.ClassCollectorListener;
 import com.ubiqube.parser.tosca.walker.JavaPoetListener;
 
 class YangTest3 {
+	private static final Logger LOG = LoggerFactory.getLogger(YangTest3.class);
+
 	@Test
 	void testName() throws Exception {
 		final InputStream stream = new FileInputStream("src/main/resources/4.3.1/etsi-nfv-vnfd.yang");
@@ -67,7 +74,51 @@ class YangTest3 {
 		System.out.println("" + r.size());
 		final ModuleStatement root = r.get(0);
 		resolvInclude(yr, root);
+		makeClassUniq(root);
 		Recurse.doIt(root, new JavaPoetListener("src/main/javapoet"));
+	}
+
+	private void makeClassUniq(final ModuleStatement root) {
+		final List<Entry<String, List<NamedStatement>>> res = getDuplicated(root);
+		res.forEach(x -> print2(x));
+		System.out.println("==================================");
+		final List<Entry<String, List<NamedStatement>>> res2 = getDuplicated(root);
+		res2.forEach(x -> print(x));
+	}
+
+	private List<Entry<String, List<NamedStatement>>> getDuplicated(final ModuleStatement root) {
+		final ClassCollectorListener list = new ClassCollectorListener();
+		Recurse.doIt(root, list);
+		final Map<String, List<NamedStatement>> all = list.getMap().getMap();
+		return all.entrySet().stream().filter(x -> x.getValue().size() > 1).toList();
+	}
+
+	private Object print(final Entry<String, List<NamedStatement>> x) {
+		x.getValue().stream().forEach(y -> {
+			if (!(y.getParent() instanceof final NamedStatement ns)) {
+				throw new YangException(y.getName() + ", have a parent of type " + y.getName() + "/" + x.getClass().getSimpleName());
+			}
+			if (y.getName().equals(ns.getName())) {
+				LOG.warn("Parent = child name {}", y.getName());
+			} else {
+				final String className = y.getName() + "-" + ns.getName();
+				y.setClassName(className);
+				System.out.println(y.getName() + " " + ns.getName());
+			}
+		});
+		return null;
+	}
+
+	private Object print2(final Entry<String, List<NamedStatement>> x) {
+		final int max = x.getValue().size();
+		if (max > 20) {
+			System.out.println(x.getKey());
+		}
+		for (int i = 0; i < max; i++) {
+			final NamedStatement elem = x.getValue().get(i);
+			elem.setClassName(elem.getClassName() + "ABCDEFGHIJKLMNOPQRSTUVWXYZ".charAt(i));
+		}
+		return null;
 	}
 
 	private static void resolvInclude(final YangRoot res, final ModuleStatement root) {

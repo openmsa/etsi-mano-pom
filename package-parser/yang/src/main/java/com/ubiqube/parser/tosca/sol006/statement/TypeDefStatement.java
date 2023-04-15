@@ -43,6 +43,15 @@ public class TypeDefStatement extends AbstractStatementImpl implements NamedStat
 	private StatusType status;
 	private TypeStatement type;
 	private String units;
+	private String className;
+
+	@Override
+	public String getClassName() {
+		if (null != className) {
+			return className;
+		}
+		return name;
+	}
 
 	@Override
 	public String getYangName() {
