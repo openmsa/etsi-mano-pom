@@ -49,7 +49,7 @@ class ScalingStrategyV2ScaleInfoTest {
 		final VnfInstance instance = ScalingFactory.createBaseInstance();
 		final NumberOfCompute nb = srv.getNumberOfCompute(blueprint, bundle, scaling, compute, instance);
 		assertEquals(0, nb.getCurrent());
-		assertEquals(1, nb.getWanted());
+		assertEquals(0, nb.getWanted());
 	}
 
 }
