@@ -23,14 +23,11 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.ubiqube.etsi.mano.exception.GenericException;
 
-@Service
 public class JsonWalker {
 
 	private static final Logger LOG = LoggerFactory.getLogger(JsonWalker.class);
@@ -47,7 +44,7 @@ public class JsonWalker {
 			final JsonNode patch = mapper.readTree(patchDocument);
 			walk(patch, beanListener);
 		} catch (final IOException e) {
-			throw new GenericException(e);
+			throw new BeanWalkerException(e);
 		}
 	}
 
@@ -56,7 +53,7 @@ public class JsonWalker {
 		try {
 			walkInner(patch, beanListener);
 		} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-			throw new GenericException(e);
+			throw new BeanWalkerException(e);
 		}
 	}
 

@@ -25,7 +25,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.BufferedImageHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ubiqube.etsi.mano.mapper.BeanWalker;
+import com.ubiqube.etsi.mano.mapper.JsonWalker;
+import com.ubiqube.etsi.mano.mapper.SpelWriter;
 import com.ubiqube.etsi.mano.service.cond.ConditionService;
+
+import ma.glasnost.orika.MapperFacade;
 
 /**
  *
@@ -47,5 +53,20 @@ public class GlobalConfiguraton {
 	@Bean
 	ConditionService conditionService() {
 		return new ConditionService();
+	}
+
+	@Bean
+	JsonWalker jsonWalker(final ObjectMapper mapper) {
+		return new JsonWalker(mapper);
+	}
+
+	@Bean
+	BeanWalker beanWalker() {
+		return new BeanWalker();
+	}
+
+	@Bean
+	SpelWriter spelWriter(final MapperFacade mapper) {
+		return new SpelWriter(mapper);
 	}
 }

@@ -21,16 +21,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
-import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.service.event.model.FilterAttributes;
 
 import jakarta.annotation.Nullable;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MappingContext;
 
-@Service
 public class SpelWriter {
 	private final MapperFacade mapper;
 
@@ -70,10 +66,8 @@ public class SpelWriter {
 				return node.getName();
 			}
 			// Is there another way to adress map.
-			if (prev instanceof final NamedAttrNode previous) {
-				if ("userDefinedData".equals(previous.getName())) {
-					return '[' + node.getName() + ']';
-				}
+			if ((prev instanceof final NamedAttrNode previous) && "userDefinedData".equals(previous.getName())) {
+				return '[' + node.getName() + ']';
 			}
 			return '.' + node.getName();
 		}
@@ -89,6 +83,6 @@ public class SpelWriter {
 		if (elem instanceof final AttrMapEntryNode node) {
 			return '[' + node.getName() + ']';
 		}
-		throw new GenericException("Unknown Node instance: " + elem.getClass());
+		throw new BeanWalkerException("Unknown Node instance: " + elem.getClass());
 	}
 }

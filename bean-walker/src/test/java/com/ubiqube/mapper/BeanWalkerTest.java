@@ -17,6 +17,8 @@
 package com.ubiqube.mapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
@@ -28,22 +30,29 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
-import com.ubiqube.etsi.mano.common.v261.model.vnf.PackageOperationalStateType;
-import com.ubiqube.etsi.mano.common.v261.model.vnf.PkgmNotificationsFilter;
-import com.ubiqube.etsi.mano.common.v261.model.vnf.PkgmNotificationsFilter.NotificationTypesEnum;
-import com.ubiqube.etsi.mano.common.v261.model.vnf.PkgmNotificationsFilterVnfProductsFromProviders;
-import com.ubiqube.etsi.mano.common.v261.model.vnf.PkgmSubscription;
-import com.ubiqube.etsi.mano.common.v261.model.vnf.PkgmSubscriptionLinks;
-import com.ubiqube.etsi.mano.common.v261.model.vnf.VnfPkgInfo;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubiqube.etsi.mano.mapper.AttrHolder;
 import com.ubiqube.etsi.mano.mapper.BeanWalker;
+import com.ubiqube.etsi.mano.mapper.BeanWalkerException;
+import com.ubiqube.etsi.mano.mapper.CollectHashMapListener;
 import com.ubiqube.etsi.mano.mapper.CollectNonNullListener;
 import com.ubiqube.etsi.mano.mapper.DebugListener;
+import com.ubiqube.etsi.mano.mapper.JsonWalker;
+import com.ubiqube.etsi.mano.mapper.QueryFilterListener;
+import com.ubiqube.etsi.mano.mapper.QueryFilterListener.ListRecord;
 import com.ubiqube.etsi.mano.mapper.SpelWriter;
 import com.ubiqube.etsi.mano.service.event.model.FilterAttributes;
+import com.ubiqube.mapper.objects.PackageOperationalStateType;
+import com.ubiqube.mapper.objects.PkgmNotificationsFilter;
+import com.ubiqube.mapper.objects.PkgmNotificationsFilter.NotificationTypesEnum;
+import com.ubiqube.mapper.objects.PkgmNotificationsFilterVnfProductsFromProviders;
+import com.ubiqube.mapper.objects.PkgmSubscription;
+import com.ubiqube.mapper.objects.PkgmSubscriptionLinks;
+import com.ubiqube.mapper.objects.VnfPkgInfo;
 
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 
+@SuppressWarnings("static-method")
 class BeanWalkerTest {
 
 	private final DefaultMapperFactory mapperFactory;
@@ -54,8 +63,7 @@ class BeanWalkerTest {
 
 	@Test
 	void testName() {
-		final PkgmSubscription subsJson = CreateSubscription();
-
+		final PkgmSubscription subsJson = createSubscription();
 		final BeanWalker bw = new BeanWalker();
 		final CollectNonNullListener beanListener = new CollectNonNullListener();
 		bw.walk(subsJson, beanListener);
@@ -78,7 +86,7 @@ class BeanWalkerTest {
 		assertEquals("96feacab-2765-4927-9bf5-883f6b566f36", swElem.getValue());
 	}
 
-	private PkgmSubscription CreateSubscription() {
+	private static PkgmSubscription createSubscription() {
 		final PkgmSubscription subsJson = new PkgmSubscription();
 		subsJson.setCallbackUri("http://callbackUri/");
 		final PkgmNotificationsFilter filter = new PkgmNotificationsFilter();
@@ -114,11 +122,70 @@ class BeanWalkerTest {
 
 	@Test
 	void testDebugWalker() {
-		final PkgmSubscription subsJson = CreateSubscription();
+		final PkgmSubscription subsJson = createSubscription();
 
 		final BeanWalker bw = new BeanWalker();
 		final DebugListener beanListener = new DebugListener();
 		bw.walk(subsJson, beanListener);
+		assertTrue(true);
+	}
+
+	@Test
+	void testCollectHashMapListener() {
+		final ObjectMapper mapper = new ObjectMapper();
+		final JsonWalker jw = new JsonWalker(mapper);
+		final PkgmSubscription subs = createSubscription();
+		final CollectHashMapListener beanListener = new CollectHashMapListener(subs.getClass());
+		final String patch = """
+				{
+					"callbackUri": "http://",
+					"filter": {
+						"vnfdId": "vnfdId",
+						"notificationTypes": ["VnfPackageChangeNotification"],
+						"vnfProductsFromProviders": [
+							{
+								"vnfProvider": "vnfProvider"
+							}
+						]
+					},
+					"userData": {
+						"key": "lav"
+					}
+				}
+				""";
+		jw.walk(patch, beanListener);
+		final List<AttrHolder> attrs = beanListener.getAttrs();
+		assertNotNull(attrs);
+	}
+
+	@Test
+	void testBadArgument() {
+		final ObjectMapper mapper = new ObjectMapper();
+		final JsonWalker jw = new JsonWalker(mapper);
+		final PkgmSubscription subs = createSubscription();
+		final CollectHashMapListener beanListener = new CollectHashMapListener(subs.getClass());
+		final String patch = """
+				{
+					"bad": "value"
+				}
+				""";
+		assertThrows(BeanWalkerException.class, () -> jw.walk(patch, beanListener));
+	}
+
+	@Test
+	void testQueryFilterListener() {
+		final QueryFilterListener qfl = new QueryFilterListener();
+		final PkgmSubscription subsJson = createSubscription();
+		final BeanWalker bw = new BeanWalker();
+		bw.walk(subsJson, qfl);
+		final List<ListRecord> res = qfl.getResults();
+		assertNotNull(res);
+		res.toString();
+		final ListRecord rr = res.get(0);
+		rr.toString();
+		rr.getChild();
+		rr.getList();
+		rr.getName();
 		assertTrue(true);
 	}
 }

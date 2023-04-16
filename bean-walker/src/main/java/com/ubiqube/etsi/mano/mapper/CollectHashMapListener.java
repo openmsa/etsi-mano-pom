@@ -28,8 +28,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import com.ubiqube.etsi.mano.exception.GenericException;
-
 import jakarta.annotation.Nullable;
 
 public class CollectHashMapListener extends AbstractCollectListener {
@@ -56,7 +54,7 @@ public class CollectHashMapListener extends AbstractCollectListener {
 		final PropertyDescriptor[] propDescs = beanInfo.getPropertyDescriptors();
 		final PropertyDescriptor props = find(name, propDescs);
 		if (props == null) {
-			throw new GenericException("Unable to find property [" + name + "] on " + curr.clazz);
+			throw new BeanWalkerException("Unable to find property [" + name + "] on " + curr.clazz);
 		}
 		final Class<?> ret = Objects.requireNonNull(props.getPropertyType());
 		ClassTypeHolder newVal = new ClassTypeHolder(ret, null);
@@ -98,7 +96,7 @@ public class CollectHashMapListener extends AbstractCollectListener {
 		try {
 			return Introspector.getBeanInfo(clazz);
 		} catch (final IntrospectionException e) {
-			throw new GenericException(e);
+			throw new BeanWalkerException(e);
 		}
 	}
 

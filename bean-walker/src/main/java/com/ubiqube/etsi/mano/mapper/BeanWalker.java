@@ -33,8 +33,6 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ubiqube.etsi.mano.exception.GenericException;
-
 import jakarta.annotation.Nullable;
 
 public class BeanWalker {
@@ -59,7 +57,7 @@ public class BeanWalker {
 		try {
 			makeFieldInner(source, beanListener);
 		} catch (final IntrospectionException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			throw new GenericException(e);
+			throw new BeanWalkerException(e);
 		}
 	}
 
@@ -114,6 +112,9 @@ public class BeanWalker {
 	@SuppressWarnings("rawtypes")
 	private static void handleMap(final Object source, final String name, final Method readMethod, final BeanListener beanListener) throws IllegalAccessException, InvocationTargetException {
 		final Map map = (Map) readMethod.invoke(source);
+		if (null == map) {
+			return;
+		}
 		beanListener.startMap(name);
 		final Set<Entry<?, ?>> entries = map.entrySet();
 		for (final Entry entry : entries) {

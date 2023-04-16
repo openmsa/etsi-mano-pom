@@ -164,6 +164,16 @@
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
+			<artifactId>mano-orika</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ubiqube.mano</groupId>
+			<artifactId>mano-condition</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-grammar-api</artifactId>
 			<version>${project.version}</version>
 		</dependency>

@@ -23,8 +23,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.converter.ConverterFactory;
-import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
+
+import jakarta.annotation.Nullable;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class ManoLenientStringToEnum implements ConverterFactory<String, Enum> {
@@ -38,7 +39,7 @@ public class ManoLenientStringToEnum implements ConverterFactory<String, Enum> {
 
 	private static Class<?> getEnumType(final Class<?> targetType) {
 		Class<?> enumType = targetType;
-		while (enumType != null && !enumType.isEnum()) {
+		while ((enumType != null) && !enumType.isEnum()) {
 			enumType = enumType.getSuperclass();
 		}
 		Assert.notNull(enumType, () -> "The target type " + targetType.getName() + " does not refer to an enum");

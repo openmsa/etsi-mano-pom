@@ -76,6 +76,11 @@
 			<artifactId>ubi-orika-core</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>com.ubiqube.mano</groupId>
+			<artifactId>mano-orika</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
 		</dependency>
