@@ -34,6 +34,9 @@ import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.ScaleToLevelData;
 import com.ubiqube.etsi.mano.service.event.model.EventMessage;
 import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.EqualsVerifierReport;
+import nl.jqno.equalsverifier.Warning;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 /**
@@ -57,6 +60,17 @@ class ModelTest {
 		assertNotNull(avc);
 		final String res = avc.toString();
 		assertNotNull(res);
+		avc.hashCode();
+		avc.toString();
+		avc.equals(null);
+		avc.equals(res);
+		avc.equals(avc);
+		final EqualsVerifierReport rep = EqualsVerifier
+				.simple()
+				.forClass(avc.getClass())
+				.suppress(Warning.INHERITED_DIRECTLY_FROM_OBJECT, Warning.SURROGATE_KEY)
+				.report();
+		System.out.println("" + rep.getMessage());
 	}
 
 	private static Stream<Arguments> providerClass() {
@@ -67,6 +81,7 @@ class ModelTest {
 				Arguments.of(VnfOperateRequest.class),
 				Arguments.of(ApiVersionInformation.class),
 				Arguments.of(VnfScaleRequest.class),
+				Arguments.of(VnfHealRequest.class),
 				Arguments.of(ExternalManagedVirtualLink.class));
 	}
 
@@ -74,6 +89,7 @@ class ModelTest {
 	void testVnfScaleRequest() {
 		final ScaleByStepData scaleData = podam.manufacturePojo(ScaleByStepData.class);
 		final VnfScaleRequest res = VnfScaleRequest.of(ScaleTypeEnum.fromValue("IN"), scaleData, Set.of());
+
 		assertNotNull(res);
 	}
 
