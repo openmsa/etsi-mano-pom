@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.dao.mano.pkg;
 
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -28,7 +29,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -54,4 +54,24 @@ public class VirtualCp extends ConnectionPoint implements Serializable {
 	private Set<String> targetRef;
 
 	private String virtualLinkRef;
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		return (prime * result) + Objects.hash(additionalServiceData, id, targetRef, virtualLinkRef);
+	}
+
+	@Override
+	public boolean equals(final Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!super.equals(obj) || (getClass() != obj.getClass())) {
+			return false;
+		}
+		final VirtualCp other = (VirtualCp) obj;
+		return Objects.equals(additionalServiceData, other.additionalServiceData) && Objects.equals(id, other.id) && Objects.equals(targetRef, other.targetRef) && Objects.equals(virtualLinkRef, other.virtualLinkRef);
+	}
+
 }

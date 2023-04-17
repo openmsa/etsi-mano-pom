@@ -77,10 +77,13 @@ public class ServerSelfCheckService {
 
 	private void displayResult(final Supplier<Result> supp) {
 		final Result res = supp.get();
+		final String f = res.func();
+		final String code = res.code();
+		final String errors = res.errors();
 		if (OK.equals(res.code())) {
-			LOG.info("  - {}: {}", res.func(), res.code());
+			LOG.info("  - {}: {}", f, code);
 		} else {
-			LOG.info("  - {}: {}, {}", res.func(), res.code(), res.errors());
+			LOG.info("  - {}: {}, {}", f, code, errors);
 		}
 	}
 

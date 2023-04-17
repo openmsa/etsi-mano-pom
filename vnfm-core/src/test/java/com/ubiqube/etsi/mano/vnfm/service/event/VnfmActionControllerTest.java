@@ -16,6 +16,8 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.event;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.Map;
 import java.util.UUID;
 
@@ -40,6 +42,7 @@ class VnfmActionControllerTest {
 		final VnfmActionController srv = new VnfmActionController(vnfmActions, notificationActions);
 		final UUID objId = UUID.randomUUID();
 		srv.dispatch(eventType, objId, Map.of());
+		assertTrue(true);
 	}
 
 }

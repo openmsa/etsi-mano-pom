@@ -18,8 +18,11 @@ package com.ubiqube.etsi.mano.dao.mano;
 
 import java.io.Serializable;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
+
+import com.ubiqube.etsi.mano.dao.mano.pkg.ConnectionPoint;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.ElementCollection;
@@ -30,9 +33,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
-
-import com.ubiqube.etsi.mano.dao.mano.pkg.ConnectionPoint;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -76,6 +76,25 @@ public class VnfExtCp extends ConnectionPoint implements Serializable, ToscaEnti
 			securityGroup = new LinkedHashSet<>();
 		}
 		securityGroup.add(toscaName2);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		return (prime * result) + Objects.hash(computeNode, externalVirtualLink, id, internalVirtualLink, securityGroup, state, toscaId, toscaName, virtualNetworkInterfaceRequirements);
+	}
+
+	@Override
+	public boolean equals(final Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!super.equals(obj) || (getClass() != obj.getClass())) {
+			return false;
+		}
+		final VnfExtCp other = (VnfExtCp) obj;
+		return (computeNode == other.computeNode) && Objects.equals(externalVirtualLink, other.externalVirtualLink) && Objects.equals(id, other.id) && Objects.equals(internalVirtualLink, other.internalVirtualLink) && Objects.equals(securityGroup, other.securityGroup) && Objects.equals(state, other.state) && Objects.equals(toscaId, other.toscaId) && Objects.equals(toscaName, other.toscaName) && Objects.equals(virtualNetworkInterfaceRequirements, other.virtualNetworkInterfaceRequirements);
 	}
 
 }

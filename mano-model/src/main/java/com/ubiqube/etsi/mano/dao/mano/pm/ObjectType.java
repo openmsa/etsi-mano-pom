@@ -21,5 +21,5 @@ public enum ObjectType {
 	COMPUTE,
 	VL,
 	OS_CONTAINER,
-	Ext_CP
+	EXT_CP
 }

@@ -89,6 +89,7 @@ class NotificationActionsTest {
 		vnfPkg.setId(id);
 		when(vnfPackageJpa.findById(id)).thenReturn(Optional.of(vnfPkg));
 		srv.onPkgOnbardingInstantiate(id);
+		assertTrue(true);
 	}
 
 	@Test

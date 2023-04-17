@@ -123,7 +123,8 @@ class PolicyFrontControllerImplTest {
 		final UUID id = UUID.randomUUID();
 		final InputStreamSource is = Mockito.mock(InputStreamSource.class);
 		when(is.getInputStream()).thenThrow(IOException.class);
-		assertThrows(GenericException.class, () -> srv.putContent(id.toString(), null, is));
+		final String sid = id.toString();
+		assertThrows(GenericException.class, () -> srv.putContent(sid, null, is));
 	}
 
 	@Test

@@ -40,6 +40,12 @@ public interface OrchestrationAdapter<B extends VimTask, V extends Instance> {
 
 	Instance getInstance(Blueprint<B, V> blueprint);
 
+	/**
+	 * Parameterized type pose some problem on this function.
+	 *
+	 * @param blueprint
+	 * @return
+	 */
 	Blueprint<B, V> save(Blueprint blueprint);
 
 	Instance save(Instance instance);

@@ -168,7 +168,7 @@ public class VnfmPmGenericFrontControllerImpl implements VnfmPmGenericFrontContr
 				.map(x -> x.getVnfPkg())
 				.flatMap(x -> x.getVnfExtCp().stream())
 				.filter(x -> x.getToscaName().equals(str))
-				.map(x -> new ResolvedObjectId(null, str, ObjectType.Ext_CP, x.getId()))
+				.map(x -> new ResolvedObjectId(null, str, ObjectType.EXT_CP, x.getId()))
 				.toList();
 		ret.addAll(vnfExtCp);
 		final List<ResolvedObjectId> vnfVl = insts.stream()

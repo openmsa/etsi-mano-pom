@@ -126,7 +126,6 @@ public class MonitoringManager {
 	}
 
 	public ResponseEntity<List<VnfIndicator>> findByVnfInstanceId(final String vnfInstanceId, final String filter, final String nextpageOpaqueMarker) {
-		// TODO Auto-generated method stub
-		return null;
+		return ResponseEntity.badRequest().build();
 	}
 }
