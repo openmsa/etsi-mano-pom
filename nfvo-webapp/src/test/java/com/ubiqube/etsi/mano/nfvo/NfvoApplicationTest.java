@@ -1,3 +1,4 @@
+package com.ubiqube.etsi.mano.nfvo;
 
 /**
  *     Copyright (C) 2019-2023 Ubiqube.
