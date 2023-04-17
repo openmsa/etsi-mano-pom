@@ -18,8 +18,10 @@ package com.ubiqube.etsi.mano.em.client.config;
 
 import java.util.Optional;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.reactive.function.client.DefaultClientRequestObservationConvention;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClient.Builder;
 import org.springframework.web.reactive.function.client.support.WebClientAdapter;
@@ -28,6 +30,7 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 import com.ubiqube.etsi.mano.vnfm.property.EmProperty;
 
 import io.micrometer.observation.ObservationRegistry;
+import jakarta.validation.constraints.NotNull;
 
 /**
  *
@@ -35,11 +38,17 @@ import io.micrometer.observation.ObservationRegistry;
  *
  */
 @Configuration(proxyBeanMethods = false)
-@ConditionalOnMissingBean(ObservationRegistry.class)
-public class ClientConfigBean extends AbstractClientConfigBean {
+@ConditionalOnBean(ObservationRegistry.class)
+public class ClientConfigObservabilityBean extends AbstractClientConfigBean {
+	@NotNull
+	private final DefaultClientRequestObservationConvention oc;
+	@NotNull
+	private final ObservationRegistry observationRegistry;
 	private final EmProperty conf;
 
-	public ClientConfigBean(final EmProperty conf) {
+	public ClientConfigObservabilityBean(final ConfigurableApplicationContext configurableApplicationContext, final EmProperty conf) {
+		oc = new DefaultClientRequestObservationConvention("http.client.requests");
+		observationRegistry = configurableApplicationContext.getBean(ObservationRegistry.class);
 		this.conf = conf;
 	}
 
@@ -48,6 +57,8 @@ public class ClientConfigBean extends AbstractClientConfigBean {
 		final Builder webBuilder = WebClient.builder()
 				.baseUrl(conf.getUrl());
 		Optional.ofNullable(conf.getVersion()).ifPresent(x -> webBuilder.defaultHeader("Version", x));
+		webBuilder.observationConvention(oc);
+		webBuilder.observationRegistry(observationRegistry);
 		final WebClient client = webBuilder
 				.build();
 		return HttpServiceProxyFactory.builder(WebClientAdapter.forClient(client)).build();

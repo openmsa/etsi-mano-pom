@@ -19,7 +19,9 @@ package com.ubiqube;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.autoconfigure.actuate.observability.AutoConfigureObservability;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 
 import com.ubiqube.etsi.mano.VnfmApplication;
@@ -29,6 +31,8 @@ import ma.glasnost.orika.impl.generator.EclipseJdtCompilerStrategy;
 
 @SpringBootTest
 @ContextConfiguration(classes = { VnfmApplication.class })
+@AutoConfigureObservability(tracing = true)
+@ActiveProfiles("test")
 class VnfmApplicationTest {
 	static {
 		System.setProperty(OrikaSystemProperties.COMPILER_STRATEGY, EclipseJdtCompilerStrategy.class.getName());

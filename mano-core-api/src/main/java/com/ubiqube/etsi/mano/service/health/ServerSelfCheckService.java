@@ -24,6 +24,7 @@ import java.util.function.Supplier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -39,6 +40,7 @@ import com.ubiqube.etsi.mano.service.rest.model.OAuth2GrantType;
 import com.ubiqube.etsi.mano.service.rest.model.ServerConnection;
 
 @Component
+@Profile("!test")
 public class ServerSelfCheckService {
 	private static final String OAUTH2 = "OAuth2";
 	private static final String OK = "\033[1;32mOK\033[0m";
