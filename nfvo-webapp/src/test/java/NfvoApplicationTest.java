@@ -1,3 +1,4 @@
+
 /**
  *     Copyright (C) 2019-2023 Ubiqube.
  *
@@ -17,7 +18,9 @@
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.autoconfigure.actuate.observability.AutoConfigureObservability;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 
 import com.ubiqube.etsi.mano.NfvoApplication;
@@ -42,6 +45,8 @@ import ma.glasnost.orika.impl.generator.EclipseJdtCompilerStrategy;
  * this program. If not, see <https://www.gnu.org/licenses/>.
  */
 @SpringBootTest
+@AutoConfigureObservability(tracing = true)
+@ActiveProfiles("test")
 @ContextConfiguration(classes = { NfvoApplication.class })
 class NfvoApplicationTest {
 	static {
