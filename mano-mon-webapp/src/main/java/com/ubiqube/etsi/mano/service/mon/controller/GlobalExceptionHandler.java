@@ -27,24 +27,29 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import jakarta.annotation.Nullable;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	private static final Logger LOG = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
 	@Override
+	@Nullable
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex, final HttpHeaders headers, final HttpStatusCode status, final WebRequest request) {
 		LOG.error(ex.getMessage(), ex);
 		return ResponseEntity.badRequest().body(ex.getBody());
 	}
 
 	@Override
+	@Nullable
 	protected ResponseEntity<Object> handleBindException(final BindException ex, final HttpHeaders headers, final HttpStatusCode status, final WebRequest request) {
 		LOG.error(ex.getMessage(), ex);
 		return super.handleBindException(ex, headers, status, request);
 	}
 
 	@Override
+	@Nullable
 	protected ResponseEntity<Object> handleExceptionInternal(final Exception ex, final Object body, final HttpHeaders headers, final HttpStatusCode statusCode, final WebRequest request) {
 		LOG.error(ex.getMessage(), ex);
 		return super.handleExceptionInternal(ex, body, headers, statusCode, request);
