@@ -16,20 +16,17 @@
  */
 package com.ubiqube.etsi.mano.service.mon.cli.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.context.annotation.Bean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.reactive.function.client.DefaultClientRequestObservationConvention;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClient.Builder;
 import org.springframework.web.reactive.function.client.support.WebClientAdapter;
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
-import com.ubiqube.etsi.mano.service.mon.cli.MetricsRemoteService;
-import com.ubiqube.etsi.mano.service.mon.cli.MonPollingRemoteService;
-
 import io.micrometer.observation.ObservationRegistry;
+import jakarta.annotation.Nonnull;
 
 /**
  *
@@ -37,30 +34,24 @@ import io.micrometer.observation.ObservationRegistry;
  *
  */
 @Configuration(proxyBeanMethods = false)
-@ConditionalOnMissingBean(ObservationRegistry.class)
-public class MonitoringRemoteService {
+@ConditionalOnBean(ObservationRegistry.class)
+public class MonitoringRemoteObservabilityService extends AbstractMonitoringRemoteService {
+	@Nonnull
+	private final DefaultClientRequestObservationConvention oc;
+	@Nonnull
+	private final ObservationRegistry observationRegistry;
 
-	private static final Logger LOG = LoggerFactory.getLogger(MonitoringRemoteService.class);
-
-	public MonitoringRemoteService() {
-		LOG.debug("Starting monitoring remote service.");
+	public MonitoringRemoteObservabilityService(final ConfigurableApplicationContext configurableApplicationContext) {
+		oc = new DefaultClientRequestObservationConvention("http.client.requests");
+		observationRegistry = configurableApplicationContext.getBean(ObservationRegistry.class);
 	}
 
-	@Bean
-	MonPollingRemoteService createMonPollingRemoteService() {
-		final HttpServiceProxyFactory proxyFactory = createProxyFactory();
-		return proxyFactory.createClient(MonPollingRemoteService.class);
-	}
-
-	@Bean
-	MetricsRemoteService createMetricsRemoteService() {
-		final HttpServiceProxyFactory proxyFactory = createProxyFactory();
-		return proxyFactory.createClient(MetricsRemoteService.class);
-	}
-
+	@Override
 	HttpServiceProxyFactory createProxyFactory() {
 		final Builder webBuilder = WebClient.builder()
 				.baseUrl("http://mano-mon:8082/");
+		webBuilder.observationConvention(oc);
+		webBuilder.observationRegistry(observationRegistry);
 		final WebClient client = webBuilder
 				.build();
 		return HttpServiceProxyFactory.builder(WebClientAdapter.forClient(client)).build();

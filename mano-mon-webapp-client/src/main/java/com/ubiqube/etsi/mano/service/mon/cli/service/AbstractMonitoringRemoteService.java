@@ -16,35 +16,13 @@
  */
 package com.ubiqube.etsi.mano.service.mon.cli.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClient.Builder;
-import org.springframework.web.reactive.function.client.support.WebClientAdapter;
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
 import com.ubiqube.etsi.mano.service.mon.cli.MetricsRemoteService;
 import com.ubiqube.etsi.mano.service.mon.cli.MonPollingRemoteService;
 
-import io.micrometer.observation.ObservationRegistry;
-
-/**
- *
- * @author Olivier Vignaud
- *
- */
-@Configuration(proxyBeanMethods = false)
-@ConditionalOnMissingBean(ObservationRegistry.class)
-public class MonitoringRemoteService {
-
-	private static final Logger LOG = LoggerFactory.getLogger(MonitoringRemoteService.class);
-
-	public MonitoringRemoteService() {
-		LOG.debug("Starting monitoring remote service.");
-	}
+public abstract class AbstractMonitoringRemoteService {
 
 	@Bean
 	MonPollingRemoteService createMonPollingRemoteService() {
@@ -58,12 +36,5 @@ public class MonitoringRemoteService {
 		return proxyFactory.createClient(MetricsRemoteService.class);
 	}
 
-	HttpServiceProxyFactory createProxyFactory() {
-		final Builder webBuilder = WebClient.builder()
-				.baseUrl("http://mano-mon:8082/");
-		final WebClient client = webBuilder
-				.build();
-		return HttpServiceProxyFactory.builder(WebClientAdapter.forClient(client)).build();
-	}
-
+	abstract HttpServiceProxyFactory createProxyFactory();
 }
