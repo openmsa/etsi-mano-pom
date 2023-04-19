@@ -25,6 +25,8 @@ import org.springframework.web.reactive.function.client.WebClient.Builder;
 import org.springframework.web.reactive.function.client.support.WebClientAdapter;
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
+import com.ubiqube.etsi.mano.service.mon.cli.MonitoringProperty;
+
 import io.micrometer.observation.ObservationRegistry;
 import jakarta.annotation.Nonnull;
 
@@ -40,16 +42,18 @@ public class MonitoringRemoteObservabilityService extends AbstractMonitoringRemo
 	private final DefaultClientRequestObservationConvention oc;
 	@Nonnull
 	private final ObservationRegistry observationRegistry;
+	private final MonitoringProperty properties;
 
-	public MonitoringRemoteObservabilityService(final ConfigurableApplicationContext configurableApplicationContext) {
+	public MonitoringRemoteObservabilityService(final ConfigurableApplicationContext configurableApplicationContext, final MonitoringProperty properties) {
 		oc = new DefaultClientRequestObservationConvention("http.client.requests");
 		observationRegistry = configurableApplicationContext.getBean(ObservationRegistry.class);
+		this.properties = properties;
 	}
 
 	@Override
 	HttpServiceProxyFactory createProxyFactory() {
 		final Builder webBuilder = WebClient.builder()
-				.baseUrl("http://mano-mon:8082/");
+				.baseUrl(properties.getUrl());
 		webBuilder.observationConvention(oc);
 		webBuilder.observationRegistry(observationRegistry);
 		final WebClient client = webBuilder
