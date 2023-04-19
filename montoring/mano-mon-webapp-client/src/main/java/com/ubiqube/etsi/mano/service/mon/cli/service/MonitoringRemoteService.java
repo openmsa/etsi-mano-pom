@@ -28,6 +28,7 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
 import com.ubiqube.etsi.mano.service.mon.cli.MetricsRemoteService;
 import com.ubiqube.etsi.mano.service.mon.cli.MonPollingRemoteService;
+import com.ubiqube.etsi.mano.service.mon.cli.MonitoringProperty;
 
 import io.micrometer.observation.ObservationRegistry;
 
@@ -41,9 +42,11 @@ import io.micrometer.observation.ObservationRegistry;
 public class MonitoringRemoteService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(MonitoringRemoteService.class);
+	private final MonitoringProperty properties;
 
-	public MonitoringRemoteService() {
+	public MonitoringRemoteService(final MonitoringProperty properties) {
 		LOG.debug("Starting monitoring remote service.");
+		this.properties = properties;
 	}
 
 	@Bean
@@ -60,7 +63,7 @@ public class MonitoringRemoteService {
 
 	HttpServiceProxyFactory createProxyFactory() {
 		final Builder webBuilder = WebClient.builder()
-				.baseUrl("http://mano-mon:8082/");
+				.baseUrl(properties.getUrl());
 		final WebClient client = webBuilder
 				.build();
 		return HttpServiceProxyFactory.builder(WebClientAdapter.forClient(client)).build();
