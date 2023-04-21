@@ -63,9 +63,10 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-autoconfigure</artifactId>
 		</dependency>
+		<!-- Used for API version, and problemDetails. -->
 		<dependency>
 			<groupId>io.swagger.core.v3</groupId>
-			<artifactId>swagger-annotations</artifactId>
+			<artifactId>swagger-annotations-jakarta</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>jakarta.annotation</groupId>
