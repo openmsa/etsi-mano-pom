@@ -40,7 +40,7 @@
 		<com.ubiqube.swagger3>2.2.8</com.ubiqube.swagger3>
 		<com.ubiqube.mockito.version>5.2.0</com.ubiqube.mockito.version>
 		<com.ubiqube.elasticsearch.version>8.6.2</com.ubiqube.elasticsearch.version>
-		<com.ubiqube.springdoc.version>2.0.4</com.ubiqube.springdoc.version>
+		<com.ubiqube.springdoc.version>2.1.0</com.ubiqube.springdoc.version>
 		<com.ubiqube.orika.version>1.5.5</com.ubiqube.orika.version>
 		<com.ubiqube.jgrapht.version>1.5.1</com.ubiqube.jgrapht.version>
 	</properties>
@@ -85,6 +85,11 @@
 				<groupId>io.swagger</groupId>
 				<artifactId>swagger-annotations</artifactId>
 				<version>1.6.10</version>
+			</dependency>
+			<dependency>
+				<groupId>io.swagger.core.v3</groupId>
+				<artifactId>swagger-annotations-jakarta</artifactId>
+				<version>2.2.9</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.orika</groupId>
@@ -269,6 +274,7 @@
 					</execution>
 				</executions>
 			</plugin>
+<!--
 			<plugin>
 				<groupId>io.github.git-commit-id</groupId>
 				<artifactId>git-commit-id-maven-plugin</artifactId>
@@ -286,6 +292,7 @@
 					</execution>
 				</executions>
 			</plugin>
+-->
 			<plugin>
 				<groupId>com.mycila.maven-license-plugin</groupId>
 				<artifactId>maven-license-plugin</artifactId>
