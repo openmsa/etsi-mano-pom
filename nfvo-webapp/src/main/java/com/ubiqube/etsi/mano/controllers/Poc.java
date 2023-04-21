@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.controllers;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,12 +33,14 @@ import org.jgrapht.ListenableGraph;
 import org.jgrapht.ext.JGraphXAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -81,7 +84,7 @@ import jakarta.validation.constraints.NotNull;
  * @author olivier
  *
  */
-//@RestController
+@RestController
 @RequestMapping("/poc")
 public class Poc {
 
@@ -96,9 +99,11 @@ public class Poc {
 	private final ObjectMapper om;
 	private final NsBlueprintService nsBlueprintService;
 
+	private final Environment env;
+
 	public Poc(final NsLiveInstanceJpa nsLiveInstanceJpa, final NsBlueprintJpa nsBlueprintJpa, final VnfPlanService vnfPlanService,
 			final NsPlanService nsPlanService, final VnfPackageService vnfPackageService, final NsdPackageService nsdPackageService,
-			final ObjectMapper om, final NsBlueprintService nsBlueprintService) {
+			final ObjectMapper om, final NsBlueprintService nsBlueprintService, final Environment env) {
 		this.nsLiveInstanceJpa = nsLiveInstanceJpa;
 		this.nsBlueprintJpa = nsBlueprintJpa;
 		this.vnfPlanService = vnfPlanService;
@@ -107,6 +112,7 @@ public class Poc {
 		this.nsdPackageService = nsdPackageService;
 		this.om = om;
 		this.nsBlueprintService = nsBlueprintService;
+		this.env = env;
 	}
 
 	@GetMapping("/vnfpkg/{id}")
@@ -232,4 +238,17 @@ public class Poc {
 		return ResponseEntity.ok(res);
 	}
 
+	/*
+	 * .clientId(env.getProperty("keycloak.resource"))
+	 * .clientSecret(env.getProperty("keycloak.credentials.secret"))
+	 * .tokenEndpoint(env.getProperty("mano.swagger-o-auth2"))
+	 */
+	@GetMapping("/env")
+	public ResponseEntity<String> testEnv() throws ParseException {
+		final String ret = "1= " + env.getProperty("keycloak.resource") + "\n" +
+				"2= " + env.getProperty("keycloak.credentials.secret") + "\n" +
+				"3= " + env.getProperty("mano.swagger-o-auth2") + "\n";
+
+		return ResponseEntity.ok(ret);
+	}
 }
