@@ -18,11 +18,13 @@ package com.ubiqube.etsi.mano.vnfm.service.graph;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,6 +32,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.dao.mano.ExtManagedVirtualLinkDataEntity;
+import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
+import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
@@ -62,7 +66,7 @@ class VnfWorkflowTest {
 
 	@Test
 	void testExecute() {
-		final TestVnfmContributor tc = new TestVnfmContributor(vnfInstanceJpa);
+		final TestVnfmContributor tc = new TestVnfmContributor(vnfInstanceJpa, List.of());
 		final List<AbstractVnfmContributor<?>> contributors = List.of(tc);
 		final VnfWorkflow srv = new VnfWorkflow(planv2, vnfInstanceJpa, contributors, planService, blueprintBuilder, vnfPackageService);
 		final VnfBlueprint blueprint = TestFactory.createBlueprint();
@@ -74,7 +78,7 @@ class VnfWorkflowTest {
 
 	@Test
 	void testExecuteFull() {
-		final TestVnfmContributor tc = new TestVnfmContributor(vnfInstanceJpa);
+		final TestVnfmContributor tc = new TestVnfmContributor(vnfInstanceJpa, List.of());
 		final List<AbstractVnfmContributor<?>> contributors = List.of(tc);
 		final VnfWorkflow srv = new VnfWorkflow(planv2, vnfInstanceJpa, contributors, planService, blueprintBuilder, vnfPackageService);
 		final VnfBlueprint blueprint = TestFactory.createBlueprint();
@@ -89,7 +93,7 @@ class VnfWorkflowTest {
 
 	@Test
 	void testRefresh() {
-		final TestVnfmContributor tc = new TestVnfmContributor(vnfInstanceJpa);
+		final TestVnfmContributor tc = new TestVnfmContributor(vnfInstanceJpa, List.of());
 		final List<AbstractVnfmContributor<?>> contributors = List.of(tc);
 		final VnfWorkflow srv = new VnfWorkflow(planv2, vnfInstanceJpa, contributors, planService, blueprintBuilder, vnfPackageService);
 		final PreExecutionGraphV3<VnfTask> prePlan = new TestPreExecutionGraphV3();
@@ -100,7 +104,7 @@ class VnfWorkflowTest {
 
 	@Test
 	void testRefresh2() {
-		final TestVnfmContributor tc = new TestVnfmContributor(vnfInstanceJpa);
+		final TestVnfmContributor tc = new TestVnfmContributor(vnfInstanceJpa, List.of());
 		final List<AbstractVnfmContributor<?>> contributors = List.of(tc);
 		final VnfWorkflow srv = new VnfWorkflow(planv2, vnfInstanceJpa, contributors, planService, blueprintBuilder, vnfPackageService);
 		final HelmTask nt = new HelmTask();
@@ -114,7 +118,7 @@ class VnfWorkflowTest {
 
 	@Test
 	void testRefresh3() {
-		final TestVnfmContributor tc = new TestVnfmContributor(vnfInstanceJpa);
+		final TestVnfmContributor tc = new TestVnfmContributor(vnfInstanceJpa, List.of());
 		final List<AbstractVnfmContributor<?>> contributors = List.of(tc);
 		final VnfWorkflow srv = new VnfWorkflow(planv2, vnfInstanceJpa, contributors, planService, blueprintBuilder, vnfPackageService);
 		final HelmTask nt = new HelmTask();
@@ -127,6 +131,21 @@ class VnfWorkflowTest {
 		final Blueprint<VnfTask, ?> local = TestFactory.createBlueprint();
 		local.addTask(nt);
 		srv.refresh(prePlan, local);
+		assertTrue(true);
+	}
+
+	@Test
+	void testSetWorkflowBlueprint() {
+		final TestVnfmContributor tc = new TestVnfmContributor(vnfInstanceJpa, List.of());
+		final List<AbstractVnfmContributor<?>> contributors = List.of(tc);
+		final VnfWorkflow srv = new VnfWorkflow(planv2, vnfInstanceJpa, contributors, planService, blueprintBuilder, vnfPackageService);
+		final VnfPackage bundle = TestFactory.createVnfPkg(UUID.randomUUID());
+		final VnfBlueprint blueprint = TestFactory.createBlueprint();
+		final VnfInstance inst = TestFactory.createVnfInstance();
+		blueprint.setVnfInstance(inst);
+		blueprint.getParameters().setExtManagedVirtualLinks(Set.of());
+		when(vnfInstanceJpa.findByVnfInstanceId(any())).thenReturn(List.of());
+		srv.setWorkflowBlueprint(bundle, blueprint);
 		assertTrue(true);
 	}
 }

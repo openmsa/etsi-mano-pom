@@ -26,14 +26,16 @@ import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.AbstractVnfmContribu
 
 public class TestVnfmContributor extends AbstractVnfmContributor<Object> {
 
-	protected TestVnfmContributor(final VnfLiveInstanceJpa vnfInstanceJpa) {
+	private final List<SclableResources<Object>> list;
+
+	protected TestVnfmContributor(final VnfLiveInstanceJpa vnfInstanceJpa, final List<SclableResources<Object>> list) {
 		super(vnfInstanceJpa);
+		this.list = list;
 	}
 
 	@Override
 	public List<SclableResources<Object>> contribute(final VnfPackage bundle, final VnfBlueprint parameters) {
-		// TODO Auto-generated method stub
-		return null;
+		return list;
 	}
 
 }
