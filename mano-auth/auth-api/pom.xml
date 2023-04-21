@@ -36,9 +36,10 @@
 			<groupId>jakarta.servlet</groupId>
 			<artifactId>jakarta.servlet-api</artifactId>
 		</dependency>
+		<!-- SecurityScheme -->
 		<dependency>
 			<groupId>io.swagger.core.v3</groupId>
-			<artifactId>swagger-models</artifactId>
+			<artifactId>swagger-models-jakarta</artifactId>
 			<version>2.2.7</version>
 		</dependency>
 		<dependency>
