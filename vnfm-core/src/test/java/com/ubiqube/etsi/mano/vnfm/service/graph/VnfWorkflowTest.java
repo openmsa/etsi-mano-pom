@@ -22,18 +22,25 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.EnumSource.Mode;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.dao.mano.ExtManagedVirtualLinkDataEntity;
+import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
+import com.ubiqube.etsi.mano.dao.mano.VnfLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
 import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
@@ -134,17 +141,114 @@ class VnfWorkflowTest {
 		assertTrue(true);
 	}
 
-	@Test
-	void testSetWorkflowBlueprint() {
+	@ParameterizedTest
+	@EnumSource(value = ResourceTypeEnum.class, mode = Mode.INCLUDE, names = { "VL", "SUBNETWORK", "COMPUTE", "STORAGE", "SECURITY_GROUP", "LINKPORT", "VNF_EXTCP", "MONITORING", "AFFINITY_RULE", "OS_CONTAINER_INFO", "MCIOP_USER", "DNSHOST", "DNSZONE",
+			"OS_CONTAINER", "OS_CONTAINER_DEPLOYABLE", "HELM", "VNF_INDICATOR" })
+	void testSetWorkflowBlueprint(final ResourceTypeEnum param) {
 		final TestVnfmContributor tc = new TestVnfmContributor(vnfInstanceJpa, List.of());
 		final List<AbstractVnfmContributor<?>> contributors = List.of(tc);
 		final VnfWorkflow srv = new VnfWorkflow(planv2, vnfInstanceJpa, contributors, planService, blueprintBuilder, vnfPackageService);
 		final VnfPackage bundle = TestFactory.createVnfPkg(UUID.randomUUID());
+		bundle.setVirtualLinks(new LinkedHashSet<>());
+		final ListKeyPair lp = new ListKeyPair();
+		lp.setIdx(0);
+		bundle.getVirtualLinks().add(lp);
 		final VnfBlueprint blueprint = TestFactory.createBlueprint();
 		final VnfInstance inst = TestFactory.createVnfInstance();
 		blueprint.setVnfInstance(inst);
-		blueprint.getParameters().setExtManagedVirtualLinks(Set.of());
+		final ExtManagedVirtualLinkDataEntity extManagedVl = new ExtManagedVirtualLinkDataEntity();
+		extManagedVl.setVnfVirtualLinkDescId("virtual_link");
+		blueprint.getParameters().setExtManagedVirtualLinks(Set.of(extManagedVl));
 		when(vnfInstanceJpa.findByVnfInstanceId(any())).thenReturn(List.of());
+		when(vnfPackageService.findById(any())).thenReturn(bundle);
+		final VnfLiveInstance l1 = new VnfLiveInstance();
+		final VnfTask task = new VnfTask() {
+
+			@Override
+			public VnfTask copy() {
+				return this;
+			}
+		};
+		task.setType(param);
+		l1.setTask(task);
+		when(vnfInstanceJpa.findByVnfInstanceId(any())).thenReturn(List.of(l1));
+		srv.setWorkflowBlueprint(bundle, blueprint);
+		assertTrue(true);
+	}
+
+	@Test
+	void testSetWorkflowBlueprintFail() {
+		final TestVnfmContributor tc = new TestVnfmContributor(vnfInstanceJpa, List.of());
+		final List<AbstractVnfmContributor<?>> contributors = List.of(tc);
+		final VnfWorkflow srv = new VnfWorkflow(planv2, vnfInstanceJpa, contributors, planService, blueprintBuilder, vnfPackageService);
+		final VnfPackage bundle = TestFactory.createVnfPkg(UUID.randomUUID());
+		bundle.setVirtualLinks(new LinkedHashSet<>());
+		final ListKeyPair lp = new ListKeyPair();
+		lp.setIdx(0);
+		bundle.getVirtualLinks().add(lp);
+		final VnfBlueprint blueprint = TestFactory.createBlueprint();
+		final VnfInstance inst = TestFactory.createVnfInstance();
+		blueprint.setVnfInstance(inst);
+		final ExtManagedVirtualLinkDataEntity extManagedVl = new ExtManagedVirtualLinkDataEntity();
+		extManagedVl.setVnfVirtualLinkDescId("virtual_link");
+		blueprint.getParameters().setExtManagedVirtualLinks(Set.of(extManagedVl));
+		when(vnfInstanceJpa.findByVnfInstanceId(any())).thenReturn(List.of());
+		when(vnfPackageService.findById(any())).thenReturn(bundle);
+		final VnfLiveInstance l1 = new VnfLiveInstance();
+		final VnfTask task = new VnfTask() {
+
+			@Override
+			public VnfTask copy() {
+				return this;
+			}
+		};
+		task.setType(ResourceTypeEnum.NSD_CREATE);
+		l1.setTask(task);
+		when(vnfInstanceJpa.findByVnfInstanceId(any())).thenReturn(List.of(l1));
+		assertThrows(GenericException.class, () -> srv.setWorkflowBlueprint(bundle, blueprint));
+		assertTrue(true);
+	}
+
+	@Test
+	void testSetWorkflowBlueprintSimple() {
+		final TestVnfmContributor tc = new TestVnfmContributor(vnfInstanceJpa, List.of());
+		final List<AbstractVnfmContributor<?>> contributors = List.of(tc);
+		final VnfWorkflow srv = new VnfWorkflow(planv2, vnfInstanceJpa, contributors, planService, blueprintBuilder, vnfPackageService);
+		final VnfPackage bundle = TestFactory.createVnfPkg(UUID.randomUUID());
+		bundle.setVirtualLinks(new LinkedHashSet<>());
+		final ListKeyPair lp = new ListKeyPair();
+		lp.setIdx(0);
+		bundle.getVirtualLinks().add(lp);
+		final VnfBlueprint blueprint = TestFactory.createBlueprint();
+		final VnfInstance inst = TestFactory.createVnfInstance();
+		blueprint.setVnfInstance(inst);
+		final ExtManagedVirtualLinkDataEntity extManagedVl = new ExtManagedVirtualLinkDataEntity();
+		extManagedVl.setVnfVirtualLinkDescId("virtual_link");
+		blueprint.getParameters().setExtManagedVirtualLinks(Set.of(extManagedVl));
+		when(vnfInstanceJpa.findByVnfInstanceId(any())).thenReturn(List.of());
+		when(vnfPackageService.findById(any())).thenReturn(bundle);
+		srv.setWorkflowBlueprint(bundle, blueprint);
+		assertTrue(true);
+	}
+
+	@Test
+	void testSetWorkflowBlueprintSimpleVl() {
+		final TestVnfmContributor tc = new TestVnfmContributor(vnfInstanceJpa, List.of());
+		final List<AbstractVnfmContributor<?>> contributors = List.of(tc);
+		final VnfWorkflow srv = new VnfWorkflow(planv2, vnfInstanceJpa, contributors, planService, blueprintBuilder, vnfPackageService);
+		final VnfPackage bundle = TestFactory.createVnfPkg(UUID.randomUUID());
+		bundle.setVirtualLinks(new LinkedHashSet<>());
+		final ListKeyPair lp = new ListKeyPair();
+		lp.setIdx(5);
+		bundle.getVirtualLinks().add(lp);
+		final VnfBlueprint blueprint = TestFactory.createBlueprint();
+		final VnfInstance inst = TestFactory.createVnfInstance();
+		blueprint.setVnfInstance(inst);
+		final ExtManagedVirtualLinkDataEntity extManagedVl = new ExtManagedVirtualLinkDataEntity();
+		extManagedVl.setVnfVirtualLinkDescId("virtual_link_5");
+		blueprint.getParameters().setExtManagedVirtualLinks(Set.of(extManagedVl));
+		when(vnfInstanceJpa.findByVnfInstanceId(any())).thenReturn(List.of());
+		when(vnfPackageService.findById(any())).thenReturn(bundle);
 		srv.setWorkflowBlueprint(bundle, blueprint);
 		assertTrue(true);
 	}

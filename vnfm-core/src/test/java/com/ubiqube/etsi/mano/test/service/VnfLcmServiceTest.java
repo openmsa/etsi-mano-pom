@@ -17,10 +17,13 @@
 package com.ubiqube.etsi.mano.test.service;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -54,6 +57,28 @@ class VnfLcmServiceTest {
 	private VnfInstanceService vnfInstancesService;
 	@Mock
 	private GrammarParser grammarParser;
+
+	@Test
+	void testCreateInstantiate() {
+		final VnfLcmService op = createVnfLcmService();
+		final VnfInstance instance = TestFactory.createVnfInstance();
+		//
+		final VnfBlueprint bluePrint = TestFactory.createBlueprint();
+		when(vnfBlueprintJpa.save(any())).thenReturn(bluePrint);
+		final VnfBlueprint res = op.createIntatiateOpOcc(instance);
+		assertNotNull(res);
+	}
+
+	@Test
+	void testCreateTerminate() {
+		final VnfLcmService op = createVnfLcmService();
+		final VnfInstance instance = TestFactory.createVnfInstance();
+		//
+		final VnfBlueprint bluePrint = TestFactory.createBlueprint();
+		when(vnfBlueprintJpa.save(any())).thenReturn(bluePrint);
+		final VnfBlueprint res = op.createTerminateOpOcc(instance);
+		assertNotNull(res);
+	}
 
 	@Test
 	void testCreateHealOpOcc() {
@@ -121,6 +146,46 @@ class VnfLcmServiceTest {
 		when(vnfBlueprintJpa.save(any())).thenReturn(bluePrint);
 		final VnfBlueprint res = op.createScaleToLevelOpOcc(instance, rq);
 		assertNotNull(res);
+	}
+
+	@Test
+	void testFindById() {
+		final VnfLcmService op = createVnfLcmService();
+		final VnfBlueprint bp = TestFactory.createBlueprint();
+		when(vnfBlueprintJpa.findById(any())).thenReturn(Optional.of(bp));
+		op.findById(UUID.randomUUID());
+		assertTrue(true);
+	}
+
+	@Test
+	void testFindByVnfInstanceId() {
+		final VnfLcmService op = createVnfLcmService();
+		op.findByVnfInstanceId(UUID.randomUUID());
+		assertTrue(true);
+	}
+
+	@Test
+	void testSave() {
+		final VnfLcmService op = createVnfLcmService();
+		op.save(null);
+		assertTrue(true);
+	}
+
+	@Test
+	void testDelete() {
+		final VnfLcmService op = createVnfLcmService();
+		op.deleteByVnfInstance(null);
+		assertTrue(true);
+	}
+
+	@Test
+	void testCreateChangeExtCpOpOcc() {
+		final VnfLcmService op = createVnfLcmService();
+		final VnfInstance vnfinst = TestFactory.createVnfInstance();
+		final VnfBlueprint bp = TestFactory.createBlueprint();
+		when(vnfBlueprintJpa.save(any())).thenReturn(bp);
+		op.createChangeExtCpOpOcc(vnfinst, null);
+		assertTrue(true);
 	}
 
 	private VnfLcmService createVnfLcmService() {

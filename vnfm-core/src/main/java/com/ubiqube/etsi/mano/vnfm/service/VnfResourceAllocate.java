@@ -63,7 +63,7 @@ public class VnfResourceAllocate implements ResourceAllocate {
 			LOG.debug("Grant ID {} not ready.", grants.getId());
 			counter--;
 			try {
-				Thread.sleep(5 * 1000L);
+				Thread.sleep(5 * 1_000L);
 			} catch (final InterruptedException e) {
 				Thread.currentThread().interrupt();
 				throw new GenericException(e);

@@ -28,7 +28,6 @@ import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.dao.mano.pm.Threshold;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
-import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.jpa.ThresholdJpa;
 import com.ubiqube.etsi.mano.service.SearchableService;
@@ -62,7 +61,7 @@ public class VnfmThresholdControllerDirectVim implements VnfmThresholdController
 	@Override
 	public Threshold save(final Threshold res) {
 		final Optional<VnfBlueprint> obp = vnfBlueprintJpa.findById(res.getObjectInstanceId());
-		final VnfBlueprint bp = obp.orElseThrow(() -> new GenericException("Could not find VNF instance :" + res.getObjectInstanceId()));
+		final VnfBlueprint bp = obp.orElseThrow(() -> new NotFoundException("Could not find VNF instance :" + res.getObjectInstanceId()));
 		final UUID systemId = bp.getVimConnections().iterator().next().getId();
 		alarmSystem.registerAlarm(res, systemId);
 		return thresholdJpa.save(res);

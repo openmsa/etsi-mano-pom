@@ -18,8 +18,6 @@ package com.ubiqube.etsi.mano.vnfm.service;
 
 import java.util.UUID;
 
-import jakarta.annotation.Nonnull;
-
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfCompute;
@@ -27,9 +25,11 @@ import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfVl;
 import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
-import com.ubiqube.etsi.mano.exception.GenericException;
+import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfBlueprintJpa;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
+
+import jakarta.annotation.Nonnull;
 
 @Service
 public class VnfBlueprintService {
@@ -61,7 +61,7 @@ public class VnfBlueprintService {
 
 	@Nonnull
 	public VnfBlueprint findById(final UUID blueprintId) {
-		return blueprintJpa.findById(blueprintId).orElseThrow(() -> new GenericException("Blueprint not found " + blueprintId));
+		return blueprintJpa.findById(blueprintId).orElseThrow(() -> new NotFoundException("Blueprint not found " + blueprintId));
 	}
 
 }
