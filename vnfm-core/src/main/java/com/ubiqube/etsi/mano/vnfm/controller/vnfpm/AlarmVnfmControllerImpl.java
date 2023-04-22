@@ -48,24 +48,24 @@ import jakarta.validation.constraints.NotNull;
 @Service
 public class AlarmVnfmControllerImpl implements AlarmVnfmController {
 
-	private final AlarmService alarmsJpa;
+	private final AlarmService alarmsService;
 	private final SearchableService searchableService;
 
-	public AlarmVnfmControllerImpl(final SearchableService searchableService, final AlarmService alarmsJpa) {
+	public AlarmVnfmControllerImpl(final SearchableService searchableService, final AlarmService alarmsService) {
 		this.searchableService = searchableService;
-		this.alarmsJpa = alarmsJpa;
+		this.alarmsService = alarmsService;
 	}
 
 	@Override
 	public Alarms findById(final UUID id) {
-		return alarmsJpa.findById(id).orElseThrow(() -> new NotFoundException("Could not find Alarm ID: " + id));
+		return alarmsService.findById(id).orElseThrow(() -> new NotFoundException("Could not find Alarm ID: " + id));
 	}
 
 	@Override
 	public void escalate(final UUID id, @NotNull @Valid final PerceivedSeverityType proposedPerceivedSeverity) {
 		final Alarms alarm = findById(id);
 		alarm.setPerceivedSeverity(proposedPerceivedSeverity);
-		alarmsJpa.save(alarm);
+		alarmsService.save(alarm);
 	}
 
 	@Override
@@ -79,7 +79,7 @@ public class AlarmVnfmControllerImpl implements AlarmVnfmController {
 		}
 		alarm.setAckState(acknowledged);
 		alarm.setAlarmAcknowledgedTime(LocalDateTime.now());
-		return alarmsJpa.save(alarm);
+		return alarmsService.save(alarm);
 	}
 
 	@Override
