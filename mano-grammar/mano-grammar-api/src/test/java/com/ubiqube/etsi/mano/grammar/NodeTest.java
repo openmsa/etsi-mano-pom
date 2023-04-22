@@ -16,16 +16,57 @@
  */
 package com.ubiqube.etsi.mano.grammar;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import com.ubiqube.etsi.mano.grammar.Node.Operand;
+
+@SuppressWarnings("static-method")
 class NodeTest {
 
 	@Test
 	void test() {
-		final Node n = new Node<>();
+		final Node<?> n = new Node<>();
 		assertNotNull(n);
+		assertNull(n.getName());
+		assertNull(n.getOp());
+		assertNull(n.getValue());
+		assertNotNull(n.getValues());
+		assertNotNull(n.toString());
 	}
 
+	@Test
+	void testName() throws Exception {
+		final Node<String> n = new Node<>("name", Operand.CONT, List.of());
+		assertNotNull(n);
+		n.addValue("Value");
+		assertEquals("name", n.getName());
+		assertEquals(Operand.CONT, n.getOp());
+		assertNotNull(n.getValue());
+		n.setName("nn");
+		assertEquals("nn", n.getName());
+		n.setOp(Operand.GT);
+		assertEquals(Operand.GT, n.getOp());
+		n.setValue(null);
+		assertNotNull(n.getValues());
+	}
+
+	@Test
+	void testMultiValue() {
+		final Node<String> n = new Node<>("name", Operand.CONT, List.of("a", "b"));
+		assertThrows(GrammarException.class, () -> n.getValue());
+	}
+
+	@Test
+	void testOf() {
+		Node<String> n = Node.of("name", Operand.CONT, List.of());
+		assertNotNull(n);
+		n = Node.of("name", Operand.CONT, "");
+	}
 }
