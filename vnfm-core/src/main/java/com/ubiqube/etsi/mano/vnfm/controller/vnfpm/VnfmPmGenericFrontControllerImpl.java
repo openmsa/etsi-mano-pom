@@ -21,45 +21,17 @@ import static com.ubiqube.etsi.mano.Constants.VNFPMJOB_SEARCH_MANDATORY_FIELDS;
 import static com.ubiqube.etsi.mano.Constants.getSafeUUID;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
-import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
-import com.ubiqube.etsi.mano.dao.mano.pm.ObjectType;
-import com.ubiqube.etsi.mano.dao.mano.pm.PmJob;
-import com.ubiqube.etsi.mano.dao.mano.pm.PmJobCriteria;
-import com.ubiqube.etsi.mano.dao.mano.pm.ResolvedObjectId;
-import com.ubiqube.etsi.mano.exception.GenericException;
-import com.ubiqube.etsi.mano.exception.NotFoundException;
-import com.ubiqube.etsi.mano.service.MetricGroupService;
-import com.ubiqube.etsi.mano.service.SubscriptionService;
-import com.ubiqube.etsi.mano.service.VnfInstanceGatewayService;
-import com.ubiqube.etsi.mano.service.cond.Operator;
-import com.ubiqube.etsi.mano.service.cond.ast.GenericCondition;
-import com.ubiqube.etsi.mano.service.cond.ast.LabelExpression;
-import com.ubiqube.etsi.mano.service.cond.ast.TestValueExpr;
-import com.ubiqube.etsi.mano.service.event.model.Subscription;
-import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
-import com.ubiqube.etsi.mano.service.mon.MonitoringManager;
-import com.ubiqube.etsi.mano.service.rest.model.AuthentificationInformations;
 import com.ubiqube.etsi.mano.vnfm.fc.vnfpm.VnfmPmGenericFrontController;
 
-import jakarta.annotation.Nullable;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import ma.glasnost.orika.MapperFacade;
 
@@ -71,25 +43,11 @@ import ma.glasnost.orika.MapperFacade;
 @Service
 public class VnfmPmGenericFrontControllerImpl implements VnfmPmGenericFrontController {
 	private final VnfmPmController vnfmPmController;
-	private final VnfInstanceGatewayService vnfInstanceGatewayService;
 	private final MapperFacade mapper;
-	private final MetricGroupService metricGroupService;
-	private final SubscriptionService subscriptionService;
-	private final ObjectMapper objectMapper;
-	private final MonitoringManager monitoringManager;
-	@Nullable
-	private final String frontendUrl;
 
-	public VnfmPmGenericFrontControllerImpl(final VnfmPmController vnfmPmController, final VnfInstanceGatewayService vnfInstanceGatewayService, final MapperFacade mapper,
-			final MetricGroupService metricGroupService, final SubscriptionService subscriptionService, final MonitoringManager monitoringManager, final com.ubiqube.etsi.mano.config.properties.ManoProperties props) {
+	public VnfmPmGenericFrontControllerImpl(final VnfmPmController vnfmPmController, final MapperFacade mapper) {
 		this.vnfmPmController = vnfmPmController;
-		this.vnfInstanceGatewayService = vnfInstanceGatewayService;
 		this.mapper = mapper;
-		this.metricGroupService = metricGroupService;
-		this.subscriptionService = subscriptionService;
-		this.monitoringManager = monitoringManager;
-		this.frontendUrl = props.getFrontendUrl();
-		objectMapper = new ObjectMapper();
 	}
 
 	@Override
@@ -99,8 +57,6 @@ public class VnfmPmGenericFrontControllerImpl implements VnfmPmGenericFrontContr
 
 	@Override
 	public ResponseEntity<Void> deleteById(final UUID pmJobId) {
-		final PmJob pmJob = vnfmPmController.findById(pmJobId);
-		monitoringManager.delete(pmJob);
 		vnfmPmController.delete(pmJobId);
 		return ResponseEntity.noContent().build();
 	}
@@ -119,145 +75,14 @@ public class VnfmPmGenericFrontControllerImpl implements VnfmPmGenericFrontContr
 		return ResponseEntity.ok(mapper.map(pm, clazz));
 	}
 
-	@Transactional
 	@Override
 	public <U> ResponseEntity<U> pmJobsPost(@Valid final Object createPmJobRequest, final Class<U> clazz, final Consumer<U> makeLinks, final Function<U, String> getSelfLink) {
 		com.ubiqube.etsi.mano.dao.mano.pm.PmJob res = mapper.map(createPmJobRequest, com.ubiqube.etsi.mano.dao.mano.pm.PmJob.class);
-		ensureCriteria(res);
-		final List<VnfInstance> insts = checkInstanceIds(res);
-		setVim(res, insts);
-		resolvSubObjectsId(res, insts);
-		res = vnfmPmController.save(res);
-		createSubscriptionIfNeeded(res);
-		monitoringManager.create(res);
 		res = vnfmPmController.save(res);
 		final U obj = mapper.map(res, clazz);
 		makeLinks.accept(obj);
 		final String link = getSelfLink.apply(obj);
 		return ResponseEntity.created(URI.create(link)).body(obj);
-	}
-
-	private static void resolvSubObjectsId(final PmJob res, final List<VnfInstance> insts) {
-		final List<String> subObjects = Objects.requireNonNull(res.getSubObjectInstanceIds(), "Pm job doesn't contain any subObjects.");
-		if (subObjects.isEmpty()) {
-			throw new GenericException("Pm job should have a subObject.");
-		}
-		final Set<ResolvedObjectId> resolved = subObjects
-				.stream()
-				.map(x -> findVnfName(x, insts))
-				.collect(Collectors.toSet());
-		res.setResolvedSubObjectInstanceIds(resolved);
-	}
-
-	private static ResolvedObjectId findVnfName(final String str, final List<VnfInstance> insts) {
-		final List<ResolvedObjectId> osDu = insts.stream()
-				.map(x -> x.getVnfPkg())
-				.flatMap(x -> x.getOsContainerDeployableUnits().stream())
-				.filter(x -> x.getName().equals(str))
-				.map(x -> new ResolvedObjectId(null, str, ObjectType.OS_CONTAINER, x.getId()))
-				.toList();
-		final List<ResolvedObjectId> ret = new ArrayList<>(osDu);
-		final List<ResolvedObjectId> vnfComp = insts.stream()
-				.map(x -> x.getVnfPkg())
-				.flatMap(x -> x.getVnfCompute().stream())
-				.filter(x -> x.getToscaName().equals(str))
-				.map(x -> new ResolvedObjectId(null, str, ObjectType.COMPUTE, x.getId()))
-				.toList();
-		ret.addAll(vnfComp);
-		final List<ResolvedObjectId> vnfExtCp = insts.stream()
-				.map(x -> x.getVnfPkg())
-				.flatMap(x -> x.getVnfExtCp().stream())
-				.filter(x -> x.getToscaName().equals(str))
-				.map(x -> new ResolvedObjectId(null, str, ObjectType.EXT_CP, x.getId()))
-				.toList();
-		ret.addAll(vnfExtCp);
-		final List<ResolvedObjectId> vnfVl = insts.stream()
-				.map(x -> x.getVnfPkg())
-				.flatMap(x -> x.getVnfVl().stream())
-				.filter(x -> x.getToscaName().equals(str))
-				.map(x -> new ResolvedObjectId(null, str, ObjectType.VL, x.getId()))
-				.toList();
-		ret.addAll(vnfVl);
-		if (ret.size() > 1) {
-			throw new GenericException("More than one object correspond to the given metric [" + str + " ] => " + ret);
-		}
-		if (ret.isEmpty()) {
-			throw new GenericException("Could not find metric: " + str);
-		}
-		return ret.get(0);
-	}
-
-	private static void setVim(final PmJob res, final List<VnfInstance> insts) {
-		final List<VimConnectionInformation> vims = insts.stream().flatMap(x -> x.getVimConnectionInfo().stream())
-				.distinct()
-				.toList();
-		if (vims.size() != 1) {
-			throw new GenericException("Bad number of Vim: " + vims.size());
-		}
-		res.setVimConnectionInformation(vims.get(0));
-	}
-
-	/**
-	 * In 2.7.1+ We have to check and create the subscription. On error 422
-	 *
-	 * @param A PM job with an Id.
-	 */
-	private void createSubscriptionIfNeeded(final PmJob res) {
-		if (null != res.getCallbackUri()) {
-			return;
-		}
-		// XXX: It is more complex, need my URL.
-		final String cond = createCondition(res.getId());
-		final Subscription subscription = Subscription.builder()
-				.authentication(copy(res.getAuthentication()))
-				.callbackUri(frontendUrl)
-				.subscriptionType(SubscriptionType.VNFPM)
-				.nodeFilter(cond)
-				.build();
-		final Subscription subscr = subscriptionService.save(subscription);
-		res.setSubscriptionRemoteId(subscr.getId());
-	}
-
-	private static AuthentificationInformations copy(final AuthentificationInformations authentication) {
-		return AuthentificationInformations.builder()
-				.authParamBasic(authentication.getAuthParamBasic())
-				.authParamOauth2(authentication.getAuthParamOauth2())
-				.authTlsCert(authentication.getAuthTlsCert())
-				.authType(new ArrayList<>(authentication.getAuthType()))
-				.build();
-	}
-
-	private String createCondition(final UUID id) {
-		final LabelExpression name = new LabelExpression("id");
-		final TestValueExpr value = new TestValueExpr(id.toString());
-		final GenericCondition root = new GenericCondition(name, Operator.EQUAL, value);
-		try {
-			return objectMapper.writeValueAsString(root);
-		} catch (final JsonProcessingException e) {
-			throw new GenericException(e);
-		}
-	}
-
-	private void ensureCriteria(final PmJob res) {
-		final PmJobCriteria criteria = res.getCriteria();
-		criteria.getPerformanceMetric();
-		final List<String> expandedCriteria = criteria.getPerformanceMetricGroup().stream()
-				.flatMap(x -> metricGroupService.findByGroupName(x).stream())
-				.distinct()
-				.toList();
-		criteria.getPerformanceMetric().addAll(expandedCriteria);
-	}
-
-	private List<VnfInstance> checkInstanceIds(final PmJob res) {
-		final List<String> objects = res.getObjectInstanceIds();
-		if (objects.isEmpty()) {
-			throw new NotFoundException("ObjectInstanceIds is mandatory.");
-		}
-
-		// Checking metrics.
-		return res.getObjectInstanceIds().stream()
-				.map(x -> vnfInstanceGatewayService.findById(getSafeUUID(x)))
-				.toList();
 	}
 
 	@Override
