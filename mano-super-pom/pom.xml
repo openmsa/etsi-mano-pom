@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.0.5</version>
+		<version>3.0.6</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ubiqube.mano</groupId>
@@ -38,7 +38,7 @@
 		<com.ubiqube.hibernate-search6.version>6.1.8.Final</com.ubiqube.hibernate-search6.version>
 		<com.ubiqube.openstack4j.version>3.11</com.ubiqube.openstack4j.version>
 		<com.ubiqube.swagger3>2.2.8</com.ubiqube.swagger3>
-		<com.ubiqube.mockito.version>5.2.0</com.ubiqube.mockito.version>
+		<com.ubiqube.mockito.version>5.3.0</com.ubiqube.mockito.version>
 		<com.ubiqube.elasticsearch.version>8.6.2</com.ubiqube.elasticsearch.version>
 		<com.ubiqube.springdoc.version>2.1.0</com.ubiqube.springdoc.version>
 		<com.ubiqube.orika.version>1.5.5</com.ubiqube.orika.version>
@@ -227,7 +227,7 @@
 			<dependency>
 				<groupId>org.keycloak</groupId>
 				<artifactId>keycloak-spring-boot-starter</artifactId>
-				<version>21.0.1</version>
+				<version>21.1.0</version>
 			</dependency>
 			<dependency>
 				<groupId>de.codecentric</groupId>
@@ -237,7 +237,7 @@
 			<dependency>
 				<groupId>org.bouncycastle</groupId>
 				<artifactId>bcpkix-jdk18on</artifactId>
-				<version>1.72</version>
+				<version>1.73</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
