@@ -48,6 +48,8 @@ import com.ubiqube.etsi.mano.service.event.ActionType;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 
+import jakarta.annotation.Nullable;
+
 @Service
 public class NsdControllerImpl implements NsdController {
 
@@ -95,7 +97,7 @@ public class NsdControllerImpl implements NsdController {
 	}
 
 	@Override
-	public NsdPackage nsDescriptorsNsdInfoIdPatch(final UUID id, final String body, final String ifMatch) {
+	public NsdPackage nsDescriptorsNsdInfoIdPatch(final UUID id, final String body, final @Nullable String ifMatch) {
 		final NsdPackage nsdPkgInfo = nsdRepository.get(id);
 		ensureIsOnboarded(nsdPkgInfo);
 		if ((ifMatch != null) && !(nsdPkgInfo.getVersion() + "").equals(ifMatch)) {
