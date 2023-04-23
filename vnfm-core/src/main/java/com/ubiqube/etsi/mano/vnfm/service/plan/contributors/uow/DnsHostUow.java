@@ -35,7 +35,7 @@ public class DnsHostUow extends AbstractVnfmUow<DnsHostTask> {
 	private final VimConnectionInformation vimConnectionInformation;
 	private final DnsHostTask task;
 
-	protected DnsHostUow(final VirtualTaskV3<DnsHostTask> task, final Vim vim, final VimConnectionInformation vimConnectionInformation) {
+	public DnsHostUow(final VirtualTaskV3<DnsHostTask> task, final Vim vim, final VimConnectionInformation vimConnectionInformation) {
 		super(task, DnsHost.class);
 		this.task = task.getTemplateParameters();
 		this.vim = vim;

@@ -70,7 +70,6 @@ import com.ubiqube.etsi.mano.vnfm.service.VnfLcmService;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.transaction.Transactional;
-import jakarta.validation.constraints.NotNull;
 import ma.glasnost.orika.MapperFacade;
 
 @Service
@@ -260,17 +259,17 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 	}
 
 	@Override
-	public VnfBlueprint vnfLcmOpOccsGet(final @Nullable Servers servers, @NotNull final UUID id) {
+	public VnfBlueprint vnfLcmOpOccsGet(final @Nullable Servers servers, final UUID id) {
 		return vnfLcmService.findById(id);
 	}
 
 	@Override
-	public List<VnfBlueprint> findByVnfInstanceId(final @Nullable Servers servers, @NotNull final UUID id) {
+	public List<VnfBlueprint> findByVnfInstanceId(final @Nullable Servers servers, final UUID id) {
 		return vnfLcmService.findByVnfInstanceId(id);
 	}
 
 	@Override
-	public VnfBlueprint changeExtConn(final @Nullable Servers servers, @NotNull final UUID uuid, final ChangeExtVnfConnRequest cevcr) {
+	public VnfBlueprint changeExtConn(final @Nullable Servers servers, final UUID uuid, final ChangeExtVnfConnRequest cevcr) {
 		final VnfInstance vnfInstance = vnfInstanceServiceVnfm.findById(uuid);
 		ensureInstantiated(vnfInstance);
 		ensureNotLocked(vnfInstance);

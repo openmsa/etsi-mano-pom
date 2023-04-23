@@ -32,6 +32,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.Task;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
 import com.ubiqube.etsi.mano.exception.GenericException;
+import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.event.OrchestrationAdapter;
@@ -43,7 +44,6 @@ import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceService;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceServiceVnfm;
 
 import jakarta.annotation.Nonnull;
-import jakarta.validation.constraints.NotNull;
 
 /**
  *
@@ -70,14 +70,14 @@ public class VnfOrchestrationAdapter implements OrchestrationAdapter<VnfTask, Vn
 	}
 
 	@Override
-	public void createLiveInstance(@NotNull final Instance vnfInstance, final String il, final Task task, @NotNull final Blueprint<? extends Task, ? extends Instance> blueprint) {
+	public void createLiveInstance(final Instance vnfInstance, final String il, final Task task, final Blueprint<? extends Task, ? extends Instance> blueprint) {
 		final VnfLiveInstance vli = new VnfLiveInstance((VnfInstance) vnfInstance, il, (VnfTask) task, (VnfBlueprint) blueprint, task.getVimResourceId(), task.getVimConnectionId());
 		vnfInstancesService.save(vli);
 	}
 
 	@Override
 	public void deleteLiveInstance(final UUID removedLiveInstance) {
-		final VnfLiveInstance vli = vnfInstancesService.findLiveInstanceById(removedLiveInstance).orElseThrow(() -> new GenericException("Unable to find live instance: " + removedLiveInstance));
+		final VnfLiveInstance vli = vnfInstancesService.findLiveInstanceById(removedLiveInstance).orElseThrow(() -> new NotFoundException("Unable to find live instance: " + removedLiveInstance));
 		vnfInstancesService.deleteLiveInstanceById(vli.getId());
 	}
 
