@@ -41,8 +41,10 @@ import org.reflections.scanners.SubTypesScanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ubiqube.etsi.mano.dao.mano.v2.AbstractTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
 import com.ubiqube.etsi.mano.tf.entities.NetworkPolicyTask;
+import com.ubiqube.etsi.mano.utils.ReflectionUtils;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.EqualsVerifierReport;
@@ -85,8 +87,11 @@ class ModelTest {
 			return;
 		}
 		final Class<?> clazz = Class.forName(x);
+		if (clazz.isEnum()) {
+			handleEnum((Class<? extends Enum>) clazz);
+			return;
+		}
 		if (clazz.isInterface()
-				|| clazz.isEnum()
 				|| Modifier.isAbstract(clazz.getModifiers())
 				|| Exception.class.isAssignableFrom(clazz)) {
 			return;
@@ -95,6 +100,18 @@ class ModelTest {
 		final BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
 		final PropertyDescriptor[] props = beanInfo.getPropertyDescriptors();
 		testObject(obj, props);
+	}
+
+	private static void handleEnum(final Class<? extends Enum> clazz) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+		final Enum en = Enum.valueOf(clazz, clazz.getEnumConstants()[0].name());
+		en.toString();
+		final Method m = ReflectionUtils.getMethodOrNull(en, "fromValue", String.class);
+		if (m != null) {
+			final String n = null;
+			ReflectionUtils.invoke(m, en, n);
+			ReflectionUtils.invoke(m, en, "badString");
+			ReflectionUtils.invoke(m, en, en.toString());
+		}
 	}
 
 	private static void testObject(final Object obj, final PropertyDescriptor[] props) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, SecurityException, IllegalArgumentException {
@@ -123,6 +140,14 @@ class ModelTest {
 				.suppress(Warning.INHERITED_DIRECTLY_FROM_OBJECT, Warning.SURROGATE_KEY)
 				.report();
 		System.out.println("" + rep.getMessage());
+		if (obj instanceof final AbstractTask) {
+			executeCopy(obj);
+		}
+	}
+
+	private static void executeCopy(final Object obj) {
+		final Method m = ReflectionUtils.getMethodOrNull(obj, "copy");
+		ReflectionUtils.invoke(m, obj);
 	}
 
 	private static Object createType(final Class<?> ret) throws NoSuchMethodException, SecurityException, IllegalArgumentException {
