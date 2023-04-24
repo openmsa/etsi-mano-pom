@@ -35,6 +35,7 @@ class HelmWrapperPropertyTest {
 	void test() {
 		final HelmWrapperProperty obj = new HelmWrapperProperty();
 		obj.toString();
+		obj.hashCode();
 		final EqualsVerifierReport rep = EqualsVerifier
 				.simple()
 				.forClass(obj.getClass())
