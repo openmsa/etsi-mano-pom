@@ -43,7 +43,7 @@ class ZabbixProbeTest {
 	@Test
 	void testName() throws Exception {
 		final int port = 10050;
-		final String ip = "10.31.1.182";
+		final String ip = "zbx-probe";
 		final Socket socket = new Socket(ip, port);
 
 		final byte[] pkt = buildPayload("vfs.fs.size[/,pused]");
