@@ -63,7 +63,7 @@ public class ServerSelfCheckService {
 		secret = env.getProperty("keycloak.credentials.secret");
 		frontendUrl = Objects.requireNonNull(env.getProperty("mano.frontend-url"));
 		checkFunctions = new ArrayList<>();
-		checkFunctions.add(this::checkOAuth2);
+		// checkFunctions.add(this::checkOAuth2)
 	}
 
 	@EventListener(ApplicationReadyEvent.class)
