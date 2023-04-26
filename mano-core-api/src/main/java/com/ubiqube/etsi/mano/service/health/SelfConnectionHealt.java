@@ -16,16 +16,11 @@
  */
 package com.ubiqube.etsi.mano.service.health;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Supplier;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.annotation.Profile;
-import org.springframework.context.event.EventListener;
+import org.springframework.boot.actuate.health.AbstractHealthIndicator;
+import org.springframework.boot.actuate.health.Health.Builder;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,52 +34,34 @@ import com.ubiqube.etsi.mano.service.rest.model.AuthentificationInformations;
 import com.ubiqube.etsi.mano.service.rest.model.OAuth2GrantType;
 import com.ubiqube.etsi.mano.service.rest.model.ServerConnection;
 
+import jakarta.annotation.Nonnull;
+
 @Component
-@Profile("!test")
-public class ServerSelfCheckService {
-	private static final String OAUTH2 = "OAuth2";
-	private static final String OK = "\033[1;32mOK\033[0m";
-	private static final String WARN = "\033[1;33mWARN\033[0m";
-	private static final Logger LOG = LoggerFactory.getLogger(ServerSelfCheckService.class);
-
-	private final String secret;
-
+public class SelfConnectionHealt extends AbstractHealthIndicator {
+	private static final String OAUTH2 = "OAUTH2";
 	private final String authUrl;
-
 	private final String user;
+	private final String secret;
+	private @Nonnull final String frontendUrl;
 
-	private final String frontendUrl;
-
-	private final List<Supplier<Result>> checkFunctions;
-
-	public ServerSelfCheckService(final Environment env) {
+	public SelfConnectionHealt(final Environment env) {
+		super("Self connection failed.");
 		authUrl = env.getProperty("mano.swagger-o-auth2");
 		user = env.getProperty("keycloak.resource");
 		secret = env.getProperty("keycloak.credentials.secret");
 		frontendUrl = Objects.requireNonNull(env.getProperty("mano.frontend-url"));
-		checkFunctions = new ArrayList<>();
-		// checkFunctions.add(this::checkOAuth2)
+
 	}
 
-	@EventListener(ApplicationReadyEvent.class)
-	public void onApplicationReadyEvent() {
-		if ((secret == null) || (authUrl == null) || (user == null)) {
-			LOG.warn("Skipping auth credential checks");
+	@Override
+	protected void doHealthCheck(final Builder builder) throws Exception {
+		builder.up().withDetail("message", "UP");
+		final Result res = checkOAuth2();
+		if (res.code().equals("OK")) {
+			builder.up().withDetail("message", "UP");
+			return;
 		}
-		LOG.info("Checking Server configuration:");
-		checkFunctions.forEach(this::displayResult);
-	}
-
-	private void displayResult(final Supplier<Result> supp) {
-		final Result res = supp.get();
-		final String f = res.func();
-		final String code = res.code();
-		final String errors = res.errors();
-		if (OK.equals(res.code())) {
-			LOG.info("  - {}: {}", f, code);
-		} else {
-			LOG.info("  - {}: {}, {}", f, code, errors);
-		}
+		builder.down().withDetail("message", res.errors());
 	}
 
 	private Result checkOAuth2() {
@@ -92,12 +69,12 @@ public class ServerSelfCheckService {
 		final UriComponents uri = fr.uriBuilder().path("/admin/sink/self").build();
 		final ResponseEntity<String> res = fr.getWithReturn(uri.toUri(), String.class, null);
 		if (res == null) {
-			return new Result(OAUTH2, WARN, "Sink URL return null.");
+			return new Result(OAUTH2, "WARN", "Sink URL return null.");
 		}
 		if (res.getStatusCode() == HttpStatus.NO_CONTENT) {
-			return new Result(OAUTH2, OK, null);
+			return new Result(OAUTH2, "OK", null);
 		}
-		return new Result(OAUTH2, WARN, "Unexpected status code: " + res.getStatusCode());
+		return new Result(OAUTH2, "WARN", "Unexpected status code: " + res.getStatusCode());
 	}
 
 	private FluxRest createFluxRest() {
@@ -115,6 +92,7 @@ public class ServerSelfCheckService {
 				.build();
 		return new FluxRest(server);
 	}
+
 }
 
 record Result(String func, String code, String errors) {
