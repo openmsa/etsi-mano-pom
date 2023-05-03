@@ -96,6 +96,7 @@ public class TestFactory {
 		final PmJob pm = new PmJob();
 		pm.setId(UUID.randomUUID());
 		pm.setObjectInstanceIds(new ArrayList<>());
+		pm.setSubObjectInstanceIds(new ArrayList<>());
 		final PmJobCriteria crit = new PmJobCriteria();
 		crit.setPerformanceMetric(new LinkedHashSet<>());
 		crit.setPerformanceMetricGroup(new LinkedHashSet<>());
