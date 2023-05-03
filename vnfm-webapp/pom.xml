@@ -14,7 +14,7 @@
 	<name>vnfm-webapp</name>
 	<description>VNFM webapp Spring Boot</description>
 	<properties>
-		<spring-cloud.version>2022.0.1</spring-cloud.version>
+		<spring-cloud.version>2022.0.2</spring-cloud.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -57,6 +57,12 @@
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-bootstrap</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.bouncycastle</groupId>
+					<artifactId>bcpkix-jdk15on</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.orika</groupId>
