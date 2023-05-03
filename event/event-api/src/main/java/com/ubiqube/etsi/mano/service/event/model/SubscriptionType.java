@@ -36,6 +36,7 @@ public enum SubscriptionType {
 	MEOPKG("MEOPKG"),
 	NSDVNF("NSDVNF"),
 	NSPM("NSPM"),
+	NSFM("NSFM"),
 	;
 
 	private String value;

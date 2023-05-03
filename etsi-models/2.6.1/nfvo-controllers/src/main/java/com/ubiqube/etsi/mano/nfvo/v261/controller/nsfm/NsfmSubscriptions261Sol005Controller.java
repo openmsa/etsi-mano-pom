@@ -16,15 +16,23 @@
  */
 package com.ubiqube.etsi.mano.nfvo.v261.controller.nsfm;
 
+import static com.ubiqube.etsi.mano.uri.ManoWebMvcLinkBuilder.linkTo;
+import static com.ubiqube.etsi.mano.uri.ManoWebMvcLinkBuilder.methodOn;
+
 import java.util.List;
 
-import jakarta.validation.Valid;
-
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ubiqube.etsi.mano.common.v261.model.Link;
+import com.ubiqube.etsi.mano.controller.SubscriptionFrontController;
+import com.ubiqube.etsi.mano.nfvo.v261.model.nsfm.AlarmLinks;
 import com.ubiqube.etsi.mano.nfvo.v261.model.nsfm.FmSubscription;
 import com.ubiqube.etsi.mano.nfvo.v261.model.nsfm.FmSubscriptionRequest;
+import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
+
+import jakarta.validation.Valid;
 
 /**
  *
@@ -33,29 +41,42 @@ import com.ubiqube.etsi.mano.nfvo.v261.model.nsfm.FmSubscriptionRequest;
  */
 @RestController
 public class NsfmSubscriptions261Sol005Controller implements NsfmSubscriptions261Sol005Api {
+	private final SubscriptionFrontController subscriptionService;
+
+	public NsfmSubscriptions261Sol005Controller(final SubscriptionFrontController subscriptionService) {
+		this.subscriptionService = subscriptionService;
+	}
 
 	@Override
-	public ResponseEntity<List<FmSubscription>> subscriptionsGet(@Valid final String filter, @Valid final String nextpageOpaqueMarker) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResponseEntity<List<FmSubscription>> subscriptionsGet(@Valid final MultiValueMap<String, String> requestParams, @Valid final String nextpageOpaqueMarker) {
+		return subscriptionService.search(requestParams, FmSubscription.class, NsfmSubscriptions261Sol005Controller::makeLinks, SubscriptionType.NSFM);
 	}
 
 	@Override
 	public ResponseEntity<FmSubscription> subscriptionsPost(@Valid final FmSubscriptionRequest body) {
-		// TODO Auto-generated method stub
-		return null;
+		return subscriptionService.create(body, FmSubscription.class, getClass(), NsfmSubscriptions261Sol005Controller::makeLinks, NsfmSubscriptions261Sol005Controller::makeSelf, SubscriptionType.NSFM);
 	}
 
 	@Override
 	public ResponseEntity<Void> subscriptionsSubscriptionIdDelete(final String subscriptionId) {
-		// TODO Auto-generated method stub
-		return null;
+		return subscriptionService.deleteById(subscriptionId, SubscriptionType.NSFM);
 	}
 
 	@Override
 	public ResponseEntity<FmSubscription> subscriptionsSubscriptionIdGet(final String subscriptionId) {
-		// TODO Auto-generated method stub
-		return null;
+		return subscriptionService.findById(subscriptionId, FmSubscription.class, NsfmSubscriptions261Sol005Controller::makeLinks, SubscriptionType.NSFM);
 	}
 
+	private static void makeLinks(final FmSubscription subscription) {
+		final AlarmLinks links = new AlarmLinks();
+		final Link link = new Link();
+		link.setHref(linkTo(methodOn(NsfmSubscriptions261Sol005Api.class).subscriptionsSubscriptionIdGet(subscription.getId())).withSelfRel().getHref());
+		links.setSelf(link);
+		links.setSelf(link);
+		subscription.setLinks(links);
+	}
+
+	private static String makeSelf(final FmSubscription subscription) {
+		return linkTo(methodOn(NsfmSubscriptions261Sol005Api.class).subscriptionsSubscriptionIdGet(subscription.getId())).withSelfRel().getHref();
+	}
 }
