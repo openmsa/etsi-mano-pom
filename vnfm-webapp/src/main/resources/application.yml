@@ -1,7 +1,7 @@
 #debug: true
 keycloak:
   realm: mano-realm
-  auth-server-url: http://auth.mano.ubiqube.com/auth/
+  auth-server-url: http://mano-auth:8080/auth/
   ssl-required: external
   resource: mano-vnfm
   credentials:
@@ -179,7 +179,7 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: http://mano-auth:8080/auth/realms/mano-realm
-          jwk-set-uri: http://auth.mano.ubiqube.com/auth/realms/mano-realm/protocol/openid-connect/certs
+          jwk-set-uri: http://mano-auth:8080/auth/realms/mano-realm/protocol/openid-connect/certs
   servlet:
     multipart:
       max-file-size: 1024MB
