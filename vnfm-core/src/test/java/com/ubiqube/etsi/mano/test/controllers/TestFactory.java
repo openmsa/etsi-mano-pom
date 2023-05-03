@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.test.controllers;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -29,6 +30,8 @@ import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfLinkPort;
 import com.ubiqube.etsi.mano.dao.mano.VnfLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+import com.ubiqube.etsi.mano.dao.mano.pm.PmJob;
+import com.ubiqube.etsi.mano.dao.mano.pm.PmJobCriteria;
 import com.ubiqube.etsi.mano.dao.mano.v2.BlueprintParameters;
 import com.ubiqube.etsi.mano.dao.mano.v2.ComputeTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
@@ -87,5 +90,16 @@ public class TestFactory {
 		task.setVnfCompute(vnfCompute);
 		liveCompute.setTask(task);
 		return liveCompute;
+	}
+
+	public static PmJob createPmJob() {
+		final PmJob pm = new PmJob();
+		pm.setId(UUID.randomUUID());
+		pm.setObjectInstanceIds(new ArrayList<>());
+		final PmJobCriteria crit = new PmJobCriteria();
+		crit.setPerformanceMetric(new LinkedHashSet<>());
+		crit.setPerformanceMetricGroup(new LinkedHashSet<>());
+		pm.setCriteria(crit);
+		return pm;
 	}
 }

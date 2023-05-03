@@ -21,8 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -39,7 +37,6 @@ import com.ubiqube.etsi.mano.dao.mano.VnfCompute;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.pm.PmJob;
-import com.ubiqube.etsi.mano.dao.mano.pm.PmJobCriteria;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.service.MetricGroupService;
@@ -72,7 +69,7 @@ class VnfmPmControllerImplTest {
 	void testDelete() {
 		final ManoProperties props = new ManoProperties();
 		final VnfmPmControllerImpl srv = new VnfmPmControllerImpl(pmJobsJpa, searchableService, metricGroupService, subscriptionService, props, vnfInstanceGateway, monitoringManager);
-		final PmJob pm = createPmJob();
+		final PmJob pm = TestFactory.createPmJob();
 		when(pmJobsJpa.findById(null)).thenReturn(Optional.of(pm));
 		srv.delete(null);
 		assertTrue(true);
@@ -89,7 +86,7 @@ class VnfmPmControllerImplTest {
 	void testFindById() {
 		final ManoProperties props = new ManoProperties();
 		final VnfmPmControllerImpl srv = new VnfmPmControllerImpl(pmJobsJpa, searchableService, metricGroupService, subscriptionService, props, vnfInstanceGateway, monitoringManager);
-		final PmJob pm = createPmJob();
+		final PmJob pm = TestFactory.createPmJob();
 		when(pmJobsJpa.findById(null)).thenReturn(Optional.of(pm));
 		srv.findById(null);
 		assertTrue(true);
@@ -106,7 +103,7 @@ class VnfmPmControllerImplTest {
 	void testSaveBadVim() {
 		final ManoProperties props = new ManoProperties();
 		final VnfmPmControllerImpl srv = new VnfmPmControllerImpl(pmJobsJpa, searchableService, metricGroupService, subscriptionService, props, vnfInstanceGateway, monitoringManager);
-		final PmJob pm = createPmJob();
+		final PmJob pm = TestFactory.createPmJob();
 		pm.getObjectInstanceIds().add(UUID.randomUUID().toString());
 		final VnfInstance inst = TestFactory.createVnfInstance();
 		when(vnfInstanceGateway.findById(any())).thenReturn(inst);
@@ -117,7 +114,7 @@ class VnfmPmControllerImplTest {
 	void testSave() {
 		final ManoProperties props = new ManoProperties();
 		final VnfmPmControllerImpl srv = new VnfmPmControllerImpl(pmJobsJpa, searchableService, metricGroupService, subscriptionService, props, vnfInstanceGateway, monitoringManager);
-		final PmJob pm = createPmJob();
+		final PmJob pm = TestFactory.createPmJob();
 		pm.setSubObjectInstanceIds(List.of("sub"));
 		pm.getObjectInstanceIds().add(UUID.randomUUID().toString());
 		final AuthentificationInformations auth = new AuthentificationInformations();
@@ -146,7 +143,7 @@ class VnfmPmControllerImplTest {
 	void testSaveNoMetricFound() {
 		final ManoProperties props = new ManoProperties();
 		final VnfmPmControllerImpl srv = new VnfmPmControllerImpl(pmJobsJpa, searchableService, metricGroupService, subscriptionService, props, vnfInstanceGateway, monitoringManager);
-		final PmJob pm = createPmJob();
+		final PmJob pm = TestFactory.createPmJob();
 		pm.setSubObjectInstanceIds(List.of("sub"));
 		pm.getObjectInstanceIds().add(UUID.randomUUID().toString());
 		final VnfInstance inst = TestFactory.createVnfInstance();
@@ -166,19 +163,8 @@ class VnfmPmControllerImplTest {
 	void testSaveNotFound() {
 		final ManoProperties props = new ManoProperties();
 		final VnfmPmControllerImpl srv = new VnfmPmControllerImpl(pmJobsJpa, searchableService, metricGroupService, subscriptionService, props, vnfInstanceGateway, monitoringManager);
-		final PmJob pm = createPmJob();
+		final PmJob pm = TestFactory.createPmJob();
 		assertThrows(NotFoundException.class, () -> srv.save(pm));
-	}
-
-	private static PmJob createPmJob() {
-		final PmJob pm = new PmJob();
-		pm.setId(UUID.randomUUID());
-		pm.setObjectInstanceIds(new ArrayList<>());
-		final PmJobCriteria crit = new PmJobCriteria();
-		crit.setPerformanceMetric(new LinkedHashSet<>());
-		crit.setPerformanceMetricGroup(new LinkedHashSet<>());
-		pm.setCriteria(crit);
-		return pm;
 	}
 
 	@Test
