@@ -14,29 +14,21 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.controller;
+package com.ubiqube.etsi.mano.controller.nsfm;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 
-import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
+public interface NsAlarmFrontController {
 
-/**
- *
- * @author Olivier Vignaud <ovi@ubiqube.com>
- *
- */
-public interface SubscriptionFrontController {
-	<U> ResponseEntity<List<U>> search(MultiValueMap<String, String> requestParams, Class<U> clazz, Consumer<U> makeLinks, SubscriptionType type);
+	<U> ResponseEntity<U> findById(UUID safeUUID, Class<U> clazz, Consumer<U> makeLinks);
 
-	<U> ResponseEntity<U> create(Object subscriptionRequest, Class<U> clazz, Class<?> versionController, Consumer<U> makeLinks, Function<U, String> getSelfLink, SubscriptionType type);
+	<U> ResponseEntity<U> patch(String alarmId, Object body, Class<U> clazz);
 
-	ResponseEntity<Void> deleteById(String subscriptionId, SubscriptionType type);
-
-	<U> ResponseEntity<U> findById(String subscriptionId, Class<U> clazz, Consumer<U> makeLinks, SubscriptionType type);
+	<U> ResponseEntity<List<U>> search(MultiValueMap<String, String> requestParams, String nextpageOpaqueMarker, Class<U> clazz, Consumer<U> makeLinks);
 
 }

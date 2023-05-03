@@ -16,35 +16,53 @@
  */
 package com.ubiqube.etsi.mano.nfvo.v431.controller.nsfm;
 
+import static com.ubiqube.etsi.mano.Constants.getSafeUUID;
+import static com.ubiqube.etsi.mano.uri.ManoWebMvcLinkBuilder.linkTo;
+import static com.ubiqube.etsi.mano.uri.ManoWebMvcLinkBuilder.methodOn;
+
 import java.util.List;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.ubiqube.etsi.mano.controller.nsfm.NsAlarmFrontController;
+import com.ubiqube.etsi.mano.nfvo.v431.model.nfvici.Link;
+import com.ubiqube.etsi.mano.nfvo.v431.model.nsfm.Alarm;
+import com.ubiqube.etsi.mano.nfvo.v431.model.nsfm.AlarmLinks;
+import com.ubiqube.etsi.mano.nfvo.v431.model.nsfm.AlarmModifications;
 
 import jakarta.validation.Valid;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.ubiqube.etsi.mano.nfvo.v431.model.nsfm.Alarm;
-import com.ubiqube.etsi.mano.nfvo.v431.model.nsfm.AlarmModifications;
-
 @RestController
 public class Alarms431Sol005Controller implements Alarms431Sol005Api {
+	private final NsAlarmFrontController nsAlarmFrontController;
+
+	public Alarms431Sol005Controller(final NsAlarmFrontController nsAlarmFrontController) {
+		this.nsAlarmFrontController = nsAlarmFrontController;
+	}
 
 	@Override
 	public ResponseEntity<Alarm> alarmsAlarmIdGet(final String alarmId) {
-		// TODO Auto-generated method stub
-		return null;
+		return nsAlarmFrontController.findById(getSafeUUID(alarmId), Alarm.class, Alarms431Sol005Controller::makeLinks);
 	}
 
 	@Override
 	public ResponseEntity<AlarmModifications> alarmsAlarmIdPatch(final String alarmId, @Valid final AlarmModifications body) {
-		// TODO Auto-generated method stub
-		return null;
+		return nsAlarmFrontController.patch(alarmId, body, AlarmModifications.class);
 	}
 
 	@Override
-	public ResponseEntity<List<Alarm>> alarmsGet(@Valid final String filter, @Valid final String nextpageOpaqueMarker) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResponseEntity<List<Alarm>> alarmsGet(final MultiValueMap<String, String> requestParams, @Valid final String nextpageOpaqueMarker) {
+		return nsAlarmFrontController.search(requestParams, nextpageOpaqueMarker, Alarm.class, Alarms431Sol005Controller::makeLinks);
+	}
+
+	private static void makeLinks(final Alarm alarm) {
+		final AlarmLinks links = new AlarmLinks();
+		final Link self = new Link();
+		self.setHref(linkTo(methodOn(Alarms431Sol005Api.class).alarmsAlarmIdGet(alarm.getId())).withSelfRel().getHref());
+		links.setSelf(self);
+		alarm.setLinks(links);
 	}
 
 }
