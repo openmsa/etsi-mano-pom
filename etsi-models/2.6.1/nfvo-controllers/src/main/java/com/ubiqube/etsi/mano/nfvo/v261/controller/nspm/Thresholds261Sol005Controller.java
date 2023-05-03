@@ -16,13 +16,12 @@
  */
 package com.ubiqube.etsi.mano.nfvo.v261.controller.nspm;
 
+import static com.ubiqube.etsi.mano.Constants.getSafeUUID;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 import java.util.function.Consumer;
-
-import jakarta.validation.constraints.NotNull;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
@@ -36,6 +35,7 @@ import com.ubiqube.etsi.mano.nfvo.v261.model.nsperfo.ThresholdsPostResponse;
 import com.ubiqube.etsi.mano.nfvo.v261.model.nsperfo.ThresholdsThreshold;
 import com.ubiqube.etsi.mano.vnfm.v261.model.nsperfo.ThresholdLinks;
 
+import jakarta.validation.constraints.NotNull;
 import ma.glasnost.orika.MapperFacade;
 
 /**
@@ -53,9 +53,9 @@ public class Thresholds261Sol005Controller implements Thresholds261Sol005Api {
 
 	private final MapperFacade mapper;
 
-	public Thresholds261Sol005Controller(final NfvoThresholdController _nfvoThresholdController, final MapperFacade _mapper) {
-		nfvoThresholdController = _nfvoThresholdController;
-		mapper = _mapper;
+	public Thresholds261Sol005Controller(final NfvoThresholdController nfvoThresholdController, final MapperFacade mapper) {
+		this.nfvoThresholdController = nfvoThresholdController;
+		this.mapper = mapper;
 	}
 
 	/**
@@ -78,7 +78,9 @@ public class Thresholds261Sol005Controller implements Thresholds261Sol005Api {
 	/**
 	 * Create a threshold.
 	 *
-	 * The POST method can be used by the client to create a threshold. This method shall follow the provisions specified in the table 7.4.5.3.1-2 for URI query parameters, request and response data structures, and response codes.
+	 * The POST method can be used by the client to create a threshold. This method
+	 * shall follow the provisions specified in the table 7.4.5.3.1-2 for URI query
+	 * parameters, request and response data structures, and response codes.
 	 *
 	 */
 	@Override
@@ -99,18 +101,21 @@ public class Thresholds261Sol005Controller implements Thresholds261Sol005Api {
 	 */
 	@Override
 	public void thresholdsThresholdIdDelete(final String thresholdId) {
-		nfvoThresholdController.delete(UUID.fromString(thresholdId));
+		nfvoThresholdController.delete(getSafeUUID(thresholdId));
 	}
 
 	/**
 	 * Query a single threshold.
 	 *
-	 * The client can use this method for reading an individual threshold. This method shall follow the provisions specified in the Tables 7.4.6.3.2-1 and 7.4.6.3.2-2 for URI query parameters, request and response data structures, and response codes.
+	 * The client can use this method for reading an individual threshold. This
+	 * method shall follow the provisions specified in the Tables 7.4.6.3.2-1 and
+	 * 7.4.6.3.2-2 for URI query parameters, request and response data structures,
+	 * and response codes.
 	 *
 	 */
 	@Override
 	public ResponseEntity<ThresholdsPostResponse> thresholdsThresholdIdGet(final String thresholdId) {
-		final Threshold threshold = nfvoThresholdController.findById(UUID.fromString(thresholdId));
+		final Threshold threshold = nfvoThresholdController.findById(getSafeUUID(thresholdId));
 		final ThresholdsPostResponse resp = new ThresholdsPostResponse();
 		resp.setThreshold(mapper.map(threshold, ThresholdsThreshold.class));
 		return ResponseEntity.ok(resp);

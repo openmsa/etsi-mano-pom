@@ -16,10 +16,6 @@
  */
 package com.ubiqube.etsi.mano.nfvo.v261.controller.nspm;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.security.RolesAllowed;
-import jakarta.validation.Valid;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -40,6 +36,10 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 /**
  *
@@ -53,7 +53,8 @@ public interface PmJobs261Sol005Api {
 	/**
 	 * Query PM jobs.
 	 *
-	 * \&quot;The client can use this method to retrieve information about PM jobs\&quot;
+	 * \&quot;The client can use this method to retrieve information about PM
+	 * jobs\&quot;
 	 *
 	 */
 	@Operation(summary = "Query PM jobs.", description = "The client can use this method to retrieve information about PM jobs. ", tags = {})
@@ -67,7 +68,7 @@ public interface PmJobs261Sol005Api {
 			@ApiResponse(responseCode = "406", description = "406 NOT ACCEPTABLE If the \"Accept\" header does not contain at least one name of a content type that is acceptable to the API producer, the API producer shall respond with this response code. The \"ProblemDetails\" structure may be omitted. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "500", description = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "503", description = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))) })
-	@GetMapping( produces = { "application/json" })
+	@GetMapping(produces = { "application/json" })
 	ResponseEntity<String> pmJobsGet(@Nonnull @RequestParam MultiValueMap<String, String> requestParams);
 
 	/**
@@ -87,8 +88,8 @@ public interface PmJobs261Sol005Api {
 			@ApiResponse(responseCode = "406", description = "406 NOT ACCEPTABLE If the \"Accept\" header does not contain at least one name of a content type that is acceptable to the API producer, the API producer shall respond with this response code. The \"ProblemDetails\" structure may be omitted. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "500", description = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "503", description = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))) })
-	@DeleteMapping(value = "/{pmJobId}",  produces = { "application/json" })
-	ResponseEntity<Void> pmJobsPmJobIdDelete(@PathVariable("pmJobId") String pmJobId);
+	@DeleteMapping(value = "/{pmJobId}", produces = { "application/json" })
+	ResponseEntity<Void> pmJobsPmJobIdDelete(@PathVariable("pmJobId") @NotNull String pmJobId);
 
 	/**
 	 * Read a single PM job.
@@ -107,8 +108,8 @@ public interface PmJobs261Sol005Api {
 			@ApiResponse(responseCode = "406", description = "406 NOT ACCEPTABLE If the \"Accept\" header does not contain at least one name of a content type that is acceptable to the API producer, the API producer shall respond with this response code. The \"ProblemDetails\" structure may be omitted. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "500", description = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "503", description = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))) })
-	@GetMapping(value = "/{pmJobId}",  produces = { "application/json" })
-	ResponseEntity<com.ubiqube.etsi.mano.vnfm.v261.model.nsperfo.PmJob> pmJobsPmJobIdGet(@PathVariable("pmJobId") String pmJobId);
+	@GetMapping(value = "/{pmJobId}", produces = { "application/json" })
+	ResponseEntity<com.ubiqube.etsi.mano.vnfm.v261.model.nsperfo.PmJob> pmJobsPmJobIdGet(@PathVariable("pmJobId") @NotNull String pmJobId);
 
 	/**
 	 * Read an individual performance report.
@@ -127,13 +128,15 @@ public interface PmJobs261Sol005Api {
 			@ApiResponse(responseCode = "406", description = "406 NOT ACCEPTABLE If the \"Accept\" header does not contain at least one name of a content type that is acceptable to the API producer, the API producer shall respond with this response code. The \"ProblemDetails\" structure may be omitted. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "500", description = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "503", description = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))) })
-	@GetMapping(value = "/{pmJobId}/reports/{reportId}",  produces = { "application/json" })
-	ResponseEntity<PerformanceReport> pmJobsPmJobIdReportsReportIdGet(@PathVariable("pmJobId") String pmJobId, @PathVariable("reportId") String reportId);
+	@GetMapping(value = "/{pmJobId}/reports/{reportId}", produces = { "application/json" })
+	ResponseEntity<PerformanceReport> pmJobsPmJobIdReportsReportIdGet(@PathVariable("pmJobId") @NotNull String pmJobId, @PathVariable("reportId") @NotNull String reportId);
 
 	/**
 	 * Create a PM job.
 	 *
-	 * The POST method creates a PM job. This method shall follow the provisions specified in the Tables 7.4.2.3.1-1 and 7.4.2.3.1-2 for URI query parameters, request and response data structures, and response codes.
+	 * The POST method creates a PM job. This method shall follow the provisions
+	 * specified in the Tables 7.4.2.3.1-1 and 7.4.2.3.1-2 for URI query parameters,
+	 * request and response data structures, and response codes.
 	 *
 	 */
 	@Operation(summary = "Create a PM job.", description = "The POST method creates a PM job. This method shall follow the provisions specified in the  Tables 7.4.2.3.1-1 and 7.4.2.3.1-2 for URI query parameters, request and response data structures, and response codes. As the result of successfully executing this method, a new  \"Individual PM job\" resource shall exist as defined in  clause 7.4.3. ", tags = {})
@@ -148,6 +151,6 @@ public interface PmJobs261Sol005Api {
 			@ApiResponse(responseCode = "500", description = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "503", description = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))) })
 	@PostMapping(consumes = { "application/json" }, produces = { "application/json" })
-	ResponseEntity<com.ubiqube.etsi.mano.vnfm.v261.model.nsperfo.PmJob> pmJobsPost(@Valid CreatePmJobRequest createPmJobRequest);
+	ResponseEntity<com.ubiqube.etsi.mano.vnfm.v261.model.nsperfo.PmJob> pmJobsPost(@Valid @NotNull CreatePmJobRequest createPmJobRequest);
 
 }

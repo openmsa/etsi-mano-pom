@@ -19,10 +19,6 @@ package com.ubiqube.etsi.mano.nfvo.v261.controller.nspm;
 import java.net.URISyntaxException;
 import java.util.List;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.security.RolesAllowed;
-import jakarta.validation.Valid;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -45,6 +41,10 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 /**
  *
@@ -58,7 +58,11 @@ public interface NsPerfoSubscription261Sol005Api {
 	/**
 	 * Query PM related subscriptions.
 	 *
-	 * The client can use this method to query the list of active subscriptions to Performance management notifications subscribed by the client. This method shall follow the provisions specified in the Tables 7.4.7.3.2-1 and 7.4.7.3.2-2 for URI query parameters, request and response data structures, and response codes.
+	 * The client can use this method to query the list of active subscriptions to
+	 * Performance management notifications subscribed by the client. This method
+	 * shall follow the provisions specified in the Tables 7.4.7.3.2-1 and
+	 * 7.4.7.3.2-2 for URI query parameters, request and response data structures,
+	 * and response codes.
 	 *
 	 */
 	@Operation(summary = "Query PM related subscriptions.", description = "The client can use this method to query the list of active subscriptions to Performance management notifications subscribed by the client. This method shall follow the provisions specified in the Tables 7.4.7.3.2-1 and 7.4.7.3.2-2 for URI query parameters, request and response data structures, and response codes. ", tags = {})
@@ -72,7 +76,7 @@ public interface NsPerfoSubscription261Sol005Api {
 			@ApiResponse(responseCode = "406", description = "406 NOT ACCEPTABLE If the \"Accept\" header does not contain at least one name of a content type that is acceptable to the API producer, the API producer shall respond with this response code. The \"ProblemDetails\" structure may be omitted. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "500", description = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "503", description = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))) })
-	@GetMapping( produces = { "application/json" })
+	@GetMapping(produces = { "application/json" })
 	ResponseEntity<List<PmSubscription>> subscriptionsGet(
 			@Nonnull @RequestParam MultiValueMap<String, String> requestParams,
 			@Parameter(in = ParameterIn.QUERY, description = "Marker to obtain the next page of a paged response. Shall be supported by the NFVO if the NFVO supports alternative 2 (paging) according to clause 5.4.2.1 of  ETSI GS NFV-SOL 013 for this resource. ", schema = @Schema()) @Valid @RequestParam(value = "nextpage_opaque_marker", required = false) final String nextpageOpaqueMarker);
@@ -80,8 +84,19 @@ public interface NsPerfoSubscription261Sol005Api {
 	/**
 	 * Subscribe to PM notifications.
 	 *
-	 * The POST method creates a new subscription. This method shall follow the provisions specified in the Tables 7.4.7.3.1-1 and 7.4.7.3.1-2 for URI query parameters, request and response data structures, and response codes. Creation of two subscription resources with the same callbackURI and the same filter can result in performance degradation and will provide duplicates of notifications to the OSS, and might make sense only in very rare use cases. Consequently, the NFVO may either allow
-	 * creating a subscription resource if another subscription resource with the same filter and callbackUri already exists (in which case it shall return the \&quot;201 Created\&quot; response code), or may decide to not create a duplicate subscription resource (in which case it shall return a \&quot;303 See Other\&quot; response code referencing the existing subscription resource with the same filter and callbackUri)
+	 * The POST method creates a new subscription. This method shall follow the
+	 * provisions specified in the Tables 7.4.7.3.1-1 and 7.4.7.3.1-2 for URI query
+	 * parameters, request and response data structures, and response codes.
+	 * Creation of two subscription resources with the same callbackURI and the same
+	 * filter can result in performance degradation and will provide duplicates of
+	 * notifications to the OSS, and might make sense only in very rare use cases.
+	 * Consequently, the NFVO may either allow creating a subscription resource if
+	 * another subscription resource with the same filter and callbackUri already
+	 * exists (in which case it shall return the \&quot;201 Created\&quot; response
+	 * code), or may decide to not create a duplicate subscription resource (in
+	 * which case it shall return a \&quot;303 See Other\&quot; response code
+	 * referencing the existing subscription resource with the same filter and
+	 * callbackUri)
 	 *
 	 * @throws URISyntaxException
 	 *
@@ -99,12 +114,14 @@ public interface NsPerfoSubscription261Sol005Api {
 			@ApiResponse(responseCode = "500", description = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "503", description = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))) })
 	@PostMapping(consumes = { "application/json" }, produces = { "application/json" })
-	ResponseEntity<PmSubscription> subscriptionsPost(@RequestBody @Valid SubscriptionsPmSubscriptionRequest body) throws URISyntaxException;
+	ResponseEntity<PmSubscription> subscriptionsPost(@RequestBody @Valid @NotNull SubscriptionsPmSubscriptionRequest body) throws URISyntaxException;
 
 	/**
 	 * Terminate a subscription.
 	 *
-	 * This method terminates an individual subscription. This method shall follow the provisions specified in the Tables 7.4.8.3.5-1 and 7.4.8.3.5-2 for URI query parameters, request and response data structures, and response codes
+	 * This method terminates an individual subscription. This method shall follow
+	 * the provisions specified in the Tables 7.4.8.3.5-1 and 7.4.8.3.5-2 for URI
+	 * query parameters, request and response data structures, and response codes
 	 *
 	 */
 	@Operation(summary = "Terminate a subscription.", description = "This method terminates an individual subscription. This method shall follow the provisions specified in the  Tables 7.4.8.3.5-1 and 7.4.8.3.5-2 for URI query parameters, request and response data structures, and response codes. As the result of successfully executing this method, the  \"Individual subscription\" resource shall not exist any longer. This means that no notifications for that subscription shall  be sent to the formerly-subscribed API consumer.  NOTE: Due to race conditions, some notifications might still be  received by the formerly-subscribed API consumer for a  certain time period after the deletion. ", tags = {})
@@ -118,13 +135,17 @@ public interface NsPerfoSubscription261Sol005Api {
 			@ApiResponse(responseCode = "406", description = "406 NOT ACCEPTABLE If the \"Accept\" header does not contain at least one name of a content type that is acceptable to the API producer, the API producer shall respond with this response code. The \"ProblemDetails\" structure may be omitted. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "500", description = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "503", description = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))) })
-	@DeleteMapping(value = "/{subscriptionId}",  produces = { "application/json" })
-	ResponseEntity<Void> subscriptionsSubscriptionIdDelete(@PathVariable("subscriptionId") String subscriptionId);
+	@DeleteMapping(value = "/{subscriptionId}", produces = { "application/json" })
+	ResponseEntity<Void> subscriptionsSubscriptionIdDelete(@PathVariable("subscriptionId") @NotNull String subscriptionId);
 
 	/**
 	 * Query a single PM related subscription.
 	 *
-	 * The client can use this method for reading an individual subscription about Performance management notifications subscribed by the client. This method shall follow the provisions specified in the Tables 7.4.8.3.2-1 and 7.4.8.3.2-2 for URI query parameters, request and response data structures, and response codes.
+	 * The client can use this method for reading an individual subscription about
+	 * Performance management notifications subscribed by the client. This method
+	 * shall follow the provisions specified in the Tables 7.4.8.3.2-1 and
+	 * 7.4.8.3.2-2 for URI query parameters, request and response data structures,
+	 * and response codes.
 	 *
 	 */
 	@Operation(summary = "Query a single PM related subscription.", description = "The client can use this method for reading an individual subscription about Performance management notifications subscribed by the client. This method shall follow the provisions specified in the Tables 7.4.8.3.2-1 and 7.4.8.3.2-2 for URI query parameters, request and response data structures, and response codes. ", tags = {})
@@ -138,7 +159,7 @@ public interface NsPerfoSubscription261Sol005Api {
 			@ApiResponse(responseCode = "406", description = "406 NOT ACCEPTABLE If the \"Accept\" header does not contain at least one name of a content type that is acceptable to the API producer, the API producer shall respond with this response code. The \"ProblemDetails\" structure may be omitted. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "500", description = "500 INTERNAL SERVER ERROR If there is an application error not related to the client's input that cannot be easily mapped to any other HTTP response code (\"catch all error\"), the API producer shall respond with this response code. The \"ProblemDetails\" structure shall be provided, and shall include in the \"detail\" attribute more information about the source of the problem. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "503", description = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))) })
-	@GetMapping(value = "/{subscriptionId}",  produces = { "application/json" })
-	ResponseEntity<PmSubscription> subscriptionsSubscriptionIdGet(@PathVariable("subscriptionId") String subscriptionId);
+	@GetMapping(value = "/{subscriptionId}", produces = { "application/json" })
+	ResponseEntity<PmSubscription> subscriptionsSubscriptionIdGet(@PathVariable("subscriptionId") @NotNull String subscriptionId);
 
 }

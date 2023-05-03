@@ -16,13 +16,11 @@
  */
 package com.ubiqube.etsi.mano.nfvo.v261.controller.nspm;
 
+import static com.ubiqube.etsi.mano.Constants.getSafeUUID;
 import static com.ubiqube.etsi.mano.uri.ManoWebMvcLinkBuilder.linkTo;
 import static com.ubiqube.etsi.mano.uri.ManoWebMvcLinkBuilder.methodOn;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
@@ -36,6 +34,7 @@ import com.ubiqube.etsi.mano.nfvo.v261.model.nsperfo.CreatePmJobRequest;
 import com.ubiqube.etsi.mano.nfvo.v261.model.nsperfo.PmJobsCreatePmJobRequest;
 import com.ubiqube.etsi.mano.vnfm.v261.model.nsperfo.PmJobLinks;
 
+import jakarta.annotation.Nonnull;
 import ma.glasnost.orika.MapperFacade;
 
 /**
@@ -47,21 +46,23 @@ import ma.glasnost.orika.MapperFacade;
 public class PmJobs261Sol005Controller implements PmJobs261Sol005Api {
 	private static final String PMJ_SEARCH_DEFAULT_EXCLUDE_FIELDS = "";
 
-	private static final Set<String> PMJ_SEARCH_MANDATORY_FIELDS = new HashSet<>(Arrays.asList("id"));
+	@Nonnull
+	private static final Set<String> PMJ_SEARCH_MANDATORY_FIELDS = Set.of("id");
 
 	private final NfvoPmController nfvoPmController;
 
 	private final MapperFacade mapper;
 
-	public PmJobs261Sol005Controller(final NfvoPmController _nfvoPmController, final MapperFacade _mapper) {
-		nfvoPmController = _nfvoPmController;
-		mapper = _mapper;
+	public PmJobs261Sol005Controller(final NfvoPmController nfvoPmController, final MapperFacade mapper) {
+		this.nfvoPmController = nfvoPmController;
+		this.mapper = mapper;
 	}
 
 	/**
 	 * Query PM jobs.
 	 *
-	 * \&quot;The client can use this method to retrieve information about PM jobs\&quot;
+	 * \&quot;The client can use this method to retrieve information about PM
+	 * jobs\&quot;
 	 *
 	 */
 	@Override
@@ -79,7 +80,7 @@ public class PmJobs261Sol005Controller implements PmJobs261Sol005Api {
 	 */
 	@Override
 	public ResponseEntity<Void> pmJobsPmJobIdDelete(final String pmJobId) {
-		nfvoPmController.deleteById(UUID.fromString(pmJobId));
+		nfvoPmController.deleteById(getSafeUUID(pmJobId));
 		return ResponseEntity.noContent().build();
 	}
 
@@ -91,7 +92,7 @@ public class PmJobs261Sol005Controller implements PmJobs261Sol005Api {
 	 */
 	@Override
 	public ResponseEntity<com.ubiqube.etsi.mano.vnfm.v261.model.nsperfo.PmJob> pmJobsPmJobIdGet(final String pmJobId) {
-		final PmJob entity = nfvoPmController.getById(UUID.fromString(pmJobId));
+		final PmJob entity = nfvoPmController.getById(getSafeUUID(pmJobId));
 		final com.ubiqube.etsi.mano.vnfm.v261.model.nsperfo.PmJob res = mapper.map(entity, com.ubiqube.etsi.mano.vnfm.v261.model.nsperfo.PmJob.class);
 		return ResponseEntity.ok(res);
 	}
@@ -112,7 +113,9 @@ public class PmJobs261Sol005Controller implements PmJobs261Sol005Api {
 	/**
 	 * Create a PM job.
 	 *
-	 * The POST method creates a PM job. This method shall follow the provisions specified in the Tables 7.4.2.3.1-1 and 7.4.2.3.1-2 for URI query parameters, request and response data structures, and response codes.
+	 * The POST method creates a PM job. This method shall follow the provisions
+	 * specified in the Tables 7.4.2.3.1-1 and 7.4.2.3.1-2 for URI query parameters,
+	 * request and response data structures, and response codes.
 	 *
 	 */
 	@Override
@@ -133,8 +136,7 @@ public class PmJobs261Sol005Controller implements PmJobs261Sol005Api {
 
 		link = new Link();
 		link.setHref("");
-		// links.setObjects(link);
-
+		// links.setObjects(link)
 		x.setLinks(links);
 	}
 
