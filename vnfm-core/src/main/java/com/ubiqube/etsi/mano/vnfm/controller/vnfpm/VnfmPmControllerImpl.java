@@ -112,7 +112,7 @@ public class VnfmPmControllerImpl implements VnfmPmController {
 		final List<VnfInstance> insts = checkInstanceIds(res);
 		setVim(res, insts);
 		resolvSubObjectsId(res, insts);
-		final PmJob localRes = save(res);
+		final PmJob localRes = pmJobsJpa.save(res);
 		createSubscriptionIfNeeded(localRes);
 		monitoringManager.create(localRes);
 		return pmJobsJpa.save(localRes);
