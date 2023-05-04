@@ -37,14 +37,15 @@ import com.ubiqube.etsi.mano.service.rest.model.ServerConnection;
 import jakarta.annotation.Nonnull;
 
 @Component
-public class SelfConnectionHealt extends AbstractHealthIndicator {
+public class SelfConnectionHealth extends AbstractHealthIndicator {
 	private static final String OAUTH2 = "OAUTH2";
 	private final String authUrl;
 	private final String user;
 	private final String secret;
-	private @Nonnull final String frontendUrl;
+	@Nonnull
+	private final String frontendUrl;
 
-	public SelfConnectionHealt(final Environment env) {
+	public SelfConnectionHealth(final Environment env) {
 		super("Self connection failed.");
 		authUrl = env.getProperty("mano.swagger-o-auth2");
 		user = env.getProperty("keycloak.resource");
