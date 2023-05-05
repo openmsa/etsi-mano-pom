@@ -75,7 +75,7 @@ mano:
   election:
     script-path: /tmp/etsi-mano/election/groovy
   em:
-    url: http://mano-em:8083/em-webapp/
+    url: http://mano-mon:8082/
     oauth2:
       client-id: mano-em
       client-secret: T8V5XytLDPgCmCLy42tmAxyYLsluChmU
@@ -96,7 +96,7 @@ mano:
     url: http://mano-helm:8080/
   repository:
     phys-root: /tmp/etsi-mano/repository
-  swagger-o-auth2: http://auth.mano.ubiqube.com/auth/realms/mano-realm/protocol/openid-connect/token
+  swagger-o-auth2: http://mano-auth:8080/auth/realms/mano-realm/protocol/openid-connect/token
 
 server:
   error:
