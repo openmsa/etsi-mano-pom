@@ -47,7 +47,7 @@ public class ManoServer {
 			// Nothing.
 		};
 		final ServerAdapter server = client.getServer();
-		final URI uri = buildUri(root, "admin/server/");
+		final URI uri = buildUri(root, "admin/server");
 		final List<?> resp = server.rest().get(uri, res, null);
 		return mapper.mapAsList(resp, Servers.class);
 	}
@@ -59,7 +59,7 @@ public class ManoServer {
 
 	public @Nullable Servers create(final Servers srv, final String root) {
 		final ServerAdapter server = client.getServer();
-		final URI uri = buildUri(root, "admin/server/");
+		final URI uri = buildUri(root, "admin/server");
 		return server.rest().post(uri, srv, Servers.class, null);
 	}
 
