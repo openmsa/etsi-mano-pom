@@ -54,4 +54,8 @@ class ValueObjectTest {
 		assertTrue(true);
 	}
 
+	@Test
+	void testName() throws Exception {
+		TestBean.testClass(ValueObject.class);
+	}
 }
