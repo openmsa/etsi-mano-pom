@@ -14,33 +14,29 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.parser.tosca;
+package com.ubiqube.etsi.mano.sol004.manifest;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ubiqube.parser.tosca.api.ToscaInernalBase;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import lombok.Getter;
-import lombok.Setter;
+import java.io.CharArrayWriter;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.List;
+import java.util.Map;
 
-/**
- *
- * @author olivier
- *
- */
-@Getter
-@Setter
-public class Artifact extends ToscaInernalBase {
-	private String file;
-	private String type;
-	private String repository;
-	private String description;
-	@JsonProperty("deploy_path")
-	private String deployPath;
-	@JsonProperty("artifact_version")
-	private String artifactVersion;
-	// private String checksum
-	@JsonProperty("checksum_algorithm")
-	private String checksumAlgorithm;
-	private Object properties;
+import org.junit.jupiter.api.Test;
+
+import com.ubiqube.etsi.mano.sol004.manifest.Sol004ManifestReader.Certificate;
+
+class ManifestWriterTest {
+
+	@Test
+	void test() throws IOException {
+		final Certificate c1 = new Certificate("SHA-1", "".getBytes());
+		final ManifestWriter srv = new ManifestWriter(Map.of("key", "valu"), List.of(), List.of(c1));
+		final Writer writer = new CharArrayWriter();
+		srv.write(writer);
+		assertTrue(true);
+	}
 
 }

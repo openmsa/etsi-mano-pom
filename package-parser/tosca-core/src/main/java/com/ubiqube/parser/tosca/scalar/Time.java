@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 import com.ubiqube.parser.tosca.ParseException;
 
 public class Time implements Scalar {
-	private static final Pattern TIME_PATTERN = Pattern.compile("(?<time>[0-9]+)\\s*(?<unit>d|h|m|s|ms|us|ns)$");
+	private static final Pattern TIME_PATTERN = Pattern.compile("(?<time>\\d+)\\s*(?<unit>d|h|m|s|ms|us|ns)$");
 
 	private final long ltime;
 

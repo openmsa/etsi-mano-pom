@@ -66,7 +66,7 @@ public class Resolver implements IResolver {
 	private URL getUrl(final String url) {
 		try {
 			return URI.create(url).toURL();
-		} catch (final MalformedURLException e) {
+		} catch (final MalformedURLException | IllegalArgumentException e) {
 			LOG.trace("Not an URL: " + url, e);
 		}
 		LOG.info("Opening: {}", url);
@@ -99,14 +99,6 @@ public class Resolver implements IResolver {
 				StandardCharsets.UTF_8.toString())) {
 			scanner.useDelimiter("\\A");
 			return scanner.hasNext() ? scanner.next() : "";
-		} catch (final IOException e) {
-			throw new Sol004Exception(e);
-		}
-	}
-
-	private static String getContents(final File cacheFile) {
-		try {
-			return new String(Files.readAllBytes(cacheFile.toPath()), Charset.defaultCharset());
 		} catch (final IOException e) {
 			throw new Sol004Exception(e);
 		}

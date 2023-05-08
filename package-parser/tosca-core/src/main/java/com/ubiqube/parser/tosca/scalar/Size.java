@@ -28,7 +28,7 @@ import com.ubiqube.parser.tosca.ParseException;
 public class Size implements Scalar {
 	private static final Logger LOG = LoggerFactory.getLogger(Size.class);
 
-	private static final Pattern SIZE_PATTERN = Pattern.compile("(?<size>[0-9]+)\\s*(?<unit>[a-zA-Z]+)");
+	private static final Pattern SIZE_PATTERN = Pattern.compile("(?<size>\\d+)\\s*(?<unit>[a-zA-Z]+)");
 
 	private final long lsize;
 

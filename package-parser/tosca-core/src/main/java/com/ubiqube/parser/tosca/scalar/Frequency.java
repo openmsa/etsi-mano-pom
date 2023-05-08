@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 import com.ubiqube.parser.tosca.ParseException;
 
 public class Frequency implements Scalar {
-	private static final Pattern FREQUENCY_PATTERN = Pattern.compile("(?<freq>[0-9]+(\\.[0-9]+)?)\\s*(?<unit>[a-zA-Z]+)");
+	private static final Pattern FREQUENCY_PATTERN = Pattern.compile("(?<freq>\\d+(\\.\\d+)?)\\s*(?<unit>[a-zA-Z]+)");
 
 	private final double freq;
 
@@ -48,18 +48,13 @@ public class Frequency implements Scalar {
 	}
 
 	public static double getMultiplier(final String unit2) {
-		switch (unit2.toLowerCase(Locale.ROOT)) {
-		case "hz":
-			return 1D;
-		case "khz": // (1000 bytes)
-			return 1_000D;
-		case "mhz":// (1024 bytes)
-			return 1_000_000D;
-		case "ghz": // (1000000 bytes)
-			return 1_000_000_000D;
-		default:
-			throw new ParseException("Unknown scalar unit " + unit2);
-		}
+		return switch (unit2.toLowerCase(Locale.ROOT)) {
+		case "hz" -> 1D;
+		case "khz" -> 1_000D;
+		case "mhz" -> 1_000_000D;
+		case "ghz" -> 1_000_000_000D;
+		default -> throw new ParseException("Unknown scalar unit " + unit2);
+		};
 	}
 
 }

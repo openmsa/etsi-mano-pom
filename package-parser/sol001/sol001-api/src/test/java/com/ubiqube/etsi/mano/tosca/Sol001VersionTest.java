@@ -14,33 +14,21 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.parser.tosca;
+package com.ubiqube.etsi.mano.tosca;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ubiqube.parser.tosca.api.ToscaInernalBase;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import lombok.Getter;
-import lombok.Setter;
+import org.junit.jupiter.api.Test;
 
-/**
- *
- * @author olivier
- *
- */
-@Getter
-@Setter
-public class Artifact extends ToscaInernalBase {
-	private String file;
-	private String type;
-	private String repository;
-	private String description;
-	@JsonProperty("deploy_path")
-	private String deployPath;
-	@JsonProperty("artifact_version")
-	private String artifactVersion;
-	// private String checksum
-	@JsonProperty("checksum_algorithm")
-	private String checksumAlgorithm;
-	private Object properties;
+class Sol001VersionTest {
+
+	@Test
+	void test() {
+		Sol001Version.fromValue(null);
+		assertTrue(true);
+		assertNotNull(Sol001Version.SOL001_2_5_1.toString());
+		assertNotNull(Sol001Version.fromValue("3.3.1"));
+	}
 
 }

@@ -68,8 +68,8 @@ public class Sol004Onboarding {
 
 	private static final Logger LOG = LoggerFactory.getLogger(Sol004Onboarding.class);
 
-	private static final Pattern ZIP_MATCHER = Pattern.compile(".*\\.(zip)");
-	private static final Pattern CSAR_MATCHER = Pattern.compile(".*\\.(csar)");
+	private static final Pattern ZIP_MATCHER = Pattern.compile(".*\\.(zip)$");
+	private static final Pattern CSAR_MATCHER = Pattern.compile(".*\\.(csar)$");
 	private CsarArchive csar;
 	private final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
 
