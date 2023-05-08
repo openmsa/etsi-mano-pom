@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -64,7 +65,7 @@ public class Resolver implements IResolver {
 
 	private URL getUrl(final String url) {
 		try {
-			return new URL(url);
+			return URI.create(url).toURL();
 		} catch (final MalformedURLException e) {
 			LOG.trace("Not an URL: " + url, e);
 		}

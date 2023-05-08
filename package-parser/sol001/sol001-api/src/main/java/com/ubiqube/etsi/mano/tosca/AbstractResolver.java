@@ -21,6 +21,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
+import java.net.URI;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
@@ -56,7 +57,7 @@ public abstract class AbstractResolver implements IResolver {
 			// Test w/o cache return cachedContent(cacheFile)
 		}
 		try {
-			final URL realUrl = new URL(url);
+			final URL realUrl = URI.create(url).toURL();
 			return realUrl.openStream();
 		} catch (final IOException e) {
 			throw new Sol004Exception(e);

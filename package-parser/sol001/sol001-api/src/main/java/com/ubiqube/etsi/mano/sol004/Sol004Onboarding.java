@@ -22,6 +22,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Paths;
@@ -284,7 +285,7 @@ public class Sol004Onboarding {
 
 	private static URL getRemote(final String fileName) {
 		try {
-			return new URL(fileName);
+			return URI.create(fileName).toURL();
 		} catch (final MalformedURLException e) {
 			LOG.trace("", e);
 			return null;
