@@ -51,6 +51,10 @@ class OnboardingTest {
 
 	private final String fileName = "/tmp/tesca.csar";
 
+	public OnboardingTest() {
+		new File("/tmp/tosca").mkdir();
+	}
+
 	@Test
 	@Order(1)
 	void testName01() throws Exception {
