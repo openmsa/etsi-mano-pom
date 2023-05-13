@@ -16,8 +16,10 @@
  */
 package com.ubiqube.etsi.mano.service.mon.jms;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.ubiqube.etsi.mano.service.mon.data.MonitoringDataSlim;
 
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")
 public record MetricChange(MonitoringDataSlim latest, MonitoringDataSlim old) {
 	//
 }
