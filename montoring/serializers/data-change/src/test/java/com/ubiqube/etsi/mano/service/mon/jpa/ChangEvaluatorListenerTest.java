@@ -29,6 +29,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.jms.core.JmsTemplate;
 
 import com.ubiqube.etsi.mano.service.mon.data.JmsMetricHolder;
@@ -43,10 +44,12 @@ class ChangEvaluatorListenerTest {
 	private DataBackend dataBackend;
 	@Mock
 	private JmsTemplate jmsTemplate;
+	@Mock
+	private ConfigurableApplicationContext configurableApplicationContext;
 
 	@Test
 	void testBasic() throws Exception {
-		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(dataBackend, jmsTemplate);
+		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(dataBackend, jmsTemplate, configurableApplicationContext);
 		final MonitoringDataSlim result = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", 123D, null);
 		final JmsMetricHolder param = new JmsMetricHolder();
 		param.setMetrics(List.of());
@@ -56,7 +59,7 @@ class ChangEvaluatorListenerTest {
 
 	@Test
 	void testOneElement() throws Exception {
-		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(dataBackend, jmsTemplate);
+		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(dataBackend, jmsTemplate, configurableApplicationContext);
 		final MonitoringDataSlim result = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", 123D, null);
 		//
 		when(dataBackend.getLastMetrics("key2", "masterJobId2")).thenReturn(null);
@@ -68,7 +71,7 @@ class ChangEvaluatorListenerTest {
 
 	@Test
 	void testSameOnValue() throws Exception {
-		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(dataBackend, jmsTemplate);
+		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(dataBackend, jmsTemplate, configurableApplicationContext);
 		final MonitoringDataSlim result = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", 123D, null);
 		final MonitoringDataSlim result2 = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", 123D, null);
 		//
@@ -81,7 +84,7 @@ class ChangEvaluatorListenerTest {
 
 	@Test
 	void testDiffOnValue() throws Exception {
-		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(dataBackend, jmsTemplate);
+		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(dataBackend, jmsTemplate, configurableApplicationContext);
 		final MonitoringDataSlim result = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", 123D, null);
 		final MonitoringDataSlim result2 = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", 456D, null);
 		//
@@ -96,7 +99,7 @@ class ChangEvaluatorListenerTest {
 
 	@Test
 	void testSameOnText() throws Exception {
-		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(dataBackend, jmsTemplate);
+		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(dataBackend, jmsTemplate, configurableApplicationContext);
 		final MonitoringDataSlim result = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", null, "Hello");
 		final MonitoringDataSlim result2 = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", null, "Hello");
 		//
@@ -109,7 +112,7 @@ class ChangEvaluatorListenerTest {
 
 	@Test
 	void testDiffOnText() throws Exception {
-		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(dataBackend, jmsTemplate);
+		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(dataBackend, jmsTemplate, configurableApplicationContext);
 		final MonitoringDataSlim result = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", null, "Hello22");
 		final MonitoringDataSlim result2 = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", null, "Hello");
 		//
