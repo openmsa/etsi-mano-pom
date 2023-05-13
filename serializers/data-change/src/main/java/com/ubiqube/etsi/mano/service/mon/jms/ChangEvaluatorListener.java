@@ -16,8 +16,12 @@
  */
 package com.ubiqube.etsi.mano.service.mon.jms;
 
+import java.util.Objects;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
@@ -26,6 +30,8 @@ import com.ubiqube.etsi.mano.mon.api.BusHelper;
 import com.ubiqube.etsi.mano.service.mon.data.JmsMetricHolder;
 import com.ubiqube.etsi.mano.service.mon.data.MonitoringDataSlim;
 
+import jakarta.annotation.Nonnull;
+
 @Service
 public class ChangEvaluatorListener {
 	private static final Logger LOG = LoggerFactory.getLogger(ChangEvaluatorListener.class);
@@ -33,9 +39,12 @@ public class ChangEvaluatorListener {
 
 	private final JmsTemplate jmsTemplate;
 
-	public ChangEvaluatorListener(final DataBackend dataBackend, final JmsTemplate jmsTemplate) {
+	private final ConfigurableApplicationContext configurableApplicationContext;
+
+	public ChangEvaluatorListener(final DataBackend dataBackend, final JmsTemplate jmsTemplate, final ConfigurableApplicationContext configurableApplicationContext) {
 		this.dataBackend = dataBackend;
 		this.jmsTemplate = jmsTemplate;
+		this.configurableApplicationContext = configurableApplicationContext;
 	}
 
 	@JmsListener(destination = BusHelper.TOPIC_SERIALZE_DATA, containerFactory = "serialzeDataFactory")
@@ -56,12 +65,20 @@ public class ChangEvaluatorListener {
 				|| ((text != null) && (text.equals(result.getText())))) {
 			return;
 		}
-		LOG.trace("Metric change {}", res);
+		LOG.info("Metric change {}", res);
 		updateMetric(result);
-		jmsTemplate.convertAndSend(Constants.QUEUE_CHANGE_NOTIFICATION, new MetricChange(res, result));
+		jmsTemplate.convertAndSend(resolvQueueName(Constants.QUEUE_CHANGE_NOTIFICATION), new MetricChange(res, result));
 	}
 
 	private void updateMetric(final MonitoringDataSlim slim) {
 		dataBackend.updateMetric(slim);
+	}
+
+	@Nonnull
+	private String resolvQueueName(final String queueName) {
+		final ConfigurableListableBeanFactory configurableListableBeanFactory = configurableApplicationContext.getBeanFactory();
+		final String ret = configurableListableBeanFactory.resolveEmbeddedValue(queueName);
+		Objects.requireNonNull(ret);
+		return ret;
 	}
 }

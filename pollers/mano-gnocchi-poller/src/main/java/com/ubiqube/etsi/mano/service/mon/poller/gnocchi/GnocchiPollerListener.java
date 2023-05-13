@@ -72,7 +72,7 @@ public class GnocchiPollerListener {
 		jmsTemplate.convertAndSend(resolvQueueName(BusHelper.TOPIC_SERIALZE_DATA), JmsMetricHolder.of(metrics));
 	}
 
-	private static List<MonitoringDataSlim> getMetrics(final UUID jobId, final String resourceId, final List<Metric> collectedMetrics, final OSClientV3 os) {
+	private List<MonitoringDataSlim> getMetrics(final UUID jobId, final String resourceId, final List<Metric> collectedMetrics, final OSClientV3 os) {
 		final List<String> colls = collectedMetrics.stream().map(Metric::getMetricName).toList();
 		final Resource instanceResources = os.telemetry().resources().instance(resourceId);
 		if (null == instanceResources) {
