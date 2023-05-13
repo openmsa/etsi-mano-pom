@@ -18,11 +18,14 @@ package com.ubiqube.etsi.mano.service.mon.data;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import jakarta.annotation.Nonnull;
 import lombok.Data;
 
 @Data
 public class JmsMetricHolder {
+	@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")
 	private List<MonitoringDataSlim> metrics;
 
 	public JmsMetricHolder() {
