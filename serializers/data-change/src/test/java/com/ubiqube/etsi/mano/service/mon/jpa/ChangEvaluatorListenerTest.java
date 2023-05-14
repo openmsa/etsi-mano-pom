@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.service.mon.jpa;
 
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
@@ -29,6 +30,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.jms.core.JmsTemplate;
 
@@ -46,11 +48,13 @@ class ChangEvaluatorListenerTest {
 	private JmsTemplate jmsTemplate;
 	@Mock
 	private ConfigurableApplicationContext configurableApplicationContext;
+	@Mock
+	private ConfigurableListableBeanFactory configurableBean;
 
 	@Test
 	void testBasic() throws Exception {
 		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(dataBackend, jmsTemplate, configurableApplicationContext);
-		final MonitoringDataSlim result = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", 123D, null);
+		final MonitoringDataSlim result = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "res", "key2", 123D, null);
 		final JmsMetricHolder param = new JmsMetricHolder();
 		param.setMetrics(List.of());
 		changEvaluatorListener.changeEvaluator(param);
@@ -60,7 +64,7 @@ class ChangEvaluatorListenerTest {
 	@Test
 	void testOneElement() throws Exception {
 		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(dataBackend, jmsTemplate, configurableApplicationContext);
-		final MonitoringDataSlim result = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", 123D, null);
+		final MonitoringDataSlim result = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", "res", 123D, null);
 		//
 		when(dataBackend.getLastMetrics("key2", "masterJobId2")).thenReturn(null);
 		final JmsMetricHolder param = new JmsMetricHolder();
@@ -72,8 +76,8 @@ class ChangEvaluatorListenerTest {
 	@Test
 	void testSameOnValue() throws Exception {
 		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(dataBackend, jmsTemplate, configurableApplicationContext);
-		final MonitoringDataSlim result = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", 123D, null);
-		final MonitoringDataSlim result2 = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", 123D, null);
+		final MonitoringDataSlim result = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", "res", 123D, null);
+		final MonitoringDataSlim result2 = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", "res", 123D, null);
 		//
 		when(dataBackend.getLastMetrics("key2", "masterJobId2")).thenReturn(result2);
 		final JmsMetricHolder param = new JmsMetricHolder();
@@ -85,14 +89,16 @@ class ChangEvaluatorListenerTest {
 	@Test
 	void testDiffOnValue() throws Exception {
 		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(dataBackend, jmsTemplate, configurableApplicationContext);
-		final MonitoringDataSlim result = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", 123D, null);
-		final MonitoringDataSlim result2 = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", 456D, null);
+		final MonitoringDataSlim result = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", "res", 123D, null);
+		final MonitoringDataSlim result2 = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", "res", 456D, null);
 		//
 		when(dataBackend.getLastMetrics("key2", "masterJobId2")).thenReturn(result2);
 		final ArgumentCaptor<Object> valueCapture = ArgumentCaptor.forClass(Object.class);
 		doNothing().when(jmsTemplate).convertAndSend(eq(Constants.QUEUE_CHANGE_NOTIFICATION), valueCapture.capture());
 		final JmsMetricHolder param = new JmsMetricHolder();
 		param.setMetrics(List.of(result));
+		when(configurableApplicationContext.getBeanFactory()).thenReturn(configurableBean);
+		when(configurableBean.resolveEmbeddedValue(any())).thenReturn(Constants.QUEUE_CHANGE_NOTIFICATION);
 		changEvaluatorListener.changeEvaluator(param);
 		assertTrue(true);
 	}
@@ -100,8 +106,8 @@ class ChangEvaluatorListenerTest {
 	@Test
 	void testSameOnText() throws Exception {
 		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(dataBackend, jmsTemplate, configurableApplicationContext);
-		final MonitoringDataSlim result = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", null, "Hello");
-		final MonitoringDataSlim result2 = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", null, "Hello");
+		final MonitoringDataSlim result = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", "res", null, "Hello");
+		final MonitoringDataSlim result2 = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", "res", null, "Hello");
 		//
 		when(dataBackend.getLastMetrics("key2", "masterJobId2")).thenReturn(result2);
 		final JmsMetricHolder param = new JmsMetricHolder();
@@ -113,14 +119,16 @@ class ChangEvaluatorListenerTest {
 	@Test
 	void testDiffOnText() throws Exception {
 		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(dataBackend, jmsTemplate, configurableApplicationContext);
-		final MonitoringDataSlim result = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", null, "Hello22");
-		final MonitoringDataSlim result2 = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", null, "Hello");
+		final MonitoringDataSlim result = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", "res", null, "Hello22");
+		final MonitoringDataSlim result2 = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", "res", null, "Hello");
 		//
 		when(dataBackend.getLastMetrics("key2", "masterJobId2")).thenReturn(result2);
 		final ArgumentCaptor<Object> valueCapture = ArgumentCaptor.forClass(Object.class);
 		doNothing().when(jmsTemplate).convertAndSend(eq(Constants.QUEUE_CHANGE_NOTIFICATION), valueCapture.capture());
 		final JmsMetricHolder param = new JmsMetricHolder();
 		param.setMetrics(List.of(result));
+		when(configurableApplicationContext.getBeanFactory()).thenReturn(configurableBean);
+		when(configurableBean.resolveEmbeddedValue(any())).thenReturn(Constants.QUEUE_CHANGE_NOTIFICATION);
 		changEvaluatorListener.changeEvaluator(param);
 		assertTrue(true);
 	}

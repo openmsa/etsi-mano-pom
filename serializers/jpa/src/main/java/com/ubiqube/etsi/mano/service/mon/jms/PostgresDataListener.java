@@ -49,7 +49,7 @@ public class PostgresDataListener {
 	public void onGnocchiData(final JmsMetricHolder results) {
 		LOG.trace(POSTGRESQL_RECEIVE, results);
 		final List<MonitoringData> metrics = results.getMetrics().stream()
-				.map(x -> new MonitoringData(x.getMasterJobId(), x.getKey(), x.getTime(), x.getValue(), x.getText(), x.getMasterJobId(), true))
+				.map(x -> new MonitoringData(x.getKey(), x.getMasterJobId(), x.getTime(), x.getValue(), x.getText(), x.getResourceId(), true))
 				.toList();
 		monitoringDataJpa.saveAll(metrics);
 	}

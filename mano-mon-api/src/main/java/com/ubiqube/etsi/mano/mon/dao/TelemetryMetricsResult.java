@@ -39,7 +39,7 @@ public class TelemetryMetricsResult implements MonitoringDataSlim {
 	@Nonnull
 	private String masterJobId;
 
-	private String vnfcId;
+	private String resourceId;
 
 	private String key;
 
@@ -56,9 +56,9 @@ public class TelemetryMetricsResult implements MonitoringDataSlim {
 		// Nothing.
 	}
 
-	public TelemetryMetricsResult(@Nonnull final String masterJobId, final String vnfcId, final String key, final Double value, final String txt, final OffsetDateTime timestamp, final boolean status) {
+	public TelemetryMetricsResult(@Nonnull final String masterJobId, final String resourceId, final String key, final Double value, final String txt, final OffsetDateTime timestamp, final boolean status) {
 		this.masterJobId = masterJobId;
-		this.vnfcId = vnfcId;
+		this.resourceId = resourceId;
 		this.key = key;
 		this.value = value;
 		this.time = timestamp;

@@ -38,7 +38,7 @@ class MonitoringDataTest {
 		md.setText("");
 		md.setTime(OffsetDateTime.now());
 		md.setValue(123d);
-		md.setVnfInstanceId("");
+		md.setResourceId("");
 		md.getId();
 		md.getKey();
 		md.getMasterJobId();
@@ -46,6 +46,6 @@ class MonitoringDataTest {
 		md.getTime();
 		md.getValue();
 		md.isStatus();
-		assertNotNull(md.getVnfInstanceId());
+		assertNotNull(md.getResourceId());
 	}
 }
