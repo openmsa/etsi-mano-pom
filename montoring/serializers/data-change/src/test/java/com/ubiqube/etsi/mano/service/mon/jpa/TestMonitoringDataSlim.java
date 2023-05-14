@@ -32,6 +32,7 @@ public class TestMonitoringDataSlim implements MonitoringDataSlim {
 	private OffsetDateTime time;
 	private String masterJobId;
 	private String key;
+	private String resourceId;
 	@Nullable
 	private Double value;
 	@Nullable

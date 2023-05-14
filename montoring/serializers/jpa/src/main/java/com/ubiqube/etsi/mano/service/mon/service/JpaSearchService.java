@@ -49,10 +49,10 @@ public class JpaSearchService implements SearchApi {
 	}
 
 	@Override
-	public MonitoringDataSlim search(final String instance, final String object) {
-		final List<MonitoringDataProjection> ress = monitoringDataJpa.getLastMetrics(instance, object);
+	public MonitoringDataSlim search(final String key, final String masterJobId) {
+		final List<MonitoringDataProjection> ress = monitoringDataJpa.getLastMetrics(key, masterJobId);
 		if (ress.isEmpty()) {
-			throw new MonGenericException("Unablde to find metric: " + instance + "/" + object);
+			throw new MonGenericException("Unablde to find metric: " + key + "/" + masterJobId);
 		}
 		return convert(ress.get(0));
 	}
@@ -83,7 +83,7 @@ public class JpaSearchService implements SearchApi {
 		}
 		cq.where(finalPred);
 		return em.createQuery(cq).getResultList().stream()
-				.map(x -> convert(x))
+				.map(JpaSearchService::convert)
 				.toList();
 	}
 
@@ -91,6 +91,7 @@ public class JpaSearchService implements SearchApi {
 		final TelemetryMetricsResult m = new TelemetryMetricsResult();
 		m.setKey(x.getKey());
 		m.setMasterJobId(x.getMasterJobId());
+		m.setResourceId(x.getResourceId());
 		m.setText(x.getText());
 		m.setTime(x.getTime());
 		m.setValue(x.getValue());

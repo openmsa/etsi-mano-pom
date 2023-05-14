@@ -30,6 +30,8 @@ public interface MonitoringDataSlim {
 
 	String getKey();
 
+	String getResourceId();
+
 	@Nullable
 	Double getValue();
 

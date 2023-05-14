@@ -55,14 +55,14 @@ public class MonitoringData implements Serializable {
 	private String text;
 	private String key;
 	private boolean status;
-	private String vnfInstanceId;
+	private String resourceId;
 
 	@SuppressWarnings("null")
 	public MonitoringData() {
 		time = OffsetDateTime.now();
 	}
 
-	public MonitoringData(final String key2, final String masterJobId2, final OffsetDateTime timestamp, @Nullable final Double value2, @Nullable final String text, final String vnfInstanceId2, final boolean status) {
+	public MonitoringData(final String key2, final String masterJobId2, final OffsetDateTime timestamp, @Nullable final Double value2, @Nullable final String text, final String resourceId, final boolean status) {
 		this.id = UUID.randomUUID();
 		this.time = timestamp;
 		this.masterJobId = masterJobId2;
@@ -70,7 +70,7 @@ public class MonitoringData implements Serializable {
 		this.text = text;
 		this.key = key2;
 		this.status = status;
-		this.vnfInstanceId = vnfInstanceId2;
+		this.resourceId = resourceId;
 
 	}
 

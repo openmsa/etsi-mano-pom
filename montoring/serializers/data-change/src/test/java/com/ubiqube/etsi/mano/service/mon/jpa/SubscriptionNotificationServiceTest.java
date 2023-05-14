@@ -77,8 +77,8 @@ class SubscriptionNotificationServiceTest {
 	@Test
 	void testName() throws Exception {
 		final SubscriptionNotificationService sns = new SubscriptionNotificationService(subscriptionRepo);
-		final MonitoringDataSlim latest = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", 123D, null);
-		final MonitoringDataSlim old = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", 456D, null);
+		final MonitoringDataSlim latest = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", "res", 123D, null);
+		final MonitoringDataSlim old = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", "res", 456D, null);
 		final MetricChange metricChange = new MetricChange(latest, old);
 		final MonSubscription subscription = new MonSubscription();
 		final AuthParamOauth2 authParamOauth2 = new AuthParamOauth2();
@@ -129,8 +129,8 @@ class SubscriptionNotificationServiceTest {
 	@Test
 	void testSubscriptionNoAuth() {
 		final SubscriptionNotificationService sns = new SubscriptionNotificationService(subscriptionRepo);
-		final MonitoringDataSlim latest = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", 123D, null);
-		final MonitoringDataSlim old = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", 456D, null);
+		final MonitoringDataSlim latest = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", "res", 123D, null);
+		final MonitoringDataSlim old = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", "res", 456D, null);
 		final MetricChange metricChange = new MetricChange(latest, old);
 		final MonSubscription subscription = new MonSubscription();
 		subscription.setCallBackUrl(baseUrl);
