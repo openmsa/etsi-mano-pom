@@ -21,6 +21,7 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
 import com.ubiqube.etsi.mano.service.mon.cli.MetricsRemoteService;
 import com.ubiqube.etsi.mano.service.mon.cli.MonPollingRemoteService;
+import com.ubiqube.etsi.mano.service.mon.cli.MonSearchRemoteService;
 
 public abstract class AbstractMonitoringRemoteService {
 
@@ -34,6 +35,11 @@ public abstract class AbstractMonitoringRemoteService {
 	MetricsRemoteService createMetricsRemoteService() {
 		final HttpServiceProxyFactory proxyFactory = createProxyFactory();
 		return proxyFactory.createClient(MetricsRemoteService.class);
+	}
+
+	MonSearchRemoteService createMonSearchRemoteService() {
+		final HttpServiceProxyFactory proxyFactory = createProxyFactory();
+		return proxyFactory.createClient(MonSearchRemoteService.class);
 	}
 
 	abstract HttpServiceProxyFactory createProxyFactory();
