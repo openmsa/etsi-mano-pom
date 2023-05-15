@@ -75,7 +75,7 @@ public class ChangEvaluatorListener {
 	}
 
 	@Nonnull
-	private String resolvQueueName(final String queueName) {
+	private String resolvQueueName(final @Nonnull String queueName) {
 		final ConfigurableListableBeanFactory configurableListableBeanFactory = configurableApplicationContext.getBeanFactory();
 		final String ret = configurableListableBeanFactory.resolveEmbeddedValue(queueName);
 		Objects.requireNonNull(ret);

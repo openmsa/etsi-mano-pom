@@ -26,7 +26,7 @@ import jakarta.annotation.Nonnull;
 
 public interface SearchApi {
 	@Nonnull
-	MonitoringDataSlim search(@Nonnull String instance, @Nonnull String object);
+	List<MonitoringDataSlim> findByObjectIdAndKey(@Nonnull String instance, @Nonnull String object);
 
 	@Nonnull
 	List<MonitoringDataSlim> search(@Nonnull MultiValueMap<String, String> params);
