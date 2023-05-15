@@ -20,18 +20,18 @@ import static com.ubiqube.etsi.mano.Constants.getSafeUUID;
 import static com.ubiqube.etsi.mano.uri.ManoWebMvcLinkBuilder.linkTo;
 import static com.ubiqube.etsi.mano.uri.ManoWebMvcLinkBuilder.methodOn;
 
-import java.util.List;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ubiqube.etsi.mano.controller.nsfm.NsAlarmFrontController;
+import com.ubiqube.etsi.mano.dao.mano.alarm.AckState;
 import com.ubiqube.etsi.mano.nfvo.v431.model.nfvici.Link;
 import com.ubiqube.etsi.mano.nfvo.v431.model.nsfm.Alarm;
 import com.ubiqube.etsi.mano.nfvo.v431.model.nsfm.AlarmLinks;
 import com.ubiqube.etsi.mano.nfvo.v431.model.nsfm.AlarmModifications;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 
 @RestController
@@ -48,12 +48,12 @@ public class Alarms431Sol005Controller implements Alarms431Sol005Api {
 	}
 
 	@Override
-	public ResponseEntity<AlarmModifications> alarmsAlarmIdPatch(final String alarmId, @Valid final AlarmModifications body) {
-		return nsAlarmFrontController.patch(alarmId, body, AlarmModifications.class);
+	public ResponseEntity<AlarmModifications> alarmsAlarmIdPatch(final String alarmId, @Valid final AlarmModifications body, final String ifMatch) {
+		return nsAlarmFrontController.patch(alarmId, AckState.valueOf(body.getAckState().toString()), ifMatch, AlarmModifications.class);
 	}
 
 	@Override
-	public ResponseEntity<List<Alarm>> alarmsGet(final MultiValueMap<String, String> requestParams, @Valid final String nextpageOpaqueMarker) {
+	public ResponseEntity<String> alarmsGet(final MultiValueMap<String, String> requestParams, @Nullable final String nextpageOpaqueMarker) {
 		return nsAlarmFrontController.search(requestParams, nextpageOpaqueMarker, Alarm.class, Alarms431Sol005Controller::makeLinks);
 	}
 
