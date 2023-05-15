@@ -14,24 +14,29 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.controller.nsfm;
+package com.ubiqube.etsi.mano.service.mon;
 
 import java.util.UUID;
-import java.util.function.Consumer;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
+import com.ubiqube.etsi.mano.dao.mano.VnfIndicator;
 
-import com.ubiqube.etsi.mano.dao.mano.alarm.AckState;
+/**
+ *
+ * @author Olivier Vignaud
+ *
+ */
+public class DummyAlarm implements ExternalAlarm {
 
-import jakarta.annotation.Nullable;
+	@Override
+	public String registerAlarm(final VnfIndicator vnfIndicator) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-public interface NsAlarmFrontController {
+	@Override
+	public void remove(final UUID removedLiveInstance) {
+		// TODO Auto-generated method stub
 
-	<U> ResponseEntity<U> findById(UUID id, Class<U> clazz, Consumer<U> makeLinks);
-
-	<U> ResponseEntity<U> patch(String alarmId, AckState ackState, @Nullable String ifMatch, Class<U> clazz);
-
-	<U> ResponseEntity<String> search(MultiValueMap<String, String> requestParams, @Nullable String nextpageOpaqueMarker, Class<U> clazz, Consumer<U> makeLinks);
+	}
 
 }

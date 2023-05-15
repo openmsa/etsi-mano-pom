@@ -16,7 +16,10 @@
  */
 package com.ubiqube.etsi.mano.nfvo.controller.nsfm;
 
-import java.util.List;
+import static com.ubiqube.etsi.mano.Constants.ALARM_SEARCH_DEFAULT_EXCLUDE_FIELDS;
+import static com.ubiqube.etsi.mano.Constants.ALARM_SEARCH_MANDATORY_FIELDS;
+import static com.ubiqube.etsi.mano.Constants.getSafeUUID;
+
 import java.util.UUID;
 import java.util.function.Consumer;
 
@@ -25,26 +28,40 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.controller.nsfm.NsAlarmFrontController;
+import com.ubiqube.etsi.mano.dao.mano.alarm.AckState;
+import com.ubiqube.etsi.mano.dao.mano.alarm.Alarms;
+import com.ubiqube.etsi.mano.nfvo.service.NfvoAlarmService;
+
+import jakarta.annotation.Nullable;
+import ma.glasnost.orika.MapperFacade;
 
 @Service
 public class NsAlarmFrontControllerImpl implements NsAlarmFrontController {
+	private final MapperFacade mapper;
+	private final NfvoAlarmService alarmNfvoController;
 
-	@Override
-	public <U> ResponseEntity<U> findById(final UUID safeUUID, final Class<U> clazz, final Consumer<U> makeLinks) {
-		// TODO Auto-generated method stub
-		return null;
+	public NsAlarmFrontControllerImpl(final MapperFacade mapper, final NfvoAlarmService alarmNfvoController) {
+		this.mapper = mapper;
+		this.alarmNfvoController = alarmNfvoController;
 	}
 
 	@Override
-	public <U> ResponseEntity<U> patch(final String alarmId, final Object body, final Class<U> clazz) {
-		// TODO Auto-generated method stub
-		return null;
+	public <U> ResponseEntity<U> findById(final UUID id, final Class<U> clazz, final Consumer<U> makeLinks) {
+		final Alarms alarm = alarmNfvoController.findById(id);
+		final U ret = mapper.map(alarm, clazz);
+		makeLinks.accept(ret);
+		return ResponseEntity.ok(ret);
 	}
 
 	@Override
-	public <U> ResponseEntity<List<U>> search(final MultiValueMap<String, String> requestParams, final String nextpageOpaqueMarker, final Class<U> clazz, final Consumer<U> makeLinks) {
-		// TODO Auto-generated method stub
-		return null;
+	public <U> ResponseEntity<U> patch(final String alarmId, final AckState ackState, final @Nullable String ifMatch, final Class<U> clazz) {
+		final Alarms alarm = alarmNfvoController.modify(getSafeUUID(alarmId), ackState, ifMatch);
+		return ResponseEntity.ok(mapper.map(alarm, clazz));
+	}
+
+	@Override
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final String nextpageOpaqueMarker, final Class<U> clazz, final Consumer<U> makeLinks) {
+		return alarmNfvoController.search(requestParams, clazz, ALARM_SEARCH_DEFAULT_EXCLUDE_FIELDS, ALARM_SEARCH_MANDATORY_FIELDS, makeLinks);
 	}
 
 }

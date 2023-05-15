@@ -37,8 +37,6 @@ import com.ubiqube.etsi.mano.service.SearchableService;
 import com.ubiqube.etsi.mano.vnfm.service.AlarmService;
 
 import jakarta.annotation.Nullable;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 
 /**
  *
@@ -62,7 +60,7 @@ public class AlarmVnfmControllerImpl implements AlarmVnfmController {
 	}
 
 	@Override
-	public void escalate(final UUID id, @NotNull @Valid final PerceivedSeverityType proposedPerceivedSeverity) {
+	public void escalate(final UUID id, final PerceivedSeverityType proposedPerceivedSeverity) {
 		final Alarms alarm = findById(id);
 		alarm.setPerceivedSeverity(proposedPerceivedSeverity);
 		alarmsService.save(alarm);

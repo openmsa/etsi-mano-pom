@@ -14,24 +14,42 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.controller.nsfm;
+package com.ubiqube.etsi.mano.nfvo.service;
 
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.dao.mano.alarm.AckState;
+import com.ubiqube.etsi.mano.dao.mano.alarm.Alarms;
 
 import jakarta.annotation.Nullable;
 
-public interface NsAlarmFrontController {
+/**
+ *
+ * @author Olivier Vignaud
+ *
+ */
+@Service
+public class NfvoAlarmService {
 
-	<U> ResponseEntity<U> findById(UUID id, Class<U> clazz, Consumer<U> makeLinks);
+	public Alarms findById(final UUID id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-	<U> ResponseEntity<U> patch(String alarmId, AckState ackState, @Nullable String ifMatch, Class<U> clazz);
+	public Alarms modify(final UUID safeUUID, final AckState ackState, @Nullable final String ifMatch) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-	<U> ResponseEntity<String> search(MultiValueMap<String, String> requestParams, @Nullable String nextpageOpaqueMarker, Class<U> clazz, Consumer<U> makeLinks);
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String alarmSearchDefaultExcludeFields, final Set<String> alarmSearchMandatoryFields, final Consumer<U> makeLinks) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

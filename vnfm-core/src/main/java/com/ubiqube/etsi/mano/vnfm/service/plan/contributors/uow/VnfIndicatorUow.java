@@ -20,24 +20,29 @@ import com.ubiqube.etsi.mano.dao.mano.v2.VnfIndicatorTask;
 import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
+import com.ubiqube.etsi.mano.service.mon.ExternalAlarm;
 
 import jakarta.annotation.Nullable;
 
 public class VnfIndicatorUow extends AbstractVnfmUow<VnfIndicatorTask> {
 
+	private ExternalAlarm externalAlarm;
+
+	private final VnfIndicatorTask task;
+
 	public VnfIndicatorUow(final VirtualTaskV3<VnfIndicatorTask> task, final Class<? extends Node> node) {
 		super(task, node);
-		// TODO Auto-generated constructor stub
+		this.task = task.getTemplateParameters();
 	}
 
 	@Override
 	public @Nullable String execute(final Context3d context) {
-		return "";
+		return externalAlarm.registerAlarm(task.getVnfIndicator());
 	}
 
 	@Override
 	public @Nullable String rollback(final Context3d context) {
-		// TODO Auto-generated method stub
+		externalAlarm.remove(task.getRemovedLiveInstance());
 		return null;
 	}
 
