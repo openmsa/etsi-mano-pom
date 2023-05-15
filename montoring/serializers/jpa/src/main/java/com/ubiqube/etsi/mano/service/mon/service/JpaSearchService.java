@@ -49,12 +49,12 @@ public class JpaSearchService implements SearchApi {
 	}
 
 	@Override
-	public MonitoringDataSlim search(final String key, final String masterJobId) {
+	public List<MonitoringDataSlim> findByObjectIdAndKey(final String key, final String masterJobId) {
 		final List<MonitoringDataProjection> ress = monitoringDataJpa.getLastMetrics(key, masterJobId);
 		if (ress.isEmpty()) {
 			throw new MonGenericException("Unablde to find metric: " + key + "/" + masterJobId);
 		}
-		return convert(ress.get(0));
+		return ress.stream().map(x -> convert(ress.get(0))).toList();
 	}
 
 	private static MonitoringDataSlim convert(final MonitoringDataProjection mdp) {

@@ -48,8 +48,8 @@ public class SearchController {
 	}
 
 	@GetMapping("/{instance}/{subObject}")
-	public ResponseEntity<MonitoringDataSlim> search(final @PathVariable("instance") String instance, final @PathVariable("subObject") String object) {
-		final MonitoringDataSlim metric = searchApi.search(instance, object);
+	public ResponseEntity<List<MonitoringDataSlim>> search(final @PathVariable("instance") String instance, final @PathVariable("subObject") String object) {
+		final List<MonitoringDataSlim> metric = searchApi.findByObjectIdAndKey(instance, object);
 		return ResponseEntity.ok(metric);
 	}
 }

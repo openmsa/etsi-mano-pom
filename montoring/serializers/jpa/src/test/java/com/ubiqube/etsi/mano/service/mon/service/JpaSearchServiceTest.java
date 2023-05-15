@@ -61,7 +61,7 @@ class JpaSearchServiceTest {
 	@Test
 	void testSearch2() {
 		final JpaSearchService srv = new JpaSearchService(monitoringDataJpa, em);
-		assertThrows(MonGenericException.class, () -> srv.search(null, null));
+		assertThrows(MonGenericException.class, () -> srv.findByObjectIdAndKey(null, null));
 		assertTrue(true);
 	}
 
@@ -71,7 +71,7 @@ class JpaSearchServiceTest {
 		when(monitoringDataJpa.getLastMetrics(null, null)).thenReturn(List.of(mdp));
 		final Timestamp tim = new Timestamp(12345L);
 		when(mdp.getTime()).thenReturn(tim);
-		srv.search(null, null);
+		srv.findByObjectIdAndKey(null, null);
 		assertTrue(true);
 	}
 
