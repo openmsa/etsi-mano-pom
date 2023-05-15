@@ -19,8 +19,6 @@ package com.ubiqube.etsi.mano.vnfm.v261.controller.vnffm.sol002;
 import static com.ubiqube.etsi.mano.uri.ManoWebMvcLinkBuilder.linkTo;
 import static com.ubiqube.etsi.mano.uri.ManoWebMvcLinkBuilder.methodOn;
 
-import jakarta.validation.Valid;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,6 +32,9 @@ import com.ubiqube.etsi.mano.vnfm.v261.model.faultmngt.AlarmLinks;
 import com.ubiqube.etsi.mano.vnfm.v261.model.faultmngt.AlarmModifications;
 import com.ubiqube.etsi.mano.vnfm.v261.model.faultmngt.PerceivedSeverityRequest;
 
+import jakarta.annotation.Nonnull;
+import jakarta.validation.Valid;
+
 /**
  *
  * @author Olivier Vignaud {@literal <ovi@ubiqube.com>}
@@ -45,12 +46,11 @@ public class Alarms261Sol002Controller implements Alarms261Sol002Api {
 	private final AlarmFrontController alarmFrontController;
 
 	public Alarms261Sol002Controller(final AlarmFrontController alarmFrontController) {
-		super();
 		this.alarmFrontController = alarmFrontController;
 	}
 
 	@Override
-	public ResponseEntity<Void> alarmsAlarmIdEscalatePost(final String alarmId, @Valid final PerceivedSeverityRequest perceivedSeverityRequest) {
+	public ResponseEntity<Void> alarmsAlarmIdEscalatePost(@Nonnull final String alarmId, @Valid final PerceivedSeverityRequest perceivedSeverityRequest) {
 		return alarmFrontController.escalate(alarmId, PerceivedSeverityType.valueOf(perceivedSeverityRequest.getProposedPerceivedSeverity().toString()));
 	}
 
