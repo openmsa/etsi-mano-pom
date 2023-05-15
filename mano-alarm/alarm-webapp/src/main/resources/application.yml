@@ -1,0 +1,56 @@
+#debug: true
+logging:
+  level:
+    org:
+      springframework: DEBUG
+
+management:
+  elastic:
+    metrics:
+      export:
+        auto-create-index: true
+        host: http://mano-es:9200
+        index: mano-alarm-metrics
+  endpoint:
+    health:
+      show-details: ALWAYS
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  info:
+    git:
+      mode: full
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http:
+          server:
+            requests: true
+  tracing:
+    sampling:
+      probability: 1.0
+
+mano:
+  monitoring:
+    url: "http://mano-mon:8080/"
+
+spring:
+  application:
+    name: mano-alarm
+  artemis:
+    broker-url: tcp://mano-artemis:61616
+    user: artemis
+    password: simetraehcapa
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://mano-db:5432/mano_alarm
+    username: mano
+    password: mano
+    hikari:
+      connection-test-query: SELECT 1
+      max-lifetime: 600000
+  jpa:
+    hibernate:
+      ddl-auto: update
+
