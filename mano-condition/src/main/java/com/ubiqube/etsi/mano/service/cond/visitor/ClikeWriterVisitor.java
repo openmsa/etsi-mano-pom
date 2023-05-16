@@ -28,6 +28,7 @@ import com.ubiqube.etsi.mano.service.cond.ast.LabelExpression;
 import com.ubiqube.etsi.mano.service.cond.ast.LengthValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.MaxLengthValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.MinLengthValueExpr;
+import com.ubiqube.etsi.mano.service.cond.ast.NoopNode;
 import com.ubiqube.etsi.mano.service.cond.ast.NumberValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.PatternValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.RangeValueExpr;
@@ -124,6 +125,11 @@ public class ClikeWriterVisitor implements Visitor<String, Void> {
 				.append(expr.getLeft().accept(this, arg))
 				.append(")")
 				.toString();
+	}
+
+	@Override
+	public String visit(final NoopNode expr, final Void arg) {
+		return "[noop]";
 	}
 
 }

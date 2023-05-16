@@ -25,6 +25,7 @@ import com.ubiqube.etsi.mano.service.cond.ast.LabelExpression;
 import com.ubiqube.etsi.mano.service.cond.ast.LengthValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.MaxLengthValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.MinLengthValueExpr;
+import com.ubiqube.etsi.mano.service.cond.ast.NoopNode;
 import com.ubiqube.etsi.mano.service.cond.ast.NumberValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.PatternValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.RangeValueExpr;
@@ -100,6 +101,11 @@ public class SimpleNodeReturn<A> implements Visitor<Node, A> {
 
 	@Override
 	public Node visit(final SizeOfExpr expr, final A arg) {
+		return expr;
+	}
+
+	@Override
+	public Node visit(final NoopNode expr, final A arg) {
 		return expr;
 	}
 

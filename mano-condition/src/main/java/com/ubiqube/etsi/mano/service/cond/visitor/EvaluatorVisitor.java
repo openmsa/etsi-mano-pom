@@ -33,6 +33,7 @@ import com.ubiqube.etsi.mano.service.cond.ast.LabelExpression;
 import com.ubiqube.etsi.mano.service.cond.ast.LengthValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.MaxLengthValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.MinLengthValueExpr;
+import com.ubiqube.etsi.mano.service.cond.ast.NoopNode;
 import com.ubiqube.etsi.mano.service.cond.ast.NumberValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.PatternValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.RangeValueExpr;
@@ -227,6 +228,11 @@ public class EvaluatorVisitor implements Visitor<Boolean, Context> {
 	@Override
 	public Boolean visit(final SizeOfExpr expr, final Context arg) {
 		throw new AstException(ILLEGAL_CALL);
+	}
+
+	@Override
+	public Boolean visit(final NoopNode expr, final Context arg) {
+		return true;
 	}
 
 }

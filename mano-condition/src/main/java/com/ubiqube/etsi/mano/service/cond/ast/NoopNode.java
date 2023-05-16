@@ -23,7 +23,7 @@ public class NoopNode implements Node {
 
 	@Override
 	public <R, A> R accept(final Visitor<R, A> v, final A arg) {
-		return null;
+		return v.visit(this, arg);
 	}
 
 }

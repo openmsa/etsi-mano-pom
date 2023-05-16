@@ -27,6 +27,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.ubiqube.etsi.mano.service.cond.ast.BooleanExpression;
 import com.ubiqube.etsi.mano.service.cond.ast.BooleanListExpr;
+import com.ubiqube.etsi.mano.service.cond.ast.NoopNode;
 import com.ubiqube.etsi.mano.service.cond.visitor.BooleanListExprRemoverVisitor;
 import com.ubiqube.etsi.mano.service.cond.visitor.EvaluatorVisitor;
 import com.ubiqube.etsi.mano.service.cond.visitor.ForwardLeftVisitor;
@@ -72,6 +73,9 @@ public class ConditionService {
 			final PrintVisitor visitor = new PrintVisitor();
 			final String str = ret.accept(visitor, 0);
 			LOG.trace("{}", str);
+		}
+		if (ret == null) {
+			return new NoopNode();
 		}
 		return ret;
 	}

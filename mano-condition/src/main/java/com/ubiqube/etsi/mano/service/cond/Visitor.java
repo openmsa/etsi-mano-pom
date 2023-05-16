@@ -25,6 +25,7 @@ import com.ubiqube.etsi.mano.service.cond.ast.LabelExpression;
 import com.ubiqube.etsi.mano.service.cond.ast.LengthValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.MaxLengthValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.MinLengthValueExpr;
+import com.ubiqube.etsi.mano.service.cond.ast.NoopNode;
 import com.ubiqube.etsi.mano.service.cond.ast.NumberValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.PatternValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.RangeValueExpr;
@@ -60,5 +61,7 @@ public interface Visitor<R, A> {
 	R visit(final LabelExpression expr, final A arg);
 
 	R visit(SizeOfExpr expr, A arg);
+
+	R visit(NoopNode expr, A arg);
 
 }
