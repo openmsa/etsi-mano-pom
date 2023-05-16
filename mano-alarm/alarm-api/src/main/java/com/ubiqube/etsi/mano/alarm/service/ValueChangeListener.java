@@ -78,7 +78,7 @@ public class ValueChangeListener {
 		map.registerModule(new JavaTimeModule());
 		final String str = map.writeValueAsString(mc);
 		LOG.info("{}", str);
-		final List<Alarm> lst = alarmRepository.findByMetricsObjectIdAndMetricsKey(mc.latest().getMasterJobId(), mc.latest().getKey());
+		final List<Alarm> lst = alarmRepository.findByMetricsObjectIdAndMetricsKey(mc.latest().getResourceId(), mc.latest().getKey());
 		if (lst.isEmpty()) {
 			LOG.warn("Could not find metrics: {}", mc.latest());
 			return;
@@ -111,26 +111,25 @@ public class ValueChangeListener {
 
 	private AlarmContext createContext(final Alarm alarm, final MetricChange mc, final Map<MetricKey, MetricChange> metricContext) {
 		final AlarmContext ctx = new AlarmContext();
-		ctx.put(MetricKey.of(mc.latest()), mc);
 		alarm.getMetrics().forEach(x -> {
 			final MetricChange mc2 = metricContext.computeIfAbsent(MetricKey.of(x), y -> {
 				final List<MonitoringDataSlim> latests = metricService.findLatest(x);
 				return new MetricChange(latests.get(0), latests.get(1));
 			});
-			ctx.put(MetricKey.of(mc2.latest()), mc2);
+			ctx.put(MetricKey.of(mc2.latest(), x.getLabel()), mc2);
 		});
 		return ctx;
 	}
 }
 
-record MetricKey(String objectId, String key) {
+record MetricKey(String objectId, String key, String alarmKey) {
 
 	public static MetricKey of(final Metrics m) {
-		return new MetricKey(m.getObjectId(), m.getKey());
+		return new MetricKey(m.getObjectId(), m.getKey(), m.getLabel());
 	}
 	//
 
-	public static MetricKey of(final MonitoringDataSlim latest) {
-		return new MetricKey(latest.getMasterJobId(), latest.getKey());
+	public static MetricKey of(final MonitoringDataSlim latest, final String alarmKey) {
+		return new MetricKey(latest.getMasterJobId(), latest.getKey(), alarmKey);
 	}
 }

@@ -41,7 +41,7 @@ public class AlarmContext {
 	}
 
 	public Context getEvaluationContext() {
-		final Map<String, Object> m = map.entrySet().stream().collect(Collectors.toMap(x -> x.getValue().latest().getKey(), x -> x.getValue().latest().getValue()));
+		final Map<String, Object> m = map.entrySet().stream().collect(Collectors.toMap(x -> x.getKey().alarmKey(), x -> x.getValue().latest().getValue()));
 		return new BasicContext(m);
 	}
 

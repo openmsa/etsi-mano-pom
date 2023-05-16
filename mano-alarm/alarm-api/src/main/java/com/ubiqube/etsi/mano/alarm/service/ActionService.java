@@ -31,6 +31,8 @@ import com.ubiqube.etsi.mano.service.rest.model.AuthentificationInformations;
 import com.ubiqube.etsi.mano.service.rest.model.OAuth2GrantType;
 import com.ubiqube.etsi.mano.service.rest.model.ServerConnection;
 
+import jakarta.annotation.Nullable;
+
 /**
  * This service should be Async
  *
@@ -63,7 +65,11 @@ public class ActionService {
 		return authType.stream().map(x -> AuthType.fromValue(x.toString())).toList();
 	}
 
-	private static AuthParamOauth2 map(final com.ubiqube.etsi.mano.alarm.entities.AuthParamOauth2 authParamOauth2) {
+	@Nullable
+	private static AuthParamOauth2 map(@Nullable final com.ubiqube.etsi.mano.alarm.entities.AuthParamOauth2 authParamOauth2) {
+		if (null == authParamOauth2) {
+			return null;
+		}
 		return AuthParamOauth2.builder()
 				.clientId(authParamOauth2.getClientId())
 				.clientSecret(authParamOauth2.getClientSecret())
@@ -76,7 +82,11 @@ public class ActionService {
 				.build();
 	}
 
-	private static AuthParamBasic map(final com.ubiqube.etsi.mano.alarm.entities.AuthParamBasic authParamBasic) {
+	@Nullable
+	private static AuthParamBasic map(@Nullable final com.ubiqube.etsi.mano.alarm.entities.AuthParamBasic authParamBasic) {
+		if (null == authParamBasic) {
+			return null;
+		}
 		return AuthParamBasic.builder()
 				.password(authParamBasic.getPassword())
 				.userName(authParamBasic.getUserName())

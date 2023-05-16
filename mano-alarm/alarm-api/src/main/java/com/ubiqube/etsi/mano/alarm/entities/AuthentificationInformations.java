@@ -21,6 +21,7 @@ import java.util.List;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.FetchType;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -35,7 +36,7 @@ import lombok.Setter;
 @Setter
 @Embeddable
 public class AuthentificationInformations {
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	@NotNull
 	@Size(min = 1)
 	private List<AuthType> authType;
