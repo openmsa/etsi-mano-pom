@@ -49,16 +49,16 @@ public class JpaSearchService implements SearchApi {
 	}
 
 	@Override
-	public List<MonitoringDataSlim> findByObjectIdAndKey(final String key, final String masterJobId) {
-		final List<MonitoringDataProjection> ress = monitoringDataJpa.getLastMetrics(key, masterJobId);
+	public List<MonitoringDataSlim> findByObjectIdAndKey(final String masterJobId, final String key) {
+		final List<MonitoringDataProjection> ress = monitoringDataJpa.getLastMetrics(masterJobId, key);
 		if (ress.isEmpty()) {
-			throw new MonGenericException("Unablde to find metric: " + key + "/" + masterJobId);
+			throw new MonGenericException("Unable to find metric: " + masterJobId + "/" + key);
 		}
-		return ress.stream().map(x -> convert(ress.get(0))).toList();
+		return ress.stream().map(JpaSearchService::convert).toList();
 	}
 
 	private static MonitoringDataSlim convert(final MonitoringDataProjection mdp) {
-		return new TelemetryMetricsResult(mdp.getMasterJobId(), null, mdp.getKey(), mdp.getValue(), mdp.getText(), mdp.getTime().toInstant().atOffset(ZoneOffset.UTC), true);
+		return new TelemetryMetricsResult(mdp.getMasterJobId(), mdp.getResourceId(), mdp.getKey(), mdp.getValue(), mdp.getText(), mdp.getTime().toInstant().atOffset(ZoneOffset.UTC), true);
 	}
 
 	@Override

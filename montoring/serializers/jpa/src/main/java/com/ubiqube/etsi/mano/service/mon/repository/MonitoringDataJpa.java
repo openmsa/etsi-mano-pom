@@ -34,9 +34,9 @@ public interface MonitoringDataJpa extends CrudRepository<MonitoringData, Offset
 
 	@Query(value = """
 			select time , master_job_id as masterJobId, "key",value ,"text", resource_id as resourceId  from monitoring_data
-				where key = :key and master_job_id = :masterJobId
+				where key = :key and resource_id = :masterJobId
 				group by time , master_job_id , "key", value ,"text", resource_id
 				order by time desc limit 2;
 			""", nativeQuery = true)
-	List<MonitoringDataProjection> getLastMetrics(@Param("key") String key, @Param("masterJobId") String masterJobId);
+	List<MonitoringDataProjection> getLastMetrics(@Param("masterJobId") String masterJobId, @Param("key") String key);
 }
