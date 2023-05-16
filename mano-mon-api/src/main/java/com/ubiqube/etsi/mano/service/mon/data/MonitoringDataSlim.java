@@ -18,11 +18,15 @@ package com.ubiqube.etsi.mano.service.mon.data;
 
 import java.time.OffsetDateTime;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.ubiqube.etsi.mano.mon.dao.TelemetryMetricsResult;
 
 import jakarta.annotation.Nullable;
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@class")
+@JsonSubTypes(value = @Type(value = TelemetryMetricsResult.class, name = "telemetry"))
 public interface MonitoringDataSlim {
 	OffsetDateTime getTime();
 
