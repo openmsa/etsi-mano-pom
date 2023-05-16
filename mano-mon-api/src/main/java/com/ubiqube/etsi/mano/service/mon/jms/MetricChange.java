@@ -18,6 +18,11 @@ package com.ubiqube.etsi.mano.service.mon.jms;
 
 import com.ubiqube.etsi.mano.service.mon.data.MonitoringDataSlim;
 
+/**
+ *
+ * @author Olivier Vignaud
+ *
+ */
 public record MetricChange(MonitoringDataSlim latest, MonitoringDataSlim old) {
 	//
 }
