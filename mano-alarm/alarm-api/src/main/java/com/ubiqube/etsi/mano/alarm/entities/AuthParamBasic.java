@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.alarm.entities;
 
 import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,6 +30,8 @@ import lombok.Setter;
 @Getter
 @Embeddable
 public class AuthParamBasic {
+	@NotNull
 	private String userName;
+	@NotNull
 	private String password;
 }

@@ -19,6 +19,7 @@ package com.ubiqube.etsi.mano.alarm.entities;
 import java.net.URL;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,9 +32,11 @@ import lombok.Setter;
 @Setter
 public class SubscriptionDto {
 	@Schema(description = "Authentication informations.")
+	@NotNull
 	private AuthentificationInformations authentication;
 
 	@Schema(description = "Callback URL when alarm is triggered.")
+	@NotNull
 	private URL callbackUri;
 
 	@Schema(description = "External reference, used for tracking alarm triggering.")

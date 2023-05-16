@@ -63,7 +63,7 @@ public class ValueChangeListener {
 	private final ActionService actionService;
 
 	public ValueChangeListener(final AlarmRepository alarmRepository, final MetricService metricService, final TransformService transformService,
-			final AggregateService aggregateService, final ConditionService conditionService, final ActionService actionService) {
+			final AggregateService aggregateService, final ActionService actionService, final ConditionService conditionService) {
 		this.alarmRepository = alarmRepository;
 		this.metricService = metricService;
 		this.transformService = transformService;

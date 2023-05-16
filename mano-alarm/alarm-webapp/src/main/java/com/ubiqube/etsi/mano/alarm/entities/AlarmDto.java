@@ -24,6 +24,9 @@ import com.ubiqube.etsi.mano.alarm.entities.alarm.Aggregates;
 import com.ubiqube.etsi.mano.alarm.entities.alarm.Metrics;
 import com.ubiqube.etsi.mano.alarm.entities.alarm.Transform;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -35,7 +38,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AlarmDto {
-
+	@NotNull
+	@Size(min = 1)
 	private List<Metrics> metrics;
 
 	private List<Transform> transforms;
@@ -43,6 +47,7 @@ public class AlarmDto {
 	private List<Aggregates> aggregates;
 
 	@JsonDeserialize(converter = JsonConverter.class)
+	@NotNull
 	private String conditions;
 
 	private boolean state;
@@ -51,5 +56,7 @@ public class AlarmDto {
 
 	private OffsetDateTime lastRaised;
 
+	@NotNull
+	@Valid
 	private SubscriptionDto subscription;
 }

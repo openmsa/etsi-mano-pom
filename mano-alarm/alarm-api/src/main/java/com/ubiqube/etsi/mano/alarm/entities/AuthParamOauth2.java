@@ -20,6 +20,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -34,11 +35,13 @@ import lombok.Setter;
 public class AuthParamOauth2 {
 	private String clientId;
 	private String clientSecret;
+	@NotNull
 	private String tokenEndpoint;
 	private String o2Username;
 	private String o2Password;
 	private Boolean o2IgnoreSsl;
 	@Enumerated(EnumType.STRING)
+	@NotNull
 	private OAuth2GrantType grantType;
 	@Column(length = 5000)
 	private String o2AuthTlsCert;

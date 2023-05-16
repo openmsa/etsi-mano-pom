@@ -21,6 +21,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,6 +38,7 @@ import com.ubiqube.etsi.mano.alarm.service.AlarmService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Nonnull;
+import jakarta.validation.Valid;
 
 /**
  *
@@ -45,6 +47,7 @@ import jakarta.annotation.Nonnull;
  */
 @RestController
 @RequestMapping("/")
+@Validated
 public class AlarmController {
 	private final AlarmService alarmService;
 
@@ -71,7 +74,7 @@ public class AlarmController {
 
 	@Operation(summary = "Create an alarm.", description = "Create an alarm.", tags = {})
 	@PostMapping
-	public ResponseEntity<Alarm> createAlarm(final @RequestBody AlarmDto alarm) {
+	public ResponseEntity<Alarm> createAlarm(final @RequestBody @Valid AlarmDto alarm) {
 		final Alarm subs = map(alarm);
 		final Alarm res = alarmService.create(subs);
 		return ResponseEntity.ok(res);
