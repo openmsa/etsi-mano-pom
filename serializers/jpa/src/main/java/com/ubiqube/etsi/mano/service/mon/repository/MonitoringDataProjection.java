@@ -30,6 +30,8 @@ public interface MonitoringDataProjection {
 
 	String getMasterJobId();
 
+	String getResourceId();
+
 	String getKey();
 
 	@Nullable
