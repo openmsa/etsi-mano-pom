@@ -28,6 +28,7 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
 import com.ubiqube.etsi.mano.service.mon.cli.MetricsRemoteService;
 import com.ubiqube.etsi.mano.service.mon.cli.MonPollingRemoteService;
+import com.ubiqube.etsi.mano.service.mon.cli.MonSearchRemoteService;
 import com.ubiqube.etsi.mano.service.mon.cli.MonitoringProperty;
 
 import io.micrometer.observation.ObservationRegistry;
@@ -59,6 +60,12 @@ public class MonitoringRemoteService {
 	MetricsRemoteService createMetricsRemoteService() {
 		final HttpServiceProxyFactory proxyFactory = createProxyFactory();
 		return proxyFactory.createClient(MetricsRemoteService.class);
+	}
+
+	@Bean
+	MonSearchRemoteService createMonSearchRemoteService2() {
+		final HttpServiceProxyFactory proxyFactory = createProxyFactory();
+		return proxyFactory.createClient(MonSearchRemoteService.class);
 	}
 
 	HttpServiceProxyFactory createProxyFactory() {
