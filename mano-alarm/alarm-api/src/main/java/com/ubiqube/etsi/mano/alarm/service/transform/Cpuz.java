@@ -56,15 +56,13 @@ public class Cpuz implements TransformFunction {
 	}
 
 	private static void setCtx(final AlarmContext ctx, final Transform transform, final double percent) {
-		final String target = Optional.ofNullable(transform.getTarget()).orElseGet(transform::getTarget);
+		final String target = Optional.ofNullable(transform.getTarget()).orElseGet(transform::getValue);
 		ctx.replace(target, percent);
 	}
 
 	private static int getCpuParam(final Transform transform) {
-		return transform.getParameters().stream()
-				.filter(x -> x.getKey().equals("cpu"))
-				.map(x -> x.getValue())
-				.mapToInt(Integer::parseInt)
-				.findFirst().orElse(1);
+		return Optional.ofNullable(transform.getParameters().get("cpu"))
+				.map(Integer::parseInt)
+				.orElse(1);
 	}
 }

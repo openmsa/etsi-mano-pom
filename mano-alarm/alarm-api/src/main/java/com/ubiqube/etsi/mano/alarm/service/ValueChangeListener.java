@@ -30,7 +30,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.ubiqube.etsi.mano.alarm.entities.alarm.Alarm;
-import com.ubiqube.etsi.mano.alarm.entities.alarm.Metrics;
 import com.ubiqube.etsi.mano.alarm.repository.AlarmRepository;
 import com.ubiqube.etsi.mano.alarm.service.aggregate.AggregateService;
 import com.ubiqube.etsi.mano.alarm.service.transform.TransformService;
@@ -119,17 +118,5 @@ public class ValueChangeListener {
 			ctx.put(MetricKey.of(mc2.latest(), x.getLabel()), mc2);
 		});
 		return ctx;
-	}
-}
-
-record MetricKey(String objectId, String key, String alarmKey) {
-
-	public static MetricKey of(final Metrics m) {
-		return new MetricKey(m.getObjectId(), m.getKey(), m.getLabel());
-	}
-	//
-
-	public static MetricKey of(final MonitoringDataSlim latest, final String alarmKey) {
-		return new MetricKey(latest.getMasterJobId(), latest.getKey(), alarmKey);
 	}
 }

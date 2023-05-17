@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.alarm.entities.alarm;
 
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -50,13 +51,13 @@ public class Alarm {
 	private UUID id;
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private List<Metrics> metrics;
+	private List<Metrics> metrics = new ArrayList<>();
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private List<Transform> transforms;
+	private List<Transform> transforms = new ArrayList<>();
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private List<Aggregates> aggregates;
+	private List<Aggregates> aggregates = new ArrayList<>();
 
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@NotNull

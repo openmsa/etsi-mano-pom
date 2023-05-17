@@ -14,37 +14,23 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.alarm.entities.alarm;
+package com.ubiqube.etsi.mano.alarm;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.Map;
 
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
+import org.junit.jupiter.api.Test;
 
-/**
- *
- * @author Olivier Vignaud
- *
- */
-@Entity
-@Getter
-@Setter
-public class Aggregates {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ubiqube.etsi.mano.alarm.entities.alarm.Transform;
 
-	private String name;
+class JsonTest {
 
-	private String function;
-
-	@ElementCollection(fetch = FetchType.EAGER)
-	List<String> parameters;
+	@Test
+	void testName() throws Exception {
+		final ObjectMapper mapper = new ObjectMapper();
+		final Transform obj = new Transform();
+		obj.setParameters(Map.of("val1", "k1", "k2", "v2"));
+		final String str = mapper.writeValueAsString(obj);
+		System.out.println(str);
+	}
 }

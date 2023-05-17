@@ -45,6 +45,7 @@ public class ConditionService {
 		mapper.registerModule(new JavaTimeModule());
 	}
 
+	@SuppressWarnings("static-method")
 	public boolean evaluate(final Node node, final Context ctx) {
 		final EvaluatorVisitor eval = new EvaluatorVisitor();
 		return node.accept(eval, ctx);

@@ -16,12 +16,15 @@
  */
 package com.ubiqube.etsi.mano.alarm.service.aggregate;
 
+import java.time.OffsetDateTime;
 import java.util.OptionalDouble;
 
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.alarm.entities.alarm.Aggregates;
 import com.ubiqube.etsi.mano.alarm.service.AlarmContext;
+import com.ubiqube.etsi.mano.alarm.service.MetricKey;
+import com.ubiqube.etsi.mano.mon.dao.TelemetryMetricsResult;
 import com.ubiqube.etsi.mano.service.mon.data.MonitoringDataSlim;
 import com.ubiqube.etsi.mano.service.mon.jms.MetricChange;
 
@@ -45,11 +48,11 @@ public class Mean implements AggregateFunction {
 				.map(MetricChange::latest)
 				.mapToDouble(MonitoringDataSlim::getValue)
 				.average();
-		//
 		if (res.isPresent()) {
-			ctx.put(null, null);
+			final MonitoringDataSlim latest = new TelemetryMetricsResult("", "", "", res.getAsDouble(), "", OffsetDateTime.now(), true);
+			final MetricChange mc = new MetricChange(latest, null);
+			ctx.put(MetricKey.of(latest, aggregate.getName()), mc);
 		}
-		System.out.println(res);
 	}
 
 }

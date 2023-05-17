@@ -42,4 +42,6 @@ public interface MonitoringDataSlim {
 	@Nullable
 	String getText();
 
+	void setValue(Double percent);
+
 }

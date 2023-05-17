@@ -14,37 +14,24 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.alarm.entities.alarm;
+package com.ubiqube.etsi.mano.alarm.service;
 
-import java.util.List;
-import java.util.UUID;
-
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
+import com.ubiqube.etsi.mano.alarm.entities.alarm.Metrics;
+import com.ubiqube.etsi.mano.service.mon.data.MonitoringDataSlim;
 
 /**
  *
  * @author Olivier Vignaud
  *
  */
-@Entity
-@Getter
-@Setter
-public class Aggregates {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id;
+public record MetricKey(String objectId, String key, String alarmKey) {
 
-	private String name;
+	public static MetricKey of(final Metrics m) {
+		return new MetricKey(m.getObjectId(), m.getKey(), m.getLabel());
+	}
+	//
 
-	private String function;
-
-	@ElementCollection(fetch = FetchType.EAGER)
-	List<String> parameters;
+	public static MetricKey of(final MonitoringDataSlim latest, final String alarmKey) {
+		return new MetricKey(latest.getMasterJobId(), latest.getKey(), alarmKey);
+	}
 }

@@ -55,7 +55,7 @@ public class AlarmContext {
 	public void replace(final String value, final double percent) {
 		final Entry<MetricKey, MetricChange> res = findUniqMetric(value);
 		res.getValue().latest().setValue(percent);
-		map.put(res.getKey(), null);
+		map.put(res.getKey(), res.getValue());
 	}
 
 	private Entry<MetricKey, MetricChange> findUniqMetric(final String value) {
