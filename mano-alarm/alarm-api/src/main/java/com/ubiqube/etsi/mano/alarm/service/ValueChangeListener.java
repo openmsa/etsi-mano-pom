@@ -84,11 +84,11 @@ public class ValueChangeListener {
 			return;
 		}
 		final Map<MetricKey, MetricChange> metricContext = new HashMap<>();
-		lst.forEach(x -> handleAlarm(x, mc, metricContext));
+		lst.forEach(x -> handleAlarm(x, metricContext));
 	}
 
-	private void handleAlarm(final Alarm alarm, final MetricChange mc, final Map<MetricKey, MetricChange> metricContext) {
-		final AlarmContext ctx = createContext(alarm, mc, metricContext);
+	private void handleAlarm(final Alarm alarm, final Map<MetricKey, MetricChange> metricContext) {
+		final AlarmContext ctx = createContext(alarm, metricContext);
 		alarm.getTransforms().forEach(x -> transformService.transform(ctx, x));
 		alarm.getAggregates().forEach(x -> aggregateService.aggregate(ctx, x));
 		final Context eCtx = ctx.getEvaluationContext();
@@ -109,7 +109,7 @@ public class ValueChangeListener {
 		alarmRepository.save(alarm);
 	}
 
-	private AlarmContext createContext(final Alarm alarm, final MetricChange mc, final Map<MetricKey, MetricChange> metricContext) {
+	private AlarmContext createContext(final Alarm alarm, final Map<MetricKey, MetricChange> metricContext) {
 		final AlarmContext ctx = new AlarmContext();
 		alarm.getMetrics().forEach(x -> {
 			final MetricChange mc2 = metricContext.computeIfAbsent(MetricKey.of(x), y -> {

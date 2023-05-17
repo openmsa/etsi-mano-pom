@@ -43,7 +43,11 @@ public class AggregateService {
 	public void aggregate(final AlarmContext ctx, final Aggregates aggregate) {
 		final AggregateFunction func = af.get(aggregate.getFunction());
 		Objects.requireNonNull(func, "Unknown function: " + aggregate.getFunction());
-		func.apply(ctx);
+		func.apply(ctx, aggregate);
+	}
+
+	public List<String> checkErrors(final List<Aggregates> aggregates) {
+		return aggregates.stream().filter(x -> !af.containsKey(x.getFunction())).map(x -> x.getFunction()).distinct().toList();
 	}
 
 }

@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.alarm.service.transform;
 
+import com.ubiqube.etsi.mano.alarm.entities.alarm.Transform;
 import com.ubiqube.etsi.mano.alarm.service.AlarmContext;
 
 /**
@@ -27,5 +28,5 @@ public interface TransformFunction {
 
 	String getName();
 
-	void apply(AlarmContext ctx);
+	void apply(AlarmContext ctx, Transform transform);
 }

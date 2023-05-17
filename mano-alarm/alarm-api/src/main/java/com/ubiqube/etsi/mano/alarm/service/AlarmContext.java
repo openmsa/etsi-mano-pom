@@ -17,9 +17,12 @@
 package com.ubiqube.etsi.mano.alarm.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+import com.ubiqube.etsi.mano.alarm.AlarmException;
 import com.ubiqube.etsi.mano.service.cond.BasicContext;
 import com.ubiqube.etsi.mano.service.cond.Context;
 import com.ubiqube.etsi.mano.service.mon.jms.MetricChange;
@@ -43,6 +46,30 @@ public class AlarmContext {
 	public Context getEvaluationContext() {
 		final Map<String, Object> m = map.entrySet().stream().collect(Collectors.toMap(x -> x.getKey().alarmKey(), x -> x.getValue().latest().getValue()));
 		return new BasicContext(m);
+	}
+
+	public MetricChange get(final String value) {
+		return findUniqMetric(value).getValue();
+	}
+
+	public void replace(final String value, final double percent) {
+		final Entry<MetricKey, MetricChange> res = findUniqMetric(value);
+		res.getValue().latest().setValue(percent);
+		map.put(res.getKey(), null);
+	}
+
+	private Entry<MetricKey, MetricChange> findUniqMetric(final String value) {
+		final List<Entry<MetricKey, MetricChange>> res = findMetric(value);
+		if (res.size() == 1) {
+			return res.get(0);
+		}
+		throw new AlarmException("Multiple element found: " + res.size());
+	}
+
+	private List<Entry<MetricKey, MetricChange>> findMetric(final String value) {
+		return map.entrySet().stream()
+				.filter(x -> x.getKey().alarmKey().equals(value))
+				.toList();
 	}
 
 }

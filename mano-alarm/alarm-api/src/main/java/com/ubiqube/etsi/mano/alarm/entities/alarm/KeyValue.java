@@ -14,19 +14,35 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.alarm.service.aggregate;
+package com.ubiqube.etsi.mano.alarm.entities.alarm;
 
-import com.ubiqube.etsi.mano.alarm.entities.alarm.Aggregates;
-import com.ubiqube.etsi.mano.alarm.service.AlarmContext;
+import java.util.UUID;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
  * @author Olivier Vignaud
  *
  */
-public interface AggregateFunction {
+@Entity
+@Getter
+@Setter
+public class KeyValue {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private UUID id;
 
-	String getName();
+	private String key;
 
-	void apply(AlarmContext ctx, Aggregates aggregate);
+	@JsonSerialize(using = ToStringSerializer.class)
+	private String value;
 }

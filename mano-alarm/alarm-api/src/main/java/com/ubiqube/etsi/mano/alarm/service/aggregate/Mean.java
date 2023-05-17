@@ -14,17 +14,16 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.alarm.service.transform;
+package com.ubiqube.etsi.mano.alarm.service.aggregate;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
+import java.util.OptionalDouble;
 
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.alarm.entities.alarm.Transform;
+import com.ubiqube.etsi.mano.alarm.entities.alarm.Aggregates;
 import com.ubiqube.etsi.mano.alarm.service.AlarmContext;
+import com.ubiqube.etsi.mano.service.mon.data.MonitoringDataSlim;
+import com.ubiqube.etsi.mano.service.mon.jms.MetricChange;
 
 /**
  *
@@ -32,22 +31,25 @@ import com.ubiqube.etsi.mano.alarm.service.AlarmContext;
  *
  */
 @Service
-public class TransformService {
+public class Mean implements AggregateFunction {
 
-	private final Map<String, TransformFunction> tf;
-
-	public TransformService(final List<TransformFunction> funcs) {
-		tf = funcs.stream().collect(Collectors.toMap(x -> x.getName(), x -> x));
+	@Override
+	public String getName() {
+		return "mean";
 	}
 
-	public void transform(final AlarmContext ctx, final Transform transform) {
-		final TransformFunction func = tf.get(transform.getFunction());
-		Objects.requireNonNull(func, "Unknown function: " + transform.getFunction());
-		func.apply(ctx, transform);
-	}
-
-	public List<String> checkErrors(final List<Transform> transforms) {
-		return transforms.stream().filter(x -> !tf.containsKey(x.getFunction())).map(x -> x.getFunction()).distinct().toList();
+	@Override
+	public void apply(final AlarmContext ctx, final Aggregates aggregate) {
+		final OptionalDouble res = aggregate.getParameters().stream()
+				.map(ctx::get)
+				.map(MetricChange::latest)
+				.mapToDouble(MonitoringDataSlim::getValue)
+				.average();
+		//
+		if (res.isPresent()) {
+			ctx.put(null, null);
+		}
+		System.out.println(res);
 	}
 
 }

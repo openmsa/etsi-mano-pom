@@ -19,14 +19,21 @@ package com.ubiqube.etsi.mano.alarm.entities.alarm;
 import java.util.List;
 import java.util.UUID;
 
-import jakarta.persistence.ElementCollection;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ *
+ * @author Olivier Vignaud
+ *
+ */
 @Entity
 @Getter
 @Setter
@@ -40,6 +47,8 @@ public class Transform {
 
 	private String value;
 
-	@ElementCollection
-	private List<String> parameters;
+	private String target;
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<KeyValue> parameters;
 }
