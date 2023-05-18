@@ -14,35 +14,25 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.alarm.entities.alarm;
+package com.ubiqube.etsi.mano.alarm.entities;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.UUID;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import org.junit.jupiter.api.Test;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
+class RegisterRequestTest {
 
-/**
- *
- * @author Olivier Vignaud
- *
- */
-@Entity
-@Getter
-@Setter
-public class KeyValue {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id;
+	@Test
+	void test() {
+		final RegisterRequest o = new RegisterRequest();
+		o.setCondition(null);
+		o.setId(UUID.randomUUID());
+		o.setSubscription(null);
+		o.getCondition();
+		assertNotNull(o.getId());
+		o.getSubscription();
+	}
 
-	private String key;
-
-	@JsonSerialize(using = ToStringSerializer.class)
-	private String value;
 }

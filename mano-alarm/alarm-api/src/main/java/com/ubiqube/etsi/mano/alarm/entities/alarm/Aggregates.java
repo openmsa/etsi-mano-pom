@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.alarm.entities.alarm;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -46,5 +47,5 @@ public class Aggregates {
 	private String function;
 
 	@ElementCollection(fetch = FetchType.EAGER)
-	List<String> parameters;
+	List<String> parameters = new ArrayList<>();
 }
