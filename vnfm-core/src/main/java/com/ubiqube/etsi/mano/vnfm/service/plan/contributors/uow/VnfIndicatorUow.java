@@ -24,15 +24,21 @@ import com.ubiqube.etsi.mano.service.mon.ExternalAlarm;
 
 import jakarta.annotation.Nullable;
 
+/**
+ *
+ * @author Olivier Vignaud
+ *
+ */
 public class VnfIndicatorUow extends AbstractVnfmUow<VnfIndicatorTask> {
 
-	private ExternalAlarm externalAlarm;
+	private final ExternalAlarm externalAlarm;
 
 	private final VnfIndicatorTask task;
 
-	public VnfIndicatorUow(final VirtualTaskV3<VnfIndicatorTask> task, final Class<? extends Node> node) {
+	public VnfIndicatorUow(final VirtualTaskV3<VnfIndicatorTask> task, final Class<? extends Node> node, final ExternalAlarm externalAlarm) {
 		super(task, node);
 		this.task = task.getTemplateParameters();
+		this.externalAlarm = externalAlarm;
 	}
 
 	@Override

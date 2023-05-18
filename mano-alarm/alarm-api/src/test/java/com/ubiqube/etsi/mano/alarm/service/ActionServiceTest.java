@@ -54,7 +54,7 @@ class ActionServiceTest {
 		auth.setAuthType(List.of(AuthType.BASIC));
 		subs.setAuthentication(auth);
 		alarm.setSubscription(subs);
-		srv.doAction(alarm, false);
+		srv.doAction(alarm);
 		assertTrue(true);
 	}
 
@@ -73,7 +73,7 @@ class ActionServiceTest {
 		auth.setAuthParamBasic(basic);
 		subs.setAuthentication(auth);
 		alarm.setSubscription(subs);
-		srv.doAction(alarm, false);
+		srv.doAction(alarm);
 		assertTrue(true);
 	}
 
@@ -107,7 +107,7 @@ class ActionServiceTest {
 		auth.setAuthParamOauth2(oauth2);
 		subs.setAuthentication(auth);
 		alarm.setSubscription(subs);
-		srv.doAction(alarm, false);
+		srv.doAction(alarm);
 		assertTrue(true);
 	}
 

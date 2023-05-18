@@ -38,6 +38,7 @@ import jakarta.annotation.Nonnull;
 
 @Component
 public class SelfConnectionHealth extends AbstractHealthIndicator {
+	private static final String MESSAGE = "message";
 	private static final String OAUTH2 = "OAUTH2";
 	private final String authUrl;
 	private final String user;
@@ -56,13 +57,13 @@ public class SelfConnectionHealth extends AbstractHealthIndicator {
 
 	@Override
 	protected void doHealthCheck(final Builder builder) throws Exception {
-		builder.up().withDetail("message", "UP");
+		builder.up().withDetail(MESSAGE, "UP");
 		final Result res = checkOAuth2();
 		if (res.code().equals("OK")) {
-			builder.up().withDetail("message", "UP");
+			builder.up().withDetail(MESSAGE, "UP");
 			return;
 		}
-		builder.down().withDetail("message", res.errors());
+		builder.down().withDetail(MESSAGE, res.errors());
 	}
 
 	private Result checkOAuth2() {

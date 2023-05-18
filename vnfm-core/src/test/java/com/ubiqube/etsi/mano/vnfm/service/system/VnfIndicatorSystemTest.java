@@ -27,22 +27,27 @@ import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfIndicatorTask;
 import com.ubiqube.etsi.mano.orchestrator.OrchestrationServiceV3;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
+import com.ubiqube.etsi.mano.service.mon.ExternalAlarm;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
-import com.ubiqube.etsi.mano.vnfm.service.VnfMonitoringService;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.vt.VnfIndicatorVt;
 
+/**
+ *
+ * @author Olivier Vignaud
+ *
+ */
 @ExtendWith(MockitoExtension.class)
 class VnfIndicatorSystemTest {
 	@Mock
 	private VimManager vimManager;
 	@Mock
-	private VnfMonitoringService vnfMonitoringService;
-	@Mock
 	private OrchestrationServiceV3<VnfIndicatorTask> orch;
+	@Mock
+	private ExternalAlarm externalAlarm;
 
 	@Test
 	void test() {
-		final VnfIndicatorSystem srv = new VnfIndicatorSystem(vnfMonitoringService, vimManager);
+		final VnfIndicatorSystem srv = new VnfIndicatorSystem(vimManager, externalAlarm);
 		final VimConnectionInformation vimConn = new VimConnectionInformation();
 		final VnfIndicatorTask nt = new VnfIndicatorTask();
 		final VirtualTaskV3<VnfIndicatorTask> vt = new VnfIndicatorVt(nt);

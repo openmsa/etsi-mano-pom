@@ -94,7 +94,7 @@ public class ValueChangeListener {
 		final Node nodes = conditionService.parse(alarm.getConditions());
 		final boolean res = conditionService.evaluate(nodes, eCtx);
 		if (res != alarm.isState()) {
-			actionService.doAction(alarm, res);
+			actionService.doAction(alarm);
 			upadteAlarmState(alarm, res);
 		}
 	}

@@ -42,7 +42,7 @@ import jakarta.annotation.Nullable;
 @Service
 public class ActionService {
 	@SuppressWarnings("static-method")
-	public void doAction(final Alarm alarm, final boolean res) {
+	public void doAction(final Alarm alarm) {
 		final Subscription subs = alarm.getSubscription();
 		final ServerConnection server = ServerConnection.serverBuilder()
 				.authentification(buildAuth(subs.getAuthentication()))

@@ -26,23 +26,31 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfIndicator;
 import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWorkV3;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
+import com.ubiqube.etsi.mano.service.mon.ExternalAlarm;
 import com.ubiqube.etsi.mano.service.system.AbstractVimSystemV3;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
-import com.ubiqube.etsi.mano.vnfm.service.VnfMonitoringService;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.uow.VnfIndicatorUow;
 
+import jakarta.annotation.Nonnull;
+
+/**
+ *
+ * @author Olivier Vignaud
+ *
+ */
 @Service
 public class VnfIndicatorSystem extends AbstractVimSystemV3<VnfIndicatorTask> {
-	private final VnfMonitoringService vnfMonitoringService;
+	@Nonnull
+	private final ExternalAlarm externalAlarm;
 
-	public VnfIndicatorSystem(final VnfMonitoringService vnfMonitoringService, final VimManager vimManager) {
+	public VnfIndicatorSystem(final VimManager vimManager, final ExternalAlarm externalAlarm) {
 		super(vimManager);
-		this.vnfMonitoringService = vnfMonitoringService;
+		this.externalAlarm = externalAlarm;
 	}
 
 	@Override
 	protected SystemBuilder<UnitOfWorkV3<VnfIndicatorTask>> getImplementation(final OrchestrationServiceV3<VnfIndicatorTask> orchestrationService, final VirtualTaskV3<VnfIndicatorTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
-		return orchestrationService.systemBuilderOf(new VnfIndicatorUow(virtualTask, getType()));
+		return orchestrationService.systemBuilderOf(new VnfIndicatorUow(virtualTask, getType(), externalAlarm));
 	}
 
 	@Override
