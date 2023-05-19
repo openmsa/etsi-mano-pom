@@ -18,6 +18,8 @@ package com.ubiqube.etsi.mano.service.mon;
 
 import java.util.UUID;
 
+import org.springframework.stereotype.Service;
+
 import com.ubiqube.etsi.mano.dao.mano.VnfIndicator;
 
 /**
@@ -25,6 +27,7 @@ import com.ubiqube.etsi.mano.dao.mano.VnfIndicator;
  * @author Olivier Vignaud
  *
  */
+@Service
 public class DummyAlarm implements ExternalAlarm {
 
 	@Override
