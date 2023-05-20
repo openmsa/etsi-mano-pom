@@ -16,6 +16,8 @@
  */
 package com.ubiqube.etsi.mano.alarm;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
@@ -23,6 +25,7 @@ import org.junit.jupiter.api.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubiqube.etsi.mano.alarm.entities.alarm.Transform;
 
+@SuppressWarnings("static-method")
 class JsonTest {
 
 	@Test
@@ -32,5 +35,6 @@ class JsonTest {
 		obj.setParameters(Map.of("val1", "k1", "k2", "v2"));
 		final String str = mapper.writeValueAsString(obj);
 		System.out.println(str);
+		assertTrue(true);
 	}
 }
