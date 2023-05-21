@@ -34,17 +34,17 @@ import jakarta.validation.constraints.NotNull;
  */
 public interface NsLiveInstanceJpa extends CrudRepository<NsLiveInstance, UUID> {
 
-	NsLiveInstance findByNsBlueprintId(String resourceId);
+	NsLiveInstance findByNsBlueprintId(UUID resourceId);
 
-	@Query("select nli, t from NsLiveInstance nli join NsTask t on t.id = nli.nsTask where nli.nsInstance = ?1 AND t.nsVirtualLink is not null AND t.toscaName = ?2 ORDER BY nli.audit.createdOn DESC")
+	@Query("select nli, t from NsLiveInstance nli join NsTask t on t.id = nli.nsTask.id where nli.nsInstance = ?1 AND t.nsVirtualLink is not null AND t.toscaName = ?2 ORDER BY nli.audit.createdOn DESC")
 	List<NsLiveInstance> findByVnfInstanceAndTaskVlIsNotNull(NsdInstance vnfInstance, String toscaName);
 
-	@Query("select nli, t from NsLiveInstance nli join NsTask t on t.id = nli.nsTask where nli.nsInstance = ?1 AND t.toscaName LIKE ?2 AND type(t) = ?3")
+	@Query("select nli, t from NsLiveInstance nli join NsTask t on t.id = nli.nsTask.id where nli.nsInstance = ?1 AND t.toscaName LIKE ?2 AND type(t) = ?3")
 	List<NsLiveInstance> findByNsInstanceAndNsTaskToscaNameAndNsTaskClassGroupByNsTaskAlias(NsdInstance nsInstance, String toscaName, Class<?> simpleName);
 
 	List<NsLiveInstance> findByNsInstanceId(UUID nsUuid);
 
-	@Query("select nli, t from NsLiveInstance nli join NsTask t on t.id = nli.nsTask where nli.nsInstance = ?1 AND type(t) = ?2 ORDER BY nli.audit.createdOn DESC")
+	@Query("select nli, t from NsLiveInstance nli join NsTask t on t.id = nli.nsTask.id where nli.nsInstance = ?1 AND type(t) = ?2 ORDER BY nli.audit.createdOn DESC")
 	List<NsLiveInstance> findByNsdInstanceAndClass(NsdInstance instance, Class<?> simpleName);
 
 	long countByNsInstance(NsdInstance nsInstance);
@@ -53,7 +53,7 @@ public interface NsLiveInstanceJpa extends CrudRepository<NsLiveInstance, UUID> 
 
 	NsLiveInstance findByResourceIdAndNsInstanceId(@NotNull String safeUUID, UUID nsInstanceId);
 
-	@Query("select count(nli) from NsLiveInstance nli join NsTask t on t.id = nli.nsTask where nli.nsInstance = ?1 AND type(t) = ?2 AND t.toscaName = ?3")
+	@Query("select count(nli) from NsLiveInstance nli join NsTask t on t.id = nli.nsTask.id where nli.nsInstance = ?1 AND type(t) = ?2 AND t.toscaName = ?3")
 	Integer countByNsdInstanceIdAndClassAndToscaName(NsdInstance nsdInstance, Class<?> clazz, String toscaName);
 
 }
