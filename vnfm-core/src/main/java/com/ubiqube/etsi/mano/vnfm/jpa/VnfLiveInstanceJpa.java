@@ -39,16 +39,16 @@ public interface VnfLiveInstanceJpa extends CrudRepository<VnfLiveInstance, UUID
 
 	VnfLiveInstance findByTaskId(UUID id);
 
-	@Query("select vli, t from VnfLiveInstance vli join VnfTask t on t.id = vli.task where vli.vnfInstance = ?1 AND type(t) = 'ComputeTask'")
+	@Query("select vli, t from VnfLiveInstance vli join VnfTask t on t.id = vli.task.id where vli.vnfInstance = ?1 AND type(t) = 'ComputeTask'")
 	List<VnfLiveInstance> findByVnfInstanceAndTaskVnfComputeNotNull(VnfInstance vnfLiveInstance);
 
-	@Query("select vli, t from VnfLiveInstance vli join VnfTask t on t.id = vli.task where vli.vnfInstance = ?1 AND t.toscaName = ?2 ORDER BY vli.audit.createdOn DESC")
+	@Query("select vli, t from VnfLiveInstance vli join VnfTask t on t.id = vli.task.id where vli.vnfInstance = ?1 AND t.toscaName = ?2 ORDER BY vli.audit.createdOn DESC")
 	List<VnfLiveInstance> findByTaskVnfInstanceAndToscaName(VnfInstance vnfInstance, String alias);
 
-	@Query("select vli, t from VnfLiveInstance vli join VnfTask t on t.id = vli.task where vli.vnfInstance = ?1 AND type(t) = ?2")
+	@Query("select vli, t from VnfLiveInstance vli join VnfTask t on t.id = vli.task.id where vli.vnfInstance = ?1 AND type(t) = ?2")
 	List<VnfLiveInstance> findByVnfInstanceIdAndClass(VnfInstance vnfInstance, Class<?> clazz);
 
-	@Query("select count(vli) from VnfLiveInstance vli join VnfTask t on t.id = vli.task where vli.vnfInstance = ?1 AND type(t) = ?2 AND t.toscaName = ?3")
+	@Query("select count(vli) from VnfLiveInstance vli join VnfTask t on t.id = vli.task.id where vli.vnfInstance = ?1 AND type(t) = ?2 AND t.toscaName = ?3")
 	Integer countByVnfInstanceIdAndClassAndToscaName(VnfInstance vnfInstance, Class<?> clazz, String toscaName);
 
 	List<VnfLiveInstance> findByVnfInstanceId(UUID id);
