@@ -16,30 +16,30 @@
  */
 package com.ubiqube.etsi.mano.alarm.entities;
 
-import java.util.UUID;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
+import java.beans.IntrospectionException;
+import java.lang.reflect.InvocationTargetException;
+
+import org.junit.jupiter.api.Test;
+
+import com.ubiqube.etsi.mano.alarm.ModelTest;
 
 /**
  *
  * @author Olivier Vignaud
  *
  */
-@Getter
-@Setter
-public class RegisterRequest {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id;
+@SuppressWarnings("static-method")
+class ModelEntitiesTest {
 
-	/**
-	 * There is only one condition of boolean peratins.
-	 */
-	private String condition;
+	@Test
+	void test() throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, IntrospectionException {
+		ModelTest.realHandle(AuthentificationInformations.class.getName());
+		ModelTest.realHandle(AuthParamBasic.class.getName());
+		ModelTest.realHandle(AuthParamOauth2.class.getName());
+		ModelTest.realHandle(Subscription.class.getName());
+		assertTrue(true);
+	}
 
-	private Subscription subscription;
 }

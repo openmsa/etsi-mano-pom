@@ -14,32 +14,29 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.alarm.entities;
+package com.ubiqube.etsi.mano.alarm.entities.alarm.dto;
 
-import java.util.UUID;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
+import java.beans.IntrospectionException;
+import java.lang.reflect.InvocationTargetException;
+
+import org.junit.jupiter.api.Test;
+
+import com.ubiqube.etsi.mano.alarm.ModelTest;
 
 /**
  *
  * @author Olivier Vignaud
  *
  */
-@Getter
-@Setter
-public class RegisterRequest {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id;
+@SuppressWarnings("static-method")
+class AlarmDtoTest {
 
-	/**
-	 * There is only one condition of boolean peratins.
-	 */
-	private String condition;
+	@Test
+	void test() throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, IntrospectionException {
+		ModelTest.realHandle(AlarmDto.class.getName());
+		assertTrue(true);
+	}
 
-	private Subscription subscription;
 }

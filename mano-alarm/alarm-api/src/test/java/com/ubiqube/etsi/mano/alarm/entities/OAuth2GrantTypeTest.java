@@ -16,30 +16,22 @@
  */
 package com.ubiqube.etsi.mano.alarm.entities;
 
-import java.util.UUID;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
+import org.junit.jupiter.api.Test;
 
 /**
  *
  * @author Olivier Vignaud
  *
  */
-@Getter
-@Setter
-public class RegisterRequest {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id;
+@SuppressWarnings("static-method")
+class OAuth2GrantTypeTest {
 
-	/**
-	 * There is only one condition of boolean peratins.
-	 */
-	private String condition;
+	@Test
+	void test() {
+		final OAuth2GrantType e = OAuth2GrantType.CLIENT_CREDENTIAL;
+		assertNotNull(e);
+	}
 
-	private Subscription subscription;
 }

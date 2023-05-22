@@ -14,32 +14,27 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.alarm.entities;
+package com.ubiqube.etsi.mano.alarm.entities.alarm.dto;
 
-import java.util.UUID;
-
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.StdConverter;
+import com.ubiqube.etsi.mano.alarm.AlarmException;
 
 /**
  *
  * @author Olivier Vignaud
  *
  */
-@Getter
-@Setter
-public class RegisterRequest {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id;
+public class JsonConverter extends StdConverter<Object, String> {
+	ObjectMapper mapper = new ObjectMapper();
 
-	/**
-	 * There is only one condition of boolean peratins.
-	 */
-	private String condition;
-
-	private Subscription subscription;
+	@Override
+	public String convert(final Object value) {
+		try {
+			return mapper.writeValueAsString(value);
+		} catch (final JsonProcessingException e) {
+			throw new AlarmException(e);
+		}
+	}
 }

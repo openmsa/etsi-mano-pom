@@ -14,13 +14,14 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.alarm.entities;
+package com.ubiqube.etsi.mano.alarm.entities.alarm.dto;
 
-import java.util.UUID;
+import java.net.URL;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.ubiqube.etsi.mano.alarm.entities.AuthentificationInformations;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,15 +32,16 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class RegisterRequest {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id;
+public class SubscriptionDto {
+	@Schema(description = "Authentication informations.")
+	@NotNull
+	private AuthentificationInformations authentication;
 
-	/**
-	 * There is only one condition of boolean peratins.
-	 */
-	private String condition;
+	@Schema(description = "Callback URL when alarm is triggered.")
+	@NotNull
+	private URL callbackUri;
 
-	private Subscription subscription;
+	@Schema(description = "External reference, used for tracking alarm triggering.")
+	private String remoteId;
+
 }

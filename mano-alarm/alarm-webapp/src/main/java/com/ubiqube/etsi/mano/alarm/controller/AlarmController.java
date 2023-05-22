@@ -30,10 +30,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ubiqube.etsi.mano.alarm.entities.AlarmDto;
 import com.ubiqube.etsi.mano.alarm.entities.Subscription;
-import com.ubiqube.etsi.mano.alarm.entities.SubscriptionDto;
 import com.ubiqube.etsi.mano.alarm.entities.alarm.Alarm;
+import com.ubiqube.etsi.mano.alarm.entities.alarm.dto.AlarmDto;
+import com.ubiqube.etsi.mano.alarm.entities.alarm.dto.SubscriptionDto;
 import com.ubiqube.etsi.mano.alarm.service.AlarmService;
 
 import io.swagger.v3.oas.annotations.Operation;

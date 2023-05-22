@@ -11,5 +11,6 @@
 		<module>alarm-api</module>
 		<module>alarm-client</module>
 		<module>alarm-webapp</module>
+		<module>alarm-core</module>
 	</modules>
 </project>

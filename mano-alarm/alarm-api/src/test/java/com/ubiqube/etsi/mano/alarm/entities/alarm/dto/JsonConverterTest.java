@@ -14,32 +14,26 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.alarm.entities;
+package com.ubiqube.etsi.mano.alarm.entities.alarm.dto;
 
-import java.util.UUID;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
+import java.util.Map;
+
+import org.junit.jupiter.api.Test;
 
 /**
  *
  * @author Olivier Vignaud
  *
  */
-@Getter
-@Setter
-public class RegisterRequest {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id;
+class JsonConverterTest {
 
-	/**
-	 * There is only one condition of boolean peratins.
-	 */
-	private String condition;
+	@Test
+	void test() {
+		final JsonConverter srv = new JsonConverter();
+		final String res = srv.convert(Map.of());
+		assertNotNull(res);
+	}
 
-	private Subscription subscription;
 }
