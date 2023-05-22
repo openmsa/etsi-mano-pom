@@ -16,10 +16,13 @@
  */
 package com.ubiqube.etsi.mano.service;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
+
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.EqualsVerifierReport;
+import nl.jqno.equalsverifier.Warning;
 
 @SuppressWarnings("static-method")
 class DownloadResultTest {
@@ -37,26 +40,11 @@ class DownloadResultTest {
 
 	@Test
 	void testEqual001() {
-		final DownloadResult dr = new DownloadResult("".getBytes(), "sha256".getBytes(), "sha512".getBytes(), 123L);
-		assertTrue(dr.equals(dr));
-	}
-
-	@Test
-	void testEqual002() {
-		final DownloadResult dr = new DownloadResult("".getBytes(), "sha256".getBytes(), "sha512".getBytes(), 123L);
-		assertFalse(dr.equals(null));
-	}
-
-	@Test
-	void testEqual003() {
-		final DownloadResult dr = new DownloadResult("".getBytes(), "sha256".getBytes(), "sha512".getBytes(), 123L);
-		assertFalse(dr.equals(""));
-	}
-
-	@Test
-	void testEqual004() {
-		final DownloadResult dr = new DownloadResult("".getBytes(), "sha256".getBytes(), "sha512".getBytes(), 123L);
-		final DownloadResult dr2 = new DownloadResult("".getBytes(), "sha256".getBytes(), "sha512".getBytes(), 123L);
-		assertTrue(dr.equals(dr2));
+		final EqualsVerifierReport rep = EqualsVerifier
+				.simple()
+				.forClass(DownloadResult.class)
+				.suppress(Warning.INHERITED_DIRECTLY_FROM_OBJECT, Warning.SURROGATE_KEY)
+				.report();
+		System.out.println("" + rep.getMessage());
 	}
 }
