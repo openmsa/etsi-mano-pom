@@ -30,10 +30,10 @@ import com.ubiqube.etsi.mano.vnfm.jpa.AlarmsJpa;
  *
  */
 @Service
-public class AlarmService {
+public class AlarmDatabaseService {
 	private final AlarmsJpa alarmsJpa;
 
-	public AlarmService(final AlarmsJpa alarmsJpa) {
+	public AlarmDatabaseService(final AlarmsJpa alarmsJpa) {
 		super();
 		this.alarmsJpa = alarmsJpa;
 	}

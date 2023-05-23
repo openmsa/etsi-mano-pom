@@ -20,6 +20,8 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.ubiqube.etsi.mano.alarm.controller.AlarmClient;
+import com.ubiqube.etsi.mano.alarm.entities.alarm.dto.AlarmDto;
 import com.ubiqube.etsi.mano.dao.mano.VnfIndicator;
 
 /**
@@ -29,10 +31,12 @@ import com.ubiqube.etsi.mano.dao.mano.VnfIndicator;
  */
 @Service
 public class DummyAlarm implements ExternalAlarm {
+	private AlarmClient alarmClient;
 
 	@Override
 	public String registerAlarm(final VnfIndicator vnfIndicator) {
-		// TODO Auto-generated method stub
+		final AlarmDto alarm = new AlarmDto();
+		alarmClient.createAlarm(alarm);
 		return null;
 	}
 

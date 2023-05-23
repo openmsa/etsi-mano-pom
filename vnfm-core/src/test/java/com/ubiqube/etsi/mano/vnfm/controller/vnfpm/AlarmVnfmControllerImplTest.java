@@ -33,14 +33,14 @@ import com.ubiqube.etsi.mano.exception.ConflictException;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.exception.PreConditionException;
 import com.ubiqube.etsi.mano.service.SearchableService;
-import com.ubiqube.etsi.mano.vnfm.service.AlarmService;
+import com.ubiqube.etsi.mano.vnfm.service.AlarmDatabaseService;
 
 @ExtendWith(MockitoExtension.class)
 class AlarmVnfmControllerImplTest {
 	@Mock
 	private SearchableService searchService;
 	@Mock
-	private AlarmService alarmsJpa;
+	private AlarmDatabaseService alarmsJpa;
 
 	@Test
 	void testFindByIdFail() {
