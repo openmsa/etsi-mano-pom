@@ -45,7 +45,7 @@ class OsContainerDeployableSystemTest {
 
 	@Test
 	void test() {
-		final OsContainerDeployableSystem srv = new OsContainerDeployableSystem(vim, vimManager, k8sService);
+		final OsContainerDeployableSystem srv = new OsContainerDeployableSystem(vim, vimManager);
 		final VimConnectionInformation vimConn = new VimConnectionInformation();
 		final OsContainerDeployableTask nt = new OsContainerDeployableTask();
 		final VirtualTaskV3<OsContainerDeployableTask> vt = new OsContainerDeployableVt(nt);
