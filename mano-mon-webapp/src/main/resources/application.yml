@@ -1,8 +1,8 @@
 #debug: true
 logging:
   level:
-    com.ubiqube.etsi.mano.telemetry.jms.TracingMessagingMessageListenerAdapter: INFO
-    com.ubiqube.etsi.mano.mon.core.service.ExpirityJmsTemplate: INFO
+    "[com.ubiqube.etsi.mano.telemetry.jms.TracingMessagingMessageListenerAdapter]": INFO
+    "[com.ubiqube.etsi.mano.mon.core.service.ExpirityJmsTemplate]": INFO
     com:
       ubiqube:
         etsi: DEBUG
@@ -74,6 +74,6 @@ spring:
     open-in-view: true
     properties:
       hibernate:
-        enable_lazy_load_no_trans: true
+        "[enable_lazy_load_no_trans]": true
 
 
