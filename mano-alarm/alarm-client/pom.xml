@@ -4,8 +4,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.ubiqube.mano</groupId>
-		<artifactId>mano-alarm</artifactId>
+		<artifactId>mano-super-pom</artifactId>
 		<version>3.0.0-SNAPSHOT</version>
+		<relativePath/>
 	</parent>
 	<artifactId>alarm-client</artifactId>
 	<dependencies>
