@@ -2,8 +2,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.ubiqube.mano</groupId>
-		<artifactId>mano-alarm</artifactId>
+		<artifactId>mano-super-webapp</artifactId>
 		<version>3.0.0-SNAPSHOT</version>
+		<relativePath/>
 	</parent>
 	<artifactId>alarm-webapp</artifactId>
 	<dependencies>
@@ -26,6 +27,10 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>de.codecentric</groupId>
+			<artifactId>spring-boot-admin-starter-client</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springdoc</groupId>
