@@ -41,5 +41,5 @@ public class RegisterRequest {
 	 */
 	private String condition;
 
-	private Subscription subscription;
+	private AlarmSubscription subscription;
 }

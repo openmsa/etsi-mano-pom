@@ -38,7 +38,7 @@ class ModelEntitiesTest {
 		ModelTest.realHandle(AuthentificationInformations.class.getName());
 		ModelTest.realHandle(AuthParamBasic.class.getName());
 		ModelTest.realHandle(AuthParamOauth2.class.getName());
-		ModelTest.realHandle(Subscription.class.getName());
+		ModelTest.realHandle(AlarmSubscription.class.getName());
 		assertTrue(true);
 	}
 

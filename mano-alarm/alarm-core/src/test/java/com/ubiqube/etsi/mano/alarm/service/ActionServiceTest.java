@@ -31,7 +31,7 @@ import com.ubiqube.etsi.mano.alarm.entities.AuthParamOauth2;
 import com.ubiqube.etsi.mano.alarm.entities.AuthType;
 import com.ubiqube.etsi.mano.alarm.entities.AuthentificationInformations;
 import com.ubiqube.etsi.mano.alarm.entities.OAuth2GrantType;
-import com.ubiqube.etsi.mano.alarm.entities.Subscription;
+import com.ubiqube.etsi.mano.alarm.entities.AlarmSubscription;
 import com.ubiqube.etsi.mano.alarm.entities.alarm.Alarm;
 
 @WireMockTest
@@ -46,7 +46,7 @@ class ActionServiceTest {
 		stubFor(post(urlMatching("/")).willReturn(aResponse().withStatus(200)));
 		final ActionService srv = create();
 		final Alarm alarm = new Alarm();
-		final Subscription subs = new Subscription();
+		final AlarmSubscription subs = new AlarmSubscription();
 		subs.setCallbackUri(wmRuntimeInfo.getHttpBaseUrl());
 		final AuthentificationInformations auth = new AuthentificationInformations();
 		auth.setAuthType(List.of(AuthType.BASIC));
@@ -61,7 +61,7 @@ class ActionServiceTest {
 		stubFor(post(urlMatching("/")).willReturn(aResponse().withStatus(200)));
 		final ActionService srv = create();
 		final Alarm alarm = new Alarm();
-		final Subscription subs = new Subscription();
+		final AlarmSubscription subs = new AlarmSubscription();
 		subs.setCallbackUri(wmRuntimeInfo.getHttpBaseUrl());
 		final AuthentificationInformations auth = new AuthentificationInformations();
 		auth.setAuthType(List.of(AuthType.BASIC));
@@ -93,7 +93,7 @@ class ActionServiceTest {
 				.withStatus(200)));
 		final ActionService srv = create();
 		final Alarm alarm = new Alarm();
-		final Subscription subs = new Subscription();
+		final AlarmSubscription subs = new AlarmSubscription();
 		subs.setCallbackUri(wmRuntimeInfo.getHttpBaseUrl());
 		final AuthentificationInformations auth = new AuthentificationInformations();
 		auth.setAuthType(List.of(AuthType.BASIC));

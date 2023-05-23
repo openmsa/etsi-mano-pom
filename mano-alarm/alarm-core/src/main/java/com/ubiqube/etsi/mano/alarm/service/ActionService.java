@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.alarm.entities.Subscription;
+import com.ubiqube.etsi.mano.alarm.entities.AlarmSubscription;
 import com.ubiqube.etsi.mano.alarm.entities.alarm.Alarm;
 import com.ubiqube.etsi.mano.service.rest.FluxRest;
 import com.ubiqube.etsi.mano.service.rest.model.AuthParamBasic;
@@ -41,7 +41,7 @@ import jakarta.annotation.Nullable;
 public class ActionService {
 	@SuppressWarnings("static-method")
 	public void doAction(final Alarm alarm) {
-		final Subscription subs = alarm.getSubscription();
+		final AlarmSubscription subs = alarm.getSubscription();
 		final ServerConnection server = ServerConnection.serverBuilder()
 				.authentification(buildAuth(subs.getAuthentication()))
 				.ignoreSsl(true)

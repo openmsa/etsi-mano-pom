@@ -34,7 +34,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Subscription {
+public class AlarmSubscription {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;

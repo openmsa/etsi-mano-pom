@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import com.ubiqube.etsi.mano.alarm.entities.Subscription;
+import com.ubiqube.etsi.mano.alarm.entities.AlarmSubscription;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -61,7 +61,7 @@ public class Alarm {
 
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@NotNull
-	private Subscription subscription;
+	private AlarmSubscription subscription;
 
 	@Column(length = 5_000)
 	private String conditions;

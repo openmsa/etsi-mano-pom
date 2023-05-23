@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ubiqube.etsi.mano.alarm.entities.Subscription;
+import com.ubiqube.etsi.mano.alarm.entities.AlarmSubscription;
 import com.ubiqube.etsi.mano.alarm.entities.alarm.Alarm;
 import com.ubiqube.etsi.mano.alarm.entities.alarm.dto.AlarmDto;
 import com.ubiqube.etsi.mano.alarm.entities.alarm.dto.SubscriptionDto;
@@ -98,8 +98,8 @@ public class AlarmController {
 		return a;
 	}
 
-	private static Subscription map(final SubscriptionDto subscription) {
-		final Subscription s = new Subscription();
+	private static AlarmSubscription map(final SubscriptionDto subscription) {
+		final AlarmSubscription s = new AlarmSubscription();
 		s.setAuthentication(subscription.getAuthentication());
 		s.setCallbackUri(subscription.getCallbackUri().toString());
 		s.setRemoteId(subscription.getRemoteId());
