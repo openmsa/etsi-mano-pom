@@ -21,9 +21,6 @@
  */
 package com.ubiqube.etsi.mano.nfvo.v261.controller.vnfind;
 
-import jakarta.annotation.security.RolesAllowed;
-import jakarta.validation.Valid;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,6 +37,9 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.validation.Valid;
 
 /**
  *
@@ -74,7 +74,7 @@ public interface VnfIndNotification261Sol003Api {
 			@ApiResponse(responseCode = "503", description = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))) })
 	@PostMapping(value = "/value-change", produces = { "application/json" }, consumes = { "application/json" })
 	ResponseEntity<Void> valueChangePost(
-			@Parameter(in = ParameterIn.DEFAULT, description = "Information that the alarm list has been rebuilt by the VNFM.", required = true, schema = @Schema()) @Valid @RequestBody final VnfIndicatorValueChangeNotification body);
+			@Parameter(in = ParameterIn.DEFAULT, description = "Information that the alarm list has been rebuilt by the VNFM.", required = true, schema = @Schema()) @Valid @RequestBody final @Nonnull VnfIndicatorValueChangeNotification body);
 
 	@Operation(summary = "", description = "The GET method allows the API producer to test the notification endpoint that is provided by the API consumer, e.g. during subscription. See clause 8.4.7.3.2. ", tags = {})
 	@ApiResponses(value = {
@@ -101,6 +101,6 @@ public interface VnfIndNotification261Sol003Api {
 			@ApiResponse(responseCode = "503", description = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))) })
 	@PostMapping(value = "/supported-change", produces = { "application/json" }, consumes = { "application/json" })
 	ResponseEntity<Void> supportedChangePost(
-			@Parameter(in = ParameterIn.DEFAULT, description = "Information that the alarm list has been rebuilt by the VNFM.", required = true, schema = @Schema()) @Valid @RequestBody final VnfIndicatorValueChangeNotification body);
+			@Parameter(in = ParameterIn.DEFAULT, description = "Information that the alarm list has been rebuilt by the VNFM.", required = true, schema = @Schema()) @Valid @RequestBody final @Nonnull VnfIndicatorValueChangeNotification body);
 
 }

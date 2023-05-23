@@ -16,13 +16,15 @@
  */
 package com.ubiqube.etsi.mano.nfvo.v261.controller.vnfind;
 
-import jakarta.validation.Valid;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ubiqube.etsi.mano.common.v261.model.vnf.VnfIndicatorValueChangeNotification;
 import com.ubiqube.etsi.mano.controller.vnfind.VnfIndicatorNotificationFrontController;
+
+import jakarta.annotation.Nonnull;
+import jakarta.validation.Valid;
+
 /**
  *
  * @author olivier
@@ -42,7 +44,7 @@ public class VnfIndNotification261Sol003Controller implements VnfIndNotification
 	}
 
 	@Override
-	public ResponseEntity<Void> valueChangePost(@Valid final VnfIndicatorValueChangeNotification body) {
+	public ResponseEntity<Void> valueChangePost(@Valid final @Nonnull VnfIndicatorValueChangeNotification body) {
 		return fc.valueChangeNotification(body, "3.6.1");
 	}
 
@@ -52,7 +54,7 @@ public class VnfIndNotification261Sol003Controller implements VnfIndNotification
 	}
 
 	@Override
-	public ResponseEntity<Void> supportedChangePost(@Valid final VnfIndicatorValueChangeNotification body) {
+	public ResponseEntity<Void> supportedChangePost(@Valid final @Nonnull VnfIndicatorValueChangeNotification body) {
 		return fc.supportedChangeNotification(body, "3.6.1");
 	}
 

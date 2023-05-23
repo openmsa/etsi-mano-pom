@@ -64,12 +64,12 @@ public class UowUtils {
 		LOG.info("VNF Lcm complete with state: {}", state);
 		return tmp;
 	}
-	
-	public static NsBlueprint waitNSLcmCompletion(NsBlueprint nsLcmOpOccs, NsBlueprintJpa nsBlueprintJpa) {
+
+	public static NsBlueprint waitNSLcmCompletion(final NsBlueprint nsLcmOpOccs, final NsBlueprintJpa nsBlueprintJpa) {
 		NsBlueprint tmp = nsLcmOpOccs;
 		OperationStatusType state = OperationStatusType.PROCESSING;
 		while ((state == OperationStatusType.PROCESSING) || (OperationStatusType.STARTING == state)) {
-			tmp = nsBlueprintJpa.findById(nsLcmOpOccs.getId()).orElseThrow(() -> new GenericException("Could not find nsLcmOpOccs: " + nsLcmOpOccs.getId()));;
+			tmp = nsBlueprintJpa.findById(nsLcmOpOccs.getId()).orElseThrow(() -> new GenericException("Could not find nsLcmOpOccs: " + nsLcmOpOccs.getId()));
 			state = tmp.getOperationStatus();
 			LOG.debug("Instantiate polling: {} => {}", nsLcmOpOccs.getId(), state);
 			sleepSeconds(3);
@@ -92,12 +92,11 @@ public class UowUtils {
 		}
 		return false;
 	}
-	
-	
-	public static boolean isNSLcmRunning(final UUID nsInstanceId, NsBlueprintJpa nsBlueprintJpa) {
-		NsdInstance nsInstance = new NsdInstance();
+
+	public static boolean isNSLcmRunning(final UUID nsInstanceId, final NsBlueprintJpa nsBlueprintJpa) {
+		final NsdInstance nsInstance = new NsdInstance();
 		nsInstance.setId(nsInstanceId);
-		List<NsBlueprint> liFilteredByNS = nsBlueprintJpa.findByNsInstance(nsInstance);
+		final List<NsBlueprint> liFilteredByNS = nsBlueprintJpa.findByNsInstance(nsInstance);
 		final List<NsBlueprint> liFilteredByState = liFilteredByNS.stream()
 				.filter(x -> ((x.getOperationStatus() == OperationStatusType.STARTING) || (x.getOperationStatus() == OperationStatusType.PROCESSING)))
 				.toList();

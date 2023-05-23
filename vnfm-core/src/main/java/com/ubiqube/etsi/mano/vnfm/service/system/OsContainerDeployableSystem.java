@@ -28,7 +28,6 @@ import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.system.AbstractVimSystemV3;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
-import com.ubiqube.etsi.mano.vnfm.jpa.K8sServerInfoJpa;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.uow.OsContainerDeployableUow3;
 
 /**
@@ -40,12 +39,10 @@ import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.uow.OsContainerDeplo
 public class OsContainerDeployableSystem extends AbstractVimSystemV3<OsContainerDeployableTask> {
 
 	private final Vim vim;
-	private final K8sServerInfoJpa serverInfoJpa;
 
-	protected OsContainerDeployableSystem(final Vim vim, final VimManager vimManager, final K8sServerInfoJpa serverInfoJpa) {
+	protected OsContainerDeployableSystem(final Vim vim, final VimManager vimManager) {
 		super(vimManager);
 		this.vim = vim;
-		this.serverInfoJpa = serverInfoJpa;
 	}
 
 	@Override

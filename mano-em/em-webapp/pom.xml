@@ -55,12 +55,6 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
-		<!--
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-bootstrap</artifactId>
-		</dependency>
-		-->
 		<dependency>
 			<groupId>com.ubiqube.orika</groupId>
 			<artifactId>orika-spring-boot-starter</artifactId>
@@ -84,20 +78,6 @@
 			<artifactId>mano-repo-fs</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!--
-		<dependency>
-			<groupId>com.ubiqube.mano</groupId>
-			<artifactId>ubi-spring-config</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		-->
-		<!--
-		<dependency>
-			<groupId>com.ubiqube.mano.auth</groupId>
-			<artifactId>auth-keycloak</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		-->
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>em-core</artifactId>
