@@ -43,6 +43,7 @@
 		<com.ubiqube.springdoc.version>2.1.0</com.ubiqube.springdoc.version>
 		<com.ubiqube.orika.version>1.5.5</com.ubiqube.orika.version>
 		<com.ubiqube.jgrapht.version>1.5.1</com.ubiqube.jgrapht.version>
+		<brave.version>5.16.0</brave.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
