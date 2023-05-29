@@ -112,14 +112,14 @@ public class NfvoApiVersion {
 		return null;
 	}
 
-	private static String getFragment(final String url, final String string) {
-		final String regexp = string.replace("/", "\\/");
+	private static String getFragment(final String url, final String module) {
+		final String regexp = module.replace("/", "\\/");
 		final Pattern p = Pattern.compile("(" + regexp + "v[0-9])");
 		final Matcher m = p.matcher(url);
 		if (m.find()) {
 			return m.group(0);
 		}
-		return string;
+		return module;
 	}
 
 	private static List<String> getVersion(final String[] headers) {

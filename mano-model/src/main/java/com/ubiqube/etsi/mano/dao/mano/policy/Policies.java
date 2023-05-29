@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.dao.mano.policy;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,7 +31,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Version;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -55,7 +55,7 @@ public class Policies {
 	private String pfId;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private List<PolicyVersion> versions;
+	private List<PolicyVersion> versions = new ArrayList<>();
 
 	private String selectedVersion;
 
@@ -66,6 +66,6 @@ public class Policies {
 	private TransfertStatusType transferStatus;
 
 	@ElementCollection
-	private List<String> associations;
+	private List<String> associations = new ArrayList<>();
 
 }

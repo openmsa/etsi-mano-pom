@@ -18,8 +18,6 @@ package com.ubiqube.etsi.mano.controller;
 
 import java.util.UUID;
 
-import jakarta.annotation.Nullable;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -38,6 +36,7 @@ import com.ubiqube.etsi.mano.exception.PreConditionException;
 import com.ubiqube.etsi.mano.service.Patcher;
 import com.ubiqube.etsi.mano.service.vim.CirConnectionManager;
 
+import jakarta.annotation.Nullable;
 import ma.glasnost.orika.MapperFacade;
 
 @RestController
@@ -68,7 +67,7 @@ public class CirConnectionController {
 
 	@PatchMapping(value = "/{id}")
 	public ResponseEntity<ConnectionInformation> patchVim(@PathVariable("id") final UUID id, @Nullable @RequestBody final String body,
-			@RequestHeader(name = HttpHeaders.IF_MATCH, required = false) final String ifMatch) {
+			@RequestHeader(name = HttpHeaders.IF_MATCH, required = false) @Nullable final String ifMatch) {
 		final ConnectionInformation vim = vimManager.findVimById(id);
 		if ((ifMatch != null) && !(vim.getVersion() + "").equals(ifMatch)) {
 			throw new PreConditionException(ifMatch + " does not match " + vim.getVersion());
