@@ -16,11 +16,14 @@
  */
 package com.ubiqube.etsi.mano.service.mon;
 
+import java.util.Objects;
 import java.util.UUID;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.alarm.controller.AlarmClient;
+import com.ubiqube.etsi.mano.alarm.entities.alarm.Alarm;
 import com.ubiqube.etsi.mano.alarm.entities.alarm.dto.AlarmDto;
 import com.ubiqube.etsi.mano.dao.mano.VnfIndicator;
 
@@ -31,19 +34,23 @@ import com.ubiqube.etsi.mano.dao.mano.VnfIndicator;
  */
 @Service
 public class DummyAlarm implements ExternalAlarm {
-	private AlarmClient alarmClient;
+	private final AlarmClient alarmClient;
+
+	public DummyAlarm(final AlarmClient alarmClient) {
+		this.alarmClient = alarmClient;
+	}
 
 	@Override
 	public String registerAlarm(final VnfIndicator vnfIndicator) {
 		final AlarmDto alarm = new AlarmDto();
-		alarmClient.createAlarm(alarm);
-		return null;
+		final ResponseEntity<Alarm> ret = alarmClient.createAlarm(alarm);
+		final Alarm reta = Objects.requireNonNull(ret.getBody());
+		return reta.getId().toString();
 	}
 
 	@Override
 	public void remove(final UUID removedLiveInstance) {
-		// TODO Auto-generated method stub
-
+		alarmClient.deleteAlaram(removedLiveInstance);
 	}
 
 }
