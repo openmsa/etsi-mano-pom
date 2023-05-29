@@ -1,16 +1,18 @@
 /**
- * This copy of Woodstox XML processor is licensed under the
- * Apache (Software) License, version 2.0 ("the License").
- * See the License for details about distribution rights, and the
- * specific rights regarding derivate works.
+ *     Copyright (C) 2019-2023 Ubiqube.
  *
- * You may obtain a copy of the License at:
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
  *
- * http://www.apache.org/licenses/
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
  *
- * A copy is also included in the downloadable source code package
- * containing Woodstox, in file "ASL2.0", under the same directory
- * as this file.
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 package com.ubiqube.etsi.mano.alarm.service;
 
@@ -22,8 +24,10 @@ import java.util.stream.StreamSupport;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.alarm.AlarmException;
+import com.ubiqube.etsi.mano.alarm.entities.AlarmElement;
 import com.ubiqube.etsi.mano.alarm.entities.alarm.Aggregates;
 import com.ubiqube.etsi.mano.alarm.entities.alarm.Alarm;
+import com.ubiqube.etsi.mano.alarm.entities.alarm.Metrics;
 import com.ubiqube.etsi.mano.alarm.entities.alarm.Transform;
 import com.ubiqube.etsi.mano.alarm.repository.AlarmRepository;
 import com.ubiqube.etsi.mano.alarm.service.aggregate.AggregateService;
@@ -79,6 +83,25 @@ public class AlarmService {
 		if (!errors.isEmpty()) {
 			throw new AlarmException("Following functions are not defined: " + errors);
 		}
+	}
+
+	public void addElement(final @Nonnull UUID id, final AlarmElement alarmElement) {
+		final Alarm alarm = alarmRepository.findById(id).orElseThrow();
+		if (alarm.getMetrics().stream().anyMatch(x -> x.getLabel().equals(alarmElement.getMetric().getLabel()))) {
+			throw new AlarmException("Element already exist.");
+		}
+		alarm.getMetrics().add(alarmElement.getMetric());
+		alarm.getTransforms().addAll(alarmElement.getTransforms());
+		alarmRepository.save(alarm);
+	}
+
+	public void deleteElement(final @Nonnull UUID id, final String name) {
+		final Alarm alarm = alarmRepository.findById(id).orElseThrow();
+		final List<Metrics> m = alarm.getMetrics().stream().filter(x -> x.getLabel().equals(name)).toList();
+		final List<Aggregates> a = alarm.getAggregates().stream().filter(x -> x.getName().equals(name)).toList();
+		alarm.setMetrics(m);
+		alarm.setAggregates(a);
+		alarmRepository.save(alarm);
 	}
 
 }

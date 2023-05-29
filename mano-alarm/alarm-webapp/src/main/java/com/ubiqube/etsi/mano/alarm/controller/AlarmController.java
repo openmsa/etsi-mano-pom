@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ubiqube.etsi.mano.alarm.entities.AlarmElement;
 import com.ubiqube.etsi.mano.alarm.entities.AlarmSubscription;
 import com.ubiqube.etsi.mano.alarm.entities.alarm.Alarm;
 import com.ubiqube.etsi.mano.alarm.entities.alarm.dto.AlarmDto;
@@ -84,6 +85,20 @@ public class AlarmController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteAlaram(final @Nonnull @PathVariable("id") UUID id) {
 		alarmService.deleteById(id);
+		return ResponseEntity.noContent().build();
+	}
+
+	@Operation(summary = "Add an element into an existing alarm.", description = "Add element alarm.", tags = {})
+	@PostMapping("/{id}/element")
+	public ResponseEntity<Void> addElementAlaram(final @Nonnull @PathVariable("id") UUID id, @Nonnull @RequestBody final AlarmElement alarmElement) {
+		alarmService.addElement(id, alarmElement);
+		return ResponseEntity.noContent().build();
+	}
+
+	@Operation(summary = "Remove an element into an existing alarm.", description = "Remove element alarm.", tags = {})
+	@DeleteMapping("/{id}/element/{name}")
+	public ResponseEntity<Void> deleteElementAlaram(final @Nonnull @PathVariable("id") UUID id, final @Nonnull @PathVariable("name") String name) {
+		alarmService.deleteElement(id, name);
 		return ResponseEntity.noContent().build();
 	}
 

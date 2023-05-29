@@ -14,18 +14,14 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.alarm.entities.alarm.dto;
+package com.ubiqube.etsi.mano.alarm.entities;
 
-import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.ubiqube.etsi.mano.alarm.entities.alarm.Aggregates;
 import com.ubiqube.etsi.mano.alarm.entities.alarm.Metrics;
 import com.ubiqube.etsi.mano.alarm.entities.alarm.Transform;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -36,24 +32,10 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class AlarmDto {
-	private List<Metrics> metrics;
+public class AlarmElement {
+	private Metrics metric;
 
-	private List<Transform> transforms;
+	private final List<Transform> transforms = new ArrayList<>();
 
-	private List<Aggregates> aggregates;
-
-	@JsonDeserialize(converter = JsonConverter.class)
-	@NotNull
-	private String conditions;
-
-	private boolean state;
-
-	private OffsetDateTime lastChange;
-
-	private OffsetDateTime lastRaised;
-
-	@NotNull
-	@Valid
-	private SubscriptionDto subscription;
+	private final List<String> aggregates = new ArrayList<>();
 }
