@@ -16,32 +16,22 @@
  */
 package com.ubiqube.etsi.mano.controller;
 
+import static com.ubiqube.etsi.mano.Constants.getSafeUUID;
 import static com.ubiqube.etsi.mano.Constants.getSingleField;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.ubiqube.etsi.mano.service.ServerService;
 import com.ubiqube.etsi.mano.service.SubscriptionService;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
-import com.ubiqube.etsi.mano.utils.Version;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.constraints.NotNull;
 import ma.glasnost.orika.MapperFacade;
 
 /**
@@ -52,20 +42,13 @@ import ma.glasnost.orika.MapperFacade;
 @Service
 public class SubscriptionFrontControllerImpl implements SubscriptionFrontController {
 
-	private static final String VERSION = "Version";
-
-	private static final Logger LOG = LoggerFactory.getLogger(SubscriptionFrontControllerImpl.class);
-
 	private final SubscriptionService subscriptionService;
 
 	private final MapperFacade mapper;
 
-	private final ServerService serverService;
-
-	public SubscriptionFrontControllerImpl(final SubscriptionService subscriptionService, final MapperFacade mapper, final ServerService serverService) {
+	public SubscriptionFrontControllerImpl(final SubscriptionService subscriptionService, final MapperFacade mapper) {
 		this.subscriptionService = subscriptionService;
 		this.mapper = mapper;
-		this.serverService = serverService;
 	}
 
 	@Override
@@ -87,36 +70,15 @@ public class SubscriptionFrontControllerImpl implements SubscriptionFrontControl
 		return ResponseEntity.created(location).body(res);
 	}
 
-	private void setVersion(final Subscription subscription) {
-		final RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-		if (requestAttributes instanceof final ServletRequestAttributes sv) {
-			final Optional<Version> ver = serverService.convertManoVersionToFe(subscription.getSubscriptionType(), sv.getRequest().getHeader(VERSION));
-			if (ver.isPresent()) {
-				subscription.setVersion(ver.get().toString());
-			} else {
-				LOG.warn("Unable to find version: {}/{}", subscription.getSubscriptionType(), sv.getRequest().getHeader(VERSION));
-				subscription.setVersion("2.6.1");
-			}
-		} else {
-			final String req = Optional.ofNullable(requestAttributes).map(RequestAttributes::getClass).map(Class::toString).orElse("[No Request]");
-			LOG.warn("Unknow request {}", req);
-		}
-	}
-
-	private static void setVersion(final HttpServletRequest request, final Subscription subscription) {
-		final String hdr = request.getHeader(VERSION);
-		subscription.setVersion(hdr);
-	}
-
 	@Override
-	public ResponseEntity<Void> deleteById(@NotNull final String subscriptionId, final SubscriptionType type) {
-		subscriptionService.delete(UUID.fromString(subscriptionId), type);
+	public ResponseEntity<Void> deleteById(final String subscriptionId, final SubscriptionType type) {
+		subscriptionService.delete(getSafeUUID(subscriptionId), type);
 		return ResponseEntity.noContent().build();
 	}
 
 	@Override
 	public <U> ResponseEntity<U> findById(final String subscriptionId, final Class<U> clazz, final Consumer<U> makeLinks, final SubscriptionType type) {
-		final Subscription subscription = subscriptionService.findById(UUID.fromString(subscriptionId), type);
+		final Subscription subscription = subscriptionService.findById(getSafeUUID(subscriptionId), type);
 		final U res = mapper.map(subscription, clazz);
 		makeLinks.accept(res);
 		return ResponseEntity.ok(res);
