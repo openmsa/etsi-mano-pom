@@ -19,13 +19,8 @@ package com.ubiqube.etsi.mano.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-/**
- *
- * @author Olivier Vignaud
- *
- */
 @Controller
-@RequestMapping(value = "/test/vrqan/v3/test", headers = "Version=2.5.6")
-public class TestRequestMapping {
-	//
+@RequestMapping(value = "/test/vrqan/v3/test", headers = "Content-Type=application/json")
+public class TestRequestMappingBadVersion {
+
 }
