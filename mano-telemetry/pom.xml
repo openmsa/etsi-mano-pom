@@ -52,17 +52,14 @@
 		<dependency>
 			<groupId>io.zipkin.brave</groupId>
 			<artifactId>brave-instrumentation-jms-jakarta</artifactId>
-			<version>5.15.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>io.zipkin.brave</groupId>
 			<artifactId>brave</artifactId>
-			<version>5.15.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>io.zipkin.brave</groupId>
 			<artifactId>brave-instrumentation-p6spy</artifactId>
-			<version>5.15.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
