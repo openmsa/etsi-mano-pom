@@ -16,15 +16,12 @@
  */
 package com.ubiqube.etsi.mano.auth.config;
 
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
-
+/**
+ *
+ * @author Olivier Vignaud
+ *
+ */
 public class NoneAuth implements SecutiryConfig {
-
-	@Override
-	public void configure(final AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry http) {
-		http.anyRequest().permitAll();
-	}
 
 	@Override
 	public SecurityType getSecurityType() {

@@ -20,7 +20,6 @@ import java.security.Security;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.stereotype.Component;
 
 import com.ubiqube.etsi.mano.auth.AuthException;
@@ -44,14 +43,11 @@ public class Auth2Certs implements SecutiryConfig {
 	}
 
 	@Override
-	public void configure(final AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry http) {
+	public void configure(final HttpSecurity http) {
 		try {
-			http
-					.anyRequest().authenticated()
-					.and()
-					.x509(x9 -> x9
-							.subjectPrincipalRegex("CN=(.*?)(?:,|$)")
-							.authenticationUserDetailsService(new UserDetailSsl()));
+			http.x509(x9 -> x9
+					.subjectPrincipalRegex("CN=(.*?)(?:,|$)")
+					.authenticationUserDetailsService(new UserDetailSsl()));
 		} catch (final Exception e) {
 			throw new AuthException(e);
 		}

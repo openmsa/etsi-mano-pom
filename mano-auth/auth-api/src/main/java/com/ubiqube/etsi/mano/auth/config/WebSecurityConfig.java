@@ -40,23 +40,26 @@ public class WebSecurityConfig {
 	@Bean
 	SecurityFilterChain configure(final HttpSecurity http) {
 		try {
-			http.headers(headers -> headers.frameOptions().sameOrigin());
+			http.headers(headers -> headers.frameOptions(x -> x.sameOrigin()));
 			http.csrf(csrf -> csrf.disable());
-			final var res = http.authorizeHttpRequests()
-					.requestMatchers("/").permitAll()
-					.requestMatchers("/api/**").permitAll()
-					.requestMatchers("/ui/**").permitAll()
-					.requestMatchers("/webjars/**").permitAll()
-					.requestMatchers("/npm/**").permitAll()
-					.requestMatchers("/error").permitAll()
-					.requestMatchers("/h2-console/**").permitAll()
-					.requestMatchers("/download/**").permitAll()
-					.requestMatchers("/actuator/**").permitAll()
-					.requestMatchers("/swagger-ui.html").permitAll()
-					.requestMatchers("/swagger-ui/**").permitAll()
-					.requestMatchers("/api-docs/**").permitAll()
-					.requestMatchers("/v3/**").permitAll();
-			secutiryConfig.configure(res);
+			http.authorizeHttpRequests(autorize -> {
+				autorize.requestMatchers("/").permitAll()
+						.requestMatchers("/api/**").permitAll()
+						.requestMatchers("/ui/**").permitAll()
+						.requestMatchers("/webjars/**").permitAll()
+						.requestMatchers("/npm/**").permitAll()
+						.requestMatchers("/error").permitAll()
+						.requestMatchers("/h2-console/**").permitAll()
+						.requestMatchers("/download/**").permitAll()
+						.requestMatchers("/actuator/**").permitAll()
+						.requestMatchers("/swagger-ui.html").permitAll()
+						.requestMatchers("/swagger-ui/**").permitAll()
+						.requestMatchers("/api-docs/**").permitAll()
+						.requestMatchers("/v3/**").permitAll();
+				secutiryConfig.configure(autorize);
+			});
+			secutiryConfig.configure(http);
+
 			return http.build();
 		} catch (final Exception e) {
 			throw new AuthException(e);

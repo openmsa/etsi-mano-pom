@@ -19,7 +19,6 @@ package com.ubiqube.etsi.mano.autth.oauth2.config;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.stereotype.Service;
@@ -50,11 +49,9 @@ public class KeycloakAuth implements SecutiryConfig {
 	 * @throws Exception
 	 */
 	@Override
-	public void configure(final AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry http) {
+	public void configure(final HttpSecurity http) {
 		try {
 			http
-					.anyRequest().authenticated()
-					.and()
 					.oauth2ResourceServer(server -> server
 							.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
 							.authenticationEntryPoint(http403EntryPoint));

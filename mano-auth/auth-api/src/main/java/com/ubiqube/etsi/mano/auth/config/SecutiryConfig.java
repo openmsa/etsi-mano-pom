@@ -32,7 +32,7 @@ import jakarta.annotation.Nullable;
 @SuppressWarnings("unused")
 public interface SecutiryConfig {
 
-	default void configure(final AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry http) {
+	default void configure(final HttpSecurity http) {
 		// Nothing.
 	}
 
@@ -42,4 +42,8 @@ public interface SecutiryConfig {
 	}
 
 	SecurityType getSecurityType();
+
+	default void configure(final AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry autorize) {
+		autorize.anyRequest().permitAll();
+	}
 }

@@ -17,7 +17,6 @@
 package com.ubiqube.etsi.mano.auth.basic.config;
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.auth.AuthException;
@@ -47,10 +46,9 @@ public class BasicAuth implements SecutiryConfig {
 	 * All request must be authenticated, No login page.
 	 */
 	@Override
-	public void configure(final AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry http) {
+	public void configure(final HttpSecurity http) {
 		try {
-			http.anyRequest().authenticated()
-					.and().httpBasic(basic -> basic.authenticationEntryPoint(http403EntryPoint))
+			http.httpBasic(basic -> basic.authenticationEntryPoint(http403EntryPoint))
 					.csrf(csrf -> csrf.disable());
 		} catch (final Exception e) {
 			throw new AuthException(e);
