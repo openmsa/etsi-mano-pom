@@ -19,6 +19,7 @@ package com.ubiqube.etsi.mano.auth.cert.config;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -51,12 +52,9 @@ class Auth2CertsTest {
 	@Test
 	void testConfigure() throws Exception {
 		final Auth2Certs ac = new Auth2Certs();
-		when(http.anyRequest()).thenReturn(authUrl);
-		when(authUrl.authenticated()).thenReturn(http);
-		when(http.and()).thenReturn(httpSecurity);
 		final ArgumentCaptor<Customizer<X509Configurer<HttpSecurity>>> arg = ArgumentCaptor.forClass(Customizer.class);
 		when(httpSecurity.x509(arg.capture())).thenReturn(x509);
-		ac.configure(http);
+		ac.configure(httpSecurity);
 		when(x509Conf.subjectPrincipalRegex(anyString())).thenReturn(x509Conf);
 		arg.getValue().customize(x509Conf);
 		assertTrue(true);
@@ -65,9 +63,8 @@ class Auth2CertsTest {
 	@Test
 	void testConfigureError() throws Exception {
 		final Auth2Certs ac = new Auth2Certs();
-		when(http.anyRequest()).thenReturn(authUrl);
-		when(authUrl.authenticated()).thenReturn(http);
-		assertThrows(AuthException.class, () -> ac.configure(http));
+		when(httpSecurity.x509(any())).thenThrow(RuntimeException.class);
+		assertThrows(AuthException.class, () -> ac.configure(httpSecurity));
 	}
 
 	@Test

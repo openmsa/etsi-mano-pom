@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
@@ -69,14 +70,13 @@ class BasicAuthTest {
 	@Test
 	void testConfigure() throws Exception {
 		final BasicAuth ba = new BasicAuth(http403);
-		when(http.anyRequest()).thenReturn(authUrl);
-		when(authUrl.authenticated()).thenReturn(AutMngrReqMatchReg);
-		when(AutMngrReqMatchReg.and()).thenReturn(httpSecurity);
+		// when(http.anyRequest()).thenReturn(authUrl);
+		// when(authUrl.authenticated()).thenReturn(AutMngrReqMatchReg);
 		final ArgumentCaptor<Customizer<HttpBasicConfigurer<HttpSecurity>>> arg = ArgumentCaptor.forClass(Customizer.class);
 		when(httpSecurity.httpBasic(arg.capture())).thenReturn(httpSecurity);
 		final ArgumentCaptor<Customizer<CsrfConfigurer<HttpSecurity>>> arg2 = ArgumentCaptor.forClass(Customizer.class);
 		when(httpSecurity.csrf(arg2.capture())).thenReturn(httpSecurity);
-		ba.configure(http);
+		ba.configure(httpSecurity);
 		arg.getValue().customize(httpBasic);
 		arg2.getValue().customize(csrf);
 		assertTrue(true);
@@ -85,7 +85,7 @@ class BasicAuthTest {
 	@Test
 	void testConfigureError() throws Exception {
 		final BasicAuth ba = new BasicAuth(http403);
-		when(http.anyRequest()).thenReturn(authUrl);
-		assertThrows(AuthException.class, () -> ba.configure(http));
+		when(httpSecurity.httpBasic(any())).thenThrow(RuntimeException.class);
+		assertThrows(AuthException.class, () -> ba.configure(httpSecurity));
 	}
 }

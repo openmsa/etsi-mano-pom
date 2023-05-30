@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.auth.cert.proxy.config;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
@@ -29,7 +30,13 @@ import org.springframework.security.config.annotation.web.configurers.AuthorizeH
 
 import com.ubiqube.etsi.mano.auth.config.SecurityType;
 
+/**
+ *
+ * @author Olivier Vignaud
+ *
+ */
 @ExtendWith(MockitoExtension.class)
+@SuppressWarnings("static-method")
 class CertProxySecutiryConfigTest {
 	@Mock
 	private AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry http;
@@ -43,14 +50,8 @@ class CertProxySecutiryConfigTest {
 	@Test
 	void test() {
 		final CertProxySecutiryConfig cert = new CertProxySecutiryConfig();
-		/**
-		 * http .anyRequest().authenticated() .and(); f.addFilterBefore(new
-		 * XHeaderAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-		 */
-		when(http.anyRequest()).thenReturn(authUrl);
-		when(authUrl.authenticated()).thenReturn(match);
-		when(match.and()).thenReturn(httpSecurity);
-		cert.configure(http);
+		when(httpSecurity.addFilterBefore(any(), any())).thenReturn(httpSecurity);
+		cert.configure(httpSecurity);
 		assertTrue(true);
 	}
 

@@ -51,46 +51,27 @@ class WebSecurityConfigTest {
 	private CsrfConfigurer<HttpSecurity> csrf;
 
 	@Test
-	void test() throws Exception {
-		final SecutiryConfig sc = new TestSecutiryConfig();
-		final WebSecurityConfig wc = new WebSecurityConfig(sc);
-		when(http.authorizeHttpRequests()).thenReturn(amrmr);
-		when(amrmr.requestMatchers(anyString())).thenReturn(au);
-		when(au.permitAll()).thenReturn(amrmr);
-		wc.configure(http);
-		assertTrue(true);
-	}
-
-	@Test
-	void testSameOrigin() throws Exception {
-		final SecutiryConfig sc = new TestSecutiryConfig();
-		final WebSecurityConfig wc = new WebSecurityConfig(sc);
-		final ArgumentCaptor<Customizer<HeadersConfigurer<HttpSecurity>>> cap01 = ArgumentCaptor.forClass(Customizer.class);
-		when(http.headers(cap01.capture())).thenReturn(http);
-		//
-		when(http.authorizeHttpRequests()).thenReturn(amrmr);
-		when(amrmr.requestMatchers(anyString())).thenReturn(au);
-		when(au.permitAll()).thenReturn(amrmr);
-
-		wc.configure(http);
-		when(headers.frameOptions()).thenReturn(foc);
-		cap01.getValue().customize(headers);
-
-		assertTrue(true);
-	}
-
-	@Test
 	void testCsrf() throws Exception {
 		final SecutiryConfig sc = new TestSecutiryConfig();
 		final WebSecurityConfig wc = new WebSecurityConfig(sc);
+		final ArgumentCaptor<Customizer<HeadersConfigurer<HttpSecurity>>> cust = ArgumentCaptor.forClass(Customizer.class);
+		when(http.headers(cust.capture())).thenReturn(http);
+		//
 		final ArgumentCaptor<Customizer<CsrfConfigurer<HttpSecurity>>> cap01 = ArgumentCaptor.forClass(Customizer.class);
 		when(http.csrf(cap01.capture())).thenReturn(http);
 		//
-		when(http.authorizeHttpRequests()).thenReturn(amrmr);
+		final ArgumentCaptor<Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry>> authorizeHttpRequestsCustomizer = ArgumentCaptor.forClass(Customizer.class);
+		when(http.authorizeHttpRequests(authorizeHttpRequestsCustomizer.capture())).thenReturn(http);
 		when(amrmr.requestMatchers(anyString())).thenReturn(au);
 		when(au.permitAll()).thenReturn(amrmr);
 		wc.configure(http);
+		when(amrmr.anyRequest()).thenReturn(au);
 		cap01.getValue().customize(csrf);
+		final ArgumentCaptor<Customizer<HeadersConfigurer<HttpSecurity>.FrameOptionsConfig>> cap02 = ArgumentCaptor.forClass(Customizer.class);
+		when(headers.frameOptions(cap02.capture())).thenReturn(headers);
+		cust.getValue().customize(headers);
+		authorizeHttpRequestsCustomizer.getValue().customize(amrmr);
+		cap02.getValue().customize(foc);
 		assertTrue(true);
 	}
 

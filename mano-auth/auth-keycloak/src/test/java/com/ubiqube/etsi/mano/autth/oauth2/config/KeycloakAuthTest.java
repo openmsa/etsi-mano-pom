@@ -19,6 +19,7 @@ package com.ubiqube.etsi.mano.autth.oauth2.config;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
@@ -54,12 +55,9 @@ class KeycloakAuthTest {
 	@Test
 	void testConfigure() throws Exception {
 		final KeycloakAuth kca = new KeycloakAuth(http403);
-		when(http.anyRequest()).thenReturn(authUrl);
-		when(authUrl.authenticated()).thenReturn(http);
-		when(http.and()).thenReturn(httpSecurity);
 		final ArgumentCaptor<Customizer<OAuth2ResourceServerConfigurer<HttpSecurity>>> cust = ArgumentCaptor.forClass(Customizer.class);
 		when(httpSecurity.oauth2ResourceServer(cust.capture())).thenReturn(httpSecurity);
-		kca.configure(http);
+		kca.configure(httpSecurity);
 		final ArgumentCaptor<Customizer<OAuth2ResourceServerConfigurer<HttpSecurity>.JwtConfigurer>> cust2 = ArgumentCaptor.forClass(Customizer.class);
 		when(oauth2.jwt(cust2.capture())).thenReturn(oauth2);
 		cust.getValue().customize(oauth2);
@@ -70,9 +68,8 @@ class KeycloakAuthTest {
 	@Test
 	void testConfigureError() throws Exception {
 		final KeycloakAuth kca = new KeycloakAuth(http403);
-		when(http.anyRequest()).thenReturn(authUrl);
-		when(authUrl.authenticated()).thenReturn(http);
-		assertThrows(AuthException.class, () -> kca.configure(http));
+		when(httpSecurity.oauth2ResourceServer(any())).thenThrow(RuntimeException.class);
+		assertThrows(AuthException.class, () -> kca.configure(httpSecurity));
 	}
 
 	@Test
