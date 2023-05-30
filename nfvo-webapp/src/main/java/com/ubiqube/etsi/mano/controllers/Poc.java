@@ -18,7 +18,6 @@ package com.ubiqube.etsi.mano.controllers;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.text.ParseException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +32,6 @@ import org.jgrapht.ListenableGraph;
 import org.jgrapht.ext.JGraphXAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,14 +49,9 @@ import com.mxgraph.util.mxConstants;
 import com.mxgraph.util.mxStyleUtils;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
-import com.ubiqube.etsi.mano.dao.mano.nsd.upd.UpdateRequest;
-import com.ubiqube.etsi.mano.dao.mano.nsd.upd.UpdateTypeEnum;
-import com.ubiqube.etsi.mano.dao.mano.v2.BlueprintParameters;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsBlueprintJpa;
-import com.ubiqube.etsi.mano.nfvo.jpa.NsLiveInstanceJpa;
-import com.ubiqube.etsi.mano.nfvo.service.NsBlueprintService;
 import com.ubiqube.etsi.mano.nfvo.service.NsdPackageService;
 import com.ubiqube.etsi.mano.nfvo.service.graph.NsPlanService;
 import com.ubiqube.etsi.mano.orchestrator.Edge2d;
@@ -92,27 +85,20 @@ public class Poc {
 	private final VnfPackageService vnfPackageService;
 	private final NsdPackageService nsdPackageService;
 
-	private final NsLiveInstanceJpa nsLiveInstanceJpa;
 	private final NsBlueprintJpa nsBlueprintJpa;
 	private final VnfPlanService vnfPlanService;
 	private final NsPlanService nsPlanService;
 	private final ObjectMapper om;
-	private final NsBlueprintService nsBlueprintService;
 
-	private final Environment env;
-
-	public Poc(final NsLiveInstanceJpa nsLiveInstanceJpa, final NsBlueprintJpa nsBlueprintJpa, final VnfPlanService vnfPlanService,
+	public Poc(final NsBlueprintJpa nsBlueprintJpa, final VnfPlanService vnfPlanService,
 			final NsPlanService nsPlanService, final VnfPackageService vnfPackageService, final NsdPackageService nsdPackageService,
-			final ObjectMapper om, final NsBlueprintService nsBlueprintService, final Environment env) {
-		this.nsLiveInstanceJpa = nsLiveInstanceJpa;
+			final ObjectMapper om) {
 		this.nsBlueprintJpa = nsBlueprintJpa;
 		this.vnfPlanService = vnfPlanService;
 		this.nsPlanService = nsPlanService;
 		this.vnfPackageService = vnfPackageService;
 		this.nsdPackageService = nsdPackageService;
 		this.om = om;
-		this.nsBlueprintService = nsBlueprintService;
-		this.env = env;
 	}
 
 	@GetMapping("/vnfpkg/{id}")
@@ -226,29 +212,4 @@ public class Poc {
 		return mxCellRenderer.createBufferedImage(graphAdapter, null, 1, new Color(255, 255, 255, 255), true, null);
 	}
 
-	@GetMapping("/ns")
-	public ResponseEntity<NsBlueprint> writeNsBlue() {
-		final NsBlueprint ns = new NsBlueprint();
-		final BlueprintParameters bp = new BlueprintParameters();
-		final UpdateRequest upd = new UpdateRequest();
-		upd.setUpdateType(UpdateTypeEnum.ADD_VNF);
-		bp.setUpdData(upd);
-		ns.setParameters(bp);
-		final NsBlueprint res = nsBlueprintService.save(ns);
-		return ResponseEntity.ok(res);
-	}
-
-	/*
-	 * .clientId(env.getProperty("keycloak.resource"))
-	 * .clientSecret(env.getProperty("keycloak.credentials.secret"))
-	 * .tokenEndpoint(env.getProperty("mano.swagger-o-auth2"))
-	 */
-	@GetMapping("/env")
-	public ResponseEntity<String> testEnv() throws ParseException {
-		final String ret = "1= " + env.getProperty("keycloak.resource") + "\n" +
-				"2= " + env.getProperty("keycloak.credentials.secret") + "\n" +
-				"3= " + env.getProperty("mano.swagger-o-auth2") + "\n";
-
-		return ResponseEntity.ok(ret);
-	}
 }

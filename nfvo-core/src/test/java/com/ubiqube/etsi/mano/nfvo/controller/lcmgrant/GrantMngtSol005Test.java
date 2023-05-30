@@ -58,7 +58,8 @@ class GrantMngtSol005Test {
 	@Test
 	void testGetFail() {
 		final GrantMngtSol005 srv = new GrantMngtSol005(grantJpa, mapper, eventManager);
-		assertThrows(NotFoundException.class, () -> srv.get(UUID.randomUUID()));
+		final UUID uuid = UUID.randomUUID();
+		assertThrows(NotFoundException.class, () -> srv.get(uuid));
 		assertTrue(true);
 	}
 

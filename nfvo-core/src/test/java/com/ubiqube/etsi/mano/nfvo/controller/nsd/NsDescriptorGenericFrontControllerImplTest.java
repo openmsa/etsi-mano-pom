@@ -38,13 +38,16 @@ import org.springframework.core.io.InputStreamSource;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.exception.GenericException;
 
+import jakarta.annotation.Nonnull;
 import ma.glasnost.orika.MapperFacade;
 
 @ExtendWith(MockitoExtension.class)
 class NsDescriptorGenericFrontControllerImplTest {
 	@Mock
+	@Nonnull
 	private MapperFacade mapper;
 	@Mock
+	@Nonnull
 	private NsdController nsdController;
 
 	@Test
@@ -107,7 +110,8 @@ class NsDescriptorGenericFrontControllerImplTest {
 		final InputStream fakeIs = Mockito.mock(InputStream.class);
 		doThrow(IOException.class).when(fakeIs).close();
 		when(iss.getInputStream()).thenReturn(fakeIs);
-		assertThrows(GenericException.class, () -> srv.putNsdContent(UUID.randomUUID().toString(), null, iss));
+		final String uuid = UUID.randomUUID().toString();
+		assertThrows(GenericException.class, () -> srv.putNsdContent(uuid, null, iss));
 		assertTrue(true);
 	}
 
