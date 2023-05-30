@@ -16,8 +16,9 @@
  */
 package com.ubiqube.etsi.mano.alarm;
 
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.DefaultClientRequestObservationConvention;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClient.Builder;
@@ -34,7 +35,7 @@ import jakarta.annotation.Nonnull;
  * @author Olivier Vignaud
  *
  */
-@Configurable
+@Configuration
 public class AlarmClientConfig {
 	@Nonnull
 	private final DefaultClientRequestObservationConvention oc;
@@ -46,6 +47,7 @@ public class AlarmClientConfig {
 		observationRegistry = configurableApplicationContext.getBean(ObservationRegistry.class);
 	}
 
+	@Bean
 	AlarmClient createAlarmClient() {
 		final HttpServiceProxyFactory proxyFactory = createProxyFactory();
 		return proxyFactory.createClient(AlarmClient.class);
