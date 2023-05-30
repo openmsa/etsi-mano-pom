@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.service.event.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -81,7 +82,7 @@ public class Subscription {
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn
-	private List<FilterAttributes> filters;
+	private List<FilterAttributes> filters = new ArrayList<>();
 
 	private String version;
 

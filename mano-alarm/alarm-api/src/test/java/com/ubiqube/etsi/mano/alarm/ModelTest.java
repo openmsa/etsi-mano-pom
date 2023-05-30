@@ -16,6 +16,8 @@
  */
 package com.ubiqube.etsi.mano.alarm;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
@@ -37,6 +39,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,6 +49,12 @@ public class ModelTest {
 
 	private ModelTest() {
 		// Nothing.
+	}
+
+	@SuppressWarnings("static-method")
+	@Test
+	void dummyTest() {
+		assertTrue(true);
 	}
 
 	public static void realHandle(final String x) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, IntrospectionException {

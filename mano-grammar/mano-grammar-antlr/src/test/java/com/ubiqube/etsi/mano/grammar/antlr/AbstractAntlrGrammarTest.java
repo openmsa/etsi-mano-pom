@@ -22,17 +22,26 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import com.ubiqube.etsi.mano.grammar.GrammarException;
 import com.ubiqube.etsi.mano.grammar.Node;
 import com.ubiqube.etsi.mano.grammar.Node.Operand;
 
+/**
+ *
+ * @author Olivier Vignaud
+ *
+ */
+@SuppressWarnings("static-method")
 class AbstractAntlrGrammarTest {
 
-	@Test
-	void testEmptyQuery() {
+	@ParameterizedTest
+	@ValueSource(strings = { "", "Hello!" })
+	void testEmptyQuery(final String param) {
 		final TestAntlrGrammar g = new TestAntlrGrammar();
-		g.parse("");
+		g.parse(param);
 		assertNotNull(g);
 	}
 
@@ -40,13 +49,6 @@ class AbstractAntlrGrammarTest {
 	void testNullQuery() {
 		final TestAntlrGrammar g = new TestAntlrGrammar();
 		g.parse(null);
-		assertNotNull(g);
-	}
-
-	@Test
-	void testQueryEmptyNode() {
-		final TestAntlrGrammar g = new TestAntlrGrammar();
-		g.parse("Hello!");
 		assertNotNull(g);
 	}
 

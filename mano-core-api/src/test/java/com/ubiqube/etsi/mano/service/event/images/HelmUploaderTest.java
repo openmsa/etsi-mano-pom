@@ -30,6 +30,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mockito;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
@@ -60,50 +62,24 @@ class HelmUploaderTest {
 		assertTrue(true);
 	}
 
-	@Test
-	void testName(final WireMockRuntimeInfo wmRuntimeInfo) throws Exception {
-		stubFor((put(urlPathMatching("/mariadb-7.3.14.tgz")).willReturn(aResponse().withStatus(200))));
+	@ParameterizedTest
+	@ValueSource(strings = { "/mariadb-7.3.14.tgz", "/mariadb-7.3.14.tar", "/mariadb-7.3.14.tar.gz", "/mariadb-7.3.14.zip" })
+	void testName(final String param, final WireMockRuntimeInfo wmRuntimeInfo) throws Exception {
+		stubFor((put(urlPathMatching(param)).willReturn(aResponse().withStatus(200))));
 		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		bos.write("test".getBytes());
-		final ManoResource mr = new ByteArrayResource(bos.toByteArray(), "mariadb-7.3.14.tgz");
+		final ManoResource mr = new ByteArrayResource(bos.toByteArray(), param);
 		final ConnectionInformation ci = createConnection(wmRuntimeInfo);
-		HelmUploader.uploadFile(mr, ci, "mariadb-7.3.14.tgz");
+		HelmUploader.uploadFile(mr, ci, param.substring(1));
 		assertTrue(true);
 	}
 
-	@Test
-	void testNameTar(final WireMockRuntimeInfo wmRuntimeInfo) throws Exception {
-		stubFor((put(urlPathMatching("/mariadb-7.3.14.tar")).willReturn(aResponse().withStatus(200))));
-		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		bos.write("test".getBytes());
-		final ManoResource mr = new ByteArrayResource(bos.toByteArray(), "mariadb-7.3.14.tgz");
-		final ConnectionInformation ci = createConnection(wmRuntimeInfo);
-		HelmUploader.uploadFile(mr, ci, "mariadb-7.3.14.tar");
-		assertTrue(true);
-	}
-
-	@Test
-	void testNameTarGz(final WireMockRuntimeInfo wmRuntimeInfo) throws Exception {
-		stubFor((put(urlPathMatching("/mariadb-7.3.14.tar.gz")).willReturn(aResponse().withStatus(200))));
-		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		bos.write("test".getBytes());
-		final ManoResource mr = new ByteArrayResource(bos.toByteArray(), "mariadb-7.3.14.tgz");
-		final ConnectionInformation ci = createConnection(wmRuntimeInfo);
-		HelmUploader.uploadFile(mr, ci, "mariadb-7.3.14.tar.gz");
-		assertTrue(true);
-	}
-
-	@Test
-	void testNameOctetStream(final WireMockRuntimeInfo wmRuntimeInfo) throws Exception {
-		stubFor((put(urlPathMatching("/mariadb-7.3.14.zip")).willReturn(aResponse().withStatus(200))));
-		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		bos.write("test".getBytes());
-		final ManoResource mr = new ByteArrayResource(bos.toByteArray(), "mariadb-7.3.14.tgz");
-		final ConnectionInformation ci = createConnection(wmRuntimeInfo);
-		HelmUploader.uploadFile(mr, ci, "mariadb-7.3.14.zip");
-		assertTrue(true);
-	}
-
+	/**
+	 * Test what append when IOException is thrown, but test will never finish.
+	 *
+	 * @param wmRuntimeInfo
+	 * @throws Exception
+	 */
 	void testNameFail(final WireMockRuntimeInfo wmRuntimeInfo) throws Exception {
 		stubFor((put(urlPathMatching("/mariadb-7.3.14.bad")).willReturn(aResponse().withStatus(200))));
 		final ByteArrayOutputStream bos = new ByteArrayOutputStream();
