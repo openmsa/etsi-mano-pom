@@ -16,6 +16,8 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -26,6 +28,9 @@ import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.dao.mano.alarm.AckState;
 import com.ubiqube.etsi.mano.dao.mano.alarm.Alarms;
+import com.ubiqube.etsi.mano.exception.ConflictException;
+import com.ubiqube.etsi.mano.service.SearchableService;
+import com.ubiqube.etsi.mano.vnfm.jpa.AlarmsJpa;
 
 import jakarta.annotation.Nullable;
 
@@ -36,20 +41,30 @@ import jakarta.annotation.Nullable;
  */
 @Service
 public class NfvoAlarmService {
+	private final AlarmsJpa alarmJpa;
+	private final SearchableService searchableService;
+
+	public NfvoAlarmService(final AlarmsJpa alarmJpa, final SearchableService searchableService) {
+		this.alarmJpa = alarmJpa;
+		this.searchableService = searchableService;
+	}
 
 	public Alarms findById(final UUID id) {
-		// TODO Auto-generated method stub
-		return null;
+		final Optional<Alarms> res = alarmJpa.findById(id);
+		return res.orElseThrow();
 	}
 
 	public Alarms modify(final UUID safeUUID, final AckState ackState, @Nullable final String ifMatch) {
-		// TODO Auto-generated method stub
-		return null;
+		final Alarms alarm = alarmJpa.findById(safeUUID).orElseThrow();
+		Optional.ofNullable(ackState).ifPresent(alarm::setAckState);
+		if ((ifMatch != null) && ifMatch.equals(alarm.getVersion() + "")) {
+			throw new ConflictException("Version header doesn't match: " + ifMatch + " want: " + alarm.getVersion());
+		}
+		return alarmJpa.save(alarm);
 	}
 
 	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String alarmSearchDefaultExcludeFields, final Set<String> alarmSearchMandatoryFields, final Consumer<U> makeLinks) {
-		// TODO Auto-generated method stub
-		return null;
+		return searchableService.search(Alarms.class, requestParams, clazz, alarmSearchDefaultExcludeFields, alarmSearchMandatoryFields, makeLinks, List.of());
 	}
 
 }
