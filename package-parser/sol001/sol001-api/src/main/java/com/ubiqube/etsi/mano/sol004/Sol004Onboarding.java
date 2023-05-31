@@ -286,7 +286,7 @@ public class Sol004Onboarding {
 	private static URL getRemote(final String fileName) {
 		try {
 			return URI.create(fileName).toURL();
-		} catch (final MalformedURLException e) {
+		} catch (final MalformedURLException | IllegalArgumentException e) {
 			LOG.trace("", e);
 			return null;
 		}
