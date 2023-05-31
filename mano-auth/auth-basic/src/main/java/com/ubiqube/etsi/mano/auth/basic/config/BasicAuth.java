@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.auth.basic.config;
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.auth.AuthException;
@@ -53,6 +54,11 @@ public class BasicAuth implements SecutiryConfig {
 		} catch (final Exception e) {
 			throw new AuthException(e);
 		}
+	}
+
+	@Override
+	public void configure(final AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry autorize) {
+		autorize.anyRequest().authenticated();
 	}
 
 	@Override

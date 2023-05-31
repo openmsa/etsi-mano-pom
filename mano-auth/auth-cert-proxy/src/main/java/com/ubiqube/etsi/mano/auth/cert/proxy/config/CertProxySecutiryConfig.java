@@ -31,6 +31,7 @@
 package com.ubiqube.etsi.mano.auth.cert.proxy.config;
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Service;
 
@@ -58,6 +59,11 @@ public class CertProxySecutiryConfig implements SecutiryConfig {
 	@Override
 	public SecurityScheme getSwaggerSecurityScheme(final ManoProperties oauth2Params) {
 		return new SecurityScheme().type(Type.MUTUALTLS).scheme("Mutual");
+	}
+
+	@Override
+	public void configure(final AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry autorize) {
+		autorize.anyRequest().authenticated();
 	}
 
 	@Override
