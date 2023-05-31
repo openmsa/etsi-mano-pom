@@ -199,9 +199,8 @@ public class GrantAction {
 
 		// Add public networks.
 		final VnfPackage vnfPkg = vnfPackageService.findByVnfdId(getSafeUUID(grants.getVnfdId()));
-		final List<String> lst = vnfPkg.getVirtualLinks().stream().filter(x -> vnfPkg.getVirtualCp().stream()
-				.noneMatch(y -> y.getVirtualLinkRef().equals(x.getValue())) &&
-				vnfPkg.getVnfExtCp().stream().noneMatch(y -> y.getExternalVirtualLink().equals(x.getValue())))
+		final List<String> lst = vnfPkg.getVirtualLinks().stream()
+				.filter(x -> noneMatchVirtualCp(vnfPkg, x) && noneMatchExtCp(vnfPkg, x))
 				.map(ListKeyPair::getValue)
 				.toList();
 		final List<NetworkObject> netFound = vim.network(vimInfo).searchByName(lst);
@@ -229,6 +228,15 @@ public class GrantAction {
 			}
 		});
 		grantContainerAction.handleGrant(grants);
+	}
+
+	private static boolean noneMatchExtCp(final VnfPackage vnfPkg, final ListKeyPair x) {
+		return vnfPkg.getVnfExtCp().stream().noneMatch(y -> y.getExternalVirtualLink().equals(x.getValue()));
+	}
+
+	private static boolean noneMatchVirtualCp(final VnfPackage vnfPkg, final ListKeyPair x) {
+		return vnfPkg.getVirtualCp().stream()
+				.noneMatch(y -> y.getVirtualLinkRef().equals(x.getValue()));
 	}
 
 	private static ZoneInfoEntity mapZone(final String zoneId, final VimConnectionInformation vimInfo) {
