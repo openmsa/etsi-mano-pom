@@ -19,9 +19,16 @@ package com.ubiqube.etsi.mano;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.autoconfigure.actuate.observability.AutoConfigureObservability;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
+/**
+ *
+ * @author Olivier Vignaud
+ *
+ */
+@AutoConfigureObservability(tracing = true)
 @SpringBootTest
 @ContextConfiguration(classes = { MonitoringApplication.class })
 class WebappTest {
