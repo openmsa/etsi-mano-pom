@@ -48,6 +48,12 @@ class VnfIndicatorMonitoringDataTest {
 		obj.setTime(OffsetDateTime.now());
 		obj.setValue(123D);
 		obj.setVnfcId(UUID.randomUUID());
+		obj.getId();
+		obj.getKey();
+		obj.getMasterJobId();
+		obj.getTime();
+		obj.getValue();
+		obj.getVnfcId();
 		assertTrue(true);
 	}
 }
