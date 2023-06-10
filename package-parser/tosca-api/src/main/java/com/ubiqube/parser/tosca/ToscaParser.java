@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.io.IOUtils;
 
@@ -79,6 +80,7 @@ public class ToscaParser {
 	private static ToscaRoot loadToscaBase(final ToscaVersion tv) {
 		final String fileName = getToscaBase(tv);
 		try (final InputStream stream = Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName)) {
+			Objects.requireNonNull(stream, "Unable to locate: " + fileName);
 			final String content = IOUtils.toString(stream, Charset.defaultCharset());
 			final ObjectMapper mapper = getMapper();
 			return mapper.readValue(content.getBytes(), ToscaRoot.class);
