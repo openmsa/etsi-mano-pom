@@ -1,0 +1,54 @@
+{
+	"metrics": [
+		{
+			"label": "vnf1",
+			"objectId": "446bb4d4-50de-4a73-9fd8-f44a87d7164c",
+			"key": "cpu"
+		},
+		{
+			"label": "vnf2",
+			"objectId": "87d5a126-3015-4323-908a-7d594a433a44",
+			"key": "cpu"
+		}
+	],
+	"transforms": [
+		{
+			"function": "cpuz",
+			"value": "vnf1",
+			"parameters": [
+				{
+					"cpu": 2
+				}
+			]
+		},
+		{
+			"function": "cpuz",
+			"value": "vnf2",
+			"target": "vnf2",
+			"parameters": [
+				{
+					"cpu": 2
+				}
+			]
+		}
+	],
+	"aggregates": [
+		{
+			"name": "vnf",
+			"function": "mean",
+			"parameters": [
+				"vnf1",
+				"vnf2"
+			]
+		}
+	],
+	"conditions": [
+		{
+			"vnf": [
+				{
+					"greater_or_equal": 80
+				}
+			]
+		}
+	]
+}
