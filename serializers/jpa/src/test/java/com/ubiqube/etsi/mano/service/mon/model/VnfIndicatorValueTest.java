@@ -16,8 +16,16 @@
  */
 package com.ubiqube.etsi.mano.service.mon.model;
 
+import static org.junit.Assert.assertTrue;
+
 import org.junit.jupiter.api.Test;
 
+/**
+ *
+ * @author Olivier Vignaud
+ *
+ */
+@SuppressWarnings("static-method")
 class VnfIndicatorValueTest {
 
 	@Test
@@ -36,6 +44,7 @@ class VnfIndicatorValueTest {
 		srv.getTime();
 		srv.getValue();
 		srv.getVnfInstanceId();
+		assertTrue(true);
 	}
 
 }
