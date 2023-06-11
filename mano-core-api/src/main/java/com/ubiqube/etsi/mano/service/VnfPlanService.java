@@ -48,6 +48,7 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Storage;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SubNetwork;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfExtCp;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfIndicator;
+import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfIndicatorStart;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfPortNode;
 import com.ubiqube.etsi.mano.service.graph.Graph2dBuilder;
 
@@ -131,11 +132,11 @@ public class VnfPlanService {
 			g.from(MciopUser.class, vdu).addNext(HelmNode.class, x.getToscaName(), Relation.ONE_TO_MANY);
 		});
 		vnfPkg.getVnfIndicator().forEach(x -> {
+			g.single(VnfIndicatorStart.class, x.getName());
 			g.single(VnfIndicator.class, x.getName());
 			vnfPkg.getVnfCompute().forEach(z -> g.from(VnfIndicator.class, x.getName()).dependency(Compute.class, z.getToscaName(), Relation.ONE_TO_MANY));
-			// x.getMonitoringParameters().forEach(y -> g.from(VnfIndicator.class,
-			// x.getName()).addNext(Monitoring.class, x.getName() + "-" + y.getName(),
-			// Relation.ONE_TO_ONE))
+			g.from(VnfIndicatorStart.class, x.getName()).addNext(VnfIndicator.class, x.getName(), Relation.ONE_TO_MANY);
+			// Link to monitoring instead ?
 		});
 		return g.build();
 	}

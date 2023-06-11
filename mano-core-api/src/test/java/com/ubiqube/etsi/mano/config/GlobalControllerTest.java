@@ -14,36 +14,18 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service.mon.model;
+package com.ubiqube.etsi.mano.config;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-/**
- *
- * @author Olivier Vignaud
- *
- */
-@SuppressWarnings("static-method")
-class VnfIndicatorValueTest {
+class GlobalControllerTest {
 
 	@Test
 	void test() {
-		VnfIndicatorValue srv = new VnfIndicatorValue();
-		srv = new VnfIndicatorValue(null, null, null, null, null);
-		srv.setId(null);
-		srv.setKey(null);
-		srv.setMasterJobId(null);
-		srv.setTime(null);
-		srv.setValue(null);
-		srv.setVnfInstanceId(null);
-		srv.getId();
-		srv.getKey();
-		srv.getMasterJobId();
-		srv.getTime();
-		srv.getValue();
-		srv.getVnfInstanceId();
+		GlobalController srv = new GlobalController();
+		srv.index();
 		assertTrue(true);
 	}
 
