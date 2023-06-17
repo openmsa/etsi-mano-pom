@@ -38,9 +38,9 @@ class DuplicateClassTest {
 	void scanDuplicatedClasses() throws IOException {
 		final MultiValueMap<Path, Path> all = new LinkedMultiValueMap<>();
 		Files.walk(Paths.get("/home/olivier/workspace/workspace17.1.1/ubi-etsi-mano/etsi-models/2.7.1"))
-				.filter(Files::isRegularFile)
-				.filter(x -> x.getFileName().toString().endsWith(".java"))
-				.forEach(x -> all.add(x.getFileName(), x));
+		.filter(Files::isRegularFile)
+		.filter(x -> x.getFileName().toString().endsWith(".java"))
+		.forEach(x -> all.add(x.getFileName(),x));
 
 		all.entrySet().stream().filter(x -> x.getValue().size() > 1).forEach(x -> {
 			System.out.println(" - " + x.getKey() + " " + x.getValue());

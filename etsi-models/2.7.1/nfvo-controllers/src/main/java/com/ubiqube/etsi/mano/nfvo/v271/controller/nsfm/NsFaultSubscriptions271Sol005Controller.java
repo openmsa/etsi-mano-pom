@@ -37,7 +37,7 @@ public class NsFaultSubscriptions271Sol005Controller implements NsFaultSubscript
 	private final HttpServletRequest request;
 
 	@org.springframework.beans.factory.annotation.Autowired
-	public NsFaultSubscriptions271Sol005Controller(final ObjectMapper objectMapper, final HttpServletRequest request) {
+	public NsFaultSubscriptions271Sol005Controller(final ObjectMapper objectMapper,final HttpServletRequest request) {
 		this.objectMapper = objectMapper;
 		this.request = request;
 	}

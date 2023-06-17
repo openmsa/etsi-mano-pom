@@ -50,8 +50,8 @@ public class NsDescriptors271Sol005Controller implements NsDescriptors271Sol005A
 	}
 
 	@Override
-	public ResponseEntity<String> nsDescriptorsGet(final MultiValueMap<String, String> requestParams, final String nextpageOpaqueMarker) {
-		return nsDescriptorGenericFrontController.search(requestParams, NsdInfo.class, NsDescriptors271Sol005Controller::makeLinks);
+	public ResponseEntity<String> nsDescriptorsGet(final MultiValueMap<String, String> requestParams,final String nextpageOpaqueMarker) {
+		return nsDescriptorGenericFrontController.search(requestParams,NsdInfo.class,NsDescriptors271Sol005Controller::makeLinks);
 	}
 
 	@Override
@@ -61,39 +61,39 @@ public class NsDescriptors271Sol005Controller implements NsDescriptors271Sol005A
 
 	@Override
 	public ResponseEntity<NsdInfo> nsDescriptorsNsdInfoIdGet(final String nsdInfoId) {
-		return nsDescriptorGenericFrontController.finsById(nsdInfoId, NsdInfo.class, NsDescriptors271Sol005Controller::makeLinks);
+		return nsDescriptorGenericFrontController.finsById(nsdInfoId,NsdInfo.class,NsDescriptors271Sol005Controller::makeLinks);
 	}
 
 	@Override
-	public ResponseEntity<Resource> nsDescriptorsNsdInfoIdNsdContentGet(final String nsdInfoId, final String accept, final String range) {
-		return nsDescriptorGenericFrontController.getNsdContent(nsdInfoId, accept);
+	public ResponseEntity<Resource> nsDescriptorsNsdInfoIdNsdContentGet(final String nsdInfoId,final String accept,final String range) {
+		return nsDescriptorGenericFrontController.getNsdContent(nsdInfoId,accept);
 	}
 
 	@Override
-	public ResponseEntity<Void> nsDescriptorsNsdInfoIdNsdContentPut(final String nsdInfoId, final String accept, final MultipartFile file) {
-		return nsDescriptorGenericFrontController.putNsdContent(nsdInfoId, accept, file);
+	public ResponseEntity<Void> nsDescriptorsNsdInfoIdNsdContentPut(final String nsdInfoId,final String accept,final MultipartFile file) {
+		return nsDescriptorGenericFrontController.putNsdContent(nsdInfoId,accept,file);
 	}
 
 	@Override
-	public ResponseEntity<NsdInfoModifications> nsDescriptorsNsdInfoIdPatch(final String nsdInfoId, @Valid final String body, final String ifMatch) {
-		nsDescriptorGenericFrontController.modify(nsdInfoId, body, ifMatch, NsdInfo.class, NsDescriptors271Sol005Controller::makeLinks);
+	public ResponseEntity<NsdInfoModifications> nsDescriptorsNsdInfoIdPatch(final String nsdInfoId,@Valid final String body,final String ifMatch) {
+		nsDescriptorGenericFrontController.modify(nsdInfoId,body,ifMatch,NsdInfo.class,NsDescriptors271Sol005Controller::makeLinks);
 		final NsdInfoModifications modif = new NsdInfoModifications();
 		return ResponseEntity.ok(modif);
 	}
 
 	@Override
 	public ResponseEntity<NsdInfo> nsDescriptorsPost(@Valid final CreateNsdInfoRequest body) {
-		return nsDescriptorGenericFrontController.create("", body.getUserDefinedData(), NsdInfo.class, NsDescriptors271Sol005Controller::makeLinks, NsDescriptors271Sol005Controller::makeSelfLink);
+		return nsDescriptorGenericFrontController.create("",body.getUserDefinedData(),NsdInfo.class,NsDescriptors271Sol005Controller::makeLinks,NsDescriptors271Sol005Controller::makeSelfLink);
 	}
 
 	@Override
-	public ResponseEntity<Resource> nsDescriptorsNsdInfoIdNsdGet(final String nsdInfoId, @Valid final String includeSignatures) {
-		return nsDescriptorGenericFrontController.getNsd(nsdInfoId, includeSignatures);
+	public ResponseEntity<Resource> nsDescriptorsNsdInfoIdNsdGet(final String nsdInfoId,@Valid final String includeSignatures) {
+		return nsDescriptorGenericFrontController.getNsd(nsdInfoId,includeSignatures);
 	}
 
 	@Override
 	public ResponseEntity<Resource> nsDescriptorsNsdInfoIdManifestGet(final String nsdInfoId) {
-		return nsDescriptorGenericFrontController.getManifest(nsdInfoId, null);
+		return nsDescriptorGenericFrontController.getManifest(nsdInfoId,null);
 	}
 
 	private static void makeLinks(@Nonnull final NsdInfo nsdInfo) {
@@ -104,7 +104,7 @@ public class NsDescriptors271Sol005Controller implements NsDescriptors271Sol005A
 		nsdSelf.setHref(_self);
 		ret.setSelf(nsdSelf);
 
-		final String _nsdContent = linkTo(methodOn(NsDescriptors271Sol005Api.class).nsDescriptorsNsdInfoIdNsdContentGet(id, "", "")).withSelfRel().getHref();
+		final String _nsdContent = linkTo(methodOn(NsDescriptors271Sol005Api.class).nsDescriptorsNsdInfoIdNsdContentGet(id,"","")).withSelfRel().getHref();
 		final Link nsdContent = new Link();
 		nsdContent.setHref(_nsdContent);
 		ret.setNsdContent(nsdContent);

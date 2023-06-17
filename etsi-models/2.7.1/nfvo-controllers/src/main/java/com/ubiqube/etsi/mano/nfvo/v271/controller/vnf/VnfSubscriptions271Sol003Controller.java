@@ -55,7 +55,7 @@ public class VnfSubscriptions271Sol003Controller implements VnfSubscriptions271S
 	 */
 	@Override
 	public ResponseEntity<List<PkgmSubscription>> subscriptionsGet(final String filter) {
-		return vnfSubscriptionSol003FrontController.search(filter, PkgmSubscription.class, VnfSubscriptions271Sol003Controller::makeLinks);
+		return vnfSubscriptionSol003FrontController.search(filter,PkgmSubscription.class,VnfSubscriptions271Sol003Controller::makeLinks);
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class VnfSubscriptions271Sol003Controller implements VnfSubscriptions271S
 	 */
 	@Override
 	public ResponseEntity<PkgmSubscription> subscriptionsPost(final PkgmSubscriptionRequest subscriptionsPostQuery) {
-		return vnfSubscriptionSol003FrontController.create(subscriptionsPostQuery, PkgmSubscription.class, VnfSubscriptions271Sol003Controller::makeLinks);
+		return vnfSubscriptionSol003FrontController.create(subscriptionsPostQuery,PkgmSubscription.class,VnfSubscriptions271Sol003Controller::makeLinks);
 	}
 
 	/**
@@ -102,7 +102,7 @@ public class VnfSubscriptions271Sol003Controller implements VnfSubscriptions271S
 	 */
 	@Override
 	public ResponseEntity<PkgmSubscription> subscriptionsSubscriptionIdGet(final String subscriptionId) {
-		return vnfSubscriptionSol003FrontController.findById(subscriptionId, PkgmSubscription.class, VnfSubscriptions271Sol003Controller::makeLinks);
+		return vnfSubscriptionSol003FrontController.findById(subscriptionId,PkgmSubscription.class,VnfSubscriptions271Sol003Controller::makeLinks);
 	}
 
 	public static void makeLinks(final PkgmSubscription pkgmSubscription) {

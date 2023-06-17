@@ -34,7 +34,7 @@ import com.ubiqube.etsi.mano.nfvo.v271.model.vnf.VnfPackageOnboardingNotificatio
 public class VnfSubscriptionFactory271 {
 
 	@Nonnull
-	public static VnfPackageChangeNotification createVnfPackageChangeNotification(final boolean deleted, final UUID subscriptionId, @Nonnull final UUID vnfPkgId, final String vnfdId, final PackageOperationalStateType state, final Linkable links) {
+	public static VnfPackageChangeNotification createVnfPackageChangeNotification(final boolean deleted,final UUID subscriptionId,@Nonnull final UUID vnfPkgId,final String vnfdId,final PackageOperationalStateType state,final Linkable links) {
 		final VnfPackageChangeNotification ret = new VnfPackageChangeNotification();
 		if (deleted) {
 			ret.setChangeType(PackageChangeType.PKG_DELETE);
@@ -48,12 +48,12 @@ public class VnfSubscriptionFactory271 {
 		ret.setTimeStamp(OffsetDateTime.now());
 		ret.setVnfdId(vnfdId);
 		ret.setVnfPkgId(vnfPkgId.toString());
-		ret.setLinks(links.createVnfPackageOnboardingNotificationLinks(vnfPkgId, vnfdId, subscriptionId));
+		ret.setLinks(links.createVnfPackageOnboardingNotificationLinks(vnfPkgId,vnfdId,subscriptionId));
 		return ret;
 	}
 
 	@Nonnull
-	public static VnfPackageOnboardingNotification createNotificationVnfPackageOnboardingNotification(final UUID subscriptionId, @Nonnull final UUID vnfPkgId, final String vnfdId, final Linkable links) {
+	public static VnfPackageOnboardingNotification createNotificationVnfPackageOnboardingNotification(final UUID subscriptionId,@Nonnull final UUID vnfPkgId,final String vnfdId,final Linkable links) {
 		final VnfPackageOnboardingNotification ret = new VnfPackageOnboardingNotification();
 		ret.setId(subscriptionId.toString());
 		ret.setTimeStamp(OffsetDateTime.now());
@@ -61,7 +61,7 @@ public class VnfSubscriptionFactory271 {
 		ret.setSubscriptionId(subscriptionId.toString());
 		ret.setVnfPkgId(vnfPkgId.toString());
 		ret.setVnfdId(vnfdId);
-		ret.setLinks(links.createVnfPackageOnboardingNotificationLinks(vnfPkgId, vnfdId, subscriptionId));
+		ret.setLinks(links.createVnfPackageOnboardingNotificationLinks(vnfPkgId,vnfdId,subscriptionId));
 		return ret;
 	}
 

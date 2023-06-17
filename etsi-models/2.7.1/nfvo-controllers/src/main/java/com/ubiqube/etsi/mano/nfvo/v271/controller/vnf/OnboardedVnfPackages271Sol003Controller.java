@@ -51,33 +51,33 @@ public class OnboardedVnfPackages271Sol003Controller implements OnboardedVnfPack
 	}
 
 	@Override
-	public ResponseEntity<String> onboardedVnfPackagesGet(final MultiValueMap<String, String> requestParams, @Valid final String nextpageOpaqueMarker) {
-		return vnfPackageFrontController.onboardedSearch(requestParams, VnfPkgInfo.class, links::makeLinks);
+	public ResponseEntity<String> onboardedVnfPackagesGet(final MultiValueMap<String, String> requestParams,@Valid final String nextpageOpaqueMarker) {
+		return vnfPackageFrontController.onboardedSearch(requestParams,VnfPkgInfo.class,links::makeLinks);
 	}
 
 	@Override
-	public ResponseEntity<Resource> onboardedVnfPackagesVnfdIdArtifactsArtifactPathGet(final HttpServletRequest request, final String vnfdId, @Valid final String includeSignature) {
-		return vnfPackageFrontController.onboardedGetArtifact(request, getSafeUUID(vnfdId), includeSignature);
+	public ResponseEntity<Resource> onboardedVnfPackagesVnfdIdArtifactsArtifactPathGet(final HttpServletRequest request,final String vnfdId,@Valid final String includeSignature) {
+		return vnfPackageFrontController.onboardedGetArtifact(request,getSafeUUID(vnfdId),includeSignature);
 	}
 
 	@Override
 	public ResponseEntity<VnfPkgInfo> onboardedVnfPackagesVnfdIdGet(final String vnfdId) {
-		return vnfPackageFrontController.onboardedFindById(getSafeUUID(vnfdId), VnfPkgInfo.class, links::makeLinks);
+		return vnfPackageFrontController.onboardedFindById(getSafeUUID(vnfdId),VnfPkgInfo.class,links::makeLinks);
 	}
 
 	@Override
-	public ResponseEntity<Resource> onboardedVnfPackagesVnfdIdManifestGet(final String vnfdId, @Valid final String includeSignature) {
-		return vnfPackageFrontController.onboardedGetManifestByVnfd(UUID.fromString(vnfdId), includeSignature);
+	public ResponseEntity<Resource> onboardedVnfPackagesVnfdIdManifestGet(final String vnfdId,@Valid final String includeSignature) {
+		return vnfPackageFrontController.onboardedGetManifestByVnfd(UUID.fromString(vnfdId),includeSignature);
 	}
 
 	@Override
-	public ResponseEntity<Resource> onboardedVnfPackagesVnfdIdPackageContentGet(final String vnfdId, final String accept, final String include) {
-		return vnfPackageFrontController.onboardedGetContentByVnfdId(vnfdId, accept, include);
+	public ResponseEntity<Resource> onboardedVnfPackagesVnfdIdPackageContentGet(final String vnfdId,final String accept,final String include) {
+		return vnfPackageFrontController.onboardedGetContentByVnfdId(vnfdId,accept,include);
 	}
 
 	@Override
-	public ResponseEntity<Resource> onboardedVnfPackagesVnfdIdVnfdGet(final String vnfdId, @Valid final String includeSignature) {
-		return vnfPackageFrontController.onboardedGetVnfdByVnfdId(vnfdId, includeSignature);
+	public ResponseEntity<Resource> onboardedVnfPackagesVnfdIdVnfdGet(final String vnfdId,@Valid final String includeSignature) {
+		return vnfPackageFrontController.onboardedGetVnfdByVnfdId(vnfdId,includeSignature);
 	}
 
 }

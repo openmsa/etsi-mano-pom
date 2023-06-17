@@ -58,8 +58,8 @@ public class NsdSubscriptions271Sol005Controller implements NsdSubscriptions271S
 	 *
 	 */
 	@Override
-	public ResponseEntity<List<NsdmSubscription>> subscriptionsGet(final MultiValueMap<String, String> requestParams, final String nextpageOpaqueMarker) {
-		return nsdSubscriptionFrontController.search(requestParams, NsdmSubscription.class, NsdSubscriptions271Sol005Controller::makeLink);
+	public ResponseEntity<List<NsdmSubscription>> subscriptionsGet(final MultiValueMap<String, String> requestParams,final String nextpageOpaqueMarker) {
+		return nsdSubscriptionFrontController.search(requestParams,NsdmSubscription.class,NsdSubscriptions271Sol005Controller::makeLink);
 	}
 
 	/**
@@ -84,7 +84,7 @@ public class NsdSubscriptions271Sol005Controller implements NsdSubscriptions271S
 	 */
 	@Override
 	public ResponseEntity<NsdmSubscription> subscriptionsPost(final NsdmSubscriptionRequest body) {
-		return nsdSubscriptionFrontController.create(body, NsdmSubscription.class, NsdSubscriptions271Sol005Api.class, NsdSubscriptions271Sol005Controller::makeLink, NsdSubscriptions271Sol005Controller::getSelfLink);
+		return nsdSubscriptionFrontController.create(body,NsdmSubscription.class,NsdSubscriptions271Sol005Api.class,NsdSubscriptions271Sol005Controller::makeLink,NsdSubscriptions271Sol005Controller::getSelfLink);
 	}
 
 	/**
@@ -115,7 +115,7 @@ public class NsdSubscriptions271Sol005Controller implements NsdSubscriptions271S
 	 */
 	@Override
 	public ResponseEntity<NsdmSubscription> subscriptionsSubscriptionIdGet(final String subscriptionId) {
-		return nsdSubscriptionFrontController.findById(subscriptionId, NsdmSubscription.class, NsdSubscriptions271Sol005Controller::makeLink);
+		return nsdSubscriptionFrontController.findById(subscriptionId,NsdmSubscription.class,NsdSubscriptions271Sol005Controller::makeLink);
 	}
 
 	private static void makeLink(@NotNull final NsdmSubscription subs) {

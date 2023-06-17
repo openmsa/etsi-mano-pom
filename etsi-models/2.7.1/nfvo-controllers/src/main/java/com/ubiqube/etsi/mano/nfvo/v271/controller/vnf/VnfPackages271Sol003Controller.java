@@ -48,33 +48,33 @@ public class VnfPackages271Sol003Controller implements VnfPackages271Sol003Api {
 	}
 
 	@Override
-	public ResponseEntity<Resource> vnfPackagesVnfPkgIdArtifactsArtifactPathGet(final HttpServletRequest request, final String vnfPkgId, final String range, @Valid final String includeSignature) {
-		return frontController.getArtifactPath(request, getSafeUUID(vnfPkgId), includeSignature);
+	public ResponseEntity<Resource> vnfPackagesVnfPkgIdArtifactsArtifactPathGet(final HttpServletRequest request,final String vnfPkgId,final String range,@Valid final String includeSignature) {
+		return frontController.getArtifactPath(request,getSafeUUID(vnfPkgId),includeSignature);
 	}
 
 	@Override
-	public ResponseEntity<Resource> vnfPackagesVnfPkgIdArtifactsGet(final HttpServletRequest request, final String vnfPkgId, final String range) {
-		return frontController.getSelectArtifacts(request, getSafeUUID(vnfPkgId));
+	public ResponseEntity<Resource> vnfPackagesVnfPkgIdArtifactsGet(final HttpServletRequest request,final String vnfPkgId,final String range) {
+		return frontController.getSelectArtifacts(request,getSafeUUID(vnfPkgId));
 	}
 
 	@Override
-	public ResponseEntity<VnfPkgInfo> vnfPackagesVnfPkgIdGet(final String vnfPkgId, @Valid final String includeSignature) {
-		return frontController.findByIdReadOnly(getSafeUUID(vnfPkgId), VnfPkgInfo.class, links::makeLinks);
+	public ResponseEntity<VnfPkgInfo> vnfPackagesVnfPkgIdGet(final String vnfPkgId,@Valid final String includeSignature) {
+		return frontController.findByIdReadOnly(getSafeUUID(vnfPkgId),VnfPkgInfo.class,links::makeLinks);
 	}
 
 	@Override
-	public ResponseEntity<Resource> vnfPackagesVnfPkgIdManifestGet(final String vnfPkgId, @Valid final String includeSignature) {
-		return frontController.getManifest(getSafeUUID(vnfPkgId), includeSignature);
+	public ResponseEntity<Resource> vnfPackagesVnfPkgIdManifestGet(final String vnfPkgId,@Valid final String includeSignature) {
+		return frontController.getManifest(getSafeUUID(vnfPkgId),includeSignature);
 	}
 
 	@Override
-	public ResponseEntity<Resource> vnfPackagesVnfPkgIdPackageContentGet(final String vnfPkgId, final String range) {
+	public ResponseEntity<Resource> vnfPackagesVnfPkgIdPackageContentGet(final String vnfPkgId,final String range) {
 		return frontController.getContent(getSafeUUID(vnfPkgId));
 	}
 
 	@Override
-	public ResponseEntity<Resource> vnfPackagesVnfPkgIdVnfdGet(final String vnfPkgId, final String accept, @Valid final String includeSignature) {
-		return frontController.getVfnd(getSafeUUID(vnfPkgId), accept, includeSignature);
+	public ResponseEntity<Resource> vnfPackagesVnfPkgIdVnfdGet(final String vnfPkgId,final String accept,@Valid final String includeSignature) {
+		return frontController.getVfnd(getSafeUUID(vnfPkgId),accept,includeSignature);
 	}
 
 }

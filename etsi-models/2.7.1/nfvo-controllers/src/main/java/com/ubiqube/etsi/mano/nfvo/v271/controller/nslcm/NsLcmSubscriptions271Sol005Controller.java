@@ -44,13 +44,13 @@ public class NsLcmSubscriptions271Sol005Controller implements NsLcmSubscriptions
 	}
 
 	@Override
-	public ResponseEntity<List<LccnSubscription>> subscriptionsGet(final String filter, final String nextpageOpaqueMarker) {
-		return nsLcmSubscriptionsGenericFrontController.search(filter, LccnSubscription.class, NsLcmSubscriptions271Sol005Controller::makeLink);
+	public ResponseEntity<List<LccnSubscription>> subscriptionsGet(final String filter,final String nextpageOpaqueMarker) {
+		return nsLcmSubscriptionsGenericFrontController.search(filter,LccnSubscription.class,NsLcmSubscriptions271Sol005Controller::makeLink);
 	}
 
 	@Override
 	public ResponseEntity<LccnSubscription> subscriptionsPost(final LccnSubscriptionRequest body) {
-		return nsLcmSubscriptionsGenericFrontController.create(body, LccnSubscription.class, NsLcmSubscriptions271Sol005Api.class, NsLcmSubscriptions271Sol005Controller::makeLink, NsLcmSubscriptions271Sol005Controller::getSelfLink);
+		return nsLcmSubscriptionsGenericFrontController.create(body,LccnSubscription.class,NsLcmSubscriptions271Sol005Api.class,NsLcmSubscriptions271Sol005Controller::makeLink,NsLcmSubscriptions271Sol005Controller::getSelfLink);
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class NsLcmSubscriptions271Sol005Controller implements NsLcmSubscriptions
 
 	@Override
 	public ResponseEntity<LccnSubscription> subscriptionsSubscriptionIdGet(final String subscriptionId) {
-		return nsLcmSubscriptionsGenericFrontController.findById(subscriptionId, LccnSubscription.class, NsLcmSubscriptions271Sol005Controller::makeLink);
+		return nsLcmSubscriptionsGenericFrontController.findById(subscriptionId,LccnSubscription.class,NsLcmSubscriptions271Sol005Controller::makeLink);
 	}
 
 	private static void makeLink(final LccnSubscription lccnSubscription) {

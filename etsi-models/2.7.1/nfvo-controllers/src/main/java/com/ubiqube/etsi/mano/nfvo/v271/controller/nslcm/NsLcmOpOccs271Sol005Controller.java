@@ -47,8 +47,8 @@ public class NsLcmOpOccs271Sol005Controller implements NsLcmOpOccs271Sol005Api {
 	}
 
 	@Override
-	public ResponseEntity<String> nsLcmOpOccsGet(final MultiValueMap<String, String> requestParams, final String nextpageOpaqueMarker) {
-		return nsLcmGenericFrontController.search(requestParams, NsLcmOpOcc.class, nextpageOpaqueMarker, NsLcmOpOccs271Sol005Controller::makeLinks);
+	public ResponseEntity<String> nsLcmOpOccsGet(final MultiValueMap<String, String> requestParams,final String nextpageOpaqueMarker) {
+		return nsLcmGenericFrontController.search(requestParams,NsLcmOpOcc.class,nextpageOpaqueMarker,NsLcmOpOccs271Sol005Controller::makeLinks);
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class NsLcmOpOccs271Sol005Controller implements NsLcmOpOccs271Sol005Api {
 
 	@Override
 	public ResponseEntity<NsLcmOpOcc> nsLcmOpOccsNsLcmOpOccIdGet(final String nsLcmOpOccId) {
-		return nsLcmGenericFrontController.findById(nsLcmOpOccId, NsLcmOpOcc.class, NsLcmOpOccs271Sol005Controller::makeLinks);
+		return nsLcmGenericFrontController.findById(nsLcmOpOccId,NsLcmOpOcc.class,NsLcmOpOccs271Sol005Controller::makeLinks);
 	}
 
 	@Override
@@ -72,13 +72,13 @@ public class NsLcmOpOccs271Sol005Controller implements NsLcmOpOccs271Sol005Api {
 	}
 
 	@Override
-	public ResponseEntity<Void> nslcmV1NsLcmOpOccsNsLcmOpOccIdCancelPost(final String nsLcmOpOccId, @Valid final CancelMode body) {
-		return nsLcmGenericFrontController.cancel(nsLcmOpOccId, body.getCancelMode().toString());
+	public ResponseEntity<Void> nslcmV1NsLcmOpOccsNsLcmOpOccIdCancelPost(final String nsLcmOpOccId,@Valid final CancelMode body) {
+		return nsLcmGenericFrontController.cancel(nsLcmOpOccId,body.getCancelMode().toString());
 	}
 
 	@Override
 	public ResponseEntity<NsLcmOpOcc> nslcmV1NsLcmOpOccsNsLcmOpOccIdFailPost(final String nsLcmOpOccId) {
-		return nsLcmGenericFrontController.fail(nsLcmOpOccId, NsLcmOpOcc.class, NsLcmOpOccs271Sol005Controller::makeLinks);
+		return nsLcmGenericFrontController.fail(nsLcmOpOccId,NsLcmOpOcc.class,NsLcmOpOccs271Sol005Controller::makeLinks);
 	}
 
 	public static void makeLinks(@NotNull final NsLcmOpOcc nsLcmOpOccs) {

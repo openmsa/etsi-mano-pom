@@ -37,7 +37,7 @@ public class NsAlarms271Sol005Controller implements NsAlarms271Sol005Api {
 	private final HttpServletRequest request;
 
 	@org.springframework.beans.factory.annotation.Autowired
-	public NsAlarms271Sol005Controller(final ObjectMapper objectMapper, final HttpServletRequest request) {
+	public NsAlarms271Sol005Controller(final ObjectMapper objectMapper,final HttpServletRequest request) {
 		this.objectMapper = objectMapper;
 		this.request = request;
 	}

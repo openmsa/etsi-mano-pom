@@ -43,7 +43,7 @@ public class MappingTest extends TestHelper {
 	void testNsdInfo() throws Exception {
 		final Set<String> ignore = new HashSet<>();
 		ignore.add("getLinks");
-		doTest(NsdInfo.class, NsdPackage.class, ignore);
+		doTest(NsdInfo.class,NsdPackage.class,ignore);
 	}
 
 	@Test
@@ -54,14 +54,14 @@ public class MappingTest extends TestHelper {
 		// ignore.add("getStatusEnteredTime");
 		// ignore.add("getOperationParams");
 		// ignore.add("getCancelMode");
-		doTest(NsLcmOpOcc.class, NsBlueprint.class, ignore);
+		doTest(NsLcmOpOcc.class,NsBlueprint.class,ignore);
 	}
 
 	@Test
 	void testGrant() throws Exception {
 		final Set<String> ignore = new HashSet<>();
 		ignore.add("getLinks");
-		doTest(GrantRequest.class, GrantResponse.class, ignore);
+		doTest(GrantRequest.class,GrantResponse.class,ignore);
 	}
 
 	@Test
@@ -77,7 +77,7 @@ public class MappingTest extends TestHelper {
 		ignore.add("getAdditionalAffinityOrAntiAffinityRule");
 		// ignore.add("getMonitoringParameter");
 		// ignore.add("getNsScaleStatus");
-		doTest(NsInstance.class, NsdInstance.class, ignore);
+		doTest(NsInstance.class,NsdInstance.class,ignore);
 	}
 
 	@Test
@@ -85,6 +85,6 @@ public class MappingTest extends TestHelper {
 		final Set<String> ignore = new HashSet<>();
 		ignore.add("getLinks");
 		// ignore.add("getExtLinkPortId");
-		doTest(com.ubiqube.etsi.mano.em.v271.model.vnflcm.VnfInstance.class, VnfInstance.class, ignore);
+		doTest(com.ubiqube.etsi.mano.em.v271.model.vnflcm.VnfInstance.class,VnfInstance.class,ignore);
 	}
 }

@@ -49,15 +49,15 @@ public class OperationParamsTest {
 	private final PodamFactoryImpl podam;
 
 	public OperationParamsTest() {
-		System.setProperty(OrikaSystemProperties.COMPILER_STRATEGY, EclipseJdtCompilerStrategy.class.getName());
-		System.setProperty(OrikaSystemProperties.WRITE_SOURCE_FILES, "true");
-		System.setProperty(OrikaSystemProperties.WRITE_SOURCE_FILES_TO_PATH, "/tmp/orika-test");
+		System.setProperty(OrikaSystemProperties.COMPILER_STRATEGY,EclipseJdtCompilerStrategy.class.getName());
+		System.setProperty(OrikaSystemProperties.WRITE_SOURCE_FILES,"true");
+		System.setProperty(OrikaSystemProperties.WRITE_SOURCE_FILES_TO_PATH,"/tmp/orika-test");
 		mapperFactory = new DefaultMapperFactory.Builder().compilerStrategy(new EclipseJdtCompilerStrategy()).build();
 		orikaMapperFactoryConfigurer = new OrikaConfigurationNfvo271();
 		orikaMapperFactoryConfigurer.configure(mapperFactory);
 		final ConverterFactory converterFactory = mapperFactory.getConverterFactory();
 		podam = new PodamFactoryImpl();
-		podam.getStrategy().addOrReplaceTypeManufacturer(String.class, new UUIDManufacturer());
+		podam.getStrategy().addOrReplaceTypeManufacturer(String.class,new UUIDManufacturer());
 	}
 
 	@Test
@@ -65,10 +65,10 @@ public class OperationParamsTest {
 		final VnfLcmOpOcc vp = podam.manufacturePojo(VnfLcmOpOcc.class);
 		final InstantiateVnfRequest operationParams = podam.manufacturePojo(InstantiateVnfRequest.class);
 		vp.setOperationParams(operationParams);
-		final VnfBlueprint o = mapperFactory.getMapperFacade().map(vp, VnfBlueprint.class);
+		final VnfBlueprint o = mapperFactory.getMapperFacade().map(vp,VnfBlueprint.class);
 		assertNotNull(o);
 		assertNotNull(o.getParameters());
-		assertEquals(operationParams.getFlavourId(), o.getParameters().getFlavourId());
+		assertEquals(operationParams.getFlavourId(),o.getParameters().getFlavourId());
 	}
 
 	@Test
@@ -78,7 +78,7 @@ public class OperationParamsTest {
 		final VnfBlueprint vp = new VnfBlueprint();
 		vp.setOperation(PlanOperationType.INSTANTIATE);
 		vp.setParameters(p);
-		final VnfLcmOpOcc o = mapperFactory.getMapperFacade().map(vp, VnfLcmOpOcc.class);
+		final VnfLcmOpOcc o = mapperFactory.getMapperFacade().map(vp,VnfLcmOpOcc.class);
 		assertNotNull(o);
 		assertNotNull(o.getOperationParams());
 		assertTrue(o.getOperationParams() instanceof InstantiateVnfRequest);
@@ -91,7 +91,7 @@ public class OperationParamsTest {
 		final VnfBlueprint vp = new VnfBlueprint();
 		vp.setOperation(PlanOperationType.TERMINATE);
 		vp.setParameters(p);
-		final VnfLcmOpOcc o = mapperFactory.getMapperFacade().map(vp, VnfLcmOpOcc.class);
+		final VnfLcmOpOcc o = mapperFactory.getMapperFacade().map(vp,VnfLcmOpOcc.class);
 		assertNotNull(o);
 		assertNotNull(o.getOperationParams());
 		assertTrue(o.getOperationParams() instanceof TerminateVnfRequest);
