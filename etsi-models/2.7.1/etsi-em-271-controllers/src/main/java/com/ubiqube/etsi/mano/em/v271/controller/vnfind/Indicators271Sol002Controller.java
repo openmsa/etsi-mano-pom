@@ -40,24 +40,24 @@ public class Indicators271Sol002Controller implements Indicators271Sol002Api {
 	}
 
 	@Override
-	public ResponseEntity<List<VnfIndicator>> indicatorsGet(@Valid final String filter, @Valid final String nextpageOpaqueMarker) {
-		return indicatorsFrontController.search(filter, nextpageOpaqueMarker, VnfIndicator.class, Indicators271Sol002Controller::makeLink);
+	public ResponseEntity<List<VnfIndicator>> indicatorsGet(@Valid final String filter,@Valid final String nextpageOpaqueMarker) {
+		return indicatorsFrontController.search(filter,nextpageOpaqueMarker,VnfIndicator.class,Indicators271Sol002Controller::makeLink);
 	}
 
 	@Override
-	public ResponseEntity<List<VnfIndicator>> indicatorsVnfInstanceIdGet(final String vnfInstanceId, @Valid final String filter, @Valid final String nextpageOpaqueMarker) {
-		return indicatorsFrontController.findByVnfInstanceId(vnfInstanceId, filter, nextpageOpaqueMarker, VnfIndicator.class, Indicators271Sol002Controller::makeLink);
+	public ResponseEntity<List<VnfIndicator>> indicatorsVnfInstanceIdGet(final String vnfInstanceId,@Valid final String filter,@Valid final String nextpageOpaqueMarker) {
+		return indicatorsFrontController.findByVnfInstanceId(vnfInstanceId,filter,nextpageOpaqueMarker,VnfIndicator.class,Indicators271Sol002Controller::makeLink);
 	}
 
 	@Override
-	public ResponseEntity<VnfIndicator> indicatorsVnfInstanceIdIndicatorIdGet(final String vnfInstanceId, final String indicatorId) {
-		return indicatorsFrontController.findByVnfInstanceIdAndIndicatorId(vnfInstanceId, indicatorId, VnfIndicator.class, Indicators271Sol002Controller::makeLink);
+	public ResponseEntity<VnfIndicator> indicatorsVnfInstanceIdIndicatorIdGet(final String vnfInstanceId,final String indicatorId) {
+		return indicatorsFrontController.findByVnfInstanceIdAndIndicatorId(vnfInstanceId,indicatorId,VnfIndicator.class,Indicators271Sol002Controller::makeLink);
 	}
 
 	private static void makeLink(final VnfIndicator x) {
 		final VnfIndicatorLinks links = new VnfIndicatorLinks();
 		Link link = new Link();
-		link.setHref(linkTo(methodOn(Indicators271Sol002Api.class).indicatorsVnfInstanceIdIndicatorIdGet(x.getVnfInstanceId(), x.getId())).withSelfRel().getHref());
+		link.setHref(linkTo(methodOn(Indicators271Sol002Api.class).indicatorsVnfInstanceIdIndicatorIdGet(x.getVnfInstanceId(),x.getId())).withSelfRel().getHref());
 		links.setSelf(link);
 
 		link = new Link();
