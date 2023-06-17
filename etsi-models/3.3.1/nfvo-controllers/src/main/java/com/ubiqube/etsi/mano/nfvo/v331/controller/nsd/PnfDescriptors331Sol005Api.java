@@ -33,7 +33,6 @@ import com.ubiqube.etsi.mano.nfvo.v331.model.nsd.CreatePnfdInfoRequest;
 import com.ubiqube.etsi.mano.nfvo.v331.model.nsd.PnfdInfo;
 import com.ubiqube.etsi.mano.nfvo.v331.model.nsd.PnfdInfoModifications;
 
-import io.swagger.annotations.ApiParam;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -60,7 +59,7 @@ public interface PnfDescriptors331Sol005Api {
 			@ApiResponse(responseCode = "503", description = "503 SERVICE UNAVAILABLE If the API producer encounters an internal overload situation of itself or of a system it relies on, it should respond with this response code, following the provisions in IETF RFC 7231 for the use of the \"Retry-After\" HTTP header and for the alternative to refuse the connection. The \"ProblemDetails\" structure may be omitted. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))),
 			@ApiResponse(responseCode = "504", description = "504 GATEWAY TIMEOUT If the API producer encounters a timeout while waiting for a response from an upstream server (i.e. a server that the API producer communicates with when fulfilling a request), it should respond with this response code. ", content = @Content(schema = @Schema(implementation = ProblemDetails.class))) })
             @GetMapping(value = "/pnf_descriptors", produces = {"application/json"})
-	ResponseEntity<String> pnfDescriptorsGet(@ApiParam(value = "All query parameters. ", required = true) @Nonnull @RequestParam MultiValueMap<String, String> requestParams);
+	ResponseEntity<String> pnfDescriptorsGet(@Parameter(in = ParameterIn.QUERY, description = "All query parameters. " , required = true ) @Nonnull @RequestParam MultiValueMap<String, String> requestParams);
 
 	@Operation(summary = "", description = "The GET method fetches the content of an individual artifact within a PNFD archive.  This method shall follow the provisions specified in the Tables 5.4.7c.3.2-1 and  5.4.7c.3.2-2 for URI query parameters, request and response data structures, and  response codes. ", tags = {})
 	@ApiResponses(value = {
