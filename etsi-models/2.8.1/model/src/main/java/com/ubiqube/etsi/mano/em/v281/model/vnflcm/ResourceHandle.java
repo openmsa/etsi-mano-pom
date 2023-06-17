@@ -19,8 +19,7 @@ package com.ubiqube.etsi.mano.em.v281.model.vnflcm;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -28,7 +27,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents the information that allows addressing a virtualised resource that is used by a VNF instance. Information about the resource is available from the VIM. 
  */
-@ApiModel(description = "This type represents the information that allows addressing a virtualised resource that is used by a VNF instance. Information about the resource is available from the VIM. ")
+@Schema (description= "This type represents the information that allows addressing a virtualised resource that is used by a VNF instance. Information about the resource is available from the VIM. " )
 @Validated
 
 public class ResourceHandle   {
@@ -53,7 +52,7 @@ public class ResourceHandle   {
    * Identifier of the VIM connection to manage the resource. This attribute shall only be supported and present if VNF-related resource management in direct mode is applicable. The applicable \"VimConnectionInfo\" structure, which is referenced by vimConnectionId, can be obtained from the \"vimConnectionInfo\" attribute of the \"VnfInstance\" structure. 
    * @return vimConnectionId
   **/
-  @ApiModelProperty(value = "Identifier of the VIM connection to manage the resource. This attribute shall only be supported and present if VNF-related resource management in direct mode is applicable. The applicable \"VimConnectionInfo\" structure, which is referenced by vimConnectionId, can be obtained from the \"vimConnectionInfo\" attribute of the \"VnfInstance\" structure. ")
+  @Schema(description = "Identifier of the VIM connection to manage the resource. This attribute shall only be supported and present if VNF-related resource management in direct mode is applicable. The applicable \"VimConnectionInfo\" structure, which is referenced by vimConnectionId, can be obtained from the \"vimConnectionInfo\" attribute of the \"VnfInstance\" structure. ")
 
 
   public String getVimConnectionId() {
@@ -73,7 +72,7 @@ public class ResourceHandle   {
    * Identifier of the entity responsible for the management of the resource. This attribute shall only be supported and present when VNF-related resource management in indirect mode is applicable. The identification scheme is outside the scope of the present document. 
    * @return resourceProviderId
   **/
-  @ApiModelProperty(value = "Identifier of the entity responsible for the management of the resource. This attribute shall only be supported and present when VNF-related resource management in indirect mode is applicable. The identification scheme is outside the scope of the present document. ")
+  @Schema(description = "Identifier of the entity responsible for the management of the resource. This attribute shall only be supported and present when VNF-related resource management in indirect mode is applicable. The identification scheme is outside the scope of the present document. ")
 
 
   public String getResourceProviderId() {
@@ -93,7 +92,7 @@ public class ResourceHandle   {
    * Identifier of the resource in the scope of the VIM or the resource provider. 
    * @return resourceId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the resource in the scope of the VIM or the resource provider. ")
+  @Schema(required = true , description = "Identifier of the resource in the scope of the VIM or the resource provider. ")
   @NotNull
 
 
@@ -114,7 +113,7 @@ public class ResourceHandle   {
    * The value set of the \"vimLevelResourceType\" attribute is within the scope of the VIM or the resource provider and can be used as information that complements the ResourceHandle. This value set is different from the value set of the \"type\" attribute in the ResourceDefinition (refer to clause 9.5.3.2 in SOL003). 
    * @return vimLevelResourceType
   **/
-  @ApiModelProperty(value = "The value set of the \"vimLevelResourceType\" attribute is within the scope of the VIM or the resource provider and can be used as information that complements the ResourceHandle. This value set is different from the value set of the \"type\" attribute in the ResourceDefinition (refer to clause 9.5.3.2 in SOL003). ")
+  @Schema(description = "The value set of the \"vimLevelResourceType\" attribute is within the scope of the VIM or the resource provider and can be used as information that complements the ResourceHandle. This value set is different from the value set of the \"type\" attribute in the ResourceDefinition (refer to clause 9.5.3.2 in SOL003). ")
 
 
   public String getVimLevelResourceType() {
@@ -136,9 +135,9 @@ public class ResourceHandle   {
     }
     ResourceHandle resourceHandle = (ResourceHandle) o;
     return Objects.equals(this.vimConnectionId, resourceHandle.vimConnectionId) &&
-        Objects.equals(this.resourceProviderId, resourceHandle.resourceProviderId) &&
-        Objects.equals(this.resourceId, resourceHandle.resourceId) &&
-        Objects.equals(this.vimLevelResourceType, resourceHandle.vimLevelResourceType);
+    Objects.equals(this.resourceProviderId, resourceHandle.resourceProviderId) &&
+    Objects.equals(this.resourceId, resourceHandle.resourceId) &&
+    Objects.equals(this.vimLevelResourceType, resourceHandle.vimLevelResourceType);
   }
 
   @Override
@@ -150,7 +149,7 @@ public class ResourceHandle   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ResourceHandle {\n");
-    
+
     sb.append("    vimConnectionId: ").append(toIndentedString(vimConnectionId)).append("\n");
     sb.append("    resourceProviderId: ").append(toIndentedString(resourceProviderId)).append("\n");
     sb.append("    resourceId: ").append(toIndentedString(resourceId)).append("\n");

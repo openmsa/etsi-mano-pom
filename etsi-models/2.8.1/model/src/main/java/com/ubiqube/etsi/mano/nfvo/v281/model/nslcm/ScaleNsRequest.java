@@ -22,8 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.ubiqube.etsi.mano.nfvo.v281.model.nslcm.ScaleNsData;
 import com.ubiqube.etsi.mano.nfvo.v281.model.nslcm.ScaleVnfData;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +33,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents a request for the scale NS operation. Either the parameter scaleNsData or the parameter scaleVnfData, but not both shall be provided 
  */
-@ApiModel(description = "This type represents a request for the scale NS operation. Either the parameter scaleNsData or the parameter scaleVnfData, but not both shall be provided ")
+@Schema (description= "This type represents a request for the scale NS operation. Either the parameter scaleNsData or the parameter scaleVnfData, but not both shall be provided " )
 @Validated
 
 public class ScaleNsRequest   {
@@ -91,7 +90,7 @@ public class ScaleNsRequest   {
    * Indicates the type of scaling to be performed. Possible values: - SCALE_NS - SCALE_VNF 
    * @return scaleType
   **/
-  @ApiModelProperty(required = true, value = "Indicates the type of scaling to be performed. Possible values: - SCALE_NS - SCALE_VNF ")
+  @Schema(required = true , description = "Indicates the type of scaling to be performed. Possible values: - SCALE_NS - SCALE_VNF ")
   @NotNull
 
 
@@ -112,7 +111,7 @@ public class ScaleNsRequest   {
    * The necessary information to scale the referenced NS instance. It shall be present when scaleType = SCALE_NS. 
    * @return scaleNsData
   **/
-  @ApiModelProperty(value = "The necessary information to scale the referenced NS instance. It shall be present when scaleType = SCALE_NS. ")
+  @Schema(description = "The necessary information to scale the referenced NS instance. It shall be present when scaleType = SCALE_NS. ")
 
   @Valid
 
@@ -141,7 +140,7 @@ public class ScaleNsRequest   {
    * The necessary information to scale the referenced NS instance. It shall be present when scaleType = SCALE_VNF. 
    * @return scaleVnfData
   **/
-  @ApiModelProperty(value = "The necessary information to scale the referenced NS instance. It shall be present when scaleType = SCALE_VNF. ")
+  @Schema(description = "The necessary information to scale the referenced NS instance. It shall be present when scaleType = SCALE_VNF. ")
 
   @Valid
 
@@ -162,7 +161,7 @@ public class ScaleNsRequest   {
    * Timestamp indicating the scale time of the NS, i.e. the NS will be scaled at this timestamp. Cardinality \"0\" indicates the NS scaling takes place immediately\". 
    * @return scaleTime
   **/
-  @ApiModelProperty(value = "Timestamp indicating the scale time of the NS, i.e. the NS will be scaled at this timestamp. Cardinality \"0\" indicates the NS scaling takes place immediately\". ")
+  @Schema(description = "Timestamp indicating the scale time of the NS, i.e. the NS will be scaled at this timestamp. Cardinality \"0\" indicates the NS scaling takes place immediately\". ")
 
   @Valid
 
@@ -185,9 +184,9 @@ public class ScaleNsRequest   {
     }
     ScaleNsRequest scaleNsRequest = (ScaleNsRequest) o;
     return Objects.equals(this.scaleType, scaleNsRequest.scaleType) &&
-        Objects.equals(this.scaleNsData, scaleNsRequest.scaleNsData) &&
-        Objects.equals(this.scaleVnfData, scaleNsRequest.scaleVnfData) &&
-        Objects.equals(this.scaleTime, scaleNsRequest.scaleTime);
+    Objects.equals(this.scaleNsData, scaleNsRequest.scaleNsData) &&
+    Objects.equals(this.scaleVnfData, scaleNsRequest.scaleVnfData) &&
+    Objects.equals(this.scaleTime, scaleNsRequest.scaleTime);
   }
 
   @Override
@@ -199,7 +198,7 @@ public class ScaleNsRequest   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ScaleNsRequest {\n");
-    
+
     sb.append("    scaleType: ").append(toIndentedString(scaleType)).append("\n");
     sb.append("    scaleNsData: ").append(toIndentedString(scaleNsData)).append("\n");
     sb.append("    scaleVnfData: ").append(toIndentedString(scaleVnfData)).append("\n");

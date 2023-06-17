@@ -20,8 +20,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Map;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -29,7 +28,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents modifications of an entry in an array of \&quot;VnfcInfo\&quot; objects. It shall comply with the provisions defined in table 5.5.3.24-1. 
  */
-@ApiModel(description = "This type represents modifications of an entry in an array of \"VnfcInfo\" objects. It shall comply with the provisions defined in table 5.5.3.24-1. ")
+@Schema (description= "This type represents modifications of an entry in an array of \"VnfcInfo\" objects. It shall comply with the provisions defined in table 5.5.3.24-1. " )
 @Validated
 
 public class VnfcInfoModifications   {
@@ -48,7 +47,7 @@ public class VnfcInfoModifications   {
    * Identifier of the VNFC instance of which the information is to be modified. The identifier references the \"id\" attribute in a \"VnfcInfo\" structure. NOTE: The attribute \"id\" in this data type represents the same identifier as the attribute \"vnfcInstanceId\" in other related data types in the present document. For reasons of backward compatibility, this misalignment is not corrected. 
    * @return id
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the VNFC instance of which the information is to be modified. The identifier references the \"id\" attribute in a \"VnfcInfo\" structure. NOTE: The attribute \"id\" in this data type represents the same identifier as the attribute \"vnfcInstanceId\" in other related data types in the present document. For reasons of backward compatibility, this misalignment is not corrected. ")
+  @Schema(required = true , description = "Identifier of the VNFC instance of which the information is to be modified. The identifier references the \"id\" attribute in a \"VnfcInfo\" structure. NOTE: The attribute \"id\" in this data type represents the same identifier as the attribute \"vnfcInstanceId\" in other related data types in the present document. For reasons of backward compatibility, this misalignment is not corrected. ")
   @NotNull
 
 
@@ -69,7 +68,7 @@ public class VnfcInfoModifications   {
    * Changes of the configurable properties of the VNFC instance. When this structure is part of a request, the modifications signalled in this attribute shall be applied according to the rules of JSON Merge Patch (see IETF RFC 7396). 
    * @return vnfcConfigurableProperties
   **/
-  @ApiModelProperty(required = true, value = "Changes of the configurable properties of the VNFC instance. When this structure is part of a request, the modifications signalled in this attribute shall be applied according to the rules of JSON Merge Patch (see IETF RFC 7396). ")
+  @Schema(required = true , description = "Changes of the configurable properties of the VNFC instance. When this structure is part of a request, the modifications signalled in this attribute shall be applied according to the rules of JSON Merge Patch (see IETF RFC 7396). ")
   @NotNull
 
   @Valid
@@ -93,7 +92,7 @@ public class VnfcInfoModifications   {
     }
     VnfcInfoModifications vnfcInfoModifications = (VnfcInfoModifications) o;
     return Objects.equals(this.id, vnfcInfoModifications.id) &&
-        Objects.equals(this.vnfcConfigurableProperties, vnfcInfoModifications.vnfcConfigurableProperties);
+    Objects.equals(this.vnfcConfigurableProperties, vnfcInfoModifications.vnfcConfigurableProperties);
   }
 
   @Override
@@ -105,7 +104,7 @@ public class VnfcInfoModifications   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class VnfcInfoModifications {\n");
-    
+
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    vnfcConfigurableProperties: ").append(toIndentedString(vnfcConfigurableProperties)).append("\n");
     sb.append("}");

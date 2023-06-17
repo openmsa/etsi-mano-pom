@@ -20,8 +20,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -29,7 +28,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type provides information about added, deleted and modified nested NSs. It shall comply with the provisions in Table 6.5.3.6-1. 
  */
-@ApiModel(description = "This type provides information about added, deleted and modified nested NSs. It shall comply with the provisions in Table 6.5.3.6-1. ")
+@Schema (description= "This type provides information about added, deleted and modified nested NSs. It shall comply with the provisions in Table 6.5.3.6-1. " )
 @Validated
 
 public class AffectedNs   {
@@ -130,7 +129,7 @@ public class AffectedNs   {
    * Identifier of the nested NS instance. 
    * @return nsInstanceId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the nested NS instance. ")
+  @Schema(required = true , description = "Identifier of the nested NS instance. ")
   @NotNull
 
 
@@ -151,7 +150,7 @@ public class AffectedNs   {
    * Identifier of the NSD of the nested NS instance. 
    * @return nsdId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the NSD of the nested NS instance. ")
+  @Schema(required = true , description = "Identifier of the NSD of the nested NS instance. ")
   @NotNull
 
 
@@ -172,7 +171,7 @@ public class AffectedNs   {
    * Signals the type of lifecycle change. Permitted values: - ADD - REMOVE - INSTANTIATE - SCALE - UPDATE - HEAL - TERMINATE 
    * @return changeType
   **/
-  @ApiModelProperty(required = true, value = "Signals the type of lifecycle change. Permitted values: - ADD - REMOVE - INSTANTIATE - SCALE - UPDATE - HEAL - TERMINATE ")
+  @Schema(required = true , description = "Signals the type of lifecycle change. Permitted values: - ADD - REMOVE - INSTANTIATE - SCALE - UPDATE - HEAL - TERMINATE ")
   @NotNull
 
 
@@ -193,7 +192,7 @@ public class AffectedNs   {
    * Signals the result of change identified by the \"changeType\" attribute. Permitted values: - COMPLETED - ROLLED_BACK - FAILED - PARTIALLY_COMPLETED 
    * @return changeResult
   **/
-  @ApiModelProperty(required = true, value = "Signals the result of change identified by the \"changeType\" attribute. Permitted values: - COMPLETED - ROLLED_BACK - FAILED - PARTIALLY_COMPLETED ")
+  @Schema(required = true , description = "Signals the result of change identified by the \"changeType\" attribute. Permitted values: - COMPLETED - ROLLED_BACK - FAILED - PARTIALLY_COMPLETED ")
   @NotNull
 
 
@@ -216,9 +215,9 @@ public class AffectedNs   {
     }
     AffectedNs affectedNs = (AffectedNs) o;
     return Objects.equals(this.nsInstanceId, affectedNs.nsInstanceId) &&
-        Objects.equals(this.nsdId, affectedNs.nsdId) &&
-        Objects.equals(this.changeType, affectedNs.changeType) &&
-        Objects.equals(this.changeResult, affectedNs.changeResult);
+    Objects.equals(this.nsdId, affectedNs.nsdId) &&
+    Objects.equals(this.changeType, affectedNs.changeType) &&
+    Objects.equals(this.changeResult, affectedNs.changeResult);
   }
 
   @Override
@@ -230,7 +229,7 @@ public class AffectedNs   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class AffectedNs {\n");
-    
+
     sb.append("    nsInstanceId: ").append(toIndentedString(nsInstanceId)).append("\n");
     sb.append("    nsdId: ").append(toIndentedString(nsdId)).append("\n");
     sb.append("    changeType: ").append(toIndentedString(changeType)).append("\n");

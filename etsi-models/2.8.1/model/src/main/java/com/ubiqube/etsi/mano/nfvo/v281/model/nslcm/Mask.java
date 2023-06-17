@@ -19,8 +19,7 @@ package com.ubiqube.etsi.mano.nfvo.v281.model.nslcm;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -28,7 +27,7 @@ import jakarta.validation.constraints.*;
 /**
  * The Mask data type identifies the value to be matched for a sequence of bits at a particular location in a frame. It shall comply with the provisions defined in Table 6.5.3.41-1. 
  */
-@ApiModel(description = "The Mask data type identifies the value to be matched for a sequence of bits at a particular location in a frame. It shall comply with the provisions defined in Table 6.5.3.41-1. ")
+@Schema (description= "The Mask data type identifies the value to be matched for a sequence of bits at a particular location in a frame. It shall comply with the provisions defined in Table 6.5.3.41-1. " )
 @Validated
 
 public class Mask   {
@@ -50,7 +49,7 @@ public class Mask   {
    * Indicates the offset between the last bit of the source mac address and the first bit of the sequence of bits to be matched. 
    * @return startingPoint
   **/
-  @ApiModelProperty(required = true, value = "Indicates the offset between the last bit of the source mac address and the first bit of the sequence of bits to be matched. ")
+  @Schema(required = true , description = "Indicates the offset between the last bit of the source mac address and the first bit of the sequence of bits to be matched. ")
   @NotNull
 
 
@@ -71,7 +70,7 @@ public class Mask   {
    * Indicates the number of bits to be matched. 
    * @return length
   **/
-  @ApiModelProperty(required = true, value = "Indicates the number of bits to be matched. ")
+  @Schema(required = true , description = "Indicates the number of bits to be matched. ")
   @NotNull
 
 
@@ -92,7 +91,7 @@ public class Mask   {
    * Provide the sequence of bit values to be matched. 
    * @return value
   **/
-  @ApiModelProperty(required = true, value = "Provide the sequence of bit values to be matched. ")
+  @Schema(required = true , description = "Provide the sequence of bit values to be matched. ")
   @NotNull
 
 
@@ -115,8 +114,8 @@ public class Mask   {
     }
     Mask mask = (Mask) o;
     return Objects.equals(this.startingPoint, mask.startingPoint) &&
-        Objects.equals(this.length, mask.length) &&
-        Objects.equals(this.value, mask.value);
+    Objects.equals(this.length, mask.length) &&
+    Objects.equals(this.value, mask.value);
   }
 
   @Override
@@ -128,7 +127,7 @@ public class Mask   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Mask {\n");
-    
+
     sb.append("    startingPoint: ").append(toIndentedString(startingPoint)).append("\n");
     sb.append("    length: ").append(toIndentedString(length)).append("\n");
     sb.append("    value: ").append(toIndentedString(value)).append("\n");

@@ -21,8 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.IpOverEthernetAddressInfoAddressRange;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -91,7 +90,7 @@ public class IpOverEthernetAddressInfoIpAddresses   {
    * The type of the IP addresses. Permitted values: IPV4, IPV6. 
    * @return type
   **/
-  @ApiModelProperty(required = true, value = "The type of the IP addresses. Permitted values: IPV4, IPV6. ")
+  @Schema(required = true , description = "The type of the IP addresses. Permitted values: IPV4, IPV6. ")
   @NotNull
 
 
@@ -120,7 +119,7 @@ public class IpOverEthernetAddressInfoIpAddresses   {
    * Fixed addresses assigned (from the subnet defined by \"subnetId\" if provided). Exactly one of \"addresses\" or \"addressRange\" shall be present. 
    * @return addresses
   **/
-  @ApiModelProperty(value = "Fixed addresses assigned (from the subnet defined by \"subnetId\" if provided). Exactly one of \"addresses\" or \"addressRange\" shall be present. ")
+  @Schema(description = "Fixed addresses assigned (from the subnet defined by \"subnetId\" if provided). Exactly one of \"addresses\" or \"addressRange\" shall be present. ")
 
 
   public List<String> getAddresses() {
@@ -140,7 +139,7 @@ public class IpOverEthernetAddressInfoIpAddresses   {
    * Indicates whether this set of addresses was assigned dynamically (true) or based on address information provided as input from the API consumer (false). Shall be present if \"addresses\" is present and shall be absent otherwise. 
    * @return isDynamic
   **/
-  @ApiModelProperty(value = "Indicates whether this set of addresses was assigned dynamically (true) or based on address information provided as input from the API consumer (false). Shall be present if \"addresses\" is present and shall be absent otherwise. ")
+  @Schema(description = "Indicates whether this set of addresses was assigned dynamically (true) or based on address information provided as input from the API consumer (false). Shall be present if \"addresses\" is present and shall be absent otherwise. ")
 
 
   public Boolean isIsDynamic() {
@@ -160,7 +159,7 @@ public class IpOverEthernetAddressInfoIpAddresses   {
    * Get addressRange
    * @return addressRange
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   @Valid
 
@@ -181,7 +180,7 @@ public class IpOverEthernetAddressInfoIpAddresses   {
    * Subnet defined by the identifier of the subnet resource in the VIM. In case this attribute is present, IP addresses are bound to that subnet. 
    * @return subnetId
   **/
-  @ApiModelProperty(value = "Subnet defined by the identifier of the subnet resource in the VIM. In case this attribute is present, IP addresses are bound to that subnet. ")
+  @Schema(description = "Subnet defined by the identifier of the subnet resource in the VIM. In case this attribute is present, IP addresses are bound to that subnet. ")
 
 
   public String getSubnetId() {
@@ -203,10 +202,10 @@ public class IpOverEthernetAddressInfoIpAddresses   {
     }
     IpOverEthernetAddressInfoIpAddresses ipOverEthernetAddressInfoIpAddresses = (IpOverEthernetAddressInfoIpAddresses) o;
     return Objects.equals(this.type, ipOverEthernetAddressInfoIpAddresses.type) &&
-        Objects.equals(this.addresses, ipOverEthernetAddressInfoIpAddresses.addresses) &&
-        Objects.equals(this.isDynamic, ipOverEthernetAddressInfoIpAddresses.isDynamic) &&
-        Objects.equals(this.addressRange, ipOverEthernetAddressInfoIpAddresses.addressRange) &&
-        Objects.equals(this.subnetId, ipOverEthernetAddressInfoIpAddresses.subnetId);
+    Objects.equals(this.addresses, ipOverEthernetAddressInfoIpAddresses.addresses) &&
+    Objects.equals(this.isDynamic, ipOverEthernetAddressInfoIpAddresses.isDynamic) &&
+    Objects.equals(this.addressRange, ipOverEthernetAddressInfoIpAddresses.addressRange) &&
+    Objects.equals(this.subnetId, ipOverEthernetAddressInfoIpAddresses.subnetId);
   }
 
   @Override
@@ -218,7 +217,7 @@ public class IpOverEthernetAddressInfoIpAddresses   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class IpOverEthernetAddressInfoIpAddresses {\n");
-    
+
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    addresses: ").append(toIndentedString(addresses)).append("\n");
     sb.append("    isDynamic: ").append(toIndentedString(isDynamic)).append("\n");

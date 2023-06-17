@@ -21,8 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Map;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.ResourceHandle;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -30,7 +29,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents the information that allows addressing a virtualised resource that is used by a VNF instance. 
  */
-@ApiModel(description = "This type represents the information that allows addressing a virtualised resource that is used by a VNF instance. ")
+@Schema (description= "This type represents the information that allows addressing a virtualised resource that is used by a VNF instance. " )
 @Validated
 
 public class VirtualStorageResourceInfo   {
@@ -61,7 +60,7 @@ public class VirtualStorageResourceInfo   {
    * Identifier of this VirtualStorageResourceInfo instance. 
    * @return id
   **/
-  @ApiModelProperty(required = true, value = "Identifier of this VirtualStorageResourceInfo instance. ")
+  @Schema(required = true , description = "Identifier of this VirtualStorageResourceInfo instance. ")
   @NotNull
 
 
@@ -82,7 +81,7 @@ public class VirtualStorageResourceInfo   {
    * Identifier of the VirtualStorageDesc in the VNFD. 
    * @return virtualStorageDescId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the VirtualStorageDesc in the VNFD. ")
+  @Schema(required = true , description = "Identifier of the VirtualStorageDesc in the VNFD. ")
   @NotNull
 
 
@@ -103,7 +102,7 @@ public class VirtualStorageResourceInfo   {
    * Reference to the VirtualStorage resource. 
    * @return storageResource
   **/
-  @ApiModelProperty(required = true, value = "Reference to the VirtualStorage resource. ")
+  @Schema(required = true , description = "Reference to the VirtualStorage resource. ")
   @NotNull
 
   @Valid
@@ -125,7 +124,7 @@ public class VirtualStorageResourceInfo   {
    * The identifier of the resource zone, as managed by the resource management layer (typically, the VIM), where the referenced VirtualStorage resource is placed. Shall be provided if this information is available from the VIM. 
    * @return zoneId
   **/
-  @ApiModelProperty(value = "The identifier of the resource zone, as managed by the resource management layer (typically, the VIM), where the referenced VirtualStorage resource is placed. Shall be provided if this information is available from the VIM. ")
+  @Schema(description = "The identifier of the resource zone, as managed by the resource management layer (typically, the VIM), where the referenced VirtualStorage resource is placed. Shall be provided if this information is available from the VIM. ")
 
 
   public String getZoneId() {
@@ -145,7 +144,7 @@ public class VirtualStorageResourceInfo   {
    * The reservation identifier applicable to the resource. It shall be present when an applicable reservation exists. 
    * @return reservationId
   **/
-  @ApiModelProperty(value = "The reservation identifier applicable to the resource. It shall be present when an applicable reservation exists. ")
+  @Schema(description = "The reservation identifier applicable to the resource. It shall be present when an applicable reservation exists. ")
 
 
   public String getReservationId() {
@@ -165,7 +164,7 @@ public class VirtualStorageResourceInfo   {
    * Metadata about this resource. 
    * @return metadata
   **/
-  @ApiModelProperty(value = "Metadata about this resource. ")
+  @Schema(description = "Metadata about this resource. ")
 
   @Valid
 
@@ -188,11 +187,11 @@ public class VirtualStorageResourceInfo   {
     }
     VirtualStorageResourceInfo virtualStorageResourceInfo = (VirtualStorageResourceInfo) o;
     return Objects.equals(this.id, virtualStorageResourceInfo.id) &&
-        Objects.equals(this.virtualStorageDescId, virtualStorageResourceInfo.virtualStorageDescId) &&
-        Objects.equals(this.storageResource, virtualStorageResourceInfo.storageResource) &&
-        Objects.equals(this.zoneId, virtualStorageResourceInfo.zoneId) &&
-        Objects.equals(this.reservationId, virtualStorageResourceInfo.reservationId) &&
-        Objects.equals(this.metadata, virtualStorageResourceInfo.metadata);
+    Objects.equals(this.virtualStorageDescId, virtualStorageResourceInfo.virtualStorageDescId) &&
+    Objects.equals(this.storageResource, virtualStorageResourceInfo.storageResource) &&
+    Objects.equals(this.zoneId, virtualStorageResourceInfo.zoneId) &&
+    Objects.equals(this.reservationId, virtualStorageResourceInfo.reservationId) &&
+    Objects.equals(this.metadata, virtualStorageResourceInfo.metadata);
   }
 
   @Override
@@ -204,7 +203,7 @@ public class VirtualStorageResourceInfo   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class VirtualStorageResourceInfo {\n");
-    
+
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    virtualStorageDescId: ").append(toIndentedString(virtualStorageDescId)).append("\n");
     sb.append("    storageResource: ").append(toIndentedString(storageResource)).append("\n");

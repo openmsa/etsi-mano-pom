@@ -19,8 +19,7 @@ package com.ubiqube.etsi.mano.nfvo.v281.model.nslcm;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -28,7 +27,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents the target NS Scale level for each NS scaling aspect of the current deployment flavor. 
  */
-@ApiModel(description = "This type represents the target NS Scale level for each NS scaling aspect of the current deployment flavor. ")
+@Schema (description= "This type represents the target NS Scale level for each NS scaling aspect of the current deployment flavor. " )
 @Validated
 
 public class NsScaleInfo   {
@@ -47,7 +46,7 @@ public class NsScaleInfo   {
    * Identifier of the NS scaling aspect. 
    * @return nsScalingAspectId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the NS scaling aspect. ")
+  @Schema(required = true , description = "Identifier of the NS scaling aspect. ")
   @NotNull
 
 
@@ -68,7 +67,7 @@ public class NsScaleInfo   {
    * Identifier of the NS scale level. 
    * @return nsScaleLevelId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the NS scale level. ")
+  @Schema(required = true , description = "Identifier of the NS scale level. ")
   @NotNull
 
 
@@ -91,7 +90,7 @@ public class NsScaleInfo   {
     }
     NsScaleInfo nsScaleInfo = (NsScaleInfo) o;
     return Objects.equals(this.nsScalingAspectId, nsScaleInfo.nsScalingAspectId) &&
-        Objects.equals(this.nsScaleLevelId, nsScaleInfo.nsScaleLevelId);
+    Objects.equals(this.nsScaleLevelId, nsScaleInfo.nsScaleLevelId);
   }
 
   @Override
@@ -103,7 +102,7 @@ public class NsScaleInfo   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class NsScaleInfo {\n");
-    
+
     sb.append("    nsScalingAspectId: ").append(toIndentedString(nsScalingAspectId)).append("\n");
     sb.append("    nsScaleLevelId: ").append(toIndentedString(nsScaleLevelId)).append("\n");
     sb.append("}");

@@ -20,8 +20,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.em.v281.model.vnfconfig.ApiVersionInformationApiVersions;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -31,7 +30,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents API version information. 
  */
-@ApiModel(description = "This type represents API version information. ")
+@Schema (description= "This type represents API version information. " )
 @Validated
 
 public class ApiVersionInformation   {
@@ -51,7 +50,7 @@ public class ApiVersionInformation   {
    * Specifies the URI prefix for the API, in the following form {apiRoot}/{apiName}/{apiMajorVersion}/. 
    * @return uriPrefix
   **/
-  @ApiModelProperty(required = true, value = "Specifies the URI prefix for the API, in the following form {apiRoot}/{apiName}/{apiMajorVersion}/. ")
+  @Schema(required = true , description = "Specifies the URI prefix for the API, in the following form {apiRoot}/{apiName}/{apiMajorVersion}/. ")
   @NotNull
 
 
@@ -77,7 +76,7 @@ public class ApiVersionInformation   {
    * Version(s) supported for the API signaled by the uriPrefix attribute. 
    * @return apiVersions
   **/
-  @ApiModelProperty(required = true, value = "Version(s) supported for the API signaled by the uriPrefix attribute. ")
+  @Schema(required = true , description = "Version(s) supported for the API signaled by the uriPrefix attribute. ")
   @NotNull
 
   @Valid
@@ -101,7 +100,7 @@ public class ApiVersionInformation   {
     }
     ApiVersionInformation apiVersionInformation = (ApiVersionInformation) o;
     return Objects.equals(this.uriPrefix, apiVersionInformation.uriPrefix) &&
-        Objects.equals(this.apiVersions, apiVersionInformation.apiVersions);
+    Objects.equals(this.apiVersions, apiVersionInformation.apiVersions);
   }
 
   @Override
@@ -113,7 +112,7 @@ public class ApiVersionInformation   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ApiVersionInformation {\n");
-    
+
     sb.append("    uriPrefix: ").append(toIndentedString(uriPrefix)).append("\n");
     sb.append("    apiVersions: ").append(toIndentedString(apiVersions)).append("\n");
     sb.append("}");

@@ -18,9 +18,8 @@ package com.ubiqube.etsi.mano.em.v281.model.vnfconfig;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -49,7 +48,7 @@ public class ApiVersionInformationApiVersions   {
    * Identifies a supported version. The value of the version attribute shall be a version identifier as specified in clause 9.1 (SOL013). 
    * @return version
   **/
-  @ApiModelProperty(required = true, value = "Identifies a supported version. The value of the version attribute shall be a version identifier as specified in clause 9.1 (SOL013). ")
+  @Schema(required = true , description = "Identifies a supported version. The value of the version attribute shall be a version identifier as specified in clause 9.1 (SOL013). ")
   @NotNull
 
 
@@ -70,7 +69,7 @@ public class ApiVersionInformationApiVersions   {
    * If such information is available, this attribute indicates whether use of the version signaled by the version attribute is deprecated (true) or not (false). A deprecated version is still supported by the API producer but is recommended not to be used any longer. When a version is no longer supported, it does not appear in the response body. 
    * @return isDeprecated
   **/
-  @ApiModelProperty(value = "If such information is available, this attribute indicates whether use of the version signaled by the version attribute is deprecated (true) or not (false). A deprecated version is still supported by the API producer but is recommended not to be used any longer. When a version is no longer supported, it does not appear in the response body. ")
+  @Schema(description = "If such information is available, this attribute indicates whether use of the version signaled by the version attribute is deprecated (true) or not (false). A deprecated version is still supported by the API producer but is recommended not to be used any longer. When a version is no longer supported, it does not appear in the response body. ")
 
 
   public Boolean isIsDeprecated() {
@@ -90,7 +89,7 @@ public class ApiVersionInformationApiVersions   {
    * The date and time after which the API version will no longer be supported. This attribute may be included if the value of the isDeprecated attribute is set to true and shall be absent otherwise. 
    * @return retirementDate
   **/
-  @ApiModelProperty(value = "The date and time after which the API version will no longer be supported. This attribute may be included if the value of the isDeprecated attribute is set to true and shall be absent otherwise. ")
+  @Schema(description = "The date and time after which the API version will no longer be supported. This attribute may be included if the value of the isDeprecated attribute is set to true and shall be absent otherwise. ")
 
 
   public String getRetirementDate() {
@@ -112,8 +111,8 @@ public class ApiVersionInformationApiVersions   {
     }
     ApiVersionInformationApiVersions apiVersionInformationApiVersions = (ApiVersionInformationApiVersions) o;
     return Objects.equals(this.version, apiVersionInformationApiVersions.version) &&
-        Objects.equals(this.isDeprecated, apiVersionInformationApiVersions.isDeprecated) &&
-        Objects.equals(this.retirementDate, apiVersionInformationApiVersions.retirementDate);
+    Objects.equals(this.isDeprecated, apiVersionInformationApiVersions.isDeprecated) &&
+    Objects.equals(this.retirementDate, apiVersionInformationApiVersions.retirementDate);
   }
 
   @Override
@@ -125,7 +124,7 @@ public class ApiVersionInformationApiVersions   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ApiVersionInformationApiVersions {\n");
-    
+
     sb.append("    version: ").append(toIndentedString(version)).append("\n");
     sb.append("    isDeprecated: ").append(toIndentedString(isDeprecated)).append("\n");
     sb.append("    retirementDate: ").append(toIndentedString(retirementDate)).append("\n");

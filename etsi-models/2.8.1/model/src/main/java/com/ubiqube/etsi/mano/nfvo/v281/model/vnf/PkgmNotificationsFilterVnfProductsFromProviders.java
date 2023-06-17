@@ -19,7 +19,7 @@ package com.ubiqube.etsi.mano.nfvo.v281.model.vnf;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
@@ -27,8 +27,6 @@ import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.nfvo.v281.model.vnfconfig.PackageOperationalStateType;
-
-import io.swagger.annotations.ApiModelProperty;
 
 /**
  * PkgmNotificationsFilterVnfProductsFromProviders
@@ -63,256 +61,256 @@ public class PkgmNotificationsFilterVnfProductsFromProviders {
 	@Valid
 	private List<String> vnfmInfo = null;
 
-	public PkgmNotificationsFilterVnfProductsFromProviders vnfProvider(final String vnfProvider) {
-		this.vnfProvider = vnfProvider;
-		return this;
-	}
+  public PkgmNotificationsFilterVnfProductsFromProviders vnfProvider(final String vnfProvider) {
+    this.vnfProvider = vnfProvider;
+    return this;
+  }
 
-	/**
-	 * Name of the VNFprovider to match.
-	 *
-	 * @return vnfProvider
-	 **/
-	@ApiModelProperty(required = true, value = "Name of the VNFprovider to match. ")
-	@NotNull
+  /**
+   * Name of the VNFprovider to match.
+   *
+   * @return vnfProvider
+   **/
+  @Schema(required = true , description = "Name of the VNFprovider to match. ")
+  @NotNull
 
-	public String getVnfProvider() {
-		return vnfProvider;
-	}
+  public String getVnfProvider() {
+    return vnfProvider;
+  }
 
-	public void setVnfProvider(final String vnfProvider) {
-		this.vnfProvider = vnfProvider;
-	}
+  public void setVnfProvider(final String vnfProvider) {
+    this.vnfProvider = vnfProvider;
+  }
 
-	public PkgmNotificationsFilterVnfProductsFromProviders vnfProducts(final List<PkgmNotificationsFilterVnfProducts> vnfProducts) {
-		this.vnfProducts = vnfProducts;
-		return this;
-	}
+  public PkgmNotificationsFilterVnfProductsFromProviders vnfProducts(final List<PkgmNotificationsFilterVnfProducts> vnfProducts) {
+    this.vnfProducts = vnfProducts;
+    return this;
+  }
 
-	public PkgmNotificationsFilterVnfProductsFromProviders addVnfProductsItem(final PkgmNotificationsFilterVnfProducts vnfProductsItem) {
-		if (this.vnfProducts == null) {
-			this.vnfProducts = new ArrayList<>();
-		}
-		this.vnfProducts.add(vnfProductsItem);
-		return this;
-	}
+  public PkgmNotificationsFilterVnfProductsFromProviders addVnfProductsItem(final PkgmNotificationsFilterVnfProducts vnfProductsItem) {
+    if (this.vnfProducts == null) {
+      this.vnfProducts = new ArrayList<>();
+    }
+    this.vnfProducts.add(vnfProductsItem);
+    return this;
+  }
 
-	/**
-	 * If present, match VNF packages that contain VNF products with certain product
-	 * names, from one particular provider.
-	 *
-	 * @return vnfProducts
-	 **/
-	@ApiModelProperty(value = "If present, match VNF packages that contain VNF products with certain product names, from one particular provider. ")
+  /**
+   * If present, match VNF packages that contain VNF products with certain product
+   * names, from one particular provider.
+   *
+   * @return vnfProducts
+   **/
+  @Schema(description = "If present, match VNF packages that contain VNF products with certain product names, from one particular provider. ")
 
-	@Valid
+  @Valid
 
-	public List<PkgmNotificationsFilterVnfProducts> getVnfProducts() {
-		return vnfProducts;
-	}
+  public List<PkgmNotificationsFilterVnfProducts> getVnfProducts() {
+    return vnfProducts;
+  }
 
-	public void setVnfProducts(final List<PkgmNotificationsFilterVnfProducts> vnfProducts) {
-		this.vnfProducts = vnfProducts;
-	}
+  public void setVnfProducts(final List<PkgmNotificationsFilterVnfProducts> vnfProducts) {
+    this.vnfProducts = vnfProducts;
+  }
 
-	public PkgmNotificationsFilterVnfProductsFromProviders vnfdId(final List<String> vnfdId) {
-		this.vnfdId = vnfdId;
-		return this;
-	}
+  public PkgmNotificationsFilterVnfProductsFromProviders vnfdId(final List<String> vnfdId) {
+    this.vnfdId = vnfdId;
+    return this;
+  }
 
-	public PkgmNotificationsFilterVnfProductsFromProviders addVnfdIdItem(final String vnfdIdItem) {
-		if (this.vnfdId == null) {
-			this.vnfdId = new ArrayList<>();
-		}
-		this.vnfdId.add(vnfdIdItem);
-		return this;
-	}
+  public PkgmNotificationsFilterVnfProductsFromProviders addVnfdIdItem(final String vnfdIdItem) {
+    if (this.vnfdId == null) {
+      this.vnfdId = new ArrayList<>();
+    }
+    this.vnfdId.add(vnfdIdItem);
+    return this;
+  }
 
-	/**
-	 * Match VNF packages with a VNFD identifier listed in the attribute.
-	 *
-	 * @return vnfdId
-	 **/
-	@ApiModelProperty(value = "Match VNF packages with a VNFD identifier listed in the attribute. ")
+  /**
+   * Match VNF packages with a VNFD identifier listed in the attribute.
+   *
+   * @return vnfdId
+   **/
+  @Schema(description = "Match VNF packages with a VNFD identifier listed in the attribute. ")
 
-	public List<String> getVnfdId() {
-		return vnfdId;
-	}
+  public List<String> getVnfdId() {
+    return vnfdId;
+  }
 
-	public void setVnfdId(final List<String> vnfdId) {
-		this.vnfdId = vnfdId;
-	}
+  public void setVnfdId(final List<String> vnfdId) {
+    this.vnfdId = vnfdId;
+  }
 
-	public PkgmNotificationsFilterVnfProductsFromProviders vnfPkgId(final List<String> vnfPkgId) {
-		this.vnfPkgId = vnfPkgId;
-		return this;
-	}
+  public PkgmNotificationsFilterVnfProductsFromProviders vnfPkgId(final List<String> vnfPkgId) {
+    this.vnfPkgId = vnfPkgId;
+    return this;
+  }
 
-	public PkgmNotificationsFilterVnfProductsFromProviders addVnfPkgIdItem(final String vnfPkgIdItem) {
-		if (this.vnfPkgId == null) {
-			this.vnfPkgId = new ArrayList<>();
-		}
-		this.vnfPkgId.add(vnfPkgIdItem);
-		return this;
-	}
+  public PkgmNotificationsFilterVnfProductsFromProviders addVnfPkgIdItem(final String vnfPkgIdItem) {
+    if (this.vnfPkgId == null) {
+      this.vnfPkgId = new ArrayList<>();
+    }
+    this.vnfPkgId.add(vnfPkgIdItem);
+    return this;
+  }
 
-	/**
-	 * Match VNF packages with a package identifier listed in the attribute. May be
-	 * present if the \"notificationTypes\" attribute contains the value
-	 * \"VnfPackageChangeNotification\", and shall be absent otherwise.
-	 *
-	 * @return vnfPkgId
-	 **/
-	@ApiModelProperty(value = "Match VNF packages with a package identifier listed in the attribute. May be present if the \"notificationTypes\" attribute contains the value \"VnfPackageChangeNotification\", and shall be absent otherwise. ")
+  /**
+   * Match VNF packages with a package identifier listed in the attribute. May be
+   * present if the \"notificationTypes\" attribute contains the value
+   * \"VnfPackageChangeNotification\", and shall be absent otherwise.
+   *
+   * @return vnfPkgId
+   **/
+  @Schema(description = "Match VNF packages with a package identifier listed in the attribute. May be present if the \"notificationTypes\" attribute contains the value \"VnfPackageChangeNotification\", and shall be absent otherwise. ")
 
-	public List<String> getVnfPkgId() {
-		return vnfPkgId;
-	}
+  public List<String> getVnfPkgId() {
+    return vnfPkgId;
+  }
 
-	public void setVnfPkgId(final List<String> vnfPkgId) {
-		this.vnfPkgId = vnfPkgId;
-	}
+  public void setVnfPkgId(final List<String> vnfPkgId) {
+    this.vnfPkgId = vnfPkgId;
+  }
 
-	public PkgmNotificationsFilterVnfProductsFromProviders operationalState(final List<PackageOperationalStateType> operationalState) {
-		this.operationalState = operationalState;
-		return this;
-	}
+  public PkgmNotificationsFilterVnfProductsFromProviders operationalState(final List<PackageOperationalStateType> operationalState) {
+    this.operationalState = operationalState;
+    return this;
+  }
 
-	public PkgmNotificationsFilterVnfProductsFromProviders addOperationalStateItem(final PackageOperationalStateType operationalStateItem) {
-		if (this.operationalState == null) {
-			this.operationalState = new ArrayList<>();
-		}
-		this.operationalState.add(operationalStateItem);
-		return this;
-	}
+  public PkgmNotificationsFilterVnfProductsFromProviders addOperationalStateItem(final PackageOperationalStateType operationalStateItem) {
+    if (this.operationalState == null) {
+      this.operationalState = new ArrayList<>();
+    }
+    this.operationalState.add(operationalStateItem);
+    return this;
+  }
 
-	/**
-	 * Match VNF packages with a package identifier listed in the attribute. May be
-	 * present if the \"notificationTypes\" attribute contains the value
-	 * \"VnfPackageChangeNotification\", and shall be absent otherwise.
-	 *
-	 * @return operationalState
-	 **/
-	@ApiModelProperty(value = "Match VNF packages with a package identifier listed in the attribute. May be present if the \"notificationTypes\" attribute contains the value \"VnfPackageChangeNotification\", and shall be absent otherwise. ")
+  /**
+   * Match VNF packages with a package identifier listed in the attribute. May be
+   * present if the \"notificationTypes\" attribute contains the value
+   * \"VnfPackageChangeNotification\", and shall be absent otherwise.
+   *
+   * @return operationalState
+   **/
+  @Schema(description = "Match VNF packages with a package identifier listed in the attribute. May be present if the \"notificationTypes\" attribute contains the value \"VnfPackageChangeNotification\", and shall be absent otherwise. ")
 
-	@Valid
+  @Valid
 
-	public List<PackageOperationalStateType> getOperationalState() {
-		return operationalState;
-	}
+  public List<PackageOperationalStateType> getOperationalState() {
+    return operationalState;
+  }
 
-	public void setOperationalState(final List<PackageOperationalStateType> operationalState) {
-		this.operationalState = operationalState;
-	}
+  public void setOperationalState(final List<PackageOperationalStateType> operationalState) {
+    this.operationalState = operationalState;
+  }
 
-	public PkgmNotificationsFilterVnfProductsFromProviders usageState(final List<PackageUsageStateType> usageState) {
-		this.usageState = usageState;
-		return this;
-	}
+  public PkgmNotificationsFilterVnfProductsFromProviders usageState(final List<PackageUsageStateType> usageState) {
+    this.usageState = usageState;
+    return this;
+  }
 
-	public PkgmNotificationsFilterVnfProductsFromProviders addUsageStateItem(final PackageUsageStateType usageStateItem) {
-		if (this.usageState == null) {
-			this.usageState = new ArrayList<>();
-		}
-		this.usageState.add(usageStateItem);
-		return this;
-	}
+  public PkgmNotificationsFilterVnfProductsFromProviders addUsageStateItem(final PackageUsageStateType usageStateItem) {
+    if (this.usageState == null) {
+      this.usageState = new ArrayList<>();
+    }
+    this.usageState.add(usageStateItem);
+    return this;
+  }
 
-	/**
-	 * Match particular usage state of the on-boarded VNF package. May be present if
-	 * the \"notificationTypes\" attribute contains the value
-	 * \"VnfPackageChangeNotification\", and shall be absent otherwise.
-	 *
-	 * @return usageState
-	 **/
-	@ApiModelProperty(value = "Match particular usage state of the on-boarded VNF package. May be present if the \"notificationTypes\" attribute contains the value \"VnfPackageChangeNotification\", and shall be absent otherwise. ")
+  /**
+   * Match particular usage state of the on-boarded VNF package. May be present if
+   * the \"notificationTypes\" attribute contains the value
+   * \"VnfPackageChangeNotification\", and shall be absent otherwise.
+   *
+   * @return usageState
+   **/
+  @Schema(description = "Match particular usage state of the on-boarded VNF package. May be present if the \"notificationTypes\" attribute contains the value \"VnfPackageChangeNotification\", and shall be absent otherwise. ")
 
-	@Valid
+  @Valid
 
-	public List<PackageUsageStateType> getUsageState() {
-		return usageState;
-	}
+  public List<PackageUsageStateType> getUsageState() {
+    return usageState;
+  }
 
-	public void setUsageState(final List<PackageUsageStateType> usageState) {
-		this.usageState = usageState;
-	}
+  public void setUsageState(final List<PackageUsageStateType> usageState) {
+    this.usageState = usageState;
+  }
 
-	public PkgmNotificationsFilterVnfProductsFromProviders vnfmInfo(final List<String> vnfmInfo) {
-		this.vnfmInfo = vnfmInfo;
-		return this;
-	}
+  public PkgmNotificationsFilterVnfProductsFromProviders vnfmInfo(final List<String> vnfmInfo) {
+    this.vnfmInfo = vnfmInfo;
+    return this;
+  }
 
-	public PkgmNotificationsFilterVnfProductsFromProviders addVnfmInfoItem(final String vnfmInfoItem) {
-		if (this.vnfmInfo == null) {
-			this.vnfmInfo = new ArrayList<>();
-		}
-		this.vnfmInfo.add(vnfmInfoItem);
-		return this;
-	}
+  public PkgmNotificationsFilterVnfProductsFromProviders addVnfmInfoItem(final String vnfmInfoItem) {
+    if (this.vnfmInfo == null) {
+      this.vnfmInfo = new ArrayList<>();
+    }
+    this.vnfmInfo.add(vnfmInfoItem);
+    return this;
+  }
 
-	/**
-	 * Match strings that specify VNFMs compatible with the VNF. See Table
-	 * 9.5.2.5-1.
-	 *
-	 * @return vnfmInfo
-	 **/
-	@ApiModelProperty(value = "Match strings that specify VNFMs compatible with the VNF. See Table 9.5.2.5-1. ")
+  /**
+   * Match strings that specify VNFMs compatible with the VNF. See Table
+   * 9.5.2.5-1.
+   *
+   * @return vnfmInfo
+   **/
+  @Schema(description = "Match strings that specify VNFMs compatible with the VNF. See Table 9.5.2.5-1. ")
 
-	public List<String> getVnfmInfo() {
-		return vnfmInfo;
-	}
+  public List<String> getVnfmInfo() {
+    return vnfmInfo;
+  }
 
-	public void setVnfmInfo(final List<String> vnfmInfo) {
-		this.vnfmInfo = vnfmInfo;
-	}
+  public void setVnfmInfo(final List<String> vnfmInfo) {
+    this.vnfmInfo = vnfmInfo;
+  }
 
-	@Override
-	public boolean equals(final java.lang.Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
-		final PkgmNotificationsFilterVnfProductsFromProviders pkgmNotificationsFilterVnfProductsFromProviders = (PkgmNotificationsFilterVnfProductsFromProviders) o;
-		return Objects.equals(this.vnfProvider, pkgmNotificationsFilterVnfProductsFromProviders.vnfProvider) &&
-				Objects.equals(this.vnfProducts, pkgmNotificationsFilterVnfProductsFromProviders.vnfProducts) &&
-				Objects.equals(this.vnfdId, pkgmNotificationsFilterVnfProductsFromProviders.vnfdId) &&
-				Objects.equals(this.vnfPkgId, pkgmNotificationsFilterVnfProductsFromProviders.vnfPkgId) &&
-				Objects.equals(this.operationalState, pkgmNotificationsFilterVnfProductsFromProviders.operationalState) &&
-				Objects.equals(this.usageState, pkgmNotificationsFilterVnfProductsFromProviders.usageState) &&
-				Objects.equals(this.vnfmInfo, pkgmNotificationsFilterVnfProductsFromProviders.vnfmInfo);
-	}
+  @Override
+  public boolean equals(final java.lang.Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    final PkgmNotificationsFilterVnfProductsFromProviders pkgmNotificationsFilterVnfProductsFromProviders = (PkgmNotificationsFilterVnfProductsFromProviders) o;
+    return Objects.equals(this.vnfProvider, pkgmNotificationsFilterVnfProductsFromProviders.vnfProvider) &&
+    Objects.equals(this.vnfProducts, pkgmNotificationsFilterVnfProductsFromProviders.vnfProducts) &&
+    Objects.equals(this.vnfdId, pkgmNotificationsFilterVnfProductsFromProviders.vnfdId) &&
+    Objects.equals(this.vnfPkgId, pkgmNotificationsFilterVnfProductsFromProviders.vnfPkgId) &&
+    Objects.equals(this.operationalState, pkgmNotificationsFilterVnfProductsFromProviders.operationalState) &&
+    Objects.equals(this.usageState, pkgmNotificationsFilterVnfProductsFromProviders.usageState) &&
+    Objects.equals(this.vnfmInfo, pkgmNotificationsFilterVnfProductsFromProviders.vnfmInfo);
+  }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(vnfProvider, vnfProducts, vnfdId, vnfPkgId, operationalState, usageState, vnfmInfo);
-	}
+  @Override
+  public int hashCode() {
+    return Objects.hash(vnfProvider, vnfProducts, vnfdId, vnfPkgId, operationalState, usageState, vnfmInfo);
+  }
 
-	@Override
-	public String toString() {
-		final StringBuilder sb = new StringBuilder();
-		sb.append("class PkgmNotificationsFilterVnfProductsFromProviders {\n");
+  @Override
+  public String toString() {
+    final StringBuilder sb = new StringBuilder();
+    sb.append("class PkgmNotificationsFilterVnfProductsFromProviders {\n");
 
-		sb.append("    vnfProvider: ").append(toIndentedString(vnfProvider)).append("\n");
-		sb.append("    vnfProducts: ").append(toIndentedString(vnfProducts)).append("\n");
-		sb.append("    vnfdId: ").append(toIndentedString(vnfdId)).append("\n");
-		sb.append("    vnfPkgId: ").append(toIndentedString(vnfPkgId)).append("\n");
-		sb.append("    operationalState: ").append(toIndentedString(operationalState)).append("\n");
-		sb.append("    usageState: ").append(toIndentedString(usageState)).append("\n");
-		sb.append("    vnfmInfo: ").append(toIndentedString(vnfmInfo)).append("\n");
-		sb.append("}");
-		return sb.toString();
-	}
+    sb.append("    vnfProvider: ").append(toIndentedString(vnfProvider)).append("\n");
+    sb.append("    vnfProducts: ").append(toIndentedString(vnfProducts)).append("\n");
+    sb.append("    vnfdId: ").append(toIndentedString(vnfdId)).append("\n");
+    sb.append("    vnfPkgId: ").append(toIndentedString(vnfPkgId)).append("\n");
+    sb.append("    operationalState: ").append(toIndentedString(operationalState)).append("\n");
+    sb.append("    usageState: ").append(toIndentedString(usageState)).append("\n");
+    sb.append("    vnfmInfo: ").append(toIndentedString(vnfmInfo)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
 
-	/**
-	 * Convert the given object to string with each line indented by 4 spaces
-	 * (except the first line).
-	 */
-	private String toIndentedString(final java.lang.Object o) {
-		if (o == null) {
-			return "null";
-		}
-		return o.toString().replace("\n", "\n    ");
-	}
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(final java.lang.Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
+  }
 }

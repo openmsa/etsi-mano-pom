@@ -21,8 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Map;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.VnfcInfoModifications;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -32,7 +31,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents attribute modifications for an \&quot;Individual VNF instance\&quot; resource, i.e. modifications to a resource representation based on the \&quot;VnfInstance\&quot; data type. The attributes of \&quot;VnfInstance\&quot; that can be modified according to the provisions in clause 5.5.2.2 are included in the \&quot;VnfInfoModificationRequest\&quot; data type. The \&quot;VnfInfoModificationRequest\&quot; data type shall comply with the provisions defined in table 5.5.2.12-1. 
  */
-@ApiModel(description = "This type represents attribute modifications for an \"Individual VNF instance\" resource, i.e. modifications to a resource representation based on the \"VnfInstance\" data type. The attributes of \"VnfInstance\" that can be modified according to the provisions in clause 5.5.2.2 are included in the \"VnfInfoModificationRequest\" data type. The \"VnfInfoModificationRequest\" data type shall comply with the provisions defined in table 5.5.2.12-1. ")
+@Schema (description= "This type represents attribute modifications for an \"Individual VNF instance\" resource, i.e. modifications to a resource representation based on the \"VnfInstance\" data type. The attributes of \"VnfInstance\" that can be modified according to the provisions in clause 5.5.2.2 are included in the \"VnfInfoModificationRequest\" data type. The \"VnfInfoModificationRequest\" data type shall comply with the provisions defined in table 5.5.2.12-1. " )
 @Validated
 
 public class VnfInfoModificationRequest   {
@@ -71,7 +70,7 @@ public class VnfInfoModificationRequest   {
    * New value of the \"vnfInstanceName\" attribute in \"VnfInstance\", or \"null\" to remove the attribute. 
    * @return vnfInstanceName
   **/
-  @ApiModelProperty(value = "New value of the \"vnfInstanceName\" attribute in \"VnfInstance\", or \"null\" to remove the attribute. ")
+  @Schema(description = "New value of the \"vnfInstanceName\" attribute in \"VnfInstance\", or \"null\" to remove the attribute. ")
 
 
   public String getVnfInstanceName() {
@@ -91,7 +90,7 @@ public class VnfInfoModificationRequest   {
    * New value of the \"vnfInstanceDescription\" attribute in \"VnfInstance\", or \"null\" to remove the attribute. 
    * @return vnfInstanceDescription
   **/
-  @ApiModelProperty(value = "New value of the \"vnfInstanceDescription\" attribute in \"VnfInstance\", or \"null\" to remove the attribute. ")
+  @Schema(description = "New value of the \"vnfInstanceDescription\" attribute in \"VnfInstance\", or \"null\" to remove the attribute. ")
 
 
   public String getVnfInstanceDescription() {
@@ -111,7 +110,7 @@ public class VnfInfoModificationRequest   {
    * New value of the \"vnfdId\" attribute in \"VnfInstance\". The value \"null\" is not permitted. 
    * @return vnfdId
   **/
-  @ApiModelProperty(value = "New value of the \"vnfdId\" attribute in \"VnfInstance\". The value \"null\" is not permitted. ")
+  @Schema(description = "New value of the \"vnfdId\" attribute in \"VnfInstance\". The value \"null\" is not permitted. ")
 
 
   public String getVnfdId() {
@@ -131,7 +130,7 @@ public class VnfInfoModificationRequest   {
    * Modifications of the \"vnfConfigurableProperties\" attribute in \"VnfInstance\". If present, these modifications shall be applied according to the rules of JSON Merge PATCH (see IETF RFC 7396 [15]). 
    * @return vnfConfigurableProperties
   **/
-  @ApiModelProperty(value = "Modifications of the \"vnfConfigurableProperties\" attribute in \"VnfInstance\". If present, these modifications shall be applied according to the rules of JSON Merge PATCH (see IETF RFC 7396 [15]). ")
+  @Schema(description = "Modifications of the \"vnfConfigurableProperties\" attribute in \"VnfInstance\". If present, these modifications shall be applied according to the rules of JSON Merge PATCH (see IETF RFC 7396 [15]). ")
 
   @Valid
 
@@ -152,7 +151,7 @@ public class VnfInfoModificationRequest   {
    * Modifications of the \"metadattametadata\" attribute in \"VnfInstance\". If present, these modifications shall be applied according to the rules of JSON Merge PATCH (see IETF  RFC  7396  [15]). 
    * @return metadata
   **/
-  @ApiModelProperty(value = "Modifications of the \"metadattametadata\" attribute in \"VnfInstance\". If present, these modifications shall be applied according to the rules of JSON Merge PATCH (see IETF  RFC  7396  [15]). ")
+  @Schema(description = "Modifications of the \"metadattametadata\" attribute in \"VnfInstance\". If present, these modifications shall be applied according to the rules of JSON Merge PATCH (see IETF  RFC  7396  [15]). ")
 
   @Valid
 
@@ -173,7 +172,7 @@ public class VnfInfoModificationRequest   {
    * Modifications of the \"extensions\" attribute in \"VnfInstance\". If present, these modifications shall be applied according to the rules of JSON Merge PATCH (see IETF  RFC  7396  [15]). 
    * @return extensions
   **/
-  @ApiModelProperty(value = "Modifications of the \"extensions\" attribute in \"VnfInstance\". If present, these modifications shall be applied according to the rules of JSON Merge PATCH (see IETF  RFC  7396  [15]). ")
+  @Schema(description = "Modifications of the \"extensions\" attribute in \"VnfInstance\". If present, these modifications shall be applied according to the rules of JSON Merge PATCH (see IETF  RFC  7396  [15]). ")
 
   @Valid
 
@@ -202,7 +201,7 @@ public class VnfInfoModificationRequest   {
    * Modifications of certain entries in the \"vnfcInfo\" attribute array in the \"instantiatedVnfInfo\" attribute of \"VnfInstance\".\" to be used as \"newList\" as defined below this table. 
    * @return vnfcInfoModifications
   **/
-  @ApiModelProperty(value = "Modifications of certain entries in the \"vnfcInfo\" attribute array in the \"instantiatedVnfInfo\" attribute of \"VnfInstance\".\" to be used as \"newList\" as defined below this table. ")
+  @Schema(description = "Modifications of certain entries in the \"vnfcInfo\" attribute array in the \"instantiatedVnfInfo\" attribute of \"VnfInstance\".\" to be used as \"newList\" as defined below this table. ")
 
   @Valid
 
@@ -231,7 +230,7 @@ public class VnfInfoModificationRequest   {
    * List of identifiers entries to be deleted from the 'vnfcInfoModifications\" attribute array to be used as \"deleteIdList\" as defined below this table. 
    * @return vnfcInfoModificationsDeleteIds
   **/
-  @ApiModelProperty(value = "List of identifiers entries to be deleted from the 'vnfcInfoModifications\" attribute array to be used as \"deleteIdList\" as defined below this table. ")
+  @Schema(description = "List of identifiers entries to be deleted from the 'vnfcInfoModifications\" attribute array to be used as \"deleteIdList\" as defined below this table. ")
 
 
   public List<String> getVnfcInfoModificationsDeleteIds() {
@@ -253,13 +252,13 @@ public class VnfInfoModificationRequest   {
     }
     VnfInfoModificationRequest vnfInfoModificationRequest = (VnfInfoModificationRequest) o;
     return Objects.equals(this.vnfInstanceName, vnfInfoModificationRequest.vnfInstanceName) &&
-        Objects.equals(this.vnfInstanceDescription, vnfInfoModificationRequest.vnfInstanceDescription) &&
-        Objects.equals(this.vnfdId, vnfInfoModificationRequest.vnfdId) &&
-        Objects.equals(this.vnfConfigurableProperties, vnfInfoModificationRequest.vnfConfigurableProperties) &&
-        Objects.equals(this.metadata, vnfInfoModificationRequest.metadata) &&
-        Objects.equals(this.extensions, vnfInfoModificationRequest.extensions) &&
-        Objects.equals(this.vnfcInfoModifications, vnfInfoModificationRequest.vnfcInfoModifications) &&
-        Objects.equals(this.vnfcInfoModificationsDeleteIds, vnfInfoModificationRequest.vnfcInfoModificationsDeleteIds);
+    Objects.equals(this.vnfInstanceDescription, vnfInfoModificationRequest.vnfInstanceDescription) &&
+    Objects.equals(this.vnfdId, vnfInfoModificationRequest.vnfdId) &&
+    Objects.equals(this.vnfConfigurableProperties, vnfInfoModificationRequest.vnfConfigurableProperties) &&
+    Objects.equals(this.metadata, vnfInfoModificationRequest.metadata) &&
+    Objects.equals(this.extensions, vnfInfoModificationRequest.extensions) &&
+    Objects.equals(this.vnfcInfoModifications, vnfInfoModificationRequest.vnfcInfoModifications) &&
+    Objects.equals(this.vnfcInfoModificationsDeleteIds, vnfInfoModificationRequest.vnfcInfoModificationsDeleteIds);
   }
 
   @Override
@@ -271,7 +270,7 @@ public class VnfInfoModificationRequest   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class VnfInfoModificationRequest {\n");
-    
+
     sb.append("    vnfInstanceName: ").append(toIndentedString(vnfInstanceName)).append("\n");
     sb.append("    vnfInstanceDescription: ").append(toIndentedString(vnfInstanceDescription)).append("\n");
     sb.append("    vnfdId: ").append(toIndentedString(vnfdId)).append("\n");

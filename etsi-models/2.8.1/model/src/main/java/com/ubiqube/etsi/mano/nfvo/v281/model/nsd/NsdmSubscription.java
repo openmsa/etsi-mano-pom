@@ -17,7 +17,7 @@
 package com.ubiqube.etsi.mano.nfvo.v281.model.nsd;
 
 import java.util.Objects;
-
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
@@ -25,13 +25,10 @@ import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
 /**
  * This type represents a subscription related to notifications about NSD management. 
  */
-@ApiModel(description = "This type represents a subscription related to notifications about NSD management. ")
+@Schema (description= "This type represents a subscription related to notifications about NSD management. " )
 @Validated
 
 public class NsdmSubscription   {
@@ -56,7 +53,7 @@ public class NsdmSubscription   {
    * Identifier of this subscription resource. 
    * @return id
   **/
-  @ApiModelProperty(required = true, value = "Identifier of this subscription resource. ")
+  @Schema(required = true , description = "Identifier of this subscription resource. ")
   @NotNull
 
 
@@ -77,7 +74,7 @@ public class NsdmSubscription   {
    * Filter settings for this subscription, to define the subset of all notifications this subscription relates to. A particular notification is sent to the subscriber if the filter matches, or if there is no filter. 
    * @return filter
   **/
-  @ApiModelProperty(value = "Filter settings for this subscription, to define the subset of all notifications this subscription relates to. A particular notification is sent to the subscriber if the filter matches, or if there is no filter. ")
+  @Schema(description = "Filter settings for this subscription, to define the subset of all notifications this subscription relates to. A particular notification is sent to the subscriber if the filter matches, or if there is no filter. ")
 
   @Valid
 
@@ -98,7 +95,7 @@ public class NsdmSubscription   {
    * The URI of the endpoint to send the notification to. 
    * @return callbackUri
   **/
-  @ApiModelProperty(required = true, value = "The URI of the endpoint to send the notification to. ")
+  @Schema(required = true , description = "The URI of the endpoint to send the notification to. ")
   @NotNull
 
 
@@ -119,7 +116,7 @@ public class NsdmSubscription   {
    * Get links
    * @return links
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true , description = "")
   @NotNull
 
   @Valid
@@ -143,9 +140,9 @@ public class NsdmSubscription   {
     }
     NsdmSubscription nsdmSubscription = (NsdmSubscription) o;
     return Objects.equals(this.id, nsdmSubscription.id) &&
-        Objects.equals(this.filter, nsdmSubscription.filter) &&
-        Objects.equals(this.callbackUri, nsdmSubscription.callbackUri) &&
-        Objects.equals(this.links, nsdmSubscription.links);
+    Objects.equals(this.filter, nsdmSubscription.filter) &&
+    Objects.equals(this.callbackUri, nsdmSubscription.callbackUri) &&
+    Objects.equals(this.links, nsdmSubscription.links);
   }
 
   @Override
@@ -157,7 +154,7 @@ public class NsdmSubscription   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class NsdmSubscription {\n");
-    
+
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    filter: ").append(toIndentedString(filter)).append("\n");
     sb.append("    callbackUri: ").append(toIndentedString(callbackUri)).append("\n");

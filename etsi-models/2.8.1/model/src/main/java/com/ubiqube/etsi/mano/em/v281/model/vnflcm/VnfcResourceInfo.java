@@ -22,8 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Map;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.ResourceHandle;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.VnfcResourceInfoVnfcCpInfo;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -33,7 +32,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents the information on virtualised compute and storage resources used by a VNFC in a VNF instance. 
  */
-@ApiModel(description = "This type represents the information on virtualised compute and storage resources used by a VNFC in a VNF instance. ")
+@Schema (description= "This type represents the information on virtualised compute and storage resources used by a VNFC in a VNF instance. " )
 @Validated
 
 public class VnfcResourceInfo   {
@@ -69,7 +68,7 @@ public class VnfcResourceInfo   {
    * Identifier of this VnfcResourceInfo instance. 
    * @return id
   **/
-  @ApiModelProperty(required = true, value = "Identifier of this VnfcResourceInfo instance. ")
+  @Schema(required = true , description = "Identifier of this VnfcResourceInfo instance. ")
   @NotNull
 
 
@@ -90,7 +89,7 @@ public class VnfcResourceInfo   {
    * Reference to the applicable VDU in the VNFD. ETSI GS NFV-SOL 001 specifies the structure and format of the VNFD based on TOSCA specifications. 
    * @return vduId
   **/
-  @ApiModelProperty(required = true, value = "Reference to the applicable VDU in the VNFD. ETSI GS NFV-SOL 001 specifies the structure and format of the VNFD based on TOSCA specifications. ")
+  @Schema(required = true , description = "Reference to the applicable VDU in the VNFD. ETSI GS NFV-SOL 001 specifies the structure and format of the VNFD based on TOSCA specifications. ")
   @NotNull
 
 
@@ -111,7 +110,7 @@ public class VnfcResourceInfo   {
    * Reference to the VirtualCompute resource. 
    * @return computeResource
   **/
-  @ApiModelProperty(required = true, value = "Reference to the VirtualCompute resource. ")
+  @Schema(required = true , description = "Reference to the VirtualCompute resource. ")
   @NotNull
 
   @Valid
@@ -141,7 +140,7 @@ public class VnfcResourceInfo   {
    * References to the VirtualStorage resources. The value refers to a VirtualStorageResourceInfo item in the VnfInstance. 
    * @return storageResourceIds
   **/
-  @ApiModelProperty(value = "References to the VirtualStorage resources. The value refers to a VirtualStorageResourceInfo item in the VnfInstance. ")
+  @Schema(description = "References to the VirtualStorage resources. The value refers to a VirtualStorageResourceInfo item in the VnfInstance. ")
 
 
   public List<String> getStorageResourceIds() {
@@ -161,7 +160,7 @@ public class VnfcResourceInfo   {
    * The reservation identifier applicable to the resource. It shall be present when an applicable reservation exists. 
    * @return reservationId
   **/
-  @ApiModelProperty(value = "The reservation identifier applicable to the resource. It shall be present when an applicable reservation exists. ")
+  @Schema(description = "The reservation identifier applicable to the resource. It shall be present when an applicable reservation exists. ")
 
 
   public String getReservationId() {
@@ -189,7 +188,7 @@ public class VnfcResourceInfo   {
    * All CPs of the VNFC instance. 
    * @return vnfcCpInfo
   **/
-  @ApiModelProperty(value = "All CPs of the VNFC instance. ")
+  @Schema(description = "All CPs of the VNFC instance. ")
 
   @Valid
 
@@ -210,7 +209,7 @@ public class VnfcResourceInfo   {
    * Metadata about this resource. 
    * @return metadata
   **/
-  @ApiModelProperty(value = "Metadata about this resource. ")
+  @Schema(description = "Metadata about this resource. ")
 
   @Valid
 
@@ -233,12 +232,12 @@ public class VnfcResourceInfo   {
     }
     VnfcResourceInfo vnfcResourceInfo = (VnfcResourceInfo) o;
     return Objects.equals(this.id, vnfcResourceInfo.id) &&
-        Objects.equals(this.vduId, vnfcResourceInfo.vduId) &&
-        Objects.equals(this.computeResource, vnfcResourceInfo.computeResource) &&
-        Objects.equals(this.storageResourceIds, vnfcResourceInfo.storageResourceIds) &&
-        Objects.equals(this.reservationId, vnfcResourceInfo.reservationId) &&
-        Objects.equals(this.vnfcCpInfo, vnfcResourceInfo.vnfcCpInfo) &&
-        Objects.equals(this.metadata, vnfcResourceInfo.metadata);
+    Objects.equals(this.vduId, vnfcResourceInfo.vduId) &&
+    Objects.equals(this.computeResource, vnfcResourceInfo.computeResource) &&
+    Objects.equals(this.storageResourceIds, vnfcResourceInfo.storageResourceIds) &&
+    Objects.equals(this.reservationId, vnfcResourceInfo.reservationId) &&
+    Objects.equals(this.vnfcCpInfo, vnfcResourceInfo.vnfcCpInfo) &&
+    Objects.equals(this.metadata, vnfcResourceInfo.metadata);
   }
 
   @Override
@@ -250,7 +249,7 @@ public class VnfcResourceInfo   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class VnfcResourceInfo {\n");
-    
+
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    vduId: ").append(toIndentedString(vduId)).append("\n");
     sb.append("    computeResource: ").append(toIndentedString(computeResource)).append("\n");

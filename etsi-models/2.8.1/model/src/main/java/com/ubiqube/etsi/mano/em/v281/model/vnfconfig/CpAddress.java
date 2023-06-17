@@ -20,8 +20,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.em.v281.model.vnfconfig.CpAddressAddress;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -29,7 +28,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents configuration parameters of a CP instance address.    *  NOTE 1: Either \&quot;address\&quot; or \&quot;useDynamicAddress\&quot; shall be present.    *  NOTE 2: At least one of \&quot;macAddress\&quot; and \&quot;ipAddress\&quot; shall be present. 
  */
-@ApiModel(description = "This type represents configuration parameters of a CP instance address.    *  NOTE 1: Either \"address\" or \"useDynamicAddress\" shall be present.    *  NOTE 2: At least one of \"macAddress\" and \"ipAddress\" shall be present. ")
+@Schema (description= "This type represents configuration parameters of a CP instance address.    *  NOTE 1: Either \"address\" or \"useDynamicAddress\" shall be present.    *  NOTE 2: At least one of \"macAddress\" and \"ipAddress\" shall be present. " )
 @Validated
 
 public class CpAddress   {
@@ -51,7 +50,7 @@ public class CpAddress   {
    * Get address
    * @return address
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   @Valid
 
@@ -72,7 +71,7 @@ public class CpAddress   {
    * Set to true if an address shall be assigned dynamically. Otherwise set to false. The default value shall be false. See NOTE 1. 
    * @return useDynamicAddress
   **/
-  @ApiModelProperty(value = "Set to true if an address shall be assigned dynamically. Otherwise set to false. The default value shall be false. See NOTE 1. ")
+  @Schema(description = "Set to true if an address shall be assigned dynamically. Otherwise set to false. The default value shall be false. See NOTE 1. ")
 
 
   public Boolean isUseDynamicAddress() {
@@ -92,7 +91,7 @@ public class CpAddress   {
    * The port assigned to the CP instance (e.g. IP port number, Ethernet port number, etc.). 
    * @return port
   **/
-  @ApiModelProperty(value = "The port assigned to the CP instance (e.g. IP port number, Ethernet port number, etc.). ")
+  @Schema(description = "The port assigned to the CP instance (e.g. IP port number, Ethernet port number, etc.). ")
 
 
   public Integer getPort() {
@@ -114,8 +113,8 @@ public class CpAddress   {
     }
     CpAddress cpAddress = (CpAddress) o;
     return Objects.equals(this.address, cpAddress.address) &&
-        Objects.equals(this.useDynamicAddress, cpAddress.useDynamicAddress) &&
-        Objects.equals(this.port, cpAddress.port);
+    Objects.equals(this.useDynamicAddress, cpAddress.useDynamicAddress) &&
+    Objects.equals(this.port, cpAddress.port);
   }
 
   @Override
@@ -127,7 +126,7 @@ public class CpAddress   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class CpAddress {\n");
-    
+
     sb.append("    address: ").append(toIndentedString(address)).append("\n");
     sb.append("    useDynamicAddress: ").append(toIndentedString(useDynamicAddress)).append("\n");
     sb.append("    port: ").append(toIndentedString(port)).append("\n");

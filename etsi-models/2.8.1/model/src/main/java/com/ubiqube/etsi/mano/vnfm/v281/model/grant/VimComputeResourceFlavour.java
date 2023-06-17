@@ -19,8 +19,7 @@ package com.ubiqube.etsi.mano.vnfm.v281.model.grant;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -28,7 +27,7 @@ import jakarta.validation.constraints.*;
 /**
  * If the VIM requires the use of virtual compute resource flavours during compute resource instantiation, it is assumed that such flavours are selected or created by the NFVO based on the information in the virtual compute descriptor defined in the VNFD. This type defines the mapping between a virtual compute descriptor in the VNFD and the corresponding compute resource flavour managed by the NFVO in the VIM. 
  */
-@ApiModel(description = "If the VIM requires the use of virtual compute resource flavours during compute resource instantiation, it is assumed that such flavours are selected or created by the NFVO based on the information in the virtual compute descriptor defined in the VNFD. This type defines the mapping between a virtual compute descriptor in the VNFD and the corresponding compute resource flavour managed by the NFVO in the VIM. ")
+@Schema (description= "If the VIM requires the use of virtual compute resource flavours during compute resource instantiation, it is assumed that such flavours are selected or created by the NFVO based on the information in the virtual compute descriptor defined in the VNFD. This type defines the mapping between a virtual compute descriptor in the VNFD and the corresponding compute resource flavour managed by the NFVO in the VIM. " )
 @Validated
 
 public class VimComputeResourceFlavour   {
@@ -53,7 +52,7 @@ public class VimComputeResourceFlavour   {
    * Identifier of the VIM connection to access the flavour referenced in this structure. The applicable \"VimConnectionInfo\" structure, which is referenced by vimConnectionId, can be obtained from the \"vimConnectionInfo\" attribute of the \"VnfInstance\" structure. This attribute shall only be supported and present if VNF-related resource management in direct mode is applicable. 
    * @return vimConnectionId
   **/
-  @ApiModelProperty(value = "Identifier of the VIM connection to access the flavour referenced in this structure. The applicable \"VimConnectionInfo\" structure, which is referenced by vimConnectionId, can be obtained from the \"vimConnectionInfo\" attribute of the \"VnfInstance\" structure. This attribute shall only be supported and present if VNF-related resource management in direct mode is applicable. ")
+  @Schema(description = "Identifier of the VIM connection to access the flavour referenced in this structure. The applicable \"VimConnectionInfo\" structure, which is referenced by vimConnectionId, can be obtained from the \"vimConnectionInfo\" attribute of the \"VnfInstance\" structure. This attribute shall only be supported and present if VNF-related resource management in direct mode is applicable. ")
 
 
   public String getVimConnectionId() {
@@ -73,7 +72,7 @@ public class VimComputeResourceFlavour   {
    * Identifies the entity responsible for the management of the virtualised resource. This attribute shall only be supported and present if VNF-related resource management in indirect mode is applicable. The identification scheme is outside the scope of the present document. 
    * @return resourceProviderId
   **/
-  @ApiModelProperty(value = "Identifies the entity responsible for the management of the virtualised resource. This attribute shall only be supported and present if VNF-related resource management in indirect mode is applicable. The identification scheme is outside the scope of the present document. ")
+  @Schema(description = "Identifies the entity responsible for the management of the virtualised resource. This attribute shall only be supported and present if VNF-related resource management in indirect mode is applicable. The identification scheme is outside the scope of the present document. ")
 
 
   public String getResourceProviderId() {
@@ -93,7 +92,7 @@ public class VimComputeResourceFlavour   {
    * Identifier which references the virtual compute descriptor in the VNFD that maps to this flavour. 
    * @return vnfdVirtualComputeDescId
   **/
-  @ApiModelProperty(required = true, value = "Identifier which references the virtual compute descriptor in the VNFD that maps to this flavour. ")
+  @Schema(required = true , description = "Identifier which references the virtual compute descriptor in the VNFD that maps to this flavour. ")
   @NotNull
 
 
@@ -114,7 +113,7 @@ public class VimComputeResourceFlavour   {
    * Identifier of the compute resource flavour in the resource management layer (i.e. VIM). 
    * @return vimFlavourId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the compute resource flavour in the resource management layer (i.e. VIM). ")
+  @Schema(required = true , description = "Identifier of the compute resource flavour in the resource management layer (i.e. VIM). ")
   @NotNull
 
 
@@ -137,9 +136,9 @@ public class VimComputeResourceFlavour   {
     }
     VimComputeResourceFlavour vimComputeResourceFlavour = (VimComputeResourceFlavour) o;
     return Objects.equals(this.vimConnectionId, vimComputeResourceFlavour.vimConnectionId) &&
-        Objects.equals(this.resourceProviderId, vimComputeResourceFlavour.resourceProviderId) &&
-        Objects.equals(this.vnfdVirtualComputeDescId, vimComputeResourceFlavour.vnfdVirtualComputeDescId) &&
-        Objects.equals(this.vimFlavourId, vimComputeResourceFlavour.vimFlavourId);
+    Objects.equals(this.resourceProviderId, vimComputeResourceFlavour.resourceProviderId) &&
+    Objects.equals(this.vnfdVirtualComputeDescId, vimComputeResourceFlavour.vnfdVirtualComputeDescId) &&
+    Objects.equals(this.vimFlavourId, vimComputeResourceFlavour.vimFlavourId);
   }
 
   @Override
@@ -151,7 +150,7 @@ public class VimComputeResourceFlavour   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class VimComputeResourceFlavour {\n");
-    
+
     sb.append("    vimConnectionId: ").append(toIndentedString(vimConnectionId)).append("\n");
     sb.append("    resourceProviderId: ").append(toIndentedString(resourceProviderId)).append("\n");
     sb.append("    vnfdVirtualComputeDescId: ").append(toIndentedString(vnfdVirtualComputeDescId)).append("\n");

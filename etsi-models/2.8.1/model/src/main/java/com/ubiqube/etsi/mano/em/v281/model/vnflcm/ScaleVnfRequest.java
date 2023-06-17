@@ -20,9 +20,8 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Map;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -85,7 +84,7 @@ public class ScaleVnfRequest   {
    * Indicates the type of the scale operation requested. Permitted values: * SCALE_OUT: adding additional VNFC instances to the VNF to increase   capacity * SCALE_IN: removing VNFC instances from the VNF in order to release   unused capacity. 
    * @return type
   **/
-  @ApiModelProperty(required = true, value = "Indicates the type of the scale operation requested. Permitted values: * SCALE_OUT: adding additional VNFC instances to the VNF to increase   capacity * SCALE_IN: removing VNFC instances from the VNF in order to release   unused capacity. ")
+  @Schema(required = true , description = "Indicates the type of the scale operation requested. Permitted values: * SCALE_OUT: adding additional VNFC instances to the VNF to increase   capacity * SCALE_IN: removing VNFC instances from the VNF in order to release   unused capacity. ")
   @NotNull
 
 
@@ -106,7 +105,7 @@ public class ScaleVnfRequest   {
    * Identifier of the scaling aspect. 
    * @return aspectId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the scaling aspect. ")
+  @Schema(required = true , description = "Identifier of the scaling aspect. ")
   @NotNull
 
 
@@ -127,7 +126,7 @@ public class ScaleVnfRequest   {
    * Number of scaling steps to be executed as part of this Scale VNF operation. It shall be a positive number and the default value shall be 1. 
    * @return numberOfSteps
   **/
-  @ApiModelProperty(value = "Number of scaling steps to be executed as part of this Scale VNF operation. It shall be a positive number and the default value shall be 1. ")
+  @Schema(description = "Number of scaling steps to be executed as part of this Scale VNF operation. It shall be a positive number and the default value shall be 1. ")
 
 
   public Integer getNumberOfSteps() {
@@ -147,7 +146,7 @@ public class ScaleVnfRequest   {
    * Additional parameters passed by the NFVO as input to the scaling process, specific to the VNF being scaled, as declared in the VNFD as part of \"ScaleVnfOpConfig\". 
    * @return additionalParams
   **/
-  @ApiModelProperty(value = "Additional parameters passed by the NFVO as input to the scaling process, specific to the VNF being scaled, as declared in the VNFD as part of \"ScaleVnfOpConfig\". ")
+  @Schema(description = "Additional parameters passed by the NFVO as input to the scaling process, specific to the VNF being scaled, as declared in the VNFD as part of \"ScaleVnfOpConfig\". ")
 
   @Valid
 
@@ -170,9 +169,9 @@ public class ScaleVnfRequest   {
     }
     ScaleVnfRequest scaleVnfRequest = (ScaleVnfRequest) o;
     return Objects.equals(this.type, scaleVnfRequest.type) &&
-        Objects.equals(this.aspectId, scaleVnfRequest.aspectId) &&
-        Objects.equals(this.numberOfSteps, scaleVnfRequest.numberOfSteps) &&
-        Objects.equals(this.additionalParams, scaleVnfRequest.additionalParams);
+    Objects.equals(this.aspectId, scaleVnfRequest.aspectId) &&
+    Objects.equals(this.numberOfSteps, scaleVnfRequest.numberOfSteps) &&
+    Objects.equals(this.additionalParams, scaleVnfRequest.additionalParams);
   }
 
   @Override
@@ -184,7 +183,7 @@ public class ScaleVnfRequest   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ScaleVnfRequest {\n");
-    
+
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    aspectId: ").append(toIndentedString(aspectId)).append("\n");
     sb.append("    numberOfSteps: ").append(toIndentedString(numberOfSteps)).append("\n");

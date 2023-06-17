@@ -20,8 +20,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Map;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -29,7 +28,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type defines the additional parameters for the VNF instance to be created associated with an NS instance. It shall comply with the provisions defined in Table 6.5.3.22-1. 
  */
-@ApiModel(description = "This type defines the additional parameters for the VNF instance to be created associated with an NS instance. It shall comply with the provisions defined in Table 6.5.3.22-1. ")
+@Schema (description= "This type defines the additional parameters for the VNF instance to be created associated with an NS instance. It shall comply with the provisions defined in Table 6.5.3.22-1. " )
 @Validated
 
 public class ParamsForVnf   {
@@ -63,7 +62,7 @@ public class ParamsForVnf   {
    * Identifier of (reference to) a vnfProfile to which the additional parameters apply. 
    * @return vnfProfileId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of (reference to) a vnfProfile to which the additional parameters apply. ")
+  @Schema(required = true , description = "Identifier of (reference to) a vnfProfile to which the additional parameters apply. ")
   @NotNull
 
 
@@ -84,7 +83,7 @@ public class ParamsForVnf   {
    * Human-readable name of the VNF instance to be created. 
    * @return vnfInstanceName
   **/
-  @ApiModelProperty(value = "Human-readable name of the VNF instance to be created. ")
+  @Schema(description = "Human-readable name of the VNF instance to be created. ")
 
 
   public String getVnfInstanceName() {
@@ -104,7 +103,7 @@ public class ParamsForVnf   {
    * Human-readable description of the VNF instance to be created. 
    * @return vnfInstanceDescription
   **/
-  @ApiModelProperty(value = "Human-readable description of the VNF instance to be created. ")
+  @Schema(description = "Human-readable description of the VNF instance to be created. ")
 
 
   public String getVnfInstanceDescription() {
@@ -124,7 +123,7 @@ public class ParamsForVnf   {
    * Values for the \"vnfConfigurableProperties\" input parameter of the Instantiate VNF operation defined in ETSI GS NFV-SOL 003 [4]. 
    * @return vnfConfigurableProperties
   **/
-  @ApiModelProperty(value = "Values for the \"vnfConfigurableProperties\" input parameter of the Instantiate VNF operation defined in ETSI GS NFV-SOL 003 [4]. ")
+  @Schema(description = "Values for the \"vnfConfigurableProperties\" input parameter of the Instantiate VNF operation defined in ETSI GS NFV-SOL 003 [4]. ")
 
   @Valid
 
@@ -145,7 +144,7 @@ public class ParamsForVnf   {
    * Values for the \"metadata\" input parameter of the Create VNF Identifier operation defined in ETSI GS NFV-SOL 003 [4]. 
    * @return metadata
   **/
-  @ApiModelProperty(value = "Values for the \"metadata\" input parameter of the Create VNF Identifier operation defined in ETSI GS NFV-SOL 003 [4]. ")
+  @Schema(description = "Values for the \"metadata\" input parameter of the Create VNF Identifier operation defined in ETSI GS NFV-SOL 003 [4]. ")
 
   @Valid
 
@@ -166,7 +165,7 @@ public class ParamsForVnf   {
    * Values for the \"extensions\" attribute of the Instantiate VNF operation defined in ETSI GS NFV-SOL 003 [4]. 
    * @return extensions
   **/
-  @ApiModelProperty(value = "Values for the \"extensions\" attribute of the Instantiate VNF operation defined in ETSI GS NFV-SOL 003 [4]. ")
+  @Schema(description = "Values for the \"extensions\" attribute of the Instantiate VNF operation defined in ETSI GS NFV-SOL 003 [4]. ")
 
   @Valid
 
@@ -187,7 +186,7 @@ public class ParamsForVnf   {
    * Additional input parameters for the instantiation process, specific to the VNF being instantiated, as declared in the VNFD as part of \"InstantiateVnfOpConfig\". 
    * @return additionalParams
   **/
-  @ApiModelProperty(value = "Additional input parameters for the instantiation process, specific to the VNF being instantiated, as declared in the VNFD as part of \"InstantiateVnfOpConfig\". ")
+  @Schema(description = "Additional input parameters for the instantiation process, specific to the VNF being instantiated, as declared in the VNFD as part of \"InstantiateVnfOpConfig\". ")
 
   @Valid
 
@@ -210,12 +209,12 @@ public class ParamsForVnf   {
     }
     ParamsForVnf paramsForVnf = (ParamsForVnf) o;
     return Objects.equals(this.vnfProfileId, paramsForVnf.vnfProfileId) &&
-        Objects.equals(this.vnfInstanceName, paramsForVnf.vnfInstanceName) &&
-        Objects.equals(this.vnfInstanceDescription, paramsForVnf.vnfInstanceDescription) &&
-        Objects.equals(this.vnfConfigurableProperties, paramsForVnf.vnfConfigurableProperties) &&
-        Objects.equals(this.metadata, paramsForVnf.metadata) &&
-        Objects.equals(this.extensions, paramsForVnf.extensions) &&
-        Objects.equals(this.additionalParams, paramsForVnf.additionalParams);
+    Objects.equals(this.vnfInstanceName, paramsForVnf.vnfInstanceName) &&
+    Objects.equals(this.vnfInstanceDescription, paramsForVnf.vnfInstanceDescription) &&
+    Objects.equals(this.vnfConfigurableProperties, paramsForVnf.vnfConfigurableProperties) &&
+    Objects.equals(this.metadata, paramsForVnf.metadata) &&
+    Objects.equals(this.extensions, paramsForVnf.extensions) &&
+    Objects.equals(this.additionalParams, paramsForVnf.additionalParams);
   }
 
   @Override
@@ -227,7 +226,7 @@ public class ParamsForVnf   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ParamsForVnf {\n");
-    
+
     sb.append("    vnfProfileId: ").append(toIndentedString(vnfProfileId)).append("\n");
     sb.append("    vnfInstanceName: ").append(toIndentedString(vnfInstanceName)).append("\n");
     sb.append("    vnfInstanceDescription: ").append(toIndentedString(vnfInstanceDescription)).append("\n");

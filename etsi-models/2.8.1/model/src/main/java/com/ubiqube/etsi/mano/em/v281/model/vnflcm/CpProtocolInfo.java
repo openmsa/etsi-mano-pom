@@ -21,8 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.IpOverEthernetAddressInfo;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -30,7 +29,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type describes the protocol layer(s) that a CP uses together with protocol-related information, like addresses. 
  */
-@ApiModel(description = "This type describes the protocol layer(s) that a CP uses together with protocol-related information, like addresses. ")
+@Schema (description= "This type describes the protocol layer(s) that a CP uses together with protocol-related information, like addresses. " )
 @Validated
 
 public class CpProtocolInfo   {
@@ -78,7 +77,7 @@ public class CpProtocolInfo   {
    * The identifier of layer(s) and protocol(s) associated to the network address information. Permitted values: IP_OVER_ETHERNET This attribute allows to signal the addition of further types of layer and protocol in future versions of the present document in a backwards-compatible way. In the current version of the present document, only IP over Ethernet is supported. 
    * @return layerProtocol
   **/
-  @ApiModelProperty(required = true, value = "The identifier of layer(s) and protocol(s) associated to the network address information. Permitted values: IP_OVER_ETHERNET This attribute allows to signal the addition of further types of layer and protocol in future versions of the present document in a backwards-compatible way. In the current version of the present document, only IP over Ethernet is supported. ")
+  @Schema(required = true , description = "The identifier of layer(s) and protocol(s) associated to the network address information. Permitted values: IP_OVER_ETHERNET This attribute allows to signal the addition of further types of layer and protocol in future versions of the present document in a backwards-compatible way. In the current version of the present document, only IP over Ethernet is supported. ")
   @NotNull
 
 
@@ -99,7 +98,7 @@ public class CpProtocolInfo   {
    * IP addresses over Ethernet to assign to the extCP instance. Shall be present if layerProtocol is equal to \" IP_OVER_ETHERNET\", and shall be absent otherwise. 
    * @return ipOverEthernet
   **/
-  @ApiModelProperty(value = "IP addresses over Ethernet to assign to the extCP instance. Shall be present if layerProtocol is equal to \" IP_OVER_ETHERNET\", and shall be absent otherwise. ")
+  @Schema(description = "IP addresses over Ethernet to assign to the extCP instance. Shall be present if layerProtocol is equal to \" IP_OVER_ETHERNET\", and shall be absent otherwise. ")
 
   @Valid
 
@@ -122,7 +121,7 @@ public class CpProtocolInfo   {
     }
     CpProtocolInfo cpProtocolInfo = (CpProtocolInfo) o;
     return Objects.equals(this.layerProtocol, cpProtocolInfo.layerProtocol) &&
-        Objects.equals(this.ipOverEthernet, cpProtocolInfo.ipOverEthernet);
+    Objects.equals(this.ipOverEthernet, cpProtocolInfo.ipOverEthernet);
   }
 
   @Override
@@ -134,7 +133,7 @@ public class CpProtocolInfo   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class CpProtocolInfo {\n");
-    
+
     sb.append("    layerProtocol: ").append(toIndentedString(layerProtocol)).append("\n");
     sb.append("    ipOverEthernet: ").append(toIndentedString(ipOverEthernet)).append("\n");
     sb.append("}");

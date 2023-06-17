@@ -21,8 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.em.v281.model.vnfind.ThresholdCriteria;
 import com.ubiqube.etsi.mano.em.v281.model.vnfind.ThresholdLinks;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -32,7 +31,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents a threshold. 
  */
-@ApiModel(description = "This type represents a threshold. ")
+@Schema (description= "This type represents a threshold. " )
 @Validated
 
 public class Threshold   {
@@ -67,7 +66,7 @@ public class Threshold   {
    * Identifier of this threshold resource. 
    * @return id
   **/
-  @ApiModelProperty(required = true, value = "Identifier of this threshold resource. ")
+  @Schema(required = true , description = "Identifier of this threshold resource. ")
   @NotNull
 
 
@@ -88,7 +87,7 @@ public class Threshold   {
    * Type of the measured object. The applicable measured object type for a measurement is defined in clause 7.2 of ETSI GS NFV-IFA 027. 
    * @return objectType
   **/
-  @ApiModelProperty(required = true, value = "Type of the measured object. The applicable measured object type for a measurement is defined in clause 7.2 of ETSI GS NFV-IFA 027. ")
+  @Schema(required = true , description = "Type of the measured object. The applicable measured object type for a measurement is defined in clause 7.2 of ETSI GS NFV-IFA 027. ")
   @NotNull
 
 
@@ -109,7 +108,7 @@ public class Threshold   {
    * Identifier of the VNF instance associated with the threshold. 
    * @return objectInstanceId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the VNF instance associated with the threshold. ")
+  @Schema(required = true , description = "Identifier of the VNF instance associated with the threshold. ")
   @NotNull
 
 
@@ -138,7 +137,7 @@ public class Threshold   {
    * Identifiers of the sub-object instances of the measured object instance associated with the threshold. May be present if a sub-object is defined in clause 6.2 of ETSI GS NFV-IFA 027 for the related measurement type. If this attribute is absent and a sub-object is defined in clause 6.2 of ETSI GS NFV-IFA 027 for the related measured object type, measurements will be taken for all sub-object instances of the measured object instance. 
    * @return subObjectInstanceIds
   **/
-  @ApiModelProperty(value = "Identifiers of the sub-object instances of the measured object instance associated with the threshold. May be present if a sub-object is defined in clause 6.2 of ETSI GS NFV-IFA 027 for the related measurement type. If this attribute is absent and a sub-object is defined in clause 6.2 of ETSI GS NFV-IFA 027 for the related measured object type, measurements will be taken for all sub-object instances of the measured object instance. ")
+  @Schema(description = "Identifiers of the sub-object instances of the measured object instance associated with the threshold. May be present if a sub-object is defined in clause 6.2 of ETSI GS NFV-IFA 027 for the related measurement type. If this attribute is absent and a sub-object is defined in clause 6.2 of ETSI GS NFV-IFA 027 for the related measured object type, measurements will be taken for all sub-object instances of the measured object instance. ")
 
 
   public List<String> getSubObjectInstanceIds() {
@@ -158,7 +157,7 @@ public class Threshold   {
    * Criteria that define this threshold. 
    * @return criteria
   **/
-  @ApiModelProperty(required = true, value = "Criteria that define this threshold. ")
+  @Schema(required = true , description = "Criteria that define this threshold. ")
   @NotNull
 
   @Valid
@@ -180,7 +179,7 @@ public class Threshold   {
    * The URI of the endpoint to send the notification to. 
    * @return callbackUri
   **/
-  @ApiModelProperty(required = true, value = "The URI of the endpoint to send the notification to. ")
+  @Schema(required = true , description = "The URI of the endpoint to send the notification to. ")
   @NotNull
 
 
@@ -201,7 +200,7 @@ public class Threshold   {
    * Get links
    * @return links
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true , description = "")
   @NotNull
 
   @Valid
@@ -225,12 +224,12 @@ public class Threshold   {
     }
     Threshold threshold = (Threshold) o;
     return Objects.equals(this.id, threshold.id) &&
-        Objects.equals(this.objectType, threshold.objectType) &&
-        Objects.equals(this.objectInstanceId, threshold.objectInstanceId) &&
-        Objects.equals(this.subObjectInstanceIds, threshold.subObjectInstanceIds) &&
-        Objects.equals(this.criteria, threshold.criteria) &&
-        Objects.equals(this.callbackUri, threshold.callbackUri) &&
-        Objects.equals(this.links, threshold.links);
+    Objects.equals(this.objectType, threshold.objectType) &&
+    Objects.equals(this.objectInstanceId, threshold.objectInstanceId) &&
+    Objects.equals(this.subObjectInstanceIds, threshold.subObjectInstanceIds) &&
+    Objects.equals(this.criteria, threshold.criteria) &&
+    Objects.equals(this.callbackUri, threshold.callbackUri) &&
+    Objects.equals(this.links, threshold.links);
   }
 
   @Override
@@ -242,7 +241,7 @@ public class Threshold   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Threshold {\n");
-    
+
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    objectType: ").append(toIndentedString(objectType)).append("\n");
     sb.append("    objectInstanceId: ").append(toIndentedString(objectInstanceId)).append("\n");

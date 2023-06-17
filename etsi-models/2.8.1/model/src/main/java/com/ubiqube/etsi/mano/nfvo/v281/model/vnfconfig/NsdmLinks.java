@@ -17,7 +17,7 @@
 package com.ubiqube.etsi.mano.nfvo.v281.model.vnfconfig;
 
 import java.util.Objects;
-
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
@@ -26,14 +26,11 @@ import org.springframework.validation.annotation.Validated;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.NotificationLink;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
 /**
  * This type represents the links to resources that an NSD management
  * notification can contain.
  */
-@ApiModel(description = "This type represents the links to resources that an NSD management notification can contain. ")
+@Schema (description= "This type represents the links to resources that an NSD management notification can contain. " )
 @Validated
 
 public class NsdmLinks {
@@ -43,89 +40,89 @@ public class NsdmLinks {
 	@JsonProperty("subscription")
 	private NotificationLink subscription = null;
 
-	public NsdmLinks nsdInfo(final NotificationLink nsdInfo) {
-		this.nsdInfo = nsdInfo;
-		return this;
-	}
+  public NsdmLinks nsdInfo(final NotificationLink nsdInfo) {
+    this.nsdInfo = nsdInfo;
+    return this;
+  }
 
-	/**
-	 * Get nsdInfo
-	 *
-	 * @return nsdInfo
-	 **/
-	@ApiModelProperty(required = true, value = "")
-	@NotNull
+  /**
+   * Get nsdInfo
+   *
+   * @return nsdInfo
+   **/
+  @Schema(required = true , description = "")
+  @NotNull
 
-	@Valid
+  @Valid
 
-	public NotificationLink getNsdInfo() {
-		return nsdInfo;
-	}
+  public NotificationLink getNsdInfo() {
+    return nsdInfo;
+  }
 
-	public void setNsdInfo(final NotificationLink nsdInfo) {
-		this.nsdInfo = nsdInfo;
-	}
+  public void setNsdInfo(final NotificationLink nsdInfo) {
+    this.nsdInfo = nsdInfo;
+  }
 
-	public NsdmLinks subscription(final NotificationLink subscription) {
-		this.subscription = subscription;
-		return this;
-	}
+  public NsdmLinks subscription(final NotificationLink subscription) {
+    this.subscription = subscription;
+    return this;
+  }
 
-	/**
-	 * Get subscription
-	 *
-	 * @return subscription
-	 **/
-	@ApiModelProperty(required = true, value = "")
-	@NotNull
+  /**
+   * Get subscription
+   *
+   * @return subscription
+   **/
+  @Schema(required = true , description = "")
+  @NotNull
 
-	@Valid
+  @Valid
 
-	public NotificationLink getSubscription() {
-		return subscription;
-	}
+  public NotificationLink getSubscription() {
+    return subscription;
+  }
 
-	public void setSubscription(final NotificationLink subscription) {
-		this.subscription = subscription;
-	}
+  public void setSubscription(final NotificationLink subscription) {
+    this.subscription = subscription;
+  }
 
-	@Override
-	public boolean equals(final java.lang.Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
-		final NsdmLinks nsdmLinks = (NsdmLinks) o;
-		return Objects.equals(this.nsdInfo, nsdmLinks.nsdInfo) &&
-				Objects.equals(this.subscription, nsdmLinks.subscription);
-	}
+  @Override
+  public boolean equals(final java.lang.Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    final NsdmLinks nsdmLinks = (NsdmLinks) o;
+    return Objects.equals(this.nsdInfo, nsdmLinks.nsdInfo) &&
+    Objects.equals(this.subscription, nsdmLinks.subscription);
+  }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(nsdInfo, subscription);
-	}
+  @Override
+  public int hashCode() {
+    return Objects.hash(nsdInfo, subscription);
+  }
 
-	@Override
-	public String toString() {
-		final StringBuilder sb = new StringBuilder();
-		sb.append("class NsdmLinks {\n");
+  @Override
+  public String toString() {
+    final StringBuilder sb = new StringBuilder();
+    sb.append("class NsdmLinks {\n");
 
-		sb.append("    nsdInfo: ").append(toIndentedString(nsdInfo)).append("\n");
-		sb.append("    subscription: ").append(toIndentedString(subscription)).append("\n");
-		sb.append("}");
-		return sb.toString();
-	}
+    sb.append("    nsdInfo: ").append(toIndentedString(nsdInfo)).append("\n");
+    sb.append("    subscription: ").append(toIndentedString(subscription)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
 
-	/**
-	 * Convert the given object to string with each line indented by 4 spaces
-	 * (except the first line).
-	 */
-	private String toIndentedString(final java.lang.Object o) {
-		if (o == null) {
-			return "null";
-		}
-		return o.toString().replace("\n", "\n    ");
-	}
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(final java.lang.Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
+  }
 }

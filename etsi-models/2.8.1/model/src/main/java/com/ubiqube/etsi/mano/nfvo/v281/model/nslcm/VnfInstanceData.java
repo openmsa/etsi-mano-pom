@@ -19,8 +19,7 @@ package com.ubiqube.etsi.mano.nfvo.v281.model.nslcm;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -28,7 +27,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type specifies an existing VNF instance to be used in the NS instance and if needed, the VNF Profile to use for this VNF instance. It shall comply with the provisions defined in Table 6.5.3.19-1. 
  */
-@ApiModel(description = "This type specifies an existing VNF instance to be used in the NS instance and if needed, the VNF Profile to use for this VNF instance. It shall comply with the provisions defined in Table 6.5.3.19-1. ")
+@Schema (description= "This type specifies an existing VNF instance to be used in the NS instance and if needed, the VNF Profile to use for this VNF instance. It shall comply with the provisions defined in Table 6.5.3.19-1. " )
 @Validated
 
 public class VnfInstanceData   {
@@ -47,7 +46,7 @@ public class VnfInstanceData   {
    * Identifier of the existing VNF instance to be used in the NS. 
    * @return vnfInstanceId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the existing VNF instance to be used in the NS. ")
+  @Schema(required = true , description = "Identifier of the existing VNF instance to be used in the NS. ")
   @NotNull
 
 
@@ -68,7 +67,7 @@ public class VnfInstanceData   {
    * Identifier of (Reference to) a vnfProfile defined in the NSD which the existing VNF instance shall be matched with. If not present, the NFVO will select the VnfProfile matching the information in the VNF instance. 
    * @return vnfProfileId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of (Reference to) a vnfProfile defined in the NSD which the existing VNF instance shall be matched with. If not present, the NFVO will select the VnfProfile matching the information in the VNF instance. ")
+  @Schema(required = true , description = "Identifier of (Reference to) a vnfProfile defined in the NSD which the existing VNF instance shall be matched with. If not present, the NFVO will select the VnfProfile matching the information in the VNF instance. ")
   @NotNull
 
 
@@ -91,7 +90,7 @@ public class VnfInstanceData   {
     }
     VnfInstanceData vnfInstanceData = (VnfInstanceData) o;
     return Objects.equals(this.vnfInstanceId, vnfInstanceData.vnfInstanceId) &&
-        Objects.equals(this.vnfProfileId, vnfInstanceData.vnfProfileId);
+    Objects.equals(this.vnfProfileId, vnfInstanceData.vnfProfileId);
   }
 
   @Override
@@ -103,7 +102,7 @@ public class VnfInstanceData   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class VnfInstanceData {\n");
-    
+
     sb.append("    vnfInstanceId: ").append(toIndentedString(vnfInstanceId)).append("\n");
     sb.append("    vnfProfileId: ").append(toIndentedString(vnfProfileId)).append("\n");
     sb.append("}");

@@ -20,8 +20,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.CpProtocolData;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -31,7 +30,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents an externally provided link port or network address information per instance of an external connection point. In case a link port is provided, the VNFM shall use that link port when connecting the external CP to the external VL. In a link port is not provided, the VNFM shall create a link port on the external VL, and use that link port to connect the external CP to the external VL. 
  */
-@ApiModel(description = "This type represents an externally provided link port or network address information per instance of an external connection point. In case a link port is provided, the VNFM shall use that link port when connecting the external CP to the external VL. In a link port is not provided, the VNFM shall create a link port on the external VL, and use that link port to connect the external CP to the external VL. ")
+@Schema (description= "This type represents an externally provided link port or network address information per instance of an external connection point. In case a link port is provided, the VNFM shall use that link port when connecting the external CP to the external VL. In a link port is not provided, the VNFM shall create a link port on the external VL, and use that link port to connect the external CP to the external VL. " )
 @Validated
 
 public class VnfExtCpConfig   {
@@ -54,7 +53,7 @@ public class VnfExtCpConfig   {
    * Identifier of the external CP instance to which this set of configuration parameters is requested to be applied. Shall be present if this instance has already been created. 
    * @return cpInstanceId
   **/
-  @ApiModelProperty(value = "Identifier of the external CP instance to which this set of configuration parameters is requested to be applied. Shall be present if this instance has already been created. ")
+  @Schema(description = "Identifier of the external CP instance to which this set of configuration parameters is requested to be applied. Shall be present if this instance has already been created. ")
 
 
   public String getCpInstanceId() {
@@ -74,7 +73,7 @@ public class VnfExtCpConfig   {
    * Identifier of a pre-configured link port to which the external CP will be associated. The following conditions apply to the attributes \"linkPortId\" and \"cpProtocolData\": 1) The \"linkPortId\" and \"cpProtocolData\" attributes shall both be    absent for the deletion of an existing external CP instance    addressed by cpInstanceId. 2) At least one of these attributes shall be present for a    to-be-created external CP instance or an existing external    CP instance. 3) If the \"linkPortId\" attribute is absent, the VNFM shall create a    link port. 4) If the \"cpProtocolData\" attribute is absent, the \"linkPortId\"    attribute shall be provided referencing a pre-created link port,    and the VNFM can use means outside the scope of the present    document to obtain the pre-configured address information for the    connection point from the resource representing the link port. 5) If both \"cpProtocolData\" and \"linkportId\" are provided, the API    consumer shall ensure that the cpProtocolData can be used with the    pre-created link port referenced by \"linkPortId\". 
    * @return linkPortId
   **/
-  @ApiModelProperty(value = "Identifier of a pre-configured link port to which the external CP will be associated. The following conditions apply to the attributes \"linkPortId\" and \"cpProtocolData\": 1) The \"linkPortId\" and \"cpProtocolData\" attributes shall both be    absent for the deletion of an existing external CP instance    addressed by cpInstanceId. 2) At least one of these attributes shall be present for a    to-be-created external CP instance or an existing external    CP instance. 3) If the \"linkPortId\" attribute is absent, the VNFM shall create a    link port. 4) If the \"cpProtocolData\" attribute is absent, the \"linkPortId\"    attribute shall be provided referencing a pre-created link port,    and the VNFM can use means outside the scope of the present    document to obtain the pre-configured address information for the    connection point from the resource representing the link port. 5) If both \"cpProtocolData\" and \"linkportId\" are provided, the API    consumer shall ensure that the cpProtocolData can be used with the    pre-created link port referenced by \"linkPortId\". ")
+  @Schema(description = "Identifier of a pre-configured link port to which the external CP will be associated. The following conditions apply to the attributes \"linkPortId\" and \"cpProtocolData\": 1) The \"linkPortId\" and \"cpProtocolData\" attributes shall both be    absent for the deletion of an existing external CP instance    addressed by cpInstanceId. 2) At least one of these attributes shall be present for a    to-be-created external CP instance or an existing external    CP instance. 3) If the \"linkPortId\" attribute is absent, the VNFM shall create a    link port. 4) If the \"cpProtocolData\" attribute is absent, the \"linkPortId\"    attribute shall be provided referencing a pre-created link port,    and the VNFM can use means outside the scope of the present    document to obtain the pre-configured address information for the    connection point from the resource representing the link port. 5) If both \"cpProtocolData\" and \"linkportId\" are provided, the API    consumer shall ensure that the cpProtocolData can be used with the    pre-created link port referenced by \"linkPortId\". ")
 
 
   public String getLinkPortId() {
@@ -102,7 +101,7 @@ public class VnfExtCpConfig   {
    * Parameters for configuring the network protocols on the link port that connects the CP to a VL. The following conditions apply to the attributes \"linkPortId\" and \"cpProtocolData\": 1) The \"linkPortId\" and \"cpProtocolData\" attributes shall both be    absent for the deletion of an existing external CP instance    addressed by cpInstanceId. 2) At least one of these attributes shall be present for a    to-be-created external CP instance or an existing external    CP instance. 3) If the \"linkPortId\" attribute is absent, the VNFM shall create a    link port. 4) If the \"cpProtocolData\" attribute is absent, the \"linkPortId\"    attribute shall be provided referencing a pre-created link port,    and the VNFM can use means outside the scope of the present    document to obtain the pre-configured address information for the    connection point from the resource representing the link port. 5) If both \"cpProtocolData\" and \"linkportId\" are provided, the API    consumer shall ensure that the cpProtocolData can be used with the    pre-created link port referenced by \"linkPortId\". 
    * @return cpProtocolData
   **/
-  @ApiModelProperty(value = "Parameters for configuring the network protocols on the link port that connects the CP to a VL. The following conditions apply to the attributes \"linkPortId\" and \"cpProtocolData\": 1) The \"linkPortId\" and \"cpProtocolData\" attributes shall both be    absent for the deletion of an existing external CP instance    addressed by cpInstanceId. 2) At least one of these attributes shall be present for a    to-be-created external CP instance or an existing external    CP instance. 3) If the \"linkPortId\" attribute is absent, the VNFM shall create a    link port. 4) If the \"cpProtocolData\" attribute is absent, the \"linkPortId\"    attribute shall be provided referencing a pre-created link port,    and the VNFM can use means outside the scope of the present    document to obtain the pre-configured address information for the    connection point from the resource representing the link port. 5) If both \"cpProtocolData\" and \"linkportId\" are provided, the API    consumer shall ensure that the cpProtocolData can be used with the    pre-created link port referenced by \"linkPortId\". ")
+  @Schema(description = "Parameters for configuring the network protocols on the link port that connects the CP to a VL. The following conditions apply to the attributes \"linkPortId\" and \"cpProtocolData\": 1) The \"linkPortId\" and \"cpProtocolData\" attributes shall both be    absent for the deletion of an existing external CP instance    addressed by cpInstanceId. 2) At least one of these attributes shall be present for a    to-be-created external CP instance or an existing external    CP instance. 3) If the \"linkPortId\" attribute is absent, the VNFM shall create a    link port. 4) If the \"cpProtocolData\" attribute is absent, the \"linkPortId\"    attribute shall be provided referencing a pre-created link port,    and the VNFM can use means outside the scope of the present    document to obtain the pre-configured address information for the    connection point from the resource representing the link port. 5) If both \"cpProtocolData\" and \"linkportId\" are provided, the API    consumer shall ensure that the cpProtocolData can be used with the    pre-created link port referenced by \"linkPortId\". ")
 
   @Valid
 
@@ -125,8 +124,8 @@ public class VnfExtCpConfig   {
     }
     VnfExtCpConfig vnfExtCpConfig = (VnfExtCpConfig) o;
     return Objects.equals(this.cpInstanceId, vnfExtCpConfig.cpInstanceId) &&
-        Objects.equals(this.linkPortId, vnfExtCpConfig.linkPortId) &&
-        Objects.equals(this.cpProtocolData, vnfExtCpConfig.cpProtocolData);
+    Objects.equals(this.linkPortId, vnfExtCpConfig.linkPortId) &&
+    Objects.equals(this.cpProtocolData, vnfExtCpConfig.cpProtocolData);
   }
 
   @Override
@@ -138,7 +137,7 @@ public class VnfExtCpConfig   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class VnfExtCpConfig {\n");
-    
+
     sb.append("    cpInstanceId: ").append(toIndentedString(cpInstanceId)).append("\n");
     sb.append("    linkPortId: ").append(toIndentedString(linkPortId)).append("\n");
     sb.append("    cpProtocolData: ").append(toIndentedString(cpProtocolData)).append("\n");

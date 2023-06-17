@@ -24,8 +24,7 @@ import com.ubiqube.etsi.mano.em.v281.model.vnffm.AlarmLinks;
 import com.ubiqube.etsi.mano.em.v281.model.vnffm.EventType;
 import com.ubiqube.etsi.mano.em.v281.model.vnffm.FaultyResourceInfo;
 import com.ubiqube.etsi.mano.em.v281.model.vnffm.PerceivedSeverityType;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -35,7 +34,7 @@ import jakarta.validation.constraints.*;
 /**
  * The alarm data type encapsulates information about an alarm. 
  */
-@ApiModel(description = "The alarm data type encapsulates information about an alarm. ")
+@Schema (description= "The alarm data type encapsulates information about an alarm. " )
 @Validated
 
 public class Alarm   {
@@ -136,7 +135,7 @@ public class Alarm   {
    * Identifier of this Alarm information element. 
    * @return id
   **/
-  @ApiModelProperty(required = true, value = "Identifier of this Alarm information element. ")
+  @Schema(required = true , description = "Identifier of this Alarm information element. ")
   @NotNull
 
 
@@ -157,7 +156,7 @@ public class Alarm   {
    * Identifier of the affected VNF instance. 
    * @return managedObjectId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the affected VNF instance. ")
+  @Schema(required = true , description = "Identifier of the affected VNF instance. ")
   @NotNull
 
 
@@ -186,7 +185,7 @@ public class Alarm   {
    * Identifiers of the affected VNFC instances. Each identifier references the \"id\"  attribute in a \"VnfcInfo\" structure. Shall be present if the alarm affects at  least one VNFC instance. 
    * @return vnfcInstanceIds
   **/
-  @ApiModelProperty(value = "Identifiers of the affected VNFC instances. Each identifier references the \"id\"  attribute in a \"VnfcInfo\" structure. Shall be present if the alarm affects at  least one VNFC instance. ")
+  @Schema(description = "Identifiers of the affected VNFC instances. Each identifier references the \"id\"  attribute in a \"VnfcInfo\" structure. Shall be present if the alarm affects at  least one VNFC instance. ")
 
 
   public List<String> getVnfcInstanceIds() {
@@ -206,7 +205,7 @@ public class Alarm   {
    * The virtualised resources that are causing the VNF fault. 
    * @return rootCauseFaultyResource
   **/
-  @ApiModelProperty(value = "The virtualised resources that are causing the VNF fault. ")
+  @Schema(description = "The virtualised resources that are causing the VNF fault. ")
 
   @Valid
 
@@ -227,7 +226,7 @@ public class Alarm   {
    * Time stamp indicating when the alarm is raised by the managed object. 
    * @return alarmRaisedTime
   **/
-  @ApiModelProperty(required = true, value = "Time stamp indicating when the alarm is raised by the managed object. ")
+  @Schema(required = true , description = "Time stamp indicating when the alarm is raised by the managed object. ")
   @NotNull
 
 
@@ -248,7 +247,7 @@ public class Alarm   {
    * Time stamp indicating when the alarm was last changed. It shall be present if the alarm has been updated. 
    * @return alarmChangedTime
   **/
-  @ApiModelProperty(value = "Time stamp indicating when the alarm was last changed. It shall be present if the alarm has been updated. ")
+  @Schema(description = "Time stamp indicating when the alarm was last changed. It shall be present if the alarm has been updated. ")
 
 
   public String getAlarmChangedTime() {
@@ -268,7 +267,7 @@ public class Alarm   {
    * Time stamp indicating when the alarm was cleared. It shall be present if the alarm has been cleared. 
    * @return alarmClearedTime
   **/
-  @ApiModelProperty(value = "Time stamp indicating when the alarm was cleared. It shall be present if the alarm has been cleared. ")
+  @Schema(description = "Time stamp indicating when the alarm was cleared. It shall be present if the alarm has been cleared. ")
 
 
   public String getAlarmClearedTime() {
@@ -288,7 +287,7 @@ public class Alarm   {
    * Time stamp indicating when the alarm was acknowledged. It shall be present if the alarm has been acknowledged. 
    * @return alarmAcknowledgedTime
   **/
-  @ApiModelProperty(value = "Time stamp indicating when the alarm was acknowledged. It shall be present if the alarm has been acknowledged. ")
+  @Schema(description = "Time stamp indicating when the alarm was acknowledged. It shall be present if the alarm has been acknowledged. ")
 
 
   public String getAlarmAcknowledgedTime() {
@@ -308,7 +307,7 @@ public class Alarm   {
    * Acknowledgement state of the alarm.  Permitted values: * UNACKNOWLEDGED * ACKNOWLEDGED. 
    * @return ackState
   **/
-  @ApiModelProperty(required = true, value = "Acknowledgement state of the alarm.  Permitted values: * UNACKNOWLEDGED * ACKNOWLEDGED. ")
+  @Schema(required = true , description = "Acknowledgement state of the alarm.  Permitted values: * UNACKNOWLEDGED * ACKNOWLEDGED. ")
   @NotNull
 
 
@@ -329,7 +328,7 @@ public class Alarm   {
    * Perceived severity of the managed object failure. 
    * @return perceivedSeverity
   **/
-  @ApiModelProperty(required = true, value = "Perceived severity of the managed object failure. ")
+  @Schema(required = true , description = "Perceived severity of the managed object failure. ")
   @NotNull
 
   @Valid
@@ -351,7 +350,7 @@ public class Alarm   {
    * Time stamp indicating when the fault was observed. 
    * @return eventTime
   **/
-  @ApiModelProperty(required = true, value = "Time stamp indicating when the fault was observed. ")
+  @Schema(required = true , description = "Time stamp indicating when the fault was observed. ")
   @NotNull
 
 
@@ -372,7 +371,7 @@ public class Alarm   {
    * Type of event. 
    * @return eventType
   **/
-  @ApiModelProperty(required = true, value = "Type of event. ")
+  @Schema(required = true , description = "Type of event. ")
   @NotNull
 
   @Valid
@@ -394,7 +393,7 @@ public class Alarm   {
    * Additional information to clarify the type of the fault. 
    * @return faultType
   **/
-  @ApiModelProperty(value = "Additional information to clarify the type of the fault. ")
+  @Schema(description = "Additional information to clarify the type of the fault. ")
 
 
   public String getFaultType() {
@@ -414,7 +413,7 @@ public class Alarm   {
    * Information about the probable cause of the fault. 
    * @return probableCause
   **/
-  @ApiModelProperty(required = true, value = "Information about the probable cause of the fault. ")
+  @Schema(required = true , description = "Information about the probable cause of the fault. ")
   @NotNull
 
 
@@ -435,7 +434,7 @@ public class Alarm   {
    * Attribute indicating if this fault is the root for other correlated alarms. If TRUE, then the alarms listed in the attribute CorrelatedAlarmId are caused by this fault. 
    * @return isRootCause
   **/
-  @ApiModelProperty(required = true, value = "Attribute indicating if this fault is the root for other correlated alarms. If TRUE, then the alarms listed in the attribute CorrelatedAlarmId are caused by this fault. ")
+  @Schema(required = true , description = "Attribute indicating if this fault is the root for other correlated alarms. If TRUE, then the alarms listed in the attribute CorrelatedAlarmId are caused by this fault. ")
   @NotNull
 
 
@@ -464,7 +463,7 @@ public class Alarm   {
    * List of identifiers of other alarms correlated to this fault. 
    * @return correlatedAlarmIds
   **/
-  @ApiModelProperty(value = "List of identifiers of other alarms correlated to this fault. ")
+  @Schema(description = "List of identifiers of other alarms correlated to this fault. ")
 
 
   public List<String> getCorrelatedAlarmIds() {
@@ -492,7 +491,7 @@ public class Alarm   {
    * Provides additional information about the fault. 
    * @return faultDetails
   **/
-  @ApiModelProperty(value = "Provides additional information about the fault. ")
+  @Schema(description = "Provides additional information about the fault. ")
 
 
   public List<String> getFaultDetails() {
@@ -512,7 +511,7 @@ public class Alarm   {
    * Get links
    * @return links
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true , description = "")
   @NotNull
 
   @Valid
@@ -536,23 +535,23 @@ public class Alarm   {
     }
     Alarm alarm = (Alarm) o;
     return Objects.equals(this.id, alarm.id) &&
-        Objects.equals(this.managedObjectId, alarm.managedObjectId) &&
-        Objects.equals(this.vnfcInstanceIds, alarm.vnfcInstanceIds) &&
-        Objects.equals(this.rootCauseFaultyResource, alarm.rootCauseFaultyResource) &&
-        Objects.equals(this.alarmRaisedTime, alarm.alarmRaisedTime) &&
-        Objects.equals(this.alarmChangedTime, alarm.alarmChangedTime) &&
-        Objects.equals(this.alarmClearedTime, alarm.alarmClearedTime) &&
-        Objects.equals(this.alarmAcknowledgedTime, alarm.alarmAcknowledgedTime) &&
-        Objects.equals(this.ackState, alarm.ackState) &&
-        Objects.equals(this.perceivedSeverity, alarm.perceivedSeverity) &&
-        Objects.equals(this.eventTime, alarm.eventTime) &&
-        Objects.equals(this.eventType, alarm.eventType) &&
-        Objects.equals(this.faultType, alarm.faultType) &&
-        Objects.equals(this.probableCause, alarm.probableCause) &&
-        Objects.equals(this.isRootCause, alarm.isRootCause) &&
-        Objects.equals(this.correlatedAlarmIds, alarm.correlatedAlarmIds) &&
-        Objects.equals(this.faultDetails, alarm.faultDetails) &&
-        Objects.equals(this.links, alarm.links);
+    Objects.equals(this.managedObjectId, alarm.managedObjectId) &&
+    Objects.equals(this.vnfcInstanceIds, alarm.vnfcInstanceIds) &&
+    Objects.equals(this.rootCauseFaultyResource, alarm.rootCauseFaultyResource) &&
+    Objects.equals(this.alarmRaisedTime, alarm.alarmRaisedTime) &&
+    Objects.equals(this.alarmChangedTime, alarm.alarmChangedTime) &&
+    Objects.equals(this.alarmClearedTime, alarm.alarmClearedTime) &&
+    Objects.equals(this.alarmAcknowledgedTime, alarm.alarmAcknowledgedTime) &&
+    Objects.equals(this.ackState, alarm.ackState) &&
+    Objects.equals(this.perceivedSeverity, alarm.perceivedSeverity) &&
+    Objects.equals(this.eventTime, alarm.eventTime) &&
+    Objects.equals(this.eventType, alarm.eventType) &&
+    Objects.equals(this.faultType, alarm.faultType) &&
+    Objects.equals(this.probableCause, alarm.probableCause) &&
+    Objects.equals(this.isRootCause, alarm.isRootCause) &&
+    Objects.equals(this.correlatedAlarmIds, alarm.correlatedAlarmIds) &&
+    Objects.equals(this.faultDetails, alarm.faultDetails) &&
+    Objects.equals(this.links, alarm.links);
   }
 
   @Override
@@ -564,7 +563,7 @@ public class Alarm   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Alarm {\n");
-    
+
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    managedObjectId: ").append(toIndentedString(managedObjectId)).append("\n");
     sb.append("    vnfcInstanceIds: ").append(toIndentedString(vnfcInstanceIds)).append("\n");

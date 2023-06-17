@@ -22,8 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.ubiqube.etsi.mano.nfvo.v281.model.nslcm.Mask;
 import com.ubiqube.etsi.mano.nfvo.v281.model.nslcm.PortRange;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -33,7 +32,7 @@ import jakarta.validation.constraints.*;
 /**
  * The NfpRule data type is an expression of the conditions that shall be met in order for the NFP to be applicable to the packet. The condition acts as a flow classifier and it is met only if all the values expressed in the condition are matched by those in the packet. It shall comply with the provisions defined in Table 6.5.3.40-1. 
  */
-@ApiModel(description = "The NfpRule data type is an expression of the conditions that shall be met in order for the NFP to be applicable to the packet. The condition acts as a flow classifier and it is met only if all the values expressed in the condition are matched by those in the packet. It shall comply with the provisions defined in Table 6.5.3.40-1. ")
+@Schema (description= "The NfpRule data type is an expression of the conditions that shall be met in order for the NFP to be applicable to the packet. The condition acts as a flow classifier and it is met only if all the values expressed in the condition are matched by those in the packet. It shall comply with the provisions defined in Table 6.5.3.40-1. " )
 @Validated
 
 public class NfpRule   {
@@ -145,7 +144,7 @@ public class NfpRule   {
    * Indicates a destination Mac address. 
    * @return etherDestinationAddress
   **/
-  @ApiModelProperty(value = "Indicates a destination Mac address. ")
+  @Schema(description = "Indicates a destination Mac address. ")
 
 
   public String getEtherDestinationAddress() {
@@ -165,7 +164,7 @@ public class NfpRule   {
    * Indicates a source Mac address. 
    * @return etherSourceAddress
   **/
-  @ApiModelProperty(value = "Indicates a source Mac address. ")
+  @Schema(description = "Indicates a source Mac address. ")
 
 
   public String getEtherSourceAddress() {
@@ -185,7 +184,7 @@ public class NfpRule   {
    * Human readable description for the VNFFG. 
    * @return etherType
   **/
-  @ApiModelProperty(value = "Human readable description for the VNFFG. ")
+  @Schema(description = "Human readable description for the VNFFG. ")
 
 
   public EtherTypeEnum getEtherType() {
@@ -213,7 +212,7 @@ public class NfpRule   {
    * Indicates a VLAN identifier in an IEEE 802.1Q-2018 tag [6] Multiple tags can be included for QinQ stacking. See note. 
    * @return vlanTag
   **/
-  @ApiModelProperty(value = "Indicates a VLAN identifier in an IEEE 802.1Q-2018 tag [6] Multiple tags can be included for QinQ stacking. See note. ")
+  @Schema(description = "Indicates a VLAN identifier in an IEEE 802.1Q-2018 tag [6] Multiple tags can be included for QinQ stacking. See note. ")
 
 
   public List<String> getVlanTag() {
@@ -233,7 +232,7 @@ public class NfpRule   {
    * Indicates the L4 protocol, For IPv4 [7] this corresponds to the field called \"Protocol\" to identify the next level protocol. For IPv6 [12] this corresponds to the field is called the \"Next Header\" field. Permitted values: Any keyword defined in the IANA protocol registry [1], e.g.: TCP UDP ICMP 
    * @return protocol
   **/
-  @ApiModelProperty(value = "Indicates the L4 protocol, For IPv4 [7] this corresponds to the field called \"Protocol\" to identify the next level protocol. For IPv6 [12] this corresponds to the field is called the \"Next Header\" field. Permitted values: Any keyword defined in the IANA protocol registry [1], e.g.: TCP UDP ICMP ")
+  @Schema(description = "Indicates the L4 protocol, For IPv4 [7] this corresponds to the field called \"Protocol\" to identify the next level protocol. For IPv6 [12] this corresponds to the field is called the \"Next Header\" field. Permitted values: Any keyword defined in the IANA protocol registry [1], e.g.: TCP UDP ICMP ")
 
 
   public ProtocolEnum getProtocol() {
@@ -253,7 +252,7 @@ public class NfpRule   {
    * For IPv4 [7] a string of \"0\" and \"1\" digits that corresponds to the 6-bit Differentiated Services Code Point (DSCP) field of the IP header. For IPv6 [28] a string of \"0\" and \"1\" digits that corresponds to the 6 differentiated services bits of the traffic class header field 
    * @return dscp
   **/
-  @ApiModelProperty(value = "For IPv4 [7] a string of \"0\" and \"1\" digits that corresponds to the 6-bit Differentiated Services Code Point (DSCP) field of the IP header. For IPv6 [28] a string of \"0\" and \"1\" digits that corresponds to the 6 differentiated services bits of the traffic class header field ")
+  @Schema(description = "For IPv4 [7] a string of \"0\" and \"1\" digits that corresponds to the 6-bit Differentiated Services Code Point (DSCP) field of the IP header. For IPv6 [28] a string of \"0\" and \"1\" digits that corresponds to the 6 differentiated services bits of the traffic class header field ")
 
 
   public String getDscp() {
@@ -273,7 +272,7 @@ public class NfpRule   {
    * Indicates a range of source ports 
    * @return sourcePortRange
   **/
-  @ApiModelProperty(value = "Indicates a range of source ports ")
+  @Schema(description = "Indicates a range of source ports ")
 
   @Valid
 
@@ -294,7 +293,7 @@ public class NfpRule   {
    * Indicates a range of destination ports. 
    * @return destinationPortRange
   **/
-  @ApiModelProperty(value = "Indicates a range of destination ports. ")
+  @Schema(description = "Indicates a range of destination ports. ")
 
   @Valid
 
@@ -315,7 +314,7 @@ public class NfpRule   {
    * Indicates the source IP address range in CIDR format. 
    * @return sourceIpAddressPrefix
   **/
-  @ApiModelProperty(value = "Indicates the source IP address range in CIDR format. ")
+  @Schema(description = "Indicates the source IP address range in CIDR format. ")
 
 
   public String getSourceIpAddressPrefix() {
@@ -335,7 +334,7 @@ public class NfpRule   {
    * Indicates the destination IP address range in CIDR format. 
    * @return destinationIpAddressPrefix
   **/
-  @ApiModelProperty(value = "Indicates the destination IP address range in CIDR format. ")
+  @Schema(description = "Indicates the destination IP address range in CIDR format. ")
 
 
   public String getDestinationIpAddressPrefix() {
@@ -363,7 +362,7 @@ public class NfpRule   {
    * Indicates values of specific bits in a frame. 
    * @return extendedCriteria
   **/
-  @ApiModelProperty(value = "Indicates values of specific bits in a frame. ")
+  @Schema(description = "Indicates values of specific bits in a frame. ")
 
   @Valid
 
@@ -386,16 +385,16 @@ public class NfpRule   {
     }
     NfpRule nfpRule = (NfpRule) o;
     return Objects.equals(this.etherDestinationAddress, nfpRule.etherDestinationAddress) &&
-        Objects.equals(this.etherSourceAddress, nfpRule.etherSourceAddress) &&
-        Objects.equals(this.etherType, nfpRule.etherType) &&
-        Objects.equals(this.vlanTag, nfpRule.vlanTag) &&
-        Objects.equals(this.protocol, nfpRule.protocol) &&
-        Objects.equals(this.dscp, nfpRule.dscp) &&
-        Objects.equals(this.sourcePortRange, nfpRule.sourcePortRange) &&
-        Objects.equals(this.destinationPortRange, nfpRule.destinationPortRange) &&
-        Objects.equals(this.sourceIpAddressPrefix, nfpRule.sourceIpAddressPrefix) &&
-        Objects.equals(this.destinationIpAddressPrefix, nfpRule.destinationIpAddressPrefix) &&
-        Objects.equals(this.extendedCriteria, nfpRule.extendedCriteria);
+    Objects.equals(this.etherSourceAddress, nfpRule.etherSourceAddress) &&
+    Objects.equals(this.etherType, nfpRule.etherType) &&
+    Objects.equals(this.vlanTag, nfpRule.vlanTag) &&
+    Objects.equals(this.protocol, nfpRule.protocol) &&
+    Objects.equals(this.dscp, nfpRule.dscp) &&
+    Objects.equals(this.sourcePortRange, nfpRule.sourcePortRange) &&
+    Objects.equals(this.destinationPortRange, nfpRule.destinationPortRange) &&
+    Objects.equals(this.sourceIpAddressPrefix, nfpRule.sourceIpAddressPrefix) &&
+    Objects.equals(this.destinationIpAddressPrefix, nfpRule.destinationIpAddressPrefix) &&
+    Objects.equals(this.extendedCriteria, nfpRule.extendedCriteria);
   }
 
   @Override
@@ -407,7 +406,7 @@ public class NfpRule   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class NfpRule {\n");
-    
+
     sb.append("    etherDestinationAddress: ").append(toIndentedString(etherDestinationAddress)).append("\n");
     sb.append("    etherSourceAddress: ").append(toIndentedString(etherSourceAddress)).append("\n");
     sb.append("    etherType: ").append(toIndentedString(etherType)).append("\n");

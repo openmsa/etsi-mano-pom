@@ -18,9 +18,8 @@ package com.ubiqube.etsi.mano.em.v281.model.vnflcm;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -49,7 +48,7 @@ public class MonitoringParameter   {
    * Identifier of the monitoring parameter defined in the VNFD. 
    * @return id
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the monitoring parameter defined in the VNFD. ")
+  @Schema(required = true , description = "Identifier of the monitoring parameter defined in the VNFD. ")
   @NotNull
 
 
@@ -70,7 +69,7 @@ public class MonitoringParameter   {
    * Human readable name of the monitoring parameter, as defined in the VNFD. 
    * @return name
   **/
-  @ApiModelProperty(value = "Human readable name of the monitoring parameter, as defined in the VNFD. ")
+  @Schema(description = "Human readable name of the monitoring parameter, as defined in the VNFD. ")
 
 
   public String getName() {
@@ -90,7 +89,7 @@ public class MonitoringParameter   {
    * Performance metric that is monitored. This attribute shall contain the related \"Measurement Name\" value as defined in clause 7.2 of ETSI GS NFV-IFA 027. 
    * @return performanceMetric
   **/
-  @ApiModelProperty(required = true, value = "Performance metric that is monitored. This attribute shall contain the related \"Measurement Name\" value as defined in clause 7.2 of ETSI GS NFV-IFA 027. ")
+  @Schema(required = true , description = "Performance metric that is monitored. This attribute shall contain the related \"Measurement Name\" value as defined in clause 7.2 of ETSI GS NFV-IFA 027. ")
   @NotNull
 
 
@@ -113,8 +112,8 @@ public class MonitoringParameter   {
     }
     MonitoringParameter monitoringParameter = (MonitoringParameter) o;
     return Objects.equals(this.id, monitoringParameter.id) &&
-        Objects.equals(this.name, monitoringParameter.name) &&
-        Objects.equals(this.performanceMetric, monitoringParameter.performanceMetric);
+    Objects.equals(this.name, monitoringParameter.name) &&
+    Objects.equals(this.performanceMetric, monitoringParameter.performanceMetric);
   }
 
   @Override
@@ -126,7 +125,7 @@ public class MonitoringParameter   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class MonitoringParameter {\n");
-    
+
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    performanceMetric: ").append(toIndentedString(performanceMetric)).append("\n");

@@ -19,8 +19,7 @@ package com.ubiqube.etsi.mano.em.v281.model.vnfconfig;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -28,7 +27,7 @@ import jakarta.validation.constraints.*;
 /**
  * The definition of the general \&quot;ProblemDetails\&quot; data structure from IETF RFC 7807 [19] is reproduced inthis structure. Compared to the general framework defined in IETF RFC 7807 [19], the \&quot;status\&quot; and \&quot;detail\&quot; attributes are mandated to be included by the present document, to ensure that the response contains additional textual information about an error. IETF RFC 7807 [19] foresees extensibility of the \&quot;ProblemDetails\&quot; type. It is possible that particular APIs in the present document, or particular implementations, define extensions to define additional attributes that provide more information about the error. The description column only provides some explanation of the meaning to Facilitate understanding of the design. For a full description, see IETF RFC 7807 [19]. 
  */
-@ApiModel(description = "The definition of the general \"ProblemDetails\" data structure from IETF RFC 7807 [19] is reproduced inthis structure. Compared to the general framework defined in IETF RFC 7807 [19], the \"status\" and \"detail\" attributes are mandated to be included by the present document, to ensure that the response contains additional textual information about an error. IETF RFC 7807 [19] foresees extensibility of the \"ProblemDetails\" type. It is possible that particular APIs in the present document, or particular implementations, define extensions to define additional attributes that provide more information about the error. The description column only provides some explanation of the meaning to Facilitate understanding of the design. For a full description, see IETF RFC 7807 [19]. ")
+@Schema (description= "The definition of the general \"ProblemDetails\" data structure from IETF RFC 7807 [19] is reproduced inthis structure. Compared to the general framework defined in IETF RFC 7807 [19], the \"status\" and \"detail\" attributes are mandated to be included by the present document, to ensure that the response contains additional textual information about an error. IETF RFC 7807 [19] foresees extensibility of the \"ProblemDetails\" type. It is possible that particular APIs in the present document, or particular implementations, define extensions to define additional attributes that provide more information about the error. The description column only provides some explanation of the meaning to Facilitate understanding of the design. For a full description, see IETF RFC 7807 [19]. " )
 @Validated
 
 public class ProblemDetails2   {
@@ -56,7 +55,7 @@ public class ProblemDetails2   {
    * A URI reference according to IETF RFC 3986 [5] that identifies the problem type. It is encouraged that the URI provides human-readable documentation for the problem (e.g. using HTML) when dereferenced. When this member is not present, its value is assumed to be \"about:blank\". 
    * @return type
   **/
-  @ApiModelProperty(value = "A URI reference according to IETF RFC 3986 [5] that identifies the problem type. It is encouraged that the URI provides human-readable documentation for the problem (e.g. using HTML) when dereferenced. When this member is not present, its value is assumed to be \"about:blank\". ")
+  @Schema(description = "A URI reference according to IETF RFC 3986 [5] that identifies the problem type. It is encouraged that the URI provides human-readable documentation for the problem (e.g. using HTML) when dereferenced. When this member is not present, its value is assumed to be \"about:blank\". ")
 
 
   public String getType() {
@@ -76,7 +75,7 @@ public class ProblemDetails2   {
    * A short, human-readable summary of the problem type. It should not change from occurrence to occurrence of the problem, except for purposes of localization. If type is given and other than \"about:blank\", this attribute shall also be provided. A short, human-readable summary of the problem type.  It SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization (e.g., using proactive content negotiation; see [RFC7231], Section 3.4). 
    * @return title
   **/
-  @ApiModelProperty(value = "A short, human-readable summary of the problem type. It should not change from occurrence to occurrence of the problem, except for purposes of localization. If type is given and other than \"about:blank\", this attribute shall also be provided. A short, human-readable summary of the problem type.  It SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization (e.g., using proactive content negotiation; see [RFC7231], Section 3.4). ")
+  @Schema(description = "A short, human-readable summary of the problem type. It should not change from occurrence to occurrence of the problem, except for purposes of localization. If type is given and other than \"about:blank\", this attribute shall also be provided. A short, human-readable summary of the problem type.  It SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization (e.g., using proactive content negotiation; see [RFC7231], Section 3.4). ")
 
 
   public String getTitle() {
@@ -96,7 +95,7 @@ public class ProblemDetails2   {
    * The HTTP status code for this occurrence of the problem. The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem. 
    * @return status
   **/
-  @ApiModelProperty(required = true, value = "The HTTP status code for this occurrence of the problem. The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem. ")
+  @Schema(required = true , description = "The HTTP status code for this occurrence of the problem. The HTTP status code ([RFC7231], Section 6) generated by the origin server for this occurrence of the problem. ")
   @NotNull
 
 
@@ -117,7 +116,7 @@ public class ProblemDetails2   {
    * A human-readable explanation specific to this occurrence of the problem. 
    * @return detail
   **/
-  @ApiModelProperty(required = true, value = "A human-readable explanation specific to this occurrence of the problem. ")
+  @Schema(required = true , description = "A human-readable explanation specific to this occurrence of the problem. ")
   @NotNull
 
 
@@ -138,7 +137,7 @@ public class ProblemDetails2   {
    * A URI reference that identifies the specific occurrence of the problem. It may yield further information if dereferenced. 
    * @return instance
   **/
-  @ApiModelProperty(value = "A URI reference that identifies the specific occurrence of the problem. It may yield further information if dereferenced. ")
+  @Schema(description = "A URI reference that identifies the specific occurrence of the problem. It may yield further information if dereferenced. ")
 
 
   public String getInstance() {
@@ -160,10 +159,10 @@ public class ProblemDetails2   {
     }
     ProblemDetails2 problemDetails2 = (ProblemDetails2) o;
     return Objects.equals(this.type, problemDetails2.type) &&
-        Objects.equals(this.title, problemDetails2.title) &&
-        Objects.equals(this.status, problemDetails2.status) &&
-        Objects.equals(this.detail, problemDetails2.detail) &&
-        Objects.equals(this.instance, problemDetails2.instance);
+    Objects.equals(this.title, problemDetails2.title) &&
+    Objects.equals(this.status, problemDetails2.status) &&
+    Objects.equals(this.detail, problemDetails2.detail) &&
+    Objects.equals(this.instance, problemDetails2.instance);
   }
 
   @Override
@@ -175,7 +174,7 @@ public class ProblemDetails2   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ProblemDetails2 {\n");
-    
+
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    title: ").append(toIndentedString(title)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");

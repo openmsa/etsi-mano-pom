@@ -19,8 +19,7 @@ package com.ubiqube.etsi.mano.nfvo.v281.model.nslcm;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -30,7 +29,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents describes a pair of ingress and egress CPs or SAPs which  the NFP passes by. It shall comply with the provisions defined in Table 6.5.3.72-1. 
  */
-@ApiModel(description = "This type represents describes a pair of ingress and egress CPs or SAPs which  the NFP passes by. It shall comply with the provisions defined in Table 6.5.3.72-1. ")
+@Schema (description= "This type represents describes a pair of ingress and egress CPs or SAPs which  the NFP passes by. It shall comply with the provisions defined in Table 6.5.3.72-1. " )
 @Validated
 
 public class CpPairInfo   {
@@ -63,9 +62,9 @@ public class CpPairInfo   {
    * Identifier(s) of the VNF CP(s) which form the pair. The presence of a single vnfExpCpId, pnfExtCpId, or sapId occurrence indicates  that the CP or SAP is used both as an ingress and egress port at a particular  NFP position. 
    * @return vnfExtCpIds
   **/
-  @ApiModelProperty(value = "Identifier(s) of the VNF CP(s) which form the pair. The presence of a single vnfExpCpId, pnfExtCpId, or sapId occurrence indicates  that the CP or SAP is used both as an ingress and egress port at a particular  NFP position. ")
+  @Schema(description = "Identifier(s) of the VNF CP(s) which form the pair. The presence of a single vnfExpCpId, pnfExtCpId, or sapId occurrence indicates  that the CP or SAP is used both as an ingress and egress port at a particular  NFP position. ")
 
-@Size(max=2) 
+  @Size(max = 2)
   public List<String> getVnfExtCpIds() {
     return vnfExtCpIds;
   }
@@ -91,9 +90,9 @@ public class CpPairInfo   {
    * Identifier(s) of the PNF CP(s) which form the pair. The presence of a single vnfExpCpId, pnfExtCpId, or sapId occurrence indicates  that the CP or SAP is used both as an ingress and egress port at a particular  NFP position. 
    * @return pnfExtCpIds
   **/
-  @ApiModelProperty(value = "Identifier(s) of the PNF CP(s) which form the pair. The presence of a single vnfExpCpId, pnfExtCpId, or sapId occurrence indicates  that the CP or SAP is used both as an ingress and egress port at a particular  NFP position. ")
+  @Schema(description = "Identifier(s) of the PNF CP(s) which form the pair. The presence of a single vnfExpCpId, pnfExtCpId, or sapId occurrence indicates  that the CP or SAP is used both as an ingress and egress port at a particular  NFP position. ")
 
-@Size(max=2) 
+  @Size(max = 2)
   public List<String> getPnfExtCpIds() {
     return pnfExtCpIds;
   }
@@ -119,9 +118,9 @@ public class CpPairInfo   {
    * Identifier(s) of the SAP(s) which form the pair. The presence of a single vnfExpCpId, pnfExtCpId, or sapId occurrence indicates  that the CP or SAP is used both as an ingress and egress port at a particular  NFP position. 
    * @return sapIds
   **/
-  @ApiModelProperty(value = "Identifier(s) of the SAP(s) which form the pair. The presence of a single vnfExpCpId, pnfExtCpId, or sapId occurrence indicates  that the CP or SAP is used both as an ingress and egress port at a particular  NFP position. ")
+  @Schema(description = "Identifier(s) of the SAP(s) which form the pair. The presence of a single vnfExpCpId, pnfExtCpId, or sapId occurrence indicates  that the CP or SAP is used both as an ingress and egress port at a particular  NFP position. ")
 
-@Size(max=2) 
+  @Size(max = 2)
   public List<String> getSapIds() {
     return sapIds;
   }
@@ -141,8 +140,8 @@ public class CpPairInfo   {
     }
     CpPairInfo cpPairInfo = (CpPairInfo) o;
     return Objects.equals(this.vnfExtCpIds, cpPairInfo.vnfExtCpIds) &&
-        Objects.equals(this.pnfExtCpIds, cpPairInfo.pnfExtCpIds) &&
-        Objects.equals(this.sapIds, cpPairInfo.sapIds);
+    Objects.equals(this.pnfExtCpIds, cpPairInfo.pnfExtCpIds) &&
+    Objects.equals(this.sapIds, cpPairInfo.sapIds);
   }
 
   @Override
@@ -154,7 +153,7 @@ public class CpPairInfo   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class CpPairInfo {\n");
-    
+
     sb.append("    vnfExtCpIds: ").append(toIndentedString(vnfExtCpIds)).append("\n");
     sb.append("    pnfExtCpIds: ").append(toIndentedString(pnfExtCpIds)).append("\n");
     sb.append("    sapIds: ").append(toIndentedString(sapIds)).append("\n");

@@ -23,8 +23,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.LcmOperationStateType;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.LcmOperationType;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.VnfInstanceSubscriptionFilter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -34,7 +33,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents a subscription filter related to notifications about VNF lifecycle changes. At a particular nesting level in the filter structure, the following applies: All attributes shall match in order for the filter to match (logical \&quot;and\&quot; between different filter attributes). If an attribute is an array, the attribute shall match if at least one of the values in the array matches (logical \&quot;or\&quot; between the values of one filter attribute). 
  */
-@ApiModel(description = "This type represents a subscription filter related to notifications about VNF lifecycle changes. At a particular nesting level in the filter structure, the following applies: All attributes shall match in order for the filter to match (logical \"and\" between different filter attributes). If an attribute is an array, the attribute shall match if at least one of the values in the array matches (logical \"or\" between the values of one filter attribute). ")
+@Schema (description= "This type represents a subscription filter related to notifications about VNF lifecycle changes. At a particular nesting level in the filter structure, the following applies: All attributes shall match in order for the filter to match (logical \"and\" between different filter attributes). If an attribute is an array, the attribute shall match if at least one of the values in the array matches (logical \"or\" between the values of one filter attribute). " )
 @Validated
 
 public class LifecycleChangeNotificationsFilter   {
@@ -95,7 +94,7 @@ public class LifecycleChangeNotificationsFilter   {
    * Filter criteria to select VNF instances about which to notify. 
    * @return vnfInstanceSubscriptionFilter
   **/
-  @ApiModelProperty(value = "Filter criteria to select VNF instances about which to notify. ")
+  @Schema(description = "Filter criteria to select VNF instances about which to notify. ")
 
   @Valid
 
@@ -124,7 +123,7 @@ public class LifecycleChangeNotificationsFilter   {
    * Match particular notification types. Permitted values: * VnfLcmOperationOccurrenceNotification * VnfIdentifierCreationNotification * VnfIdentifierDeletionNotification The permitted values of the \"notificationTypes\" attribute are spelled exactly as the names of the notification types to facilitate automated code generation systems. 
    * @return notificationTypes
   **/
-  @ApiModelProperty(value = "Match particular notification types. Permitted values: * VnfLcmOperationOccurrenceNotification * VnfIdentifierCreationNotification * VnfIdentifierDeletionNotification The permitted values of the \"notificationTypes\" attribute are spelled exactly as the names of the notification types to facilitate automated code generation systems. ")
+  @Schema(description = "Match particular notification types. Permitted values: * VnfLcmOperationOccurrenceNotification * VnfIdentifierCreationNotification * VnfIdentifierDeletionNotification The permitted values of the \"notificationTypes\" attribute are spelled exactly as the names of the notification types to facilitate automated code generation systems. ")
 
 
   public List<NotificationTypesEnum> getNotificationTypes() {
@@ -152,7 +151,7 @@ public class LifecycleChangeNotificationsFilter   {
    * Match particular VNF lifecycle operation types for the notification of type VnfLcmOperationOccurrenceNotification. May be present if the \"notificationTypes\" attribute contains the value \"VnfLcmOperationOccurrenceNotification\", and shall be absent otherwise. 
    * @return operationTypes
   **/
-  @ApiModelProperty(value = "Match particular VNF lifecycle operation types for the notification of type VnfLcmOperationOccurrenceNotification. May be present if the \"notificationTypes\" attribute contains the value \"VnfLcmOperationOccurrenceNotification\", and shall be absent otherwise. ")
+  @Schema(description = "Match particular VNF lifecycle operation types for the notification of type VnfLcmOperationOccurrenceNotification. May be present if the \"notificationTypes\" attribute contains the value \"VnfLcmOperationOccurrenceNotification\", and shall be absent otherwise. ")
 
   @Valid
 
@@ -181,7 +180,7 @@ public class LifecycleChangeNotificationsFilter   {
    * Match particular LCM operation state values as reported in notifications of type VnfLcmOperationOccurrenceNotification. May be present if the \"notificationTypes\" attribute contains the value \"VnfLcmOperationOccurrenceNotification\", and shall be absent otherwise. 
    * @return operationStates
   **/
-  @ApiModelProperty(value = "Match particular LCM operation state values as reported in notifications of type VnfLcmOperationOccurrenceNotification. May be present if the \"notificationTypes\" attribute contains the value \"VnfLcmOperationOccurrenceNotification\", and shall be absent otherwise. ")
+  @Schema(description = "Match particular LCM operation state values as reported in notifications of type VnfLcmOperationOccurrenceNotification. May be present if the \"notificationTypes\" attribute contains the value \"VnfLcmOperationOccurrenceNotification\", and shall be absent otherwise. ")
 
   @Valid
 
@@ -204,9 +203,9 @@ public class LifecycleChangeNotificationsFilter   {
     }
     LifecycleChangeNotificationsFilter lifecycleChangeNotificationsFilter = (LifecycleChangeNotificationsFilter) o;
     return Objects.equals(this.vnfInstanceSubscriptionFilter, lifecycleChangeNotificationsFilter.vnfInstanceSubscriptionFilter) &&
-        Objects.equals(this.notificationTypes, lifecycleChangeNotificationsFilter.notificationTypes) &&
-        Objects.equals(this.operationTypes, lifecycleChangeNotificationsFilter.operationTypes) &&
-        Objects.equals(this.operationStates, lifecycleChangeNotificationsFilter.operationStates);
+    Objects.equals(this.notificationTypes, lifecycleChangeNotificationsFilter.notificationTypes) &&
+    Objects.equals(this.operationTypes, lifecycleChangeNotificationsFilter.operationTypes) &&
+    Objects.equals(this.operationStates, lifecycleChangeNotificationsFilter.operationStates);
   }
 
   @Override
@@ -218,7 +217,7 @@ public class LifecycleChangeNotificationsFilter   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class LifecycleChangeNotificationsFilter {\n");
-    
+
     sb.append("    vnfInstanceSubscriptionFilter: ").append(toIndentedString(vnfInstanceSubscriptionFilter)).append("\n");
     sb.append("    notificationTypes: ").append(toIndentedString(notificationTypes)).append("\n");
     sb.append("    operationTypes: ").append(toIndentedString(operationTypes)).append("\n");

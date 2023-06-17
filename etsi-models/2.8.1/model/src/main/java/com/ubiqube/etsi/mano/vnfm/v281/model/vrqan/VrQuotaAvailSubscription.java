@@ -21,8 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.vnfm.v281.model.vrqan.VrQuotaAvailNotificationsFilter;
 import com.ubiqube.etsi.mano.vnfm.v281.model.vrqan.VrQuotaAvailSubscriptionLinks;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -30,7 +29,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents a subscription related to notifications related to the availability of the virtualised resources quotas. 
  */
-@ApiModel(description = "This type represents a subscription related to notifications related to the availability of the virtualised resources quotas. ")
+@Schema (description= "This type represents a subscription related to notifications related to the availability of the virtualised resources quotas. " )
 @Validated
 
 public class VrQuotaAvailSubscription   {
@@ -55,7 +54,7 @@ public class VrQuotaAvailSubscription   {
    * Identifier of this \"Individual subscription\" resource 
    * @return id
   **/
-  @ApiModelProperty(required = true, value = "Identifier of this \"Individual subscription\" resource ")
+  @Schema(required = true , description = "Identifier of this \"Individual subscription\" resource ")
   @NotNull
 
 
@@ -76,7 +75,7 @@ public class VrQuotaAvailSubscription   {
    * Input filter for selecting notifications to subscribe to. This filter can contain information about specific attributes of the virtualised resources quota. 
    * @return filter
   **/
-  @ApiModelProperty(value = "Input filter for selecting notifications to subscribe to. This filter can contain information about specific attributes of the virtualised resources quota. ")
+  @Schema(description = "Input filter for selecting notifications to subscribe to. This filter can contain information about specific attributes of the virtualised resources quota. ")
 
   @Valid
 
@@ -97,7 +96,7 @@ public class VrQuotaAvailSubscription   {
    * The URI of the endpoint to send the notification to. 
    * @return callbackUri
   **/
-  @ApiModelProperty(required = true, value = "The URI of the endpoint to send the notification to. ")
+  @Schema(required = true , description = "The URI of the endpoint to send the notification to. ")
   @NotNull
 
 
@@ -118,7 +117,7 @@ public class VrQuotaAvailSubscription   {
    * Get links
    * @return links
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true , description = "")
   @NotNull
 
   @Valid
@@ -142,9 +141,9 @@ public class VrQuotaAvailSubscription   {
     }
     VrQuotaAvailSubscription vrQuotaAvailSubscription = (VrQuotaAvailSubscription) o;
     return Objects.equals(this.id, vrQuotaAvailSubscription.id) &&
-        Objects.equals(this.filter, vrQuotaAvailSubscription.filter) &&
-        Objects.equals(this.callbackUri, vrQuotaAvailSubscription.callbackUri) &&
-        Objects.equals(this.links, vrQuotaAvailSubscription.links);
+    Objects.equals(this.filter, vrQuotaAvailSubscription.filter) &&
+    Objects.equals(this.callbackUri, vrQuotaAvailSubscription.callbackUri) &&
+    Objects.equals(this.links, vrQuotaAvailSubscription.links);
   }
 
   @Override
@@ -156,7 +155,7 @@ public class VrQuotaAvailSubscription   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class VrQuotaAvailSubscription {\n");
-    
+
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    filter: ").append(toIndentedString(filter)).append("\n");
     sb.append("    callbackUri: ").append(toIndentedString(callbackUri)).append("\n");

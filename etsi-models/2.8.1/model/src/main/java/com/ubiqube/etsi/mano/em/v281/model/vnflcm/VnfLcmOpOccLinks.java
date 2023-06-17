@@ -20,8 +20,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.Link;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -29,7 +28,7 @@ import jakarta.validation.constraints.*;
 /**
  * Links to resources related to this resource. 
  */
-@ApiModel(description = "Links to resources related to this resource. ")
+@Schema (description= "Links to resources related to this resource. " )
 @Validated
 
 public class VnfLcmOpOccLinks   {
@@ -63,7 +62,7 @@ public class VnfLcmOpOccLinks   {
    * URI of this resource. 
    * @return self
   **/
-  @ApiModelProperty(required = true, value = "URI of this resource. ")
+  @Schema(required = true , description = "URI of this resource. ")
   @NotNull
 
   @Valid
@@ -85,7 +84,7 @@ public class VnfLcmOpOccLinks   {
    * Link to the VNF instance that the operation applies to. 
    * @return vnfInstance
   **/
-  @ApiModelProperty(required = true, value = "Link to the VNF instance that the operation applies to. ")
+  @Schema(required = true , description = "Link to the VNF instance that the operation applies to. ")
   @NotNull
 
   @Valid
@@ -107,7 +106,7 @@ public class VnfLcmOpOccLinks   {
    * Link to the grant for this operation, if one exists. 
    * @return grant
   **/
-  @ApiModelProperty(value = "Link to the grant for this operation, if one exists. ")
+  @Schema(description = "Link to the grant for this operation, if one exists. ")
 
   @Valid
 
@@ -128,7 +127,7 @@ public class VnfLcmOpOccLinks   {
    * Link to the task resource that represents the \"cancel\" operation for this VNF LCM operation occurrence, if cancelling is currently allowed. 
    * @return cancel
   **/
-  @ApiModelProperty(value = "Link to the task resource that represents the \"cancel\" operation for this VNF LCM operation occurrence, if cancelling is currently allowed. ")
+  @Schema(description = "Link to the task resource that represents the \"cancel\" operation for this VNF LCM operation occurrence, if cancelling is currently allowed. ")
 
   @Valid
 
@@ -149,7 +148,7 @@ public class VnfLcmOpOccLinks   {
    * Link to the task resource that represents the \"retry\" operation for this VNF LCM operation occurrence, if retrying is currently allowed. 
    * @return retry
   **/
-  @ApiModelProperty(value = "Link to the task resource that represents the \"retry\" operation for this VNF LCM operation occurrence, if retrying is currently allowed. ")
+  @Schema(description = "Link to the task resource that represents the \"retry\" operation for this VNF LCM operation occurrence, if retrying is currently allowed. ")
 
   @Valid
 
@@ -170,7 +169,7 @@ public class VnfLcmOpOccLinks   {
    * Link to the task resource that represents the \"rollback\" operation for this VNF LCM operation occurrence, if rolling back is currently allowed. 
    * @return rollback
   **/
-  @ApiModelProperty(value = "Link to the task resource that represents the \"rollback\" operation for this VNF LCM operation occurrence, if rolling back is currently allowed. ")
+  @Schema(description = "Link to the task resource that represents the \"rollback\" operation for this VNF LCM operation occurrence, if rolling back is currently allowed. ")
 
   @Valid
 
@@ -191,7 +190,7 @@ public class VnfLcmOpOccLinks   {
    * Link to the task resource that represents the \"fail\" operation for this VNF LCM operation occurrence, if declaring as failed is currently allowed. 
    * @return fail
   **/
-  @ApiModelProperty(value = "Link to the task resource that represents the \"fail\" operation for this VNF LCM operation occurrence, if declaring as failed is currently allowed. ")
+  @Schema(description = "Link to the task resource that represents the \"fail\" operation for this VNF LCM operation occurrence, if declaring as failed is currently allowed. ")
 
   @Valid
 
@@ -214,12 +213,12 @@ public class VnfLcmOpOccLinks   {
     }
     VnfLcmOpOccLinks vnfLcmOpOccLinks = (VnfLcmOpOccLinks) o;
     return Objects.equals(this.self, vnfLcmOpOccLinks.self) &&
-        Objects.equals(this.vnfInstance, vnfLcmOpOccLinks.vnfInstance) &&
-        Objects.equals(this.grant, vnfLcmOpOccLinks.grant) &&
-        Objects.equals(this.cancel, vnfLcmOpOccLinks.cancel) &&
-        Objects.equals(this.retry, vnfLcmOpOccLinks.retry) &&
-        Objects.equals(this.rollback, vnfLcmOpOccLinks.rollback) &&
-        Objects.equals(this.fail, vnfLcmOpOccLinks.fail);
+    Objects.equals(this.vnfInstance, vnfLcmOpOccLinks.vnfInstance) &&
+    Objects.equals(this.grant, vnfLcmOpOccLinks.grant) &&
+    Objects.equals(this.cancel, vnfLcmOpOccLinks.cancel) &&
+    Objects.equals(this.retry, vnfLcmOpOccLinks.retry) &&
+    Objects.equals(this.rollback, vnfLcmOpOccLinks.rollback) &&
+    Objects.equals(this.fail, vnfLcmOpOccLinks.fail);
   }
 
   @Override
@@ -231,7 +230,7 @@ public class VnfLcmOpOccLinks   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class VnfLcmOpOccLinks {\n");
-    
+
     sb.append("    self: ").append(toIndentedString(self)).append("\n");
     sb.append("    vnfInstance: ").append(toIndentedString(vnfInstance)).append("\n");
     sb.append("    grant: ").append(toIndentedString(grant)).append("\n");

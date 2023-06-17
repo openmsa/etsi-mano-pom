@@ -21,8 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.ubiqube.etsi.mano.nfvo.v281.model.vnf.UploadVnfPkgFromUriRequestParamsOauth2ClientCredentials;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -30,7 +29,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents the request parameters for uploading the content of a VNF package. The NFVO can obtain the VNF package content through the information provided in the request parameters. It shall comply with the provisions defined in Table 9.5.2.4-1. 
  */
-@ApiModel(description = "This type represents the request parameters for uploading the content of a VNF package. The NFVO can obtain the VNF package content through the information provided in the request parameters. It shall comply with the provisions defined in Table 9.5.2.4-1. ")
+@Schema (description= "This type represents the request parameters for uploading the content of a VNF package. The NFVO can obtain the VNF package content through the information provided in the request parameters. It shall comply with the provisions defined in Table 9.5.2.4-1. " )
 @Validated
 
 public class UploadVnfPkgFromUriRequest   {
@@ -89,7 +88,7 @@ public class UploadVnfPkgFromUriRequest   {
    * Address information of the VNF package content. The NFVO can use this address to obtain the VNF package 
    * @return addressInformation
   **/
-  @ApiModelProperty(required = true, value = "Address information of the VNF package content. The NFVO can use this address to obtain the VNF package ")
+  @Schema(required = true , description = "Address information of the VNF package content. The NFVO can use this address to obtain the VNF package ")
   @NotNull
 
 
@@ -110,7 +109,7 @@ public class UploadVnfPkgFromUriRequest   {
    * Defines the type of authentication / authorization for downloading the VNF package. Permitted values: - BASIC: Only the \"username\" and \"password\" attributes shall be present. - OAUTH2_CLIENT_CREDENTIAL S: Only the \"paramsOauth2ClientCredentials\" attribute shall be present. This attribute shall not be present if no credentials are provided for the artifact. 
    * @return authType
   **/
-  @ApiModelProperty(value = "Defines the type of authentication / authorization for downloading the VNF package. Permitted values: - BASIC: Only the \"username\" and \"password\" attributes shall be present. - OAUTH2_CLIENT_CREDENTIAL S: Only the \"paramsOauth2ClientCredentials\" attribute shall be present. This attribute shall not be present if no credentials are provided for the artifact. ")
+  @Schema(description = "Defines the type of authentication / authorization for downloading the VNF package. Permitted values: - BASIC: Only the \"username\" and \"password\" attributes shall be present. - OAUTH2_CLIENT_CREDENTIAL S: Only the \"paramsOauth2ClientCredentials\" attribute shall be present. This attribute shall not be present if no credentials are provided for the artifact. ")
 
 
   public AuthTypeEnum getAuthType() {
@@ -130,7 +129,7 @@ public class UploadVnfPkgFromUriRequest   {
    * User name to be used for authentication. 
    * @return username
   **/
-  @ApiModelProperty(value = "User name to be used for authentication. ")
+  @Schema(description = "User name to be used for authentication. ")
 
 
   public String getUsername() {
@@ -150,7 +149,7 @@ public class UploadVnfPkgFromUriRequest   {
    * Password to be used for authentication. Shall not be present in response bodies. 
    * @return password
   **/
-  @ApiModelProperty(value = "Password to be used for authentication. Shall not be present in response bodies. ")
+  @Schema(description = "Password to be used for authentication. Shall not be present in response bodies. ")
 
 
   public String getPassword() {
@@ -170,7 +169,7 @@ public class UploadVnfPkgFromUriRequest   {
    * Get paramsOauth2ClientCredentials
    * @return paramsOauth2ClientCredentials
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   @Valid
 
@@ -193,10 +192,10 @@ public class UploadVnfPkgFromUriRequest   {
     }
     UploadVnfPkgFromUriRequest uploadVnfPkgFromUriRequest = (UploadVnfPkgFromUriRequest) o;
     return Objects.equals(this.addressInformation, uploadVnfPkgFromUriRequest.addressInformation) &&
-        Objects.equals(this.authType, uploadVnfPkgFromUriRequest.authType) &&
-        Objects.equals(this.username, uploadVnfPkgFromUriRequest.username) &&
-        Objects.equals(this.password, uploadVnfPkgFromUriRequest.password) &&
-        Objects.equals(this.paramsOauth2ClientCredentials, uploadVnfPkgFromUriRequest.paramsOauth2ClientCredentials);
+    Objects.equals(this.authType, uploadVnfPkgFromUriRequest.authType) &&
+    Objects.equals(this.username, uploadVnfPkgFromUriRequest.username) &&
+    Objects.equals(this.password, uploadVnfPkgFromUriRequest.password) &&
+    Objects.equals(this.paramsOauth2ClientCredentials, uploadVnfPkgFromUriRequest.paramsOauth2ClientCredentials);
   }
 
   @Override
@@ -208,7 +207,7 @@ public class UploadVnfPkgFromUriRequest   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class UploadVnfPkgFromUriRequest {\n");
-    
+
     sb.append("    addressInformation: ").append(toIndentedString(addressInformation)).append("\n");
     sb.append("    authType: ").append(toIndentedString(authType)).append("\n");
     sb.append("    username: ").append(toIndentedString(username)).append("\n");

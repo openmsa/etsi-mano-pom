@@ -21,8 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.ExtLinkPortInfo;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.ResourceHandle;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -54,7 +53,7 @@ public class ExtVirtualLinkInfo   {
    * Identifier of the external VL and the related external VL information instance. The identifier is assigned by the NFV-MANO entity that manages this VL instance. 
    * @return id
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the external VL and the related external VL information instance. The identifier is assigned by the NFV-MANO entity that manages this VL instance. ")
+  @Schema(required = true , description = "Identifier of the external VL and the related external VL information instance. The identifier is assigned by the NFV-MANO entity that manages this VL instance. ")
   @NotNull
 
 
@@ -75,7 +74,7 @@ public class ExtVirtualLinkInfo   {
    * Reference to the resource realizing this VL. 
    * @return resourceHandle
   **/
-  @ApiModelProperty(required = true, value = "Reference to the resource realizing this VL. ")
+  @Schema(required = true , description = "Reference to the resource realizing this VL. ")
   @NotNull
 
   @Valid
@@ -105,7 +104,7 @@ public class ExtVirtualLinkInfo   {
    * Link ports of this VL. 
    * @return extLinkPorts
   **/
-  @ApiModelProperty(value = "Link ports of this VL. ")
+  @Schema(description = "Link ports of this VL. ")
 
   @Valid
 
@@ -128,8 +127,8 @@ public class ExtVirtualLinkInfo   {
     }
     ExtVirtualLinkInfo extVirtualLinkInfo = (ExtVirtualLinkInfo) o;
     return Objects.equals(this.id, extVirtualLinkInfo.id) &&
-        Objects.equals(this.resourceHandle, extVirtualLinkInfo.resourceHandle) &&
-        Objects.equals(this.extLinkPorts, extVirtualLinkInfo.extLinkPorts);
+    Objects.equals(this.resourceHandle, extVirtualLinkInfo.resourceHandle) &&
+    Objects.equals(this.extLinkPorts, extVirtualLinkInfo.extLinkPorts);
   }
 
   @Override
@@ -141,7 +140,7 @@ public class ExtVirtualLinkInfo   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ExtVirtualLinkInfo {\n");
-    
+
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    resourceHandle: ").append(toIndentedString(resourceHandle)).append("\n");
     sb.append("    extLinkPorts: ").append(toIndentedString(extLinkPorts)).append("\n");

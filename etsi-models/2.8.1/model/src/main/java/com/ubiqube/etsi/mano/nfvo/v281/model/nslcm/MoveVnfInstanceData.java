@@ -19,8 +19,7 @@ package com.ubiqube.etsi.mano.nfvo.v281.model.nslcm;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -30,7 +29,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type specifies existing VNF instances to be moved from one NS instance (source) to another NS instance (destination). The NS instance defined in the Update NS operation indicates the source NS instance and the destination NS instance is specified in this data type (referred to targetNsInstanceId). It shall comply with the provisions defined in Table 6.5.3.35-1. 
  */
-@ApiModel(description = "This type specifies existing VNF instances to be moved from one NS instance (source) to another NS instance (destination). The NS instance defined in the Update NS operation indicates the source NS instance and the destination NS instance is specified in this data type (referred to targetNsInstanceId). It shall comply with the provisions defined in Table 6.5.3.35-1. ")
+@Schema (description= "This type specifies existing VNF instances to be moved from one NS instance (source) to another NS instance (destination). The NS instance defined in the Update NS operation indicates the source NS instance and the destination NS instance is specified in this data type (referred to targetNsInstanceId). It shall comply with the provisions defined in Table 6.5.3.35-1. " )
 @Validated
 
 public class MoveVnfInstanceData   {
@@ -50,7 +49,7 @@ public class MoveVnfInstanceData   {
    * Specify the target NS instance where the VNF instances are moved to. 
    * @return targetNsInstanceId
   **/
-  @ApiModelProperty(required = true, value = "Specify the target NS instance where the VNF instances are moved to. ")
+  @Schema(required = true , description = "Specify the target NS instance where the VNF instances are moved to. ")
   @NotNull
 
 
@@ -79,7 +78,7 @@ public class MoveVnfInstanceData   {
    * Specify the VNF instance that is moved. 
    * @return vnfInstanceId
   **/
-  @ApiModelProperty(value = "Specify the VNF instance that is moved. ")
+  @Schema(description = "Specify the VNF instance that is moved. ")
 
 
   public List<String> getVnfInstanceId() {
@@ -101,7 +100,7 @@ public class MoveVnfInstanceData   {
     }
     MoveVnfInstanceData moveVnfInstanceData = (MoveVnfInstanceData) o;
     return Objects.equals(this.targetNsInstanceId, moveVnfInstanceData.targetNsInstanceId) &&
-        Objects.equals(this.vnfInstanceId, moveVnfInstanceData.vnfInstanceId);
+    Objects.equals(this.vnfInstanceId, moveVnfInstanceData.vnfInstanceId);
   }
 
   @Override
@@ -113,7 +112,7 @@ public class MoveVnfInstanceData   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class MoveVnfInstanceData {\n");
-    
+
     sb.append("    targetNsInstanceId: ").append(toIndentedString(targetNsInstanceId)).append("\n");
     sb.append("    vnfInstanceId: ").append(toIndentedString(vnfInstanceId)).append("\n");
     sb.append("}");

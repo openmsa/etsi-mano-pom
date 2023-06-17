@@ -20,8 +20,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.nfvo.v281.model.nslcm.PnfExtCpInfo;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -29,7 +28,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents the information about a PNF that is part of an NS instance.  It shall comply with the provisions defined in Table 6.5.3.13-1. 
  */
-@ApiModel(description = "This type represents the information about a PNF that is part of an NS instance.  It shall comply with the provisions defined in Table 6.5.3.13-1. ")
+@Schema (description= "This type represents the information about a PNF that is part of an NS instance.  It shall comply with the provisions defined in Table 6.5.3.13-1. " )
 @Validated
 
 public class PnfInfo   {
@@ -60,7 +59,7 @@ public class PnfInfo   {
    * Identifier of the PNF. This identifier is allocated by the OSS/BSS. 
    * @return pnfId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the PNF. This identifier is allocated by the OSS/BSS. ")
+  @Schema(required = true , description = "Identifier of the PNF. This identifier is allocated by the OSS/BSS. ")
   @NotNull
 
 
@@ -81,7 +80,7 @@ public class PnfInfo   {
    * Name of the PNF. 
    * @return pnfName
   **/
-  @ApiModelProperty(value = "Name of the PNF. ")
+  @Schema(description = "Name of the PNF. ")
 
 
   public String getPnfName() {
@@ -101,7 +100,7 @@ public class PnfInfo   {
    * Identifier of the PNFD on which the PNF is based. 
    * @return pnfdId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the PNFD on which the PNF is based. ")
+  @Schema(required = true , description = "Identifier of the PNFD on which the PNF is based. ")
   @NotNull
 
 
@@ -122,7 +121,7 @@ public class PnfInfo   {
    * Identifier of the PNFD information onject related to this PNF. This identifier is allocated by the NFVO 
    * @return pnfdInfoId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the PNFD information onject related to this PNF. This identifier is allocated by the NFVO ")
+  @Schema(required = true , description = "Identifier of the PNFD information onject related to this PNF. This identifier is allocated by the NFVO ")
   @NotNull
 
 
@@ -143,7 +142,7 @@ public class PnfInfo   {
    * Identifier of the related PnfProfile in the NSD on which the PNF is based. 
    * @return pnfProfileId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the related PnfProfile in the NSD on which the PNF is based. ")
+  @Schema(required = true , description = "Identifier of the related PnfProfile in the NSD on which the PNF is based. ")
   @NotNull
 
 
@@ -164,7 +163,7 @@ public class PnfInfo   {
    * Information on the external CP of the PNF. 
    * @return cpInfo
   **/
-  @ApiModelProperty(value = "Information on the external CP of the PNF. ")
+  @Schema(description = "Information on the external CP of the PNF. ")
 
   @Valid
 
@@ -187,11 +186,11 @@ public class PnfInfo   {
     }
     PnfInfo pnfInfo = (PnfInfo) o;
     return Objects.equals(this.pnfId, pnfInfo.pnfId) &&
-        Objects.equals(this.pnfName, pnfInfo.pnfName) &&
-        Objects.equals(this.pnfdId, pnfInfo.pnfdId) &&
-        Objects.equals(this.pnfdInfoId, pnfInfo.pnfdInfoId) &&
-        Objects.equals(this.pnfProfileId, pnfInfo.pnfProfileId) &&
-        Objects.equals(this.cpInfo, pnfInfo.cpInfo);
+    Objects.equals(this.pnfName, pnfInfo.pnfName) &&
+    Objects.equals(this.pnfdId, pnfInfo.pnfdId) &&
+    Objects.equals(this.pnfdInfoId, pnfInfo.pnfdInfoId) &&
+    Objects.equals(this.pnfProfileId, pnfInfo.pnfProfileId) &&
+    Objects.equals(this.cpInfo, pnfInfo.cpInfo);
   }
 
   @Override
@@ -203,7 +202,7 @@ public class PnfInfo   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class PnfInfo {\n");
-    
+
     sb.append("    pnfId: ").append(toIndentedString(pnfId)).append("\n");
     sb.append("    pnfName: ").append(toIndentedString(pnfName)).append("\n");
     sb.append("    pnfdId: ").append(toIndentedString(pnfdId)).append("\n");

@@ -20,8 +20,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -29,7 +28,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type provides information about added, deleted and modified VNFFG instances. It shall comply with the provisions in Table 6.5.3.5-1. 
  */
-@ApiModel(description = "This type provides information about added, deleted and modified VNFFG instances. It shall comply with the provisions in Table 6.5.3.5-1. ")
+@Schema (description= "This type provides information about added, deleted and modified VNFFG instances. It shall comply with the provisions in Table 6.5.3.5-1. " )
 @Validated
 
 public class AffectedVnffg   {
@@ -120,7 +119,7 @@ public class AffectedVnffg   {
    * Identifier of the VNFFG instance. 
    * @return vnffgInstanceId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the VNFFG instance. ")
+  @Schema(required = true , description = "Identifier of the VNFFG instance. ")
   @NotNull
 
 
@@ -141,7 +140,7 @@ public class AffectedVnffg   {
    * Identifier of the VNFFGD of the VNFFG instance. 
    * @return vnffgdId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the VNFFGD of the VNFFG instance. ")
+  @Schema(required = true , description = "Identifier of the VNFFGD of the VNFFG instance. ")
   @NotNull
 
 
@@ -162,7 +161,7 @@ public class AffectedVnffg   {
    * Signals the type of change. Permitted values: - ADD - DELETE - MODIFY 
    * @return changeType
   **/
-  @ApiModelProperty(value = "Signals the type of change. Permitted values: - ADD - DELETE - MODIFY ")
+  @Schema(description = "Signals the type of change. Permitted values: - ADD - DELETE - MODIFY ")
 
 
   public ChangeTypeEnum getChangeType() {
@@ -182,7 +181,7 @@ public class AffectedVnffg   {
    * Signals the result of change identified by the \"changeType\" attribute. Permitted values: - COMPLETED - ROLLED_BACK - FAILED 
    * @return changeResult
   **/
-  @ApiModelProperty(value = "Signals the result of change identified by the \"changeType\" attribute. Permitted values: - COMPLETED - ROLLED_BACK - FAILED ")
+  @Schema(description = "Signals the result of change identified by the \"changeType\" attribute. Permitted values: - COMPLETED - ROLLED_BACK - FAILED ")
 
 
   public ChangeResultEnum getChangeResult() {
@@ -204,9 +203,9 @@ public class AffectedVnffg   {
     }
     AffectedVnffg affectedVnffg = (AffectedVnffg) o;
     return Objects.equals(this.vnffgInstanceId, affectedVnffg.vnffgInstanceId) &&
-        Objects.equals(this.vnffgdId, affectedVnffg.vnffgdId) &&
-        Objects.equals(this.changeType, affectedVnffg.changeType) &&
-        Objects.equals(this.changeResult, affectedVnffg.changeResult);
+    Objects.equals(this.vnffgdId, affectedVnffg.vnffgdId) &&
+    Objects.equals(this.changeType, affectedVnffg.changeType) &&
+    Objects.equals(this.changeResult, affectedVnffg.changeResult);
   }
 
   @Override
@@ -218,7 +217,7 @@ public class AffectedVnffg   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class AffectedVnffg {\n");
-    
+
     sb.append("    vnffgInstanceId: ").append(toIndentedString(vnffgInstanceId)).append("\n");
     sb.append("    vnffgdId: ").append(toIndentedString(vnffgdId)).append("\n");
     sb.append("    changeType: ").append(toIndentedString(changeType)).append("\n");

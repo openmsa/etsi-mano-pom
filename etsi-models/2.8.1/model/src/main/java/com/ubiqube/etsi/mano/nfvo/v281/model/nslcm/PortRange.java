@@ -19,8 +19,7 @@ package com.ubiqube.etsi.mano.nfvo.v281.model.nslcm;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -28,7 +27,7 @@ import jakarta.validation.constraints.*;
 /**
  * The PortRange data type provides the lower and upper bounds of a range of Internet ports. It shall comply with the provisions defined in Table 6.5.3.42-1. 
  */
-@ApiModel(description = "The PortRange data type provides the lower and upper bounds of a range of Internet ports. It shall comply with the provisions defined in Table 6.5.3.42-1. ")
+@Schema (description= "The PortRange data type provides the lower and upper bounds of a range of Internet ports. It shall comply with the provisions defined in Table 6.5.3.42-1. " )
 @Validated
 
 public class PortRange   {
@@ -48,10 +47,10 @@ public class PortRange   {
    * minimum: 0
    * @return lowerPort
   **/
-  @ApiModelProperty(required = true, value = "Identifies the lower bound of the port range. upperPort Integer ")
+  @Schema(required = true , description = "Identifies the lower bound of the port range. upperPort Integer ")
   @NotNull
 
-@Min(0)
+  @Min(0)
   public Integer getLowerPort() {
     return lowerPort;
   }
@@ -70,10 +69,10 @@ public class PortRange   {
    * minimum: 0
    * @return upperPort
   **/
-  @ApiModelProperty(required = true, value = "Identifies the upper bound of the port range. ")
+  @Schema(required = true , description = "Identifies the upper bound of the port range. ")
   @NotNull
 
-@Min(0)
+  @Min(0)
   public Integer getUpperPort() {
     return upperPort;
   }
@@ -93,7 +92,7 @@ public class PortRange   {
     }
     PortRange portRange = (PortRange) o;
     return Objects.equals(this.lowerPort, portRange.lowerPort) &&
-        Objects.equals(this.upperPort, portRange.upperPort);
+    Objects.equals(this.upperPort, portRange.upperPort);
   }
 
   @Override
@@ -105,7 +104,7 @@ public class PortRange   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class PortRange {\n");
-    
+
     sb.append("    lowerPort: ").append(toIndentedString(lowerPort)).append("\n");
     sb.append("    upperPort: ").append(toIndentedString(upperPort)).append("\n");
     sb.append("}");

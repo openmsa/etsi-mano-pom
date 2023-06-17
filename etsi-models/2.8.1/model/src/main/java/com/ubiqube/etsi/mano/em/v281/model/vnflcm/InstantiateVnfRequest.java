@@ -29,7 +29,6 @@ import org.springframework.validation.annotation.Validated;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.vnfm.v281.model.grant.VimConnectionInfo;
 
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
@@ -67,292 +66,292 @@ public class InstantiateVnfRequest {
 	@JsonProperty("vnfConfigurableProperties")
 	private Map<String, String> vnfConfigurableProperties = null;
 
-	public InstantiateVnfRequest flavourId(final String flavourId) {
-		this.flavourId = flavourId;
-		return this;
-	}
+  public InstantiateVnfRequest flavourId(final String flavourId) {
+    this.flavourId = flavourId;
+    return this;
+  }
 
-	/**
-	 * Identifier of the VNF deployment flavour to be instantiated.
-	 *
-	 * @return flavourId
-	 **/
-	@ApiModelProperty(required = true, value = "Identifier of the VNF deployment flavour to be instantiated. ")
-	@NotNull
+  /**
+   * Identifier of the VNF deployment flavour to be instantiated.
+   *
+   * @return flavourId
+   **/
+  @Schema(required = true , description = "Identifier of the VNF deployment flavour to be instantiated. ")
+  @NotNull
 
-	public String getFlavourId() {
-		return flavourId;
-	}
+  public String getFlavourId() {
+    return flavourId;
+  }
 
-	public void setFlavourId(final String flavourId) {
-		this.flavourId = flavourId;
-	}
+  public void setFlavourId(final String flavourId) {
+    this.flavourId = flavourId;
+  }
 
-	public InstantiateVnfRequest instantiationLevelId(final String instantiationLevelId) {
-		this.instantiationLevelId = instantiationLevelId;
-		return this;
-	}
+  public InstantiateVnfRequest instantiationLevelId(final String instantiationLevelId) {
+    this.instantiationLevelId = instantiationLevelId;
+    return this;
+  }
 
-	/**
-	 * Identifier of the instantiation level of the deployment flavour to be
-	 * instantiated. If not present, the default instantiation level as declared in
-	 * the VNFD is instantiated.
-	 *
-	 * @return instantiationLevelId
-	 **/
-	@ApiModelProperty(value = "Identifier of the instantiation level of the deployment flavour to be instantiated. If not present, the default instantiation level as declared in the VNFD is instantiated. ")
+  /**
+   * Identifier of the instantiation level of the deployment flavour to be
+   * instantiated. If not present, the default instantiation level as declared in
+   * the VNFD is instantiated.
+   *
+   * @return instantiationLevelId
+   **/
+  @Schema(description = "Identifier of the instantiation level of the deployment flavour to be instantiated. If not present, the default instantiation level as declared in the VNFD is instantiated. ")
 
-	public String getInstantiationLevelId() {
-		return instantiationLevelId;
-	}
+  public String getInstantiationLevelId() {
+    return instantiationLevelId;
+  }
 
-	public void setInstantiationLevelId(final String instantiationLevelId) {
-		this.instantiationLevelId = instantiationLevelId;
-	}
+  public void setInstantiationLevelId(final String instantiationLevelId) {
+    this.instantiationLevelId = instantiationLevelId;
+  }
 
-	public InstantiateVnfRequest extVirtualLinks(final List<ExtVirtualLinkData> extVirtualLinks) {
-		this.extVirtualLinks = extVirtualLinks;
-		return this;
-	}
+  public InstantiateVnfRequest extVirtualLinks(final List<ExtVirtualLinkData> extVirtualLinks) {
+    this.extVirtualLinks = extVirtualLinks;
+    return this;
+  }
 
-	public InstantiateVnfRequest addExtVirtualLinksItem(final ExtVirtualLinkData extVirtualLinksItem) {
-		if (this.extVirtualLinks == null) {
-			this.extVirtualLinks = new ArrayList<>();
-		}
-		this.extVirtualLinks.add(extVirtualLinksItem);
-		return this;
-	}
+  public InstantiateVnfRequest addExtVirtualLinksItem(final ExtVirtualLinkData extVirtualLinksItem) {
+    if (this.extVirtualLinks == null) {
+      this.extVirtualLinks = new ArrayList<>();
+    }
+    this.extVirtualLinks.add(extVirtualLinksItem);
+    return this;
+  }
 
-	/**
-	 * Information about external VLs to connect the VNF to.
-	 *
-	 * @return extVirtualLinks
-	 **/
-	@ApiModelProperty(value = "Information about external VLs to connect the VNF to. ")
+  /**
+   * Information about external VLs to connect the VNF to.
+   *
+   * @return extVirtualLinks
+   **/
+  @Schema(description = "Information about external VLs to connect the VNF to. ")
 
-	@Valid
+  @Valid
 
-	public List<ExtVirtualLinkData> getExtVirtualLinks() {
-		return extVirtualLinks;
-	}
+  public List<ExtVirtualLinkData> getExtVirtualLinks() {
+    return extVirtualLinks;
+  }
 
-	public void setExtVirtualLinks(final List<ExtVirtualLinkData> extVirtualLinks) {
-		this.extVirtualLinks = extVirtualLinks;
-	}
+  public void setExtVirtualLinks(final List<ExtVirtualLinkData> extVirtualLinks) {
+    this.extVirtualLinks = extVirtualLinks;
+  }
 
-	public InstantiateVnfRequest extManagedVirtualLinks(final List<ExtManagedVirtualLinkData> extManagedVirtualLinks) {
-		this.extManagedVirtualLinks = extManagedVirtualLinks;
-		return this;
-	}
+  public InstantiateVnfRequest extManagedVirtualLinks(final List<ExtManagedVirtualLinkData> extManagedVirtualLinks) {
+    this.extManagedVirtualLinks = extManagedVirtualLinks;
+    return this;
+  }
 
-	public InstantiateVnfRequest addExtManagedVirtualLinksItem(final ExtManagedVirtualLinkData extManagedVirtualLinksItem) {
-		if (this.extManagedVirtualLinks == null) {
-			this.extManagedVirtualLinks = new ArrayList<>();
-		}
-		this.extManagedVirtualLinks.add(extManagedVirtualLinksItem);
-		return this;
-	}
+  public InstantiateVnfRequest addExtManagedVirtualLinksItem(final ExtManagedVirtualLinkData extManagedVirtualLinksItem) {
+    if (this.extManagedVirtualLinks == null) {
+      this.extManagedVirtualLinks = new ArrayList<>();
+    }
+    this.extManagedVirtualLinks.add(extManagedVirtualLinksItem);
+    return this;
+  }
 
-	/**
-	 * Information about internal VLs that are managed by other entities than the
-	 * VNFM. NOTE: The indication of externally-managed internal VLs is needed in
-	 * case networks have been pre-configured for use with certain VNFs, for
-	 * instance to ensure that these networks have certain properties such as
-	 * security or acceleration features, or to address particular network
-	 * topologies. The present document assumes that externally-managed internal VLs
-	 * are managed by the NFVO and created towards the VIM.
-	 *
-	 * @return extManagedVirtualLinks
-	 **/
-	@ApiModelProperty(value = "Information about internal VLs that are managed by other entities than the VNFM. NOTE: The indication of externally-managed internal VLs is needed in case networks have been pre-configured for use with certain VNFs, for instance to ensure that these networks have certain properties such as security or acceleration features, or to address particular network topologies. The present document assumes that externally-managed internal VLs are managed by the NFVO and created towards the VIM. ")
+  /**
+   * Information about internal VLs that are managed by other entities than the
+   * VNFM. NOTE: The indication of externally-managed internal VLs is needed in
+   * case networks have been pre-configured for use with certain VNFs, for
+   * instance to ensure that these networks have certain properties such as
+   * security or acceleration features, or to address particular network
+   * topologies. The present document assumes that externally-managed internal VLs
+   * are managed by the NFVO and created towards the VIM.
+   *
+   * @return extManagedVirtualLinks
+   **/
+  @Schema(description = "Information about internal VLs that are managed by other entities than the VNFM. NOTE: The indication of externally-managed internal VLs is needed in case networks have been pre-configured for use with certain VNFs, for instance to ensure that these networks have certain properties such as security or acceleration features, or to address particular network topologies. The present document assumes that externally-managed internal VLs are managed by the NFVO and created towards the VIM. ")
 
-	@Valid
+  @Valid
 
-	public List<ExtManagedVirtualLinkData> getExtManagedVirtualLinks() {
-		return extManagedVirtualLinks;
-	}
+  public List<ExtManagedVirtualLinkData> getExtManagedVirtualLinks() {
+    return extManagedVirtualLinks;
+  }
 
-	public void setExtManagedVirtualLinks(final List<ExtManagedVirtualLinkData> extManagedVirtualLinks) {
-		this.extManagedVirtualLinks = extManagedVirtualLinks;
-	}
+  public void setExtManagedVirtualLinks(final List<ExtManagedVirtualLinkData> extManagedVirtualLinks) {
+    this.extManagedVirtualLinks = extManagedVirtualLinks;
+  }
 
-	public InstantiateVnfRequest vimConnectionInfo(final List<VimConnectionInfo> vimConnectionInfo) {
-		this.vimConnectionInfo = vimConnectionInfo;
-		return this;
-	}
+  public InstantiateVnfRequest vimConnectionInfo(final List<VimConnectionInfo> vimConnectionInfo) {
+    this.vimConnectionInfo = vimConnectionInfo;
+    return this;
+  }
 
-	public InstantiateVnfRequest addVimConnectionInfoItem(final VimConnectionInfo vimConnectionInfoItem) {
-		if (this.vimConnectionInfo == null) {
-			this.vimConnectionInfo = new ArrayList<>();
-		}
-		this.vimConnectionInfo.add(vimConnectionInfoItem);
-		return this;
-	}
+  public InstantiateVnfRequest addVimConnectionInfoItem(final VimConnectionInfo vimConnectionInfoItem) {
+    if (this.vimConnectionInfo == null) {
+      this.vimConnectionInfo = new ArrayList<>();
+    }
+    this.vimConnectionInfo.add(vimConnectionInfoItem);
+    return this;
+  }
 
-	/**
-	 * Information about VIM connections to be used for managing the resources for
-	 * the VNF instance, or refer to external / externally-managed virtual links.
-	 * This attribute shall only be supported and may be present if VNF-related
-	 * resource management in direct mode is applicable.
-	 *
-	 * @return vimConnectionInfo
-	 **/
-	@JsonProperty("vimConnectionInfo")
-	@Schema(description = "Information about VIM connections to be used for managing the resources for the VNF instance, or refer to external / externally-managed virtual links. This attribute shall only be supported and may be present if VNF-related resource management in direct mode is applicable. ")
-	public List<VimConnectionInfo> getVimConnectionInfo() {
-		return vimConnectionInfo;
-	}
+  /**
+   * Information about VIM connections to be used for managing the resources for
+   * the VNF instance, or refer to external / externally-managed virtual links.
+   * This attribute shall only be supported and may be present if VNF-related
+   * resource management in direct mode is applicable.
+   *
+   * @return vimConnectionInfo
+   **/
+  @JsonProperty("vimConnectionInfo")
+  @Schema(description = "Information about VIM connections to be used for managing the resources for the VNF instance, or refer to external / externally-managed virtual links. This attribute shall only be supported and may be present if VNF-related resource management in direct mode is applicable. ")
+  public List<VimConnectionInfo> getVimConnectionInfo() {
+    return vimConnectionInfo;
+  }
 
-	public void setVimConnectionInfo(final List<VimConnectionInfo> vimConnectionInfo) {
-		this.vimConnectionInfo = vimConnectionInfo;
-	}
+  public void setVimConnectionInfo(final List<VimConnectionInfo> vimConnectionInfo) {
+    this.vimConnectionInfo = vimConnectionInfo;
+  }
 
-	public InstantiateVnfRequest localizationLanguage(final String localizationLanguage) {
-		this.localizationLanguage = localizationLanguage;
-		return this;
-	}
+  public InstantiateVnfRequest localizationLanguage(final String localizationLanguage) {
+    this.localizationLanguage = localizationLanguage;
+    return this;
+  }
 
-	/**
-	 * Localization language of the VNF to be instantiated. The value shall comply
-	 * with the format defined in IETF RFC 5646.
-	 *
-	 * @return localizationLanguage
-	 **/
-	@ApiModelProperty(value = "Localization language of the VNF to be instantiated. The value shall comply with the format defined in IETF RFC 5646. ")
+  /**
+   * Localization language of the VNF to be instantiated. The value shall comply
+   * with the format defined in IETF RFC 5646.
+   *
+   * @return localizationLanguage
+   **/
+  @Schema(description = "Localization language of the VNF to be instantiated. The value shall comply with the format defined in IETF RFC 5646. ")
 
-	public String getLocalizationLanguage() {
-		return localizationLanguage;
-	}
+  public String getLocalizationLanguage() {
+    return localizationLanguage;
+  }
 
-	public void setLocalizationLanguage(final String localizationLanguage) {
-		this.localizationLanguage = localizationLanguage;
-	}
+  public void setLocalizationLanguage(final String localizationLanguage) {
+    this.localizationLanguage = localizationLanguage;
+  }
 
-	public InstantiateVnfRequest additionalParams(final Map<String, String> additionalParams) {
-		this.additionalParams = additionalParams;
-		return this;
-	}
+  public InstantiateVnfRequest additionalParams(final Map<String, String> additionalParams) {
+    this.additionalParams = additionalParams;
+    return this;
+  }
 
-	/**
-	 * Additional input parameters for the instantiation process, specific to the
-	 * VNF being instantiated, as declared in the VNFD as part of
-	 * \"InstantiateVnfOpConfig\".
-	 *
-	 * @return additionalParams
-	 **/
-	@ApiModelProperty(value = "Additional input parameters for the instantiation process, specific to the VNF being instantiated, as declared in the VNFD as part of \"InstantiateVnfOpConfig\". ")
+  /**
+   * Additional input parameters for the instantiation process, specific to the
+   * VNF being instantiated, as declared in the VNFD as part of
+   * \"InstantiateVnfOpConfig\".
+   *
+   * @return additionalParams
+   **/
+  @Schema(description = "Additional input parameters for the instantiation process, specific to the VNF being instantiated, as declared in the VNFD as part of \"InstantiateVnfOpConfig\". ")
 
-	@Valid
+  @Valid
 
-	public Map<String, String> getAdditionalParams() {
-		return additionalParams;
-	}
+  public Map<String, String> getAdditionalParams() {
+    return additionalParams;
+  }
 
-	public void setAdditionalParams(final Map<String, String> additionalParams) {
-		this.additionalParams = additionalParams;
-	}
+  public void setAdditionalParams(final Map<String, String> additionalParams) {
+    this.additionalParams = additionalParams;
+  }
 
-	public InstantiateVnfRequest extensions(final Map<String, String> extensions) {
-		this.extensions = extensions;
-		return this;
-	}
+  public InstantiateVnfRequest extensions(final Map<String, String> extensions) {
+    this.extensions = extensions;
+    return this;
+  }
 
-	/**
-	 * If present, this attribute provides modifications to the default values, as
-	 * obtained from the VNFD, of the \"extensions\" attribute in \"VnfInstance\",
-	 * as defined in clause 5.5.2.2. Provisions for handling extensions during
-	 * operation are defined in clause 5.4.4.3.1.
-	 *
-	 * @return extensions
-	 **/
-	@ApiModelProperty(value = "If present, this attribute provides modifications to the default values, as obtained from the VNFD, of the \"extensions\" attribute in \"VnfInstance\", as defined in clause 5.5.2.2. Provisions for handling extensions during operation are defined in clause 5.4.4.3.1. ")
+  /**
+   * If present, this attribute provides modifications to the default values, as
+   * obtained from the VNFD, of the \"extensions\" attribute in \"VnfInstance\",
+   * as defined in clause 5.5.2.2. Provisions for handling extensions during
+   * operation are defined in clause 5.4.4.3.1.
+   *
+   * @return extensions
+   **/
+  @Schema(description = "If present, this attribute provides modifications to the default values, as obtained from the VNFD, of the \"extensions\" attribute in \"VnfInstance\", as defined in clause 5.5.2.2. Provisions for handling extensions during operation are defined in clause 5.4.4.3.1. ")
 
-	@Valid
+  @Valid
 
-	public Map<String, String> getExtensions() {
-		return extensions;
-	}
+  public Map<String, String> getExtensions() {
+    return extensions;
+  }
 
-	public void setExtensions(final Map<String, String> extensions) {
-		this.extensions = extensions;
-	}
+  public void setExtensions(final Map<String, String> extensions) {
+    this.extensions = extensions;
+  }
 
-	public InstantiateVnfRequest vnfConfigurableProperties(final Map<String, String> vnfConfigurableProperties) {
-		this.vnfConfigurableProperties = vnfConfigurableProperties;
-		return this;
-	}
+  public InstantiateVnfRequest vnfConfigurableProperties(final Map<String, String> vnfConfigurableProperties) {
+    this.vnfConfigurableProperties = vnfConfigurableProperties;
+    return this;
+  }
 
-	/**
-	 * If present, this attribute provides modifications to the default values, as
-	 * obtained from the VNFD, of the \"vnfConfigurableProperties\" attribute in
-	 * \"VnfInstance\", as defined in clause 5.5.2.2. Provisions for handling
-	 * configurable properties during the operation are defined in clause 5.4.4.3.1.
-	 *
-	 * @return vnfConfigurableProperties
-	 **/
-	@ApiModelProperty(value = "If present, this attribute provides modifications to the default values, as obtained from the VNFD,  of the \"vnfConfigurableProperties\" attribute in \"VnfInstance\", as defined in clause 5.5.2.2.  Provisions for handling configurable properties during the operation are defined in clause 5.4.4.3.1. ")
+  /**
+   * If present, this attribute provides modifications to the default values, as
+   * obtained from the VNFD, of the \"vnfConfigurableProperties\" attribute in
+   * \"VnfInstance\", as defined in clause 5.5.2.2. Provisions for handling
+   * configurable properties during the operation are defined in clause 5.4.4.3.1.
+   *
+   * @return vnfConfigurableProperties
+   **/
+  @Schema(description = "If present, this attribute provides modifications to the default values, as obtained from the VNFD,  of the \"vnfConfigurableProperties\" attribute in \"VnfInstance\", as defined in clause 5.5.2.2.  Provisions for handling configurable properties during the operation are defined in clause 5.4.4.3.1. ")
 
-	@Valid
+  @Valid
 
-	public Map<String, String> getVnfConfigurableProperties() {
-		return vnfConfigurableProperties;
-	}
+  public Map<String, String> getVnfConfigurableProperties() {
+    return vnfConfigurableProperties;
+  }
 
-	public void setVnfConfigurableProperties(final Map<String, String> vnfConfigurableProperties) {
-		this.vnfConfigurableProperties = vnfConfigurableProperties;
-	}
+  public void setVnfConfigurableProperties(final Map<String, String> vnfConfigurableProperties) {
+    this.vnfConfigurableProperties = vnfConfigurableProperties;
+  }
 
-	@Override
-	public boolean equals(final java.lang.Object o) {
-		if (this == o) {
-			return true;
-		}
-		if ((o == null) || (getClass() != o.getClass())) {
-			return false;
-		}
-		final InstantiateVnfRequest instantiateVnfRequest = (InstantiateVnfRequest) o;
-		return Objects.equals(this.flavourId, instantiateVnfRequest.flavourId) &&
-				Objects.equals(this.instantiationLevelId, instantiateVnfRequest.instantiationLevelId) &&
-				Objects.equals(this.extVirtualLinks, instantiateVnfRequest.extVirtualLinks) &&
-				Objects.equals(this.extManagedVirtualLinks, instantiateVnfRequest.extManagedVirtualLinks) &&
-				Objects.equals(this.vimConnectionInfo, instantiateVnfRequest.vimConnectionInfo) &&
-				Objects.equals(this.localizationLanguage, instantiateVnfRequest.localizationLanguage) &&
-				Objects.equals(this.additionalParams, instantiateVnfRequest.additionalParams) &&
-				Objects.equals(this.extensions, instantiateVnfRequest.extensions) &&
-				Objects.equals(this.vnfConfigurableProperties, instantiateVnfRequest.vnfConfigurableProperties);
-	}
+  @Override
+  public boolean equals(final java.lang.Object o) {
+    if (this == o) {
+      return true;
+    }
+    if ((o == null) || (getClass() != o.getClass())) {
+      return false;
+    }
+    final InstantiateVnfRequest instantiateVnfRequest = (InstantiateVnfRequest) o;
+    return Objects.equals(this.flavourId, instantiateVnfRequest.flavourId) &&
+    Objects.equals(this.instantiationLevelId, instantiateVnfRequest.instantiationLevelId) &&
+    Objects.equals(this.extVirtualLinks, instantiateVnfRequest.extVirtualLinks) &&
+    Objects.equals(this.extManagedVirtualLinks, instantiateVnfRequest.extManagedVirtualLinks) &&
+    Objects.equals(this.vimConnectionInfo, instantiateVnfRequest.vimConnectionInfo) &&
+    Objects.equals(this.localizationLanguage, instantiateVnfRequest.localizationLanguage) &&
+    Objects.equals(this.additionalParams, instantiateVnfRequest.additionalParams) &&
+    Objects.equals(this.extensions, instantiateVnfRequest.extensions) &&
+    Objects.equals(this.vnfConfigurableProperties, instantiateVnfRequest.vnfConfigurableProperties);
+  }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(flavourId, instantiationLevelId, extVirtualLinks, extManagedVirtualLinks, vimConnectionInfo, localizationLanguage, additionalParams, extensions, vnfConfigurableProperties);
-	}
+  @Override
+  public int hashCode() {
+    return Objects.hash(flavourId, instantiationLevelId, extVirtualLinks, extManagedVirtualLinks, vimConnectionInfo, localizationLanguage, additionalParams, extensions, vnfConfigurableProperties);
+  }
 
-	@Override
-	public String toString() {
-		final StringBuilder sb = new StringBuilder();
-		sb.append("class InstantiateVnfRequest {\n");
+  @Override
+  public String toString() {
+    final StringBuilder sb = new StringBuilder();
+    sb.append("class InstantiateVnfRequest {\n");
 
-		sb.append("    flavourId: ").append(toIndentedString(flavourId)).append("\n");
-		sb.append("    instantiationLevelId: ").append(toIndentedString(instantiationLevelId)).append("\n");
-		sb.append("    extVirtualLinks: ").append(toIndentedString(extVirtualLinks)).append("\n");
-		sb.append("    extManagedVirtualLinks: ").append(toIndentedString(extManagedVirtualLinks)).append("\n");
-		sb.append("    vimConnectionInfo: ").append(toIndentedString(vimConnectionInfo)).append("\n");
-		sb.append("    localizationLanguage: ").append(toIndentedString(localizationLanguage)).append("\n");
-		sb.append("    additionalParams: ").append(toIndentedString(additionalParams)).append("\n");
-		sb.append("    extensions: ").append(toIndentedString(extensions)).append("\n");
-		sb.append("    vnfConfigurableProperties: ").append(toIndentedString(vnfConfigurableProperties)).append("\n");
-		sb.append("}");
-		return sb.toString();
-	}
+    sb.append("    flavourId: ").append(toIndentedString(flavourId)).append("\n");
+    sb.append("    instantiationLevelId: ").append(toIndentedString(instantiationLevelId)).append("\n");
+    sb.append("    extVirtualLinks: ").append(toIndentedString(extVirtualLinks)).append("\n");
+    sb.append("    extManagedVirtualLinks: ").append(toIndentedString(extManagedVirtualLinks)).append("\n");
+    sb.append("    vimConnectionInfo: ").append(toIndentedString(vimConnectionInfo)).append("\n");
+    sb.append("    localizationLanguage: ").append(toIndentedString(localizationLanguage)).append("\n");
+    sb.append("    additionalParams: ").append(toIndentedString(additionalParams)).append("\n");
+    sb.append("    extensions: ").append(toIndentedString(extensions)).append("\n");
+    sb.append("    vnfConfigurableProperties: ").append(toIndentedString(vnfConfigurableProperties)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
 
-	/**
-	 * Convert the given object to string with each line indented by 4 spaces
-	 * (except the first line).
-	 */
-	private String toIndentedString(final java.lang.Object o) {
-		if (o == null) {
-			return "null";
-		}
-		return o.toString().replace("\n", "\n    ");
-	}
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(final java.lang.Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
+  }
 }

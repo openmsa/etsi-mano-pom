@@ -27,10 +27,6 @@
 	</repositories>
 	<dependencies>
 		<dependency>
-			<groupId>io.swagger</groupId>
-			<artifactId>swagger-annotations</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
 		</dependency>
@@ -48,4 +44,5 @@
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
+
 </project>

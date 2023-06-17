@@ -19,7 +19,7 @@ package com.ubiqube.etsi.mano.em.v281.model.vnfind;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
@@ -28,13 +28,10 @@ import org.springframework.validation.annotation.Validated;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.em.v281.model.SubscriptionAuthentication;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
 /**
  * This type represents a request to create a threshold.
  */
-@ApiModel(description = "This type represents a request to create a threshold. ")
+@Schema (description= "This type represents a request to create a threshold. " )
 @Validated
 
 public class CreateThresholdRequest {
@@ -57,196 +54,196 @@ public class CreateThresholdRequest {
 	@JsonProperty("authentication")
 	private SubscriptionAuthentication authentication = null;
 
-	public CreateThresholdRequest objectType(final String objectType) {
-		this.objectType = objectType;
-		return this;
-	}
+  public CreateThresholdRequest objectType(final String objectType) {
+    this.objectType = objectType;
+    return this;
+  }
 
-	/**
-	 * Type of the measured object. The applicable measured object type for a
-	 * measurement is defined in clause 7.2 of ETSI GS NFV-IFA 027.
-	 *
-	 * @return objectType
-	 **/
-	@ApiModelProperty(required = true, value = "Type of the measured object. The applicable measured object type for a measurement is defined in clause 7.2 of ETSI GS NFV-IFA 027. ")
-	@NotNull
+  /**
+   * Type of the measured object. The applicable measured object type for a
+   * measurement is defined in clause 7.2 of ETSI GS NFV-IFA 027.
+   *
+   * @return objectType
+   **/
+  @Schema(required = true , description = "Type of the measured object. The applicable measured object type for a measurement is defined in clause 7.2 of ETSI GS NFV-IFA 027. ")
+  @NotNull
 
-	public String getObjectType() {
-		return objectType;
-	}
+  public String getObjectType() {
+    return objectType;
+  }
 
-	public void setObjectType(final String objectType) {
-		this.objectType = objectType;
-	}
+  public void setObjectType(final String objectType) {
+    this.objectType = objectType;
+  }
 
-	public CreateThresholdRequest objectInstanceId(final String objectInstanceId) {
-		this.objectInstanceId = objectInstanceId;
-		return this;
-	}
+  public CreateThresholdRequest objectInstanceId(final String objectInstanceId) {
+    this.objectInstanceId = objectInstanceId;
+    return this;
+  }
 
-	/**
-	 * Identifier of the VNF instance associated with this threshold.
-	 *
-	 * @return objectInstanceId
-	 **/
-	@ApiModelProperty(required = true, value = "Identifier of the VNF instance associated with this threshold. ")
-	@NotNull
+  /**
+   * Identifier of the VNF instance associated with this threshold.
+   *
+   * @return objectInstanceId
+   **/
+  @Schema(required = true , description = "Identifier of the VNF instance associated with this threshold. ")
+  @NotNull
 
-	public String getObjectInstanceId() {
-		return objectInstanceId;
-	}
+  public String getObjectInstanceId() {
+    return objectInstanceId;
+  }
 
-	public void setObjectInstanceId(final String objectInstanceId) {
-		this.objectInstanceId = objectInstanceId;
-	}
+  public void setObjectInstanceId(final String objectInstanceId) {
+    this.objectInstanceId = objectInstanceId;
+  }
 
-	public CreateThresholdRequest subObjectInstanceIds(final List<String> subObjectInstanceIds) {
-		this.subObjectInstanceIds = subObjectInstanceIds;
-		return this;
-	}
+  public CreateThresholdRequest subObjectInstanceIds(final List<String> subObjectInstanceIds) {
+    this.subObjectInstanceIds = subObjectInstanceIds;
+    return this;
+  }
 
-	public CreateThresholdRequest addSubObjectInstanceIdsItem(final String subObjectInstanceIdsItem) {
-		if (this.subObjectInstanceIds == null) {
-			this.subObjectInstanceIds = new ArrayList<>();
-		}
-		this.subObjectInstanceIds.add(subObjectInstanceIdsItem);
-		return this;
-	}
+  public CreateThresholdRequest addSubObjectInstanceIdsItem(final String subObjectInstanceIdsItem) {
+    if (this.subObjectInstanceIds == null) {
+      this.subObjectInstanceIds = new ArrayList<>();
+    }
+    this.subObjectInstanceIds.add(subObjectInstanceIdsItem);
+    return this;
+  }
 
-	/**
-	 * Identifiers of the sub-object instances of the measured object instance
-	 * associated with this threshold. May be present if a sub-object is defined in
-	 * clause 6.2 of ETSI GS NFV-IFA 027 for the related measured object type. If
-	 * this attribute is absent and a sub-object is defined in clause 6.2 of ETSI GS
-	 * NFV-IFA 027 for the measured object type, measurements will be taken for all
-	 * sub-object instances of the measured object instance.
-	 *
-	 * @return subObjectInstanceIds
-	 **/
-	@ApiModelProperty(value = "Identifiers of the sub-object instances of the measured object instance associated with this threshold. May be present if a sub-object is defined in clause 6.2 of ETSI GS NFV-IFA 027 for the related measured object type. If this attribute is absent and a sub-object is defined in clause 6.2 of ETSI GS NFV-IFA 027 for the measured object type, measurements will be taken for all sub-object instances of the measured object instance. ")
+  /**
+   * Identifiers of the sub-object instances of the measured object instance
+   * associated with this threshold. May be present if a sub-object is defined in
+   * clause 6.2 of ETSI GS NFV-IFA 027 for the related measured object type. If
+   * this attribute is absent and a sub-object is defined in clause 6.2 of ETSI GS
+   * NFV-IFA 027 for the measured object type, measurements will be taken for all
+   * sub-object instances of the measured object instance.
+   *
+   * @return subObjectInstanceIds
+   **/
+  @Schema(description = "Identifiers of the sub-object instances of the measured object instance associated with this threshold. May be present if a sub-object is defined in clause 6.2 of ETSI GS NFV-IFA 027 for the related measured object type. If this attribute is absent and a sub-object is defined in clause 6.2 of ETSI GS NFV-IFA 027 for the measured object type, measurements will be taken for all sub-object instances of the measured object instance. ")
 
-	public List<String> getSubObjectInstanceIds() {
-		return subObjectInstanceIds;
-	}
+  public List<String> getSubObjectInstanceIds() {
+    return subObjectInstanceIds;
+  }
 
-	public void setSubObjectInstanceIds(final List<String> subObjectInstanceIds) {
-		this.subObjectInstanceIds = subObjectInstanceIds;
-	}
+  public void setSubObjectInstanceIds(final List<String> subObjectInstanceIds) {
+    this.subObjectInstanceIds = subObjectInstanceIds;
+  }
 
-	public CreateThresholdRequest criteria(final ThresholdCriteria criteria) {
-		this.criteria = criteria;
-		return this;
-	}
+  public CreateThresholdRequest criteria(final ThresholdCriteria criteria) {
+    this.criteria = criteria;
+    return this;
+  }
 
-	/**
-	 * Criteria that define this threshold.
-	 *
-	 * @return criteria
-	 **/
-	@ApiModelProperty(required = true, value = "Criteria that define this threshold. ")
-	@NotNull
+  /**
+   * Criteria that define this threshold.
+   *
+   * @return criteria
+   **/
+  @Schema(required = true , description = "Criteria that define this threshold. ")
+  @NotNull
 
-	@Valid
+  @Valid
 
-	public ThresholdCriteria getCriteria() {
-		return criteria;
-	}
+  public ThresholdCriteria getCriteria() {
+    return criteria;
+  }
 
-	public void setCriteria(final ThresholdCriteria criteria) {
-		this.criteria = criteria;
-	}
+  public void setCriteria(final ThresholdCriteria criteria) {
+    this.criteria = criteria;
+  }
 
-	public CreateThresholdRequest callbackUri(final String callbackUri) {
-		this.callbackUri = callbackUri;
-		return this;
-	}
+  public CreateThresholdRequest callbackUri(final String callbackUri) {
+    this.callbackUri = callbackUri;
+    return this;
+  }
 
-	/**
-	 * The URI of the endpoint to send the notification to.
-	 *
-	 * @return callbackUri
-	 **/
-	@ApiModelProperty(required = true, value = "The URI of the endpoint to send the notification to. ")
-	@NotNull
+  /**
+   * The URI of the endpoint to send the notification to.
+   *
+   * @return callbackUri
+   **/
+  @Schema(required = true , description = "The URI of the endpoint to send the notification to. ")
+  @NotNull
 
-	public String getCallbackUri() {
-		return callbackUri;
-	}
+  public String getCallbackUri() {
+    return callbackUri;
+  }
 
-	public void setCallbackUri(final String callbackUri) {
-		this.callbackUri = callbackUri;
-	}
+  public void setCallbackUri(final String callbackUri) {
+    this.callbackUri = callbackUri;
+  }
 
-	public CreateThresholdRequest authentication(final SubscriptionAuthentication authentication) {
-		this.authentication = authentication;
-		return this;
-	}
+  public CreateThresholdRequest authentication(final SubscriptionAuthentication authentication) {
+    this.authentication = authentication;
+    return this;
+  }
 
-	/**
-	 * Authentication parameters to configure the use of Authorization when sending
-	 * notifications corresponding to this threshold, as defined in clause 8.3.4 of
-	 * ETSI GS NFV-SOL 013. This attribute shall only be present if the API consumer
-	 * requires authorization of notifications.
-	 *
-	 * @return authentication
-	 **/
-	@ApiModelProperty(value = "Authentication parameters to configure the use of Authorization when sending notifications corresponding to this threshold, as defined in clause 8.3.4 of ETSI GS NFV-SOL 013. This attribute shall only be present if the API consumer requires authorization of notifications. ")
+  /**
+   * Authentication parameters to configure the use of Authorization when sending
+   * notifications corresponding to this threshold, as defined in clause 8.3.4 of
+   * ETSI GS NFV-SOL 013. This attribute shall only be present if the API consumer
+   * requires authorization of notifications.
+   *
+   * @return authentication
+   **/
+  @Schema(description = "Authentication parameters to configure the use of Authorization when sending notifications corresponding to this threshold, as defined in clause 8.3.4 of ETSI GS NFV-SOL 013. This attribute shall only be present if the API consumer requires authorization of notifications. ")
 
-	@Valid
+  @Valid
 
-	public SubscriptionAuthentication getAuthentication() {
-		return authentication;
-	}
+  public SubscriptionAuthentication getAuthentication() {
+    return authentication;
+  }
 
-	public void setAuthentication(final SubscriptionAuthentication authentication) {
-		this.authentication = authentication;
-	}
+  public void setAuthentication(final SubscriptionAuthentication authentication) {
+    this.authentication = authentication;
+  }
 
-	@Override
-	public boolean equals(final java.lang.Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
-		final CreateThresholdRequest createThresholdRequest = (CreateThresholdRequest) o;
-		return Objects.equals(this.objectType, createThresholdRequest.objectType) &&
-				Objects.equals(this.objectInstanceId, createThresholdRequest.objectInstanceId) &&
-				Objects.equals(this.subObjectInstanceIds, createThresholdRequest.subObjectInstanceIds) &&
-				Objects.equals(this.criteria, createThresholdRequest.criteria) &&
-				Objects.equals(this.callbackUri, createThresholdRequest.callbackUri) &&
-				Objects.equals(this.authentication, createThresholdRequest.authentication);
-	}
+  @Override
+  public boolean equals(final java.lang.Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    final CreateThresholdRequest createThresholdRequest = (CreateThresholdRequest) o;
+    return Objects.equals(this.objectType, createThresholdRequest.objectType) &&
+    Objects.equals(this.objectInstanceId, createThresholdRequest.objectInstanceId) &&
+    Objects.equals(this.subObjectInstanceIds, createThresholdRequest.subObjectInstanceIds) &&
+    Objects.equals(this.criteria, createThresholdRequest.criteria) &&
+    Objects.equals(this.callbackUri, createThresholdRequest.callbackUri) &&
+    Objects.equals(this.authentication, createThresholdRequest.authentication);
+  }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(objectType, objectInstanceId, subObjectInstanceIds, criteria, callbackUri, authentication);
-	}
+  @Override
+  public int hashCode() {
+    return Objects.hash(objectType, objectInstanceId, subObjectInstanceIds, criteria, callbackUri, authentication);
+  }
 
-	@Override
-	public String toString() {
-		final StringBuilder sb = new StringBuilder();
-		sb.append("class CreateThresholdRequest {\n");
+  @Override
+  public String toString() {
+    final StringBuilder sb = new StringBuilder();
+    sb.append("class CreateThresholdRequest {\n");
 
-		sb.append("    objectType: ").append(toIndentedString(objectType)).append("\n");
-		sb.append("    objectInstanceId: ").append(toIndentedString(objectInstanceId)).append("\n");
-		sb.append("    subObjectInstanceIds: ").append(toIndentedString(subObjectInstanceIds)).append("\n");
-		sb.append("    criteria: ").append(toIndentedString(criteria)).append("\n");
-		sb.append("    callbackUri: ").append(toIndentedString(callbackUri)).append("\n");
-		sb.append("    authentication: ").append(toIndentedString(authentication)).append("\n");
-		sb.append("}");
-		return sb.toString();
-	}
+    sb.append("    objectType: ").append(toIndentedString(objectType)).append("\n");
+    sb.append("    objectInstanceId: ").append(toIndentedString(objectInstanceId)).append("\n");
+    sb.append("    subObjectInstanceIds: ").append(toIndentedString(subObjectInstanceIds)).append("\n");
+    sb.append("    criteria: ").append(toIndentedString(criteria)).append("\n");
+    sb.append("    callbackUri: ").append(toIndentedString(callbackUri)).append("\n");
+    sb.append("    authentication: ").append(toIndentedString(authentication)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
 
-	/**
-	 * Convert the given object to string with each line indented by 4 spaces
-	 * (except the first line).
-	 */
-	private String toIndentedString(final java.lang.Object o) {
-		if (o == null) {
-			return "null";
-		}
-		return o.toString().replace("\n", "\n    ");
-	}
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(final java.lang.Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
+  }
 }

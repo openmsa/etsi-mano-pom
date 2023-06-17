@@ -21,8 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Map;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -30,7 +29,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents the information about a VNFC instance that is part of a VNF instance. It shall comply with the provisions defined in table 5.5.3.23-1. 
  */
-@ApiModel(description = "This type represents the information about a VNFC instance that is part of a VNF instance. It shall comply with the provisions defined in table 5.5.3.23-1. ")
+@Schema (description= "This type represents the information about a VNFC instance that is part of a VNF instance. It shall comply with the provisions defined in table 5.5.3.23-1. " )
 @Validated
 
 public class VnfcInfo   {
@@ -89,7 +88,7 @@ public class VnfcInfo   {
    * Identifier of the VNFC instance. 
    * @return id
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the VNFC instance. ")
+  @Schema(required = true , description = "Identifier of the VNFC instance. ")
   @NotNull
 
 
@@ -110,7 +109,7 @@ public class VnfcInfo   {
    * Reference to the applicable VDU information element in the VNFD. 
    * @return vduId
   **/
-  @ApiModelProperty(required = true, value = "Reference to the applicable VDU information element in the VNFD. ")
+  @Schema(required = true , description = "Reference to the applicable VDU information element in the VNFD. ")
   @NotNull
 
 
@@ -131,7 +130,7 @@ public class VnfcInfo   {
    * Identifier of the VnfcResourceInfo instance representing the virtualised resources used by this VNFC instance. Shall be present in case a corresponding VnfcResourceInfo instance exists. See note. NOTE: This allows to represent the error condition that a VNFC instance has lost its resources. 
    * @return vnfcResourceInfoId
   **/
-  @ApiModelProperty(value = "Identifier of the VnfcResourceInfo instance representing the virtualised resources used by this VNFC instance. Shall be present in case a corresponding VnfcResourceInfo instance exists. See note. NOTE: This allows to represent the error condition that a VNFC instance has lost its resources. ")
+  @Schema(description = "Identifier of the VnfcResourceInfo instance representing the virtualised resources used by this VNFC instance. Shall be present in case a corresponding VnfcResourceInfo instance exists. See note. NOTE: This allows to represent the error condition that a VNFC instance has lost its resources. ")
 
 
   public String getVnfcResourceInfoId() {
@@ -151,7 +150,7 @@ public class VnfcInfo   {
    * State of the VNFC instance. Permitted values: • STARTED: The VNFC instance is up and running. • STOPPED: The VNFC instance has been shut down 
    * @return vnfcState
   **/
-  @ApiModelProperty(required = true, value = "State of the VNFC instance. Permitted values: • STARTED: The VNFC instance is up and running. • STOPPED: The VNFC instance has been shut down ")
+  @Schema(required = true , description = "State of the VNFC instance. Permitted values: • STARTED: The VNFC instance is up and running. • STOPPED: The VNFC instance has been shut down ")
   @NotNull
 
 
@@ -172,7 +171,7 @@ public class VnfcInfo   {
    * Current values of the configurable properties of the VNFC instance. Configurable properties referred in this attribute are declared in the VNFD. This attribute can be modified with the PATCH method. 
    * @return vnfcConfigurableProperties
   **/
-  @ApiModelProperty(value = "Current values of the configurable properties of the VNFC instance. Configurable properties referred in this attribute are declared in the VNFD. This attribute can be modified with the PATCH method. ")
+  @Schema(description = "Current values of the configurable properties of the VNFC instance. Configurable properties referred in this attribute are declared in the VNFD. This attribute can be modified with the PATCH method. ")
 
   @Valid
 
@@ -195,10 +194,10 @@ public class VnfcInfo   {
     }
     VnfcInfo vnfcInfo = (VnfcInfo) o;
     return Objects.equals(this.id, vnfcInfo.id) &&
-        Objects.equals(this.vduId, vnfcInfo.vduId) &&
-        Objects.equals(this.vnfcResourceInfoId, vnfcInfo.vnfcResourceInfoId) &&
-        Objects.equals(this.vnfcState, vnfcInfo.vnfcState) &&
-        Objects.equals(this.vnfcConfigurableProperties, vnfcInfo.vnfcConfigurableProperties);
+    Objects.equals(this.vduId, vnfcInfo.vduId) &&
+    Objects.equals(this.vnfcResourceInfoId, vnfcInfo.vnfcResourceInfoId) &&
+    Objects.equals(this.vnfcState, vnfcInfo.vnfcState) &&
+    Objects.equals(this.vnfcConfigurableProperties, vnfcInfo.vnfcConfigurableProperties);
   }
 
   @Override
@@ -210,7 +209,7 @@ public class VnfcInfo   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class VnfcInfo {\n");
-    
+
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    vduId: ").append(toIndentedString(vduId)).append("\n");
     sb.append("    vnfcResourceInfoId: ").append(toIndentedString(vnfcResourceInfoId)).append("\n");

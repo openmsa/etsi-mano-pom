@@ -21,8 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.nfvo.v281.model.vnf.PkgmNotificationsFilter;
 import com.ubiqube.etsi.mano.nfvo.v281.model.vnf.PkgmSubscriptionLinks;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -30,7 +29,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents a subscription related to notifications about VNF package management. 
  */
-@ApiModel(description = "This type represents a subscription related to notifications about VNF package management. ")
+@Schema (description= "This type represents a subscription related to notifications about VNF package management. " )
 @Validated
 
 public class PkgmSubscription   {
@@ -55,7 +54,7 @@ public class PkgmSubscription   {
    * Identifier of this \"Individual subscription\" resource. 
    * @return id
   **/
-  @ApiModelProperty(required = true, value = "Identifier of this \"Individual subscription\" resource. ")
+  @Schema(required = true , description = "Identifier of this \"Individual subscription\" resource. ")
   @NotNull
 
 
@@ -76,7 +75,7 @@ public class PkgmSubscription   {
    * Filter settings for this subscription, to define the subset of all notifications this subscription relates to. A particular notification is sent to the subscriber if the filter matches, or if there is no filter. 
    * @return filter
   **/
-  @ApiModelProperty(value = "Filter settings for this subscription, to define the subset of all notifications this subscription relates to. A particular notification is sent to the subscriber if the filter matches, or if there is no filter. ")
+  @Schema(description = "Filter settings for this subscription, to define the subset of all notifications this subscription relates to. A particular notification is sent to the subscriber if the filter matches, or if there is no filter. ")
 
   @Valid
 
@@ -97,7 +96,7 @@ public class PkgmSubscription   {
    * The URI of the endpoint to send the notification to 
    * @return callbackUri
   **/
-  @ApiModelProperty(required = true, value = "The URI of the endpoint to send the notification to ")
+  @Schema(required = true , description = "The URI of the endpoint to send the notification to ")
   @NotNull
 
 
@@ -118,7 +117,7 @@ public class PkgmSubscription   {
    * Get links
    * @return links
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true , description = "")
   @NotNull
 
   @Valid
@@ -142,9 +141,9 @@ public class PkgmSubscription   {
     }
     PkgmSubscription pkgmSubscription = (PkgmSubscription) o;
     return Objects.equals(this.id, pkgmSubscription.id) &&
-        Objects.equals(this.filter, pkgmSubscription.filter) &&
-        Objects.equals(this.callbackUri, pkgmSubscription.callbackUri) &&
-        Objects.equals(this.links, pkgmSubscription.links);
+    Objects.equals(this.filter, pkgmSubscription.filter) &&
+    Objects.equals(this.callbackUri, pkgmSubscription.callbackUri) &&
+    Objects.equals(this.links, pkgmSubscription.links);
   }
 
   @Override
@@ -156,7 +155,7 @@ public class PkgmSubscription   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class PkgmSubscription {\n");
-    
+
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    filter: ").append(toIndentedString(filter)).append("\n");
     sb.append("    callbackUri: ").append(toIndentedString(callbackUri)).append("\n");

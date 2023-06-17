@@ -23,8 +23,7 @@ import com.ubiqube.etsi.mano.em.v281.model.vnflcm.AffectedExtLinkPort;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.AffectedVirtualLink;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.AffectedVirtualStorage;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.AffectedVnfc;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -34,7 +33,7 @@ import jakarta.validation.constraints.*;
 /**
  * This attribute contains information about the cumulative changes to virtualised resources that were performed so far by the LCM operation since its start, if applicable. 
  */
-@ApiModel(description = "This attribute contains information about the cumulative changes to virtualised resources that were performed so far by the LCM operation since its start, if applicable. ")
+@Schema (description= "This attribute contains information about the cumulative changes to virtualised resources that were performed so far by the LCM operation since its start, if applicable. " )
 @Validated
 
 public class VnfLcmOpOccResourceChanges   {
@@ -71,7 +70,7 @@ public class VnfLcmOpOccResourceChanges   {
    * Information about VNFC instances that were affected during the lifecycle operation. NOTE 1: This allows the NFVO/API consumer to obtain the information contained in the latest \"result\" notification if it has not received it due to an error or a wrongly configured subscription filter. 
    * @return affectedVnfcs
   **/
-  @ApiModelProperty(value = "Information about VNFC instances that were affected during the lifecycle operation. NOTE 1: This allows the NFVO/API consumer to obtain the information contained in the latest \"result\" notification if it has not received it due to an error or a wrongly configured subscription filter. ")
+  @Schema(description = "Information about VNFC instances that were affected during the lifecycle operation. NOTE 1: This allows the NFVO/API consumer to obtain the information contained in the latest \"result\" notification if it has not received it due to an error or a wrongly configured subscription filter. ")
 
   @Valid
 
@@ -100,7 +99,7 @@ public class VnfLcmOpOccResourceChanges   {
    * Information about VL instances that were affected during the lifecycle operation. See note 1 and note 2. NOTE 1: This allows the NFVO/API consumer to obtain the information contained in the latest \"result\" notification if it has not received it due to an  error or a wrongly configured subscription filter. NOTE 2: For a particular affected VL, there shall be as many  \"AffectedVirtualLink\" entries as needed for signalling the different  types of changes, i.e., one per virtual link and change type. For instance,  in the case of signaling affected VL instances involving the addition of a  particular VL instance with links ports, one \"AffectedVirtualLink\" entry  signals the addition of the VL by using the \"changeType\" attribute of  \"AffectedVirtualLink\" structure equal to \"ADDED\", and another \"AffectedVirtualLink\"  entry signals the addition of externally visible VNF link ports of the VL by using  the \"changeType\" equal to \"LINK_PORT_ADDED\". 
    * @return affectedVirtualLinks
   **/
-  @ApiModelProperty(value = "Information about VL instances that were affected during the lifecycle operation. See note 1 and note 2. NOTE 1: This allows the NFVO/API consumer to obtain the information contained in the latest \"result\" notification if it has not received it due to an  error or a wrongly configured subscription filter. NOTE 2: For a particular affected VL, there shall be as many  \"AffectedVirtualLink\" entries as needed for signalling the different  types of changes, i.e., one per virtual link and change type. For instance,  in the case of signaling affected VL instances involving the addition of a  particular VL instance with links ports, one \"AffectedVirtualLink\" entry  signals the addition of the VL by using the \"changeType\" attribute of  \"AffectedVirtualLink\" structure equal to \"ADDED\", and another \"AffectedVirtualLink\"  entry signals the addition of externally visible VNF link ports of the VL by using  the \"changeType\" equal to \"LINK_PORT_ADDED\". ")
+  @Schema(description = "Information about VL instances that were affected during the lifecycle operation. See note 1 and note 2. NOTE 1: This allows the NFVO/API consumer to obtain the information contained in the latest \"result\" notification if it has not received it due to an  error or a wrongly configured subscription filter. NOTE 2: For a particular affected VL, there shall be as many  \"AffectedVirtualLink\" entries as needed for signalling the different  types of changes, i.e., one per virtual link and change type. For instance,  in the case of signaling affected VL instances involving the addition of a  particular VL instance with links ports, one \"AffectedVirtualLink\" entry  signals the addition of the VL by using the \"changeType\" attribute of  \"AffectedVirtualLink\" structure equal to \"ADDED\", and another \"AffectedVirtualLink\"  entry signals the addition of externally visible VNF link ports of the VL by using  the \"changeType\" equal to \"LINK_PORT_ADDED\". ")
 
   @Valid
 
@@ -129,7 +128,7 @@ public class VnfLcmOpOccResourceChanges   {
    * Information about external VNF link ports that were affected during the lifecycle  operation. See note 1. NOTE 1: This allows the NFVO/API consumer to obtain the information contained in the latest \"result\" notification if it has not received it due to an error or a wrongly configured subscription  filter. 
    * @return affectedExtLinkPorts
   **/
-  @ApiModelProperty(value = "Information about external VNF link ports that were affected during the lifecycle  operation. See note 1. NOTE 1: This allows the NFVO/API consumer to obtain the information contained in the latest \"result\" notification if it has not received it due to an error or a wrongly configured subscription  filter. ")
+  @Schema(description = "Information about external VNF link ports that were affected during the lifecycle  operation. See note 1. NOTE 1: This allows the NFVO/API consumer to obtain the information contained in the latest \"result\" notification if it has not received it due to an error or a wrongly configured subscription  filter. ")
 
   @Valid
 
@@ -158,7 +157,7 @@ public class VnfLcmOpOccResourceChanges   {
    * Information about virtualised storage instances that were affected during the lifecycle operation. This allows the NFVO/API consumer to obtain the information contained in the latest \"result\" notification if it has not received it due to an error or a wrongly configured subscription filter. 
    * @return affectedVirtualStorages
   **/
-  @ApiModelProperty(value = "Information about virtualised storage instances that were affected during the lifecycle operation. This allows the NFVO/API consumer to obtain the information contained in the latest \"result\" notification if it has not received it due to an error or a wrongly configured subscription filter. ")
+  @Schema(description = "Information about virtualised storage instances that were affected during the lifecycle operation. This allows the NFVO/API consumer to obtain the information contained in the latest \"result\" notification if it has not received it due to an error or a wrongly configured subscription filter. ")
 
   @Valid
 
@@ -181,9 +180,9 @@ public class VnfLcmOpOccResourceChanges   {
     }
     VnfLcmOpOccResourceChanges vnfLcmOpOccResourceChanges = (VnfLcmOpOccResourceChanges) o;
     return Objects.equals(this.affectedVnfcs, vnfLcmOpOccResourceChanges.affectedVnfcs) &&
-        Objects.equals(this.affectedVirtualLinks, vnfLcmOpOccResourceChanges.affectedVirtualLinks) &&
-        Objects.equals(this.affectedExtLinkPorts, vnfLcmOpOccResourceChanges.affectedExtLinkPorts) &&
-        Objects.equals(this.affectedVirtualStorages, vnfLcmOpOccResourceChanges.affectedVirtualStorages);
+    Objects.equals(this.affectedVirtualLinks, vnfLcmOpOccResourceChanges.affectedVirtualLinks) &&
+    Objects.equals(this.affectedExtLinkPorts, vnfLcmOpOccResourceChanges.affectedExtLinkPorts) &&
+    Objects.equals(this.affectedVirtualStorages, vnfLcmOpOccResourceChanges.affectedVirtualStorages);
   }
 
   @Override
@@ -195,7 +194,7 @@ public class VnfLcmOpOccResourceChanges   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class VnfLcmOpOccResourceChanges {\n");
-    
+
     sb.append("    affectedVnfcs: ").append(toIndentedString(affectedVnfcs)).append("\n");
     sb.append("    affectedVirtualLinks: ").append(toIndentedString(affectedVirtualLinks)).append("\n");
     sb.append("    affectedExtLinkPorts: ").append(toIndentedString(affectedExtLinkPorts)).append("\n");

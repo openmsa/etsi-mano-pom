@@ -20,8 +20,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -31,7 +30,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type provides information about added, deleted and modified PNFs.  It shall comply with the provisions in Table 6.5.3.3-1. 
  */
-@ApiModel(description = "This type provides information about added, deleted and modified PNFs.  It shall comply with the provisions in Table 6.5.3.3-1. ")
+@Schema (description= "This type provides information about added, deleted and modified PNFs.  It shall comply with the provisions in Table 6.5.3.3-1. " )
 @Validated
 
 public class AffectedPnf   {
@@ -132,7 +131,7 @@ public class AffectedPnf   {
    * Identifier of the affected PNF. This identifier is allocated by the OSS/BSS. 
    * @return pnfId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the affected PNF. This identifier is allocated by the OSS/BSS. ")
+  @Schema(required = true , description = "Identifier of the affected PNF. This identifier is allocated by the OSS/BSS. ")
   @NotNull
 
 
@@ -153,7 +152,7 @@ public class AffectedPnf   {
    * Identifier of the PNFD on which the PNF is based. 
    * @return pnfdId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the PNFD on which the PNF is based. ")
+  @Schema(required = true , description = "Identifier of the PNFD on which the PNF is based. ")
   @NotNull
 
 
@@ -174,7 +173,7 @@ public class AffectedPnf   {
    * Identifier of the VNF profile of the NSD. 
    * @return pnfProfileId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the VNF profile of the NSD. ")
+  @Schema(required = true , description = "Identifier of the VNF profile of the NSD. ")
   @NotNull
 
 
@@ -195,7 +194,7 @@ public class AffectedPnf   {
    * Name of the PNF. 
    * @return pnfName
   **/
-  @ApiModelProperty(value = "Name of the PNF. ")
+  @Schema(description = "Name of the PNF. ")
 
 
   public String getPnfName() {
@@ -220,7 +219,7 @@ public class AffectedPnf   {
    * Identifier of the CP in the scope of the PNF. 
    * @return cpInstanceId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the CP in the scope of the PNF. ")
+  @Schema(required = true , description = "Identifier of the CP in the scope of the PNF. ")
   @NotNull
 
 
@@ -241,7 +240,7 @@ public class AffectedPnf   {
    * Signals the type of change. Permitted values: - ADD - REMOVE - MODIFY 
    * @return changeType
   **/
-  @ApiModelProperty(value = "Signals the type of change. Permitted values: - ADD - REMOVE - MODIFY ")
+  @Schema(description = "Signals the type of change. Permitted values: - ADD - REMOVE - MODIFY ")
 
 
   public ChangeTypeEnum getChangeType() {
@@ -261,7 +260,7 @@ public class AffectedPnf   {
    * Signals the result of change identified by the \"changeType\" attribute. Permitted values: - COMPLETED - ROLLED_BACK - FAILED 
    * @return changeResult
   **/
-  @ApiModelProperty(value = "Signals the result of change identified by the \"changeType\" attribute. Permitted values: - COMPLETED - ROLLED_BACK - FAILED ")
+  @Schema(description = "Signals the result of change identified by the \"changeType\" attribute. Permitted values: - COMPLETED - ROLLED_BACK - FAILED ")
 
 
   public ChangeResultEnum getChangeResult() {
@@ -283,12 +282,12 @@ public class AffectedPnf   {
     }
     AffectedPnf affectedPnf = (AffectedPnf) o;
     return Objects.equals(this.pnfId, affectedPnf.pnfId) &&
-        Objects.equals(this.pnfdId, affectedPnf.pnfdId) &&
-        Objects.equals(this.pnfProfileId, affectedPnf.pnfProfileId) &&
-        Objects.equals(this.pnfName, affectedPnf.pnfName) &&
-        Objects.equals(this.cpInstanceId, affectedPnf.cpInstanceId) &&
-        Objects.equals(this.changeType, affectedPnf.changeType) &&
-        Objects.equals(this.changeResult, affectedPnf.changeResult);
+    Objects.equals(this.pnfdId, affectedPnf.pnfdId) &&
+    Objects.equals(this.pnfProfileId, affectedPnf.pnfProfileId) &&
+    Objects.equals(this.pnfName, affectedPnf.pnfName) &&
+    Objects.equals(this.cpInstanceId, affectedPnf.cpInstanceId) &&
+    Objects.equals(this.changeType, affectedPnf.changeType) &&
+    Objects.equals(this.changeResult, affectedPnf.changeResult);
   }
 
   @Override
@@ -300,7 +299,7 @@ public class AffectedPnf   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class AffectedPnf {\n");
-    
+
     sb.append("    pnfId: ").append(toIndentedString(pnfId)).append("\n");
     sb.append("    pnfdId: ").append(toIndentedString(pnfdId)).append("\n");
     sb.append("    pnfProfileId: ").append(toIndentedString(pnfProfileId)).append("\n");

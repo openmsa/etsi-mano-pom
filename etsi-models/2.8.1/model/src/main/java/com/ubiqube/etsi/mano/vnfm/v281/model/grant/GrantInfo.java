@@ -19,8 +19,7 @@ package com.ubiqube.etsi.mano.vnfm.v281.model.grant;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -28,7 +27,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type contains information about a Compute, storage or network resource whose addition/update/deletion was granted. 
  */
-@ApiModel(description = "This type contains information about a Compute, storage or network resource whose addition/update/deletion was granted. ")
+@Schema (description= "This type contains information about a Compute, storage or network resource whose addition/update/deletion was granted. " )
 @Validated
 
 public class GrantInfo   {
@@ -59,7 +58,7 @@ public class GrantInfo   {
    * Identifier of the related \"ResourceDefinition\" structure from the related \"GrantRequest\" structure. 
    * @return resourceDefinitionId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the related \"ResourceDefinition\" structure from the related \"GrantRequest\" structure. ")
+  @Schema(required = true , description = "Identifier of the related \"ResourceDefinition\" structure from the related \"GrantRequest\" structure. ")
   @NotNull
 
 
@@ -80,7 +79,7 @@ public class GrantInfo   {
    * The reservation identifier applicable to the VNFC/VirtualLink/VirtualStorage. It shall be present for new resources when policy is GRANT_RESERVE_MULTI and an applicable reservation exists; shall not be present otherwise. 
    * @return reservationId
   **/
-  @ApiModelProperty(value = "The reservation identifier applicable to the VNFC/VirtualLink/VirtualStorage. It shall be present for new resources when policy is GRANT_RESERVE_MULTI and an applicable reservation exists; shall not be present otherwise. ")
+  @Schema(description = "The reservation identifier applicable to the VNFC/VirtualLink/VirtualStorage. It shall be present for new resources when policy is GRANT_RESERVE_MULTI and an applicable reservation exists; shall not be present otherwise. ")
 
 
   public String getReservationId() {
@@ -100,7 +99,7 @@ public class GrantInfo   {
    * Identifier of the VIM connection to be used to manage this resource. Shall be present for new resources, and shall be absent for resources that have already been allocated. The applicable \"VimConnectionInfo\" structure, which is referenced by vimConnectionId, can be obtained from the \"vimConnectionInfo\" attribute of the \"VnfInstance\" structure. This attribute shall only be supported when VNF-related Resource Management in direct mode is applicable. 
    * @return vimConnectionId
   **/
-  @ApiModelProperty(value = "Identifier of the VIM connection to be used to manage this resource. Shall be present for new resources, and shall be absent for resources that have already been allocated. The applicable \"VimConnectionInfo\" structure, which is referenced by vimConnectionId, can be obtained from the \"vimConnectionInfo\" attribute of the \"VnfInstance\" structure. This attribute shall only be supported when VNF-related Resource Management in direct mode is applicable. ")
+  @Schema(description = "Identifier of the VIM connection to be used to manage this resource. Shall be present for new resources, and shall be absent for resources that have already been allocated. The applicable \"VimConnectionInfo\" structure, which is referenced by vimConnectionId, can be obtained from the \"vimConnectionInfo\" attribute of the \"VnfInstance\" structure. This attribute shall only be supported when VNF-related Resource Management in direct mode is applicable. ")
 
 
   public String getVimConnectionId() {
@@ -120,7 +119,7 @@ public class GrantInfo   {
    * Identifies the entity responsible for the management of the virtualised resource. Shall be present for new resources, and shall be absent for resources that have already been allocated. This attribute shall only be supported when VNF-related Resource Management in indirect mode is applicable. The identification scheme is outside the scope of the present document. 
    * @return resourceProviderId
   **/
-  @ApiModelProperty(value = "Identifies the entity responsible for the management of the virtualised resource. Shall be present for new resources, and shall be absent for resources that have already been allocated. This attribute shall only be supported when VNF-related Resource Management in indirect mode is applicable. The identification scheme is outside the scope of the present document. ")
+  @Schema(description = "Identifies the entity responsible for the management of the virtualised resource. Shall be present for new resources, and shall be absent for resources that have already been allocated. This attribute shall only be supported when VNF-related Resource Management in indirect mode is applicable. The identification scheme is outside the scope of the present document. ")
 
 
   public String getResourceProviderId() {
@@ -140,7 +139,7 @@ public class GrantInfo   {
    * Reference to the identifier of the \"ZoneInfo\" structure in the \"Grant\" structure defining the resource zone into which this resource is to be placed. Shall be present for new resources if the zones concept is applicable to them (typically, Compute resources), and shall be absent for resources that have already been allocated. 
    * @return zoneId
   **/
-  @ApiModelProperty(value = "Reference to the identifier of the \"ZoneInfo\" structure in the \"Grant\" structure defining the resource zone into which this resource is to be placed. Shall be present for new resources if the zones concept is applicable to them (typically, Compute resources), and shall be absent for resources that have already been allocated. ")
+  @Schema(description = "Reference to the identifier of the \"ZoneInfo\" structure in the \"Grant\" structure defining the resource zone into which this resource is to be placed. Shall be present for new resources if the zones concept is applicable to them (typically, Compute resources), and shall be absent for resources that have already been allocated. ")
 
 
   public String getZoneId() {
@@ -160,7 +159,7 @@ public class GrantInfo   {
    * Identifier of the \"infrastructure resource group\", logical grouping of virtual resources assigned to a tenant within an Infrastructure Domain, to be provided when allocating the resource. If the VIM connection referenced by \"vimConnectionId\" applies to multiple infrastructure resource groups, this attribute shall be present for new resources. If the VIM connection referenced by \"vimConnectionId\" applies to a single infrastructure resource group, this attribute may be present for new resources. This attribute shall be absent for resources that have already been allocated. 
    * @return resourceGroupId
   **/
-  @ApiModelProperty(value = "Identifier of the \"infrastructure resource group\", logical grouping of virtual resources assigned to a tenant within an Infrastructure Domain, to be provided when allocating the resource. If the VIM connection referenced by \"vimConnectionId\" applies to multiple infrastructure resource groups, this attribute shall be present for new resources. If the VIM connection referenced by \"vimConnectionId\" applies to a single infrastructure resource group, this attribute may be present for new resources. This attribute shall be absent for resources that have already been allocated. ")
+  @Schema(description = "Identifier of the \"infrastructure resource group\", logical grouping of virtual resources assigned to a tenant within an Infrastructure Domain, to be provided when allocating the resource. If the VIM connection referenced by \"vimConnectionId\" applies to multiple infrastructure resource groups, this attribute shall be present for new resources. If the VIM connection referenced by \"vimConnectionId\" applies to a single infrastructure resource group, this attribute may be present for new resources. This attribute shall be absent for resources that have already been allocated. ")
 
 
   public String getResourceGroupId() {
@@ -182,11 +181,11 @@ public class GrantInfo   {
     }
     GrantInfo grantInfo = (GrantInfo) o;
     return Objects.equals(this.resourceDefinitionId, grantInfo.resourceDefinitionId) &&
-        Objects.equals(this.reservationId, grantInfo.reservationId) &&
-        Objects.equals(this.vimConnectionId, grantInfo.vimConnectionId) &&
-        Objects.equals(this.resourceProviderId, grantInfo.resourceProviderId) &&
-        Objects.equals(this.zoneId, grantInfo.zoneId) &&
-        Objects.equals(this.resourceGroupId, grantInfo.resourceGroupId);
+    Objects.equals(this.reservationId, grantInfo.reservationId) &&
+    Objects.equals(this.vimConnectionId, grantInfo.vimConnectionId) &&
+    Objects.equals(this.resourceProviderId, grantInfo.resourceProviderId) &&
+    Objects.equals(this.zoneId, grantInfo.zoneId) &&
+    Objects.equals(this.resourceGroupId, grantInfo.resourceGroupId);
   }
 
   @Override
@@ -198,7 +197,7 @@ public class GrantInfo   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class GrantInfo {\n");
-    
+
     sb.append("    resourceDefinitionId: ").append(toIndentedString(resourceDefinitionId)).append("\n");
     sb.append("    reservationId: ").append(toIndentedString(reservationId)).append("\n");
     sb.append("    vimConnectionId: ").append(toIndentedString(vimConnectionId)).append("\n");

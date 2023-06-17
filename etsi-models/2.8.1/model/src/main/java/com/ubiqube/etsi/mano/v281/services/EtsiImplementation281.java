@@ -30,19 +30,19 @@ import com.ubiqube.etsi.mano.controller.AbstractEtsiImplementation;
 @Service
 public class EtsiImplementation281 extends AbstractEtsiImplementation {
 
-	@Override
-	public String getVersion() {
-		return "2.8.1";
-	}
+  @Override
+  public String getVersion() {
+    return "2.8.1";
+  }
 
-	@Override
-	public boolean isDeprecated() {
-		return false;
-	}
+  @Override
+  public boolean isDeprecated() {
+    return false;
+  }
 
-	@Override
-	public OffsetDateTime getRetirementDate() {
-		return null;
-	}
+  @Override
+  public OffsetDateTime getRetirementDate() {
+    return null;
+  }
 
 }

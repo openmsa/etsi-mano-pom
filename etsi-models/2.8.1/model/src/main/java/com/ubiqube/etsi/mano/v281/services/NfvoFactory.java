@@ -27,8 +27,8 @@ import com.ubiqube.etsi.mano.service.event.model.EventMessage;
  */
 public interface NfvoFactory {
 
-	Object createNotificationVnfPackageOnboardingNotification(final UUID subscriptionId, EventMessage eventMessage);
+  Object createNotificationVnfPackageOnboardingNotification(final UUID subscriptionId, EventMessage eventMessage);
 
-	Object createVnfPackageChangeNotification(final UUID subscriptionId, EventMessage eventMessage);
+  Object createVnfPackageChangeNotification(final UUID subscriptionId, EventMessage eventMessage);
 
 }

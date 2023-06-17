@@ -21,8 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.IpOverEthernetAddressDataAddressRange;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -91,7 +90,7 @@ public class IpOverEthernetAddressDataIpAddresses   {
    * The type of the IP addresses. Permitted values: IPV4, IPV6. 
    * @return type
   **/
-  @ApiModelProperty(required = true, value = "The type of the IP addresses. Permitted values: IPV4, IPV6. ")
+  @Schema(required = true , description = "The type of the IP addresses. Permitted values: IPV4, IPV6. ")
   @NotNull
 
 
@@ -120,7 +119,7 @@ public class IpOverEthernetAddressDataIpAddresses   {
    * Fixed addresses to assign (from the subnet defined by \"subnetId\" if provided). Exactly one of \"fixedAddresses\", \"numDynamicAddresses\" or \"ipAddressRange\" shall be present. 
    * @return fixedAddresses
   **/
-  @ApiModelProperty(value = "Fixed addresses to assign (from the subnet defined by \"subnetId\" if provided). Exactly one of \"fixedAddresses\", \"numDynamicAddresses\" or \"ipAddressRange\" shall be present. ")
+  @Schema(description = "Fixed addresses to assign (from the subnet defined by \"subnetId\" if provided). Exactly one of \"fixedAddresses\", \"numDynamicAddresses\" or \"ipAddressRange\" shall be present. ")
 
 
   public List<String> getFixedAddresses() {
@@ -140,7 +139,7 @@ public class IpOverEthernetAddressDataIpAddresses   {
    * Number of dynamic addresses to assign (from the subnet defined by \"subnetId\" if provided). Exactly one of \"fixedAddresses\", \"numDynamicAddresses\" or \"ipAddressRange\" shall be present. 
    * @return numDynamicAddresses
   **/
-  @ApiModelProperty(value = "Number of dynamic addresses to assign (from the subnet defined by \"subnetId\" if provided). Exactly one of \"fixedAddresses\", \"numDynamicAddresses\" or \"ipAddressRange\" shall be present. ")
+  @Schema(description = "Number of dynamic addresses to assign (from the subnet defined by \"subnetId\" if provided). Exactly one of \"fixedAddresses\", \"numDynamicAddresses\" or \"ipAddressRange\" shall be present. ")
 
 
   public Integer getNumDynamicAddresses() {
@@ -160,7 +159,7 @@ public class IpOverEthernetAddressDataIpAddresses   {
    * Get addressRange
    * @return addressRange
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   @Valid
 
@@ -181,7 +180,7 @@ public class IpOverEthernetAddressDataIpAddresses   {
    * Subnet defined by the identifier of the subnet resource in the VIM. In case this attribute is present, IP addresses from that subnet will be assigned; otherwise, IP addresses not bound to a subnet will be assigned. 
    * @return subnetId
   **/
-  @ApiModelProperty(value = "Subnet defined by the identifier of the subnet resource in the VIM. In case this attribute is present, IP addresses from that subnet will be assigned; otherwise, IP addresses not bound to a subnet will be assigned. ")
+  @Schema(description = "Subnet defined by the identifier of the subnet resource in the VIM. In case this attribute is present, IP addresses from that subnet will be assigned; otherwise, IP addresses not bound to a subnet will be assigned. ")
 
 
   public String getSubnetId() {
@@ -203,10 +202,10 @@ public class IpOverEthernetAddressDataIpAddresses   {
     }
     IpOverEthernetAddressDataIpAddresses ipOverEthernetAddressDataIpAddresses = (IpOverEthernetAddressDataIpAddresses) o;
     return Objects.equals(this.type, ipOverEthernetAddressDataIpAddresses.type) &&
-        Objects.equals(this.fixedAddresses, ipOverEthernetAddressDataIpAddresses.fixedAddresses) &&
-        Objects.equals(this.numDynamicAddresses, ipOverEthernetAddressDataIpAddresses.numDynamicAddresses) &&
-        Objects.equals(this.addressRange, ipOverEthernetAddressDataIpAddresses.addressRange) &&
-        Objects.equals(this.subnetId, ipOverEthernetAddressDataIpAddresses.subnetId);
+    Objects.equals(this.fixedAddresses, ipOverEthernetAddressDataIpAddresses.fixedAddresses) &&
+    Objects.equals(this.numDynamicAddresses, ipOverEthernetAddressDataIpAddresses.numDynamicAddresses) &&
+    Objects.equals(this.addressRange, ipOverEthernetAddressDataIpAddresses.addressRange) &&
+    Objects.equals(this.subnetId, ipOverEthernetAddressDataIpAddresses.subnetId);
   }
 
   @Override
@@ -218,7 +217,7 @@ public class IpOverEthernetAddressDataIpAddresses   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class IpOverEthernetAddressDataIpAddresses {\n");
-    
+
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    fixedAddresses: ").append(toIndentedString(fixedAddresses)).append("\n");
     sb.append("    numDynamicAddresses: ").append(toIndentedString(numDynamicAddresses)).append("\n");

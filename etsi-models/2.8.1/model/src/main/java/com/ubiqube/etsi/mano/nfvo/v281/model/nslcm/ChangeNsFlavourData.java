@@ -19,8 +19,7 @@ package com.ubiqube.etsi.mano.nfvo.v281.model.nslcm;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -28,7 +27,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type specifies an existing NS instance for which the DF needs to be changed. This specifies the new DF, the instantiationLevel of the new DF that may be used and the additional parameters as input for the flavour change. It shall comply with the provisions defined in Table 6.5.3.39-1. 
  */
-@ApiModel(description = "This type specifies an existing NS instance for which the DF needs to be changed. This specifies the new DF, the instantiationLevel of the new DF that may be used and the additional parameters as input for the flavour change. It shall comply with the provisions defined in Table 6.5.3.39-1. ")
+@Schema (description= "This type specifies an existing NS instance for which the DF needs to be changed. This specifies the new DF, the instantiationLevel of the new DF that may be used and the additional parameters as input for the flavour change. It shall comply with the provisions defined in Table 6.5.3.39-1. " )
 @Validated
 
 public class ChangeNsFlavourData   {
@@ -47,7 +46,7 @@ public class ChangeNsFlavourData   {
    * Identifier of the new NS DF to apply to this NS instance. 
    * @return newNsFlavourId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the new NS DF to apply to this NS instance. ")
+  @Schema(required = true , description = "Identifier of the new NS DF to apply to this NS instance. ")
   @NotNull
 
 
@@ -68,7 +67,7 @@ public class ChangeNsFlavourData   {
    * Identifier of the instantiation level of the deployment flavour to be instantiated. If not present, the default instantiation level as declared in the NSD is instantiated. 
    * @return instantiationLevelId
   **/
-  @ApiModelProperty(value = "Identifier of the instantiation level of the deployment flavour to be instantiated. If not present, the default instantiation level as declared in the NSD is instantiated. ")
+  @Schema(description = "Identifier of the instantiation level of the deployment flavour to be instantiated. If not present, the default instantiation level as declared in the NSD is instantiated. ")
 
 
   public String getInstantiationLevelId() {
@@ -90,7 +89,7 @@ public class ChangeNsFlavourData   {
     }
     ChangeNsFlavourData changeNsFlavourData = (ChangeNsFlavourData) o;
     return Objects.equals(this.newNsFlavourId, changeNsFlavourData.newNsFlavourId) &&
-        Objects.equals(this.instantiationLevelId, changeNsFlavourData.instantiationLevelId);
+    Objects.equals(this.instantiationLevelId, changeNsFlavourData.instantiationLevelId);
   }
 
   @Override
@@ -102,7 +101,7 @@ public class ChangeNsFlavourData   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ChangeNsFlavourData {\n");
-    
+
     sb.append("    newNsFlavourId: ").append(toIndentedString(newNsFlavourId)).append("\n");
     sb.append("    instantiationLevelId: ").append(toIndentedString(instantiationLevelId)).append("\n");
     sb.append("}");

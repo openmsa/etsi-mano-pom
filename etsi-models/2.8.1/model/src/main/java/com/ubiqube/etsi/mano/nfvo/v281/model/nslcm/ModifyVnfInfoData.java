@@ -20,8 +20,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Map;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -29,7 +28,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents the information that is requested to be modified for a VNF instance. The information to be modified shall comply with the associated NSD. EXAMPLE. The vnfPkgId attribute value for a particular VNF instance can only be updated with a value that matches the identifier value of a VNF package whose vnfdId is present in the associated profile of the NSD. 
  */
-@ApiModel(description = "This type represents the information that is requested to be modified for a VNF instance. The information to be modified shall comply with the associated NSD. EXAMPLE. The vnfPkgId attribute value for a particular VNF instance can only be updated with a value that matches the identifier value of a VNF package whose vnfdId is present in the associated profile of the NSD. ")
+@Schema (description= "This type represents the information that is requested to be modified for a VNF instance. The information to be modified shall comply with the associated NSD. EXAMPLE. The vnfPkgId attribute value for a particular VNF instance can only be updated with a value that matches the identifier value of a VNF package whose vnfdId is present in the associated profile of the NSD. " )
 @Validated
 
 public class ModifyVnfInfoData   {
@@ -63,7 +62,7 @@ public class ModifyVnfInfoData   {
    * Identifier of the VNF instance. 
    * @return vnfInstanceId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the VNF instance. ")
+  @Schema(required = true , description = "Identifier of the VNF instance. ")
   @NotNull
 
 
@@ -84,7 +83,7 @@ public class ModifyVnfInfoData   {
    * New value of the \"vnfInstanceName\" attribute in \"VnfInstance\", or \"null\" to remove the attribute. 
    * @return vnfInstanceName
   **/
-  @ApiModelProperty(value = "New value of the \"vnfInstanceName\" attribute in \"VnfInstance\", or \"null\" to remove the attribute. ")
+  @Schema(description = "New value of the \"vnfInstanceName\" attribute in \"VnfInstance\", or \"null\" to remove the attribute. ")
 
 
   public String getVnfInstanceName() {
@@ -104,7 +103,7 @@ public class ModifyVnfInfoData   {
    * New value of the \"vnfInstanceDescription\" attribute in \"VnfInstance\", or \"null\" to remove the attribute. 
    * @return vnfInstanceDescription
   **/
-  @ApiModelProperty(value = "New value of the \"vnfInstanceDescription\" attribute in \"VnfInstance\", or \"null\" to remove the attribute. ")
+  @Schema(description = "New value of the \"vnfInstanceDescription\" attribute in \"VnfInstance\", or \"null\" to remove the attribute. ")
 
 
   public String getVnfInstanceDescription() {
@@ -124,7 +123,7 @@ public class ModifyVnfInfoData   {
    * New value of the \"vnfdId\" attribute in \"VnfInstance\". The value \"null\" is not permitted 
    * @return vnfdId
   **/
-  @ApiModelProperty(value = "New value of the \"vnfdId\" attribute in \"VnfInstance\". The value \"null\" is not permitted ")
+  @Schema(description = "New value of the \"vnfdId\" attribute in \"VnfInstance\". The value \"null\" is not permitted ")
 
 
   public String getVnfdId() {
@@ -144,7 +143,7 @@ public class ModifyVnfInfoData   {
    * Modifications to entries in the \"vnfConfigurableProperties\" attribute in \"VnfInstance\", as defined below in clause 6.5.3.57. 
    * @return vnfConfigurableProperties
   **/
-  @ApiModelProperty(value = "Modifications to entries in the \"vnfConfigurableProperties\" attribute in \"VnfInstance\", as defined below in clause 6.5.3.57. ")
+  @Schema(description = "Modifications to entries in the \"vnfConfigurableProperties\" attribute in \"VnfInstance\", as defined below in clause 6.5.3.57. ")
 
   @Valid
 
@@ -165,7 +164,7 @@ public class ModifyVnfInfoData   {
    * Modifications to entries in the \"metadata\" attribute in \"VnfInstance\", as defined below in clause 6.5.3.57. 
    * @return metadata
   **/
-  @ApiModelProperty(value = "Modifications to entries in the \"metadata\" attribute in \"VnfInstance\", as defined below in clause 6.5.3.57. ")
+  @Schema(description = "Modifications to entries in the \"metadata\" attribute in \"VnfInstance\", as defined below in clause 6.5.3.57. ")
 
   @Valid
 
@@ -186,7 +185,7 @@ public class ModifyVnfInfoData   {
    * Modifications to entries in the \"extensions\" attribute in \"VnfInstance\", as defined below in clause 6.5.3.57. 
    * @return extensions
   **/
-  @ApiModelProperty(value = "Modifications to entries in the \"extensions\" attribute in \"VnfInstance\", as defined below in clause 6.5.3.57. ")
+  @Schema(description = "Modifications to entries in the \"extensions\" attribute in \"VnfInstance\", as defined below in clause 6.5.3.57. ")
 
   @Valid
 
@@ -209,12 +208,12 @@ public class ModifyVnfInfoData   {
     }
     ModifyVnfInfoData modifyVnfInfoData = (ModifyVnfInfoData) o;
     return Objects.equals(this.vnfInstanceId, modifyVnfInfoData.vnfInstanceId) &&
-        Objects.equals(this.vnfInstanceName, modifyVnfInfoData.vnfInstanceName) &&
-        Objects.equals(this.vnfInstanceDescription, modifyVnfInfoData.vnfInstanceDescription) &&
-        Objects.equals(this.vnfdId, modifyVnfInfoData.vnfdId) &&
-        Objects.equals(this.vnfConfigurableProperties, modifyVnfInfoData.vnfConfigurableProperties) &&
-        Objects.equals(this.metadata, modifyVnfInfoData.metadata) &&
-        Objects.equals(this.extensions, modifyVnfInfoData.extensions);
+    Objects.equals(this.vnfInstanceName, modifyVnfInfoData.vnfInstanceName) &&
+    Objects.equals(this.vnfInstanceDescription, modifyVnfInfoData.vnfInstanceDescription) &&
+    Objects.equals(this.vnfdId, modifyVnfInfoData.vnfdId) &&
+    Objects.equals(this.vnfConfigurableProperties, modifyVnfInfoData.vnfConfigurableProperties) &&
+    Objects.equals(this.metadata, modifyVnfInfoData.metadata) &&
+    Objects.equals(this.extensions, modifyVnfInfoData.extensions);
   }
 
   @Override
@@ -226,7 +225,7 @@ public class ModifyVnfInfoData   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ModifyVnfInfoData {\n");
-    
+
     sb.append("    vnfInstanceId: ").append(toIndentedString(vnfInstanceId)).append("\n");
     sb.append("    vnfInstanceName: ").append(toIndentedString(vnfInstanceName)).append("\n");
     sb.append("    vnfInstanceDescription: ").append(toIndentedString(vnfInstanceDescription)).append("\n");

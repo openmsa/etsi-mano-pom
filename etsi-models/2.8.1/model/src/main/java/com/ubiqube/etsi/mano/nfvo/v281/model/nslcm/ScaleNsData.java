@@ -24,8 +24,7 @@ import com.ubiqube.etsi.mano.nfvo.v281.model.nslcm.ScaleNsByStepsData;
 import com.ubiqube.etsi.mano.nfvo.v281.model.nslcm.ScaleNsToLevelData;
 import com.ubiqube.etsi.mano.nfvo.v281.model.nslcm.VnfInstanceData;
 import com.ubiqube.etsi.mano.nfvo.v281.model.nslcm.VnfLocationConstraint;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -35,7 +34,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents the information to scale a NS. 
  */
-@ApiModel(description = "This type represents the information to scale a NS. ")
+@Schema (description= "This type represents the information to scale a NS. " )
 @Validated
 
 public class ScaleNsData   {
@@ -81,7 +80,7 @@ public class ScaleNsData   {
    * An existing VNF instance to be added to the NS instance as part of the scaling operation. If needed, the VNF Profile to be used for this VNF instance may also be provided. See note 1, note 2 and note 3. NOTE 1: No more than two attributes between vnfInstanceToBeAdded, vnfInstanceToBeRemoved, scaleNsByStepsData and scaleNsToLevelData shall be present. In case of two, the attributes shall be vnfInstanceToBeAdded and vnfInstanceToBeRemoved. NOTE 2: The DF of the VNF instance shall match the VNF DF present in the associated VNF Profile of the new NS flavour. NOTE 3: This functionality is the same as the one provided by the Update NS operation when the AddVnf update type is selected (see clause 7.3.5). 
    * @return vnfInstanceToBeAdded
   **/
-  @ApiModelProperty(value = "An existing VNF instance to be added to the NS instance as part of the scaling operation. If needed, the VNF Profile to be used for this VNF instance may also be provided. See note 1, note 2 and note 3. NOTE 1: No more than two attributes between vnfInstanceToBeAdded, vnfInstanceToBeRemoved, scaleNsByStepsData and scaleNsToLevelData shall be present. In case of two, the attributes shall be vnfInstanceToBeAdded and vnfInstanceToBeRemoved. NOTE 2: The DF of the VNF instance shall match the VNF DF present in the associated VNF Profile of the new NS flavour. NOTE 3: This functionality is the same as the one provided by the Update NS operation when the AddVnf update type is selected (see clause 7.3.5). ")
+  @Schema(description = "An existing VNF instance to be added to the NS instance as part of the scaling operation. If needed, the VNF Profile to be used for this VNF instance may also be provided. See note 1, note 2 and note 3. NOTE 1: No more than two attributes between vnfInstanceToBeAdded, vnfInstanceToBeRemoved, scaleNsByStepsData and scaleNsToLevelData shall be present. In case of two, the attributes shall be vnfInstanceToBeAdded and vnfInstanceToBeRemoved. NOTE 2: The DF of the VNF instance shall match the VNF DF present in the associated VNF Profile of the new NS flavour. NOTE 3: This functionality is the same as the one provided by the Update NS operation when the AddVnf update type is selected (see clause 7.3.5). ")
 
   @Valid
 
@@ -110,7 +109,7 @@ public class ScaleNsData   {
    * The VNF instance to be removed from the NS instance as part of the scaling operation. See note 1 and note 4. NOTE 1: No more than two attributes between vnfInstanceToBeAdded, vnfInstanceToBeRemoved, scaleNsByStepsData and scaleNsToLevelData shall be present. In case of two, the attributes shall be vnfInstanceToBeAdded and vnfInstanceToBeRemoved. NOTE 4: This functionality is the same as the one provided by the Update NS operation when the RemoveVnf update type is selected (see clause 7.3.5). 
    * @return vnfInstanceToBeRemoved
   **/
-  @ApiModelProperty(value = "The VNF instance to be removed from the NS instance as part of the scaling operation. See note 1 and note 4. NOTE 1: No more than two attributes between vnfInstanceToBeAdded, vnfInstanceToBeRemoved, scaleNsByStepsData and scaleNsToLevelData shall be present. In case of two, the attributes shall be vnfInstanceToBeAdded and vnfInstanceToBeRemoved. NOTE 4: This functionality is the same as the one provided by the Update NS operation when the RemoveVnf update type is selected (see clause 7.3.5). ")
+  @Schema(description = "The VNF instance to be removed from the NS instance as part of the scaling operation. See note 1 and note 4. NOTE 1: No more than two attributes between vnfInstanceToBeAdded, vnfInstanceToBeRemoved, scaleNsByStepsData and scaleNsToLevelData shall be present. In case of two, the attributes shall be vnfInstanceToBeAdded and vnfInstanceToBeRemoved. NOTE 4: This functionality is the same as the one provided by the Update NS operation when the RemoveVnf update type is selected (see clause 7.3.5). ")
 
 
   public List<String> getVnfInstanceToBeRemoved() {
@@ -130,7 +129,7 @@ public class ScaleNsData   {
    * The information used to scale an NS instance by one or more scaling steps. NOTE 1: No more than two attributes between vnfInstanceToBeAdded, vnfInstanceToBeRemoved, scaleNsByStepsData and scaleNsToLevelData shall be present. In case of two, the attributes shall be vnfInstanceToBeAdded and vnfInstanceToBeRemoved. 
    * @return scaleNsByStepsData
   **/
-  @ApiModelProperty(value = "The information used to scale an NS instance by one or more scaling steps. NOTE 1: No more than two attributes between vnfInstanceToBeAdded, vnfInstanceToBeRemoved, scaleNsByStepsData and scaleNsToLevelData shall be present. In case of two, the attributes shall be vnfInstanceToBeAdded and vnfInstanceToBeRemoved. ")
+  @Schema(description = "The information used to scale an NS instance by one or more scaling steps. NOTE 1: No more than two attributes between vnfInstanceToBeAdded, vnfInstanceToBeRemoved, scaleNsByStepsData and scaleNsToLevelData shall be present. In case of two, the attributes shall be vnfInstanceToBeAdded and vnfInstanceToBeRemoved. ")
 
   @Valid
 
@@ -151,7 +150,7 @@ public class ScaleNsData   {
    * The information used to scale an NS instance to a target size. NOTE 1: No more than two attributes between vnfInstanceToBeAdded, vnfInstanceToBeRemoved, scaleNsByStepsData and scaleNsToLevelData shall be present. In case of two, the attributes shall be vnfInstanceToBeAdded and vnfInstanceToBeRemoved. 
    * @return scaleNsToLevelData
   **/
-  @ApiModelProperty(value = "The information used to scale an NS instance to a target size. NOTE 1: No more than two attributes between vnfInstanceToBeAdded, vnfInstanceToBeRemoved, scaleNsByStepsData and scaleNsToLevelData shall be present. In case of two, the attributes shall be vnfInstanceToBeAdded and vnfInstanceToBeRemoved. ")
+  @Schema(description = "The information used to scale an NS instance to a target size. NOTE 1: No more than two attributes between vnfInstanceToBeAdded, vnfInstanceToBeRemoved, scaleNsByStepsData and scaleNsToLevelData shall be present. In case of two, the attributes shall be vnfInstanceToBeAdded and vnfInstanceToBeRemoved. ")
 
   @Valid
 
@@ -172,7 +171,7 @@ public class ScaleNsData   {
    * Allows the OSS/BSS to provide additional parameter(s) at the NS level necessary for the NS scaling (as opposed to the VNF level, which is covered in additionalParamForVnf). 
    * @return additionalParamsForNs
   **/
-  @ApiModelProperty(value = "Allows the OSS/BSS to provide additional parameter(s) at the NS level necessary for the NS scaling (as opposed to the VNF level, which is covered in additionalParamForVnf). ")
+  @Schema(description = "Allows the OSS/BSS to provide additional parameter(s) at the NS level necessary for the NS scaling (as opposed to the VNF level, which is covered in additionalParamForVnf). ")
 
   @Valid
 
@@ -201,7 +200,7 @@ public class ScaleNsData   {
    * Allows the OSS/BSS to provide additional parameter(s) per VNF instance (as opposed to the NS level, which is covered in additionalParamforNs). This is for VNFs that are to be created by the NFVO as part of the NS scaling and not for existing VNF that are covered by the scaleVnfData. 
    * @return additionalParamsForVnf
   **/
-  @ApiModelProperty(value = "Allows the OSS/BSS to provide additional parameter(s) per VNF instance (as opposed to the NS level, which is covered in additionalParamforNs). This is for VNFs that are to be created by the NFVO as part of the NS scaling and not for existing VNF that are covered by the scaleVnfData. ")
+  @Schema(description = "Allows the OSS/BSS to provide additional parameter(s) per VNF instance (as opposed to the NS level, which is covered in additionalParamforNs). This is for VNFs that are to be created by the NFVO as part of the NS scaling and not for existing VNF that are covered by the scaleVnfData. ")
 
   @Valid
 
@@ -230,7 +229,7 @@ public class ScaleNsData   {
    * The location constraints for the VNF to be instantiated as part of the NS scaling. An example can be a constraint for the VNF to be in a specific geographic location. 
    * @return locationConstraints
   **/
-  @ApiModelProperty(value = "The location constraints for the VNF to be instantiated as part of the NS scaling. An example can be a constraint for the VNF to be in a specific geographic location. ")
+  @Schema(description = "The location constraints for the VNF to be instantiated as part of the NS scaling. An example can be a constraint for the VNF to be in a specific geographic location. ")
 
   @Valid
 
@@ -253,12 +252,12 @@ public class ScaleNsData   {
     }
     ScaleNsData scaleNsData = (ScaleNsData) o;
     return Objects.equals(this.vnfInstanceToBeAdded, scaleNsData.vnfInstanceToBeAdded) &&
-        Objects.equals(this.vnfInstanceToBeRemoved, scaleNsData.vnfInstanceToBeRemoved) &&
-        Objects.equals(this.scaleNsByStepsData, scaleNsData.scaleNsByStepsData) &&
-        Objects.equals(this.scaleNsToLevelData, scaleNsData.scaleNsToLevelData) &&
-        Objects.equals(this.additionalParamsForNs, scaleNsData.additionalParamsForNs) &&
-        Objects.equals(this.additionalParamsForVnf, scaleNsData.additionalParamsForVnf) &&
-        Objects.equals(this.locationConstraints, scaleNsData.locationConstraints);
+    Objects.equals(this.vnfInstanceToBeRemoved, scaleNsData.vnfInstanceToBeRemoved) &&
+    Objects.equals(this.scaleNsByStepsData, scaleNsData.scaleNsByStepsData) &&
+    Objects.equals(this.scaleNsToLevelData, scaleNsData.scaleNsToLevelData) &&
+    Objects.equals(this.additionalParamsForNs, scaleNsData.additionalParamsForNs) &&
+    Objects.equals(this.additionalParamsForVnf, scaleNsData.additionalParamsForVnf) &&
+    Objects.equals(this.locationConstraints, scaleNsData.locationConstraints);
   }
 
   @Override
@@ -270,7 +269,7 @@ public class ScaleNsData   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ScaleNsData {\n");
-    
+
     sb.append("    vnfInstanceToBeAdded: ").append(toIndentedString(vnfInstanceToBeAdded)).append("\n");
     sb.append("    vnfInstanceToBeRemoved: ").append(toIndentedString(vnfInstanceToBeRemoved)).append("\n");
     sb.append("    scaleNsByStepsData: ").append(toIndentedString(scaleNsByStepsData)).append("\n");

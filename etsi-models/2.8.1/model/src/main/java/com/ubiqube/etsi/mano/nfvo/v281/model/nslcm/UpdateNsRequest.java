@@ -35,8 +35,7 @@ import com.ubiqube.etsi.mano.nfvo.v281.model.nslcm.OperateVnfData;
 import com.ubiqube.etsi.mano.nfvo.v281.model.nslcm.SapData;
 import com.ubiqube.etsi.mano.nfvo.v281.model.nslcm.UpdateVnffgData;
 import com.ubiqube.etsi.mano.nfvo.v281.model.nslcm.VnfInstanceData;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +46,7 @@ import jakarta.validation.constraints.*;
 /**
  * This operation supports the update of a NS instance,  It shall comply with the provisions defined in Table 6.5.2.12-1. 
  */
-@ApiModel(description = "This operation supports the update of a NS instance,  It shall comply with the provisions defined in Table 6.5.2.12-1. ")
+@Schema (description= "This operation supports the update of a NS instance,  It shall comply with the provisions defined in Table 6.5.2.12-1. " )
 @Validated
 
 public class UpdateNsRequest   {
@@ -211,7 +210,7 @@ public class UpdateNsRequest   {
    * The type of update. It determines also which one of the following parameters is present in the operation. Possible values include: * ADD_VNF: Adding existing VNF instance(s) * REMOVE_VNF: Removing VNF instance(s) * INSTANTIATE_VNF: Instantiating new VNF(s) * CHANGE_VNF_DF: Changing VNF DF * OPERATE_VNF: Changing VNF state, * MODIFY_VNF_INFORMATION: Modifying VNF information and/or the configurable properties of VNF instance(s) * CHANGE_EXTERNAL_VNF_CONNECTIVITY: Changing the external connectivity of VNF instance(s) * ADD_SAP: Adding SAP(s) * REMOVE_SAP: Removing SAP(s) * ADD_NESTED_NS: Adding existing NS instance(s) as nested NS(s) * REMOVE_NESTED_NS: Removing existing nested NS instance(s) * ASSOC_NEW_NSD_VERSION: Associating a new NSD version to the NS instance * MOVE_VNF: Moving VNF instance(s) from one origin NS instance to another target NS instance * ADD_VNFFG: Adding VNFFG(s) * REMOVE_VNFFG: Removing VNFFG(s) * UPDATE_VNFFG: Updating VNFFG(s) * CHANGE_NS_DF: Changing NS DF * ADD_PNF: Adding PNF * MODIFY_PNF: Modifying PNF * REMOVE_PNF: Removing PNF 
    * @return updateType
   **/
-  @ApiModelProperty(required = true, value = "The type of update. It determines also which one of the following parameters is present in the operation. Possible values include: * ADD_VNF: Adding existing VNF instance(s) * REMOVE_VNF: Removing VNF instance(s) * INSTANTIATE_VNF: Instantiating new VNF(s) * CHANGE_VNF_DF: Changing VNF DF * OPERATE_VNF: Changing VNF state, * MODIFY_VNF_INFORMATION: Modifying VNF information and/or the configurable properties of VNF instance(s) * CHANGE_EXTERNAL_VNF_CONNECTIVITY: Changing the external connectivity of VNF instance(s) * ADD_SAP: Adding SAP(s) * REMOVE_SAP: Removing SAP(s) * ADD_NESTED_NS: Adding existing NS instance(s) as nested NS(s) * REMOVE_NESTED_NS: Removing existing nested NS instance(s) * ASSOC_NEW_NSD_VERSION: Associating a new NSD version to the NS instance * MOVE_VNF: Moving VNF instance(s) from one origin NS instance to another target NS instance * ADD_VNFFG: Adding VNFFG(s) * REMOVE_VNFFG: Removing VNFFG(s) * UPDATE_VNFFG: Updating VNFFG(s) * CHANGE_NS_DF: Changing NS DF * ADD_PNF: Adding PNF * MODIFY_PNF: Modifying PNF * REMOVE_PNF: Removing PNF ")
+  @Schema(required = true , description = "The type of update. It determines also which one of the following parameters is present in the operation. Possible values include: * ADD_VNF: Adding existing VNF instance(s) * REMOVE_VNF: Removing VNF instance(s) * INSTANTIATE_VNF: Instantiating new VNF(s) * CHANGE_VNF_DF: Changing VNF DF * OPERATE_VNF: Changing VNF state, * MODIFY_VNF_INFORMATION: Modifying VNF information and/or the configurable properties of VNF instance(s) * CHANGE_EXTERNAL_VNF_CONNECTIVITY: Changing the external connectivity of VNF instance(s) * ADD_SAP: Adding SAP(s) * REMOVE_SAP: Removing SAP(s) * ADD_NESTED_NS: Adding existing NS instance(s) as nested NS(s) * REMOVE_NESTED_NS: Removing existing nested NS instance(s) * ASSOC_NEW_NSD_VERSION: Associating a new NSD version to the NS instance * MOVE_VNF: Moving VNF instance(s) from one origin NS instance to another target NS instance * ADD_VNFFG: Adding VNFFG(s) * REMOVE_VNFFG: Removing VNFFG(s) * UPDATE_VNFFG: Updating VNFFG(s) * CHANGE_NS_DF: Changing NS DF * ADD_PNF: Adding PNF * MODIFY_PNF: Modifying PNF * REMOVE_PNF: Removing PNF ")
   @NotNull
 
 
@@ -240,7 +239,7 @@ public class UpdateNsRequest   {
    * Identifies an existing VNF instance to be added to the NS instance. It shall be present only if updateType = \"ADD_VNF\".          
    * @return addVnfIstance
   **/
-  @ApiModelProperty(value = "Identifies an existing VNF instance to be added to the NS instance. It shall be present only if updateType = \"ADD_VNF\".          ")
+  @Schema(description = "Identifies an existing VNF instance to be added to the NS instance. It shall be present only if updateType = \"ADD_VNF\".          ")
 
   @Valid
 
@@ -269,7 +268,7 @@ public class UpdateNsRequest   {
    * Identifies an existing VNF instance to be removed from the NS instance. It contains the identifier(s) of the VNF instances to be removed. It shall be present only if updateType = \"REMOVE_VNF.\" Note: If a VNF instance is removed from a NS and this NS was the last one for which this VNF instance was a part, the VNF instance is terminated by the NFVO. 
    * @return removeVnfInstanceId
   **/
-  @ApiModelProperty(value = "Identifies an existing VNF instance to be removed from the NS instance. It contains the identifier(s) of the VNF instances to be removed. It shall be present only if updateType = \"REMOVE_VNF.\" Note: If a VNF instance is removed from a NS and this NS was the last one for which this VNF instance was a part, the VNF instance is terminated by the NFVO. ")
+  @Schema(description = "Identifies an existing VNF instance to be removed from the NS instance. It contains the identifier(s) of the VNF instances to be removed. It shall be present only if updateType = \"REMOVE_VNF.\" Note: If a VNF instance is removed from a NS and this NS was the last one for which this VNF instance was a part, the VNF instance is terminated by the NFVO. ")
 
 
   public List<String> getRemoveVnfInstanceId() {
@@ -297,7 +296,7 @@ public class UpdateNsRequest   {
    * Identifies the new VNF to be instantiated. It can be used e.g. for the bottom-up NS creation. It shall be present only if updateType = \"INSTANTIATE_VNF\". 
    * @return instantiateVnfData
   **/
-  @ApiModelProperty(value = "Identifies the new VNF to be instantiated. It can be used e.g. for the bottom-up NS creation. It shall be present only if updateType = \"INSTANTIATE_VNF\". ")
+  @Schema(description = "Identifies the new VNF to be instantiated. It can be used e.g. for the bottom-up NS creation. It shall be present only if updateType = \"INSTANTIATE_VNF\". ")
 
   @Valid
 
@@ -326,7 +325,7 @@ public class UpdateNsRequest   {
    * Identifies the new DF of the VNF instance to be changed to. It shall be present only if updateType = \"CHANGE_VNF_DF\". 
    * @return changeVnfFlavourData
   **/
-  @ApiModelProperty(value = "Identifies the new DF of the VNF instance to be changed to. It shall be present only if updateType = \"CHANGE_VNF_DF\". ")
+  @Schema(description = "Identifies the new DF of the VNF instance to be changed to. It shall be present only if updateType = \"CHANGE_VNF_DF\". ")
 
   @Valid
 
@@ -355,7 +354,7 @@ public class UpdateNsRequest   {
    * Identifies the state of the VNF instance to be changed.  It shall be present only if updateType = \"OPERATE_VNF\". 
    * @return operateVnfData
   **/
-  @ApiModelProperty(value = "Identifies the state of the VNF instance to be changed.  It shall be present only if updateType = \"OPERATE_VNF\". ")
+  @Schema(description = "Identifies the state of the VNF instance to be changed.  It shall be present only if updateType = \"OPERATE_VNF\". ")
 
   @Valid
 
@@ -384,7 +383,7 @@ public class UpdateNsRequest   {
    * Identifies the VNF information parameters and/or the configurable properties of VNF instance to be modified. It shall be present only if updateType = \"MODIFY_VNF_INFORMATION\". 
    * @return modifyVnfInfoData
   **/
-  @ApiModelProperty(value = "Identifies the VNF information parameters and/or the configurable properties of VNF instance to be modified. It shall be present only if updateType = \"MODIFY_VNF_INFORMATION\". ")
+  @Schema(description = "Identifies the VNF information parameters and/or the configurable properties of VNF instance to be modified. It shall be present only if updateType = \"MODIFY_VNF_INFORMATION\". ")
 
   @Valid
 
@@ -413,7 +412,7 @@ public class UpdateNsRequest   {
    * Specifies the new external connectivity data of the VNF instance to be changed. It shall be present only if updateType = \"CHANGE_EXTERNAL_VNF_CONNECTIVITY\". 
    * @return changeExtVnfConnectivityData
   **/
-  @ApiModelProperty(value = "Specifies the new external connectivity data of the VNF instance to be changed. It shall be present only if updateType = \"CHANGE_EXTERNAL_VNF_CONNECTIVITY\". ")
+  @Schema(description = "Specifies the new external connectivity data of the VNF instance to be changed. It shall be present only if updateType = \"CHANGE_EXTERNAL_VNF_CONNECTIVITY\". ")
 
   @Valid
 
@@ -442,7 +441,7 @@ public class UpdateNsRequest   {
    * Identifies a new SAP to be added to the NS instance. It shall be present only if updateType = \"ADD_SAP\". 
    * @return addSap
   **/
-  @ApiModelProperty(value = "Identifies a new SAP to be added to the NS instance. It shall be present only if updateType = \"ADD_SAP\". ")
+  @Schema(description = "Identifies a new SAP to be added to the NS instance. It shall be present only if updateType = \"ADD_SAP\". ")
 
   @Valid
 
@@ -471,7 +470,7 @@ public class UpdateNsRequest   {
    * The identifier an existing SAP to be removed from the NS instance. It shall be present only if updateType = \"REMOVE_SAP\". 
    * @return removeSapId
   **/
-  @ApiModelProperty(value = "The identifier an existing SAP to be removed from the NS instance. It shall be present only if updateType = \"REMOVE_SAP\". ")
+  @Schema(description = "The identifier an existing SAP to be removed from the NS instance. It shall be present only if updateType = \"REMOVE_SAP\". ")
 
 
   public List<String> getRemoveSapId() {
@@ -499,7 +498,7 @@ public class UpdateNsRequest   {
    * The identifier of an existing nested NS instance to be added to (nested within) the NS instance. It shall be present only if updateType = \"ADD_NESTED_NS\". 
    * @return addNestedNsData
   **/
-  @ApiModelProperty(value = "The identifier of an existing nested NS instance to be added to (nested within) the NS instance. It shall be present only if updateType = \"ADD_NESTED_NS\". ")
+  @Schema(description = "The identifier of an existing nested NS instance to be added to (nested within) the NS instance. It shall be present only if updateType = \"ADD_NESTED_NS\". ")
 
   @Valid
 
@@ -528,7 +527,7 @@ public class UpdateNsRequest   {
    * The identifier of an existing nested NS instance to be removed from the NS instance. It shall be present only if updateType = \"REMOVE_NESTED_NS\". 
    * @return removeNestedNsId
   **/
-  @ApiModelProperty(value = "The identifier of an existing nested NS instance to be removed from the NS instance. It shall be present only if updateType = \"REMOVE_NESTED_NS\". ")
+  @Schema(description = "The identifier of an existing nested NS instance to be removed from the NS instance. It shall be present only if updateType = \"REMOVE_NESTED_NS\". ")
 
 
   public List<String> getRemoveNestedNsId() {
@@ -548,7 +547,7 @@ public class UpdateNsRequest   {
    * Specify the new NSD to be used for the NS instance. It shall be present only if updateType = ASSOC_NEW_NSD_VERSION\". 
    * @return assocNewNsdVersionData
   **/
-  @ApiModelProperty(value = "Specify the new NSD to be used for the NS instance. It shall be present only if updateType = ASSOC_NEW_NSD_VERSION\". ")
+  @Schema(description = "Specify the new NSD to be used for the NS instance. It shall be present only if updateType = ASSOC_NEW_NSD_VERSION\". ")
 
   @Valid
 
@@ -577,7 +576,7 @@ public class UpdateNsRequest   {
    * Specify existing VNF instance to be moved from one NS instance to another NS instance. It shall be present only if updateType = MOVE_VNF\". 
    * @return moveVnfInstanceData
   **/
-  @ApiModelProperty(value = "Specify existing VNF instance to be moved from one NS instance to another NS instance. It shall be present only if updateType = MOVE_VNF\". ")
+  @Schema(description = "Specify existing VNF instance to be moved from one NS instance to another NS instance. It shall be present only if updateType = MOVE_VNF\". ")
 
   @Valid
 
@@ -606,7 +605,7 @@ public class UpdateNsRequest   {
    * Specify the new VNFFG to be created to the NS Instance. It shall be present only if updateType = \"ADD_VNFFG\". 
    * @return addVnffg
   **/
-  @ApiModelProperty(value = "Specify the new VNFFG to be created to the NS Instance. It shall be present only if updateType = \"ADD_VNFFG\". ")
+  @Schema(description = "Specify the new VNFFG to be created to the NS Instance. It shall be present only if updateType = \"ADD_VNFFG\". ")
 
   @Valid
 
@@ -635,7 +634,7 @@ public class UpdateNsRequest   {
    * Identifier of an existing VNFFG to be removed from the NS Instance. It shall be present only if updateType = \"REMOVE_VNFFG\". 
    * @return removeVnffgId
   **/
-  @ApiModelProperty(value = "Identifier of an existing VNFFG to be removed from the NS Instance. It shall be present only if updateType = \"REMOVE_VNFFG\". ")
+  @Schema(description = "Identifier of an existing VNFFG to be removed from the NS Instance. It shall be present only if updateType = \"REMOVE_VNFFG\". ")
 
 
   public List<String> getRemoveVnffgId() {
@@ -663,7 +662,7 @@ public class UpdateNsRequest   {
    * Specify the new VNFFG Information data to be updated for a VNFFG of the NS Instance. It shall be present only if updateType = \"UPDATE_VNFFG\". 
    * @return updateVnffg
   **/
-  @ApiModelProperty(value = "Specify the new VNFFG Information data to be updated for a VNFFG of the NS Instance. It shall be present only if updateType = \"UPDATE_VNFFG\". ")
+  @Schema(description = "Specify the new VNFFG Information data to be updated for a VNFFG of the NS Instance. It shall be present only if updateType = \"UPDATE_VNFFG\". ")
 
   @Valid
 
@@ -684,7 +683,7 @@ public class UpdateNsRequest   {
    * Specifies the new DF to be applied to the NS instance. It shall be present only if updateType = \"CHANGE_NS_DF\". 
    * @return changeNsFlavourData
   **/
-  @ApiModelProperty(value = "Specifies the new DF to be applied to the NS instance. It shall be present only if updateType = \"CHANGE_NS_DF\". ")
+  @Schema(description = "Specifies the new DF to be applied to the NS instance. It shall be present only if updateType = \"CHANGE_NS_DF\". ")
 
   @Valid
 
@@ -713,7 +712,7 @@ public class UpdateNsRequest   {
    * specifies the PNF to be added into the NS instance.  It shall be present only if updateType = \"ADD_PNF\". 
    * @return addPnfData
   **/
-  @ApiModelProperty(value = "specifies the PNF to be added into the NS instance.  It shall be present only if updateType = \"ADD_PNF\". ")
+  @Schema(description = "specifies the PNF to be added into the NS instance.  It shall be present only if updateType = \"ADD_PNF\". ")
 
   @Valid
 
@@ -742,7 +741,7 @@ public class UpdateNsRequest   {
    * Specifies the PNF to be modified in the NS instance.  It shall be present only if updateType = \"MODIFY_PNF\". 
    * @return modifyPnfData
   **/
-  @ApiModelProperty(value = "Specifies the PNF to be modified in the NS instance.  It shall be present only if updateType = \"MODIFY_PNF\". ")
+  @Schema(description = "Specifies the PNF to be modified in the NS instance.  It shall be present only if updateType = \"MODIFY_PNF\". ")
 
   @Valid
 
@@ -771,7 +770,7 @@ public class UpdateNsRequest   {
    * Identifier of the PNF to be deleted from the NS instance. It shall be present only if updateType = \"REMOVE_PNF\". 
    * @return removePnfId
   **/
-  @ApiModelProperty(value = "Identifier of the PNF to be deleted from the NS instance. It shall be present only if updateType = \"REMOVE_PNF\". ")
+  @Schema(description = "Identifier of the PNF to be deleted from the NS instance. It shall be present only if updateType = \"REMOVE_PNF\". ")
 
 
   public List<String> getRemovePnfId() {
@@ -791,7 +790,7 @@ public class UpdateNsRequest   {
    * Timestamp indicating the update time of the NS, i.e. the NS will be updated at this timestamp. Cardinality \"0\" indicates the NS update takes place immediately. 
    * @return updateTime
   **/
-  @ApiModelProperty(value = "Timestamp indicating the update time of the NS, i.e. the NS will be updated at this timestamp. Cardinality \"0\" indicates the NS update takes place immediately. ")
+  @Schema(description = "Timestamp indicating the update time of the NS, i.e. the NS will be updated at this timestamp. Cardinality \"0\" indicates the NS update takes place immediately. ")
 
   @Valid
 
@@ -814,27 +813,27 @@ public class UpdateNsRequest   {
     }
     UpdateNsRequest updateNsRequest = (UpdateNsRequest) o;
     return Objects.equals(this.updateType, updateNsRequest.updateType) &&
-        Objects.equals(this.addVnfIstance, updateNsRequest.addVnfIstance) &&
-        Objects.equals(this.removeVnfInstanceId, updateNsRequest.removeVnfInstanceId) &&
-        Objects.equals(this.instantiateVnfData, updateNsRequest.instantiateVnfData) &&
-        Objects.equals(this.changeVnfFlavourData, updateNsRequest.changeVnfFlavourData) &&
-        Objects.equals(this.operateVnfData, updateNsRequest.operateVnfData) &&
-        Objects.equals(this.modifyVnfInfoData, updateNsRequest.modifyVnfInfoData) &&
-        Objects.equals(this.changeExtVnfConnectivityData, updateNsRequest.changeExtVnfConnectivityData) &&
-        Objects.equals(this.addSap, updateNsRequest.addSap) &&
-        Objects.equals(this.removeSapId, updateNsRequest.removeSapId) &&
-        Objects.equals(this.addNestedNsData, updateNsRequest.addNestedNsData) &&
-        Objects.equals(this.removeNestedNsId, updateNsRequest.removeNestedNsId) &&
-        Objects.equals(this.assocNewNsdVersionData, updateNsRequest.assocNewNsdVersionData) &&
-        Objects.equals(this.moveVnfInstanceData, updateNsRequest.moveVnfInstanceData) &&
-        Objects.equals(this.addVnffg, updateNsRequest.addVnffg) &&
-        Objects.equals(this.removeVnffgId, updateNsRequest.removeVnffgId) &&
-        Objects.equals(this.updateVnffg, updateNsRequest.updateVnffg) &&
-        Objects.equals(this.changeNsFlavourData, updateNsRequest.changeNsFlavourData) &&
-        Objects.equals(this.addPnfData, updateNsRequest.addPnfData) &&
-        Objects.equals(this.modifyPnfData, updateNsRequest.modifyPnfData) &&
-        Objects.equals(this.removePnfId, updateNsRequest.removePnfId) &&
-        Objects.equals(this.updateTime, updateNsRequest.updateTime);
+    Objects.equals(this.addVnfIstance, updateNsRequest.addVnfIstance) &&
+    Objects.equals(this.removeVnfInstanceId, updateNsRequest.removeVnfInstanceId) &&
+    Objects.equals(this.instantiateVnfData, updateNsRequest.instantiateVnfData) &&
+    Objects.equals(this.changeVnfFlavourData, updateNsRequest.changeVnfFlavourData) &&
+    Objects.equals(this.operateVnfData, updateNsRequest.operateVnfData) &&
+    Objects.equals(this.modifyVnfInfoData, updateNsRequest.modifyVnfInfoData) &&
+    Objects.equals(this.changeExtVnfConnectivityData, updateNsRequest.changeExtVnfConnectivityData) &&
+    Objects.equals(this.addSap, updateNsRequest.addSap) &&
+    Objects.equals(this.removeSapId, updateNsRequest.removeSapId) &&
+    Objects.equals(this.addNestedNsData, updateNsRequest.addNestedNsData) &&
+    Objects.equals(this.removeNestedNsId, updateNsRequest.removeNestedNsId) &&
+    Objects.equals(this.assocNewNsdVersionData, updateNsRequest.assocNewNsdVersionData) &&
+    Objects.equals(this.moveVnfInstanceData, updateNsRequest.moveVnfInstanceData) &&
+    Objects.equals(this.addVnffg, updateNsRequest.addVnffg) &&
+    Objects.equals(this.removeVnffgId, updateNsRequest.removeVnffgId) &&
+    Objects.equals(this.updateVnffg, updateNsRequest.updateVnffg) &&
+    Objects.equals(this.changeNsFlavourData, updateNsRequest.changeNsFlavourData) &&
+    Objects.equals(this.addPnfData, updateNsRequest.addPnfData) &&
+    Objects.equals(this.modifyPnfData, updateNsRequest.modifyPnfData) &&
+    Objects.equals(this.removePnfId, updateNsRequest.removePnfId) &&
+    Objects.equals(this.updateTime, updateNsRequest.updateTime);
   }
 
   @Override
@@ -846,7 +845,7 @@ public class UpdateNsRequest   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class UpdateNsRequest {\n");
-    
+
     sb.append("    updateType: ").append(toIndentedString(updateType)).append("\n");
     sb.append("    addVnfIstance: ").append(toIndentedString(addVnfIstance)).append("\n");
     sb.append("    removeVnfInstanceId: ").append(toIndentedString(removeVnfInstanceId)).append("\n");

@@ -20,8 +20,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -31,7 +30,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents a subscription filter related to notifications about the availability of the virtualised resources quotas. At a particular nesting level in the filter structure, the following applies: All attributes shall match in order for the filter to match (logical \&quot;and\&quot; between different filter attributes). If an attribute is an array, the attribute shall match if at least one of the values in the array matches (logical \&quot;or\&quot; between the values of one filter attribute). 
  */
-@ApiModel(description = "This type represents a subscription filter related to notifications about the availability of the virtualised resources quotas. At a particular nesting level in the filter structure, the following applies: All attributes shall match in order for the filter to match (logical \"and\" between different filter attributes). If an attribute is an array, the attribute shall match if at least one of the values in the array matches (logical \"or\" between the values of one filter attribute). ")
+@Schema (description= "This type represents a subscription filter related to notifications about the availability of the virtualised resources quotas. At a particular nesting level in the filter structure, the following applies: All attributes shall match in order for the filter to match (logical \"and\" between different filter attributes). If an attribute is an array, the attribute shall match if at least one of the values in the array matches (logical \"or\" between the values of one filter attribute). " )
 @Validated
 
 public class VrQuotaAvailNotificationsFilter   {
@@ -101,7 +100,7 @@ public class VrQuotaAvailNotificationsFilter   {
    * Match VIMs that were created the quota for a consumer of the virtualised resources. This attribute shall only be supported when VNF-related Resource Management in direct mode is applicable. 
    * @return vimIds
   **/
-  @ApiModelProperty(value = "Match VIMs that were created the quota for a consumer of the virtualised resources. This attribute shall only be supported when VNF-related Resource Management in direct mode is applicable. ")
+  @Schema(description = "Match VIMs that were created the quota for a consumer of the virtualised resources. This attribute shall only be supported when VNF-related Resource Management in direct mode is applicable. ")
 
 
   public List<String> getVimIds() {
@@ -129,7 +128,7 @@ public class VrQuotaAvailNotificationsFilter   {
    * Match the entities responsible for the management of the virtualised resources that were allocated by the NFVO. This attribute shall only be supported when VNF-related Resource Management in indirect mode is applicable. The identification scheme is outside the scope of the present document. 
    * @return resourceProviderIds
   **/
-  @ApiModelProperty(value = "Match the entities responsible for the management of the virtualised resources that were allocated by the NFVO. This attribute shall only be supported when VNF-related Resource Management in indirect mode is applicable. The identification scheme is outside the scope of the present document. ")
+  @Schema(description = "Match the entities responsible for the management of the virtualised resources that were allocated by the NFVO. This attribute shall only be supported when VNF-related Resource Management in indirect mode is applicable. The identification scheme is outside the scope of the present document. ")
 
 
   public List<String> getResourceProviderIds() {
@@ -157,7 +156,7 @@ public class VrQuotaAvailNotificationsFilter   {
    * Match particular resource types. 
    * @return resourceTypes
   **/
-  @ApiModelProperty(value = "Match particular resource types. ")
+  @Schema(description = "Match particular resource types. ")
 
 
   public List<ResourceTypesEnum> getResourceTypes() {
@@ -185,7 +184,7 @@ public class VrQuotaAvailNotificationsFilter   {
    * Match the \"infrastructure resource groups\" that are logical groupings of the virtualised resources assigned to a tenant within an infrastructure Domain. 
    * @return resourceGroupIds
   **/
-  @ApiModelProperty(value = "Match the \"infrastructure resource groups\" that are logical groupings of the virtualised resources assigned to a tenant within an infrastructure Domain. ")
+  @Schema(description = "Match the \"infrastructure resource groups\" that are logical groupings of the virtualised resources assigned to a tenant within an infrastructure Domain. ")
 
 
   public List<String> getResourceGroupIds() {
@@ -207,9 +206,9 @@ public class VrQuotaAvailNotificationsFilter   {
     }
     VrQuotaAvailNotificationsFilter vrQuotaAvailNotificationsFilter = (VrQuotaAvailNotificationsFilter) o;
     return Objects.equals(this.vimIds, vrQuotaAvailNotificationsFilter.vimIds) &&
-        Objects.equals(this.resourceProviderIds, vrQuotaAvailNotificationsFilter.resourceProviderIds) &&
-        Objects.equals(this.resourceTypes, vrQuotaAvailNotificationsFilter.resourceTypes) &&
-        Objects.equals(this.resourceGroupIds, vrQuotaAvailNotificationsFilter.resourceGroupIds);
+    Objects.equals(this.resourceProviderIds, vrQuotaAvailNotificationsFilter.resourceProviderIds) &&
+    Objects.equals(this.resourceTypes, vrQuotaAvailNotificationsFilter.resourceTypes) &&
+    Objects.equals(this.resourceGroupIds, vrQuotaAvailNotificationsFilter.resourceGroupIds);
   }
 
   @Override
@@ -221,7 +220,7 @@ public class VrQuotaAvailNotificationsFilter   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class VrQuotaAvailNotificationsFilter {\n");
-    
+
     sb.append("    vimIds: ").append(toIndentedString(vimIds)).append("\n");
     sb.append("    resourceProviderIds: ").append(toIndentedString(resourceProviderIds)).append("\n");
     sb.append("    resourceTypes: ").append(toIndentedString(resourceTypes)).append("\n");

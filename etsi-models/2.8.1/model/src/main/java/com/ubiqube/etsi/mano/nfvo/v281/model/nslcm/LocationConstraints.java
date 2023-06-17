@@ -20,8 +20,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.nfvo.v281.model.nslcm.LocationConstraintsCivicAddressElement;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -31,7 +30,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents location constraints for a VNF to be instantiated. The location constraints shall be presented as a country code, optionally followed by a civic address based on the format defined by IETF RFC 4776 [13]. 
  */
-@ApiModel(description = "This type represents location constraints for a VNF to be instantiated. The location constraints shall be presented as a country code, optionally followed by a civic address based on the format defined by IETF RFC 4776 [13]. ")
+@Schema (description= "This type represents location constraints for a VNF to be instantiated. The location constraints shall be presented as a country code, optionally followed by a civic address based on the format defined by IETF RFC 4776 [13]. " )
 @Validated
 
 public class LocationConstraints   {
@@ -51,7 +50,7 @@ public class LocationConstraints   {
    * The two-letter ISO 3166 [29] country code in capital letters. 
    * @return countryCode
   **/
-  @ApiModelProperty(required = true, value = "The two-letter ISO 3166 [29] country code in capital letters. ")
+  @Schema(required = true , description = "The two-letter ISO 3166 [29] country code in capital letters. ")
   @NotNull
 
 
@@ -80,7 +79,7 @@ public class LocationConstraints   {
    * Zero or more elements comprising the civic address. 
    * @return civicAddressElement
   **/
-  @ApiModelProperty(value = "Zero or more elements comprising the civic address. ")
+  @Schema(description = "Zero or more elements comprising the civic address. ")
 
   @Valid
 
@@ -103,7 +102,7 @@ public class LocationConstraints   {
     }
     LocationConstraints locationConstraints = (LocationConstraints) o;
     return Objects.equals(this.countryCode, locationConstraints.countryCode) &&
-        Objects.equals(this.civicAddressElement, locationConstraints.civicAddressElement);
+    Objects.equals(this.civicAddressElement, locationConstraints.civicAddressElement);
   }
 
   @Override
@@ -115,7 +114,7 @@ public class LocationConstraints   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class LocationConstraints {\n");
-    
+
     sb.append("    countryCode: ").append(toIndentedString(countryCode)).append("\n");
     sb.append("    civicAddressElement: ").append(toIndentedString(civicAddressElement)).append("\n");
     sb.append("}");

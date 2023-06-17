@@ -18,9 +18,8 @@ package com.ubiqube.etsi.mano.nfvo.v281.model.nslcm;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -49,7 +48,7 @@ public class CreateNsRequest   {
    * Identifier of the NSD that defines the NS instance to be created. 
    * @return nsdId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the NSD that defines the NS instance to be created. ")
+  @Schema(required = true , description = "Identifier of the NSD that defines the NS instance to be created. ")
   @NotNull
 
 
@@ -70,7 +69,7 @@ public class CreateNsRequest   {
    * Human-readable name of the NS instance to be created. 
    * @return nsName
   **/
-  @ApiModelProperty(required = true, value = "Human-readable name of the NS instance to be created. ")
+  @Schema(required = true , description = "Human-readable name of the NS instance to be created. ")
   @NotNull
 
 
@@ -91,7 +90,7 @@ public class CreateNsRequest   {
    * Human-readable description of the NS instance to be created. 
    * @return nsDescription
   **/
-  @ApiModelProperty(required = true, value = "Human-readable description of the NS instance to be created. ")
+  @Schema(required = true , description = "Human-readable description of the NS instance to be created. ")
   @NotNull
 
 
@@ -114,8 +113,8 @@ public class CreateNsRequest   {
     }
     CreateNsRequest createNsRequest = (CreateNsRequest) o;
     return Objects.equals(this.nsdId, createNsRequest.nsdId) &&
-        Objects.equals(this.nsName, createNsRequest.nsName) &&
-        Objects.equals(this.nsDescription, createNsRequest.nsDescription);
+    Objects.equals(this.nsName, createNsRequest.nsName) &&
+    Objects.equals(this.nsDescription, createNsRequest.nsDescription);
   }
 
   @Override
@@ -127,7 +126,7 @@ public class CreateNsRequest   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class CreateNsRequest {\n");
-    
+
     sb.append("    nsdId: ").append(toIndentedString(nsdId)).append("\n");
     sb.append("    nsName: ").append(toIndentedString(nsName)).append("\n");
     sb.append("    nsDescription: ").append(toIndentedString(nsDescription)).append("\n");

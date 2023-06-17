@@ -29,8 +29,7 @@ import com.ubiqube.etsi.mano.em.v281.model.vnflcm.VnfOperationalStateType;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.VnfVirtualLinkResourceInfo;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.VnfcInfo;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.VnfcResourceInfo;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -40,7 +39,7 @@ import jakarta.validation.constraints.*;
 /**
  * Information specific to an instantiated VNF instance. This attribute shall be present if the instantiateState attribute value is INSTANTIATED. 
  */
-@ApiModel(description = "Information specific to an instantiated VNF instance. This attribute shall be present if the instantiateState attribute value is INSTANTIATED. ")
+@Schema (description= "Information specific to an instantiated VNF instance. This attribute shall be present if the instantiateState attribute value is INSTANTIATED. " )
 @Validated
 
 public class VnfInstanceInstantiatedVnfInfo   {
@@ -102,7 +101,7 @@ public class VnfInstanceInstantiatedVnfInfo   {
    * Identifier of the VNF deployment flavour applied to this VNF instance. 
    * @return flavourId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the VNF deployment flavour applied to this VNF instance. ")
+  @Schema(required = true , description = "Identifier of the VNF deployment flavour applied to this VNF instance. ")
   @NotNull
 
 
@@ -123,7 +122,7 @@ public class VnfInstanceInstantiatedVnfInfo   {
    * The state of the VNF instance. 
    * @return vnfState
   **/
-  @ApiModelProperty(required = true, value = "The state of the VNF instance. ")
+  @Schema(required = true , description = "The state of the VNF instance. ")
   @NotNull
 
   @Valid
@@ -153,7 +152,7 @@ public class VnfInstanceInstantiatedVnfInfo   {
    * Scale status of the VNF, one entry per aspect. Represents for every scaling aspect how \"big\" the VNF has been scaled w.r.t. that aspect. 
    * @return scaleStatus
   **/
-  @ApiModelProperty(value = "Scale status of the VNF, one entry per aspect. Represents for every scaling aspect how \"big\" the VNF has been scaled w.r.t. that aspect. ")
+  @Schema(description = "Scale status of the VNF, one entry per aspect. Represents for every scaling aspect how \"big\" the VNF has been scaled w.r.t. that aspect. ")
 
   @Valid
 
@@ -182,7 +181,7 @@ public class VnfInstanceInstantiatedVnfInfo   {
    * Maximum allowed scale levels of the VNF, one entry per aspect. This attribute shall be present if the VNF supports scaling. 
    * @return maxScaleLevels
   **/
-  @ApiModelProperty(value = "Maximum allowed scale levels of the VNF, one entry per aspect. This attribute shall be present if the VNF supports scaling. ")
+  @Schema(description = "Maximum allowed scale levels of the VNF, one entry per aspect. This attribute shall be present if the VNF supports scaling. ")
 
   @Valid
 
@@ -208,11 +207,11 @@ public class VnfInstanceInstantiatedVnfInfo   {
    * Information about the external CPs exposed by the VNF instance. 
    * @return extCpInfo
   **/
-  @ApiModelProperty(required = true, value = "Information about the external CPs exposed by the VNF instance. ")
+  @Schema(required = true , description = "Information about the external CPs exposed by the VNF instance. ")
   @NotNull
 
   @Valid
-@Size(min=1) 
+  @Size(min = 1)
   public List<VnfExtCpInfo> getExtCpInfo() {
     return extCpInfo;
   }
@@ -238,7 +237,7 @@ public class VnfInstanceInstantiatedVnfInfo   {
    * Information about the external VLs the VNF instance is connected to. 
    * @return extVirtualLinkInfo
   **/
-  @ApiModelProperty(value = "Information about the external VLs the VNF instance is connected to. ")
+  @Schema(description = "Information about the external VLs the VNF instance is connected to. ")
 
   @Valid
 
@@ -267,7 +266,7 @@ public class VnfInstanceInstantiatedVnfInfo   {
    * External virtual links the VNF instance is connected to. 
    * @return extManagedVirtualLinkInfo
   **/
-  @ApiModelProperty(value = "External virtual links the VNF instance is connected to. ")
+  @Schema(description = "External virtual links the VNF instance is connected to. ")
 
   @Valid
 
@@ -296,7 +295,7 @@ public class VnfInstanceInstantiatedVnfInfo   {
    * Active monitoring parameters. 
    * @return monitoringParameters
   **/
-  @ApiModelProperty(value = "Active monitoring parameters. ")
+  @Schema(description = "Active monitoring parameters. ")
 
   @Valid
 
@@ -317,7 +316,7 @@ public class VnfInstanceInstantiatedVnfInfo   {
    * Information about localization language of the VNF (includes e.g. strings in the VNFD). The localization languages supported by a VNF can be declared in the VNFD, and localization language selection can take place at instantiation time. The value shall comply with the format defined in IETF RFC 5646. 
    * @return localizationLanguage
   **/
-  @ApiModelProperty(value = "Information about localization language of the VNF (includes e.g. strings in the VNFD). The localization languages supported by a VNF can be declared in the VNFD, and localization language selection can take place at instantiation time. The value shall comply with the format defined in IETF RFC 5646. ")
+  @Schema(description = "Information about localization language of the VNF (includes e.g. strings in the VNFD). The localization languages supported by a VNF can be declared in the VNFD, and localization language selection can take place at instantiation time. The value shall comply with the format defined in IETF RFC 5646. ")
 
 
   public String getLocalizationLanguage() {
@@ -345,7 +344,7 @@ public class VnfInstanceInstantiatedVnfInfo   {
    * Information about the virtualised compute and storage resources used by the VNFCs of the VNF instance. 
    * @return vnfcResourceInfo
   **/
-  @ApiModelProperty(value = "Information about the virtualised compute and storage resources used by the VNFCs of the VNF instance. ")
+  @Schema(description = "Information about the virtualised compute and storage resources used by the VNFCs of the VNF instance. ")
 
   @Valid
 
@@ -374,7 +373,7 @@ public class VnfInstanceInstantiatedVnfInfo   {
    * Information about the virtualised network resources used by the VLs of the VNF instance. 
    * @return virtualLinkResourceInfo
   **/
-  @ApiModelProperty(value = "Information about the virtualised network resources used by the VLs of the VNF instance. ")
+  @Schema(description = "Information about the virtualised network resources used by the VLs of the VNF instance. ")
 
   @Valid
 
@@ -403,7 +402,7 @@ public class VnfInstanceInstantiatedVnfInfo   {
    * Information on the virtualised storage resource(s) used as storage for the VNF instance. 
    * @return virtualStorageResourceInfo
   **/
-  @ApiModelProperty(value = "Information on the virtualised storage resource(s) used as storage for the VNF instance. ")
+  @Schema(description = "Information on the virtualised storage resource(s) used as storage for the VNF instance. ")
 
   @Valid
 
@@ -432,7 +431,7 @@ public class VnfInstanceInstantiatedVnfInfo   {
    * Information about the VNFC instances. 
    * @return vnfcInfo
   **/
-  @ApiModelProperty(value = "Information about the VNFC instances. ")
+  @Schema(description = "Information about the VNFC instances. ")
 
   @Valid
 
@@ -455,18 +454,18 @@ public class VnfInstanceInstantiatedVnfInfo   {
     }
     VnfInstanceInstantiatedVnfInfo vnfInstanceInstantiatedVnfInfo = (VnfInstanceInstantiatedVnfInfo) o;
     return Objects.equals(this.flavourId, vnfInstanceInstantiatedVnfInfo.flavourId) &&
-        Objects.equals(this.vnfState, vnfInstanceInstantiatedVnfInfo.vnfState) &&
-        Objects.equals(this.scaleStatus, vnfInstanceInstantiatedVnfInfo.scaleStatus) &&
-        Objects.equals(this.maxScaleLevels, vnfInstanceInstantiatedVnfInfo.maxScaleLevels) &&
-        Objects.equals(this.extCpInfo, vnfInstanceInstantiatedVnfInfo.extCpInfo) &&
-        Objects.equals(this.extVirtualLinkInfo, vnfInstanceInstantiatedVnfInfo.extVirtualLinkInfo) &&
-        Objects.equals(this.extManagedVirtualLinkInfo, vnfInstanceInstantiatedVnfInfo.extManagedVirtualLinkInfo) &&
-        Objects.equals(this.monitoringParameters, vnfInstanceInstantiatedVnfInfo.monitoringParameters) &&
-        Objects.equals(this.localizationLanguage, vnfInstanceInstantiatedVnfInfo.localizationLanguage) &&
-        Objects.equals(this.vnfcResourceInfo, vnfInstanceInstantiatedVnfInfo.vnfcResourceInfo) &&
-        Objects.equals(this.virtualLinkResourceInfo, vnfInstanceInstantiatedVnfInfo.virtualLinkResourceInfo) &&
-        Objects.equals(this.virtualStorageResourceInfo, vnfInstanceInstantiatedVnfInfo.virtualStorageResourceInfo) &&
-        Objects.equals(this.vnfcInfo, vnfInstanceInstantiatedVnfInfo.vnfcInfo);
+    Objects.equals(this.vnfState, vnfInstanceInstantiatedVnfInfo.vnfState) &&
+    Objects.equals(this.scaleStatus, vnfInstanceInstantiatedVnfInfo.scaleStatus) &&
+    Objects.equals(this.maxScaleLevels, vnfInstanceInstantiatedVnfInfo.maxScaleLevels) &&
+    Objects.equals(this.extCpInfo, vnfInstanceInstantiatedVnfInfo.extCpInfo) &&
+    Objects.equals(this.extVirtualLinkInfo, vnfInstanceInstantiatedVnfInfo.extVirtualLinkInfo) &&
+    Objects.equals(this.extManagedVirtualLinkInfo, vnfInstanceInstantiatedVnfInfo.extManagedVirtualLinkInfo) &&
+    Objects.equals(this.monitoringParameters, vnfInstanceInstantiatedVnfInfo.monitoringParameters) &&
+    Objects.equals(this.localizationLanguage, vnfInstanceInstantiatedVnfInfo.localizationLanguage) &&
+    Objects.equals(this.vnfcResourceInfo, vnfInstanceInstantiatedVnfInfo.vnfcResourceInfo) &&
+    Objects.equals(this.virtualLinkResourceInfo, vnfInstanceInstantiatedVnfInfo.virtualLinkResourceInfo) &&
+    Objects.equals(this.virtualStorageResourceInfo, vnfInstanceInstantiatedVnfInfo.virtualStorageResourceInfo) &&
+    Objects.equals(this.vnfcInfo, vnfInstanceInstantiatedVnfInfo.vnfcInfo);
   }
 
   @Override
@@ -478,7 +477,7 @@ public class VnfInstanceInstantiatedVnfInfo   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class VnfInstanceInstantiatedVnfInfo {\n");
-    
+
     sb.append("    flavourId: ").append(toIndentedString(flavourId)).append("\n");
     sb.append("    vnfState: ").append(toIndentedString(vnfState)).append("\n");
     sb.append("    scaleStatus: ").append(toIndentedString(scaleStatus)).append("\n");

@@ -21,8 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.CpProtocolInfo;
 import java.util.Map;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -32,7 +31,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents information about an external CP of a VNF. It shall comply with the provisions defined in table 5.5.3.25 1. 
  */
-@ApiModel(description = "This type represents information about an external CP of a VNF. It shall comply with the provisions defined in table 5.5.3.25 1. ")
+@Schema (description= "This type represents information about an external CP of a VNF. It shall comply with the provisions defined in table 5.5.3.25 1. " )
 @Validated
 
 public class VnfExtCpInfo   {
@@ -67,7 +66,7 @@ public class VnfExtCpInfo   {
    * Identifier of the external CP instance and the related information instance. 
    * @return id
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the external CP instance and the related information instance. ")
+  @Schema(required = true , description = "Identifier of the external CP instance and the related information instance. ")
   @NotNull
 
 
@@ -88,7 +87,7 @@ public class VnfExtCpInfo   {
    * Identifier of the external CPD, VnfExtCpd, in the VNFD. 
    * @return cpdId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the external CPD, VnfExtCpd, in the VNFD. ")
+  @Schema(required = true , description = "Identifier of the external CPD, VnfExtCpd, in the VNFD. ")
   @NotNull
 
 
@@ -114,7 +113,7 @@ public class VnfExtCpInfo   {
    * Network protocol information for this CP. 
    * @return cpProtocolInfo
   **/
-  @ApiModelProperty(required = true, value = "Network protocol information for this CP. ")
+  @Schema(required = true , description = "Network protocol information for this CP. ")
   @NotNull
 
   @Valid
@@ -136,7 +135,7 @@ public class VnfExtCpInfo   {
    * Identifier of the \"extLinkPortInfo\" structure inside the \"extVirtualLinkInfo\" structure. Shall be present if the CP is associated to a link port. 
    * @return extLinkPortId
   **/
-  @ApiModelProperty(value = "Identifier of the \"extLinkPortInfo\" structure inside the \"extVirtualLinkInfo\" structure. Shall be present if the CP is associated to a link port. ")
+  @Schema(description = "Identifier of the \"extLinkPortInfo\" structure inside the \"extVirtualLinkInfo\" structure. Shall be present if the CP is associated to a link port. ")
 
 
   public String getExtLinkPortId() {
@@ -156,7 +155,7 @@ public class VnfExtCpInfo   {
    * Metadata about this external CP. 
    * @return metadata
   **/
-  @ApiModelProperty(value = "Metadata about this external CP. ")
+  @Schema(description = "Metadata about this external CP. ")
 
   @Valid
 
@@ -177,7 +176,7 @@ public class VnfExtCpInfo   {
    * Identifier of the \"vnfcCpInfo\" structure in \"VnfcResourceInfo\" structure that represents the VNFC CP which is exposed by this external CP instance. Shall be present in case this CP instance maps to a VNFC CP. See note. 
    * @return associatedVnfcCpId
   **/
-  @ApiModelProperty(value = "Identifier of the \"vnfcCpInfo\" structure in \"VnfcResourceInfo\" structure that represents the VNFC CP which is exposed by this external CP instance. Shall be present in case this CP instance maps to a VNFC CP. See note. ")
+  @Schema(description = "Identifier of the \"vnfcCpInfo\" structure in \"VnfcResourceInfo\" structure that represents the VNFC CP which is exposed by this external CP instance. Shall be present in case this CP instance maps to a VNFC CP. See note. ")
 
 
   public String getAssociatedVnfcCpId() {
@@ -197,7 +196,7 @@ public class VnfExtCpInfo   {
    * Identifier of the \"VnfVirtualLinkResourceInfo\" structure that represents the internal VL which is exposed by this external CP instance. Shall be present in case this CP instance maps to an internal VL. See note. 
    * @return associatedVnfVirtualLinkId
   **/
-  @ApiModelProperty(value = "Identifier of the \"VnfVirtualLinkResourceInfo\" structure that represents the internal VL which is exposed by this external CP instance. Shall be present in case this CP instance maps to an internal VL. See note. ")
+  @Schema(description = "Identifier of the \"VnfVirtualLinkResourceInfo\" structure that represents the internal VL which is exposed by this external CP instance. Shall be present in case this CP instance maps to an internal VL. See note. ")
 
 
   public String getAssociatedVnfVirtualLinkId() {
@@ -219,12 +218,12 @@ public class VnfExtCpInfo   {
     }
     VnfExtCpInfo vnfExtCpInfo = (VnfExtCpInfo) o;
     return Objects.equals(this.id, vnfExtCpInfo.id) &&
-        Objects.equals(this.cpdId, vnfExtCpInfo.cpdId) &&
-        Objects.equals(this.cpProtocolInfo, vnfExtCpInfo.cpProtocolInfo) &&
-        Objects.equals(this.extLinkPortId, vnfExtCpInfo.extLinkPortId) &&
-        Objects.equals(this.metadata, vnfExtCpInfo.metadata) &&
-        Objects.equals(this.associatedVnfcCpId, vnfExtCpInfo.associatedVnfcCpId) &&
-        Objects.equals(this.associatedVnfVirtualLinkId, vnfExtCpInfo.associatedVnfVirtualLinkId);
+    Objects.equals(this.cpdId, vnfExtCpInfo.cpdId) &&
+    Objects.equals(this.cpProtocolInfo, vnfExtCpInfo.cpProtocolInfo) &&
+    Objects.equals(this.extLinkPortId, vnfExtCpInfo.extLinkPortId) &&
+    Objects.equals(this.metadata, vnfExtCpInfo.metadata) &&
+    Objects.equals(this.associatedVnfcCpId, vnfExtCpInfo.associatedVnfcCpId) &&
+    Objects.equals(this.associatedVnfVirtualLinkId, vnfExtCpInfo.associatedVnfVirtualLinkId);
   }
 
   @Override
@@ -236,7 +235,7 @@ public class VnfExtCpInfo   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class VnfExtCpInfo {\n");
-    
+
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    cpdId: ").append(toIndentedString(cpdId)).append("\n");
     sb.append("    cpProtocolInfo: ").append(toIndentedString(cpProtocolInfo)).append("\n");

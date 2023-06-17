@@ -21,8 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.ubiqube.etsi.mano.nfvo.v281.model.vnf.ExternalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -30,7 +29,7 @@ import jakarta.validation.constraints.*;
 /**
  * Access configuration information for an external artefact. 
  */
-@ApiModel(description = "Access configuration information for an external artefact. ")
+@Schema (description= "Access configuration information for an external artefact. " )
 @Validated
 
 public class ExternalArtifactsAccessConfigArtifact   {
@@ -92,7 +91,7 @@ public class ExternalArtifactsAccessConfigArtifact   {
    * The artifactUri attribute as defined in the VNF package manifest that identifies the external artifact for which the access configuration information is provided, and that provides the default download location for this artifact. 
    * @return artifactUri
   **/
-  @ApiModelProperty(required = true, value = "The artifactUri attribute as defined in the VNF package manifest that identifies the external artifact for which the access configuration information is provided, and that provides the default download location for this artifact. ")
+  @Schema(required = true , description = "The artifactUri attribute as defined in the VNF package manifest that identifies the external artifact for which the access configuration information is provided, and that provides the default download location for this artifact. ")
   @NotNull
 
 
@@ -113,7 +112,7 @@ public class ExternalArtifactsAccessConfigArtifact   {
    * The Uri from which the external artifact can be downloaded. If this attribute is present, the NFVO shall download from this address. If this attribute is not present, the NFVO shall download from the address provided in \"artifactUri\" 
    * @return overrideUri
   **/
-  @ApiModelProperty(value = "The Uri from which the external artifact can be downloaded. If this attribute is present, the NFVO shall download from this address. If this attribute is not present, the NFVO shall download from the address provided in \"artifactUri\" ")
+  @Schema(description = "The Uri from which the external artifact can be downloaded. If this attribute is present, the NFVO shall download from this address. If this attribute is not present, the NFVO shall download from the address provided in \"artifactUri\" ")
 
 
   public String getOverrideUri() {
@@ -133,7 +132,7 @@ public class ExternalArtifactsAccessConfigArtifact   {
    * Defines the type of authentication / authorization for downloading the VNF package. Permitted values: - BASIC: Only the \"username\" and \"password\" attributes shall be present. - OAUTH2_CLIENT_CREDENTIAL S: Only the \"paramsOauth2ClientCredentials\" attribute shall be present. This attribute shall not be present if no credentials are provided for the artifact. 
    * @return authType
   **/
-  @ApiModelProperty(value = "Defines the type of authentication / authorization for downloading the VNF package. Permitted values: - BASIC: Only the \"username\" and \"password\" attributes shall be present. - OAUTH2_CLIENT_CREDENTIAL S: Only the \"paramsOauth2ClientCredentials\" attribute shall be present. This attribute shall not be present if no credentials are provided for the artifact. ")
+  @Schema(description = "Defines the type of authentication / authorization for downloading the VNF package. Permitted values: - BASIC: Only the \"username\" and \"password\" attributes shall be present. - OAUTH2_CLIENT_CREDENTIAL S: Only the \"paramsOauth2ClientCredentials\" attribute shall be present. This attribute shall not be present if no credentials are provided for the artifact. ")
 
 
   public AuthTypeEnum getAuthType() {
@@ -153,7 +152,7 @@ public class ExternalArtifactsAccessConfigArtifact   {
    * User name to be used for authentication. 
    * @return username
   **/
-  @ApiModelProperty(value = "User name to be used for authentication. ")
+  @Schema(description = "User name to be used for authentication. ")
 
 
   public String getUsername() {
@@ -173,7 +172,7 @@ public class ExternalArtifactsAccessConfigArtifact   {
    * Password to be used for authentication. Shall not be present in response bodies. 
    * @return password
   **/
-  @ApiModelProperty(value = "Password to be used for authentication. Shall not be present in response bodies. ")
+  @Schema(description = "Password to be used for authentication. Shall not be present in response bodies. ")
 
 
   public String getPassword() {
@@ -193,7 +192,7 @@ public class ExternalArtifactsAccessConfigArtifact   {
    * Get paramsOauth2ClientCredentials
    * @return paramsOauth2ClientCredentials
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   @Valid
 
@@ -216,11 +215,11 @@ public class ExternalArtifactsAccessConfigArtifact   {
     }
     ExternalArtifactsAccessConfigArtifact externalArtifactsAccessConfigArtifact = (ExternalArtifactsAccessConfigArtifact) o;
     return Objects.equals(this.artifactUri, externalArtifactsAccessConfigArtifact.artifactUri) &&
-        Objects.equals(this.overrideUri, externalArtifactsAccessConfigArtifact.overrideUri) &&
-        Objects.equals(this.authType, externalArtifactsAccessConfigArtifact.authType) &&
-        Objects.equals(this.username, externalArtifactsAccessConfigArtifact.username) &&
-        Objects.equals(this.password, externalArtifactsAccessConfigArtifact.password) &&
-        Objects.equals(this.paramsOauth2ClientCredentials, externalArtifactsAccessConfigArtifact.paramsOauth2ClientCredentials);
+    Objects.equals(this.overrideUri, externalArtifactsAccessConfigArtifact.overrideUri) &&
+    Objects.equals(this.authType, externalArtifactsAccessConfigArtifact.authType) &&
+    Objects.equals(this.username, externalArtifactsAccessConfigArtifact.username) &&
+    Objects.equals(this.password, externalArtifactsAccessConfigArtifact.password) &&
+    Objects.equals(this.paramsOauth2ClientCredentials, externalArtifactsAccessConfigArtifact.paramsOauth2ClientCredentials);
   }
 
   @Override
@@ -232,7 +231,7 @@ public class ExternalArtifactsAccessConfigArtifact   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ExternalArtifactsAccessConfigArtifact {\n");
-    
+
     sb.append("    artifactUri: ").append(toIndentedString(artifactUri)).append("\n");
     sb.append("    overrideUri: ").append(toIndentedString(overrideUri)).append("\n");
     sb.append("    authType: ").append(toIndentedString(authType)).append("\n");

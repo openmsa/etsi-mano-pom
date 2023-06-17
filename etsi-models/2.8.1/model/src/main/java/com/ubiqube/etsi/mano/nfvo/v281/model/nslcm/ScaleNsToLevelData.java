@@ -20,8 +20,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.nfvo.v281.model.nslcm.NsScaleInfo;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -31,7 +30,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents the information used to scale an NS instance to a target size. The target size is either expressed as an NS instantiation level or as a list of NS scale levels, one per NS scaling aspect, of the current DF. The NS instantiation levels, the NS scaling aspects and their corresponding NS scale levels applicable to the NS instance are declared in the NSD. 
  */
-@ApiModel(description = "This type represents the information used to scale an NS instance to a target size. The target size is either expressed as an NS instantiation level or as a list of NS scale levels, one per NS scaling aspect, of the current DF. The NS instantiation levels, the NS scaling aspects and their corresponding NS scale levels applicable to the NS instance are declared in the NSD. ")
+@Schema (description= "This type represents the information used to scale an NS instance to a target size. The target size is either expressed as an NS instantiation level or as a list of NS scale levels, one per NS scaling aspect, of the current DF. The NS instantiation levels, the NS scaling aspects and their corresponding NS scale levels applicable to the NS instance are declared in the NSD. " )
 @Validated
 
 public class ScaleNsToLevelData   {
@@ -51,7 +50,7 @@ public class ScaleNsToLevelData   {
    * Identifier of the target NS instantiation level of the current DF to which the NS instance is requested to be scaled. 
    * @return nsInstantiationLevel
   **/
-  @ApiModelProperty(value = "Identifier of the target NS instantiation level of the current DF to which the NS instance is requested to be scaled. ")
+  @Schema(description = "Identifier of the target NS instantiation level of the current DF to which the NS instance is requested to be scaled. ")
 
 
   public String getNsInstantiationLevel() {
@@ -79,7 +78,7 @@ public class ScaleNsToLevelData   {
    * For each NS scaling aspect of the current DF, defines the target NS scale level to which the NS instance is to be scaled. 
    * @return nsScaleInfo
   **/
-  @ApiModelProperty(value = "For each NS scaling aspect of the current DF, defines the target NS scale level to which the NS instance is to be scaled. ")
+  @Schema(description = "For each NS scaling aspect of the current DF, defines the target NS scale level to which the NS instance is to be scaled. ")
 
   @Valid
 
@@ -102,7 +101,7 @@ public class ScaleNsToLevelData   {
     }
     ScaleNsToLevelData scaleNsToLevelData = (ScaleNsToLevelData) o;
     return Objects.equals(this.nsInstantiationLevel, scaleNsToLevelData.nsInstantiationLevel) &&
-        Objects.equals(this.nsScaleInfo, scaleNsToLevelData.nsScaleInfo);
+    Objects.equals(this.nsScaleInfo, scaleNsToLevelData.nsScaleInfo);
   }
 
   @Override
@@ -114,7 +113,7 @@ public class ScaleNsToLevelData   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ScaleNsToLevelData {\n");
-    
+
     sb.append("    nsInstantiationLevel: ").append(toIndentedString(nsInstantiationLevel)).append("\n");
     sb.append("    nsScaleInfo: ").append(toIndentedString(nsScaleInfo)).append("\n");
     sb.append("}");

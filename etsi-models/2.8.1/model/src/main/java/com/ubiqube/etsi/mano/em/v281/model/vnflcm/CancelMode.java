@@ -20,8 +20,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.CancelModeType;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -29,7 +28,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents a parameter to select the mode of cancelling an ongoing VNF LCM operation occurrence. 
  */
-@ApiModel(description = "This type represents a parameter to select the mode of cancelling an ongoing VNF LCM operation occurrence. ")
+@Schema (description= "This type represents a parameter to select the mode of cancelling an ongoing VNF LCM operation occurrence. " )
 @Validated
 
 public class CancelMode   {
@@ -45,7 +44,7 @@ public class CancelMode   {
    * Cancellation mode to apply. 
    * @return cancelMode
   **/
-  @ApiModelProperty(required = true, value = "Cancellation mode to apply. ")
+  @Schema(required = true , description = "Cancellation mode to apply. ")
   @NotNull
 
   @Valid
@@ -80,7 +79,7 @@ public class CancelMode   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class CancelMode {\n");
-    
+
     sb.append("    cancelMode: ").append(toIndentedString(cancelMode)).append("\n");
     sb.append("}");
     return sb.toString();

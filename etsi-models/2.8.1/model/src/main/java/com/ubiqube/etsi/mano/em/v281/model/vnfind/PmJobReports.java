@@ -19,8 +19,7 @@ package com.ubiqube.etsi.mano.em.v281.model.vnfind;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -28,7 +27,7 @@ import jakarta.validation.constraints.*;
 /**
  * Information about available reports collected by this PM job. 
  */
-@ApiModel(description = "Information about available reports collected by this PM job. ")
+@Schema (description= "Information about available reports collected by this PM job. " )
 @Validated
 
 public class PmJobReports   {
@@ -53,7 +52,7 @@ public class PmJobReports   {
    * The URI where the report can be obtained. 
    * @return href
   **/
-  @ApiModelProperty(required = true, value = "The URI where the report can be obtained. ")
+  @Schema(required = true , description = "The URI where the report can be obtained. ")
   @NotNull
 
 
@@ -74,7 +73,7 @@ public class PmJobReports   {
    * The time when the report was made available. 
    * @return readyTime
   **/
-  @ApiModelProperty(required = true, value = "The time when the report was made available. ")
+  @Schema(required = true , description = "The time when the report was made available. ")
   @NotNull
 
 
@@ -95,7 +94,7 @@ public class PmJobReports   {
    * The time when the report will expire. 
    * @return expiryTime
   **/
-  @ApiModelProperty(value = "The time when the report will expire. ")
+  @Schema(description = "The time when the report will expire. ")
 
 
   public String getExpiryTime() {
@@ -117,9 +116,10 @@ public class PmJobReports   {
    * maximum: 1024
    * @return fileSize
   **/
-  @ApiModelProperty(value = "The size of the report file in bytes, if known. ")
+  @Schema(description = "The size of the report file in bytes, if known. ")
 
-@Min(0) @Max(1024) 
+  @Min(0)
+  @Max(1024)
   public Integer getFileSize() {
     return fileSize;
   }
@@ -139,9 +139,9 @@ public class PmJobReports   {
     }
     PmJobReports pmJobReports = (PmJobReports) o;
     return Objects.equals(this.href, pmJobReports.href) &&
-        Objects.equals(this.readyTime, pmJobReports.readyTime) &&
-        Objects.equals(this.expiryTime, pmJobReports.expiryTime) &&
-        Objects.equals(this.fileSize, pmJobReports.fileSize);
+    Objects.equals(this.readyTime, pmJobReports.readyTime) &&
+    Objects.equals(this.expiryTime, pmJobReports.expiryTime) &&
+    Objects.equals(this.fileSize, pmJobReports.fileSize);
   }
 
   @Override
@@ -153,7 +153,7 @@ public class PmJobReports   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class PmJobReports {\n");
-    
+
     sb.append("    href: ").append(toIndentedString(href)).append("\n");
     sb.append("    readyTime: ").append(toIndentedString(readyTime)).append("\n");
     sb.append("    expiryTime: ").append(toIndentedString(expiryTime)).append("\n");

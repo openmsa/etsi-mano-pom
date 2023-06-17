@@ -20,8 +20,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -29,7 +28,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents attribute modifications for an \&quot;Individual alarm\&quot; resource, i.e. modifications to a resource representation based on the \&quot;Alarm\&quot; data type. The attributes of \&quot;Alarm\&quot; that can be modified are included in the \&quot;AlarmModifications\&quot; data type. 
  */
-@ApiModel(description = "This type represents attribute modifications for an \"Individual alarm\" resource, i.e. modifications to a resource representation based on the \"Alarm\" data type. The attributes of \"Alarm\" that can be modified are included in the \"AlarmModifications\" data type. ")
+@Schema (description= "This type represents attribute modifications for an \"Individual alarm\" resource, i.e. modifications to a resource representation based on the \"Alarm\" data type. The attributes of \"Alarm\" that can be modified are included in the \"AlarmModifications\" data type. " )
 @Validated
 
 public class AlarmModifications   {
@@ -76,7 +75,7 @@ public class AlarmModifications   {
    * New value of the \"ackState\" attribute in \"Alarm\". Permitted values: * ACKNOWLEDGED * UNACKNOWLEDGED 
    * @return ackState
   **/
-  @ApiModelProperty(required = true, value = "New value of the \"ackState\" attribute in \"Alarm\". Permitted values: * ACKNOWLEDGED * UNACKNOWLEDGED ")
+  @Schema(required = true , description = "New value of the \"ackState\" attribute in \"Alarm\". Permitted values: * ACKNOWLEDGED * UNACKNOWLEDGED ")
   @NotNull
 
 
@@ -110,7 +109,7 @@ public class AlarmModifications   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class AlarmModifications {\n");
-    
+
     sb.append("    ackState: ").append(toIndentedString(ackState)).append("\n");
     sb.append("}");
     return sb.toString();

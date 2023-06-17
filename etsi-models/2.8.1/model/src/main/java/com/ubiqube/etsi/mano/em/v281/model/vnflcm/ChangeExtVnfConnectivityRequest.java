@@ -21,8 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.ExtVirtualLinkData;
 import java.util.Map;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -32,7 +31,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents request parameters for the \&quot;Change external VNF connectivity\&quot; operation to modify the external connectivity of a VNF instance. 
  */
-@ApiModel(description = "This type represents request parameters for the \"Change external VNF connectivity\" operation to modify the external connectivity of a VNF instance. ")
+@Schema (description= "This type represents request parameters for the \"Change external VNF connectivity\" operation to modify the external connectivity of a VNF instance. " )
 @Validated
 
 public class ChangeExtVnfConnectivityRequest   {
@@ -57,7 +56,7 @@ public class ChangeExtVnfConnectivityRequest   {
    * Information about external VLs to change (e.g. connect the VNF to). 
    * @return extVirtualLinks
   **/
-  @ApiModelProperty(required = true, value = "Information about external VLs to change (e.g. connect the VNF to). ")
+  @Schema(required = true , description = "Information about external VLs to change (e.g. connect the VNF to). ")
   @NotNull
 
   @Valid
@@ -79,7 +78,7 @@ public class ChangeExtVnfConnectivityRequest   {
    * Additional input parameters for the instantiation process, specific to the VNF being instantiated, as declared in the VNFD as part of \"ChangeExtVnfConnectivityOpConfig\".\". 
    * @return additionalParams
   **/
-  @ApiModelProperty(value = "Additional input parameters for the instantiation process, specific to the VNF being instantiated, as declared in the VNFD as part of \"ChangeExtVnfConnectivityOpConfig\".\". ")
+  @Schema(description = "Additional input parameters for the instantiation process, specific to the VNF being instantiated, as declared in the VNFD as part of \"ChangeExtVnfConnectivityOpConfig\".\". ")
 
   @Valid
 
@@ -102,7 +101,7 @@ public class ChangeExtVnfConnectivityRequest   {
     }
     ChangeExtVnfConnectivityRequest changeExtVnfConnectivityRequest = (ChangeExtVnfConnectivityRequest) o;
     return Objects.equals(this.extVirtualLinks, changeExtVnfConnectivityRequest.extVirtualLinks) &&
-        Objects.equals(this.additionalParams, changeExtVnfConnectivityRequest.additionalParams);
+    Objects.equals(this.additionalParams, changeExtVnfConnectivityRequest.additionalParams);
   }
 
   @Override
@@ -114,7 +113,7 @@ public class ChangeExtVnfConnectivityRequest   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ChangeExtVnfConnectivityRequest {\n");
-    
+
     sb.append("    extVirtualLinks: ").append(toIndentedString(extVirtualLinks)).append("\n");
     sb.append("    additionalParams: ").append(toIndentedString(additionalParams)).append("\n");
     sb.append("}");

@@ -18,15 +18,13 @@ package com.ubiqube.etsi.mano.em.v281.model.vnfind;
 
 import java.util.Map;
 import java.util.Objects;
-
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
 import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.annotations.ApiModelProperty;
 
 /**
  * PerformanceReportPerformanceValues
@@ -43,113 +41,113 @@ public class PerformanceReportPerformanceValues {
 	@JsonProperty("context")
 	private Map<String, String> context = null;
 
-	public PerformanceReportPerformanceValues timeStamp(final String timeStamp) {
-		this.timeStamp = timeStamp;
-		return this;
-	}
+  public PerformanceReportPerformanceValues timeStamp(final String timeStamp) {
+    this.timeStamp = timeStamp;
+    return this;
+  }
 
-	/**
-	 * Time stamp indicating when the data has been collected.
-	 *
-	 * @return timeStamp
-	 **/
-	@ApiModelProperty(required = true, value = "Time stamp indicating when the data has been collected. ")
-	@NotNull
+  /**
+   * Time stamp indicating when the data has been collected.
+   *
+   * @return timeStamp
+   **/
+  @Schema(required = true , description = "Time stamp indicating when the data has been collected. ")
+  @NotNull
 
-	public String getTimeStamp() {
-		return timeStamp;
-	}
+  public String getTimeStamp() {
+    return timeStamp;
+  }
 
-	public void setTimeStamp(final String timeStamp) {
-		this.timeStamp = timeStamp;
-	}
+  public void setTimeStamp(final String timeStamp) {
+    this.timeStamp = timeStamp;
+  }
 
-	public PerformanceReportPerformanceValues value(final Object value) {
-		this.value = value;
-		return this;
-	}
+  public PerformanceReportPerformanceValues value(final Object value) {
+    this.value = value;
+    return this;
+  }
 
-	/**
-	 * Value of the metric collected. The type of this attribute shall correspond to
-	 * the related \"Measurement Unit\" as defined in clause 7.2. of ETSI GS NFV-IFA
-	 * 027.
-	 *
-	 * @return value
-	 **/
-	@ApiModelProperty(required = true, value = "Value of the metric collected. The type of this attribute shall correspond to the related \"Measurement Unit\" as defined in clause 7.2. of ETSI GS NFV-IFA 027. ")
-	@NotNull
+  /**
+   * Value of the metric collected. The type of this attribute shall correspond to
+   * the related \"Measurement Unit\" as defined in clause 7.2. of ETSI GS NFV-IFA
+   * 027.
+   *
+   * @return value
+   **/
+  @Schema(required = true , description = "Value of the metric collected. The type of this attribute shall correspond to the related \"Measurement Unit\" as defined in clause 7.2. of ETSI GS NFV-IFA 027. ")
+  @NotNull
 
-	public Object getValue() {
-		return value;
-	}
+  public Object getValue() {
+    return value;
+  }
 
-	public void setValue(final Object value) {
-		this.value = value;
-	}
+  public void setValue(final Object value) {
+    this.value = value;
+  }
 
-	public PerformanceReportPerformanceValues context(final Map<String, String> context) {
-		this.context = context;
-		return this;
-	}
+  public PerformanceReportPerformanceValues context(final Map<String, String> context) {
+    this.context = context;
+    return this;
+  }
 
-	/**
-	 * Measurement context information related to the measured value. The set of
-	 * applicable keys is defined per measurement in the related \"Measurement
-	 * Context\" in clause 7.2 of ETSI GS NFV-IFA 027.
-	 *
-	 * @return context
-	 **/
-	@ApiModelProperty(value = "Measurement context information related to the measured value. The set of applicable keys is defined per measurement in the related \"Measurement Context\" in clause 7.2 of ETSI GS NFV-IFA 027. ")
+  /**
+   * Measurement context information related to the measured value. The set of
+   * applicable keys is defined per measurement in the related \"Measurement
+   * Context\" in clause 7.2 of ETSI GS NFV-IFA 027.
+   *
+   * @return context
+   **/
+  @Schema(description = "Measurement context information related to the measured value. The set of applicable keys is defined per measurement in the related \"Measurement Context\" in clause 7.2 of ETSI GS NFV-IFA 027. ")
 
-	@Valid
+  @Valid
 
-	public Map<String, String> getContext() {
-		return context;
-	}
+  public Map<String, String> getContext() {
+    return context;
+  }
 
-	public void setContext(final Map<String, String> context) {
-		this.context = context;
-	}
+  public void setContext(final Map<String, String> context) {
+    this.context = context;
+  }
 
-	@Override
-	public boolean equals(final java.lang.Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
-		final PerformanceReportPerformanceValues performanceReportPerformanceValues = (PerformanceReportPerformanceValues) o;
-		return Objects.equals(this.timeStamp, performanceReportPerformanceValues.timeStamp) &&
-				Objects.equals(this.value, performanceReportPerformanceValues.value) &&
-				Objects.equals(this.context, performanceReportPerformanceValues.context);
-	}
+  @Override
+  public boolean equals(final java.lang.Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    final PerformanceReportPerformanceValues performanceReportPerformanceValues = (PerformanceReportPerformanceValues) o;
+    return Objects.equals(this.timeStamp, performanceReportPerformanceValues.timeStamp) &&
+    Objects.equals(this.value, performanceReportPerformanceValues.value) &&
+    Objects.equals(this.context, performanceReportPerformanceValues.context);
+  }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(timeStamp, value, context);
-	}
+  @Override
+  public int hashCode() {
+    return Objects.hash(timeStamp, value, context);
+  }
 
-	@Override
-	public String toString() {
-		final StringBuilder sb = new StringBuilder();
-		sb.append("class PerformanceReportPerformanceValues {\n");
+  @Override
+  public String toString() {
+    final StringBuilder sb = new StringBuilder();
+    sb.append("class PerformanceReportPerformanceValues {\n");
 
-		sb.append("    timeStamp: ").append(toIndentedString(timeStamp)).append("\n");
-		sb.append("    value: ").append(toIndentedString(value)).append("\n");
-		sb.append("    context: ").append(toIndentedString(context)).append("\n");
-		sb.append("}");
-		return sb.toString();
-	}
+    sb.append("    timeStamp: ").append(toIndentedString(timeStamp)).append("\n");
+    sb.append("    value: ").append(toIndentedString(value)).append("\n");
+    sb.append("    context: ").append(toIndentedString(context)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
 
-	/**
-	 * Convert the given object to string with each line indented by 4 spaces
-	 * (except the first line).
-	 */
-	private String toIndentedString(final java.lang.Object o) {
-		if (o == null) {
-			return "null";
-		}
-		return o.toString().replace("\n", "\n    ");
-	}
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(final java.lang.Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
+  }
 }

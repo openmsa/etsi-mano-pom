@@ -19,8 +19,7 @@ package com.ubiqube.etsi.mano.vnfm.v281.model.grant;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -30,7 +29,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type provides information regarding a resource zone group. A resource zone group is a group of one or more related resource zones which can be used in resource placement constraints. To fulfil such constraint, the NFVO may decide to place a resource into any zone that belongs to a particular group. NOTE: A resource zone group can be used to support overflow from one resource zone into another, in case a particular deployment supports only non-elastic resource zones. 
  */
-@ApiModel(description = "This type provides information regarding a resource zone group. A resource zone group is a group of one or more related resource zones which can be used in resource placement constraints. To fulfil such constraint, the NFVO may decide to place a resource into any zone that belongs to a particular group. NOTE: A resource zone group can be used to support overflow from one resource zone into another, in case a particular deployment supports only non-elastic resource zones. ")
+@Schema (description= "This type provides information regarding a resource zone group. A resource zone group is a group of one or more related resource zones which can be used in resource placement constraints. To fulfil such constraint, the NFVO may decide to place a resource into any zone that belongs to a particular group. NOTE: A resource zone group can be used to support overflow from one resource zone into another, in case a particular deployment supports only non-elastic resource zones. " )
 @Validated
 
 public class ZoneGroupInfo   {
@@ -52,7 +51,7 @@ public class ZoneGroupInfo   {
    * References of identifiers of \"ZoneInfo\" structures, each of which provides information about a resource zone that belongs to this group. 
    * @return zoneId
   **/
-  @ApiModelProperty(required = true, value = "References of identifiers of \"ZoneInfo\" structures, each of which provides information about a resource zone that belongs to this group. ")
+  @Schema(required = true , description = "References of identifiers of \"ZoneInfo\" structures, each of which provides information about a resource zone that belongs to this group. ")
   @NotNull
 
 
@@ -86,7 +85,7 @@ public class ZoneGroupInfo   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ZoneGroupInfo {\n");
-    
+
     sb.append("    zoneId: ").append(toIndentedString(zoneId)).append("\n");
     sb.append("}");
     return sb.toString();

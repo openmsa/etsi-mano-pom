@@ -19,8 +19,7 @@ package com.ubiqube.etsi.mano.nfvo.v281.model.vnf;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -28,7 +27,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents the checksum of a VNF package or an artifact file. 
  */
-@ApiModel(description = "This type represents the checksum of a VNF package or an artifact file. ")
+@Schema (description= "This type represents the checksum of a VNF package or an artifact file. " )
 @Validated
 
 public class Checksum   {
@@ -47,7 +46,7 @@ public class Checksum   {
    * Name of the algorithm used to generate the checksum, as defined in ETSI GS NFV-SOL 004 [5]. For example, SHA-256, SHA-512. 
    * @return algorithm
   **/
-  @ApiModelProperty(required = true, value = "Name of the algorithm used to generate the checksum, as defined in ETSI GS NFV-SOL 004 [5]. For example, SHA-256, SHA-512. ")
+  @Schema(required = true , description = "Name of the algorithm used to generate the checksum, as defined in ETSI GS NFV-SOL 004 [5]. For example, SHA-256, SHA-512. ")
   @NotNull
 
 
@@ -68,7 +67,7 @@ public class Checksum   {
    * The hexadecimal value of the checksum. 
    * @return hash
   **/
-  @ApiModelProperty(required = true, value = "The hexadecimal value of the checksum. ")
+  @Schema(required = true , description = "The hexadecimal value of the checksum. ")
   @NotNull
 
 
@@ -91,7 +90,7 @@ public class Checksum   {
     }
     Checksum checksum = (Checksum) o;
     return Objects.equals(this.algorithm, checksum.algorithm) &&
-        Objects.equals(this.hash, checksum.hash);
+    Objects.equals(this.hash, checksum.hash);
   }
 
   @Override
@@ -103,7 +102,7 @@ public class Checksum   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Checksum {\n");
-    
+
     sb.append("    algorithm: ").append(toIndentedString(algorithm)).append("\n");
     sb.append("    hash: ").append(toIndentedString(hash)).append("\n");
     sb.append("}");

@@ -20,8 +20,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.nfvo.v281.model.nslcm.PnfExtCpData;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -31,7 +30,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type specifies an PNF to be added to the NS instance and the PNF Profile to use for this PNF. It shall comply with the provisions defined in Table 6.5.3.14-1. 
  */
-@ApiModel(description = "This type specifies an PNF to be added to the NS instance and the PNF Profile to use for this PNF. It shall comply with the provisions defined in Table 6.5.3.14-1. ")
+@Schema (description= "This type specifies an PNF to be added to the NS instance and the PNF Profile to use for this PNF. It shall comply with the provisions defined in Table 6.5.3.14-1. " )
 @Validated
 
 public class AddPnfData   {
@@ -60,7 +59,7 @@ public class AddPnfData   {
    * Identifier of the PNF. This identifier is allocated by the OSS/BSS. 
    * @return pnfId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the PNF. This identifier is allocated by the OSS/BSS. ")
+  @Schema(required = true , description = "Identifier of the PNF. This identifier is allocated by the OSS/BSS. ")
   @NotNull
 
 
@@ -81,7 +80,7 @@ public class AddPnfData   {
    * Name of the PNF 
    * @return pnfName
   **/
-  @ApiModelProperty(required = true, value = "Name of the PNF ")
+  @Schema(required = true , description = "Name of the PNF ")
   @NotNull
 
 
@@ -102,7 +101,7 @@ public class AddPnfData   {
    * Identifier of the PNFD on which the PNF is based. 
    * @return pnfdId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the PNFD on which the PNF is based. ")
+  @Schema(required = true , description = "Identifier of the PNFD on which the PNF is based. ")
   @NotNull
 
 
@@ -123,7 +122,7 @@ public class AddPnfData   {
    * Identifier of related PnfProfile in the NSD on which the PNF is based. 
    * @return pnfProfileId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of related PnfProfile in the NSD on which the PNF is based. ")
+  @Schema(required = true , description = "Identifier of related PnfProfile in the NSD on which the PNF is based. ")
   @NotNull
 
 
@@ -152,7 +151,7 @@ public class AddPnfData   {
    * Address assigned for the PNF external CP(s). 
    * @return cpData
   **/
-  @ApiModelProperty(value = "Address assigned for the PNF external CP(s). ")
+  @Schema(description = "Address assigned for the PNF external CP(s). ")
 
   @Valid
 
@@ -175,10 +174,10 @@ public class AddPnfData   {
     }
     AddPnfData addPnfData = (AddPnfData) o;
     return Objects.equals(this.pnfId, addPnfData.pnfId) &&
-        Objects.equals(this.pnfName, addPnfData.pnfName) &&
-        Objects.equals(this.pnfdId, addPnfData.pnfdId) &&
-        Objects.equals(this.pnfProfileId, addPnfData.pnfProfileId) &&
-        Objects.equals(this.cpData, addPnfData.cpData);
+    Objects.equals(this.pnfName, addPnfData.pnfName) &&
+    Objects.equals(this.pnfdId, addPnfData.pnfdId) &&
+    Objects.equals(this.pnfProfileId, addPnfData.pnfProfileId) &&
+    Objects.equals(this.cpData, addPnfData.cpData);
   }
 
   @Override
@@ -190,7 +189,7 @@ public class AddPnfData   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class AddPnfData {\n");
-    
+
     sb.append("    pnfId: ").append(toIndentedString(pnfId)).append("\n");
     sb.append("    pnfName: ").append(toIndentedString(pnfName)).append("\n");
     sb.append("    pnfdId: ").append(toIndentedString(pnfdId)).append("\n");

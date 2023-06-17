@@ -20,8 +20,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.em.v281.model.vnfind.PerformanceReportEntries;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -31,7 +30,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type defines the format of a performance report provided by the VNFM to the API consumer as a result of collecting performance information as part of a PM job. The type shall comply with the provisions defined in table 6.5.2.10-1. 
  */
-@ApiModel(description = "This type defines the format of a performance report provided by the VNFM to the API consumer as a result of collecting performance information as part of a PM job. The type shall comply with the provisions defined in table 6.5.2.10-1. ")
+@Schema (description= "This type defines the format of a performance report provided by the VNFM to the API consumer as a result of collecting performance information as part of a PM job. The type shall comply with the provisions defined in table 6.5.2.10-1. " )
 @Validated
 
 public class PerformanceReport   {
@@ -53,7 +52,7 @@ public class PerformanceReport   {
    * List of performance information entries. Each performance report entry is for a given metric of a given object (i.e. VNF instance), but can include multiple collected values. 
    * @return entries
   **/
-  @ApiModelProperty(required = true, value = "List of performance information entries. Each performance report entry is for a given metric of a given object (i.e. VNF instance), but can include multiple collected values. ")
+  @Schema(required = true , description = "List of performance information entries. Each performance report entry is for a given metric of a given object (i.e. VNF instance), but can include multiple collected values. ")
   @NotNull
 
   @Valid
@@ -88,7 +87,7 @@ public class PerformanceReport   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class PerformanceReport {\n");
-    
+
     sb.append("    entries: ").append(toIndentedString(entries)).append("\n");
     sb.append("}");
     return sb.toString();

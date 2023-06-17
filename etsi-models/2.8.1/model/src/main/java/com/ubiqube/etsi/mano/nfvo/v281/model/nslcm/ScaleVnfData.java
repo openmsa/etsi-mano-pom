@@ -22,8 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.ubiqube.etsi.mano.nfvo.v281.model.nslcm.ScaleByStepData;
 import com.ubiqube.etsi.mano.nfvo.v281.model.nslcm.ScaleToLevelData;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -31,7 +30,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents defines the information to scale a VNF instance  to a given level, or to scale a VNF instance by steps. 
  */
-@ApiModel(description = "This type represents defines the information to scale a VNF instance  to a given level, or to scale a VNF instance by steps. ")
+@Schema (description= "This type represents defines the information to scale a VNF instance  to a given level, or to scale a VNF instance by steps. " )
 @Validated
 
 public class ScaleVnfData   {
@@ -91,7 +90,7 @@ public class ScaleVnfData   {
    * Identifier of the VNF instance being scaled. 
    * @return vnfInstanceId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the VNF instance being scaled. ")
+  @Schema(required = true , description = "Identifier of the VNF instance being scaled. ")
   @NotNull
 
 
@@ -112,7 +111,7 @@ public class ScaleVnfData   {
    * Type of the scale VNF operation requested. Allowed values are: - SCALE_OUT - SCALE_IN - SCALE_TO_INSTANTIATION_LEVEL - SCALE_TO_SCALE_LEVEL(S) The set of types actually supported depends on the capabilities of the VNF being managed. 
    * @return scaleVnfType
   **/
-  @ApiModelProperty(required = true, value = "Type of the scale VNF operation requested. Allowed values are: - SCALE_OUT - SCALE_IN - SCALE_TO_INSTANTIATION_LEVEL - SCALE_TO_SCALE_LEVEL(S) The set of types actually supported depends on the capabilities of the VNF being managed. ")
+  @Schema(required = true , description = "Type of the scale VNF operation requested. Allowed values are: - SCALE_OUT - SCALE_IN - SCALE_TO_INSTANTIATION_LEVEL - SCALE_TO_SCALE_LEVEL(S) The set of types actually supported depends on the capabilities of the VNF being managed. ")
   @NotNull
 
 
@@ -133,7 +132,7 @@ public class ScaleVnfData   {
    * The information used for scaling to a given level. 
    * @return scaleToLevelData
   **/
-  @ApiModelProperty(value = "The information used for scaling to a given level. ")
+  @Schema(description = "The information used for scaling to a given level. ")
 
   @Valid
 
@@ -154,7 +153,7 @@ public class ScaleVnfData   {
    * The information used for scaling by steps. 
    * @return scaleByStepData
   **/
-  @ApiModelProperty(value = "The information used for scaling by steps. ")
+  @Schema(description = "The information used for scaling by steps. ")
 
   @Valid
 
@@ -177,9 +176,9 @@ public class ScaleVnfData   {
     }
     ScaleVnfData scaleVnfData = (ScaleVnfData) o;
     return Objects.equals(this.vnfInstanceId, scaleVnfData.vnfInstanceId) &&
-        Objects.equals(this.scaleVnfType, scaleVnfData.scaleVnfType) &&
-        Objects.equals(this.scaleToLevelData, scaleVnfData.scaleToLevelData) &&
-        Objects.equals(this.scaleByStepData, scaleVnfData.scaleByStepData);
+    Objects.equals(this.scaleVnfType, scaleVnfData.scaleVnfType) &&
+    Objects.equals(this.scaleToLevelData, scaleVnfData.scaleToLevelData) &&
+    Objects.equals(this.scaleByStepData, scaleVnfData.scaleByStepData);
   }
 
   @Override
@@ -191,7 +190,7 @@ public class ScaleVnfData   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ScaleVnfData {\n");
-    
+
     sb.append("    vnfInstanceId: ").append(toIndentedString(vnfInstanceId)).append("\n");
     sb.append("    scaleVnfType: ").append(toIndentedString(scaleVnfType)).append("\n");
     sb.append("    scaleToLevelData: ").append(toIndentedString(scaleToLevelData)).append("\n");

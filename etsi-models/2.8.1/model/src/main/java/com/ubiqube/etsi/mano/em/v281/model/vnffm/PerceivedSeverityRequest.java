@@ -20,8 +20,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.em.v281.model.vnffm.PerceivedSeverityType;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -29,7 +28,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents the escalated value of the perceived severity for an alarm. 
  */
-@ApiModel(description = "This type represents the escalated value of the perceived severity for an alarm. ")
+@Schema (description= "This type represents the escalated value of the perceived severity for an alarm. " )
 @Validated
 
 public class PerceivedSeverityRequest   {
@@ -45,7 +44,7 @@ public class PerceivedSeverityRequest   {
    * Indicates the proposed escalated perceived severity for an alarm. 
    * @return proposedPerceivedSeverity
   **/
-  @ApiModelProperty(required = true, value = "Indicates the proposed escalated perceived severity for an alarm. ")
+  @Schema(required = true , description = "Indicates the proposed escalated perceived severity for an alarm. ")
   @NotNull
 
   @Valid
@@ -80,7 +79,7 @@ public class PerceivedSeverityRequest   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class PerceivedSeverityRequest {\n");
-    
+
     sb.append("    proposedPerceivedSeverity: ").append(toIndentedString(proposedPerceivedSeverity)).append("\n");
     sb.append("}");
     return sb.toString();

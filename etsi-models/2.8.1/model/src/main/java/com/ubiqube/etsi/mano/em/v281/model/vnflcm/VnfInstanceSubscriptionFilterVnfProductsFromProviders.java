@@ -20,8 +20,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.VnfInstanceSubscriptionFilterVnfProducts;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -50,7 +49,7 @@ public class VnfInstanceSubscriptionFilterVnfProductsFromProviders   {
    * Name of the VNF provider to match. 
    * @return vnfProvider
   **/
-  @ApiModelProperty(required = true, value = "Name of the VNF provider to match. ")
+  @Schema(required = true , description = "Name of the VNF provider to match. ")
   @NotNull
 
 
@@ -79,7 +78,7 @@ public class VnfInstanceSubscriptionFilterVnfProductsFromProviders   {
    * If present, match VNF instances that belong to VNF products with certain product names, from one particular provider. 
    * @return vnfProducts
   **/
-  @ApiModelProperty(value = "If present, match VNF instances that belong to VNF products with certain product names, from one particular provider. ")
+  @Schema(description = "If present, match VNF instances that belong to VNF products with certain product names, from one particular provider. ")
 
   @Valid
 
@@ -102,7 +101,7 @@ public class VnfInstanceSubscriptionFilterVnfProductsFromProviders   {
     }
     VnfInstanceSubscriptionFilterVnfProductsFromProviders vnfInstanceSubscriptionFilterVnfProductsFromProviders = (VnfInstanceSubscriptionFilterVnfProductsFromProviders) o;
     return Objects.equals(this.vnfProvider, vnfInstanceSubscriptionFilterVnfProductsFromProviders.vnfProvider) &&
-        Objects.equals(this.vnfProducts, vnfInstanceSubscriptionFilterVnfProductsFromProviders.vnfProducts);
+    Objects.equals(this.vnfProducts, vnfInstanceSubscriptionFilterVnfProductsFromProviders.vnfProducts);
   }
 
   @Override
@@ -114,7 +113,7 @@ public class VnfInstanceSubscriptionFilterVnfProductsFromProviders   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class VnfInstanceSubscriptionFilterVnfProductsFromProviders {\n");
-    
+
     sb.append("    vnfProvider: ").append(toIndentedString(vnfProvider)).append("\n");
     sb.append("    vnfProducts: ").append(toIndentedString(vnfProducts)).append("\n");
     sb.append("}");

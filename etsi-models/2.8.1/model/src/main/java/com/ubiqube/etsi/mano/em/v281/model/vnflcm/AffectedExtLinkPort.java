@@ -21,8 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.ResourceHandle;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -30,7 +29,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type provides information about added and deleted external link ports (link ports attached to external virtual links). It shall comply with the provisions in table 5.5.3.14a-1. 
  */
-@ApiModel(description = "This type provides information about added and deleted external link ports (link ports attached to external virtual links). It shall comply with the provisions in table 5.5.3.14a-1. ")
+@Schema (description= "This type provides information about added and deleted external link ports (link ports attached to external virtual links). It shall comply with the provisions in table 5.5.3.14a-1. " )
 @Validated
 
 public class AffectedExtLinkPort   {
@@ -86,7 +85,7 @@ public class AffectedExtLinkPort   {
    * Identifier of the link port, identifying the applicable \"extLinkPorts\" entry in the \"ExtVirtualLinkInfo\" data type (see clause 5.5.3.2). 
    * @return id
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the link port, identifying the applicable \"extLinkPorts\" entry in the \"ExtVirtualLinkInfo\" data type (see clause 5.5.3.2). ")
+  @Schema(required = true , description = "Identifier of the link port, identifying the applicable \"extLinkPorts\" entry in the \"ExtVirtualLinkInfo\" data type (see clause 5.5.3.2). ")
   @NotNull
 
 
@@ -107,7 +106,7 @@ public class AffectedExtLinkPort   {
    * Signals the type of change. Permitted values: - ADDED - REMOVED 
    * @return changeType
   **/
-  @ApiModelProperty(required = true, value = "Signals the type of change. Permitted values: - ADDED - REMOVED ")
+  @Schema(required = true , description = "Signals the type of change. Permitted values: - ADDED - REMOVED ")
   @NotNull
 
 
@@ -128,7 +127,7 @@ public class AffectedExtLinkPort   {
    * Identifier of the related external CP instance. 
    * @return extCpInstanceId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the related external CP instance. ")
+  @Schema(required = true , description = "Identifier of the related external CP instance. ")
   @NotNull
 
 
@@ -149,7 +148,7 @@ public class AffectedExtLinkPort   {
    * Reference to the link port resource. Detailed information is (for added resources) or has been (for removed resources) available from the VIM. 
    * @return resourceHandle
   **/
-  @ApiModelProperty(required = true, value = "Reference to the link port resource. Detailed information is (for added resources) or has been (for removed resources) available from the VIM. ")
+  @Schema(required = true , description = "Reference to the link port resource. Detailed information is (for added resources) or has been (for removed resources) available from the VIM. ")
   @NotNull
 
   @Valid
@@ -173,9 +172,9 @@ public class AffectedExtLinkPort   {
     }
     AffectedExtLinkPort affectedExtLinkPort = (AffectedExtLinkPort) o;
     return Objects.equals(this.id, affectedExtLinkPort.id) &&
-        Objects.equals(this.changeType, affectedExtLinkPort.changeType) &&
-        Objects.equals(this.extCpInstanceId, affectedExtLinkPort.extCpInstanceId) &&
-        Objects.equals(this.resourceHandle, affectedExtLinkPort.resourceHandle);
+    Objects.equals(this.changeType, affectedExtLinkPort.changeType) &&
+    Objects.equals(this.extCpInstanceId, affectedExtLinkPort.extCpInstanceId) &&
+    Objects.equals(this.resourceHandle, affectedExtLinkPort.resourceHandle);
   }
 
   @Override
@@ -187,7 +186,7 @@ public class AffectedExtLinkPort   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class AffectedExtLinkPort {\n");
-    
+
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    changeType: ").append(toIndentedString(changeType)).append("\n");
     sb.append("    extCpInstanceId: ").append(toIndentedString(extCpInstanceId)).append("\n");

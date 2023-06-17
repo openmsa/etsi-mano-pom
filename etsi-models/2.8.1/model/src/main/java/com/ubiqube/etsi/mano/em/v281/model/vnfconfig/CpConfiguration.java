@@ -20,8 +20,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.em.v281.model.vnfconfig.CpAddress;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -31,7 +30,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents configuration parameters of a CP instance. 
  */
-@ApiModel(description = "This type represents configuration parameters of a CP instance. ")
+@Schema (description= "This type represents configuration parameters of a CP instance. " )
 @Validated
 
 public class CpConfiguration   {
@@ -54,7 +53,7 @@ public class CpConfiguration   {
    * Identifier of a CP instance within the namespace of a specific VNF instance or a VNFC instance. 
    * @return cpId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of a CP instance within the namespace of a specific VNF instance or a VNFC instance. ")
+  @Schema(required = true , description = "Identifier of a CP instance within the namespace of a specific VNF instance or a VNFC instance. ")
   @NotNull
 
 
@@ -75,7 +74,7 @@ public class CpConfiguration   {
    * Identifier of the CPD in the VNFD. 
    * @return cpdId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the CPD in the VNFD. ")
+  @Schema(required = true , description = "Identifier of the CPD in the VNFD. ")
   @NotNull
 
 
@@ -101,7 +100,7 @@ public class CpConfiguration   {
    * Network address and port assigned to the CP. 
    * @return addresses
   **/
-  @ApiModelProperty(required = true, value = "Network address and port assigned to the CP. ")
+  @Schema(required = true , description = "Network address and port assigned to the CP. ")
   @NotNull
 
   @Valid
@@ -125,8 +124,8 @@ public class CpConfiguration   {
     }
     CpConfiguration cpConfiguration = (CpConfiguration) o;
     return Objects.equals(this.cpId, cpConfiguration.cpId) &&
-        Objects.equals(this.cpdId, cpConfiguration.cpdId) &&
-        Objects.equals(this.addresses, cpConfiguration.addresses);
+    Objects.equals(this.cpdId, cpConfiguration.cpdId) &&
+    Objects.equals(this.addresses, cpConfiguration.addresses);
   }
 
   @Override
@@ -138,7 +137,7 @@ public class CpConfiguration   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class CpConfiguration {\n");
-    
+
     sb.append("    cpId: ").append(toIndentedString(cpId)).append("\n");
     sb.append("    cpdId: ").append(toIndentedString(cpdId)).append("\n");
     sb.append("    addresses: ").append(toIndentedString(addresses)).append("\n");

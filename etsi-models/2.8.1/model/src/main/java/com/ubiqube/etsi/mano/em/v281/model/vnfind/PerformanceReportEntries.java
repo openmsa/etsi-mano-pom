@@ -20,8 +20,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.em.v281.model.vnfind.PerformanceReportPerformanceValues;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -59,7 +58,7 @@ public class PerformanceReportEntries   {
    * Type of the measured object. The applicable measured object type for a measurement is defined in clause 7.2 of ETSI GS NFV-IFA 027. 
    * @return objectType
   **/
-  @ApiModelProperty(required = true, value = "Type of the measured object. The applicable measured object type for a measurement is defined in clause 7.2 of ETSI GS NFV-IFA 027. ")
+  @Schema(required = true , description = "Type of the measured object. The applicable measured object type for a measurement is defined in clause 7.2 of ETSI GS NFV-IFA 027. ")
   @NotNull
 
 
@@ -80,7 +79,7 @@ public class PerformanceReportEntries   {
    * Identifier of the measured object instance for which the performance metric is reported 
    * @return objectInstanceId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the measured object instance for which the performance metric is reported ")
+  @Schema(required = true , description = "Identifier of the measured object instance for which the performance metric is reported ")
   @NotNull
 
 
@@ -101,7 +100,7 @@ public class PerformanceReportEntries   {
    * Identifier of the sub-object instance of the measured object (i.e. of the measured object instance) for which the performance metric is reported. Shall be present if this is required in clause 6.2 of ETSI GS NFV-IFA 027 for the related measured object type. The sub-object allows to structure the measured object but is not to be confused with sub-counters which allow to structure the measurement value. EXAMPLE:   Measured object:  VnfInstanceXYZ   Sub-object:       VnfcInstance1   Measurement:      vCPU_utilization   Sub-counters:     vCPU utilization of each of the vCPUs of VnfcInstance1                     (vCPU_utilization.vCPU1, vCPU_utilization.vCPU2, etc.). 
    * @return subObjectInstanceId
   **/
-  @ApiModelProperty(value = "Identifier of the sub-object instance of the measured object (i.e. of the measured object instance) for which the performance metric is reported. Shall be present if this is required in clause 6.2 of ETSI GS NFV-IFA 027 for the related measured object type. The sub-object allows to structure the measured object but is not to be confused with sub-counters which allow to structure the measurement value. EXAMPLE:   Measured object:  VnfInstanceXYZ   Sub-object:       VnfcInstance1   Measurement:      vCPU_utilization   Sub-counters:     vCPU utilization of each of the vCPUs of VnfcInstance1                     (vCPU_utilization.vCPU1, vCPU_utilization.vCPU2, etc.). ")
+  @Schema(description = "Identifier of the sub-object instance of the measured object (i.e. of the measured object instance) for which the performance metric is reported. Shall be present if this is required in clause 6.2 of ETSI GS NFV-IFA 027 for the related measured object type. The sub-object allows to structure the measured object but is not to be confused with sub-counters which allow to structure the measurement value. EXAMPLE:   Measured object:  VnfInstanceXYZ   Sub-object:       VnfcInstance1   Measurement:      vCPU_utilization   Sub-counters:     vCPU utilization of each of the vCPUs of VnfcInstance1                     (vCPU_utilization.vCPU1, vCPU_utilization.vCPU2, etc.). ")
 
 
   public String getSubObjectInstanceId() {
@@ -121,7 +120,7 @@ public class PerformanceReportEntries   {
    * Name of the metric collected. This attribute shall contain the related \"Measurement Name\" value as defined in clause 7.2 of ETSI GS NFV-IFA 027. 
    * @return performanceMetric
   **/
-  @ApiModelProperty(required = true, value = "Name of the metric collected. This attribute shall contain the related \"Measurement Name\" value as defined in clause 7.2 of ETSI GS NFV-IFA 027. ")
+  @Schema(required = true , description = "Name of the metric collected. This attribute shall contain the related \"Measurement Name\" value as defined in clause 7.2 of ETSI GS NFV-IFA 027. ")
   @NotNull
 
 
@@ -150,7 +149,7 @@ public class PerformanceReportEntries   {
    * List of performance values with associated timestamp. 
    * @return performanceValues
   **/
-  @ApiModelProperty(value = "List of performance values with associated timestamp. ")
+  @Schema(description = "List of performance values with associated timestamp. ")
 
   @Valid
 
@@ -173,10 +172,10 @@ public class PerformanceReportEntries   {
     }
     PerformanceReportEntries performanceReportEntries = (PerformanceReportEntries) o;
     return Objects.equals(this.objectType, performanceReportEntries.objectType) &&
-        Objects.equals(this.objectInstanceId, performanceReportEntries.objectInstanceId) &&
-        Objects.equals(this.subObjectInstanceId, performanceReportEntries.subObjectInstanceId) &&
-        Objects.equals(this.performanceMetric, performanceReportEntries.performanceMetric) &&
-        Objects.equals(this.performanceValues, performanceReportEntries.performanceValues);
+    Objects.equals(this.objectInstanceId, performanceReportEntries.objectInstanceId) &&
+    Objects.equals(this.subObjectInstanceId, performanceReportEntries.subObjectInstanceId) &&
+    Objects.equals(this.performanceMetric, performanceReportEntries.performanceMetric) &&
+    Objects.equals(this.performanceValues, performanceReportEntries.performanceValues);
   }
 
   @Override
@@ -188,7 +187,7 @@ public class PerformanceReportEntries   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class PerformanceReportEntries {\n");
-    
+
     sb.append("    objectType: ").append(toIndentedString(objectType)).append("\n");
     sb.append("    objectInstanceId: ").append(toIndentedString(objectInstanceId)).append("\n");
     sb.append("    subObjectInstanceId: ").append(toIndentedString(subObjectInstanceId)).append("\n");

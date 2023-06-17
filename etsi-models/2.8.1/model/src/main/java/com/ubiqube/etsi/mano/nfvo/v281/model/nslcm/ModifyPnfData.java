@@ -20,8 +20,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.nfvo.v281.model.nslcm.PnfExtCpData;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -31,7 +30,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type specifies an PNF to be modified in the NS instance. It shall comply with the provisions defined in Table 6.5.3.15-1. 
  */
-@ApiModel(description = "This type specifies an PNF to be modified in the NS instance. It shall comply with the provisions defined in Table 6.5.3.15-1. ")
+@Schema (description= "This type specifies an PNF to be modified in the NS instance. It shall comply with the provisions defined in Table 6.5.3.15-1. " )
 @Validated
 
 public class ModifyPnfData   {
@@ -54,7 +53,7 @@ public class ModifyPnfData   {
    * Identifier of the PNF. This identifier is allocated by the OSS/BSS. 
    * @return pnfId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the PNF. This identifier is allocated by the OSS/BSS. ")
+  @Schema(required = true , description = "Identifier of the PNF. This identifier is allocated by the OSS/BSS. ")
   @NotNull
 
 
@@ -75,7 +74,7 @@ public class ModifyPnfData   {
    * Name of the PNF. 
    * @return pnfName
   **/
-  @ApiModelProperty(value = "Name of the PNF. ")
+  @Schema(description = "Name of the PNF. ")
 
 
   public String getPnfName() {
@@ -103,7 +102,7 @@ public class ModifyPnfData   {
    * Address assigned for the PNF external CP(s). 
    * @return cpData
   **/
-  @ApiModelProperty(value = "Address assigned for the PNF external CP(s). ")
+  @Schema(description = "Address assigned for the PNF external CP(s). ")
 
   @Valid
 
@@ -126,8 +125,8 @@ public class ModifyPnfData   {
     }
     ModifyPnfData modifyPnfData = (ModifyPnfData) o;
     return Objects.equals(this.pnfId, modifyPnfData.pnfId) &&
-        Objects.equals(this.pnfName, modifyPnfData.pnfName) &&
-        Objects.equals(this.cpData, modifyPnfData.cpData);
+    Objects.equals(this.pnfName, modifyPnfData.pnfName) &&
+    Objects.equals(this.cpData, modifyPnfData.cpData);
   }
 
   @Override
@@ -139,7 +138,7 @@ public class ModifyPnfData   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ModifyPnfData {\n");
-    
+
     sb.append("    pnfId: ").append(toIndentedString(pnfId)).append("\n");
     sb.append("    pnfName: ").append(toIndentedString(pnfName)).append("\n");
     sb.append("    cpData: ").append(toIndentedString(cpData)).append("\n");

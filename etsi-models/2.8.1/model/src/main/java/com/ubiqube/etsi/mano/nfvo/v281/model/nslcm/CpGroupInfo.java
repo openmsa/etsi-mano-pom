@@ -22,8 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.ubiqube.etsi.mano.nfvo.v281.model.nslcm.CpPairInfo;
 import com.ubiqube.etsi.mano.nfvo.v281.model.nslcm.ForwardingBehaviourInputParameters;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -33,7 +32,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents describes a group of CPs and/or SAPs pairs associated to  the same position in an NFP. It shall comply with the provisions defined in  Table 6.5.3.71-1. 
  */
-@ApiModel(description = "This type represents describes a group of CPs and/or SAPs pairs associated to  the same position in an NFP. It shall comply with the provisions defined in  Table 6.5.3.71-1. ")
+@Schema (description= "This type represents describes a group of CPs and/or SAPs pairs associated to  the same position in an NFP. It shall comply with the provisions defined in  Table 6.5.3.71-1. " )
 @Validated
 
 public class CpGroupInfo   {
@@ -95,10 +94,10 @@ public class CpGroupInfo   {
    * One or more pair(s) of ingress and egress CPs or SAPs which the NFP passes by. All CP or SAP pairs in a group shall be instantiated from connection point  descriptors or service access point descriptors referenced in the corresponding  NfpPositionDesc. 
    * @return cpPairInfo
   **/
-  @ApiModelProperty(value = "One or more pair(s) of ingress and egress CPs or SAPs which the NFP passes by. All CP or SAP pairs in a group shall be instantiated from connection point  descriptors or service access point descriptors referenced in the corresponding  NfpPositionDesc. ")
+  @Schema(description = "One or more pair(s) of ingress and egress CPs or SAPs which the NFP passes by. All CP or SAP pairs in a group shall be instantiated from connection point  descriptors or service access point descriptors referenced in the corresponding  NfpPositionDesc. ")
 
   @Valid
-@Size(min=1) 
+  @Size(min = 1)
   public List<CpPairInfo> getCpPairInfo() {
     return cpPairInfo;
   }
@@ -116,7 +115,7 @@ public class CpGroupInfo   {
    * Identifies a rule to apply to forward traffic to the ingress CPs or SAPs of  the group. Permitted values: * ALL = Traffic flows shall be forwarded simultaneously to all CPs or SAPs  of the group. * LB = Traffic flows shall be forwarded to one CP or SAP of the group selected  based on a loadbalancing algorithm. 
    * @return forwardingBehaviour
   **/
-  @ApiModelProperty(value = "Identifies a rule to apply to forward traffic to the ingress CPs or SAPs of  the group. Permitted values: * ALL = Traffic flows shall be forwarded simultaneously to all CPs or SAPs  of the group. * LB = Traffic flows shall be forwarded to one CP or SAP of the group selected  based on a loadbalancing algorithm. ")
+  @Schema(description = "Identifies a rule to apply to forward traffic to the ingress CPs or SAPs of  the group. Permitted values: * ALL = Traffic flows shall be forwarded simultaneously to all CPs or SAPs  of the group. * LB = Traffic flows shall be forwarded to one CP or SAP of the group selected  based on a loadbalancing algorithm. ")
 
 
   public ForwardingBehaviourEnum getForwardingBehaviour() {
@@ -136,7 +135,7 @@ public class CpGroupInfo   {
    * Provides input parameters to configure the forwarding behaviour (e.g. identifies  a load balancing algorithm and criteria). 
    * @return forwardingBehaviourInputParameters
   **/
-  @ApiModelProperty(value = "Provides input parameters to configure the forwarding behaviour (e.g. identifies  a load balancing algorithm and criteria). ")
+  @Schema(description = "Provides input parameters to configure the forwarding behaviour (e.g. identifies  a load balancing algorithm and criteria). ")
 
   @Valid
 
@@ -159,8 +158,8 @@ public class CpGroupInfo   {
     }
     CpGroupInfo cpGroupInfo = (CpGroupInfo) o;
     return Objects.equals(this.cpPairInfo, cpGroupInfo.cpPairInfo) &&
-        Objects.equals(this.forwardingBehaviour, cpGroupInfo.forwardingBehaviour) &&
-        Objects.equals(this.forwardingBehaviourInputParameters, cpGroupInfo.forwardingBehaviourInputParameters);
+    Objects.equals(this.forwardingBehaviour, cpGroupInfo.forwardingBehaviour) &&
+    Objects.equals(this.forwardingBehaviourInputParameters, cpGroupInfo.forwardingBehaviourInputParameters);
   }
 
   @Override
@@ -172,7 +171,7 @@ public class CpGroupInfo   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class CpGroupInfo {\n");
-    
+
     sb.append("    cpPairInfo: ").append(toIndentedString(cpPairInfo)).append("\n");
     sb.append("    forwardingBehaviour: ").append(toIndentedString(forwardingBehaviour)).append("\n");
     sb.append("    forwardingBehaviourInputParameters: ").append(toIndentedString(forwardingBehaviourInputParameters)).append("\n");

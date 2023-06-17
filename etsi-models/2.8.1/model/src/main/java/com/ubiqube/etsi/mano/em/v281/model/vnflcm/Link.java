@@ -19,8 +19,7 @@ package com.ubiqube.etsi.mano.em.v281.model.vnflcm;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -28,7 +27,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents a link to a resource using an absolute URI. 
  */
-@ApiModel(description = "This type represents a link to a resource using an absolute URI. ")
+@Schema (description= "This type represents a link to a resource using an absolute URI. " )
 @Validated
 
 public class Link   {
@@ -44,7 +43,7 @@ public class Link   {
    * URI of another resource referenced from a resource. Shall be an absolute URI (i.e. a UTI that contains {apiRoot}). 
    * @return href
   **/
-  @ApiModelProperty(required = true, value = "URI of another resource referenced from a resource. Shall be an absolute URI (i.e. a UTI that contains {apiRoot}). ")
+  @Schema(required = true , description = "URI of another resource referenced from a resource. Shall be an absolute URI (i.e. a UTI that contains {apiRoot}). ")
   @NotNull
 
 
@@ -78,7 +77,7 @@ public class Link   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Link {\n");
-    
+
     sb.append("    href: ").append(toIndentedString(href)).append("\n");
     sb.append("}");
     return sb.toString();

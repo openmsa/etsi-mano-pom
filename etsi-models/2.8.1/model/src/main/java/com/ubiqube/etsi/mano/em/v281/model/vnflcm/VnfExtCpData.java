@@ -20,8 +20,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.VnfExtCpConfig;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -31,7 +30,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents configuration information for external CPs created from a CPD. 
  */
-@ApiModel(description = "This type represents configuration information for external CPs created from a CPD. ")
+@Schema (description= "This type represents configuration information for external CPs created from a CPD. " )
 @Validated
 
 public class VnfExtCpData   {
@@ -51,7 +50,7 @@ public class VnfExtCpData   {
    * The identifier of the CPD in the VNFD. 
    * @return cpdId
   **/
-  @ApiModelProperty(required = true, value = "The identifier of the CPD in the VNFD. ")
+  @Schema(required = true , description = "The identifier of the CPD in the VNFD. ")
   @NotNull
 
 
@@ -80,7 +79,7 @@ public class VnfExtCpData   {
    * List of instance data that need to be configured on the CP instances created from the respective CPD. 
    * @return cpConfig
   **/
-  @ApiModelProperty(value = "List of instance data that need to be configured on the CP instances created from the respective CPD. ")
+  @Schema(description = "List of instance data that need to be configured on the CP instances created from the respective CPD. ")
 
   @Valid
 
@@ -103,7 +102,7 @@ public class VnfExtCpData   {
     }
     VnfExtCpData vnfExtCpData = (VnfExtCpData) o;
     return Objects.equals(this.cpdId, vnfExtCpData.cpdId) &&
-        Objects.equals(this.cpConfig, vnfExtCpData.cpConfig);
+    Objects.equals(this.cpConfig, vnfExtCpData.cpConfig);
   }
 
   @Override
@@ -115,7 +114,7 @@ public class VnfExtCpData   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class VnfExtCpData {\n");
-    
+
     sb.append("    cpdId: ").append(toIndentedString(cpdId)).append("\n");
     sb.append("    cpConfig: ").append(toIndentedString(cpConfig)).append("\n");
     sb.append("}");

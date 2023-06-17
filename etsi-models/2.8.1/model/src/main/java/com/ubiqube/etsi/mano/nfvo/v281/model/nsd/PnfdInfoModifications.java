@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.nfvo.v281.model.nsd;
 
 import java.util.Map;
 import java.util.Objects;
-
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
@@ -26,13 +26,10 @@ import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
 /**
  * This type represents attribute modifications for an individual PNF descriptor resource based on the \&quot;PnfdInfo\&quot; data type. The attributes of \&quot;PnfdInfo\&quot; that can be modified are included in the \&quot;PnfdInfoModifications\&quot; data type. 
  */
-@ApiModel(description = "This type represents attribute modifications for an individual PNF descriptor resource based on the \"PnfdInfo\" data type. The attributes of \"PnfdInfo\" that can be modified are included in the \"PnfdInfoModifications\" data type. ")
+@Schema (description= "This type represents attribute modifications for an individual PNF descriptor resource based on the \"PnfdInfo\" data type. The attributes of \"PnfdInfo\" that can be modified are included in the \"PnfdInfoModifications\" data type. " )
 @Validated
 
 public class PnfdInfoModifications   {
@@ -48,7 +45,7 @@ public class PnfdInfoModifications   {
    * Get userDefinedData
    * @return userDefinedData
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true , description = "")
   @NotNull
 
   @Valid
@@ -83,7 +80,7 @@ public class PnfdInfoModifications   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class PnfdInfoModifications {\n");
-    
+
     sb.append("    userDefinedData: ").append(toIndentedString(userDefinedData)).append("\n");
     sb.append("}");
     return sb.toString();

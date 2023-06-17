@@ -17,7 +17,7 @@
 package com.ubiqube.etsi.mano.nfvo.v281.model.vnf;
 
 import java.util.Objects;
-
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
@@ -26,13 +26,10 @@ import org.springframework.validation.annotation.Validated;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.Link;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
 /**
  * Links to resources related to this resource.
  */
-@ApiModel(description = "Links to resources related to this resource. ")
+@Schema (description= "Links to resources related to this resource. " )
 @Validated
 
 public class VnfPkgInfoLinks {
@@ -45,114 +42,114 @@ public class VnfPkgInfoLinks {
 	@JsonProperty("packageContent")
 	private Link packageContent = null;
 
-	public VnfPkgInfoLinks self(final Link self) {
-		this.self = self;
-		return this;
-	}
+  public VnfPkgInfoLinks self(final Link self) {
+    this.self = self;
+    return this;
+  }
 
-	/**
-	 * URI of this resource.
-	 *
-	 * @return self
-	 **/
-	@ApiModelProperty(required = true, value = "URI of this resource. ")
-	@NotNull
+  /**
+   * URI of this resource.
+   *
+   * @return self
+   **/
+  @Schema(required = true , description = "URI of this resource. ")
+  @NotNull
 
-	@Valid
+  @Valid
 
-	public Link getSelf() {
-		return self;
-	}
+  public Link getSelf() {
+    return self;
+  }
 
-	public void setSelf(final Link self) {
-		this.self = self;
-	}
+  public void setSelf(final Link self) {
+    this.self = self;
+  }
 
-	public VnfPkgInfoLinks vnfd(final Link vnfd) {
-		this.vnfd = vnfd;
-		return this;
-	}
+  public VnfPkgInfoLinks vnfd(final Link vnfd) {
+    this.vnfd = vnfd;
+    return this;
+  }
 
-	/**
-	 * Link to the \"VNFD in an individual VNF package\" resource.
-	 *
-	 * @return vnfd
-	 **/
-	@ApiModelProperty(required = true, value = "Link to the \"VNFD in an individual VNF package\" resource. ")
-	@NotNull
+  /**
+   * Link to the \"VNFD in an individual VNF package\" resource.
+   *
+   * @return vnfd
+   **/
+  @Schema(required = true , description = "Link to the \"VNFD in an individual VNF package\" resource. ")
+  @NotNull
 
-	@Valid
+  @Valid
 
-	public Link getVnfd() {
-		return vnfd;
-	}
+  public Link getVnfd() {
+    return vnfd;
+  }
 
-	public void setVnfd(final Link vnfd) {
-		this.vnfd = vnfd;
-	}
+  public void setVnfd(final Link vnfd) {
+    this.vnfd = vnfd;
+  }
 
-	public VnfPkgInfoLinks packageContent(final Link packageContent) {
-		this.packageContent = packageContent;
-		return this;
-	}
+  public VnfPkgInfoLinks packageContent(final Link packageContent) {
+    this.packageContent = packageContent;
+    return this;
+  }
 
-	/**
-	 * Link to the \"VNF package content\" resource.
-	 *
-	 * @return packageContent
-	 **/
-	@ApiModelProperty(required = true, value = "Link to the \"VNF package content\" resource. ")
-	@NotNull
+  /**
+   * Link to the \"VNF package content\" resource.
+   *
+   * @return packageContent
+   **/
+  @Schema(required = true , description = "Link to the \"VNF package content\" resource. ")
+  @NotNull
 
-	@Valid
+  @Valid
 
-	public Link getPackageContent() {
-		return packageContent;
-	}
+  public Link getPackageContent() {
+    return packageContent;
+  }
 
-	public void setPackageContent(final Link packageContent) {
-		this.packageContent = packageContent;
-	}
+  public void setPackageContent(final Link packageContent) {
+    this.packageContent = packageContent;
+  }
 
-	@Override
-	public boolean equals(final java.lang.Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
-		final VnfPkgInfoLinks vnfPkgInfoLinks = (VnfPkgInfoLinks) o;
-		return Objects.equals(this.self, vnfPkgInfoLinks.self) &&
-				Objects.equals(this.vnfd, vnfPkgInfoLinks.vnfd) &&
-				Objects.equals(this.packageContent, vnfPkgInfoLinks.packageContent);
-	}
+  @Override
+  public boolean equals(final java.lang.Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    final VnfPkgInfoLinks vnfPkgInfoLinks = (VnfPkgInfoLinks) o;
+    return Objects.equals(this.self, vnfPkgInfoLinks.self) &&
+    Objects.equals(this.vnfd, vnfPkgInfoLinks.vnfd) &&
+    Objects.equals(this.packageContent, vnfPkgInfoLinks.packageContent);
+  }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(self, vnfd, packageContent);
-	}
+  @Override
+  public int hashCode() {
+    return Objects.hash(self, vnfd, packageContent);
+  }
 
-	@Override
-	public String toString() {
-		final StringBuilder sb = new StringBuilder();
-		sb.append("class VnfPkgInfoLinks {\n");
+  @Override
+  public String toString() {
+    final StringBuilder sb = new StringBuilder();
+    sb.append("class VnfPkgInfoLinks {\n");
 
-		sb.append("    self: ").append(toIndentedString(self)).append("\n");
-		sb.append("    vnfd: ").append(toIndentedString(vnfd)).append("\n");
-		sb.append("    packageContent: ").append(toIndentedString(packageContent)).append("\n");
-		sb.append("}");
-		return sb.toString();
-	}
+    sb.append("    self: ").append(toIndentedString(self)).append("\n");
+    sb.append("    vnfd: ").append(toIndentedString(vnfd)).append("\n");
+    sb.append("    packageContent: ").append(toIndentedString(packageContent)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
 
-	/**
-	 * Convert the given object to string with each line indented by 4 spaces
-	 * (except the first line).
-	 */
-	private String toIndentedString(final java.lang.Object o) {
-		if (o == null) {
-			return "null";
-		}
-		return o.toString().replace("\n", "\n    ");
-	}
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(final java.lang.Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
+  }
 }

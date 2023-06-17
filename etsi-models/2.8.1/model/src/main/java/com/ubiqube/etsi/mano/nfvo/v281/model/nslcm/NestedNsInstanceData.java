@@ -19,8 +19,7 @@ package com.ubiqube.etsi.mano.nfvo.v281.model.nslcm;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -28,7 +27,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type specifies an existing nested NS instance to be used in the NS instance  and if needed, the NsProfile to use for this nested NS instance.  It shall comply with the provisions defined in Table 6.5.3.19a-1. 
  */
-@ApiModel(description = "This type specifies an existing nested NS instance to be used in the NS instance  and if needed, the NsProfile to use for this nested NS instance.  It shall comply with the provisions defined in Table 6.5.3.19a-1. ")
+@Schema (description= "This type specifies an existing nested NS instance to be used in the NS instance  and if needed, the NsProfile to use for this nested NS instance.  It shall comply with the provisions defined in Table 6.5.3.19a-1. " )
 @Validated
 
 public class NestedNsInstanceData   {
@@ -47,7 +46,7 @@ public class NestedNsInstanceData   {
    * Identifier of the existing nested NS instance to be used in the NS. 
    * @return nestedNsInstanceId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the existing nested NS instance to be used in the NS. ")
+  @Schema(required = true , description = "Identifier of the existing nested NS instance to be used in the NS. ")
   @NotNull
 
 
@@ -68,7 +67,7 @@ public class NestedNsInstanceData   {
    * Identifier of an NsProfile defined in the NSD which the existing  nested NS instance shall be matched with. If not present, the NFVO will select the NsProfile matching the  information in the nested NS instance. 
    * @return nsProfileId
   **/
-  @ApiModelProperty(value = "Identifier of an NsProfile defined in the NSD which the existing  nested NS instance shall be matched with. If not present, the NFVO will select the NsProfile matching the  information in the nested NS instance. ")
+  @Schema(description = "Identifier of an NsProfile defined in the NSD which the existing  nested NS instance shall be matched with. If not present, the NFVO will select the NsProfile matching the  information in the nested NS instance. ")
 
 
   public String getNsProfileId() {
@@ -90,7 +89,7 @@ public class NestedNsInstanceData   {
     }
     NestedNsInstanceData nestedNsInstanceData = (NestedNsInstanceData) o;
     return Objects.equals(this.nestedNsInstanceId, nestedNsInstanceData.nestedNsInstanceId) &&
-        Objects.equals(this.nsProfileId, nestedNsInstanceData.nsProfileId);
+    Objects.equals(this.nsProfileId, nestedNsInstanceData.nsProfileId);
   }
 
   @Override
@@ -102,7 +101,7 @@ public class NestedNsInstanceData   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class NestedNsInstanceData {\n");
-    
+
     sb.append("    nestedNsInstanceId: ").append(toIndentedString(nestedNsInstanceId)).append("\n");
     sb.append("    nsProfileId: ").append(toIndentedString(nsProfileId)).append("\n");
     sb.append("}");

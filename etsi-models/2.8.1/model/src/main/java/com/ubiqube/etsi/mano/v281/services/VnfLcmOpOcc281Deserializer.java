@@ -55,105 +55,105 @@ public class VnfLcmOpOcc281Deserializer extends StdDeserializer<VnfLcmOpOcc> {
 	/** Serial. */
 	private static final long serialVersionUID = 1L;
 
-	public VnfLcmOpOcc281Deserializer() {
-		super(VnfLcmOpOcc.class);
-	}
+  public VnfLcmOpOcc281Deserializer() {
+    super(VnfLcmOpOcc.class);
+  }
 
-	@Override
-	public VnfLcmOpOcc deserialize(final JsonParser p, final DeserializationContext ctxt) throws IOException {
-		final VnfLcmOpOcc ret = new VnfLcmOpOcc();
-		while (JsonToken.END_OBJECT != p.nextToken()) {
-			switch (p.currentName()) {
-			case "id":
-				ret.setId(p.nextTextValue());
-				break;
-			case "operationState":
-				ret.setOperationState(LcmOperationStateType.fromValue(p.nextTextValue()));
-				break;
-			case "stateEnteredTime":
-				p.nextToken();
-				ret.setStateEnteredTime(p.getCodec().readValue(p, OffsetDateTime.class));
-				break;
-			case "startTime":
-				ret.setStartTime(getNextObject(p, OffsetDateTime.class));
-				break;
-			case "vnfInstanceId":
-				ret.setVnfInstanceId(p.nextTextValue());
-				break;
-			case "grantId":
-				ret.setGrantId(p.nextTextValue());
-				break;
-			case "operation":
-				ret.setOperation(LcmOperationType.fromValue(p.nextTextValue()));
-				break;
-			case "isAutomaticInvocation":
-				ret.setIsAutomaticInvocation(p.nextBooleanValue());
-				break;
-			case "operationParams":
-				ret.setOperationParams(mapOperation(ret.getOperation(), p));
-				break;
-			case "isCancelPending":
-				ret.setIsCancelPending(p.nextBooleanValue());
-				break;
-			case "cancelMode":
-				ret.setCancelMode(CancelModeType.fromValue(p.nextTextValue()));
-				break;
-			case "error":
-				ret.setError(getNextObject(p, ProblemDetails2.class));
-				break;
-			case "resourceChanges":
-				ret.setResourceChanges(getNextObject(p, VnfLcmOpOccResourceChanges.class));
-				break;
-			case "changedInfo":
-				ret.setChangedInfo(getNextObject(p, VnfInfoModifications.class));
-				break;
-			case "changedExtConnectivity":
-				ret.setChangedExtConnectivity(getNextObject(p, new TypeReference<List<ExtVirtualLinkInfo>>() {
-					// Nothing.
-				}));
-				break;
-			case "_links":
-				ret.setLinks(getNextObject(p, VnfLcmOpOccLinks.class));
-				break;
-			default:
-				throw new IllegalArgumentException("Unexpected value: " + p.currentName());
-			}
-		}
-		return ret;
-	}
+  @Override
+  public VnfLcmOpOcc deserialize(final JsonParser p, final DeserializationContext ctxt) throws IOException {
+    final VnfLcmOpOcc ret = new VnfLcmOpOcc();
+    while (JsonToken.END_OBJECT != p.nextToken()) {
+      switch (p.currentName()) {
+        case "id":
+          ret.setId(p.nextTextValue());
+          break;
+        case "operationState":
+          ret.setOperationState(LcmOperationStateType.fromValue(p.nextTextValue()));
+          break;
+        case "stateEnteredTime":
+          p.nextToken();
+          ret.setStateEnteredTime(p.getCodec().readValue(p, OffsetDateTime.class));
+          break;
+        case "startTime":
+          ret.setStartTime(getNextObject(p, OffsetDateTime.class));
+          break;
+        case "vnfInstanceId":
+          ret.setVnfInstanceId(p.nextTextValue());
+          break;
+        case "grantId":
+          ret.setGrantId(p.nextTextValue());
+          break;
+        case "operation":
+          ret.setOperation(LcmOperationType.fromValue(p.nextTextValue()));
+          break;
+        case "isAutomaticInvocation":
+          ret.setIsAutomaticInvocation(p.nextBooleanValue());
+          break;
+        case "operationParams":
+          ret.setOperationParams(mapOperation(ret.getOperation(), p));
+          break;
+        case "isCancelPending":
+          ret.setIsCancelPending(p.nextBooleanValue());
+          break;
+        case "cancelMode":
+          ret.setCancelMode(CancelModeType.fromValue(p.nextTextValue()));
+          break;
+        case "error":
+          ret.setError(getNextObject(p, ProblemDetails2.class));
+          break;
+        case "resourceChanges":
+          ret.setResourceChanges(getNextObject(p, VnfLcmOpOccResourceChanges.class));
+          break;
+        case "changedInfo":
+          ret.setChangedInfo(getNextObject(p, VnfInfoModifications.class));
+          break;
+        case "changedExtConnectivity":
+          ret.setChangedExtConnectivity(getNextObject(p, new TypeReference<List<ExtVirtualLinkInfo>>() {
+            // Nothing.
+          }));
+          break;
+        case "_links":
+          ret.setLinks(getNextObject(p, VnfLcmOpOccLinks.class));
+          break;
+        default:
+          throw new IllegalArgumentException("Unexpected value: " + p.currentName());
+      }
+    }
+    return ret;
+  }
 
-	private static Object mapOperation(final LcmOperationType op, final JsonParser p) throws IOException {
-		p.nextToken();
-		return switch (op) {
-		case INSTANTIATE -> map(p, InstantiateVnfRequest.class);
-		case SCALE -> map(p, ScaleVnfRequest.class);
-		case SCALE_TO_LEVEL -> map(p, ScaleVnfToLevelRequest.class);
-		case CHANGE_FLAVOUR -> map(p, ChangeVnfFlavourRequest.class);
-		case TERMINATE -> map(p, TerminateVnfRequest.class);
-		case HEAL -> map(p, HealVnfRequest.class);
-		case OPERATE -> map(p, OperateVnfRequest.class);
-		case CHANGE_EXT_CONN -> map(p, ChangeExtVnfConnectivityRequest.class);
-		case MODIFY_INFO -> map(p, VnfInfoModificationRequest.class);
-		default -> throw new IllegalArgumentException("Unexpected value: " + op);
-		};
-	}
+  private static Object mapOperation(final LcmOperationType op, final JsonParser p) throws IOException {
+    p.nextToken();
+    return switch (op) {
+      case INSTANTIATE -> map(p, InstantiateVnfRequest.class);
+      case SCALE -> map(p, ScaleVnfRequest.class);
+      case SCALE_TO_LEVEL -> map(p, ScaleVnfToLevelRequest.class);
+      case CHANGE_FLAVOUR -> map(p, ChangeVnfFlavourRequest.class);
+      case TERMINATE -> map(p, TerminateVnfRequest.class);
+      case HEAL -> map(p, HealVnfRequest.class);
+      case OPERATE -> map(p, OperateVnfRequest.class);
+      case CHANGE_EXT_CONN -> map(p, ChangeExtVnfConnectivityRequest.class);
+      case MODIFY_INFO -> map(p, VnfInfoModificationRequest.class);
+      default -> throw new IllegalArgumentException("Unexpected value: " + op);
+    };
+  }
 
-	private static <U> U getNextObject(final JsonParser p, final Class<U> clazz) throws IOException {
-		p.nextToken();
-		return p.getCodec().readValue(p, clazz);
-	}
+  private static <U> U getNextObject(final JsonParser p, final Class<U> clazz) throws IOException {
+    p.nextToken();
+    return p.getCodec().readValue(p, clazz);
+  }
 
-	private static <U> U map(final JsonParser p, final Class<U> clazz) {
-		try {
-			return p.getCodec().readValue(p, clazz);
-		} catch (final IOException e) {
-			throw new GenericException(e);
-		}
-	}
+  private static <U> U map(final JsonParser p, final Class<U> clazz) {
+    try {
+      return p.getCodec().readValue(p, clazz);
+    } catch (final IOException e) {
+      throw new GenericException(e);
+    }
+  }
 
-	private static List<ExtVirtualLinkInfo> getNextObject(final JsonParser p, final TypeReference<List<ExtVirtualLinkInfo>> typeReference) throws IOException {
-		p.nextToken();
-		return p.getCodec().readValue(p, typeReference);
-	}
+  private static List<ExtVirtualLinkInfo> getNextObject(final JsonParser p, final TypeReference<List<ExtVirtualLinkInfo>> typeReference) throws IOException {
+    p.nextToken();
+    return p.getCodec().readValue(p, typeReference);
+  }
 
 }

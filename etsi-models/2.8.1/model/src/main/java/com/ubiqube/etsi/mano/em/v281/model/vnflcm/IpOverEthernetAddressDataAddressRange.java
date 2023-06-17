@@ -19,8 +19,7 @@ package com.ubiqube.etsi.mano.em.v281.model.vnflcm;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -28,7 +27,7 @@ import jakarta.validation.constraints.*;
 /**
  * An IP address range to be used, e.g. in case of egress connections. In case this attribute is present, IP addresses from the range will be used. 
  */
-@ApiModel(description = "An IP address range to be used, e.g. in case of egress connections. In case this attribute is present, IP addresses from the range will be used. ")
+@Schema (description= "An IP address range to be used, e.g. in case of egress connections. In case this attribute is present, IP addresses from the range will be used. " )
 @Validated
 
 public class IpOverEthernetAddressDataAddressRange   {
@@ -47,7 +46,7 @@ public class IpOverEthernetAddressDataAddressRange   {
    * Lowest IP address belonging to the range. 
    * @return minAddress
   **/
-  @ApiModelProperty(required = true, value = "Lowest IP address belonging to the range. ")
+  @Schema(required = true , description = "Lowest IP address belonging to the range. ")
   @NotNull
 
 
@@ -68,7 +67,7 @@ public class IpOverEthernetAddressDataAddressRange   {
    * Highest IP address belonging to the range. 
    * @return maxAddress
   **/
-  @ApiModelProperty(required = true, value = "Highest IP address belonging to the range. ")
+  @Schema(required = true , description = "Highest IP address belonging to the range. ")
   @NotNull
 
 
@@ -91,7 +90,7 @@ public class IpOverEthernetAddressDataAddressRange   {
     }
     IpOverEthernetAddressDataAddressRange ipOverEthernetAddressDataAddressRange = (IpOverEthernetAddressDataAddressRange) o;
     return Objects.equals(this.minAddress, ipOverEthernetAddressDataAddressRange.minAddress) &&
-        Objects.equals(this.maxAddress, ipOverEthernetAddressDataAddressRange.maxAddress);
+    Objects.equals(this.maxAddress, ipOverEthernetAddressDataAddressRange.maxAddress);
   }
 
   @Override
@@ -103,7 +102,7 @@ public class IpOverEthernetAddressDataAddressRange   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class IpOverEthernetAddressDataAddressRange {\n");
-    
+
     sb.append("    minAddress: ").append(toIndentedString(minAddress)).append("\n");
     sb.append("    maxAddress: ").append(toIndentedString(maxAddress)).append("\n");
     sb.append("}");

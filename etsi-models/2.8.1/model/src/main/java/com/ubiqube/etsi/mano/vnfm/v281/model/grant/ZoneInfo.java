@@ -19,8 +19,7 @@ package com.ubiqube.etsi.mano.vnfm.v281.model.grant;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -28,7 +27,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type provides information regarding a resource zone. 
  */
-@ApiModel(description = "This type provides information regarding a resource zone. ")
+@Schema (description= "This type provides information regarding a resource zone. " )
 @Validated
 
 public class ZoneInfo   {
@@ -53,7 +52,7 @@ public class ZoneInfo   {
    * The identifier of this ZoneInfo instance, for the purpose of referencing it from other structures in the \"Grant\" structure. 
    * @return id
   **/
-  @ApiModelProperty(required = true, value = "The identifier of this ZoneInfo instance, for the purpose of referencing it from other structures in the \"Grant\" structure. ")
+  @Schema(required = true , description = "The identifier of this ZoneInfo instance, for the purpose of referencing it from other structures in the \"Grant\" structure. ")
   @NotNull
 
 
@@ -74,7 +73,7 @@ public class ZoneInfo   {
    * The identifier of the resource zone, as managed by the resource management layer (typically, the VIM). 
    * @return zoneId
   **/
-  @ApiModelProperty(required = true, value = "The identifier of the resource zone, as managed by the resource management layer (typically, the VIM). ")
+  @Schema(required = true , description = "The identifier of the resource zone, as managed by the resource management layer (typically, the VIM). ")
   @NotNull
 
 
@@ -95,7 +94,7 @@ public class ZoneInfo   {
    * Identifier of the connection to the VIM that manages the resource zone. The applicable \"VimConnectionInfo\" structure, which is referenced by vimConnectionId, can be obtained from the \" vimConnectionInfo\" attribute of the \"VnfInstance\" structure. This attribute shall only be supported and present when VNF-related Resource Management in direct mode is applicable. 
    * @return vimConnectionId
   **/
-  @ApiModelProperty(value = "Identifier of the connection to the VIM that manages the resource zone. The applicable \"VimConnectionInfo\" structure, which is referenced by vimConnectionId, can be obtained from the \" vimConnectionInfo\" attribute of the \"VnfInstance\" structure. This attribute shall only be supported and present when VNF-related Resource Management in direct mode is applicable. ")
+  @Schema(description = "Identifier of the connection to the VIM that manages the resource zone. The applicable \"VimConnectionInfo\" structure, which is referenced by vimConnectionId, can be obtained from the \" vimConnectionInfo\" attribute of the \"VnfInstance\" structure. This attribute shall only be supported and present when VNF-related Resource Management in direct mode is applicable. ")
 
 
   public String getVimConnectionId() {
@@ -115,7 +114,7 @@ public class ZoneInfo   {
    * Identifies the entity responsible for the management the resource zone. This attribute shall only be supported and present when VNF-related Resource Management in indirect mode is applicable. The identification scheme is outside the scope of the present document. 
    * @return resourceProviderId
   **/
-  @ApiModelProperty(value = "Identifies the entity responsible for the management the resource zone. This attribute shall only be supported and present when VNF-related Resource Management in indirect mode is applicable. The identification scheme is outside the scope of the present document. ")
+  @Schema(description = "Identifies the entity responsible for the management the resource zone. This attribute shall only be supported and present when VNF-related Resource Management in indirect mode is applicable. The identification scheme is outside the scope of the present document. ")
 
 
   public String getResourceProviderId() {
@@ -137,9 +136,9 @@ public class ZoneInfo   {
     }
     ZoneInfo zoneInfo = (ZoneInfo) o;
     return Objects.equals(this.id, zoneInfo.id) &&
-        Objects.equals(this.zoneId, zoneInfo.zoneId) &&
-        Objects.equals(this.vimConnectionId, zoneInfo.vimConnectionId) &&
-        Objects.equals(this.resourceProviderId, zoneInfo.resourceProviderId);
+    Objects.equals(this.zoneId, zoneInfo.zoneId) &&
+    Objects.equals(this.vimConnectionId, zoneInfo.vimConnectionId) &&
+    Objects.equals(this.resourceProviderId, zoneInfo.resourceProviderId);
   }
 
   @Override
@@ -151,7 +150,7 @@ public class ZoneInfo   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ZoneInfo {\n");
-    
+
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    zoneId: ").append(toIndentedString(zoneId)).append("\n");
     sb.append("    vimConnectionId: ").append(toIndentedString(vimConnectionId)).append("\n");

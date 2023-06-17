@@ -18,10 +18,9 @@ package com.ubiqube.etsi.mano.em.v281.model.vnflcm;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Map;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -64,7 +63,7 @@ public class HealVnfRequest   {
    * List identifiers of  of VNFC instances for which a healing action is requested. Each identifier references the \"id\" attribute in a \"VnfcInfo\" structure. Cardinality can be \"0\" to denote that the request applies to the whole VNF and not a specific VNFC instance. 
    * @return vnfcInstanceId
   **/
-  @ApiModelProperty(value = "List identifiers of  of VNFC instances for which a healing action is requested. Each identifier references the \"id\" attribute in a \"VnfcInfo\" structure. Cardinality can be \"0\" to denote that the request applies to the whole VNF and not a specific VNFC instance. ")
+  @Schema(description = "List identifiers of  of VNFC instances for which a healing action is requested. Each identifier references the \"id\" attribute in a \"VnfcInfo\" structure. Cardinality can be \"0\" to denote that the request applies to the whole VNF and not a specific VNFC instance. ")
 
 
   public List<String> getVnfcInstanceId() {
@@ -84,7 +83,7 @@ public class HealVnfRequest   {
    * Indicates the reason why a healing procedure is required. 
    * @return cause
   **/
-  @ApiModelProperty(value = "Indicates the reason why a healing procedure is required. ")
+  @Schema(description = "Indicates the reason why a healing procedure is required. ")
 
 
   public String getCause() {
@@ -104,7 +103,7 @@ public class HealVnfRequest   {
    * Additional parameters passed by the NFVO as input to the healing process, specific to the VNF being healed, as declared in the VNFD as part of \"HealVnfOpConfig\". 
    * @return additionalParams
   **/
-  @ApiModelProperty(value = "Additional parameters passed by the NFVO as input to the healing process, specific to the VNF being healed, as declared in the VNFD as part of \"HealVnfOpConfig\". ")
+  @Schema(description = "Additional parameters passed by the NFVO as input to the healing process, specific to the VNF being healed, as declared in the VNFD as part of \"HealVnfOpConfig\". ")
 
   @Valid
 
@@ -125,7 +124,7 @@ public class HealVnfRequest   {
    * Provides link to a script that should be executed as part of the healing action or a set of rules for healing procedure. 
    * @return healScript
   **/
-  @ApiModelProperty(value = "Provides link to a script that should be executed as part of the healing action or a set of rules for healing procedure. ")
+  @Schema(description = "Provides link to a script that should be executed as part of the healing action or a set of rules for healing procedure. ")
 
 
   public String getHealScript() {
@@ -147,9 +146,9 @@ public class HealVnfRequest   {
     }
     HealVnfRequest healVnfRequest = (HealVnfRequest) o;
     return Objects.equals(this.vnfcInstanceId, healVnfRequest.vnfcInstanceId) &&
-        Objects.equals(this.cause, healVnfRequest.cause) &&
-        Objects.equals(this.additionalParams, healVnfRequest.additionalParams) &&
-        Objects.equals(this.healScript, healVnfRequest.healScript);
+    Objects.equals(this.cause, healVnfRequest.cause) &&
+    Objects.equals(this.additionalParams, healVnfRequest.additionalParams) &&
+    Objects.equals(this.healScript, healVnfRequest.healScript);
   }
 
   @Override
@@ -161,7 +160,7 @@ public class HealVnfRequest   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class HealVnfRequest {\n");
-    
+
     sb.append("    vnfcInstanceId: ").append(toIndentedString(vnfcInstanceId)).append("\n");
     sb.append("    cause: ").append(toIndentedString(cause)).append("\n");
     sb.append("    additionalParams: ").append(toIndentedString(additionalParams)).append("\n");

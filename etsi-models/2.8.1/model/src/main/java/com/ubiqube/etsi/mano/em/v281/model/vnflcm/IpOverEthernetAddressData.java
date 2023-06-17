@@ -20,8 +20,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.IpOverEthernetAddressDataIpAddresses;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -31,7 +30,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents network address data for IP over Ethernet. 
  */
-@ApiModel(description = "This type represents network address data for IP over Ethernet. ")
+@Schema (description= "This type represents network address data for IP over Ethernet. " )
 @Validated
 
 public class IpOverEthernetAddressData   {
@@ -51,7 +50,7 @@ public class IpOverEthernetAddressData   {
    * MAC address. If this attribute is not present, it shall be chosen by the VIM. At least one of \"macAddress\" or \"ipAddresses\" shall be present. 
    * @return macAddress
   **/
-  @ApiModelProperty(value = "MAC address. If this attribute is not present, it shall be chosen by the VIM. At least one of \"macAddress\" or \"ipAddresses\" shall be present. ")
+  @Schema(description = "MAC address. If this attribute is not present, it shall be chosen by the VIM. At least one of \"macAddress\" or \"ipAddresses\" shall be present. ")
 
 
   public String getMacAddress() {
@@ -79,7 +78,7 @@ public class IpOverEthernetAddressData   {
    * List of IP addresses to assign to the CP instance. Each entry represents IP address data for fixed or dynamic IP address assignment per subnet. If this attribute is not present, no IP address shall be assigned. 
    * @return ipAddresses
   **/
-  @ApiModelProperty(value = "List of IP addresses to assign to the CP instance. Each entry represents IP address data for fixed or dynamic IP address assignment per subnet. If this attribute is not present, no IP address shall be assigned. ")
+  @Schema(description = "List of IP addresses to assign to the CP instance. Each entry represents IP address data for fixed or dynamic IP address assignment per subnet. If this attribute is not present, no IP address shall be assigned. ")
 
   @Valid
 
@@ -102,7 +101,7 @@ public class IpOverEthernetAddressData   {
     }
     IpOverEthernetAddressData ipOverEthernetAddressData = (IpOverEthernetAddressData) o;
     return Objects.equals(this.macAddress, ipOverEthernetAddressData.macAddress) &&
-        Objects.equals(this.ipAddresses, ipOverEthernetAddressData.ipAddresses);
+    Objects.equals(this.ipAddresses, ipOverEthernetAddressData.ipAddresses);
   }
 
   @Override
@@ -114,7 +113,7 @@ public class IpOverEthernetAddressData   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class IpOverEthernetAddressData {\n");
-    
+
     sb.append("    macAddress: ").append(toIndentedString(macAddress)).append("\n");
     sb.append("    ipAddresses: ").append(toIndentedString(ipAddresses)).append("\n");
     sb.append("}");

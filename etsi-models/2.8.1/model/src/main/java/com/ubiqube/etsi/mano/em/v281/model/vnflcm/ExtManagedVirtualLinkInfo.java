@@ -21,8 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.ResourceHandle;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.VnfLinkPortInfo;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -57,7 +56,7 @@ public class ExtManagedVirtualLinkInfo   {
    * Identifier of the externally-managed internal VL and the related externally-managed VL information instance. The identifier is assigned by the NFV-MANO entity that manages this VL instance. 
    * @return id
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the externally-managed internal VL and the related externally-managed VL information instance. The identifier is assigned by the NFV-MANO entity that manages this VL instance. ")
+  @Schema(required = true , description = "Identifier of the externally-managed internal VL and the related externally-managed VL information instance. The identifier is assigned by the NFV-MANO entity that manages this VL instance. ")
   @NotNull
 
 
@@ -78,7 +77,7 @@ public class ExtManagedVirtualLinkInfo   {
    * Identifier of the VNF Virtual Link Descriptor (VLD) in the VNFD. 
    * @return vnfVirtualLinkDescId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the VNF Virtual Link Descriptor (VLD) in the VNFD. ")
+  @Schema(required = true , description = "Identifier of the VNF Virtual Link Descriptor (VLD) in the VNFD. ")
   @NotNull
 
 
@@ -99,7 +98,7 @@ public class ExtManagedVirtualLinkInfo   {
    * Reference to the VirtualNetwork resource. 
    * @return networkResource
   **/
-  @ApiModelProperty(required = true, value = "Reference to the VirtualNetwork resource. ")
+  @Schema(required = true , description = "Reference to the VirtualNetwork resource. ")
   @NotNull
 
   @Valid
@@ -129,7 +128,7 @@ public class ExtManagedVirtualLinkInfo   {
    * Link ports of this VL. 
    * @return vnfLinkPorts
   **/
-  @ApiModelProperty(value = "Link ports of this VL. ")
+  @Schema(description = "Link ports of this VL. ")
 
   @Valid
 
@@ -152,9 +151,9 @@ public class ExtManagedVirtualLinkInfo   {
     }
     ExtManagedVirtualLinkInfo extManagedVirtualLinkInfo = (ExtManagedVirtualLinkInfo) o;
     return Objects.equals(this.id, extManagedVirtualLinkInfo.id) &&
-        Objects.equals(this.vnfVirtualLinkDescId, extManagedVirtualLinkInfo.vnfVirtualLinkDescId) &&
-        Objects.equals(this.networkResource, extManagedVirtualLinkInfo.networkResource) &&
-        Objects.equals(this.vnfLinkPorts, extManagedVirtualLinkInfo.vnfLinkPorts);
+    Objects.equals(this.vnfVirtualLinkDescId, extManagedVirtualLinkInfo.vnfVirtualLinkDescId) &&
+    Objects.equals(this.networkResource, extManagedVirtualLinkInfo.networkResource) &&
+    Objects.equals(this.vnfLinkPorts, extManagedVirtualLinkInfo.vnfLinkPorts);
   }
 
   @Override
@@ -166,7 +165,7 @@ public class ExtManagedVirtualLinkInfo   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ExtManagedVirtualLinkInfo {\n");
-    
+
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    vnfVirtualLinkDescId: ").append(toIndentedString(vnfVirtualLinkDescId)).append("\n");
     sb.append("    networkResource: ").append(toIndentedString(networkResource)).append("\n");

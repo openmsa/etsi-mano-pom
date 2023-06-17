@@ -18,9 +18,8 @@ package com.ubiqube.etsi.mano.em.v281.model.vnflcm;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -49,7 +48,7 @@ public class VnfInstanceSubscriptionFilterVersions   {
    * Software version to match. 
    * @return vnfSoftwareVersion
   **/
-  @ApiModelProperty(required = true, value = "Software version to match. ")
+  @Schema(required = true , description = "Software version to match. ")
   @NotNull
 
 
@@ -78,7 +77,7 @@ public class VnfInstanceSubscriptionFilterVersions   {
    * If present, match VNF instances that belong to VNF products with certain VNFD versions, a certain software version and a certain product name, from one particular provider. 
    * @return vnfdVersions
   **/
-  @ApiModelProperty(value = "If present, match VNF instances that belong to VNF products with certain VNFD versions, a certain software version and a certain product name, from one particular provider. ")
+  @Schema(description = "If present, match VNF instances that belong to VNF products with certain VNFD versions, a certain software version and a certain product name, from one particular provider. ")
 
 
   public List<String> getVnfdVersions() {
@@ -100,7 +99,7 @@ public class VnfInstanceSubscriptionFilterVersions   {
     }
     VnfInstanceSubscriptionFilterVersions vnfInstanceSubscriptionFilterVersions = (VnfInstanceSubscriptionFilterVersions) o;
     return Objects.equals(this.vnfSoftwareVersion, vnfInstanceSubscriptionFilterVersions.vnfSoftwareVersion) &&
-        Objects.equals(this.vnfdVersions, vnfInstanceSubscriptionFilterVersions.vnfdVersions);
+    Objects.equals(this.vnfdVersions, vnfInstanceSubscriptionFilterVersions.vnfdVersions);
   }
 
   @Override
@@ -112,7 +111,7 @@ public class VnfInstanceSubscriptionFilterVersions   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class VnfInstanceSubscriptionFilterVersions {\n");
-    
+
     sb.append("    vnfSoftwareVersion: ").append(toIndentedString(vnfSoftwareVersion)).append("\n");
     sb.append("    vnfdVersions: ").append(toIndentedString(vnfdVersions)).append("\n");
     sb.append("}");

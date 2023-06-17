@@ -20,8 +20,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.em.v281.model.vnfind.VnfIndicatorLinks;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -29,7 +28,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents a VNF indicator value. 
  */
-@ApiModel(description = "This type represents a VNF indicator value. ")
+@Schema (description= "This type represents a VNF indicator value. " )
 @Validated
 
 public class VnfIndicator   {
@@ -57,7 +56,7 @@ public class VnfIndicator   {
    * Identifier of this VNF indicator. 
    * @return id
   **/
-  @ApiModelProperty(required = true, value = "Identifier of this VNF indicator. ")
+  @Schema(required = true , description = "Identifier of this VNF indicator. ")
   @NotNull
 
 
@@ -78,7 +77,7 @@ public class VnfIndicator   {
    * Human readable name of the indicator. Shall be present if defined in the VNFD. 
    * @return name
   **/
-  @ApiModelProperty(value = "Human readable name of the indicator. Shall be present if defined in the VNFD. ")
+  @Schema(description = "Human readable name of the indicator. Shall be present if defined in the VNFD. ")
 
 
   public String getName() {
@@ -98,7 +97,7 @@ public class VnfIndicator   {
    * Provides the value of the indicator. The value format is defined in the VNFD. ETSI GS NFV-SOL 001 specifies the structure and format of the  VNFD based on TOSCA specifications. 
    * @return value
   **/
-  @ApiModelProperty(required = true, value = "Provides the value of the indicator. The value format is defined in the VNFD. ETSI GS NFV-SOL 001 specifies the structure and format of the  VNFD based on TOSCA specifications. ")
+  @Schema(required = true , description = "Provides the value of the indicator. The value format is defined in the VNFD. ETSI GS NFV-SOL 001 specifies the structure and format of the  VNFD based on TOSCA specifications. ")
   @NotNull
 
 
@@ -119,7 +118,7 @@ public class VnfIndicator   {
    * Identifier of the \"Individual VNF instance\" which provides the indicator value. 
    * @return vnfInstanceId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the \"Individual VNF instance\" which provides the indicator value. ")
+  @Schema(required = true , description = "Identifier of the \"Individual VNF instance\" which provides the indicator value. ")
   @NotNull
 
 
@@ -140,7 +139,7 @@ public class VnfIndicator   {
    * Get links
    * @return links
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true , description = "")
   @NotNull
 
   @Valid
@@ -164,10 +163,10 @@ public class VnfIndicator   {
     }
     VnfIndicator vnfIndicator = (VnfIndicator) o;
     return Objects.equals(this.id, vnfIndicator.id) &&
-        Objects.equals(this.name, vnfIndicator.name) &&
-        Objects.equals(this.value, vnfIndicator.value) &&
-        Objects.equals(this.vnfInstanceId, vnfIndicator.vnfInstanceId) &&
-        Objects.equals(this.links, vnfIndicator.links);
+    Objects.equals(this.name, vnfIndicator.name) &&
+    Objects.equals(this.value, vnfIndicator.value) &&
+    Objects.equals(this.vnfInstanceId, vnfIndicator.vnfInstanceId) &&
+    Objects.equals(this.links, vnfIndicator.links);
   }
 
   @Override
@@ -179,7 +178,7 @@ public class VnfIndicator   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class VnfIndicator {\n");
-    
+
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    value: ").append(toIndentedString(value)).append("\n");

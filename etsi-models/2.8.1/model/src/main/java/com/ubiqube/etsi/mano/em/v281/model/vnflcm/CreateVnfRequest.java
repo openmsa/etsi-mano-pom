@@ -18,10 +18,9 @@ package com.ubiqube.etsi.mano.em.v281.model.vnflcm;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Map;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -53,7 +52,7 @@ public class CreateVnfRequest   {
    * Identifier that identifies the VNFD which defines the VNF instance to be created. 
    * @return vnfdId
   **/
-  @ApiModelProperty(required = true, value = "Identifier that identifies the VNFD which defines the VNF instance to be created. ")
+  @Schema(required = true , description = "Identifier that identifies the VNFD which defines the VNF instance to be created. ")
   @NotNull
 
 
@@ -74,7 +73,7 @@ public class CreateVnfRequest   {
    * Human-readable name of the VNF instance to be created. 
    * @return vnfInstanceName
   **/
-  @ApiModelProperty(value = "Human-readable name of the VNF instance to be created. ")
+  @Schema(description = "Human-readable name of the VNF instance to be created. ")
 
 
   public String getVnfInstanceName() {
@@ -94,7 +93,7 @@ public class CreateVnfRequest   {
    * Human-readable description of the VNF instance to be created. 
    * @return vnfInstanceDescription
   **/
-  @ApiModelProperty(value = "Human-readable description of the VNF instance to be created. ")
+  @Schema(description = "Human-readable description of the VNF instance to be created. ")
 
 
   public String getVnfInstanceDescription() {
@@ -114,7 +113,7 @@ public class CreateVnfRequest   {
    * If present, this attribute provides additional initial values, overriding those  obtained from the VNFD, for the \"metadata\" attribute in \"VnfInstance\", as defined  in clause 5.5.2.2. Provisions for handling metadata during the operation are defined  in clause 5.4.2.3.1. 
    * @return metadata
   **/
-  @ApiModelProperty(value = "If present, this attribute provides additional initial values, overriding those  obtained from the VNFD, for the \"metadata\" attribute in \"VnfInstance\", as defined  in clause 5.5.2.2. Provisions for handling metadata during the operation are defined  in clause 5.4.2.3.1. ")
+  @Schema(description = "If present, this attribute provides additional initial values, overriding those  obtained from the VNFD, for the \"metadata\" attribute in \"VnfInstance\", as defined  in clause 5.5.2.2. Provisions for handling metadata during the operation are defined  in clause 5.4.2.3.1. ")
 
   @Valid
 
@@ -137,9 +136,9 @@ public class CreateVnfRequest   {
     }
     CreateVnfRequest createVnfRequest = (CreateVnfRequest) o;
     return Objects.equals(this.vnfdId, createVnfRequest.vnfdId) &&
-        Objects.equals(this.vnfInstanceName, createVnfRequest.vnfInstanceName) &&
-        Objects.equals(this.vnfInstanceDescription, createVnfRequest.vnfInstanceDescription) &&
-        Objects.equals(this.metadata, createVnfRequest.metadata);
+    Objects.equals(this.vnfInstanceName, createVnfRequest.vnfInstanceName) &&
+    Objects.equals(this.vnfInstanceDescription, createVnfRequest.vnfInstanceDescription) &&
+    Objects.equals(this.metadata, createVnfRequest.metadata);
   }
 
   @Override
@@ -151,7 +150,7 @@ public class CreateVnfRequest   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class CreateVnfRequest {\n");
-    
+
     sb.append("    vnfdId: ").append(toIndentedString(vnfdId)).append("\n");
     sb.append("    vnfInstanceName: ").append(toIndentedString(vnfInstanceName)).append("\n");
     sb.append("    vnfInstanceDescription: ").append(toIndentedString(vnfInstanceDescription)).append("\n");

@@ -22,8 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.ExtManagedVirtualLinkData;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.ExtVirtualLinkData;
 import java.util.Map;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -33,7 +32,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents request parameters for the \&quot;Change VNF flavour\&quot; operation. 
  */
-@ApiModel(description = "This type represents request parameters for the \"Change VNF flavour\" operation. ")
+@Schema (description= "This type represents request parameters for the \"Change VNF flavour\" operation. " )
 @Validated
 
 public class ChangeVnfFlavourRequest   {
@@ -69,7 +68,7 @@ public class ChangeVnfFlavourRequest   {
    * Identifier of the VNF deployment flavour to be instantiated. 
    * @return newFlavourId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the VNF deployment flavour to be instantiated. ")
+  @Schema(required = true , description = "Identifier of the VNF deployment flavour to be instantiated. ")
   @NotNull
 
 
@@ -90,7 +89,7 @@ public class ChangeVnfFlavourRequest   {
    * Identifier of the instantiation level of the deployment flavour to be instantiated. If not present, the default instantiation level as declared in the VNFD is instantiated. 
    * @return instantiationLevelId
   **/
-  @ApiModelProperty(value = "Identifier of the instantiation level of the deployment flavour to be instantiated. If not present, the default instantiation level as declared in the VNFD is instantiated. ")
+  @Schema(description = "Identifier of the instantiation level of the deployment flavour to be instantiated. If not present, the default instantiation level as declared in the VNFD is instantiated. ")
 
 
   public String getInstantiationLevelId() {
@@ -118,7 +117,7 @@ public class ChangeVnfFlavourRequest   {
    * Information about external VLs to connect the VNF to. 
    * @return extVirtualLinks
   **/
-  @ApiModelProperty(value = "Information about external VLs to connect the VNF to. ")
+  @Schema(description = "Information about external VLs to connect the VNF to. ")
 
   @Valid
 
@@ -147,7 +146,7 @@ public class ChangeVnfFlavourRequest   {
    * Information about internal VLs that are managed by other entities than the VNFM. NOTE: The indication of externally-managed internal VLs is needed in case networks have been pre-configured for use with certain VNFs, for instance to ensure that these networks have certain properties such as security or acceleration features, or to address particular network topologies. The present document assumes that externally-managed internal VLs are managed by the NFVO and created towards the VIM. 
    * @return extManagedVirtualLinks
   **/
-  @ApiModelProperty(value = "Information about internal VLs that are managed by other entities than the VNFM. NOTE: The indication of externally-managed internal VLs is needed in case networks have been pre-configured for use with certain VNFs, for instance to ensure that these networks have certain properties such as security or acceleration features, or to address particular network topologies. The present document assumes that externally-managed internal VLs are managed by the NFVO and created towards the VIM. ")
+  @Schema(description = "Information about internal VLs that are managed by other entities than the VNFM. NOTE: The indication of externally-managed internal VLs is needed in case networks have been pre-configured for use with certain VNFs, for instance to ensure that these networks have certain properties such as security or acceleration features, or to address particular network topologies. The present document assumes that externally-managed internal VLs are managed by the NFVO and created towards the VIM. ")
 
   @Valid
 
@@ -168,7 +167,7 @@ public class ChangeVnfFlavourRequest   {
    * Additional input parameters for the instantiation process, specific to the VNF being instantiated, as declared in the VNFD as part of \"InstantiateVnfOpConfig\". 
    * @return additionalParams
   **/
-  @ApiModelProperty(value = "Additional input parameters for the instantiation process, specific to the VNF being instantiated, as declared in the VNFD as part of \"InstantiateVnfOpConfig\". ")
+  @Schema(description = "Additional input parameters for the instantiation process, specific to the VNF being instantiated, as declared in the VNFD as part of \"InstantiateVnfOpConfig\". ")
 
   @Valid
 
@@ -189,7 +188,7 @@ public class ChangeVnfFlavourRequest   {
    * If present, this attribute provides modifications to the values of the \"extensions\" attribute in \"VnfInstance\", as defined in clause 5.5.2.2. Provisions for handling extensions during the operation, are defined in clause 5.4.7.3.1. 
    * @return extensions
   **/
-  @ApiModelProperty(value = "If present, this attribute provides modifications to the values of the \"extensions\" attribute in \"VnfInstance\", as defined in clause 5.5.2.2. Provisions for handling extensions during the operation, are defined in clause 5.4.7.3.1. ")
+  @Schema(description = "If present, this attribute provides modifications to the values of the \"extensions\" attribute in \"VnfInstance\", as defined in clause 5.5.2.2. Provisions for handling extensions during the operation, are defined in clause 5.4.7.3.1. ")
 
   @Valid
 
@@ -210,7 +209,7 @@ public class ChangeVnfFlavourRequest   {
    * If present, this attribute provides modifications to the values of the vnfConfigurableProperties\" attribute in \"VnfInstance\", as defined in clause 5.5.2.2. Provisions for handling VNF configurable properties during the operation, are defined in clause 5.4.7.3.1. 
    * @return vnfConfigurableProperties
   **/
-  @ApiModelProperty(value = "If present, this attribute provides modifications to the values of the vnfConfigurableProperties\" attribute in \"VnfInstance\", as defined in clause 5.5.2.2. Provisions for handling VNF configurable properties during the operation, are defined in clause 5.4.7.3.1. ")
+  @Schema(description = "If present, this attribute provides modifications to the values of the vnfConfigurableProperties\" attribute in \"VnfInstance\", as defined in clause 5.5.2.2. Provisions for handling VNF configurable properties during the operation, are defined in clause 5.4.7.3.1. ")
 
   @Valid
 
@@ -233,12 +232,12 @@ public class ChangeVnfFlavourRequest   {
     }
     ChangeVnfFlavourRequest changeVnfFlavourRequest = (ChangeVnfFlavourRequest) o;
     return Objects.equals(this.newFlavourId, changeVnfFlavourRequest.newFlavourId) &&
-        Objects.equals(this.instantiationLevelId, changeVnfFlavourRequest.instantiationLevelId) &&
-        Objects.equals(this.extVirtualLinks, changeVnfFlavourRequest.extVirtualLinks) &&
-        Objects.equals(this.extManagedVirtualLinks, changeVnfFlavourRequest.extManagedVirtualLinks) &&
-        Objects.equals(this.additionalParams, changeVnfFlavourRequest.additionalParams) &&
-        Objects.equals(this.extensions, changeVnfFlavourRequest.extensions) &&
-        Objects.equals(this.vnfConfigurableProperties, changeVnfFlavourRequest.vnfConfigurableProperties);
+    Objects.equals(this.instantiationLevelId, changeVnfFlavourRequest.instantiationLevelId) &&
+    Objects.equals(this.extVirtualLinks, changeVnfFlavourRequest.extVirtualLinks) &&
+    Objects.equals(this.extManagedVirtualLinks, changeVnfFlavourRequest.extManagedVirtualLinks) &&
+    Objects.equals(this.additionalParams, changeVnfFlavourRequest.additionalParams) &&
+    Objects.equals(this.extensions, changeVnfFlavourRequest.extensions) &&
+    Objects.equals(this.vnfConfigurableProperties, changeVnfFlavourRequest.vnfConfigurableProperties);
   }
 
   @Override
@@ -250,7 +249,7 @@ public class ChangeVnfFlavourRequest   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ChangeVnfFlavourRequest {\n");
-    
+
     sb.append("    newFlavourId: ").append(toIndentedString(newFlavourId)).append("\n");
     sb.append("    instantiationLevelId: ").append(toIndentedString(instantiationLevelId)).append("\n");
     sb.append("    extVirtualLinks: ").append(toIndentedString(extVirtualLinks)).append("\n");

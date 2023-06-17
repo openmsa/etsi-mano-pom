@@ -19,8 +19,7 @@ package com.ubiqube.etsi.mano.nfvo.v281.model.nsfm;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -28,7 +27,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents the faulty component that has a negative impact on an NS.  It shall comply with the provisions defined in Table 8.5.3.4-1. 
  */
-@ApiModel(description = "This type represents the faulty component that has a negative impact on an NS.  It shall comply with the provisions defined in Table 8.5.3.4-1. ")
+@Schema (description= "This type represents the faulty component that has a negative impact on an NS.  It shall comply with the provisions defined in Table 8.5.3.4-1. " )
 @Validated
 
 public class FaultyComponentInfo   {
@@ -50,7 +49,7 @@ public class FaultyComponentInfo   {
    * Identifier of the faulty nested NS instance. 
    * @return faultyNestedNsInstanceId
   **/
-  @ApiModelProperty(value = "Identifier of the faulty nested NS instance. ")
+  @Schema(description = "Identifier of the faulty nested NS instance. ")
 
 
   public String getFaultyNestedNsInstanceId() {
@@ -70,7 +69,7 @@ public class FaultyComponentInfo   {
    * Identifier of the faulty NS virtual link instance. 
    * @return faultyResourceType
   **/
-  @ApiModelProperty(value = "Identifier of the faulty NS virtual link instance. ")
+  @Schema(description = "Identifier of the faulty NS virtual link instance. ")
 
 
   public String getFaultyResourceType() {
@@ -90,7 +89,7 @@ public class FaultyComponentInfo   {
    * Identifier of the faulty VNF instance. 
    * @return faultyNsVirtualLinkInstanceId
   **/
-  @ApiModelProperty(value = "Identifier of the faulty VNF instance. ")
+  @Schema(description = "Identifier of the faulty VNF instance. ")
 
 
   public String getFaultyNsVirtualLinkInstanceId() {
@@ -112,8 +111,8 @@ public class FaultyComponentInfo   {
     }
     FaultyComponentInfo faultyComponentInfo = (FaultyComponentInfo) o;
     return Objects.equals(this.faultyNestedNsInstanceId, faultyComponentInfo.faultyNestedNsInstanceId) &&
-        Objects.equals(this.faultyResourceType, faultyComponentInfo.faultyResourceType) &&
-        Objects.equals(this.faultyNsVirtualLinkInstanceId, faultyComponentInfo.faultyNsVirtualLinkInstanceId);
+    Objects.equals(this.faultyResourceType, faultyComponentInfo.faultyResourceType) &&
+    Objects.equals(this.faultyNsVirtualLinkInstanceId, faultyComponentInfo.faultyNsVirtualLinkInstanceId);
   }
 
   @Override
@@ -125,7 +124,7 @@ public class FaultyComponentInfo   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class FaultyComponentInfo {\n");
-    
+
     sb.append("    faultyNestedNsInstanceId: ").append(toIndentedString(faultyNestedNsInstanceId)).append("\n");
     sb.append("    faultyResourceType: ").append(toIndentedString(faultyResourceType)).append("\n");
     sb.append("    faultyNsVirtualLinkInstanceId: ").append(toIndentedString(faultyNsVirtualLinkInstanceId)).append("\n");

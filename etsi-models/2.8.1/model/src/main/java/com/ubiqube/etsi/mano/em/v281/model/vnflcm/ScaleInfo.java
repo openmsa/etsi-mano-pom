@@ -18,9 +18,8 @@ package com.ubiqube.etsi.mano.em.v281.model.vnflcm;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -46,7 +45,7 @@ public class ScaleInfo   {
    * Identifier of the scaling aspect. 
    * @return aspectId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the scaling aspect. ")
+  @Schema(required = true , description = "Identifier of the scaling aspect. ")
   @NotNull
 
 
@@ -67,7 +66,7 @@ public class ScaleInfo   {
    * Indicates the scale level. The minimum value shall be 0 and the maximum value shall be <= maxScaleLevel as described in the VNFD. 
    * @return scaleLevel
   **/
-  @ApiModelProperty(required = true, value = "Indicates the scale level. The minimum value shall be 0 and the maximum value shall be <= maxScaleLevel as described in the VNFD. ")
+  @Schema(required = true , description = "Indicates the scale level. The minimum value shall be 0 and the maximum value shall be <= maxScaleLevel as described in the VNFD. ")
   @NotNull
 
 
@@ -90,7 +89,7 @@ public class ScaleInfo   {
     }
     ScaleInfo scaleInfo = (ScaleInfo) o;
     return Objects.equals(this.aspectId, scaleInfo.aspectId) &&
-        Objects.equals(this.scaleLevel, scaleInfo.scaleLevel);
+    Objects.equals(this.scaleLevel, scaleInfo.scaleLevel);
   }
 
   @Override
@@ -102,7 +101,7 @@ public class ScaleInfo   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ScaleInfo {\n");
-    
+
     sb.append("    aspectId: ").append(toIndentedString(aspectId)).append("\n");
     sb.append("    scaleLevel: ").append(toIndentedString(scaleLevel)).append("\n");
     sb.append("}");

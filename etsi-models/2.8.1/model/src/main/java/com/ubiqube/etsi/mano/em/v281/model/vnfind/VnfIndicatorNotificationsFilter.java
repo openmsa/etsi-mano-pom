@@ -29,8 +29,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.VnfInstanceSubscriptionFilter;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
@@ -42,7 +40,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * least one of the values in the array matches (logical \&quot;or\&quot;
  * between the values of one filter attribute).
  */
-@ApiModel(description = "This type represents a subscription filter related to notifications about VNF indicator value changes. At a particular nesting level in the filter structure, the following applies: All attributes shall match in order for the filter to match (logical \"and\" between different filter attributes). If an attribute is an array, the attribute shall match if at least one of the values in the array matches (logical \"or\" between the values of one filter attribute). ")
+@Schema (description= "This type represents a subscription filter related to notifications about VNF indicator value changes. At a particular nesting level in the filter structure, the following applies: All attributes shall match in order for the filter to match (logical \"and\" between different filter attributes). If an attribute is an array, the attribute shall match if at least one of the values in the array matches (logical \"or\" between the values of one filter attribute). " )
 @Validated
 
 public class VnfIndicatorNotificationsFilter {
@@ -63,25 +61,25 @@ public class VnfIndicatorNotificationsFilter {
 
 		private final String value;
 
-		NotificationTypesEnum(final String value) {
-			this.value = value;
-		}
+    NotificationTypesEnum(final String value) {
+      this.value = value;
+    }
 
-		@Override
-		@JsonValue
-		public String toString() {
-			return String.valueOf(value);
-		}
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
 
-		@JsonCreator
-		public static NotificationTypesEnum fromValue(final String text) {
-			for (final NotificationTypesEnum b : NotificationTypesEnum.values()) {
-				if (String.valueOf(b.value).equals(text)) {
-					return b;
-				}
-			}
-			return null;
-		}
+    @JsonCreator
+    public static NotificationTypesEnum fromValue(final String text) {
+      for (final NotificationTypesEnum b : NotificationTypesEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
 	}
 
 	@JsonProperty("notificationTypes")
@@ -91,117 +89,117 @@ public class VnfIndicatorNotificationsFilter {
 	@Valid
 	private List<String> indicatorIds = null;
 
-	public VnfIndicatorNotificationsFilter vnfInstanceSubscriptionFilter(final VnfInstanceSubscriptionFilter vnfInstanceSubscriptionFilter) {
-		this.vnfInstanceSubscriptionFilter = vnfInstanceSubscriptionFilter;
-		return this;
-	}
+  public VnfIndicatorNotificationsFilter vnfInstanceSubscriptionFilter(final VnfInstanceSubscriptionFilter vnfInstanceSubscriptionFilter) {
+    this.vnfInstanceSubscriptionFilter = vnfInstanceSubscriptionFilter;
+    return this;
+  }
 
-	/**
-	 * Filter criteria to select VNF instances about which to notify.
-	 *
-	 * @return vnfInstanceSubscriptionFilter
-	 **/
-	@ApiModelProperty(value = "Filter criteria to select VNF instances about which to notify. ")
+  /**
+   * Filter criteria to select VNF instances about which to notify.
+   *
+   * @return vnfInstanceSubscriptionFilter
+   **/
+  @Schema(description = "Filter criteria to select VNF instances about which to notify. ")
 
-	@Valid
+  @Valid
 
-	public VnfInstanceSubscriptionFilter getVnfInstanceSubscriptionFilter() {
-		return vnfInstanceSubscriptionFilter;
-	}
+  public VnfInstanceSubscriptionFilter getVnfInstanceSubscriptionFilter() {
+    return vnfInstanceSubscriptionFilter;
+  }
 
-	public void setVnfInstanceSubscriptionFilter(final VnfInstanceSubscriptionFilter vnfInstanceSubscriptionFilter) {
-		this.vnfInstanceSubscriptionFilter = vnfInstanceSubscriptionFilter;
-	}
+  public void setVnfInstanceSubscriptionFilter(final VnfInstanceSubscriptionFilter vnfInstanceSubscriptionFilter) {
+    this.vnfInstanceSubscriptionFilter = vnfInstanceSubscriptionFilter;
+  }
 
-	public VnfIndicatorNotificationsFilter notificationTypes(final List<NotificationTypesEnum> notificationTypes) {
-		this.notificationTypes = notificationTypes;
-		return this;
-	}
+  public VnfIndicatorNotificationsFilter notificationTypes(final List<NotificationTypesEnum> notificationTypes) {
+    this.notificationTypes = notificationTypes;
+    return this;
+  }
 
-	/**
-	 * Match particular notification types. Permitted values: *
-	 * VnfIndicatorValueChangeNotification * SupportedIndicatorsChangeNotification
-	 * The permitted values of the \"notificationTypes\" attribute are spelled
-	 * exactly as the names of the notification types to facilitate automated code
-	 * generation systems.
-	 *
-	 * @return notificationTypes
-	 **/
-	@Schema(description = "Match particular notification types. Permitted values: * VnfIndicatorValueChangeNotification * SupportedIndicatorsChangeNotification The permitted values of the \"notificationTypes\" attribute are spelled exactly as the names of the notification types to facilitate automated code generation systems. ")
+  /**
+   * Match particular notification types. Permitted values: *
+   * VnfIndicatorValueChangeNotification * SupportedIndicatorsChangeNotification
+   * The permitted values of the \"notificationTypes\" attribute are spelled
+   * exactly as the names of the notification types to facilitate automated code
+   * generation systems.
+   *
+   * @return notificationTypes
+   **/
+  @Schema(description = "Match particular notification types. Permitted values: * VnfIndicatorValueChangeNotification * SupportedIndicatorsChangeNotification The permitted values of the \"notificationTypes\" attribute are spelled exactly as the names of the notification types to facilitate automated code generation systems. ")
 
-	public List<NotificationTypesEnum> getNotificationTypes() {
-		return notificationTypes;
-	}
+  public List<NotificationTypesEnum> getNotificationTypes() {
+    return notificationTypes;
+  }
 
-	public void setNotificationTypes(final List<NotificationTypesEnum> notificationTypes) {
-		this.notificationTypes = notificationTypes;
-	}
+  public void setNotificationTypes(final List<NotificationTypesEnum> notificationTypes) {
+    this.notificationTypes = notificationTypes;
+  }
 
-	public VnfIndicatorNotificationsFilter indicatorIds(final List<String> indicatorIds) {
-		this.indicatorIds = indicatorIds;
-		return this;
-	}
+  public VnfIndicatorNotificationsFilter indicatorIds(final List<String> indicatorIds) {
+    this.indicatorIds = indicatorIds;
+    return this;
+  }
 
-	public VnfIndicatorNotificationsFilter addIndicatorIdsItem(final String indicatorIdsItem) {
-		if (this.indicatorIds == null) {
-			this.indicatorIds = new ArrayList<>();
-		}
-		this.indicatorIds.add(indicatorIdsItem);
-		return this;
-	}
+  public VnfIndicatorNotificationsFilter addIndicatorIdsItem(final String indicatorIdsItem) {
+    if (this.indicatorIds == null) {
+      this.indicatorIds = new ArrayList<>();
+    }
+    this.indicatorIds.add(indicatorIdsItem);
+    return this;
+  }
 
-	/**
-	 * Match particular VNF indicator identifiers.
-	 *
-	 * @return indicatorIds
-	 **/
-	@ApiModelProperty(value = "Match particular VNF indicator identifiers. ")
+  /**
+   * Match particular VNF indicator identifiers.
+   *
+   * @return indicatorIds
+   **/
+  @Schema(description = "Match particular VNF indicator identifiers. ")
 
-	public List<String> getIndicatorIds() {
-		return indicatorIds;
-	}
+  public List<String> getIndicatorIds() {
+    return indicatorIds;
+  }
 
-	public void setIndicatorIds(final List<String> indicatorIds) {
-		this.indicatorIds = indicatorIds;
-	}
+  public void setIndicatorIds(final List<String> indicatorIds) {
+    this.indicatorIds = indicatorIds;
+  }
 
-	@Override
-	public boolean equals(final java.lang.Object o) {
-		if (this == o) {
-			return true;
-		}
-		if ((o == null) || (getClass() != o.getClass())) {
-			return false;
-		}
-		final VnfIndicatorNotificationsFilter vnfIndicatorNotificationsFilter = (VnfIndicatorNotificationsFilter) o;
-		return Objects.equals(this.vnfInstanceSubscriptionFilter, vnfIndicatorNotificationsFilter.vnfInstanceSubscriptionFilter) &&
-				Objects.equals(this.indicatorIds, vnfIndicatorNotificationsFilter.indicatorIds);
-	}
+  @Override
+  public boolean equals(final java.lang.Object o) {
+    if (this == o) {
+      return true;
+    }
+    if ((o == null) || (getClass() != o.getClass())) {
+      return false;
+    }
+    final VnfIndicatorNotificationsFilter vnfIndicatorNotificationsFilter = (VnfIndicatorNotificationsFilter) o;
+    return Objects.equals(this.vnfInstanceSubscriptionFilter, vnfIndicatorNotificationsFilter.vnfInstanceSubscriptionFilter) &&
+    Objects.equals(this.indicatorIds, vnfIndicatorNotificationsFilter.indicatorIds);
+  }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(vnfInstanceSubscriptionFilter, indicatorIds);
-	}
+  @Override
+  public int hashCode() {
+    return Objects.hash(vnfInstanceSubscriptionFilter, indicatorIds);
+  }
 
-	@Override
-	public String toString() {
-		final StringBuilder sb = new StringBuilder();
-		sb.append("class VnfIndicatorNotificationsFilter {\n");
+  @Override
+  public String toString() {
+    final StringBuilder sb = new StringBuilder();
+    sb.append("class VnfIndicatorNotificationsFilter {\n");
 
-		sb.append("    vnfInstanceSubscriptionFilter: ").append(toIndentedString(vnfInstanceSubscriptionFilter)).append("\n");
-		sb.append("    indicatorIds: ").append(toIndentedString(indicatorIds)).append("\n");
-		sb.append("}");
-		return sb.toString();
-	}
+    sb.append("    vnfInstanceSubscriptionFilter: ").append(toIndentedString(vnfInstanceSubscriptionFilter)).append("\n");
+    sb.append("    indicatorIds: ").append(toIndentedString(indicatorIds)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
 
-	/**
-	 * Convert the given object to string with each line indented by 4 spaces
-	 * (except the first line).
-	 */
-	private String toIndentedString(final java.lang.Object o) {
-		if (o == null) {
-			return "null";
-		}
-		return o.toString().replace("\n", "\n    ");
-	}
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(final java.lang.Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
+  }
 }

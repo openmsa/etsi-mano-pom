@@ -22,8 +22,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Map;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.ResourceHandle;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.VnfLinkPortInfo;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -33,7 +32,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents the information that allows addressing a virtualised resource that is used by an internal VL instance in a VNF instance. 
  */
-@ApiModel(description = "This type represents the information that allows addressing a virtualised resource that is used by an internal VL instance in a VNF instance. ")
+@Schema (description= "This type represents the information that allows addressing a virtualised resource that is used by an internal VL instance in a VNF instance. " )
 @Validated
 
 public class VnfVirtualLinkResourceInfo   {
@@ -68,7 +67,7 @@ public class VnfVirtualLinkResourceInfo   {
    * Identifier of this VnfVirtualLinkResourceInfo instance. 
    * @return id
   **/
-  @ApiModelProperty(required = true, value = "Identifier of this VnfVirtualLinkResourceInfo instance. ")
+  @Schema(required = true , description = "Identifier of this VnfVirtualLinkResourceInfo instance. ")
   @NotNull
 
 
@@ -89,7 +88,7 @@ public class VnfVirtualLinkResourceInfo   {
    * Identifier of the VNF Virtual Link Descriptor (VLD) in the VNFD. 
    * @return vnfVirtualLinkDescId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the VNF Virtual Link Descriptor (VLD) in the VNFD. ")
+  @Schema(required = true , description = "Identifier of the VNF Virtual Link Descriptor (VLD) in the VNFD. ")
   @NotNull
 
 
@@ -110,7 +109,7 @@ public class VnfVirtualLinkResourceInfo   {
    * Reference to the VirtualNetwork resource. 
    * @return networkResource
   **/
-  @ApiModelProperty(required = true, value = "Reference to the VirtualNetwork resource. ")
+  @Schema(required = true , description = "Reference to the VirtualNetwork resource. ")
   @NotNull
 
   @Valid
@@ -132,7 +131,7 @@ public class VnfVirtualLinkResourceInfo   {
    * The identifier of the resource zone, as managed by the resource management layer (typically, the VIM), where the referenced VirtualNetwork resource is placed. Shall be provided if this information is available from the VIM. 
    * @return zoneId
   **/
-  @ApiModelProperty(value = "The identifier of the resource zone, as managed by the resource management layer (typically, the VIM), where the referenced VirtualNetwork resource is placed. Shall be provided if this information is available from the VIM. ")
+  @Schema(description = "The identifier of the resource zone, as managed by the resource management layer (typically, the VIM), where the referenced VirtualNetwork resource is placed. Shall be provided if this information is available from the VIM. ")
 
 
   public String getZoneId() {
@@ -152,7 +151,7 @@ public class VnfVirtualLinkResourceInfo   {
    * The reservation identifier applicable to the resource. It shall be present when an applicable reservation exists. 
    * @return reservationId
   **/
-  @ApiModelProperty(value = "The reservation identifier applicable to the resource. It shall be present when an applicable reservation exists. ")
+  @Schema(description = "The reservation identifier applicable to the resource. It shall be present when an applicable reservation exists. ")
 
 
   public String getReservationId() {
@@ -180,7 +179,7 @@ public class VnfVirtualLinkResourceInfo   {
    * Links ports of this VL. Shall be present when the linkPort is used for external connectivity by the VNF (refer to VnfLinkPortInfo). May be present otherwise. 
    * @return vnfLinkPorts
   **/
-  @ApiModelProperty(value = "Links ports of this VL. Shall be present when the linkPort is used for external connectivity by the VNF (refer to VnfLinkPortInfo). May be present otherwise. ")
+  @Schema(description = "Links ports of this VL. Shall be present when the linkPort is used for external connectivity by the VNF (refer to VnfLinkPortInfo). May be present otherwise. ")
 
   @Valid
 
@@ -201,7 +200,7 @@ public class VnfVirtualLinkResourceInfo   {
    * Metadata about this resource. 
    * @return metadata
   **/
-  @ApiModelProperty(value = "Metadata about this resource. ")
+  @Schema(description = "Metadata about this resource. ")
 
   @Valid
 
@@ -224,12 +223,12 @@ public class VnfVirtualLinkResourceInfo   {
     }
     VnfVirtualLinkResourceInfo vnfVirtualLinkResourceInfo = (VnfVirtualLinkResourceInfo) o;
     return Objects.equals(this.id, vnfVirtualLinkResourceInfo.id) &&
-        Objects.equals(this.vnfVirtualLinkDescId, vnfVirtualLinkResourceInfo.vnfVirtualLinkDescId) &&
-        Objects.equals(this.networkResource, vnfVirtualLinkResourceInfo.networkResource) &&
-        Objects.equals(this.zoneId, vnfVirtualLinkResourceInfo.zoneId) &&
-        Objects.equals(this.reservationId, vnfVirtualLinkResourceInfo.reservationId) &&
-        Objects.equals(this.vnfLinkPorts, vnfVirtualLinkResourceInfo.vnfLinkPorts) &&
-        Objects.equals(this.metadata, vnfVirtualLinkResourceInfo.metadata);
+    Objects.equals(this.vnfVirtualLinkDescId, vnfVirtualLinkResourceInfo.vnfVirtualLinkDescId) &&
+    Objects.equals(this.networkResource, vnfVirtualLinkResourceInfo.networkResource) &&
+    Objects.equals(this.zoneId, vnfVirtualLinkResourceInfo.zoneId) &&
+    Objects.equals(this.reservationId, vnfVirtualLinkResourceInfo.reservationId) &&
+    Objects.equals(this.vnfLinkPorts, vnfVirtualLinkResourceInfo.vnfLinkPorts) &&
+    Objects.equals(this.metadata, vnfVirtualLinkResourceInfo.metadata);
   }
 
   @Override
@@ -241,7 +240,7 @@ public class VnfVirtualLinkResourceInfo   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class VnfVirtualLinkResourceInfo {\n");
-    
+
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    vnfVirtualLinkDescId: ").append(toIndentedString(vnfVirtualLinkDescId)).append("\n");
     sb.append("    networkResource: ").append(toIndentedString(networkResource)).append("\n");

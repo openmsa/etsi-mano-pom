@@ -20,9 +20,8 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.CpProtocolInfo;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Map;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -63,7 +62,7 @@ public class VnfcResourceInfoVnfcCpInfo   {
    * Identifier of this VNFC CP instance and the associated array entry. 
    * @return id
   **/
-  @ApiModelProperty(required = true, value = "Identifier of this VNFC CP instance and the associated array entry. ")
+  @Schema(required = true , description = "Identifier of this VNFC CP instance and the associated array entry. ")
   @NotNull
 
 
@@ -84,7 +83,7 @@ public class VnfcResourceInfoVnfcCpInfo   {
    * Identifier of the VDU CPD, cpdId, in the VNFD. ETSI GS NFV-SOL 001 specifies the structure and format of the VNFD based on TOSCA specifications. 
    * @return cpdId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the VDU CPD, cpdId, in the VNFD. ETSI GS NFV-SOL 001 specifies the structure and format of the VNFD based on TOSCA specifications. ")
+  @Schema(required = true , description = "Identifier of the VDU CPD, cpdId, in the VNFD. ETSI GS NFV-SOL 001 specifies the structure and format of the VNFD based on TOSCA specifications. ")
   @NotNull
 
 
@@ -105,7 +104,7 @@ public class VnfcResourceInfoVnfcCpInfo   {
    * Identifier of the related external CP. Shall be present when the VNFC CP is exposed as an external CP of the VNF instance or connected to an external CP of the VNF instance (see note 2) and shall be absent otherwise. NOTE 2: A VNFC CP is \"connected to\" an external CP if the VNFC CP is connected to an internal VL that exposes an external CP. A VNFC CP is \"exposed as\" an external CP if it is connected directly to an external VL. 
    * @return vnfExtCpId
   **/
-  @ApiModelProperty(value = "Identifier of the related external CP. Shall be present when the VNFC CP is exposed as an external CP of the VNF instance or connected to an external CP of the VNF instance (see note 2) and shall be absent otherwise. NOTE 2: A VNFC CP is \"connected to\" an external CP if the VNFC CP is connected to an internal VL that exposes an external CP. A VNFC CP is \"exposed as\" an external CP if it is connected directly to an external VL. ")
+  @Schema(description = "Identifier of the related external CP. Shall be present when the VNFC CP is exposed as an external CP of the VNF instance or connected to an external CP of the VNF instance (see note 2) and shall be absent otherwise. NOTE 2: A VNFC CP is \"connected to\" an external CP if the VNFC CP is connected to an internal VL that exposes an external CP. A VNFC CP is \"exposed as\" an external CP if it is connected directly to an external VL. ")
 
 
   public String getVnfExtCpId() {
@@ -133,7 +132,7 @@ public class VnfcResourceInfoVnfcCpInfo   {
    * Network protocol information for this CP. May be omitted if the VNFC CP is exposed as an external CP. See note 3. NOTE 3: The information can be omitted because it is already available as part of the external CP information. 
    * @return cpProtocolInfo
   **/
-  @ApiModelProperty(value = "Network protocol information for this CP. May be omitted if the VNFC CP is exposed as an external CP. See note 3. NOTE 3: The information can be omitted because it is already available as part of the external CP information. ")
+  @Schema(description = "Network protocol information for this CP. May be omitted if the VNFC CP is exposed as an external CP. See note 3. NOTE 3: The information can be omitted because it is already available as part of the external CP information. ")
 
   @Valid
 
@@ -154,7 +153,7 @@ public class VnfcResourceInfoVnfcCpInfo   {
    * Identifier of the \"VnfLinkPorts\" structure in the \"VnfVirtualLinkResourceInfo\" structure. Shall be present if the CP is associated to a link port on an internal VL of the VNF instance and shall be absent otherwise. 
    * @return vnfLinkPortId
   **/
-  @ApiModelProperty(value = "Identifier of the \"VnfLinkPorts\" structure in the \"VnfVirtualLinkResourceInfo\" structure. Shall be present if the CP is associated to a link port on an internal VL of the VNF instance and shall be absent otherwise. ")
+  @Schema(description = "Identifier of the \"VnfLinkPorts\" structure in the \"VnfVirtualLinkResourceInfo\" structure. Shall be present if the CP is associated to a link port on an internal VL of the VNF instance and shall be absent otherwise. ")
 
 
   public String getVnfLinkPortId() {
@@ -174,7 +173,7 @@ public class VnfcResourceInfoVnfcCpInfo   {
    * Metadata about this CP. 
    * @return metadata
   **/
-  @ApiModelProperty(value = "Metadata about this CP. ")
+  @Schema(description = "Metadata about this CP. ")
 
   @Valid
 
@@ -197,11 +196,11 @@ public class VnfcResourceInfoVnfcCpInfo   {
     }
     VnfcResourceInfoVnfcCpInfo vnfcResourceInfoVnfcCpInfo = (VnfcResourceInfoVnfcCpInfo) o;
     return Objects.equals(this.id, vnfcResourceInfoVnfcCpInfo.id) &&
-        Objects.equals(this.cpdId, vnfcResourceInfoVnfcCpInfo.cpdId) &&
-        Objects.equals(this.vnfExtCpId, vnfcResourceInfoVnfcCpInfo.vnfExtCpId) &&
-        Objects.equals(this.cpProtocolInfo, vnfcResourceInfoVnfcCpInfo.cpProtocolInfo) &&
-        Objects.equals(this.vnfLinkPortId, vnfcResourceInfoVnfcCpInfo.vnfLinkPortId) &&
-        Objects.equals(this.metadata, vnfcResourceInfoVnfcCpInfo.metadata);
+    Objects.equals(this.cpdId, vnfcResourceInfoVnfcCpInfo.cpdId) &&
+    Objects.equals(this.vnfExtCpId, vnfcResourceInfoVnfcCpInfo.vnfExtCpId) &&
+    Objects.equals(this.cpProtocolInfo, vnfcResourceInfoVnfcCpInfo.cpProtocolInfo) &&
+    Objects.equals(this.vnfLinkPortId, vnfcResourceInfoVnfcCpInfo.vnfLinkPortId) &&
+    Objects.equals(this.metadata, vnfcResourceInfoVnfcCpInfo.metadata);
   }
 
   @Override
@@ -213,7 +212,7 @@ public class VnfcResourceInfoVnfcCpInfo   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class VnfcResourceInfoVnfcCpInfo {\n");
-    
+
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    cpdId: ").append(toIndentedString(cpdId)).append("\n");
     sb.append("    vnfExtCpId: ").append(toIndentedString(vnfExtCpId)).append("\n");

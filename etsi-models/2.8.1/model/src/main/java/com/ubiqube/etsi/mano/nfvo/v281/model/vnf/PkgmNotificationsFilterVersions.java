@@ -18,9 +18,8 @@ package com.ubiqube.etsi.mano.nfvo.v281.model.vnf;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -49,7 +48,7 @@ public class PkgmNotificationsFilterVersions   {
    * VNF software version to match 
    * @return vnfSoftwareVersion
   **/
-  @ApiModelProperty(required = true, value = "VNF software version to match ")
+  @Schema(required = true , description = "VNF software version to match ")
   @NotNull
 
 
@@ -78,7 +77,7 @@ public class PkgmNotificationsFilterVersions   {
    * If present, match VNF packages that contain VNF products with certain VNFD versions, a certain software version and a certain product name, from one particular provider. 
    * @return vnfdVersions
   **/
-  @ApiModelProperty(value = "If present, match VNF packages that contain VNF products with certain VNFD versions, a certain software version and a certain product name, from one particular provider. ")
+  @Schema(description = "If present, match VNF packages that contain VNF products with certain VNFD versions, a certain software version and a certain product name, from one particular provider. ")
 
 
   public List<String> getVnfdVersions() {
@@ -100,7 +99,7 @@ public class PkgmNotificationsFilterVersions   {
     }
     PkgmNotificationsFilterVersions pkgmNotificationsFilterVersions = (PkgmNotificationsFilterVersions) o;
     return Objects.equals(this.vnfSoftwareVersion, pkgmNotificationsFilterVersions.vnfSoftwareVersion) &&
-        Objects.equals(this.vnfdVersions, pkgmNotificationsFilterVersions.vnfdVersions);
+    Objects.equals(this.vnfdVersions, pkgmNotificationsFilterVersions.vnfdVersions);
   }
 
   @Override
@@ -112,7 +111,7 @@ public class PkgmNotificationsFilterVersions   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class PkgmNotificationsFilterVersions {\n");
-    
+
     sb.append("    vnfSoftwareVersion: ").append(toIndentedString(vnfSoftwareVersion)).append("\n");
     sb.append("    vnfdVersions: ").append(toIndentedString(vnfdVersions)).append("\n");
     sb.append("}");

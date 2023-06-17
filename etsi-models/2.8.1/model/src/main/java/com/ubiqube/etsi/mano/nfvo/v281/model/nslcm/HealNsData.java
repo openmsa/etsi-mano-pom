@@ -21,8 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Map;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -32,7 +31,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents the information used to heal a NS.  It shall comply with the provisions defined in Table 6.5.3.43-1. 
  */
-@ApiModel(description = "This type represents the information used to heal a NS.  It shall comply with the provisions defined in Table 6.5.3.43-1. ")
+@Schema (description= "This type represents the information used to heal a NS.  It shall comply with the provisions defined in Table 6.5.3.43-1. " )
 @Validated
 
 public class HealNsData   {
@@ -93,7 +92,7 @@ public class HealNsData   {
    * Indicates the degree of healing. Possible values include: - HEAL_RESTORE: Complete the healing of the NS restoring the state of the NS before the failure occurred - HEAL_QOS: Complete the healing of the NS based on the newest QoS values - HEAL_RESET: Complete the healing of the NS resetting to the original instantiation state of the NS - PARTIAL_HEALING 
    * @return degreeHealing
   **/
-  @ApiModelProperty(required = true, value = "Indicates the degree of healing. Possible values include: - HEAL_RESTORE: Complete the healing of the NS restoring the state of the NS before the failure occurred - HEAL_QOS: Complete the healing of the NS based on the newest QoS values - HEAL_RESET: Complete the healing of the NS resetting to the original instantiation state of the NS - PARTIAL_HEALING ")
+  @Schema(required = true , description = "Indicates the degree of healing. Possible values include: - HEAL_RESTORE: Complete the healing of the NS restoring the state of the NS before the failure occurred - HEAL_QOS: Complete the healing of the NS based on the newest QoS values - HEAL_RESET: Complete the healing of the NS resetting to the original instantiation state of the NS - PARTIAL_HEALING ")
   @NotNull
 
 
@@ -122,7 +121,7 @@ public class HealNsData   {
    * Used to specify dedicated healing actions in a particular order (e.g. as a script). The actionsHealing attribute can be used to provide a specific script whose content and actions might only be possible to be derived during runtime. 
    * @return actionsHealing
   **/
-  @ApiModelProperty(value = "Used to specify dedicated healing actions in a particular order (e.g. as a script). The actionsHealing attribute can be used to provide a specific script whose content and actions might only be possible to be derived during runtime. ")
+  @Schema(description = "Used to specify dedicated healing actions in a particular order (e.g. as a script). The actionsHealing attribute can be used to provide a specific script whose content and actions might only be possible to be derived during runtime. ")
 
 
   public List<String> getActionsHealing() {
@@ -142,7 +141,7 @@ public class HealNsData   {
    * Reference to a script from the NSD that shall be used to execute dedicated healing actions in a particular order. The healScript, since it refers to a script in the NSD, can be used to execute healing actions which are defined during NS design time. 
    * @return healScript
   **/
-  @ApiModelProperty(value = "Reference to a script from the NSD that shall be used to execute dedicated healing actions in a particular order. The healScript, since it refers to a script in the NSD, can be used to execute healing actions which are defined during NS design time. ")
+  @Schema(description = "Reference to a script from the NSD that shall be used to execute dedicated healing actions in a particular order. The healScript, since it refers to a script in the NSD, can be used to execute healing actions which are defined during NS design time. ")
 
 
   public String getHealScript() {
@@ -162,7 +161,7 @@ public class HealNsData   {
    * Allows the OSS/BSS to provide additional parameter(s) to the healing process at the NS level. 
    * @return additionalParamsforNs
   **/
-  @ApiModelProperty(value = "Allows the OSS/BSS to provide additional parameter(s) to the healing process at the NS level. ")
+  @Schema(description = "Allows the OSS/BSS to provide additional parameter(s) to the healing process at the NS level. ")
 
   @Valid
 
@@ -185,9 +184,9 @@ public class HealNsData   {
     }
     HealNsData healNsData = (HealNsData) o;
     return Objects.equals(this.degreeHealing, healNsData.degreeHealing) &&
-        Objects.equals(this.actionsHealing, healNsData.actionsHealing) &&
-        Objects.equals(this.healScript, healNsData.healScript) &&
-        Objects.equals(this.additionalParamsforNs, healNsData.additionalParamsforNs);
+    Objects.equals(this.actionsHealing, healNsData.actionsHealing) &&
+    Objects.equals(this.healScript, healNsData.healScript) &&
+    Objects.equals(this.additionalParamsforNs, healNsData.additionalParamsforNs);
   }
 
   @Override
@@ -199,7 +198,7 @@ public class HealNsData   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class HealNsData {\n");
-    
+
     sb.append("    degreeHealing: ").append(toIndentedString(degreeHealing)).append("\n");
     sb.append("    actionsHealing: ").append(toIndentedString(actionsHealing)).append("\n");
     sb.append("    healScript: ").append(toIndentedString(healScript)).append("\n");

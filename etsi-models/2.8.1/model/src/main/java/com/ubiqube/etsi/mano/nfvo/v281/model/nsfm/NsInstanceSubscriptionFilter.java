@@ -19,8 +19,7 @@ package com.ubiqube.etsi.mano.nfvo.v281.model.nsfm;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -30,7 +29,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents subscription filter criteria to match NS instances. NOTE 1: The attributes \&quot;nsdIds\&quot;, \&quot;vnfdIds\&quot; and \&quot;pnfdIds\&quot; are alternatives to reference to NS instances that are created based on certain NSDs, or contain VNF instances that are based on certain VNFDs, or contain PNFs that are based on certain PNFDs in a filter. They should not be used together in the same filter instance, but one alternative should be chosen. NOTE 2: The attributes \&quot;nsInstanceIds\&quot; and \&quot;nsInstanceNames\&quot; are alternatives to reference to particular NS Instances in a filter. They should not be used both in the same filter instance, but one alternative should be chosen. 
  */
-@ApiModel(description = "This type represents subscription filter criteria to match NS instances. NOTE 1: The attributes \"nsdIds\", \"vnfdIds\" and \"pnfdIds\" are alternatives to reference to NS instances that are created based on certain NSDs, or contain VNF instances that are based on certain VNFDs, or contain PNFs that are based on certain PNFDs in a filter. They should not be used together in the same filter instance, but one alternative should be chosen. NOTE 2: The attributes \"nsInstanceIds\" and \"nsInstanceNames\" are alternatives to reference to particular NS Instances in a filter. They should not be used both in the same filter instance, but one alternative should be chosen. ")
+@Schema (description= "This type represents subscription filter criteria to match NS instances. NOTE 1: The attributes \"nsdIds\", \"vnfdIds\" and \"pnfdIds\" are alternatives to reference to NS instances that are created based on certain NSDs, or contain VNF instances that are based on certain VNFDs, or contain PNFs that are based on certain PNFDs in a filter. They should not be used together in the same filter instance, but one alternative should be chosen. NOTE 2: The attributes \"nsInstanceIds\" and \"nsInstanceNames\" are alternatives to reference to particular NS Instances in a filter. They should not be used both in the same filter instance, but one alternative should be chosen. " )
 @Validated
 
 public class NsInstanceSubscriptionFilter   {
@@ -71,7 +70,7 @@ public class NsInstanceSubscriptionFilter   {
    * If present, match NS instances that were created based on a NSD identified by one of the nsdId values listed in this attribute. 
    * @return nsdIds
   **/
-  @ApiModelProperty(value = "If present, match NS instances that were created based on a NSD identified by one of the nsdId values listed in this attribute. ")
+  @Schema(description = "If present, match NS instances that were created based on a NSD identified by one of the nsdId values listed in this attribute. ")
 
 
   public List<String> getNsdIds() {
@@ -99,7 +98,7 @@ public class NsInstanceSubscriptionFilter   {
    * If present, match NS instances that contain VNF instances that were created based on a VNFD identified by one of the vnfdId values listed in this attribute. 
    * @return vnfdIds
   **/
-  @ApiModelProperty(value = "If present, match NS instances that contain VNF instances that were created based on a VNFD identified by one of the vnfdId values listed in this attribute. ")
+  @Schema(description = "If present, match NS instances that contain VNF instances that were created based on a VNFD identified by one of the vnfdId values listed in this attribute. ")
 
 
   public List<String> getVnfdIds() {
@@ -127,7 +126,7 @@ public class NsInstanceSubscriptionFilter   {
    * If present, match NS instances that contain PNFs that are represented by a PNFD identified by one of the pnfdId values listed in this attribute. 
    * @return pnfdIds
   **/
-  @ApiModelProperty(value = "If present, match NS instances that contain PNFs that are represented by a PNFD identified by one of the pnfdId values listed in this attribute. ")
+  @Schema(description = "If present, match NS instances that contain PNFs that are represented by a PNFD identified by one of the pnfdId values listed in this attribute. ")
 
 
   public List<String> getPnfdIds() {
@@ -155,7 +154,7 @@ public class NsInstanceSubscriptionFilter   {
    * If present, match NS instances with an instance identifier listed in this attribute. 
    * @return nsInstanceIds
   **/
-  @ApiModelProperty(value = "If present, match NS instances with an instance identifier listed in this attribute. ")
+  @Schema(description = "If present, match NS instances with an instance identifier listed in this attribute. ")
 
 
   public List<String> getNsInstanceIds() {
@@ -183,7 +182,7 @@ public class NsInstanceSubscriptionFilter   {
    * If present, match NS instances with a NS Instance Name listed in this attribute. 
    * @return nsInstanceNames
   **/
-  @ApiModelProperty(value = "If present, match NS instances with a NS Instance Name listed in this attribute. ")
+  @Schema(description = "If present, match NS instances with a NS Instance Name listed in this attribute. ")
 
 
   public List<String> getNsInstanceNames() {
@@ -205,10 +204,10 @@ public class NsInstanceSubscriptionFilter   {
     }
     NsInstanceSubscriptionFilter nsInstanceSubscriptionFilter = (NsInstanceSubscriptionFilter) o;
     return Objects.equals(this.nsdIds, nsInstanceSubscriptionFilter.nsdIds) &&
-        Objects.equals(this.vnfdIds, nsInstanceSubscriptionFilter.vnfdIds) &&
-        Objects.equals(this.pnfdIds, nsInstanceSubscriptionFilter.pnfdIds) &&
-        Objects.equals(this.nsInstanceIds, nsInstanceSubscriptionFilter.nsInstanceIds) &&
-        Objects.equals(this.nsInstanceNames, nsInstanceSubscriptionFilter.nsInstanceNames);
+    Objects.equals(this.vnfdIds, nsInstanceSubscriptionFilter.vnfdIds) &&
+    Objects.equals(this.pnfdIds, nsInstanceSubscriptionFilter.pnfdIds) &&
+    Objects.equals(this.nsInstanceIds, nsInstanceSubscriptionFilter.nsInstanceIds) &&
+    Objects.equals(this.nsInstanceNames, nsInstanceSubscriptionFilter.nsInstanceNames);
   }
 
   @Override
@@ -220,7 +219,7 @@ public class NsInstanceSubscriptionFilter   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class NsInstanceSubscriptionFilter {\n");
-    
+
     sb.append("    nsdIds: ").append(toIndentedString(nsdIds)).append("\n");
     sb.append("    vnfdIds: ").append(toIndentedString(vnfdIds)).append("\n");
     sb.append("    pnfdIds: ").append(toIndentedString(pnfdIds)).append("\n");

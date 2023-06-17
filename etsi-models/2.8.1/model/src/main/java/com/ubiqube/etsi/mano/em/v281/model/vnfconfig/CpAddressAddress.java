@@ -19,8 +19,7 @@ package com.ubiqube.etsi.mano.em.v281.model.vnfconfig;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -28,7 +27,7 @@ import jakarta.validation.constraints.*;
 /**
  * Network address that has been configured on the CP. See NOTE 1. 
  */
-@ApiModel(description = "Network address that has been configured on the CP. See NOTE 1. ")
+@Schema (description= "Network address that has been configured on the CP. See NOTE 1. " )
 @Validated
 
 public class CpAddressAddress   {
@@ -47,7 +46,7 @@ public class CpAddressAddress   {
    * Mac address. See NOTE 2. 
    * @return macAddress
   **/
-  @ApiModelProperty(value = "Mac address. See NOTE 2. ")
+  @Schema(description = "Mac address. See NOTE 2. ")
 
 
   public String getMacAddress() {
@@ -67,7 +66,7 @@ public class CpAddressAddress   {
    * IP address. See NOTE 2. 
    * @return ipAddress
   **/
-  @ApiModelProperty(value = "IP address. See NOTE 2. ")
+  @Schema(description = "IP address. See NOTE 2. ")
 
 
   public String getIpAddress() {
@@ -89,7 +88,7 @@ public class CpAddressAddress   {
     }
     CpAddressAddress cpAddressAddress = (CpAddressAddress) o;
     return Objects.equals(this.macAddress, cpAddressAddress.macAddress) &&
-        Objects.equals(this.ipAddress, cpAddressAddress.ipAddress);
+    Objects.equals(this.ipAddress, cpAddressAddress.ipAddress);
   }
 
   @Override
@@ -101,7 +100,7 @@ public class CpAddressAddress   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class CpAddressAddress {\n");
-    
+
     sb.append("    macAddress: ").append(toIndentedString(macAddress)).append("\n");
     sb.append("    ipAddress: ").append(toIndentedString(ipAddress)).append("\n");
     sb.append("}");

@@ -20,8 +20,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -29,7 +28,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type provides information about added, deleted and modified SAP of a NS. It shall comply with the provisions in Table 6.5.3.7-1. 
  */
-@ApiModel(description = "This type provides information about added, deleted and modified SAP of a NS. It shall comply with the provisions in Table 6.5.3.7-1. ")
+@Schema (description= "This type provides information about added, deleted and modified SAP of a NS. It shall comply with the provisions in Table 6.5.3.7-1. " )
 @Validated
 
 public class AffectedSap   {
@@ -123,7 +122,7 @@ public class AffectedSap   {
    * Identifier of the nested NS instance. 
    * @return sapInstanceId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the nested NS instance. ")
+  @Schema(required = true , description = "Identifier of the nested NS instance. ")
   @NotNull
 
 
@@ -144,7 +143,7 @@ public class AffectedSap   {
    * Identifier of the NSD of the nested NS instance. 
    * @return sapdId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the NSD of the nested NS instance. ")
+  @Schema(required = true , description = "Identifier of the NSD of the nested NS instance. ")
   @NotNull
 
 
@@ -165,7 +164,7 @@ public class AffectedSap   {
    * Human readable name for the SAP. 
    * @return sapName
   **/
-  @ApiModelProperty(value = "Human readable name for the SAP. ")
+  @Schema(description = "Human readable name for the SAP. ")
 
 
   public String getSapName() {
@@ -185,7 +184,7 @@ public class AffectedSap   {
    * Signals the type of lifecycle change. Permitted values: - ADD - REMOVE - MODIFY 
    * @return changeType
   **/
-  @ApiModelProperty(value = "Signals the type of lifecycle change. Permitted values: - ADD - REMOVE - MODIFY ")
+  @Schema(description = "Signals the type of lifecycle change. Permitted values: - ADD - REMOVE - MODIFY ")
 
 
   public ChangeTypeEnum getChangeType() {
@@ -205,7 +204,7 @@ public class AffectedSap   {
    * Signals the result of change identified by the \"changeType\" attribute. Permitted values: - COMPLETED - ROLLED_BACK - FAILED 
    * @return changeResult
   **/
-  @ApiModelProperty(value = "Signals the result of change identified by the \"changeType\" attribute. Permitted values: - COMPLETED - ROLLED_BACK - FAILED ")
+  @Schema(description = "Signals the result of change identified by the \"changeType\" attribute. Permitted values: - COMPLETED - ROLLED_BACK - FAILED ")
 
 
   public ChangeResultEnum getChangeResult() {
@@ -227,10 +226,10 @@ public class AffectedSap   {
     }
     AffectedSap affectedSap = (AffectedSap) o;
     return Objects.equals(this.sapInstanceId, affectedSap.sapInstanceId) &&
-        Objects.equals(this.sapdId, affectedSap.sapdId) &&
-        Objects.equals(this.sapName, affectedSap.sapName) &&
-        Objects.equals(this.changeType, affectedSap.changeType) &&
-        Objects.equals(this.changeResult, affectedSap.changeResult);
+    Objects.equals(this.sapdId, affectedSap.sapdId) &&
+    Objects.equals(this.sapName, affectedSap.sapName) &&
+    Objects.equals(this.changeType, affectedSap.changeType) &&
+    Objects.equals(this.changeResult, affectedSap.changeResult);
   }
 
   @Override
@@ -242,7 +241,7 @@ public class AffectedSap   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class AffectedSap {\n");
-    
+
     sb.append("    sapInstanceId: ").append(toIndentedString(sapInstanceId)).append("\n");
     sb.append("    sapdId: ").append(toIndentedString(sapdId)).append("\n");
     sb.append("    sapName: ").append(toIndentedString(sapName)).append("\n");

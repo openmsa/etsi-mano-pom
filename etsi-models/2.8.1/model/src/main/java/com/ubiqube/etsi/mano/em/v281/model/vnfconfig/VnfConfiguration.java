@@ -21,8 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.em.v281.model.vnfconfig.VnfConfigurationData;
 import com.ubiqube.etsi.mano.em.v281.model.vnfconfig.VnfcConfigurationData;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -32,7 +31,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents configuration parameters of a VNF instance and its VNFC instances. 
  */
-@ApiModel(description = "This type represents configuration parameters of a VNF instance and its VNFC instances. ")
+@Schema (description= "This type represents configuration parameters of a VNF instance and its VNFC instances. " )
 @Validated
 
 public class VnfConfiguration   {
@@ -52,7 +51,7 @@ public class VnfConfiguration   {
    * Configuration parameters of the VNF instance. 
    * @return vnfConfigurationData
   **/
-  @ApiModelProperty(required = true, value = "Configuration parameters of the VNF instance. ")
+  @Schema(required = true , description = "Configuration parameters of the VNF instance. ")
   @NotNull
 
   @Valid
@@ -82,7 +81,7 @@ public class VnfConfiguration   {
    * Configuration parameters of the VNFC instances. 
    * @return vnfcConfigurationData
   **/
-  @ApiModelProperty(value = "Configuration parameters of the VNFC instances. ")
+  @Schema(description = "Configuration parameters of the VNFC instances. ")
 
   @Valid
 
@@ -105,7 +104,7 @@ public class VnfConfiguration   {
     }
     VnfConfiguration vnfConfiguration = (VnfConfiguration) o;
     return Objects.equals(this.vnfConfigurationData, vnfConfiguration.vnfConfigurationData) &&
-        Objects.equals(this.vnfcConfigurationData, vnfConfiguration.vnfcConfigurationData);
+    Objects.equals(this.vnfcConfigurationData, vnfConfiguration.vnfcConfigurationData);
   }
 
   @Override
@@ -117,7 +116,7 @@ public class VnfConfiguration   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class VnfConfiguration {\n");
-    
+
     sb.append("    vnfConfigurationData: ").append(toIndentedString(vnfConfigurationData)).append("\n");
     sb.append("    vnfcConfigurationData: ").append(toIndentedString(vnfcConfigurationData)).append("\n");
     sb.append("}");

@@ -20,8 +20,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Map;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -29,7 +28,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents the information to heal a VNF that is part of an NS.  The NFVO shall then invoke the HealVNF operation towards the appropriate VNFM.  It shall comply with the provisions defined in Table 6.5.3.44-1. 
  */
-@ApiModel(description = "This type represents the information to heal a VNF that is part of an NS.  The NFVO shall then invoke the HealVNF operation towards the appropriate VNFM.  It shall comply with the provisions defined in Table 6.5.3.44-1. ")
+@Schema (description= "This type represents the information to heal a VNF that is part of an NS.  The NFVO shall then invoke the HealVNF operation towards the appropriate VNFM.  It shall comply with the provisions defined in Table 6.5.3.44-1. " )
 @Validated
 
 public class HealVnfData   {
@@ -51,7 +50,7 @@ public class HealVnfData   {
    * Identifies the VNF instance, part of the NS, requiring a healing action. 
    * @return vnfInstanceId
   **/
-  @ApiModelProperty(required = true, value = "Identifies the VNF instance, part of the NS, requiring a healing action. ")
+  @Schema(required = true , description = "Identifies the VNF instance, part of the NS, requiring a healing action. ")
   @NotNull
 
 
@@ -72,7 +71,7 @@ public class HealVnfData   {
    * Indicates the reason why a healing procedure is required. 
    * @return cause
   **/
-  @ApiModelProperty(value = "Indicates the reason why a healing procedure is required. ")
+  @Schema(description = "Indicates the reason why a healing procedure is required. ")
 
 
   public String getCause() {
@@ -92,7 +91,7 @@ public class HealVnfData   {
    * Additional parameters passed by the NFVO as input to the healing process, specific to the VNF being healed. EXAMPLE: Input parameters to VNF-specific healing procedures. 
    * @return additionalParams
   **/
-  @ApiModelProperty(value = "Additional parameters passed by the NFVO as input to the healing process, specific to the VNF being healed. EXAMPLE: Input parameters to VNF-specific healing procedures. ")
+  @Schema(description = "Additional parameters passed by the NFVO as input to the healing process, specific to the VNF being healed. EXAMPLE: Input parameters to VNF-specific healing procedures. ")
 
   @Valid
 
@@ -115,8 +114,8 @@ public class HealVnfData   {
     }
     HealVnfData healVnfData = (HealVnfData) o;
     return Objects.equals(this.vnfInstanceId, healVnfData.vnfInstanceId) &&
-        Objects.equals(this.cause, healVnfData.cause) &&
-        Objects.equals(this.additionalParams, healVnfData.additionalParams);
+    Objects.equals(this.cause, healVnfData.cause) &&
+    Objects.equals(this.additionalParams, healVnfData.additionalParams);
   }
 
   @Override
@@ -128,7 +127,7 @@ public class HealVnfData   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class HealVnfData {\n");
-    
+
     sb.append("    vnfInstanceId: ").append(toIndentedString(vnfInstanceId)).append("\n");
     sb.append("    cause: ").append(toIndentedString(cause)).append("\n");
     sb.append("    additionalParams: ").append(toIndentedString(additionalParams)).append("\n");

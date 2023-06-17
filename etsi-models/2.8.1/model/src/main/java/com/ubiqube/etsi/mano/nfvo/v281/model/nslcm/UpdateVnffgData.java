@@ -20,8 +20,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.nfvo.v281.model.nslcm.NfpData;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -31,7 +30,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type specifies the parameters used for the update of an existing VNFFG instance. It shall comply with the provisions defined in Table 6.5.3.37-1. 
  */
-@ApiModel(description = "This type specifies the parameters used for the update of an existing VNFFG instance. It shall comply with the provisions defined in Table 6.5.3.37-1. ")
+@Schema (description= "This type specifies the parameters used for the update of an existing VNFFG instance. It shall comply with the provisions defined in Table 6.5.3.37-1. " )
 @Validated
 
 public class UpdateVnffgData   {
@@ -55,7 +54,7 @@ public class UpdateVnffgData   {
    * Identifier of an existing VNFFG to be updated for the NS Instance. 
    * @return vnffgInfoId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of an existing VNFFG to be updated for the NS Instance. ")
+  @Schema(required = true , description = "Identifier of an existing VNFFG to be updated for the NS Instance. ")
   @NotNull
 
 
@@ -84,7 +83,7 @@ public class UpdateVnffgData   {
    * Indicate the desired new NFP(s) for a given VNFFG after the operations of addition/removal of NS components (e.g. VNFs, VLs, etc.) have been completed, or indicate the updated or newly created NFP classification and selection rule which applied to an existing NFP. 
    * @return nfp
   **/
-  @ApiModelProperty(value = "Indicate the desired new NFP(s) for a given VNFFG after the operations of addition/removal of NS components (e.g. VNFs, VLs, etc.) have been completed, or indicate the updated or newly created NFP classification and selection rule which applied to an existing NFP. ")
+  @Schema(description = "Indicate the desired new NFP(s) for a given VNFFG after the operations of addition/removal of NS components (e.g. VNFs, VLs, etc.) have been completed, or indicate the updated or newly created NFP classification and selection rule which applied to an existing NFP. ")
 
   @Valid
 
@@ -113,7 +112,7 @@ public class UpdateVnffgData   {
    * Identifier(s) of the NFP to be deleted from a given VNFFG. 
    * @return nfpInfoId
   **/
-  @ApiModelProperty(value = "Identifier(s) of the NFP to be deleted from a given VNFFG. ")
+  @Schema(description = "Identifier(s) of the NFP to be deleted from a given VNFFG. ")
 
 
   public List<String> getNfpInfoId() {
@@ -135,8 +134,8 @@ public class UpdateVnffgData   {
     }
     UpdateVnffgData updateVnffgData = (UpdateVnffgData) o;
     return Objects.equals(this.vnffgInfoId, updateVnffgData.vnffgInfoId) &&
-        Objects.equals(this.nfp, updateVnffgData.nfp) &&
-        Objects.equals(this.nfpInfoId, updateVnffgData.nfpInfoId);
+    Objects.equals(this.nfp, updateVnffgData.nfp) &&
+    Objects.equals(this.nfpInfoId, updateVnffgData.nfpInfoId);
   }
 
   @Override
@@ -148,7 +147,7 @@ public class UpdateVnffgData   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class UpdateVnffgData {\n");
-    
+
     sb.append("    vnffgInfoId: ").append(toIndentedString(vnffgInfoId)).append("\n");
     sb.append("    nfp: ").append(toIndentedString(nfp)).append("\n");
     sb.append("    nfpInfoId: ").append(toIndentedString(nfpInfoId)).append("\n");

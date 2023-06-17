@@ -18,9 +18,8 @@ package com.ubiqube.etsi.mano.em.v281.model.vnflcm;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -55,7 +54,7 @@ public class ExtManagedVirtualLinkData   {
    * The identifier of the externally-managed internal VL instance. The identifier is assigned by the NFV-MANO entity that manages this VL instance. 
    * @return id
   **/
-  @ApiModelProperty(required = true, value = "The identifier of the externally-managed internal VL instance. The identifier is assigned by the NFV-MANO entity that manages this VL instance. ")
+  @Schema(required = true , description = "The identifier of the externally-managed internal VL instance. The identifier is assigned by the NFV-MANO entity that manages this VL instance. ")
   @NotNull
 
 
@@ -76,7 +75,7 @@ public class ExtManagedVirtualLinkData   {
    * The identifier of the VLD in the VNFD for this VL. 
    * @return vnfVirtualLinkDescId
   **/
-  @ApiModelProperty(value = "The identifier of the VLD in the VNFD for this VL. ")
+  @Schema(description = "The identifier of the VLD in the VNFD for this VL. ")
 
 
   public String getVnfVirtualLinkDescId() {
@@ -96,7 +95,7 @@ public class ExtManagedVirtualLinkData   {
    * Identifier of the VIM connection to manage this resource. This attribute shall only be supported and present if VNF-related resource management in direct mode is applicable. 
    * @return vimConnectionId
   **/
-  @ApiModelProperty(value = "Identifier of the VIM connection to manage this resource. This attribute shall only be supported and present if VNF-related resource management in direct mode is applicable. ")
+  @Schema(description = "Identifier of the VIM connection to manage this resource. This attribute shall only be supported and present if VNF-related resource management in direct mode is applicable. ")
 
 
   public String getVimConnectionId() {
@@ -116,7 +115,7 @@ public class ExtManagedVirtualLinkData   {
    * Identifies the entity responsible for the management of this resource. This attribute shall only be supported and present if VNF-related resource management in indirect mode is applicable. The identification scheme is outside the scope of the present document. 
    * @return resourceProviderId
   **/
-  @ApiModelProperty(value = "Identifies the entity responsible for the management of this resource. This attribute shall only be supported and present if VNF-related resource management in indirect mode is applicable. The identification scheme is outside the scope of the present document. ")
+  @Schema(description = "Identifies the entity responsible for the management of this resource. This attribute shall only be supported and present if VNF-related resource management in indirect mode is applicable. The identification scheme is outside the scope of the present document. ")
 
 
   public String getResourceProviderId() {
@@ -136,7 +135,7 @@ public class ExtManagedVirtualLinkData   {
    * The identifier of the resource in the scope of the VIM or the resource provider. 
    * @return resourceId
   **/
-  @ApiModelProperty(required = true, value = "The identifier of the resource in the scope of the VIM or the resource provider. ")
+  @Schema(required = true , description = "The identifier of the resource in the scope of the VIM or the resource provider. ")
   @NotNull
 
 
@@ -159,10 +158,10 @@ public class ExtManagedVirtualLinkData   {
     }
     ExtManagedVirtualLinkData extManagedVirtualLinkData = (ExtManagedVirtualLinkData) o;
     return Objects.equals(this.id, extManagedVirtualLinkData.id) &&
-        Objects.equals(this.vnfVirtualLinkDescId, extManagedVirtualLinkData.vnfVirtualLinkDescId) &&
-        Objects.equals(this.vimConnectionId, extManagedVirtualLinkData.vimConnectionId) &&
-        Objects.equals(this.resourceProviderId, extManagedVirtualLinkData.resourceProviderId) &&
-        Objects.equals(this.resourceId, extManagedVirtualLinkData.resourceId);
+    Objects.equals(this.vnfVirtualLinkDescId, extManagedVirtualLinkData.vnfVirtualLinkDescId) &&
+    Objects.equals(this.vimConnectionId, extManagedVirtualLinkData.vimConnectionId) &&
+    Objects.equals(this.resourceProviderId, extManagedVirtualLinkData.resourceProviderId) &&
+    Objects.equals(this.resourceId, extManagedVirtualLinkData.resourceId);
   }
 
   @Override
@@ -174,7 +173,7 @@ public class ExtManagedVirtualLinkData   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ExtManagedVirtualLinkData {\n");
-    
+
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    vnfVirtualLinkDescId: ").append(toIndentedString(vnfVirtualLinkDescId)).append("\n");
     sb.append("    vimConnectionId: ").append(toIndentedString(vimConnectionId)).append("\n");

@@ -21,8 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.nfvo.v281.model.nslcm.HealNsData;
 import com.ubiqube.etsi.mano.nfvo.v281.model.nslcm.HealVnfData;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -32,7 +31,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents request parameters for the \&quot;Heal NS\&quot; operation. This operation supports the healing of an NS instance, either by healing the complete NS instance or by healing one of more of the VNF instances that are part of this NS. It shall comply with the provisions defined in Table 6.5.2.13-1. Either the parameter healNsData or the parameter healVnfData, but not both shall be provided. 
  */
-@ApiModel(description = "This type represents request parameters for the \"Heal NS\" operation. This operation supports the healing of an NS instance, either by healing the complete NS instance or by healing one of more of the VNF instances that are part of this NS. It shall comply with the provisions defined in Table 6.5.2.13-1. Either the parameter healNsData or the parameter healVnfData, but not both shall be provided. ")
+@Schema (description= "This type represents request parameters for the \"Heal NS\" operation. This operation supports the healing of an NS instance, either by healing the complete NS instance or by healing one of more of the VNF instances that are part of this NS. It shall comply with the provisions defined in Table 6.5.2.13-1. Either the parameter healNsData or the parameter healVnfData, but not both shall be provided. " )
 @Validated
 
 public class HealNsRequest   {
@@ -52,7 +51,7 @@ public class HealNsRequest   {
    * Provides the information needed to heal an NS. See note 
    * @return healNsData
   **/
-  @ApiModelProperty(value = "Provides the information needed to heal an NS. See note ")
+  @Schema(description = "Provides the information needed to heal an NS. See note ")
 
   @Valid
 
@@ -81,7 +80,7 @@ public class HealNsRequest   {
    * Provides the information needed to heal a VNF. See note. 
    * @return healVnfData
   **/
-  @ApiModelProperty(value = "Provides the information needed to heal a VNF. See note. ")
+  @Schema(description = "Provides the information needed to heal a VNF. See note. ")
 
   @Valid
 
@@ -104,7 +103,7 @@ public class HealNsRequest   {
     }
     HealNsRequest healNsRequest = (HealNsRequest) o;
     return Objects.equals(this.healNsData, healNsRequest.healNsData) &&
-        Objects.equals(this.healVnfData, healNsRequest.healVnfData);
+    Objects.equals(this.healVnfData, healNsRequest.healVnfData);
   }
 
   @Override
@@ -116,7 +115,7 @@ public class HealNsRequest   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class HealNsRequest {\n");
-    
+
     sb.append("    healNsData: ").append(toIndentedString(healNsData)).append("\n");
     sb.append("    healVnfData: ").append(toIndentedString(healVnfData)).append("\n");
     sb.append("}");

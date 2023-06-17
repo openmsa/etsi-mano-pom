@@ -20,8 +20,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.nfvo.v281.model.nslcm.LocationConstraints;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -29,7 +28,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents the association of location constraints to a VNF instance to be created according to a specific VNF profile. It shall comply with the provisions defined in Table 6.5.3.20-1. 
  */
-@ApiModel(description = "This type represents the association of location constraints to a VNF instance to be created according to a specific VNF profile. It shall comply with the provisions defined in Table 6.5.3.20-1. ")
+@Schema (description= "This type represents the association of location constraints to a VNF instance to be created according to a specific VNF profile. It shall comply with the provisions defined in Table 6.5.3.20-1. " )
 @Validated
 
 public class VnfLocationConstraint   {
@@ -48,7 +47,7 @@ public class VnfLocationConstraint   {
    * Identifier of (reference to) a vnfProfile to which the additional parameters apply. 
    * @return vnfProfileId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of (reference to) a vnfProfile to which the additional parameters apply. ")
+  @Schema(required = true , description = "Identifier of (reference to) a vnfProfile to which the additional parameters apply. ")
   @NotNull
 
 
@@ -69,7 +68,7 @@ public class VnfLocationConstraint   {
    * Defines the location constraints for the VNF instance to be created based on the VNF profile. 
    * @return locationConstraints
   **/
-  @ApiModelProperty(value = "Defines the location constraints for the VNF instance to be created based on the VNF profile. ")
+  @Schema(description = "Defines the location constraints for the VNF instance to be created based on the VNF profile. ")
 
   @Valid
 
@@ -92,7 +91,7 @@ public class VnfLocationConstraint   {
     }
     VnfLocationConstraint vnfLocationConstraint = (VnfLocationConstraint) o;
     return Objects.equals(this.vnfProfileId, vnfLocationConstraint.vnfProfileId) &&
-        Objects.equals(this.locationConstraints, vnfLocationConstraint.locationConstraints);
+    Objects.equals(this.locationConstraints, vnfLocationConstraint.locationConstraints);
   }
 
   @Override
@@ -104,7 +103,7 @@ public class VnfLocationConstraint   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class VnfLocationConstraint {\n");
-    
+
     sb.append("    vnfProfileId: ").append(toIndentedString(vnfProfileId)).append("\n");
     sb.append("    locationConstraints: ").append(toIndentedString(locationConstraints)).append("\n");
     sb.append("}");

@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.nfvo.v281.model.vnfconfig;
 
 import java.time.OffsetDateTime;
 import java.util.Objects;
-
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
@@ -27,9 +27,6 @@ import org.springframework.validation.annotation.Validated;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.em.v281.model.vnfconfig.ProblemDetails;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
 /**
  * This type represents an NSD management notification, which informs the
  * receiver of the failure of on-boarding an NSD. It shall comply with the
@@ -37,7 +34,7 @@ import io.swagger.annotations.ApiModelProperty;
  * mandatory. The notification shall be triggered by the NFVO when the
  * on-boarding of an NSD has failed.
  */
-@ApiModel(description = "This type represents an NSD management notification, which informs the receiver of the failure of on-boarding an NSD. It shall comply with the provisions defined in Table 5.5.2.10-1. The support of this notification is mandatory. The notification shall be triggered by the NFVO when the on-boarding of an NSD has failed. ")
+@Schema (description= "This type represents an NSD management notification, which informs the receiver of the failure of on-boarding an NSD. It shall comply with the provisions defined in Table 5.5.2.10-1. The support of this notification is mandatory. The notification shall be triggered by the NFVO when the on-boarding of an NSD has failed. " )
 @Validated
 
 public class NsdOnBoardingFailureNotification {
@@ -65,230 +62,230 @@ public class NsdOnBoardingFailureNotification {
 	@JsonProperty("_links")
 	private NsdmLinks links = null;
 
-	public NsdOnBoardingFailureNotification id(final String id) {
-		this.id = id;
-		return this;
-	}
+  public NsdOnBoardingFailureNotification id(final String id) {
+    this.id = id;
+    return this;
+  }
 
-	/**
-	 * Get id
-	 *
-	 * @return id
-	 **/
-	@ApiModelProperty(required = true, value = "")
-	@NotNull
+  /**
+   * Get id
+   *
+   * @return id
+   **/
+  @Schema(required = true , description = "")
+  @NotNull
 
-	public String getId() {
-		return id;
-	}
+  public String getId() {
+    return id;
+  }
 
-	public void setId(final String id) {
-		this.id = id;
-	}
+  public void setId(final String id) {
+    this.id = id;
+  }
 
-	public NsdOnBoardingFailureNotification notificationType(final String notificationType) {
-		this.notificationType = notificationType;
-		return this;
-	}
+  public NsdOnBoardingFailureNotification notificationType(final String notificationType) {
+    this.notificationType = notificationType;
+    return this;
+  }
 
-	/**
-	 * Discriminator for the different notification types. Shall be set to
-	 * \"NsdOnboardingFailureNotification\" for this notification type.
-	 *
-	 * @return notificationType
-	 **/
-	@ApiModelProperty(required = true, value = "Discriminator for the different notification types. Shall be set to \"NsdOnboardingFailureNotification\" for this notification type. ")
-	@NotNull
+  /**
+   * Discriminator for the different notification types. Shall be set to
+   * \"NsdOnboardingFailureNotification\" for this notification type.
+   *
+   * @return notificationType
+   **/
+  @Schema(required = true , description = "Discriminator for the different notification types. Shall be set to \"NsdOnboardingFailureNotification\" for this notification type. ")
+  @NotNull
 
-	public String getNotificationType() {
-		return notificationType;
-	}
+  public String getNotificationType() {
+    return notificationType;
+  }
 
-	public void setNotificationType(final String notificationType) {
-		this.notificationType = notificationType;
-	}
+  public void setNotificationType(final String notificationType) {
+    this.notificationType = notificationType;
+  }
 
-	public NsdOnBoardingFailureNotification subscriptionId(final String subscriptionId) {
-		this.subscriptionId = subscriptionId;
-		return this;
-	}
+  public NsdOnBoardingFailureNotification subscriptionId(final String subscriptionId) {
+    this.subscriptionId = subscriptionId;
+    return this;
+  }
 
-	/**
-	 * Get subscriptionId
-	 *
-	 * @return subscriptionId
-	 **/
-	@ApiModelProperty(required = true, value = "")
-	@NotNull
+  /**
+   * Get subscriptionId
+   *
+   * @return subscriptionId
+   **/
+  @Schema(required = true , description = "")
+  @NotNull
 
-	public String getSubscriptionId() {
-		return subscriptionId;
-	}
+  public String getSubscriptionId() {
+    return subscriptionId;
+  }
 
-	public void setSubscriptionId(final String subscriptionId) {
-		this.subscriptionId = subscriptionId;
-	}
+  public void setSubscriptionId(final String subscriptionId) {
+    this.subscriptionId = subscriptionId;
+  }
 
-	public NsdOnBoardingFailureNotification timeStamp(final OffsetDateTime timeStamp) {
-		this.timeStamp = timeStamp;
-		return this;
-	}
+  public NsdOnBoardingFailureNotification timeStamp(final OffsetDateTime timeStamp) {
+    this.timeStamp = timeStamp;
+    return this;
+  }
 
-	/**
-	 * Date-time of the generation of the notification.
-	 *
-	 * @return timeStamp
-	 **/
-	@ApiModelProperty(required = true, value = "Date-time of the generation of the notification. ")
-	@NotNull
+  /**
+   * Date-time of the generation of the notification.
+   *
+   * @return timeStamp
+   **/
+  @Schema(required = true , description = "Date-time of the generation of the notification. ")
+  @NotNull
 
-	@Valid
+  @Valid
 
-	public OffsetDateTime getTimeStamp() {
-		return timeStamp;
-	}
+  public OffsetDateTime getTimeStamp() {
+    return timeStamp;
+  }
 
-	public void setTimeStamp(final OffsetDateTime timeStamp) {
-		this.timeStamp = timeStamp;
-	}
+  public void setTimeStamp(final OffsetDateTime timeStamp) {
+    this.timeStamp = timeStamp;
+  }
 
-	public NsdOnBoardingFailureNotification nsdInfoId(final String nsdInfoId) {
-		this.nsdInfoId = nsdInfoId;
-		return this;
-	}
+  public NsdOnBoardingFailureNotification nsdInfoId(final String nsdInfoId) {
+    this.nsdInfoId = nsdInfoId;
+    return this;
+  }
 
-	/**
-	 * Get nsdInfoId
-	 *
-	 * @return nsdInfoId
-	 **/
-	@ApiModelProperty(required = true, value = "")
-	@NotNull
+  /**
+   * Get nsdInfoId
+   *
+   * @return nsdInfoId
+   **/
+  @Schema(required = true , description = "")
+  @NotNull
 
-	public String getNsdInfoId() {
-		return nsdInfoId;
-	}
+  public String getNsdInfoId() {
+    return nsdInfoId;
+  }
 
-	public void setNsdInfoId(final String nsdInfoId) {
-		this.nsdInfoId = nsdInfoId;
-	}
+  public void setNsdInfoId(final String nsdInfoId) {
+    this.nsdInfoId = nsdInfoId;
+  }
 
-	public NsdOnBoardingFailureNotification nsdId(final String nsdId) {
-		this.nsdId = nsdId;
-		return this;
-	}
+  public NsdOnBoardingFailureNotification nsdId(final String nsdId) {
+    this.nsdId = nsdId;
+    return this;
+  }
 
-	/**
-	 * Get nsdId
-	 *
-	 * @return nsdId
-	 **/
-	@ApiModelProperty(value = "")
+  /**
+   * Get nsdId
+   *
+   * @return nsdId
+   **/
+  @Schema(description = "")
 
-	public String getNsdId() {
-		return nsdId;
-	}
+  public String getNsdId() {
+    return nsdId;
+  }
 
-	public void setNsdId(final String nsdId) {
-		this.nsdId = nsdId;
-	}
+  public void setNsdId(final String nsdId) {
+    this.nsdId = nsdId;
+  }
 
-	public NsdOnBoardingFailureNotification onboardingFailureDetails(final ProblemDetails onboardingFailureDetails) {
-		this.onboardingFailureDetails = onboardingFailureDetails;
-		return this;
-	}
+  public NsdOnBoardingFailureNotification onboardingFailureDetails(final ProblemDetails onboardingFailureDetails) {
+    this.onboardingFailureDetails = onboardingFailureDetails;
+    return this;
+  }
 
-	/**
-	 * Failure details of current onboarding procedure. See clause 6.3 of ETSI GS
-	 * NFV-SOL 013 for the details of \"ProblemDetails\" structure.
-	 *
-	 * @return onboardingFailureDetails
-	 **/
-	@ApiModelProperty(required = true, value = "Failure details of current onboarding procedure. See clause 6.3 of ETSI GS NFV-SOL 013 for the details of \"ProblemDetails\" structure. ")
-	@NotNull
+  /**
+   * Failure details of current onboarding procedure. See clause 6.3 of ETSI GS
+   * NFV-SOL 013 for the details of \"ProblemDetails\" structure.
+   *
+   * @return onboardingFailureDetails
+   **/
+  @Schema(required = true , description = "Failure details of current onboarding procedure. See clause 6.3 of ETSI GS NFV-SOL 013 for the details of \"ProblemDetails\" structure. ")
+  @NotNull
 
-	@Valid
+  @Valid
 
-	public ProblemDetails getOnboardingFailureDetails() {
-		return onboardingFailureDetails;
-	}
+  public ProblemDetails getOnboardingFailureDetails() {
+    return onboardingFailureDetails;
+  }
 
-	public void setOnboardingFailureDetails(final ProblemDetails onboardingFailureDetails) {
-		this.onboardingFailureDetails = onboardingFailureDetails;
-	}
+  public void setOnboardingFailureDetails(final ProblemDetails onboardingFailureDetails) {
+    this.onboardingFailureDetails = onboardingFailureDetails;
+  }
 
-	public NsdOnBoardingFailureNotification links(final NsdmLinks links) {
-		this.links = links;
-		return this;
-	}
+  public NsdOnBoardingFailureNotification links(final NsdmLinks links) {
+    this.links = links;
+    return this;
+  }
 
-	/**
-	 * Get links
-	 *
-	 * @return links
-	 **/
-	@ApiModelProperty(required = true, value = "")
-	@NotNull
+  /**
+   * Get links
+   *
+   * @return links
+   **/
+  @Schema(required = true , description = "")
+  @NotNull
 
-	@Valid
+  @Valid
 
-	public NsdmLinks getLinks() {
-		return links;
-	}
+  public NsdmLinks getLinks() {
+    return links;
+  }
 
-	public void setLinks(final NsdmLinks links) {
-		this.links = links;
-	}
+  public void setLinks(final NsdmLinks links) {
+    this.links = links;
+  }
 
-	@Override
-	public boolean equals(final java.lang.Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
-		final NsdOnBoardingFailureNotification nsdOnBoardingFailureNotification = (NsdOnBoardingFailureNotification) o;
-		return Objects.equals(this.id, nsdOnBoardingFailureNotification.id) &&
-				Objects.equals(this.notificationType, nsdOnBoardingFailureNotification.notificationType) &&
-				Objects.equals(this.subscriptionId, nsdOnBoardingFailureNotification.subscriptionId) &&
-				Objects.equals(this.timeStamp, nsdOnBoardingFailureNotification.timeStamp) &&
-				Objects.equals(this.nsdInfoId, nsdOnBoardingFailureNotification.nsdInfoId) &&
-				Objects.equals(this.nsdId, nsdOnBoardingFailureNotification.nsdId) &&
-				Objects.equals(this.onboardingFailureDetails, nsdOnBoardingFailureNotification.onboardingFailureDetails) &&
-				Objects.equals(this.links, nsdOnBoardingFailureNotification.links);
-	}
+  @Override
+  public boolean equals(final java.lang.Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    final NsdOnBoardingFailureNotification nsdOnBoardingFailureNotification = (NsdOnBoardingFailureNotification) o;
+    return Objects.equals(this.id, nsdOnBoardingFailureNotification.id) &&
+    Objects.equals(this.notificationType, nsdOnBoardingFailureNotification.notificationType) &&
+    Objects.equals(this.subscriptionId, nsdOnBoardingFailureNotification.subscriptionId) &&
+    Objects.equals(this.timeStamp, nsdOnBoardingFailureNotification.timeStamp) &&
+    Objects.equals(this.nsdInfoId, nsdOnBoardingFailureNotification.nsdInfoId) &&
+    Objects.equals(this.nsdId, nsdOnBoardingFailureNotification.nsdId) &&
+    Objects.equals(this.onboardingFailureDetails, nsdOnBoardingFailureNotification.onboardingFailureDetails) &&
+    Objects.equals(this.links, nsdOnBoardingFailureNotification.links);
+  }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id, notificationType, subscriptionId, timeStamp, nsdInfoId, nsdId, onboardingFailureDetails, links);
-	}
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, notificationType, subscriptionId, timeStamp, nsdInfoId, nsdId, onboardingFailureDetails, links);
+  }
 
-	@Override
-	public String toString() {
-		final StringBuilder sb = new StringBuilder();
-		sb.append("class NsdOnBoardingFailureNotification {\n");
+  @Override
+  public String toString() {
+    final StringBuilder sb = new StringBuilder();
+    sb.append("class NsdOnBoardingFailureNotification {\n");
 
-		sb.append("    id: ").append(toIndentedString(id)).append("\n");
-		sb.append("    notificationType: ").append(toIndentedString(notificationType)).append("\n");
-		sb.append("    subscriptionId: ").append(toIndentedString(subscriptionId)).append("\n");
-		sb.append("    timeStamp: ").append(toIndentedString(timeStamp)).append("\n");
-		sb.append("    nsdInfoId: ").append(toIndentedString(nsdInfoId)).append("\n");
-		sb.append("    nsdId: ").append(toIndentedString(nsdId)).append("\n");
-		sb.append("    onboardingFailureDetails: ").append(toIndentedString(onboardingFailureDetails)).append("\n");
-		sb.append("    links: ").append(toIndentedString(links)).append("\n");
-		sb.append("}");
-		return sb.toString();
-	}
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    notificationType: ").append(toIndentedString(notificationType)).append("\n");
+    sb.append("    subscriptionId: ").append(toIndentedString(subscriptionId)).append("\n");
+    sb.append("    timeStamp: ").append(toIndentedString(timeStamp)).append("\n");
+    sb.append("    nsdInfoId: ").append(toIndentedString(nsdInfoId)).append("\n");
+    sb.append("    nsdId: ").append(toIndentedString(nsdId)).append("\n");
+    sb.append("    onboardingFailureDetails: ").append(toIndentedString(onboardingFailureDetails)).append("\n");
+    sb.append("    links: ").append(toIndentedString(links)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
 
-	/**
-	 * Convert the given object to string with each line indented by 4 spaces
-	 * (except the first line).
-	 */
-	private String toIndentedString(final java.lang.Object o) {
-		if (o == null) {
-			return "null";
-		}
-		return o.toString().replace("\n", "\n    ");
-	}
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(final java.lang.Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
+  }
 }

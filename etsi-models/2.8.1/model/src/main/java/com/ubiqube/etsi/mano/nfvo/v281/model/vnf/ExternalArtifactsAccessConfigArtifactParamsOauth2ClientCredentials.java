@@ -19,8 +19,7 @@ package com.ubiqube.etsi.mano.nfvo.v281.model.vnf;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -28,7 +27,7 @@ import jakarta.validation.constraints.*;
 /**
  * Parameters for authentication/authorization using OAUTH2_CLIENT_CREDENTIALS. 
  */
-@ApiModel(description = "Parameters for authentication/authorization using OAUTH2_CLIENT_CREDENTIALS. ")
+@Schema (description= "Parameters for authentication/authorization using OAUTH2_CLIENT_CREDENTIALS. " )
 @Validated
 
 public class ExternalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials   {
@@ -50,7 +49,7 @@ public class ExternalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials 
    * Client identifier to be used in the access token request of the OAuth 2.0 client credentials grant type. 
    * @return clientId
   **/
-  @ApiModelProperty(required = true, value = "Client identifier to be used in the access token request of the OAuth 2.0 client credentials grant type. ")
+  @Schema(required = true , description = "Client identifier to be used in the access token request of the OAuth 2.0 client credentials grant type. ")
   @NotNull
 
 
@@ -71,7 +70,7 @@ public class ExternalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials 
    * Client password to be used in the access token request of the OAuth 2.0 client credentials grant type. Shall not be present in response bodies. 
    * @return clientPassword
   **/
-  @ApiModelProperty(required = true, value = "Client password to be used in the access token request of the OAuth 2.0 client credentials grant type. Shall not be present in response bodies. ")
+  @Schema(required = true , description = "Client password to be used in the access token request of the OAuth 2.0 client credentials grant type. Shall not be present in response bodies. ")
   @NotNull
 
 
@@ -92,7 +91,7 @@ public class ExternalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials 
    * Client password to be used in the access token request of the OAuth 2.0 client credentials grant type. Shall not be present in response bodies. 
    * @return tokenEndpoint
   **/
-  @ApiModelProperty(required = true, value = "Client password to be used in the access token request of the OAuth 2.0 client credentials grant type. Shall not be present in response bodies. ")
+  @Schema(required = true , description = "Client password to be used in the access token request of the OAuth 2.0 client credentials grant type. Shall not be present in response bodies. ")
   @NotNull
 
 
@@ -115,8 +114,8 @@ public class ExternalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials 
     }
     ExternalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials externalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials = (ExternalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials) o;
     return Objects.equals(this.clientId, externalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials.clientId) &&
-        Objects.equals(this.clientPassword, externalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials.clientPassword) &&
-        Objects.equals(this.tokenEndpoint, externalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials.tokenEndpoint);
+    Objects.equals(this.clientPassword, externalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials.clientPassword) &&
+    Objects.equals(this.tokenEndpoint, externalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials.tokenEndpoint);
   }
 
   @Override
@@ -128,7 +127,7 @@ public class ExternalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials 
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ExternalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials {\n");
-    
+
     sb.append("    clientId: ").append(toIndentedString(clientId)).append("\n");
     sb.append("    clientPassword: ").append(toIndentedString(clientPassword)).append("\n");
     sb.append("    tokenEndpoint: ").append(toIndentedString(tokenEndpoint)).append("\n");

@@ -21,8 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.ubiqube.etsi.mano.em.v281.model.vnfind.ThresholdCriteriaSimpleThresholdDetails;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -30,7 +29,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents criteria that define a threshold. 
  */
-@ApiModel(description = "This type represents criteria that define a threshold. ")
+@Schema (description= "This type represents criteria that define a threshold. " )
 @Validated
 
 public class ThresholdCriteria   {
@@ -81,7 +80,7 @@ public class ThresholdCriteria   {
    * Defines the performance metric associated with the threshold. Valid values are specified as \"Measurement Name\" values in clause 7.2 of ETSI GS NFV-IFA 027. 
    * @return performanceMetric
   **/
-  @ApiModelProperty(required = true, value = "Defines the performance metric associated with the threshold. Valid values are specified as \"Measurement Name\" values in clause 7.2 of ETSI GS NFV-IFA 027. ")
+  @Schema(required = true , description = "Defines the performance metric associated with the threshold. Valid values are specified as \"Measurement Name\" values in clause 7.2 of ETSI GS NFV-IFA 027. ")
   @NotNull
 
 
@@ -102,7 +101,7 @@ public class ThresholdCriteria   {
    * Type of threshold. This attribute determines which other attributes are present in the data structure. Permitted values: * SIMPLE: Single-valued static threshold In the present document, simple thresholds are defined. The definition of additional threshold types is left for future specification. 
    * @return thresholdType
   **/
-  @ApiModelProperty(required = true, value = "Type of threshold. This attribute determines which other attributes are present in the data structure. Permitted values: * SIMPLE: Single-valued static threshold In the present document, simple thresholds are defined. The definition of additional threshold types is left for future specification. ")
+  @Schema(required = true , description = "Type of threshold. This attribute determines which other attributes are present in the data structure. Permitted values: * SIMPLE: Single-valued static threshold In the present document, simple thresholds are defined. The definition of additional threshold types is left for future specification. ")
   @NotNull
 
 
@@ -123,7 +122,7 @@ public class ThresholdCriteria   {
    * Get simpleThresholdDetails
    * @return simpleThresholdDetails
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   @Valid
 
@@ -146,8 +145,8 @@ public class ThresholdCriteria   {
     }
     ThresholdCriteria thresholdCriteria = (ThresholdCriteria) o;
     return Objects.equals(this.performanceMetric, thresholdCriteria.performanceMetric) &&
-        Objects.equals(this.thresholdType, thresholdCriteria.thresholdType) &&
-        Objects.equals(this.simpleThresholdDetails, thresholdCriteria.simpleThresholdDetails);
+    Objects.equals(this.thresholdType, thresholdCriteria.thresholdType) &&
+    Objects.equals(this.simpleThresholdDetails, thresholdCriteria.simpleThresholdDetails);
   }
 
   @Override
@@ -159,7 +158,7 @@ public class ThresholdCriteria   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ThresholdCriteria {\n");
-    
+
     sb.append("    performanceMetric: ").append(toIndentedString(performanceMetric)).append("\n");
     sb.append("    thresholdType: ").append(toIndentedString(thresholdType)).append("\n");
     sb.append("    simpleThresholdDetails: ").append(toIndentedString(simpleThresholdDetails)).append("\n");

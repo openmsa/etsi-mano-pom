@@ -19,8 +19,7 @@ package com.ubiqube.etsi.mano.nfvo.v281.model.nslcm;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
@@ -29,7 +28,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents a NS termination request.  It shall comply with the provisions defined in Table 6.5.2.15-1. 
  */
-@ApiModel(description = "This type represents a NS termination request.  It shall comply with the provisions defined in Table 6.5.2.15-1. ")
+@Schema (description= "This type represents a NS termination request.  It shall comply with the provisions defined in Table 6.5.2.15-1. " )
 @Validated
 
 public class TerminateNsRequest   {
@@ -45,7 +44,7 @@ public class TerminateNsRequest   {
    * Timestamp indicating the end time of the NS, i.e. the NS will be terminated automatically at this timestamp. Cardinality \"0\" indicates the NS termination takes place immediately 
    * @return terminationTime
   **/
-  @ApiModelProperty(value = "Timestamp indicating the end time of the NS, i.e. the NS will be terminated automatically at this timestamp. Cardinality \"0\" indicates the NS termination takes place immediately ")
+  @Schema(description = "Timestamp indicating the end time of the NS, i.e. the NS will be terminated automatically at this timestamp. Cardinality \"0\" indicates the NS termination takes place immediately ")
 
   @Valid
 
@@ -79,7 +78,7 @@ public class TerminateNsRequest   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class TerminateNsRequest {\n");
-    
+
     sb.append("    terminationTime: ").append(toIndentedString(terminationTime)).append("\n");
     sb.append("}");
     return sb.toString();

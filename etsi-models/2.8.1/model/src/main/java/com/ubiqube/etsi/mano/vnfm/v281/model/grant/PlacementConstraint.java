@@ -21,8 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.ubiqube.etsi.mano.vnfm.v281.model.grant.ConstraintResourceRef;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -32,7 +31,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type provides information regarding a resource placement constraint. A set of such constraints may be sent by the VNFM to the NFVO to influence the resource placement decisions made by the NFVO as part of the granting process. A placement constraint defines a condition to the placement of new resources, considering other new resources as well as existing resources. EXAMPLE: The following rules influence the placement of a set of resources such that they are placed in the same Network Function Virtualisation Infrastructure Point of Presence (NFVI-PoP) but in different resource zones: {type&#x3D;\&quot;AFFINITY\&quot;; scope&#x3D;\&quot;NFVI_POP\&quot;; {resource1,resource2}} {type&#x3D;\&quot;ANTI_AFFINITY\&quot;; scope&#x3D;\&quot;ZONE\&quot;; {resource1,resource2}} 
  */
-@ApiModel(description = "This type provides information regarding a resource placement constraint. A set of such constraints may be sent by the VNFM to the NFVO to influence the resource placement decisions made by the NFVO as part of the granting process. A placement constraint defines a condition to the placement of new resources, considering other new resources as well as existing resources. EXAMPLE: The following rules influence the placement of a set of resources such that they are placed in the same Network Function Virtualisation Infrastructure Point of Presence (NFVI-PoP) but in different resource zones: {type=\"AFFINITY\"; scope=\"NFVI_POP\"; {resource1,resource2}} {type=\"ANTI_AFFINITY\"; scope=\"ZONE\"; {resource1,resource2}} ")
+@Schema (description= "This type provides information regarding a resource placement constraint. A set of such constraints may be sent by the VNFM to the NFVO to influence the resource placement decisions made by the NFVO as part of the granting process. A placement constraint defines a condition to the placement of new resources, considering other new resources as well as existing resources. EXAMPLE: The following rules influence the placement of a set of resources such that they are placed in the same Network Function Virtualisation Infrastructure Point of Presence (NFVI-PoP) but in different resource zones: {type=\"AFFINITY\"; scope=\"NFVI_POP\"; {resource1,resource2}} {type=\"ANTI_AFFINITY\"; scope=\"ZONE\"; {resource1,resource2}} " )
 @Validated
 
 public class PlacementConstraint   {
@@ -124,7 +123,7 @@ public class PlacementConstraint   {
    * The type of the constraint. Permitted values: * AFFINITY * ANTI_AFFINITY 
    * @return affinityOrAntiAffinity
   **/
-  @ApiModelProperty(required = true, value = "The type of the constraint. Permitted values: * AFFINITY * ANTI_AFFINITY ")
+  @Schema(required = true , description = "The type of the constraint. Permitted values: * AFFINITY * ANTI_AFFINITY ")
   @NotNull
 
 
@@ -145,7 +144,7 @@ public class PlacementConstraint   {
    * The scope of the placement constraint indicating the category of the \"place\" where the constraint applies. Permitted values: * NFVI_POP * ZONE * ZONE_GROUP * NFVI_NODE 
    * @return scope
   **/
-  @ApiModelProperty(required = true, value = "The scope of the placement constraint indicating the category of the \"place\" where the constraint applies. Permitted values: * NFVI_POP * ZONE * ZONE_GROUP * NFVI_NODE ")
+  @Schema(required = true , description = "The scope of the placement constraint indicating the category of the \"place\" where the constraint applies. Permitted values: * NFVI_POP * ZONE * ZONE_GROUP * NFVI_NODE ")
   @NotNull
 
 
@@ -171,11 +170,11 @@ public class PlacementConstraint   {
    * References to resources in the constraint rule. 
    * @return resource
   **/
-  @ApiModelProperty(required = true, value = "References to resources in the constraint rule. ")
+  @Schema(required = true , description = "References to resources in the constraint rule. ")
   @NotNull
 
   @Valid
-@Size(min=2) 
+  @Size(min = 2)
   public List<ConstraintResourceRef> getResource() {
     return resource;
   }
@@ -193,7 +192,7 @@ public class PlacementConstraint   {
    * Indication if the constraint is handled with fall back best effort. Default value is “false”. If set to true, the Affinity/Anti_Affinity placement constraint need not be fully satisfied, i.e. if the allocation cannot be honoured with the placement constraint, the request is processed in a best effort manner. 
    * @return fallbackBestEffort
   **/
-  @ApiModelProperty(value = "Indication if the constraint is handled with fall back best effort. Default value is “false”. If set to true, the Affinity/Anti_Affinity placement constraint need not be fully satisfied, i.e. if the allocation cannot be honoured with the placement constraint, the request is processed in a best effort manner. ")
+  @Schema(description = "Indication if the constraint is handled with fall back best effort. Default value is “false”. If set to true, the Affinity/Anti_Affinity placement constraint need not be fully satisfied, i.e. if the allocation cannot be honoured with the placement constraint, the request is processed in a best effort manner. ")
 
 
   public Boolean getFallbackBestEffort() {
@@ -215,9 +214,9 @@ public class PlacementConstraint   {
     }
     PlacementConstraint placementConstraint = (PlacementConstraint) o;
     return Objects.equals(this.affinityOrAntiAffinity, placementConstraint.affinityOrAntiAffinity) &&
-        Objects.equals(this.scope, placementConstraint.scope) &&
-        Objects.equals(this.resource, placementConstraint.resource) &&
-        Objects.equals(this.fallbackBestEffort, placementConstraint.fallbackBestEffort);
+    Objects.equals(this.scope, placementConstraint.scope) &&
+    Objects.equals(this.resource, placementConstraint.resource) &&
+    Objects.equals(this.fallbackBestEffort, placementConstraint.fallbackBestEffort);
   }
 
   @Override
@@ -229,7 +228,7 @@ public class PlacementConstraint   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class PlacementConstraint {\n");
-    
+
     sb.append("    affinityOrAntiAffinity: ").append(toIndentedString(affinityOrAntiAffinity)).append("\n");
     sb.append("    scope: ").append(toIndentedString(scope)).append("\n");
     sb.append("    resource: ").append(toIndentedString(resource)).append("\n");

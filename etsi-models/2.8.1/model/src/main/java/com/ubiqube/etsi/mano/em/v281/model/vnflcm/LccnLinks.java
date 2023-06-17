@@ -20,8 +20,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.NotificationLink;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -29,7 +28,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents the links to resources that a notification can contain. 
  */
-@ApiModel(description = "This type represents the links to resources that a notification can contain. ")
+@Schema (description= "This type represents the links to resources that a notification can contain. " )
 @Validated
 
 public class LccnLinks   {
@@ -51,7 +50,7 @@ public class LccnLinks   {
    * Link to the resource representing the VNF instance to which the notified change applies. 
    * @return vnfInstance
   **/
-  @ApiModelProperty(required = true, value = "Link to the resource representing the VNF instance to which the notified change applies. ")
+  @Schema(required = true , description = "Link to the resource representing the VNF instance to which the notified change applies. ")
   @NotNull
 
   @Valid
@@ -73,7 +72,7 @@ public class LccnLinks   {
    * Link to the related subscription. 
    * @return subscription
   **/
-  @ApiModelProperty(required = true, value = "Link to the related subscription. ")
+  @Schema(required = true , description = "Link to the related subscription. ")
   @NotNull
 
   @Valid
@@ -95,7 +94,7 @@ public class LccnLinks   {
    * Link to the VNF lifecycle management operation occurrence that this notification is related to. Shall be present if there is a related lifecycle operation occurrence. 
    * @return vnfLcmOpOcc
   **/
-  @ApiModelProperty(value = "Link to the VNF lifecycle management operation occurrence that this notification is related to. Shall be present if there is a related lifecycle operation occurrence. ")
+  @Schema(description = "Link to the VNF lifecycle management operation occurrence that this notification is related to. Shall be present if there is a related lifecycle operation occurrence. ")
 
   @Valid
 
@@ -118,8 +117,8 @@ public class LccnLinks   {
     }
     LccnLinks lccnLinks = (LccnLinks) o;
     return Objects.equals(this.vnfInstance, lccnLinks.vnfInstance) &&
-        Objects.equals(this.subscription, lccnLinks.subscription) &&
-        Objects.equals(this.vnfLcmOpOcc, lccnLinks.vnfLcmOpOcc);
+    Objects.equals(this.subscription, lccnLinks.subscription) &&
+    Objects.equals(this.vnfLcmOpOcc, lccnLinks.vnfLcmOpOcc);
   }
 
   @Override
@@ -131,7 +130,7 @@ public class LccnLinks   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class LccnLinks {\n");
-    
+
     sb.append("    vnfInstance: ").append(toIndentedString(vnfInstance)).append("\n");
     sb.append("    subscription: ").append(toIndentedString(subscription)).append("\n");
     sb.append("    vnfLcmOpOcc: ").append(toIndentedString(vnfLcmOpOcc)).append("\n");

@@ -20,8 +20,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.Link;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -29,7 +28,7 @@ import jakarta.validation.constraints.*;
 /**
  * Links to resources related to this resource. 
  */
-@ApiModel(description = "Links to resources related to this resource. ")
+@Schema (description= "Links to resources related to this resource. " )
 @Validated
 
 public class LccnSubscriptionLinks   {
@@ -45,7 +44,7 @@ public class LccnSubscriptionLinks   {
    * URI of this resource. 
    * @return self
   **/
-  @ApiModelProperty(required = true, value = "URI of this resource. ")
+  @Schema(required = true , description = "URI of this resource. ")
   @NotNull
 
   @Valid
@@ -80,7 +79,7 @@ public class LccnSubscriptionLinks   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class LccnSubscriptionLinks {\n");
-    
+
     sb.append("    self: ").append(toIndentedString(self)).append("\n");
     sb.append("}");
     return sb.toString();

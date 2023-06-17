@@ -65,224 +65,224 @@ public class VrQuotaAvailNotification {
 	@JsonProperty("_links")
 	private QuotaAvailLinks _links = null;
 
-	public VrQuotaAvailNotification id(final String id) {
-		this.id = id;
-		return this;
-	}
+  public VrQuotaAvailNotification id(final String id) {
+    this.id = id;
+    return this;
+  }
 
-	/**
-	 * Get id
-	 *
-	 * @return id
-	 **/
-	@Schema(required = true, description = "")
-	@NotNull
+  /**
+   * Get id
+   *
+   * @return id
+   **/
+  @Schema(required = true, description = "")
+  @NotNull
 
-	public String getId() {
-		return id;
-	}
+  public String getId() {
+    return id;
+  }
 
-	public void setId(final String id) {
-		this.id = id;
-	}
+  public void setId(final String id) {
+    this.id = id;
+  }
 
-	public VrQuotaAvailNotification notificationType(final String notificationType) {
-		this.notificationType = notificationType;
-		return this;
-	}
+  public VrQuotaAvailNotification notificationType(final String notificationType) {
+    this.notificationType = notificationType;
+    return this;
+  }
 
-	/**
-	 * Get notificationType
-	 *
-	 * @return notificationType
-	 **/
-	@Schema(required = true, description = "")
-	@NotNull
+  /**
+   * Get notificationType
+   *
+   * @return notificationType
+   **/
+  @Schema(required = true, description = "")
+  @NotNull
 
-	public String getNotificationType() {
-		return notificationType;
-	}
+  public String getNotificationType() {
+    return notificationType;
+  }
 
-	public void setNotificationType(final String notificationType) {
-		this.notificationType = notificationType;
-	}
+  public void setNotificationType(final String notificationType) {
+    this.notificationType = notificationType;
+  }
 
-	public VrQuotaAvailNotification subscriptionId(final String subscriptionId) {
-		this.subscriptionId = subscriptionId;
-		return this;
-	}
+  public VrQuotaAvailNotification subscriptionId(final String subscriptionId) {
+    this.subscriptionId = subscriptionId;
+    return this;
+  }
 
-	/**
-	 * Get subscriptionId
-	 *
-	 * @return subscriptionId
-	 **/
-	@Schema(required = true, description = "")
-	@NotNull
+  /**
+   * Get subscriptionId
+   *
+   * @return subscriptionId
+   **/
+  @Schema(required = true, description = "")
+  @NotNull
 
-	public String getSubscriptionId() {
-		return subscriptionId;
-	}
+  public String getSubscriptionId() {
+    return subscriptionId;
+  }
 
-	public void setSubscriptionId(final String subscriptionId) {
-		this.subscriptionId = subscriptionId;
-	}
+  public void setSubscriptionId(final String subscriptionId) {
+    this.subscriptionId = subscriptionId;
+  }
 
-	public VrQuotaAvailNotification timeStamp(final OffsetDateTime timeStamp) {
-		this.timeStamp = timeStamp;
-		return this;
-	}
+  public VrQuotaAvailNotification timeStamp(final OffsetDateTime timeStamp) {
+    this.timeStamp = timeStamp;
+    return this;
+  }
 
-	/**
-	 * Get timeStamp
-	 *
-	 * @return timeStamp
-	 **/
-	@Schema(required = true, description = "")
-	@NotNull
+  /**
+   * Get timeStamp
+   *
+   * @return timeStamp
+   **/
+  @Schema(required = true, description = "")
+  @NotNull
 
-	@Valid
-	public OffsetDateTime getTimeStamp() {
-		return timeStamp;
-	}
+  @Valid
+  public OffsetDateTime getTimeStamp() {
+    return timeStamp;
+  }
 
-	public void setTimeStamp(final OffsetDateTime timeStamp) {
-		this.timeStamp = timeStamp;
-	}
+  public void setTimeStamp(final OffsetDateTime timeStamp) {
+    this.timeStamp = timeStamp;
+  }
 
-	public VrQuotaAvailNotification resourceGroupId(final String resourceGroupId) {
-		this.resourceGroupId = resourceGroupId;
-		return this;
-	}
+  public VrQuotaAvailNotification resourceGroupId(final String resourceGroupId) {
+    this.resourceGroupId = resourceGroupId;
+    return this;
+  }
 
-	/**
-	 * Get resourceGroupId
-	 *
-	 * @return resourceGroupId
-	 **/
-	@Schema(required = true, description = "")
-	@NotNull
+  /**
+   * Get resourceGroupId
+   *
+   * @return resourceGroupId
+   **/
+  @Schema(required = true, description = "")
+  @NotNull
 
-	public String getResourceGroupId() {
-		return resourceGroupId;
-	}
+  public String getResourceGroupId() {
+    return resourceGroupId;
+  }
 
-	public void setResourceGroupId(final String resourceGroupId) {
-		this.resourceGroupId = resourceGroupId;
-	}
+  public void setResourceGroupId(final String resourceGroupId) {
+    this.resourceGroupId = resourceGroupId;
+  }
 
-	public VrQuotaAvailNotification vimConnectionInfo(final VimConnectionInfo vimConnectionInfo) {
-		this.vimConnectionInfo = vimConnectionInfo;
-		return this;
-	}
+  public VrQuotaAvailNotification vimConnectionInfo(final VimConnectionInfo vimConnectionInfo) {
+    this.vimConnectionInfo = vimConnectionInfo;
+    return this;
+  }
 
-	/**
-	 * Get vimConnectionInfo
-	 *
-	 * @return vimConnectionInfo
-	 **/
-	@Schema(description = "")
+  /**
+   * Get vimConnectionInfo
+   *
+   * @return vimConnectionInfo
+   **/
+  @Schema(description = "")
 
-	@Valid
-	public VimConnectionInfo getVimConnectionInfo() {
-		return vimConnectionInfo;
-	}
+  @Valid
+  public VimConnectionInfo getVimConnectionInfo() {
+    return vimConnectionInfo;
+  }
 
-	public void setVimConnectionInfo(final VimConnectionInfo vimConnectionInfo) {
-		this.vimConnectionInfo = vimConnectionInfo;
-	}
+  public void setVimConnectionInfo(final VimConnectionInfo vimConnectionInfo) {
+    this.vimConnectionInfo = vimConnectionInfo;
+  }
 
-	public VrQuotaAvailNotification resourceProviderId(final String resourceProviderId) {
-		this.resourceProviderId = resourceProviderId;
-		return this;
-	}
+  public VrQuotaAvailNotification resourceProviderId(final String resourceProviderId) {
+    this.resourceProviderId = resourceProviderId;
+    return this;
+  }
 
-	/**
-	 * Get resourceProviderId
-	 *
-	 * @return resourceProviderId
-	 **/
-	@Schema(description = "")
+  /**
+   * Get resourceProviderId
+   *
+   * @return resourceProviderId
+   **/
+  @Schema(description = "")
 
-	public String getResourceProviderId() {
-		return resourceProviderId;
-	}
+  public String getResourceProviderId() {
+    return resourceProviderId;
+  }
 
-	public void setResourceProviderId(final String resourceProviderId) {
-		this.resourceProviderId = resourceProviderId;
-	}
+  public void setResourceProviderId(final String resourceProviderId) {
+    this.resourceProviderId = resourceProviderId;
+  }
 
-	public VrQuotaAvailNotification _links(final QuotaAvailLinks _links) {
-		this._links = _links;
-		return this;
-	}
+  public VrQuotaAvailNotification _links(final QuotaAvailLinks _links) {
+    this._links = _links;
+    return this;
+  }
 
-	/**
-	 * Get _links
-	 *
-	 * @return _links
-	 **/
-	@Schema(required = true, description = "")
-	@NotNull
+  /**
+   * Get _links
+   *
+   * @return _links
+   **/
+  @Schema(required = true, description = "")
+  @NotNull
 
-	@Valid
-	public QuotaAvailLinks getLinks() {
-		return _links;
-	}
+  @Valid
+  public QuotaAvailLinks getLinks() {
+    return _links;
+  }
 
-	public void setLinks(final QuotaAvailLinks _links) {
-		this._links = _links;
-	}
+  public void setLinks(final QuotaAvailLinks _links) {
+    this._links = _links;
+  }
 
-	@Override
-	public boolean equals(final java.lang.Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
-		final VrQuotaAvailNotification vrQuotaAvailNotification = (VrQuotaAvailNotification) o;
-		return Objects.equals(this.id, vrQuotaAvailNotification.id) &&
-				Objects.equals(this.notificationType, vrQuotaAvailNotification.notificationType) &&
-				Objects.equals(this.subscriptionId, vrQuotaAvailNotification.subscriptionId) &&
-				Objects.equals(this.timeStamp, vrQuotaAvailNotification.timeStamp) &&
-				Objects.equals(this.resourceGroupId, vrQuotaAvailNotification.resourceGroupId) &&
-				Objects.equals(this.vimConnectionInfo, vrQuotaAvailNotification.vimConnectionInfo) &&
-				Objects.equals(this.resourceProviderId, vrQuotaAvailNotification.resourceProviderId) &&
-				Objects.equals(this._links, vrQuotaAvailNotification._links);
-	}
+  @Override
+  public boolean equals(final java.lang.Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    final VrQuotaAvailNotification vrQuotaAvailNotification = (VrQuotaAvailNotification) o;
+    return Objects.equals(this.id, vrQuotaAvailNotification.id) &&
+    Objects.equals(this.notificationType, vrQuotaAvailNotification.notificationType) &&
+    Objects.equals(this.subscriptionId, vrQuotaAvailNotification.subscriptionId) &&
+    Objects.equals(this.timeStamp, vrQuotaAvailNotification.timeStamp) &&
+    Objects.equals(this.resourceGroupId, vrQuotaAvailNotification.resourceGroupId) &&
+    Objects.equals(this.vimConnectionInfo, vrQuotaAvailNotification.vimConnectionInfo) &&
+    Objects.equals(this.resourceProviderId, vrQuotaAvailNotification.resourceProviderId) &&
+    Objects.equals(this._links, vrQuotaAvailNotification._links);
+  }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id, notificationType, subscriptionId, timeStamp, resourceGroupId, vimConnectionInfo, resourceProviderId, _links);
-	}
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, notificationType, subscriptionId, timeStamp, resourceGroupId, vimConnectionInfo, resourceProviderId, _links);
+  }
 
-	@Override
-	public String toString() {
-		final StringBuilder sb = new StringBuilder();
-		sb.append("class VrQuotaAvailNotification {\n");
+  @Override
+  public String toString() {
+    final StringBuilder sb = new StringBuilder();
+    sb.append("class VrQuotaAvailNotification {\n");
 
-		sb.append("    id: ").append(toIndentedString(id)).append("\n");
-		sb.append("    notificationType: ").append(toIndentedString(notificationType)).append("\n");
-		sb.append("    subscriptionId: ").append(toIndentedString(subscriptionId)).append("\n");
-		sb.append("    timeStamp: ").append(toIndentedString(timeStamp)).append("\n");
-		sb.append("    resourceGroupId: ").append(toIndentedString(resourceGroupId)).append("\n");
-		sb.append("    vimConnectionInfo: ").append(toIndentedString(vimConnectionInfo)).append("\n");
-		sb.append("    resourceProviderId: ").append(toIndentedString(resourceProviderId)).append("\n");
-		sb.append("    _links: ").append(toIndentedString(_links)).append("\n");
-		sb.append("}");
-		return sb.toString();
-	}
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    notificationType: ").append(toIndentedString(notificationType)).append("\n");
+    sb.append("    subscriptionId: ").append(toIndentedString(subscriptionId)).append("\n");
+    sb.append("    timeStamp: ").append(toIndentedString(timeStamp)).append("\n");
+    sb.append("    resourceGroupId: ").append(toIndentedString(resourceGroupId)).append("\n");
+    sb.append("    vimConnectionInfo: ").append(toIndentedString(vimConnectionInfo)).append("\n");
+    sb.append("    resourceProviderId: ").append(toIndentedString(resourceProviderId)).append("\n");
+    sb.append("    _links: ").append(toIndentedString(_links)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
 
-	/**
-	 * Convert the given object to string with each line indented by 4 spaces
-	 * (except the first line).
-	 */
-	private String toIndentedString(final java.lang.Object o) {
-		if (o == null) {
-			return "null";
-		}
-		return o.toString().replace("\n", "\n    ");
-	}
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(final java.lang.Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
+  }
 }

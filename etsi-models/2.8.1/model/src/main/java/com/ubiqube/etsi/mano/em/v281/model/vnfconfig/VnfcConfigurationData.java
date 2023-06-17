@@ -21,8 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.em.v281.model.vnfconfig.CpConfiguration;
 import java.util.Map;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -32,7 +31,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents configuration parameters of a VNFC instance. 
  */
-@ApiModel(description = "This type represents configuration parameters of a VNFC instance. ")
+@Schema (description= "This type represents configuration parameters of a VNFC instance. " )
 @Validated
 
 public class VnfcConfigurationData   {
@@ -58,7 +57,7 @@ public class VnfcConfigurationData   {
    * Identifier of a VNFC instance to which this set of configuration data applies. The identifier references the \"id\" attribute in a \"VnfcInfo\" structure. 
    * @return vnfcInstanceId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of a VNFC instance to which this set of configuration data applies. The identifier references the \"id\" attribute in a \"VnfcInfo\" structure. ")
+  @Schema(required = true , description = "Identifier of a VNFC instance to which this set of configuration data applies. The identifier references the \"id\" attribute in a \"VnfcInfo\" structure. ")
   @NotNull
 
 
@@ -87,7 +86,7 @@ public class VnfcConfigurationData   {
    * Configuration parameters for the internal CPs of the VNFC instance. 
    * @return intCpConfig
   **/
-  @ApiModelProperty(value = "Configuration parameters for the internal CPs of the VNFC instance. ")
+  @Schema(description = "Configuration parameters for the internal CPs of the VNFC instance. ")
 
   @Valid
 
@@ -108,7 +107,7 @@ public class VnfcConfigurationData   {
    * IP address of the DHCP server that the VNF instance can use to obtain IP addresses to be assigned to its external CPs. 
    * @return dhcpServer
   **/
-  @ApiModelProperty(value = "IP address of the DHCP server that the VNF instance can use to obtain IP addresses to be assigned to its external CPs. ")
+  @Schema(description = "IP address of the DHCP server that the VNF instance can use to obtain IP addresses to be assigned to its external CPs. ")
 
 
   public String getDhcpServer() {
@@ -128,7 +127,7 @@ public class VnfcConfigurationData   {
    * Additional configurable properties of the VNFC instance declared in the VNFD as \"VnfcConfigurableProperties\". 
    * @return vnfcSpecificData
   **/
-  @ApiModelProperty(value = "Additional configurable properties of the VNFC instance declared in the VNFD as \"VnfcConfigurableProperties\". ")
+  @Schema(description = "Additional configurable properties of the VNFC instance declared in the VNFD as \"VnfcConfigurableProperties\". ")
 
   @Valid
 
@@ -151,9 +150,9 @@ public class VnfcConfigurationData   {
     }
     VnfcConfigurationData vnfcConfigurationData = (VnfcConfigurationData) o;
     return Objects.equals(this.vnfcInstanceId, vnfcConfigurationData.vnfcInstanceId) &&
-        Objects.equals(this.intCpConfig, vnfcConfigurationData.intCpConfig) &&
-        Objects.equals(this.dhcpServer, vnfcConfigurationData.dhcpServer) &&
-        Objects.equals(this.vnfcSpecificData, vnfcConfigurationData.vnfcSpecificData);
+    Objects.equals(this.intCpConfig, vnfcConfigurationData.intCpConfig) &&
+    Objects.equals(this.dhcpServer, vnfcConfigurationData.dhcpServer) &&
+    Objects.equals(this.vnfcSpecificData, vnfcConfigurationData.vnfcSpecificData);
   }
 
   @Override
@@ -165,7 +164,7 @@ public class VnfcConfigurationData   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class VnfcConfigurationData {\n");
-    
+
     sb.append("    vnfcInstanceId: ").append(toIndentedString(vnfcInstanceId)).append("\n");
     sb.append("    intCpConfig: ").append(toIndentedString(intCpConfig)).append("\n");
     sb.append("    dhcpServer: ").append(toIndentedString(dhcpServer)).append("\n");

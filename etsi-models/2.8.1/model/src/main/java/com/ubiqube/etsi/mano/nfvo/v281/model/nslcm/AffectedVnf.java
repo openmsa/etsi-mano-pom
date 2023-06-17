@@ -21,8 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.ubiqube.etsi.mano.nfvo.v281.model.nslcm.AffectedVnfChangedInfo;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -30,7 +29,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type provides information about added, deleted and modified VNFs.  It shall comply with the provisions in Table 6.5.3.2-1. 
  */
-@ApiModel(description = "This type provides information about added, deleted and modified VNFs.  It shall comply with the provisions in Table 6.5.3.2-1. ")
+@Schema (description= "This type provides information about added, deleted and modified VNFs.  It shall comply with the provisions in Table 6.5.3.2-1. " )
 @Validated
 
 public class AffectedVnf   {
@@ -144,7 +143,7 @@ public class AffectedVnf   {
    * Identifier of the VNF instance.  
    * @return vnfInstanceId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the VNF instance.  ")
+  @Schema(required = true , description = "Identifier of the VNF instance.  ")
   @NotNull
 
 
@@ -165,7 +164,7 @@ public class AffectedVnf   {
    * Identifier of the VNFD of the VNF Instance. 
    * @return vnfdId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the VNFD of the VNF Instance. ")
+  @Schema(required = true , description = "Identifier of the VNFD of the VNF Instance. ")
   @NotNull
 
 
@@ -186,7 +185,7 @@ public class AffectedVnf   {
    * Identifier of the VNF profile of the NSD. 
    * @return vnfProfileId
   **/
-  @ApiModelProperty(required = true, value = "Identifier of the VNF profile of the NSD. ")
+  @Schema(required = true , description = "Identifier of the VNF profile of the NSD. ")
   @NotNull
 
 
@@ -207,7 +206,7 @@ public class AffectedVnf   {
    * Name of the VNF Instance. 
    * @return vnfName
   **/
-  @ApiModelProperty(required = true, value = "Name of the VNF Instance. ")
+  @Schema(required = true , description = "Name of the VNF Instance. ")
   @NotNull
 
 
@@ -228,7 +227,7 @@ public class AffectedVnf   {
    * Signals the type of change Permitted values: - ADD - REMOVE - INSTANTIATE - TERMINATE - SCALE - CHANGE_FLAVOUR - HEAL - OPERATE - MODIFY_INFORMATION - CHANGE_EXTERNAL_VNF_CONNECTIVITY 
    * @return changeType
   **/
-  @ApiModelProperty(required = true, value = "Signals the type of change Permitted values: - ADD - REMOVE - INSTANTIATE - TERMINATE - SCALE - CHANGE_FLAVOUR - HEAL - OPERATE - MODIFY_INFORMATION - CHANGE_EXTERNAL_VNF_CONNECTIVITY ")
+  @Schema(required = true , description = "Signals the type of change Permitted values: - ADD - REMOVE - INSTANTIATE - TERMINATE - SCALE - CHANGE_FLAVOUR - HEAL - OPERATE - MODIFY_INFORMATION - CHANGE_EXTERNAL_VNF_CONNECTIVITY ")
   @NotNull
 
 
@@ -249,7 +248,7 @@ public class AffectedVnf   {
    * Signals the result of change identified by the \"changeType\" attribute. Permitted values: - COMPLETED - ROLLED_BACK - FAILED 
    * @return changeResult
   **/
-  @ApiModelProperty(required = true, value = "Signals the result of change identified by the \"changeType\" attribute. Permitted values: - COMPLETED - ROLLED_BACK - FAILED ")
+  @Schema(required = true , description = "Signals the result of change identified by the \"changeType\" attribute. Permitted values: - COMPLETED - ROLLED_BACK - FAILED ")
   @NotNull
 
 
@@ -270,7 +269,7 @@ public class AffectedVnf   {
    * Get changedInfo
    * @return changedInfo
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   @Valid
 
@@ -293,12 +292,12 @@ public class AffectedVnf   {
     }
     AffectedVnf affectedVnf = (AffectedVnf) o;
     return Objects.equals(this.vnfInstanceId, affectedVnf.vnfInstanceId) &&
-        Objects.equals(this.vnfdId, affectedVnf.vnfdId) &&
-        Objects.equals(this.vnfProfileId, affectedVnf.vnfProfileId) &&
-        Objects.equals(this.vnfName, affectedVnf.vnfName) &&
-        Objects.equals(this.changeType, affectedVnf.changeType) &&
-        Objects.equals(this.changeResult, affectedVnf.changeResult) &&
-        Objects.equals(this.changedInfo, affectedVnf.changedInfo);
+    Objects.equals(this.vnfdId, affectedVnf.vnfdId) &&
+    Objects.equals(this.vnfProfileId, affectedVnf.vnfProfileId) &&
+    Objects.equals(this.vnfName, affectedVnf.vnfName) &&
+    Objects.equals(this.changeType, affectedVnf.changeType) &&
+    Objects.equals(this.changeResult, affectedVnf.changeResult) &&
+    Objects.equals(this.changedInfo, affectedVnf.changedInfo);
   }
 
   @Override
@@ -310,7 +309,7 @@ public class AffectedVnf   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class AffectedVnf {\n");
-    
+
     sb.append("    vnfInstanceId: ").append(toIndentedString(vnfInstanceId)).append("\n");
     sb.append("    vnfdId: ").append(toIndentedString(vnfdId)).append("\n");
     sb.append("    vnfProfileId: ").append(toIndentedString(vnfProfileId)).append("\n");

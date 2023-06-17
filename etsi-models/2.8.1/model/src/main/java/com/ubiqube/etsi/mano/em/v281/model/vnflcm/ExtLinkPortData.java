@@ -20,8 +20,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.ResourceHandle;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -29,7 +28,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents an externally provided link port to be used to connect an external connection point to an external VL. 
  */
-@ApiModel(description = "This type represents an externally provided link port to be used to connect an external connection point to an external VL. ")
+@Schema (description= "This type represents an externally provided link port to be used to connect an external connection point to an external VL. " )
 @Validated
 
 public class ExtLinkPortData   {
@@ -48,7 +47,7 @@ public class ExtLinkPortData   {
    * Identifier of this link port as provided by the entity that has created the link port. 
    * @return id
   **/
-  @ApiModelProperty(required = true, value = "Identifier of this link port as provided by the entity that has created the link port. ")
+  @Schema(required = true , description = "Identifier of this link port as provided by the entity that has created the link port. ")
   @NotNull
 
 
@@ -69,7 +68,7 @@ public class ExtLinkPortData   {
    * Reference to the virtualised resource realizing this link port. 
    * @return resourceHandle
   **/
-  @ApiModelProperty(required = true, value = "Reference to the virtualised resource realizing this link port. ")
+  @Schema(required = true , description = "Reference to the virtualised resource realizing this link port. ")
   @NotNull
 
   @Valid
@@ -93,7 +92,7 @@ public class ExtLinkPortData   {
     }
     ExtLinkPortData extLinkPortData = (ExtLinkPortData) o;
     return Objects.equals(this.id, extLinkPortData.id) &&
-        Objects.equals(this.resourceHandle, extLinkPortData.resourceHandle);
+    Objects.equals(this.resourceHandle, extLinkPortData.resourceHandle);
   }
 
   @Override
@@ -105,7 +104,7 @@ public class ExtLinkPortData   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ExtLinkPortData {\n");
-    
+
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    resourceHandle: ").append(toIndentedString(resourceHandle)).append("\n");
     sb.append("}");

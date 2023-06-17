@@ -18,9 +18,8 @@ package com.ubiqube.etsi.mano.nfvo.v281.model.nslcm;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -46,7 +45,7 @@ public class LocationConstraintsCivicAddressElement   {
    * Describe the content type of caValue. The value of caType shall comply with Section 3.4 of IETF RFC 4776 [13]. 
    * @return caType
   **/
-  @ApiModelProperty(required = true, value = "Describe the content type of caValue. The value of caType shall comply with Section 3.4 of IETF RFC 4776 [13]. ")
+  @Schema(required = true , description = "Describe the content type of caValue. The value of caType shall comply with Section 3.4 of IETF RFC 4776 [13]. ")
   @NotNull
 
 
@@ -67,7 +66,7 @@ public class LocationConstraintsCivicAddressElement   {
    * Content of civic address element corresponding to the caType. The format caValue shall comply with Section 3.4 of IETF RFC 4776 [13]. 
    * @return caValue
   **/
-  @ApiModelProperty(required = true, value = "Content of civic address element corresponding to the caType. The format caValue shall comply with Section 3.4 of IETF RFC 4776 [13]. ")
+  @Schema(required = true , description = "Content of civic address element corresponding to the caType. The format caValue shall comply with Section 3.4 of IETF RFC 4776 [13]. ")
   @NotNull
 
 
@@ -90,7 +89,7 @@ public class LocationConstraintsCivicAddressElement   {
     }
     LocationConstraintsCivicAddressElement locationConstraintsCivicAddressElement = (LocationConstraintsCivicAddressElement) o;
     return Objects.equals(this.caType, locationConstraintsCivicAddressElement.caType) &&
-        Objects.equals(this.caValue, locationConstraintsCivicAddressElement.caValue);
+    Objects.equals(this.caValue, locationConstraintsCivicAddressElement.caValue);
   }
 
   @Override
@@ -102,7 +101,7 @@ public class LocationConstraintsCivicAddressElement   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class LocationConstraintsCivicAddressElement {\n");
-    
+
     sb.append("    caType: ").append(toIndentedString(caType)).append("\n");
     sb.append("    caValue: ").append(toIndentedString(caValue)).append("\n");
     sb.append("}");

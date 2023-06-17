@@ -19,7 +19,7 @@ package com.ubiqube.etsi.mano.nfvo.v281.model.nsd;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 
 import org.springframework.validation.annotation.Validated;
@@ -29,13 +29,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.ubiqube.etsi.mano.nfvo.v281.model.vnfconfig.NsdOperationalStateType;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
 /**
  * This type represents a subscription filter related to notifications about NSD management. It shall comply with the provisions defined in Table 5.5.3.2-1 of GS NFV-SOL 005. At a particular nesting level in the filter structure, the following applies: All attributes shall match in order for the filter to match (logical \&quot;and\&quot; between different filter attributes). If an attribute is an array, the attribute shall match if at least one of the values in the array matches (logical \&quot;or\&quot; between the values of one filter attribute). NOTE 1: The attributes \&quot;nsdId\&quot; and \&quot;nsdInfoId\&quot; are alternatives to reference to a particular NSD in a filter. They should not be used both in the same filter instance, but one alternative should be chosen. NOTE 2: The attributes \&quot;pnfdId\&quot; and \&quot;pnfdInfoId\&quot; are alternatives to reference to a particular PNFD in a filter. They should not be used both in the same filter instance, but one alternative should be chosen. 
  */
-@ApiModel(description = "This type represents a subscription filter related to notifications about NSD management. It shall comply with the provisions defined in Table 5.5.3.2-1 of GS NFV-SOL 005. At a particular nesting level in the filter structure, the following applies: All attributes shall match in order for the filter to match (logical \"and\" between different filter attributes). If an attribute is an array, the attribute shall match if at least one of the values in the array matches (logical \"or\" between the values of one filter attribute). NOTE 1: The attributes \"nsdId\" and \"nsdInfoId\" are alternatives to reference to a particular NSD in a filter. They should not be used both in the same filter instance, but one alternative should be chosen. NOTE 2: The attributes \"pnfdId\" and \"pnfdInfoId\" are alternatives to reference to a particular PNFD in a filter. They should not be used both in the same filter instance, but one alternative should be chosen. ")
+@Schema (description= "This type represents a subscription filter related to notifications about NSD management. It shall comply with the provisions defined in Table 5.5.3.2-1 of GS NFV-SOL 005. At a particular nesting level in the filter structure, the following applies: All attributes shall match in order for the filter to match (logical \"and\" between different filter attributes). If an attribute is an array, the attribute shall match if at least one of the values in the array matches (logical \"or\" between the values of one filter attribute). NOTE 1: The attributes \"nsdId\" and \"nsdInfoId\" are alternatives to reference to a particular NSD in a filter. They should not be used both in the same filter instance, but one alternative should be chosen. NOTE 2: The attributes \"pnfdId\" and \"pnfdInfoId\" are alternatives to reference to a particular PNFD in a filter. They should not be used both in the same filter instance, but one alternative should be chosen. " )
 @Validated
 
 public class NsdmNotificationsFilter   {
@@ -177,7 +174,7 @@ public class NsdmNotificationsFilter   {
    * Match particular notification types. Permitted values: NsdOnBoardingNotification, NsdOnboardingFailureNotification, NsdChangeNotification, NsdDeletionNotification PnfdOnBoardingNotification, PnfdOnBoardingFailureNotification, PnfdDeletionNotification. The permitted values of the \"notificationTypes\" ] attribute are spelled exactly as the names of the notification types to facilitate automated code generation systems. 
    * @return notificationTypes
   **/
-  @ApiModelProperty(value = "Match particular notification types. Permitted values: NsdOnBoardingNotification, NsdOnboardingFailureNotification, NsdChangeNotification, NsdDeletionNotification PnfdOnBoardingNotification, PnfdOnBoardingFailureNotification, PnfdDeletionNotification. The permitted values of the \"notificationTypes\" ] attribute are spelled exactly as the names of the notification types to facilitate automated code generation systems. ")
+  @Schema(description = "Match particular notification types. Permitted values: NsdOnBoardingNotification, NsdOnboardingFailureNotification, NsdChangeNotification, NsdDeletionNotification PnfdOnBoardingNotification, PnfdOnBoardingFailureNotification, PnfdDeletionNotification. The permitted values of the \"notificationTypes\" ] attribute are spelled exactly as the names of the notification types to facilitate automated code generation systems. ")
 
 
   public List<NotificationTypesEnum> getNotificationTypes() {
@@ -205,7 +202,7 @@ public class NsdmNotificationsFilter   {
    * Match the NsdInfo identifier which is allocated by the NFVO. 
    * @return nsdInfoId
   **/
-  @ApiModelProperty(value = "Match the NsdInfo identifier which is allocated by the NFVO. ")
+  @Schema(description = "Match the NsdInfo identifier which is allocated by the NFVO. ")
 
 
   public List<String> getNsdInfoId() {
@@ -233,7 +230,7 @@ public class NsdmNotificationsFilter   {
    * Match the NSD identifier, which is allocated by the NSD designer. 
    * @return nsdId
   **/
-  @ApiModelProperty(value = "Match the NSD identifier, which is allocated by the NSD designer. ")
+  @Schema(description = "Match the NSD identifier, which is allocated by the NSD designer. ")
 
 
   public List<String> getNsdId() {
@@ -261,7 +258,7 @@ public class NsdmNotificationsFilter   {
    * Match the name of the on boarded NSD. 
    * @return nsdName
   **/
-  @ApiModelProperty(value = "Match the name of the on boarded NSD. ")
+  @Schema(description = "Match the name of the on boarded NSD. ")
 
 
   public List<String> getNsdName() {
@@ -289,7 +286,7 @@ public class NsdmNotificationsFilter   {
    * Match the NSD version listed as part of this attribute. 
    * @return nsdVersion
   **/
-  @ApiModelProperty(value = "Match the NSD version listed as part of this attribute. ")
+  @Schema(description = "Match the NSD version listed as part of this attribute. ")
 
 
   public List<String> getNsdVersion() {
@@ -317,7 +314,7 @@ public class NsdmNotificationsFilter   {
    * Match the NSD designer of the on-boarded NSD. 
    * @return nsdDesigner
   **/
-  @ApiModelProperty(value = "Match the NSD designer of the on-boarded NSD. ")
+  @Schema(description = "Match the NSD designer of the on-boarded NSD. ")
 
 
   public List<String> getNsdDesigner() {
@@ -345,7 +342,7 @@ public class NsdmNotificationsFilter   {
    * Match the NSD invariant identifier which is allocated by the NSD designer and identifies an NSD in a version independent manner. 
    * @return nsdInvariantId
   **/
-  @ApiModelProperty(value = "Match the NSD invariant identifier which is allocated by the NSD designer and identifies an NSD in a version independent manner. ")
+  @Schema(description = "Match the NSD invariant identifier which is allocated by the NSD designer and identifies an NSD in a version independent manner. ")
 
 
   public List<String> getNsdInvariantId() {
@@ -373,7 +370,7 @@ public class NsdmNotificationsFilter   {
    * Match VNF packages with a package identifier listed in the attribute. 
    * @return vnfPkgIds
   **/
-  @ApiModelProperty(value = "Match VNF packages with a package identifier listed in the attribute. ")
+  @Schema(description = "Match VNF packages with a package identifier listed in the attribute. ")
 
 
   public List<String> getVnfPkgIds() {
@@ -401,7 +398,7 @@ public class NsdmNotificationsFilter   {
    * Match the PnfdInfo identifier for the PNFD referenced by the on-boarded NSD. 
    * @return pnfdInfoIds
   **/
-  @ApiModelProperty(value = "Match the PnfdInfo identifier for the PNFD referenced by the on-boarded NSD. ")
+  @Schema(description = "Match the PnfdInfo identifier for the PNFD referenced by the on-boarded NSD. ")
 
 
   public List<String> getPnfdInfoIds() {
@@ -429,7 +426,7 @@ public class NsdmNotificationsFilter   {
    * Match the NsdInfo identifier for the nested NSD referenced by the on-boarded NSD. 
    * @return nestedNsdInfoIds
   **/
-  @ApiModelProperty(value = "Match the NsdInfo identifier for the nested NSD referenced by the on-boarded NSD. ")
+  @Schema(description = "Match the NsdInfo identifier for the nested NSD referenced by the on-boarded NSD. ")
 
 
   public List<String> getNestedNsdInfoIds() {
@@ -457,7 +454,7 @@ public class NsdmNotificationsFilter   {
    * Match particular on-boarding state of the NSD. 
    * @return nsdOnboardingState
   **/
-  @ApiModelProperty(value = "Match particular on-boarding state of the NSD. ")
+  @Schema(description = "Match particular on-boarding state of the NSD. ")
 
   @Valid
 
@@ -486,7 +483,7 @@ public class NsdmNotificationsFilter   {
    * Match particular operational state of the on-boarded NSD. 
    * @return nsdOperationalState
   **/
-  @ApiModelProperty(value = "Match particular operational state of the on-boarded NSD. ")
+  @Schema(description = "Match particular operational state of the on-boarded NSD. ")
 
   @Valid
 
@@ -515,7 +512,7 @@ public class NsdmNotificationsFilter   {
    * Match particular usage state of the on-boarded NSD. 
    * @return nsdUsageState
   **/
-  @ApiModelProperty(value = "Match particular usage state of the on-boarded NSD. ")
+  @Schema(description = "Match particular usage state of the on-boarded NSD. ")
 
   @Valid
 
@@ -544,7 +541,7 @@ public class NsdmNotificationsFilter   {
    * Match the PNFD identifier which is copied from the PNFD content. 
    * @return pnfdId
   **/
-  @ApiModelProperty(value = "Match the PNFD identifier which is copied from the PNFD content. ")
+  @Schema(description = "Match the PNFD identifier which is copied from the PNFD content. ")
 
 
   public List<String> getPnfdId() {
@@ -572,7 +569,7 @@ public class NsdmNotificationsFilter   {
    * Match the name of the on-boarded PNFD. 
    * @return pnfdName
   **/
-  @ApiModelProperty(value = "Match the name of the on-boarded PNFD. ")
+  @Schema(description = "Match the name of the on-boarded PNFD. ")
 
 
   public List<String> getPnfdName() {
@@ -600,7 +597,7 @@ public class NsdmNotificationsFilter   {
    * Match the PNFD designer of the on-boarded PNFD. 
    * @return pnfdVersion
   **/
-  @ApiModelProperty(value = "Match the PNFD designer of the on-boarded PNFD. ")
+  @Schema(description = "Match the PNFD designer of the on-boarded PNFD. ")
 
 
   public List<String> getPnfdVersion() {
@@ -628,7 +625,7 @@ public class NsdmNotificationsFilter   {
    * Match the provider of the on-boarded PNFD. 
    * @return pnfdProvider
   **/
-  @ApiModelProperty(value = "Match the provider of the on-boarded PNFD. ")
+  @Schema(description = "Match the provider of the on-boarded PNFD. ")
 
 
   public List<String> getPnfdProvider() {
@@ -656,7 +653,7 @@ public class NsdmNotificationsFilter   {
    * Match the PNFD in a version independent manner. 
    * @return pnfdInvariantId
   **/
-  @ApiModelProperty(value = "Match the PNFD in a version independent manner. ")
+  @Schema(description = "Match the PNFD in a version independent manner. ")
 
 
   public List<String> getPnfdInvariantId() {
@@ -684,7 +681,7 @@ public class NsdmNotificationsFilter   {
    * Match particular on-boarding state of the PNFD. 
    * @return pnfdOnboardingState
   **/
-  @ApiModelProperty(value = "Match particular on-boarding state of the PNFD. ")
+  @Schema(description = "Match particular on-boarding state of the PNFD. ")
 
   @Valid
 
@@ -713,7 +710,7 @@ public class NsdmNotificationsFilter   {
    * Match the usage state of the individual PNF descriptor resource. 
    * @return pnfdUsageState
   **/
-  @ApiModelProperty(value = "Match the usage state of the individual PNF descriptor resource. ")
+  @Schema(description = "Match the usage state of the individual PNF descriptor resource. ")
 
   @Valid
 
@@ -736,25 +733,25 @@ public class NsdmNotificationsFilter   {
     }
     NsdmNotificationsFilter nsdmNotificationsFilter = (NsdmNotificationsFilter) o;
     return Objects.equals(this.notificationTypes, nsdmNotificationsFilter.notificationTypes) &&
-        Objects.equals(this.nsdInfoId, nsdmNotificationsFilter.nsdInfoId) &&
-        Objects.equals(this.nsdId, nsdmNotificationsFilter.nsdId) &&
-        Objects.equals(this.nsdName, nsdmNotificationsFilter.nsdName) &&
-        Objects.equals(this.nsdVersion, nsdmNotificationsFilter.nsdVersion) &&
-        Objects.equals(this.nsdDesigner, nsdmNotificationsFilter.nsdDesigner) &&
-        Objects.equals(this.nsdInvariantId, nsdmNotificationsFilter.nsdInvariantId) &&
-        Objects.equals(this.vnfPkgIds, nsdmNotificationsFilter.vnfPkgIds) &&
-        Objects.equals(this.pnfdInfoIds, nsdmNotificationsFilter.pnfdInfoIds) &&
-        Objects.equals(this.nestedNsdInfoIds, nsdmNotificationsFilter.nestedNsdInfoIds) &&
-        Objects.equals(this.nsdOnboardingState, nsdmNotificationsFilter.nsdOnboardingState) &&
-        Objects.equals(this.nsdOperationalState, nsdmNotificationsFilter.nsdOperationalState) &&
-        Objects.equals(this.nsdUsageState, nsdmNotificationsFilter.nsdUsageState) &&
-        Objects.equals(this.pnfdId, nsdmNotificationsFilter.pnfdId) &&
-        Objects.equals(this.pnfdName, nsdmNotificationsFilter.pnfdName) &&
-        Objects.equals(this.pnfdVersion, nsdmNotificationsFilter.pnfdVersion) &&
-        Objects.equals(this.pnfdProvider, nsdmNotificationsFilter.pnfdProvider) &&
-        Objects.equals(this.pnfdInvariantId, nsdmNotificationsFilter.pnfdInvariantId) &&
-        Objects.equals(this.pnfdOnboardingState, nsdmNotificationsFilter.pnfdOnboardingState) &&
-        Objects.equals(this.pnfdUsageState, nsdmNotificationsFilter.pnfdUsageState);
+    Objects.equals(this.nsdInfoId, nsdmNotificationsFilter.nsdInfoId) &&
+    Objects.equals(this.nsdId, nsdmNotificationsFilter.nsdId) &&
+    Objects.equals(this.nsdName, nsdmNotificationsFilter.nsdName) &&
+    Objects.equals(this.nsdVersion, nsdmNotificationsFilter.nsdVersion) &&
+    Objects.equals(this.nsdDesigner, nsdmNotificationsFilter.nsdDesigner) &&
+    Objects.equals(this.nsdInvariantId, nsdmNotificationsFilter.nsdInvariantId) &&
+    Objects.equals(this.vnfPkgIds, nsdmNotificationsFilter.vnfPkgIds) &&
+    Objects.equals(this.pnfdInfoIds, nsdmNotificationsFilter.pnfdInfoIds) &&
+    Objects.equals(this.nestedNsdInfoIds, nsdmNotificationsFilter.nestedNsdInfoIds) &&
+    Objects.equals(this.nsdOnboardingState, nsdmNotificationsFilter.nsdOnboardingState) &&
+    Objects.equals(this.nsdOperationalState, nsdmNotificationsFilter.nsdOperationalState) &&
+    Objects.equals(this.nsdUsageState, nsdmNotificationsFilter.nsdUsageState) &&
+    Objects.equals(this.pnfdId, nsdmNotificationsFilter.pnfdId) &&
+    Objects.equals(this.pnfdName, nsdmNotificationsFilter.pnfdName) &&
+    Objects.equals(this.pnfdVersion, nsdmNotificationsFilter.pnfdVersion) &&
+    Objects.equals(this.pnfdProvider, nsdmNotificationsFilter.pnfdProvider) &&
+    Objects.equals(this.pnfdInvariantId, nsdmNotificationsFilter.pnfdInvariantId) &&
+    Objects.equals(this.pnfdOnboardingState, nsdmNotificationsFilter.pnfdOnboardingState) &&
+    Objects.equals(this.pnfdUsageState, nsdmNotificationsFilter.pnfdUsageState);
   }
 
   @Override
@@ -766,7 +763,7 @@ public class NsdmNotificationsFilter   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class NsdmNotificationsFilter {\n");
-    
+
     sb.append("    notificationTypes: ").append(toIndentedString(notificationTypes)).append("\n");
     sb.append("    nsdInfoId: ").append(toIndentedString(nsdInfoId)).append("\n");
     sb.append("    nsdId: ").append(toIndentedString(nsdId)).append("\n");

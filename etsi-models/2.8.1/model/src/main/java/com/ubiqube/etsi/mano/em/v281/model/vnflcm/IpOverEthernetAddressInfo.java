@@ -20,8 +20,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.IpOverEthernetAddressInfoIpAddresses;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -31,7 +30,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents information about a network address that has been assigned. 
  */
-@ApiModel(description = "This type represents information about a network address that has been assigned. ")
+@Schema (description= "This type represents information about a network address that has been assigned. " )
 @Validated
 
 public class IpOverEthernetAddressInfo   {
@@ -51,7 +50,7 @@ public class IpOverEthernetAddressInfo   {
    * MAC address, if assigned. At least one of \"macAddress\" or \"ipAddresses\" shall be present. 
    * @return macAddress
   **/
-  @ApiModelProperty(value = "MAC address, if assigned. At least one of \"macAddress\" or \"ipAddresses\" shall be present. ")
+  @Schema(description = "MAC address, if assigned. At least one of \"macAddress\" or \"ipAddresses\" shall be present. ")
 
 
   public String getMacAddress() {
@@ -79,7 +78,7 @@ public class IpOverEthernetAddressInfo   {
    * Addresses assigned to the CP instance. Each entry represents IP addresses assigned by fixed or dynamic IP address assignment per subnet. At least one of \"macAddress\" or \"ipAddresses\" shall be present. 
    * @return ipAddresses
   **/
-  @ApiModelProperty(value = "Addresses assigned to the CP instance. Each entry represents IP addresses assigned by fixed or dynamic IP address assignment per subnet. At least one of \"macAddress\" or \"ipAddresses\" shall be present. ")
+  @Schema(description = "Addresses assigned to the CP instance. Each entry represents IP addresses assigned by fixed or dynamic IP address assignment per subnet. At least one of \"macAddress\" or \"ipAddresses\" shall be present. ")
 
   @Valid
 
@@ -102,7 +101,7 @@ public class IpOverEthernetAddressInfo   {
     }
     IpOverEthernetAddressInfo ipOverEthernetAddressInfo = (IpOverEthernetAddressInfo) o;
     return Objects.equals(this.macAddress, ipOverEthernetAddressInfo.macAddress) &&
-        Objects.equals(this.ipAddresses, ipOverEthernetAddressInfo.ipAddresses);
+    Objects.equals(this.ipAddresses, ipOverEthernetAddressInfo.ipAddresses);
   }
 
   @Override
@@ -114,7 +113,7 @@ public class IpOverEthernetAddressInfo   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class IpOverEthernetAddressInfo {\n");
-    
+
     sb.append("    macAddress: ").append(toIndentedString(macAddress)).append("\n");
     sb.append("    ipAddresses: ").append(toIndentedString(ipAddresses)).append("\n");
     sb.append("}");

@@ -21,8 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.ubiqube.etsi.mano.em.v281.model.vnflcm.IpOverEthernetAddressData;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -30,7 +29,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents network protocol data. 
  */
-@ApiModel(description = "This type represents network protocol data. ")
+@Schema (description= "This type represents network protocol data. " )
 @Validated
 
 public class CpProtocolData   {
@@ -78,7 +77,7 @@ public class CpProtocolData   {
    * Identifier of layer(s) and protocol(s). This attribute allows to signal the addition of further types of layer and protocol in future versions of the present document in a backwards-compatible way. In the current version of the present document, only IP over Ethernet is supported. 
    * @return layerProtocol
   **/
-  @ApiModelProperty(required = true, value = "Identifier of layer(s) and protocol(s). This attribute allows to signal the addition of further types of layer and protocol in future versions of the present document in a backwards-compatible way. In the current version of the present document, only IP over Ethernet is supported. ")
+  @Schema(required = true , description = "Identifier of layer(s) and protocol(s). This attribute allows to signal the addition of further types of layer and protocol in future versions of the present document in a backwards-compatible way. In the current version of the present document, only IP over Ethernet is supported. ")
   @NotNull
 
 
@@ -99,7 +98,7 @@ public class CpProtocolData   {
    * Network address data for IP over Ethernet to assign to the extCP instance. Shall be present if layerProtocol is equal to \"IP_OVER_ETHERNET\", and shall be absent otherwise. 
    * @return ipOverEthernet
   **/
-  @ApiModelProperty(value = "Network address data for IP over Ethernet to assign to the extCP instance. Shall be present if layerProtocol is equal to \"IP_OVER_ETHERNET\", and shall be absent otherwise. ")
+  @Schema(description = "Network address data for IP over Ethernet to assign to the extCP instance. Shall be present if layerProtocol is equal to \"IP_OVER_ETHERNET\", and shall be absent otherwise. ")
 
   @Valid
 
@@ -122,7 +121,7 @@ public class CpProtocolData   {
     }
     CpProtocolData cpProtocolData = (CpProtocolData) o;
     return Objects.equals(this.layerProtocol, cpProtocolData.layerProtocol) &&
-        Objects.equals(this.ipOverEthernet, cpProtocolData.ipOverEthernet);
+    Objects.equals(this.ipOverEthernet, cpProtocolData.ipOverEthernet);
   }
 
   @Override
@@ -134,7 +133,7 @@ public class CpProtocolData   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class CpProtocolData {\n");
-    
+
     sb.append("    layerProtocol: ").append(toIndentedString(layerProtocol)).append("\n");
     sb.append("    ipOverEthernet: ").append(toIndentedString(ipOverEthernet)).append("\n");
     sb.append("}");

@@ -20,8 +20,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -31,7 +30,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents provides input parameters to configure the forwarding behaviour.  It shall comply with the provisions defined in Table 6.5.3.73-1. 
  */
-@ApiModel(description = "This type represents provides input parameters to configure the forwarding behaviour.  It shall comply with the provisions defined in Table 6.5.3.73-1. ")
+@Schema (description= "This type represents provides input parameters to configure the forwarding behaviour.  It shall comply with the provisions defined in Table 6.5.3.73-1. " )
 @Validated
 
 public class ForwardingBehaviourInputParameters   {
@@ -92,7 +91,7 @@ public class ForwardingBehaviourInputParameters   {
    * May be included if forwarding behaviour is equal to LB. Shall not be included otherwise. Permitted values: * ROUND_ROBIN * LEAST_CONNECTION * LEAST_TRAFFIC * LEAST_RESPONSE_TIME * CHAINED_FAILOVER * SOURCE_IP_HASH * SOURCE_MAC_HASH 
    * @return algortihmName
   **/
-  @ApiModelProperty(value = "May be included if forwarding behaviour is equal to LB. Shall not be included otherwise. Permitted values: * ROUND_ROBIN * LEAST_CONNECTION * LEAST_TRAFFIC * LEAST_RESPONSE_TIME * CHAINED_FAILOVER * SOURCE_IP_HASH * SOURCE_MAC_HASH ")
+  @Schema(description = "May be included if forwarding behaviour is equal to LB. Shall not be included otherwise. Permitted values: * ROUND_ROBIN * LEAST_CONNECTION * LEAST_TRAFFIC * LEAST_RESPONSE_TIME * CHAINED_FAILOVER * SOURCE_IP_HASH * SOURCE_MAC_HASH ")
 
 
   public AlgortihmNameEnum getAlgortihmName() {
@@ -120,7 +119,7 @@ public class ForwardingBehaviourInputParameters   {
    * Percentage of messages sent to a CP instance. May be included if applicable to  the algorithm. If applicable to the algorithm but not provided, default values determined by  the VIM or NFVI are expected to be used. Weight applies to the CP instances in the order they have been created. 
    * @return algorithmWeights
   **/
-  @ApiModelProperty(value = "Percentage of messages sent to a CP instance. May be included if applicable to  the algorithm. If applicable to the algorithm but not provided, default values determined by  the VIM or NFVI are expected to be used. Weight applies to the CP instances in the order they have been created. ")
+  @Schema(description = "Percentage of messages sent to a CP instance. May be included if applicable to  the algorithm. If applicable to the algorithm but not provided, default values determined by  the VIM or NFVI are expected to be used. Weight applies to the CP instances in the order they have been created. ")
 
 
   public List<Integer> getAlgorithmWeights() {
@@ -142,7 +141,7 @@ public class ForwardingBehaviourInputParameters   {
     }
     ForwardingBehaviourInputParameters forwardingBehaviourInputParameters = (ForwardingBehaviourInputParameters) o;
     return Objects.equals(this.algortihmName, forwardingBehaviourInputParameters.algortihmName) &&
-        Objects.equals(this.algorithmWeights, forwardingBehaviourInputParameters.algorithmWeights);
+    Objects.equals(this.algorithmWeights, forwardingBehaviourInputParameters.algorithmWeights);
   }
 
   @Override
@@ -154,7 +153,7 @@ public class ForwardingBehaviourInputParameters   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ForwardingBehaviourInputParameters {\n");
-    
+
     sb.append("    algortihmName: ").append(toIndentedString(algortihmName)).append("\n");
     sb.append("    algorithmWeights: ").append(toIndentedString(algorithmWeights)).append("\n");
     sb.append("}");
