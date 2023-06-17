@@ -42,13 +42,13 @@ public class VnfLcmSubscriptions271Sol002Controller implements VnfLcmSubscriptio
 	}
 
 	@Override
-	public ResponseEntity<List<LccnSubscription>> subscriptionsGet(final MultiValueMap<String, String> requestParams, @Valid final String nextpageOpaqueMarker) {
-		return frontController.search(requestParams, nextpageOpaqueMarker, LccnSubscription.class, VnfLcmSubscriptions271Sol002Controller::makeLinks);
+	public ResponseEntity<List<LccnSubscription>> subscriptionsGet(final MultiValueMap<String, String> requestParams,@Valid final String nextpageOpaqueMarker) {
+		return frontController.search(requestParams,nextpageOpaqueMarker,LccnSubscription.class,VnfLcmSubscriptions271Sol002Controller::makeLinks);
 	}
 
 	@Override
 	public ResponseEntity<LccnSubscription> subscriptionsPost(@Valid final LccnSubscriptionRequest body) {
-		return frontController.create(body, LccnSubscription.class, VnfLcmSubscriptions271Sol002Api.class, VnfLcmSubscriptions271Sol002Controller::makeLinks, VnfLcmSubscriptions271Sol002Controller::getSelfLink);
+		return frontController.create(body,LccnSubscription.class,VnfLcmSubscriptions271Sol002Api.class,VnfLcmSubscriptions271Sol002Controller::makeLinks,VnfLcmSubscriptions271Sol002Controller::getSelfLink);
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class VnfLcmSubscriptions271Sol002Controller implements VnfLcmSubscriptio
 
 	@Override
 	public ResponseEntity<LccnSubscription> subscriptionsSubscriptionIdGet(final String subscriptionId) {
-		return frontController.findById(subscriptionId, LccnSubscription.class, VnfLcmSubscriptions271Sol002Controller::makeLinks);
+		return frontController.findById(subscriptionId,LccnSubscription.class,VnfLcmSubscriptions271Sol002Controller::makeLinks);
 	}
 
 	private static void makeLinks(final LccnSubscription subscription) {

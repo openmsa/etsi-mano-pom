@@ -43,23 +43,23 @@ public class VnfIndSubscriptions271Sol003Controller implements VnfIndSubscriptio
 	}
 
 	@Override
-	public ResponseEntity<List<VnfIndicatorSubscription>> subscriptionsGet(final MultiValueMap<String, String> requestParams, @Valid final String nextpageOpaqueMarker) {
-		return subscriptionService.search(requestParams, VnfIndicatorSubscription.class, VnfIndSubscriptions271Sol003Controller::makeLinks, SubscriptionType.VNFIND);
+	public ResponseEntity<List<VnfIndicatorSubscription>> subscriptionsGet(final MultiValueMap<String, String> requestParams,@Valid final String nextpageOpaqueMarker) {
+		return subscriptionService.search(requestParams,VnfIndicatorSubscription.class,VnfIndSubscriptions271Sol003Controller::makeLinks,SubscriptionType.VNFIND);
 	}
 
 	@Override
 	public ResponseEntity<VnfIndicatorSubscription> subscriptionsPost(@Valid final VnfIndicatorSubscriptionRequest vnfIndicatorSubscriptionRequest) {
-		return subscriptionService.create(vnfIndicatorSubscriptionRequest, VnfIndicatorSubscription.class, VnfIndSubscriptions271Sol003Api.class, VnfIndSubscriptions271Sol003Controller::makeLinks, VnfIndSubscriptions271Sol003Controller::makeSelf, SubscriptionType.VNFPM);
+		return subscriptionService.create(vnfIndicatorSubscriptionRequest,VnfIndicatorSubscription.class,VnfIndSubscriptions271Sol003Api.class,VnfIndSubscriptions271Sol003Controller::makeLinks,VnfIndSubscriptions271Sol003Controller::makeSelf,SubscriptionType.VNFPM);
 	}
 
 	@Override
 	public ResponseEntity<Void> subscriptionsSubscriptionIdDelete(final String subscriptionId) {
-		return subscriptionService.deleteById(subscriptionId, SubscriptionType.VNFIND);
+		return subscriptionService.deleteById(subscriptionId,SubscriptionType.VNFIND);
 	}
 
 	@Override
 	public ResponseEntity<VnfIndicatorSubscription> subscriptionsSubscriptionIdGet(final String subscriptionId) {
-		return subscriptionService.findById(subscriptionId, VnfIndicatorSubscription.class, VnfIndSubscriptions271Sol003Controller::makeLinks, SubscriptionType.VNFIND);
+		return subscriptionService.findById(subscriptionId,VnfIndicatorSubscription.class,VnfIndSubscriptions271Sol003Controller::makeLinks,SubscriptionType.VNFIND);
 	}
 
 	private static String makeSelf(final VnfIndicatorSubscription subscription) {

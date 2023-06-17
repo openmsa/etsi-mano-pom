@@ -46,14 +46,14 @@ class MappingTest extends TestHelper {
 	void testVnfPkgInfo() throws Exception {
 		final Set<String> ignore = new HashSet<>();
 		ignore.add("getLinks");
-		doTest(VnfPkgInfo.class, VnfPackage.class, ignore);
+		doTest(VnfPkgInfo.class,VnfPackage.class,ignore);
 	}
 
 	@Test
 	void testVnfInstance() throws Exception {
 		final Set<String> ignore = new HashSet<>();
 		ignore.add("getLinks");
-		doTest(VnfInstance.class, com.ubiqube.etsi.mano.dao.mano.VnfInstance.class, ignore);
+		doTest(VnfInstance.class,com.ubiqube.etsi.mano.dao.mano.VnfInstance.class,ignore);
 	}
 
 	@Test
@@ -63,14 +63,14 @@ class MappingTest extends TestHelper {
 		// ignore.add("getChangedInfo");
 		// ignore.add("getChangedExtConnectivity");
 		ignore.add("getResourceChanges");
-		doTest(VnfLcmOpOcc.class, VnfBlueprint.class, ignore);
+		doTest(VnfLcmOpOcc.class,VnfBlueprint.class,ignore);
 	}
 
 	@Test
 	void testGrant() throws Exception {
 		final Set<String> ignore = new HashSet<>();
 		ignore.add("getLinks");
-		doTest(GrantRequest.class, GrantResponse.class, ignore);
+		doTest(GrantRequest.class,GrantResponse.class,ignore);
 	}
 
 }

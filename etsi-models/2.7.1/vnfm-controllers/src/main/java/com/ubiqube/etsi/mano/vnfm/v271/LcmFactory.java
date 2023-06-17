@@ -24,7 +24,7 @@ import com.ubiqube.etsi.mano.em.v271.model.vnflcm.VnfInstanceLinks;
 public class LcmFactory {
 
 	@Nonnull
-	public static VnfInstanceLinks createVnfInstancesLink(final String hrefSelf, final String hrefChangeExtConn, final String hrefChangeFlavor, final String hrefHeal, final String hrefIndicators, final String hrefInstanciate, final String hrefOperate, final String hrefScale, final String hrefScaleToLevel, final String hrefTerminate) {
+	public static VnfInstanceLinks createVnfInstancesLink(final String hrefSelf,final String hrefChangeExtConn,final String hrefChangeFlavor,final String hrefHeal,final String hrefIndicators,final String hrefInstanciate,final String hrefOperate,final String hrefScale,final String hrefScaleToLevel,final String hrefTerminate) {
 		final VnfInstanceLinks vnfInstanceLinks = new VnfInstanceLinks();
 		final Link self = new Link();
 		self.setHref(hrefSelf);

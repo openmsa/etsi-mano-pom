@@ -82,224 +82,224 @@ public class OrikaMapperVnfm271 implements OrikaMapperFactoryConfigurer {
 
 	@Override
 	public void configure(final MapperFactory orikaMapperFactory) {
-		orikaMapperFactory.classMap(com.ubiqube.etsi.mano.em.v271.model.vnflcm.VnfInstance.class, VnfInstance.class)
-				.field("vnfPkgId", "vnfPkg.id")
-				.field("vnfConfigurableProperties{key}", "vnfConfigurableProperties{key}")
-				.field("vnfConfigurableProperties{value}", "vnfConfigurableProperties{value}")
-				.field("instantiatedVnfInfo.extVirtualLinkInfo", "instantiatedVnfInfo.extVirtualLinkInfo")
-				.field("metadata{key}", "metadata{key}")
-				.field("metadata{value}", "metadata{value}")
+		orikaMapperFactory.classMap(com.ubiqube.etsi.mano.em.v271.model.vnflcm.VnfInstance.class,VnfInstance.class)
+		.field("vnfPkgId","vnfPkg.id")
+		.field("vnfConfigurableProperties{key}","vnfConfigurableProperties{key}")
+		.field("vnfConfigurableProperties{value}","vnfConfigurableProperties{value}")
+		.field("instantiatedVnfInfo.extVirtualLinkInfo","instantiatedVnfInfo.extVirtualLinkInfo")
+		.field("metadata{key}","metadata{key}")
+		.field("metadata{value}","metadata{value}")
 
-				.field("extensions{key}", "extensions{key}")
-				.field("extensions{value}", "extensions{value}")
-				.byDefault()
-				.register();
-		orikaMapperFactory.classMap(VnfInstanceInstantiatedVnfInfo.class, BlueprintParameters.class)
-				.field("vnfState", "state")
-				.field("localizationLanguage", "localizationLanguage")
-				.field("monitoringParameters", "vnfMonitoringParameter")
-				.field("extManagedVirtualLinkInfo", "extManagedVirtualLinks")
-				.byDefault()
-				.register();
-		orikaMapperFactory.classMap(VnfPackage.class, VnfPkgInfo.class)
-				.byDefault()
-				.customize(new CustomMapper<VnfPackage, VnfPkgInfo>() {
-					@Override
-					public void mapAtoB(final VnfPackage a, final VnfPkgInfo b, final MappingContext context) {
-						// Remap Images
-						final Set<VnfCompute> vnfc = a.getVnfCompute();
-						if (null != vnfc) {
-							vnfc.forEach(x -> {
-								final SoftwareImage img = x.getSoftwareImage();
-								if (null != img) {
-									b.addSoftwareImagesItem(mapSoftwareImage(img));
-								}
-							});
+		.field("extensions{key}","extensions{key}")
+		.field("extensions{value}","extensions{value}")
+		.byDefault()
+		.register();
+		orikaMapperFactory.classMap(VnfInstanceInstantiatedVnfInfo.class,BlueprintParameters.class)
+		.field("vnfState","state")
+		.field("localizationLanguage","localizationLanguage")
+		.field("monitoringParameters","vnfMonitoringParameter")
+		.field("extManagedVirtualLinkInfo","extManagedVirtualLinks")
+		.byDefault()
+		.register();
+		orikaMapperFactory.classMap(VnfPackage.class,VnfPkgInfo.class)
+		.byDefault()
+		.customize(new CustomMapper<VnfPackage, VnfPkgInfo>() {
+			@Override
+			public void mapAtoB(final VnfPackage a,final VnfPkgInfo b,final MappingContext context) {
+				// Remap Images
+				final Set<VnfCompute> vnfc = a.getVnfCompute();
+				if (null != vnfc) {
+					vnfc.forEach(x -> {
+						final SoftwareImage img = x.getSoftwareImage();
+						if (null != img) {
+							b.addSoftwareImagesItem(mapSoftwareImage(img));
 						}
-						final Set<VnfStorage> storage = a.getVnfStorage();
-						if (null != storage) {
-							storage.forEach(x -> {
-								final SoftwareImage img = x.getSoftwareImage();
-								if (null != img) {
-									b.addSoftwareImagesItem(mapSoftwareImage(img));
-								}
-							});
+					});
+				}
+				final Set<VnfStorage> storage = a.getVnfStorage();
+				if (null != storage) {
+					storage.forEach(x -> {
+						final SoftwareImage img = x.getSoftwareImage();
+						if (null != img) {
+							b.addSoftwareImagesItem(mapSoftwareImage(img));
 						}
+					});
+				}
 
-					}
+			}
 
-					private VnfPackageSoftwareImageInfo mapSoftwareImage(final SoftwareImage img) {
-						final VnfPackageSoftwareImageInfo ret = new VnfPackageSoftwareImageInfo();
-						ret.setChecksum(mapChecksum(img.getChecksum()));
-						if (null != img.getContainerFormat()) {
-							ret.setContainerFormat(ContainerFormatEnum.fromValue(img.getContainerFormat().toString()));
-						}
-						// ret.setCreatedAt(img.get);
-						if (null != img.getDiskFormat()) {
-							ret.setDiskFormat(DiskFormatEnum.valueOf(img.getDiskFormat().toString()));
-						}
-						if (null != img.getId()) {
-							ret.setId(img.getId().toString());
-						}
-						ret.setImagePath(img.getImagePath());
-						ret.setMinDisk(img.getMinDisk());
-						ret.setMinRam(img.getMinRam());
-						ret.setName(img.getName());
-						ret.setProvider(img.getProvider());
-						ret.setSize(img.getSize());
-						// ret.setUserMetadata(img.get);
-						ret.setVersion(img.getVersion());
-						ret.setCreatedAt(img.getAudit().getCreatedOn());
-						return ret;
-					}
+			private VnfPackageSoftwareImageInfo mapSoftwareImage(final SoftwareImage img) {
+				final VnfPackageSoftwareImageInfo ret = new VnfPackageSoftwareImageInfo();
+				ret.setChecksum(mapChecksum(img.getChecksum()));
+				if (null != img.getContainerFormat()) {
+					ret.setContainerFormat(ContainerFormatEnum.fromValue(img.getContainerFormat().toString()));
+				}
+				// ret.setCreatedAt(img.get);
+				if (null != img.getDiskFormat()) {
+					ret.setDiskFormat(DiskFormatEnum.valueOf(img.getDiskFormat().toString()));
+				}
+				if (null != img.getId()) {
+					ret.setId(img.getId().toString());
+				}
+				ret.setImagePath(img.getImagePath());
+				ret.setMinDisk(img.getMinDisk());
+				ret.setMinRam(img.getMinRam());
+				ret.setName(img.getName());
+				ret.setProvider(img.getProvider());
+				ret.setSize(img.getSize());
+				// ret.setUserMetadata(img.get);
+				ret.setVersion(img.getVersion());
+				ret.setCreatedAt(img.getAudit().getCreatedOn());
+				return ret;
+			}
 
-					private Checksum mapChecksum(final com.ubiqube.etsi.mano.dao.mano.common.Checksum checksum) {
-						final Checksum ret = new Checksum();
-						ret.setAlgorithm(checksum.getAlgorithm());
-						ret.setHash(checksum.getHash());
-						return ret;
-					}
-				})
-				.register();
-		orikaMapperFactory.classMap(AffectedVirtualLink.class, VnfInstantiatedVirtualLink.class)
-				.exclude("audit")
-				.field("vnfVirtualLinkDescId", "manoResourceId")
-				.field("networkResource.resourceId", "resourceId")
-				.field("networkResource.resourceProviderId", "resourceProviderId")
-				.field("networkResource.vimLevelResourceType", "vimLevelResourceType")
-				.field("networkResource.vimConnectionId", "vimConnectionInformation.id")
-				.byDefault()
-				.register();
-		orikaMapperFactory.classMap(AffectedVnfc.class, VnfInstantiatedCompute.class)
-				.exclude("audit")
-				.field("computeResource.resourceId", "resourceId")
-				.field("computeResource.resourceProviderId", "resourceProviderId")
-				.field("computeResource.vimLevelResourceType", "vimLevelResourceType")
-				.field("computeResource.vimConnectionId", "vimConnectionInformation.id")
-				.byDefault()
-				.register();
-		orikaMapperFactory.classMap(VnfInstantiatedCompute.class, VnfCompute.class)
-				.exclude("id")
-				.field("storageResourceIds", "storages")
-				.field("vduId", "id")
-				.byDefault()
-				.register();
-		orikaMapperFactory.classMap(VnfLcmOpOcc.class, VnfBlueprint.class)
-				.field("vnfInstanceId", "vnfInstance.id")
-				// .field("resourceChanges", "tasks")
-				.field("grantId", "grantsRequestId")
-				.field("operationState", "operationStatus")
-				.field("isAutomaticInvocation", "automaticInvocation")
-				.field("isCancelPending", "cancelPending")
-				.field("operationParams", "parameters")
-				.byDefault()
-				.register();
-		orikaMapperFactory.classMap(ExtManagedVirtualLinkData.class, ExtManagedVirtualLinkDataEntity.class)
-				.byDefault()
-				.register();
-		orikaMapperFactory.classMap(ExternalManagedVirtualLink.class, ExtManagedVirtualLinkDataEntity.class)
-				.byDefault()
-				.register();
-		orikaMapperFactory.classMap(ExtVirtualLinkInfo.class, ExtVirtualLinkDataEntity.class)
-				.field("resourceHandle.vimConnectionId", "vimConnectionId")
-				.field("resourceHandle.resourceProviderId", "resourceProviderId")
-				.field("resourceHandle.resourceId", "resourceId")
-				.field("resourceHandle.vimLevelResourceType", "vimLevelResourceType")
-				.byDefault()
-				.register();
-		orikaMapperFactory.classMap(ExtManagedVirtualLinkInfo.class, ExtManagedVirtualLinkDataEntity.class)
-				.field("networkResource.vimConnectionId", "vimConnectionId")
-				.field("networkResource.resourceProviderId", "resourceProviderId")
-				.field("networkResource.resourceId", "resourceId")
-				.field("networkResource.vimLevelResourceType", "vimLevelResourceType")
-				.byDefault()
-				.register();
-		orikaMapperFactory.classMap(AffectedVirtualStorage.class, VnfInstantiatedStorage.class)
-				.field("storageResource.vimConnectionId", "vimConnectionInformation.vimId")
-				.field("storageResource.resourceProviderId", "resourceProviderId")
-				.field("storageResource.resourceId", "resourceId")
-				.field("storageResource.vimLevelResourceType", "vimLevelResourceType")
-				.byDefault()
-				.register();
-		orikaMapperFactory.classMap(VnfLcmOpOcc.class, VnfLcmOpOccs.class)
-				.field("vnfInstanceId", "vnfInstance.id")
-				.byDefault()
-				.register();
-		orikaMapperFactory.classMap(VnfcResourceInfo.class, VnfInstantiatedCompute.class)
-				.field("computeResource.resourceId", "resourceId")
-				.field("computeResource.resourceProviderId", "resourceProviderId")
-				.field("computeResource.vimConnectionId", "vimConnectionInformation.vimId")
-				.byDefault()
-				.register();
-		orikaMapperFactory.classMap(ResourceDefinition.class, GrantInformationExt.class)
-				.field("id", "id")
-				// .field("id", "resourceDefinitionId")
-				.field("type", "type")
-				.field("vduId", "vduId")
-				.field("resource.vimConnectionId", "vimConnectionId")
-				.field("resource.resourceProviderId", "resourceProviderId")
-				.field("resource.vimLevelResourceType", "vimLevelResourceType")
-				.field("resource.resourceId", "resourceId")
-				.field("resource.resourceProviderId", "resourceProviderId")
-				.byDefault()
-				.register();
+			private Checksum mapChecksum(final com.ubiqube.etsi.mano.dao.mano.common.Checksum checksum) {
+				final Checksum ret = new Checksum();
+				ret.setAlgorithm(checksum.getAlgorithm());
+				ret.setHash(checksum.getHash());
+				return ret;
+			}
+		})
+		.register();
+		orikaMapperFactory.classMap(AffectedVirtualLink.class,VnfInstantiatedVirtualLink.class)
+		.exclude("audit")
+		.field("vnfVirtualLinkDescId","manoResourceId")
+		.field("networkResource.resourceId","resourceId")
+		.field("networkResource.resourceProviderId","resourceProviderId")
+		.field("networkResource.vimLevelResourceType","vimLevelResourceType")
+		.field("networkResource.vimConnectionId","vimConnectionInformation.id")
+		.byDefault()
+		.register();
+		orikaMapperFactory.classMap(AffectedVnfc.class,VnfInstantiatedCompute.class)
+		.exclude("audit")
+		.field("computeResource.resourceId","resourceId")
+		.field("computeResource.resourceProviderId","resourceProviderId")
+		.field("computeResource.vimLevelResourceType","vimLevelResourceType")
+		.field("computeResource.vimConnectionId","vimConnectionInformation.id")
+		.byDefault()
+		.register();
+		orikaMapperFactory.classMap(VnfInstantiatedCompute.class,VnfCompute.class)
+		.exclude("id")
+		.field("storageResourceIds","storages")
+		.field("vduId","id")
+		.byDefault()
+		.register();
+		orikaMapperFactory.classMap(VnfLcmOpOcc.class,VnfBlueprint.class)
+		.field("vnfInstanceId","vnfInstance.id")
+		// .field("resourceChanges", "tasks")
+		.field("grantId","grantsRequestId")
+		.field("operationState","operationStatus")
+		.field("isAutomaticInvocation","automaticInvocation")
+		.field("isCancelPending","cancelPending")
+		.field("operationParams","parameters")
+		.byDefault()
+		.register();
+		orikaMapperFactory.classMap(ExtManagedVirtualLinkData.class,ExtManagedVirtualLinkDataEntity.class)
+		.byDefault()
+		.register();
+		orikaMapperFactory.classMap(ExternalManagedVirtualLink.class,ExtManagedVirtualLinkDataEntity.class)
+		.byDefault()
+		.register();
+		orikaMapperFactory.classMap(ExtVirtualLinkInfo.class,ExtVirtualLinkDataEntity.class)
+		.field("resourceHandle.vimConnectionId","vimConnectionId")
+		.field("resourceHandle.resourceProviderId","resourceProviderId")
+		.field("resourceHandle.resourceId","resourceId")
+		.field("resourceHandle.vimLevelResourceType","vimLevelResourceType")
+		.byDefault()
+		.register();
+		orikaMapperFactory.classMap(ExtManagedVirtualLinkInfo.class,ExtManagedVirtualLinkDataEntity.class)
+		.field("networkResource.vimConnectionId","vimConnectionId")
+		.field("networkResource.resourceProviderId","resourceProviderId")
+		.field("networkResource.resourceId","resourceId")
+		.field("networkResource.vimLevelResourceType","vimLevelResourceType")
+		.byDefault()
+		.register();
+		orikaMapperFactory.classMap(AffectedVirtualStorage.class,VnfInstantiatedStorage.class)
+		.field("storageResource.vimConnectionId","vimConnectionInformation.vimId")
+		.field("storageResource.resourceProviderId","resourceProviderId")
+		.field("storageResource.resourceId","resourceId")
+		.field("storageResource.vimLevelResourceType","vimLevelResourceType")
+		.byDefault()
+		.register();
+		orikaMapperFactory.classMap(VnfLcmOpOcc.class,VnfLcmOpOccs.class)
+		.field("vnfInstanceId","vnfInstance.id")
+		.byDefault()
+		.register();
+		orikaMapperFactory.classMap(VnfcResourceInfo.class,VnfInstantiatedCompute.class)
+		.field("computeResource.resourceId","resourceId")
+		.field("computeResource.resourceProviderId","resourceProviderId")
+		.field("computeResource.vimConnectionId","vimConnectionInformation.vimId")
+		.byDefault()
+		.register();
+		orikaMapperFactory.classMap(ResourceDefinition.class,GrantInformationExt.class)
+		.field("id","id")
+		// .field("id", "resourceDefinitionId")
+		.field("type","type")
+		.field("vduId","vduId")
+		.field("resource.vimConnectionId","vimConnectionId")
+		.field("resource.resourceProviderId","resourceProviderId")
+		.field("resource.vimLevelResourceType","vimLevelResourceType")
+		.field("resource.resourceId","resourceId")
+		.field("resource.resourceProviderId","resourceProviderId")
+		.byDefault()
+		.register();
 		/*
 		 * Subscriptions.
 		 */
-		orikaMapperFactory.classMap(PkgmSubscriptionRequest.class, Subscription.class)
-				.fieldMap("filter", "filters").converter("filterConverter").add()
-				.field("authentication.paramsBasic", "authentication.authParamBasic")
-				.field("authentication.paramsOauth2ClientCredentials", "authentication.authParamOauth2")
-				.field("authentication.authType", "authentication.authType")
-				.byDefault()
-				.register();
-		orikaMapperFactory.classMap(VnfIndicatorSubscriptionRequest.class, Subscription.class)
-				.fieldMap("filter", "filters").converter("filterConverter").add()
-				.field("authentication.paramsBasic", "authentication.authParamBasic")
-				.field("authentication.paramsOauth2ClientCredentials", "authentication.authParamOauth2")
-				.field("authentication.authType", "authentication.authType")
-				.byDefault()
-				.register();
-		orikaMapperFactory.classMap(LccnSubscriptionRequest.class, Subscription.class)
-				.fieldMap("filter", "filters").converter("filterConverter").add()
-				.field("authentication.paramsBasic", "authentication.authParamBasic")
-				.field("authentication.paramsOauth2ClientCredentials", "authentication.authParamOauth2")
-				.field("authentication.authType", "authentication.authType")
-				.byDefault()
-				.register();
-		orikaMapperFactory.classMap(FmSubscriptionRequest.class, Subscription.class)
-				.fieldMap("filter", "filters").converter("filterConverter").add()
-				.field("authentication.paramsBasic", "authentication.authParamBasic")
-				.field("authentication.paramsOauth2ClientCredentials", "authentication.authParamOauth2")
-				.field("authentication.authType", "authentication.authType")
-				.byDefault()
-				.register();
-		orikaMapperFactory.classMap(FmSubscription.class, Subscription.class)
-				.fieldMap("filter", "filters").converter("filterConverter").add()
-				.byDefault()
-				.register();
-		orikaMapperFactory.classMap(LccnSubscription.class, Subscription.class)
-				.fieldMap("filter", "filters").converter("filterConverter").add()
-				.byDefault()
-				.register();
-		orikaMapperFactory.classMap(SubscriptionAuthentication.class, AuthentificationInformations.class)
-				// .fieldMap("authType[0]", "authType").converter("filterConverter").add()
-				.byDefault()
-				.register();
-		orikaMapperFactory.classMap(SubscriptionAuthenticationParamsOauth2ClientCredentials.class, AuthParamOauth2.class)
-				.field("clientPassword", "clientSecret")
-				.byDefault()
-				.register();
+		orikaMapperFactory.classMap(PkgmSubscriptionRequest.class,Subscription.class)
+		.fieldMap("filter","filters").converter("filterConverter").add()
+		.field("authentication.paramsBasic","authentication.authParamBasic")
+		.field("authentication.paramsOauth2ClientCredentials","authentication.authParamOauth2")
+		.field("authentication.authType","authentication.authType")
+		.byDefault()
+		.register();
+		orikaMapperFactory.classMap(VnfIndicatorSubscriptionRequest.class,Subscription.class)
+		.fieldMap("filter","filters").converter("filterConverter").add()
+		.field("authentication.paramsBasic","authentication.authParamBasic")
+		.field("authentication.paramsOauth2ClientCredentials","authentication.authParamOauth2")
+		.field("authentication.authType","authentication.authType")
+		.byDefault()
+		.register();
+		orikaMapperFactory.classMap(LccnSubscriptionRequest.class,Subscription.class)
+		.fieldMap("filter","filters").converter("filterConverter").add()
+		.field("authentication.paramsBasic","authentication.authParamBasic")
+		.field("authentication.paramsOauth2ClientCredentials","authentication.authParamOauth2")
+		.field("authentication.authType","authentication.authType")
+		.byDefault()
+		.register();
+		orikaMapperFactory.classMap(FmSubscriptionRequest.class,Subscription.class)
+		.fieldMap("filter","filters").converter("filterConverter").add()
+		.field("authentication.paramsBasic","authentication.authParamBasic")
+		.field("authentication.paramsOauth2ClientCredentials","authentication.authParamOauth2")
+		.field("authentication.authType","authentication.authType")
+		.byDefault()
+		.register();
+		orikaMapperFactory.classMap(FmSubscription.class,Subscription.class)
+		.fieldMap("filter","filters").converter("filterConverter").add()
+		.byDefault()
+		.register();
+		orikaMapperFactory.classMap(LccnSubscription.class,Subscription.class)
+		.fieldMap("filter","filters").converter("filterConverter").add()
+		.byDefault()
+		.register();
+		orikaMapperFactory.classMap(SubscriptionAuthentication.class,AuthentificationInformations.class)
+		// .fieldMap("authType[0]", "authType").converter("filterConverter").add()
+		.byDefault()
+		.register();
+		orikaMapperFactory.classMap(SubscriptionAuthenticationParamsOauth2ClientCredentials.class,AuthParamOauth2.class)
+		.field("clientPassword","clientSecret")
+		.byDefault()
+		.register();
 		/*
 		 * Fault management.
 		 */
-		orikaMapperFactory.classMap(Alarm.class, Alarms.class)
-				.field("isRootCause", "rootCause")
-				.byDefault()
-				.register();
+		orikaMapperFactory.classMap(Alarm.class,Alarms.class)
+		.field("isRootCause","rootCause")
+		.byDefault()
+		.register();
 		final ConverterFactory converterFactory = orikaMapperFactory.getConverterFactory();
 		converterFactory.registerConverter(new UuidConverter());
-		converterFactory.registerConverter("filterConverter", new OrikaFilterMapper());
+		converterFactory.registerConverter("filterConverter",new OrikaFilterMapper());
 	}
 
 }

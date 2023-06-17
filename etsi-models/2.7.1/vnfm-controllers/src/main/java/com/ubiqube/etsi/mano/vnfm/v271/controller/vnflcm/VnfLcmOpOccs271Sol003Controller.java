@@ -48,8 +48,8 @@ public class VnfLcmOpOccs271Sol003Controller implements VnfLcmOpOccs271Sol003Api
 	}
 
 	@Override
-	public ResponseEntity<String> vnfLcmOpOccsGet(final MultiValueMap<String, String> requestParams, @Valid final String nextpageOpaqueMarker) {
-		return frontController.search(requestParams, VnfLcmOpOcc.class, VnfLcmOpOccs271Sol003Controller::makeLinks);
+	public ResponseEntity<String> vnfLcmOpOccsGet(final MultiValueMap<String, String> requestParams,@Valid final String nextpageOpaqueMarker) {
+		return frontController.search(requestParams,VnfLcmOpOcc.class,VnfLcmOpOccs271Sol003Controller::makeLinks);
 	}
 
 	@Override
@@ -64,11 +64,11 @@ public class VnfLcmOpOccs271Sol003Controller implements VnfLcmOpOccs271Sol003Api
 
 	@Override
 	public ResponseEntity<VnfLcmOpOcc> vnfLcmOpOccsVnfLcmOpOccIdGet(final String vnfLcmOpOccId) {
-		return frontController.lcmOpOccFindById(new VnfLcmClassMaping271(), UUID.fromString(vnfLcmOpOccId), VnfLcmOpOcc.class,
-				VnfLcmOpOccs271Sol003Controller::makeLinks, VnfLcmOpOccs271Sol003Controller::setOperationParams);
+		return frontController.lcmOpOccFindById(new VnfLcmClassMaping271(),UUID.fromString(vnfLcmOpOccId),VnfLcmOpOcc.class,
+		VnfLcmOpOccs271Sol003Controller::makeLinks,VnfLcmOpOccs271Sol003Controller::setOperationParams);
 	}
 
-	private static void setOperationParams(final VnfLcmOpOcc lcmOpOcc, final Object obj) {
+	private static void setOperationParams(final VnfLcmOpOcc lcmOpOcc,final Object obj) {
 		lcmOpOcc.setOperationParams(obj);
 	}
 
