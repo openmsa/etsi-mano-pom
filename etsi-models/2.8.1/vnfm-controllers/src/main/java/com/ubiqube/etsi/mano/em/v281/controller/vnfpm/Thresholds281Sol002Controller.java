@@ -47,7 +47,7 @@ public class Thresholds281Sol002Controller implements Thresholds281Sol002Api {
 
 	@Override
 	public ResponseEntity<Threshold> thresholdsPost(@Valid final CreateThresholdRequest createThresholdRequest) {
-		return vnfmThresholdFrontController.thresholdsCreate(createThresholdRequest, Threshold.class, Thresholds281Sol002Controller::makeLinks, Thresholds281Sol002Controller::getSelfLink);
+		return vnfmThresholdFrontController.thresholdsCreate(createThresholdRequest,Threshold.class,Thresholds281Sol002Controller::makeLinks,Thresholds281Sol002Controller::getSelfLink);
 	}
 
 	@Override
@@ -57,17 +57,17 @@ public class Thresholds281Sol002Controller implements Thresholds281Sol002Api {
 
 	@Override
 	public ResponseEntity<Threshold> thresholdsThresholdIdGet(final String thresholdId) {
-		return vnfmThresholdFrontController.findById(thresholdId, Threshold.class, Thresholds281Sol002Controller::makeLinks);
+		return vnfmThresholdFrontController.findById(thresholdId,Threshold.class,Thresholds281Sol002Controller::makeLinks);
 	}
 
 	@Override
-	public ResponseEntity<String> thresholdsGet(final MultiValueMap<String, String> requestParams, final String nextpageOpaqueMarker) {
-		return vnfmThresholdFrontController.search(requestParams, nextpageOpaqueMarker, Threshold.class, Thresholds281Sol002Controller::makeLinks);
+	public ResponseEntity<String> thresholdsGet(final MultiValueMap<String, String> requestParams,final String nextpageOpaqueMarker) {
+		return vnfmThresholdFrontController.search(requestParams,nextpageOpaqueMarker,Threshold.class,Thresholds281Sol002Controller::makeLinks);
 	}
 
 	@Override
-	public ResponseEntity<ThresholdModifications> thresholdsThresholdIdPatch(final String thresholdId, final ThresholdModifications body, final String ifMatch) {
-		return vnfmThresholdFrontController.patch(thresholdId, body, ThresholdModifications.class);
+	public ResponseEntity<ThresholdModifications> thresholdsThresholdIdPatch(final String thresholdId,final ThresholdModifications body,final String ifMatch) {
+		return vnfmThresholdFrontController.patch(thresholdId,body,ThresholdModifications.class);
 	}
 
 	private static void makeLinks(final Threshold x) {

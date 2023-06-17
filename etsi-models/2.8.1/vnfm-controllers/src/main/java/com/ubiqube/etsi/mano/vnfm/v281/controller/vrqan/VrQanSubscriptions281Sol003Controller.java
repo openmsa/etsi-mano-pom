@@ -35,7 +35,7 @@ import com.ubiqube.etsi.mano.vnfm.v281.model.vrqan.VrQuotaAvailSubscriptionReque
 public class VrQanSubscriptions281Sol003Controller implements VrQanSubscriptions281Sol003Api {
 
 	@Override
-	public ResponseEntity<List<VrQuotaAvailSubscription>> subscriptionsGet(@Valid final String filter, @Valid final String nextpageOpaqueMarker) {
+	public ResponseEntity<List<VrQuotaAvailSubscription>> subscriptionsGet(@Valid final String filter,@Valid final String nextpageOpaqueMarker) {
 		// TODO Auto-generated method stub
 		return null;
 	}

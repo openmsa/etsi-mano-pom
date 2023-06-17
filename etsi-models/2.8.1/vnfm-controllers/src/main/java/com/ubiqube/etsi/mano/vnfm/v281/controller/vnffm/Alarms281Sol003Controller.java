@@ -49,17 +49,17 @@ public class Alarms281Sol003Controller implements Alarms281Sol003Api {
 
 	@Override
 	public ResponseEntity<Alarm> alarmsAlarmIdGet(final String alarmId) {
-		return alarmFrontController.findById(alarmId, Alarm.class, Alarms281Sol003Controller::makeLinks);
+		return alarmFrontController.findById(alarmId,Alarm.class,Alarms281Sol003Controller::makeLinks);
 	}
 
 	@Override
-	public ResponseEntity<AlarmModifications> alarmsAlarmIdPatch(final String alarmId, final AlarmModifications alarmModifications, final String ifMatch) {
-		return alarmFrontController.patch(alarmId, AckState.valueOf(alarmModifications.getAckState().toString()), ifMatch, AlarmModifications.class);
+	public ResponseEntity<AlarmModifications> alarmsAlarmIdPatch(final String alarmId,final AlarmModifications alarmModifications,final String ifMatch) {
+		return alarmFrontController.patch(alarmId,AckState.valueOf(alarmModifications.getAckState().toString()),ifMatch,AlarmModifications.class);
 	}
 
 	@Override
-	public ResponseEntity<String> alarmsGet(final MultiValueMap<String, String> requestParams, @Valid final String nextpageOpaqueMarker) {
-		return alarmFrontController.search(requestParams, Alarm.class, Alarms281Sol003Controller::makeLinks);
+	public ResponseEntity<String> alarmsGet(final MultiValueMap<String, String> requestParams,@Valid final String nextpageOpaqueMarker) {
+		return alarmFrontController.search(requestParams,Alarm.class,Alarms281Sol003Controller::makeLinks);
 	}
 
 	private static void makeLinks(final Alarm alarm) {

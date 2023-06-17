@@ -33,7 +33,7 @@ public class VrQuotaAvailNotification281Sol003Controller implements VrQuotaAvail
 	}
 
 	@Override
-	public ResponseEntity<Void> vrQuotaAvailNotificationPost(final String contentType, @Valid final VrQuotaAvailNotification body) {
+	public ResponseEntity<Void> vrQuotaAvailNotificationPost(final String contentType,@Valid final VrQuotaAvailNotification body) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -53,23 +53,23 @@ public class Alarms281Sol002Controller implements Alarms281Sol002Api {
 	}
 
 	@Override
-	public ResponseEntity<Void> alarmsAlarmIdEscalatePost(final String alarmId, @Valid final PerceivedSeverityRequest perceivedSeverityRequest) {
-		return alarmFrontController.escalate(alarmId, PerceivedSeverityType.valueOf(perceivedSeverityRequest.getProposedPerceivedSeverity().toString()));
+	public ResponseEntity<Void> alarmsAlarmIdEscalatePost(final String alarmId,@Valid final PerceivedSeverityRequest perceivedSeverityRequest) {
+		return alarmFrontController.escalate(alarmId,PerceivedSeverityType.valueOf(perceivedSeverityRequest.getProposedPerceivedSeverity().toString()));
 	}
 
 	@Override
 	public ResponseEntity<Alarm> alarmsAlarmIdGet(final String alarmId) {
-		return alarmFrontController.findById(alarmId, Alarm.class, Alarms281Sol002Controller::makeLinks);
+		return alarmFrontController.findById(alarmId,Alarm.class,Alarms281Sol002Controller::makeLinks);
 	}
 
 	@Override
-	public ResponseEntity<AlarmModifications> alarmsAlarmIdPatch(final String alarmId, final AlarmModifications alarmModifications, final String ifMatch) {
-		return alarmFrontController.patch(alarmId, AckState.valueOf(alarmModifications.getAckState().toString()), ifMatch, AlarmModifications.class);
+	public ResponseEntity<AlarmModifications> alarmsAlarmIdPatch(final String alarmId,final AlarmModifications alarmModifications,final String ifMatch) {
+		return alarmFrontController.patch(alarmId,AckState.valueOf(alarmModifications.getAckState().toString()),ifMatch,AlarmModifications.class);
 	}
 
 	@Override
-	public ResponseEntity<String> alarmsGet(final MultiValueMap<String, String> requestParams, @Valid final String nextpageOpaqueMarker) {
-		return alarmFrontController.search(requestParams, Alarm.class, Alarms281Sol002Controller::makeLinks);
+	public ResponseEntity<String> alarmsGet(final MultiValueMap<String, String> requestParams,@Valid final String nextpageOpaqueMarker) {
+		return alarmFrontController.search(requestParams,Alarm.class,Alarms281Sol002Controller::makeLinks);
 	}
 
 	private static void makeLinks(final Alarm alarm) {

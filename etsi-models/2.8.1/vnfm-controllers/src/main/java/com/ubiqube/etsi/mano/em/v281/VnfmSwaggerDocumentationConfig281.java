@@ -31,9 +31,9 @@ public class VnfmSwaggerDocumentationConfig281 {
 	@Bean
 	GroupedOpenApi customImplementationVnfm281() {
 		return GroupedOpenApi.builder()
-				.group("vnfm-etsi-mano-2.8.1")
-				.packagesToScan("com.ubiqube.etsi.mano.vnfm.v281")
-				.build();
+		.group("vnfm-etsi-mano-2.8.1")
+		.packagesToScan("com.ubiqube.etsi.mano.vnfm.v281")
+		.build();
 	}
 
 }

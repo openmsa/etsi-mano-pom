@@ -58,24 +58,24 @@ public class VnfInstances281Sol003Controller implements VnfInstances281Sol003Api
 	}
 
 	@Override
-	public ResponseEntity<String> vnfInstancesGet(final MultiValueMap<String, String> requestParams, @Valid final String nextpageOpaqueMarker) {
-		return frontController.search(requestParams, VnfInstance.class, nextpageOpaqueMarker, VnfInstances281Sol003Controller::makeLinks);
+	public ResponseEntity<String> vnfInstancesGet(final MultiValueMap<String, String> requestParams,@Valid final String nextpageOpaqueMarker) {
+		return frontController.search(requestParams,VnfInstance.class,nextpageOpaqueMarker,VnfInstances281Sol003Controller::makeLinks);
 	}
 
 	@Override
 	public ResponseEntity<VnfInstance> vnfInstancesPost(@Valid final CreateVnfRequest createVnfRequest) {
-		return frontController.create(createVnfRequest.getVnfdId(), createVnfRequest.getVnfInstanceName(), createVnfRequest.getVnfInstanceDescription(), VnfInstance.class,
-				VnfInstances281Sol003Controller::makeLinks, "");
+		return frontController.create(createVnfRequest.getVnfdId(),createVnfRequest.getVnfInstanceName(),createVnfRequest.getVnfInstanceDescription(),VnfInstance.class,
+		VnfInstances281Sol003Controller::makeLinks,"");
 	}
 
 	@Override
-	public ResponseEntity<Void> vnfInstancesVnfInstanceIdChangeExtConnPost(final String vnfInstanceId, @Valid final ChangeExtVnfConnectivityRequest body) {
-		return frontController.changeExtConn(getSafeUUID(vnfInstanceId), body, VnfInstances281Sol003Controller::getLcmLink);
+	public ResponseEntity<Void> vnfInstancesVnfInstanceIdChangeExtConnPost(final String vnfInstanceId,@Valid final ChangeExtVnfConnectivityRequest body) {
+		return frontController.changeExtConn(getSafeUUID(vnfInstanceId),body,VnfInstances281Sol003Controller::getLcmLink);
 	}
 
 	@Override
-	public ResponseEntity<Void> vnfInstancesVnfInstanceIdChangeFlavourPost(final String vnfInstanceId, @Valid final ChangeVnfFlavourRequest body) {
-		return frontController.changeFlavour(getSafeUUID(vnfInstanceId), body, VnfInstances281Sol003Controller::getLcmLink);
+	public ResponseEntity<Void> vnfInstancesVnfInstanceIdChangeFlavourPost(final String vnfInstanceId,@Valid final ChangeVnfFlavourRequest body) {
+		return frontController.changeFlavour(getSafeUUID(vnfInstanceId),body,VnfInstances281Sol003Controller::getLcmLink);
 	}
 
 	@Override
@@ -85,42 +85,42 @@ public class VnfInstances281Sol003Controller implements VnfInstances281Sol003Api
 
 	@Override
 	public ResponseEntity<VnfInstance> vnfInstancesVnfInstanceIdGet(final String vnfInstanceId) {
-		return frontController.findById(getSafeUUID(vnfInstanceId), VnfInstance.class, VnfInstances281Sol003Controller::makeLinks, "");
+		return frontController.findById(getSafeUUID(vnfInstanceId),VnfInstance.class,VnfInstances281Sol003Controller::makeLinks,"");
 	}
 
 	@Override
-	public ResponseEntity<Void> vnfInstancesVnfInstanceIdHealPost(final String vnfInstanceId, @Valid final HealVnfRequest body) {
-		return frontController.heal(getSafeUUID(vnfInstanceId), body.getCause(), new HashMap<>(), VnfInstances281Sol003Controller::getLcmLink);
+	public ResponseEntity<Void> vnfInstancesVnfInstanceIdHealPost(final String vnfInstanceId,@Valid final HealVnfRequest body) {
+		return frontController.heal(getSafeUUID(vnfInstanceId),body.getCause(),new HashMap<>(),VnfInstances281Sol003Controller::getLcmLink);
 	}
 
 	@Override
-	public ResponseEntity<Void> vnfInstancesVnfInstanceIdInstantiatePost(final String vnfInstanceId, @Valid final InstantiateVnfRequest body) {
-		return frontController.instantiate(getSafeUUID(vnfInstanceId), body, VnfInstances281Sol003Controller::getLcmLink);
+	public ResponseEntity<Void> vnfInstancesVnfInstanceIdInstantiatePost(final String vnfInstanceId,@Valid final InstantiateVnfRequest body) {
+		return frontController.instantiate(getSafeUUID(vnfInstanceId),body,VnfInstances281Sol003Controller::getLcmLink);
 	}
 
 	@Override
-	public ResponseEntity<Void> vnfInstancesVnfInstanceIdOperatePost(final String vnfInstanceId, @Valid final OperateVnfRequest body) {
-		return frontController.operate(getSafeUUID(vnfInstanceId), body, VnfInstances281Sol003Controller::getLcmLink);
+	public ResponseEntity<Void> vnfInstancesVnfInstanceIdOperatePost(final String vnfInstanceId,@Valid final OperateVnfRequest body) {
+		return frontController.operate(getSafeUUID(vnfInstanceId),body,VnfInstances281Sol003Controller::getLcmLink);
 	}
 
 	@Override
-	public ResponseEntity<VnfInstance> vnfInstancesVnfInstanceIdPatch(final String vnfInstanceId, final String vnfInfoModificationRequest, final String ifMatch) {
-		return frontController.modify(getSafeUUID(vnfInstanceId), vnfInfoModificationRequest, ifMatch, VnfInstances281Sol003Controller::getInstanceLink);
+	public ResponseEntity<VnfInstance> vnfInstancesVnfInstanceIdPatch(final String vnfInstanceId,final String vnfInfoModificationRequest,final String ifMatch) {
+		return frontController.modify(getSafeUUID(vnfInstanceId),vnfInfoModificationRequest,ifMatch,VnfInstances281Sol003Controller::getInstanceLink);
 	}
 
 	@Override
-	public ResponseEntity<Void> vnfInstancesVnfInstanceIdScalePost(final String vnfInstanceId, @Valid final ScaleVnfRequest body) {
-		return frontController.scale(getSafeUUID(vnfInstanceId), body, VnfInstances281Sol003Controller::getLcmLink);
+	public ResponseEntity<Void> vnfInstancesVnfInstanceIdScalePost(final String vnfInstanceId,@Valid final ScaleVnfRequest body) {
+		return frontController.scale(getSafeUUID(vnfInstanceId),body,VnfInstances281Sol003Controller::getLcmLink);
 	}
 
 	@Override
-	public ResponseEntity<Void> vnfInstancesVnfInstanceIdScaleToLevelPost(final String vnfInstanceId, @Valid final ScaleVnfToLevelRequest body) {
-		return frontController.scaleToLevel(getSafeUUID(vnfInstanceId), body, VnfInstances281Sol003Controller::getLcmLink);
+	public ResponseEntity<Void> vnfInstancesVnfInstanceIdScaleToLevelPost(final String vnfInstanceId,@Valid final ScaleVnfToLevelRequest body) {
+		return frontController.scaleToLevel(getSafeUUID(vnfInstanceId),body,VnfInstances281Sol003Controller::getLcmLink);
 	}
 
 	@Override
-	public ResponseEntity<Void> vnfInstancesVnfInstanceIdTerminatePost(final String vnfInstanceId, @Valid final TerminateVnfRequest body) {
-		return frontController.terminate(getSafeUUID(vnfInstanceId), CancelModeTypeEnum.valueOf(body.getTerminationType().toString()), body.getGracefulTerminationTimeout(), VnfInstances281Sol003Controller::getLcmLink);
+	public ResponseEntity<Void> vnfInstancesVnfInstanceIdTerminatePost(final String vnfInstanceId,@Valid final TerminateVnfRequest body) {
+		return frontController.terminate(getSafeUUID(vnfInstanceId),CancelModeTypeEnum.valueOf(body.getTerminationType().toString()),body.getGracefulTerminationTimeout(),VnfInstances281Sol003Controller::getLcmLink);
 	}
 
 	private static String getLcmLink(final VnfBlueprint vnfblueprint) {
@@ -133,16 +133,16 @@ public class VnfInstances281Sol003Controller implements VnfInstances281Sol003Api
 
 	private static void makeLinks(final VnfInstance vnfInstance) {
 		final String id = vnfInstance.getId();
-		final String hrefScaleToLevel = linkTo(methodOn(VnfInstances281Sol003Api.class).vnfInstancesVnfInstanceIdScaleToLevelPost(id, null)).withSelfRel().getHref();
-		final String hrefScale = linkTo(methodOn(VnfInstances281Sol003Api.class).vnfInstancesVnfInstanceIdScalePost(id, null)).withSelfRel().getHref();
-		final String hrefOperate = linkTo(methodOn(VnfInstances281Sol003Api.class).vnfInstancesVnfInstanceIdOperatePost(id, null)).withSelfRel().getHref();
-		final String hrefInstanciate = linkTo(methodOn(VnfInstances281Sol003Api.class).vnfInstancesVnfInstanceIdInstantiatePost(id, null)).withSelfRel().getHref();
+		final String hrefScaleToLevel = linkTo(methodOn(VnfInstances281Sol003Api.class).vnfInstancesVnfInstanceIdScaleToLevelPost(id,null)).withSelfRel().getHref();
+		final String hrefScale = linkTo(methodOn(VnfInstances281Sol003Api.class).vnfInstancesVnfInstanceIdScalePost(id,null)).withSelfRel().getHref();
+		final String hrefOperate = linkTo(methodOn(VnfInstances281Sol003Api.class).vnfInstancesVnfInstanceIdOperatePost(id,null)).withSelfRel().getHref();
+		final String hrefInstanciate = linkTo(methodOn(VnfInstances281Sol003Api.class).vnfInstancesVnfInstanceIdInstantiatePost(id,null)).withSelfRel().getHref();
 		final String hrefIndicators = "";
-		final String hrefHeal = linkTo(methodOn(VnfInstances281Sol003Api.class).vnfInstancesVnfInstanceIdHealPost(id, null)).withSelfRel().getHref();
-		final String hrefChangeFlavor = linkTo(methodOn(VnfInstances281Sol003Api.class).vnfInstancesVnfInstanceIdChangeFlavourPost(id, null)).withSelfRel().getHref();
-		final String hrefChangeExtConn = linkTo(methodOn(VnfInstances281Sol003Api.class).vnfInstancesVnfInstanceIdChangeExtConnPost(id, null)).withSelfRel().getHref();
+		final String hrefHeal = linkTo(methodOn(VnfInstances281Sol003Api.class).vnfInstancesVnfInstanceIdHealPost(id,null)).withSelfRel().getHref();
+		final String hrefChangeFlavor = linkTo(methodOn(VnfInstances281Sol003Api.class).vnfInstancesVnfInstanceIdChangeFlavourPost(id,null)).withSelfRel().getHref();
+		final String hrefChangeExtConn = linkTo(methodOn(VnfInstances281Sol003Api.class).vnfInstancesVnfInstanceIdChangeExtConnPost(id,null)).withSelfRel().getHref();
 		final String hrefSelf = linkTo(methodOn(VnfInstances281Sol003Api.class).vnfInstancesVnfInstanceIdGet(id)).withSelfRel().getHref();
-		final String hrefTerminate = linkTo(methodOn(VnfInstances281Sol003Api.class).vnfInstancesVnfInstanceIdTerminatePost(id, null)).withSelfRel().getHref();
+		final String hrefTerminate = linkTo(methodOn(VnfInstances281Sol003Api.class).vnfInstancesVnfInstanceIdTerminatePost(id,null)).withSelfRel().getHref();
 		final VnfInstanceLinks vnfInstanceLinks = new VnfInstanceLinks();
 		final Link self = new Link();
 		self.setHref(hrefSelf);

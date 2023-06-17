@@ -50,8 +50,8 @@ public class PmJobs281Sol002Controller implements PmJobs281Sol002Api {
 	}
 
 	@Override
-	public ResponseEntity<String> pmJobsGet(final MultiValueMap<String, String> requestParams, @Valid final String nextpageOpaqueMarker) {
-		return vnfmPmGenericFrontController.search(requestParams, PmJob.class, PmJobs281Sol002Controller::makeLinks);
+	public ResponseEntity<String> pmJobsGet(final MultiValueMap<String, String> requestParams,@Valid final String nextpageOpaqueMarker) {
+		return vnfmPmGenericFrontController.search(requestParams,PmJob.class,PmJobs281Sol002Controller::makeLinks);
 	}
 
 	@Override
@@ -61,22 +61,22 @@ public class PmJobs281Sol002Controller implements PmJobs281Sol002Api {
 
 	@Override
 	public ResponseEntity<PmJob> pmJobsPmJobIdGet(final String pmJobId) {
-		return vnfmPmGenericFrontController.findById(UUID.fromString(pmJobId), PmJob.class, PmJobs281Sol002Controller::makeLinks);
+		return vnfmPmGenericFrontController.findById(UUID.fromString(pmJobId),PmJob.class,PmJobs281Sol002Controller::makeLinks);
 	}
 
 	@Override
-	public ResponseEntity<PerformanceReport> pmJobsPmJobIdReportsReportIdGet(final String pmJobId, final String reportId) {
-		return vnfmPmGenericFrontController.findReportById(pmJobId, reportId, PerformanceReport.class);
+	public ResponseEntity<PerformanceReport> pmJobsPmJobIdReportsReportIdGet(final String pmJobId,final String reportId) {
+		return vnfmPmGenericFrontController.findReportById(pmJobId,reportId,PerformanceReport.class);
 	}
 
 	@Override
 	public ResponseEntity<PmJob> pmJobsPost(@Valid final CreatePmJobRequest createPmJobRequest) {
-		return vnfmPmGenericFrontController.pmJobsPost(createPmJobRequest, PmJob.class, PmJobs281Sol002Controller::makeLinks, PmJobs281Sol002Controller::makeSelf);
+		return vnfmPmGenericFrontController.pmJobsPost(createPmJobRequest,PmJob.class,PmJobs281Sol002Controller::makeLinks,PmJobs281Sol002Controller::makeSelf);
 	}
 
 	@Override
-	public ResponseEntity<PmJobModifications> pmJobsPmJobIdPatch(final String pmJobId, @Valid final PmJobModifications pmJobModifications, final String ifMatch) {
-		return vnfmPmGenericFrontController.pmJobsPmJobIdPatch(UUID.fromString(pmJobId), pmJobModifications);
+	public ResponseEntity<PmJobModifications> pmJobsPmJobIdPatch(final String pmJobId,@Valid final PmJobModifications pmJobModifications,final String ifMatch) {
+		return vnfmPmGenericFrontController.pmJobsPmJobIdPatch(UUID.fromString(pmJobId),pmJobModifications);
 	}
 
 	private static String makeSelf(final PmJob x) {

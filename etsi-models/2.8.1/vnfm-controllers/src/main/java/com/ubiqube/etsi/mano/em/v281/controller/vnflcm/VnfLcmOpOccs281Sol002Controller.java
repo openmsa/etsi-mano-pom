@@ -50,12 +50,12 @@ public class VnfLcmOpOccs281Sol002Controller implements VnfLcmOpOccs281Sol002Api
 	}
 
 	@Override
-	public ResponseEntity<String> vnfLcmOpOccsGet(final MultiValueMap<String, String> requestParams, @Valid final String nextpageOpaqueMarker) {
-		return frontController.search(requestParams, VnfLcmOpOcc.class, VnfLcmOpOccs281Sol002Controller::makeLinks);
+	public ResponseEntity<String> vnfLcmOpOccsGet(final MultiValueMap<String, String> requestParams,@Valid final String nextpageOpaqueMarker) {
+		return frontController.search(requestParams,VnfLcmOpOcc.class,VnfLcmOpOccs281Sol002Controller::makeLinks);
 	}
 
 	@Override
-	public ResponseEntity<Void> vnfLcmOpOccsVnfLcmOpOccIdCancelPost(final String vnfLcmOpOccId, final CancelMode cancelMode) {
+	public ResponseEntity<Void> vnfLcmOpOccsVnfLcmOpOccIdCancelPost(final String vnfLcmOpOccId,final CancelMode cancelMode) {
 		return frontController.lcmOpOccCancel(UUID.fromString(vnfLcmOpOccId));
 	}
 
@@ -66,11 +66,11 @@ public class VnfLcmOpOccs281Sol002Controller implements VnfLcmOpOccs281Sol002Api
 
 	@Override
 	public ResponseEntity<VnfLcmOpOcc> vnfLcmOpOccsVnfLcmOpOccIdGet(final String vnfLcmOpOccId) {
-		return frontController.lcmOpOccFindById(new VnfLcmClassMaping281(), UUID.fromString(vnfLcmOpOccId), VnfLcmOpOcc.class,
-				VnfLcmOpOccs281Sol002Controller::makeLinks, VnfLcmOpOccs281Sol002Controller::setOperationParams);
+		return frontController.lcmOpOccFindById(new VnfLcmClassMaping281(),UUID.fromString(vnfLcmOpOccId),VnfLcmOpOcc.class,
+		VnfLcmOpOccs281Sol002Controller::makeLinks,VnfLcmOpOccs281Sol002Controller::setOperationParams);
 	}
 
-	private static void setOperationParams(final VnfLcmOpOcc lcmOpOcc, final Object obj) {
+	private static void setOperationParams(final VnfLcmOpOcc lcmOpOcc,final Object obj) {
 		lcmOpOcc.setOperationParams(obj);
 	}
 
@@ -89,7 +89,7 @@ public class VnfLcmOpOccs281Sol002Controller implements VnfLcmOpOccs281Sol002Api
 		final String id = vnfLcmOpOcc.getId();
 		final VnfLcmOpOccLinks links = new VnfLcmOpOccLinks();
 		final Link cancel = new Link();
-		cancel.setHref(linkTo(methodOn(VnfLcmOpOccs281Sol002Api.class).vnfLcmOpOccsVnfLcmOpOccIdCancelPost(id, null)).withSelfRel().getHref());
+		cancel.setHref(linkTo(methodOn(VnfLcmOpOccs281Sol002Api.class).vnfLcmOpOccsVnfLcmOpOccIdCancelPost(id,null)).withSelfRel().getHref());
 		links.setCancel(cancel);
 
 		final Link fail = new Link();
