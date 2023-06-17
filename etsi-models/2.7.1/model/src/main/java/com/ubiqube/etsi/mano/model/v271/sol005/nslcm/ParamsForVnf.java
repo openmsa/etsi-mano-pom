@@ -26,15 +26,14 @@ import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This type defines the additional parameters for the VNF instance to be
  * created associated with an NS instance. It shall comply with the provisions
  * defined in Table 6.5.3.22-1.
  */
-@ApiModel(description = "This type defines the additional parameters for the VNF instance to be created associated with an NS instance. It shall comply with the provisions defined in Table 6.5.3.22-1. ")
+@Schema (description= "This type defines the additional parameters for the VNF instance to be created associated with an NS instance. It shall comply with the provisions defined in Table 6.5.3.22-1. " )
 @Validated
 public class ParamsForVnf {
 	@JsonProperty("vnfProfileId")
@@ -68,7 +67,7 @@ public class ParamsForVnf {
 	 *
 	 * @return vnfProfileId
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	public String getVnfProfileId() {
@@ -89,7 +88,7 @@ public class ParamsForVnf {
 	 *
 	 * @return vnfInstanceName
 	 **/
-	@ApiModelProperty(value = "Human-readable name of the VNF instance to be created. ")
+	@Schema(description = "Human-readable name of the VNF instance to be created. ")
 
 	public String getVnfInstanceName() {
 		return vnfInstanceName;
@@ -109,7 +108,7 @@ public class ParamsForVnf {
 	 *
 	 * @return vnfInstanceDescription
 	 **/
-	@ApiModelProperty(value = "Human-readable description of the VNF instance to be created. ")
+	@Schema(description = "Human-readable description of the VNF instance to be created. ")
 
 	public String getVnfInstanceDescription() {
 		return vnfInstanceDescription;
@@ -129,7 +128,7 @@ public class ParamsForVnf {
 	 *
 	 * @return vnfConfigurableProperties
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public Map<String, Object> getVnfConfigurableProperties() {
@@ -150,7 +149,7 @@ public class ParamsForVnf {
 	 *
 	 * @return metadata
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public Map<String, Object> getMetadata() {
@@ -171,7 +170,7 @@ public class ParamsForVnf {
 	 *
 	 * @return extensions
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public Map<String, Object> getExtensions() {
@@ -192,7 +191,7 @@ public class ParamsForVnf {
 	 *
 	 * @return additionalParams
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public Map<String, Object> getAdditionalParams() {
@@ -213,12 +212,12 @@ public class ParamsForVnf {
 		}
 		final ParamsForVnf paramsForVnf = (ParamsForVnf) o;
 		return Objects.equals(this.vnfProfileId, paramsForVnf.vnfProfileId) &&
-				Objects.equals(this.vnfInstanceName, paramsForVnf.vnfInstanceName) &&
-				Objects.equals(this.vnfInstanceDescription, paramsForVnf.vnfInstanceDescription) &&
-				Objects.equals(this.vnfConfigurableProperties, paramsForVnf.vnfConfigurableProperties) &&
-				Objects.equals(this.metadata, paramsForVnf.metadata) &&
-				Objects.equals(this.extensions, paramsForVnf.extensions) &&
-				Objects.equals(this.additionalParams, paramsForVnf.additionalParams);
+		Objects.equals(this.vnfInstanceName, paramsForVnf.vnfInstanceName) &&
+		Objects.equals(this.vnfInstanceDescription, paramsForVnf.vnfInstanceDescription) &&
+		Objects.equals(this.vnfConfigurableProperties, paramsForVnf.vnfConfigurableProperties) &&
+		Objects.equals(this.metadata, paramsForVnf.metadata) &&
+		Objects.equals(this.extensions, paramsForVnf.extensions) &&
+		Objects.equals(this.additionalParams, paramsForVnf.additionalParams);
 	}
 
 	@Override

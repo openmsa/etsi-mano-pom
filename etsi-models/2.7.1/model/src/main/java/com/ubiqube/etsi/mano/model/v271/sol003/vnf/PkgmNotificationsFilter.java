@@ -29,8 +29,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.ubiqube.etsi.mano.nfvo.v271.model.vnf.PackageOperationalStateType;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This type represents a subscription filter related to notifications related
@@ -41,7 +40,7 @@ import io.swagger.annotations.ApiModelProperty;
  * least one of the values in the array matches (logical \&quot;or\&quot;
  * between the values of one filter attribute).
  */
-@ApiModel(description = "This type represents a subscription filter related to notifications related to VNF package management. At a particular nesting level in the filter structure, the following applies: All attributes shall match in order for the filter to match (logical \"and\" between different filter attributes). If an attribute is an array, the attribute shall match if at least one of the values in the array matches (logical \"or\" between the values of one filter attribute). ")
+@Schema (description= "This type represents a subscription filter related to notifications related to VNF package management. At a particular nesting level in the filter structure, the following applies: All attributes shall match in order for the filter to match (logical \"and\" between different filter attributes). If an attribute is an array, the attribute shall match if at least one of the values in the array matches (logical \"or\" between the values of one filter attribute). " )
 @Validated
 @javax.annotation.processing.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-06-24T10:38:36.740+02:00")
 
@@ -125,7 +124,7 @@ public class PkgmNotificationsFilter {
 	 *
 	 * @return notificationTypes
 	 **/
-	@ApiModelProperty(value = "Match particular notification types. Permitted values: - VnfPackageOnboardingNotification - VnfPackageChangeNotification The permitted values of the \"notificationTypes\" attribute are spelled exactly as the names of the notification types to facilitate automated code generation systems. ")
+	@Schema(description = "Match particular notification types. Permitted values: - VnfPackageOnboardingNotification - VnfPackageChangeNotification The permitted values of the \"notificationTypes\" attribute are spelled exactly as the names of the notification types to facilitate automated code generation systems. ")
 
 	public List<NotificationTypesEnum> getNotificationTypes() {
 		return notificationTypes;
@@ -157,7 +156,7 @@ public class PkgmNotificationsFilter {
 	 *
 	 * @return vnfProductsFromProviders
 	 **/
-	@ApiModelProperty(value = "If present, match VNF packages that contain VNF products from certain providers. The attributes \"vnfProductsFromProviders\", \"vnfdId\" and \"vnfPkgId\" are alternatives to reference to particular VNF packages in a filter. They should not be used both in the same filter instance, but one alternative should be chosen. ")
+	@Schema(description = "If present, match VNF packages that contain VNF products from certain providers. The attributes \"vnfProductsFromProviders\", \"vnfdId\" and \"vnfPkgId\" are alternatives to reference to particular VNF packages in a filter. They should not be used both in the same filter instance, but one alternative should be chosen. ")
 
 	@Valid
 
@@ -191,7 +190,7 @@ public class PkgmNotificationsFilter {
 	 *
 	 * @return vnfdId
 	 **/
-	@ApiModelProperty(value = "Match VNF packages with a VNFD identifier listed in the attribute. The attributes \"vnfProductsFromProviders\", \"vnfdId\" and \"vnfPkgId\" are alternatives to reference to particular VNF packages in a filter. They should not be used both in the same filter instance, but one alternative should be chosen. ")
+	@Schema(description = "Match VNF packages with a VNFD identifier listed in the attribute. The attributes \"vnfProductsFromProviders\", \"vnfdId\" and \"vnfPkgId\" are alternatives to reference to particular VNF packages in a filter. They should not be used both in the same filter instance, but one alternative should be chosen. ")
 
 	public List<String> getVnfdId() {
 		return vnfdId;
@@ -225,7 +224,7 @@ public class PkgmNotificationsFilter {
 	 *
 	 * @return vnfPkgId
 	 **/
-	@ApiModelProperty(value = "Match VNF packages with a package identifier listed in the attribute. May be present if the \"notificationTypes\" attribute contains the value \"VnfPackageChangeNotification\", and shall be absent otherwise. The attributes \"vnfProductsFromProviders\", \"vnfdId\" and \"vnfPkgId\" are alternatives to reference to particular VNF packages in a filter. They should not be used both in the same filter instance, but one alternative should be chosen. ")
+	@Schema(description = "Match VNF packages with a package identifier listed in the attribute. May be present if the \"notificationTypes\" attribute contains the value \"VnfPackageChangeNotification\", and shall be absent otherwise. The attributes \"vnfProductsFromProviders\", \"vnfdId\" and \"vnfPkgId\" are alternatives to reference to particular VNF packages in a filter. They should not be used both in the same filter instance, but one alternative should be chosen. ")
 
 	public List<String> getVnfPkgId() {
 		return vnfPkgId;
@@ -247,7 +246,7 @@ public class PkgmNotificationsFilter {
 	 *
 	 * @return operationalState
 	 **/
-	@ApiModelProperty(value = "Match particular operational states of the VNF package. May be present if the \"notificationTypes\" attribute contains the value \"VnfPackageChangeNotification\", and shall be absent otherwise. ")
+	@Schema(description = "Match particular operational states of the VNF package. May be present if the \"notificationTypes\" attribute contains the value \"VnfPackageChangeNotification\", and shall be absent otherwise. ")
 
 	@Valid
 
@@ -271,7 +270,7 @@ public class PkgmNotificationsFilter {
 	 *
 	 * @return usageState
 	 **/
-	@ApiModelProperty(value = "Match particular usage states of the VNF package. May be present if the \"notificationTypes\" attribute contains the value \"VnfPackageChangeNotification\", and shall be absent otherwise. ")
+	@Schema(description = "Match particular usage states of the VNF package. May be present if the \"notificationTypes\" attribute contains the value \"VnfPackageChangeNotification\", and shall be absent otherwise. ")
 
 	@Valid
 
@@ -302,7 +301,7 @@ public class PkgmNotificationsFilter {
 	 *
 	 * @return vnfmInfo
 	 **/
-	@ApiModelProperty(value = "Match strings that specify VNFMs compatible with the VNF. See table 10.5.2.2-1. ")
+	@Schema(description = "Match strings that specify VNFMs compatible with the VNF. See table 10.5.2.2-1. ")
 
 	public List<String> getVnfmInfo() {
 		return vnfmInfo;
@@ -322,12 +321,12 @@ public class PkgmNotificationsFilter {
 		}
 		final PkgmNotificationsFilter pkgmNotificationsFilter = (PkgmNotificationsFilter) o;
 		return Objects.equals(this.notificationTypes, pkgmNotificationsFilter.notificationTypes) &&
-				Objects.equals(this.vnfProductsFromProviders, pkgmNotificationsFilter.vnfProductsFromProviders) &&
-				Objects.equals(this.vnfdId, pkgmNotificationsFilter.vnfdId) &&
-				Objects.equals(this.vnfPkgId, pkgmNotificationsFilter.vnfPkgId) &&
-				Objects.equals(this.operationalState, pkgmNotificationsFilter.operationalState) &&
-				Objects.equals(this.usageState, pkgmNotificationsFilter.usageState) &&
-				Objects.equals(this.vnfmInfo, pkgmNotificationsFilter.vnfmInfo);
+		Objects.equals(this.vnfProductsFromProviders, pkgmNotificationsFilter.vnfProductsFromProviders) &&
+		Objects.equals(this.vnfdId, pkgmNotificationsFilter.vnfdId) &&
+		Objects.equals(this.vnfPkgId, pkgmNotificationsFilter.vnfPkgId) &&
+		Objects.equals(this.operationalState, pkgmNotificationsFilter.operationalState) &&
+		Objects.equals(this.usageState, pkgmNotificationsFilter.usageState) &&
+		Objects.equals(this.vnfmInfo, pkgmNotificationsFilter.vnfmInfo);
 	}
 
 	@Override

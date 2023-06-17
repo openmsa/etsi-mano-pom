@@ -19,8 +19,8 @@ package com.ubiqube.etsi.mano.model.v271.sol005.nslcm;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -28,7 +28,7 @@ import jakarta.validation.constraints.*;
 /**
  * The Mask data type identifies the value to be matched for a sequence of bits at a particular location in a frame. It shall comply with the provisions defined in Table 6.5.3.41-1. 
  */
-@ApiModel(description = "The Mask data type identifies the value to be matched for a sequence of bits at a particular location in a frame. It shall comply with the provisions defined in Table 6.5.3.41-1. ")
+@Schema (description= "The Mask data type identifies the value to be matched for a sequence of bits at a particular location in a frame. It shall comply with the provisions defined in Table 6.5.3.41-1. " )
 @Validated
 public class Mask   {
   @JsonProperty("startingPoint")
@@ -40,106 +40,106 @@ public class Mask   {
   @JsonProperty("value")
   private String value = null;
 
-  public Mask startingPoint(Integer startingPoint) {
-    this.startingPoint = startingPoint;
-    return this;
-  }
+	public Mask startingPoint(Integer startingPoint) {
+		this.startingPoint = startingPoint;
+		return this;
+	}
 
-  /**
-   * Indicates the offset between the last bit of the source mac address and the first bit of the sequence of bits to be matched. 
-   * @return startingPoint
-  **/
-  @ApiModelProperty(required = true, value = "Indicates the offset between the last bit of the source mac address and the first bit of the sequence of bits to be matched. ")
-      @NotNull
+	/**
+	* Indicates the offset between the last bit of the source mac address and the first bit of the sequence of bits to be matched. 
+	* @return startingPoint
+	*/
+	@Schema(required = true , description = "Indicates the offset between the last bit of the source mac address and the first bit of the sequence of bits to be matched. ")
+	@NotNull
 
-    public Integer getStartingPoint() {
-    return startingPoint;
-  }
+	public Integer getStartingPoint() {
+		return startingPoint;
+	}
 
-  public void setStartingPoint(Integer startingPoint) {
-    this.startingPoint = startingPoint;
-  }
+	public void setStartingPoint(Integer startingPoint) {
+		this.startingPoint = startingPoint;
+	}
 
-  public Mask length(Integer length) {
-    this.length = length;
-    return this;
-  }
+	public Mask length(Integer length) {
+		this.length = length;
+		return this;
+	}
 
-  /**
-   * Indicates the number of bits to be matched. 
-   * @return length
-  **/
-  @ApiModelProperty(required = true, value = "Indicates the number of bits to be matched. ")
-      @NotNull
+	/**
+	* Indicates the number of bits to be matched. 
+	* @return length
+	*/
+	@Schema(required = true , description = "Indicates the number of bits to be matched. ")
+	@NotNull
 
-    public Integer getLength() {
-    return length;
-  }
+	public Integer getLength() {
+		return length;
+	}
 
-  public void setLength(Integer length) {
-    this.length = length;
-  }
+	public void setLength(Integer length) {
+		this.length = length;
+	}
 
-  public Mask value(String value) {
-    this.value = value;
-    return this;
-  }
+	public Mask value(String value) {
+		this.value = value;
+		return this;
+	}
 
-  /**
-   * Provide the sequence of bit values to be matched. 
-   * @return value
-  **/
-  @ApiModelProperty(required = true, value = "Provide the sequence of bit values to be matched. ")
-      @NotNull
+	/**
+	* Provide the sequence of bit values to be matched. 
+	* @return value
+	*/
+	@Schema(required = true , description = "Provide the sequence of bit values to be matched. ")
+	@NotNull
 
-    public String getValue() {
-    return value;
-  }
+	public String getValue() {
+		return value;
+	}
 
-  public void setValue(String value) {
-    this.value = value;
-  }
+	public void setValue(String value) {
+		this.value = value;
+	}
 
 
-  @Override
-  public boolean equals(java.lang.Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Mask mask = (Mask) o;
-    return Objects.equals(this.startingPoint, mask.startingPoint) &&
-        Objects.equals(this.length, mask.length) &&
-        Objects.equals(this.value, mask.value);
-  }
+	@Override
+	public boolean equals(java.lang.Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		Mask mask = (Mask) o;
+		return Objects.equals(this.startingPoint, mask.startingPoint) &&
+		Objects.equals(this.length, mask.length) &&
+		Objects.equals(this.value, mask.value);
+	}
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(startingPoint, length, value);
-  }
+	@Override
+	public int hashCode() {
+		return Objects.hash(startingPoint, length, value);
+	}
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class Mask {\n");
-    
-    sb.append("    startingPoint: ").append(toIndentedString(startingPoint)).append("\n");
-    sb.append("    length: ").append(toIndentedString(length)).append("\n");
-    sb.append("    value: ").append(toIndentedString(value)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("class Mask {\n");
 
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
+		sb.append("    startingPoint: ").append(toIndentedString(startingPoint)).append("\n");
+		sb.append("    length: ").append(toIndentedString(length)).append("\n");
+		sb.append("    value: ").append(toIndentedString(value)).append("\n");
+		sb.append("}");
+		return sb.toString();
+	}
+
+	/**
+	* Convert the given object to string with each line indented by 4 spaces
+	* (except the first line).
+	*/
+	private String toIndentedString(java.lang.Object o) {
+		if (o == null) {
+			return "null";
+		}
+		return o.toString().replace("\n", "\n    ");
+	}
 }

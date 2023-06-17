@@ -25,8 +25,7 @@ import org.springframework.validation.annotation.Validated;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.em.v271.model.vnflcm.ExtVirtualLinkInfo;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Information about the changed VNF instance information, including VNF
@@ -34,7 +33,7 @@ import io.swagger.annotations.ApiModelProperty;
  * attribute is present, either the \&quot;changedVnfInfo\&quot; attribute or
  * the \&quot;changedExtConnectivity\&quot; attribute or both shall be present.
  */
-@ApiModel(description = "Information about the changed VNF instance information, including VNF configurable properties,if applicable. When the \"changedInfo\" attribute is present,  either the \"changedVnfInfo\" attribute or the \"changedExtConnectivity\" attribute or both shall be present. ")
+@Schema (description= "Information about the changed VNF instance information, including VNF configurable properties,if applicable. When the \"changedInfo\" attribute is present,  either the \"changedVnfInfo\" attribute or the \"changedExtConnectivity\" attribute or both shall be present. " )
 @Validated
 public class AffectedVnfChangedInfo {
 	@JsonProperty("changedVnfInfo")
@@ -53,7 +52,7 @@ public class AffectedVnfChangedInfo {
 	 *
 	 * @return changedVnfInfo
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public ModifyVnfInfoData getChangedVnfInfo() {
@@ -74,7 +73,7 @@ public class AffectedVnfChangedInfo {
 	 *
 	 * @return changedExtConnectivity
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public ExtVirtualLinkInfo getChangedExtConnectivity() {
@@ -95,7 +94,7 @@ public class AffectedVnfChangedInfo {
 		}
 		final AffectedVnfChangedInfo affectedVnfChangedInfo = (AffectedVnfChangedInfo) o;
 		return Objects.equals(this.changedVnfInfo, affectedVnfChangedInfo.changedVnfInfo) &&
-				Objects.equals(this.changedExtConnectivity, affectedVnfChangedInfo.changedExtConnectivity);
+		Objects.equals(this.changedExtConnectivity, affectedVnfChangedInfo.changedExtConnectivity);
 	}
 
 	@Override

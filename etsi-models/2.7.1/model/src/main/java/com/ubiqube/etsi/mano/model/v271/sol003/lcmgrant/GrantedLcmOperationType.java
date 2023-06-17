@@ -17,7 +17,6 @@
 package com.ubiqube.etsi.mano.model.v271.sol003.lcmgrant;
 
 import java.util.Objects;
-import io.swagger.annotations.ApiModel;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
@@ -48,24 +47,24 @@ public enum GrantedLcmOperationType {
 
   private String value;
 
-  GrantedLcmOperationType(String value) {
-    this.value = value;
-  }
+	GrantedLcmOperationType(String value) {
+		this.value = value;
+	}
 
-  @Override
-  @JsonValue
-  public String toString() {
-    return String.valueOf(value);
-  }
+	@Override
+	@JsonValue
+	public String toString() {
+		return String.valueOf(value);
+	}
 
-  @JsonCreator
-  public static GrantedLcmOperationType fromValue(String text) {
-    for (GrantedLcmOperationType b : GrantedLcmOperationType.values()) {
-      if (String.valueOf(b.value).equals(text)) {
-        return b;
-      }
-    }
-    return null;
-  }
+	@JsonCreator
+	public static GrantedLcmOperationType fromValue(String text) {
+		for (GrantedLcmOperationType b : GrantedLcmOperationType.values()) {
+			if (String.valueOf(b.value).equals(text)) {
+				return b;
+			}
+		}
+		return null;
+	}
 }
 

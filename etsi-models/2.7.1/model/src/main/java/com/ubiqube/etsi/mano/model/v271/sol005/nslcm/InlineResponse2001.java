@@ -20,9 +20,9 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.model.v271.sol005.nslcm.NsLcmOpOcc;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 
@@ -34,62 +34,61 @@ public class InlineResponse2001   {
   @JsonProperty("NsLcmOpOcc")
   private NsLcmOpOcc nsLcmOpOcc = null;
 
-  public InlineResponse2001 nsLcmOpOcc(NsLcmOpOcc nsLcmOpOcc) {
-    this.nsLcmOpOcc = nsLcmOpOcc;
-    return this;
-  }
+	public InlineResponse2001 nsLcmOpOcc(NsLcmOpOcc nsLcmOpOcc) {
+		this.nsLcmOpOcc = nsLcmOpOcc;
+		return this;
+	}
 
-  /**
-   * Get nsLcmOpOcc
-   * @return nsLcmOpOcc
-  **/
-  @ApiModelProperty(value = "")
-  
-    @Valid
-    public NsLcmOpOcc getNsLcmOpOcc() {
-    return nsLcmOpOcc;
-  }
+	/**
+	* Get nsLcmOpOcc
+	* @return nsLcmOpOcc
+	*/
+	@Schema(description = "")
+	@Valid
+	public NsLcmOpOcc getNsLcmOpOcc() {
+		return nsLcmOpOcc;
+	}
 
-  public void setNsLcmOpOcc(NsLcmOpOcc nsLcmOpOcc) {
-    this.nsLcmOpOcc = nsLcmOpOcc;
-  }
+	public void setNsLcmOpOcc(NsLcmOpOcc nsLcmOpOcc) {
+		this.nsLcmOpOcc = nsLcmOpOcc;
+	}
 
 
-  @Override
-  public boolean equals(java.lang.Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    InlineResponse2001 inlineResponse2001 = (InlineResponse2001) o;
-    return Objects.equals(this.nsLcmOpOcc, inlineResponse2001.nsLcmOpOcc);
-  }
+	@Override
+	public boolean equals(java.lang.Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		InlineResponse2001 inlineResponse2001 = (InlineResponse2001) o;
+		return Objects.equals(this.nsLcmOpOcc, inlineResponse2001.nsLcmOpOcc);
+	}
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(nsLcmOpOcc);
-  }
+	@Override
+	public int hashCode() {
+		return Objects.hash(nsLcmOpOcc);
+	}
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class InlineResponse2001 {\n");
-    
-    sb.append("    nsLcmOpOcc: ").append(toIndentedString(nsLcmOpOcc)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("class InlineResponse2001 {\n");
 
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
+		sb.append("    nsLcmOpOcc: ").append(toIndentedString(nsLcmOpOcc)).append("\n");
+		sb.append("}");
+		return sb.toString();
+	}
+
+	/**
+	* Convert the given object to string with each line indented by 4 spaces
+	* (except the first line).
+	*/
+	private String toIndentedString(java.lang.Object o) {
+		if (o == null) {
+			return "null";
+		}
+		return o.toString().replace("\n", "\n    ");
+	}
 }

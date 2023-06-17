@@ -30,15 +30,14 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This type represents a request for the scale NS operation. Either the
  * parameter scaleNsData or the parameter scaleVnfData, but not both shall be
  * provided
  */
-@ApiModel(description = "This type represents a request for the scale NS operation. Either the parameter scaleNsData or the parameter scaleVnfData, but not both shall be provided ")
+@Schema (description= "This type represents a request for the scale NS operation. Either the parameter scaleNsData or the parameter scaleVnfData, but not both shall be provided " )
 @Validated
 public class ScaleNsRequest {
 	/**
@@ -97,7 +96,7 @@ public class ScaleNsRequest {
 	 *
 	 * @return scaleType
 	 **/
-	@ApiModelProperty(required = true, value = "Indicates the type of scaling to be performed. Possible values: - SCALE_NS - SCALE_VNF ")
+	@Schema(required = true , description = "Indicates the type of scaling to be performed. Possible values: - SCALE_NS - SCALE_VNF ")
 	@NotNull
 
 	public ScaleTypeEnum getScaleType() {
@@ -118,7 +117,7 @@ public class ScaleNsRequest {
 	 *
 	 * @return scaleNsData
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public ScaleNsData getScaleNsData() {
@@ -148,7 +147,7 @@ public class ScaleNsRequest {
 	 *
 	 * @return scaleVnfData
 	 **/
-	@ApiModelProperty(value = "The necessary information to scale the referenced NS instance. It shall be present when scaleType = SCALE_VNF. ")
+	@Schema(description = "The necessary information to scale the referenced NS instance. It shall be present when scaleType = SCALE_VNF. ")
 	@Valid
 	public List<ScaleVnfData> getScaleVnfData() {
 		return scaleVnfData;
@@ -168,7 +167,7 @@ public class ScaleNsRequest {
 	 *
 	 * @return scaleTime
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public LocalDateTime getScaleTime() {
@@ -189,9 +188,9 @@ public class ScaleNsRequest {
 		}
 		final ScaleNsRequest scaleNsRequest = (ScaleNsRequest) o;
 		return Objects.equals(this.scaleType, scaleNsRequest.scaleType) &&
-				Objects.equals(this.scaleNsData, scaleNsRequest.scaleNsData) &&
-				Objects.equals(this.scaleVnfData, scaleNsRequest.scaleVnfData) &&
-				Objects.equals(this.scaleTime, scaleNsRequest.scaleTime);
+		Objects.equals(this.scaleNsData, scaleNsRequest.scaleNsData) &&
+		Objects.equals(this.scaleVnfData, scaleNsRequest.scaleVnfData) &&
+		Objects.equals(this.scaleTime, scaleNsRequest.scaleTime);
 	}
 
 	@Override

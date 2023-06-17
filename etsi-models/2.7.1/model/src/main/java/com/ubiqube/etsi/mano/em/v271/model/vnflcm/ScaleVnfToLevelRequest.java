@@ -27,14 +27,13 @@ import org.springframework.validation.annotation.Validated;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This type represents request parameters for the \&quot;Scale VNF to
  * Level\&quot; operation.
  */
-@ApiModel(description = "This type represents request parameters for the \"Scale VNF to Level\" operation. ")
+@Schema (description= "This type represents request parameters for the \"Scale VNF to Level\" operation. " )
 @Validated
 
 public class ScaleVnfToLevelRequest {
@@ -60,7 +59,7 @@ public class ScaleVnfToLevelRequest {
 	 *
 	 * @return instantiationLevelId
 	 **/
-	@ApiModelProperty(value = "Identifier of the target instantiation level of the current deployment flavour to which the VNF is requested to be scaled. Either the instantiationLevelId attribute or the scaleInfo attribute shall be included. ")
+	@Schema(description = "Identifier of the target instantiation level of the current deployment flavour to which the VNF is requested to be scaled. Either the instantiationLevelId attribute or the scaleInfo attribute shall be included. ")
 
 	public String getInstantiationLevelId() {
 		return instantiationLevelId;
@@ -90,7 +89,7 @@ public class ScaleVnfToLevelRequest {
 	 *
 	 * @return scaleInfo
 	 **/
-	@ApiModelProperty(value = "For each scaling aspect of the current deployment flavour, indicates the target scale level to which the VNF is to be scaled. Either the instantiationLevelId attribute or the scaleInfo attribute shall be included. ")
+	@Schema(description = "For each scaling aspect of the current deployment flavour, indicates the target scale level to which the VNF is to be scaled. Either the instantiationLevelId attribute or the scaleInfo attribute shall be included. ")
 
 	@Valid
 
@@ -114,7 +113,7 @@ public class ScaleVnfToLevelRequest {
 	 *
 	 * @return additionalParams
 	 **/
-	@ApiModelProperty(value = "Additional parameters passed by the NFVO as input to the scaling process, specific to the VNF being scaled, as declared in the VNFD as part of \"ScaleVnfToLevelOpConfig\". ")
+	@Schema(description = "Additional parameters passed by the NFVO as input to the scaling process, specific to the VNF being scaled, as declared in the VNFD as part of \"ScaleVnfToLevelOpConfig\". ")
 
 	@Valid
 
@@ -136,8 +135,8 @@ public class ScaleVnfToLevelRequest {
 		}
 		final ScaleVnfToLevelRequest scaleVnfToLevelRequest = (ScaleVnfToLevelRequest) o;
 		return Objects.equals(this.instantiationLevelId, scaleVnfToLevelRequest.instantiationLevelId) &&
-				Objects.equals(this.scaleInfo, scaleVnfToLevelRequest.scaleInfo) &&
-				Objects.equals(this.additionalParams, scaleVnfToLevelRequest.additionalParams);
+		Objects.equals(this.scaleInfo, scaleVnfToLevelRequest.scaleInfo) &&
+		Objects.equals(this.additionalParams, scaleVnfToLevelRequest.additionalParams);
 	}
 
 	@Override

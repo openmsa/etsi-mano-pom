@@ -26,14 +26,13 @@ import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This type describes the information to scale a VNF instance by steps. The
  * NFVO shall then invoke the Scale VNF operation towards the appropriate VNFM.
  */
-@ApiModel(description = "This type describes the information to scale a VNF instance by steps.  The NFVO shall then invoke the Scale VNF operation towards the appropriate VNFM. ")
+@Schema (description= "This type describes the information to scale a VNF instance by steps.  The NFVO shall then invoke the Scale VNF operation towards the appropriate VNFM. " )
 @Validated
 public class ScaleByStepData {
 	@JsonProperty("aspectId")
@@ -55,7 +54,7 @@ public class ScaleByStepData {
 	 *
 	 * @return aspectId
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	public String getAspectId() {
@@ -79,7 +78,7 @@ public class ScaleByStepData {
 	 *
 	 * @return numberOfSteps
 	 **/
-	@ApiModelProperty(value = "Number of scaling steps. It shall be a positive number. Defaults to 1. The VNF provider defines in the VNFD whether or not a particular VNF supports performing more than one step at a time. Such a property in the VNFD applies for all instances of a particular VNF. ")
+	@Schema(description = "Number of scaling steps. It shall be a positive number. Defaults to 1. The VNF provider defines in the VNFD whether or not a particular VNF supports performing more than one step at a time. Such a property in the VNFD applies for all instances of a particular VNF. ")
 
 	public Integer getNumberOfSteps() {
 		return numberOfSteps;
@@ -99,7 +98,7 @@ public class ScaleByStepData {
 	 *
 	 * @return additionalParams
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public Map<String, Object> getAdditionalParams() {
@@ -120,8 +119,8 @@ public class ScaleByStepData {
 		}
 		final ScaleByStepData scaleByStepData = (ScaleByStepData) o;
 		return Objects.equals(this.aspectId, scaleByStepData.aspectId) &&
-				Objects.equals(this.numberOfSteps, scaleByStepData.numberOfSteps) &&
-				Objects.equals(this.additionalParams, scaleByStepData.additionalParams);
+		Objects.equals(this.numberOfSteps, scaleByStepData.numberOfSteps) &&
+		Objects.equals(this.additionalParams, scaleByStepData.additionalParams);
 	}
 
 	@Override

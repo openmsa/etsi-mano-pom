@@ -24,13 +24,12 @@ import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This type represents the checksum of a VNF package or an artifact file.
  */
-@ApiModel(description = "This type represents the checksum of a VNF package or an artifact file. ")
+@Schema (description= "This type represents the checksum of a VNF package or an artifact file. " )
 @Validated
 @javax.annotation.processing.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-06-24T10:38:36.740+02:00")
 
@@ -52,7 +51,7 @@ public class Checksum {
 	 *
 	 * @return algorithm
 	 **/
-	@ApiModelProperty(required = true, value = "Name of the algorithm used to generate the checksum, as defined in ETSI GS NFV-SOL 004. For example, SHA-256, SHA-512. ")
+	@Schema(required = true , description = "Name of the algorithm used to generate the checksum, as defined in ETSI GS NFV-SOL 004. For example, SHA-256, SHA-512. ")
 	@NotNull
 
 	public String getAlgorithm() {
@@ -73,7 +72,7 @@ public class Checksum {
 	 *
 	 * @return hash
 	 **/
-	@ApiModelProperty(required = true, value = "The hexadecimal value of the checksum. ")
+	@Schema(required = true , description = "The hexadecimal value of the checksum. ")
 	@NotNull
 
 	public String getHash() {
@@ -94,7 +93,7 @@ public class Checksum {
 		}
 		final Checksum checksum = (Checksum) o;
 		return Objects.equals(this.algorithm, checksum.algorithm) &&
-				Objects.equals(this.hash, checksum.hash);
+		Objects.equals(this.hash, checksum.hash);
 	}
 
 	@Override

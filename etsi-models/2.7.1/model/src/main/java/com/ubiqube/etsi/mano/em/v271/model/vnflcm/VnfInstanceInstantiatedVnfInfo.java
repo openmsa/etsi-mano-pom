@@ -28,14 +28,13 @@ import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Information specific to an instantiated VNF instance. This attribute shall be
  * present if the instantiateState attribute value is INSTANTIATED.
  */
-@ApiModel(description = "Information specific to an instantiated VNF instance. This attribute shall be present if the instantiateState attribute value is INSTANTIATED. ")
+@Schema (description= "Information specific to an instantiated VNF instance. This attribute shall be present if the instantiateState attribute value is INSTANTIATED. " )
 @Validated
 
 public class VnfInstanceInstantiatedVnfInfo {
@@ -94,7 +93,7 @@ public class VnfInstanceInstantiatedVnfInfo {
 	 *
 	 * @return flavourId
 	 **/
-	@ApiModelProperty(required = true, value = "Identifier of the VNF deployment flavour applied to this VNF instance. ")
+	@Schema(required = true , description = "Identifier of the VNF deployment flavour applied to this VNF instance. ")
 	@NotNull
 
 	public String getFlavourId() {
@@ -115,7 +114,7 @@ public class VnfInstanceInstantiatedVnfInfo {
 	 *
 	 * @return vnfState
 	 **/
-	@ApiModelProperty(required = true, value = "The state of the VNF instance. ")
+	@Schema(required = true , description = "The state of the VNF instance. ")
 	@NotNull
 
 	@Valid
@@ -147,7 +146,7 @@ public class VnfInstanceInstantiatedVnfInfo {
 	 *
 	 * @return scaleStatus
 	 **/
-	@ApiModelProperty(value = "Scale status of the VNF, one entry per aspect. Represents for every scaling aspect how \"big\" the VNF has been scaled w.r.t. that aspect. ")
+	@Schema(description = "Scale status of the VNF, one entry per aspect. Represents for every scaling aspect how \"big\" the VNF has been scaled w.r.t. that aspect. ")
 
 	@Valid
 
@@ -178,7 +177,7 @@ public class VnfInstanceInstantiatedVnfInfo {
 	 *
 	 * @return maxScaleLevels
 	 **/
-	@ApiModelProperty(value = "Maximum allowed scale levels of the VNF, one entry per aspect. This attribute shall be present if the VNF supports scaling. ")
+	@Schema(description = "Maximum allowed scale levels of the VNF, one entry per aspect. This attribute shall be present if the VNF supports scaling. ")
 
 	@Valid
 
@@ -205,7 +204,7 @@ public class VnfInstanceInstantiatedVnfInfo {
 	 *
 	 * @return extCpInfo
 	 **/
-	@ApiModelProperty(required = true, value = "Information about the external CPs exposed by the VNF instance. ")
+	@Schema(required = true , description = "Information about the external CPs exposed by the VNF instance. ")
 	@NotNull
 
 	@Valid
@@ -236,7 +235,7 @@ public class VnfInstanceInstantiatedVnfInfo {
 	 *
 	 * @return extVirtualLinkInfo
 	 **/
-	@ApiModelProperty(value = "Information about the external VLs the VNF instance is connected to. ")
+	@Schema(description = "Information about the external VLs the VNF instance is connected to. ")
 
 	@Valid
 
@@ -266,7 +265,7 @@ public class VnfInstanceInstantiatedVnfInfo {
 	 *
 	 * @return extManagedVirtualLinkInfo
 	 **/
-	@ApiModelProperty(value = "External virtual links the VNF instance is connected to. ")
+	@Schema(description = "External virtual links the VNF instance is connected to. ")
 
 	@Valid
 
@@ -296,7 +295,7 @@ public class VnfInstanceInstantiatedVnfInfo {
 	 *
 	 * @return monitoringParameters
 	 **/
-	@ApiModelProperty(value = "Active monitoring parameters. ")
+	@Schema(description = "Active monitoring parameters. ")
 
 	@Valid
 
@@ -321,7 +320,7 @@ public class VnfInstanceInstantiatedVnfInfo {
 	 *
 	 * @return localizationLanguage
 	 **/
-	@ApiModelProperty(value = "Information about localization language of the VNF (includes e.g. strings in the VNFD). The localization languages supported by a VNF can be declared in the VNFD, and localization language selection can take place at instantiation time. The value shall comply with the format defined in IETF RFC 5646. ")
+	@Schema(description = "Information about localization language of the VNF (includes e.g. strings in the VNFD). The localization languages supported by a VNF can be declared in the VNFD, and localization language selection can take place at instantiation time. The value shall comply with the format defined in IETF RFC 5646. ")
 
 	public String getLocalizationLanguage() {
 		return localizationLanguage;
@@ -350,7 +349,7 @@ public class VnfInstanceInstantiatedVnfInfo {
 	 *
 	 * @return vnfcResourceInfo
 	 **/
-	@ApiModelProperty(value = "Information about the virtualised compute and storage resources used by the VNFCs of the VNF instance. ")
+	@Schema(description = "Information about the virtualised compute and storage resources used by the VNFCs of the VNF instance. ")
 
 	@Valid
 
@@ -381,7 +380,7 @@ public class VnfInstanceInstantiatedVnfInfo {
 	 *
 	 * @return virtualLinkResourceInfo
 	 **/
-	@ApiModelProperty(value = "Information about the virtualised network resources used by the VLs of the VNF instance. ")
+	@Schema(description = "Information about the virtualised network resources used by the VLs of the VNF instance. ")
 
 	@Valid
 
@@ -412,7 +411,7 @@ public class VnfInstanceInstantiatedVnfInfo {
 	 *
 	 * @return virtualStorageResourceInfo
 	 **/
-	@ApiModelProperty(value = "Information on the virtualised storage resource(s) used as storage for the VNF instance. ")
+	@Schema(description = "Information on the virtualised storage resource(s) used as storage for the VNF instance. ")
 
 	@Valid
 
@@ -434,17 +433,17 @@ public class VnfInstanceInstantiatedVnfInfo {
 		}
 		final VnfInstanceInstantiatedVnfInfo vnfInstanceInstantiatedVnfInfo = (VnfInstanceInstantiatedVnfInfo) o;
 		return Objects.equals(this.flavourId, vnfInstanceInstantiatedVnfInfo.flavourId) &&
-				Objects.equals(this.vnfState, vnfInstanceInstantiatedVnfInfo.vnfState) &&
-				Objects.equals(this.scaleStatus, vnfInstanceInstantiatedVnfInfo.scaleStatus) &&
-				Objects.equals(this.maxScaleLevels, vnfInstanceInstantiatedVnfInfo.maxScaleLevels) &&
-				Objects.equals(this.extCpInfo, vnfInstanceInstantiatedVnfInfo.extCpInfo) &&
-				Objects.equals(this.extVirtualLinkInfo, vnfInstanceInstantiatedVnfInfo.extVirtualLinkInfo) &&
-				Objects.equals(this.extManagedVirtualLinkInfo, vnfInstanceInstantiatedVnfInfo.extManagedVirtualLinkInfo) &&
-				Objects.equals(this.monitoringParameters, vnfInstanceInstantiatedVnfInfo.monitoringParameters) &&
-				Objects.equals(this.localizationLanguage, vnfInstanceInstantiatedVnfInfo.localizationLanguage) &&
-				Objects.equals(this.vnfcResourceInfo, vnfInstanceInstantiatedVnfInfo.vnfcResourceInfo) &&
-				Objects.equals(this.virtualLinkResourceInfo, vnfInstanceInstantiatedVnfInfo.virtualLinkResourceInfo) &&
-				Objects.equals(this.virtualStorageResourceInfo, vnfInstanceInstantiatedVnfInfo.virtualStorageResourceInfo);
+		Objects.equals(this.vnfState, vnfInstanceInstantiatedVnfInfo.vnfState) &&
+		Objects.equals(this.scaleStatus, vnfInstanceInstantiatedVnfInfo.scaleStatus) &&
+		Objects.equals(this.maxScaleLevels, vnfInstanceInstantiatedVnfInfo.maxScaleLevels) &&
+		Objects.equals(this.extCpInfo, vnfInstanceInstantiatedVnfInfo.extCpInfo) &&
+		Objects.equals(this.extVirtualLinkInfo, vnfInstanceInstantiatedVnfInfo.extVirtualLinkInfo) &&
+		Objects.equals(this.extManagedVirtualLinkInfo, vnfInstanceInstantiatedVnfInfo.extManagedVirtualLinkInfo) &&
+		Objects.equals(this.monitoringParameters, vnfInstanceInstantiatedVnfInfo.monitoringParameters) &&
+		Objects.equals(this.localizationLanguage, vnfInstanceInstantiatedVnfInfo.localizationLanguage) &&
+		Objects.equals(this.vnfcResourceInfo, vnfInstanceInstantiatedVnfInfo.vnfcResourceInfo) &&
+		Objects.equals(this.virtualLinkResourceInfo, vnfInstanceInstantiatedVnfInfo.virtualLinkResourceInfo) &&
+		Objects.equals(this.virtualStorageResourceInfo, vnfInstanceInstantiatedVnfInfo.virtualStorageResourceInfo);
 	}
 
 	@Override

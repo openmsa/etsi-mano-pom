@@ -26,7 +26,7 @@ import org.springframework.validation.annotation.Validated;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * PerformanceReportPerformanceValues
@@ -53,7 +53,7 @@ public class PerformanceReportPerformanceValues {
 	 *
 	 * @return timeStamp
 	 **/
-	@ApiModelProperty(required = true, value = "Time stamp indicating when the data has been collected. ")
+	@Schema(required = true , description = "Time stamp indicating when the data has been collected. ")
 	@NotNull
 
 	public String getTimeStamp() {
@@ -76,7 +76,7 @@ public class PerformanceReportPerformanceValues {
 	 *
 	 * @return value
 	 **/
-	@ApiModelProperty(required = true, value = "Value of the metric collected. The type of this attribute shall correspond to the related \"Measurement Unit\" as defined in clause 7.2. of ETSI GS NFV-IFA 027. ")
+	@Schema(required = true , description = "Value of the metric collected. The type of this attribute shall correspond to the related \"Measurement Unit\" as defined in clause 7.2. of ETSI GS NFV-IFA 027. ")
 	@NotNull
 
 	public Object getValue() {
@@ -99,7 +99,7 @@ public class PerformanceReportPerformanceValues {
 	 *
 	 * @return context
 	 **/
-	@ApiModelProperty(value = "Measurement context information related to the measured value. The set of applicable keys is defined per measurement in the related \"Measurement Context\" in clause 7.2 of ETSI GS NFV-IFA 027. ")
+	@Schema(description = "Measurement context information related to the measured value. The set of applicable keys is defined per measurement in the related \"Measurement Context\" in clause 7.2 of ETSI GS NFV-IFA 027. ")
 
 	@Valid
 
@@ -121,8 +121,8 @@ public class PerformanceReportPerformanceValues {
 		}
 		final PerformanceReportPerformanceValues performanceReportPerformanceValues = (PerformanceReportPerformanceValues) o;
 		return Objects.equals(this.timeStamp, performanceReportPerformanceValues.timeStamp) &&
-				Objects.equals(this.value, performanceReportPerformanceValues.value) &&
-				Objects.equals(this.context, performanceReportPerformanceValues.context);
+		Objects.equals(this.value, performanceReportPerformanceValues.value) &&
+		Objects.equals(this.context, performanceReportPerformanceValues.context);
 	}
 
 	@Override

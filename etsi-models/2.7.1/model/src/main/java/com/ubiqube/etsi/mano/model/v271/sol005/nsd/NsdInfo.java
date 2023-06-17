@@ -32,13 +32,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.ubiqube.etsi.mano.em.v271.model.vnfconfig.ProblemDetails;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This type represents a response for the query NSD operation.
  */
-@ApiModel(description = "This type represents a response for the query NSD operation. ")
+@Schema (description= "This type represents a response for the query NSD operation. " )
 @Validated
 public class NsdInfo {
 	@JsonProperty("id")
@@ -141,7 +140,7 @@ public class NsdInfo {
 	 *
 	 * @return id
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	public String getId() {
@@ -162,7 +161,7 @@ public class NsdInfo {
 	 *
 	 * @return nsdId
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	public UUID getNsdId() {
 		return nsdId;
@@ -183,7 +182,7 @@ public class NsdInfo {
 	 *
 	 * @return nsdName
 	 **/
-	@ApiModelProperty(value = "Name of the on boarded NSD. This information is copied from the NSD content and shall be present after the NSD content is on-boarded. ")
+	@Schema(description = "Name of the on boarded NSD. This information is copied from the NSD content and shall be present after the NSD content is on-boarded. ")
 
 	public String getNsdName() {
 		return nsdName;
@@ -203,7 +202,7 @@ public class NsdInfo {
 	 *
 	 * @return nsdVersion
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	public String getNsdVersion() {
 		return nsdVersion;
@@ -224,7 +223,7 @@ public class NsdInfo {
 	 *
 	 * @return nsdDesigner
 	 **/
-	@ApiModelProperty(value = "Designer of the on-boarded NSD. This information is copied from the NSD content and shall be present after the NSD content is on-boarded. ")
+	@Schema(description = "Designer of the on-boarded NSD. This information is copied from the NSD content and shall be present after the NSD content is on-boarded. ")
 
 	public String getNsdDesigner() {
 		return nsdDesigner;
@@ -244,7 +243,7 @@ public class NsdInfo {
 	 *
 	 * @return nsdInvariantId
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	public String getNsdInvariantId() {
 		return nsdInvariantId;
@@ -273,7 +272,7 @@ public class NsdInfo {
 	 *
 	 * @return vnfPkgIds
 	 **/
-	@ApiModelProperty(value = "Identifies the VNF package for the VNFD referenced by the on-boarded NS descriptor resource. ")
+	@Schema(description = "Identifies the VNF package for the VNFD referenced by the on-boarded NS descriptor resource. ")
 
 	public List<UUID> getVnfPkgIds() {
 		return vnfPkgIds;
@@ -302,7 +301,7 @@ public class NsdInfo {
 	 *
 	 * @return pnfdInfoIds
 	 **/
-	@ApiModelProperty(value = "Identifies the PnfdInfo element for the PNFD referenced by the on-boarded NS descriptor resource. ")
+	@Schema(description = "Identifies the PnfdInfo element for the PNFD referenced by the on-boarded NS descriptor resource. ")
 
 	public List<UUID> getPnfdInfoIds() {
 		return pnfdInfoIds;
@@ -331,7 +330,7 @@ public class NsdInfo {
 	 *
 	 * @return nestedNsdInfoIds
 	 **/
-	@ApiModelProperty(value = "Identifies the NsdInfo element for the nested NSD referenced by the on-boarded NS descriptor resource. ")
+	@Schema(description = "Identifies the NsdInfo element for the nested NSD referenced by the on-boarded NS descriptor resource. ")
 
 	public List<UUID> getNestedNsdInfoIds() {
 		return nestedNsdInfoIds;
@@ -352,7 +351,7 @@ public class NsdInfo {
 	 *
 	 * @return archiveSecurityOption
 	 **/
-	@ApiModelProperty(value = "Signals the security option used by the NSD archive as defined in clause 5.1 of ETSI GS NFV SOL 007. Valid values: OPTION_1, OPTION_2 ")
+	@Schema(description = "Signals the security option used by the NSD archive as defined in clause 5.1 of ETSI GS NFV SOL 007. Valid values: OPTION_1, OPTION_2 ")
 
 	public ArchiveSecurityOptionEnum getArchiveSecurityOption() {
 		return archiveSecurityOption;
@@ -372,7 +371,7 @@ public class NsdInfo {
 	 *
 	 * @return signingCertificate
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	public String getSigningCertificate() {
 		return signingCertificate;
@@ -403,7 +402,7 @@ public class NsdInfo {
 	 *
 	 * @return artifacts
 	 **/
-	@ApiModelProperty(value = "Information about NSD archive artifacts contained in the NSD archive. This attribute shall not be present before the NSD archive content is on-boarded. Otherwise, this attribute shall be present if the NSD archive contains artifacts. ")
+	@Schema(description = "Information about NSD archive artifacts contained in the NSD archive. This attribute shall not be present before the NSD archive content is on-boarded. Otherwise, this attribute shall be present if the NSD archive contains artifacts. ")
 	@Valid
 	public List<NsdArchiveArtifactInfo> getArtifacts() {
 		return artifacts;
@@ -423,7 +422,7 @@ public class NsdInfo {
 	 *
 	 * @return nsdOnboardingState
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	@Valid
@@ -445,7 +444,7 @@ public class NsdInfo {
 	 *
 	 * @return onboardingFailureDetails
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public ProblemDetails getOnboardingFailureDetails() {
@@ -466,7 +465,7 @@ public class NsdInfo {
 	 *
 	 * @return nsdOperationalState
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	@Valid
@@ -488,7 +487,7 @@ public class NsdInfo {
 	 *
 	 * @return nsdUsageState
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	@Valid
@@ -510,7 +509,7 @@ public class NsdInfo {
 	 *
 	 * @return userDefinedData
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public Map<String, Object> getUserDefinedData() {
@@ -531,7 +530,7 @@ public class NsdInfo {
 	 *
 	 * @return _links
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	@Valid
@@ -553,23 +552,23 @@ public class NsdInfo {
 		}
 		final NsdInfo nsdInfo = (NsdInfo) o;
 		return Objects.equals(this.id, nsdInfo.id) &&
-				Objects.equals(this.nsdId, nsdInfo.nsdId) &&
-				Objects.equals(this.nsdName, nsdInfo.nsdName) &&
-				Objects.equals(this.nsdVersion, nsdInfo.nsdVersion) &&
-				Objects.equals(this.nsdDesigner, nsdInfo.nsdDesigner) &&
-				Objects.equals(this.nsdInvariantId, nsdInfo.nsdInvariantId) &&
-				Objects.equals(this.vnfPkgIds, nsdInfo.vnfPkgIds) &&
-				Objects.equals(this.pnfdInfoIds, nsdInfo.pnfdInfoIds) &&
-				Objects.equals(this.nestedNsdInfoIds, nsdInfo.nestedNsdInfoIds) &&
-				Objects.equals(this.archiveSecurityOption, nsdInfo.archiveSecurityOption) &&
-				Objects.equals(this.signingCertificate, nsdInfo.signingCertificate) &&
-				Objects.equals(this.artifacts, nsdInfo.artifacts) &&
-				Objects.equals(this.nsdOnboardingState, nsdInfo.nsdOnboardingState) &&
-				Objects.equals(this.onboardingFailureDetails, nsdInfo.onboardingFailureDetails) &&
-				Objects.equals(this.nsdOperationalState, nsdInfo.nsdOperationalState) &&
-				Objects.equals(this.nsdUsageState, nsdInfo.nsdUsageState) &&
-				Objects.equals(this.userDefinedData, nsdInfo.userDefinedData) &&
-				Objects.equals(this._links, nsdInfo._links);
+		Objects.equals(this.nsdId, nsdInfo.nsdId) &&
+		Objects.equals(this.nsdName, nsdInfo.nsdName) &&
+		Objects.equals(this.nsdVersion, nsdInfo.nsdVersion) &&
+		Objects.equals(this.nsdDesigner, nsdInfo.nsdDesigner) &&
+		Objects.equals(this.nsdInvariantId, nsdInfo.nsdInvariantId) &&
+		Objects.equals(this.vnfPkgIds, nsdInfo.vnfPkgIds) &&
+		Objects.equals(this.pnfdInfoIds, nsdInfo.pnfdInfoIds) &&
+		Objects.equals(this.nestedNsdInfoIds, nsdInfo.nestedNsdInfoIds) &&
+		Objects.equals(this.archiveSecurityOption, nsdInfo.archiveSecurityOption) &&
+		Objects.equals(this.signingCertificate, nsdInfo.signingCertificate) &&
+		Objects.equals(this.artifacts, nsdInfo.artifacts) &&
+		Objects.equals(this.nsdOnboardingState, nsdInfo.nsdOnboardingState) &&
+		Objects.equals(this.onboardingFailureDetails, nsdInfo.onboardingFailureDetails) &&
+		Objects.equals(this.nsdOperationalState, nsdInfo.nsdOperationalState) &&
+		Objects.equals(this.nsdUsageState, nsdInfo.nsdUsageState) &&
+		Objects.equals(this.userDefinedData, nsdInfo.userDefinedData) &&
+		Objects.equals(this._links, nsdInfo._links);
 	}
 
 	@Override

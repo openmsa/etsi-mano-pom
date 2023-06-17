@@ -28,14 +28,13 @@ import org.springframework.validation.annotation.Validated;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.em.v271.model.vnflcm.CpProtocolData;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This type represents the information related to a SAP of a NS. It shall
  * comply with the provisions defined in Table 6.5.3.10-1.
  */
-@ApiModel(description = "This type represents the information related to a SAP of a NS. It shall comply with the provisions defined in Table 6.5.3.10-1. ")
+@Schema (description= "This type represents the information related to a SAP of a NS. It shall comply with the provisions defined in Table 6.5.3.10-1. " )
 @Validated
 public class SapData {
 	@JsonProperty("sapdId")
@@ -61,7 +60,7 @@ public class SapData {
 	 *
 	 * @return sapdId
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	public String getSapdId() {
@@ -82,7 +81,7 @@ public class SapData {
 	 *
 	 * @return sapName
 	 **/
-	@ApiModelProperty(required = true, value = "Human readable name for the SAP. ")
+	@Schema(required = true , description = "Human readable name for the SAP. ")
 	@NotNull
 
 	public String getSapName() {
@@ -103,7 +102,7 @@ public class SapData {
 	 *
 	 * @return description
 	 **/
-	@ApiModelProperty(required = true, value = "Human readable description for the SAP. ")
+	@Schema(required = true , description = "Human readable description for the SAP. ")
 	@NotNull
 
 	public String getDescription() {
@@ -132,7 +131,7 @@ public class SapData {
 	 *
 	 * @return sapProtocolData
 	 **/
-	@ApiModelProperty(value = "Parameters for configuring the network protocols on the SAP. ")
+	@Schema(description = "Parameters for configuring the network protocols on the SAP. ")
 	@Valid
 	public List<CpProtocolData> getSapProtocolData() {
 		return sapProtocolData;
@@ -152,9 +151,9 @@ public class SapData {
 		}
 		final SapData sapData = (SapData) o;
 		return Objects.equals(this.sapdId, sapData.sapdId) &&
-				Objects.equals(this.sapName, sapData.sapName) &&
-				Objects.equals(this.description, sapData.description) &&
-				Objects.equals(this.sapProtocolData, sapData.sapProtocolData);
+		Objects.equals(this.sapName, sapData.sapName) &&
+		Objects.equals(this.description, sapData.description) &&
+		Objects.equals(this.sapProtocolData, sapData.sapProtocolData);
 	}
 
 	@Override

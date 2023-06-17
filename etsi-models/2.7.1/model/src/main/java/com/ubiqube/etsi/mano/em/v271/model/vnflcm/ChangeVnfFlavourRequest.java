@@ -28,14 +28,13 @@ import org.springframework.validation.annotation.Validated;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This type represents request parameters for the \&quot;Change VNF
  * flavour\&quot; operation.
  */
-@ApiModel(description = "This type represents request parameters for the \"Change VNF flavour\" operation. ")
+@Schema (description= "This type represents request parameters for the \"Change VNF flavour\" operation. " )
 @Validated
 
 public class ChangeVnfFlavourRequest {
@@ -66,7 +65,7 @@ public class ChangeVnfFlavourRequest {
 	 *
 	 * @return newFlavourId
 	 **/
-	@ApiModelProperty(required = true, value = "Identifier of the VNF deployment flavour to be instantiated. ")
+	@Schema(required = true , description = "Identifier of the VNF deployment flavour to be instantiated. ")
 	@NotNull
 
 	public String getNewFlavourId() {
@@ -89,7 +88,7 @@ public class ChangeVnfFlavourRequest {
 	 *
 	 * @return instantiationLevelId
 	 **/
-	@ApiModelProperty(value = "Identifier of the instantiation level of the deployment flavour to be instantiated. If not present, the default instantiation level as declared in the VNFD is instantiated. ")
+	@Schema(description = "Identifier of the instantiation level of the deployment flavour to be instantiated. If not present, the default instantiation level as declared in the VNFD is instantiated. ")
 
 	public String getInstantiationLevelId() {
 		return instantiationLevelId;
@@ -117,7 +116,7 @@ public class ChangeVnfFlavourRequest {
 	 *
 	 * @return extVirtualLinks
 	 **/
-	@ApiModelProperty(value = "Information about external VLs to connect the VNF to. ")
+	@Schema(description = "Information about external VLs to connect the VNF to. ")
 
 	@Valid
 
@@ -147,7 +146,7 @@ public class ChangeVnfFlavourRequest {
 	 *
 	 * @return extManagedVirtualLinks
 	 **/
-	@ApiModelProperty(value = "Information about external VLs to connect the VNF to. ")
+	@Schema(description = "Information about external VLs to connect the VNF to. ")
 
 	@Valid
 
@@ -171,7 +170,7 @@ public class ChangeVnfFlavourRequest {
 	 *
 	 * @return additionalParams
 	 **/
-	@ApiModelProperty(value = "Additional input parameters for the instantiation process, specific to the VNF being instantiated, as declared in the VNFD as part of \"InstantiateVnfOpConfig\". ")
+	@Schema(description = "Additional input parameters for the instantiation process, specific to the VNF being instantiated, as declared in the VNFD as part of \"InstantiateVnfOpConfig\". ")
 
 	@Valid
 
@@ -193,10 +192,10 @@ public class ChangeVnfFlavourRequest {
 		}
 		final ChangeVnfFlavourRequest changeVnfFlavourRequest = (ChangeVnfFlavourRequest) o;
 		return Objects.equals(this.newFlavourId, changeVnfFlavourRequest.newFlavourId) &&
-				Objects.equals(this.instantiationLevelId, changeVnfFlavourRequest.instantiationLevelId) &&
-				Objects.equals(this.extVirtualLinks, changeVnfFlavourRequest.extVirtualLinks) &&
-				Objects.equals(this.extManagedVirtualLinks, changeVnfFlavourRequest.extManagedVirtualLinks) &&
-				Objects.equals(this.additionalParams, changeVnfFlavourRequest.additionalParams);
+		Objects.equals(this.instantiationLevelId, changeVnfFlavourRequest.instantiationLevelId) &&
+		Objects.equals(this.extVirtualLinks, changeVnfFlavourRequest.extVirtualLinks) &&
+		Objects.equals(this.extManagedVirtualLinks, changeVnfFlavourRequest.extManagedVirtualLinks) &&
+		Objects.equals(this.additionalParams, changeVnfFlavourRequest.additionalParams);
 	}
 
 	@Override

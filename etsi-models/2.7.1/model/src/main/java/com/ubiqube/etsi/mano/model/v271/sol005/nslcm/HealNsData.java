@@ -30,14 +30,13 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This type represents the information used to heal a NS. It shall comply with
  * the provisions defined in Table 6.5.3.43-1.
  */
-@ApiModel(description = "This type represents the information used to heal a NS.  It shall comply with the provisions defined in Table 6.5.3.43-1. ")
+@Schema (description= "This type represents the information used to heal a NS.  It shall comply with the provisions defined in Table 6.5.3.43-1. " )
 @Validated
 public class HealNsData {
 	/**
@@ -106,7 +105,7 @@ public class HealNsData {
 	 *
 	 * @return degreeHealing
 	 **/
-	@ApiModelProperty(required = true, value = "Indicates the degree of healing. Possible values include: - HEAL_RESTORE: Complete the healing of the NS restoring the state of the NS before the failure occurred - HEAL_QOS: Complete the healing of the NS based on the newest QoS values - HEAL_RESET: Complete the healing of the NS resetting to the original instantiation state of the NS - PARTIAL_HEALING ")
+	@Schema(required = true , description = "Indicates the degree of healing. Possible values include: - HEAL_RESTORE: Complete the healing of the NS restoring the state of the NS before the failure occurred - HEAL_QOS: Complete the healing of the NS based on the newest QoS values - HEAL_RESET: Complete the healing of the NS resetting to the original instantiation state of the NS - PARTIAL_HEALING ")
 	@NotNull
 
 	public DegreeHealingEnum getDegreeHealing() {
@@ -138,7 +137,7 @@ public class HealNsData {
 	 *
 	 * @return actionsHealing
 	 **/
-	@ApiModelProperty(value = "Used to specify dedicated healing actions in a particular order (e.g. as a script). The actionsHealing attribute can be used to provide a specific script whose content and actions might only be possible to be derived during runtime. ")
+	@Schema(description = "Used to specify dedicated healing actions in a particular order (e.g. as a script). The actionsHealing attribute can be used to provide a specific script whose content and actions might only be possible to be derived during runtime. ")
 
 	public List<String> getActionsHealing() {
 		return actionsHealing;
@@ -158,7 +157,7 @@ public class HealNsData {
 	 *
 	 * @return healScript
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	public String getHealScript() {
 		return healScript;
@@ -178,7 +177,7 @@ public class HealNsData {
 	 *
 	 * @return additionalParamsforNs
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public Map<String, Object> getAdditionalParamsforNs() {
@@ -199,9 +198,9 @@ public class HealNsData {
 		}
 		final HealNsData healNsData = (HealNsData) o;
 		return Objects.equals(this.degreeHealing, healNsData.degreeHealing) &&
-				Objects.equals(this.actionsHealing, healNsData.actionsHealing) &&
-				Objects.equals(this.healScript, healNsData.healScript) &&
-				Objects.equals(this.additionalParamsforNs, healNsData.additionalParamsforNs);
+		Objects.equals(this.actionsHealing, healNsData.actionsHealing) &&
+		Objects.equals(this.healScript, healNsData.healScript) &&
+		Objects.equals(this.additionalParamsforNs, healNsData.additionalParamsforNs);
 	}
 
 	@Override

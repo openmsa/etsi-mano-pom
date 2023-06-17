@@ -17,7 +17,6 @@
 package com.ubiqube.etsi.mano.em.v271.model.vnffm;
 
 import java.util.Objects;
-import io.swagger.annotations.ApiModel;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
@@ -38,24 +37,24 @@ public enum FaultyResourceType {
 
   private String value;
 
-  FaultyResourceType(String value) {
-    this.value = value;
-  }
+	FaultyResourceType(String value) {
+		this.value = value;
+	}
 
-  @Override
-  @JsonValue
-  public String toString() {
-    return String.valueOf(value);
-  }
+	@Override
+	@JsonValue
+	public String toString() {
+		return String.valueOf(value);
+	}
 
-  @JsonCreator
-  public static FaultyResourceType fromValue(String text) {
-    for (FaultyResourceType b : FaultyResourceType.values()) {
-      if (String.valueOf(b.value).equals(text)) {
-        return b;
-      }
-    }
-    return null;
-  }
+	@JsonCreator
+	public static FaultyResourceType fromValue(String text) {
+		for (FaultyResourceType b : FaultyResourceType.values()) {
+			if (String.valueOf(b.value).equals(text)) {
+				return b;
+			}
+		}
+		return null;
+	}
 }
 

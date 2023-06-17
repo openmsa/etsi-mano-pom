@@ -120,8 +120,8 @@ public class PkgmLinks {
 		}
 		final PkgmLinks pkgmLinks = (PkgmLinks) o;
 		return Objects.equals(this.vnfPackage, pkgmLinks.vnfPackage) &&
-				Objects.equals(this.vnfPackageByVnfdId, pkgmLinks.vnfPackageByVnfdId) &&
-				Objects.equals(this.subscription, pkgmLinks.subscription);
+		Objects.equals(this.vnfPackageByVnfdId, pkgmLinks.vnfPackageByVnfdId) &&
+		Objects.equals(this.subscription, pkgmLinks.subscription);
 	}
 
 	@Override

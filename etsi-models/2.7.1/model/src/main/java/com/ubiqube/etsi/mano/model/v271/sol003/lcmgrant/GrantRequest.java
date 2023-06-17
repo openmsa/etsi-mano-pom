@@ -28,13 +28,12 @@ import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This type represents a grant request.
  */
-@ApiModel(description = "This type represents a grant request. ")
+@Schema (description= "This type represents a grant request. " )
 @Validated
 
 
@@ -102,7 +101,7 @@ public class GrantRequest {
 	 *
 	 * @return vnfInstanceId
 	 **/
-	@ApiModelProperty(required = true, value = "Identifier of the VNF instance which this grant request is related to. Shall also be provided for VNFs that not yet exist but are planned to exist in the future, i.e. if the grant is requested for InstantiateVNF. ")
+	@Schema(required = true , description = "Identifier of the VNF instance which this grant request is related to. Shall also be provided for VNFs that not yet exist but are planned to exist in the future, i.e. if the grant is requested for InstantiateVNF. ")
 	@NotNull
 
 	public String getVnfInstanceId() {
@@ -124,7 +123,7 @@ public class GrantRequest {
 	 *
 	 * @return vnfLcmOpOccId
 	 **/
-	@ApiModelProperty(required = true, value = "The identifier of the VNF lifecycle management operation occurrence associated to the GrantRequest. ")
+	@Schema(required = true , description = "The identifier of the VNF lifecycle management operation occurrence associated to the GrantRequest. ")
 	@NotNull
 
 	public String getVnfLcmOpOccId() {
@@ -146,7 +145,7 @@ public class GrantRequest {
 	 *
 	 * @return vnfdId
 	 **/
-	@ApiModelProperty(required = true, value = "Identifier of the VNFD that defines the VNF for which the LCM operation is to be granted. ")
+	@Schema(required = true , description = "Identifier of the VNFD that defines the VNF for which the LCM operation is to be granted. ")
 	@NotNull
 
 	public String getVnfdId() {
@@ -169,7 +168,7 @@ public class GrantRequest {
 	 *
 	 * @return flavourId
 	 **/
-	@ApiModelProperty(value = "Identifier of the VNF deployment flavour of the VNFD that defines the VNF for which the LCM operation is to be granted. Shall be provided when instantiating the VNF or changing the deployment flavour of the VNF instance. ")
+	@Schema(description = "Identifier of the VNF deployment flavour of the VNFD that defines the VNF for which the LCM operation is to be granted. Shall be provided when instantiating the VNF or changing the deployment flavour of the VNF instance. ")
 
 	public String getFlavourId() {
 		return flavourId;
@@ -191,7 +190,7 @@ public class GrantRequest {
 	 *
 	 * @return operation
 	 **/
-	@ApiModelProperty(required = true, value = "The lifecycle management operation for which granting is requested. The VNF LCM operations CreateVnfIdentifier, DeleteVnfIdentifier, QueryVnf and ModifyVnfInformation can be executed by the VNFM without requesting granting. ")
+	@Schema(required = true , description = "The lifecycle management operation for which granting is requested. The VNF LCM operations CreateVnfIdentifier, DeleteVnfIdentifier, QueryVnf and ModifyVnfInformation can be executed by the VNFM without requesting granting. ")
 	@NotNull
 
 	@Valid
@@ -217,7 +216,7 @@ public class GrantRequest {
 	 *
 	 * @return isAutomaticInvocation
 	 **/
-	@ApiModelProperty(required = true, value = "Set to true if this VNF LCM operation occurrence has been triggered by an automated procedure inside the VNFM (i.e. ScaleVnf / ScaleVnfToLevel triggered by auto-scale, or HealVnf triggered by auto-heal). Set to false otherwise. ")
+	@Schema(required = true , description = "Set to true if this VNF LCM operation occurrence has been triggered by an automated procedure inside the VNFM (i.e. ScaleVnf / ScaleVnfToLevel triggered by auto-scale, or HealVnf triggered by auto-heal). Set to false otherwise. ")
 	@NotNull
 
 	public Boolean isIsAutomaticInvocation() {
@@ -240,7 +239,7 @@ public class GrantRequest {
 	 *
 	 * @return instantiationLevelId
 	 **/
-	@ApiModelProperty(value = "If operation=INSTANTIATE, the identifier of the instantiation level may be provided as an alternative way to define the resources to be added. This attribute shall only be used if operation=INSTANTIATE. ")
+	@Schema(description = "If operation=INSTANTIATE, the identifier of the instantiation level may be provided as an alternative way to define the resources to be added. This attribute shall only be used if operation=INSTANTIATE. ")
 
 	public String getInstantiationLevelId() {
 		return instantiationLevelId;
@@ -271,7 +270,7 @@ public class GrantRequest {
 	 *
 	 * @return addResources
 	 **/
-	@ApiModelProperty(value = "List of resource definitions in the VNFD for resources to be added by the LCM operation which is related to this grant request, with one entry per resource. If the granting request is for InstantiateVNF, either instantiationLevel or addResources shall be present. ")
+	@Schema(description = "List of resource definitions in the VNFD for resources to be added by the LCM operation which is related to this grant request, with one entry per resource. If the granting request is for InstantiateVNF, either instantiationLevel or addResources shall be present. ")
 
 	@Valid
 
@@ -308,7 +307,7 @@ public class GrantRequest {
 	 *
 	 * @return tempResources
 	 **/
-	@ApiModelProperty(value = "List of resource definitions in the VNFD for resources to be temporarily instantiated during the runtime of the LCM operation which is related to this grant request, with one entry per resource. The NFVO will assume that the VNFM will be responsible to both allocate and release the temporary resource during the runtime of the LCM operation. This means, the resource can be allocated and consumed after the \"start\" notification for the LCM operation is sent by the VNFM, and the resource will be released before the \"result\" notification of the VNF LCM operation is sent by the VNFM. ")
+	@Schema(description = "List of resource definitions in the VNFD for resources to be temporarily instantiated during the runtime of the LCM operation which is related to this grant request, with one entry per resource. The NFVO will assume that the VNFM will be responsible to both allocate and release the temporary resource during the runtime of the LCM operation. This means, the resource can be allocated and consumed after the \"start\" notification for the LCM operation is sent by the VNFM, and the resource will be released before the \"result\" notification of the VNF LCM operation is sent by the VNFM. ")
 
 	@Valid
 
@@ -339,7 +338,7 @@ public class GrantRequest {
 	 *
 	 * @return removeResources
 	 **/
-	@ApiModelProperty(value = "Provides the definitions of resources to be removed by the LCM operation which is related to this grant request, with one entry per resource. ")
+	@Schema(description = "Provides the definitions of resources to be removed by the LCM operation which is related to this grant request, with one entry per resource. ")
 
 	@Valid
 
@@ -370,7 +369,7 @@ public class GrantRequest {
 	 *
 	 * @return updateResources
 	 **/
-	@ApiModelProperty(value = "Provides the definitions of resources to be modified by the LCM operation which is related to this grant request, with one entry per resource. ")
+	@Schema(description = "Provides the definitions of resources to be modified by the LCM operation which is related to this grant request, with one entry per resource. ")
 
 	@Valid
 
@@ -418,7 +417,7 @@ public class GrantRequest {
 	 *
 	 * @return placementConstraints
 	 **/
-	@ApiModelProperty(value = "Placement constraints that the VNFM may send to the NFVO in order to influence the resource placement decision. If sent, the NFVO shall take the constraints into consideration when making resource placement decisions, and shall reject the grant if they cannot be honoured. The affinity/anti-affinity rules defined in the VNFD , and the placement constraints in the GrantVnfLifecycleOperation as defined in this clause should be conflict-free. In case of conflicts, the placement constraints in the GrantVnfLifecycleOperation shall take precedence. Passing constraints allows the VNFM or the lifecycle management scripts to influence resource placement decisions by the NFVO to ensure VNF properties such as performance or fault tolerance. If fallbackBestEffort is present in placement constraints and set to “true”, the NFVO shall process the Affinity/AntiAffinity constraint in a best effort manner, in which case, if specified resources cannot be allocated based on specified placement constraint, the NFVO looks for an alternate best effort placement for the specified resources to be granted. In the best effort anti-affinity case, the resources are expected to be spread optimally over all available instances of scope (e.g. zones), and in the best effort affinity case, they are expected to be distributed optimally over fewer possible instances of scope. ")
+	@Schema(description = "Placement constraints that the VNFM may send to the NFVO in order to influence the resource placement decision. If sent, the NFVO shall take the constraints into consideration when making resource placement decisions, and shall reject the grant if they cannot be honoured. The affinity/anti-affinity rules defined in the VNFD , and the placement constraints in the GrantVnfLifecycleOperation as defined in this clause should be conflict-free. In case of conflicts, the placement constraints in the GrantVnfLifecycleOperation shall take precedence. Passing constraints allows the VNFM or the lifecycle management scripts to influence resource placement decisions by the NFVO to ensure VNF properties such as performance or fault tolerance. If fallbackBestEffort is present in placement constraints and set to “true”, the NFVO shall process the Affinity/AntiAffinity constraint in a best effort manner, in which case, if specified resources cannot be allocated based on specified placement constraint, the NFVO looks for an alternate best effort placement for the specified resources to be granted. In the best effort anti-affinity case, the resources are expected to be spread optimally over all available instances of scope (e.g. zones), and in the best effort affinity case, they are expected to be distributed optimally over fewer possible instances of scope. ")
 
 	@Valid
 
@@ -454,7 +453,7 @@ public class GrantRequest {
 	 *
 	 * @return vimConstraints
 	 **/
-	@ApiModelProperty(value = "Used by the VNFM to require that multiple resources are managed through the same VIM connection. If sent, the NFVO shall take the constraints into consideration when making VIM selection decisions, and shall reject the grant if they cannot be honoured. This attribute shall be supported if VNF-related Resource Management in direct mode is applicable. The applicability and further details of this attribute for indirect mode are left for future specification. ")
+	@Schema(description = "Used by the VNFM to require that multiple resources are managed through the same VIM connection. If sent, the NFVO shall take the constraints into consideration when making VIM selection decisions, and shall reject the grant if they cannot be honoured. This attribute shall be supported if VNF-related Resource Management in direct mode is applicable. The applicability and further details of this attribute for indirect mode are left for future specification. ")
 
 	@Valid
 
@@ -477,7 +476,7 @@ public class GrantRequest {
 	 *
 	 * @return additionalParams
 	 **/
-	@ApiModelProperty(value = "Additional parameters passed by the VNFM, specific to the VNF and the LCM operation. ")
+	@Schema(description = "Additional parameters passed by the VNFM, specific to the VNF and the LCM operation. ")
 
 	@Valid
 
@@ -499,7 +498,7 @@ public class GrantRequest {
 	 *
 	 * @return links
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	@Valid
@@ -522,20 +521,20 @@ public class GrantRequest {
 		}
 		final GrantRequest grantRequest = (GrantRequest) o;
 		return Objects.equals(this.vnfInstanceId, grantRequest.vnfInstanceId) &&
-				Objects.equals(this.vnfLcmOpOccId, grantRequest.vnfLcmOpOccId) &&
-				Objects.equals(this.vnfdId, grantRequest.vnfdId) &&
-				Objects.equals(this.flavourId, grantRequest.flavourId) &&
-				Objects.equals(this.operation, grantRequest.operation) &&
-				Objects.equals(this.isAutomaticInvocation, grantRequest.isAutomaticInvocation) &&
-				Objects.equals(this.instantiationLevelId, grantRequest.instantiationLevelId) &&
-				Objects.equals(this.addResources, grantRequest.addResources) &&
-				Objects.equals(this.tempResources, grantRequest.tempResources) &&
-				Objects.equals(this.removeResources, grantRequest.removeResources) &&
-				Objects.equals(this.updateResources, grantRequest.updateResources) &&
-				Objects.equals(this.placementConstraints, grantRequest.placementConstraints) &&
-				Objects.equals(this.vimConstraints, grantRequest.vimConstraints) &&
-				Objects.equals(this.additionalParams, grantRequest.additionalParams) &&
-				Objects.equals(this.links, grantRequest.links);
+		Objects.equals(this.vnfLcmOpOccId, grantRequest.vnfLcmOpOccId) &&
+		Objects.equals(this.vnfdId, grantRequest.vnfdId) &&
+		Objects.equals(this.flavourId, grantRequest.flavourId) &&
+		Objects.equals(this.operation, grantRequest.operation) &&
+		Objects.equals(this.isAutomaticInvocation, grantRequest.isAutomaticInvocation) &&
+		Objects.equals(this.instantiationLevelId, grantRequest.instantiationLevelId) &&
+		Objects.equals(this.addResources, grantRequest.addResources) &&
+		Objects.equals(this.tempResources, grantRequest.tempResources) &&
+		Objects.equals(this.removeResources, grantRequest.removeResources) &&
+		Objects.equals(this.updateResources, grantRequest.updateResources) &&
+		Objects.equals(this.placementConstraints, grantRequest.placementConstraints) &&
+		Objects.equals(this.vimConstraints, grantRequest.vimConstraints) &&
+		Objects.equals(this.additionalParams, grantRequest.additionalParams) &&
+		Objects.equals(this.links, grantRequest.links);
 	}
 
 	@Override

@@ -20,8 +20,8 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.model.v271.sol003.lcmgrant.ConstraintResourceRef;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -31,7 +31,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type provides information regarding a VIM selection constraint. A set of such constraints may be sent by the VNFM to the NFVO to influence the VIM selection decisions made by the NFVO as part of the granting process. 
  */
-@ApiModel(description = "This type provides information regarding a VIM selection constraint. A set of such constraints may be sent by the VNFM to the NFVO to influence the VIM selection decisions made by the NFVO as part of the granting process. ")
+@Schema (description= "This type provides information regarding a VIM selection constraint. A set of such constraints may be sent by the VNFM to the NFVO to influence the VIM selection decisions made by the NFVO as part of the granting process. " )
 @Validated
 
 
@@ -43,92 +43,92 @@ public class VimConstraint   {
   @Valid
   private List<ConstraintResourceRef> resource = new ArrayList<>();
 
-  public VimConstraint sameResourceGroup(Boolean sameResourceGroup) {
-    this.sameResourceGroup = sameResourceGroup;
-    return this;
-  }
+	public VimConstraint sameResourceGroup(Boolean sameResourceGroup) {
+		this.sameResourceGroup = sameResourceGroup;
+		return this;
+	}
 
-  /**
-   * If present and set to true, this signals that the constraint applies not only to the same VIM connection, but also to the same infrastructure resource group. 
-   * @return sameResourceGroup
-  **/
-  @ApiModelProperty(value = "If present and set to true, this signals that the constraint applies not only to the same VIM connection, but also to the same infrastructure resource group. ")
-
-
-  public Boolean isSameResourceGroup() {
-    return sameResourceGroup;
-  }
-
-  public void setSameResourceGroup(Boolean sameResourceGroup) {
-    this.sameResourceGroup = sameResourceGroup;
-  }
-
-  public VimConstraint resource(List<ConstraintResourceRef> resource) {
-    this.resource = resource;
-    return this;
-  }
-
-  public VimConstraint addResourceItem(ConstraintResourceRef resourceItem) {
-    this.resource.add(resourceItem);
-    return this;
-  }
-
-  /**
-   * References to resources in the constraint rule. The NFVO shall ensure that all resources in this list are managed through the same VIM connection. If \"sameResourceGroup\" is set to true, the NFVO shall further ensure that all resources in this list are part of the same infrastructure resource group in that VIM connection. 
-   * @return resource
-  **/
-  @ApiModelProperty(required = true, value = "References to resources in the constraint rule. The NFVO shall ensure that all resources in this list are managed through the same VIM connection. If \"sameResourceGroup\" is set to true, the NFVO shall further ensure that all resources in this list are part of the same infrastructure resource group in that VIM connection. ")
-  @NotNull
-
-  @Valid
-@Size(min=2) 
-  public List<ConstraintResourceRef> getResource() {
-    return resource;
-  }
-
-  public void setResource(List<ConstraintResourceRef> resource) {
-    this.resource = resource;
-  }
+	/**
+	* If present and set to true, this signals that the constraint applies not only to the same VIM connection, but also to the same infrastructure resource group. 
+	* @return sameResourceGroup
+	*/
+	@Schema(description = "If present and set to true, this signals that the constraint applies not only to the same VIM connection, but also to the same infrastructure resource group. ")
 
 
-  @Override
-  public boolean equals(java.lang.Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    VimConstraint vimConstraint = (VimConstraint) o;
-    return Objects.equals(this.sameResourceGroup, vimConstraint.sameResourceGroup) &&
-        Objects.equals(this.resource, vimConstraint.resource);
-  }
+	public Boolean isSameResourceGroup() {
+		return sameResourceGroup;
+	}
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(sameResourceGroup, resource);
-  }
+	public void setSameResourceGroup(Boolean sameResourceGroup) {
+		this.sameResourceGroup = sameResourceGroup;
+	}
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class VimConstraint {\n");
-    
-    sb.append("    sameResourceGroup: ").append(toIndentedString(sameResourceGroup)).append("\n");
-    sb.append("    resource: ").append(toIndentedString(resource)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
+	public VimConstraint resource(List<ConstraintResourceRef> resource) {
+		this.resource = resource;
+		return this;
+	}
 
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
+	public VimConstraint addResourceItem(ConstraintResourceRef resourceItem) {
+		this.resource.add(resourceItem);
+		return this;
+	}
+
+	/**
+	* References to resources in the constraint rule. The NFVO shall ensure that all resources in this list are managed through the same VIM connection. If \"sameResourceGroup\" is set to true, the NFVO shall further ensure that all resources in this list are part of the same infrastructure resource group in that VIM connection. 
+	* @return resource
+	*/
+	@Schema(required = true , description = "References to resources in the constraint rule. The NFVO shall ensure that all resources in this list are managed through the same VIM connection. If \"sameResourceGroup\" is set to true, the NFVO shall further ensure that all resources in this list are part of the same infrastructure resource group in that VIM connection. ")
+	@NotNull
+
+	@Valid
+	@Size(min = 2)
+	public List<ConstraintResourceRef> getResource() {
+		return resource;
+	}
+
+	public void setResource(List<ConstraintResourceRef> resource) {
+		this.resource = resource;
+	}
+
+
+	@Override
+	public boolean equals(java.lang.Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		VimConstraint vimConstraint = (VimConstraint) o;
+		return Objects.equals(this.sameResourceGroup, vimConstraint.sameResourceGroup) &&
+		Objects.equals(this.resource, vimConstraint.resource);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(sameResourceGroup, resource);
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("class VimConstraint {\n");
+
+		sb.append("    sameResourceGroup: ").append(toIndentedString(sameResourceGroup)).append("\n");
+		sb.append("    resource: ").append(toIndentedString(resource)).append("\n");
+		sb.append("}");
+		return sb.toString();
+	}
+
+	/**
+	* Convert the given object to string with each line indented by 4 spaces
+	* (except the first line).
+	*/
+	private String toIndentedString(java.lang.Object o) {
+		if (o == null) {
+			return "null";
+		}
+		return o.toString().replace("\n", "\n    ");
+	}
 }
 

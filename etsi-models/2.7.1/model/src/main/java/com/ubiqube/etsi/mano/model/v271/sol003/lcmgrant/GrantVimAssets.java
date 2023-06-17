@@ -21,8 +21,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.model.v271.sol003.lcmgrant.VimComputeResourceFlavour;
 import com.ubiqube.etsi.mano.model.v271.sol003.lcmgrant.VimSoftwareImage;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -32,7 +32,7 @@ import jakarta.validation.constraints.*;
 /**
  * Information about assets for the VNF that are managed by the NFVO in the VIM, such as software images and virtualised compute resource flavours. The Grant response allows the NFVO to pass to the VNFM VIM assets related to the VNF package that is identified by the vnfdId attribute in the corresponding Grant request. The NFVO may send in each Grant response the full set of VIM assets related to the VNF package defined by the vnfdId in the related Grant request, but shall send this information if the vnfdId in the related Grant request differs from the vnfdId passed in the previous Grant request, or if the Grant response is related to an InstantiateVnf operation. The set of VIM assets shall not change between subsequent Grant responses if the vnfdId has not changed. During each LCM operation occurrence, the VIM assets that relate to the VNF package identified by the current value of the vnfdId attribute in the “VnfInstance” structure shall be used by the VNFM for newly created resources. If the VNF package identifier of the VNF instance has been updated, VIM assets that relate to the previously-used VNF package(s), and that were communicated in previous Grant responses, apply to existing resources. 
  */
-@ApiModel(description = "Information about assets for the VNF that are managed by the NFVO in the VIM, such as software images and virtualised compute resource flavours. The Grant response allows the NFVO to pass to the VNFM VIM assets related to the VNF package that is identified by the vnfdId attribute in the corresponding Grant request. The NFVO may send in each Grant response the full set of VIM assets related to the VNF package defined by the vnfdId in the related Grant request, but shall send this information if the vnfdId in the related Grant request differs from the vnfdId passed in the previous Grant request, or if the Grant response is related to an InstantiateVnf operation. The set of VIM assets shall not change between subsequent Grant responses if the vnfdId has not changed. During each LCM operation occurrence, the VIM assets that relate to the VNF package identified by the current value of the vnfdId attribute in the “VnfInstance” structure shall be used by the VNFM for newly created resources. If the VNF package identifier of the VNF instance has been updated, VIM assets that relate to the previously-used VNF package(s), and that were communicated in previous Grant responses, apply to existing resources. ")
+@Schema (description= "Information about assets for the VNF that are managed by the NFVO in the VIM, such as software images and virtualised compute resource flavours. The Grant response allows the NFVO to pass to the VNFM VIM assets related to the VNF package that is identified by the vnfdId attribute in the corresponding Grant request. The NFVO may send in each Grant response the full set of VIM assets related to the VNF package defined by the vnfdId in the related Grant request, but shall send this information if the vnfdId in the related Grant request differs from the vnfdId passed in the previous Grant request, or if the Grant response is related to an InstantiateVnf operation. The set of VIM assets shall not change between subsequent Grant responses if the vnfdId has not changed. During each LCM operation occurrence, the VIM assets that relate to the VNF package identified by the current value of the vnfdId attribute in the “VnfInstance” structure shall be used by the VNFM for newly created resources. If the VNF package identifier of the VNF instance has been updated, VIM assets that relate to the previously-used VNF package(s), and that were communicated in previous Grant responses, apply to existing resources. " )
 @Validated
 
 
@@ -45,103 +45,103 @@ public class GrantVimAssets   {
   @Valid
   private List<VimSoftwareImage> softwareImages = null;
 
-  public GrantVimAssets computeResourceFlavours(List<VimComputeResourceFlavour> computeResourceFlavours) {
-    this.computeResourceFlavours = computeResourceFlavours;
-    return this;
-  }
+	public GrantVimAssets computeResourceFlavours(List<VimComputeResourceFlavour> computeResourceFlavours) {
+		this.computeResourceFlavours = computeResourceFlavours;
+		return this;
+	}
 
-  public GrantVimAssets addComputeResourceFlavoursItem(VimComputeResourceFlavour computeResourceFlavoursItem) {
-    if (this.computeResourceFlavours == null) {
-      this.computeResourceFlavours = new ArrayList<>();
-    }
-    this.computeResourceFlavours.add(computeResourceFlavoursItem);
-    return this;
-  }
+	public GrantVimAssets addComputeResourceFlavoursItem(VimComputeResourceFlavour computeResourceFlavoursItem) {
+		if (this.computeResourceFlavours == null) {
+			this.computeResourceFlavours = new ArrayList<>();
+		}
+		this.computeResourceFlavours.add(computeResourceFlavoursItem);
+		return this;
+	}
 
-  /**
-   * Mappings between virtual compute descriptors defined in the VNFD and compute resource flavours managed in the VIM. 
-   * @return computeResourceFlavours
-  **/
-  @ApiModelProperty(value = "Mappings between virtual compute descriptors defined in the VNFD and compute resource flavours managed in the VIM. ")
+	/**
+	* Mappings between virtual compute descriptors defined in the VNFD and compute resource flavours managed in the VIM. 
+	* @return computeResourceFlavours
+	*/
+	@Schema(description = "Mappings between virtual compute descriptors defined in the VNFD and compute resource flavours managed in the VIM. ")
 
-  @Valid
+	@Valid
 
-  public List<VimComputeResourceFlavour> getComputeResourceFlavours() {
-    return computeResourceFlavours;
-  }
+	public List<VimComputeResourceFlavour> getComputeResourceFlavours() {
+		return computeResourceFlavours;
+	}
 
-  public void setComputeResourceFlavours(List<VimComputeResourceFlavour> computeResourceFlavours) {
-    this.computeResourceFlavours = computeResourceFlavours;
-  }
+	public void setComputeResourceFlavours(List<VimComputeResourceFlavour> computeResourceFlavours) {
+		this.computeResourceFlavours = computeResourceFlavours;
+	}
 
-  public GrantVimAssets softwareImages(List<VimSoftwareImage> softwareImages) {
-    this.softwareImages = softwareImages;
-    return this;
-  }
+	public GrantVimAssets softwareImages(List<VimSoftwareImage> softwareImages) {
+		this.softwareImages = softwareImages;
+		return this;
+	}
 
-  public GrantVimAssets addSoftwareImagesItem(VimSoftwareImage softwareImagesItem) {
-    if (this.softwareImages == null) {
-      this.softwareImages = new ArrayList<>();
-    }
-    this.softwareImages.add(softwareImagesItem);
-    return this;
-  }
+	public GrantVimAssets addSoftwareImagesItem(VimSoftwareImage softwareImagesItem) {
+		if (this.softwareImages == null) {
+			this.softwareImages = new ArrayList<>();
+		}
+		this.softwareImages.add(softwareImagesItem);
+		return this;
+	}
 
-  /**
-   * Mappings between software images defined in the VNFD and software images managed in the VIM. 
-   * @return softwareImages
-  **/
-  @ApiModelProperty(value = "Mappings between software images defined in the VNFD and software images managed in the VIM. ")
+	/**
+	* Mappings between software images defined in the VNFD and software images managed in the VIM. 
+	* @return softwareImages
+	*/
+	@Schema(description = "Mappings between software images defined in the VNFD and software images managed in the VIM. ")
 
-  @Valid
+	@Valid
 
-  public List<VimSoftwareImage> getSoftwareImages() {
-    return softwareImages;
-  }
+	public List<VimSoftwareImage> getSoftwareImages() {
+		return softwareImages;
+	}
 
-  public void setSoftwareImages(List<VimSoftwareImage> softwareImages) {
-    this.softwareImages = softwareImages;
-  }
+	public void setSoftwareImages(List<VimSoftwareImage> softwareImages) {
+		this.softwareImages = softwareImages;
+	}
 
 
-  @Override
-  public boolean equals(java.lang.Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    GrantVimAssets grantVimAssets = (GrantVimAssets) o;
-    return Objects.equals(this.computeResourceFlavours, grantVimAssets.computeResourceFlavours) &&
-        Objects.equals(this.softwareImages, grantVimAssets.softwareImages);
-  }
+	@Override
+	public boolean equals(java.lang.Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		GrantVimAssets grantVimAssets = (GrantVimAssets) o;
+		return Objects.equals(this.computeResourceFlavours, grantVimAssets.computeResourceFlavours) &&
+		Objects.equals(this.softwareImages, grantVimAssets.softwareImages);
+	}
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(computeResourceFlavours, softwareImages);
-  }
+	@Override
+	public int hashCode() {
+		return Objects.hash(computeResourceFlavours, softwareImages);
+	}
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class GrantVimAssets {\n");
-    
-    sb.append("    computeResourceFlavours: ").append(toIndentedString(computeResourceFlavours)).append("\n");
-    sb.append("    softwareImages: ").append(toIndentedString(softwareImages)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("class GrantVimAssets {\n");
 
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
+		sb.append("    computeResourceFlavours: ").append(toIndentedString(computeResourceFlavours)).append("\n");
+		sb.append("    softwareImages: ").append(toIndentedString(softwareImages)).append("\n");
+		sb.append("}");
+		return sb.toString();
+	}
+
+	/**
+	* Convert the given object to string with each line indented by 4 spaces
+	* (except the first line).
+	*/
+	private String toIndentedString(java.lang.Object o) {
+		if (o == null) {
+			return "null";
+		}
+		return o.toString().replace("\n", "\n    ");
+	}
 }
 

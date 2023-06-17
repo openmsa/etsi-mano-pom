@@ -26,13 +26,12 @@ import org.springframework.validation.annotation.Validated;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.em.v271.model.vnflcm.Link;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Links for this resource.
  */
-@ApiModel(description = "Links for this resource. ")
+@Schema (description= "Links for this resource. " )
 @Validated
 
 public class ThresholdLinks {
@@ -52,7 +51,7 @@ public class ThresholdLinks {
 	 *
 	 * @return self
 	 **/
-	@ApiModelProperty(required = true, value = "URI of this resource. ")
+	@Schema(required = true , description = "URI of this resource. ")
 	@NotNull
 
 	@Valid
@@ -77,7 +76,7 @@ public class ThresholdLinks {
 	 *
 	 * @return object
 	 **/
-	@ApiModelProperty(value = "Link to a resource representing the measured object instance for which performance information is collected. Shall be present if the measured object instance information is accessible as a resource. ")
+	@Schema(description = "Link to a resource representing the measured object instance for which performance information is collected. Shall be present if the measured object instance information is accessible as a resource. ")
 
 	@Valid
 
@@ -99,7 +98,7 @@ public class ThresholdLinks {
 		}
 		final ThresholdLinks thresholdLinks = (ThresholdLinks) o;
 		return Objects.equals(this.self, thresholdLinks.self) &&
-				Objects.equals(this.object, thresholdLinks.object);
+		Objects.equals(this.object, thresholdLinks.object);
 	}
 
 	@Override

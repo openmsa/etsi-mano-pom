@@ -20,8 +20,8 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.model.v271.sol005.nslcm.PnfExtCpInfo;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -29,7 +29,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents the information about a PNF that is part of an NS instance.  It shall comply with the provisions defined in Table 6.5.3.13-1. 
  */
-@ApiModel(description = "This type represents the information about a PNF that is part of an NS instance.  It shall comply with the provisions defined in Table 6.5.3.13-1. ")
+@Schema (description= "This type represents the information about a PNF that is part of an NS instance.  It shall comply with the provisions defined in Table 6.5.3.13-1. " )
 @Validated
 public class PnfInfo   {
   @JsonProperty("pnfId")
@@ -50,171 +50,169 @@ public class PnfInfo   {
   @JsonProperty("cpInfo")
   private PnfExtCpInfo cpInfo = null;
 
-  public PnfInfo pnfId(String pnfId) {
-    this.pnfId = pnfId;
-    return this;
-  }
+	public PnfInfo pnfId(String pnfId) {
+		this.pnfId = pnfId;
+		return this;
+	}
 
-  /**
-   * Get pnfId
-   * @return pnfId
-  **/
-  @ApiModelProperty(required = true, value = "")
-      @NotNull
+	/**
+	* Get pnfId
+	* @return pnfId
+	*/
+	@Schema(required = true , description = "")
+	@NotNull
 
-    public String getPnfId() {
-    return pnfId;
-  }
+	public String getPnfId() {
+		return pnfId;
+	}
 
-  public void setPnfId(String pnfId) {
-    this.pnfId = pnfId;
-  }
+	public void setPnfId(String pnfId) {
+		this.pnfId = pnfId;
+	}
 
-  public PnfInfo pnfName(String pnfName) {
-    this.pnfName = pnfName;
-    return this;
-  }
+	public PnfInfo pnfName(String pnfName) {
+		this.pnfName = pnfName;
+		return this;
+	}
 
-  /**
-   * Name of the PNF. 
-   * @return pnfName
-  **/
-  @ApiModelProperty(value = "Name of the PNF. ")
-  
-    public String getPnfName() {
-    return pnfName;
-  }
+	/**
+	* Name of the PNF. 
+	* @return pnfName
+	*/
+	@Schema(description = "Name of the PNF. ")
+	public String getPnfName() {
+		return pnfName;
+	}
 
-  public void setPnfName(String pnfName) {
-    this.pnfName = pnfName;
-  }
+	public void setPnfName(String pnfName) {
+		this.pnfName = pnfName;
+	}
 
-  public PnfInfo pnfdId(String pnfdId) {
-    this.pnfdId = pnfdId;
-    return this;
-  }
+	public PnfInfo pnfdId(String pnfdId) {
+		this.pnfdId = pnfdId;
+		return this;
+	}
 
-  /**
-   * Get pnfdId
-   * @return pnfdId
-  **/
-  @ApiModelProperty(required = true, value = "")
-      @NotNull
+	/**
+	* Get pnfdId
+	* @return pnfdId
+	*/
+	@Schema(required = true , description = "")
+	@NotNull
 
-    public String getPnfdId() {
-    return pnfdId;
-  }
+	public String getPnfdId() {
+		return pnfdId;
+	}
 
-  public void setPnfdId(String pnfdId) {
-    this.pnfdId = pnfdId;
-  }
+	public void setPnfdId(String pnfdId) {
+		this.pnfdId = pnfdId;
+	}
 
-  public PnfInfo pnfdInfoId(String pnfdInfoId) {
-    this.pnfdInfoId = pnfdInfoId;
-    return this;
-  }
+	public PnfInfo pnfdInfoId(String pnfdInfoId) {
+		this.pnfdInfoId = pnfdInfoId;
+		return this;
+	}
 
-  /**
-   * Get pnfdInfoId
-   * @return pnfdInfoId
-  **/
-  @ApiModelProperty(required = true, value = "")
-      @NotNull
+	/**
+	* Get pnfdInfoId
+	* @return pnfdInfoId
+	*/
+	@Schema(required = true , description = "")
+	@NotNull
 
-    public String getPnfdInfoId() {
-    return pnfdInfoId;
-  }
+	public String getPnfdInfoId() {
+		return pnfdInfoId;
+	}
 
-  public void setPnfdInfoId(String pnfdInfoId) {
-    this.pnfdInfoId = pnfdInfoId;
-  }
+	public void setPnfdInfoId(String pnfdInfoId) {
+		this.pnfdInfoId = pnfdInfoId;
+	}
 
-  public PnfInfo pnfProfileId(String pnfProfileId) {
-    this.pnfProfileId = pnfProfileId;
-    return this;
-  }
+	public PnfInfo pnfProfileId(String pnfProfileId) {
+		this.pnfProfileId = pnfProfileId;
+		return this;
+	}
 
-  /**
-   * Get pnfProfileId
-   * @return pnfProfileId
-  **/
-  @ApiModelProperty(required = true, value = "")
-      @NotNull
+	/**
+	* Get pnfProfileId
+	* @return pnfProfileId
+	*/
+	@Schema(required = true , description = "")
+	@NotNull
 
-    public String getPnfProfileId() {
-    return pnfProfileId;
-  }
+	public String getPnfProfileId() {
+		return pnfProfileId;
+	}
 
-  public void setPnfProfileId(String pnfProfileId) {
-    this.pnfProfileId = pnfProfileId;
-  }
+	public void setPnfProfileId(String pnfProfileId) {
+		this.pnfProfileId = pnfProfileId;
+	}
 
-  public PnfInfo cpInfo(PnfExtCpInfo cpInfo) {
-    this.cpInfo = cpInfo;
-    return this;
-  }
+	public PnfInfo cpInfo(PnfExtCpInfo cpInfo) {
+		this.cpInfo = cpInfo;
+		return this;
+	}
 
-  /**
-   * Get cpInfo
-   * @return cpInfo
-  **/
-  @ApiModelProperty(value = "")
-  
-    @Valid
-    public PnfExtCpInfo getCpInfo() {
-    return cpInfo;
-  }
+	/**
+	* Get cpInfo
+	* @return cpInfo
+	*/
+	@Schema(description = "")
+	@Valid
+	public PnfExtCpInfo getCpInfo() {
+		return cpInfo;
+	}
 
-  public void setCpInfo(PnfExtCpInfo cpInfo) {
-    this.cpInfo = cpInfo;
-  }
+	public void setCpInfo(PnfExtCpInfo cpInfo) {
+		this.cpInfo = cpInfo;
+	}
 
 
-  @Override
-  public boolean equals(java.lang.Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    PnfInfo pnfInfo = (PnfInfo) o;
-    return Objects.equals(this.pnfId, pnfInfo.pnfId) &&
-        Objects.equals(this.pnfName, pnfInfo.pnfName) &&
-        Objects.equals(this.pnfdId, pnfInfo.pnfdId) &&
-        Objects.equals(this.pnfdInfoId, pnfInfo.pnfdInfoId) &&
-        Objects.equals(this.pnfProfileId, pnfInfo.pnfProfileId) &&
-        Objects.equals(this.cpInfo, pnfInfo.cpInfo);
-  }
+	@Override
+	public boolean equals(java.lang.Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		PnfInfo pnfInfo = (PnfInfo) o;
+		return Objects.equals(this.pnfId, pnfInfo.pnfId) &&
+		Objects.equals(this.pnfName, pnfInfo.pnfName) &&
+		Objects.equals(this.pnfdId, pnfInfo.pnfdId) &&
+		Objects.equals(this.pnfdInfoId, pnfInfo.pnfdInfoId) &&
+		Objects.equals(this.pnfProfileId, pnfInfo.pnfProfileId) &&
+		Objects.equals(this.cpInfo, pnfInfo.cpInfo);
+	}
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(pnfId, pnfName, pnfdId, pnfdInfoId, pnfProfileId, cpInfo);
-  }
+	@Override
+	public int hashCode() {
+		return Objects.hash(pnfId, pnfName, pnfdId, pnfdInfoId, pnfProfileId, cpInfo);
+	}
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class PnfInfo {\n");
-    
-    sb.append("    pnfId: ").append(toIndentedString(pnfId)).append("\n");
-    sb.append("    pnfName: ").append(toIndentedString(pnfName)).append("\n");
-    sb.append("    pnfdId: ").append(toIndentedString(pnfdId)).append("\n");
-    sb.append("    pnfdInfoId: ").append(toIndentedString(pnfdInfoId)).append("\n");
-    sb.append("    pnfProfileId: ").append(toIndentedString(pnfProfileId)).append("\n");
-    sb.append("    cpInfo: ").append(toIndentedString(cpInfo)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("class PnfInfo {\n");
 
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
+		sb.append("    pnfId: ").append(toIndentedString(pnfId)).append("\n");
+		sb.append("    pnfName: ").append(toIndentedString(pnfName)).append("\n");
+		sb.append("    pnfdId: ").append(toIndentedString(pnfdId)).append("\n");
+		sb.append("    pnfdInfoId: ").append(toIndentedString(pnfdInfoId)).append("\n");
+		sb.append("    pnfProfileId: ").append(toIndentedString(pnfProfileId)).append("\n");
+		sb.append("    cpInfo: ").append(toIndentedString(cpInfo)).append("\n");
+		sb.append("}");
+		return sb.toString();
+	}
+
+	/**
+	* Convert the given object to string with each line indented by 4 spaces
+	* (except the first line).
+	*/
+	private String toIndentedString(java.lang.Object o) {
+		if (o == null) {
+			return "null";
+		}
+		return o.toString().replace("\n", "\n    ");
+	}
 }

@@ -26,13 +26,12 @@ import org.springframework.validation.annotation.Validated;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.em.v271.model.vnflcm.Link;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Links for this resource.
  */
-@ApiModel(description = "Links for this resource. ")
+@Schema (description= "Links for this resource. " )
 @Validated
 
 public class VnfIndicatorSubscriptionLinks {
@@ -49,7 +48,7 @@ public class VnfIndicatorSubscriptionLinks {
 	 *
 	 * @return self
 	 **/
-	@ApiModelProperty(required = true, value = "URI of this resource. ")
+	@Schema(required = true , description = "URI of this resource. ")
 	@NotNull
 
 	@Valid

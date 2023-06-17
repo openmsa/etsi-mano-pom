@@ -28,14 +28,13 @@ import org.springframework.validation.annotation.Validated;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.em.v271.model.vnflcm.ResourceHandle;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This type represents information about a link port of a VL instance. It shall
  * comply with the provisions defined in Table 6.5.3.55-1.
  */
-@ApiModel(description = "This type represents information about a link port of a VL instance. It shall comply with the provisions defined in Table 6.5.3.55-1. ")
+@Schema (description= "This type represents information about a link port of a VL instance. It shall comply with the provisions defined in Table 6.5.3.55-1. " )
 @Validated
 public class NsLinkPortInfo {
 	@JsonProperty("id")
@@ -58,7 +57,7 @@ public class NsLinkPortInfo {
 	 *
 	 * @return id
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	public String getId() {
@@ -79,7 +78,7 @@ public class NsLinkPortInfo {
 	 *
 	 * @return resourceHandle
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	@Valid
@@ -112,7 +111,7 @@ public class NsLinkPortInfo {
 	 *
 	 * @return nsCpHandle
 	 **/
-	@ApiModelProperty(value = "Identifier of the CP/SAP instance to be connected to this link port. The value refers to a vnfExtCpInfo item in the VnfInstance, or a pnfExtCpInfo item in the PnfInfo, or a sapInfo item in the NS instance. There shall be at most one link port associated with any connection point instance. ")
+	@Schema(description = "Identifier of the CP/SAP instance to be connected to this link port. The value refers to a vnfExtCpInfo item in the VnfInstance, or a pnfExtCpInfo item in the PnfInfo, or a sapInfo item in the NS instance. There shall be at most one link port associated with any connection point instance. ")
 	@Valid
 	public List<NsCpHandle> getNsCpHandle() {
 		return nsCpHandle;
@@ -132,8 +131,8 @@ public class NsLinkPortInfo {
 		}
 		final NsLinkPortInfo nsLinkPortInfo = (NsLinkPortInfo) o;
 		return Objects.equals(this.id, nsLinkPortInfo.id) &&
-				Objects.equals(this.resourceHandle, nsLinkPortInfo.resourceHandle) &&
-				Objects.equals(this.nsCpHandle, nsLinkPortInfo.nsCpHandle);
+		Objects.equals(this.resourceHandle, nsLinkPortInfo.resourceHandle) &&
+		Objects.equals(this.nsCpHandle, nsLinkPortInfo.nsCpHandle);
 	}
 
 	@Override

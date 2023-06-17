@@ -26,13 +26,12 @@ import org.springframework.validation.annotation.Validated;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.em.v271.model.vnflcm.Link;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Links to resources related to this resource.
  */
-@ApiModel(description = "Links to resources related to this resource. ")
+@Schema (description= "Links to resources related to this resource. " )
 @Validated
 @javax.annotation.processing.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-06-24T10:38:36.740+02:00")
 
@@ -56,7 +55,7 @@ public class VnfPkgInfoLinks {
 	 *
 	 * @return self
 	 **/
-	@ApiModelProperty(required = true, value = "URI of this resource. ")
+	@Schema(required = true , description = "URI of this resource. ")
 	@NotNull
 
 	@Valid
@@ -79,7 +78,7 @@ public class VnfPkgInfoLinks {
 	 *
 	 * @return vnfd
 	 **/
-	@ApiModelProperty(value = "Link to the \"VNFD in an individual VNf package\" resource. ")
+	@Schema(description = "Link to the \"VNFD in an individual VNf package\" resource. ")
 
 	@Valid
 
@@ -101,7 +100,7 @@ public class VnfPkgInfoLinks {
 	 *
 	 * @return packageContent
 	 **/
-	@ApiModelProperty(required = true, value = "Link to the \"VNF package content\" resource. ")
+	@Schema(required = true , description = "Link to the \"VNF package content\" resource. ")
 	@NotNull
 
 	@Valid
@@ -124,8 +123,8 @@ public class VnfPkgInfoLinks {
 		}
 		final VnfPkgInfoLinks vnfPkgInfoLinks = (VnfPkgInfoLinks) o;
 		return Objects.equals(this.self, vnfPkgInfoLinks.self) &&
-				Objects.equals(this.vnfd, vnfPkgInfoLinks.vnfd) &&
-				Objects.equals(this.packageContent, vnfPkgInfoLinks.packageContent);
+		Objects.equals(this.vnfd, vnfPkgInfoLinks.vnfd) &&
+		Objects.equals(this.packageContent, vnfPkgInfoLinks.packageContent);
 	}
 
 	@Override

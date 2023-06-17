@@ -27,14 +27,13 @@ import org.springframework.validation.annotation.Validated;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.model.v271.sol003.vnf.Checksum;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This type represents an artifact contained in a PNFD archive. It shall comply
  * with provisions defined in Table 5.5.3.6-1.
  */
-@ApiModel(description = "This type represents an artifact contained in a PNFD archive. It shall comply with provisions defined in Table 5.5.3.6-1. ")
+@Schema (description= "This type represents an artifact contained in a PNFD archive. It shall comply with provisions defined in Table 5.5.3.6-1. " )
 @Validated
 public class PnfdArchiveArtifactInfo {
 	@JsonProperty("artifactPath")
@@ -59,7 +58,7 @@ public class PnfdArchiveArtifactInfo {
 	 *
 	 * @return artifactPath
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	public String getArtifactPath() {
@@ -80,7 +79,7 @@ public class PnfdArchiveArtifactInfo {
 	 *
 	 * @return checksum
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	@Valid
@@ -102,7 +101,7 @@ public class PnfdArchiveArtifactInfo {
 	 *
 	 * @return nonManoArtifactSetId
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	public String getNonManoArtifactSetId() {
 		return nonManoArtifactSetId;
@@ -122,7 +121,7 @@ public class PnfdArchiveArtifactInfo {
 	 *
 	 * @return metadata
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public Map<String, Object> getMetadata() {
@@ -143,9 +142,9 @@ public class PnfdArchiveArtifactInfo {
 		}
 		final PnfdArchiveArtifactInfo pnfdArchiveArtifactInfo = (PnfdArchiveArtifactInfo) o;
 		return Objects.equals(this.artifactPath, pnfdArchiveArtifactInfo.artifactPath) &&
-				Objects.equals(this.checksum, pnfdArchiveArtifactInfo.checksum) &&
-				Objects.equals(this.nonManoArtifactSetId, pnfdArchiveArtifactInfo.nonManoArtifactSetId) &&
-				Objects.equals(this.metadata, pnfdArchiveArtifactInfo.metadata);
+		Objects.equals(this.checksum, pnfdArchiveArtifactInfo.checksum) &&
+		Objects.equals(this.nonManoArtifactSetId, pnfdArchiveArtifactInfo.nonManoArtifactSetId) &&
+		Objects.equals(this.metadata, pnfdArchiveArtifactInfo.metadata);
 	}
 
 	@Override

@@ -29,13 +29,12 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This type represents an artifact other than a software image which is contained in a VNF package.
  */
-@ApiModel(description = "This type represents an artifact other than a software image which is contained in a VNF package. ")
+@Schema (description= "This type represents an artifact other than a software image which is contained in a VNF package. " )
 @Validated
 @javax.annotation.processing.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-06-24T10:38:36.740+02:00")
 
@@ -106,7 +105,7 @@ public class VnfPackageArtifactInfo {
 	 *
 	 * @return artifactPath
 	 **/
-	@ApiModelProperty(required = true, value = "Path in the VNF package, which identifies the artifact and also allows to access a copy of the artifact. The For an artifact contained as a file in the VNF package, this attribute shall be present, and the value of this attribute shall start with the name of the first segment in the path in the package, i.e. it shall not be prefixed by path separator characters such as \".\" and \"/\". EXAMPLE: foo/bar/runm@ster.sh For an external artifact represented as a URI in the VNF descriptor, this attribute shall be present if the artifact has been downloaded by the NFVO and shall be absent otherwise. If present, it shall contain the artifactPath under which the artifact can be obtained using the \"Individual artifact in a VNF package\" resource defined in clause 10.4.6. It is the responsibility of the NFVO to synthesize this path in a manner that avoids any collision of the synthesized artifact path with the paths and names of artifacts included in the package. ")
+	@Schema(required = true , description = "Path in the VNF package, which identifies the artifact and also allows to access a copy of the artifact. The For an artifact contained as a file in the VNF package, this attribute shall be present, and the value of this attribute shall start with the name of the first segment in the path in the package, i.e. it shall not be prefixed by path separator characters such as \".\" and \"/\". EXAMPLE: foo/bar/runm@ster.sh For an external artifact represented as a URI in the VNF descriptor, this attribute shall be present if the artifact has been downloaded by the NFVO and shall be absent otherwise. If present, it shall contain the artifactPath under which the artifact can be obtained using the \"Individual artifact in a VNF package\" resource defined in clause 10.4.6. It is the responsibility of the NFVO to synthesize this path in a manner that avoids any collision of the synthesized artifact path with the paths and names of artifacts included in the package. ")
 	@NotNull
 
 	public String getArtifactPath() {
@@ -127,7 +126,7 @@ public class VnfPackageArtifactInfo {
 	 *
 	 * @return checksum
 	 **/
-	@ApiModelProperty(required = true, value = "Checksum of the artifact file. ")
+	@Schema(required = true , description = "Checksum of the artifact file. ")
 	@NotNull
 
 	@Valid
@@ -150,7 +149,7 @@ public class VnfPackageArtifactInfo {
 	 *
 	 * @return isEncrypted
 	 **/
-	@ApiModelProperty(required = true, value = "Reflects whether the artifact is encrypted (true) or not (false). ")
+	@Schema(required = true , description = "Reflects whether the artifact is encrypted (true) or not (false). ")
 	@NotNull
 
 	public Boolean getIsEncrypted() {
@@ -171,7 +170,7 @@ public class VnfPackageArtifactInfo {
 	 *
 	 * @return artifactURI
 	 **/
-	@ApiModelProperty(value = "URI of the artifact as defined in the VNF package manifest. Shall be present if the artifact is external to the package and shall be absent otherwise. EXAMPLE: https://example.com/m%40ster.sh ")
+	@Schema(description = "URI of the artifact as defined in the VNF package manifest. Shall be present if the artifact is external to the package and shall be absent otherwise. EXAMPLE: https://example.com/m%40ster.sh ")
 
 	public String getArtifactURI() {
 		return artifactURI;
@@ -191,7 +190,7 @@ public class VnfPackageArtifactInfo {
 	 *
 	 * @return nonManoArtifactSetId
 	 **/
-	@ApiModelProperty(value = "Non-MANO artifact set identifier of the non-MANO artifact set to which the artifact belongs, as defined in clause 4.3.7 of ETSI GS NFV-SOL 004. Shall be provided if the artifact is a non-MANO artifact, and shall be omitted otherwise. ")
+	@Schema(description = "Non-MANO artifact set identifier of the non-MANO artifact set to which the artifact belongs, as defined in clause 4.3.7 of ETSI GS NFV-SOL 004. Shall be provided if the artifact is a non-MANO artifact, and shall be omitted otherwise. ")
 
 	public String getNonManoArtifactSetId() {
 		return nonManoArtifactSetId;
@@ -211,7 +210,7 @@ public class VnfPackageArtifactInfo {
 	 *
 	 * @return artifactClassification
 	 **/
-	@ApiModelProperty(value = "Marks specific types of artifacts as defined in the VNF package. If none of the specific classes listed below applies, the attribute shall not be present. Valid values: - HISTORY: a history artifact as per clause 4.3.3 in ETSI GS NFV-SOL 004 - TESTING: a testing artifact as per clause 4.3.4 in ETSI GS NFV-SOL 004 - LICENSE: a license artifact as per clause 4.3.5 in ETSI GS NFV-SOL 004 ")
+	@Schema(description = "Marks specific types of artifacts as defined in the VNF package. If none of the specific classes listed below applies, the attribute shall not be present. Valid values: - HISTORY: a history artifact as per clause 4.3.3 in ETSI GS NFV-SOL 004 - TESTING: a testing artifact as per clause 4.3.4 in ETSI GS NFV-SOL 004 - LICENSE: a license artifact as per clause 4.3.5 in ETSI GS NFV-SOL 004 ")
 
 	public ArtifactClassificationEnum getArtifactClassification() {
 		return artifactClassification;
@@ -231,7 +230,7 @@ public class VnfPackageArtifactInfo {
 	 *
 	 * @return metadata
 	 **/
-	@ApiModelProperty(value = "The metadata of the artifact that are available in the VNF package, such as Content type, size, creation date, etc. ")
+	@Schema(description = "The metadata of the artifact that are available in the VNF package, such as Content type, size, creation date, etc. ")
 
 	@Valid
 
@@ -253,12 +252,12 @@ public class VnfPackageArtifactInfo {
 		}
 		final VnfPackageArtifactInfo vnfPackageArtifactInfo = (VnfPackageArtifactInfo) o;
 		return Objects.equals(this.artifactPath, vnfPackageArtifactInfo.artifactPath) &&
-				Objects.equals(this.checksum, vnfPackageArtifactInfo.checksum) &&
-				Objects.equals(this.isEncrypted, vnfPackageArtifactInfo.isEncrypted) &&
-				Objects.equals(this.artifactURI, vnfPackageArtifactInfo.artifactURI) &&
-				Objects.equals(this.nonManoArtifactSetId, vnfPackageArtifactInfo.nonManoArtifactSetId) &&
-				Objects.equals(this.artifactClassification, vnfPackageArtifactInfo.artifactClassification) &&
-				Objects.equals(this.metadata, vnfPackageArtifactInfo.metadata);
+		Objects.equals(this.checksum, vnfPackageArtifactInfo.checksum) &&
+		Objects.equals(this.isEncrypted, vnfPackageArtifactInfo.isEncrypted) &&
+		Objects.equals(this.artifactURI, vnfPackageArtifactInfo.artifactURI) &&
+		Objects.equals(this.nonManoArtifactSetId, vnfPackageArtifactInfo.nonManoArtifactSetId) &&
+		Objects.equals(this.artifactClassification, vnfPackageArtifactInfo.artifactClassification) &&
+		Objects.equals(this.metadata, vnfPackageArtifactInfo.metadata);
 	}
 
 	@Override

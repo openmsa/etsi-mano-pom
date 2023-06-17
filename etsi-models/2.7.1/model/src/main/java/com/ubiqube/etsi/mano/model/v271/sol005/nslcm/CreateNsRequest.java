@@ -19,8 +19,8 @@ package com.ubiqube.etsi.mano.model.v271.sol005.nslcm;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -39,106 +39,106 @@ public class CreateNsRequest   {
   @JsonProperty("nsDescription")
   private String nsDescription = null;
 
-  public CreateNsRequest nsdId(String nsdId) {
-    this.nsdId = nsdId;
-    return this;
-  }
+	public CreateNsRequest nsdId(String nsdId) {
+		this.nsdId = nsdId;
+		return this;
+	}
 
-  /**
-   * Get nsdId
-   * @return nsdId
-  **/
-  @ApiModelProperty(required = true, value = "")
-      @NotNull
+	/**
+	* Get nsdId
+	* @return nsdId
+	*/
+	@Schema(required = true , description = "")
+	@NotNull
 
-    public String getNsdId() {
-    return nsdId;
-  }
+	public String getNsdId() {
+		return nsdId;
+	}
 
-  public void setNsdId(String nsdId) {
-    this.nsdId = nsdId;
-  }
+	public void setNsdId(String nsdId) {
+		this.nsdId = nsdId;
+	}
 
-  public CreateNsRequest nsName(String nsName) {
-    this.nsName = nsName;
-    return this;
-  }
+	public CreateNsRequest nsName(String nsName) {
+		this.nsName = nsName;
+		return this;
+	}
 
-  /**
-   * Human-readable name of the NS instance to be created. 
-   * @return nsName
-  **/
-  @ApiModelProperty(required = true, value = "Human-readable name of the NS instance to be created. ")
-      @NotNull
+	/**
+	* Human-readable name of the NS instance to be created. 
+	* @return nsName
+	*/
+	@Schema(required = true , description = "Human-readable name of the NS instance to be created. ")
+	@NotNull
 
-    public String getNsName() {
-    return nsName;
-  }
+	public String getNsName() {
+		return nsName;
+	}
 
-  public void setNsName(String nsName) {
-    this.nsName = nsName;
-  }
+	public void setNsName(String nsName) {
+		this.nsName = nsName;
+	}
 
-  public CreateNsRequest nsDescription(String nsDescription) {
-    this.nsDescription = nsDescription;
-    return this;
-  }
+	public CreateNsRequest nsDescription(String nsDescription) {
+		this.nsDescription = nsDescription;
+		return this;
+	}
 
-  /**
-   * Human-readable description of the NS instance to be created. 
-   * @return nsDescription
-  **/
-  @ApiModelProperty(required = true, value = "Human-readable description of the NS instance to be created. ")
-      @NotNull
+	/**
+	* Human-readable description of the NS instance to be created. 
+	* @return nsDescription
+	*/
+	@Schema(required = true , description = "Human-readable description of the NS instance to be created. ")
+	@NotNull
 
-    public String getNsDescription() {
-    return nsDescription;
-  }
+	public String getNsDescription() {
+		return nsDescription;
+	}
 
-  public void setNsDescription(String nsDescription) {
-    this.nsDescription = nsDescription;
-  }
+	public void setNsDescription(String nsDescription) {
+		this.nsDescription = nsDescription;
+	}
 
 
-  @Override
-  public boolean equals(java.lang.Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    CreateNsRequest createNsRequest = (CreateNsRequest) o;
-    return Objects.equals(this.nsdId, createNsRequest.nsdId) &&
-        Objects.equals(this.nsName, createNsRequest.nsName) &&
-        Objects.equals(this.nsDescription, createNsRequest.nsDescription);
-  }
+	@Override
+	public boolean equals(java.lang.Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		CreateNsRequest createNsRequest = (CreateNsRequest) o;
+		return Objects.equals(this.nsdId, createNsRequest.nsdId) &&
+		Objects.equals(this.nsName, createNsRequest.nsName) &&
+		Objects.equals(this.nsDescription, createNsRequest.nsDescription);
+	}
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(nsdId, nsName, nsDescription);
-  }
+	@Override
+	public int hashCode() {
+		return Objects.hash(nsdId, nsName, nsDescription);
+	}
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class CreateNsRequest {\n");
-    
-    sb.append("    nsdId: ").append(toIndentedString(nsdId)).append("\n");
-    sb.append("    nsName: ").append(toIndentedString(nsName)).append("\n");
-    sb.append("    nsDescription: ").append(toIndentedString(nsDescription)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("class CreateNsRequest {\n");
 
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
+		sb.append("    nsdId: ").append(toIndentedString(nsdId)).append("\n");
+		sb.append("    nsName: ").append(toIndentedString(nsName)).append("\n");
+		sb.append("    nsDescription: ").append(toIndentedString(nsDescription)).append("\n");
+		sb.append("}");
+		return sb.toString();
+	}
+
+	/**
+	* Convert the given object to string with each line indented by 4 spaces
+	* (except the first line).
+	*/
+	private String toIndentedString(java.lang.Object o) {
+		if (o == null) {
+			return "null";
+		}
+		return o.toString().replace("\n", "\n    ");
+	}
 }

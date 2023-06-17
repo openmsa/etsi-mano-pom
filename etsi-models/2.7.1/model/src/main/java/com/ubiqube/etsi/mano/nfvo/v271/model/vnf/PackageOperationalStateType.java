@@ -34,23 +34,23 @@ public enum PackageOperationalStateType {
 
   private String value;
 
-  PackageOperationalStateType(String value) {
-    this.value = value;
-  }
+	PackageOperationalStateType(String value) {
+		this.value = value;
+	}
 
-  @Override
-  @JsonValue
-  public String toString() {
-    return String.valueOf(value);
-  }
+	@Override
+	@JsonValue
+	public String toString() {
+		return String.valueOf(value);
+	}
 
-  @JsonCreator
-  public static PackageOperationalStateType fromValue(String text) {
-    for (PackageOperationalStateType b : PackageOperationalStateType.values()) {
-      if (String.valueOf(b.value).equals(text)) {
-        return b;
-      }
-    }
-    return null;
-  }
+	@JsonCreator
+	public static PackageOperationalStateType fromValue(String text) {
+		for (PackageOperationalStateType b : PackageOperationalStateType.values()) {
+			if (String.valueOf(b.value).equals(text)) {
+				return b;
+			}
+		}
+		return null;
+	}
 }

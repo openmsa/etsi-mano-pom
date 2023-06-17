@@ -31,13 +31,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.ubiqube.etsi.mano.em.v271.model.vnfconfig.ProblemDetails;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This type represents a response for the query PNFD operation.
  */
-@ApiModel(description = "This type represents a response for the query PNFD operation. ")
+@Schema (description= "This type represents a response for the query PNFD operation. " )
 @Validated
 public class PnfdInfo {
 	@JsonProperty("id")
@@ -125,7 +124,7 @@ public class PnfdInfo {
 	 *
 	 * @return id
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	public String getId() {
@@ -146,7 +145,7 @@ public class PnfdInfo {
 	 *
 	 * @return pnfdId
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	public String getPnfdId() {
 		return pnfdId;
@@ -167,7 +166,7 @@ public class PnfdInfo {
 	 *
 	 * @return pnfdName
 	 **/
-	@ApiModelProperty(value = "Name of the on-boarded PNFD. This information is copied from the PNFD content and shall be present after the PNFD content is on-boarded. ")
+	@Schema(description = "Name of the on-boarded PNFD. This information is copied from the PNFD content and shall be present after the PNFD content is on-boarded. ")
 
 	public String getPnfdName() {
 		return pnfdName;
@@ -187,7 +186,7 @@ public class PnfdInfo {
 	 *
 	 * @return pnfdersion
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	public String getPnfdersion() {
 		return pnfdersion;
@@ -208,7 +207,7 @@ public class PnfdInfo {
 	 *
 	 * @return pnfdProvider
 	 **/
-	@ApiModelProperty(value = "Provider of the on-boarded PNFD. This information is copied from the PNFD content and shall be present after the PNFD content is on-boarded. ")
+	@Schema(description = "Provider of the on-boarded PNFD. This information is copied from the PNFD content and shall be present after the PNFD content is on-boarded. ")
 
 	public String getPnfdProvider() {
 		return pnfdProvider;
@@ -228,7 +227,7 @@ public class PnfdInfo {
 	 *
 	 * @return pnfdInvariantId
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	public String getPnfdInvariantId() {
 		return pnfdInvariantId;
@@ -249,7 +248,7 @@ public class PnfdInfo {
 	 *
 	 * @return archiveSecurityOption
 	 **/
-	@ApiModelProperty(value = "Signals the security option used by the PNFD archive as defined in clause 5.1 of ETSI GS NFV SOL 004. Valid values: OPTION_1, OPTION_2 ")
+	@Schema(description = "Signals the security option used by the PNFD archive as defined in clause 5.1 of ETSI GS NFV SOL 004. Valid values: OPTION_1, OPTION_2 ")
 
 	public ArchiveSecurityOptionEnum getArchiveSecurityOption() {
 		return archiveSecurityOption;
@@ -269,7 +268,7 @@ public class PnfdInfo {
 	 *
 	 * @return signingCertificate
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	public String getSigningCertificate() {
 		return signingCertificate;
@@ -300,7 +299,7 @@ public class PnfdInfo {
 	 *
 	 * @return artifacts
 	 **/
-	@ApiModelProperty(value = "Information about PNFD archive artifacts contained in the PNFD archive. This attribute shall not be present before the PNFD archive content is on-boarded. Otherwise, this attribute shall be present if the PNFD archive contains artifacts. ")
+	@Schema(description = "Information about PNFD archive artifacts contained in the PNFD archive. This attribute shall not be present before the PNFD archive content is on-boarded. Otherwise, this attribute shall be present if the PNFD archive contains artifacts. ")
 	@Valid
 	public List<PnfdArchiveArtifactInfo> getArtifacts() {
 		return artifacts;
@@ -320,7 +319,7 @@ public class PnfdInfo {
 	 *
 	 * @return pnfdOnboardingState
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	@Valid
@@ -342,7 +341,7 @@ public class PnfdInfo {
 	 *
 	 * @return onboardingFailureDetails
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public ProblemDetails getOnboardingFailureDetails() {
@@ -363,7 +362,7 @@ public class PnfdInfo {
 	 *
 	 * @return pnfdUsageState
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	@Valid
@@ -385,7 +384,7 @@ public class PnfdInfo {
 	 *
 	 * @return userDefinedData
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public Map<String, Object> getUserDefinedData() {
@@ -406,7 +405,7 @@ public class PnfdInfo {
 	 *
 	 * @return _links
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	@Valid
@@ -428,19 +427,19 @@ public class PnfdInfo {
 		}
 		final PnfdInfo pnfdInfo = (PnfdInfo) o;
 		return Objects.equals(this.id, pnfdInfo.id) &&
-				Objects.equals(this.pnfdId, pnfdInfo.pnfdId) &&
-				Objects.equals(this.pnfdName, pnfdInfo.pnfdName) &&
-				Objects.equals(this.pnfdersion, pnfdInfo.pnfdersion) &&
-				Objects.equals(this.pnfdProvider, pnfdInfo.pnfdProvider) &&
-				Objects.equals(this.pnfdInvariantId, pnfdInfo.pnfdInvariantId) &&
-				Objects.equals(this.archiveSecurityOption, pnfdInfo.archiveSecurityOption) &&
-				Objects.equals(this.signingCertificate, pnfdInfo.signingCertificate) &&
-				Objects.equals(this.artifacts, pnfdInfo.artifacts) &&
-				Objects.equals(this.pnfdOnboardingState, pnfdInfo.pnfdOnboardingState) &&
-				Objects.equals(this.onboardingFailureDetails, pnfdInfo.onboardingFailureDetails) &&
-				Objects.equals(this.pnfdUsageState, pnfdInfo.pnfdUsageState) &&
-				Objects.equals(this.userDefinedData, pnfdInfo.userDefinedData) &&
-				Objects.equals(this._links, pnfdInfo._links);
+		Objects.equals(this.pnfdId, pnfdInfo.pnfdId) &&
+		Objects.equals(this.pnfdName, pnfdInfo.pnfdName) &&
+		Objects.equals(this.pnfdersion, pnfdInfo.pnfdersion) &&
+		Objects.equals(this.pnfdProvider, pnfdInfo.pnfdProvider) &&
+		Objects.equals(this.pnfdInvariantId, pnfdInfo.pnfdInvariantId) &&
+		Objects.equals(this.archiveSecurityOption, pnfdInfo.archiveSecurityOption) &&
+		Objects.equals(this.signingCertificate, pnfdInfo.signingCertificate) &&
+		Objects.equals(this.artifacts, pnfdInfo.artifacts) &&
+		Objects.equals(this.pnfdOnboardingState, pnfdInfo.pnfdOnboardingState) &&
+		Objects.equals(this.onboardingFailureDetails, pnfdInfo.onboardingFailureDetails) &&
+		Objects.equals(this.pnfdUsageState, pnfdInfo.pnfdUsageState) &&
+		Objects.equals(this.userDefinedData, pnfdInfo.userDefinedData) &&
+		Objects.equals(this._links, pnfdInfo._links);
 	}
 
 	@Override

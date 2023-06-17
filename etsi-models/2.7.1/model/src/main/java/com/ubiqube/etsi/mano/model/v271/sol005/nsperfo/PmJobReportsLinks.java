@@ -28,13 +28,12 @@ import org.springframework.validation.annotation.Validated;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.em.v271.model.vnflcm.Link;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Links for this resource.
  */
-@ApiModel(description = "Links for this resource. ")
+@Schema (description= "Links for this resource. " )
 @Validated
 public class PmJobReportsLinks {
 	@JsonProperty("self")
@@ -54,7 +53,7 @@ public class PmJobReportsLinks {
 	 *
 	 * @return self
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	@Valid
@@ -86,7 +85,7 @@ public class PmJobReportsLinks {
 	 *
 	 * @return objects
 	 **/
-	@ApiModelProperty(value = "Links to resources representing the measured object instances for which performance information is collected. Shall be present if the measured object instance information is accessible as a resource. ")
+	@Schema(description = "Links to resources representing the measured object instances for which performance information is collected. Shall be present if the measured object instance information is accessible as a resource. ")
 	@Valid
 	public List<Link> getObjects() {
 		return objects;
@@ -106,7 +105,7 @@ public class PmJobReportsLinks {
 		}
 		final PmJobReportsLinks pmJobReportsLinks = (PmJobReportsLinks) o;
 		return Objects.equals(this.self, pmJobReportsLinks.self) &&
-				Objects.equals(this.objects, pmJobReportsLinks.objects);
+		Objects.equals(this.objects, pmJobReportsLinks.objects);
 	}
 
 	@Override

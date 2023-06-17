@@ -26,8 +26,7 @@ import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This type represents the information that is requested to be modified for a
@@ -36,7 +35,7 @@ import io.swagger.annotations.ApiModelProperty;
  * only be updated with a value that matches the identifier value of a VNF
  * package whose vnfdId is present in the associated profile of the NSD.
  */
-@ApiModel(description = "This type represents the information that is requested to be modified for a VNF instance. The information to be modified shall comply with the associated NSD. EXAMPLE. The vnfPkgId attribute value for a particular VNF instance can only be updated with a value that matches the identifier value of a VNF package whose vnfdId is present in the associated profile of the NSD. ")
+@Schema (description= "This type represents the information that is requested to be modified for a VNF instance. The information to be modified shall comply with the associated NSD. EXAMPLE. The vnfPkgId attribute value for a particular VNF instance can only be updated with a value that matches the identifier value of a VNF package whose vnfdId is present in the associated profile of the NSD. " )
 @Validated
 public class ModifyVnfInfoData {
 	@JsonProperty("vnfInstanceId")
@@ -70,7 +69,7 @@ public class ModifyVnfInfoData {
 	 *
 	 * @return vnfInstanceId
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	public String getVnfInstanceId() {
@@ -92,7 +91,7 @@ public class ModifyVnfInfoData {
 	 *
 	 * @return vnfInstanceName
 	 **/
-	@ApiModelProperty(value = "New value of the \"vnfInstanceName\" attribute in \"VnfInstance\", or \"null\" to remove the attribute. ")
+	@Schema(description = "New value of the \"vnfInstanceName\" attribute in \"VnfInstance\", or \"null\" to remove the attribute. ")
 
 	public String getVnfInstanceName() {
 		return vnfInstanceName;
@@ -113,7 +112,7 @@ public class ModifyVnfInfoData {
 	 *
 	 * @return vnfInstanceDescription
 	 **/
-	@ApiModelProperty(value = "New value of the \"vnfInstanceDescription\" attribute in \"VnfInstance\", or \"null\" to remove the attribute. ")
+	@Schema(description = "New value of the \"vnfInstanceDescription\" attribute in \"VnfInstance\", or \"null\" to remove the attribute. ")
 
 	public String getVnfInstanceDescription() {
 		return vnfInstanceDescription;
@@ -133,7 +132,7 @@ public class ModifyVnfInfoData {
 	 *
 	 * @return vnfdId
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	public String getVnfdId() {
 		return vnfdId;
@@ -153,7 +152,7 @@ public class ModifyVnfInfoData {
 	 *
 	 * @return vnfConfigurableProperties
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public Map<String, Object> getVnfConfigurableProperties() {
@@ -174,7 +173,7 @@ public class ModifyVnfInfoData {
 	 *
 	 * @return metadata
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public Map<String, Object> getMetadata() {
@@ -195,7 +194,7 @@ public class ModifyVnfInfoData {
 	 *
 	 * @return extensions
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public Map<String, Object> getExtensions() {
@@ -216,12 +215,12 @@ public class ModifyVnfInfoData {
 		}
 		final ModifyVnfInfoData modifyVnfInfoData = (ModifyVnfInfoData) o;
 		return Objects.equals(this.vnfInstanceId, modifyVnfInfoData.vnfInstanceId) &&
-				Objects.equals(this.vnfInstanceName, modifyVnfInfoData.vnfInstanceName) &&
-				Objects.equals(this.vnfInstanceDescription, modifyVnfInfoData.vnfInstanceDescription) &&
-				Objects.equals(this.vnfdId, modifyVnfInfoData.vnfdId) &&
-				Objects.equals(this.vnfConfigurableProperties, modifyVnfInfoData.vnfConfigurableProperties) &&
-				Objects.equals(this.metadata, modifyVnfInfoData.metadata) &&
-				Objects.equals(this.extensions, modifyVnfInfoData.extensions);
+		Objects.equals(this.vnfInstanceName, modifyVnfInfoData.vnfInstanceName) &&
+		Objects.equals(this.vnfInstanceDescription, modifyVnfInfoData.vnfInstanceDescription) &&
+		Objects.equals(this.vnfdId, modifyVnfInfoData.vnfdId) &&
+		Objects.equals(this.vnfConfigurableProperties, modifyVnfInfoData.vnfConfigurableProperties) &&
+		Objects.equals(this.metadata, modifyVnfInfoData.metadata) &&
+		Objects.equals(this.extensions, modifyVnfInfoData.extensions);
 	}
 
 	@Override

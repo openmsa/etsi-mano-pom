@@ -29,8 +29,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.ubiqube.etsi.mano.em.v271.model.vnflcm.VnfInstanceSubscriptionFilter;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This type represents a subscription filter related to notifications about VNF
@@ -41,7 +40,7 @@ import io.swagger.annotations.ApiModelProperty;
  * matches (logical \&quot;or\&quot; between the values of one filter
  * attribute).
  */
-@ApiModel(description = "This type represents a subscription filter related to notifications about VNF faults. At a particular nesting level in the filter structure, the following applies: All attributes shall match in order for the filter to match (logical \"and\" between different filter attributes). If an attribute is an array, the attribute shall match if at least one of the values in the array matches (logical \"or\" between the values of one filter attribute). ")
+@Schema (description= "This type represents a subscription filter related to notifications about VNF faults. At a particular nesting level in the filter structure, the following applies: All attributes shall match in order for the filter to match (logical \"and\" between different filter attributes). If an attribute is an array, the attribute shall match if at least one of the values in the array matches (logical \"or\" between the values of one filter attribute). " )
 @Validated
 
 public class FmNotificationsFilter {
@@ -111,7 +110,7 @@ public class FmNotificationsFilter {
 	 *
 	 * @return vnfInstanceSubscriptionFilter
 	 **/
-	@ApiModelProperty(value = "Filter criteria to select VNF instances about which to notify.     ")
+	@Schema(description = "Filter criteria to select VNF instances about which to notify.     ")
 
 	@Valid
 
@@ -144,7 +143,7 @@ public class FmNotificationsFilter {
 	 *
 	 * @return notificationTypes
 	 **/
-	@ApiModelProperty(value = "Match particular notification types. Permitted values: * AlarmNotification * AlarmClearedNotification * AlarmListRebuiltNotification The permitted values of the \"notificationTypes\" attribute are spelled exactly as the names of the notification types to facilitate automated code generation systems. ")
+	@Schema(description = "Match particular notification types. Permitted values: * AlarmNotification * AlarmClearedNotification * AlarmListRebuiltNotification The permitted values of the \"notificationTypes\" attribute are spelled exactly as the names of the notification types to facilitate automated code generation systems. ")
 
 	public List<NotificationTypesEnum> getNotificationTypes() {
 		return notificationTypes;
@@ -172,7 +171,7 @@ public class FmNotificationsFilter {
 	 *
 	 * @return faultyResourceTypes
 	 **/
-	@ApiModelProperty(value = "Match VNF alarms with a faulty resource type listed in this attribute. ")
+	@Schema(description = "Match VNF alarms with a faulty resource type listed in this attribute. ")
 
 	@Valid
 
@@ -202,7 +201,7 @@ public class FmNotificationsFilter {
 	 *
 	 * @return perceivedSeverities
 	 **/
-	@ApiModelProperty(value = "Match VNF alarms with a perceived severity listed in this attribute. ")
+	@Schema(description = "Match VNF alarms with a perceived severity listed in this attribute. ")
 
 	@Valid
 
@@ -232,7 +231,7 @@ public class FmNotificationsFilter {
 	 *
 	 * @return eventTypes
 	 **/
-	@ApiModelProperty(value = "Match VNF alarms with an event type listed in this attribute. ")
+	@Schema(description = "Match VNF alarms with an event type listed in this attribute. ")
 
 	@Valid
 
@@ -262,7 +261,7 @@ public class FmNotificationsFilter {
 	 *
 	 * @return probableCauses
 	 **/
-	@ApiModelProperty(value = "Match VNF alarms with a probable cause listed in this attribute. ")
+	@Schema(description = "Match VNF alarms with a probable cause listed in this attribute. ")
 
 	public List<String> getProbableCauses() {
 		return probableCauses;
@@ -282,11 +281,11 @@ public class FmNotificationsFilter {
 		}
 		final FmNotificationsFilter fmNotificationsFilter = (FmNotificationsFilter) o;
 		return Objects.equals(this.vnfInstanceSubscriptionFilter, fmNotificationsFilter.vnfInstanceSubscriptionFilter) &&
-				Objects.equals(this.notificationTypes, fmNotificationsFilter.notificationTypes) &&
-				Objects.equals(this.faultyResourceTypes, fmNotificationsFilter.faultyResourceTypes) &&
-				Objects.equals(this.perceivedSeverities, fmNotificationsFilter.perceivedSeverities) &&
-				Objects.equals(this.eventTypes, fmNotificationsFilter.eventTypes) &&
-				Objects.equals(this.probableCauses, fmNotificationsFilter.probableCauses);
+		Objects.equals(this.notificationTypes, fmNotificationsFilter.notificationTypes) &&
+		Objects.equals(this.faultyResourceTypes, fmNotificationsFilter.faultyResourceTypes) &&
+		Objects.equals(this.perceivedSeverities, fmNotificationsFilter.perceivedSeverities) &&
+		Objects.equals(this.eventTypes, fmNotificationsFilter.eventTypes) &&
+		Objects.equals(this.probableCauses, fmNotificationsFilter.probableCauses);
 	}
 
 	@Override

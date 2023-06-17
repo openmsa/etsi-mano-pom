@@ -28,14 +28,13 @@ import org.springframework.validation.annotation.Validated;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.em.v271.model.vnflcm.CpProtocolData;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This type represents the configuration data on the external CP of the PNF. It
  * shall comply with the provisions defined in Table 6.5.3.16-1.
  */
-@ApiModel(description = "This type represents the configuration data on the external CP of the PNF. It shall comply with the provisions defined in Table 6.5.3.16-1. ")
+@Schema (description= "This type represents the configuration data on the external CP of the PNF. It shall comply with the provisions defined in Table 6.5.3.16-1. " )
 @Validated
 public class PnfExtCpData {
 	@JsonProperty("cpInstanceId")
@@ -58,7 +57,7 @@ public class PnfExtCpData {
 	 *
 	 * @return cpInstanceId
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	public String getCpInstanceId() {
 		return cpInstanceId;
@@ -78,7 +77,7 @@ public class PnfExtCpData {
 	 *
 	 * @return cpdId
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	public String getCpdId() {
 		return cpdId;
@@ -103,7 +102,7 @@ public class PnfExtCpData {
 	 *
 	 * @return cpProtocolData
 	 **/
-	@ApiModelProperty(required = true, value = "Address assigned for this CP. ")
+	@Schema(required = true , description = "Address assigned for this CP. ")
 	@NotNull
 	@Valid
 	public List<CpProtocolData> getCpProtocolData() {
@@ -124,8 +123,8 @@ public class PnfExtCpData {
 		}
 		final PnfExtCpData pnfExtCpData = (PnfExtCpData) o;
 		return Objects.equals(this.cpInstanceId, pnfExtCpData.cpInstanceId) &&
-				Objects.equals(this.cpdId, pnfExtCpData.cpdId) &&
-				Objects.equals(this.cpProtocolData, pnfExtCpData.cpProtocolData);
+		Objects.equals(this.cpdId, pnfExtCpData.cpdId) &&
+		Objects.equals(this.cpProtocolData, pnfExtCpData.cpProtocolData);
 	}
 
 	@Override

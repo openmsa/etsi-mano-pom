@@ -63,241 +63,240 @@ public class VnfPackageChangeNotification   {
   @JsonProperty("_links")
   private PkgmLinks _links = null;
 
-  public VnfPackageChangeNotification id(String id) {
-    this.id = id;
-    return this;
-  }
+	public VnfPackageChangeNotification id(String id) {
+		this.id = id;
+		return this;
+	}
 
-  /**
-   * Get id
-   * @return id
-   **/
-  @Schema(required = true, description = "")
-      @NotNull
+	/**
+	* Get id
+	* @return id
+	**/
+	@Schema(required = true, description = "")
+	@NotNull
 
-    public String getId() {
-    return id;
-  }
+	public String getId() {
+		return id;
+	}
 
-  public void setId(String id) {
-    this.id = id;
-  }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-  public VnfPackageChangeNotification notificationType(String notificationType) {
-    this.notificationType = notificationType;
-    return this;
-  }
+	public VnfPackageChangeNotification notificationType(String notificationType) {
+		this.notificationType = notificationType;
+		return this;
+	}
 
-  /**
-   * Discriminator for the different notification types. Shall be set to \"VnfPackageChangeNotification\" for this notification type. 
-   * @return notificationType
-   **/
-  @Schema(required = true, description = "Discriminator for the different notification types. Shall be set to \"VnfPackageChangeNotification\" for this notification type. ")
-      @NotNull
+	/**
+	* Discriminator for the different notification types. Shall be set to \"VnfPackageChangeNotification\" for this notification type. 
+	* @return notificationType
+	**/
+	@Schema(required = true, description = "Discriminator for the different notification types. Shall be set to \"VnfPackageChangeNotification\" for this notification type. ")
+	@NotNull
 
-    public String getNotificationType() {
-    return notificationType;
-  }
+	public String getNotificationType() {
+		return notificationType;
+	}
 
-  public void setNotificationType(String notificationType) {
-    this.notificationType = notificationType;
-  }
+	public void setNotificationType(String notificationType) {
+		this.notificationType = notificationType;
+	}
 
-  public VnfPackageChangeNotification subscriptionId(String subscriptionId) {
-    this.subscriptionId = subscriptionId;
-    return this;
-  }
+	public VnfPackageChangeNotification subscriptionId(String subscriptionId) {
+		this.subscriptionId = subscriptionId;
+		return this;
+	}
 
-  /**
-   * Get subscriptionId
-   * @return subscriptionId
-   **/
-  @Schema(required = true, description = "")
-      @NotNull
+	/**
+	* Get subscriptionId
+	* @return subscriptionId
+	**/
+	@Schema(required = true, description = "")
+	@NotNull
 
-    public String getSubscriptionId() {
-    return subscriptionId;
-  }
+	public String getSubscriptionId() {
+		return subscriptionId;
+	}
 
-  public void setSubscriptionId(String subscriptionId) {
-    this.subscriptionId = subscriptionId;
-  }
+	public void setSubscriptionId(String subscriptionId) {
+		this.subscriptionId = subscriptionId;
+	}
 
-  public VnfPackageChangeNotification timeStamp(OffsetDateTime timeStamp) {
-    this.timeStamp = timeStamp;
-    return this;
-  }
+	public VnfPackageChangeNotification timeStamp(OffsetDateTime timeStamp) {
+		this.timeStamp = timeStamp;
+		return this;
+	}
 
-  /**
-   * Get timeStamp
-   * @return timeStamp
-   **/
-  @Schema(required = true, description = "")
-      @NotNull
+	/**
+	* Get timeStamp
+	* @return timeStamp
+	**/
+	@Schema(required = true, description = "")
+	@NotNull
 
-    @Valid
-    public OffsetDateTime getTimeStamp() {
-    return timeStamp;
-  }
+	@Valid
+	public OffsetDateTime getTimeStamp() {
+		return timeStamp;
+	}
 
-  public void setTimeStamp(OffsetDateTime timeStamp) {
-    this.timeStamp = timeStamp;
-  }
+	public void setTimeStamp(OffsetDateTime timeStamp) {
+		this.timeStamp = timeStamp;
+	}
 
-  public VnfPackageChangeNotification vnfPkgId(String vnfPkgId) {
-    this.vnfPkgId = vnfPkgId;
-    return this;
-  }
+	public VnfPackageChangeNotification vnfPkgId(String vnfPkgId) {
+		this.vnfPkgId = vnfPkgId;
+		return this;
+	}
 
-  /**
-   * Get vnfPkgId
-   * @return vnfPkgId
-   **/
-  @Schema(required = true, description = "")
-      @NotNull
+	/**
+	* Get vnfPkgId
+	* @return vnfPkgId
+	**/
+	@Schema(required = true, description = "")
+	@NotNull
 
-    public String getVnfPkgId() {
-    return vnfPkgId;
-  }
+	public String getVnfPkgId() {
+		return vnfPkgId;
+	}
 
-  public void setVnfPkgId(String vnfPkgId) {
-    this.vnfPkgId = vnfPkgId;
-  }
+	public void setVnfPkgId(String vnfPkgId) {
+		this.vnfPkgId = vnfPkgId;
+	}
 
-  public VnfPackageChangeNotification vnfdId(String vnfdId) {
-    this.vnfdId = vnfdId;
-    return this;
-  }
+	public VnfPackageChangeNotification vnfdId(String vnfdId) {
+		this.vnfdId = vnfdId;
+		return this;
+	}
 
-  /**
-   * Get vnfdId
-   * @return vnfdId
-   **/
-  @Schema(required = true, description = "")
-      @NotNull
+	/**
+	* Get vnfdId
+	* @return vnfdId
+	**/
+	@Schema(required = true, description = "")
+	@NotNull
 
-    public String getVnfdId() {
-    return vnfdId;
-  }
+	public String getVnfdId() {
+		return vnfdId;
+	}
 
-  public void setVnfdId(String vnfdId) {
-    this.vnfdId = vnfdId;
-  }
+	public void setVnfdId(String vnfdId) {
+		this.vnfdId = vnfdId;
+	}
 
-  public VnfPackageChangeNotification changeType(PackageChangeType changeType) {
-    this.changeType = changeType;
-    return this;
-  }
+	public VnfPackageChangeNotification changeType(PackageChangeType changeType) {
+		this.changeType = changeType;
+		return this;
+	}
 
-  /**
-   * Get changeType
-   * @return changeType
-   **/
-  @Schema(required = true, description = "")
-      @NotNull
+	/**
+	* Get changeType
+	* @return changeType
+	**/
+	@Schema(required = true, description = "")
+	@NotNull
 
-    @Valid
-    public PackageChangeType getChangeType() {
-    return changeType;
-  }
+	@Valid
+	public PackageChangeType getChangeType() {
+		return changeType;
+	}
 
-  public void setChangeType(PackageChangeType changeType) {
-    this.changeType = changeType;
-  }
+	public void setChangeType(PackageChangeType changeType) {
+		this.changeType = changeType;
+	}
 
-  public VnfPackageChangeNotification operationalState(PackageOperationalStateType operationalState) {
-    this.operationalState = operationalState;
-    return this;
-  }
+	public VnfPackageChangeNotification operationalState(PackageOperationalStateType operationalState) {
+		this.operationalState = operationalState;
+		return this;
+	}
 
-  /**
-   * Get operationalState
-   * @return operationalState
-   **/
-  @Schema(description = "")
-  
-    @Valid
-    public PackageOperationalStateType getOperationalState() {
-    return operationalState;
-  }
+	/**
+	* Get operationalState
+	* @return operationalState
+	**/
+	@Schema(description = "")
+	@Valid
+	public PackageOperationalStateType getOperationalState() {
+		return operationalState;
+	}
 
-  public void setOperationalState(PackageOperationalStateType operationalState) {
-    this.operationalState = operationalState;
-  }
+	public void setOperationalState(PackageOperationalStateType operationalState) {
+		this.operationalState = operationalState;
+	}
 
-  public VnfPackageChangeNotification _links(PkgmLinks _links) {
-    this._links = _links;
-    return this;
-  }
+	public VnfPackageChangeNotification _links(PkgmLinks _links) {
+		this._links = _links;
+		return this;
+	}
 
-  /**
-   * Get _links
-   * @return _links
-   **/
-  @Schema(required = true, description = "")
-      @NotNull
+	/**
+	* Get _links
+	* @return _links
+	**/
+	@Schema(required = true, description = "")
+	@NotNull
 
-    @Valid
-    public PkgmLinks getLinks() {
-    return _links;
-  }
+	@Valid
+	public PkgmLinks getLinks() {
+		return _links;
+	}
 
-  public void setLinks(PkgmLinks _links) {
-    this._links = _links;
-  }
+	public void setLinks(PkgmLinks _links) {
+		this._links = _links;
+	}
 
 
-  @Override
-  public boolean equals(java.lang.Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    VnfPackageChangeNotification vnfPackageChangeNotification = (VnfPackageChangeNotification) o;
-    return Objects.equals(this.id, vnfPackageChangeNotification.id) &&
-        Objects.equals(this.notificationType, vnfPackageChangeNotification.notificationType) &&
-        Objects.equals(this.subscriptionId, vnfPackageChangeNotification.subscriptionId) &&
-        Objects.equals(this.timeStamp, vnfPackageChangeNotification.timeStamp) &&
-        Objects.equals(this.vnfPkgId, vnfPackageChangeNotification.vnfPkgId) &&
-        Objects.equals(this.vnfdId, vnfPackageChangeNotification.vnfdId) &&
-        Objects.equals(this.changeType, vnfPackageChangeNotification.changeType) &&
-        Objects.equals(this.operationalState, vnfPackageChangeNotification.operationalState) &&
-        Objects.equals(this._links, vnfPackageChangeNotification._links);
-  }
+	@Override
+	public boolean equals(java.lang.Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		VnfPackageChangeNotification vnfPackageChangeNotification = (VnfPackageChangeNotification) o;
+		return Objects.equals(this.id, vnfPackageChangeNotification.id) &&
+		Objects.equals(this.notificationType, vnfPackageChangeNotification.notificationType) &&
+		Objects.equals(this.subscriptionId, vnfPackageChangeNotification.subscriptionId) &&
+		Objects.equals(this.timeStamp, vnfPackageChangeNotification.timeStamp) &&
+		Objects.equals(this.vnfPkgId, vnfPackageChangeNotification.vnfPkgId) &&
+		Objects.equals(this.vnfdId, vnfPackageChangeNotification.vnfdId) &&
+		Objects.equals(this.changeType, vnfPackageChangeNotification.changeType) &&
+		Objects.equals(this.operationalState, vnfPackageChangeNotification.operationalState) &&
+		Objects.equals(this._links, vnfPackageChangeNotification._links);
+	}
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, notificationType, subscriptionId, timeStamp, vnfPkgId, vnfdId, changeType, operationalState, _links);
-  }
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, notificationType, subscriptionId, timeStamp, vnfPkgId, vnfdId, changeType, operationalState, _links);
+	}
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class VnfPackageChangeNotification {\n");
-    
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    notificationType: ").append(toIndentedString(notificationType)).append("\n");
-    sb.append("    subscriptionId: ").append(toIndentedString(subscriptionId)).append("\n");
-    sb.append("    timeStamp: ").append(toIndentedString(timeStamp)).append("\n");
-    sb.append("    vnfPkgId: ").append(toIndentedString(vnfPkgId)).append("\n");
-    sb.append("    vnfdId: ").append(toIndentedString(vnfdId)).append("\n");
-    sb.append("    changeType: ").append(toIndentedString(changeType)).append("\n");
-    sb.append("    operationalState: ").append(toIndentedString(operationalState)).append("\n");
-    sb.append("    _links: ").append(toIndentedString(_links)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("class VnfPackageChangeNotification {\n");
 
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
+		sb.append("    id: ").append(toIndentedString(id)).append("\n");
+		sb.append("    notificationType: ").append(toIndentedString(notificationType)).append("\n");
+		sb.append("    subscriptionId: ").append(toIndentedString(subscriptionId)).append("\n");
+		sb.append("    timeStamp: ").append(toIndentedString(timeStamp)).append("\n");
+		sb.append("    vnfPkgId: ").append(toIndentedString(vnfPkgId)).append("\n");
+		sb.append("    vnfdId: ").append(toIndentedString(vnfdId)).append("\n");
+		sb.append("    changeType: ").append(toIndentedString(changeType)).append("\n");
+		sb.append("    operationalState: ").append(toIndentedString(operationalState)).append("\n");
+		sb.append("    _links: ").append(toIndentedString(_links)).append("\n");
+		sb.append("}");
+		return sb.toString();
+	}
+
+	/**
+	* Convert the given object to string with each line indented by 4 spaces
+	* (except the first line).
+	*/
+	private String toIndentedString(java.lang.Object o) {
+		if (o == null) {
+			return "null";
+		}
+		return o.toString().replace("\n", "\n    ");
+	}
 }

@@ -26,13 +26,12 @@ import org.springframework.validation.annotation.Validated;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.em.v271.model.vnflcm.Link;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Links to resources related to this resource.
  */
-@ApiModel(description = "Links to resources related to this resource. ")
+@Schema (description= "Links to resources related to this resource. " )
 @Validated
 public class NsLcmOpOccLinks {
 	@JsonProperty("self")
@@ -66,7 +65,7 @@ public class NsLcmOpOccLinks {
 	 *
 	 * @return self
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	@Valid
@@ -88,7 +87,7 @@ public class NsLcmOpOccLinks {
 	 *
 	 * @return nsInstance
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	@Valid
@@ -110,7 +109,7 @@ public class NsLcmOpOccLinks {
 	 *
 	 * @return cancel
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public Link getCancel() {
@@ -131,7 +130,7 @@ public class NsLcmOpOccLinks {
 	 *
 	 * @return retry
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public Link getRetry() {
@@ -152,7 +151,7 @@ public class NsLcmOpOccLinks {
 	 *
 	 * @return rollback
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public Link getRollback() {
@@ -173,7 +172,7 @@ public class NsLcmOpOccLinks {
 	 *
 	 * @return _continue
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public Link getContinue() {
@@ -194,7 +193,7 @@ public class NsLcmOpOccLinks {
 	 *
 	 * @return fail
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public Link getFail() {
@@ -215,12 +214,12 @@ public class NsLcmOpOccLinks {
 		}
 		final NsLcmOpOccLinks nsLcmOpOccLinks = (NsLcmOpOccLinks) o;
 		return Objects.equals(this.self, nsLcmOpOccLinks.self) &&
-				Objects.equals(this.nsInstance, nsLcmOpOccLinks.nsInstance) &&
-				Objects.equals(this.cancel, nsLcmOpOccLinks.cancel) &&
-				Objects.equals(this.retry, nsLcmOpOccLinks.retry) &&
-				Objects.equals(this.rollback, nsLcmOpOccLinks.rollback) &&
-				Objects.equals(this._continue, nsLcmOpOccLinks._continue) &&
-				Objects.equals(this.fail, nsLcmOpOccLinks.fail);
+		Objects.equals(this.nsInstance, nsLcmOpOccLinks.nsInstance) &&
+		Objects.equals(this.cancel, nsLcmOpOccLinks.cancel) &&
+		Objects.equals(this.retry, nsLcmOpOccLinks.retry) &&
+		Objects.equals(this.rollback, nsLcmOpOccLinks.rollback) &&
+		Objects.equals(this._continue, nsLcmOpOccLinks._continue) &&
+		Objects.equals(this.fail, nsLcmOpOccLinks.fail);
 	}
 
 	@Override

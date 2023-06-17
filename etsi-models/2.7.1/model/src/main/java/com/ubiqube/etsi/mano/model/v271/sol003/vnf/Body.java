@@ -19,8 +19,8 @@ package com.ubiqube.etsi.mano.model.v271.sol003.vnf;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.core.io.Resource;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
@@ -34,62 +34,61 @@ public class Body   {
   @JsonProperty("file")
   private Resource file = null;
 
-  public Body file(Resource file) {
-    this.file = file;
-    return this;
-  }
+	public Body file(Resource file) {
+		this.file = file;
+		return this;
+	}
 
-  /**
-   * The payload body contains a ZIP file that represents the VNF package. The \"Content-Type\" HTTP header shall be set according to the type of the file, i.e. to \"application/zip\" for a VNF Package as defined in ETSI GS NFV-SOL 004. 
-   * @return file
-  **/
-  @ApiModelProperty(value = "The payload body contains a ZIP file that represents the VNF package. The \"Content-Type\" HTTP header shall be set according to the type of the file, i.e. to \"application/zip\" for a VNF Package as defined in ETSI GS NFV-SOL 004. ")
-  
-    @Valid
-    public Resource getFile() {
-    return file;
-  }
+	/**
+	* The payload body contains a ZIP file that represents the VNF package. The \"Content-Type\" HTTP header shall be set according to the type of the file, i.e. to \"application/zip\" for a VNF Package as defined in ETSI GS NFV-SOL 004. 
+	* @return file
+	*/
+	@Schema(description = "The payload body contains a ZIP file that represents the VNF package. The \"Content-Type\" HTTP header shall be set according to the type of the file, i.e. to \"application/zip\" for a VNF Package as defined in ETSI GS NFV-SOL 004. ")
+	@Valid
+	public Resource getFile() {
+		return file;
+	}
 
-  public void setFile(Resource file) {
-    this.file = file;
-  }
+	public void setFile(Resource file) {
+		this.file = file;
+	}
 
 
-  @Override
-  public boolean equals(java.lang.Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Body body = (Body) o;
-    return Objects.equals(this.file, body.file);
-  }
+	@Override
+	public boolean equals(java.lang.Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		Body body = (Body) o;
+		return Objects.equals(this.file, body.file);
+	}
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(file);
-  }
+	@Override
+	public int hashCode() {
+		return Objects.hash(file);
+	}
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class Body {\n");
-    
-    sb.append("    file: ").append(toIndentedString(file)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("class Body {\n");
 
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
+		sb.append("    file: ").append(toIndentedString(file)).append("\n");
+		sb.append("}");
+		return sb.toString();
+	}
+
+	/**
+	* Convert the given object to string with each line indented by 4 spaces
+	* (except the first line).
+	*/
+	private String toIndentedString(java.lang.Object o) {
+		if (o == null) {
+			return "null";
+		}
+		return o.toString().replace("\n", "\n    ");
+	}
 }

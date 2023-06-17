@@ -28,14 +28,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Map;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This type provides information about added, deleted, modified and temporary
  * virtual storage resources.
  */
-@ApiModel(description = "This type provides information about added, deleted, modified and temporary virtual storage resources. ")
+@Schema (description= "This type provides information about added, deleted, modified and temporary virtual storage resources. " )
 @Validated
 
 public class AffectedVirtualStorage {
@@ -105,7 +104,7 @@ public class AffectedVirtualStorage {
 	 *
 	 * @return id
 	 **/
-	@ApiModelProperty(required = true, value = "Identifier of the storage instance, identifying the applicable \"virtualStorageResourceInfo\" entry in the \"VnfInstance\" data type. ")
+	@Schema(required = true , description = "Identifier of the storage instance, identifying the applicable \"virtualStorageResourceInfo\" entry in the \"VnfInstance\" data type. ")
 	@NotNull
 
 	public String getId() {
@@ -126,7 +125,7 @@ public class AffectedVirtualStorage {
 	 *
 	 * @return virtualStorageDescId
 	 **/
-	@ApiModelProperty(required = true, value = "Identifier of the related VirtualStorage descriptor in the VNFD. ")
+	@Schema(required = true , description = "Identifier of the related VirtualStorage descriptor in the VNFD. ")
 	@NotNull
 
 	public String getVirtualStorageDescId() {
@@ -149,7 +148,7 @@ public class AffectedVirtualStorage {
 	 *
 	 * @return changeType
 	 **/
-	@ApiModelProperty(required = true, value = "Signals the type of change. Permitted values: * ADDED * REMOVED * MODIFIED * TEMPORARY For a temporary resource, an AffectedVirtualStorage structure exists as long as the temporary resource exists. ")
+	@Schema(required = true , description = "Signals the type of change. Permitted values: * ADDED * REMOVED * MODIFIED * TEMPORARY For a temporary resource, an AffectedVirtualStorage structure exists as long as the temporary resource exists. ")
 	@NotNull
 
 	public ChangeTypeEnum getChangeType() {
@@ -172,7 +171,7 @@ public class AffectedVirtualStorage {
 	 *
 	 * @return storageResource
 	 **/
-	@ApiModelProperty(required = true, value = "Reference to the VirtualStorage resource. Detailed information is (for new and modified resources) or has been (for removed resources) available from the VIM. ")
+	@Schema(required = true , description = "Reference to the VirtualStorage resource. Detailed information is (for new and modified resources) or has been (for removed resources) available from the VIM. ")
 	@NotNull
 
 	@Valid
@@ -202,7 +201,7 @@ public class AffectedVirtualStorage {
 	 *
 	 * @return resourceDefinitionId
 	 **/
-	@ApiModelProperty(value = "The identifier of the \"ResourceDefinition\" in the granting exchange related to the LCM operation occurrence. It shall be present when an applicable GrantInfo for the granted resource exists. The \"resourceDefinitionId\" attribute provides information to the API consumer (i.e. the NFVO) to assist in correlating the resource changes performed during the LCM operation with the granted resources in a specific Grant exchange, which is identified by the \"grantId\" available in the \"Individual VNF lifecycle management operation occurrence\" and the \"id\" in the \"Individual Grant\". ")
+	@Schema(description = "The identifier of the \"ResourceDefinition\" in the granting exchange related to the LCM operation occurrence. It shall be present when an applicable GrantInfo for the granted resource exists. The \"resourceDefinitionId\" attribute provides information to the API consumer (i.e. the NFVO) to assist in correlating the resource changes performed during the LCM operation with the granted resources in a specific Grant exchange, which is identified by the \"grantId\" available in the \"Individual VNF lifecycle management operation occurrence\" and the \"id\" in the \"Individual Grant\". ")
 
 	public String getResourceDefinitionId() {
 		return resourceDefinitionId;
@@ -224,7 +223,7 @@ public class AffectedVirtualStorage {
 	 *
 	 * @return metadata
 	 **/
-	@ApiModelProperty(value = "Metadata about this resource. The content of this attribute shall be a copy of the content of the \"metadata\" attribute of the VirtualStorageResourceInfo structure. ")
+	@Schema(description = "Metadata about this resource. The content of this attribute shall be a copy of the content of the \"metadata\" attribute of the VirtualStorageResourceInfo structure. ")
 
 	@Valid
 
@@ -246,11 +245,11 @@ public class AffectedVirtualStorage {
 		}
 		final AffectedVirtualStorage affectedVirtualStorage = (AffectedVirtualStorage) o;
 		return Objects.equals(this.id, affectedVirtualStorage.id) &&
-				Objects.equals(this.virtualStorageDescId, affectedVirtualStorage.virtualStorageDescId) &&
-				Objects.equals(this.changeType, affectedVirtualStorage.changeType) &&
-				Objects.equals(this.storageResource, affectedVirtualStorage.storageResource) &&
-				Objects.equals(this.resourceDefinitionId, affectedVirtualStorage.resourceDefinitionId) &&
-				Objects.equals(this.metadata, affectedVirtualStorage.metadata);
+		Objects.equals(this.virtualStorageDescId, affectedVirtualStorage.virtualStorageDescId) &&
+		Objects.equals(this.changeType, affectedVirtualStorage.changeType) &&
+		Objects.equals(this.storageResource, affectedVirtualStorage.storageResource) &&
+		Objects.equals(this.resourceDefinitionId, affectedVirtualStorage.resourceDefinitionId) &&
+		Objects.equals(this.metadata, affectedVirtualStorage.metadata);
 	}
 
 	@Override

@@ -6,26 +6,13 @@
 		<groupId>com.ubiqube.mano</groupId>
 		<artifactId>mano-super-pom</artifactId>
 		<version>3.0.0-SNAPSHOT</version>
-		<relativePath/>
+		<relativePath />
 	</parent>
 	<artifactId>etsi-model-271</artifactId>
 	<packaging>jar</packaging>
 	<name>etsi-model-271</name>
 	<url>http://maven.apache.org</url>
-	<repositories>
-		<repository>
-			<id>nexus</id>
-			<url>http://nexus.ubiqube.com/repository/maven-public/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
 	<dependencies>
-		<dependency>
-			<groupId>io.swagger</groupId>
-			<artifactId>swagger-annotations</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
@@ -44,4 +31,34 @@
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
+	<repositories>
+		<repository>
+			<id>nexus</id>
+			<url>http://nexus.ubiqube.com/repository/maven-public/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.openrewrite.maven</groupId>
+				<artifactId>rewrite-maven-plugin</artifactId>
+				<version>5.2.1</version>
+				<configuration>
+					<activeRecipes>
+						<recipe>org.ubiqube.Sw3ResponseRecipe</recipe>
+					</activeRecipes>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.vignaudo</groupId>
+						<artifactId>swagger</artifactId>
+						<version>0.0.1-SNAPSHOT</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+        </plugins>
+    </build>
 </project>

@@ -25,14 +25,13 @@ import org.springframework.validation.annotation.Validated;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.em.v271.model.SubscriptionAuthentication;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This type represents modifications to a PM job. It shall comply with the
  * provisions defined in table 6.5.2.12-1.
  */
-@ApiModel(description = "This type represents modifications to a PM job. It shall comply with the provisions defined in table 6.5.2.12-1. ")
+@Schema (description= "This type represents modifications to a PM job. It shall comply with the provisions defined in table 6.5.2.12-1. " )
 @Validated
 
 public class PmJobModifications {
@@ -53,7 +52,7 @@ public class PmJobModifications {
 	 *
 	 * @return callbackUri
 	 **/
-	@ApiModelProperty(value = "New value of the \"callbackUri\" attribute. The value \"null\" is not permitted. See note. ")
+	@Schema(description = "New value of the \"callbackUri\" attribute. The value \"null\" is not permitted. See note. ")
 
 	public String getCallbackUri() {
 		return callbackUri;
@@ -77,7 +76,7 @@ public class PmJobModifications {
 	 *
 	 * @return authentication
 	 **/
-	@ApiModelProperty(value = "New value of the \"authentication\" attribute, or \"null\" to remove the attribute. If present in a request body, these modifications shall be applied according to the rules of JSON Merge PATCH. This attribute shall not be present in response bodies. At least one of the attributes defined in this type shall be present in request bodies. ")
+	@Schema(description = "New value of the \"authentication\" attribute, or \"null\" to remove the attribute. If present in a request body, these modifications shall be applied according to the rules of JSON Merge PATCH. This attribute shall not be present in response bodies. At least one of the attributes defined in this type shall be present in request bodies. ")
 
 	@Valid
 
@@ -99,7 +98,7 @@ public class PmJobModifications {
 		}
 		final PmJobModifications pmJobModifications = (PmJobModifications) o;
 		return Objects.equals(this.callbackUri, pmJobModifications.callbackUri) &&
-				Objects.equals(this.authentication, pmJobModifications.authentication);
+		Objects.equals(this.authentication, pmJobModifications.authentication);
 	}
 
 	@Override

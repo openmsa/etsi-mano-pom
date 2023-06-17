@@ -21,8 +21,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.ubiqube.etsi.mano.model.v271.sol005.nslcm.AffectedVnfChangedInfo;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -30,7 +30,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type provides information about added, deleted and modified VNFs.  It shall comply with the provisions in Table 6.5.3.2-1. 
  */
-@ApiModel(description = "This type provides information about added, deleted and modified VNFs.  It shall comply with the provisions in Table 6.5.3.2-1. ")
+@Schema (description= "This type provides information about added, deleted and modified VNFs.  It shall comply with the provisions in Table 6.5.3.2-1. " )
 @Validated
 public class AffectedVnf   {
   @JsonProperty("vnfInstanceId")
@@ -71,25 +71,25 @@ public class AffectedVnf   {
 
     private String value;
 
-    ChangeTypeEnum(String value) {
-      this.value = value;
-    }
+		ChangeTypeEnum(String value) {
+			this.value = value;
+		}
 
-    @Override
-    @JsonValue
-    public String toString() {
-      return String.valueOf(value);
-    }
+		@Override
+		@JsonValue
+		public String toString() {
+			return String.valueOf(value);
+		}
 
-    @JsonCreator
-    public static ChangeTypeEnum fromValue(String text) {
-      for (ChangeTypeEnum b : ChangeTypeEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
-    }
+		@JsonCreator
+		public static ChangeTypeEnum fromValue(String text) {
+			for (ChangeTypeEnum b : ChangeTypeEnum.values()) {
+				if (String.valueOf(b.value).equals(text)) {
+					return b;
+				}
+			}
+			return null;
+		}
   }
   @JsonProperty("changeType")
   private ChangeTypeEnum changeType = null;
@@ -106,25 +106,25 @@ public class AffectedVnf   {
 
     private String value;
 
-    ChangeResultEnum(String value) {
-      this.value = value;
-    }
+		ChangeResultEnum(String value) {
+			this.value = value;
+		}
 
-    @Override
-    @JsonValue
-    public String toString() {
-      return String.valueOf(value);
-    }
+		@Override
+		@JsonValue
+		public String toString() {
+			return String.valueOf(value);
+		}
 
-    @JsonCreator
-    public static ChangeResultEnum fromValue(String text) {
-      for (ChangeResultEnum b : ChangeResultEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
-    }
+		@JsonCreator
+		public static ChangeResultEnum fromValue(String text) {
+			for (ChangeResultEnum b : ChangeResultEnum.values()) {
+				if (String.valueOf(b.value).equals(text)) {
+					return b;
+				}
+			}
+			return null;
+		}
   }
   @JsonProperty("changeResult")
   private ChangeResultEnum changeResult = null;
@@ -132,194 +132,193 @@ public class AffectedVnf   {
   @JsonProperty("changedInfo")
   private AffectedVnfChangedInfo changedInfo = null;
 
-  public AffectedVnf vnfInstanceId(String vnfInstanceId) {
-    this.vnfInstanceId = vnfInstanceId;
-    return this;
-  }
+	public AffectedVnf vnfInstanceId(String vnfInstanceId) {
+		this.vnfInstanceId = vnfInstanceId;
+		return this;
+	}
 
-  /**
-   * Get vnfInstanceId
-   * @return vnfInstanceId
-  **/
-  @ApiModelProperty(required = true, value = "")
-      @NotNull
+	/**
+	* Get vnfInstanceId
+	* @return vnfInstanceId
+	*/
+	@Schema(required = true , description = "")
+	@NotNull
 
-    public String getVnfInstanceId() {
-    return vnfInstanceId;
-  }
+	public String getVnfInstanceId() {
+		return vnfInstanceId;
+	}
 
-  public void setVnfInstanceId(String vnfInstanceId) {
-    this.vnfInstanceId = vnfInstanceId;
-  }
+	public void setVnfInstanceId(String vnfInstanceId) {
+		this.vnfInstanceId = vnfInstanceId;
+	}
 
-  public AffectedVnf vnfdId(String vnfdId) {
-    this.vnfdId = vnfdId;
-    return this;
-  }
+	public AffectedVnf vnfdId(String vnfdId) {
+		this.vnfdId = vnfdId;
+		return this;
+	}
 
-  /**
-   * Get vnfdId
-   * @return vnfdId
-  **/
-  @ApiModelProperty(required = true, value = "")
-      @NotNull
+	/**
+	* Get vnfdId
+	* @return vnfdId
+	*/
+	@Schema(required = true , description = "")
+	@NotNull
 
-    public String getVnfdId() {
-    return vnfdId;
-  }
+	public String getVnfdId() {
+		return vnfdId;
+	}
 
-  public void setVnfdId(String vnfdId) {
-    this.vnfdId = vnfdId;
-  }
+	public void setVnfdId(String vnfdId) {
+		this.vnfdId = vnfdId;
+	}
 
-  public AffectedVnf vnfProfileId(String vnfProfileId) {
-    this.vnfProfileId = vnfProfileId;
-    return this;
-  }
+	public AffectedVnf vnfProfileId(String vnfProfileId) {
+		this.vnfProfileId = vnfProfileId;
+		return this;
+	}
 
-  /**
-   * Get vnfProfileId
-   * @return vnfProfileId
-  **/
-  @ApiModelProperty(required = true, value = "")
-      @NotNull
+	/**
+	* Get vnfProfileId
+	* @return vnfProfileId
+	*/
+	@Schema(required = true , description = "")
+	@NotNull
 
-    public String getVnfProfileId() {
-    return vnfProfileId;
-  }
+	public String getVnfProfileId() {
+		return vnfProfileId;
+	}
 
-  public void setVnfProfileId(String vnfProfileId) {
-    this.vnfProfileId = vnfProfileId;
-  }
+	public void setVnfProfileId(String vnfProfileId) {
+		this.vnfProfileId = vnfProfileId;
+	}
 
-  public AffectedVnf vnfName(String vnfName) {
-    this.vnfName = vnfName;
-    return this;
-  }
+	public AffectedVnf vnfName(String vnfName) {
+		this.vnfName = vnfName;
+		return this;
+	}
 
-  /**
-   * Name of the VNF Instance. 
-   * @return vnfName
-  **/
-  @ApiModelProperty(required = true, value = "Name of the VNF Instance. ")
-      @NotNull
+	/**
+	* Name of the VNF Instance. 
+	* @return vnfName
+	*/
+	@Schema(required = true , description = "Name of the VNF Instance. ")
+	@NotNull
 
-    public String getVnfName() {
-    return vnfName;
-  }
+	public String getVnfName() {
+		return vnfName;
+	}
 
-  public void setVnfName(String vnfName) {
-    this.vnfName = vnfName;
-  }
+	public void setVnfName(String vnfName) {
+		this.vnfName = vnfName;
+	}
 
-  public AffectedVnf changeType(ChangeTypeEnum changeType) {
-    this.changeType = changeType;
-    return this;
-  }
+	public AffectedVnf changeType(ChangeTypeEnum changeType) {
+		this.changeType = changeType;
+		return this;
+	}
 
-  /**
-   * Signals the type of change Permitted values: - ADD - REMOVE - INSTANTIATE - TERMINATE - SCALE - CHANGE_FLAVOUR - HEAL - OPERATE - MODIFY_INFORMATION - CHANGE_EXTERNAL_VNF_CONNECTIVITY 
-   * @return changeType
-  **/
-  @ApiModelProperty(required = true, value = "Signals the type of change Permitted values: - ADD - REMOVE - INSTANTIATE - TERMINATE - SCALE - CHANGE_FLAVOUR - HEAL - OPERATE - MODIFY_INFORMATION - CHANGE_EXTERNAL_VNF_CONNECTIVITY ")
-      @NotNull
+	/**
+	* Signals the type of change Permitted values: - ADD - REMOVE - INSTANTIATE - TERMINATE - SCALE - CHANGE_FLAVOUR - HEAL - OPERATE - MODIFY_INFORMATION - CHANGE_EXTERNAL_VNF_CONNECTIVITY 
+	* @return changeType
+	*/
+	@Schema(required = true , description = "Signals the type of change Permitted values: - ADD - REMOVE - INSTANTIATE - TERMINATE - SCALE - CHANGE_FLAVOUR - HEAL - OPERATE - MODIFY_INFORMATION - CHANGE_EXTERNAL_VNF_CONNECTIVITY ")
+	@NotNull
 
-    public ChangeTypeEnum getChangeType() {
-    return changeType;
-  }
+	public ChangeTypeEnum getChangeType() {
+		return changeType;
+	}
 
-  public void setChangeType(ChangeTypeEnum changeType) {
-    this.changeType = changeType;
-  }
+	public void setChangeType(ChangeTypeEnum changeType) {
+		this.changeType = changeType;
+	}
 
-  public AffectedVnf changeResult(ChangeResultEnum changeResult) {
-    this.changeResult = changeResult;
-    return this;
-  }
+	public AffectedVnf changeResult(ChangeResultEnum changeResult) {
+		this.changeResult = changeResult;
+		return this;
+	}
 
-  /**
-   * Signals the result of change identified by the \"changeType\" attribute. Permitted values: - COMPLETED - ROLLED_BACK - FAILED 
-   * @return changeResult
-  **/
-  @ApiModelProperty(required = true, value = "Signals the result of change identified by the \"changeType\" attribute. Permitted values: - COMPLETED - ROLLED_BACK - FAILED ")
-      @NotNull
+	/**
+	* Signals the result of change identified by the \"changeType\" attribute. Permitted values: - COMPLETED - ROLLED_BACK - FAILED 
+	* @return changeResult
+	*/
+	@Schema(required = true , description = "Signals the result of change identified by the \"changeType\" attribute. Permitted values: - COMPLETED - ROLLED_BACK - FAILED ")
+	@NotNull
 
-    public ChangeResultEnum getChangeResult() {
-    return changeResult;
-  }
+	public ChangeResultEnum getChangeResult() {
+		return changeResult;
+	}
 
-  public void setChangeResult(ChangeResultEnum changeResult) {
-    this.changeResult = changeResult;
-  }
+	public void setChangeResult(ChangeResultEnum changeResult) {
+		this.changeResult = changeResult;
+	}
 
-  public AffectedVnf changedInfo(AffectedVnfChangedInfo changedInfo) {
-    this.changedInfo = changedInfo;
-    return this;
-  }
+	public AffectedVnf changedInfo(AffectedVnfChangedInfo changedInfo) {
+		this.changedInfo = changedInfo;
+		return this;
+	}
 
-  /**
-   * Get changedInfo
-   * @return changedInfo
-  **/
-  @ApiModelProperty(value = "")
-  
-    @Valid
-    public AffectedVnfChangedInfo getChangedInfo() {
-    return changedInfo;
-  }
+	/**
+	* Get changedInfo
+	* @return changedInfo
+	*/
+	@Schema(description = "")
+	@Valid
+	public AffectedVnfChangedInfo getChangedInfo() {
+		return changedInfo;
+	}
 
-  public void setChangedInfo(AffectedVnfChangedInfo changedInfo) {
-    this.changedInfo = changedInfo;
-  }
+	public void setChangedInfo(AffectedVnfChangedInfo changedInfo) {
+		this.changedInfo = changedInfo;
+	}
 
 
-  @Override
-  public boolean equals(java.lang.Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    AffectedVnf affectedVnf = (AffectedVnf) o;
-    return Objects.equals(this.vnfInstanceId, affectedVnf.vnfInstanceId) &&
-        Objects.equals(this.vnfdId, affectedVnf.vnfdId) &&
-        Objects.equals(this.vnfProfileId, affectedVnf.vnfProfileId) &&
-        Objects.equals(this.vnfName, affectedVnf.vnfName) &&
-        Objects.equals(this.changeType, affectedVnf.changeType) &&
-        Objects.equals(this.changeResult, affectedVnf.changeResult) &&
-        Objects.equals(this.changedInfo, affectedVnf.changedInfo);
-  }
+	@Override
+	public boolean equals(java.lang.Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		AffectedVnf affectedVnf = (AffectedVnf) o;
+		return Objects.equals(this.vnfInstanceId, affectedVnf.vnfInstanceId) &&
+		Objects.equals(this.vnfdId, affectedVnf.vnfdId) &&
+		Objects.equals(this.vnfProfileId, affectedVnf.vnfProfileId) &&
+		Objects.equals(this.vnfName, affectedVnf.vnfName) &&
+		Objects.equals(this.changeType, affectedVnf.changeType) &&
+		Objects.equals(this.changeResult, affectedVnf.changeResult) &&
+		Objects.equals(this.changedInfo, affectedVnf.changedInfo);
+	}
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(vnfInstanceId, vnfdId, vnfProfileId, vnfName, changeType, changeResult, changedInfo);
-  }
+	@Override
+	public int hashCode() {
+		return Objects.hash(vnfInstanceId, vnfdId, vnfProfileId, vnfName, changeType, changeResult, changedInfo);
+	}
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class AffectedVnf {\n");
-    
-    sb.append("    vnfInstanceId: ").append(toIndentedString(vnfInstanceId)).append("\n");
-    sb.append("    vnfdId: ").append(toIndentedString(vnfdId)).append("\n");
-    sb.append("    vnfProfileId: ").append(toIndentedString(vnfProfileId)).append("\n");
-    sb.append("    vnfName: ").append(toIndentedString(vnfName)).append("\n");
-    sb.append("    changeType: ").append(toIndentedString(changeType)).append("\n");
-    sb.append("    changeResult: ").append(toIndentedString(changeResult)).append("\n");
-    sb.append("    changedInfo: ").append(toIndentedString(changedInfo)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("class AffectedVnf {\n");
 
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
+		sb.append("    vnfInstanceId: ").append(toIndentedString(vnfInstanceId)).append("\n");
+		sb.append("    vnfdId: ").append(toIndentedString(vnfdId)).append("\n");
+		sb.append("    vnfProfileId: ").append(toIndentedString(vnfProfileId)).append("\n");
+		sb.append("    vnfName: ").append(toIndentedString(vnfName)).append("\n");
+		sb.append("    changeType: ").append(toIndentedString(changeType)).append("\n");
+		sb.append("    changeResult: ").append(toIndentedString(changeResult)).append("\n");
+		sb.append("    changedInfo: ").append(toIndentedString(changedInfo)).append("\n");
+		sb.append("}");
+		return sb.toString();
+	}
+
+	/**
+	* Convert the given object to string with each line indented by 4 spaces
+	* (except the first line).
+	*/
+	private String toIndentedString(java.lang.Object o) {
+		if (o == null) {
+			return "null";
+		}
+		return o.toString().replace("\n", "\n    ");
+	}
 }

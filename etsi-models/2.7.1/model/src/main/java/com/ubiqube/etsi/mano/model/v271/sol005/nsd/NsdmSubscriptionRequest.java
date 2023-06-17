@@ -26,14 +26,13 @@ import org.springframework.validation.annotation.Validated;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.em.v271.model.SubscriptionAuthentication;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This type represents a subscription request related to notifications about
  * NSD management.
  */
-@ApiModel(description = "This type represents a subscription request related to notifications about NSD management. ")
+@Schema (description= "This type represents a subscription request related to notifications about NSD management. " )
 @Validated
 public class NsdmSubscriptionRequest {
 	@JsonProperty("filter")
@@ -55,7 +54,7 @@ public class NsdmSubscriptionRequest {
 	 *
 	 * @return filter
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public NsdmNotificationsFilter getFilter() {
@@ -76,7 +75,7 @@ public class NsdmSubscriptionRequest {
 	 *
 	 * @return callbackUri
 	 **/
-	@ApiModelProperty(required = true, value = "The URI of the endpoint to send the notification to. ")
+	@Schema(required = true , description = "The URI of the endpoint to send the notification to. ")
 	@NotNull
 
 	public String getCallbackUri() {
@@ -97,7 +96,7 @@ public class NsdmSubscriptionRequest {
 	 *
 	 * @return authentication
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public SubscriptionAuthentication getAuthentication() {
@@ -118,8 +117,8 @@ public class NsdmSubscriptionRequest {
 		}
 		final NsdmSubscriptionRequest nsdmSubscriptionRequest = (NsdmSubscriptionRequest) o;
 		return Objects.equals(this.filter, nsdmSubscriptionRequest.filter) &&
-				Objects.equals(this.callbackUri, nsdmSubscriptionRequest.callbackUri) &&
-				Objects.equals(this.authentication, nsdmSubscriptionRequest.authentication);
+		Objects.equals(this.callbackUri, nsdmSubscriptionRequest.callbackUri) &&
+		Objects.equals(this.authentication, nsdmSubscriptionRequest.authentication);
 	}
 
 	@Override

@@ -20,8 +20,8 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -31,7 +31,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents provides input parameters to configure the forwarding behaviour.  It shall comply with the provisions defined in Table 6.5.3.73-1. 
  */
-@ApiModel(description = "This type represents provides input parameters to configure the forwarding behaviour.  It shall comply with the provisions defined in Table 6.5.3.73-1. ")
+@Schema (description= "This type represents provides input parameters to configure the forwarding behaviour.  It shall comply with the provisions defined in Table 6.5.3.73-1. " )
 @Validated
 public class ForwardingBehaviourInputParameters   {
   /**
@@ -54,25 +54,25 @@ public class ForwardingBehaviourInputParameters   {
 
     private String value;
 
-    AlgortihmNameEnum(String value) {
-      this.value = value;
-    }
+		AlgortihmNameEnum(String value) {
+			this.value = value;
+		}
 
-    @Override
-    @JsonValue
-    public String toString() {
-      return String.valueOf(value);
-    }
+		@Override
+		@JsonValue
+		public String toString() {
+			return String.valueOf(value);
+		}
 
-    @JsonCreator
-    public static AlgortihmNameEnum fromValue(String text) {
-      for (AlgortihmNameEnum b : AlgortihmNameEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
-    }
+		@JsonCreator
+		public static AlgortihmNameEnum fromValue(String text) {
+			for (AlgortihmNameEnum b : AlgortihmNameEnum.values()) {
+				if (String.valueOf(b.value).equals(text)) {
+					return b;
+				}
+			}
+			return null;
+		}
   }
   @JsonProperty("algortihmName")
   private AlgortihmNameEnum algortihmName = null;
@@ -81,90 +81,88 @@ public class ForwardingBehaviourInputParameters   {
   @Valid
   private List<Integer> algorithmWeights = null;
 
-  public ForwardingBehaviourInputParameters algortihmName(AlgortihmNameEnum algortihmName) {
-    this.algortihmName = algortihmName;
-    return this;
-  }
+	public ForwardingBehaviourInputParameters algortihmName(AlgortihmNameEnum algortihmName) {
+		this.algortihmName = algortihmName;
+		return this;
+	}
 
-  /**
-   * May be included if forwarding behaviour is equal to LB. Shall not be included otherwise. Permitted values: * ROUND_ROBIN * LEAST_CONNECTION * LEAST_TRAFFIC * LEAST_RESPONSE_TIME * CHAINED_FAILOVER * SOURCE_IP_HASH * SOURCE_MAC_HASH 
-   * @return algortihmName
-  **/
-  @ApiModelProperty(value = "May be included if forwarding behaviour is equal to LB. Shall not be included otherwise. Permitted values: * ROUND_ROBIN * LEAST_CONNECTION * LEAST_TRAFFIC * LEAST_RESPONSE_TIME * CHAINED_FAILOVER * SOURCE_IP_HASH * SOURCE_MAC_HASH ")
-  
-    public AlgortihmNameEnum getAlgortihmName() {
-    return algortihmName;
-  }
+	/**
+	* May be included if forwarding behaviour is equal to LB. Shall not be included otherwise. Permitted values: * ROUND_ROBIN * LEAST_CONNECTION * LEAST_TRAFFIC * LEAST_RESPONSE_TIME * CHAINED_FAILOVER * SOURCE_IP_HASH * SOURCE_MAC_HASH 
+	* @return algortihmName
+	*/
+	@Schema(description = "May be included if forwarding behaviour is equal to LB. Shall not be included otherwise. Permitted values: * ROUND_ROBIN * LEAST_CONNECTION * LEAST_TRAFFIC * LEAST_RESPONSE_TIME * CHAINED_FAILOVER * SOURCE_IP_HASH * SOURCE_MAC_HASH ")
+	public AlgortihmNameEnum getAlgortihmName() {
+		return algortihmName;
+	}
 
-  public void setAlgortihmName(AlgortihmNameEnum algortihmName) {
-    this.algortihmName = algortihmName;
-  }
+	public void setAlgortihmName(AlgortihmNameEnum algortihmName) {
+		this.algortihmName = algortihmName;
+	}
 
-  public ForwardingBehaviourInputParameters algorithmWeights(List<Integer> algorithmWeights) {
-    this.algorithmWeights = algorithmWeights;
-    return this;
-  }
+	public ForwardingBehaviourInputParameters algorithmWeights(List<Integer> algorithmWeights) {
+		this.algorithmWeights = algorithmWeights;
+		return this;
+	}
 
-  public ForwardingBehaviourInputParameters addAlgorithmWeightsItem(Integer algorithmWeightsItem) {
-    if (this.algorithmWeights == null) {
-      this.algorithmWeights = new ArrayList<>();
-    }
-    this.algorithmWeights.add(algorithmWeightsItem);
-    return this;
-  }
+	public ForwardingBehaviourInputParameters addAlgorithmWeightsItem(Integer algorithmWeightsItem) {
+		if (this.algorithmWeights == null) {
+			this.algorithmWeights = new ArrayList<>();
+		}
+		this.algorithmWeights.add(algorithmWeightsItem);
+		return this;
+	}
 
-  /**
-   * Percentage of messages sent to a CP instance. May be included if applicable to  the algorithm. If applicable to the algorithm but not provided, default values determined by  the VIM or NFVI are expected to be used. Weight applies to the CP instances in the order they have been created. 
-   * @return algorithmWeights
-  **/
-  @ApiModelProperty(value = "Percentage of messages sent to a CP instance. May be included if applicable to  the algorithm. If applicable to the algorithm but not provided, default values determined by  the VIM or NFVI are expected to be used. Weight applies to the CP instances in the order they have been created. ")
-  
-    public List<Integer> getAlgorithmWeights() {
-    return algorithmWeights;
-  }
+	/**
+	* Percentage of messages sent to a CP instance. May be included if applicable to  the algorithm. If applicable to the algorithm but not provided, default values determined by  the VIM or NFVI are expected to be used. Weight applies to the CP instances in the order they have been created. 
+	* @return algorithmWeights
+	*/
+	@Schema(description = "Percentage of messages sent to a CP instance. May be included if applicable to  the algorithm. If applicable to the algorithm but not provided, default values determined by  the VIM or NFVI are expected to be used. Weight applies to the CP instances in the order they have been created. ")
+	public List<Integer> getAlgorithmWeights() {
+		return algorithmWeights;
+	}
 
-  public void setAlgorithmWeights(List<Integer> algorithmWeights) {
-    this.algorithmWeights = algorithmWeights;
-  }
+	public void setAlgorithmWeights(List<Integer> algorithmWeights) {
+		this.algorithmWeights = algorithmWeights;
+	}
 
 
-  @Override
-  public boolean equals(java.lang.Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    ForwardingBehaviourInputParameters forwardingBehaviourInputParameters = (ForwardingBehaviourInputParameters) o;
-    return Objects.equals(this.algortihmName, forwardingBehaviourInputParameters.algortihmName) &&
-        Objects.equals(this.algorithmWeights, forwardingBehaviourInputParameters.algorithmWeights);
-  }
+	@Override
+	public boolean equals(java.lang.Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		ForwardingBehaviourInputParameters forwardingBehaviourInputParameters = (ForwardingBehaviourInputParameters) o;
+		return Objects.equals(this.algortihmName, forwardingBehaviourInputParameters.algortihmName) &&
+		Objects.equals(this.algorithmWeights, forwardingBehaviourInputParameters.algorithmWeights);
+	}
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(algortihmName, algorithmWeights);
-  }
+	@Override
+	public int hashCode() {
+		return Objects.hash(algortihmName, algorithmWeights);
+	}
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class ForwardingBehaviourInputParameters {\n");
-    
-    sb.append("    algortihmName: ").append(toIndentedString(algortihmName)).append("\n");
-    sb.append("    algorithmWeights: ").append(toIndentedString(algorithmWeights)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("class ForwardingBehaviourInputParameters {\n");
 
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
+		sb.append("    algortihmName: ").append(toIndentedString(algortihmName)).append("\n");
+		sb.append("    algorithmWeights: ").append(toIndentedString(algorithmWeights)).append("\n");
+		sb.append("}");
+		return sb.toString();
+	}
+
+	/**
+	* Convert the given object to string with each line indented by 4 spaces
+	* (except the first line).
+	*/
+	private String toIndentedString(java.lang.Object o) {
+		if (o == null) {
+			return "null";
+		}
+		return o.toString().replace("\n", "\n    ");
+	}
 }

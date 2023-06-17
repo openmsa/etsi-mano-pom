@@ -28,14 +28,13 @@ import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This type specifies additional parameters on a per-nested NS instance basis.
  * It shall comply with the provisions defined in Table 6.5.3.21a-1.
  */
-@ApiModel(description = "This type specifies additional parameters on a per-nested NS instance basis.  It shall comply with the provisions defined in Table 6.5.3.21a-1. ")
+@Schema (description= "This type specifies additional parameters on a per-nested NS instance basis.  It shall comply with the provisions defined in Table 6.5.3.21a-1. " )
 @Validated
 public class ParamsForNestedNs {
 	@JsonProperty("nsProfileId")
@@ -55,7 +54,7 @@ public class ParamsForNestedNs {
 	 *
 	 * @return nsProfileId
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	public String getNsProfileId() {
@@ -84,7 +83,7 @@ public class ParamsForNestedNs {
 	 *
 	 * @return additionalParam
 	 **/
-	@ApiModelProperty(value = "Additional parameters that are to be applied on a per nested NS instance. ")
+	@Schema(description = "Additional parameters that are to be applied on a per nested NS instance. ")
 	@Valid
 	public List<Map<String, Object>> getAdditionalParam() {
 		return additionalParam;
@@ -104,7 +103,7 @@ public class ParamsForNestedNs {
 		}
 		final ParamsForNestedNs paramsForNestedNs = (ParamsForNestedNs) o;
 		return Objects.equals(this.nsProfileId, paramsForNestedNs.nsProfileId) &&
-				Objects.equals(this.additionalParam, paramsForNestedNs.additionalParam);
+		Objects.equals(this.additionalParam, paramsForNestedNs.additionalParam);
 	}
 
 	@Override

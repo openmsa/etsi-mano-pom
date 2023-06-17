@@ -17,51 +17,52 @@
 package com.ubiqube.etsi.mano.model.v271.sol005.nslcm;
 
 import java.util.Objects;
-import io.swagger.annotations.ApiModel;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 
 /**
  * An identifier that is unique with respect to a NS. Representation: string of variable length. 
  */
-@ApiModel(description = "An identifier that is unique with respect to a NS. Representation: string of variable length. ")
+@Schema (description= "An identifier that is unique with respect to a NS. Representation: string of variable length. " )
 @Validated
 public class IdentifierInNs   {
 
-  @Override
-  public boolean equals(java.lang.Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    return true;
-  }
+	@Override
+	public boolean equals(java.lang.Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		return true;
+	}
 
-  @Override
-  public int hashCode() {
-    return Objects.hash();
-  }
+	@Override
+	public int hashCode() {
+		return Objects.hash();
+	}
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class IdentifierInNs {\n");
-    
-    sb.append("}");
-    return sb.toString();
-  }
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("class IdentifierInNs {\n");
 
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
+		sb.append("}");
+		return sb.toString();
+	}
+
+	/**
+	* Convert the given object to string with each line indented by 4 spaces
+	* (except the first line).
+	*/
+	private String toIndentedString(java.lang.Object o) {
+		if (o == null) {
+			return "null";
+		}
+		return o.toString().replace("\n", "\n    ");
+	}
 }

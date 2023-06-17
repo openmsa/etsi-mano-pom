@@ -27,13 +27,12 @@ import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This type represents configuration parameters of a VNF instance.
  */
-@ApiModel(description = "This type represents configuration parameters of a VNF instance. ")
+@Schema (description= "This type represents configuration parameters of a VNF instance. " )
 @Validated
 
 public class VnfConfigurationData {
@@ -65,7 +64,7 @@ public class VnfConfigurationData {
 	 *
 	 * @return extCpConfig
 	 **/
-	@ApiModelProperty(value = "Configuration parameters for the external CPs of the VNF instance. ")
+	@Schema(description = "Configuration parameters for the external CPs of the VNF instance. ")
 
 	@Valid
 
@@ -88,7 +87,7 @@ public class VnfConfigurationData {
 	 *
 	 * @return dhcpServer
 	 **/
-	@ApiModelProperty(value = "IP address of the DHCP server that the VNF instance can use to obtain IP addresses to be assigned to its external CPs. ")
+	@Schema(description = "IP address of the DHCP server that the VNF instance can use to obtain IP addresses to be assigned to its external CPs. ")
 
 	public String getDhcpServer() {
 		return dhcpServer;
@@ -109,7 +108,7 @@ public class VnfConfigurationData {
 	 *
 	 * @return vnfSpecificData
 	 **/
-	@ApiModelProperty(value = "Additional configurable properties of the VNF instance declared in the VNFD as \"VnfConfigurableProperties\". ")
+	@Schema(description = "Additional configurable properties of the VNF instance declared in the VNFD as \"VnfConfigurableProperties\". ")
 
 	@Valid
 
@@ -131,8 +130,8 @@ public class VnfConfigurationData {
 		}
 		final VnfConfigurationData vnfConfigurationData = (VnfConfigurationData) o;
 		return Objects.equals(this.extCpConfig, vnfConfigurationData.extCpConfig) &&
-				Objects.equals(this.dhcpServer, vnfConfigurationData.dhcpServer) &&
-				Objects.equals(this.vnfSpecificData, vnfConfigurationData.vnfSpecificData);
+		Objects.equals(this.dhcpServer, vnfConfigurationData.dhcpServer) &&
+		Objects.equals(this.vnfSpecificData, vnfConfigurationData.vnfSpecificData);
 	}
 
 	@Override

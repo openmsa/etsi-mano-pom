@@ -30,15 +30,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.em.v271.model.vnflcm.ExtManagedVirtualLinkData;
 import com.ubiqube.etsi.mano.em.v271.model.vnflcm.ExtVirtualLinkData;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * The type represents the information that is requested to be changed
  * deployment flavor for an existing VNF instance. It shall comply with the
  * provisions defined in Table 6.5.3.25-1.
  */
-@ApiModel(description = "The type represents the information that is requested to be changed deployment flavor for an existing VNF instance. It shall comply with the provisions defined in Table 6.5.3.25-1. ")
+@Schema (description= "The type represents the information that is requested to be changed deployment flavor for an existing VNF instance. It shall comply with the provisions defined in Table 6.5.3.25-1. " )
 @Validated
 public class ChangeVnfFlavourData {
 	@JsonProperty("vnfInstanceId")
@@ -71,7 +70,7 @@ public class ChangeVnfFlavourData {
 	 *
 	 * @return vnfInstanceId
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	public String getVnfInstanceId() {
@@ -92,7 +91,7 @@ public class ChangeVnfFlavourData {
 	 *
 	 * @return newFlavourId
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	public String getNewFlavourId() {
@@ -113,7 +112,7 @@ public class ChangeVnfFlavourData {
 	 *
 	 * @return instantiationLevelId
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	public String getInstantiationLevelId() {
 		return instantiationLevelId;
@@ -141,7 +140,7 @@ public class ChangeVnfFlavourData {
 	 *
 	 * @return extVirtualLinks
 	 **/
-	@ApiModelProperty(value = "Information about external VLs to connect the VNF to. ")
+	@Schema(description = "Information about external VLs to connect the VNF to. ")
 	@Valid
 	public List<ExtVirtualLinkData> getExtVirtualLinks() {
 		return extVirtualLinks;
@@ -169,7 +168,7 @@ public class ChangeVnfFlavourData {
 	 *
 	 * @return extManagedVirtualLinks
 	 **/
-	@ApiModelProperty(value = "information about internal VLs that are managed by NFVO. ")
+	@Schema(description = "information about internal VLs that are managed by NFVO. ")
 	@Valid
 	public List<ExtManagedVirtualLinkData> getExtManagedVirtualLinks() {
 		return extManagedVirtualLinks;
@@ -189,7 +188,7 @@ public class ChangeVnfFlavourData {
 	 *
 	 * @return additionalParams
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public Map<String, Object> getAdditionalParams() {
@@ -210,11 +209,11 @@ public class ChangeVnfFlavourData {
 		}
 		final ChangeVnfFlavourData changeVnfFlavourData = (ChangeVnfFlavourData) o;
 		return Objects.equals(this.vnfInstanceId, changeVnfFlavourData.vnfInstanceId) &&
-				Objects.equals(this.newFlavourId, changeVnfFlavourData.newFlavourId) &&
-				Objects.equals(this.instantiationLevelId, changeVnfFlavourData.instantiationLevelId) &&
-				Objects.equals(this.extVirtualLinks, changeVnfFlavourData.extVirtualLinks) &&
-				Objects.equals(this.extManagedVirtualLinks, changeVnfFlavourData.extManagedVirtualLinks) &&
-				Objects.equals(this.additionalParams, changeVnfFlavourData.additionalParams);
+		Objects.equals(this.newFlavourId, changeVnfFlavourData.newFlavourId) &&
+		Objects.equals(this.instantiationLevelId, changeVnfFlavourData.instantiationLevelId) &&
+		Objects.equals(this.extVirtualLinks, changeVnfFlavourData.extVirtualLinks) &&
+		Objects.equals(this.extManagedVirtualLinks, changeVnfFlavourData.extManagedVirtualLinks) &&
+		Objects.equals(this.additionalParams, changeVnfFlavourData.additionalParams);
 	}
 
 	@Override

@@ -28,13 +28,12 @@ import org.springframework.validation.annotation.Validated;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.em.v271.model.SubscriptionAuthentication;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This type represents a request to create a PM job.
  */
-@ApiModel(description = "This type represents a request to create a PM job. ")
+@Schema (description= "This type represents a request to create a PM job. " )
 @Validated
 
 public class CreatePmJobRequest {
@@ -69,7 +68,7 @@ public class CreatePmJobRequest {
 	 *
 	 * @return objectType
 	 **/
-	@ApiModelProperty(required = true, value = "Type of the measured object. The applicable measured object type for a measurement  is defined in clause 7.2 of ETSI GS NFV-IFA 027. ")
+	@Schema(required = true , description = "Type of the measured object. The applicable measured object type for a measurement  is defined in clause 7.2 of ETSI GS NFV-IFA 027. ")
 	@NotNull
 
 	public String getObjectType() {
@@ -96,7 +95,7 @@ public class CreatePmJobRequest {
 	 *
 	 * @return objectInstanceIds
 	 **/
-	@ApiModelProperty(required = true, value = "Identifiers of the measured object instances for which performance information is requested to be collected. ")
+	@Schema(required = true , description = "Identifiers of the measured object instances for which performance information is requested to be collected. ")
 	@NotNull
 
 	public List<String> getObjectInstanceIds() {
@@ -132,7 +131,7 @@ public class CreatePmJobRequest {
 	 *
 	 * @return subObjectInstanceIds
 	 **/
-	@ApiModelProperty(value = "Identifiers of the sub-object instances of the measured object instance for which performance information is requested to be collected. May be present if a sub-object is defined in clause 6.2 of ETSI GS NFV-IFA 027for the related measured object type. If this attribute is present, the cardinality of the \"objectInstanceIds\" attribute shall be 1. If this attribute is absent and a sub-object is defined in clause 6.2 of ETSI GS NFV IFA 027 for the related measured object type, measurements will be taken for all sub-object instances of the measured object instance. ")
+	@Schema(description = "Identifiers of the sub-object instances of the measured object instance for which performance information is requested to be collected. May be present if a sub-object is defined in clause 6.2 of ETSI GS NFV-IFA 027for the related measured object type. If this attribute is present, the cardinality of the \"objectInstanceIds\" attribute shall be 1. If this attribute is absent and a sub-object is defined in clause 6.2 of ETSI GS NFV IFA 027 for the related measured object type, measurements will be taken for all sub-object instances of the measured object instance. ")
 
 	public List<String> getSubObjectInstanceIds() {
 		return subObjectInstanceIds;
@@ -152,7 +151,7 @@ public class CreatePmJobRequest {
 	 *
 	 * @return criteria
 	 **/
-	@ApiModelProperty(required = true, value = "Criteria of the collection of performance information. ")
+	@Schema(required = true , description = "Criteria of the collection of performance information. ")
 	@NotNull
 
 	@Valid
@@ -175,7 +174,7 @@ public class CreatePmJobRequest {
 	 *
 	 * @return callbackUri
 	 **/
-	@ApiModelProperty(required = true, value = "The URI of the endpoint to send the notification to. ")
+	@Schema(required = true , description = "The URI of the endpoint to send the notification to. ")
 	@NotNull
 
 	public String getCallbackUri() {
@@ -199,7 +198,7 @@ public class CreatePmJobRequest {
 	 *
 	 * @return authentication
 	 **/
-	@ApiModelProperty(value = "Authentication parameters to configure the use of Authorization when sending notifications corresponding to this PM job, as defined in clause 8.3.4 of ETSI GS NFV-SOL 013. This attribute shall only be present if the API consumer requires authorization of notifications. ")
+	@Schema(description = "Authentication parameters to configure the use of Authorization when sending notifications corresponding to this PM job, as defined in clause 8.3.4 of ETSI GS NFV-SOL 013. This attribute shall only be present if the API consumer requires authorization of notifications. ")
 
 	@Valid
 
@@ -221,11 +220,11 @@ public class CreatePmJobRequest {
 		}
 		final CreatePmJobRequest createPmJobRequest = (CreatePmJobRequest) o;
 		return Objects.equals(this.objectType, createPmJobRequest.objectType) &&
-				Objects.equals(this.objectInstanceIds, createPmJobRequest.objectInstanceIds) &&
-				Objects.equals(this.subObjectInstanceIds, createPmJobRequest.subObjectInstanceIds) &&
-				Objects.equals(this.criteria, createPmJobRequest.criteria) &&
-				Objects.equals(this.callbackUri, createPmJobRequest.callbackUri) &&
-				Objects.equals(this.authentication, createPmJobRequest.authentication);
+		Objects.equals(this.objectInstanceIds, createPmJobRequest.objectInstanceIds) &&
+		Objects.equals(this.subObjectInstanceIds, createPmJobRequest.subObjectInstanceIds) &&
+		Objects.equals(this.criteria, createPmJobRequest.criteria) &&
+		Objects.equals(this.callbackUri, createPmJobRequest.callbackUri) &&
+		Objects.equals(this.authentication, createPmJobRequest.authentication);
 	}
 
 	@Override

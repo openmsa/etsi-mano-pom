@@ -21,8 +21,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.ubiqube.etsi.mano.em.v271.model.vnflcm.IpOverEthernetAddressData;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -30,7 +30,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents network protocol data. 
  */
-@ApiModel(description = "This type represents network protocol data. ")
+@Schema (description= "This type represents network protocol data. " )
 @Validated
 
 public class CpProtocolData   {
@@ -42,25 +42,25 @@ public class CpProtocolData   {
 
     private String value;
 
-    LayerProtocolEnum(String value) {
-      this.value = value;
-    }
+		LayerProtocolEnum(String value) {
+			this.value = value;
+		}
 
-    @Override
-    @JsonValue
-    public String toString() {
-      return String.valueOf(value);
-    }
+		@Override
+		@JsonValue
+		public String toString() {
+			return String.valueOf(value);
+		}
 
-    @JsonCreator
-    public static LayerProtocolEnum fromValue(String text) {
-      for (LayerProtocolEnum b : LayerProtocolEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
-    }
+		@JsonCreator
+		public static LayerProtocolEnum fromValue(String text) {
+			for (LayerProtocolEnum b : LayerProtocolEnum.values()) {
+				if (String.valueOf(b.value).equals(text)) {
+					return b;
+				}
+			}
+			return null;
+		}
   }
 
   @JsonProperty("layerProtocol")
@@ -69,87 +69,87 @@ public class CpProtocolData   {
   @JsonProperty("ipOverEthernet")
   private IpOverEthernetAddressData ipOverEthernet = null;
 
-  public CpProtocolData layerProtocol(LayerProtocolEnum layerProtocol) {
-    this.layerProtocol = layerProtocol;
-    return this;
-  }
+	public CpProtocolData layerProtocol(LayerProtocolEnum layerProtocol) {
+		this.layerProtocol = layerProtocol;
+		return this;
+	}
 
-  /**
-   * Identifier of layer(s) and protocol(s). This attribute allows to signal the addition of further types of layer and protocol in future versions of the present document in a backwards-compatible way. In the current version of the present document, only IP over Ethernet is supported. 
-   * @return layerProtocol
-  **/
-  @ApiModelProperty(required = true, value = "Identifier of layer(s) and protocol(s). This attribute allows to signal the addition of further types of layer and protocol in future versions of the present document in a backwards-compatible way. In the current version of the present document, only IP over Ethernet is supported. ")
-  @NotNull
-
-
-  public LayerProtocolEnum getLayerProtocol() {
-    return layerProtocol;
-  }
-
-  public void setLayerProtocol(LayerProtocolEnum layerProtocol) {
-    this.layerProtocol = layerProtocol;
-  }
-
-  public CpProtocolData ipOverEthernet(IpOverEthernetAddressData ipOverEthernet) {
-    this.ipOverEthernet = ipOverEthernet;
-    return this;
-  }
-
-  /**
-   * Network address data for IP over Ethernet to assign to the extCP instance. Shall be present if layerProtocol is equal to \"IP_OVER_ETHERNET\", and shall be absent otherwise. 
-   * @return ipOverEthernet
-  **/
-  @ApiModelProperty(value = "Network address data for IP over Ethernet to assign to the extCP instance. Shall be present if layerProtocol is equal to \"IP_OVER_ETHERNET\", and shall be absent otherwise. ")
-
-  @Valid
-
-  public IpOverEthernetAddressData getIpOverEthernet() {
-    return ipOverEthernet;
-  }
-
-  public void setIpOverEthernet(IpOverEthernetAddressData ipOverEthernet) {
-    this.ipOverEthernet = ipOverEthernet;
-  }
+	/**
+	* Identifier of layer(s) and protocol(s). This attribute allows to signal the addition of further types of layer and protocol in future versions of the present document in a backwards-compatible way. In the current version of the present document, only IP over Ethernet is supported. 
+	* @return layerProtocol
+	*/
+	@Schema(required = true , description = "Identifier of layer(s) and protocol(s). This attribute allows to signal the addition of further types of layer and protocol in future versions of the present document in a backwards-compatible way. In the current version of the present document, only IP over Ethernet is supported. ")
+	@NotNull
 
 
-  @Override
-  public boolean equals(java.lang.Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    CpProtocolData cpProtocolData = (CpProtocolData) o;
-    return Objects.equals(this.layerProtocol, cpProtocolData.layerProtocol) &&
-        Objects.equals(this.ipOverEthernet, cpProtocolData.ipOverEthernet);
-  }
+	public LayerProtocolEnum getLayerProtocol() {
+		return layerProtocol;
+	}
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(layerProtocol, ipOverEthernet);
-  }
+	public void setLayerProtocol(LayerProtocolEnum layerProtocol) {
+		this.layerProtocol = layerProtocol;
+	}
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class CpProtocolData {\n");
-    
-    sb.append("    layerProtocol: ").append(toIndentedString(layerProtocol)).append("\n");
-    sb.append("    ipOverEthernet: ").append(toIndentedString(ipOverEthernet)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
+	public CpProtocolData ipOverEthernet(IpOverEthernetAddressData ipOverEthernet) {
+		this.ipOverEthernet = ipOverEthernet;
+		return this;
+	}
 
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
+	/**
+	* Network address data for IP over Ethernet to assign to the extCP instance. Shall be present if layerProtocol is equal to \"IP_OVER_ETHERNET\", and shall be absent otherwise. 
+	* @return ipOverEthernet
+	*/
+	@Schema(description = "Network address data for IP over Ethernet to assign to the extCP instance. Shall be present if layerProtocol is equal to \"IP_OVER_ETHERNET\", and shall be absent otherwise. ")
+
+	@Valid
+
+	public IpOverEthernetAddressData getIpOverEthernet() {
+		return ipOverEthernet;
+	}
+
+	public void setIpOverEthernet(IpOverEthernetAddressData ipOverEthernet) {
+		this.ipOverEthernet = ipOverEthernet;
+	}
+
+
+	@Override
+	public boolean equals(java.lang.Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		CpProtocolData cpProtocolData = (CpProtocolData) o;
+		return Objects.equals(this.layerProtocol, cpProtocolData.layerProtocol) &&
+		Objects.equals(this.ipOverEthernet, cpProtocolData.ipOverEthernet);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(layerProtocol, ipOverEthernet);
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("class CpProtocolData {\n");
+
+		sb.append("    layerProtocol: ").append(toIndentedString(layerProtocol)).append("\n");
+		sb.append("    ipOverEthernet: ").append(toIndentedString(ipOverEthernet)).append("\n");
+		sb.append("}");
+		return sb.toString();
+	}
+
+	/**
+	* Convert the given object to string with each line indented by 4 spaces
+	* (except the first line).
+	*/
+	private String toIndentedString(java.lang.Object o) {
+		if (o == null) {
+			return "null";
+		}
+		return o.toString().replace("\n", "\n    ");
+	}
 }
 

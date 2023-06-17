@@ -17,7 +17,6 @@
 package com.ubiqube.etsi.mano.model.v271.sol005.nslcm;
 
 import java.util.Objects;
-import io.swagger.annotations.ApiModel;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
@@ -37,23 +36,23 @@ public enum NsLcmOpType {
 
   private String value;
 
-  NsLcmOpType(String value) {
-    this.value = value;
-  }
+	NsLcmOpType(String value) {
+		this.value = value;
+	}
 
-  @Override
-  @JsonValue
-  public String toString() {
-    return String.valueOf(value);
-  }
+	@Override
+	@JsonValue
+	public String toString() {
+		return String.valueOf(value);
+	}
 
-  @JsonCreator
-  public static NsLcmOpType fromValue(String text) {
-    for (NsLcmOpType b : NsLcmOpType.values()) {
-      if (String.valueOf(b.value).equals(text)) {
-        return b;
-      }
-    }
-    return null;
-  }
+	@JsonCreator
+	public static NsLcmOpType fromValue(String text) {
+		for (NsLcmOpType b : NsLcmOpType.values()) {
+			if (String.valueOf(b.value).equals(text)) {
+				return b;
+			}
+		}
+		return null;
+	}
 }

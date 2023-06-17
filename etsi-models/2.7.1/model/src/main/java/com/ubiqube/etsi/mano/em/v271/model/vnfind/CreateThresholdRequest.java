@@ -28,13 +28,12 @@ import org.springframework.validation.annotation.Validated;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.em.v271.model.SubscriptionAuthentication;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This type represents a request to create a threshold.
  */
-@ApiModel(description = "This type represents a request to create a threshold. ")
+@Schema (description= "This type represents a request to create a threshold. " )
 @Validated
 
 public class CreateThresholdRequest {
@@ -68,7 +67,7 @@ public class CreateThresholdRequest {
 	 *
 	 * @return objectType
 	 **/
-	@ApiModelProperty(required = true, value = "Type of the measured object. The applicable measured object type for a measurement is defined in clause 7.2 of ETSI GS NFV-IFA 027. ")
+	@Schema(required = true , description = "Type of the measured object. The applicable measured object type for a measurement is defined in clause 7.2 of ETSI GS NFV-IFA 027. ")
 	@NotNull
 
 	public String getObjectType() {
@@ -89,7 +88,7 @@ public class CreateThresholdRequest {
 	 *
 	 * @return objectInstanceId
 	 **/
-	@ApiModelProperty(required = true, value = "Identifier of the VNF instance associated with this threshold. ")
+	@Schema(required = true , description = "Identifier of the VNF instance associated with this threshold. ")
 	@NotNull
 
 	public String getObjectInstanceId() {
@@ -123,7 +122,7 @@ public class CreateThresholdRequest {
 	 *
 	 * @return subObjectInstanceIds
 	 **/
-	@ApiModelProperty(value = "Identifiers of the sub-object instances of the measured object instance associated with this threshold. May be present if a sub-object is defined in clause 6.2 of ETSI GS NFV-IFA 027 for the related measured object type. If this attribute is absent and a sub-object is defined in clause 6.2 of ETSI GS NFV-IFA 027 for the measured object type, measurements will be taken for all sub-object instances of the measured object instance. ")
+	@Schema(description = "Identifiers of the sub-object instances of the measured object instance associated with this threshold. May be present if a sub-object is defined in clause 6.2 of ETSI GS NFV-IFA 027 for the related measured object type. If this attribute is absent and a sub-object is defined in clause 6.2 of ETSI GS NFV-IFA 027 for the measured object type, measurements will be taken for all sub-object instances of the measured object instance. ")
 
 	public List<String> getSubObjectInstanceIds() {
 		return subObjectInstanceIds;
@@ -143,7 +142,7 @@ public class CreateThresholdRequest {
 	 *
 	 * @return criteria
 	 **/
-	@ApiModelProperty(required = true, value = "Criteria that define this threshold. ")
+	@Schema(required = true , description = "Criteria that define this threshold. ")
 	@NotNull
 
 	@Valid
@@ -166,7 +165,7 @@ public class CreateThresholdRequest {
 	 *
 	 * @return callbackUri
 	 **/
-	@ApiModelProperty(required = true, value = "The URI of the endpoint to send the notification to. ")
+	@Schema(required = true , description = "The URI of the endpoint to send the notification to. ")
 	@NotNull
 
 	public String getCallbackUri() {
@@ -190,7 +189,7 @@ public class CreateThresholdRequest {
 	 *
 	 * @return authentication
 	 **/
-	@ApiModelProperty(value = "Authentication parameters to configure the use of Authorization when sending notifications corresponding to this threshold, as defined in clause 8.3.4 of ETSI GS NFV-SOL 013. This attribute shall only be present if the API consumer requires authorization of notifications. ")
+	@Schema(description = "Authentication parameters to configure the use of Authorization when sending notifications corresponding to this threshold, as defined in clause 8.3.4 of ETSI GS NFV-SOL 013. This attribute shall only be present if the API consumer requires authorization of notifications. ")
 
 	@Valid
 
@@ -212,11 +211,11 @@ public class CreateThresholdRequest {
 		}
 		final CreateThresholdRequest createThresholdRequest = (CreateThresholdRequest) o;
 		return Objects.equals(this.objectType, createThresholdRequest.objectType) &&
-				Objects.equals(this.objectInstanceId, createThresholdRequest.objectInstanceId) &&
-				Objects.equals(this.subObjectInstanceIds, createThresholdRequest.subObjectInstanceIds) &&
-				Objects.equals(this.criteria, createThresholdRequest.criteria) &&
-				Objects.equals(this.callbackUri, createThresholdRequest.callbackUri) &&
-				Objects.equals(this.authentication, createThresholdRequest.authentication);
+		Objects.equals(this.objectInstanceId, createThresholdRequest.objectInstanceId) &&
+		Objects.equals(this.subObjectInstanceIds, createThresholdRequest.subObjectInstanceIds) &&
+		Objects.equals(this.criteria, createThresholdRequest.criteria) &&
+		Objects.equals(this.callbackUri, createThresholdRequest.callbackUri) &&
+		Objects.equals(this.authentication, createThresholdRequest.authentication);
 	}
 
 	@Override

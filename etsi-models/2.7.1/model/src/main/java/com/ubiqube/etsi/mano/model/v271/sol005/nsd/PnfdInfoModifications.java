@@ -26,8 +26,7 @@ import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This type represents attribute modifications for an individual PNF descriptor
@@ -35,7 +34,7 @@ import io.swagger.annotations.ApiModelProperty;
  * \&quot;PnfdInfo\&quot; that can be modified are included in the
  * \&quot;PnfdInfoModifications\&quot; data type.
  */
-@ApiModel(description = "This type represents attribute modifications for an individual PNF descriptor resource based on the \"PnfdInfo\" data type. The attributes of \"PnfdInfo\" that can be modified are included in the \"PnfdInfoModifications\" data type. ")
+@Schema (description= "This type represents attribute modifications for an individual PNF descriptor resource based on the \"PnfdInfo\" data type. The attributes of \"PnfdInfo\" that can be modified are included in the \"PnfdInfoModifications\" data type. " )
 @Validated
 public class PnfdInfoModifications {
 	@JsonProperty("userDefinedData")
@@ -51,7 +50,7 @@ public class PnfdInfoModifications {
 	 *
 	 * @return userDefinedData
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	@Valid

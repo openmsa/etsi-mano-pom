@@ -26,14 +26,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 import com.ubiqube.etsi.mano.nfvo.v271.model.vnf.PackageOperationalStateType;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This type represents modifications to the information of a VNF package. It
  * shall comply with the provisions defined in Table 9.5.2.3-1.
  */
-@ApiModel(description = "This type represents modifications to the information of a VNF package.  It shall comply with the provisions defined in Table 9.5.2.3-1. ")
+@Schema (description= "This type represents modifications to the information of a VNF package.  It shall comply with the provisions defined in Table 9.5.2.3-1. " )
 @Validated
 public class VnfPkgInfoModifications {
 	@JsonProperty("operationalState")
@@ -52,7 +51,7 @@ public class VnfPkgInfoModifications {
 	 *
 	 * @return operationalState
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public PackageOperationalStateType getOperationalState() {
@@ -73,7 +72,7 @@ public class VnfPkgInfoModifications {
 	 *
 	 * @return userDefinedData
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public Map<String, String> getUserDefinedData() {
@@ -94,7 +93,7 @@ public class VnfPkgInfoModifications {
 		}
 		final VnfPkgInfoModifications vnfPkgInfoModifications = (VnfPkgInfoModifications) o;
 		return Objects.equals(this.operationalState, vnfPkgInfoModifications.operationalState) &&
-				Objects.equals(this.userDefinedData, vnfPkgInfoModifications.userDefinedData);
+		Objects.equals(this.userDefinedData, vnfPkgInfoModifications.userDefinedData);
 	}
 
 	@Override

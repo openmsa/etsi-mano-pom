@@ -27,7 +27,7 @@ import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * PkgmNotificationsFilterVnfProducts
@@ -53,7 +53,7 @@ public class PkgmNotificationsFilterVnfProducts {
 	 *
 	 * @return vnfProductName
 	 **/
-	@ApiModelProperty(required = true, value = "Name of the VNF product to match. ")
+	@Schema(required = true , description = "Name of the VNF product to match. ")
 	@NotNull
 
 	public String getVnfProductName() {
@@ -83,7 +83,7 @@ public class PkgmNotificationsFilterVnfProducts {
 	 *
 	 * @return versions
 	 **/
-	@ApiModelProperty(value = "If present, match VNF packages that contain VNF products with certain versions and a certain product name, from one particular provider. ")
+	@Schema(description = "If present, match VNF packages that contain VNF products with certain versions and a certain product name, from one particular provider. ")
 
 	@Valid
 
@@ -105,7 +105,7 @@ public class PkgmNotificationsFilterVnfProducts {
 		}
 		final PkgmNotificationsFilterVnfProducts pkgmNotificationsFilterVnfProducts = (PkgmNotificationsFilterVnfProducts) o;
 		return Objects.equals(this.vnfProductName, pkgmNotificationsFilterVnfProducts.vnfProductName) &&
-				Objects.equals(this.versions, pkgmNotificationsFilterVnfProducts.versions);
+		Objects.equals(this.versions, pkgmNotificationsFilterVnfProducts.versions);
 	}
 
 	@Override

@@ -26,13 +26,12 @@ import org.springframework.validation.annotation.Validated;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.em.v271.model.vnflcm.Link;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Links for this resource.
  */
-@ApiModel(description = "Links for this resource. ")
+@Schema (description= "Links for this resource. " )
 @Validated
 
 public class AlarmLinks {
@@ -52,7 +51,7 @@ public class AlarmLinks {
 	 *
 	 * @return self
 	 **/
-	@ApiModelProperty(required = true, value = "URI of this resource. ")
+	@Schema(required = true , description = "URI of this resource. ")
 	@NotNull
 
 	@Valid
@@ -77,7 +76,7 @@ public class AlarmLinks {
 	 *
 	 * @return objectInstance
 	 **/
-	@ApiModelProperty(value = "Link to the resource representing the VNF instance to which the notified alarm is correlated. Shall be present if the VNF instance information is accessible as a resource. ")
+	@Schema(description = "Link to the resource representing the VNF instance to which the notified alarm is correlated. Shall be present if the VNF instance information is accessible as a resource. ")
 
 	@Valid
 
@@ -99,7 +98,7 @@ public class AlarmLinks {
 		}
 		final AlarmLinks alarmLinks = (AlarmLinks) o;
 		return Objects.equals(this.self, alarmLinks.self) &&
-				Objects.equals(this.objectInstance, alarmLinks.objectInstance);
+		Objects.equals(this.objectInstance, alarmLinks.objectInstance);
 	}
 
 	@Override

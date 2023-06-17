@@ -17,7 +17,6 @@
 package com.ubiqube.etsi.mano.vnfm.v271.model.vnflcm;
 
 import java.util.Objects;
-import io.swagger.annotations.ApiModel;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
@@ -36,24 +35,24 @@ public enum StopType {
 
   private String value;
 
-  StopType(String value) {
-    this.value = value;
-  }
+	StopType(String value) {
+		this.value = value;
+	}
 
-  @Override
-  @JsonValue
-  public String toString() {
-    return String.valueOf(value);
-  }
+	@Override
+	@JsonValue
+	public String toString() {
+		return String.valueOf(value);
+	}
 
-  @JsonCreator
-  public static StopType fromValue(String text) {
-    for (StopType b : StopType.values()) {
-      if (String.valueOf(b.value).equals(text)) {
-        return b;
-      }
-    }
-    return null;
-  }
+	@JsonCreator
+	public static StopType fromValue(String text) {
+		for (StopType b : StopType.values()) {
+			if (String.valueOf(b.value).equals(text)) {
+				return b;
+			}
+		}
+		return null;
+	}
 }
 

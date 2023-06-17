@@ -31,14 +31,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.ubiqube.etsi.mano.em.v271.model.vnfconfig.ProblemDetails;
 import com.ubiqube.etsi.mano.em.v271.model.vnflcm.CancelModeType;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This type represents a request a NS lifecycle operation occurrence. It shall
  * comply with the provisions defined in Table 6.5.2.3-1.
  */
-@ApiModel(description = "This type represents a request a NS lifecycle operation occurrence. It shall comply with the provisions defined in Table 6.5.2.3-1. ")
+@Schema (description= "This type represents a request a NS lifecycle operation occurrence. It shall comply with the provisions defined in Table 6.5.2.3-1. " )
 @Validated
 public class NsLcmOpOcc {
 	@JsonProperty("id")
@@ -135,7 +134,7 @@ public class NsLcmOpOcc {
 	 *
 	 * @return id
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	public String getId() {
@@ -156,7 +155,7 @@ public class NsLcmOpOcc {
 	 *
 	 * @return operationState
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	@Valid
@@ -178,7 +177,7 @@ public class NsLcmOpOcc {
 	 *
 	 * @return statusEnteredTime
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	@Valid
@@ -200,7 +199,7 @@ public class NsLcmOpOcc {
 	 *
 	 * @return nsInstanceId
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	public UUID getNsInstanceId() {
@@ -221,7 +220,7 @@ public class NsLcmOpOcc {
 	 *
 	 * @return lcmOperationType
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	@Valid
@@ -243,7 +242,7 @@ public class NsLcmOpOcc {
 	 *
 	 * @return startTime
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	@Valid
@@ -268,7 +267,7 @@ public class NsLcmOpOcc {
 	 *
 	 * @return isAutomaticInvocation
 	 **/
-	@ApiModelProperty(required = true, value = "Set to true if this NS LCM operation occurrence has been automatically triggered by the NFVO. This occurs in the case of auto-scaling, auto-healing and when a nested NS is modified as a result of an operation on its composite NS. Set to false otherwise. ")
+	@Schema(required = true , description = "Set to true if this NS LCM operation occurrence has been automatically triggered by the NFVO. This occurs in the case of auto-scaling, auto-healing and when a nested NS is modified as a result of an operation on its composite NS. Set to false otherwise. ")
 	@NotNull
 
 	public Boolean isIsAutomaticInvocation() {
@@ -297,7 +296,7 @@ public class NsLcmOpOcc {
 	 *
 	 * @return operationParams
 	 **/
-	@ApiModelProperty(value = "Input parameters of the LCM operation. This attribute shall be formatted according to the request data type of the related LCM operation. The following mapping between lcmOperationType and the data type of this attribute shall apply: - INSTANTIATE: InstantiateNsRequest - SCALE: ScaleNsRequest - UPDATE: UpdateNsRequest - HEAL: HealNsRequest - TERMINATE: TerminateNsRequest This attribute shall be present if this data type is returned in a response to reading an individual resource, and may be present according to the chosen attribute selector parameter if this data type is returned in a response to a query of a container resource. ")
+	@Schema(description = "Input parameters of the LCM operation. This attribute shall be formatted according to the request data type of the related LCM operation. The following mapping between lcmOperationType and the data type of this attribute shall apply: - INSTANTIATE: InstantiateNsRequest - SCALE: ScaleNsRequest - UPDATE: UpdateNsRequest - HEAL: HealNsRequest - TERMINATE: TerminateNsRequest This attribute shall be present if this data type is returned in a response to reading an individual resource, and may be present according to the chosen attribute selector parameter if this data type is returned in a response to a query of a container resource. ")
 
 	public Object getOperationParams() {
 		return operationParams;
@@ -319,7 +318,7 @@ public class NsLcmOpOcc {
 	 *
 	 * @return isCancelPending
 	 **/
-	@ApiModelProperty(required = true, value = "If the LCM operation occurrence is in \"PROCESSING\" or \"ROLLING_BACK\" state and the operation is being cancelled, this attribute shall be set to true. Otherwise, it shall be set to false. ")
+	@Schema(required = true , description = "If the LCM operation occurrence is in \"PROCESSING\" or \"ROLLING_BACK\" state and the operation is being cancelled, this attribute shall be set to true. Otherwise, it shall be set to false. ")
 	@NotNull
 
 	public Boolean isIsCancelPending() {
@@ -340,7 +339,7 @@ public class NsLcmOpOcc {
 	 *
 	 * @return cancelMode
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public CancelModeType getCancelMode() {
@@ -361,7 +360,7 @@ public class NsLcmOpOcc {
 	 *
 	 * @return error
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public ProblemDetails getError() {
@@ -382,7 +381,7 @@ public class NsLcmOpOcc {
 	 *
 	 * @return resourceChanges
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public NsLcmOpOccResourceChanges getResourceChanges() {
@@ -403,7 +402,7 @@ public class NsLcmOpOcc {
 	 *
 	 * @return _links
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	@Valid
@@ -425,18 +424,18 @@ public class NsLcmOpOcc {
 		}
 		final NsLcmOpOcc nsLcmOpOcc = (NsLcmOpOcc) o;
 		return Objects.equals(this.id, nsLcmOpOcc.id) &&
-				Objects.equals(this.operationState, nsLcmOpOcc.operationState) &&
-				Objects.equals(this.statusEnteredTime, nsLcmOpOcc.statusEnteredTime) &&
-				Objects.equals(this.nsInstanceId, nsLcmOpOcc.nsInstanceId) &&
-				Objects.equals(this.lcmOperationType, nsLcmOpOcc.lcmOperationType) &&
-				Objects.equals(this.startTime, nsLcmOpOcc.startTime) &&
-				Objects.equals(this.isAutomaticInvocation, nsLcmOpOcc.isAutomaticInvocation) &&
-				Objects.equals(this.operationParams, nsLcmOpOcc.operationParams) &&
-				Objects.equals(this.isCancelPending, nsLcmOpOcc.isCancelPending) &&
-				Objects.equals(this.cancelMode, nsLcmOpOcc.cancelMode) &&
-				Objects.equals(this.error, nsLcmOpOcc.error) &&
-				Objects.equals(this.resourceChanges, nsLcmOpOcc.resourceChanges) &&
-				Objects.equals(this._links, nsLcmOpOcc._links);
+		Objects.equals(this.operationState, nsLcmOpOcc.operationState) &&
+		Objects.equals(this.statusEnteredTime, nsLcmOpOcc.statusEnteredTime) &&
+		Objects.equals(this.nsInstanceId, nsLcmOpOcc.nsInstanceId) &&
+		Objects.equals(this.lcmOperationType, nsLcmOpOcc.lcmOperationType) &&
+		Objects.equals(this.startTime, nsLcmOpOcc.startTime) &&
+		Objects.equals(this.isAutomaticInvocation, nsLcmOpOcc.isAutomaticInvocation) &&
+		Objects.equals(this.operationParams, nsLcmOpOcc.operationParams) &&
+		Objects.equals(this.isCancelPending, nsLcmOpOcc.isCancelPending) &&
+		Objects.equals(this.cancelMode, nsLcmOpOcc.cancelMode) &&
+		Objects.equals(this.error, nsLcmOpOcc.error) &&
+		Objects.equals(this.resourceChanges, nsLcmOpOcc.resourceChanges) &&
+		Objects.equals(this._links, nsLcmOpOcc._links);
 	}
 
 	@Override

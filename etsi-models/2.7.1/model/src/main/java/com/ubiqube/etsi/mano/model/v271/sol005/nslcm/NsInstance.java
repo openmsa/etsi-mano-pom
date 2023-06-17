@@ -31,14 +31,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.ubiqube.etsi.mano.em.v271.model.vnflcm.VnfInstance;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This type represents a response for Query NS operation. It shall comply with
  * the provisions defined in Table 6.5.2.10-1.
  */
-@ApiModel(description = "This type represents a response for Query NS operation.  It shall comply with the provisions defined in Table 6.5.2.10-1. ")
+@Schema (description= "This type represents a response for Query NS operation.  It shall comply with the provisions defined in Table 6.5.2.10-1. " )
 @Validated
 public class NsInstance {
 	@JsonProperty("id")
@@ -144,7 +143,7 @@ public class NsInstance {
 	 *
 	 * @return id
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	public UUID getId() {
@@ -165,7 +164,7 @@ public class NsInstance {
 	 *
 	 * @return nsInstanceName
 	 **/
-	@ApiModelProperty(required = true, value = "Human readable name of the NS instance. ")
+	@Schema(required = true , description = "Human readable name of the NS instance. ")
 	@NotNull
 
 	public String getNsInstanceName() {
@@ -186,7 +185,7 @@ public class NsInstance {
 	 *
 	 * @return nsInstanceDescription
 	 **/
-	@ApiModelProperty(required = true, value = "Human readable description of the NS instance. ")
+	@Schema(required = true , description = "Human readable description of the NS instance. ")
 	@NotNull
 
 	public String getNsInstanceDescription() {
@@ -207,7 +206,7 @@ public class NsInstance {
 	 *
 	 * @return nsdId
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	public UUID getNsdId() {
@@ -228,7 +227,7 @@ public class NsInstance {
 	 *
 	 * @return nsdInfoId
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	public UUID getNsdInfoId() {
@@ -249,7 +248,7 @@ public class NsInstance {
 	 *
 	 * @return flavourId
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	public String getFlavourId() {
 		return flavourId;
@@ -277,7 +276,7 @@ public class NsInstance {
 	 *
 	 * @return vnfInstance
 	 **/
-	@ApiModelProperty(value = "Information on constituent VNF(s) of the NS instance. ")
+	@Schema(description = "Information on constituent VNF(s) of the NS instance. ")
 	@Valid
 	public List<VnfInstance> getVnfInstance() {
 		return vnfInstance;
@@ -305,7 +304,7 @@ public class NsInstance {
 	 *
 	 * @return pnfInfo
 	 **/
-	@ApiModelProperty(value = "Information on the PNF(s) that are part of the NS instance. ")
+	@Schema(description = "Information on the PNF(s) that are part of the NS instance. ")
 	@Valid
 	public List<PnfInfo> getPnfInfo() {
 		return pnfInfo;
@@ -335,7 +334,7 @@ public class NsInstance {
 	 *
 	 * @return virtualLinkInfo
 	 **/
-	@ApiModelProperty(value = "Information on the VL(s) of the NS instance. This attribute shall be present if the nsState attribute value is INSTANTIATED and if the NS instance has specified connectivity. ")
+	@Schema(description = "Information on the VL(s) of the NS instance. This attribute shall be present if the nsState attribute value is INSTANTIATED and if the NS instance has specified connectivity. ")
 	@Valid
 	public List<NsVirtualLinkInfo> getVirtualLinkInfo() {
 		return virtualLinkInfo;
@@ -363,7 +362,7 @@ public class NsInstance {
 	 *
 	 * @return vnffgInfo
 	 **/
-	@ApiModelProperty(value = "Information on the VNFFG(s) of the NS instance. ")
+	@Schema(description = "Information on the VNFFG(s) of the NS instance. ")
 	@Valid
 	public List<VnffgInfo> getVnffgInfo() {
 		return vnffgInfo;
@@ -391,7 +390,7 @@ public class NsInstance {
 	 *
 	 * @return sapInfo
 	 **/
-	@ApiModelProperty(value = "Information on the SAP(s) of the NS instance. ")
+	@Schema(description = "Information on the SAP(s) of the NS instance. ")
 	@Valid
 	public List<SapInfo> getSapInfo() {
 		return sapInfo;
@@ -419,7 +418,7 @@ public class NsInstance {
 	 *
 	 * @return nestedNsInstanceId
 	 **/
-	@ApiModelProperty(value = "Identifier of the nested NS(s) of the NS instance. ")
+	@Schema(description = "Identifier of the nested NS(s) of the NS instance. ")
 
 	public List<UUID> getNestedNsInstanceId() {
 		return nestedNsInstanceId;
@@ -441,7 +440,7 @@ public class NsInstance {
 	 *
 	 * @return nsState
 	 **/
-	@ApiModelProperty(required = true, value = "The state of the NS instance. Permitted values: NOT_INSTANTIATED: The NS instance is terminated or not instantiated. INSTANTIATED: The NS instance is instantiated. ")
+	@Schema(required = true , description = "The state of the NS instance. Permitted values: NOT_INSTANTIATED: The NS instance is terminated or not instantiated. INSTANTIATED: The NS instance is instantiated. ")
 	@NotNull
 
 	public NsStateEnum getNsState() {
@@ -471,7 +470,7 @@ public class NsInstance {
 	 *
 	 * @return monitoringParameter
 	 **/
-	@ApiModelProperty(value = "Performance metrics tracked by the NFVO (e.g. for auto-scaling purposes) as identified by the NS designer in the NSD. ")
+	@Schema(description = "Performance metrics tracked by the NFVO (e.g. for auto-scaling purposes) as identified by the NS designer in the NSD. ")
 	@Valid
 	public List<NsMonitoringParameter> getMonitoringParameter() {
 		return monitoringParameter;
@@ -501,7 +500,7 @@ public class NsInstance {
 	 *
 	 * @return nsScaleStatus
 	 **/
-	@ApiModelProperty(value = "Status of each NS scaling aspect declared in the applicable DF, how \"big\" the NS instance has been scaled w.r.t. that aspect. This attribute shall be present if the nsState attribute value is INSTANTIATED. ")
+	@Schema(description = "Status of each NS scaling aspect declared in the applicable DF, how \"big\" the NS instance has been scaled w.r.t. that aspect. This attribute shall be present if the nsState attribute value is INSTANTIATED. ")
 	@Valid
 	public List<NsScaleInfo> getNsScaleStatus() {
 		return nsScaleStatus;
@@ -531,7 +530,7 @@ public class NsInstance {
 	 *
 	 * @return additionalAffinityOrAntiAffinityRule
 	 **/
-	@ApiModelProperty(value = "Information on the additional affinity or anti-affinity rule from NS instantiation operation. Shall not conflict with rules already specified in the NSD. ")
+	@Schema(description = "Information on the additional affinity or anti-affinity rule from NS instantiation operation. Shall not conflict with rules already specified in the NSD. ")
 	@Valid
 	public List<AffinityOrAntiAffinityRule> getAdditionalAffinityOrAntiAffinityRule() {
 		return additionalAffinityOrAntiAffinityRule;
@@ -551,7 +550,7 @@ public class NsInstance {
 	 *
 	 * @return _links
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	@Valid
@@ -573,22 +572,22 @@ public class NsInstance {
 		}
 		final NsInstance nsInstance = (NsInstance) o;
 		return Objects.equals(this.id, nsInstance.id) &&
-				Objects.equals(this.nsInstanceName, nsInstance.nsInstanceName) &&
-				Objects.equals(this.nsInstanceDescription, nsInstance.nsInstanceDescription) &&
-				Objects.equals(this.nsdId, nsInstance.nsdId) &&
-				Objects.equals(this.nsdInfoId, nsInstance.nsdInfoId) &&
-				Objects.equals(this.flavourId, nsInstance.flavourId) &&
-				Objects.equals(this.vnfInstance, nsInstance.vnfInstance) &&
-				Objects.equals(this.pnfInfo, nsInstance.pnfInfo) &&
-				Objects.equals(this.virtualLinkInfo, nsInstance.virtualLinkInfo) &&
-				Objects.equals(this.vnffgInfo, nsInstance.vnffgInfo) &&
-				Objects.equals(this.sapInfo, nsInstance.sapInfo) &&
-				Objects.equals(this.nestedNsInstanceId, nsInstance.nestedNsInstanceId) &&
-				Objects.equals(this.nsState, nsInstance.nsState) &&
-				Objects.equals(this.monitoringParameter, nsInstance.monitoringParameter) &&
-				Objects.equals(this.nsScaleStatus, nsInstance.nsScaleStatus) &&
-				Objects.equals(this.additionalAffinityOrAntiAffinityRule, nsInstance.additionalAffinityOrAntiAffinityRule) &&
-				Objects.equals(this._links, nsInstance._links);
+		Objects.equals(this.nsInstanceName, nsInstance.nsInstanceName) &&
+		Objects.equals(this.nsInstanceDescription, nsInstance.nsInstanceDescription) &&
+		Objects.equals(this.nsdId, nsInstance.nsdId) &&
+		Objects.equals(this.nsdInfoId, nsInstance.nsdInfoId) &&
+		Objects.equals(this.flavourId, nsInstance.flavourId) &&
+		Objects.equals(this.vnfInstance, nsInstance.vnfInstance) &&
+		Objects.equals(this.pnfInfo, nsInstance.pnfInfo) &&
+		Objects.equals(this.virtualLinkInfo, nsInstance.virtualLinkInfo) &&
+		Objects.equals(this.vnffgInfo, nsInstance.vnffgInfo) &&
+		Objects.equals(this.sapInfo, nsInstance.sapInfo) &&
+		Objects.equals(this.nestedNsInstanceId, nsInstance.nestedNsInstanceId) &&
+		Objects.equals(this.nsState, nsInstance.nsState) &&
+		Objects.equals(this.monitoringParameter, nsInstance.monitoringParameter) &&
+		Objects.equals(this.nsScaleStatus, nsInstance.nsScaleStatus) &&
+		Objects.equals(this.additionalAffinityOrAntiAffinityRule, nsInstance.additionalAffinityOrAntiAffinityRule) &&
+		Objects.equals(this._links, nsInstance._links);
 	}
 
 	@Override

@@ -19,8 +19,8 @@ package com.ubiqube.etsi.mano.model.v271.sol003.vnf;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -28,7 +28,7 @@ import jakarta.validation.constraints.*;
 /**
  * Parameters for authentication/authorization using OAUTH2_CLIENT_CREDENTIALS. 
  */
-@ApiModel(description = "Parameters for authentication/authorization using OAUTH2_CLIENT_CREDENTIALS. ")
+@Schema (description= "Parameters for authentication/authorization using OAUTH2_CLIENT_CREDENTIALS. " )
 @Validated
 public class ExternalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials   {
   @JsonProperty("clientId")
@@ -40,106 +40,106 @@ public class ExternalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials 
   @JsonProperty("tokenEndpoint")
   private String tokenEndpoint = null;
 
-  public ExternalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials clientId(String clientId) {
-    this.clientId = clientId;
-    return this;
-  }
+	public ExternalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials clientId(String clientId) {
+		this.clientId = clientId;
+		return this;
+	}
 
-  /**
-   * Client identifier to be used in the access token request of the OAuth 2.0 client credentials grant type. 
-   * @return clientId
-  **/
-  @ApiModelProperty(required = true, value = "Client identifier to be used in the access token request of the OAuth 2.0 client credentials grant type. ")
-      @NotNull
+	/**
+	* Client identifier to be used in the access token request of the OAuth 2.0 client credentials grant type. 
+	* @return clientId
+	*/
+	@Schema(required = true , description = "Client identifier to be used in the access token request of the OAuth 2.0 client credentials grant type. ")
+	@NotNull
 
-    public String getClientId() {
-    return clientId;
-  }
+	public String getClientId() {
+		return clientId;
+	}
 
-  public void setClientId(String clientId) {
-    this.clientId = clientId;
-  }
+	public void setClientId(String clientId) {
+		this.clientId = clientId;
+	}
 
-  public ExternalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials clientPassword(String clientPassword) {
-    this.clientPassword = clientPassword;
-    return this;
-  }
+	public ExternalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials clientPassword(String clientPassword) {
+		this.clientPassword = clientPassword;
+		return this;
+	}
 
-  /**
-   * Client password to be used in the access token request of the OAuth 2.0 client credentials grant type. Shall not be present in response bodies. 
-   * @return clientPassword
-  **/
-  @ApiModelProperty(required = true, value = "Client password to be used in the access token request of the OAuth 2.0 client credentials grant type. Shall not be present in response bodies. ")
-      @NotNull
+	/**
+	* Client password to be used in the access token request of the OAuth 2.0 client credentials grant type. Shall not be present in response bodies. 
+	* @return clientPassword
+	*/
+	@Schema(required = true , description = "Client password to be used in the access token request of the OAuth 2.0 client credentials grant type. Shall not be present in response bodies. ")
+	@NotNull
 
-    public String getClientPassword() {
-    return clientPassword;
-  }
+	public String getClientPassword() {
+		return clientPassword;
+	}
 
-  public void setClientPassword(String clientPassword) {
-    this.clientPassword = clientPassword;
-  }
+	public void setClientPassword(String clientPassword) {
+		this.clientPassword = clientPassword;
+	}
 
-  public ExternalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials tokenEndpoint(String tokenEndpoint) {
-    this.tokenEndpoint = tokenEndpoint;
-    return this;
-  }
+	public ExternalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials tokenEndpoint(String tokenEndpoint) {
+		this.tokenEndpoint = tokenEndpoint;
+		return this;
+	}
 
-  /**
-   * Get tokenEndpoint
-   * @return tokenEndpoint
-  **/
-  @ApiModelProperty(required = true, value = "")
-      @NotNull
+	/**
+	* Get tokenEndpoint
+	* @return tokenEndpoint
+	*/
+	@Schema(required = true , description = "")
+	@NotNull
 
-    public String getTokenEndpoint() {
-    return tokenEndpoint;
-  }
+	public String getTokenEndpoint() {
+		return tokenEndpoint;
+	}
 
-  public void setTokenEndpoint(String tokenEndpoint) {
-    this.tokenEndpoint = tokenEndpoint;
-  }
+	public void setTokenEndpoint(String tokenEndpoint) {
+		this.tokenEndpoint = tokenEndpoint;
+	}
 
 
-  @Override
-  public boolean equals(java.lang.Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    ExternalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials externalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials = (ExternalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials) o;
-    return Objects.equals(this.clientId, externalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials.clientId) &&
-        Objects.equals(this.clientPassword, externalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials.clientPassword) &&
-        Objects.equals(this.tokenEndpoint, externalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials.tokenEndpoint);
-  }
+	@Override
+	public boolean equals(java.lang.Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		ExternalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials externalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials = (ExternalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials) o;
+		return Objects.equals(this.clientId, externalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials.clientId) &&
+		Objects.equals(this.clientPassword, externalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials.clientPassword) &&
+		Objects.equals(this.tokenEndpoint, externalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials.tokenEndpoint);
+	}
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(clientId, clientPassword, tokenEndpoint);
-  }
+	@Override
+	public int hashCode() {
+		return Objects.hash(clientId, clientPassword, tokenEndpoint);
+	}
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class ExternalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials {\n");
-    
-    sb.append("    clientId: ").append(toIndentedString(clientId)).append("\n");
-    sb.append("    clientPassword: ").append(toIndentedString(clientPassword)).append("\n");
-    sb.append("    tokenEndpoint: ").append(toIndentedString(tokenEndpoint)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("class ExternalArtifactsAccessConfigArtifactParamsOauth2ClientCredentials {\n");
 
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
+		sb.append("    clientId: ").append(toIndentedString(clientId)).append("\n");
+		sb.append("    clientPassword: ").append(toIndentedString(clientPassword)).append("\n");
+		sb.append("    tokenEndpoint: ").append(toIndentedString(tokenEndpoint)).append("\n");
+		sb.append("}");
+		return sb.toString();
+	}
+
+	/**
+	* Convert the given object to string with each line indented by 4 spaces
+	* (except the first line).
+	*/
+	private String toIndentedString(java.lang.Object o) {
+		if (o == null) {
+			return "null";
+		}
+		return o.toString().replace("\n", "\n    ");
+	}
 }

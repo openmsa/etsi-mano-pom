@@ -27,14 +27,13 @@ import org.springframework.validation.annotation.Validated;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.model.v271.sol003.vnf.Checksum;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This type represents an artifact contained in an NSD archive. It shall comply
  * with provisions defined in Table 5.5.3.5-1.
  */
-@ApiModel(description = "This type represents an artifact contained in an NSD archive. It shall comply with provisions defined in Table 5.5.3.5-1. ")
+@Schema (description= "This type represents an artifact contained in an NSD archive. It shall comply with provisions defined in Table 5.5.3.5-1. " )
 @Validated
 public class NsdArchiveArtifactInfo {
 	@JsonProperty("artifactPath")
@@ -56,7 +55,7 @@ public class NsdArchiveArtifactInfo {
 	 *
 	 * @return artifactPath
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	public String getArtifactPath() {
@@ -77,7 +76,7 @@ public class NsdArchiveArtifactInfo {
 	 *
 	 * @return checksum
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	@Valid
@@ -99,7 +98,7 @@ public class NsdArchiveArtifactInfo {
 	 *
 	 * @return metadata
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public Map<String, Object> getMetadata() {
@@ -120,8 +119,8 @@ public class NsdArchiveArtifactInfo {
 		}
 		final NsdArchiveArtifactInfo nsdArchiveArtifactInfo = (NsdArchiveArtifactInfo) o;
 		return Objects.equals(this.artifactPath, nsdArchiveArtifactInfo.artifactPath) &&
-				Objects.equals(this.checksum, nsdArchiveArtifactInfo.checksum) &&
-				Objects.equals(this.metadata, nsdArchiveArtifactInfo.metadata);
+		Objects.equals(this.checksum, nsdArchiveArtifactInfo.checksum) &&
+		Objects.equals(this.metadata, nsdArchiveArtifactInfo.metadata);
 	}
 
 	@Override

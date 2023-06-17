@@ -28,14 +28,13 @@ import org.springframework.validation.annotation.Validated;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.em.v271.model.vnflcm.ResourceHandle;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This type specifies the information about an NS VL instance. It shall comply
  * with the provisions defined in Table 6.5.3.53-1
  */
-@ApiModel(description = "This type specifies the information about an NS VL instance.  It shall comply with the provisions defined in Table 6.5.3.53-1 ")
+@Schema (description= "This type specifies the information about an NS VL instance.  It shall comply with the provisions defined in Table 6.5.3.53-1 " )
 @Validated
 public class NsVirtualLinkInfo {
 	@JsonProperty("id")
@@ -65,7 +64,7 @@ public class NsVirtualLinkInfo {
 	 *
 	 * @return id
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	public String getId() {
@@ -86,7 +85,7 @@ public class NsVirtualLinkInfo {
 	 *
 	 * @return nsVirtualLinkDescId
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	public String getNsVirtualLinkDescId() {
@@ -107,7 +106,7 @@ public class NsVirtualLinkInfo {
 	 *
 	 * @return nsVirtualLinkProfileId
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	public String getNsVirtualLinkProfileId() {
@@ -137,7 +136,7 @@ public class NsVirtualLinkInfo {
 	 *
 	 * @return resourceHandle
 	 **/
-	@ApiModelProperty(value = "Identifier(s) of the virtualised network resource(s) realizing the VL instance. See note. ")
+	@Schema(description = "Identifier(s) of the virtualised network resource(s) realizing the VL instance. See note. ")
 	@Valid
 	public List<ResourceHandle> getResourceHandle() {
 		return resourceHandle;
@@ -166,7 +165,7 @@ public class NsVirtualLinkInfo {
 	 *
 	 * @return linkPort
 	 **/
-	@ApiModelProperty(value = "Link ports of the VL instance. Cardinality of zero indicates that no port has yet been created for the VL instance. ")
+	@Schema(description = "Link ports of the VL instance. Cardinality of zero indicates that no port has yet been created for the VL instance. ")
 	@Valid
 	public List<NsLinkPortInfo> getLinkPort() {
 		return linkPort;
@@ -186,10 +185,10 @@ public class NsVirtualLinkInfo {
 		}
 		final NsVirtualLinkInfo nsVirtualLinkInfo = (NsVirtualLinkInfo) o;
 		return Objects.equals(this.id, nsVirtualLinkInfo.id) &&
-				Objects.equals(this.nsVirtualLinkDescId, nsVirtualLinkInfo.nsVirtualLinkDescId) &&
-				Objects.equals(this.nsVirtualLinkProfileId, nsVirtualLinkInfo.nsVirtualLinkProfileId) &&
-				Objects.equals(this.resourceHandle, nsVirtualLinkInfo.resourceHandle) &&
-				Objects.equals(this.linkPort, nsVirtualLinkInfo.linkPort);
+		Objects.equals(this.nsVirtualLinkDescId, nsVirtualLinkInfo.nsVirtualLinkDescId) &&
+		Objects.equals(this.nsVirtualLinkProfileId, nsVirtualLinkInfo.nsVirtualLinkProfileId) &&
+		Objects.equals(this.resourceHandle, nsVirtualLinkInfo.resourceHandle) &&
+		Objects.equals(this.linkPort, nsVirtualLinkInfo.linkPort);
 	}
 
 	@Override

@@ -28,7 +28,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Map;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * TerminateVnfRequest
@@ -89,7 +89,7 @@ public class TerminateVnfRequest {
 	 *
 	 * @return terminationType
 	 **/
-	@ApiModelProperty(required = true, value = "Indicates the type of termination is requested. Permitted values: * FORCEFUL: The VNFM will shut down the VNF and release the   resources immediately after accepting the request. ")
+	@Schema(required = true , description = "Indicates the type of termination is requested. Permitted values: * FORCEFUL: The VNFM will shut down the VNF and release the   resources immediately after accepting the request. ")
 	@NotNull
 
 	public TerminationTypeEnum getTerminationType() {
@@ -112,7 +112,7 @@ public class TerminateVnfRequest {
 	 *
 	 * @return additionalParams
 	 **/
-	@ApiModelProperty(value = "Additional parameters passed by the NFVO as input to the termination process, specific to the VNF being terminated, as declared in the VNFD as part of \"TerminateVnfOpConfig\". ")
+	@Schema(description = "Additional parameters passed by the NFVO as input to the termination process, specific to the VNF being terminated, as declared in the VNFD as part of \"TerminateVnfOpConfig\". ")
 
 	@Valid
 
@@ -142,7 +142,7 @@ public class TerminateVnfRequest {
 		}
 		final TerminateVnfRequest terminateVnfRequest = (TerminateVnfRequest) o;
 		return Objects.equals(this.terminationType, terminateVnfRequest.terminationType) &&
-				Objects.equals(this.additionalParams, terminateVnfRequest.additionalParams);
+		Objects.equals(this.additionalParams, terminateVnfRequest.additionalParams);
 	}
 
 	@Override

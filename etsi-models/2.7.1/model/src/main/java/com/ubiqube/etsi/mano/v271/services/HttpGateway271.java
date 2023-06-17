@@ -193,9 +193,9 @@ public class HttpGateway271 extends AbstractHttpGateway {
 	@Override
 	public Object createEvent(final UUID subscriptionId, final EventMessage event) {
 		return switch (event.getNotificationEvent()) {
-		case VNF_PKG_ONCHANGE, VNF_PKG_ONDELETION -> nfvoFactory.createVnfPackageChangeNotification(subscriptionId, event);
-		case VNF_PKG_ONBOARDING -> nfvoFactory.createNotificationVnfPackageOnboardingNotification(subscriptionId, event);
-		default -> null;
+			case VNF_PKG_ONCHANGE, VNF_PKG_ONDELETION -> nfvoFactory.createVnfPackageChangeNotification(subscriptionId, event);
+			case VNF_PKG_ONBOARDING -> nfvoFactory.createNotificationVnfPackageOnboardingNotification(subscriptionId, event);
+			default -> null;
 		};
 	}
 

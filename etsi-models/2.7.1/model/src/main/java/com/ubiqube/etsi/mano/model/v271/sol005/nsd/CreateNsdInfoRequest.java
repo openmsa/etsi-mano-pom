@@ -25,13 +25,12 @@ import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This type creates a completely new NS descriptor resource.
  */
-@ApiModel(description = "This type creates a completely new NS descriptor resource. ")
+@Schema (description= "This type creates a completely new NS descriptor resource. " )
 @Validated
 public class CreateNsdInfoRequest {
 	@JsonProperty("userDefinedData")
@@ -47,7 +46,7 @@ public class CreateNsdInfoRequest {
 	 *
 	 * @return userDefinedData
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public Map<String, String> getUserDefinedData() {

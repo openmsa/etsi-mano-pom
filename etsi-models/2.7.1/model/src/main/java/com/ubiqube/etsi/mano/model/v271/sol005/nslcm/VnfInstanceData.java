@@ -19,8 +19,8 @@ package com.ubiqube.etsi.mano.model.v271.sol005.nslcm;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -28,7 +28,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type specifies an existing VNF instance to be used in the NS instance and if needed, the VNF Profile to use for this VNF instance. It shall comply with the provisions defined in Table 6.5.3.19-1. 
  */
-@ApiModel(description = "This type specifies an existing VNF instance to be used in the NS instance and if needed, the VNF Profile to use for this VNF instance. It shall comply with the provisions defined in Table 6.5.3.19-1. ")
+@Schema (description= "This type specifies an existing VNF instance to be used in the NS instance and if needed, the VNF Profile to use for this VNF instance. It shall comply with the provisions defined in Table 6.5.3.19-1. " )
 @Validated
 public class VnfInstanceData   {
   @JsonProperty("vnfInstanceId")
@@ -37,84 +37,84 @@ public class VnfInstanceData   {
   @JsonProperty("vnfProfileId")
   private String vnfProfileId = null;
 
-  public VnfInstanceData vnfInstanceId(String vnfInstanceId) {
-    this.vnfInstanceId = vnfInstanceId;
-    return this;
-  }
+	public VnfInstanceData vnfInstanceId(String vnfInstanceId) {
+		this.vnfInstanceId = vnfInstanceId;
+		return this;
+	}
 
-  /**
-   * Get vnfInstanceId
-   * @return vnfInstanceId
-  **/
-  @ApiModelProperty(required = true, value = "")
-      @NotNull
+	/**
+	* Get vnfInstanceId
+	* @return vnfInstanceId
+	*/
+	@Schema(required = true , description = "")
+	@NotNull
 
-    public String getVnfInstanceId() {
-    return vnfInstanceId;
-  }
+	public String getVnfInstanceId() {
+		return vnfInstanceId;
+	}
 
-  public void setVnfInstanceId(String vnfInstanceId) {
-    this.vnfInstanceId = vnfInstanceId;
-  }
+	public void setVnfInstanceId(String vnfInstanceId) {
+		this.vnfInstanceId = vnfInstanceId;
+	}
 
-  public VnfInstanceData vnfProfileId(String vnfProfileId) {
-    this.vnfProfileId = vnfProfileId;
-    return this;
-  }
+	public VnfInstanceData vnfProfileId(String vnfProfileId) {
+		this.vnfProfileId = vnfProfileId;
+		return this;
+	}
 
-  /**
-   * Get vnfProfileId
-   * @return vnfProfileId
-  **/
-  @ApiModelProperty(required = true, value = "")
-      @NotNull
+	/**
+	* Get vnfProfileId
+	* @return vnfProfileId
+	*/
+	@Schema(required = true , description = "")
+	@NotNull
 
-    public String getVnfProfileId() {
-    return vnfProfileId;
-  }
+	public String getVnfProfileId() {
+		return vnfProfileId;
+	}
 
-  public void setVnfProfileId(String vnfProfileId) {
-    this.vnfProfileId = vnfProfileId;
-  }
+	public void setVnfProfileId(String vnfProfileId) {
+		this.vnfProfileId = vnfProfileId;
+	}
 
 
-  @Override
-  public boolean equals(java.lang.Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    VnfInstanceData vnfInstanceData = (VnfInstanceData) o;
-    return Objects.equals(this.vnfInstanceId, vnfInstanceData.vnfInstanceId) &&
-        Objects.equals(this.vnfProfileId, vnfInstanceData.vnfProfileId);
-  }
+	@Override
+	public boolean equals(java.lang.Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		VnfInstanceData vnfInstanceData = (VnfInstanceData) o;
+		return Objects.equals(this.vnfInstanceId, vnfInstanceData.vnfInstanceId) &&
+		Objects.equals(this.vnfProfileId, vnfInstanceData.vnfProfileId);
+	}
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(vnfInstanceId, vnfProfileId);
-  }
+	@Override
+	public int hashCode() {
+		return Objects.hash(vnfInstanceId, vnfProfileId);
+	}
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class VnfInstanceData {\n");
-    
-    sb.append("    vnfInstanceId: ").append(toIndentedString(vnfInstanceId)).append("\n");
-    sb.append("    vnfProfileId: ").append(toIndentedString(vnfProfileId)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("class VnfInstanceData {\n");
 
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
+		sb.append("    vnfInstanceId: ").append(toIndentedString(vnfInstanceId)).append("\n");
+		sb.append("    vnfProfileId: ").append(toIndentedString(vnfProfileId)).append("\n");
+		sb.append("}");
+		return sb.toString();
+	}
+
+	/**
+	* Convert the given object to string with each line indented by 4 spaces
+	* (except the first line).
+	*/
+	private String toIndentedString(java.lang.Object o) {
+		if (o == null) {
+			return "null";
+		}
+		return o.toString().replace("\n", "\n    ");
+	}
 }

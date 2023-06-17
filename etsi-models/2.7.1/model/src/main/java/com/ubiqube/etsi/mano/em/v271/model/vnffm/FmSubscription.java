@@ -21,8 +21,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.em.v271.model.vnffm.FmNotificationsFilter;
 import com.ubiqube.etsi.mano.em.v271.model.vnffm.FmSubscriptionLinks;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -30,7 +30,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents a subscription related to notifications about VNF faults. 
  */
-@ApiModel(description = "This type represents a subscription related to notifications about VNF faults. ")
+@Schema (description= "This type represents a subscription related to notifications about VNF faults. " )
 @Validated
 
 public class FmSubscription   {
@@ -46,134 +46,134 @@ public class FmSubscription   {
   @JsonProperty("_links")
   private FmSubscriptionLinks links = null;
 
-  public FmSubscription id(String id) {
-    this.id = id;
-    return this;
-  }
+	public FmSubscription id(String id) {
+		this.id = id;
+		return this;
+	}
 
-  /**
-   * Identifier of this \"Individual subscription\" resource. 
-   * @return id
-  **/
-  @ApiModelProperty(required = true, value = "Identifier of this \"Individual subscription\" resource. ")
-  @NotNull
-
-
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public FmSubscription filter(FmNotificationsFilter filter) {
-    this.filter = filter;
-    return this;
-  }
-
-  /**
-   * Filter settings for this subscription, to define the subset of all notifications this subscription relates to. A particular notification is sent to the subscriber if the filter matches, or if there is no filter. 
-   * @return filter
-  **/
-  @ApiModelProperty(value = "Filter settings for this subscription, to define the subset of all notifications this subscription relates to. A particular notification is sent to the subscriber if the filter matches, or if there is no filter. ")
-
-  @Valid
-
-  public FmNotificationsFilter getFilter() {
-    return filter;
-  }
-
-  public void setFilter(FmNotificationsFilter filter) {
-    this.filter = filter;
-  }
-
-  public FmSubscription callbackUri(String callbackUri) {
-    this.callbackUri = callbackUri;
-    return this;
-  }
-
-  /**
-   * The URI of the endpoint to send the notification to. 
-   * @return callbackUri
-  **/
-  @ApiModelProperty(required = true, value = "The URI of the endpoint to send the notification to. ")
-  @NotNull
+	/**
+	* Identifier of this \"Individual subscription\" resource. 
+	* @return id
+	*/
+	@Schema(required = true , description = "Identifier of this \"Individual subscription\" resource. ")
+	@NotNull
 
 
-  public String getCallbackUri() {
-    return callbackUri;
-  }
+	public String getId() {
+		return id;
+	}
 
-  public void setCallbackUri(String callbackUri) {
-    this.callbackUri = callbackUri;
-  }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-  public FmSubscription links(FmSubscriptionLinks links) {
-    this.links = links;
-    return this;
-  }
+	public FmSubscription filter(FmNotificationsFilter filter) {
+		this.filter = filter;
+		return this;
+	}
 
-  /**
-   * Get links
-   * @return links
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
+	/**
+	* Filter settings for this subscription, to define the subset of all notifications this subscription relates to. A particular notification is sent to the subscriber if the filter matches, or if there is no filter. 
+	* @return filter
+	*/
+	@Schema(description = "Filter settings for this subscription, to define the subset of all notifications this subscription relates to. A particular notification is sent to the subscriber if the filter matches, or if there is no filter. ")
 
-  @Valid
+	@Valid
 
-  public FmSubscriptionLinks getLinks() {
-    return links;
-  }
+	public FmNotificationsFilter getFilter() {
+		return filter;
+	}
 
-  public void setLinks(FmSubscriptionLinks links) {
-    this.links = links;
-  }
+	public void setFilter(FmNotificationsFilter filter) {
+		this.filter = filter;
+	}
+
+	public FmSubscription callbackUri(String callbackUri) {
+		this.callbackUri = callbackUri;
+		return this;
+	}
+
+	/**
+	* The URI of the endpoint to send the notification to. 
+	* @return callbackUri
+	*/
+	@Schema(required = true , description = "The URI of the endpoint to send the notification to. ")
+	@NotNull
 
 
-  @Override
-  public boolean equals(java.lang.Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    FmSubscription fmSubscription = (FmSubscription) o;
-    return Objects.equals(this.id, fmSubscription.id) &&
-        Objects.equals(this.filter, fmSubscription.filter) &&
-        Objects.equals(this.callbackUri, fmSubscription.callbackUri) &&
-        Objects.equals(this.links, fmSubscription.links);
-  }
+	public String getCallbackUri() {
+		return callbackUri;
+	}
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, filter, callbackUri, links);
-  }
+	public void setCallbackUri(String callbackUri) {
+		this.callbackUri = callbackUri;
+	}
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class FmSubscription {\n");
-    
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    filter: ").append(toIndentedString(filter)).append("\n");
-    sb.append("    callbackUri: ").append(toIndentedString(callbackUri)).append("\n");
-    sb.append("    links: ").append(toIndentedString(links)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
+	public FmSubscription links(FmSubscriptionLinks links) {
+		this.links = links;
+		return this;
+	}
 
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
+	/**
+	* Get links
+	* @return links
+	*/
+	@Schema(required = true , description = "")
+	@NotNull
+
+	@Valid
+
+	public FmSubscriptionLinks getLinks() {
+		return links;
+	}
+
+	public void setLinks(FmSubscriptionLinks links) {
+		this.links = links;
+	}
+
+
+	@Override
+	public boolean equals(java.lang.Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		FmSubscription fmSubscription = (FmSubscription) o;
+		return Objects.equals(this.id, fmSubscription.id) &&
+		Objects.equals(this.filter, fmSubscription.filter) &&
+		Objects.equals(this.callbackUri, fmSubscription.callbackUri) &&
+		Objects.equals(this.links, fmSubscription.links);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, filter, callbackUri, links);
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("class FmSubscription {\n");
+
+		sb.append("    id: ").append(toIndentedString(id)).append("\n");
+		sb.append("    filter: ").append(toIndentedString(filter)).append("\n");
+		sb.append("    callbackUri: ").append(toIndentedString(callbackUri)).append("\n");
+		sb.append("    links: ").append(toIndentedString(links)).append("\n");
+		sb.append("}");
+		return sb.toString();
+	}
+
+	/**
+	* Convert the given object to string with each line indented by 4 spaces
+	* (except the first line).
+	*/
+	private String toIndentedString(java.lang.Object o) {
+		if (o == null) {
+			return "null";
+		}
+		return o.toString().replace("\n", "\n    ");
+	}
 }
 

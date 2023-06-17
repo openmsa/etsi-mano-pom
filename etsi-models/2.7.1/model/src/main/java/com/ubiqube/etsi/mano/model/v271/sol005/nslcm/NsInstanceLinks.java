@@ -28,13 +28,12 @@ import org.springframework.validation.annotation.Validated;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.em.v271.model.vnflcm.Link;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Links to resources related to this resource.
  */
-@ApiModel(description = "Links to resources related to this resource.")
+@Schema (description= "Links to resources related to this resource." )
 @Validated
 public class NsInstanceLinks {
 	@JsonProperty("self")
@@ -69,7 +68,7 @@ public class NsInstanceLinks {
 	 *
 	 * @return self
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	@Valid
@@ -99,7 +98,7 @@ public class NsInstanceLinks {
 	 *
 	 * @return nestedNsInstances
 	 **/
-	@ApiModelProperty(value = "Links to resources related to this notification. ")
+	@Schema(description = "Links to resources related to this notification. ")
 	@Valid
 	public List<Link> getNestedNsInstances() {
 		return nestedNsInstances;
@@ -119,7 +118,7 @@ public class NsInstanceLinks {
 	 *
 	 * @return instantiate
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public Link getInstantiate() {
@@ -140,7 +139,7 @@ public class NsInstanceLinks {
 	 *
 	 * @return terminate
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public Link getTerminate() {
@@ -161,7 +160,7 @@ public class NsInstanceLinks {
 	 *
 	 * @return update
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public Link getUpdate() {
@@ -182,7 +181,7 @@ public class NsInstanceLinks {
 	 *
 	 * @return scale
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public Link getScale() {
@@ -203,7 +202,7 @@ public class NsInstanceLinks {
 	 *
 	 * @return heal
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public Link getHeal() {
@@ -224,12 +223,12 @@ public class NsInstanceLinks {
 		}
 		final NsInstanceLinks nsInstanceLinks = (NsInstanceLinks) o;
 		return Objects.equals(this.self, nsInstanceLinks.self) &&
-				Objects.equals(this.nestedNsInstances, nsInstanceLinks.nestedNsInstances) &&
-				Objects.equals(this.instantiate, nsInstanceLinks.instantiate) &&
-				Objects.equals(this.terminate, nsInstanceLinks.terminate) &&
-				Objects.equals(this.update, nsInstanceLinks.update) &&
-				Objects.equals(this.scale, nsInstanceLinks.scale) &&
-				Objects.equals(this.heal, nsInstanceLinks.heal);
+		Objects.equals(this.nestedNsInstances, nsInstanceLinks.nestedNsInstances) &&
+		Objects.equals(this.instantiate, nsInstanceLinks.instantiate) &&
+		Objects.equals(this.terminate, nsInstanceLinks.terminate) &&
+		Objects.equals(this.update, nsInstanceLinks.update) &&
+		Objects.equals(this.scale, nsInstanceLinks.scale) &&
+		Objects.equals(this.heal, nsInstanceLinks.heal);
 	}
 
 	@Override

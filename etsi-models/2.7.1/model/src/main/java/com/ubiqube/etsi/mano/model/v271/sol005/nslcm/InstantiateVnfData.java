@@ -30,8 +30,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.em.v271.model.vnflcm.ExtManagedVirtualLinkData;
 import com.ubiqube.etsi.mano.em.v271.model.vnflcm.ExtVirtualLinkData;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * This type represents the information related to a SAP of a NS. The
@@ -42,7 +41,7 @@ import io.swagger.annotations.ApiModelProperty;
  * parameters are then passed by the NFVO to the VNFM. It shall comply with the
  * provisions defined in Table 6.5.3.24-1.
  */
-@ApiModel(description = "This type represents the information related to a SAP of a NS. The InstantiateVnfData data type specifies the parameters that are needed for VNF instantiation. This information element is used for the bottom-up NS creation when the OSS/BSS explicitly requests VNF instantiation for a given NS. When the NFVO invokes the Instantiate VNF update operation, a set of these parameters are then passed by the NFVO to the VNFM. It shall comply with the provisions defined in Table 6.5.3.24-1. ")
+@Schema (description= "This type represents the information related to a SAP of a NS. The InstantiateVnfData data type specifies the parameters that are needed for VNF instantiation. This information element is used for the bottom-up NS creation when the OSS/BSS explicitly requests VNF instantiation for a given NS. When the NFVO invokes the Instantiate VNF update operation, a set of these parameters are then passed by the NFVO to the VNFM. It shall comply with the provisions defined in Table 6.5.3.24-1. " )
 @Validated
 public class InstantiateVnfData {
 	@JsonProperty("vnfdId")
@@ -96,7 +95,7 @@ public class InstantiateVnfData {
 	 *
 	 * @return vnfdId
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	public String getVnfdId() {
@@ -117,7 +116,7 @@ public class InstantiateVnfData {
 	 *
 	 * @return vnfFlavourId
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required = true , description = "")
 	@NotNull
 
 	public String getVnfFlavourId() {
@@ -138,7 +137,7 @@ public class InstantiateVnfData {
 	 *
 	 * @return vnfInstantiationLevelId
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	public String getVnfInstantiationLevelId() {
 		return vnfInstantiationLevelId;
@@ -158,7 +157,7 @@ public class InstantiateVnfData {
 	 *
 	 * @return vnfInstanceName
 	 **/
-	@ApiModelProperty(value = "Human-readable name of the VNF instance to be created. ")
+	@Schema(description = "Human-readable name of the VNF instance to be created. ")
 
 	public String getVnfInstanceName() {
 		return vnfInstanceName;
@@ -178,7 +177,7 @@ public class InstantiateVnfData {
 	 *
 	 * @return vnfInstanceDescription
 	 **/
-	@ApiModelProperty(value = "Human-readable description of the VNF instance to be created. ")
+	@Schema(description = "Human-readable description of the VNF instance to be created. ")
 
 	public String getVnfInstanceDescription() {
 		return vnfInstanceDescription;
@@ -206,7 +205,7 @@ public class InstantiateVnfData {
 	 *
 	 * @return extVirtualLinks
 	 **/
-	@ApiModelProperty(value = "Information about external VLs to connect the VNF to. ")
+	@Schema(description = "Information about external VLs to connect the VNF to. ")
 	@Valid
 	public List<ExtVirtualLinkData> getExtVirtualLinks() {
 		return extVirtualLinks;
@@ -235,7 +234,7 @@ public class InstantiateVnfData {
 	 *
 	 * @return extManagedVirtualLinks
 	 **/
-	@ApiModelProperty(value = "Information about internal VLs that are managed by other entities than the VNFM. ")
+	@Schema(description = "Information about internal VLs that are managed by other entities than the VNFM. ")
 	@Valid
 	public List<ExtManagedVirtualLinkData> getExtManagedVirtualLinks() {
 		return extManagedVirtualLinks;
@@ -256,7 +255,7 @@ public class InstantiateVnfData {
 	 *
 	 * @return localizationLanguage
 	 **/
-	@ApiModelProperty(value = "Localization language of the VNF to be instantiated. The value shall comply with the format defined in IETF RFC 5646. ")
+	@Schema(description = "Localization language of the VNF to be instantiated. The value shall comply with the format defined in IETF RFC 5646. ")
 
 	public String getLocalizationLanguage() {
 		return localizationLanguage;
@@ -276,7 +275,7 @@ public class InstantiateVnfData {
 	 *
 	 * @return vnfConfigurableProperties
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public Map<String, Object> getVnfConfigurableProperties() {
@@ -297,7 +296,7 @@ public class InstantiateVnfData {
 	 *
 	 * @return additionalParams
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public Map<String, Object> getAdditionalParams() {
@@ -318,7 +317,7 @@ public class InstantiateVnfData {
 	 *
 	 * @return metadata
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public Map<String, Object> getMetadata() {
@@ -339,7 +338,7 @@ public class InstantiateVnfData {
 	 *
 	 * @return extensions
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public Map<String, Object> getExtensions() {
@@ -360,7 +359,7 @@ public class InstantiateVnfData {
 	 *
 	 * @return locationConstraints
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 
 	@Valid
 	public VnfLocationConstraint getLocationConstraints() {
@@ -381,18 +380,18 @@ public class InstantiateVnfData {
 		}
 		final InstantiateVnfData instantiateVnfData = (InstantiateVnfData) o;
 		return Objects.equals(this.vnfdId, instantiateVnfData.vnfdId) &&
-				Objects.equals(this.vnfFlavourId, instantiateVnfData.vnfFlavourId) &&
-				Objects.equals(this.vnfInstantiationLevelId, instantiateVnfData.vnfInstantiationLevelId) &&
-				Objects.equals(this.vnfInstanceName, instantiateVnfData.vnfInstanceName) &&
-				Objects.equals(this.vnfInstanceDescription, instantiateVnfData.vnfInstanceDescription) &&
-				Objects.equals(this.extVirtualLinks, instantiateVnfData.extVirtualLinks) &&
-				Objects.equals(this.extManagedVirtualLinks, instantiateVnfData.extManagedVirtualLinks) &&
-				Objects.equals(this.localizationLanguage, instantiateVnfData.localizationLanguage) &&
-				Objects.equals(this.vnfConfigurableProperties, instantiateVnfData.vnfConfigurableProperties) &&
-				Objects.equals(this.additionalParams, instantiateVnfData.additionalParams) &&
-				Objects.equals(this.metadata, instantiateVnfData.metadata) &&
-				Objects.equals(this.extensions, instantiateVnfData.extensions) &&
-				Objects.equals(this.locationConstraints, instantiateVnfData.locationConstraints);
+		Objects.equals(this.vnfFlavourId, instantiateVnfData.vnfFlavourId) &&
+		Objects.equals(this.vnfInstantiationLevelId, instantiateVnfData.vnfInstantiationLevelId) &&
+		Objects.equals(this.vnfInstanceName, instantiateVnfData.vnfInstanceName) &&
+		Objects.equals(this.vnfInstanceDescription, instantiateVnfData.vnfInstanceDescription) &&
+		Objects.equals(this.extVirtualLinks, instantiateVnfData.extVirtualLinks) &&
+		Objects.equals(this.extManagedVirtualLinks, instantiateVnfData.extManagedVirtualLinks) &&
+		Objects.equals(this.localizationLanguage, instantiateVnfData.localizationLanguage) &&
+		Objects.equals(this.vnfConfigurableProperties, instantiateVnfData.vnfConfigurableProperties) &&
+		Objects.equals(this.additionalParams, instantiateVnfData.additionalParams) &&
+		Objects.equals(this.metadata, instantiateVnfData.metadata) &&
+		Objects.equals(this.extensions, instantiateVnfData.extensions) &&
+		Objects.equals(this.locationConstraints, instantiateVnfData.locationConstraints);
 	}
 
 	@Override

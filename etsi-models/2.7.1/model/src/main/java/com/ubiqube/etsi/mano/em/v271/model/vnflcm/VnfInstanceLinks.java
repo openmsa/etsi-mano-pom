@@ -20,8 +20,8 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.ubiqube.etsi.mano.em.v271.model.vnflcm.Link;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -29,7 +29,7 @@ import jakarta.validation.constraints.*;
 /**
  * Links to resources related to this resource. 
  */
-@ApiModel(description = "Links to resources related to this resource. ")
+@Schema (description= "Links to resources related to this resource. " )
 @Validated
 
 public class VnfInstanceLinks   {
@@ -63,272 +63,272 @@ public class VnfInstanceLinks   {
   @JsonProperty("changeExtConn")
   private Link changeExtConn = null;
 
-  public VnfInstanceLinks self(Link self) {
-    this.self = self;
-    return this;
-  }
+	public VnfInstanceLinks self(Link self) {
+		this.self = self;
+		return this;
+	}
 
-  /**
-   * URI of this resource.
-   * @return self
-  **/
-  @ApiModelProperty(required = true, value = "URI of this resource.")
-  @NotNull
+	/**
+	* URI of this resource.
+	* @return self
+	*/
+	@Schema(required = true , description = "URI of this resource.")
+	@NotNull
 
-  @Valid
+	@Valid
 
-  public Link getSelf() {
-    return self;
-  }
+	public Link getSelf() {
+		return self;
+	}
 
-  public void setSelf(Link self) {
-    this.self = self;
-  }
+	public void setSelf(Link self) {
+		this.self = self;
+	}
 
-  public VnfInstanceLinks indicators(Link indicators) {
-    this.indicators = indicators;
-    return this;
-  }
+	public VnfInstanceLinks indicators(Link indicators) {
+		this.indicators = indicators;
+		return this;
+	}
 
-  /**
-   * Indicators related to this VNF instance, if applicable.
-   * @return indicators
-  **/
-  @ApiModelProperty(value = "Indicators related to this VNF instance, if applicable.")
+	/**
+	* Indicators related to this VNF instance, if applicable.
+	* @return indicators
+	*/
+	@Schema(description = "Indicators related to this VNF instance, if applicable.")
 
-  @Valid
+	@Valid
 
-  public Link getIndicators() {
-    return indicators;
-  }
+	public Link getIndicators() {
+		return indicators;
+	}
 
-  public void setIndicators(Link indicators) {
-    this.indicators = indicators;
-  }
+	public void setIndicators(Link indicators) {
+		this.indicators = indicators;
+	}
 
-  public VnfInstanceLinks instantiate(Link instantiate) {
-    this.instantiate = instantiate;
-    return this;
-  }
+	public VnfInstanceLinks instantiate(Link instantiate) {
+		this.instantiate = instantiate;
+		return this;
+	}
 
-  /**
-   * Link to the \"Instantiate VNF task\" resource, if the related operation is possible based on the current status of this VNF instance resource (i.e. VNF instance in NOT_INSTANTIATED state). 
-   * @return instantiate
-  **/
-  @ApiModelProperty(value = "Link to the \"Instantiate VNF task\" resource, if the related operation is possible based on the current status of this VNF instance resource (i.e. VNF instance in NOT_INSTANTIATED state). ")
+	/**
+	* Link to the \"Instantiate VNF task\" resource, if the related operation is possible based on the current status of this VNF instance resource (i.e. VNF instance in NOT_INSTANTIATED state). 
+	* @return instantiate
+	*/
+	@Schema(description = "Link to the \"Instantiate VNF task\" resource, if the related operation is possible based on the current status of this VNF instance resource (i.e. VNF instance in NOT_INSTANTIATED state). ")
 
-  @Valid
+	@Valid
 
-  public Link getInstantiate() {
-    return instantiate;
-  }
+	public Link getInstantiate() {
+		return instantiate;
+	}
 
-  public void setInstantiate(Link instantiate) {
-    this.instantiate = instantiate;
-  }
+	public void setInstantiate(Link instantiate) {
+		this.instantiate = instantiate;
+	}
 
-  public VnfInstanceLinks terminate(Link terminate) {
-    this.terminate = terminate;
-    return this;
-  }
+	public VnfInstanceLinks terminate(Link terminate) {
+		this.terminate = terminate;
+		return this;
+	}
 
-  /**
-   * Link to the \"Terminate VNF task\" resource, if the related operation is possible based on the current status of this VNF instance resource (i.e. VNF instance is in INSTANTIATED state). 
-   * @return terminate
-  **/
-  @ApiModelProperty(value = "Link to the \"Terminate VNF task\" resource, if the related operation is possible based on the current status of this VNF instance resource (i.e. VNF instance is in INSTANTIATED state). ")
+	/**
+	* Link to the \"Terminate VNF task\" resource, if the related operation is possible based on the current status of this VNF instance resource (i.e. VNF instance is in INSTANTIATED state). 
+	* @return terminate
+	*/
+	@Schema(description = "Link to the \"Terminate VNF task\" resource, if the related operation is possible based on the current status of this VNF instance resource (i.e. VNF instance is in INSTANTIATED state). ")
 
-  @Valid
+	@Valid
 
-  public Link getTerminate() {
-    return terminate;
-  }
+	public Link getTerminate() {
+		return terminate;
+	}
 
-  public void setTerminate(Link terminate) {
-    this.terminate = terminate;
-  }
+	public void setTerminate(Link terminate) {
+		this.terminate = terminate;
+	}
 
-  public VnfInstanceLinks scale(Link scale) {
-    this.scale = scale;
-    return this;
-  }
+	public VnfInstanceLinks scale(Link scale) {
+		this.scale = scale;
+		return this;
+	}
 
-  /**
-   * Link to the \"Scale VNF task\" resource, if the related operation is supported for this VNF instance, and is possible based on the current status of this VNF instance resource (i.e. VNF instance is in INSTANTIATED state). 
-   * @return scale
-  **/
-  @ApiModelProperty(value = "Link to the \"Scale VNF task\" resource, if the related operation is supported for this VNF instance, and is possible based on the current status of this VNF instance resource (i.e. VNF instance is in INSTANTIATED state). ")
+	/**
+	* Link to the \"Scale VNF task\" resource, if the related operation is supported for this VNF instance, and is possible based on the current status of this VNF instance resource (i.e. VNF instance is in INSTANTIATED state). 
+	* @return scale
+	*/
+	@Schema(description = "Link to the \"Scale VNF task\" resource, if the related operation is supported for this VNF instance, and is possible based on the current status of this VNF instance resource (i.e. VNF instance is in INSTANTIATED state). ")
 
-  @Valid
+	@Valid
 
-  public Link getScale() {
-    return scale;
-  }
+	public Link getScale() {
+		return scale;
+	}
 
-  public void setScale(Link scale) {
-    this.scale = scale;
-  }
+	public void setScale(Link scale) {
+		this.scale = scale;
+	}
 
-  public VnfInstanceLinks scaleToLevel(Link scaleToLevel) {
-    this.scaleToLevel = scaleToLevel;
-    return this;
-  }
+	public VnfInstanceLinks scaleToLevel(Link scaleToLevel) {
+		this.scaleToLevel = scaleToLevel;
+		return this;
+	}
 
-  /**
-   * Link to the \"Scale VNF to Level task\" resource, if the related operation is supported for this VNF instance, and is possible based on the current status of this VNF instance resource (i.e. VNF instance is in INSTANTIATED state). 
-   * @return scaleToLevel
-  **/
-  @ApiModelProperty(value = "Link to the \"Scale VNF to Level task\" resource, if the related operation is supported for this VNF instance, and is possible based on the current status of this VNF instance resource (i.e. VNF instance is in INSTANTIATED state). ")
+	/**
+	* Link to the \"Scale VNF to Level task\" resource, if the related operation is supported for this VNF instance, and is possible based on the current status of this VNF instance resource (i.e. VNF instance is in INSTANTIATED state). 
+	* @return scaleToLevel
+	*/
+	@Schema(description = "Link to the \"Scale VNF to Level task\" resource, if the related operation is supported for this VNF instance, and is possible based on the current status of this VNF instance resource (i.e. VNF instance is in INSTANTIATED state). ")
 
-  @Valid
+	@Valid
 
-  public Link getScaleToLevel() {
-    return scaleToLevel;
-  }
+	public Link getScaleToLevel() {
+		return scaleToLevel;
+	}
 
-  public void setScaleToLevel(Link scaleToLevel) {
-    this.scaleToLevel = scaleToLevel;
-  }
+	public void setScaleToLevel(Link scaleToLevel) {
+		this.scaleToLevel = scaleToLevel;
+	}
 
-  public VnfInstanceLinks changeFlavour(Link changeFlavour) {
-    this.changeFlavour = changeFlavour;
-    return this;
-  }
+	public VnfInstanceLinks changeFlavour(Link changeFlavour) {
+		this.changeFlavour = changeFlavour;
+		return this;
+	}
 
-  /**
-   * Link to the \"Change VNF flavour task\" resource, if the related operation is supported for this VNF instance, and is possible based on the current status of this VNF instance resource (i.e. VNF instance is in INSTANTIATED state). 
-   * @return changeFlavour
-  **/
-  @ApiModelProperty(value = "Link to the \"Change VNF flavour task\" resource, if the related operation is supported for this VNF instance, and is possible based on the current status of this VNF instance resource (i.e. VNF instance is in INSTANTIATED state). ")
+	/**
+	* Link to the \"Change VNF flavour task\" resource, if the related operation is supported for this VNF instance, and is possible based on the current status of this VNF instance resource (i.e. VNF instance is in INSTANTIATED state). 
+	* @return changeFlavour
+	*/
+	@Schema(description = "Link to the \"Change VNF flavour task\" resource, if the related operation is supported for this VNF instance, and is possible based on the current status of this VNF instance resource (i.e. VNF instance is in INSTANTIATED state). ")
 
-  @Valid
+	@Valid
 
-  public Link getChangeFlavour() {
-    return changeFlavour;
-  }
+	public Link getChangeFlavour() {
+		return changeFlavour;
+	}
 
-  public void setChangeFlavour(Link changeFlavour) {
-    this.changeFlavour = changeFlavour;
-  }
+	public void setChangeFlavour(Link changeFlavour) {
+		this.changeFlavour = changeFlavour;
+	}
 
-  public VnfInstanceLinks heal(Link heal) {
-    this.heal = heal;
-    return this;
-  }
+	public VnfInstanceLinks heal(Link heal) {
+		this.heal = heal;
+		return this;
+	}
 
-  /**
-   * Link to the \"Heal VNF task\" resource, if the related operation is supported for this VNF instance, and is possible based on the current status of this VNF instance resource (i.e. VNF instance is in INSTANTIATED state). 
-   * @return heal
-  **/
-  @ApiModelProperty(value = "Link to the \"Heal VNF task\" resource, if the related operation is supported for this VNF instance, and is possible based on the current status of this VNF instance resource (i.e. VNF instance is in INSTANTIATED state). ")
+	/**
+	* Link to the \"Heal VNF task\" resource, if the related operation is supported for this VNF instance, and is possible based on the current status of this VNF instance resource (i.e. VNF instance is in INSTANTIATED state). 
+	* @return heal
+	*/
+	@Schema(description = "Link to the \"Heal VNF task\" resource, if the related operation is supported for this VNF instance, and is possible based on the current status of this VNF instance resource (i.e. VNF instance is in INSTANTIATED state). ")
 
-  @Valid
+	@Valid
 
-  public Link getHeal() {
-    return heal;
-  }
+	public Link getHeal() {
+		return heal;
+	}
 
-  public void setHeal(Link heal) {
-    this.heal = heal;
-  }
+	public void setHeal(Link heal) {
+		this.heal = heal;
+	}
 
-  public VnfInstanceLinks operate(Link operate) {
-    this.operate = operate;
-    return this;
-  }
+	public VnfInstanceLinks operate(Link operate) {
+		this.operate = operate;
+		return this;
+	}
 
-  /**
-   * Link to the \"Operate VNF task\" resource, if the related operation is supported for this VNF instance, and is possible based on the current status of this VNF instance resource (i.e. VNF instance is in INSTANTIATED state). 
-   * @return operate
-  **/
-  @ApiModelProperty(value = "Link to the \"Operate VNF task\" resource, if the related operation is supported for this VNF instance, and is possible based on the current status of this VNF instance resource (i.e. VNF instance is in INSTANTIATED state). ")
+	/**
+	* Link to the \"Operate VNF task\" resource, if the related operation is supported for this VNF instance, and is possible based on the current status of this VNF instance resource (i.e. VNF instance is in INSTANTIATED state). 
+	* @return operate
+	*/
+	@Schema(description = "Link to the \"Operate VNF task\" resource, if the related operation is supported for this VNF instance, and is possible based on the current status of this VNF instance resource (i.e. VNF instance is in INSTANTIATED state). ")
 
-  @Valid
+	@Valid
 
-  public Link getOperate() {
-    return operate;
-  }
+	public Link getOperate() {
+		return operate;
+	}
 
-  public void setOperate(Link operate) {
-    this.operate = operate;
-  }
+	public void setOperate(Link operate) {
+		this.operate = operate;
+	}
 
-  public VnfInstanceLinks changeExtConn(Link changeExtConn) {
-    this.changeExtConn = changeExtConn;
-    return this;
-  }
+	public VnfInstanceLinks changeExtConn(Link changeExtConn) {
+		this.changeExtConn = changeExtConn;
+		return this;
+	}
 
-  /**
-   * Link to the \"Change external VNF connectivity task\" resource, if the related operation is possible based on the current status of this VNF instance resource (i.e. VNF instance is in INSTANTIATED state). 
-   * @return changeExtConn
-  **/
-  @ApiModelProperty(value = "Link to the \"Change external VNF connectivity task\" resource, if the related operation is possible based on the current status of this VNF instance resource (i.e. VNF instance is in INSTANTIATED state). ")
+	/**
+	* Link to the \"Change external VNF connectivity task\" resource, if the related operation is possible based on the current status of this VNF instance resource (i.e. VNF instance is in INSTANTIATED state). 
+	* @return changeExtConn
+	*/
+	@Schema(description = "Link to the \"Change external VNF connectivity task\" resource, if the related operation is possible based on the current status of this VNF instance resource (i.e. VNF instance is in INSTANTIATED state). ")
 
-  @Valid
+	@Valid
 
-  public Link getChangeExtConn() {
-    return changeExtConn;
-  }
+	public Link getChangeExtConn() {
+		return changeExtConn;
+	}
 
-  public void setChangeExtConn(Link changeExtConn) {
-    this.changeExtConn = changeExtConn;
-  }
+	public void setChangeExtConn(Link changeExtConn) {
+		this.changeExtConn = changeExtConn;
+	}
 
 
-  @Override
-  public boolean equals(java.lang.Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    VnfInstanceLinks vnfInstanceLinks = (VnfInstanceLinks) o;
-    return Objects.equals(this.self, vnfInstanceLinks.self) &&
-        Objects.equals(this.indicators, vnfInstanceLinks.indicators) &&
-        Objects.equals(this.instantiate, vnfInstanceLinks.instantiate) &&
-        Objects.equals(this.terminate, vnfInstanceLinks.terminate) &&
-        Objects.equals(this.scale, vnfInstanceLinks.scale) &&
-        Objects.equals(this.scaleToLevel, vnfInstanceLinks.scaleToLevel) &&
-        Objects.equals(this.changeFlavour, vnfInstanceLinks.changeFlavour) &&
-        Objects.equals(this.heal, vnfInstanceLinks.heal) &&
-        Objects.equals(this.operate, vnfInstanceLinks.operate) &&
-        Objects.equals(this.changeExtConn, vnfInstanceLinks.changeExtConn);
-  }
+	@Override
+	public boolean equals(java.lang.Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		VnfInstanceLinks vnfInstanceLinks = (VnfInstanceLinks) o;
+		return Objects.equals(this.self, vnfInstanceLinks.self) &&
+		Objects.equals(this.indicators, vnfInstanceLinks.indicators) &&
+		Objects.equals(this.instantiate, vnfInstanceLinks.instantiate) &&
+		Objects.equals(this.terminate, vnfInstanceLinks.terminate) &&
+		Objects.equals(this.scale, vnfInstanceLinks.scale) &&
+		Objects.equals(this.scaleToLevel, vnfInstanceLinks.scaleToLevel) &&
+		Objects.equals(this.changeFlavour, vnfInstanceLinks.changeFlavour) &&
+		Objects.equals(this.heal, vnfInstanceLinks.heal) &&
+		Objects.equals(this.operate, vnfInstanceLinks.operate) &&
+		Objects.equals(this.changeExtConn, vnfInstanceLinks.changeExtConn);
+	}
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(self, indicators, instantiate, terminate, scale, scaleToLevel, changeFlavour, heal, operate, changeExtConn);
-  }
+	@Override
+	public int hashCode() {
+		return Objects.hash(self, indicators, instantiate, terminate, scale, scaleToLevel, changeFlavour, heal, operate, changeExtConn);
+	}
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class VnfInstanceLinks {\n");
-    
-    sb.append("    self: ").append(toIndentedString(self)).append("\n");
-    sb.append("    indicators: ").append(toIndentedString(indicators)).append("\n");
-    sb.append("    instantiate: ").append(toIndentedString(instantiate)).append("\n");
-    sb.append("    terminate: ").append(toIndentedString(terminate)).append("\n");
-    sb.append("    scale: ").append(toIndentedString(scale)).append("\n");
-    sb.append("    scaleToLevel: ").append(toIndentedString(scaleToLevel)).append("\n");
-    sb.append("    changeFlavour: ").append(toIndentedString(changeFlavour)).append("\n");
-    sb.append("    heal: ").append(toIndentedString(heal)).append("\n");
-    sb.append("    operate: ").append(toIndentedString(operate)).append("\n");
-    sb.append("    changeExtConn: ").append(toIndentedString(changeExtConn)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("class VnfInstanceLinks {\n");
 
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
+		sb.append("    self: ").append(toIndentedString(self)).append("\n");
+		sb.append("    indicators: ").append(toIndentedString(indicators)).append("\n");
+		sb.append("    instantiate: ").append(toIndentedString(instantiate)).append("\n");
+		sb.append("    terminate: ").append(toIndentedString(terminate)).append("\n");
+		sb.append("    scale: ").append(toIndentedString(scale)).append("\n");
+		sb.append("    scaleToLevel: ").append(toIndentedString(scaleToLevel)).append("\n");
+		sb.append("    changeFlavour: ").append(toIndentedString(changeFlavour)).append("\n");
+		sb.append("    heal: ").append(toIndentedString(heal)).append("\n");
+		sb.append("    operate: ").append(toIndentedString(operate)).append("\n");
+		sb.append("    changeExtConn: ").append(toIndentedString(changeExtConn)).append("\n");
+		sb.append("}");
+		return sb.toString();
+	}
+
+	/**
+	* Convert the given object to string with each line indented by 4 spaces
+	* (except the first line).
+	*/
+	private String toIndentedString(java.lang.Object o) {
+		if (o == null) {
+			return "null";
+		}
+		return o.toString().replace("\n", "\n    ");
+	}
 }
 
