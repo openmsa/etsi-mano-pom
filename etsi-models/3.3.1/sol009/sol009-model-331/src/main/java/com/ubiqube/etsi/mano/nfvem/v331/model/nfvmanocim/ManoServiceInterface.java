@@ -1,3 +1,19 @@
+/**
+ *     Copyright (C) 2019-2023 Ubiqube.
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 package com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim;
 
 import java.util.Objects;
@@ -9,8 +25,8 @@ import com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim.ManoServiceInterfaceSup
 import com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim.ServerInterfaceSecurityInfo;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -20,7 +36,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents an individual NFV-MANO service interface produced by  an NFV-MANO functional entity.  
  */
-@ApiModel(description = "This type represents an individual NFV-MANO service interface produced by  an NFV-MANO functional entity.  ")
+@Schema (description= "This type represents an individual NFV-MANO service interface produced by  an NFV-MANO functional entity.  " )
 @Validated
 public class ManoServiceInterface   {
   @JsonProperty("id")
@@ -69,7 +85,7 @@ public class ManoServiceInterface   {
    * Get id
    * @return id
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required= true ,description= "" )
       @NotNull
 
     public String getId() {
@@ -89,7 +105,7 @@ public class ManoServiceInterface   {
    * Human-readable name of the NFV-MANO functional entity interface. This attribute can be modified with the PATCH method. 
    * @return name
   **/
-  @ApiModelProperty(required = true, value = "Human-readable name of the NFV-MANO functional entity interface. This attribute can be modified with the PATCH method. ")
+  @Schema(required= true ,description= "Human-readable name of the NFV-MANO functional entity interface. This attribute can be modified with the PATCH method. " )
       @NotNull
 
     public String getName() {
@@ -109,7 +125,7 @@ public class ManoServiceInterface   {
    * Type of the NFV-MANO service interface produced by the NFV-MANO functional  entity. Valid values are defined in clause 5.6.4.3. 
    * @return type
   **/
-  @ApiModelProperty(required = true, value = "Type of the NFV-MANO service interface produced by the NFV-MANO functional  entity. Valid values are defined in clause 5.6.4.3. ")
+  @Schema(required= true ,description= "Type of the NFV-MANO service interface produced by the NFV-MANO functional  entity. Valid values are defined in clause 5.6.4.3. " )
       @NotNull
 
     public String getType() {
@@ -129,7 +145,7 @@ public class ManoServiceInterface   {
    * Get standardVersion
    * @return standardVersion
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required= true ,description= "" )
       @NotNull
 
     public String getStandardVersion() {
@@ -149,7 +165,7 @@ public class ManoServiceInterface   {
    * Get providerSpecificApiVersion
    * @return providerSpecificApiVersion
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required= true ,description= "" )
       @NotNull
 
     public String getProviderSpecificApiVersion() {
@@ -169,7 +185,7 @@ public class ManoServiceInterface   {
    * Get apiVersion
    * @return apiVersion
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required= true ,description= "" )
       @NotNull
 
     public String getApiVersion() {
@@ -189,7 +205,7 @@ public class ManoServiceInterface   {
    * Get apiEndpoint
    * @return apiEndpoint
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required= true ,description= "" )
       @NotNull
 
     @Valid
@@ -210,7 +226,7 @@ public class ManoServiceInterface   {
    * Maximum number of concurrent operation requests supported on this interface.  NOTE: If this attribute is not present, the value of this parameter  is undefined. Overload is handled by the error handling schemes defined  by the applicable API specification. 
    * @return maxConcurrentIntOpNumber
   **/
-  @ApiModelProperty(value = "Maximum number of concurrent operation requests supported on this interface.  NOTE: If this attribute is not present, the value of this parameter  is undefined. Overload is handled by the error handling schemes defined  by the applicable API specification. ")
+  @Schema(description= "Maximum number of concurrent operation requests supported on this interface.  NOTE: If this attribute is not present, the value of this parameter  is undefined. Overload is handled by the error handling schemes defined  by the applicable API specification. " )
   
     public Integer getMaxConcurrentIntOpNumber() {
     return maxConcurrentIntOpNumber;
@@ -234,7 +250,7 @@ public class ManoServiceInterface   {
    * Information about supported operations of this interface. 
    * @return supportedOperations
   **/
-  @ApiModelProperty(required = true, value = "Information about supported operations of this interface. ")
+  @Schema(required= true ,description= "Information about supported operations of this interface. " )
       @NotNull
     @Valid
   @Size(min=1)   public List<ManoServiceInterfaceSupportedOperations> getSupportedOperations() {
@@ -254,7 +270,7 @@ public class ManoServiceInterface   {
    * Get interfaceState
    * @return interfaceState
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required= true ,description= "" )
       @NotNull
 
     @Valid
@@ -275,7 +291,7 @@ public class ManoServiceInterface   {
    * Get securityInfo
    * @return securityInfo
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description= "" )
   
     @Valid
     public ServerInterfaceSecurityInfo getSecurityInfo() {
@@ -295,7 +311,7 @@ public class ManoServiceInterface   {
    * Get metadata
    * @return metadata
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description= "" )
   
     @Valid
     public Map<String, String> getMetadata() {

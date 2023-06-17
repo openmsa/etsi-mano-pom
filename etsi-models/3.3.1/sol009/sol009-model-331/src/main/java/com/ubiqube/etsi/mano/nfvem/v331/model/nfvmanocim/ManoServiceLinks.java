@@ -1,3 +1,19 @@
+/**
+ *     Copyright (C) 2019-2023 Ubiqube.
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 package com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim;
 
 import java.util.Objects;
@@ -5,8 +21,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim.Link;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -16,7 +32,7 @@ import jakarta.validation.constraints.*;
 /**
  * Links to resources related to this resource. 
  */
-@ApiModel(description = "Links to resources related to this resource. ")
+@Schema (description= "Links to resources related to this resource. " )
 @Validated
 public class ManoServiceLinks   {
   @JsonProperty("manoServiceInterfaces")
@@ -37,7 +53,7 @@ public class ManoServiceLinks   {
    * Link to the \"individual NFV-MANO service interface\" resources with  information about the associated interfaces to the NFV-MANO service. 
    * @return manoServiceInterfaces
   **/
-  @ApiModelProperty(required = true, value = "Link to the \"individual NFV-MANO service interface\" resources with  information about the associated interfaces to the NFV-MANO service. ")
+  @Schema(required= true ,description= "Link to the \"individual NFV-MANO service interface\" resources with  information about the associated interfaces to the NFV-MANO service. " )
       @NotNull
     @Valid
   @Size(min=1)   public List<Link> getManoServiceInterfaces() {

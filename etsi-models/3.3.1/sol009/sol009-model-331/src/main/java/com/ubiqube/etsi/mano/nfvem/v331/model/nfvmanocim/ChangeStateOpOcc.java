@@ -1,3 +1,19 @@
+/**
+ *     Copyright (C) 2019-2023 Ubiqube.
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 package com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim;
 
 import java.util.Objects;
@@ -8,8 +24,8 @@ import com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim.ChangeStateOpOccStateEn
 import com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim.ManoManagedObjectReference;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.time.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
@@ -18,7 +34,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents a Change state operation occurrence.  
  */
-@ApiModel(description = "This type represents a Change state operation occurrence.  ")
+@Schema (description= "This type represents a Change state operation occurrence.  " )
 @Validated
 public class ChangeStateOpOcc   {
   @JsonProperty("id")
@@ -54,7 +70,7 @@ public class ChangeStateOpOcc   {
    * Get id
    * @return id
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required= true ,description= "" )
       @NotNull
 
     public String getId() {
@@ -74,7 +90,7 @@ public class ChangeStateOpOcc   {
    * Get operationState
    * @return operationState
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required= true ,description= "" )
       @NotNull
 
     @Valid
@@ -95,7 +111,7 @@ public class ChangeStateOpOcc   {
    * Get stateEnteredTime
    * @return stateEnteredTime
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required= true ,description= "" )
       @NotNull
 
     @Valid
@@ -116,7 +132,7 @@ public class ChangeStateOpOcc   {
    * Get startTime
    * @return startTime
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required= true ,description= "" )
       @NotNull
 
     @Valid
@@ -137,7 +153,7 @@ public class ChangeStateOpOcc   {
    * Get managedObjectRef
    * @return managedObjectRef
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required= true ,description= "" )
       @NotNull
 
     @Valid
@@ -158,7 +174,7 @@ public class ChangeStateOpOcc   {
    * Get changeOperationalStateRequest
    * @return changeOperationalStateRequest
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description= "" )
   
     @Valid
     public ChangeOperationalStateEnumType getChangeOperationalStateRequest() {
@@ -178,7 +194,7 @@ public class ChangeStateOpOcc   {
    * Get changeAdministrativeStateRequest
    * @return changeAdministrativeStateRequest
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description= "" )
   
     @Valid
     public ChangeAdministrativeStateEnumType getChangeAdministrativeStateRequest() {
@@ -198,7 +214,7 @@ public class ChangeStateOpOcc   {
    * Input parameters of the change state operation. This attribute shall be  formatted according to the request data type of the related change state  operation.  The following mapping between operationType and the data type of this  attribute shall apply:   - CHANGE_STATE: ChangeStateRequest    This attribute shall be present if this data type is returned in a response  to reading an individual resource, and may be present according to the chosen  attribute selector parameter if this data type is returned in a response to  a query of a container resource. 
    * @return operationParams
   **/
-  @ApiModelProperty(value = "Input parameters of the change state operation. This attribute shall be  formatted according to the request data type of the related change state  operation.  The following mapping between operationType and the data type of this  attribute shall apply:   - CHANGE_STATE: ChangeStateRequest    This attribute shall be present if this data type is returned in a response  to reading an individual resource, and may be present according to the chosen  attribute selector parameter if this data type is returned in a response to  a query of a container resource. ")
+  @Schema(description= "Input parameters of the change state operation. This attribute shall be  formatted according to the request data type of the related change state  operation.  The following mapping between operationType and the data type of this  attribute shall apply:   - CHANGE_STATE: ChangeStateRequest    This attribute shall be present if this data type is returned in a response  to reading an individual resource, and may be present according to the chosen  attribute selector parameter if this data type is returned in a response to  a query of a container resource. " )
   
     public Object getOperationParams() {
     return operationParams;

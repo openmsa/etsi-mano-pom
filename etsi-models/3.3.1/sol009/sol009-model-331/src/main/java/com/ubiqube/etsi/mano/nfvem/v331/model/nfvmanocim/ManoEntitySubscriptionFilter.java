@@ -1,10 +1,26 @@
+/**
+ *     Copyright (C) 2019-2023 Ubiqube.
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 package com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -14,7 +30,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents subscription filter criteria to match NFV-MANO functional  entities and their associated managed objects.  
  */
-@ApiModel(description = "This type represents subscription filter criteria to match NFV-MANO functional  entities and their associated managed objects.  ")
+@Schema (description= "This type represents subscription filter criteria to match NFV-MANO functional  entities and their associated managed objects.  " )
 @Validated
 public class ManoEntitySubscriptionFilter   {
   @JsonProperty("manoEntityId")
@@ -53,7 +69,7 @@ public class ManoEntitySubscriptionFilter   {
    * Get manoEntityId
    * @return manoEntityId
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description= "" )
   
     public String getManoEntityId() {
     return manoEntityId;
@@ -80,7 +96,7 @@ public class ManoEntitySubscriptionFilter   {
    * manoServiceIds IdentifierInManoEntity 0..N If present, match NFV-MANO  services with an instance identifier listed in this attribute. The attributes \"manoServiceIds\" and \"manoServiceNames\" are alternatives  to reference to NFV-MANO services in a filter. They should not be used  together in the same filter instance, but one alternative should be chosen. 
    * @return manoServiceIds
   **/
-  @ApiModelProperty(value = "manoServiceIds IdentifierInManoEntity 0..N If present, match NFV-MANO  services with an instance identifier listed in this attribute. The attributes \"manoServiceIds\" and \"manoServiceNames\" are alternatives  to reference to NFV-MANO services in a filter. They should not be used  together in the same filter instance, but one alternative should be chosen. ")
+  @Schema(description= "manoServiceIds IdentifierInManoEntity 0..N If present, match NFV-MANO  services with an instance identifier listed in this attribute. The attributes \"manoServiceIds\" and \"manoServiceNames\" are alternatives  to reference to NFV-MANO services in a filter. They should not be used  together in the same filter instance, but one alternative should be chosen. " )
   
     public List<String> getManoServiceIds() {
     return manoServiceIds;
@@ -107,7 +123,7 @@ public class ManoEntitySubscriptionFilter   {
    * If present, match NFV-MANO services with an NFV-MANO service name listed  in this attribute. The attributes \"manoServiceIds\" and \"manoServiceNames\" are alternatives  to reference to NFV-MANO services in a filter. They should not be used  together in the same filter instance, but one alternative should be chosen. 
    * @return manoServiceNames
   **/
-  @ApiModelProperty(value = "If present, match NFV-MANO services with an NFV-MANO service name listed  in this attribute. The attributes \"manoServiceIds\" and \"manoServiceNames\" are alternatives  to reference to NFV-MANO services in a filter. They should not be used  together in the same filter instance, but one alternative should be chosen. ")
+  @Schema(description= "If present, match NFV-MANO services with an NFV-MANO service name listed  in this attribute. The attributes \"manoServiceIds\" and \"manoServiceNames\" are alternatives  to reference to NFV-MANO services in a filter. They should not be used  together in the same filter instance, but one alternative should be chosen. " )
   
     public List<String> getManoServiceNames() {
     return manoServiceNames;
@@ -134,7 +150,7 @@ public class ManoEntitySubscriptionFilter   {
    * If present, match NFV-MANO functional entity produced interfaces with an  instance identifier listed in this attribute. The attributes \"manoServiceInterfaceIds\" and \"manoServiceInterfaceNames\"  are alternatives to reference to NFV-MANO functional entity produced  interfaces in a filter. They should not be used both in the same filter  instance, but one alternative should be chosen. 
    * @return manoServiceInterfaceIds
   **/
-  @ApiModelProperty(value = "If present, match NFV-MANO functional entity produced interfaces with an  instance identifier listed in this attribute. The attributes \"manoServiceInterfaceIds\" and \"manoServiceInterfaceNames\"  are alternatives to reference to NFV-MANO functional entity produced  interfaces in a filter. They should not be used both in the same filter  instance, but one alternative should be chosen. ")
+  @Schema(description= "If present, match NFV-MANO functional entity produced interfaces with an  instance identifier listed in this attribute. The attributes \"manoServiceInterfaceIds\" and \"manoServiceInterfaceNames\"  are alternatives to reference to NFV-MANO functional entity produced  interfaces in a filter. They should not be used both in the same filter  instance, but one alternative should be chosen. " )
   
     public List<String> getManoServiceInterfaceIds() {
     return manoServiceInterfaceIds;
@@ -161,7 +177,7 @@ public class ManoEntitySubscriptionFilter   {
    * If present, match NFV-MANO functional entity produced interfaces with an  instance Name listed in this attribute. The attributes \"manoServiceInterfaceIds\" and \"manoServiceInterfaceNames\"  are alternatives to reference to NFV-MANO functional entity produced  interfaces in a filter. They should not be used both in the same filter  instance, but one alternative should be chosen. 
    * @return manoServiceInterfaceNames
   **/
-  @ApiModelProperty(value = "If present, match NFV-MANO functional entity produced interfaces with an  instance Name listed in this attribute. The attributes \"manoServiceInterfaceIds\" and \"manoServiceInterfaceNames\"  are alternatives to reference to NFV-MANO functional entity produced  interfaces in a filter. They should not be used both in the same filter  instance, but one alternative should be chosen. ")
+  @Schema(description= "If present, match NFV-MANO functional entity produced interfaces with an  instance Name listed in this attribute. The attributes \"manoServiceInterfaceIds\" and \"manoServiceInterfaceNames\"  are alternatives to reference to NFV-MANO functional entity produced  interfaces in a filter. They should not be used both in the same filter  instance, but one alternative should be chosen. " )
   
     public List<String> getManoServiceInterfaceNames() {
     return manoServiceInterfaceNames;
@@ -188,7 +204,7 @@ public class ManoEntitySubscriptionFilter   {
    * If present, match NFV-MANO functional entity consumed interfaces with an  instance identifier listed in this attribute. The attributes \"consumedManoInterfaceIds\" and \"consumedManoInterfaceNames\"  are alternatives to reference to NFV-MANO functional entity consumed  interfaces in a filter. They should not be used both in the same filter  instance, but one alternative should be chosen. 
    * @return consumedManoInterfaceIds
   **/
-  @ApiModelProperty(value = "If present, match NFV-MANO functional entity consumed interfaces with an  instance identifier listed in this attribute. The attributes \"consumedManoInterfaceIds\" and \"consumedManoInterfaceNames\"  are alternatives to reference to NFV-MANO functional entity consumed  interfaces in a filter. They should not be used both in the same filter  instance, but one alternative should be chosen. ")
+  @Schema(description= "If present, match NFV-MANO functional entity consumed interfaces with an  instance identifier listed in this attribute. The attributes \"consumedManoInterfaceIds\" and \"consumedManoInterfaceNames\"  are alternatives to reference to NFV-MANO functional entity consumed  interfaces in a filter. They should not be used both in the same filter  instance, but one alternative should be chosen. " )
   
     public List<String> getConsumedManoInterfaceIds() {
     return consumedManoInterfaceIds;
@@ -215,7 +231,7 @@ public class ManoEntitySubscriptionFilter   {
    * If present, match NFV-MANO functional entity consumed interfaces with an  instance Name listed in this attribute. The attributes \"consumedManoInterfaceIds\" and \"consumedManoInterfaceNames\"  are alternatives to reference to NFV-MANO functional entity consumed  interfaces in a filter. They should not be used both in the same filter  instance, but one alternative should be chosen. 
    * @return consumedManoInterfaceNames
   **/
-  @ApiModelProperty(value = "If present, match NFV-MANO functional entity consumed interfaces with an  instance Name listed in this attribute. The attributes \"consumedManoInterfaceIds\" and \"consumedManoInterfaceNames\"  are alternatives to reference to NFV-MANO functional entity consumed  interfaces in a filter. They should not be used both in the same filter  instance, but one alternative should be chosen. ")
+  @Schema(description= "If present, match NFV-MANO functional entity consumed interfaces with an  instance Name listed in this attribute. The attributes \"consumedManoInterfaceIds\" and \"consumedManoInterfaceNames\"  are alternatives to reference to NFV-MANO functional entity consumed  interfaces in a filter. They should not be used both in the same filter  instance, but one alternative should be chosen. " )
   
     public List<String> getConsumedManoInterfaceNames() {
     return consumedManoInterfaceNames;

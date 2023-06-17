@@ -1,3 +1,19 @@
+/**
+ *     Copyright (C) 2019-2023 Ubiqube.
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 package com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim;
 
 import java.util.Objects;
@@ -6,8 +22,8 @@ import com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim.ClockSyncInfo;
 import com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim.ManoConfigModificationsManoServiceModifications;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +34,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents attribute modifications that were performed on the  \&quot;NFV-MANO entity\&quot; resource of the producer NFV-MANO functional entity.  The attributes that can be included consist of those requested to be  modified explicitly in the \&quot;ManoConfigModificationRequest\&quot; data structure.  
  */
-@ApiModel(description = "This type represents attribute modifications that were performed on the  \"NFV-MANO entity\" resource of the producer NFV-MANO functional entity.  The attributes that can be included consist of those requested to be  modified explicitly in the \"ManoConfigModificationRequest\" data structure.  ")
+@Schema (description= "This type represents attribute modifications that were performed on the  \"NFV-MANO entity\" resource of the producer NFV-MANO functional entity.  The attributes that can be included consist of those requested to be  modified explicitly in the \"ManoConfigModificationRequest\" data structure.  " )
 @Validated
 public class ManoConfigModifications   {
   @JsonProperty("name")
@@ -54,7 +70,7 @@ public class ManoConfigModifications   {
    * If present, this attribute signals modifications of the \"name\"  attribute in \"ManoEntity\", as defined in clause 5.6.2.3 
    * @return name
   **/
-  @ApiModelProperty(value = "If present, this attribute signals modifications of the \"name\"  attribute in \"ManoEntity\", as defined in clause 5.6.2.3 ")
+  @Schema(description= "If present, this attribute signals modifications of the \"name\"  attribute in \"ManoEntity\", as defined in clause 5.6.2.3 " )
   
     public String getName() {
     return name;
@@ -73,7 +89,7 @@ public class ManoConfigModifications   {
    * If present, this attribute signals modifications of the \"description\"  attribute in \"ManoEntity\", as defined in clause 5.6.2.3. 
    * @return description
   **/
-  @ApiModelProperty(value = "If present, this attribute signals modifications of the \"description\"  attribute in \"ManoEntity\", as defined in clause 5.6.2.3. ")
+  @Schema(description= "If present, this attribute signals modifications of the \"description\"  attribute in \"ManoEntity\", as defined in clause 5.6.2.3. " )
   
     public String getDescription() {
     return description;
@@ -100,7 +116,7 @@ public class ManoConfigModifications   {
    * If present, this attribute signals modifications of the \"clockSyncs\"  attribute in \"ManoEntityConfigurableParams\", as defined in  clause 5.6.2.3. 
    * @return clockSyncs
   **/
-  @ApiModelProperty(value = "If present, this attribute signals modifications of the \"clockSyncs\"  attribute in \"ManoEntityConfigurableParams\", as defined in  clause 5.6.2.3. ")
+  @Schema(description= "If present, this attribute signals modifications of the \"clockSyncs\"  attribute in \"ManoEntityConfigurableParams\", as defined in  clause 5.6.2.3. " )
       @Valid
     public List<ClockSyncInfo> getClockSyncs() {
     return clockSyncs;
@@ -127,7 +143,7 @@ public class ManoConfigModifications   {
    * If present, this attribute signals modifications of certain entries in  \"clockSyncs\" attribute in \"ManoEntityConfigurableParams\", as defined  in clause 5.6.2.3. 
    * @return clockSyncsDeleteIds
   **/
-  @ApiModelProperty(value = "If present, this attribute signals modifications of certain entries in  \"clockSyncs\" attribute in \"ManoEntityConfigurableParams\", as defined  in clause 5.6.2.3. ")
+  @Schema(description= "If present, this attribute signals modifications of certain entries in  \"clockSyncs\" attribute in \"ManoEntityConfigurableParams\", as defined  in clause 5.6.2.3. " )
   
     public List<String> getClockSyncsDeleteIds() {
     return clockSyncsDeleteIds;
@@ -146,7 +162,7 @@ public class ManoConfigModifications   {
    * Get defaultLogCompileBySizeValue
    * @return defaultLogCompileBySizeValue
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description= "" )
   
     @Valid
     public BigDecimal getDefaultLogCompileBySizeValue() {
@@ -166,7 +182,7 @@ public class ManoConfigModifications   {
    * Get defaultLogCompileByTimerValue
    * @return defaultLogCompileByTimerValue
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description= "" )
   
     @Valid
     public BigDecimal getDefaultLogCompileByTimerValue() {
@@ -194,7 +210,7 @@ public class ManoConfigModifications   {
    * If present, this attribute signals modifications of the \"manoServices\"  attribute array in the \"ManoEntity\", as defined in clause 5.6.2.3. 
    * @return manoServiceModifications
   **/
-  @ApiModelProperty(value = "If present, this attribute signals modifications of the \"manoServices\"  attribute array in the \"ManoEntity\", as defined in clause 5.6.2.3. ")
+  @Schema(description= "If present, this attribute signals modifications of the \"manoServices\"  attribute array in the \"ManoEntity\", as defined in clause 5.6.2.3. " )
       @Valid
     public List<ManoConfigModificationsManoServiceModifications> getManoServiceModifications() {
     return manoServiceModifications;

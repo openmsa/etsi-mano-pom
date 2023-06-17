@@ -1,3 +1,19 @@
+/**
+ *     Copyright (C) 2019-2023 Ubiqube.
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 package com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim;
 
 import java.util.Objects;
@@ -6,8 +22,8 @@ import com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim.ClockSyncInfo;
 import com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim.ManoConfigModificationRequestManoServiceModifications;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +34,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents attribute modifications for configuration parameters  of an NFV-MANO functional entity.  
  */
-@ApiModel(description = "This type represents attribute modifications for configuration parameters  of an NFV-MANO functional entity.  ")
+@Schema (description= "This type represents attribute modifications for configuration parameters  of an NFV-MANO functional entity.  " )
 @Validated
 public class ManoConfigModificationRequest   {
   @JsonProperty("name")
@@ -54,7 +70,7 @@ public class ManoConfigModificationRequest   {
    * New value of the \"name\" attribute in \"ManoEntity\". 
    * @return name
   **/
-  @ApiModelProperty(value = "New value of the \"name\" attribute in \"ManoEntity\". ")
+  @Schema(description= "New value of the \"name\" attribute in \"ManoEntity\". " )
   
     public String getName() {
     return name;
@@ -73,7 +89,7 @@ public class ManoConfigModificationRequest   {
    * New value of the \"description\" attribute in \"ManoEntity\". 
    * @return description
   **/
-  @ApiModelProperty(value = "New value of the \"description\" attribute in \"ManoEntity\". ")
+  @Schema(description= "New value of the \"description\" attribute in \"ManoEntity\". " )
   
     public String getDescription() {
     return description;
@@ -100,7 +116,7 @@ public class ManoConfigModificationRequest   {
    * New content of certain entries in the \"clockSyncs\" attribute array in  the \"ManoEntityConfigurableParams\", as defined below this table.  
    * @return clockSyncs
   **/
-  @ApiModelProperty(value = "New content of certain entries in the \"clockSyncs\" attribute array in  the \"ManoEntityConfigurableParams\", as defined below this table.  ")
+  @Schema(description= "New content of certain entries in the \"clockSyncs\" attribute array in  the \"ManoEntityConfigurableParams\", as defined below this table.  " )
       @Valid
     public List<ClockSyncInfo> getClockSyncs() {
     return clockSyncs;
@@ -127,7 +143,7 @@ public class ManoConfigModificationRequest   {
    * List of identifiers entries to be deleted from the \"clockSyncs\"  attribute array in the \"ManoEntityConfigurableParams\", as defined  below this table. 
    * @return clockSyncsDeleteIds
   **/
-  @ApiModelProperty(value = "List of identifiers entries to be deleted from the \"clockSyncs\"  attribute array in the \"ManoEntityConfigurableParams\", as defined  below this table. ")
+  @Schema(description= "List of identifiers entries to be deleted from the \"clockSyncs\"  attribute array in the \"ManoEntityConfigurableParams\", as defined  below this table. " )
   
     public List<String> getClockSyncsDeleteIds() {
     return clockSyncsDeleteIds;
@@ -146,7 +162,7 @@ public class ManoConfigModificationRequest   {
    * Get defaultLogCompileBySizeValue
    * @return defaultLogCompileBySizeValue
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description= "" )
   
     @Valid
     public BigDecimal getDefaultLogCompileBySizeValue() {
@@ -166,7 +182,7 @@ public class ManoConfigModificationRequest   {
    * Get defaultLogCompileByTimerValue
    * @return defaultLogCompileByTimerValue
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description= "" )
   
     @Valid
     public BigDecimal getDefaultLogCompileByTimerValue() {
@@ -194,7 +210,7 @@ public class ManoConfigModificationRequest   {
    * New content of certain entries in the \"manoServices\" attribute array  in the \"ManoEntity\", as defined below this table. 
    * @return manoServiceModifications
   **/
-  @ApiModelProperty(value = "New content of certain entries in the \"manoServices\" attribute array  in the \"ManoEntity\", as defined below this table. ")
+  @Schema(description= "New content of certain entries in the \"manoServices\" attribute array  in the \"ManoEntity\", as defined below this table. " )
       @Valid
     public List<ManoConfigModificationRequestManoServiceModifications> getManoServiceModifications() {
     return manoServiceModifications;

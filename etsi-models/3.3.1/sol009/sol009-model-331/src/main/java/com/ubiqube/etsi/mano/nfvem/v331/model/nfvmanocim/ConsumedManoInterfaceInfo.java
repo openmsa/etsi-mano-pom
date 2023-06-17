@@ -1,3 +1,19 @@
+/**
+ *     Copyright (C) 2019-2023 Ubiqube.
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 package com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim;
 
 import java.util.Objects;
@@ -6,8 +22,8 @@ import com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim.ClientInterfaceSecurity
 import com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim.ConsumedManoInterfaceInfoApiEndpoint;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -15,7 +31,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents an interface consumed by the producer NFV MANO  functional entity from another peer functional entity.  
  */
-@ApiModel(description = "This type represents an interface consumed by the producer NFV MANO  functional entity from another peer functional entity.  ")
+@Schema (description= "This type represents an interface consumed by the producer NFV MANO  functional entity from another peer functional entity.  " )
 @Validated
 public class ConsumedManoInterfaceInfo   {
   @JsonProperty("id")
@@ -48,7 +64,7 @@ public class ConsumedManoInterfaceInfo   {
    * Get id
    * @return id
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required= true ,description= "" )
       @NotNull
 
     public String getId() {
@@ -68,7 +84,7 @@ public class ConsumedManoInterfaceInfo   {
    * Human-readable name of the NFV-MANO interface. 
    * @return name
   **/
-  @ApiModelProperty(required = true, value = "Human-readable name of the NFV-MANO interface. ")
+  @Schema(required= true ,description= "Human-readable name of the NFV-MANO interface. " )
       @NotNull
 
     public String getName() {
@@ -88,7 +104,7 @@ public class ConsumedManoInterfaceInfo   {
    * Type of the NFV-MANO service interface consumed by the NFV-MANO  functional entity. Valid values are defined in clause 5.6.4.3. 
    * @return type
   **/
-  @ApiModelProperty(required = true, value = "Type of the NFV-MANO service interface consumed by the NFV-MANO  functional entity. Valid values are defined in clause 5.6.4.3. ")
+  @Schema(required= true ,description= "Type of the NFV-MANO service interface consumed by the NFV-MANO  functional entity. Valid values are defined in clause 5.6.4.3. " )
       @NotNull
 
     public String getType() {
@@ -108,7 +124,7 @@ public class ConsumedManoInterfaceInfo   {
    * Get standardVersion
    * @return standardVersion
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required= true ,description= "" )
       @NotNull
 
     public String getStandardVersion() {
@@ -128,7 +144,7 @@ public class ConsumedManoInterfaceInfo   {
    * Get apiVersion
    * @return apiVersion
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required= true ,description= "" )
       @NotNull
 
     public String getApiVersion() {
@@ -148,7 +164,7 @@ public class ConsumedManoInterfaceInfo   {
    * Get apiEndpoint
    * @return apiEndpoint
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required= true ,description= "" )
       @NotNull
 
     @Valid
@@ -169,7 +185,7 @@ public class ConsumedManoInterfaceInfo   {
    * Get securityInfo
    * @return securityInfo
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description= "" )
   
     @Valid
     public ClientInterfaceSecurityInfo getSecurityInfo() {

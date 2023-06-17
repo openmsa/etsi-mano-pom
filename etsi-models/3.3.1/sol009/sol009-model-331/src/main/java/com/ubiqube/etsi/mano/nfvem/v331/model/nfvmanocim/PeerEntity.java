@@ -1,3 +1,19 @@
+/**
+ *     Copyright (C) 2019-2023 Ubiqube.
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 package com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim;
 
 import java.util.Objects;
@@ -7,8 +23,8 @@ import com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim.PeerEntityEnumType;
 import com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim.PeerEntityPeerEntityState;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -18,7 +34,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents an individual peer entity.  
  */
-@ApiModel(description = "This type represents an individual peer entity.  ")
+@Schema (description= "This type represents an individual peer entity.  " )
 @Validated
 public class PeerEntity   {
   @JsonProperty("id")
@@ -52,7 +68,7 @@ public class PeerEntity   {
    * Get id
    * @return id
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required= true ,description= "" )
       @NotNull
 
     public String getId() {
@@ -72,7 +88,7 @@ public class PeerEntity   {
    * Get peerEntityId
    * @return peerEntityId
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required= true ,description= "" )
       @NotNull
 
     public String getPeerEntityId() {
@@ -92,7 +108,7 @@ public class PeerEntity   {
    * Human-readable name of the peer functional entity. This attribute can be modified with the PATCH method. 
    * @return name
   **/
-  @ApiModelProperty(required = true, value = "Human-readable name of the peer functional entity. This attribute can be modified with the PATCH method. ")
+  @Schema(required= true ,description= "Human-readable name of the peer functional entity. This attribute can be modified with the PATCH method. " )
       @NotNull
 
     public String getName() {
@@ -112,7 +128,7 @@ public class PeerEntity   {
    * Get type
    * @return type
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required= true ,description= "" )
       @NotNull
 
     @Valid
@@ -133,7 +149,7 @@ public class PeerEntity   {
    * Human-readable description of the peer functional entity. This attribute can be modified with the PATCH method. 
    * @return description
   **/
-  @ApiModelProperty(value = "Human-readable description of the peer functional entity. This attribute can be modified with the PATCH method. ")
+  @Schema(description= "Human-readable description of the peer functional entity. This attribute can be modified with the PATCH method. " )
   
     public String getDescription() {
     return description;
@@ -160,7 +176,7 @@ public class PeerEntity   {
    * Information of the interface consumed by the NFV-MANO functional entity  from the peer functional entity. This attribute can be modified with the PATCH method. 
    * @return consumedManoInterfaces
   **/
-  @ApiModelProperty(value = "Information of the interface consumed by the NFV-MANO functional entity  from the peer functional entity. This attribute can be modified with the PATCH method. ")
+  @Schema(description= "Information of the interface consumed by the NFV-MANO functional entity  from the peer functional entity. This attribute can be modified with the PATCH method. " )
       @Valid
     public List<ConsumedManoInterfaceInfo> getConsumedManoInterfaces() {
     return consumedManoInterfaces;
@@ -179,7 +195,7 @@ public class PeerEntity   {
    * Get peerEntityState
    * @return peerEntityState
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required= true ,description= "" )
       @NotNull
 
     @Valid

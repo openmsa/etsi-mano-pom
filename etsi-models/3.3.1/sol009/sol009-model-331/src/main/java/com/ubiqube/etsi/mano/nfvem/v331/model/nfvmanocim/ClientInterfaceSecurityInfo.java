@@ -1,3 +1,19 @@
+/**
+ *     Copyright (C) 2019-2023 Ubiqube.
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 package com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim;
 
 import java.util.Objects;
@@ -7,8 +23,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim.ClientInterfaceSecurityInfoOauthServerInfo;
 import com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim.ClientInterfaceSecurityInfoTlsTunnelInfo;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -18,7 +34,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents security related information for accessing an NFV-MANO  service interface produced by an NFV-MANO functional entity. 
  */
-@ApiModel(description = "This type represents security related information for accessing an NFV-MANO  service interface produced by an NFV-MANO functional entity. ")
+@Schema (description= "This type represents security related information for accessing an NFV-MANO  service interface produced by an NFV-MANO functional entity. " )
 @Validated
 public class ClientInterfaceSecurityInfo   {
   /**
@@ -75,7 +91,7 @@ public class ClientInterfaceSecurityInfo   {
    * Type of API request authorization to be used by the API consumer accessing  the API. The support of authorization methods for the API consumer is specified in  clause 8.3.6 of ETSI GS NFV-SOL 013. Permitted values: - TLS_TUNNEL: Using TLS tunnel, as defined by TLS 1.2 in IETF RFC 5246. - OAUTH2: Using access token, as defined by the OAuth 2.0 specification  in IETF RFC 6749.  
    * @return authType
   **/
-  @ApiModelProperty(required = true, value = "Type of API request authorization to be used by the API consumer accessing  the API. The support of authorization methods for the API consumer is specified in  clause 8.3.6 of ETSI GS NFV-SOL 013. Permitted values: - TLS_TUNNEL: Using TLS tunnel, as defined by TLS 1.2 in IETF RFC 5246. - OAUTH2: Using access token, as defined by the OAuth 2.0 specification  in IETF RFC 6749.  ")
+  @Schema(required= true ,description= "Type of API request authorization to be used by the API consumer accessing  the API. The support of authorization methods for the API consumer is specified in  clause 8.3.6 of ETSI GS NFV-SOL 013. Permitted values: - TLS_TUNNEL: Using TLS tunnel, as defined by TLS 1.2 in IETF RFC 5246. - OAUTH2: Using access token, as defined by the OAuth 2.0 specification  in IETF RFC 6749.  " )
       @NotNull
 
   @Size(min=1)   public List<AuthTypeEnum> getAuthType() {
@@ -95,7 +111,7 @@ public class ClientInterfaceSecurityInfo   {
    * Get oauthServerInfo
    * @return oauthServerInfo
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required= true ,description= "" )
       @NotNull
 
     @Valid
@@ -116,7 +132,7 @@ public class ClientInterfaceSecurityInfo   {
    * Get tlsTunnelInfo
    * @return tlsTunnelInfo
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description= "" )
   
     @Valid
     public ClientInterfaceSecurityInfoTlsTunnelInfo getTlsTunnelInfo() {

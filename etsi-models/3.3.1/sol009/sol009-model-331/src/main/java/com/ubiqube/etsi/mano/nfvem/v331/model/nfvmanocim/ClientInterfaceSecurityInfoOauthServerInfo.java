@@ -1,3 +1,19 @@
+/**
+ *     Copyright (C) 2019-2023 Ubiqube.
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 package com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim;
 
 import java.util.Objects;
@@ -6,8 +22,8 @@ import com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim.ClientInterfaceSecurity
 import com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim.ClientInterfaceSecurityInfoOauthServerInfoProvidedConfiguration;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -17,7 +33,7 @@ import jakarta.validation.constraints.*;
 /**
  * OAuth 2.0 authorization server information and configuration. 
  */
-@ApiModel(description = "OAuth 2.0 authorization server information and configuration. ")
+@Schema (description= "OAuth 2.0 authorization server information and configuration. " )
 @Validated
 public class ClientInterfaceSecurityInfoOauthServerInfo   {
   @JsonProperty("dynamicDiscovery")
@@ -39,7 +55,7 @@ public class ClientInterfaceSecurityInfoOauthServerInfo   {
    * Get dynamicDiscovery
    * @return dynamicDiscovery
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description= "" )
   
     @Valid
     public ClientInterfaceSecurityInfoOauthServerInfoDynamicDiscovery getDynamicDiscovery() {
@@ -59,7 +75,7 @@ public class ClientInterfaceSecurityInfoOauthServerInfo   {
    * Get providedConfiguration
    * @return providedConfiguration
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description= "" )
   
     @Valid
     public ClientInterfaceSecurityInfoOauthServerInfoProvidedConfiguration getProvidedConfiguration() {
@@ -87,7 +103,7 @@ public class ClientInterfaceSecurityInfoOauthServerInfo   {
    * List of cipher suites that shall be declared as supported by the API consumer when  performing the SSL or TLS negotiation with the authorization server. Valid values  of cipher suites are defined in IETF RFC 8447. 
    * @return tlsCipherSuites
   **/
-  @ApiModelProperty(value = "List of cipher suites that shall be declared as supported by the API consumer when  performing the SSL or TLS negotiation with the authorization server. Valid values  of cipher suites are defined in IETF RFC 8447. ")
+  @Schema(description= "List of cipher suites that shall be declared as supported by the API consumer when  performing the SSL or TLS negotiation with the authorization server. Valid values  of cipher suites are defined in IETF RFC 8447. " )
   
     public List<String> getTlsCipherSuites() {
     return tlsCipherSuites;

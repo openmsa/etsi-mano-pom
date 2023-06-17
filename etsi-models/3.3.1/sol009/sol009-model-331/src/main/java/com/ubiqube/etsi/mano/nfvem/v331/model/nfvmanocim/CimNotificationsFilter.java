@@ -1,3 +1,19 @@
+/**
+ *     Copyright (C) 2019-2023 Ubiqube.
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 package com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim;
 
 import java.util.Objects;
@@ -6,8 +22,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim.ManoEntitySubscriptionFilter;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -17,7 +33,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents a subscription filter related to notifications  about NFV-MANO configuration and information management.  
  */
-@ApiModel(description = "This type represents a subscription filter related to notifications  about NFV-MANO configuration and information management.  ")
+@Schema (description= "This type represents a subscription filter related to notifications  about NFV-MANO configuration and information management.  " )
 @Validated
 public class CimNotificationsFilter   {
   @JsonProperty("manoEntitySubscriptionFilter")
@@ -66,7 +82,7 @@ public class CimNotificationsFilter   {
    * Get manoEntitySubscriptionFilter
    * @return manoEntitySubscriptionFilter
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description= "" )
   
     @Valid
     public ManoEntitySubscriptionFilter getManoEntitySubscriptionFilter() {
@@ -94,7 +110,7 @@ public class CimNotificationsFilter   {
    * Match particular notification types.  Permitted values:   - InformationChangedNotification   - ChangeStateNotification  NOTE: The permitted values of the \"notificationTypes\" attribute are  spelled exactly as the names of the notification types to facilitate  automated code generation systems. 
    * @return notificationTypes
   **/
-  @ApiModelProperty(value = "Match particular notification types.  Permitted values:   - InformationChangedNotification   - ChangeStateNotification  NOTE: The permitted values of the \"notificationTypes\" attribute are  spelled exactly as the names of the notification types to facilitate  automated code generation systems. ")
+  @Schema(description= "Match particular notification types.  Permitted values:   - InformationChangedNotification   - ChangeStateNotification  NOTE: The permitted values of the \"notificationTypes\" attribute are  spelled exactly as the names of the notification types to facilitate  automated code generation systems. " )
   
     public List<NotificationTypesEnum> getNotificationTypes() {
     return notificationTypes;

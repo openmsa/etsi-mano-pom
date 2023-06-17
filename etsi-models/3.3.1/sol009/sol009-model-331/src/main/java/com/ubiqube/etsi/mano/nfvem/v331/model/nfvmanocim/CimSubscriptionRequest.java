@@ -1,3 +1,19 @@
+/**
+ *     Copyright (C) 2019-2023 Ubiqube.
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 package com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim;
 
 import java.util.Objects;
@@ -7,8 +23,8 @@ import org.springframework.validation.annotation.Validated;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.nfvem.v331.model.SubscriptionAuthentication;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
@@ -16,7 +32,7 @@ import jakarta.validation.constraints.NotNull;
  * This type represents a subscription request related to notifications about
  * NFV-MANO configuration and information management changes.
  */
-@ApiModel(description = "This type represents a subscription request related to notifications  about NFV-MANO configuration and information management changes.  ")
+@Schema (description= "This type represents a subscription request related to notifications  about NFV-MANO configuration and information management changes.  " )
 @Validated
 public class CimSubscriptionRequest {
 	@JsonProperty("filter")
@@ -38,7 +54,7 @@ public class CimSubscriptionRequest {
 	 *
 	 * @return filter
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description= "" )
 
 	@Valid
 	public CimNotificationsFilter getFilter() {
@@ -59,7 +75,7 @@ public class CimSubscriptionRequest {
 	 *
 	 * @return callbackUri
 	 **/
-	@ApiModelProperty(required = true, value = "")
+	@Schema(required= true ,description= "" )
 	@NotNull
 
 	public String getCallbackUri() {
@@ -80,7 +96,7 @@ public class CimSubscriptionRequest {
 	 *
 	 * @return authentication
 	 **/
-	@ApiModelProperty(value = "")
+	@Schema(description= "" )
 
 	@Valid
 	public SubscriptionAuthentication getAuthentication() {

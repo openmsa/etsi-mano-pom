@@ -1,3 +1,19 @@
+/**
+ *     Copyright (C) 2019-2023 Ubiqube.
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 package com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim;
 
 import java.util.Objects;
@@ -5,8 +21,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim.ManoServiceLinks;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -16,7 +32,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents information about an NFV-MANO service provided by the  NFV-MANO functional entity. 
  */
-@ApiModel(description = "This type represents information about an NFV-MANO service provided by the  NFV-MANO functional entity. ")
+@Schema (description= "This type represents information about an NFV-MANO service provided by the  NFV-MANO functional entity. " )
 @Validated
 public class ManoService   {
   @JsonProperty("id")
@@ -44,7 +60,7 @@ public class ManoService   {
    * Get id
    * @return id
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required= true ,description= "" )
       @NotNull
 
     public String getId() {
@@ -64,7 +80,7 @@ public class ManoService   {
    * Human-readable name of the NFV-MANO service. This attribute can be modified with the PATCH method. 
    * @return name
   **/
-  @ApiModelProperty(required = true, value = "Human-readable name of the NFV-MANO service. This attribute can be modified with the PATCH method. ")
+  @Schema(required= true ,description= "Human-readable name of the NFV-MANO service. This attribute can be modified with the PATCH method. " )
       @NotNull
 
     public String getName() {
@@ -84,7 +100,7 @@ public class ManoService   {
    * Human-readable description of the NFV-MANO service. This attribute can be modified with the PATCH method. 
    * @return description
   **/
-  @ApiModelProperty(required = true, value = "Human-readable description of the NFV-MANO service. This attribute can be modified with the PATCH method. ")
+  @Schema(required= true ,description= "Human-readable description of the NFV-MANO service. This attribute can be modified with the PATCH method. " )
       @NotNull
 
     public String getDescription() {
@@ -109,7 +125,7 @@ public class ManoService   {
    * Reference to the NFV-MANO interfaces associated to the NFV-MANO service.  If cardinality is greater than one, the type of ManoServiceInterface  (see clause 5.6.3.3) shall be the same. The identifier of the  ManoServiceInterface is referred.  NOTE: A cardinality greater than one supports having different interface  versions or apiEndpoints to be used for accessing the same instance of a  NFV-MANO service. 
    * @return manoServiceInterfaceIds
   **/
-  @ApiModelProperty(required = true, value = "Reference to the NFV-MANO interfaces associated to the NFV-MANO service.  If cardinality is greater than one, the type of ManoServiceInterface  (see clause 5.6.3.3) shall be the same. The identifier of the  ManoServiceInterface is referred.  NOTE: A cardinality greater than one supports having different interface  versions or apiEndpoints to be used for accessing the same instance of a  NFV-MANO service. ")
+  @Schema(required= true ,description= "Reference to the NFV-MANO interfaces associated to the NFV-MANO service.  If cardinality is greater than one, the type of ManoServiceInterface  (see clause 5.6.3.3) shall be the same. The identifier of the  ManoServiceInterface is referred.  NOTE: A cardinality greater than one supports having different interface  versions or apiEndpoints to be used for accessing the same instance of a  NFV-MANO service. " )
       @NotNull
 
   @Size(min=1)   public List<String> getManoServiceInterfaceIds() {
@@ -129,7 +145,7 @@ public class ManoService   {
    * Get _links
    * @return _links
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required= true ,description= "" )
       @NotNull
 
     @Valid

@@ -1,3 +1,19 @@
+/**
+ *     Copyright (C) 2019-2023 Ubiqube.
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 package com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim;
 
 import java.util.Objects;
@@ -6,8 +22,8 @@ import java.util.Map;
 import com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim.ServerInterfaceSecurityInfo;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -15,7 +31,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents attribute modifications for configuration parameters of  an NFV-MANO service interface of the producer NFV-MANO functional entity.  
  */
-@ApiModel(description = "This type represents attribute modifications for configuration parameters of  an NFV-MANO service interface of the producer NFV-MANO functional entity.  ")
+@Schema (description= "This type represents attribute modifications for configuration parameters of  an NFV-MANO service interface of the producer NFV-MANO functional entity.  " )
 @Validated
 public class ManoServiceInterfaceModificationRequest   {
   @JsonProperty("name")
@@ -42,7 +58,7 @@ public class ManoServiceInterfaceModificationRequest   {
    * New value of the \"name\" attribute in \"ManoServiceInterface\".  NOTE: Changing the name does not change the corresponding standardized  API name in the resource URI (refer to \"{apiName}\" defined in clause 4.1  of ETSI GS NFV-SOL 013). 
    * @return name
   **/
-  @ApiModelProperty(value = "New value of the \"name\" attribute in \"ManoServiceInterface\".  NOTE: Changing the name does not change the corresponding standardized  API name in the resource URI (refer to \"{apiName}\" defined in clause 4.1  of ETSI GS NFV-SOL 013). ")
+  @Schema(description= "New value of the \"name\" attribute in \"ManoServiceInterface\".  NOTE: Changing the name does not change the corresponding standardized  API name in the resource URI (refer to \"{apiName}\" defined in clause 4.1  of ETSI GS NFV-SOL 013). " )
   
     public String getName() {
     return name;
@@ -61,7 +77,7 @@ public class ManoServiceInterfaceModificationRequest   {
    * Get apiRoot
    * @return apiRoot
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description= "" )
   
     public String getApiRoot() {
     return apiRoot;
@@ -80,7 +96,7 @@ public class ManoServiceInterfaceModificationRequest   {
    * Get apiUri
    * @return apiUri
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description= "" )
   
     public String getApiUri() {
     return apiUri;
@@ -99,7 +115,7 @@ public class ManoServiceInterfaceModificationRequest   {
    * Get securityInfo
    * @return securityInfo
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description= "" )
   
     @Valid
     public ServerInterfaceSecurityInfo getSecurityInfo() {
@@ -119,7 +135,7 @@ public class ManoServiceInterfaceModificationRequest   {
    * Get metadata
    * @return metadata
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description= "" )
   
     @Valid
     public Map<String, String> getMetadata() {

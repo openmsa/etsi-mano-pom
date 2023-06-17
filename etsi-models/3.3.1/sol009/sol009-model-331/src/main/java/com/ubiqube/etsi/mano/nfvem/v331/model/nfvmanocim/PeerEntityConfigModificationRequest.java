@@ -1,3 +1,19 @@
+/**
+ *     Copyright (C) 2019-2023 Ubiqube.
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 package com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim;
 
 import java.util.Objects;
@@ -7,8 +23,8 @@ import com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim.ConsumedManoInterfaceIn
 import com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim.OperationalStateEnumType;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -18,7 +34,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents attribute modifications for configuration parameters  of a peer entity.  
  */
-@ApiModel(description = "This type represents attribute modifications for configuration parameters  of a peer entity.  ")
+@Schema (description= "This type represents attribute modifications for configuration parameters  of a peer entity.  " )
 @Validated
 public class PeerEntityConfigModificationRequest   {
   @JsonProperty("name")
@@ -50,7 +66,7 @@ public class PeerEntityConfigModificationRequest   {
    * New value of the \"name\" attribute in \"PeerEntity\". 
    * @return name
   **/
-  @ApiModelProperty(value = "New value of the \"name\" attribute in \"PeerEntity\". ")
+  @Schema(description= "New value of the \"name\" attribute in \"PeerEntity\". " )
   
     public String getName() {
     return name;
@@ -69,7 +85,7 @@ public class PeerEntityConfigModificationRequest   {
    * New value of the \"description\" attribute in \"PeerEntity\", or \"null\" to  remove the attribute. 
    * @return description
   **/
-  @ApiModelProperty(value = "New value of the \"description\" attribute in \"PeerEntity\", or \"null\" to  remove the attribute. ")
+  @Schema(description= "New value of the \"description\" attribute in \"PeerEntity\", or \"null\" to  remove the attribute. " )
   
     public String getDescription() {
     return description;
@@ -96,7 +112,7 @@ public class PeerEntityConfigModificationRequest   {
    * New content of certain entries in the \"consumedManoInterfaces\" attribute  array in the \"PeerEntity\", as defined below this table.  NOTE: Due to the security sensitive information contained within the attribute  (refer to \"securityInfo\" within the \"ConsumedManoInterfaceInfo\"), based on  access control policies, the API consumer might have read only, write only,  read/write, or no access at all to the attribute’s value. In case the  API consumer is not allowed to modify the value of the security sensitive  attribute, and the modification request includes new attribute values,  the whole modification request shall be rejected, and proper error information  returned. 
    * @return consumedManoInterfaces
   **/
-  @ApiModelProperty(value = "New content of certain entries in the \"consumedManoInterfaces\" attribute  array in the \"PeerEntity\", as defined below this table.  NOTE: Due to the security sensitive information contained within the attribute  (refer to \"securityInfo\" within the \"ConsumedManoInterfaceInfo\"), based on  access control policies, the API consumer might have read only, write only,  read/write, or no access at all to the attribute’s value. In case the  API consumer is not allowed to modify the value of the security sensitive  attribute, and the modification request includes new attribute values,  the whole modification request shall be rejected, and proper error information  returned. ")
+  @Schema(description= "New content of certain entries in the \"consumedManoInterfaces\" attribute  array in the \"PeerEntity\", as defined below this table.  NOTE: Due to the security sensitive information contained within the attribute  (refer to \"securityInfo\" within the \"ConsumedManoInterfaceInfo\"), based on  access control policies, the API consumer might have read only, write only,  read/write, or no access at all to the attribute’s value. In case the  API consumer is not allowed to modify the value of the security sensitive  attribute, and the modification request includes new attribute values,  the whole modification request shall be rejected, and proper error information  returned. " )
       @Valid
     public List<ConsumedManoInterfaceInfo> getConsumedManoInterfaces() {
     return consumedManoInterfaces;
@@ -123,7 +139,7 @@ public class PeerEntityConfigModificationRequest   {
    * List of identifiers entries to be deleted from the \"consumedManoInterfaces\"  attribute array in the \" PeerEntity \", as defined below this table. 
    * @return consumedManoInterfaceDeleteIds
   **/
-  @ApiModelProperty(value = "List of identifiers entries to be deleted from the \"consumedManoInterfaces\"  attribute array in the \" PeerEntity \", as defined below this table. ")
+  @Schema(description= "List of identifiers entries to be deleted from the \"consumedManoInterfaces\"  attribute array in the \" PeerEntity \", as defined below this table. " )
   
     public List<String> getConsumedManoInterfaceDeleteIds() {
     return consumedManoInterfaceDeleteIds;
@@ -142,7 +158,7 @@ public class PeerEntityConfigModificationRequest   {
    * Get operationalState
    * @return operationalState
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description= "" )
   
     @Valid
     public OperationalStateEnumType getOperationalState() {
@@ -162,7 +178,7 @@ public class PeerEntityConfigModificationRequest   {
    * Get administrativeState
    * @return administrativeState
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description= "" )
   
     @Valid
     public AdministrativeStateEnumType getAdministrativeState() {

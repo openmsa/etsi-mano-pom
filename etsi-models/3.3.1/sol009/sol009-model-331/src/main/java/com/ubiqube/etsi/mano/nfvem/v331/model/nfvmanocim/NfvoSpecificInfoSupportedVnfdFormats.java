@@ -1,11 +1,27 @@
+/**
+ *     Copyright (C) 2019-2023 Ubiqube.
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 package com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -13,7 +29,7 @@ import jakarta.validation.constraints.*;
 /**
  * Supported VNFD data formats. 
  */
-@ApiModel(description = "Supported VNFD data formats. ")
+@Schema (description= "Supported VNFD data formats. " )
 @Validated
 public class NfvoSpecificInfoSupportedVnfdFormats   {
   /**
@@ -61,7 +77,7 @@ public class NfvoSpecificInfoSupportedVnfdFormats   {
    * Name of the VNFD format. Permitted values:   - TOSCA: The VNFD follows TOSCA definition, according to ETSI    GS NFV-SOL 001 standard.   - YANG: The VNFD follows YANG definition according to ETSI    GS NFV-SOL 006 standard. 
    * @return vnfdFormat
   **/
-  @ApiModelProperty(required = true, value = "Name of the VNFD format. Permitted values:   - TOSCA: The VNFD follows TOSCA definition, according to ETSI    GS NFV-SOL 001 standard.   - YANG: The VNFD follows YANG definition according to ETSI    GS NFV-SOL 006 standard. ")
+  @Schema(required= true ,description= "Name of the VNFD format. Permitted values:   - TOSCA: The VNFD follows TOSCA definition, according to ETSI    GS NFV-SOL 001 standard.   - YANG: The VNFD follows YANG definition according to ETSI    GS NFV-SOL 006 standard. " )
       @NotNull
 
     public VnfdFormatEnum getVnfdFormat() {
@@ -81,7 +97,7 @@ public class NfvoSpecificInfoSupportedVnfdFormats   {
    * Get standardVersion
    * @return standardVersion
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required= true ,description= "" )
       @NotNull
 
     public String getStandardVersion() {

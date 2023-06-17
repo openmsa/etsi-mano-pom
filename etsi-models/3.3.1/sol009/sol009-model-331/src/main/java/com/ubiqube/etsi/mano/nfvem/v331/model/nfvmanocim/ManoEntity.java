@@ -1,3 +1,19 @@
+/**
+ *     Copyright (C) 2019-2023 Ubiqube.
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 package com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim;
 
 import java.util.Objects;
@@ -13,8 +29,8 @@ import com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim.VimSpecificInfo;
 import com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim.VnfmSpecificInfo;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -24,7 +40,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents an NFV-MANO functional entity. 
  */
-@ApiModel(description = "This type represents an NFV-MANO functional entity. ")
+@Schema (description= "This type represents an NFV-MANO functional entity. " )
 @Validated
 public class ManoEntity   {
   @JsonProperty("id")
@@ -80,7 +96,7 @@ public class ManoEntity   {
    * Get id
    * @return id
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required= true ,description= "" )
       @NotNull
 
     public String getId() {
@@ -100,7 +116,7 @@ public class ManoEntity   {
    * Get type
    * @return type
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required= true ,description= "" )
       @NotNull
 
     @Valid
@@ -121,7 +137,7 @@ public class ManoEntity   {
    * Human-readable name of the NFV-MANO functional entity. This attribute can be modified with the PATCH method. 
    * @return name
   **/
-  @ApiModelProperty(required = true, value = "Human-readable name of the NFV-MANO functional entity. This attribute can be modified with the PATCH method. ")
+  @Schema(required= true ,description= "Human-readable name of the NFV-MANO functional entity. This attribute can be modified with the PATCH method. " )
       @NotNull
 
     public String getName() {
@@ -141,7 +157,7 @@ public class ManoEntity   {
    * Human-readable description of the NFV-MANO functional entity. This attribute can be modified with the PATCH method. 
    * @return description
   **/
-  @ApiModelProperty(required = true, value = "Human-readable description of the NFV-MANO functional entity. This attribute can be modified with the PATCH method. ")
+  @Schema(required= true ,description= "Human-readable description of the NFV-MANO functional entity. This attribute can be modified with the PATCH method. " )
       @NotNull
 
     public String getDescription() {
@@ -161,7 +177,7 @@ public class ManoEntity   {
    * Information about the provider of the NFV-MANO functional entity.  It typically includes the name of the provider. 
    * @return provider
   **/
-  @ApiModelProperty(required = true, value = "Information about the provider of the NFV-MANO functional entity.  It typically includes the name of the provider. ")
+  @Schema(required= true ,description= "Information about the provider of the NFV-MANO functional entity.  It typically includes the name of the provider. " )
       @NotNull
 
     public String getProvider() {
@@ -181,7 +197,7 @@ public class ManoEntity   {
    * The version of the software of the NFV-MANO functional entity. $ref: \"../components/SOL009_schemas.yaml#/components/schemas/Version\" 
    * @return softwareVersion
   **/
-  @ApiModelProperty(required = true, value = "The version of the software of the NFV-MANO functional entity. $ref: \"../components/SOL009_schemas.yaml#/components/schemas/Version\" ")
+  @Schema(required= true ,description= "The version of the software of the NFV-MANO functional entity. $ref: \"../components/SOL009_schemas.yaml#/components/schemas/Version\" " )
       @NotNull
 
     public Object getSoftwareVersion() {
@@ -209,7 +225,7 @@ public class ManoEntity   {
    * The deployed NFV-MANO functional entity components which realize the  NFV-MANO functional entity.  NOTE: It is optional for the API producer to support the \"manoEntityComponents\"  attribute. 
    * @return manoEntityComponents
   **/
-  @ApiModelProperty(value = "The deployed NFV-MANO functional entity components which realize the  NFV-MANO functional entity.  NOTE: It is optional for the API producer to support the \"manoEntityComponents\"  attribute. ")
+  @Schema(description= "The deployed NFV-MANO functional entity components which realize the  NFV-MANO functional entity.  NOTE: It is optional for the API producer to support the \"manoEntityComponents\"  attribute. " )
       @Valid
     public List<ManoEntityComponent> getManoEntityComponents() {
     return manoEntityComponents;
@@ -236,7 +252,7 @@ public class ManoEntity   {
    * Information about the NFV-MANO services provided by the NFV-MANO  functional entity. 
    * @return manoServices
   **/
-  @ApiModelProperty(value = "Information about the NFV-MANO services provided by the NFV-MANO  functional entity. ")
+  @Schema(description= "Information about the NFV-MANO services provided by the NFV-MANO  functional entity. " )
       @Valid
     public List<ManoService> getManoServices() {
     return manoServices;
@@ -255,7 +271,7 @@ public class ManoEntity   {
    * Get manoConfigurableParams
    * @return manoConfigurableParams
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required= true ,description= "" )
       @NotNull
 
     @Valid
@@ -276,7 +292,7 @@ public class ManoEntity   {
    * Get manoApplicationState
    * @return manoApplicationState
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required= true ,description= "" )
       @NotNull
 
     @Valid
@@ -297,7 +313,7 @@ public class ManoEntity   {
    * Get nfvoSpecificInfo
    * @return nfvoSpecificInfo
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description= "" )
   
     @Valid
     public NfvoSpecificInfo getNfvoSpecificInfo() {
@@ -317,7 +333,7 @@ public class ManoEntity   {
    * Get vnfmSpecificInfo
    * @return vnfmSpecificInfo
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description= "" )
   
     @Valid
     public VnfmSpecificInfo getVnfmSpecificInfo() {
@@ -337,7 +353,7 @@ public class ManoEntity   {
    * Get vimSpecificInfo
    * @return vimSpecificInfo
   **/
-  @ApiModelProperty(value = "")
+  @Schema(description= "" )
   
     @Valid
     public VimSpecificInfo getVimSpecificInfo() {
@@ -357,7 +373,7 @@ public class ManoEntity   {
    * Get _links
    * @return _links
   **/
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required= true ,description= "" )
       @NotNull
 
     @Valid

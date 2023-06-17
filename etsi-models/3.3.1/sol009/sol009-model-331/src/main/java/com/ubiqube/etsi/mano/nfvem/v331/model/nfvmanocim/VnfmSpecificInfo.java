@@ -1,3 +1,19 @@
+/**
+ *     Copyright (C) 2019-2023 Ubiqube.
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 package com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim;
 
 import java.util.Objects;
@@ -6,8 +22,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.ubiqube.etsi.mano.nfvem.v331.model.nfvmanocim.VnfmSpecificInfoSupportedVnfdFormats;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
@@ -17,7 +33,7 @@ import jakarta.validation.constraints.*;
 /**
  * This type represents information attributes specific to a VNFM entity,  and that can be relevant to more than one NFV-MANO service offered by  a VNFM entity. 
  */
-@ApiModel(description = "This type represents information attributes specific to a VNFM entity,  and that can be relevant to more than one NFV-MANO service offered by  a VNFM entity. ")
+@Schema (description= "This type represents information attributes specific to a VNFM entity,  and that can be relevant to more than one NFV-MANO service offered by  a VNFM entity. " )
 @Validated
 public class VnfmSpecificInfo   {
   /**
@@ -72,7 +88,7 @@ public class VnfmSpecificInfo   {
    * The supported resource management modes of the VNFM. Permitted values:   - DIRECT: The VNFM supports direct mode only.   - INDIRECT: The VNFM supports indirect mode only.   - BOTH: The VNFM supports both direct and indirect mode. 
    * @return resoruceMgmtModeSupport
   **/
-  @ApiModelProperty(required = true, value = "The supported resource management modes of the VNFM. Permitted values:   - DIRECT: The VNFM supports direct mode only.   - INDIRECT: The VNFM supports indirect mode only.   - BOTH: The VNFM supports both direct and indirect mode. ")
+  @Schema(required= true ,description= "The supported resource management modes of the VNFM. Permitted values:   - DIRECT: The VNFM supports direct mode only.   - INDIRECT: The VNFM supports indirect mode only.   - BOTH: The VNFM supports both direct and indirect mode. " )
       @NotNull
 
     public ResoruceMgmtModeSupportEnum getResoruceMgmtModeSupport() {
@@ -97,7 +113,7 @@ public class VnfmSpecificInfo   {
    * The kinds of VNF instances that can be managed, e.g. to determine the  compatibility of a VNF with certain VNFM according to the vnfmInfo  attribute in the VNFD (see table 7.1.2.2-1 in ETSI GS NFV-IFA 011). 
    * @return managedVnfInstanceInfos
   **/
-  @ApiModelProperty(required = true, value = "The kinds of VNF instances that can be managed, e.g. to determine the  compatibility of a VNF with certain VNFM according to the vnfmInfo  attribute in the VNFD (see table 7.1.2.2-1 in ETSI GS NFV-IFA 011). ")
+  @Schema(required= true ,description= "The kinds of VNF instances that can be managed, e.g. to determine the  compatibility of a VNF with certain VNFM according to the vnfmInfo  attribute in the VNFD (see table 7.1.2.2-1 in ETSI GS NFV-IFA 011). " )
       @NotNull
 
   @Size(min=1)   public List<String> getManagedVnfInstanceInfos() {
@@ -122,7 +138,7 @@ public class VnfmSpecificInfo   {
    * Supported VNFD data formats. 
    * @return supportedVnfdFormats
   **/
-  @ApiModelProperty(required = true, value = "Supported VNFD data formats. ")
+  @Schema(required= true ,description= "Supported VNFD data formats. " )
       @NotNull
     @Valid
   @Size(min=1)   public List<VnfmSpecificInfoSupportedVnfdFormats> getSupportedVnfdFormats() {
