@@ -31,9 +31,9 @@ public class NfvoSwaggerDocConfig281 {
 	@Bean
 	GroupedOpenApi customImplementationNfvo281() {
 		return GroupedOpenApi.builder()
-				.group("nfvo-etsi-mano-2.8.1")
-				.packagesToScan("com.ubiqube.etsi.mano.nfvo.v281")
-				.build();
+		.group("nfvo-etsi-mano-2.8.1")
+		.packagesToScan("com.ubiqube.etsi.mano.nfvo.v281")
+		.build();
 	}
 
 }

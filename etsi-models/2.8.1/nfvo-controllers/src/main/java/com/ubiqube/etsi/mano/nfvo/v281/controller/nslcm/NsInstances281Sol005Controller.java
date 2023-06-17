@@ -62,7 +62,7 @@ public class NsInstances281Sol005Controller implements NsInstances281Sol005Api {
 	 */
 	@Override
 	public ResponseEntity<String> nsInstancesGet(final MultiValueMap<String, String> requestParams) {
-		return frontController.search(requestParams, NsInstance.class, null, NsInstances281Sol005Controller::makeLinks);
+		return frontController.search(requestParams,NsInstance.class,null,NsInstances281Sol005Controller::makeLinks);
 	}
 
 	/**
@@ -85,7 +85,7 @@ public class NsInstances281Sol005Controller implements NsInstances281Sol005Api {
 	 */
 	@Override
 	public ResponseEntity<NsInstance> nsInstancesNsInstanceIdGet(final String nsInstanceId) {
-		return frontController.findById(nsInstanceId, NsInstance.class, NsInstances281Sol005Controller::makeLinks);
+		return frontController.findById(nsInstanceId,NsInstance.class,NsInstances281Sol005Controller::makeLinks);
 	}
 
 	/**
@@ -98,8 +98,8 @@ public class NsInstances281Sol005Controller implements NsInstances281Sol005Api {
 	 *
 	 */
 	@Override
-	public ResponseEntity<NsInstance> nsInstancesNsInstanceIdHealPost(final String nsInstanceId, final HealNsRequest body) {
-		return frontController.heal(nsInstanceId, body, NsInstances281Sol005Controller::getSelfLink);
+	public ResponseEntity<NsInstance> nsInstancesNsInstanceIdHealPost(final String nsInstanceId,final HealNsRequest body) {
+		return frontController.heal(nsInstanceId,body,NsInstances281Sol005Controller::getSelfLink);
 	}
 
 	/**
@@ -109,8 +109,8 @@ public class NsInstances281Sol005Controller implements NsInstances281Sol005Api {
 	 *
 	 */
 	@Override
-	public ResponseEntity<NsInstance> nsInstancesNsInstanceIdInstantiatePost(final String nsInstanceId, final InstantiateNsRequest body) {
-		return frontController.instantiate(nsInstanceId, body, NsInstances281Sol005Controller::getSelfLink);
+	public ResponseEntity<NsInstance> nsInstancesNsInstanceIdInstantiatePost(final String nsInstanceId,final InstantiateNsRequest body) {
+		return frontController.instantiate(nsInstanceId,body,NsInstances281Sol005Controller::getSelfLink);
 	}
 
 	/**
@@ -120,8 +120,8 @@ public class NsInstances281Sol005Controller implements NsInstances281Sol005Api {
 	 *
 	 */
 	@Override
-	public ResponseEntity<NsInstance> nsInstancesNsInstanceIdScalePost(final String nsInstanceId, final ScaleNsRequest body) {
-		return frontController.scale(nsInstanceId, body, NsInstances281Sol005Controller::getSelfLink);
+	public ResponseEntity<NsInstance> nsInstancesNsInstanceIdScalePost(final String nsInstanceId,final ScaleNsRequest body) {
+		return frontController.scale(nsInstanceId,body,NsInstances281Sol005Controller::getSelfLink);
 	}
 
 	/**
@@ -136,8 +136,8 @@ public class NsInstances281Sol005Controller implements NsInstances281Sol005Api {
 	 *
 	 */
 	@Override
-	public ResponseEntity<NsInstance> nsInstancesNsInstanceIdTerminatePost(final String nsInstanceId, final TerminateNsRequest body) {
-		return frontController.terminate(nsInstanceId, body, NsInstances281Sol005Controller::getSelfLink);
+	public ResponseEntity<NsInstance> nsInstancesNsInstanceIdTerminatePost(final String nsInstanceId,final TerminateNsRequest body) {
+		return frontController.terminate(nsInstanceId,body,NsInstances281Sol005Controller::getSelfLink);
 	}
 
 	/**
@@ -147,8 +147,8 @@ public class NsInstances281Sol005Controller implements NsInstances281Sol005Api {
 	 *
 	 */
 	@Override
-	public ResponseEntity<NsInstance> nsInstancesNsInstanceIdUpdatePost(final String nsInstanceId, final UpdateNsRequest body) {
-		return frontController.update(nsInstanceId, body, NsInstances281Sol005Controller::getSelfLink);
+	public ResponseEntity<NsInstance> nsInstancesNsInstanceIdUpdatePost(final String nsInstanceId,final UpdateNsRequest body) {
+		return frontController.update(nsInstanceId,body,NsInstances281Sol005Controller::getSelfLink);
 	}
 
 	/**
@@ -159,22 +159,22 @@ public class NsInstances281Sol005Controller implements NsInstances281Sol005Api {
 	 */
 	@Override
 	public ResponseEntity<NsInstance> nsInstancesPost(final CreateNsRequest request) {
-		return frontController.create(request, NsInstance.class, NsInstances281Sol005Controller::makeLinks, NsInstances281Sol005Controller::getSelfLink);
+		return frontController.create(request,NsInstance.class,NsInstances281Sol005Controller::makeLinks,NsInstances281Sol005Controller::getSelfLink);
 	}
 
 	private static void makeLinks(@Nonnull final NsInstance nsdInfo) {
 		final String id = nsdInfo.getId().toString();
 		final NsInstanceLinks nsInstanceLinks = new NsInstanceLinks();
 		final Link heal = new Link();
-		heal.setHref(linkTo(methodOn(NsInstances281Sol005Api.class).nsInstancesNsInstanceIdHealPost(id, null)).withSelfRel().getHref());
+		heal.setHref(linkTo(methodOn(NsInstances281Sol005Api.class).nsInstancesNsInstanceIdHealPost(id,null)).withSelfRel().getHref());
 		nsInstanceLinks.setHeal(heal);
 
 		final Link instantiate = new Link();
-		instantiate.setHref(linkTo(methodOn(NsInstances281Sol005Api.class).nsInstancesNsInstanceIdInstantiatePost(id, null)).withSelfRel().getHref());
+		instantiate.setHref(linkTo(methodOn(NsInstances281Sol005Api.class).nsInstancesNsInstanceIdInstantiatePost(id,null)).withSelfRel().getHref());
 		nsInstanceLinks.setInstantiate(instantiate);
 		// nsInstanceLinks.setNestedNsInstances(nestedNsInstances);
 		final Link scale = new Link();
-		scale.setHref(linkTo(methodOn(NsInstances281Sol005Api.class).nsInstancesNsInstanceIdScalePost(id, null)).withSelfRel().getHref());
+		scale.setHref(linkTo(methodOn(NsInstances281Sol005Api.class).nsInstancesNsInstanceIdScalePost(id,null)).withSelfRel().getHref());
 		nsInstanceLinks.setScale(scale);
 
 		final Link self = new Link();
@@ -182,11 +182,11 @@ public class NsInstances281Sol005Controller implements NsInstances281Sol005Api {
 		nsInstanceLinks.setSelf(self);
 
 		final Link terminate = new Link();
-		terminate.setHref(linkTo(methodOn(NsInstances281Sol005Api.class).nsInstancesNsInstanceIdTerminatePost(id, null)).withSelfRel().getHref());
+		terminate.setHref(linkTo(methodOn(NsInstances281Sol005Api.class).nsInstancesNsInstanceIdTerminatePost(id,null)).withSelfRel().getHref());
 		nsInstanceLinks.setTerminate(terminate);
 
 		final Link update = new Link();
-		update.setHref(linkTo(methodOn(NsInstances281Sol005Api.class).nsInstancesNsInstanceIdUpdatePost(id, null)).withSelfRel().getHref());
+		update.setHref(linkTo(methodOn(NsInstances281Sol005Api.class).nsInstancesNsInstanceIdUpdatePost(id,null)).withSelfRel().getHref());
 		nsInstanceLinks.setUpdate(update);
 		nsdInfo.setLinks(nsInstanceLinks);
 	}
@@ -196,6 +196,6 @@ public class NsInstances281Sol005Controller implements NsInstances281Sol005Api {
 	}
 
 	private static String getSelfLink(final NsInstance nsdInfo) {
-		return linkTo(methodOn(NsInstances281Sol005Api.class).nsInstancesNsInstanceIdHealPost(nsdInfo.getId().toString(), null)).withSelfRel().getHref();
+		return linkTo(methodOn(NsInstances281Sol005Api.class).nsInstancesNsInstanceIdHealPost(nsdInfo.getId().toString(),null)).withSelfRel().getHref();
 	}
 }

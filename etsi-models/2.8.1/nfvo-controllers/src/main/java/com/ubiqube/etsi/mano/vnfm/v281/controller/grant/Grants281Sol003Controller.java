@@ -48,12 +48,12 @@ public class Grants281Sol003Controller implements Grants281Sol003Api {
 
 	@Override
 	public ResponseEntity<Grant> grantsGrantIdGet(final String grantId) {
-		return lcmGrantsFrontController.grantsGrantIdGet(grantId, Grant.class, Grants281Sol003Controller::makeSelfLinks);
+		return lcmGrantsFrontController.grantsGrantIdGet(grantId,Grant.class,Grants281Sol003Controller::makeSelfLinks);
 	}
 
 	@Override
 	public ResponseEntity<Grant> grantsPost(@Valid final GrantRequest grantRequest) {
-		return lcmGrantsFrontController.grantsPost(grantRequest, Grant.class, Grants281Sol003Controller::getSelfLink);
+		return lcmGrantsFrontController.grantsPost(grantRequest,Grant.class,Grants281Sol003Controller::getSelfLink);
 	}
 
 	private static void makeSelfLinks(final Grant jsonGrant) {

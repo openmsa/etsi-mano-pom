@@ -51,39 +51,39 @@ public class OnboardedVnfPackages281Sol003Controller implements OnboardedVnfPack
 	}
 
 	@Override
-	public ResponseEntity<String> onboardedVnfPackagesGet(final MultiValueMap<String, String> requestParams, @Valid final String nextpageOpaqueMarker) {
-		return vnfPackageFrontController.onboardedSearch(requestParams, VnfPkgInfo.class, OnboardedVnfPackages281Sol003Controller::makeLinks);
+	public ResponseEntity<String> onboardedVnfPackagesGet(final MultiValueMap<String, String> requestParams,@Valid final String nextpageOpaqueMarker) {
+		return vnfPackageFrontController.onboardedSearch(requestParams,VnfPkgInfo.class,OnboardedVnfPackages281Sol003Controller::makeLinks);
 	}
 
 	@Override
-	public ResponseEntity<Resource> onboardedVnfPackagesVnfdIdArtifactsArtifactPathGet(final HttpServletRequest request, final String vnfdId, @Valid final String includeSignature) {
-		return vnfPackageFrontController.onboardedGetArtifact(request, getSafeUUID(vnfdId), includeSignature);
+	public ResponseEntity<Resource> onboardedVnfPackagesVnfdIdArtifactsArtifactPathGet(final HttpServletRequest request,final String vnfdId,@Valid final String includeSignature) {
+		return vnfPackageFrontController.onboardedGetArtifact(request,getSafeUUID(vnfdId),includeSignature);
 	}
 
 	@Override
-	public ResponseEntity<Resource> onboardedVnfPackagesVnfdIdArtifactsGet(final String vnfdId, final String accept, final String excludeAllManoArtifacts, final String excludeAllNonManoArtifacts,
-			final String includeExternalArtifacts, final String selectNonManoArtifactSets, final String includeSignatures) {
-		return vnfPackageFrontController.onboardedGetVnfdByVnfdId(getSafeUUID(vnfdId), accept);
+	public ResponseEntity<Resource> onboardedVnfPackagesVnfdIdArtifactsGet(final String vnfdId,final String accept,final String excludeAllManoArtifacts,final String excludeAllNonManoArtifacts,
+	final String includeExternalArtifacts,final String selectNonManoArtifactSets,final String includeSignatures) {
+		return vnfPackageFrontController.onboardedGetVnfdByVnfdId(getSafeUUID(vnfdId),accept);
 	}
 
 	@Override
-	public ResponseEntity<VnfPkgInfo> onboardedVnfPackagesVnfdIdGet(final String vnfdId, final String accept) {
-		return vnfPackageFrontController.onboardedFindById(getSafeUUID(vnfdId), VnfPkgInfo.class, OnboardedVnfPackages281Sol003Controller::makeLinks);
+	public ResponseEntity<VnfPkgInfo> onboardedVnfPackagesVnfdIdGet(final String vnfdId,final String accept) {
+		return vnfPackageFrontController.onboardedFindById(getSafeUUID(vnfdId),VnfPkgInfo.class,OnboardedVnfPackages281Sol003Controller::makeLinks);
 	}
 
 	@Override
-	public ResponseEntity<Resource> onboardedVnfPackagesVnfdIdManifestGet(final String vnfdId, final String accept, @Valid final String includeSignature) {
-		return vnfPackageFrontController.onboardedGetManifestByVnfd(UUID.fromString(vnfdId), includeSignature);
+	public ResponseEntity<Resource> onboardedVnfPackagesVnfdIdManifestGet(final String vnfdId,final String accept,@Valid final String includeSignature) {
+		return vnfPackageFrontController.onboardedGetManifestByVnfd(UUID.fromString(vnfdId),includeSignature);
 	}
 
 	@Override
-	public ResponseEntity<Resource> onboardedVnfPackagesVnfdIdPackageContentGet(final String vnfdId, final String accept) {
-		return vnfPackageFrontController.onboardedGetContentByVnfdId(vnfdId, accept, null);
+	public ResponseEntity<Resource> onboardedVnfPackagesVnfdIdPackageContentGet(final String vnfdId,final String accept) {
+		return vnfPackageFrontController.onboardedGetContentByVnfdId(vnfdId,accept,null);
 	}
 
 	@Override
-	public ResponseEntity<Resource> onboardedVnfPackagesVnfdIdVnfdGet(final String vnfdId, @Valid final String accept, final String includeSignature) {
-		return vnfPackageFrontController.onboardedGetVnfdByVnfdId(vnfdId, includeSignature);
+	public ResponseEntity<Resource> onboardedVnfPackagesVnfdIdVnfdGet(final String vnfdId,@Valid final String accept,final String includeSignature) {
+		return vnfPackageFrontController.onboardedGetVnfdByVnfdId(vnfdId,includeSignature);
 	}
 
 	private static void makeLinks(final VnfPkgInfo vnfPackage) {
@@ -95,11 +95,11 @@ public class OnboardedVnfPackages281Sol003Controller implements OnboardedVnfPack
 		links.self(self);
 
 		final Link vnfd = new Link();
-		vnfd.setHref(linkTo(methodOn(VnfPackages281Sol005Api.class).vnfPackagesVnfPkgIdVnfdGet(vnfPkgId, null, null)).withSelfRel().getHref());
+		vnfd.setHref(linkTo(methodOn(VnfPackages281Sol005Api.class).vnfPackagesVnfPkgIdVnfdGet(vnfPkgId,null,null)).withSelfRel().getHref());
 		links.setVnfd(vnfd);
 
 		final Link packageContent = new Link();
-		packageContent.setHref(linkTo(methodOn(VnfPackages281Sol005Api.class).vnfPackagesVnfPkgIdPackageContentGet(vnfPkgId, "")).withSelfRel().getHref());
+		packageContent.setHref(linkTo(methodOn(VnfPackages281Sol005Api.class).vnfPackagesVnfPkgIdPackageContentGet(vnfPkgId,"")).withSelfRel().getHref());
 		links.setPackageContent(packageContent);
 		vnfPackage.setLinks(links);
 	}

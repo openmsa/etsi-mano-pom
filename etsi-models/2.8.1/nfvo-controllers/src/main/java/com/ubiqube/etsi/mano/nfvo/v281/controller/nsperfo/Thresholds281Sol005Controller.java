@@ -37,7 +37,7 @@ public class Thresholds281Sol005Controller implements Thresholds281Sol005Api {
 	private final HttpServletRequest request;
 
 	@org.springframework.beans.factory.annotation.Autowired
-	public Thresholds281Sol005Controller(final ObjectMapper objectMapper, final HttpServletRequest request) {
+	public Thresholds281Sol005Controller(final ObjectMapper objectMapper,final HttpServletRequest request) {
 		this.objectMapper = objectMapper;
 		this.request = request;
 	}

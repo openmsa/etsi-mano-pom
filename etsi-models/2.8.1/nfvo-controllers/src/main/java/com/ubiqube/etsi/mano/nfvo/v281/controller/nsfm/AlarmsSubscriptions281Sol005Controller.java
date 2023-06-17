@@ -40,7 +40,7 @@ public class AlarmsSubscriptions281Sol005Controller implements AlarmsSubscriptio
 	private final HttpServletRequest request;
 
 	@org.springframework.beans.factory.annotation.Autowired
-	public AlarmsSubscriptions281Sol005Controller(final ObjectMapper objectMapper, final HttpServletRequest request) {
+	public AlarmsSubscriptions281Sol005Controller(final ObjectMapper objectMapper,final HttpServletRequest request) {
 		this.objectMapper = objectMapper;
 		this.request = request;
 	}

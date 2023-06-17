@@ -37,7 +37,7 @@ public class PmJobs281Sol005Controller implements PmJobs281Sol005Api {
 	private final HttpServletRequest request;
 
 	@org.springframework.beans.factory.annotation.Autowired
-	public PmJobs281Sol005Controller(final ObjectMapper objectMapper, final HttpServletRequest request) {
+	public PmJobs281Sol005Controller(final ObjectMapper objectMapper,final HttpServletRequest request) {
 		this.objectMapper = objectMapper;
 		this.request = request;
 	}

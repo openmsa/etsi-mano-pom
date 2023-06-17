@@ -63,7 +63,7 @@ public class PnfDescriptors281Sol005Controller implements PnfDescriptors281Sol00
 	@Override
 	public ResponseEntity<String> pnfDescriptorsGet(@Nonnull @RequestParam final MultiValueMap<String, String> requestParams) {
 		final Consumer<PnfdInfo> setLink = x -> x.setLinks(makeLinks(x));
-		return pnfFrontController.search(requestParams, PnfdInfo.class, setLink);
+		return pnfFrontController.search(requestParams,PnfdInfo.class,setLink);
 	}
 
 	/**
@@ -95,7 +95,7 @@ public class PnfDescriptors281Sol005Controller implements PnfDescriptors281Sol00
 	 */
 	@Override
 	public ResponseEntity<PnfdInfo> pnfDescriptorsPnfdInfoIdGet(final String pnfdInfoId) {
-		return pnfFrontController.findById(pnfdInfoId, PnfdInfo.class, PnfDescriptors281Sol005Controller::makeLinks);
+		return pnfFrontController.findById(pnfdInfoId,PnfdInfo.class,PnfDescriptors281Sol005Controller::makeLinks);
 	}
 
 	/**
@@ -106,8 +106,8 @@ public class PnfDescriptors281Sol005Controller implements PnfDescriptors281Sol00
 	 *
 	 */
 	@Override
-	public ResponseEntity<PnfdInfoModifications> pnfDescriptorsPnfdInfoIdPatch(final String pnfdInfoId, final PnfdInfoModifications body) {
-		return pnfFrontController.modify(pnfdInfoId, null, body);
+	public ResponseEntity<PnfdInfoModifications> pnfDescriptorsPnfdInfoIdPatch(final String pnfdInfoId,final PnfdInfoModifications body) {
+		return pnfFrontController.modify(pnfdInfoId,null,body);
 	}
 
 	/**
@@ -119,8 +119,8 @@ public class PnfDescriptors281Sol005Controller implements PnfDescriptors281Sol00
 	 *
 	 */
 	@Override
-	public ResponseEntity<Void> pnfDescriptorsPnfdInfoIdPnfdContentGet(final String pnfdInfoId, final String range) {
-		return pnfFrontController.getContent(pnfdInfoId, range);
+	public ResponseEntity<Void> pnfDescriptorsPnfdInfoIdPnfdContentGet(final String pnfdInfoId,final String range) {
+		return pnfFrontController.getContent(pnfdInfoId,range);
 	}
 
 	/**
@@ -133,8 +133,8 @@ public class PnfDescriptors281Sol005Controller implements PnfDescriptors281Sol00
 	 *
 	 */
 	@Override
-	public ResponseEntity<Void> pnfDescriptorsPnfdInfoIdPnfdContentPut(final String pnfdInfoId, final String accept) {
-		return pnfFrontController.putContent(pnfdInfoId, accept);
+	public ResponseEntity<Void> pnfDescriptorsPnfdInfoIdPnfdContentPut(final String pnfdInfoId,final String accept) {
+		return pnfFrontController.putContent(pnfdInfoId,accept);
 	}
 
 	/**
@@ -145,23 +145,23 @@ public class PnfDescriptors281Sol005Controller implements PnfDescriptors281Sol00
 	 */
 	@Override
 	public ResponseEntity<PnfdInfo> pnfDescriptorsPost(final CreatePnfdInfoRequest body) {
-		return pnfFrontController.create(body.getUserDefinedData(), PnfdInfo.class, PnfDescriptors281Sol005Controller::makeLinks);
+		return pnfFrontController.create(body.getUserDefinedData(),PnfdInfo.class,PnfDescriptors281Sol005Controller::makeLinks);
 	}
 
 	@Override
-	public ResponseEntity<Void> pnfDescriptorsPnfdInfoIdManifestGet(final String pnfdInfoId, @Valid final String includeSignatures) {
-		return pnfFrontController.manifestGet(pnfdInfoId, includeSignatures);
+	public ResponseEntity<Void> pnfDescriptorsPnfdInfoIdManifestGet(final String pnfdInfoId,@Valid final String includeSignatures) {
+		return pnfFrontController.manifestGet(pnfdInfoId,includeSignatures);
 	}
 
 	@Override
-	public ResponseEntity<Void> pnfDescriptorsPnfdInfoIdPnfdGet(final String pnfdInfoId, final String range, @Valid final String includeSignatures) {
-		return pnfFrontController.getPnfd(pnfdInfoId, range, includeSignatures);
+	public ResponseEntity<Void> pnfDescriptorsPnfdInfoIdPnfdGet(final String pnfdInfoId,final String range,@Valid final String includeSignatures) {
+		return pnfFrontController.getPnfd(pnfdInfoId,range,includeSignatures);
 	}
 
 	private static PnfdInfoLinks makeLinks(final PnfdInfo x) {
 		final PnfdInfoLinks links = new PnfdInfoLinks();
 		final Link pnfdContent = new Link();
-		pnfdContent.setHref(linkTo(methodOn(PnfDescriptors281Sol005Api.class).pnfDescriptorsPnfdInfoIdPnfdContentGet(x.getId(), "")).withSelfRel().getHref());
+		pnfdContent.setHref(linkTo(methodOn(PnfDescriptors281Sol005Api.class).pnfDescriptorsPnfdInfoIdPnfdContentGet(x.getId(),"")).withSelfRel().getHref());
 		links.setPnfdContent(pnfdContent);
 		final Link self = new Link();
 		self.setHref(linkTo(methodOn(PnfDescriptors281Sol005Api.class).pnfDescriptorsPnfdInfoIdGet(x.getId())).withSelfRel().getHref());

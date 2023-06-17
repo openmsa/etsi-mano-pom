@@ -43,11 +43,11 @@ public class Sol003Linkable implements Linkable {
 		final VnfPkgInfoLinks links = new VnfPkgInfoLinks();
 
 		final Link self = new Link();
-		self.setHref(linkTo(methodOn(VnfPackages281Sol003Api.class).vnfPackagesVnfPkgIdGet(vnfPkgId, null)).withSelfRel().getHref());
+		self.setHref(linkTo(methodOn(VnfPackages281Sol003Api.class).vnfPackagesVnfPkgIdGet(vnfPkgId,null)).withSelfRel().getHref());
 		links.self(self);
 
 		final Link vnfd = new Link();
-		vnfd.setHref(linkTo(methodOn(VnfPackages281Sol003Api.class).vnfPackagesVnfPkgIdVnfdGet(vnfPkgId, null)).withSelfRel().getHref());
+		vnfd.setHref(linkTo(methodOn(VnfPackages281Sol003Api.class).vnfPackagesVnfPkgIdVnfdGet(vnfPkgId,null)).withSelfRel().getHref());
 		links.setVnfd(vnfd);
 
 		final Link packageContent = new Link();
@@ -74,22 +74,22 @@ public class Sol003Linkable implements Linkable {
 
 	@Override
 	public String getSelfLink(final VnfPkgInfo _vnfPkgInfo) {
-		return linkTo(methodOn(VnfPackages281Sol003Api.class).vnfPackagesVnfPkgIdGet(_vnfPkgInfo.getId(), null)).withSelfRel().getHref();
+		return linkTo(methodOn(VnfPackages281Sol003Api.class).vnfPackagesVnfPkgIdGet(_vnfPkgInfo.getId(),null)).withSelfRel().getHref();
 	}
 
 	@Override
-	public PkgmLinks createVnfPackageOnboardingNotificationLinks(final UUID vnfPkgId, final String vnfdId, final UUID subscriptionId) {
+	public PkgmLinks createVnfPackageOnboardingNotificationLinks(final UUID vnfPkgId,final String vnfdId,final UUID subscriptionId) {
 		final PkgmLinks ret = new PkgmLinks();
 		final NotificationLink subscription = createVnfPackagesVnfPkgInfoLinksSelf(
-				linkTo(methodOn(VnfSubscriptions281Sol003Api.class).subscriptionsSubscriptionIdGet(subscriptionId.toString())).withSelfRel().getHref());
+		linkTo(methodOn(VnfSubscriptions281Sol003Api.class).subscriptionsSubscriptionIdGet(subscriptionId.toString())).withSelfRel().getHref());
 		ret.setSubscription(subscription);
 
 		final NotificationLink vnfPackage = createVnfPackagesVnfPkgInfoLinksSelf(
-				linkTo(methodOn(VnfPackages281Sol003Api.class).vnfPackagesVnfPkgIdGet(vnfPkgId.toString(), null)).withSelfRel().getHref());
+		linkTo(methodOn(VnfPackages281Sol003Api.class).vnfPackagesVnfPkgIdGet(vnfPkgId.toString(),null)).withSelfRel().getHref());
 		ret.setVnfPackage(vnfPackage);
 
 		final NotificationLink vnfVnfdId = createVnfPackagesVnfPkgInfoLinksSelf(
-				linkTo(methodOn(VnfPackages281Sol003Api.class).vnfPackagesVnfPkgIdVnfdGet(vnfdId, null)).withSelfRel().getHref());
+		linkTo(methodOn(VnfPackages281Sol003Api.class).vnfPackagesVnfPkgIdVnfdGet(vnfdId,null)).withSelfRel().getHref());
 		ret.setVnfPackageByVnfdId(vnfVnfdId);
 		return ret;
 	}
