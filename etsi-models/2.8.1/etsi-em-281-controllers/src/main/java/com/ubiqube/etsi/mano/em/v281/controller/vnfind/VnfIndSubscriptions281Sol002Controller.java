@@ -50,13 +50,13 @@ public class VnfIndSubscriptions281Sol002Controller implements VnfIndSubscriptio
 	}
 
 	@Override
-	public ResponseEntity<List<VnfIndicatorSubscription>> subscriptionsGet(final MultiValueMap<String, String> requestParams, @Valid final String nextpageOpaqueMarker) {
-		return vnfIndSubscriptionsFrontController.search(requestParams, VnfIndicatorSubscription.class, VnfIndSubscriptions281Sol002Controller::makeLinks);
+	public ResponseEntity<List<VnfIndicatorSubscription>> subscriptionsGet(final MultiValueMap<String, String> requestParams,@Valid final String nextpageOpaqueMarker) {
+		return vnfIndSubscriptionsFrontController.search(requestParams,VnfIndicatorSubscription.class,VnfIndSubscriptions281Sol002Controller::makeLinks);
 	}
 
 	@Override
 	public ResponseEntity<VnfIndicatorSubscription> subscriptionsPost(@Valid final VnfIndicatorSubscriptionRequest vnfIndicatorSubscriptionRequest) {
-		return vnfIndSubscriptionsFrontController.create(vnfIndicatorSubscriptionRequest, VnfIndicatorSubscription.class, VnfIndSubscriptions281Sol002Api.class, VnfIndSubscriptions281Sol002Controller::makeLinks, VnfIndSubscriptions281Sol002Controller::getSelfLink);
+		return vnfIndSubscriptionsFrontController.create(vnfIndicatorSubscriptionRequest,VnfIndicatorSubscription.class,VnfIndSubscriptions281Sol002Api.class,VnfIndSubscriptions281Sol002Controller::makeLinks,VnfIndSubscriptions281Sol002Controller::getSelfLink);
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class VnfIndSubscriptions281Sol002Controller implements VnfIndSubscriptio
 
 	@Override
 	public ResponseEntity<VnfIndicatorSubscription> subscriptionsSubscriptionIdGet(final String subscriptionId) {
-		return vnfIndSubscriptionsFrontController.findById(subscriptionId, VnfIndicatorSubscription.class, VnfIndSubscriptions281Sol002Controller::makeLinks);
+		return vnfIndSubscriptionsFrontController.findById(subscriptionId,VnfIndicatorSubscription.class,VnfIndSubscriptions281Sol002Controller::makeLinks);
 	}
 
 	private static void makeLinks(final VnfIndicatorSubscription subscription) {
