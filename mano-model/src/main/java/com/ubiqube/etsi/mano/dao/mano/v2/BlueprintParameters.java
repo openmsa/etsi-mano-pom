@@ -20,7 +20,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import com.ubiqube.etsi.mano.dao.mano.ExtCpInfo;
 import com.ubiqube.etsi.mano.dao.mano.ExtManagedVirtualLinkDataEntity;
@@ -37,11 +38,9 @@ import com.ubiqube.etsi.mano.dao.mano.nsd.upd.UpdateRequest;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.NsHeal;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.NsScale;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.NsScaleInfo;
-import com.ubiqube.etsi.mano.utils.ManoJsonType;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -226,8 +225,7 @@ public class BlueprintParameters implements Serializable {
 	@Transient
 	private Set<VirtualLinkInfo> virtualLinkResourceInfo;
 
-	@Type(ManoJsonType.class)
-	@Column(columnDefinition = "json")
+	@JdbcTypeCode(SqlTypes.JSON)
 	private UpdateRequest updData;
 
 	// 2.7.1
