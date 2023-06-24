@@ -37,7 +37,7 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.reflections.Reflections;
-import org.reflections.scanners.SubTypesScanner;
+import org.reflections.scanners.Scanners;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,12 +57,11 @@ class ModelTest {
 	private final Reflections reflections;
 
 	public ModelTest() {
-		reflections = new Reflections("com.ubiqube.etsi.mano", new SubTypesScanner(false));
+		reflections = new Reflections("com.ubiqube.etsi.mano", Scanners.SubTypes);
 	}
 
 	@Test
 	void test001() {
-		final Set<Class<? extends Object>> set = reflections.getSubTypesOf(Object.class);
 		final Map<String, Set<String>> subtype = reflections.getStore().get("SubTypes");
 		subtype.forEach((x, y) -> {
 			handle(x);

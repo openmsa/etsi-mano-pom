@@ -19,6 +19,8 @@ package com.ubiqube.etsi.mano.dao.mano;
 import java.util.Date;
 import java.util.UUID;
 
+import com.ubiqube.etsi.mano.dao.mano.pm.PmType;
+
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -27,10 +29,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-
-import com.ubiqube.etsi.mano.dao.mano.pm.PmType;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -60,7 +58,7 @@ public class MonitoringParams implements Auditable {
 	private Long collectionPeriod;
 
 	private String performanceMetric;
-	
+
 	@Enumerated(EnumType.STRING)
 	private PmType objectType = PmType.VNFC;
 
