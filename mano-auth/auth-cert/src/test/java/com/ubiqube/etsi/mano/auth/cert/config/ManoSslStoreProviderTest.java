@@ -33,14 +33,13 @@ class ManoSslStoreProviderTest {
 	@Test
 	void testKeyStore() throws Exception {
 		final ManoSslStoreProvider ssl = new ManoSslStoreProvider(ds);
-		ssl.getKeyStore();
+		ssl.createSslContext();
+		ssl.getKey();
+		ssl.getManagers();
+		ssl.getOptions();
+		ssl.getProtocol();
+		ssl.getStores();
 		assertTrue(true);
 	}
 
-	@Test
-	void testTrustStore() throws Exception {
-		final ManoSslStoreProvider ssl = new ManoSslStoreProvider(ds);
-		ssl.getTrustStore();
-		assertTrue(true);
-	}
 }

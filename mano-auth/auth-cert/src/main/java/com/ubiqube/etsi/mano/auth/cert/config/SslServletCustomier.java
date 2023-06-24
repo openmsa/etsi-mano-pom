@@ -18,6 +18,8 @@ package com.ubiqube.etsi.mano.auth.cert.config;
 
 import javax.sql.DataSource;
 
+import org.springframework.boot.ssl.DefaultSslBundleRegistry;
+import org.springframework.boot.ssl.SslBundles;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
 
@@ -36,6 +38,7 @@ public class SslServletCustomier implements WebServerFactoryCustomizer<Configura
 
 	@Override
 	public void customize(final ConfigurableServletWebServerFactory factory) {
-		factory.setSslStoreProvider(new ManoSslStoreProvider(ds));
+		final SslBundles budles = new DefaultSslBundleRegistry("name", new ManoSslStoreProvider(ds));
+		factory.setSslBundles(budles);
 	}
 }

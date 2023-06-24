@@ -16,13 +16,13 @@
  */
 package com.ubiqube.etsi.mano.auth.cert.config;
 
-import java.security.KeyStore;
-
 import javax.sql.DataSource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.web.server.SslStoreProvider;
+import org.springframework.boot.ssl.SslBundle;
+import org.springframework.boot.ssl.SslBundleKey;
+import org.springframework.boot.ssl.SslManagerBundle;
+import org.springframework.boot.ssl.SslOptions;
+import org.springframework.boot.ssl.SslStoreBundle;
 
 /**
  * This provider can load data from anywhere.
@@ -30,9 +30,8 @@ import org.springframework.boot.web.server.SslStoreProvider;
  * @author Olivier Vignaud <ovi@ubiqube.com>
  *
  */
-public class ManoSslStoreProvider implements SslStoreProvider {
+public class ManoSslStoreProvider implements SslBundle {
 
-	private static final Logger LOG = LoggerFactory.getLogger(ManoSslStoreProvider.class);
 	private final DataSource ds;
 
 	public ManoSslStoreProvider(final DataSource ds) {
@@ -40,15 +39,28 @@ public class ManoSslStoreProvider implements SslStoreProvider {
 	}
 
 	@Override
-	public KeyStore getKeyStore() throws Exception {
-		ds.getClass();
-		LOG.error("=============================> getstore");
+	public SslStoreBundle getStores() {
 		return null;
 	}
 
 	@Override
-	public KeyStore getTrustStore() throws Exception {
-		LOG.error("=============================> getTruststore");
+	public SslBundleKey getKey() {
+		ds.getClass();
+		return null;
+	}
+
+	@Override
+	public SslOptions getOptions() {
+		return null;
+	}
+
+	@Override
+	public String getProtocol() {
+		return null;
+	}
+
+	@Override
+	public SslManagerBundle getManagers() {
 		return null;
 	}
 
