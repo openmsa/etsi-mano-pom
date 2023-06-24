@@ -19,6 +19,6 @@ module com.ubiqube.etsi.mano.auth.cert.common {
 
 	//
 	requires com.ubiqube.etsi.mano.auth;
-	requires org.bouncycastle.provider;
-	requires spring.security.core;
+	requires transitive org.bouncycastle.provider;
+	requires transitive spring.security.core;
 }

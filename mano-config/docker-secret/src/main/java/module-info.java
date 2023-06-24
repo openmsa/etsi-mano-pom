@@ -19,7 +19,7 @@ module com.ubiqube.etsi.mano.config.docker {
 
 	requires org.slf4j;
 	requires jakarta.annotation;
-	requires spring.core;
+	requires transitive spring.core;
 	requires spring.jcl;
 	requires spring.cloud.context;
 }
