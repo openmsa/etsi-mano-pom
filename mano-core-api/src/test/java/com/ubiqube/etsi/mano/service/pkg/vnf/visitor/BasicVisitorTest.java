@@ -28,13 +28,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.service.pkg.vnf.OnboardVisitor;
 import com.ubiqube.etsi.mano.service.pkg.vnf.TestVnfPackageReader;
-import com.ubiqube.etsi.mano.service.pkg.vnf.visitor.AdditionalArtefactsVisitor;
-import com.ubiqube.etsi.mano.service.pkg.vnf.visitor.ComputeVisitor;
-import com.ubiqube.etsi.mano.service.pkg.vnf.visitor.LinkPortVisitor;
-import com.ubiqube.etsi.mano.service.pkg.vnf.visitor.StorageVisitor;
-import com.ubiqube.etsi.mano.service.pkg.vnf.visitor.VirtualLinkVisitor;
-import com.ubiqube.etsi.mano.service.pkg.vnf.visitor.VnfExtCpVisitor;
-import com.ubiqube.etsi.mano.service.pkg.vnf.visitor.VnfIndicatorVisitor;
 
 @SuppressWarnings("static-method")
 class BasicVisitorTest {

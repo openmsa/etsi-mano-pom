@@ -20,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import java.io.InputStream;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
@@ -53,7 +52,6 @@ class ManoOnboardedTest {
 	@MethodSource("providerClass")
 	void testName(final args arg) throws Exception {
 		final ManoOnboarded srv = new ManoOnboarded(manoClient, UUID.randomUUID());
-		final Consumer<InputStream> tgt = x -> System.console();
 		when(manoClient.createQuery()).thenReturn(manoQueryBuilder);
 		arg.func().accept(srv);
 		assertTrue(true);
@@ -62,7 +60,6 @@ class ManoOnboardedTest {
 	@Test
 	void testFind() {
 		final ManoOnboarded srv = new ManoOnboarded(manoClient, UUID.randomUUID());
-		final Consumer<InputStream> tgt = x -> System.console();
 		when(manoClient.createQuery()).thenReturn(manoQueryBuilder);
 		when(manoQueryBuilder.setWireOutClass(any())).thenReturn(manoQueryBuilder);
 		when(manoQueryBuilder.setOutClass(any())).thenReturn(manoQueryBuilder);

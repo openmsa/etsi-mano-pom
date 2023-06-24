@@ -76,7 +76,6 @@ class VnfPackageOnboardingImplTest {
 		final UUID id = UUID.randomUUID();
 		final VnfPackage vnfPkg = new VnfPackage();
 		vnfPkg.setId(id);
-		final PackageDescriptor<VnfPackageReader> packageProvider = new TestPackageDescriptor();
 		final ManoResource data = new ByteArrayResource("".getBytes(), null);
 		//
 		when(vnfPackageRepository.getBinary(id, Constants.REPOSITORY_FILENAME_PACKAGE)).thenReturn(data);
@@ -97,7 +96,6 @@ class VnfPackageOnboardingImplTest {
 		uriParams.setAddressInformation("http://nexus.ubiqube.com/repository/local-helm/index.yaml");
 		vnfPkg.setUploadUriParameters(uriParams);
 		final PackageDescriptor<VnfPackageReader> packageProvider = new TestPackageDescriptor();
-		final ManoResource data = new ByteArrayResource("".getBytes(), null);
 		//
 		// when(vnfPackageRepository.getBinary(id,
 		// Constants.REPOSITORY_FILENAME_PACKAGE)).thenReturn(data);
