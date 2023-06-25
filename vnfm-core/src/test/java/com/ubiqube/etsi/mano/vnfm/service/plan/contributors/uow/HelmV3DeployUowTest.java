@@ -45,7 +45,6 @@ import com.ubiqube.etsi.mano.repository.ManoResource;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 import com.ubiqube.etsi.mano.service.vim.k8s.K8sClient;
 import com.ubiqube.etsi.mano.vnfm.jpa.K8sServerInfoJpa;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.uow.HelmV3DeployUow;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.vt.HelmVt;
 
 @ExtendWith(MockitoExtension.class)

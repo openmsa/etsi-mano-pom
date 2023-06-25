@@ -28,7 +28,6 @@ public class GrantMessage {
 	@Nonnull
 	private Map<String, Object> parameters = new HashMap<>();
 
-	@SuppressWarnings("null")
 	public GrantMessage() {
 		objectId = UUID.randomUUID();
 	}

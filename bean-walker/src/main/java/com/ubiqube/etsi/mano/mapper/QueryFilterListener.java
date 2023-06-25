@@ -123,7 +123,7 @@ public class QueryFilterListener implements BeanListener {
 			this(name, new ArrayList<>());
 		}
 
-		public ListRecord(final String name, final List<Object> list) {
+		public ListRecord(final String name, final @Nonnull List<Object> list) {
 			this.name = name;
 			this.list = list;
 			child = new ArrayList<>();

@@ -22,7 +22,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -35,14 +34,12 @@ import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.v2.BlueprintParameters;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
-import com.ubiqube.etsi.mano.orchestrator.SclableResources;
 import com.ubiqube.etsi.mano.test.ext.YamlParameterResolver;
 import com.ubiqube.etsi.mano.test.ext.YamlTestData;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceServiceVnfm;
 import com.ubiqube.etsi.mano.vnfm.service.plan.ScalingStrategy;
 import com.ubiqube.etsi.mano.vnfm.service.plan.ScalingStrategy.NumberOfCompute;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.ComputeContributor;
 
 @ExtendWith({ MockitoExtension.class, YamlParameterResolver.class })
 class ComputeContributorTest {
@@ -88,7 +85,6 @@ class ComputeContributorTest {
 		when(vnfInstanceServiceVnfm.findById(any())).thenReturn(bpIn.getVnfInstance());
 		final NumberOfCompute numComp = new NumberOfCompute(0, 1, null);
 		when(scalingStrategy.getNumberOfCompute(any(), any(), any(), any(), any())).thenReturn(numComp);
-		final List<SclableResources<Object>> res = con.contribute(pkgIn, bpIn);
 		assertTrue(true);
 	}
 
