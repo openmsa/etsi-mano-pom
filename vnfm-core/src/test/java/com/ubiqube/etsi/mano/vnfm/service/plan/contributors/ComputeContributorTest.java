@@ -85,6 +85,7 @@ class ComputeContributorTest {
 		when(vnfInstanceServiceVnfm.findById(any())).thenReturn(bpIn.getVnfInstance());
 		final NumberOfCompute numComp = new NumberOfCompute(0, 1, null);
 		when(scalingStrategy.getNumberOfCompute(any(), any(), any(), any(), any())).thenReturn(numComp);
+		con.contribute(pkgIn, bpIn);
 		assertTrue(true);
 	}
 
