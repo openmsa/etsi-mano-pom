@@ -19,11 +19,13 @@ package com.ubiqube.etsi.mano.mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import jakarta.annotation.Nullable;
+
 public class DebugListener implements BeanListener {
 	private static final Logger LOG = LoggerFactory.getLogger(DebugListener.class);
 
 	@Override
-	public void addProperty(final Object source) {
+	public void addProperty(final @Nullable Object source) {
 		LOG.debug("addProperty: {}", source);
 	}
 

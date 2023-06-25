@@ -49,7 +49,6 @@ class AlarmJmsConfigurationTest {
 	@Test
 	void test2() {
 		final AlarmJmsConfiguration srv = new AlarmJmsConfiguration();
-		final ObjectMapper mapper = new ObjectMapper();
 		srv.queueJmsTemplate(conn, message);
 		assertTrue(true);
 	}
@@ -57,7 +56,6 @@ class AlarmJmsConfigurationTest {
 	@Test
 	void test3() {
 		final AlarmJmsConfiguration srv = new AlarmJmsConfiguration();
-		final ObjectMapper mapper = new ObjectMapper();
 		srv.serialzeDataFactory(conn, configurer);
 		assertTrue(true);
 	}

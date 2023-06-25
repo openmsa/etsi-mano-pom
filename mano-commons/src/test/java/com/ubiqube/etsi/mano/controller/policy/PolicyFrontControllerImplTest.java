@@ -95,7 +95,6 @@ class PolicyFrontControllerImplTest {
 	@Test
 	void testsearch() {
 		final PolicyFrontControllerImpl srv = new PolicyFrontControllerImpl(policyController, mapper);
-		final UUID id = UUID.randomUUID();
 		srv.search(null, null, null, null);
 		assertTrue(true);
 	}

@@ -29,7 +29,6 @@ import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.AffinityRuleTask;
 import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.vim.Vim;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.uow.VnfAffinityUow;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.vt.AffinityRuleVt;
 
 @ExtendWith(MockitoExtension.class)

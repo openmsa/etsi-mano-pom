@@ -89,7 +89,6 @@ class VnfPackageDbTest {
 		final VnfPackageDb db = new VnfPackageDb(em, repository, contentManager, jsonMapper, namingStrategy, grammarParser);
 		final UUID id = UUID.randomUUID();
 		final VnfPackage vnfPkg = new VnfPackage();
-		final Optional<VnfPackage> vnfPackage = Optional.of(vnfPkg);
 		when(repository.save(vnfPkg)).thenReturn(vnfPkg);
 		db.save(vnfPkg);
 		assertTrue(true);

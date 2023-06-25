@@ -29,7 +29,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.ubiqube.etsi.mano.dao.mano.SoftwareImage;
 import com.ubiqube.etsi.mano.dao.mano.common.Checksum;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
-import com.ubiqube.etsi.mano.service.pkg.vnf.DownloaderService;
 
 @ExtendWith(MockitoExtension.class)
 class DownloaderServiceTest {

@@ -34,7 +34,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.dao.mano.SoftwareImage;
-import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.k8s.K8sServers;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.HelmTask;
 import com.ubiqube.etsi.mano.dao.mano.vnfm.McIops;
@@ -45,7 +44,6 @@ import com.ubiqube.etsi.mano.repository.ManoResource;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 import com.ubiqube.etsi.mano.service.vim.k8s.K8sClient;
 import com.ubiqube.etsi.mano.vnfm.jpa.K8sServerInfoJpa;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.uow.HelmDeployUow;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.vt.HelmVt;
 
 @ExtendWith(MockitoExtension.class)
@@ -64,7 +62,6 @@ class HelmDeployUowTest {
 
 	@Test
 	void test() {
-		final VimConnectionInformation vimConn = new VimConnectionInformation();
 		final HelmTask nt = new HelmTask();
 		final McIops mciop = new McIops();
 		final SoftwareImage si = new SoftwareImage();
@@ -85,7 +82,6 @@ class HelmDeployUowTest {
 
 	@Test
 	void test_TransfertFailre() throws IOException {
-		final VimConnectionInformation vimConn = new VimConnectionInformation();
 		final HelmTask nt = new HelmTask();
 		final McIops mciop = new McIops();
 		final SoftwareImage si = new SoftwareImage();
@@ -106,7 +102,6 @@ class HelmDeployUowTest {
 
 	@Test
 	void test_ServerNotFound() {
-		final VimConnectionInformation vimConn = new VimConnectionInformation();
 		final HelmTask nt = new HelmTask();
 		final McIops mciop = new McIops();
 		final SoftwareImage si = new SoftwareImage();
@@ -115,14 +110,12 @@ class HelmDeployUowTest {
 		nt.setMciop(mciop);
 		final VirtualTaskV3<HelmTask> task = new HelmVt(nt);
 		final HelmDeployUow uow = new HelmDeployUow(task, client, serverInfoJpa, vnfRepo, manoKey);
-		final K8sServers k8sServer = new K8sServers();
 		when(ctx.get(any(), any())).thenReturn("e4950a2a-cd80-11ed-80f9-c8f750509d3b");
 		assertThrows(GenericException.class, () -> uow.execute(ctx));
 	}
 
 	@Test
 	void testRollback() {
-		final VimConnectionInformation vimConn = new VimConnectionInformation();
 		final HelmTask nt = new HelmTask();
 		final VirtualTaskV3<HelmTask> task = new HelmVt(nt);
 		final HelmDeployUow uow = new HelmDeployUow(task, client, serverInfoJpa, vnfRepo, manoKey);

@@ -22,5 +22,5 @@ module com.ubiqube.etsi.mano.config.ubi {
 	requires spring.context;
 	requires spring.core;
 	requires spring.boot;
-	requires spring.cloud.context;
+	requires transitive spring.cloud.context;
 }

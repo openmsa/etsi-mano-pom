@@ -32,7 +32,6 @@ import com.ubiqube.etsi.mano.dao.mano.v2.ComputeTask;
 import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.vim.Vim;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.uow.VnfComputeUow;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.vt.ComputeVt;
 
 @ExtendWith(MockitoExtension.class)

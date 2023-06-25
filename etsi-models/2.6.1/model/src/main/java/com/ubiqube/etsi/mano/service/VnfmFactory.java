@@ -28,7 +28,7 @@ import com.ubiqube.etsi.mano.service.event.model.EventMessage;
  */
 public interface VnfmFactory {
 
-	<T> void makeGrantRequestLink(final GrantRequest manoGrant);
+	void makeGrantRequestLink(final GrantRequest manoGrant);
 	
 	Object createVnfIndicatorValueChangeNotification(UUID subscriptionId, EventMessage event);
 }

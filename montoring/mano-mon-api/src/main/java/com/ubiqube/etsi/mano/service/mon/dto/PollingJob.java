@@ -31,6 +31,9 @@ import lombok.Data;
 
 @Data
 public class PollingJob {
+	public PollingJob() {
+	}
+
 	/***
 	 * Resource Id to poll.
 	 */

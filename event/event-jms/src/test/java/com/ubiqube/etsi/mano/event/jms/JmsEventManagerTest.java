@@ -66,7 +66,6 @@ class JmsEventManagerTest {
 	@Test
 	void testSendAction() {
 		final JmsEventManager jem = new JmsEventManager(jmsTemplate, eventMessageJpa, configurable);
-		final SubscriptionEvent se = new SubscriptionEvent();
 		mockQueueName();
 		jem.sendAction(ActionType.MEPM_OPERATE, UUID.randomUUID());
 		assertTrue(true);
@@ -75,7 +74,6 @@ class JmsEventManagerTest {
 	@Test
 	void testSendActionNfvo() {
 		final JmsEventManager jem = new JmsEventManager(jmsTemplate, eventMessageJpa, configurable);
-		final SubscriptionEvent se = new SubscriptionEvent();
 		mockQueueName();
 		jem.sendActionNfvo(ActionType.MEPM_OPERATE, UUID.randomUUID(), Map.of());
 		assertTrue(true);
@@ -84,7 +82,6 @@ class JmsEventManagerTest {
 	@Test
 	void testSendActionVnfm() {
 		final JmsEventManager jem = new JmsEventManager(jmsTemplate, eventMessageJpa, configurable);
-		final SubscriptionEvent se = new SubscriptionEvent();
 		mockQueueName();
 		jem.sendActionVnfm(ActionType.MEPM_OPERATE, UUID.randomUUID(), Map.of());
 		assertTrue(true);
@@ -93,7 +90,6 @@ class JmsEventManagerTest {
 	@Test
 	void testSendGrant() {
 		final JmsEventManager jem = new JmsEventManager(jmsTemplate, eventMessageJpa, configurable);
-		final SubscriptionEvent se = new SubscriptionEvent();
 		mockQueueName();
 		jem.sendGrant(UUID.randomUUID(), Map.of());
 		assertTrue(true);
@@ -102,7 +98,6 @@ class JmsEventManagerTest {
 	@Test
 	void testSendNotification() {
 		final JmsEventManager jem = new JmsEventManager(jmsTemplate, eventMessageJpa, configurable);
-		final SubscriptionEvent se = new SubscriptionEvent();
 		mockQueueName();
 		jem.sendNotification(NotificationEvent.APPINSTANTIATE, UUID.randomUUID(), Map.of());
 		assertTrue(true);

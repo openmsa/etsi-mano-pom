@@ -34,7 +34,6 @@ import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.vim.Cnf;
 import com.ubiqube.etsi.mano.service.vim.K8sStatus;
 import com.ubiqube.etsi.mano.service.vim.Vim;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.uow.WaitK8sClusterUow;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.vt.OsContainerDeployableVt;
 
 @ExtendWith(MockitoExtension.class)

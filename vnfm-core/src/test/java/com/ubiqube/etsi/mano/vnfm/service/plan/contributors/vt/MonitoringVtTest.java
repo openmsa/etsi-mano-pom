@@ -25,7 +25,6 @@ import org.junit.jupiter.api.Test;
 
 import com.ubiqube.etsi.mano.dao.mano.v2.MonitoringTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.PlanStatusType;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.vt.MonitoringVt;
 
 class MonitoringVtTest {
 
