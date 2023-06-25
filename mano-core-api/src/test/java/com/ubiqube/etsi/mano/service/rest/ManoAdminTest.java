@@ -16,16 +16,28 @@
  */
 package com.ubiqube.etsi.mano.service.rest;
 
-public class AuthResponse {
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-	private String token;
+import java.util.UUID;
 
-	public String getToken() {
-		return token;
-	}
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-	public void setToken(final String token) {
-		this.token = token;
+@ExtendWith(MockitoExtension.class)
+class ManoAdminTest {
+	@Mock
+	private ManoClient client;
+
+	@Test
+	void test() {
+		final ManoAdmin srv = new ManoAdmin(client);
+		srv.server();
+		srv.server(UUID.randomUUID());
+		srv.vim();
+		srv.vim(UUID.randomUUID());
+		assertTrue(true);
 	}
 
 }
