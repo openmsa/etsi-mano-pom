@@ -90,7 +90,7 @@
 			<dependency>
 				<groupId>com.ubiqube.orika</groupId>
 				<artifactId>orika-spring-boot-starter</artifactId>
-				<version>3.0.3</version>
+				<version>3.0.2</version>
 			</dependency>
 			<dependency>
 				<groupId>ma.glasnost.orika</groupId>
