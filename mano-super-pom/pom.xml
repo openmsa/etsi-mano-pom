@@ -42,7 +42,7 @@
 		<com.ubiqube.elasticsearch.version>8.6.2</com.ubiqube.elasticsearch.version>
 		<com.ubiqube.springdoc.version>2.1.0</com.ubiqube.springdoc.version>
 		<com.ubiqube.orika.version>1.5.6</com.ubiqube.orika.version>
-		<com.ubiqube.jgrapht.version>1.5.1</com.ubiqube.jgrapht.version>
+		<com.ubiqube.jgrapht.version>1.5.2</com.ubiqube.jgrapht.version>
 		<brave.version>5.16.0</brave.version>
 	</properties>
 	<dependencyManagement>
@@ -132,6 +132,11 @@
 				<groupId>org.elasticsearch.client</groupId>
 				<artifactId>elasticsearch-rest-client-sniffer</artifactId>
 				<version>${com.ubiqube.elasticsearch.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.swagger.core.v3</groupId>
+				<artifactId>swagger-models-jakarta</artifactId>
+				<version>${com.ubiqube.swagger3}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.codehaus.groovy</groupId>
