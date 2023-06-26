@@ -40,7 +40,6 @@
 		<dependency>
 			<groupId>io.swagger.core.v3</groupId>
 			<artifactId>swagger-models-jakarta</artifactId>
-			<version>2.2.7</version>
 		</dependency>
 		<dependency>
 			<groupId>uk.co.jemos.podam</groupId>
@@ -79,7 +78,6 @@
 		<dependency>
 			<groupId>nl.jqno.equalsverifier</groupId>
 			<artifactId>equalsverifier</artifactId>
-			<version>3.14.1</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
