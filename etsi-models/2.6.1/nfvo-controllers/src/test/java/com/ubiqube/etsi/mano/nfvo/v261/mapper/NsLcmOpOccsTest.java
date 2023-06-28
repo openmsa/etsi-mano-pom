@@ -16,8 +16,8 @@
  */
 package com.ubiqube.etsi.mano.nfvo.v261.mapper;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.time.OffsetDateTime;
 
@@ -36,7 +36,7 @@ import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 import ma.glasnost.orika.impl.generator.EclipseJdtCompilerStrategy;
 
-public class NsLcmOpOccsTest {
+class NsLcmOpOccsTest {
 	private final DefaultMapperFactory mapperFactory;
 
 	public NsLcmOpOccsTest() {
