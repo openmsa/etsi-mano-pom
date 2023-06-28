@@ -16,7 +16,7 @@
  */
 package com.ubiqube.etsi.mano.mon;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.time.OffsetDateTime;
 import java.util.List;
