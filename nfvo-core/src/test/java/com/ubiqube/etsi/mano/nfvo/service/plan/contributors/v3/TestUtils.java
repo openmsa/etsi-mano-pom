@@ -16,7 +16,7 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service.plan.contributors.v3;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
 

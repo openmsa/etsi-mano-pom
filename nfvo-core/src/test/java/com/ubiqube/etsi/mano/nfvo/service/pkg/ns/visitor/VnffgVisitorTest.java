@@ -16,7 +16,7 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service.pkg.ns.visitor;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.Mockito.when;
 

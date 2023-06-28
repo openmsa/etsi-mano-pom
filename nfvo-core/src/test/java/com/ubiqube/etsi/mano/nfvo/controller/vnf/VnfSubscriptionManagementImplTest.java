@@ -16,7 +16,7 @@
  */
 package com.ubiqube.etsi.mano.nfvo.controller.vnf;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.util.UUID;
