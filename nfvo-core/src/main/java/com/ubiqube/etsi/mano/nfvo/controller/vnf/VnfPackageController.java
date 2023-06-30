@@ -23,13 +23,15 @@ import java.util.UUID;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.pkg.UploadUriParameters;
 
+import jakarta.annotation.Nullable;
+
 public interface VnfPackageController {
 
 	VnfPackage vnfPackagesPost(Map<String, String> userData);
 
 	void vnfPackagesVnfPkgIdDelete(UUID id);
 
-	VnfPackage vnfPackagesVnfPkgIdPatch(UUID id, String body, String ifMatch);
+	VnfPackage vnfPackagesVnfPkgIdPatch(UUID id, String body, @Nullable String ifMatch);
 
 	void vnfPackagesVnfPkgIdPackageContentPut(UUID id, InputStream inputStream, String accept);
 

@@ -21,8 +21,6 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import jakarta.validation.constraints.NotNull;
-
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
@@ -37,7 +35,7 @@ public class CommonActionDispatcherImpl implements CommonActionDispatcher {
 	}
 
 	@Override
-	public void dispatch(@NotNull final ActionType actionType, @NotNull final UUID objectId, @NotNull final Map<String, Object> parameters) {
+	public void dispatch(final ActionType actionType, final UUID objectId, final Map<String, Object> parameters) {
 		switch (actionType) {
 		case REGISTER_SERVER -> controller.registerServer(objectId, parameters);
 		default -> throw new IllegalArgumentException("Unexpected value: " + actionType);

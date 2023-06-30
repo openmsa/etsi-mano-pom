@@ -44,6 +44,8 @@ import com.ubiqube.etsi.mano.service.event.ActionType;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 
+import jakarta.annotation.Nullable;
+
 @Service
 public class VnfPackageControllerImpl implements VnfPackageController {
 	private final VnfPackageService vnfPackageService;
@@ -88,7 +90,7 @@ public class VnfPackageControllerImpl implements VnfPackageController {
 	}
 
 	@Override
-	public VnfPackage vnfPackagesVnfPkgIdPatch(final UUID id, final String body, final String ifMatch) {
+	public VnfPackage vnfPackagesVnfPkgIdPatch(final UUID id, final String body, final @Nullable String ifMatch) {
 		final VnfPackage vnfPackage = vnfPackageService.findById(id);
 		if ((ifMatch != null) && !(vnfPackage.getVersion() + "").equals(ifMatch)) {
 			throw new PreConditionException(ifMatch + " does not match " + vnfPackage.getVersion());
