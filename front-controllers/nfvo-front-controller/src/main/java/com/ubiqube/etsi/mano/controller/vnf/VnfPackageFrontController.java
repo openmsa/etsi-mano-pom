@@ -41,7 +41,7 @@ public interface VnfPackageFrontController {
 
 	ResponseEntity<Resource> getContent(UUID vnfPkgId);
 
-	ResponseEntity<Resource> getVfnd(UUID vnfPkgId, String contentType, @Nullable String includeSignature);
+	ResponseEntity<Resource> getVfnd(UUID vnfPkgId, @Nullable String contentType, @Nullable String includeSignature);
 
 	ResponseEntity<Resource> getSelectArtifacts(HttpServletRequest request, UUID vnfPkgId);
 
@@ -59,7 +59,7 @@ public interface VnfPackageFrontController {
 
 	<U> ResponseEntity<Void> uploadFromUri(U body, UUID id, String contentType);
 
-	<U> ResponseEntity<U> modify(String body, UUID vnfPkgId, final String ifMatch, Class<U> clazz, Consumer<U> makeLinks);
+	<U> ResponseEntity<U> modify(String body, UUID vnfPkgId, @Nullable String ifMatch, Class<U> clazz, Consumer<U> makeLinks);
 
 	ResponseEntity<Resource> searchArtifact(UUID safeUUID, @Nullable String includeSignatures, @Nullable String excludeAllManoArtifacts, @Nullable String excludeAllNonManoArtifacts, @Nullable String selectNonManoArtifactSets);
 
