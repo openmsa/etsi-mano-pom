@@ -34,6 +34,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.OnboardingStateType;
@@ -92,6 +95,8 @@ public class NsdControllerImpl implements NsdController {
 	public void nsDescriptorsNsdInfoIdNsdContentPut(final UUID id, final InputStream is) {
 		final NsdPackage nsdInfo = nsdRepository.get(id);
 		ensureNotOnboarded(nsdInfo);
+		forceVnfdId(nsdInfo);
+		nsdRepository.save(nsdInfo);
 		nsdRepository.storeBinary(id, "nsd", is);
 		eventManager.sendActionNfvo(ActionType.NSD_PKG_ONBOARD_FROM_BYTES, nsdInfo.getId(), new HashMap<>());
 	}
@@ -121,5 +126,17 @@ public class NsdControllerImpl implements NsdController {
 	@Override
 	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink) {
 		return searchableService.search(NsdPackage.class, requestParams, clazz, excludeDefaults, mandatoryFields, makeLink, List.of());
+	}
+
+	private static void forceVnfdId(final NsdPackage vnfPackage) {
+		final RequestAttributes attr = RequestContextHolder.getRequestAttributes();
+		if (attr instanceof final ServletRequestAttributes sra) {
+			final String xdi = sra.getRequest().getHeader("x-descriptor-id");
+			if (null != xdi) {
+				vnfPackage.setOverwriteDescId(xdi);
+				return;
+			}
+		}
+		vnfPackage.setOverwriteDescId(null);
 	}
 }

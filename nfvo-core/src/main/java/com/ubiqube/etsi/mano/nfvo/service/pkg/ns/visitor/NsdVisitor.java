@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.nfvo.service.pkg.ns.visitor;
 
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -46,6 +47,7 @@ public class NsdVisitor implements NsOnboardingVisitor {
 	public void visit(final NsdPackage nsPackage, final NsPackageProvider packageProvider, final Map<String, String> userData) {
 		final NsInformations nsInformations = packageProvider.getNsInformations(userData);
 		mapper.map(nsInformations, nsPackage);
+		Optional.ofNullable(nsPackage.getOverwriteDescId()).ifPresent(nsPackage::setNsdId);
 	}
 
 }

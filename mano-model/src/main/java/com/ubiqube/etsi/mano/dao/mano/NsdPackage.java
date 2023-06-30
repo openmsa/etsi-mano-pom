@@ -73,6 +73,11 @@ public class NsdPackage implements PackageBase, Auditable {
 	@FullTextField
 	private String nsdId;
 
+	/**
+	 * Used for overriding the nsdId.
+	 */
+	private String OverwriteDescId;
+
 	@FullTextField
 	private String nsdName;
 
