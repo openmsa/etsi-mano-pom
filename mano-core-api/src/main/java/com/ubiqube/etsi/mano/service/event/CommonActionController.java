@@ -133,9 +133,9 @@ public class CommonActionController {
 		server.setRemoteSubscriptions(removeStalledSubscription(server.getRemoteSubscriptions()));
 		server.setServerStatus(PlanStatusType.SUCCESS);
 		final Set<RemoteSubscription> remoteSubscription = server.getRemoteSubscriptions();
+		extractEndpoint(server);
 		if (!isSubscribe(SubscriptionType.VNFIND, remoteSubscription)) {
 			addSubscription(serverAdapter, this::vnfIndicatorValueChangeSubscribe, remoteSubscription);
-			extractEndpoint(server);
 		}
 		return serversJpa.save(server);
 	}
