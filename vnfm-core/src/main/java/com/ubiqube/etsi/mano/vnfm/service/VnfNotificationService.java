@@ -72,7 +72,7 @@ public class VnfNotificationService {
 		if (event.getChangeType() == PackageChangeType.PKG_DELETE) {
 			vnfPackageJpa.deleteByVnfdId(event.getVnfdId());
 		} else {
-			final Optional<VnfPackage> pkg = vnfPackageJpa.findByDescriptorId(event.getVnfdId());
+			final Optional<VnfPackage> pkg = vnfPackageJpa.findByVnfdId(event.getVnfdId());
 			if (pkg.isPresent()) {
 				final VnfPackage p = pkg.get();
 				p.setOperationalState(PackageOperationalState.fromValue(event.getOperationalState().toString()));

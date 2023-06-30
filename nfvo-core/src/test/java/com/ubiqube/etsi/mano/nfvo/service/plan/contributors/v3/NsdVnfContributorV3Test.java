@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
@@ -91,7 +92,7 @@ class NsdVnfContributorV3Test {
 		final VnfPackage vnfPkg01 = new VnfPackage();
 		vnfPkg01.setVnfdId(id.toString());
 		final Optional<VnfPackage> pkgOpt = Optional.of(vnfPkg01);
-		when(vnfPackageService.findByDescriptorId(any())).thenReturn(pkgOpt);
+		when(vnfPackageService.findByVnfdId(anyString())).thenReturn(pkgOpt);
 		final List<SclableResources<Object>> res = nvc.contribute(bundle, blueprint);
 		assertNotNull(res);
 		assertEquals(3, res.size());
@@ -115,7 +116,7 @@ class NsdVnfContributorV3Test {
 		final VnfPackage vnfPkg01 = new VnfPackage();
 		vnfPkg01.setVnfdId(id.toString());
 		final Optional<VnfPackage> pkgOpt = Optional.of(vnfPkg01);
-		when(vnfPackageService.findByDescriptorId(any())).thenReturn(pkgOpt);
+		when(vnfPackageService.findByVnfdId(anyString())).thenReturn(pkgOpt);
 		//
 		vnfPkg01.setVnfmInfo(Set.of());
 		final Servers srv01 = Servers.builder().build();
@@ -143,7 +144,7 @@ class NsdVnfContributorV3Test {
 		final VnfPackage vnfPkg01 = new VnfPackage();
 		vnfPkg01.setVnfdId(id.toString());
 		final Optional<VnfPackage> pkgOpt = Optional.of(vnfPkg01);
-		when(vnfPackageService.findByDescriptorId(any())).thenReturn(pkgOpt);
+		when(vnfPackageService.findByVnfdId(anyString())).thenReturn(pkgOpt);
 		//
 		vnfPkg01.setVnfmInfo(Set.of("caps01"));
 		final Servers srv01 = Servers.builder()
@@ -170,7 +171,7 @@ class NsdVnfContributorV3Test {
 		final VnfPackage vnfPkg01 = new VnfPackage();
 		vnfPkg01.setVnfdId(id.toString());
 		final Optional<VnfPackage> pkgOpt = Optional.of(vnfPkg01);
-		when(vnfPackageService.findByDescriptorId(any())).thenReturn(pkgOpt);
+		when(vnfPackageService.findByVnfdId(anyString())).thenReturn(pkgOpt);
 		//
 		vnfPkg01.setVnfmInfo(Set.of("caps01"));
 		final Servers srv01 = Servers.builder()
@@ -204,7 +205,7 @@ class NsdVnfContributorV3Test {
 		final VnfPackage vnfPkg01 = new VnfPackage();
 		vnfPkg01.setVnfdId(id.toString());
 		final Optional<VnfPackage> pkgOpt = Optional.of(vnfPkg01);
-		when(vnfPackageService.findByDescriptorId(any())).thenReturn(pkgOpt);
+		when(vnfPackageService.findByVnfdId(anyString())).thenReturn(pkgOpt);
 		final List<SclableResources<Object>> res = nvc.contribute(bundle, blueprint);
 		assertNotNull(res);
 		assertEquals(3, res.size());

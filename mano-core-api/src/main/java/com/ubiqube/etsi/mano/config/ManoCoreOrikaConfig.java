@@ -14,27 +14,25 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service;
+package com.ubiqube.etsi.mano.config;
 
-import java.util.Optional;
-import java.util.UUID;
+import org.springframework.stereotype.Component;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+import com.ubiqube.etsi.mano.service.pkg.bean.ProviderData;
+import com.ubiqube.orika.OrikaMapperFactoryConfigurer;
 
-public interface VnfPackageService {
+import ma.glasnost.orika.MapperFactory;
 
-	VnfPackage findById(final UUID vnfPkgId);
+@Component
+public class ManoCoreOrikaConfig implements OrikaMapperFactoryConfigurer {
 
-	VnfPackage save(final VnfPackage vnfPackage);
-
-	Optional<VnfPackage> findByVnfdId(final String descriptorId);
-
-	Optional<VnfPackage> findByVnfdIdFlavorIdVnfdVersion(final String descriptorId, final String flavorId, final String versionId);
-
-	Optional<VnfPackage> findByVnfdIdAndSoftwareVersion(final String name, final String version);
-
-	VnfPackage findByVnfdId(final UUID id);
-
-	void delete(UUID id);
+	@Override
+	public void configure(final MapperFactory orikaMapperFactory) {
+		orikaMapperFactory.classMap(VnfPackage.class, ProviderData.class)
+				.field("vnfdId", "descriptorId")
+				.byDefault()
+				.register();
+	}
 
 }

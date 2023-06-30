@@ -28,14 +28,12 @@ import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 @Primary
 public interface VnfPackageJpa extends CrudRepository<VnfPackage, UUID> {
 
-	Optional<VnfPackage> findByDescriptorId(String descriptorId);
+	Optional<VnfPackage> findByVnfdIdAndVnfSoftwareVersion(String name, String version);
 
-	Optional<VnfPackage> findByDescriptorIdAndVnfSoftwareVersion(String name, String version);
-
-	Optional<VnfPackage> findByDescriptorIdAndFlavorIdAndVnfdVersion(String descriptorId, String flavorId, String versionId);
+	Optional<VnfPackage> findByVnfdIdAndFlavorIdAndVnfdVersion(String descriptorId, String flavorId, String versionId);
 
 	Optional<VnfPackage> findByVnfdIdAndOnboardingState(String id, OnboardingStateType state);
-	
+
 	Optional<VnfPackage> findByVnfdId(String id);
 
 	void deleteByVnfdId(String fromString);

@@ -71,7 +71,7 @@ class VnfPackageVisitorTest {
 		final ListKeyPair pair = new ListKeyPair();
 		pair.setValue("p");
 		pkg.setVirtualLinks(Set.of(pair));
-		when(vnfPackageService.findByDescriptorId(anyString())).thenReturn(Optional.of(pkg));
+		when(vnfPackageService.findByVnfdId(anyString())).thenReturn(Optional.of(pkg));
 		vis.visit(nsPackage, packageProvider, Map.of());
 		assertTrue(true);
 	}
@@ -90,7 +90,7 @@ class VnfPackageVisitorTest {
 		pkg.setVnfCompute(Set.of(comp01));
 		final ListKeyPair pair = new ListKeyPair();
 		pkg.setVirtualLinks(Set.of(pair));
-		when(vnfPackageService.findByDescriptorIdAndSoftwareVersion(anyString(), anyString())).thenReturn(Optional.of(pkg));
+		when(vnfPackageService.findByVnfdIdAndSoftwareVersion(anyString(), anyString())).thenReturn(Optional.of(pkg));
 		vis.visit(nsPackage, packageProvider, Map.of());
 		assertTrue(true);
 	}

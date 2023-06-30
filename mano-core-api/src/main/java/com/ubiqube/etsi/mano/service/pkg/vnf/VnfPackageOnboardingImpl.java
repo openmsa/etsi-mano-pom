@@ -147,7 +147,7 @@ public class VnfPackageOnboardingImpl {
 		Optional.ofNullable(vnfPackage.getOverwriteDescId()).ifPresent(pd::setDescriptorId);
 		final Optional<VnfPackage> optPackage = getVnfPackage(pd);
 		optPackage.ifPresent(x -> {
-			throw new GenericException("Package " + x.getDescriptorId() + " already onboarded in " + x.getId() + ".");
+			throw new GenericException("Package " + x.getVnfdId() + " already onboarded in " + x.getId() + ".");
 		});
 		onboardingMapper.mapper(vnfPackageReader, vnfPackage, pd);
 	}
@@ -206,11 +206,11 @@ public class VnfPackageOnboardingImpl {
 		case 0:
 			return Optional.empty();
 		case 1:
-			return vnfPackageService.findByDescriptorId(descriptorId);
+			return vnfPackageService.findByVnfdId(descriptorId);
 		case 2:
-			return vnfPackageService.findByDescriptorIdAndSoftwareVersion(descriptorId, version);
+			return vnfPackageService.findByVnfdIdAndSoftwareVersion(descriptorId, version);
 		case 3:
-			return vnfPackageService.findByDescriptorIdFlavorIdVnfdVersion(descriptorId, flavor, version);
+			return vnfPackageService.findByVnfdIdFlavorIdVnfdVersion(descriptorId, flavor, version);
 		default:
 			break;
 		}

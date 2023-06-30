@@ -88,7 +88,7 @@ class VnfNotificationServiceTest {
 		final RemoteSubscription remoteSubs = new RemoteSubscription();
 		when(remoteSubscription.findByRemoteSubscriptionId(any())).thenReturn(Optional.of(remoteSubs));
 		final VnfPackage vnfPkg = new VnfPackage();
-		when(vnfPackageJpa.findByDescriptorId(any())).thenReturn(Optional.of(vnfPkg));
+		when(vnfPackageJpa.findByVnfdId(any())).thenReturn(Optional.of(vnfPkg));
 		srv.onChange(event);
 		assertTrue(true);
 	}

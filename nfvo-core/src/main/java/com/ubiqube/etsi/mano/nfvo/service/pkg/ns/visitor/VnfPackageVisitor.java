@@ -132,13 +132,13 @@ public class VnfPackageVisitor implements NsOnboardingVisitor {
 			return Optional.empty();
 		}
 		if (part == 1) {
-			return vnfPackageService.findByDescriptorId(descriptorId);
+			return vnfPackageService.findByVnfdId(descriptorId);
 		}
 		if (part == 2) {
-			return vnfPackageService.findByDescriptorIdAndSoftwareVersion(descriptorId, version);
+			return vnfPackageService.findByVnfdIdAndSoftwareVersion(descriptorId, version);
 		}
 		if (part == 3) {
-			return vnfPackageService.findByDescriptorIdFlavorIdVnfdVersion(descriptorId, flavor, version);
+			return vnfPackageService.findByVnfdIdFlavorIdVnfdVersion(descriptorId, flavor, version);
 		}
 		throw new GenericException("Unknown version " + part);
 	}

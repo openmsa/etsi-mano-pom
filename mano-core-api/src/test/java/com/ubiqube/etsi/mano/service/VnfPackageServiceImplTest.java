@@ -71,21 +71,21 @@ class VnfPackageServiceImplTest {
 	@Test
 	void testByDescriptorId() throws Exception {
 		final VnfPackageServiceImpl srv = new VnfPackageServiceImpl(vnfPackageJpa, vnfInstanceJpa, vnfPackageRepository);
-		srv.findByDescriptorId("");
+		srv.findByVnfdId("");
 		assertTrue(true);
 	}
 
 	@Test
 	void testByDescriptorIdAndSoftwareVersion() throws Exception {
 		final VnfPackageServiceImpl srv = new VnfPackageServiceImpl(vnfPackageJpa, vnfInstanceJpa, vnfPackageRepository);
-		srv.findByDescriptorIdAndSoftwareVersion(null, null);
+		srv.findByVnfdIdAndSoftwareVersion(null, null);
 		assertTrue(true);
 	}
 
 	@Test
 	void testByDescriptorIdFlavorIdVnfdVersion() throws Exception {
 		final VnfPackageServiceImpl srv = new VnfPackageServiceImpl(vnfPackageJpa, vnfInstanceJpa, vnfPackageRepository);
-		srv.findByDescriptorIdFlavorIdVnfdVersion(null, null, null);
+		srv.findByVnfdIdFlavorIdVnfdVersion(null, null, null);
 		assertTrue(true);
 	}
 

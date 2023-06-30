@@ -120,9 +120,6 @@ public class VnfPackage implements PackageBase, Auditable {
 
 	private String flavourDescription;
 
-	@FullTextField
-	private String descriptorId;
-
 	/**
 	 * Store the over written descriptor ID.
 	 */

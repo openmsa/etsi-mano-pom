@@ -65,18 +65,18 @@ public class VnfPackageServiceImpl implements VnfPackageService {
 	}
 
 	@Override
-	public Optional<VnfPackage> findByDescriptorId(final String descriptorId) {
-		return vnfPackageJpa.findByDescriptorId(descriptorId);
+	public Optional<VnfPackage> findByVnfdId(final String descriptorId) {
+		return vnfPackageJpa.findByVnfdId(descriptorId);
 	}
 
 	@Override
-	public Optional<VnfPackage> findByDescriptorIdFlavorIdVnfdVersion(final String descriptorId, final String flavorId, final String versionId) {
-		return vnfPackageJpa.findByDescriptorIdAndFlavorIdAndVnfdVersion(descriptorId, flavorId, versionId);
+	public Optional<VnfPackage> findByVnfdIdFlavorIdVnfdVersion(final String descriptorId, final String flavorId, final String versionId) {
+		return vnfPackageJpa.findByVnfdIdAndFlavorIdAndVnfdVersion(descriptorId, flavorId, versionId);
 	}
 
 	@Override
-	public Optional<VnfPackage> findByDescriptorIdAndSoftwareVersion(final String name, final String version) {
-		return vnfPackageJpa.findByDescriptorIdAndVnfSoftwareVersion(name, version);
+	public Optional<VnfPackage> findByVnfdIdAndSoftwareVersion(final String name, final String version) {
+		return vnfPackageJpa.findByVnfdIdAndVnfSoftwareVersion(name, version);
 	}
 
 	@Override
