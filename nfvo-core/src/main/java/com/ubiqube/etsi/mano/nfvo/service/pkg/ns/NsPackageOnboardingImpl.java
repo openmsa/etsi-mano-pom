@@ -21,8 +21,6 @@ import java.io.InputStream;
 import java.util.Map;
 import java.util.UUID;
 
-import jakarta.validation.constraints.NotNull;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -70,7 +68,7 @@ public class NsPackageOnboardingImpl {
 		this.nsdPackageJpa = nsdPackageJpa;
 	}
 
-	public void nsOnboarding(@NotNull final UUID objectId) {
+	public void nsOnboarding(final UUID objectId) {
 		final NsdPackage nsPackage = nsdPackageJpa.findById(objectId).orElseThrow(() -> new NotFoundException("NS Package " + objectId + " Not found."));
 		try {
 			nsOnboardingInternal(nsPackage);
@@ -90,7 +88,7 @@ public class NsPackageOnboardingImpl {
 		eventManager.sendNotification(NotificationEvent.NS_PKG_ONBOARDING, nsPackage.getId(), Map.of());
 	}
 
-	public void nsOnboardingInternal(@NotNull final NsdPackage nsPackage) {
+	public void nsOnboardingInternal(final NsdPackage nsPackage) {
 		final ManoResource data = nsdRepository.getBinary(nsPackage.getId(), "nsd");
 		final PackageDescriptor<NsPackageProvider> packageProvider = packageManager.getProviderFor(data);
 		if (null != packageProvider) {
