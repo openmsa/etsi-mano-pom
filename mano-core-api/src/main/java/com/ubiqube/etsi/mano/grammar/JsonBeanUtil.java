@@ -60,16 +60,18 @@ public class JsonBeanUtil {
 	private static final Map<String, Map<String, JsonBeanProperty>> CACHE = new ConcurrentHashMap<>();
 
 	public JsonBeanUtil() {
-		simpleTypes.add("java.lang.String");
-		simpleTypes.add("java.lang.Boolean");
-		simpleTypes.add("java.lang.Class");
-		simpleTypes.add("java.lang.Integer");
-		simpleTypes.add("java.lang.Long");
 		simpleTypes.add("boolean");
 		simpleTypes.add("int");
 		simpleTypes.add("long");
 		simpleTypes.add("float");
+		simpleTypes.add("java.lang.Boolean");
+		simpleTypes.add("java.lang.Class");
+		simpleTypes.add("java.lang.Integer");
+		simpleTypes.add("java.lang.Long");
+		simpleTypes.add("java.lang.String");
+		simpleTypes.add("java.net.URI");
 		simpleTypes.add("java.util.Date");
+		simpleTypes.add("java.util.UUID");
 		simpleTypes.add("java.time.OffsetDateTime");
 	}
 
