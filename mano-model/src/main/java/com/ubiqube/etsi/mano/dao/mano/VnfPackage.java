@@ -123,6 +123,11 @@ public class VnfPackage implements PackageBase, Auditable {
 	@FullTextField
 	private String descriptorId;
 
+	/**
+	 * Store the over written descriptor ID.
+	 */
+	private String overwriteDescId;
+
 	@FullTextField
 	private String descriptorVersion;
 

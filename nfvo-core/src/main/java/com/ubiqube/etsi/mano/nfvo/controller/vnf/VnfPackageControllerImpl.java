@@ -27,6 +27,9 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.ubiqube.etsi.mano.Constants;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
@@ -106,6 +109,8 @@ public class VnfPackageControllerImpl implements VnfPackageController {
 	public void vnfPackagesVnfPkgIdPackageContentPut(final UUID id, final InputStream is, final String accept) {
 		final VnfPackage vnfPackage = vnfPackageService.findById(id);
 		ensureNotOnboarded(vnfPackage);
+		forceVnfdId(vnfPackage);
+		vnfPackageService.save(vnfPackage);
 		vnfPackageRepository.storeBinary(id, Constants.REPOSITORY_FILENAME_PACKAGE, is);
 		eventManager.sendActionNfvo(ActionType.VNF_PKG_ONBOARD_FROM_BYTES, id, Map.of());
 	}
@@ -115,8 +120,20 @@ public class VnfPackageControllerImpl implements VnfPackageController {
 		final VnfPackage vnfPackage = vnfPackageService.findById(id);
 		ensureNotOnboarded(vnfPackage);
 		vnfPackage.setUploadUriParameters(params);
+		forceVnfdId(vnfPackage);
 		vnfPackageService.save(vnfPackage);
 		eventManager.sendActionNfvo(ActionType.VNF_PKG_ONBOARD_FROM_URI, id, Map.of());
+	}
 
+	private static void forceVnfdId(final VnfPackage vnfPackage) {
+		final RequestAttributes attr = RequestContextHolder.getRequestAttributes();
+		if (attr instanceof final ServletRequestAttributes sra) {
+			final String xdi = sra.getRequest().getHeader("x-descriptor-id");
+			if (null != xdi) {
+				vnfPackage.setOverwriteDescId(xdi);
+				return;
+			}
+		}
+		vnfPackage.setOverwriteDescId(null);
 	}
 }

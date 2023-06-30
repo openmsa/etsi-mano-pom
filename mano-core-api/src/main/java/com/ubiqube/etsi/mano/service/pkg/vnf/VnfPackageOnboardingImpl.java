@@ -144,6 +144,7 @@ public class VnfPackageOnboardingImpl {
 
 	private void mapVnfPackage(final VnfPackageReader vnfPackageReader, final VnfPackage vnfPackage) {
 		final ProviderData pd = vnfPackageReader.getProviderPadata();
+		Optional.ofNullable(vnfPackage.getOverwriteDescId()).ifPresent(pd::setDescriptorId);
 		final Optional<VnfPackage> optPackage = getVnfPackage(pd);
 		optPackage.ifPresent(x -> {
 			throw new GenericException("Package " + x.getDescriptorId() + " already onboarded in " + x.getId() + ".");
@@ -182,6 +183,7 @@ public class VnfPackageOnboardingImpl {
 
 	private VnfPackage startOnboarding(final VnfPackage vnfPackage) {
 		vnfPackage.setOnboardingState(OnboardingStateType.PROCESSING);
+		vnfPackage.setOnboardingFailureDetails(null);
 		return vnfPackageService.save(vnfPackage);
 	}
 
