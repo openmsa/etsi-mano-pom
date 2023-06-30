@@ -44,6 +44,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.PlanStatusType;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.jpa.config.ServersJpa;
 import com.ubiqube.etsi.mano.service.event.CommonActionController;
+import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
 import com.ubiqube.etsi.mano.service.rest.FluxRest;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
 import com.ubiqube.etsi.mano.service.rest.model.ServerType;
@@ -111,6 +112,7 @@ class CommonActionControllerTest {
 		final Servers server = Servers.builder()
 				.remoteSubscriptions(Set.of())
 				.version("1.2.3")
+				.subscriptionType(SubscriptionType.VNF)
 				.build();
 		final UUID id = UUID.randomUUID();
 		//
