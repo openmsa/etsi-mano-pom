@@ -51,7 +51,7 @@ public class ArtifactConverter extends BidirectionalConverter<SwImageData, Artif
 		return sw;
 	}
 
-	private static ChecksumData map(final tosca.datatypes.nfv.@NotNull ChecksumData checksum) {
+	private static ChecksumData map(final @NotNull tosca.datatypes.nfv.ChecksumData checksum) {
 		final ChecksumData ck = new ChecksumData();
 		ck.setAlgorithm(checksum.getAlgorithm());
 		ck.setHash(checksum.getHash());
