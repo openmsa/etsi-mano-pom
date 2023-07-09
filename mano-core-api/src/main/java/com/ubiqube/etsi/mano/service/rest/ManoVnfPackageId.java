@@ -24,6 +24,8 @@ import java.util.function.Consumer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.dao.mano.OnboardingStateType;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
@@ -73,6 +75,15 @@ public class ManoVnfPackageId {
 		client.createQuery().upload(path, accept);
 	}
 
+	public void onboard(final Path path, final String accept, final String forceId) {
+		client.setFragment(PACKAGE_CONTENT);
+		final MultiValueMap<String, String> headers = new HttpHeaders();
+		if (null != forceId) {
+			headers.add("x-descriptor-id", forceId);
+		}
+		client.createQuery().upload(path, accept, headers);
+	}
+
 	public VnfPackage waitOnboading() {
 		while (true) {
 			try {
@@ -84,7 +95,7 @@ public class ManoVnfPackageId {
 			final VnfPackage pkg = find();
 			final OnboardingStateType state = pkg.getOnboardingState();
 			LOG.debug("state {}", state);
-			if (state == OnboardingStateType.ONBOARDED || state == OnboardingStateType.ERROR) {
+			if ((state == OnboardingStateType.ONBOARDED) || (state == OnboardingStateType.ERROR)) {
 				return pkg;
 			}
 		}

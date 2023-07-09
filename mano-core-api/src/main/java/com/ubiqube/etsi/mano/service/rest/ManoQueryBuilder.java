@@ -27,7 +27,9 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.service.HttpGateway;
 
@@ -185,11 +187,19 @@ public class ManoQueryBuilder {
 	}
 
 	public void upload(final Path path, final String accept) {
+		final MultiValueMap<String, String> headers = new HttpHeaders();
+		upload(path, accept, headers);
+	}
+
+	public void upload(final Path path, final String accept, final MultiValueMap<String, String> headers) {
 		final ServerAdapter server = client.getServer();
 		final URI uri = buildUri(server);
 		final HttpGateway httpGateway = server.httpGateway();
 		final String version = httpGateway.getHeaderVersion(client.getQueryType()).orElse(null);
-		server.rest().upload(uri, path, accept, version);
+		if (null != version) {
+			headers.add("Version", version);
+		}
+		server.rest().upload(uri, path, accept, headers);
 	}
 
 	public <T> T patch(@Nullable final String ifMatch, final Map<String, Object> patch) {
