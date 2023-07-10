@@ -16,7 +16,7 @@
  */
 @NonNullApi
 @NonNullFields
-package com.ubiqube.etsi.mano.config;
+package com.ubiqube.etsi.mano.service.event.jms.controller;
 
 import org.springframework.lang.NonNullApi;
 import org.springframework.lang.NonNullFields;

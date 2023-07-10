@@ -27,6 +27,7 @@ import org.springframework.jms.listener.DefaultMessageListenerContainer;
 import org.springframework.jms.support.converter.MessageConverter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ubiqube.etsi.mano.service.event.jms.config.ManoArtemisConfiguration;
 
 import jakarta.jms.ConnectionFactory;
 

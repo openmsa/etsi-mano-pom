@@ -28,6 +28,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.jms.core.JmsTemplate;
 
+import com.ubiqube.etsi.mano.service.event.jms.controller.EventController;
+import com.ubiqube.etsi.mano.service.event.jms.controller.EventMessageDto;
 import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 
 @ExtendWith(MockitoExtension.class)
