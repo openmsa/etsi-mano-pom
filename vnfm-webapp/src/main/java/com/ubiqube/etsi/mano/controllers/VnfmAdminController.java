@@ -17,11 +17,14 @@
 package com.ubiqube.etsi.mano.controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,7 +50,6 @@ public class VnfmAdminController {
 	private final EventManager eventManager;
 
 	public VnfmAdminController(final VnfPackageJpa vnfPackageRepositoryJpa, final VnfPackageRepository vnfPackageRepository, final EventManager eventManager) {
-		super();
 		this.vnfPackageRepositoryJpa = vnfPackageRepositoryJpa;
 		this.vnfPackageRepository = vnfPackageRepository;
 		this.eventManager = eventManager;
@@ -57,6 +59,14 @@ public class VnfmAdminController {
 	public ResponseEntity<Void> deleteVnfPackage(@PathVariable("vnfPkgId") final String vnfPkgId) {
 		vnfPackageRepositoryJpa.deleteById(UUID.fromString(vnfPkgId));
 		return ResponseEntity.noContent().build();
+	}
+
+	@GetMapping("/vnf-package")
+	public ResponseEntity<List<VnfPackage>> findAll() {
+		final Iterable<VnfPackage> all = vnfPackageRepositoryJpa.findAll();
+		final List<VnfPackage> ret = new ArrayList<>();
+		all.forEach(ret::add);
+		return ResponseEntity.ok(ret);
 	}
 
 	@PostMapping("/vnf-package/onboard")
