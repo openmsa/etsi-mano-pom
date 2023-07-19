@@ -28,6 +28,7 @@ import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.VnfVl;
 import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
 import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainerDeployableUnit;
+import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.orchestrator.Edge2d;
 import com.ubiqube.etsi.mano.orchestrator.Relation;
 import com.ubiqube.etsi.mano.orchestrator.Vertex2d;
@@ -142,7 +143,8 @@ public class VnfPlanService {
 	}
 
 	private static VnfVl findVl(final Set<VnfVl> vnfVl, final String internalVirtualLink) {
-		return vnfVl.stream().filter(x -> x.getToscaName().equals(internalVirtualLink)).findFirst().orElseThrow();
+		return vnfVl.stream().filter(x -> x.getToscaName().equals(internalVirtualLink)).findFirst()
+				.orElseThrow(() -> new NotFoundException("Unable to find VL: " + internalVirtualLink));
 	}
 
 	private static String find(final Set<OsContainerDeployableUnit> osContainerDeployableUnits, final String name) {
