@@ -60,7 +60,7 @@ public class ColumnEncryptor implements AttributeConverter<String, String> {
 		try (InputStream is = this.getClass().getResourceAsStream("/mano-column-encryption")) {
 			return is.readAllBytes();
 		} catch (final IOException e) {
-			throw new DatabaseException("Unabme to find resource secret files.", e);
+			throw new DatabaseException("Unable to find resource secret files.", e);
 		}
 	}
 
