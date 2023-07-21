@@ -13,6 +13,9 @@
 		<module>mano-super-pom</module>
 		<module>mano-super-webapp</module>
 	</modules>
+	<scm>
+		<developerConnection>scm:git:https://github.com/openmsa/etsi-mano-pom.git</developerConnection>
+	</scm>
 	<distributionManagement>
 		<snapshotRepository>
 			<id>nexus-snapshots</id>
