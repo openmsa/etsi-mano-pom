@@ -9,13 +9,13 @@
 	</parent>
 	<groupId>com.ubiqube.mano</groupId>
 	<artifactId>mano-super-pom</artifactId>
-	<version>3.0.0</version>
+	<version>3.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>mano-super-pom</name>
 	<description>ETSI-MANO super pom</description>
 	<scm>
 		<developerConnection>scm:git:https://github.com/openmsa/etsi-mano-java.git</developerConnection>
-	  <tag>etsi-mano-pom-3.0.0</tag>
+	  <tag>HEAD</tag>
   </scm>
 	<distributionManagement>
 		<snapshotRepository>
