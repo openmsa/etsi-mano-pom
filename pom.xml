@@ -26,12 +26,12 @@
 		<maven.compiler.target>17</maven.compiler.target>
 		<maven.compiler.source>17</maven.compiler.source>
 		<lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
-		<mano-fluxrest.version>3.0.0-SNAPSHOT</mano-fluxrest.version>
+		<mano-fluxrest.version>3.0.0</mano-fluxrest.version>
 		<org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
 		<org.projectlombok.version>1.18.28</org.projectlombok.version>
 		<version.jetty-bom>9.4.49.v20220914</version.jetty-bom>
 		<version.logstash-logback-encoder>7.2</version.logstash-logback-encoder>
 		<version.loki-logback-appender>1.4.0</version.loki-logback-appender>
-		<version.openstack-commons>3.0.0-SNAPSHOT</version.openstack-commons>
+		<version.openstack-commons>3.0.0</version.openstack-commons>
 	</properties>
 </project>
