@@ -19,4 +19,8 @@
 		<module>mano-zabbix-poller</module>
 		<module>mano-gnocchi-poller</module>
 	</modules>
+	<properties>
+		<version.jetty-bom>9.4.49.v20220914</version.jetty-bom>
+		<version.openstack-commons>3.0.0-SNAPSHOT</version.openstack-commons>
+	</properties>
 </project>

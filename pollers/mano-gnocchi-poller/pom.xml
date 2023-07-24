@@ -11,7 +11,7 @@
 			<dependency>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-bom</artifactId>
-				<version>9.4.49.v20220914</version>
+				<version>${version.jetty-bom}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -38,7 +38,7 @@
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>openstack-commons</artifactId>
-			<version>${project.version}</version>
+			<version>${version.openstack-commons}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.openstack4j.core.connectors</groupId>

@@ -4,18 +4,20 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.ubiqube.mano</groupId>
-		<artifactId>mano-super-pom</artifactId>
+		<groupId>com.ubiqube.mano.service.mon</groupId>
+		<artifactId>mano-mon-aggregator</artifactId>
 		<version>3.0.0-SNAPSHOT</version>
-		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ubiqube.mano.service.logm</groupId>
 	<artifactId>mano-logm-aggregator</artifactId>
 	<packaging>pom</packaging>
 	<description>Build document for ETSI-MANO Log management</description>
-
 	<modules>
 		<module>mano-logm-es</module>
 		<module>mano-logm-loki</module>
 	</modules>
+	<properties>
+		<version.logstash-logback-encoder>7.2</version.logstash-logback-encoder>
+		<version.loki-logback-appender>1.4.0</version.loki-logback-appender>
+	</properties>
 </project>
