@@ -61,7 +61,7 @@ import com.ubiqube.etsi.mano.service.mon.poller.snmp.SnmpPoller;
 
 /**
  *
- * @author Olivier Vignaud <ovi@ubiqube.com>
+ * @author Olivier Vignaud {@literal <ovi@ubiqube.com>}
  *
  */
 @ExtendWith(MockitoExtension.class)

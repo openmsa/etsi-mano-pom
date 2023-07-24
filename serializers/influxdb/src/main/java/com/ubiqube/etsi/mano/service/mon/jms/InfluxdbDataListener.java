@@ -33,7 +33,7 @@ import com.ubiqube.etsi.mano.service.mon.data.JmsMetricHolder;
 
 /**
  *
- * @author Olivier Vignaud <ovi@ubiqube.com>
+ * @author Olivier Vignaud {@literal <ovi@ubiqube.com>}
  *
  */
 @Service

@@ -35,7 +35,7 @@ import com.ubiqube.etsi.mano.service.mon.repository.MonPmJobJpa;
 
 /**
  *
- * @author Olivier Vignaud <ovi@ubiqube.com>
+ * @author Olivier Vignaud {@literal <ovi@ubiqube.com>}
  *
  */
 @Component

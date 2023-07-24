@@ -31,7 +31,7 @@ import jakarta.jms.ConnectionFactory;
 
 /**
  *
- * @author Olivier Vignaud <ovi@ubiqube.com>
+ * @author Olivier Vignaud {@literal <ovi@ubiqube.com>}
  *
  */
 @Configuration

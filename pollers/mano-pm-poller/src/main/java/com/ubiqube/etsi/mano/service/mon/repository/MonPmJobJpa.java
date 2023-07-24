@@ -24,7 +24,7 @@ import com.ubiqube.etsi.mano.dao.mano.pm.PmJob;
 
 /**
  *
- * @author Olivier Vignaud <ovi@ubiqube.com>
+ * @author Olivier Vignaud {@literal <ovi@ubiqube.com>}
  *
  */
 public interface MonPmJobJpa extends CrudRepository<PmJob, UUID> {

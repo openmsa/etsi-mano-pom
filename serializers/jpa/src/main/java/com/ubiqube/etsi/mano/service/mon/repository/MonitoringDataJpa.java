@@ -27,7 +27,7 @@ import com.ubiqube.etsi.mano.service.mon.model.MonitoringData;
 
 /**
  *
- * @author Olivier Vignaud <ovi@ubiqube.com>
+ * @author Olivier Vignaud {@literal <ovi@ubiqube.com>}
  *
  */
 public interface MonitoringDataJpa extends CrudRepository<MonitoringData, OffsetDateTime> {
