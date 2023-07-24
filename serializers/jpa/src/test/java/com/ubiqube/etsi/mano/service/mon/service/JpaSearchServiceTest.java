@@ -98,6 +98,7 @@ class JpaSearchServiceTest {
 		when(cq.from(MonitoringData.class)).thenReturn(root);
 		when(em.createQuery(cq)).thenReturn(tq);
 		final MonitoringData res = new MonitoringData();
+		res.setMasterJobId("Hello");
 		when(tq.getResultList()).thenReturn(List.of(res));
 		srv.search(param);
 		assertTrue(true);

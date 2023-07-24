@@ -42,6 +42,7 @@ class MonApiImplTest {
 	void testRegister() {
 		final MonApiImpl api = new MonApiImpl(pollingJobRepo, connRepo);
 		final PollingJob pj = new PollingJob();
+		pj.setResourceId("r");
 		final ConnInfo connInfo = new ConnInfo();
 		pj.setConnection(connInfo);
 		api.register(pj);
@@ -54,6 +55,7 @@ class MonApiImplTest {
 		final PollingJob pj = new PollingJob();
 		final ConnInfo connInfo = new ConnInfo();
 		pj.setConnection(connInfo);
+		pj.setResourceId("r");
 		final MonConnInformation monConn = new MonConnInformation();
 		when(connRepo.findByConnId(any())).thenReturn(Optional.of(monConn));
 		api.register(pj);
