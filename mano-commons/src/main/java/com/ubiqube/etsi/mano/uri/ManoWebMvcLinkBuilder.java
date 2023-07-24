@@ -12,7 +12,7 @@
  *     GNU General Public License for more details.
  *
  *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *     along with this program.  If not, see https://www.gnu.org/licenses/.
  */
 package com.ubiqube.etsi.mano.uri;
 
@@ -82,7 +82,7 @@ public class ManoWebMvcLinkBuilder extends TemplateVariableAwareLinkBuilderSuppo
 	 * @param controller must not be {@literal null}.
 	 * @param parameters parameters to extend template variables in the type level
 	 *                   mapping.
-	 * @return
+	 * @return The object.
 	 */
 	public static <T> T methodOn(final Class<T> controller, final Object... parameters) {
 		return DummyInvocationUtils.methodOn(controller, parameters);
@@ -94,7 +94,7 @@ public class ManoWebMvcLinkBuilder extends TemplateVariableAwareLinkBuilderSuppo
 	 *
 	 * @param controller the class to discover the annotation on, must not be
 	 *                   {@literal null}.
-	 * @return
+	 * @return Mano Mvc Link.
 	 */
 	public static ManoWebMvcLinkBuilder linkTo(final Class<?> controller) {
 		return linkTo(controller, new Object[0]);
@@ -110,7 +110,7 @@ public class ManoWebMvcLinkBuilder extends TemplateVariableAwareLinkBuilderSuppo
 	 *                   {@literal null}.
 	 * @param parameters additional parameters to bind to the URI template declared
 	 *                   in the annotation, must not be {@literal null}.
-	 * @return
+	 * @return Mano MVC Link.
 	 */
 	public static ManoWebMvcLinkBuilder linkTo(final Class<?> controller, final Object... parameters) {
 
@@ -142,7 +142,7 @@ public class ManoWebMvcLinkBuilder extends TemplateVariableAwareLinkBuilderSuppo
 	 *                   {@literal null}.
 	 * @param parameters additional parameters to bind to the URI template declared
 	 *                   in the annotation, must not be {@literal null}.
-	 * @return
+	 * @return Mano MVC link.
 	 */
 	public static ManoWebMvcLinkBuilder linkTo(final Class<?> controller, final Map<String, ?> parameters) {
 
@@ -234,7 +234,7 @@ public class ManoWebMvcLinkBuilder extends TemplateVariableAwareLinkBuilderSuppo
 	 * {@link DummyInvocationUtils#methodOn(Class, Object...)}.
 	 *
 	 * @param invocationValue
-	 * @return
+	 * @return Mano MVC Link.
 	 */
 	public static ManoWebMvcLinkBuilder linkTo(final Object invocationValue) {
 		return FACTORY.linkTo(invocationValue);

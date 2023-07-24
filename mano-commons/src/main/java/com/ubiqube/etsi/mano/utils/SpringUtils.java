@@ -12,7 +12,7 @@
  *     GNU General Public License for more details.
  *
  *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *     along with this program.  If not, see https://www.gnu.org/licenses/.
  */
 package com.ubiqube.etsi.mano.utils;
 
@@ -30,9 +30,10 @@ public final class SpringUtils {
 	/**
 	 * Should be removed. Should match {*attr}
 	 *
-	 * @see https://www.baeldung.com/spring-5-mvc-url-matching
+	 * See https://www.baeldung.com/spring-5-mvc-url-matching
+	 *
 	 * @param request
-	 * @return
+	 * @return The URL part.
 	 */
 	public static String extractParams(final ServletRequest request) {
 		final String path = (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);

@@ -12,7 +12,7 @@
  *     GNU General Public License for more details.
  *
  *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *     along with this program.  If not, see https://www.gnu.org/licenses/.
  */
 package com.ubiqube.etsi.mano.uri;
 
@@ -48,7 +48,7 @@ public class ManoUriComponentsBuilder {
 	 * {@code X-Forwarded-Ssl} header. If no {@link RequestContextHolder} exists
 	 * (you're outside a Spring Web call), fall back to relative URIs.
 	 *
-	 * @return
+	 * @return The uri component.
 	 */
 	public static UriComponentsBuilder getBuilder() {
 
