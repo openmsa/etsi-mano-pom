@@ -41,7 +41,7 @@ public class JsonToExpression {
 	 * simple assignement.
 	 *
 	 * @param actualObj
-	 * @return
+	 * @return A list.
 	 */
 	public static List<BooleanExpression> parseCondition(final JsonNode actualObj) {
 		if (actualObj.isArray()) {
