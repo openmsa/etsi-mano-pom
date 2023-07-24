@@ -16,8 +16,4 @@
 		<module>mano-logm-es</module>
 		<module>mano-logm-loki</module>
 	</modules>
-	<properties>
-		<version.logstash-logback-encoder>7.2</version.logstash-logback-encoder>
-		<version.loki-logback-appender>1.4.0</version.loki-logback-appender>
-	</properties>
 </project>
