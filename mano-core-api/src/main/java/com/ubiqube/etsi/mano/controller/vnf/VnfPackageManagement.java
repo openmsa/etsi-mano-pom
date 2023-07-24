@@ -12,7 +12,7 @@
  *     GNU General Public License for more details.
  *
  *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *     along with this program.  If not, see https://www.gnu.org/licenses/.
  */
 package com.ubiqube.etsi.mano.controller.vnf;
 
@@ -21,15 +21,14 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-import jakarta.annotation.Nonnull;
-import jakarta.validation.Valid;
-
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.repository.ManoResource;
+
+import jakarta.validation.Valid;
 
 public interface VnfPackageManagement {
 	/**
@@ -40,7 +39,7 @@ public interface VnfPackageManagement {
 	 * @param u        The json class.
 	 * @return A Json instance.
 	 */
-	<U> U vnfPackagesVnfPkgIdGet(@Nonnull UUID vnfPkgId, Class<U> u);
+	<U> U vnfPackagesVnfPkgIdGet(UUID vnfPkgId, Class<U> u);
 
 	/**
 	 * Only for write.
@@ -56,32 +55,31 @@ public interface VnfPackageManagement {
 	 *
 	 * @param vnfPkgId
 	 * @param artifactPath
-	 * @param rangeHeader
-	 * @return
+	 * @return A resource.
 	 */
-	ResponseEntity<Resource> vnfPackagesVnfPkgIdArtifactsArtifactPathGet(@Nonnull UUID vnfPkgId, @Nonnull String artifactPath);
+	ResponseEntity<Resource> vnfPackagesVnfPkgIdArtifactsArtifactPathGet(UUID vnfPkgId, String artifactPath);
 
-	ManoResource vnfPackagesVnfPkgIdVnfdGet(@Nonnull UUID vnfPkgId, String contentType, boolean includeSignature);
+	ManoResource vnfPackagesVnfPkgIdVnfdGet(UUID vnfPkgId, String contentType, boolean includeSignature);
 
-	ResponseEntity<Resource> vnfPackagesVnfPkgIdPackageContentGet(@Nonnull UUID vnfPkgId);
+	ResponseEntity<Resource> vnfPackagesVnfPkgIdPackageContentGet(UUID vnfPkgId);
 
-	ManoResource getPackageManifest(@Nonnull UUID vnfPkgId, @Nonnull String includeSignatures);
+	ManoResource getPackageManifest(UUID vnfPkgId, String includeSignatures);
 
-	ManoResource onboardedVnfPackagesVnfdIdManifestGet(@Nonnull UUID vnfdId, @Nonnull String includeSignatures);
+	ManoResource onboardedVnfPackagesVnfdIdManifestGet(UUID vnfdId, String includeSignatures);
 
-	ResponseEntity<Resource> onboardedVnfPackagesVnfdIdPackageContentGet(@Nonnull UUID vnfdId);
+	ResponseEntity<Resource> onboardedVnfPackagesVnfdIdPackageContentGet(UUID vnfdId);
 
-	ManoResource onboardedVnfPackagesVnfdIdVnfdGet(@Nonnull UUID vnfdId, String contentType, @Nonnull String includeSignatures);
+	ManoResource onboardedVnfPackagesVnfdIdVnfdGet(UUID vnfdId, String contentType, String includeSignatures);
 
-	<U> U onboardedVnfPackagesVnfdIdGet(@Nonnull UUID vnfdId, Class<U> clazz);
+	<U> U onboardedVnfPackagesVnfdIdGet(UUID vnfdId, Class<U> clazz);
 
 	<U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, Class<U> clazz, String excludeDefaults, Set<String> mandatoryFields, Consumer<U> makeLink);
 
-	ManoResource onboardedGetManifestByVnfd(@Nonnull UUID vnfdId, @Valid @Nonnull String includeSignature);
+	ManoResource onboardedGetManifestByVnfd(UUID vnfdId, @Valid String includeSignature);
 
-	ResponseEntity<Resource> onboardedVnfPackagesVnfdIdArtifactsGet(@Nonnull UUID vnfdId, final @Nonnull String artifactPath);
+	ResponseEntity<Resource> onboardedVnfPackagesVnfdIdArtifactsGet(UUID vnfdId, final String artifactPath);
 
-	<U> U vnfPackagesVnfPkgVnfdIdGet(@Nonnull UUID vnfPkgId, Class<U> clazz);
+	<U> U vnfPackagesVnfPkgVnfdIdGet(UUID vnfPkgId, Class<U> clazz);
 
 	<U> ResponseEntity<String> searchOnboarded(MultiValueMap<String, String> requestParams, Class<U> clazz, String excludeDefaults, Set<String> mandatoryFields, Consumer<U> makeLinks);
 

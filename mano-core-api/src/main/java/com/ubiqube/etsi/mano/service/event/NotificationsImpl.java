@@ -12,7 +12,7 @@
  *     GNU General Public License for more details.
  *
  *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *     along with this program.  If not, see https://www.gnu.org/licenses/.
  */
 package com.ubiqube.etsi.mano.service.event;
 
@@ -50,9 +50,9 @@ public class NotificationsImpl implements Notifications {
 	/**
 	 * Send a notification Object to the _uri
 	 *
-	 * @param obj  The JSON Onject.
-	 * @param uri  The complete URL.
-	 * @param auth Auth parameters.
+	 * @param obj    The JSON Onject.
+	 * @param uri    The complete URL.
+	 * @param server A Servers object.
 	 */
 	@Override
 	public void doNotification(final Object obj, final String uri, final ServerAdapter server) {

@@ -11,17 +11,34 @@
 	</parent>
 	<artifactId>mano-core-api</artifactId>
 	<name>mano-core-api</name>
-	<description>Demo project for Spring Boot</description>
+	<description>ETSI MANO Core API for NFV</description>
 
 	<properties>
 		<m2e.apt.activation>jdt_apt</m2e.apt.activation>
+		<version.jetty-bom>9.4.49.v20220914</version.jetty-bom>
+		<version.mano-commons>3.0.0-SNAPSHOT</version.mano-commons>
+		<version.mano-vim-api>3.0.0-SNAPSHOT</version.mano-vim-api>
+		<version.mano-pkg-api>3.0.0-SNAPSHOT</version.mano-pkg-api>
+		<version.mano-fluxrest>3.0.0-SNAPSHOT</version.mano-fluxrest>
+		<version.mano-orika>3.0.0-SNAPSHOT</version.mano-orika>
+		<version.mano-condition>3.0.0-SNAPSHOT</version.mano-condition>
+		<version.mano-grammar-api>3.0.0-SNAPSHOT</version.mano-grammar-api>
+		<version.auth-api>3.0.0-SNAPSHOT</version.auth-api>
+		<version.mano-repo-api>3.0.0-SNAPSHOT</version.mano-repo-api>
+		<version.event-api>3.0.0-SNAPSHOT</version.event-api>
+		<version.mano-docker-api>3.0.0-SNAPSHOT</version.mano-docker-api>
+		<version.nfv-front-controller>3.0.0-SNAPSHOT</version.nfv-front-controller>
+		<version.mano-mon-webapp-client>3.0.0-SNAPSHOT</version.mano-mon-webapp-client>
+		<version.alarm-client>3.0.0-SNAPSHOT</version.alarm-client>
+		<version.mano-grammar-v1>3.0.0-SNAPSHOT</version.mano-grammar-v1>
+		<version.mano-vim-dummy>3.0.0-SNAPSHOT</version.mano-vim-dummy>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-bom</artifactId>
-				<version>9.4.49.v20220914</version>
+				<version>${version.jetty-bom}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -55,17 +72,17 @@
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-commons</artifactId>
-			<version>${project.version}</version>
+			<version>${version.mano-commons}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-vim-api</artifactId>
-			<version>${project.version}</version>
+			<version>${version.mano-vim-api}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-pkg-api</artifactId>
-			<version>${project.version}</version>
+			<version>${version.mano-pkg-api}</version>
 		</dependency>
 		<dependency>
 			<groupId>ma.glasnost.orika</groupId>
@@ -170,42 +187,42 @@
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-fluxrest</artifactId>
-			<version>${project.version}</version>
+			<version>${version.mano-fluxrest}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-orika</artifactId>
-			<version>${project.version}</version>
+			<version>${version.mano-orika}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-condition</artifactId>
-			<version>${project.version}</version>
+			<version>${version.mano-condition}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-grammar-api</artifactId>
-			<version>${project.version}</version>
+			<version>${version.mano-grammar-api}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano.auth</groupId>
 			<artifactId>auth-api</artifactId>
-			<version>${project.version}</version>
+			<version>${version.auth-api}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano.repository</groupId>
 			<artifactId>mano-repo-api</artifactId>
-			<version>${project.version}</version>
+			<version>${version.mano-repo-api}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano.event</groupId>
 			<artifactId>event-api</artifactId>
-			<version>${project.version}</version>
+			<version>${version.event-api}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-docker-api</artifactId>
-			<version>${project.version}</version>
+			<version>${version.mano-docker-api}</version>
 		</dependency>
 		<dependency>
 			<groupId>net.bytebuddy</groupId>
@@ -222,17 +239,17 @@
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>nfv-front-controller</artifactId>
-			<version>${project.version}</version>
+			<version>${version.nfv-front-controller}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano.service.mon</groupId>
 			<artifactId>mano-mon-webapp-client</artifactId>
-			<version>${project.version}</version>
+			<version>${version.mano-mon-webapp-client}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>alarm-client</artifactId>
-			<version>${project.version}</version>
+			<version>${version.alarm-client}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.micrometer</groupId>
@@ -294,7 +311,7 @@
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-grammar-v1</artifactId>
-			<version>${project.version}</version>
+			<version>${version.mano-grammar-v1}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -311,7 +328,7 @@
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-vim-dummy</artifactId>
-			<version>${project.version}</version>
+			<version>${version.mano-vim-dummy}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -335,12 +352,12 @@
 						<annotationProcessorPath>
 							<groupId>org.springframework.boot</groupId>
 							<artifactId>spring-boot-configuration-processor</artifactId>
-							<version>3.0.2</version>
+							<version>3.1.2</version>
 						</annotationProcessorPath>
 						<path>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
-							<version>1.18.16</version>
+							<version>${lombok.version}</version>
 						</path>
 					</annotationProcessorPaths>
 				</configuration>

@@ -12,7 +12,7 @@
  *     GNU General Public License for more details.
  *
  *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *     along with this program.  If not, see https://www.gnu.org/licenses/.
  */
 package com.ubiqube.etsi.mano.grammar;
 
@@ -32,7 +32,7 @@ import jakarta.annotation.Nullable;
 
 /**
  *
- * @author Olivier Vignaud <ovi@ubiqube.com>
+ * @author Olivier Vignaud {@literal <ovi@ubiqube.com>}
  *
  */
 @Service
@@ -48,9 +48,9 @@ public class JsonFilter {
 
 	/**
 	 *
-	 * @param _object     An arbitraru not null object.
-	 * @param _astBuilder An AST Builder.
-	 * @return
+	 * @param object An arbitraru not null object.
+	 * @param node   An AST Node.
+	 * @return True or false.
 	 */
 	public boolean apply(final Object object, final List<Node<String>> node) {
 		final Node<String> selectedNode = node.stream()

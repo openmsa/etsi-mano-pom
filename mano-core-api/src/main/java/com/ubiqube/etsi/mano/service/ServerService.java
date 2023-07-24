@@ -12,7 +12,7 @@
  *     GNU General Public License for more details.
  *
  *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *     along with this program.  If not, see https://www.gnu.org/licenses/.
  */
 package com.ubiqube.etsi.mano.service;
 
@@ -49,7 +49,7 @@ import jakarta.transaction.Transactional;
 
 /**
  *
- * @author Olivier Vignaud <ovi@ubiqube.com>
+ * @author Olivier Vignaud {@literal <ovi@ubiqube.com>}
  *
  */
 @Service
@@ -83,7 +83,7 @@ public class ServerService {
 	 * Cannot be transactional because of CLOG field on servers.tlsCert.
 	 *
 	 * @param servers
-	 * @return
+	 * @return A Servers object.
 	 */
 	public Servers createServer(final Servers servers) {
 		servers.setServerStatus(PlanStatusType.NOT_STARTED);

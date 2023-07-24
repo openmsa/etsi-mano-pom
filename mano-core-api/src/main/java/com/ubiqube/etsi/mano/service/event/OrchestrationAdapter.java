@@ -12,7 +12,7 @@
  *     GNU General Public License for more details.
  *
  *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *     along with this program.  If not, see https://www.gnu.org/licenses/.
  */
 package com.ubiqube.etsi.mano.service.event;
 
@@ -44,7 +44,7 @@ public interface OrchestrationAdapter<B extends VimTask, V extends Instance> {
 	 * Parameterized type pose some problem on this function.
 	 *
 	 * @param blueprint
-	 * @return
+	 * @return A blueprint.
 	 */
 	Blueprint<B, V> save(Blueprint blueprint);
 
