@@ -24,7 +24,7 @@ import de.codecentric.boot.admin.server.config.EnableAdminServer;
 
 /**
  *
- * @author Olivier Vignaud <ovi@ubiqube.com>
+ * @author Olivier Vignaud {@literal <ovi@ubiqube.com>}
  *
  */
 @EnableEurekaServer
