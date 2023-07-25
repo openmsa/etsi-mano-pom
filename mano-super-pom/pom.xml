@@ -41,6 +41,7 @@
 		<com.ubiqube.dexecutor-core.version>2.1.4</com.ubiqube.dexecutor-core.version>
 		<com.ubiqube.elasticsearch.version>8.6.2</com.ubiqube.elasticsearch.version>
 		<com.ubiqube.equalsverifier.version>3.15</com.ubiqube.equalsverifier.version>
+		<com.ubiqube.expressly.version>5.0.0</com.ubiqube.expressly.version>
 		<com.ubiqube.guava.version>32.0.1-jre</com.ubiqube.guava.version>
 		<com.ubiqube.hibernate-search6.version>6.2.0.Final</com.ubiqube.hibernate-search6.version>
 		<com.ubiqube.jgrapht.version>1.5.2</com.ubiqube.jgrapht.version>
@@ -50,7 +51,8 @@
 		<com.ubiqube.orika.version>1.5.7</com.ubiqube.orika.version>
 		<com.ubiqube.orika-spring-boot-starter.version>3.0.3</com.ubiqube.orika-spring-boot-starter.version>
 		<com.ubiqube.podam.version>7.2.11.RELEASE</com.ubiqube.podam.version>
-		<com.ubiqube.spring-boot-admin-starter-client.version>3.1.2</com.ubiqube.spring-boot-admin-starter-client.version>
+		<com.ubiqube.spring-boot-admin-starter-client.version>3.1.3</com.ubiqube.spring-boot-admin-starter-client.version>
+		<com.ubiqube.spring-cloud-dependencies.version>2022.0.3</com.ubiqube.spring-cloud-dependencies.version>
 		<com.ubiqube.springdoc.version>2.1.0</com.ubiqube.springdoc.version>
 		<com.ubiqube.swagger3.version>2.2.15</com.ubiqube.swagger3.version>
 		<com.ubiqube.reflections.version>0.10.2</com.ubiqube.reflections.version>
@@ -59,6 +61,16 @@
 	</properties>
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>de.codecentric</groupId>
+				<artifactId>spring-boot-admin-server-ui</artifactId>
+				<version>${com.ubiqube.spring-boot-admin-starter-client.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.glassfish.expressly</groupId>
+				<artifactId>expressly</artifactId>
+				<version>${com.ubiqube.expressly.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>org.hibernate.search</groupId>
 				<artifactId>hibernate-search-mapper-orm-orm6</artifactId>
@@ -217,6 +229,11 @@
 				<version>${com.ubiqube.spring-boot-admin-starter-client.version}</version>
 			</dependency>
 			<dependency>
+				<groupId>de.codecentric</groupId>
+				<artifactId>spring-boot-admin-starter-server</artifactId>
+				<version>${com.ubiqube.spring-boot-admin-starter-client.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>org.bouncycastle</groupId>
 				<artifactId>bcpkix-jdk18on</artifactId>
 				<version>${com.ubiqube.bcpkix-jdk18on.version}</version>
@@ -276,7 +293,6 @@
 					</execution>
 				</executions>
 			</plugin>
-<!--
 			<plugin>
 				<groupId>io.github.git-commit-id</groupId>
 				<artifactId>git-commit-id-maven-plugin</artifactId>
@@ -294,7 +310,6 @@
 					</execution>
 				</executions>
 			</plugin>
--->
 			<plugin>
 				<groupId>com.mycila.maven-license-plugin</groupId>
 				<artifactId>maven-license-plugin</artifactId>
@@ -306,7 +321,7 @@
 							${project.name}
 						</project>
 						<founder>Ubiqube</founder>
-						<year>2019-2020</year>
+						<year>2019-2023</year>
 						<website>http://www.ubiqube.com/</website>
 					</properties>
 					<includes>
@@ -393,7 +408,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
-					<version>3.0.0</version>
+					<version>3.1.2</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
