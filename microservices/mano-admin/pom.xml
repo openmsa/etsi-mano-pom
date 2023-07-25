@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.ubiqube.mano</groupId>
 		<artifactId>mano-super-pom</artifactId>
-		<version>3.0.0-SNAPSHOT</version>
+		<version>3.0.0</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ubiqube.mano.webapp</groupId>
@@ -24,9 +24,6 @@
 			<url>http://nexus.ubiqube.com/repository/maven-releases/</url>
 		</repository>
 	</distributionManagement>
-	<properties>
-		<version.spring-boot-admin>3.0.0</version.spring-boot-admin>
-	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -43,12 +40,12 @@
 		<dependency>
 			<groupId>de.codecentric</groupId>
 			<artifactId>spring-boot-admin-starter-server</artifactId>
-			<version>${version.spring-boot-admin}</version>
+			<version>${com.ubiqube.spring-boot-admin-starter-client.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>de.codecentric</groupId>
 			<artifactId>spring-boot-admin-server-ui</artifactId>
-			<version>${version.spring-boot-admin}</version>
+			<version>${com.ubiqube.spring-boot-admin-starter-client.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>de.codecentric</groupId>
@@ -64,6 +61,11 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<jvmArguments>
+						-agentlib:native-image-agent=config-output-dir=target/native-image
+					</jvmArguments>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -73,23 +75,6 @@
 						<id>attach-sources</id>
 						<goals>
 							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>io.github.git-commit-id</groupId>
-				<artifactId>git-commit-id-maven-plugin</artifactId>
-				<configuration>
-					<generateGitPropertiesFile>true</generateGitPropertiesFile>
-					<generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
-					<verbose>true</verbose>
-					<commitIdGenerationMode>full</commitIdGenerationMode>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>revision</goal>
 						</goals>
 					</execution>
 				</executions>
