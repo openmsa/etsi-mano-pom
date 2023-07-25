@@ -12,6 +12,16 @@
 	<artifactId>vnfm-core</artifactId>
 	<name>vnfm-core</name>
 	<description>Demo project for Spring Boot</description>
+	<properties>
+		<version.mano-commons>3.0.0</version.mano-commons>
+		<version.mano-vim-api>3.0.0</version.mano-vim-api>
+		<version.mano-core-api>3.0.0</version.mano-core-api>
+		<version.orchestration-api>3.0.0</version.orchestration-api>
+		<version.vnfm-front-controller>3.0.0</version.vnfm-front-controller>
+		<version.helm3-api>0.0.2</version.helm3-api>
+		<version.em-client>3.0.0</version.em-client>
+		<version.mano-vim-dummy>3.0.0</version.mano-vim-dummy>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -48,26 +58,21 @@
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-commons</artifactId>
-			<version>${project.version}</version>
+			<version>${version.mano-commons}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-vim-api</artifactId>
-			<version>${project.version}</version>
+			<version>${version.mano-vim-api}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.groovy</groupId>
 			<artifactId>groovy</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-configuration-processor</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-core-api</artifactId>
-			<version>${project.version}</version>
+			<version>${version.mano-core-api}</version>
 		</dependency>
 		<dependency>
 			<groupId>ma.glasnost.orika</groupId>
@@ -145,17 +150,22 @@
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>orchestration-api</artifactId>
-			<version>3.0.0-SNAPSHOT</version>
+			<version>${version.orchestration-api}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>vnfm-front-controller</artifactId>
-			<version>${project.version}</version>
+			<version>${version.vnfm-front-controller}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano.helm3</groupId>
 			<artifactId>helm3-api</artifactId>
-			<version>0.0.2</version>
+			<version>${version.helm3-api}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ubiqube.mano</groupId>
+			<artifactId>em-client</artifactId>
+			<version>${version.em-client}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.tngtech.archunit</groupId>
@@ -164,19 +174,19 @@
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
-			<artifactId>em-client</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-vim-dummy</artifactId>
-			<version>${project.version}</version>
+			<version>${version.mano-vim-dummy}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>nl.jqno.equalsverifier</groupId>
 			<artifactId>equalsverifier</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
 		</dependency>
 	</dependencies>
 </project>
