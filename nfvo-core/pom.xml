@@ -10,6 +10,19 @@
 	<artifactId>nfvo-core</artifactId>
 	<name>nfvo-core</name>
 	<description>Demo project for Spring Boot</description>
+	<properties>
+		<version.mano-commons>3.0.0-SNAPSHOT</version.mano-commons>
+		<version.mano-pkg-api>3.0.0-SNAPSHOT</version.mano-pkg-api>
+		<version.mano-vim-api>3.0.0-SNAPSHOT</version.mano-vim-api>
+		<version.mano-core-api>3.0.0-SNAPSHOT</version.mano-core-api>
+		<version.orchestration-api>3.0.0-SNAPSHOT</version.orchestration-api>
+		<version.nfvo-front-controller>3.0.0-SNAPSHOT</version.nfvo-front-controller>
+		<version.mano-vim-contrail>3.0.0-SNAPSHOT</version.mano-vim-contrail>
+		<version.mano-docker-jib>3.0.0-SNAPSHOT</version.mano-docker-jib>
+		<version.mano-condition>3.0.0-SNAPSHOT</version.mano-condition>
+		<version.orchestration-core>3.0.0-SNAPSHOT</version.orchestration-core>
+		<version.mano-vim-dummy>3.0.0-SNAPSHOT</version.mano-vim-dummy>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -46,17 +59,17 @@
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-commons</artifactId>
-			<version>${project.version}</version>
+			<version>${version.mano-commons}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-pkg-api</artifactId>
-			<version>${project.version}</version>
+			<version>${version.mano-pkg-api}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-vim-api</artifactId>
-			<version>${project.version}</version>
+			<version>${version.mano-vim-api}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -66,7 +79,7 @@
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-core-api</artifactId>
-			<version>${project.version}</version>
+			<version>${version.mano-core-api}</version>
 		</dependency>
 		<dependency>
 			<groupId>ma.glasnost.orika</groupId>
@@ -129,12 +142,12 @@
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>orchestration-api</artifactId>
-			<version>3.0.0-SNAPSHOT</version>
+			<version>${version.orchestration-api}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>nfvo-front-controller</artifactId>
-			<version>${project.version}</version>
+			<version>${version.nfvo-front-controller}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -159,7 +172,21 @@
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-vim-contrail</artifactId>
-			<version>${project.version}</version>
+			<version>${version.mano-vim-contrail}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jgrapht</groupId>
+			<artifactId>jgrapht-ext</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.ubiqube.mano</groupId>
+			<artifactId>mano-docker-jib</artifactId>
+			<version>${version.mano-docker-jib}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ubiqube.mano</groupId>
+			<artifactId>mano-condition</artifactId>
+			<version>${version.mano-condition}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.tngtech.archunit</groupId>
@@ -172,29 +199,15 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.jgrapht</groupId>
-			<artifactId>jgrapht-ext</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.ubiqube.mano</groupId>
-			<artifactId>mano-docker-jib</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.ubiqube.mano</groupId>
-			<artifactId>mano-condition</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>orchestration-core</artifactId>
-			<version>${project.version}</version>
+			<version>${version.orchestration-core}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-vim-dummy</artifactId>
-			<version>${project.version}</version>
+			<version>${version.mano-vim-dummy}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
