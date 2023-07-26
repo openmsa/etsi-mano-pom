@@ -13,6 +13,17 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<spring-cloud.version>2022.0.2</spring-cloud.version>
+		<version.nfvo-core>3.0.0-SNAPSHOT</version.nfvo-core>
+		<version.etsi-protocols>3.0.0-SNAPSHOT</version.etsi-protocols>
+		<version.orchestration-core>3.0.0-SNAPSHOT</version.orchestration-core>
+		<version.auth-keycloak>3.0.0-SNAPSHOT</version.auth-keycloak>
+		<version.mano-vim-openstack>3.0.0-SNAPSHOT</version.mano-vim-openstack>
+		<version.mano-pkg-tosca>3.0.0-SNAPSHOT</version.mano-pkg-tosca>
+		<version.ubi-spring-config>3.0.0-SNAPSHOT</version.ubi-spring-config>
+		<version.mano-grammar25>3.0.0-SNAPSHOT</version.mano-grammar25>
+		<version.mano-repo-fs>3.0.0-SNAPSHOT</version.mano-repo-fs>
+		<version.event-jms>3.0.0-SNAPSHOT</version.event-jms>
+		<version.mano-docker-jib>3.0.0-SNAPSHOT</version.mano-docker-jib>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -101,72 +112,72 @@
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>nfvo-core</artifactId>
-			<version>${project.version}</version>
+			<version>${version.nfvo-core}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>etsi-nfvo-261-controllers</artifactId>
-			<version>${project.version}</version>
+			<version>${version.etsi-protocols}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>etsi-nfvo-271-controllers</artifactId>
-			<version>${project.version}</version>
+			<version>${version.etsi-protocols}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>etsi-nfvo-281-controllers</artifactId>
-			<version>${project.version}</version>
+			<version>${version.etsi-protocols}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>etsi-nfvo-331-controllers</artifactId>
-			<version>${project.version}</version>
+			<version>${version.etsi-protocols}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>etsi-nfvo-351-controllers</artifactId>
-			<version>${project.version}</version>
+			<version>${version.etsi-protocols}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>etsi-nfvo-361-controllers</artifactId>
-			<version>${project.version}</version>
+			<version>${version.etsi-protocols}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>etsi-nfvo-431-controllers</artifactId>
-			<version>${project.version}</version>
+			<version>${version.etsi-protocols}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>etsi-sol012-341</artifactId>
-			<version>${project.version}</version>
+			<version>${version.etsi-protocols}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>orchestration-core</artifactId>
-			<version>3.0.0-SNAPSHOT</version>
+			<version>${version.orchestration-core}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano.auth</groupId>
 			<artifactId>auth-keycloak</artifactId>
-			<version>${project.version}</version>
+			<version>${version.auth-keycloak}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-vim-openstack</artifactId>
-			<version>${project.version}</version>
+			<version>${version.mano-vim-openstack}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-pkg-tosca</artifactId>
-			<version>${project.version}</version>
+			<version>${version.mano-pkg-tosca}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>ubi-spring-config</artifactId>
-			<version>${project.version}</version>
+			<version>${version.ubi-spring-config}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -191,22 +202,22 @@
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-grammar25</artifactId>
-			<version>${project.version}</version>
+			<version>${version.mano-grammar25}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano.repository</groupId>
 			<artifactId>mano-repo-fs</artifactId>
-			<version>${project.version}</version>
+			<version>${version.mano-repo-fs}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano.event</groupId>
 			<artifactId>event-jms</artifactId>
-			<version>${project.version}</version>
+			<version>${version.event-jms}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-docker-jib</artifactId>
-			<version>${project.version}</version>
+			<version>${version.event-jms}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate.validator</groupId>
