@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.ubiqube.mano</groupId>
 		<artifactId>mano-super-pom</artifactId>
-		<version>3.0.0-SNAPSHOT</version>
+		<version>3.0.0</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<artifactId>mano-core-api</artifactId>
@@ -16,22 +16,22 @@
 	<properties>
 		<m2e.apt.activation>jdt_apt</m2e.apt.activation>
 		<version.jetty-bom>9.4.49.v20220914</version.jetty-bom>
-		<version.mano-commons>3.0.0-SNAPSHOT</version.mano-commons>
-		<version.mano-vim-api>3.0.0-SNAPSHOT</version.mano-vim-api>
-		<version.mano-pkg-api>3.0.0-SNAPSHOT</version.mano-pkg-api>
-		<version.mano-fluxrest>3.0.0-SNAPSHOT</version.mano-fluxrest>
-		<version.mano-orika>3.0.0-SNAPSHOT</version.mano-orika>
-		<version.mano-condition>3.0.0-SNAPSHOT</version.mano-condition>
-		<version.mano-grammar-api>3.0.0-SNAPSHOT</version.mano-grammar-api>
-		<version.auth-api>3.0.0-SNAPSHOT</version.auth-api>
-		<version.mano-repo-api>3.0.0-SNAPSHOT</version.mano-repo-api>
-		<version.event-api>3.0.0-SNAPSHOT</version.event-api>
-		<version.mano-docker-api>3.0.0-SNAPSHOT</version.mano-docker-api>
-		<version.nfv-front-controller>3.0.0-SNAPSHOT</version.nfv-front-controller>
-		<version.mano-mon-webapp-client>3.0.0-SNAPSHOT</version.mano-mon-webapp-client>
-		<version.alarm-client>3.0.0-SNAPSHOT</version.alarm-client>
-		<version.mano-grammar-v1>3.0.0-SNAPSHOT</version.mano-grammar-v1>
-		<version.mano-vim-dummy>3.0.0-SNAPSHOT</version.mano-vim-dummy>
+		<version.mano-commons>3.0.0</version.mano-commons>
+		<version.mano-vim-api>3.0.0</version.mano-vim-api>
+		<version.mano-pkg-api>3.0.0</version.mano-pkg-api>
+		<version.mano-fluxrest>3.0.0</version.mano-fluxrest>
+		<version.mano-orika>3.0.0</version.mano-orika>
+		<version.mano-condition>3.0.0</version.mano-condition>
+		<version.mano-grammar-api>3.0.0</version.mano-grammar-api>
+		<version.auth-api>3.0.0</version.auth-api>
+		<version.mano-repo-api>3.0.0</version.mano-repo-api>
+		<version.event-api>3.0.0</version.event-api>
+		<version.mano-docker-api>3.0.0</version.mano-docker-api>
+		<version.nfv-front-controller>3.0.0</version.nfv-front-controller>
+		<version.mano-mon-webapp-client>3.0.0</version.mano-mon-webapp-client>
+		<version.alarm-client>3.0.0</version.alarm-client>
+		<version.mano-grammar-v1>3.0.0</version.mano-grammar-v1>
+		<version.mano-vim-dummy>3.0.0</version.mano-vim-dummy>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -80,7 +80,7 @@
 			<version>${version.mano-vim-api}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.ubiqube.mano</groupId>
+			<groupId>com.ubiqube.mano.pkg</groupId>
 			<artifactId>mano-pkg-api</artifactId>
 			<version>${version.mano-pkg-api}</version>
 		</dependency>
@@ -220,7 +220,7 @@
 			<version>${version.event-api}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.ubiqube.mano</groupId>
+			<groupId>com.ubiqube.mano.docker</groupId>
 			<artifactId>mano-docker-api</artifactId>
 			<version>${version.mano-docker-api}</version>
 		</dependency>
@@ -247,7 +247,7 @@
 			<version>${version.mano-mon-webapp-client}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.ubiqube.mano</groupId>
+			<groupId>com.ubiqube.mano.alarm</groupId>
 			<artifactId>alarm-client</artifactId>
 			<version>${version.alarm-client}</version>
 		</dependency>
