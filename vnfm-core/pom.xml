@@ -163,7 +163,7 @@
 			<version>${version.helm3-api}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.ubiqube.mano</groupId>
+			<groupId>com.ubiqube.mano.em</groupId>
 			<artifactId>em-client</artifactId>
 			<version>${version.em-client}</version>
 		</dependency>
