@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.ubiqube.mano</groupId>
 		<artifactId>mano-super-webapp</artifactId>
-		<version>3.0.0-SNAPSHOT</version>
+		<version>3.0.0</version>
 		<relativePath />
 	</parent>
 	<artifactId>nfvo-webapp</artifactId>
@@ -13,17 +13,17 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<spring-cloud.version>2022.0.2</spring-cloud.version>
-		<version.nfvo-core>3.0.0-SNAPSHOT</version.nfvo-core>
-		<version.etsi-protocols>3.0.0-SNAPSHOT</version.etsi-protocols>
-		<version.orchestration-core>3.0.0-SNAPSHOT</version.orchestration-core>
-		<version.auth-keycloak>3.0.0-SNAPSHOT</version.auth-keycloak>
-		<version.mano-vim-openstack>3.0.0-SNAPSHOT</version.mano-vim-openstack>
-		<version.mano-pkg-tosca>3.0.0-SNAPSHOT</version.mano-pkg-tosca>
-		<version.ubi-spring-config>3.0.0-SNAPSHOT</version.ubi-spring-config>
-		<version.mano-grammar25>3.0.0-SNAPSHOT</version.mano-grammar25>
-		<version.mano-repo-fs>3.0.0-SNAPSHOT</version.mano-repo-fs>
-		<version.event-jms>3.0.0-SNAPSHOT</version.event-jms>
-		<version.mano-docker-jib>3.0.0-SNAPSHOT</version.mano-docker-jib>
+		<version.nfvo-core>3.0.0</version.nfvo-core>
+		<version.etsi-protocols>3.0.0</version.etsi-protocols>
+		<version.orchestration-core>3.0.0</version.orchestration-core>
+		<version.auth-keycloak>3.0.0</version.auth-keycloak>
+		<version.mano-vim-openstack>3.0.0</version.mano-vim-openstack>
+		<version.mano-pkg-tosca>3.0.0</version.mano-pkg-tosca>
+		<version.ubi-spring-config>3.0.0</version.ubi-spring-config>
+		<version.mano-grammar25>3.0.0</version.mano-grammar25>
+		<version.mano-repo-fs>3.0.0</version.mano-repo-fs>
+		<version.event-jms>3.0.0</version.event-jms>
+		<version.mano-docker-jib>3.0.0</version.mano-docker-jib>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -170,7 +170,7 @@
 			<version>${version.mano-vim-openstack}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.ubiqube.mano</groupId>
+			<groupId>com.ubiqube.mano.pkg</groupId>
 			<artifactId>mano-pkg-tosca</artifactId>
 			<version>${version.mano-pkg-tosca}</version>
 		</dependency>
@@ -215,7 +215,7 @@
 			<version>${version.event-jms}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.ubiqube.mano</groupId>
+			<groupId>com.ubiqube.mano.docker</groupId>
 			<artifactId>mano-docker-jib</artifactId>
 			<version>${version.event-jms}</version>
 		</dependency>
@@ -262,49 +262,49 @@
 								<artifactItem>
 									<groupId>com.ubiqube.mano.sol001</groupId>
 									<artifactId>tosca-class-251</artifactId>
-									<version>2.0.0-SNAPSHOT</version>
+									<version>2.0.0</version>
 									<destFileName>tosca-class-251-2.0.0-SNAPSHOT.jar</destFileName>
 								</artifactItem>
 								<artifactItem>
 									<groupId>com.ubiqube.mano.sol001</groupId>
 									<artifactId>tosca-class-261</artifactId>
-									<version>2.0.0-SNAPSHOT</version>
+									<version>2.0.0</version>
 									<destFileName>tosca-class-261-2.0.0-SNAPSHOT.jar</destFileName>
 								</artifactItem>
 								<artifactItem>
 									<groupId>com.ubiqube.mano.sol001</groupId>
 									<artifactId>tosca-class-271</artifactId>
-									<version>2.0.0-SNAPSHOT</version>
+									<version>2.0.0</version>
 									<destFileName>tosca-class-271-2.0.0-SNAPSHOT.jar</destFileName>
 								</artifactItem>
 								<artifactItem>
 									<groupId>com.ubiqube.mano.sol001</groupId>
 									<artifactId>tosca-class-281</artifactId>
-									<version>2.0.0-SNAPSHOT</version>
+									<version>2.0.0</version>
 									<destFileName>tosca-class-281-2.0.0-SNAPSHOT.jar</destFileName>
 								</artifactItem>
 								<artifactItem>
 									<groupId>com.ubiqube.mano.sol001</groupId>
 									<artifactId>tosca-class-331</artifactId>
-									<version>2.0.0-SNAPSHOT</version>
+									<version>2.0.0</version>
 									<destFileName>tosca-class-331-2.0.0-SNAPSHOT.jar</destFileName>
 								</artifactItem>
 								<artifactItem>
 									<groupId>com.ubiqube.mano.sol001</groupId>
 									<artifactId>tosca-class-351</artifactId>
-									<version>2.0.0-SNAPSHOT</version>
+									<version>2.0.0</version>
 									<destFileName>tosca-class-351-2.0.0-SNAPSHOT.jar</destFileName>
 								</artifactItem>
 								<artifactItem>
 									<groupId>com.ubiqube.mano.sol001</groupId>
 									<artifactId>tosca-class-361</artifactId>
-									<version>2.0.0-SNAPSHOT</version>
+									<version>2.0.0</version>
 									<destFileName>tosca-class-361-2.0.0-SNAPSHOT.jar</destFileName>
 								</artifactItem>
 								<artifactItem>
 									<groupId>com.ubiqube.mano.sol001</groupId>
 									<artifactId>tosca-class-421</artifactId>
-									<version>2.0.0-SNAPSHOT</version>
+									<version>2.0.0</version>
 									<destFileName>tosca-class-421-2.0.0-SNAPSHOT.jar</destFileName>
 								</artifactItem>
 							</artifactItems>
