@@ -25,8 +25,6 @@ import java.util.function.Consumer;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import jakarta.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
@@ -50,6 +48,7 @@ import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 import com.ubiqube.etsi.mano.service.SearchableService;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
 
+import jakarta.validation.Valid;
 import ma.glasnost.orika.MapperFacade;
 
 /**
@@ -96,9 +95,7 @@ public class VnfManagement implements VnfPackageManagement {
 	 *
 	 * @param vnfPkgId
 	 * @param artifactPath
-	 * @param _accept
-	 * @param rangeHeader
-	 * @return
+	 * @return A Resource.
 	 */
 	@Override
 	public ResponseEntity<Resource> vnfPackagesVnfPkgIdArtifactsArtifactPathGet(final UUID vnfPkgId, final String artifactPath) {

@@ -49,8 +49,9 @@ public class UowUtils {
 	 * We should add a Max wait ?
 	 *
 	 * @param vnfLcmOpOccs
-	 * @param vnfm
-	 * @return
+	 * @param func         A function.
+	 * @param server       A Servers object.
+	 * @return A blurptint instance.
 	 */
 	public static VnfBlueprint waitLcmCompletion(final VnfBlueprint vnfLcmOpOccs, final BiFunction<Servers, UUID, VnfBlueprint> func, final Servers server) {
 		VnfBlueprint tmp = vnfLcmOpOccs;

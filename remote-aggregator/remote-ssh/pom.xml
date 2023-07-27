@@ -3,10 +3,12 @@
 	<parent>
 		<groupId>com.ubiqube.mano.remote</groupId>
 		<artifactId>remote-aggregator</artifactId>
-		<version>3.0.0-SNAPSHOT</version>
+		<version>3.1.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>remote-ssh</artifactId>
-
+	<properties>
+		<version.apache.mina>2.10.0</version.apache.mina>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>com.github.mwiede</groupId>
@@ -16,21 +18,22 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
+			<scope>true</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.sshd</groupId>
 			<artifactId>sshd-core</artifactId>
-			<version>2.8.0</version>
+			<version>${version.apache.mina}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.sshd</groupId>
 			<artifactId>sshd-scp</artifactId>
-			<version>2.8.0</version>
+			<version>${version.apache.mina}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.sshd</groupId>
 			<artifactId>sshd-sftp</artifactId>
-			<version>2.8.0</version>
+			<version>${version.apache.mina}</version>
 		</dependency>
 		<dependency>
 			<groupId>net.i2p.crypto</groupId>
