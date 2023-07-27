@@ -10,19 +10,6 @@
 	<artifactId>nfvo-core</artifactId>
 	<name>nfvo-core</name>
 	<description>Demo project for Spring Boot</description>
-	<properties>
-		<version.mano-commons>3.0.0</version.mano-commons>
-		<version.mano-pkg-api>3.0.0</version.mano-pkg-api>
-		<version.mano-vim-api>3.0.0</version.mano-vim-api>
-		<version.mano-core-api>3.0.0</version.mano-core-api>
-		<version.orchestration-api>3.0.0</version.orchestration-api>
-		<version.nfvo-front-controller>3.0.0</version.nfvo-front-controller>
-		<version.mano-vim-contrail>3.0.0</version.mano-vim-contrail>
-		<version.mano-docker-jib>3.0.0</version.mano-docker-jib>
-		<version.mano-condition>3.0.0</version.mano-condition>
-		<version.orchestration-core>3.0.0</version.orchestration-core>
-		<version.mano-vim-dummy>3.0.0</version.mano-vim-dummy>
-	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

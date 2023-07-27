@@ -10,16 +10,6 @@
 	<artifactId>vnfm-core</artifactId>
 	<name>vnfm-core</name>
 	<description>Demo project for Spring Boot</description>
-	<properties>
-		<version.mano-commons>3.0.0</version.mano-commons>
-		<version.mano-vim-api>3.0.0</version.mano-vim-api>
-		<version.mano-core-api>3.0.0</version.mano-core-api>
-		<version.orchestration-api>3.0.0</version.orchestration-api>
-		<version.vnfm-front-controller>3.0.0</version.vnfm-front-controller>
-		<version.helm3-api>0.0.2</version.helm3-api>
-		<version.em-client>3.0.0</version.em-client>
-		<version.mano-vim-dummy>3.0.0</version.mano-vim-dummy>
-	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

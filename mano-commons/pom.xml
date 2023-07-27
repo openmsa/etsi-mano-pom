@@ -22,10 +22,6 @@
 			<url>http://nexus.ubiqube.com/repository/maven-releases/</url>
 		</repository>
 	</distributionManagement>
-	<properties>
-		<version.mano-model>3.0.0</version.mano-model>
-		<version.mano-repo-api>3.0.0</version.mano-repo-api>
-	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>jakarta.validation</groupId>
