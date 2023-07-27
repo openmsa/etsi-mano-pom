@@ -61,6 +61,7 @@
 		<version.jib-core>0.24.0</version.jib-core>
 		<version.commons-compress>1.23.0</version.commons-compress>
 		<version.javax.servlet-api>4.0.1</version.javax.servlet-api>
+		<version.jetty-bom>9.4.49.v20220914</version.jetty-bom>
 		<brave.version>5.16.0</brave.version>
 		<version.alarm-client>3.0.0</version.alarm-client>
 		<version.auth-api>3.0.0</version.auth-api>
