@@ -98,6 +98,7 @@
 		<version.mano-vim-k8s>3.0.0</version.mano-vim-k8s>
 		<version.mano-vim-openstack>3.0.0</version.mano-vim-openstack>
 		<version.nfv-front-controller>3.0.0</version.nfv-front-controller>
+		<version.nfvo-core>3.0.0</version.nfvo-core>
 		<version.nfvo-front-controller>3.0.0</version.nfvo-front-controller>
 		<version.openstack-commons>3.0.0</version.openstack-commons>
 		<version.orchestration-api>3.0.0</version.orchestration-api>
