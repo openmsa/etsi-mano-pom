@@ -13,17 +13,6 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<spring-cloud.version>2022.0.2</spring-cloud.version>
-		<version.nfvo-core>3.0.0</version.nfvo-core>
-		<version.etsi-protocols>3.0.0</version.etsi-protocols>
-		<version.orchestration-core>3.0.0</version.orchestration-core>
-		<version.auth-keycloak>3.0.0</version.auth-keycloak>
-		<version.mano-vim-openstack>3.0.0</version.mano-vim-openstack>
-		<version.mano-pkg-tosca>3.0.0</version.mano-pkg-tosca>
-		<version.ubi-spring-config>3.0.0</version.ubi-spring-config>
-		<version.mano-grammar25>3.0.0</version.mano-grammar25>
-		<version.mano-repo-fs>3.0.0</version.mano-repo-fs>
-		<version.event-jms>3.0.0</version.event-jms>
-		<version.mano-docker-jib>3.0.0</version.mano-docker-jib>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
