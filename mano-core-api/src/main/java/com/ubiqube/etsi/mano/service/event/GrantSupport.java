@@ -20,8 +20,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import jakarta.annotation.Nonnull;
-
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.VnfCompute;
@@ -35,10 +33,8 @@ import com.ubiqube.etsi.mano.service.vim.Vim;
  *
  */
 public interface GrantSupport {
-	@Nonnull
 	Set<VnfCompute> getVnfCompute(UUID objectId);
 
-	@Nonnull
 	Set<VnfStorage> getVnfStorage(UUID objectId);
 
 	Set<OsContainer> getOsContainer(UUID objectId);
