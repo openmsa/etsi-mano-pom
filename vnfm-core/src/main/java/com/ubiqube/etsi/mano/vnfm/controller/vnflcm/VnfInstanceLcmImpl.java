@@ -138,6 +138,7 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 		vnfPkg.setOnboardingState(OnboardingStateType.CREATED);
 		vnfPkg.setUsageState(UsageStateEnum.NOT_IN_USE);
 		vnfPkg.setId(null);
+		vnfPkg.setSoftwareImages(Set.of());
 		final VnfPackage nPkg = vnfPackageService.save(vnfPkg);
 		eventManager.sendActionVnfm(ActionType.VNF_PKG_ONBOARD_DOWNLOAD_INSTANTIATE, nPkg.getId(), Map.of());
 		vnfPkg.setOnboardingState(OnboardingStateType.ONBOARDED);

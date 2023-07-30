@@ -41,6 +41,9 @@ import com.ubiqube.etsi.mano.jpa.VnfPackageJpa;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 import com.ubiqube.etsi.mano.service.event.ActionType;
 import com.ubiqube.etsi.mano.service.event.EventManager;
+import com.ubiqube.etsi.mano.vnfm.dto.VnfPackageDto;
+
+import ma.glasnost.orika.MapperFacade;
 
 @RestController
 @RequestMapping("/vnfm-admin")
@@ -48,11 +51,14 @@ public class VnfmAdminController {
 	private final VnfPackageJpa vnfPackageRepositoryJpa;
 	private final VnfPackageRepository vnfPackageRepository;
 	private final EventManager eventManager;
+	private final MapperFacade mapper;
 
-	public VnfmAdminController(final VnfPackageJpa vnfPackageRepositoryJpa, final VnfPackageRepository vnfPackageRepository, final EventManager eventManager) {
+	public VnfmAdminController(final VnfPackageJpa vnfPackageRepositoryJpa, final VnfPackageRepository vnfPackageRepository, final EventManager eventManager,
+			final MapperFacade mapper) {
 		this.vnfPackageRepositoryJpa = vnfPackageRepositoryJpa;
 		this.vnfPackageRepository = vnfPackageRepository;
 		this.eventManager = eventManager;
+		this.mapper = mapper;
 	}
 
 	@DeleteMapping("/vnf-package/{vnfPkgId}")
@@ -62,15 +68,15 @@ public class VnfmAdminController {
 	}
 
 	@GetMapping("/vnf-package")
-	public ResponseEntity<List<VnfPackage>> findAll() {
+	public ResponseEntity<List<VnfPackageDto>> findAll() {
 		final Iterable<VnfPackage> all = vnfPackageRepositoryJpa.findAll();
 		final List<VnfPackage> ret = new ArrayList<>();
 		all.forEach(ret::add);
-		return ResponseEntity.ok(ret);
+		return ResponseEntity.ok(ret.stream().map(x -> mapper.map(x, VnfPackageDto.class)).toList());
 	}
 
 	@PostMapping("/vnf-package/onboard")
-	public ResponseEntity<VnfPackage> onboardVnfPackage(@RequestParam("file") final MultipartFile file) throws IOException {
+	public ResponseEntity<VnfPackageDto> onboardVnfPackage(@RequestParam("file") final MultipartFile file) throws IOException {
 		final VnfPackage entity = new VnfPackage();
 		entity.setOnboardingState(OnboardingStateType.CREATED);
 		entity.setOperationalState(PackageOperationalState.DISABLED);
@@ -78,6 +84,6 @@ public class VnfmAdminController {
 		final VnfPackage ne = vnfPackageRepository.save(entity);
 		vnfPackageRepository.storeBinary(ne.getId(), Constants.REPOSITORY_FILENAME_PACKAGE, file.getInputStream());
 		eventManager.sendActionVnfm(ActionType.VNF_PKG_ONBOARD_DOWNLOAD_INSTANTIATE, ne.getId(), Map.of());
-		return ResponseEntity.ok(ne);
+		return ResponseEntity.ok(mapper.map(ne, VnfPackageDto.class));
 	}
 }
