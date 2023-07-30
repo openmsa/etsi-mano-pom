@@ -29,8 +29,6 @@ import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfBlueprintJpa;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
 
-import jakarta.annotation.Nonnull;
-
 @Service
 public class VnfBlueprintService {
 	private final VnfBlueprintJpa blueprintJpa;
@@ -49,7 +47,6 @@ public class VnfBlueprintService {
 		return vnfLiveInstanceJpa.countByVnfInstanceAndTaskToscaName(vnfInstance, vnfCompute.getToscaName());
 	}
 
-	@Nonnull
 	public VnfBlueprint save(final VnfBlueprint plan) {
 		return blueprintJpa.save(plan);
 	}
@@ -59,7 +56,6 @@ public class VnfBlueprintService {
 		return save(plan);
 	}
 
-	@Nonnull
 	public VnfBlueprint findById(final UUID blueprintId) {
 		return blueprintJpa.findById(blueprintId).orElseThrow(() -> new NotFoundException("Blueprint not found " + blueprintId));
 	}
