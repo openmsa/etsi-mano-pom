@@ -18,12 +18,16 @@ package com.ubiqube.etsi.mano.service.pkg.vnf.opp;
 
 import java.util.Optional;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfCompute;
 import com.ubiqube.etsi.mano.dao.mano.VnfExtCp;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
+import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.service.pkg.vnf.OnboardingPostProcessorVisitor;
 
 /**
@@ -33,6 +37,8 @@ import com.ubiqube.etsi.mano.service.pkg.vnf.OnboardingPostProcessorVisitor;
  */
 @Service
 public class FixExternalPointVisitor implements OnboardingPostProcessorVisitor {
+	private static final String VIRTUAL_LINK = "virtual_link";
+	private static final Pattern pVl = Pattern.compile("virtual_link_(?<idx>\\d+)");
 
 	@Override
 	public void visit(final VnfPackage vnfPackage) {
@@ -41,12 +47,39 @@ public class FixExternalPointVisitor implements OnboardingPostProcessorVisitor {
 			if (isComputeNode(vnfPackage, x.getInternalVirtualLink())) {
 				x.setComputeNode(true);
 			}
+			handleExtCp(vnfPackage, x);
 		});
+	}
+
+	private static void handleExtCp(final VnfPackage vnfPackage, final VnfExtCp extCp) {
+		if (null == extCp.getExternalVirtualLink()) {
+			// Point on first used virtual_link
+			extCp.setExternalVirtualLink(VIRTUAL_LINK);
+		}
+		if (extCp.getExternalVirtualLink().startsWith(VIRTUAL_LINK)) {
+			final int vl = toscaNameToVlId(extCp.getExternalVirtualLink());
+			final Optional<ListKeyPair> res = vnfPackage.getVirtualLinks().stream().filter(y -> y.getIdx() == vl).findFirst();
+			if (res.isEmpty()) {
+				throw new GenericException("Unable to find VL on extCp: " + extCp.getToscaName() + " => " + extCp.getExternalVirtualLink());
+			}
+			extCp.setExternalVirtualLink(res.get().getValue());
+		}
 	}
 
 	private static boolean isComputeNode(final VnfPackage vnfPackage, final String internalVirtualLink) {
 		final Optional<VnfCompute> res = vnfPackage.getVnfCompute().stream().filter(x -> x.getToscaName().equals(internalVirtualLink)).findFirst();
 		return res.isPresent();
+	}
+
+	private static int toscaNameToVlId(final String cpdId) {
+		if (VIRTUAL_LINK.equals(cpdId)) {
+			return 0;
+		}
+		final Matcher m = pVl.matcher(cpdId);
+		if (!m.matches()) {
+			throw new GenericException("Unable to match 'virtual_link_' in " + cpdId);
+		}
+		return Integer.parseInt(m.group("idx"));
 	}
 
 }
