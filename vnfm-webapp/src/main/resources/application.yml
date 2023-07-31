@@ -56,6 +56,10 @@ management:
     web:
       exposure:
         include: '*'
+  elastic:
+    metrics:
+      export:
+        host: http://mano-es:9200
   info:
     git:
       mode: full
