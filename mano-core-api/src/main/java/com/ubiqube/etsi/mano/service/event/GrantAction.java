@@ -199,8 +199,10 @@ public class GrantAction {
 
 		// Add public networks.
 		final VnfPackage vnfPkg = vnfPackageService.findByVnfdId(getSafeUUID(grants.getVnfdId()));
+		// XXX The none match ExtCp cause to discard all extCp pointing to an existing
+		// network.
 		final List<String> lst = vnfPkg.getVirtualLinks().stream()
-				.filter(x -> noneMatchVirtualCp(vnfPkg, x) && noneMatchExtCp(vnfPkg, x))
+				.filter(x -> noneMatchVirtualCp(vnfPkg, x) /* && noneMatchExtCp(vnfPkg, x) */)
 				.map(ListKeyPair::getValue)
 				.toList();
 		final List<NetworkObject> netFound = vim.network(vimInfo).searchByName(lst);
