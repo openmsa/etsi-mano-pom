@@ -24,6 +24,7 @@ import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.function.Predicate;
 
 import org.springframework.stereotype.Service;
@@ -142,7 +143,11 @@ public class FlavorManager {
 		final Vim vim = vimManager.getVimById(vimConnectionInformation.getId());
 		final Map<String, String> add = new HashMap<>(Optional.ofNullable(vCpu.getVduCpuRequirements()).orElse(Map.of()));
 		add.putAll(Optional.ofNullable(vMem.getVduMemRequirements()).orElse(Map.of()));
-		return vim.createFlavor(vimConnectionInformation, toscaName, vCpu.getNumVirtualCpu(), vMem.getVirtualMemSize(), disk, add);
+		return vim.createFlavor(vimConnectionInformation, buildFlavorName(toscaName), vCpu.getNumVirtualCpu(), vMem.getVirtualMemSize(), disk, add);
+	}
+
+	private static String buildFlavorName(final String toscaName) {
+		return UUID.randomUUID().toString();
 	}
 
 	private static List<Flavor> findFlavors(final List<Flavor> basicFlavor, final VirtualCpu vCpu, final VirtualMemory vMem) {
