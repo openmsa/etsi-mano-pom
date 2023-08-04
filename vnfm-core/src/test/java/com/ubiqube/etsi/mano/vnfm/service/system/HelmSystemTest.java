@@ -54,6 +54,7 @@ class HelmSystemTest {
 	@Test
 	void test() {
 		final HelmWrapperProperty props = new HelmWrapperProperty();
+		props.setUrl("http://localhost/");
 		final OAuth2 oauth2 = new OAuth2();
 		props.setOauth2(oauth2);
 		final HelmSystem srv = new HelmSystem(vimManager, client, serverJpa, k8sService, repo, props);
