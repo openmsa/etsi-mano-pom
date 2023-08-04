@@ -103,9 +103,9 @@
 		<version.openstack-commons>3.1.0-SNAPSHOT</version.openstack-commons>
 		<version.orchestration-api>3.1.0-SNAPSHOT</version.orchestration-api>
 		<version.orchestration-core>3.1.0-SNAPSHOT</version.orchestration-core>
-		<version.sol001-objects>2.0.0</version.sol001-objects>
-		<version.tosca-api>2.0.0</version.tosca-api>
-		<version.tosca-test-utils>2.0.0</version.tosca-test-utils>
+		<version.sol001-objects>2.1.0-SNAPSHOT</version.sol001-objects>
+		<version.tosca-api>2.1.0-SNAPSHOT</version.tosca-api>
+		<version.tosca-test-utils>2.1.0-SNAPSHOT</version.tosca-test-utils>
 		<version.ubi-juniper-contrail-api>4.0.0</version.ubi-juniper-contrail-api>
 		<version.ubi-spring-config>3.1.0-SNAPSHOT</version.ubi-spring-config>
 		<version.vnfm-core>3.1.0-SNAPSHOT</version.vnfm-core>
@@ -428,12 +428,12 @@
 						<path>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
-							<version>1.18.26</version>
+							<version>1.18.28</version>
 						</path>
 						<path>
 							<groupId>org.springframework.boot</groupId>
 							<artifactId>spring-boot-configuration-processor</artifactId>
-							<version>3.0.6</version>
+							<version>3.1.2</version>
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
