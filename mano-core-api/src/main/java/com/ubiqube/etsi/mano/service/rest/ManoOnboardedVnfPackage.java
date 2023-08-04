@@ -30,11 +30,11 @@ import com.ubiqube.etsi.mano.service.HttpGateway;
 public class ManoOnboardedVnfPackage {
 	private final ManoClient client;
 
-	public ManoOnboardedVnfPackage(final ManoClient manoClient, final UUID id) {
+	public ManoOnboardedVnfPackage(final ManoClient manoClient, final UUID vnfdId) {
 		this.client = manoClient;
 		client.setQueryType(ApiVersionType.SOL003_VNFPKGM);
 		client.setFragment("/onboarded_vnf_packages/{id}");
-		client.setObjectId(id);
+		client.setObjectId(vnfdId);
 	}
 
 	public VnfPackage find() {
