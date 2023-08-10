@@ -107,6 +107,7 @@ class CommonActionControllerTest {
 		final Servers server = Servers.builder()
 				.remoteSubscriptions(Set.of())
 				.version("4.3.2")
+				.url("http://localhost/")
 				.serverType(ServerType.VNFM)
 				.subscriptionType(SubscriptionType.VNF)
 				.build();
@@ -129,6 +130,7 @@ class CommonActionControllerTest {
 				.remoteSubscriptions(Set.of())
 				.version("4.3.2")
 				.serverType(ServerType.NFVO)
+				.url("http://localhost/")
 				.subscriptionType(SubscriptionType.NSD)
 				.build();
 		when(serversJpa.findById(id)).thenReturn(Optional.of(server));
@@ -156,6 +158,7 @@ class CommonActionControllerTest {
 		final Servers server = Servers.builder()
 				.remoteSubscriptions(Set.of())
 				.version("4.3.2")
+				.url("http://localhost/")
 				.serverType(ServerType.NFVO)
 				.subscriptionType(SubscriptionType.NSD)
 				.build();

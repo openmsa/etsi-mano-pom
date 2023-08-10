@@ -91,6 +91,9 @@ class CommonActionControllerTest {
 	@Test
 	void testBasicOk() throws Exception {
 		final CommonActionController cac = new CommonActionController(serverJpa, env, createHttpGateway(), mapper, manoProperties, securityConfig, serverService);
+		final Servers server = Servers.builder()
+				.url("http://localhost/")
+				.build();
 		cac.register(server, this::registerNfvoEx, Map.of());
 		//
 		assertNull(server.getServerStatus());
