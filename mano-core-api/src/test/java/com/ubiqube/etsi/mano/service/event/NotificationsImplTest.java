@@ -43,10 +43,11 @@ class NotificationsImplTest {
 	@Mock
 	private FluxRest fluxRest;
 
+	private final Servers server = Servers.builder().url("http://localhost/").build();
+
 	@Test
 	void testCheckFail() throws Exception {
 		final NotificationsImpl srv = new NotificationsImpl(mapper);
-		final Servers server = Servers.builder().build();
 		final ServerAdapter serverAdapter = new ServerAdapter(httpGateway, server, fluxRest);
 		final ResponseEntity<Object> resp = ResponseEntity.status(200).build();
 		when(fluxRest.getWithReturn(any(), any(), any())).thenReturn(resp);
@@ -56,7 +57,6 @@ class NotificationsImplTest {
 	@Test
 	void testCheckFailNull() throws Exception {
 		final NotificationsImpl srv = new NotificationsImpl(mapper);
-		final Servers server = Servers.builder().build();
 		final ServerAdapter serverAdapter = new ServerAdapter(httpGateway, server, fluxRest);
 		when(fluxRest.getWithReturn(any(), any(), any())).thenReturn(null);
 		assertThrows(GenericException.class, () -> srv.check(serverAdapter, ""));
@@ -65,7 +65,6 @@ class NotificationsImplTest {
 	@Test
 	void testCheckSuccess() throws Exception {
 		final NotificationsImpl srv = new NotificationsImpl(mapper);
-		final Servers server = Servers.builder().build();
 		final ServerAdapter serverAdapter = new ServerAdapter(httpGateway, server, fluxRest);
 		final ResponseEntity<Object> resp = ResponseEntity.status(204).build();
 		when(fluxRest.getWithReturn(any(), any(), any())).thenReturn(resp);
@@ -76,7 +75,6 @@ class NotificationsImplTest {
 	@Test
 	void testDoNotification() {
 		final NotificationsImpl srv = new NotificationsImpl(mapper);
-		final Servers server = Servers.builder().build();
 		final ServerAdapter serverAdapter = new ServerAdapter(httpGateway, server, fluxRest);
 		srv.doNotification(null, "http://localhost/", serverAdapter);
 		assertTrue(true);

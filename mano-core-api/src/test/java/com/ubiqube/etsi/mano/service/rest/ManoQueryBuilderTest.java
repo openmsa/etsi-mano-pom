@@ -50,10 +50,11 @@ class ManoQueryBuilderTest {
 	@Mock
 	private FluxRest fluxRest;
 
+	private final Servers server = Servers.builder().url("http://localhost/").build();
+
 	@Test
 	void testDelete() throws Exception {
 		final ManoQueryBuilder mqb = new ManoQueryBuilder(mapper, manoClient);
-		final Servers server = Servers.builder().build();
 		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
@@ -68,7 +69,6 @@ class ManoQueryBuilderTest {
 	@Test
 	void testGetRaw() throws Exception {
 		final ManoQueryBuilder mqb = new ManoQueryBuilder(mapper, manoClient);
-		final Servers server = Servers.builder().build();
 		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
@@ -85,7 +85,6 @@ class ManoQueryBuilderTest {
 	@Test
 	void testGetSingleNull() throws Exception {
 		final ManoQueryBuilder mqb = new ManoQueryBuilder(mapper, manoClient);
-		final Servers server = Servers.builder().build();
 		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
@@ -102,7 +101,6 @@ class ManoQueryBuilderTest {
 	@Test
 	void testGetSingleNonNull() throws Exception {
 		final ManoQueryBuilder mqb = new ManoQueryBuilder(mapper, manoClient);
-		final Servers server = Servers.builder().build();
 		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
@@ -119,7 +117,6 @@ class ManoQueryBuilderTest {
 	@Test
 	void testGetList() throws Exception {
 		final ManoQueryBuilder mqb = new ManoQueryBuilder(mapper, manoClient);
-		final Servers server = Servers.builder().build();
 		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
@@ -140,7 +137,6 @@ class ManoQueryBuilderTest {
 	@Test
 	void testPostObject() throws Exception {
 		final ManoQueryBuilder mqb = new ManoQueryBuilder(mapper, manoClient);
-		final Servers server = Servers.builder().build();
 		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
@@ -159,7 +155,6 @@ class ManoQueryBuilderTest {
 	@Test
 	void testPostRawObject() throws Exception {
 		final ManoQueryBuilder mqb = new ManoQueryBuilder(mapper, manoClient);
-		final Servers server = Servers.builder().build();
 		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
@@ -178,7 +173,6 @@ class ManoQueryBuilderTest {
 	@Test
 	void testPostRaw() throws Exception {
 		final ManoQueryBuilder mqb = new ManoQueryBuilder(mapper, manoClient);
-		final Servers server = Servers.builder().build();
 		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
@@ -196,7 +190,6 @@ class ManoQueryBuilderTest {
 	@Test
 	void testPost() throws Exception {
 		final ManoQueryBuilder mqb = new ManoQueryBuilder(mapper, manoClient);
-		final Servers server = Servers.builder().build();
 		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
@@ -215,7 +208,6 @@ class ManoQueryBuilderTest {
 	@Test
 	void testDownlad() throws Exception {
 		final ManoQueryBuilder mqb = new ManoQueryBuilder(mapper, manoClient);
-		final Servers server = Servers.builder().build();
 		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
@@ -229,7 +221,6 @@ class ManoQueryBuilderTest {
 	@Test
 	void testDownlad2() throws Exception {
 		final ManoQueryBuilder mqb = new ManoQueryBuilder(mapper, manoClient);
-		final Servers server = Servers.builder().build();
 		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
@@ -243,7 +234,6 @@ class ManoQueryBuilderTest {
 	@Test
 	void testUpload() throws Exception {
 		final ManoQueryBuilder mqb = new ManoQueryBuilder(mapper, manoClient);
-		final Servers server = Servers.builder().build();
 		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
@@ -257,7 +247,6 @@ class ManoQueryBuilderTest {
 	@Test
 	void testUpload2() throws Exception {
 		final ManoQueryBuilder mqb = new ManoQueryBuilder(mapper, manoClient);
-		final Servers server = Servers.builder().build();
 		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);

@@ -73,11 +73,13 @@ class CommonActionControllerTest {
 	@Mock
 	private FluxRest fluxRest;
 
+	private final Servers server = Servers.builder()
+			.url("http://localhost/")
+			.build();
+
 	@Test
 	void testBasicFail() throws Exception {
 		final CommonActionController cac = new CommonActionController(serverJpa, env, createHttpGateway(), mapper, manoProperties, securityConfig, serverService);
-		final Servers server = Servers.builder()
-				.build();
 		//
 		when(serverService.buildServerAdapter(server)).thenThrow(RuntimeException.class);
 		//
@@ -89,8 +91,6 @@ class CommonActionControllerTest {
 	@Test
 	void testBasicOk() throws Exception {
 		final CommonActionController cac = new CommonActionController(serverJpa, env, createHttpGateway(), mapper, manoProperties, securityConfig, serverService);
-		final Servers server = Servers.builder()
-				.build();
 		cac.register(server, this::registerNfvoEx, Map.of());
 		//
 		assertNull(server.getServerStatus());
@@ -111,6 +111,7 @@ class CommonActionControllerTest {
 		final CommonActionController cac = new CommonActionController(serverJpa, env, createHttpGateway(), mapper, manoProperties, securityConfig, serverService);
 		final Servers server = Servers.builder()
 				.remoteSubscriptions(Set.of())
+				.url("http://localhost/")
 				.version("1.2.3")
 				.subscriptionType(SubscriptionType.VNF)
 				.build();
@@ -134,6 +135,7 @@ class CommonActionControllerTest {
 		final Servers server = Servers.builder()
 				.serverType(ServerType.NFVO)
 				.remoteSubscriptions(Set.of())
+				.url("http://localhost/")
 				.version("1.2.3")
 				.build();
 		final UUID id = UUID.randomUUID();
@@ -151,7 +153,7 @@ class CommonActionControllerTest {
 	}
 
 	private Servers registerNfvoEx(final ServerAdapter serverAdapter, final Map<String, Object> parameters) {
-		return Servers.builder().build();
+		return server;
 	}
 
 	private List<HttpGateway> createHttpGateway() {

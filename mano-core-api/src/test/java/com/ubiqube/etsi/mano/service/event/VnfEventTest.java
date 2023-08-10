@@ -57,14 +57,16 @@ class VnfEventTest {
 	@Mock
 	private FluxRest fluxRest;
 
+	private final Servers server = Servers.builder()
+			.url("http://localhost/")
+			.build();
+
 	@Test
 	void testSendNotification001() throws Exception {
 		final VnfEvent vnfEvent = new VnfEvent(subscriptionRepo, notifications, serverService, eventManager, evalService);
 		final Subscription subsc = Subscription.builder()
 				.build();
 		final EventMessage event = new EventMessage(NotificationEvent.APP_INSTANCE_CREATE, UUID.randomUUID(), Map.of());
-		final Servers server = Servers.builder()
-				.build();
 		//
 		final ServerAdapter serverAdapter = new ServerAdapter(httpGateway, server, fluxRest);
 		//
@@ -81,8 +83,6 @@ class VnfEventTest {
 				.callbackUri("test-uri")
 				.build();
 		final EventMessage event = new EventMessage(NotificationEvent.APP_INSTANCE_CREATE, UUID.randomUUID(), Map.of());
-		final Servers server = Servers.builder()
-				.build();
 		//
 		final ServerAdapter serverAdapter = new ServerAdapter(httpGateway, server, fluxRest);
 		//

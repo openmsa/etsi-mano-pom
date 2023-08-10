@@ -63,6 +63,7 @@ class ManoServerTest {
 
 	private ServerAdapter createAdapter() {
 		final Servers server = Servers.builder()
+				.url("http://localhost/")
 				.build();
 		return new ServerAdapter(httpGateway, server, fluxRest);
 	}
