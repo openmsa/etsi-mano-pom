@@ -93,7 +93,7 @@ class VnfInstantiateUowTest {
 		vnfBlueprint.setOperationStatus(OperationStatusType.COMPLETED);
 		when(vnfmInterface.vnfLcmOpOccsGet(any(), any())).thenReturn(vnfBlueprint);
 		final NsVnfInstantiateTask task = new NsVnfInstantiateTask();
-		final Servers srv = Servers.builder().id(UUID.randomUUID()).build();
+		final Servers srv = Servers.builder().id(UUID.randomUUID()).url("http://localhost/").build();
 		task.setServer(srv);
 		final NsdVnfPackageCopy param = new NsdVnfPackageCopy();
 		final ForwarderMapping fw01 = new ForwarderMapping();

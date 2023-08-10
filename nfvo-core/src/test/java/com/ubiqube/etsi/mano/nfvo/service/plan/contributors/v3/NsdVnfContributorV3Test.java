@@ -119,7 +119,7 @@ class NsdVnfContributorV3Test {
 		when(vnfPackageService.findByVnfdId(anyString())).thenReturn(pkgOpt);
 		//
 		vnfPkg01.setVnfmInfo(Set.of());
-		final Servers srv01 = Servers.builder().build();
+		final Servers srv01 = Servers.builder().url("http://localhost/").build();
 		when(serversJpa.findByServerTypeAndServerStatusIn(eq(ServerType.VNFM), any())).thenReturn(List.of(srv01));
 		final List<SclableResources<Object>> res = nvc.contribute(bundle, blueprint);
 		assertNotNull(res);
@@ -149,6 +149,7 @@ class NsdVnfContributorV3Test {
 		vnfPkg01.setVnfmInfo(Set.of("caps01"));
 		final Servers srv01 = Servers.builder()
 				.capabilities(Set.of())
+				.url("http://localhost/")
 				.build();
 		when(serversJpa.findByServerTypeAndServerStatusIn(eq(ServerType.VNFM), any())).thenReturn(List.of(srv01));
 		assertThrows(GenericException.class, () -> nvc.contribute(bundle, blueprint));
@@ -176,6 +177,7 @@ class NsdVnfContributorV3Test {
 		vnfPkg01.setVnfmInfo(Set.of("caps01"));
 		final Servers srv01 = Servers.builder()
 				.capabilities(Set.of("caps01"))
+				.url("http://localhost/")
 				.build();
 		when(serversJpa.findByServerTypeAndServerStatusIn(eq(ServerType.VNFM), any())).thenReturn(List.of(srv01));
 		final List<SclableResources<Object>> res = nvc.contribute(bundle, blueprint);
