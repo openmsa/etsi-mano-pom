@@ -83,6 +83,7 @@ class CommonActionControllerTest {
 				.version("4.3.2")
 				.serverType(ServerType.VNFM)
 				.subscriptionType(SubscriptionType.VNF)
+				.url("http://localhost/")
 				.build();
 		when(serversJpa.findById(id)).thenReturn(Optional.of(server));
 		final ServerAdapter serverAdapter = new ServerAdapter(hg, server, fluxRest);
