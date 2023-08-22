@@ -19,7 +19,11 @@ package com.ubiqube.etsi.mano.service.rest;
 import java.util.List;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.ubiqube.etsi.mano.dao.mano.common.ApiVersionType;
+import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.service.HttpGateway;
 
@@ -29,6 +33,8 @@ import com.ubiqube.etsi.mano.service.HttpGateway;
  *
  */
 public class ManoVnfLcmOpOccs {
+
+	private static final Logger LOG = LoggerFactory.getLogger(ManoVnfLcmOpOccs.class);
 
 	private final ManoClient client;
 
@@ -58,4 +64,23 @@ public class ManoVnfLcmOpOccs {
 				.getSingle();
 	}
 
+	public VnfBlueprint waitOnboading() {
+		while (true) {
+			try {
+				Thread.sleep(1000);
+			} catch (final InterruptedException e) {
+				LOG.warn("Interrupted!", e);
+				Thread.currentThread().interrupt();
+			}
+			final VnfBlueprint pkg = find();
+			final OperationStatusType state = pkg.getOperationStatus();
+			LOG.debug("state {}", state);
+			if ((state != OperationStatusType.ROLLING_BACK) &&
+					(state != OperationStatusType.PROCESSING) &&
+					(state != OperationStatusType.STARTED) &&
+					(state != OperationStatusType.STARTING)) {
+				return pkg;
+			}
+		}
+	}
 }
