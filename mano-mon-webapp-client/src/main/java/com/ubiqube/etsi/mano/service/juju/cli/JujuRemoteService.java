@@ -28,8 +28,6 @@ import org.springframework.web.service.annotation.PutExchange;
 import com.ubiqube.etsi.mano.service.juju.entities.JujuCloud;
 import com.ubiqube.etsi.mano.service.juju.entities.JujuMetadata;
 
-import jakarta.validation.constraints.NotNull;
-
 @HttpExchange(url = "/juju", accept = "application/json", contentType = "application/json")
 public interface JujuRemoteService {
 
@@ -37,63 +35,63 @@ public interface JujuRemoteService {
 	ResponseEntity<String> clouds();
 
 	@PostExchange("/cloud")
-	ResponseEntity<String> addCloud(@RequestBody @NotNull final JujuCloud cloud);
+	ResponseEntity<String> addCloud(@RequestBody final JujuCloud cloud);
 
 	@DeleteExchange("/cloud/{cloudname}")
-	ResponseEntity<String> removeCloud(@PathVariable("cloudname") @NotNull final String cloudname);
+	ResponseEntity<String> removeCloud(@PathVariable("cloudname") final String cloudname);
 
 	@GetExchange("/credential")
 	ResponseEntity<String> credentials();
 
 	@PostExchange("/credential")
-	ResponseEntity<String> addCredential(@RequestBody @NotNull final JujuCloud cloud);
+	ResponseEntity<String> addCredential(@RequestBody final JujuCloud cloud);
 
 	@PutExchange("/credential")
-	ResponseEntity<String> updateCredential(@RequestBody @NotNull final JujuCloud cloud);
+	ResponseEntity<String> updateCredential(@RequestBody final JujuCloud cloud);
 
 	@DeleteExchange("/credential/{cloudname}/{name}")
-	ResponseEntity<String> removeCredential(@PathVariable("cloudname") @NotNull final String cloudname, @PathVariable("name") final String name);
+	ResponseEntity<String> removeCredential(@PathVariable("cloudname") final String cloudname, @PathVariable("name") final String name);
 
 //	@PostExchange("/metadata")
-//	public ResponseEntity<String> genMetadata(@RequestParam("path") @NotNull final String path,
-//			@RequestParam("imageId") @NotNull final String imageId, @RequestParam("osSeries") @NotNull final String osSeries,
-//			@RequestParam("region") @NotNull final String region, @RequestParam("osAuthUrl") @NotNull final String osAuthUrl);
+//	public ResponseEntity<String> genMetadata(@RequestParam("path")  final String path,
+//			@RequestParam("imageId")  final String imageId, @RequestParam("osSeries")  final String osSeries,
+//			@RequestParam("region")  final String region, @RequestParam("osAuthUrl")  final String osAuthUrl);
 
 	@PostExchange("/metadata")
-	ResponseEntity<String> genMetadata(@RequestBody @NotNull final JujuMetadata meta);
+	ResponseEntity<String> genMetadata(@RequestBody final JujuMetadata meta);
 
 //	@PostExchange("/controller")
-//	public ResponseEntity<String> addController(@RequestParam("imageId") @NotNull final String imageId,
-//			@RequestParam("osSeries") @NotNull final String osSeries, @RequestParam("constraints") @NotNull final String constraints,
-//			@RequestParam("cloudname") @NotNull final String cloudname, @RequestParam("controllername") @NotNull final String controllername,
-//			@RequestParam("region") @NotNull final String region);
+//	public ResponseEntity<String> addController(@RequestParam("imageId")  final String imageId,
+//			@RequestParam("osSeries")  final String osSeries, @RequestParam("constraints")  final String constraints,
+//			@RequestParam("cloudname")  final String cloudname, @RequestParam("controllername")  final String controllername,
+//			@RequestParam("region")  final String region);
 
 	@PostExchange("/controller/{cloudname}")
-	ResponseEntity<String> addController(@PathVariable("cloudname") @NotNull final String cloudname, @RequestBody @NotNull final JujuMetadata controller);
+	ResponseEntity<String> addController(@PathVariable("cloudname") final String cloudname, @RequestBody final JujuMetadata controller);
 
 	@GetExchange("/controller")
 	ResponseEntity<String> controllers();
 
 	@DeleteExchange("/controller/{controllername}")
-	ResponseEntity<String> removeController(@PathVariable("controllername") @NotNull final String controllername);
+	ResponseEntity<String> removeController(@PathVariable("controllername") final String controllername);
 
 	@PostExchange("/model/{name}")
-	ResponseEntity<String> addModel(@PathVariable("name") @NotNull final String name);
+	ResponseEntity<String> addModel(@PathVariable("name") final String name);
 
 	@GetExchange("/model")
 	ResponseEntity<String> model();
 
 	@DeleteExchange("/model/{name}")
-	ResponseEntity<String> removeModel(@PathVariable("name") @NotNull final String name);
+	ResponseEntity<String> removeModel(@PathVariable("name") final String name);
 
 	@PostExchange("/application/{charm}/{name}")
-	ResponseEntity<String> deployApp(@PathVariable("charm") @NotNull final String charm, @PathVariable("name") @NotNull final String name);
+	ResponseEntity<String> deployApp(@PathVariable("charm") final String charm, @PathVariable("name") final String name);
 
 	@GetExchange("/application/{name}")
-	ResponseEntity<String> application(@PathVariable("name") @NotNull final String name);
+	ResponseEntity<String> application(@PathVariable("name") final String name);
 
 	@DeleteExchange("/application/{name}")
-	ResponseEntity<String> removeApplication(@PathVariable("name") @NotNull final String name);
+	ResponseEntity<String> removeApplication(@PathVariable("name") final String name);
 
 	@GetExchange("/status")
 	ResponseEntity<String> status();
