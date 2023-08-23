@@ -16,9 +16,11 @@
  */
 package com.ubiqube.etsi.mano.service.pkg.vnf;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -76,7 +78,10 @@ public class VnfOnboardingMapperService {
 		vnfPackage.addVirtualLink(pd.getVirtualLink9Req());
 		vnfPackage.addVirtualLink(pd.getVirtualLink10Req());
 		final Set<ListKeyPair> nl = vnfPackage.getVirtualLinks().stream().filter(x -> x.getValue() != null).collect(Collectors.toSet());
-		vnfPackage.setOverloadedAttribute(pd.getOverloadedAttributes().entrySet().stream().map(x -> map(x)).toList());
+		final List<AttributeAssignements> opt = Optional.ofNullable(pd.getOverloadedAttributes())
+				.map(x -> x.entrySet().stream().map(y -> map(y)).toList())
+				.orElseGet(ArrayList::new);
+		vnfPackage.setOverloadedAttribute(opt);
 		vnfPackage.setVirtualLinks(nl);
 	}
 
