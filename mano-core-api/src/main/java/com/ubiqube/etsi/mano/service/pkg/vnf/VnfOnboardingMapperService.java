@@ -18,14 +18,17 @@ package com.ubiqube.etsi.mano.service.pkg.vnf;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.ubiqube.etsi.mano.dao.mano.AttributeAssignements;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
 import com.ubiqube.etsi.mano.service.pkg.bean.ProviderData;
+import com.ubiqube.parser.tosca.AttributeAssignement;
 
 import ma.glasnost.orika.MapperFacade;
 
@@ -73,6 +76,11 @@ public class VnfOnboardingMapperService {
 		vnfPackage.addVirtualLink(pd.getVirtualLink9Req());
 		vnfPackage.addVirtualLink(pd.getVirtualLink10Req());
 		final Set<ListKeyPair> nl = vnfPackage.getVirtualLinks().stream().filter(x -> x.getValue() != null).collect(Collectors.toSet());
+		vnfPackage.setOverloadedAttribute(pd.getOverloadedAttributes().entrySet().stream().map(x -> map(x)).toList());
 		vnfPackage.setVirtualLinks(nl);
+	}
+
+	private static AttributeAssignements map(final Entry<String, AttributeAssignement> val) {
+		return new AttributeAssignements(null, val.getKey(), val.getValue().getValue());
 	}
 }

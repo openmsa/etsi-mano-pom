@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.dao.mano.Attributes;
+import com.ubiqube.etsi.mano.dao.mano.AttributeAssignements;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.service.pkg.vnf.OnboardingPostProcessorVisitor;
@@ -31,10 +31,11 @@ public class FixIndicatorMonitoring implements OnboardingPostProcessorVisitor {
 	@Override
 	public void visit(final VnfPackage vnfPackage) {
 		final List<String> indicators = vnfPackage.getVnfIndicator().stream().flatMap(x -> x.getIndicators().stream()).distinct().toList();
-		checkIndicators(indicators, vnfPackage.getAttributes());
+		checkIndicators(indicators, vnfPackage.getOverloadedAttribute());
+		// XXX: We should test attributes, but it's should be at done at tosca level.
 	}
 
-	private static void checkIndicators(final List<String> indicators, final List<Attributes> list) {
+	private static void checkIndicators(final List<String> indicators, final List<AttributeAssignements> list) {
 		final List<String> res = indicators.stream()
 				.filter(x -> notIn(list, x))
 				.toList();
@@ -44,9 +45,9 @@ public class FixIndicatorMonitoring implements OnboardingPostProcessorVisitor {
 		throw new GenericException("Unable to find attribute for the following indicator element: " + res);
 	}
 
-	private static boolean notIn(final List<Attributes> list, final String toMatch) {
+	private static boolean notIn(final List<AttributeAssignements> list, final String toMatch) {
 		return list.stream()
-				.map(x -> x.getName())
+				.map(AttributeAssignements::getName)
 				.noneMatch(x -> x.equals(toMatch));
 	}
 
