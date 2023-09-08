@@ -27,7 +27,7 @@ public class TestUnitOfWorkV3 implements UnitOfWorkV3<TestTask> {
 	private VirtualTaskV3<TestTask> task;
 
 	@Override
-	public VirtualTaskV3<TestTask> getTask() {
+	public VirtualTaskV3<TestTask> getVirtualTask() {
 		return task;
 	}
 

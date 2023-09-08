@@ -44,7 +44,7 @@ public class VnfStorageUow extends AbstractVnfmUow<StorageTask> {
 
 	@Override
 	public @Nullable String rollback(final Context3d context) {
-		final StorageTask params = getTask().getTemplateParameters();
+		final StorageTask params = getVirtualTask().getTemplateParameters();
 		vim.storage(vimConnectionInformation).deleteStorage(params.getVimResourceId());
 		return null;
 	}

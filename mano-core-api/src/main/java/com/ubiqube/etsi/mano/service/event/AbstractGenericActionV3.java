@@ -215,11 +215,11 @@ public abstract class AbstractGenericActionV3 {
 	private void setLiveSatus(final OrchExecutionResults<Task> res) {
 		LOG.info("Creating / deleting live instances.");
 		res.getSuccess().forEach(x -> {
-			final Task rhe = x.getTask().getTask().getTemplateParameters();
+			final Task rhe = x.getTask().getVirtualTask().getTemplateParameters();
 			final ChangeType ct = rhe.getChangeType();
 			if (ct == ChangeType.ADDED) {
 				if ((null == rhe.getId()) || (null == rhe.getVimResourceId())) {
-					LOG.warn("No vim resource or database id for: {}", x.getTask().getTask().getTemplateParameters().getToscaName());
+					LOG.warn("No vim resource or database id for: {}", x.getTask().getVirtualTask().getTemplateParameters().getToscaName());
 				}
 			} else if ((ct == ChangeType.REMOVED) && (null != rhe.getId()) && (null != rhe.getRemovedLiveInstance())) {
 				LOG.info("Removing {} = {}", rhe.getAlias(), rhe.getId());

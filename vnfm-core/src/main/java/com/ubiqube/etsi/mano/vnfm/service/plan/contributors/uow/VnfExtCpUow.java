@@ -48,7 +48,7 @@ public class VnfExtCpUow extends AbstractVnfmUow<ExternalCpTask> {
 
 	@Override
 	public @Nullable String rollback(final Context3d context) {
-		final ExternalCpTask param = getTask().getTemplateParameters();
+		final ExternalCpTask param = getVirtualTask().getTemplateParameters();
 		vim.network(vimConnectionInformation).deleteRouter(param.getVimResourceId());
 		return null;
 	}

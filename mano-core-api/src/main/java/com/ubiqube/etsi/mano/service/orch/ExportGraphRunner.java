@@ -53,7 +53,7 @@ public class ExportGraphRunner<U> implements PostPlanRunner<U> {
 		final DOTExporter<UnitOfWorkV3<U>, ConnectivityEdge<UnitOfWorkV3<U>>> exporter = new DOTExporter<>(GraphTools::toDotName);
 		exporter.setVertexAttributeProvider(x -> {
 			final Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("label", DefaultAttribute.createAttribute(x.getTask().getAlias() + "\n(" + x.getTask().getClass().getSimpleName() + ")"));
+			map.put("label", DefaultAttribute.createAttribute(x.getVirtualTask().getAlias() + "\n(" + x.getVirtualTask().getClass().getSimpleName() + ")"));
 			map.put("fillcolor", DefaultAttribute.createAttribute("aliceblue"));
 			return map;
 		});

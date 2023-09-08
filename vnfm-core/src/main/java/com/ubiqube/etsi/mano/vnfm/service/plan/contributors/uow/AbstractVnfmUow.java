@@ -26,17 +26,17 @@ import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
  *
  */
 public abstract class AbstractVnfmUow<U> implements UnitOfWorkV3<U> {
-	private final VirtualTaskV3<U> task;
+	private final VirtualTaskV3<U> vt;
 	private final Class<? extends Node> node;
 
 	protected AbstractVnfmUow(final VirtualTaskV3<U> task, final Class<? extends Node> node) {
-		this.task = task;
+		this.vt = task;
 		this.node = node;
 	}
 
 	@Override
-	public final VirtualTaskV3<U> getTask() {
-		return task;
+	public final VirtualTaskV3<U> getVirtualTask() {
+		return vt;
 	}
 
 	@Override
@@ -46,6 +46,10 @@ public abstract class AbstractVnfmUow<U> implements UnitOfWorkV3<U> {
 
 	@Override
 	public void setResource(final String res) {
-		task.setVimResourceId(res);
+		vt.setVimResourceId(res);
+	}
+
+	protected final U getTask() {
+		return vt.getTemplateParameters();
 	}
 }

@@ -29,7 +29,6 @@ import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsLiveInstanceJpa;
 import com.ubiqube.etsi.mano.orchestrator.OrchExecutionListener;
 import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWorkV3;
-import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 
 import jakarta.annotation.Nullable;
 
@@ -50,17 +49,17 @@ public class NsOrchListenetImpl implements OrchExecutionListener<NsTask> {
 	}
 
 	@Override
-	public void onStart(final VirtualTaskV3<NsTask> task) {
+	public void onStart(final UnitOfWorkV3<NsTask> task) {
 		LOG.info("Starting {}", task);
-		final NsTask resource = task.getTemplateParameters();
+		final NsTask resource = task.getVirtualTask().getTemplateParameters();
 		resource.setStatus(PlanStatusType.STARTED);
 		resource.setEndDate(LocalDateTime.now());
 	}
 
 	@Override
 	public void onTerminate(final UnitOfWorkV3<NsTask> uaow, final @Nullable String res) {
-		LOG.info("Terminate {} => {}", uaow.getTask(), res);
-		final NsTask resource = uaow.getTask().getTemplateParameters();
+		LOG.info("Terminate {} => {}", uaow.getVirtualTask(), res);
+		final NsTask resource = uaow.getVirtualTask().getTemplateParameters();
 		resource.setVimResourceId(res);
 		resource.setStatus(PlanStatusType.SUCCESS);
 		resource.setEndDate(LocalDateTime.now());
@@ -72,7 +71,7 @@ public class NsOrchListenetImpl implements OrchExecutionListener<NsTask> {
 
 	@Override
 	public void onError(final UnitOfWorkV3<NsTask> uaow, final RuntimeException e) {
-		final NsTask resource = uaow.getTask().getTemplateParameters();
+		final NsTask resource = uaow.getVirtualTask().getTemplateParameters();
 		resource.setStatus(PlanStatusType.FAILED);
 		resource.setEndDate(LocalDateTime.now());
 	}

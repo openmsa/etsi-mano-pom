@@ -57,7 +57,7 @@ public class VnfMonitoringUow extends AbstractVnfmUow<MonitoringTask> {
 
 	@Override
 	public @Nullable String rollback(final Context3d context) {
-		final MonitoringTask params = getTask().getTemplateParameters();
+		final MonitoringTask params = getVirtualTask().getTemplateParameters();
 		vnfMonitoringService.unregister(params.getVimResourceId());
 		return null;
 	}

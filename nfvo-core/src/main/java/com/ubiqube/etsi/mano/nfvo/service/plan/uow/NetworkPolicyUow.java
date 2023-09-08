@@ -45,7 +45,7 @@ public class NetworkPolicyUow extends AbstractUnitOfWork<NetworkPolicyTask> {
 	@Override
 	public @Nullable String execute(final Context3d context) {
 		final ContrailApi api = new ContrailApi();
-		final NetworkPolicyTask p = getTask().getTemplateParameters();
+		final NetworkPolicyTask p = getVirtualTask().getTemplateParameters();
 		final String serviceInstance = context.get(ServiceInstanceNode.class, p.getToscaName());
 		final String left = context.get(Network.class, p.getLeftId());
 		final String right = context.get(Network.class, p.getRightId());
@@ -56,7 +56,7 @@ public class NetworkPolicyUow extends AbstractUnitOfWork<NetworkPolicyTask> {
 	@Override
 	public @Nullable String rollback(final Context3d context) {
 		final ContrailApi api = new ContrailApi();
-		api.deleteNetworkPolicy(vimConnectionInformation, getTask().getTemplateParameters().getVimResourceId());
+		api.deleteNetworkPolicy(vimConnectionInformation, getVirtualTask().getTemplateParameters().getVimResourceId());
 		return null;
 	}
 

@@ -36,7 +36,7 @@ public class ServiceTemplateUow extends AbstractUnitOfWork<ServiceTemplateTask> 
 	public ServiceTemplateUow(final VirtualTaskV3<ServiceTemplateTask> task, final SystemConnections vimConnectionInformation) {
 		super(task, ServiceTemplateNode.class);
 		this.vimConnectionInformation = vimConnectionInformation;
-		this.task = getTask().getTemplateParameters();
+		this.task = getVirtualTask().getTemplateParameters();
 	}
 
 	@Override

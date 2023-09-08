@@ -43,13 +43,13 @@ public class VirtualLinkUow extends AbstractVnfmUow<NetworkTask> {
 
 	@Override
 	public @Nullable String execute(final Context3d context) {
-		final String domainName = context.getOptional(DnsZone.class, getTask().getTemplateParameters().getToscaName());
+		final String domainName = context.getOptional(DnsZone.class, getVirtualTask().getTemplateParameters().getToscaName());
 		return vim.network(vimConnectionInformation).createNetwork(vlProtocolData, task.getAlias(), domainName, task.getQosPolicy());
 	}
 
 	@Override
 	public @Nullable String rollback(final Context3d context) {
-		final NetworkTask params = getTask().getTemplateParameters();
+		final NetworkTask params = getVirtualTask().getTemplateParameters();
 		vim.network(vimConnectionInformation).deleteVirtualLink(params.getVimResourceId());
 		return null;
 	}

@@ -51,7 +51,7 @@ public class VnfComputeUow extends AbstractVnfmUow<ComputeTask> {
 	@Override
 	public @Nullable String execute(final Context3d context) {
 		final List<String> storages = task.getVnfCompute().getStorages().stream()
-				.map(x -> context.getParent(Storage.class, getTask().getToscaName() + "-" + x))
+				.map(x -> context.getParent(Storage.class, getVirtualTask().getToscaName() + "-" + x))
 				.flatMap(List::stream)
 				.toList();
 		final List<String> net = task.getVnfCompute().getNetworks().stream()
@@ -88,7 +88,7 @@ public class VnfComputeUow extends AbstractVnfmUow<ComputeTask> {
 
 	@Override
 	public @Nullable String rollback(final Context3d context) {
-		final ComputeTask t = getTask().getTemplateParameters();
+		final ComputeTask t = getVirtualTask().getTemplateParameters();
 		vim.deleteCompute(vimConnectionInformation, t.getVimResourceId());
 		return null;
 	}
