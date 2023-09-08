@@ -57,8 +57,6 @@
 		<com.ubiqube.springdoc.version>2.2.0</com.ubiqube.springdoc.version>
 		<com.ubiqube.swagger3.version>2.2.15</com.ubiqube.swagger3.version>
 		<com.ubiqube.reflections.version>0.10.2</com.ubiqube.reflections.version>
-		<!-- Deprecated: User wiremock3 -->
-		<com.ubiqube.wiremock-jre8.version>2.35.1</com.ubiqube.wiremock-jre8.version>
 		<com.ubiqube.wiremock3.version>3.0.3</com.ubiqube.wiremock3.version>
 		<version.jib-core>0.24.0</version.jib-core>
 		<version.commons-compress>1.23.0</version.commons-compress>
@@ -316,11 +314,6 @@
 				<groupId>org.jgrapht</groupId>
 				<artifactId>jgrapht-ext</artifactId>
 				<version>${com.ubiqube.jgrapht.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.github.tomakehurst</groupId>
-				<artifactId>wiremock-jre8</artifactId>
-				<version>${com.ubiqube.wiremock-jre8.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.wiremock</groupId>
