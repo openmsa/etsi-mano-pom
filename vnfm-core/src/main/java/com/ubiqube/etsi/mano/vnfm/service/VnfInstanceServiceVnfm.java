@@ -17,16 +17,26 @@
 package com.ubiqube.etsi.mano.vnfm.service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.ubiqube.etsi.mano.dao.mano.CpProtocolInfoEntity;
+import com.ubiqube.etsi.mano.dao.mano.CpProtocolInfoEntity.LayerProtocolEnum;
 import com.ubiqube.etsi.mano.dao.mano.ExtCpInfo;
 import com.ubiqube.etsi.mano.dao.mano.ExtManagedVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.ExtVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.InstantiationState;
+import com.ubiqube.etsi.mano.dao.mano.IpOverEthernetAddressDataAddressRangeEntity;
+import com.ubiqube.etsi.mano.dao.mano.IpOverEthernetAddressDataIpAddressesEntity;
+import com.ubiqube.etsi.mano.dao.mano.IpOverEthernetAddressInfoEntity;
+import com.ubiqube.etsi.mano.dao.mano.IpOverEthernetAddressInfoEntity.TypeEnum;
+import com.ubiqube.etsi.mano.dao.mano.IpPool;
+import com.ubiqube.etsi.mano.dao.mano.IpType;
+import com.ubiqube.etsi.mano.dao.mano.SubNetworkTask;
 import com.ubiqube.etsi.mano.dao.mano.VimResource;
 import com.ubiqube.etsi.mano.dao.mano.VirtualLinkInfo;
 import com.ubiqube.etsi.mano.dao.mano.VirtualStorageResourceInfo;
@@ -41,6 +51,7 @@ import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
 import com.ubiqube.etsi.mano.dao.mano.v2.BlueprintParameters;
 import com.ubiqube.etsi.mano.dao.mano.v2.ComputeTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.ExternalCpTask;
+import com.ubiqube.etsi.mano.dao.mano.v2.IpSubnet;
 import com.ubiqube.etsi.mano.dao.mano.v2.MonitoringTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.NetworkTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.StorageTask;
@@ -88,7 +99,7 @@ public class VnfInstanceServiceVnfm implements VnfInstanceGatewayService {
 	@Override
 	public VnfInstance findById(final UUID id) {
 		final VnfInstance inst = vnfInstanceJpa.findById(id).orElseThrow(() -> new NotFoundException("Could not find VNF instance: " + id));
-		final BlueprintParameters vnfInfo = inst.getInstantiatedVnfInfo();
+		final BlueprintParameters vnfInfo = Objects.requireNonNull(inst.getInstantiatedVnfInfo());
 		final List<VnfLiveInstance> vli = vnfLiveInstanceJpa.findByVnfInstance(inst);
 		extractCompute(vnfInfo, vli);
 		extractExtCp(vnfInfo, vli, inst);
@@ -169,46 +180,52 @@ public class VnfInstanceServiceVnfm implements VnfInstanceGatewayService {
 
 	private static void extractStorage(final BlueprintParameters vnfInfo, final List<VnfLiveInstance> vli) {
 		final List<VnfLiveInstance> storageVli = vli.stream().filter(x -> x.getTask() instanceof StorageTask).toList();
-		final Set<VirtualStorageResourceInfo> storages = storageVli.stream().map(x -> {
-			final VirtualStorageResourceInfo ret = new VirtualStorageResourceInfo();
-			ret.setReservationId(null);
-			final VimResource vimResource = new VimResource();
-			vimResource.setResourceId(x.getResourceId());
-			vimResource.setVimConnectionId(x.getVimConnectionId());
-			vimResource.setResourceProviderId(x.getTask().getResourceProviderId());
-			ret.setId(x.getId());
-			ret.setStorageResource(vimResource);
-			ret.setVirtualStorageDescId(x.getTask().getToscaName());
-			ret.setVnfdId(null);
-			ret.setZoneId(null);
-			return ret;
-		}).collect(Collectors.toSet());
+		final Set<VirtualStorageResourceInfo> storages = storageVli.stream()
+				.map(x -> createVirtualStorageResourceInfo(x))
+				.collect(Collectors.toSet());
 		vnfInfo.setVirtualStorageResourceInfo(storages);
+	}
+
+	private static VirtualStorageResourceInfo createVirtualStorageResourceInfo(final VnfLiveInstance x) {
+		final VirtualStorageResourceInfo ret = new VirtualStorageResourceInfo();
+		ret.setReservationId(null);
+		final VimResource vimResource = new VimResource();
+		vimResource.setResourceId(x.getResourceId());
+		vimResource.setVimConnectionId(x.getVimConnectionId());
+		vimResource.setResourceProviderId(x.getTask().getResourceProviderId());
+		ret.setId(x.getId());
+		ret.setStorageResource(vimResource);
+		ret.setVirtualStorageDescId(x.getTask().getToscaName());
+		ret.setVnfdId(null);
+		ret.setZoneId(null);
+		return ret;
 	}
 
 	private void extractExtCp(final BlueprintParameters vnfInfo, final List<VnfLiveInstance> vli, final VnfInstance inst) {
 		final List<VnfLiveInstance> portVli = vli.stream().filter(x -> x.getTask() instanceof VnfPortTask).toList();
 		final Set<ExtCpInfo> extCp = portVli.stream()
 				.filter(x -> isPointingOut(x, inst.getVnfPkg().getVirtualLinks()))
-				.map(x -> {
-					final VnfPortTask vpt = (VnfPortTask) x.getTask();
-					final VnfLinkPort vlp = vpt.getVnfLinkPort();
-					final ExtCpInfo ret = new ExtCpInfo();
-					ret.setId(x.getId());
-					ret.setAssociatedVnfcCpId(null); // This is one
-					ret.setAssociatedVnfVirtualLinkId(getPort(portVli, vlp.getToscaName()));
-					ret.setCpConfigId(null);
-					if (null == vlp.getVirtualLink()) {
-						final VnfPackage vnfPkg = vnfPackageJpa.findById(inst.getVnfPkg().getId()).orElseThrow();
-						setFromExtCp(vnfPkg, ret, vlp.getToscaName());
-					} else {
-						ret.setCpdId(vlp.getVirtualLink());
-					}
-					ret.setCpProtocolInfo(null);
-					ret.setExtLinkPortId(null);
-					return ret;
-				}).collect(Collectors.toSet());
+				.map(x -> createExtCpInfo(inst, portVli, x)).collect(Collectors.toSet());
 		vnfInfo.setExtCpInfo(extCp);
+	}
+
+	private ExtCpInfo createExtCpInfo(final VnfInstance inst, final List<VnfLiveInstance> portVli, final VnfLiveInstance vli) {
+		final VnfPortTask vpt = (VnfPortTask) vli.getTask();
+		final VnfLinkPort vlp = vpt.getVnfLinkPort();
+		final ExtCpInfo ret = new ExtCpInfo();
+		ret.setId(vli.getId());
+		ret.setAssociatedVnfcCpId(null); // This is one
+		ret.setAssociatedVnfVirtualLinkId(getPort(portVli, vlp.getToscaName()));
+		ret.setCpConfigId(null);
+		if (null == vlp.getVirtualLink()) {
+			final VnfPackage vnfPkg = vnfPackageJpa.findById(inst.getVnfPkg().getId()).orElseThrow();
+			setFromExtCp(vnfPkg, ret, vlp.getToscaName());
+		} else {
+			ret.setCpdId(vlp.getVirtualLink());
+		}
+		ret.setCpProtocolInfo(null);
+		ret.setExtLinkPortId(null);
+		return ret;
 	}
 
 	private static boolean isPointingOut(final VnfLiveInstance vli, final Set<ListKeyPair> extVls) {
@@ -243,41 +260,89 @@ public class VnfInstanceServiceVnfm implements VnfInstanceGatewayService {
 				.filter(x -> x.getTask() instanceof ComputeTask)
 				.toList();
 		final Set<VnfcResourceInfoEntity> vnfcResourceInfo = computeVli.stream()
-				.map(x -> {
-					final ComputeTask ct = (ComputeTask) x.getTask();
-					final VnfcResourceInfoEntity ret = mapper.map(x, VnfcResourceInfoEntity.class);
-					ret.setComputeResource(mapper.map(x.getTask(), VimResource.class));
-					ret.setId(x.getId().toString());
-					ret.setStorageResourceIds(ct.getVnfCompute().getStorages());
-					ret.setVduId(ct.getToscaName());
-					ret.setZoneId(ct.getZoneId());
-					ret.getComputeResource().setResourceId(x.getResourceId());
-					final Set<VnfcResourceInfoVnfcCpInfoEntity> cpInfo = extractCpInfo(ct, vli);
-					ret.setVnfcCpInfo(cpInfo);
-					return ret;
-				}).collect(Collectors.toSet());
+				.map(x -> createVnfcResourceInfoEntity(vli, x)).collect(Collectors.toSet());
 		vnfInfo.setVnfcResourceInfo(vnfcResourceInfo);
+	}
+
+	private VnfcResourceInfoEntity createVnfcResourceInfoEntity(final List<VnfLiveInstance> vli, final VnfLiveInstance x) {
+		final ComputeTask ct = (ComputeTask) x.getTask();
+		final VnfcResourceInfoEntity ret = mapper.map(x, VnfcResourceInfoEntity.class);
+		ret.setComputeResource(mapper.map(x.getTask(), VimResource.class));
+		ret.setId(x.getId().toString());
+		ret.setStorageResourceIds(ct.getVnfCompute().getStorages());
+		ret.setVduId(ct.getToscaName());
+		ret.setZoneId(ct.getZoneId());
+		ret.getComputeResource().setResourceId(x.getResourceId());
+		final Set<VnfcResourceInfoVnfcCpInfoEntity> cpInfo = extractCpInfo(ct, vli);
+		ret.setVnfcCpInfo(cpInfo);
+		return ret;
 	}
 
 	private Set<VnfcResourceInfoVnfcCpInfoEntity> extractCpInfo(final ComputeTask ct, final List<VnfLiveInstance> vli) {
 		return ct.getVnfCompute().getPorts().stream()
-				.map(x -> {
-					final String livePortName = namingStrategy.nameConnectionPort(x, ct);
-					final VnfLiveInstance vp = findPort(vli, x.getToscaName(), ct.getRank());
-					final VnfcResourceInfoVnfcCpInfoEntity ret = new VnfcResourceInfoVnfcCpInfoEntity();
-					final VnfPortTask vpt = (VnfPortTask) vp.getTask();
-					ret.setCpdId(vpt.getVnfLinkPort().getToscaName());
-					ret.setCpProtocolInfo(null);
-					ret.setId(vp.getId().toString());
-					ret.setParentCpId(null);
-					if ((null != vpt.getVnfLinkPort().getVirtualLink()) && vpt.getVnfLinkPort().getVirtualLink().startsWith(VIRTUAL_LINK)) {
-						ret.setVnfExtCpId(vp.getId().toString());
-					} else {
-						ret.setVnfLinkPortId(vp.getId().toString());
-					}
-					return ret;
-				})
+				.map(x -> createVnfcResourceInfoVnfcCpInfoEntity(ct, vli, x))
 				.collect(Collectors.toSet());
+	}
+
+	private VnfcResourceInfoVnfcCpInfoEntity createVnfcResourceInfoVnfcCpInfoEntity(final ComputeTask ct, final List<VnfLiveInstance> vli, final VnfLinkPort x) {
+		final String livePortName = namingStrategy.nameConnectionPort(x, ct);
+		final VnfLiveInstance vp = findPort(vli, x.getToscaName(), ct.getRank());
+		final VnfcResourceInfoVnfcCpInfoEntity ret = new VnfcResourceInfoVnfcCpInfoEntity();
+		final VnfPortTask vpt = (VnfPortTask) vp.getTask();
+		ret.setCpdId(vpt.getVnfLinkPort().getToscaName());
+		ret.setCpProtocolInfo(createCpInfo(vli, vpt));
+		ret.setId(vp.getId().toString());
+		ret.setParentCpId(null);
+		if ((null != vpt.getVnfLinkPort().getVirtualLink()) && vpt.getVnfLinkPort().getVirtualLink().startsWith(VIRTUAL_LINK)) {
+			ret.setVnfExtCpId(vp.getId().toString());
+		} else {
+			ret.setVnfLinkPortId(vp.getId().toString());
+		}
+		return ret;
+	}
+
+	private static List<CpProtocolInfoEntity> createCpInfo(final List<VnfLiveInstance> vli, final VnfPortTask vp) {
+		final CpProtocolInfoEntity ret = new CpProtocolInfoEntity();
+		final IpOverEthernetAddressInfoEntity ioe = new IpOverEthernetAddressInfoEntity();
+		ioe.setAddressRange(null);
+		final List<IpOverEthernetAddressDataIpAddressesEntity> addrs = mapIps(vli, vp.getIpSubnet());
+		ioe.setIpAddresses(addrs);
+		ioe.setIsDynamic(false);
+		ioe.setMacAddress(vp.getMacAddress());
+		ioe.setSegmentationId(null);
+		ioe.setType(TypeEnum.PV4);
+		//
+		ret.setIpOverEthernet(ioe);
+		ret.setLayerProtocol(LayerProtocolEnum.IP_OVER_ETHERNET);
+		ret.setVirtualCpAddress(null);
+		return List.of(ret);
+	}
+
+	private static List<IpOverEthernetAddressDataIpAddressesEntity> mapIps(final List<VnfLiveInstance> vli, final Set<IpSubnet> ips) {
+		return ips.stream().map(x -> {
+			final SubNetworkTask snt = findSubnetworkTaskByResourceId(vli, x.getSubnetId());
+			final IpPool pool = snt.getIpPool();
+			final IpOverEthernetAddressDataIpAddressesEntity ret = new IpOverEthernetAddressDataIpAddressesEntity();
+			ret.setId(x.getId());
+			ret.setAddresses(List.of(x.getIp()));
+			final IpOverEthernetAddressDataAddressRangeEntity range = new IpOverEthernetAddressDataAddressRangeEntity();
+			range.setMinAddress(pool.getStartIpAddress());
+			range.setMaxAddress(pool.getEndIpAddress());
+			ret.setAddressRange(range);
+			ret.setNumDynamicAddresses(1);
+			ret.setSubnetId(x.getSubnetId());
+			ret.setType(IpType.IPV4);
+			return ret;
+		}).toList();
+	}
+
+	private static SubNetworkTask findSubnetworkTaskByResourceId(final List<VnfLiveInstance> vli, final String subnetId) {
+		return vli.stream()
+				.filter(x -> subnetId.equals(x.getResourceId()))
+				.findFirst()
+				.map(x -> x.getTask())
+				.map(SubNetworkTask.class::cast)
+				.orElseThrow();
 	}
 
 	private static VnfLiveInstance findPort(final List<VnfLiveInstance> vli, final String toscaName, final int rank) {

@@ -28,8 +28,8 @@ import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
 import com.ubiqube.etsi.mano.orchestrator.OrchExecutionListener;
 import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWorkV3;
-import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
+import com.ubiqube.etsi.mano.vnfm.jpa.VnfTaskJpa;
 
 import jakarta.annotation.Nullable;
 
@@ -43,24 +43,27 @@ public class OrchListenetImpl implements OrchExecutionListener<VnfTask> {
 	private static final Logger LOG = LoggerFactory.getLogger(OrchListenetImpl.class);
 	private final VnfBlueprint blueprint;
 	private final VnfLiveInstanceJpa vnfLiveInstanceJpa;
+	private final VnfTaskJpa vnfTaskJpa;
 
-	public OrchListenetImpl(final VnfBlueprint blueprint, final VnfLiveInstanceJpa vnfLiveInstanceJpa) {
+	public OrchListenetImpl(final VnfBlueprint blueprint, final VnfLiveInstanceJpa vnfLiveInstanceJpa, final VnfTaskJpa vnfTaskJpa) {
 		this.blueprint = blueprint;
 		this.vnfLiveInstanceJpa = vnfLiveInstanceJpa;
+		this.vnfTaskJpa = vnfTaskJpa;
 	}
 
 	@Override
-	public void onStart(final VirtualTaskV3<VnfTask> task) {
-		LOG.info("Starting {}", task);
-		final VnfTask resource = task.getTemplateParameters();
+	public void onStart(final UnitOfWorkV3<VnfTask> uaow) {
+		LOG.info("Starting {}", uaow);
+		final VnfTask resource = uaow.getVirtualTask().getTemplateParameters();
 		resource.setStatus(PlanStatusType.STARTED);
 		resource.setEndDate(LocalDateTime.now());
+		saveTask(uaow);
 	}
 
 	@Override
 	public void onTerminate(final UnitOfWorkV3<VnfTask> uaow, final @Nullable String res) {
-		LOG.info("Terminate {} => {}", uaow.getTask(), res);
-		final VnfTask resource = uaow.getTask().getTemplateParameters();
+		LOG.info("Terminate {} => {}", uaow.getVirtualTask(), res);
+		final VnfTask resource = uaow.getVirtualTask().getTemplateParameters();
 		resource.setVimResourceId(res);
 		resource.setStatus(PlanStatusType.SUCCESS);
 		resource.setEndDate(LocalDateTime.now());
@@ -68,13 +71,20 @@ public class OrchListenetImpl implements OrchExecutionListener<VnfTask> {
 			final VnfLiveInstance vli = new VnfLiveInstance(blueprint.getInstance(), null, resource, blueprint, resource.getVimResourceId(), resource.getVimConnectionId());
 			vnfLiveInstanceJpa.save(vli);
 		}
+		saveTask(uaow);
 	}
 
 	@Override
 	public void onError(final UnitOfWorkV3<VnfTask> uaow, final RuntimeException e) {
-		final VnfTask resource = uaow.getTask().getTemplateParameters();
+		final VnfTask resource = uaow.getVirtualTask().getTemplateParameters();
 		resource.setStatus(PlanStatusType.FAILED);
 		resource.setEndDate(LocalDateTime.now());
+		saveTask(uaow);
 	}
 
+	private void saveTask(final UnitOfWorkV3<VnfTask> uaow) {
+		final VnfTask task = uaow.getVirtualTask().getTemplateParameters();
+		final VnfTask res = vnfTaskJpa.save(task);
+		uaow.getVirtualTask().setTemplateParameters(res);
+	}
 }

@@ -31,6 +31,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWorkV3;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
+import com.ubiqube.etsi.mano.vnfm.jpa.VnfTaskJpa;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.uow.DnsHostUow;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.vt.DnsHostVt;
 
@@ -40,10 +41,12 @@ class OrchListenetImplTest {
 	private VnfBlueprint blueprint;
 	@Mock
 	private VnfLiveInstanceJpa vnfLiveInstance;
+	@Mock
+	private VnfTaskJpa vnfTaskJpa;
 
 	@Test
 	void testOnError() {
-		final OrchListenetImpl srv = new OrchListenetImpl(blueprint, vnfLiveInstance);
+		final OrchListenetImpl srv = new OrchListenetImpl(blueprint, vnfLiveInstance, vnfTaskJpa);
 		final DnsHostTask nt = new DnsHostTask();
 		final VirtualTaskV3<DnsHostTask> task = new DnsHostVt(nt);
 		final UnitOfWorkV3 uow = new DnsHostUow(task, null, null);
@@ -53,16 +56,17 @@ class OrchListenetImplTest {
 
 	@Test
 	void testOnStart() {
-		final OrchListenetImpl srv = new OrchListenetImpl(blueprint, vnfLiveInstance);
+		final OrchListenetImpl srv = new OrchListenetImpl(blueprint, vnfLiveInstance, vnfTaskJpa);
 		final DnsHostTask nt = new DnsHostTask();
 		final VirtualTaskV3 task = new DnsHostVt(nt);
-		srv.onStart(task);
+		final UnitOfWorkV3 uow = new DnsHostUow(task, null, null);
+		srv.onStart(uow);
 		assertTrue(true);
 	}
 
 	@Test
 	void testOnTerminate() {
-		final OrchListenetImpl srv = new OrchListenetImpl(blueprint, vnfLiveInstance);
+		final OrchListenetImpl srv = new OrchListenetImpl(blueprint, vnfLiveInstance, vnfTaskJpa);
 		final DnsHostTask nt = new DnsHostTask();
 		final VirtualTaskV3 task = new DnsHostVt(nt);
 		final UnitOfWorkV3 uow = new DnsHostUow(task, null, null);
@@ -72,7 +76,7 @@ class OrchListenetImplTest {
 
 	@Test
 	void testOnTerminate1() {
-		final OrchListenetImpl srv = new OrchListenetImpl(blueprint, vnfLiveInstance);
+		final OrchListenetImpl srv = new OrchListenetImpl(blueprint, vnfLiveInstance, vnfTaskJpa);
 		final DnsHostTask nt = new DnsHostTask();
 		nt.setChangeType(ChangeType.ADDED);
 		nt.setId(UUID.randomUUID());
@@ -84,7 +88,7 @@ class OrchListenetImplTest {
 
 	@Test
 	void testOnTerminate2() {
-		final OrchListenetImpl srv = new OrchListenetImpl(blueprint, vnfLiveInstance);
+		final OrchListenetImpl srv = new OrchListenetImpl(blueprint, vnfLiveInstance, vnfTaskJpa);
 		final DnsHostTask nt = new DnsHostTask();
 		nt.setChangeType(ChangeType.ADDED);
 		nt.setId(UUID.randomUUID());
@@ -96,7 +100,7 @@ class OrchListenetImplTest {
 
 	@Test
 	void testOnTerminate3() {
-		final OrchListenetImpl srv = new OrchListenetImpl(blueprint, vnfLiveInstance);
+		final OrchListenetImpl srv = new OrchListenetImpl(blueprint, vnfLiveInstance, vnfTaskJpa);
 		final DnsHostTask nt = new DnsHostTask();
 		nt.setChangeType(ChangeType.ADDED);
 		final VirtualTaskV3 task = new DnsHostVt(nt);

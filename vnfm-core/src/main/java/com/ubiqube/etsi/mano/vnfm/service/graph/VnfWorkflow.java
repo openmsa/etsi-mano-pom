@@ -89,6 +89,7 @@ import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.VnfPlanService;
 import com.ubiqube.etsi.mano.service.event.WorkflowV3;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
+import com.ubiqube.etsi.mano.vnfm.jpa.VnfTaskJpa;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.AbstractVnfmContributor;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.vt.ComputeVt;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.vt.DnsHostVt;
@@ -129,16 +130,18 @@ public class VnfWorkflow implements WorkflowV3<VnfPackage, VnfBlueprint, VnfTask
 	private final Planner<VnfTask> planv2;
 	private final VnfLiveInstanceJpa liveInstanceJpa;
 	private final VnfPackageService vnfPackageService;
+	private final VnfTaskJpa vnfTaskJpa;
 
 	public VnfWorkflow(final Planner<VnfTask> planv2, final VnfLiveInstanceJpa vnfInstanceJpa,
 			final List<AbstractVnfmContributor<?>> contributors, final VnfPlanService planService, final BlueprintBuilder blueprintBuilder,
-			final VnfPackageService vnfPackageService) {
+			final VnfPackageService vnfPackageService, final VnfTaskJpa vnfTaskJpa) {
 		this.planv2 = planv2;
 		this.liveInstanceJpa = vnfInstanceJpa;
 		this.contributors = (List<AbstractVnfmContributor<VnfTask>>) ((Object) contributors);
 		this.planService = planService;
 		this.blueprintBuilder = blueprintBuilder;
 		this.vnfPackageService = vnfPackageService;
+		this.vnfTaskJpa = vnfTaskJpa;
 		vts = new EnumMap<>(ResourceTypeEnum.class);
 		vts.put(ResourceTypeEnum.VL, x -> new NetWorkVt((NetworkTask) x));
 		vts.put(ResourceTypeEnum.SUBNETWORK, x -> new SubNetworkVt((SubNetworkTask) x));
@@ -235,7 +238,7 @@ public class VnfWorkflow implements WorkflowV3<VnfPackage, VnfBlueprint, VnfTask
 		plan.toDotFile("orch-added.dot");
 		final ExecutionGraph imp = planv2.implement(plan);
 		populateContext(imp, parameters);
-		return planv2.execute(imp, new OrchListenetImpl(parameters, liveInstanceJpa));
+		return planv2.execute(imp, new OrchListenetImpl(parameters, liveInstanceJpa, vnfTaskJpa));
 	}
 
 	private static void populateContext(final ExecutionGraph imp, final VnfBlueprint parameters) {

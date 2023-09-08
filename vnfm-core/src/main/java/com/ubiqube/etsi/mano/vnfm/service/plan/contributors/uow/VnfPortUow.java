@@ -16,15 +16,20 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.uow;
 
+import java.util.stream.Collectors;
+
 import com.ubiqube.etsi.mano.dao.mano.ExtManagedVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.VnfLinkPort;
 import com.ubiqube.etsi.mano.dao.mano.common.NicType;
+import com.ubiqube.etsi.mano.dao.mano.v2.IpSubnet;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfPortTask;
 import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfPortNode;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
+import com.ubiqube.etsi.mano.service.vim.FixedIp;
+import com.ubiqube.etsi.mano.service.vim.Port;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 
 import jakarta.annotation.Nonnull;
@@ -35,30 +40,40 @@ public class VnfPortUow extends AbstractVnfmUow<VnfPortTask> {
 	private final Vim vim;
 	@Nonnull
 	private final VimConnectionInformation vimConnectionInformation;
-	@Nonnull
-	private final VnfPortTask task;
 
 	public VnfPortUow(final VirtualTaskV3<VnfPortTask> task, final Vim vim, final VimConnectionInformation vimConnectionInformation) {
 		super(task, VnfPortNode.class);
 		this.vim = vim;
 		this.vimConnectionInformation = vimConnectionInformation;
-		this.task = task.getTemplateParameters();
 	}
 
 	@Override
 	public @Nullable String execute(final Context3d context) {
+		final VnfPortTask task = getTask();
+		Port p;
 		if (task.getExternal() != null) {
 			final ExtManagedVirtualLinkDataEntity ext = task.getExternal();
-			return vim.network(vimConnectionInformation).createPort(getTask().getAlias(), ext.getResourceId(), null, null, NicType.fromValue(getTask().getTemplateParameters().getVnfLinkPort().getVnicType()));
+			p = vim.network(vimConnectionInformation).createPort(getVirtualTask().getAlias(), ext.getResourceId(), null, null, NicType.fromValue(getVirtualTask().getTemplateParameters().getVnfLinkPort().getVnicType()));
+		} else {
+			final VnfLinkPort extCp = task.getVnfLinkPort();
+			final String extNetwork = context.get(Network.class, extCp.getVirtualLink());
+			p = vim.network(vimConnectionInformation).createPort(getVirtualTask().getAlias(), extNetwork, null, null, NicType.fromValue(getVirtualTask().getTemplateParameters().getVnfLinkPort().getVnicType()));
 		}
-		final VnfLinkPort extCp = task.getVnfLinkPort();
-		final String extNetwork = context.get(Network.class, extCp.getVirtualLink());
-		return vim.network(vimConnectionInformation).createPort(getTask().getAlias(), extNetwork, null, null, NicType.fromValue(getTask().getTemplateParameters().getVnfLinkPort().getVnicType()));
+		task.setIpSubnet(p.getFixedIps().stream().map(this::map).collect(Collectors.toSet()));
+		task.setMacAddress(p.getMacAddress());
+		return p.getId().toString();
+	}
+
+	private IpSubnet map(final FixedIp ip) {
+		final IpSubnet is = new IpSubnet();
+		is.setIp(ip.getIp());
+		is.setSubnetId(ip.getSubnetId());
+		return is;
 	}
 
 	@Override
 	public @Nullable String rollback(final Context3d context) {
-		final VnfPortTask param = getTask().getTemplateParameters();
+		final VnfPortTask param = getVirtualTask().getTemplateParameters();
 		vim.network(vimConnectionInformation).deletePort(param.getVimResourceId());
 		return null;
 	}
