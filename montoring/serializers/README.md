@@ -1,2 +1,0 @@
-# Serializer aggregator project.
-
