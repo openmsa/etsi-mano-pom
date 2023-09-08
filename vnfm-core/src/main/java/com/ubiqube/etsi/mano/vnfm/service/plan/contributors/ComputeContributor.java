@@ -101,7 +101,6 @@ public class ComputeContributor extends AbstractVnfmContributor<Object> {
 				pt.setChangeType(ChangeType.ADDED);
 				pt.setType(ResourceTypeEnum.LINKPORT);
 				pt.setVnfLinkPort(y);
-				pt.setCompute(computeTask);
 				if (pt.getVnfLinkPort().getVirtualLink() == null) {
 					final Optional<String> vlName = findVlName(vnfPackage, y.getToscaName());
 					if (vlName.isEmpty()) {
