@@ -47,7 +47,8 @@ class NsOrchListenetImplTest {
 		final NsdTask task = new NsdTask();
 		final NsCreateVt vt = new NsCreateVt(task);
 		final VirtualTaskV3 vt2 = vt;
-		lis.onStart(vt2);
+		final UnitOfWorkV3 uow = new NetworkPolicyUow(vt2, null);
+		lis.onStart(uow);
 		assertTrue(true);
 	}
 

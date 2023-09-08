@@ -22,6 +22,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
+import java.util.UUID;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -34,6 +36,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.VnfPortTask;
 import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
+import com.ubiqube.etsi.mano.service.vim.Port;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.vt.VnfPortVt;
 
@@ -57,6 +60,9 @@ class VnfPortUowTest {
 		final VnfPortUow uow = new VnfPortUow(vt, vim, vimConn);
 		when(context.get(eq(Network.class), any())).thenReturn("");
 		when(vim.network(vimConn)).thenReturn(network);
+		final Port port = new Port();
+		port.setId(UUID.randomUUID());
+		when(network.createPort(any(), any(), any(), any(), any())).thenReturn(port);
 		uow.execute(context);
 		assertTrue(true);
 	}
@@ -72,6 +78,9 @@ class VnfPortUowTest {
 		final VimConnectionInformation vimConn = new VimConnectionInformation();
 		final VnfPortUow uow = new VnfPortUow(vt, vim, vimConn);
 		when(vim.network(vimConn)).thenReturn(network);
+		final Port port = new Port();
+		port.setId(UUID.randomUUID());
+		when(network.createPort(any(), any(), any(), any(), any())).thenReturn(port);
 		uow.execute(context);
 		assertTrue(true);
 	}
