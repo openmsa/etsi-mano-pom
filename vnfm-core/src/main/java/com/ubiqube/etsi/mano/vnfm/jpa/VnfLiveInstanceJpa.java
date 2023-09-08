@@ -26,6 +26,8 @@ import com.ubiqube.etsi.mano.dao.mano.Instance;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfLiveInstance;
 
+import jakarta.validation.constraints.NotNull;
+
 /**
  *
  * @author Olivier Vignaud {@literal <ovi@ubiqube.com>}
@@ -53,6 +55,7 @@ public interface VnfLiveInstanceJpa extends CrudRepository<VnfLiveInstance, UUID
 
 	List<VnfLiveInstance> findByVnfInstanceId(UUID id);
 
+	@NotNull
 	List<VnfLiveInstance> findByVnfInstance(VnfInstance vnfInstance);
 
 	long countByVnfInstance(Instance vnfInstance);
