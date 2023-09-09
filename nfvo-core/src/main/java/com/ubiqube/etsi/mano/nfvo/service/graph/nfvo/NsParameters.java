@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.nfvo.service.graph.nfvo;
 
 import java.util.Map;
 
-import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
+import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.service.graph.GenericExecParams;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 

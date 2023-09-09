@@ -18,7 +18,6 @@ package com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt;
 
 import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
 import com.ubiqube.etsi.mano.orchestrator.nodes.contrail.ServiceTemplateNode;
-import com.ubiqube.etsi.mano.service.graph.vt.NsVtBase;
 import com.ubiqube.etsi.mano.tf.entities.ServiceTemplateTask;
 
 /**

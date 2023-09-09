@@ -21,9 +21,9 @@ import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.VimTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
+import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.service.VimResourceService;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
@@ -38,7 +38,6 @@ public class NfvoVimAllocate implements VimResourceService {
 	private final VimManager vimManager;
 
 	public NfvoVimAllocate(final VimManager vimManager) {
-		super();
 		this.vimManager = vimManager;
 	}
 

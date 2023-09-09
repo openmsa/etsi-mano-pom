@@ -19,7 +19,6 @@ package com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt;
 import com.ubiqube.etsi.mano.dao.mano.vnffg.VnffgLoadbalancerTask;
 import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnffgLoadbalancerNode;
-import com.ubiqube.etsi.mano.service.graph.vt.NsVtBase;
 
 /**
  * Port pair group in sfc.

@@ -19,7 +19,6 @@ package com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsdInstantiateTask;
 import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.NsdInstantiateNode;
-import com.ubiqube.etsi.mano.service.graph.vt.NsVtBase;
 
 public class NsInstantiateVt extends NsVtBase<NsdInstantiateTask> {
 

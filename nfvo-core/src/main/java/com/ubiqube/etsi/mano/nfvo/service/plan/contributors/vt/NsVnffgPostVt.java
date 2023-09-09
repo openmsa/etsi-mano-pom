@@ -19,7 +19,6 @@ package com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt;
 import com.ubiqube.etsi.mano.dao.mano.vnffg.VnffgPostTask;
 import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnffgPostNode;
-import com.ubiqube.etsi.mano.service.graph.vt.NsVtBase;
 
 /**
  *
