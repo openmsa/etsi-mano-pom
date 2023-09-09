@@ -26,12 +26,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.ubiqube.etsi.mano.dao.mano.SoftwareImage;
 import com.ubiqube.etsi.mano.dao.mano.VnfCompute;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
-import com.ubiqube.etsi.mano.dao.mano.VnfStorage;
-import com.ubiqube.etsi.mano.dao.mano.common.Checksum;
 import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainer;
+import com.ubiqube.etsi.mano.dao.mano.vim.Checksum;
+import com.ubiqube.etsi.mano.dao.mano.vim.SoftwareImage;
+import com.ubiqube.etsi.mano.dao.mano.vim.VnfStorage;
 import com.ubiqube.etsi.mano.dao.mano.vnfm.McIops;
 import com.ubiqube.etsi.mano.service.pkg.vnf.DownloaderService;
 

@@ -27,10 +27,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.ubiqube.etsi.mano.dao.mano.AffinityRule;
 import com.ubiqube.etsi.mano.dao.mano.VnfCompute;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.VnfVl;
+import com.ubiqube.etsi.mano.dao.mano.vim.AffinityRule;
 import com.ubiqube.etsi.mano.service.pkg.bean.AffinityRuleAdapater;
 import com.ubiqube.etsi.mano.service.pkg.vnf.TestVnfPackageReader;
 

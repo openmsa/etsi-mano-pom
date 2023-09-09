@@ -33,6 +33,7 @@ import com.ubiqube.etsi.mano.grammar.Node;
 import com.ubiqube.etsi.mano.grammar.Node.Operand;
 import com.ubiqube.etsi.mano.jpa.SubscriptionJpa;
 import com.ubiqube.etsi.mano.repository.jpa.SearchQueryer;
+import com.ubiqube.etsi.mano.service.auth.model.ApiTypesEnum;
 import com.ubiqube.etsi.mano.service.eval.EvalService;
 import com.ubiqube.etsi.mano.service.event.Notifications;
 import com.ubiqube.etsi.mano.service.event.model.EventMessage;
@@ -41,7 +42,6 @@ import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
-import com.ubiqube.etsi.mano.service.rest.model.ApiTypesEnum;
 import com.ubiqube.etsi.mano.utils.Version;
 
 import jakarta.annotation.Nonnull;

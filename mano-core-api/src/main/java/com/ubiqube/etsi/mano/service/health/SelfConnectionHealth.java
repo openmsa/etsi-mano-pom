@@ -27,12 +27,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponents;
 
+import com.ubiqube.etsi.mano.service.auth.model.AuthParamOauth2;
+import com.ubiqube.etsi.mano.service.auth.model.AuthType;
+import com.ubiqube.etsi.mano.service.auth.model.AuthentificationInformations;
+import com.ubiqube.etsi.mano.service.auth.model.OAuth2GrantType;
+import com.ubiqube.etsi.mano.service.auth.model.ServerConnection;
 import com.ubiqube.etsi.mano.service.rest.FluxRest;
-import com.ubiqube.etsi.mano.service.rest.model.AuthParamOauth2;
-import com.ubiqube.etsi.mano.service.rest.model.AuthType;
-import com.ubiqube.etsi.mano.service.rest.model.AuthentificationInformations;
-import com.ubiqube.etsi.mano.service.rest.model.OAuth2GrantType;
-import com.ubiqube.etsi.mano.service.rest.model.ServerConnection;
 
 import jakarta.annotation.Nonnull;
 

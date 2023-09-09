@@ -27,7 +27,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
-import com.ubiqube.etsi.mano.dao.mano.v2.PlanStatusType;
+import com.ubiqube.etsi.mano.dao.mano.vim.PlanStatusType;
 import com.ubiqube.etsi.mano.exception.GenericException;
 
 import jakarta.annotation.Nullable;

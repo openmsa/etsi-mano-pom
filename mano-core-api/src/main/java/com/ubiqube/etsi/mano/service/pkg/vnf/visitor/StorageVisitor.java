@@ -22,7 +22,7 @@ import java.util.Set;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
-import com.ubiqube.etsi.mano.dao.mano.VnfStorage;
+import com.ubiqube.etsi.mano.dao.mano.vim.VnfStorage;
 import com.ubiqube.etsi.mano.service.pkg.vnf.OnboardVisitor;
 import com.ubiqube.etsi.mano.service.pkg.vnf.VnfPackageReader;
 

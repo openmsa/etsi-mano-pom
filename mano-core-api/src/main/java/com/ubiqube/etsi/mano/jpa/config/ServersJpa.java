@@ -23,8 +23,8 @@ import java.util.UUID;
 import org.springframework.data.repository.ListCrudRepository;
 
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
-import com.ubiqube.etsi.mano.dao.mano.v2.PlanStatusType;
-import com.ubiqube.etsi.mano.service.rest.model.ServerType;
+import com.ubiqube.etsi.mano.dao.mano.vim.PlanStatusType;
+import com.ubiqube.etsi.mano.service.auth.model.ServerType;
 
 /**
  *

@@ -30,9 +30,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.exception.GenericException;
+import com.ubiqube.etsi.mano.service.auth.model.AuthentificationInformations;
 import com.ubiqube.etsi.mano.service.rest.FluxRest;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
-import com.ubiqube.etsi.mano.service.rest.model.AuthentificationInformations;
 
 import jakarta.annotation.Nullable;
 

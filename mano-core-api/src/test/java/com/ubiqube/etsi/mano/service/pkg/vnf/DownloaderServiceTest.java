@@ -26,8 +26,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.ubiqube.etsi.mano.dao.mano.SoftwareImage;
-import com.ubiqube.etsi.mano.dao.mano.common.Checksum;
+import com.ubiqube.etsi.mano.dao.mano.vim.Checksum;
+import com.ubiqube.etsi.mano.dao.mano.vim.SoftwareImage;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 
 @ExtendWith(MockitoExtension.class)

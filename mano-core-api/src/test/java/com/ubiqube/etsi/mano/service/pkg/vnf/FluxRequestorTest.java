@@ -27,7 +27,7 @@ import org.springframework.security.oauth2.client.ClientAuthorizationException;
 
 import com.ubiqube.etsi.mano.dao.mano.pkg.ParamsOauth2ClientCredentials;
 import com.ubiqube.etsi.mano.dao.mano.pkg.UploadUriParameters;
-import com.ubiqube.etsi.mano.service.rest.model.AuthType;
+import com.ubiqube.etsi.mano.service.auth.model.AuthType;
 
 @SuppressWarnings("static-method")
 class FluxRequestorTest {

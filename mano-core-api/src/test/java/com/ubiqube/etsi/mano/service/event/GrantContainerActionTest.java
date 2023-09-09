@@ -36,11 +36,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.ubiqube.etsi.mano.dao.mano.GrantInformationExt;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
-import com.ubiqube.etsi.mano.dao.mano.SoftwareImage;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionType;
 import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainer;
+import com.ubiqube.etsi.mano.dao.mano.vim.SoftwareImage;
 import com.ubiqube.etsi.mano.dao.mano.vnfm.McIops;
 import com.ubiqube.etsi.mano.docker.DockerApiException;
 import com.ubiqube.etsi.mano.docker.DockerService;
@@ -49,8 +49,8 @@ import com.ubiqube.etsi.mano.repository.ByteArrayResource;
 import com.ubiqube.etsi.mano.repository.ManoResource;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
-import com.ubiqube.etsi.mano.service.rest.model.AuthParamBasic;
-import com.ubiqube.etsi.mano.service.rest.model.AuthentificationInformations;
+import com.ubiqube.etsi.mano.service.auth.model.AuthParamBasic;
+import com.ubiqube.etsi.mano.service.auth.model.AuthentificationInformations;
 
 /**
  *

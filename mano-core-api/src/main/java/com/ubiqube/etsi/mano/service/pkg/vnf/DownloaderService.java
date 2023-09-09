@@ -49,8 +49,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import com.ubiqube.etsi.mano.dao.mano.SoftwareImage;
-import com.ubiqube.etsi.mano.dao.mano.common.Checksum;
+import com.ubiqube.etsi.mano.dao.mano.vim.Checksum;
+import com.ubiqube.etsi.mano.dao.mano.vim.SoftwareImage;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 import com.ubiqube.etsi.mano.service.DownloadResult;

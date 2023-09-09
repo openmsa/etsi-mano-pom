@@ -40,15 +40,15 @@ import com.ubiqube.etsi.mano.auth.config.SecurityType;
 import com.ubiqube.etsi.mano.auth.config.SecutiryConfig;
 import com.ubiqube.etsi.mano.config.properties.ManoProperties;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
-import com.ubiqube.etsi.mano.dao.mano.v2.PlanStatusType;
+import com.ubiqube.etsi.mano.dao.mano.vim.PlanStatusType;
 import com.ubiqube.etsi.mano.jpa.config.ServersJpa;
 import com.ubiqube.etsi.mano.service.HttpGateway;
 import com.ubiqube.etsi.mano.service.ServerService;
+import com.ubiqube.etsi.mano.service.auth.model.ServerType;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
 import com.ubiqube.etsi.mano.service.rest.FluxRest;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
-import com.ubiqube.etsi.mano.service.rest.model.ServerType;
 import com.ubiqube.etsi.mano.utils.Version;
 
 import ma.glasnost.orika.MapperFacade;

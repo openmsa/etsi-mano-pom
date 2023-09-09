@@ -24,8 +24,8 @@ import java.util.function.Predicate;
 
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.dao.mano.VlProtocolData;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+import com.ubiqube.etsi.mano.dao.mano.vim.VlProtocolData;
 import com.ubiqube.etsi.mano.dao.mano.vnfi.VimCapability;
 import com.ubiqube.etsi.mano.service.pkg.vnf.OnboardingPostProcessorVisitor;
 

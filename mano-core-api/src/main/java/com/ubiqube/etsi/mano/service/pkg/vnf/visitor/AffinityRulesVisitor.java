@@ -22,8 +22,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.dao.mano.AffinityRule;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+import com.ubiqube.etsi.mano.dao.mano.vim.AffinityRule;
 import com.ubiqube.etsi.mano.service.pkg.bean.AffinityRuleAdapater;
 import com.ubiqube.etsi.mano.service.pkg.vnf.OnboardVisitor;
 import com.ubiqube.etsi.mano.service.pkg.vnf.VnfPackageReader;

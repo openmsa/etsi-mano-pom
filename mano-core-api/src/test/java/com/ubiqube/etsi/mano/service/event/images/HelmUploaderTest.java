@@ -47,9 +47,9 @@ import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionType;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.repository.ByteArrayResource;
 import com.ubiqube.etsi.mano.repository.ManoResource;
+import com.ubiqube.etsi.mano.service.auth.model.AuthParamBasic;
+import com.ubiqube.etsi.mano.service.auth.model.AuthentificationInformations;
 import com.ubiqube.etsi.mano.service.event.HelmUploader;
-import com.ubiqube.etsi.mano.service.rest.model.AuthParamBasic;
-import com.ubiqube.etsi.mano.service.rest.model.AuthentificationInformations;
 
 import reactor.core.publisher.Mono;
 
