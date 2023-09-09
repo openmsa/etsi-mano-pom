@@ -23,7 +23,7 @@ import java.util.function.Function;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 
-import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
+import com.ubiqube.etsi.mano.dao.subscription.SubscriptionType;
 
 /**
  *

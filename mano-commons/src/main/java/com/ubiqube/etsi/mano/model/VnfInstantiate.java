@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.ubiqube.etsi.mano.dao.mano.ExtVirtualLinkDataEntity;
-import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
+import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 
 import lombok.Getter;
 import lombok.Setter;
