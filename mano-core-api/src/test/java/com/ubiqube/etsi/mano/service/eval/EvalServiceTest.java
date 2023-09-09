@@ -31,6 +31,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.ubiqube.etsi.mano.dao.subscription.SubscriptionType;
 import com.ubiqube.etsi.mano.service.cond.Context;
 import com.ubiqube.etsi.mano.service.cond.Node;
 import com.ubiqube.etsi.mano.service.cond.Operator;
@@ -39,7 +40,6 @@ import com.ubiqube.etsi.mano.service.cond.ast.GenericCondition;
 import com.ubiqube.etsi.mano.service.cond.ast.LabelExpression;
 import com.ubiqube.etsi.mano.service.cond.ast.NoopNode;
 import com.ubiqube.etsi.mano.service.cond.ast.TestValueExpr;
-import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
 
 @ExtendWith(MockitoExtension.class)
 class EvalServiceTest {

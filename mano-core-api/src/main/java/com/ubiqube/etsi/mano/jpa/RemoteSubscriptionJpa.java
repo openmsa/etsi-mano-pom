@@ -21,7 +21,7 @@ import java.util.UUID;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.ubiqube.etsi.mano.dao.mano.config.RemoteSubscription;
+import com.ubiqube.etsi.mano.dao.subscription.RemoteSubscription;
 
 /**
  *

@@ -28,8 +28,8 @@ import org.junit.jupiter.api.Test;
 
 import com.ubiqube.etsi.mano.config.properties.ManoElectionProperties;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
-import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.VnfCompute;
+import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.vim.VnfStorage;
 import com.ubiqube.etsi.mano.exception.GenericException;
 

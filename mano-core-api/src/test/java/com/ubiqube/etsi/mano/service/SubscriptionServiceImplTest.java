@@ -41,6 +41,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.controller.TestRequestMapping;
 import com.ubiqube.etsi.mano.controller.TestRequestMappingBadVersion;
+import com.ubiqube.etsi.mano.dao.subscription.SubscriptionType;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.grammar.GrammarParser;
@@ -52,7 +53,6 @@ import com.ubiqube.etsi.mano.service.event.model.EventMessage;
 import com.ubiqube.etsi.mano.service.event.model.FilterAttributes;
 import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
-import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
 
 import jakarta.persistence.EntityManager;
 import ma.glasnost.orika.MapperFacade;

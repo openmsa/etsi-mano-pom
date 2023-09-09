@@ -30,10 +30,10 @@ import java.util.function.Predicate;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.VimComputeResourceFlavourEntity;
-import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.VnfCompute;
 import com.ubiqube.etsi.mano.dao.mano.pkg.VirtualCpu;
 import com.ubiqube.etsi.mano.dao.mano.pkg.VirtualMemory;
+import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 import com.ubiqube.etsi.mano.vim.dto.Flavor;

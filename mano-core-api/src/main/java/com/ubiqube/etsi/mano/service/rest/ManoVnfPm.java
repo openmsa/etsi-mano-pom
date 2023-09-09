@@ -18,8 +18,8 @@ package com.ubiqube.etsi.mano.service.rest;
 
 import java.util.function.Function;
 
-import com.ubiqube.etsi.mano.dao.mano.common.ApiVersionType;
 import com.ubiqube.etsi.mano.dao.mano.pm.PmJob;
+import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.HttpGateway;
 
 /**

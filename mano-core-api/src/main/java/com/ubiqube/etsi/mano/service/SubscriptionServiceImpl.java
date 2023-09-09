@@ -26,6 +26,7 @@ import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ubiqube.etsi.mano.dao.subscription.SubscriptionType;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.grammar.GrammarParser;
@@ -40,7 +41,6 @@ import com.ubiqube.etsi.mano.service.event.model.EventMessage;
 import com.ubiqube.etsi.mano.service.event.model.FilterAttributes;
 import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
-import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
 import com.ubiqube.etsi.mano.utils.Version;
 

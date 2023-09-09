@@ -29,7 +29,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
-import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
+import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.service.mon.cli.MetricsRemoteService;
 import com.ubiqube.etsi.mano.service.mon.cli.MonPollingRemoteService;
 import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;

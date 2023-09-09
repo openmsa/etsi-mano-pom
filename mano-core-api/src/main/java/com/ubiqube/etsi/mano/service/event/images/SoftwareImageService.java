@@ -28,10 +28,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.Constants;
-import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.vim.Checksum;
 import com.ubiqube.etsi.mano.dao.mano.vim.SoftwareImage;
+import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.repository.ManoResource;
 import com.ubiqube.etsi.mano.repository.VirtualFileSystem;

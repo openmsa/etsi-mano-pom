@@ -29,6 +29,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.ubiqube.etsi.mano.dao.subscription.SubscriptionType;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.mapper.BeanWalker;
 import com.ubiqube.etsi.mano.mapper.QueryFilterListener;
@@ -47,7 +48,6 @@ import com.ubiqube.etsi.mano.service.cond.ast.NumberValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.TestValueExpr;
 import com.ubiqube.etsi.mano.service.cond.visitor.BooleanListExprRemoverVisitor;
 import com.ubiqube.etsi.mano.service.cond.visitor.EvaluatorVisitor;
-import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
 import com.ubiqube.etsi.mano.utils.ReflectionUtils;
 
 @Service

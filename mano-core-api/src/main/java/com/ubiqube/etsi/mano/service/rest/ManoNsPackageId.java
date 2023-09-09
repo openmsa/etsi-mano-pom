@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.OnboardingStateType;
-import com.ubiqube.etsi.mano.dao.mano.common.ApiVersionType;
+import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.HttpGateway;
 
 /**
@@ -52,7 +52,7 @@ public class ManoNsPackageId {
 
 	public NsdPackage waitForOnboarding() {
 		NsdPackage nsd = find();
-		while (nsd.getNsdOnboardingState() == OnboardingStateType.UPLOADING || nsd.getNsdOnboardingState() == OnboardingStateType.PROCESSING) {
+		while ((nsd.getNsdOnboardingState() == OnboardingStateType.UPLOADING) || (nsd.getNsdOnboardingState() == OnboardingStateType.PROCESSING)) {
 			try {
 				Thread.sleep(1000);
 			} catch (final InterruptedException e) {

@@ -34,8 +34,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
-import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.jpa.GrantsResponseJpa;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.event.elect.VimElection;

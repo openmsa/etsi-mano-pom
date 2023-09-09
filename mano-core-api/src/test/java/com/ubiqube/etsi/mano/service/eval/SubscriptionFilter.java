@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.service.eval;
 
 import java.util.List;
 
-import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
+import com.ubiqube.etsi.mano.dao.subscription.SubscriptionType;
 
 import lombok.Data;
 

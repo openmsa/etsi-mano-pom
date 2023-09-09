@@ -28,13 +28,13 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.ubiqube.etsi.mano.dao.subscription.SubscriptionType;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.jpa.NsdPackageDb;
 import com.ubiqube.etsi.mano.jpa.VnfInstanceJpa;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.cond.BasicContext;
 import com.ubiqube.etsi.mano.service.cond.Context;
-import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
 import com.ubiqube.etsi.mano.utils.ReflectionUtils;
 
 @Service

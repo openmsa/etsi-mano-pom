@@ -22,7 +22,7 @@ import java.util.UUID;
 import java.util.function.Consumer;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
-import com.ubiqube.etsi.mano.dao.mano.common.ApiVersionType;
+import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.HttpGateway;
 
 /**

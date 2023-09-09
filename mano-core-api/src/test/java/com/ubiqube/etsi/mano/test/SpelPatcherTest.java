@@ -26,7 +26,7 @@ import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
+import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.mapper.JsonWalker;
 import com.ubiqube.etsi.mano.mapper.SpelWriter;
 import com.ubiqube.etsi.mano.service.SpelPatcher;

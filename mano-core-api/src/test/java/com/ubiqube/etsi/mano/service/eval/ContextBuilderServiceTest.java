@@ -29,11 +29,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+import com.ubiqube.etsi.mano.dao.subscription.SubscriptionType;
 import com.ubiqube.etsi.mano.jpa.NsdPackageDb;
 import com.ubiqube.etsi.mano.jpa.VnfInstanceJpa;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.cond.Context;
-import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
 
 @ExtendWith(MockitoExtension.class)
 class ContextBuilderServiceTest {

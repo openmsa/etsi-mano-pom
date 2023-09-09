@@ -23,7 +23,7 @@ import java.util.Optional;
 
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
+import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 
 public class ManoVim {
 

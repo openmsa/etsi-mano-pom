@@ -28,9 +28,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 
+import com.ubiqube.etsi.mano.dao.subscription.SubscriptionType;
 import com.ubiqube.etsi.mano.service.SubscriptionService;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
-import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
 
 import ma.glasnost.orika.MapperFacade;
 

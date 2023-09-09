@@ -38,14 +38,14 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.ubiqube.etsi.mano.auth.config.SecutiryConfig;
 import com.ubiqube.etsi.mano.config.properties.ManoProperties;
-import com.ubiqube.etsi.mano.dao.mano.common.ApiVersionType;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
+import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.dao.mano.vim.PlanStatusType;
+import com.ubiqube.etsi.mano.dao.subscription.SubscriptionType;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.jpa.config.ServersJpa;
 import com.ubiqube.etsi.mano.service.auth.model.ServerType;
 import com.ubiqube.etsi.mano.service.event.CommonActionController;
-import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
 import com.ubiqube.etsi.mano.service.rest.FluxRest;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
 import com.ubiqube.etsi.mano.utils.Version;

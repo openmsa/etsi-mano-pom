@@ -20,17 +20,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import jakarta.annotation.Nullable;
-import jakarta.persistence.EntityManager;
-import jakarta.validation.constraints.NotNull;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ubiqube.etsi.mano.dao.mano.BaseEntity;
+import com.ubiqube.etsi.mano.dao.base.BaseEntity;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.grammar.GrammarParser;
 import com.ubiqube.etsi.mano.repository.ContentManager;
 import com.ubiqube.etsi.mano.repository.CrudRepositoryNg;
 import com.ubiqube.etsi.mano.repository.NamingStrategy;
+
+import jakarta.annotation.Nullable;
+import jakarta.persistence.EntityManager;
+import jakarta.validation.constraints.NotNull;
 
 public abstract class AbstractDirectJpa<U extends BaseEntity> extends AbstractBinaryRepository implements CrudRepositoryNg<U> {
 

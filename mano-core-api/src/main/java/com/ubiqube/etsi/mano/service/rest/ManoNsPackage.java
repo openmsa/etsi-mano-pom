@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
-import com.ubiqube.etsi.mano.dao.mano.common.ApiVersionType;
+import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.HttpGateway;
 
 /**

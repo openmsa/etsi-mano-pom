@@ -27,18 +27,16 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.UUID;
 
-import jakarta.validation.constraints.NotNull;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.Constants;
-import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.vim.Checksum;
 import com.ubiqube.etsi.mano.dao.mano.vim.SoftwareImage;
+import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.repository.ManoResource;
 import com.ubiqube.etsi.mano.repository.VirtualFileSystem;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
@@ -48,6 +46,8 @@ import com.ubiqube.etsi.mano.service.pkg.vnf.VnfPackageReader;
 import com.ubiqube.etsi.mano.service.vim.Storage;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
+
+import jakarta.validation.constraints.NotNull;
 
 @ExtendWith(MockitoExtension.class)
 class SoftwareImageTest {

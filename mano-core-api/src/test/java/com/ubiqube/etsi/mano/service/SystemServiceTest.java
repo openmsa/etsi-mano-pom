@@ -27,7 +27,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
+import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.jpa.SysConnectionJpa;
 import com.ubiqube.etsi.mano.jpa.SystemsJpa;
 import com.ubiqube.etsi.mano.orchestrator.entities.SystemConnections;

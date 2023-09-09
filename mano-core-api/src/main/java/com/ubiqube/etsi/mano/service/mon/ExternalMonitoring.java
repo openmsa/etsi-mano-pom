@@ -22,7 +22,7 @@ import java.util.UUID;
 
 import org.springframework.util.MultiValueMap;
 
-import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
+import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.mon.dao.TelemetryMetricsResult;
 
 public interface ExternalMonitoring {

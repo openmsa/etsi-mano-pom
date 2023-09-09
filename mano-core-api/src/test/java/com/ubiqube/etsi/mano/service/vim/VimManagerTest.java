@@ -36,10 +36,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.cnf.CnfServer;
 import com.ubiqube.etsi.mano.dao.mano.vim.SoftwareImage;
-import com.ubiqube.etsi.mano.dao.mano.vnfi.CnfInformations;
+import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
+import com.ubiqube.etsi.mano.dao.mano.vim.vnfi.CnfInformations;
 import com.ubiqube.etsi.mano.dao.mano.vrqan.VrQan;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.jpa.CnfServerJpa;

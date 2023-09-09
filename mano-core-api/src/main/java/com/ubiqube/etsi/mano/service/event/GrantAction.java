@@ -45,7 +45,6 @@ import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.dao.mano.GrantVimAssetsEntity;
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.VimComputeResourceFlavourEntity;
-import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.VimSoftwareImageEntity;
 import com.ubiqube.etsi.mano.dao.mano.VnfCompute;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
@@ -54,6 +53,7 @@ import com.ubiqube.etsi.mano.dao.mano.ZoneInfoEntity;
 import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
 import com.ubiqube.etsi.mano.dao.mano.vim.ImageServiceAware;
 import com.ubiqube.etsi.mano.dao.mano.vim.SoftwareImage;
+import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.vim.VnfStorage;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
@@ -139,7 +139,7 @@ public class GrantAction {
 			if (x.getReservationId() != null) {
 				final VimConnectionInformation vci = vimManager.findVimById(UUID.fromString(x.getVimConnectionId()));
 				final Vim vim = vimManager.getVimById(UUID.fromString(x.getVimConnectionId()));
-				vim.freeResources(vci, x);
+				vim.freeResources(vci, x.getReservationId());
 			}
 		});
 	}
@@ -220,7 +220,7 @@ public class GrantAction {
 		final ZoneGroupInformation zgi = futureSg.get();
 		// XXX It depends on Grant policy GRANT_RESERVE_SINGLE.
 		grants.getAddResources().forEach(x -> {
-			vim.allocateResources(vimInfo, x);
+			vim.allocateResources(vimInfo, x.getReservationId());
 			x.setResourceProviderId(vim.getType());
 			x.setVimConnectionId(vimInfo.getVimId());
 			x.setZoneId(zoneId);

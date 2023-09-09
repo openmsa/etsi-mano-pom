@@ -20,7 +20,7 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.function.Function;
 
-import com.ubiqube.etsi.mano.dao.mano.common.ApiVersionType;
+import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.HttpGateway;
 
 import jakarta.annotation.Nonnull;

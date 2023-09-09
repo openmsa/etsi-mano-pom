@@ -30,7 +30,7 @@ import org.springframework.http.ResponseEntity;
 
 import com.ubiqube.etsi.mano.dao.mano.GrantInterface;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
-import com.ubiqube.etsi.mano.dao.mano.common.ApiVersionType;
+import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.service.HttpGateway;
 

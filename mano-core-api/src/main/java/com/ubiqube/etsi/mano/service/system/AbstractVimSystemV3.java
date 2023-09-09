@@ -16,7 +16,7 @@
  */
 package com.ubiqube.etsi.mano.service.system;
 
-import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
+import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.orchestrator.OrchestrationServiceV3;
 import com.ubiqube.etsi.mano.orchestrator.SystemBuilder;
 import com.ubiqube.etsi.mano.orchestrator.entities.SystemConnections;

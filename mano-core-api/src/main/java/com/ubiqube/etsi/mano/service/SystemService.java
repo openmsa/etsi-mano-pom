@@ -22,7 +22,7 @@ import java.util.UUID;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
+import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.jpa.SysConnectionJpa;
 import com.ubiqube.etsi.mano.jpa.SystemsJpa;

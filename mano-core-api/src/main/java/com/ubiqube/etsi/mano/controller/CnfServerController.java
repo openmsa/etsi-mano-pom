@@ -18,9 +18,6 @@ package com.ubiqube.etsi.mano.controller;
 
 import java.util.UUID;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,13 +25,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.cnf.CnfServer;
 import com.ubiqube.etsi.mano.dao.mano.dto.CnfServerDto;
+import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.service.CnfServerService;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import ma.glasnost.orika.MapperFacade;
 
 /**

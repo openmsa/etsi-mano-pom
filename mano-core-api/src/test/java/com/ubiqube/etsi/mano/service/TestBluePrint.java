@@ -23,10 +23,10 @@ import java.util.UUID;
 import com.ubiqube.etsi.mano.dao.mano.BlueZoneGroupInformation;
 import com.ubiqube.etsi.mano.dao.mano.ExtManagedVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.ExtVirtualLinkDataEntity;
-import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.ZoneInfoEntity;
 import com.ubiqube.etsi.mano.dao.mano.v2.AbstractBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.BlueprintParameters;
+import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 
 public class TestBluePrint extends AbstractBlueprint<TestTask, TestInstance> {
 
