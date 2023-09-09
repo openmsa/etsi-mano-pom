@@ -31,12 +31,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackageVnfPackage;
-import com.ubiqube.etsi.mano.dao.mano.nsd.Classifier;
 import com.ubiqube.etsi.mano.dao.mano.nsd.ForwarderMapping;
 import com.ubiqube.etsi.mano.dao.mano.nsd.NfpDescriptor;
 import com.ubiqube.etsi.mano.dao.mano.nsd.VnffgDescriptor;
 import com.ubiqube.etsi.mano.dao.mano.nsd.VnffgInstance;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
+import com.ubiqube.etsi.mano.dao.mano.vim.vnffg.Classifier;
 import com.ubiqube.etsi.mano.dao.mano.vnffg.VnffgPostTask;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsLiveInstanceJpa;

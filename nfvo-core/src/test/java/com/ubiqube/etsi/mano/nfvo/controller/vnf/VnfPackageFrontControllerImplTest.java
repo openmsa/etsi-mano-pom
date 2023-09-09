@@ -35,8 +35,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.ubiqube.etsi.mano.controller.vnf.VnfPackageManagement;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
-import com.ubiqube.etsi.mano.dao.mano.common.FailureDetails;
 import com.ubiqube.etsi.mano.dao.mano.pkg.UploadUriParameters;
+import com.ubiqube.etsi.mano.dao.rfc7807.FailureDetails;
 
 import jakarta.servlet.http.HttpServletRequest;
 import ma.glasnost.orika.MapperFacade;

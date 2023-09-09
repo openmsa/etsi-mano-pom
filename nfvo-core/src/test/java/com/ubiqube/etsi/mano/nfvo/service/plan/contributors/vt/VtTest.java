@@ -40,7 +40,6 @@ import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsdTask;
 import com.ubiqube.etsi.mano.dao.mano.vnffg.VnffgLoadbalancerTask;
 import com.ubiqube.etsi.mano.dao.mano.vnffg.VnffgPortPairTask;
 import com.ubiqube.etsi.mano.dao.mano.vnffg.VnffgPostTask;
-import com.ubiqube.etsi.mano.service.graph.vt.NsVtBase;
 import com.ubiqube.etsi.mano.tf.entities.NetworkPolicyTask;
 import com.ubiqube.etsi.mano.tf.entities.PortTupleTask;
 import com.ubiqube.etsi.mano.tf.entities.PtLinkTask;

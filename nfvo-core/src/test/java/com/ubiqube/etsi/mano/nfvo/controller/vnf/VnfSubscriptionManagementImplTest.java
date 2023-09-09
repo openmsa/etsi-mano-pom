@@ -28,11 +28,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfPackageChangeNotification;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackageOnboardingNotification;
+import com.ubiqube.etsi.mano.dao.subscription.SubscriptionType;
 import com.ubiqube.etsi.mano.service.ServerService;
 import com.ubiqube.etsi.mano.service.SubscriptionService;
 import com.ubiqube.etsi.mano.service.event.Notifications;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
-import com.ubiqube.etsi.mano.service.event.model.SubscriptionType;
 
 @ExtendWith(MockitoExtension.class)
 class VnfSubscriptionManagementImplTest {

@@ -16,16 +16,16 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service.pkg.ns.opp;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
-import com.ubiqube.etsi.mano.dao.mano.nsd.Classifier;
 import com.ubiqube.etsi.mano.dao.mano.nsd.VnffgDescriptor;
+import com.ubiqube.etsi.mano.dao.mano.vim.vnffg.Classifier;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.nfvo.service.pkg.ns.NsOnboardingPostProcessor;
 

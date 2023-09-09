@@ -24,7 +24,7 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
-import com.ubiqube.etsi.mano.dao.mano.Audit;
+import com.ubiqube.etsi.mano.dao.audit.Audit;
 import com.ubiqube.etsi.mano.dao.mano.ChangeType;
 import com.ubiqube.etsi.mano.dao.mano.GrantInformationExt;
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;

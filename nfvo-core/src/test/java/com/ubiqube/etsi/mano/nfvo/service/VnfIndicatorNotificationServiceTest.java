@@ -28,8 +28,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.ubiqube.etsi.mano.dao.mano.config.RemoteSubscription;
 import com.ubiqube.etsi.mano.dao.mano.ind.VnfIndiValueChangeNotification;
+import com.ubiqube.etsi.mano.dao.subscription.RemoteSubscription;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.jpa.RemoteSubscriptionJpa;
 import com.ubiqube.etsi.mano.jpa.VnfIndiValueChangeNotificationJpa;

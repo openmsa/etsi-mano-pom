@@ -16,9 +16,9 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service.graph;
 
+import com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt.NsVtBase;
 import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
-import com.ubiqube.etsi.mano.service.graph.vt.NsVtBase;
 
 public class TestNsVt extends NsVtBase<TestNsTask> {
 
