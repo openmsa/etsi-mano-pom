@@ -28,11 +28,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.ubiqube.etsi.mano.dao.mano.L3Data;
 import com.ubiqube.etsi.mano.dao.mano.NsVlProfile;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
-import com.ubiqube.etsi.mano.dao.mano.VlProtocolData;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVirtualLink;
+import com.ubiqube.etsi.mano.dao.mano.vim.L3Data;
+import com.ubiqube.etsi.mano.dao.mano.vim.VlProtocolData;
 import com.ubiqube.etsi.mano.service.pkg.ns.NsPackageProvider;
 
 @ExtendWith(MockitoExtension.class)

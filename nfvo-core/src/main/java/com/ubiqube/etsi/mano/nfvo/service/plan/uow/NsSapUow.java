@@ -20,7 +20,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsSapTask;
 import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.SapNode;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
-import com.ubiqube.etsi.mano.service.graph.AbstractUnitOfWork;
+import com.ubiqube.etsi.mano.service.vim.AbstractUnitOfWork;
 
 import jakarta.annotation.Nullable;
 

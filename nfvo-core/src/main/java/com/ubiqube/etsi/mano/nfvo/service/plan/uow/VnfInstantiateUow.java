@@ -43,7 +43,7 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfInstantiateNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.VnfmInterface;
-import com.ubiqube.etsi.mano.service.graph.AbstractUnitOfWork;
+import com.ubiqube.etsi.mano.service.vim.AbstractUnitOfWork;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;

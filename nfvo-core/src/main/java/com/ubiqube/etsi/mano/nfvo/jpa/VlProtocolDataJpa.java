@@ -20,7 +20,7 @@ import java.util.UUID;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.ubiqube.etsi.mano.dao.mano.VlProtocolData;
+import com.ubiqube.etsi.mano.dao.mano.vim.VlProtocolData;
 
 public interface VlProtocolDataJpa extends CrudRepository<VlProtocolData, UUID> {
 	// Nothing.

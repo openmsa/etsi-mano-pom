@@ -22,7 +22,7 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.contrail.ServiceInstanceNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.NetworkPolicyNode;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
-import com.ubiqube.etsi.mano.service.graph.AbstractUnitOfWork;
+import com.ubiqube.etsi.mano.service.vim.AbstractUnitOfWork;
 import com.ubiqube.etsi.mano.tf.ContrailApi;
 import com.ubiqube.etsi.mano.tf.entities.NetworkPolicyTask;
 

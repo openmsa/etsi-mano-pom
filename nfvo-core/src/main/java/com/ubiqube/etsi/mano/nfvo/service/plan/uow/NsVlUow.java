@@ -18,14 +18,14 @@ package com.ubiqube.etsi.mano.nfvo.service.plan.uow;
 
 import java.util.Objects;
 
-import com.ubiqube.etsi.mano.dao.mano.IpPool;
 import com.ubiqube.etsi.mano.dao.mano.VimConnectionInformation;
-import com.ubiqube.etsi.mano.dao.mano.VlProtocolData;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVirtualLinkTask;
+import com.ubiqube.etsi.mano.dao.mano.vim.IpPool;
+import com.ubiqube.etsi.mano.dao.mano.vim.VlProtocolData;
 import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
-import com.ubiqube.etsi.mano.service.graph.AbstractUnitOfWork;
+import com.ubiqube.etsi.mano.service.vim.AbstractUnitOfWork;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 
 import jakarta.annotation.Nonnull;

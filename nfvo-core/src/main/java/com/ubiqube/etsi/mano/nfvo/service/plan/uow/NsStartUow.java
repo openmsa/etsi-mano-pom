@@ -19,7 +19,7 @@ package com.ubiqube.etsi.mano.nfvo.service.plan.uow;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
 import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
-import com.ubiqube.etsi.mano.service.graph.AbstractUnitOfWork;
+import com.ubiqube.etsi.mano.service.vim.AbstractUnitOfWork;
 
 import jakarta.annotation.Nullable;
 

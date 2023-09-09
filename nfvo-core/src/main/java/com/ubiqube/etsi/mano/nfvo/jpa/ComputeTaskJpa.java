@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.nfvo.jpa;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.v2.ComputeTask;
-import com.ubiqube.etsi.mano.dao.mano.v2.PlanStatusType;
+import com.ubiqube.etsi.mano.dao.mano.vim.PlanStatusType;
 
 public interface ComputeTaskJpa extends TaskBaseJpa<ComputeTask> {
 

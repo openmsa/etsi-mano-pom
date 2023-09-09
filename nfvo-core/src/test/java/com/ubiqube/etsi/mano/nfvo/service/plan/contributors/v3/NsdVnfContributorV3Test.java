@@ -49,7 +49,7 @@ import com.ubiqube.etsi.mano.nfvo.jpa.NsLiveInstanceJpa;
 import com.ubiqube.etsi.mano.orchestrator.SclableResources;
 import com.ubiqube.etsi.mano.service.NsScaleStrategyV3;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
-import com.ubiqube.etsi.mano.service.rest.model.ServerType;
+import com.ubiqube.etsi.mano.service.auth.model.ServerType;
 
 @ExtendWith(MockitoExtension.class)
 class NsdVnfContributorV3Test {
