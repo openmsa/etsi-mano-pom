@@ -28,7 +28,6 @@
 			<url>http://nexus.ubiqube.com/repository/maven-releases/</url>
 		</repository>
 	</distributionManagement>
-
 	<properties>
 		<java.version>17</java.version>
 		<maven.compiler.target>17</maven.compiler.target>
@@ -59,7 +58,7 @@
 		<com.ubiqube.reflections.version>0.10.2</com.ubiqube.reflections.version>
 		<com.ubiqube.wiremock3.version>3.0.3</com.ubiqube.wiremock3.version>
 		<version.jib-core>0.24.0</version.jib-core>
-		<version.commons-compress>1.23.0</version.commons-compress>
+		<version.commons-compress>1.24.0</version.commons-compress>
 		<version.javax.servlet-api>4.0.1</version.javax.servlet-api>
 		<version.jetty-bom>9.4.49.v20220914</version.jetty-bom>
 		<brave.version>5.16.0</brave.version>
