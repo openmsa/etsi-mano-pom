@@ -16,10 +16,6 @@
  */
 package com.ubiqube.etsi.mano.config;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
-
 import org.hibernate.search.mapper.orm.Search;
 import org.hibernate.search.mapper.orm.session.SearchSession;
 import org.slf4j.Logger;
@@ -27,6 +23,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 
 @Component
 public class HibernateSearchConfig implements ApplicationListener<ContextRefreshedEvent> {
@@ -46,6 +46,9 @@ public class HibernateSearchConfig implements ApplicationListener<ContextRefresh
 		} catch (final InterruptedException e) {
 			Thread.currentThread().interrupt();
 			LOG.warn("Hibernate Search have been interrupted.", e);
+		} catch (final RuntimeException e) {
+			LOG.warn("Hibernate Search have been interrupted.", e);
+
 		}
 	}
 }
