@@ -15,7 +15,7 @@
  * this program. If not, see https://www.gnu.org/licenses/.
  */
 module com.ubiqube.etsi.mano.search.jpa {
-	exports jpacom.ubiqube.mano.service.search.jpa;
+	exports com.ubiqube.mano.service.search.jpa;
 
 	requires com.ubiqube.etsi.mano.grammar;
 	requires com.ubiqube.etsi.mano.search.api;
