@@ -28,7 +28,7 @@ import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.grammar.GrammarParser;
 import com.ubiqube.etsi.mano.grammar.Node;
-import com.ubiqube.mano.service.search.ManoSearch;
+import com.ubiqube.etsi.mano.service.search.ManoSearch;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.EntityManager;

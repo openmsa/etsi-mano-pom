@@ -41,8 +41,8 @@ import com.ubiqube.etsi.mano.service.event.model.FilterAttributes;
 import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
+import com.ubiqube.etsi.mano.service.search.ManoSearch;
 import com.ubiqube.etsi.mano.utils.Version;
-import com.ubiqube.mano.service.search.ManoSearch;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;

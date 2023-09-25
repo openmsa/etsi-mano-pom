@@ -44,7 +44,7 @@ import com.ubiqube.etsi.mano.nfvo.jpa.NsLiveInstanceJpa;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsVirtualLinkJpa;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsVnfPackageJpa;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsdInstanceJpa;
-import com.ubiqube.mano.service.search.ManoSearch;
+import com.ubiqube.etsi.mano.service.search.ManoSearch;
 
 import jakarta.persistence.EntityManager;
 

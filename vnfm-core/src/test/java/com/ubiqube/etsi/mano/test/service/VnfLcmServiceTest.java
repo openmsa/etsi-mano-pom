@@ -40,11 +40,11 @@ import com.ubiqube.etsi.mano.model.VnfHealRequest;
 import com.ubiqube.etsi.mano.model.VnfOperateRequest;
 import com.ubiqube.etsi.mano.model.VnfScaleRequest;
 import com.ubiqube.etsi.mano.model.VnfScaleToLevelRequest;
+import com.ubiqube.etsi.mano.service.search.ManoSearch;
 import com.ubiqube.etsi.mano.test.controllers.TestFactory;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfBlueprintJpa;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceService;
 import com.ubiqube.etsi.mano.vnfm.service.VnfLcmService;
-import com.ubiqube.mano.service.search.ManoSearch;
 
 import jakarta.persistence.EntityManager;
 

@@ -52,7 +52,7 @@ import com.ubiqube.etsi.mano.service.event.model.EventMessage;
 import com.ubiqube.etsi.mano.service.event.model.FilterAttributes;
 import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
-import com.ubiqube.mano.service.search.ManoSearch;
+import com.ubiqube.etsi.mano.service.search.ManoSearch;
 
 import jakarta.persistence.EntityManager;
 import ma.glasnost.orika.MapperFacade;

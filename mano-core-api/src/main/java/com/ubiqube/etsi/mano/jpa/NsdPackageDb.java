@@ -26,7 +26,7 @@ import com.ubiqube.etsi.mano.repository.ContentManager;
 import com.ubiqube.etsi.mano.repository.NamingStrategy;
 import com.ubiqube.etsi.mano.repository.NsdRepository;
 import com.ubiqube.etsi.mano.repository.jpa.AbstractDirectJpa;
-import com.ubiqube.mano.service.search.ManoSearch;
+import com.ubiqube.etsi.mano.service.search.ManoSearch;
 
 @Service
 public class NsdPackageDb extends AbstractDirectJpa<NsdPackage> implements NsdRepository {

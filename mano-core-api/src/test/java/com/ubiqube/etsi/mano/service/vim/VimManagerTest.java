@@ -48,8 +48,8 @@ import com.ubiqube.etsi.mano.jpa.VrQanJpa;
 import com.ubiqube.etsi.mano.service.SystemService;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
+import com.ubiqube.etsi.mano.service.search.ManoSearch;
 import com.ubiqube.etsi.mano.vim.dummy.DummyVim;
-import com.ubiqube.mano.service.search.ManoSearch;
 
 import jakarta.persistence.EntityManager;
 

@@ -43,9 +43,9 @@ import com.ubiqube.etsi.mano.model.VnfHealRequest;
 import com.ubiqube.etsi.mano.model.VnfOperateRequest;
 import com.ubiqube.etsi.mano.model.VnfScaleRequest;
 import com.ubiqube.etsi.mano.model.VnfScaleToLevelRequest;
+import com.ubiqube.etsi.mano.service.search.ManoSearch;
 import com.ubiqube.etsi.mano.vnfm.controller.vnflcm.VnfLcmFactory;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfBlueprintJpa;
-import com.ubiqube.mano.service.search.ManoSearch;
 
 @Service
 public class VnfLcmService {
