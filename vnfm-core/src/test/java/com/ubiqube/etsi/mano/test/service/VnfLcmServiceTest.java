@@ -44,6 +44,7 @@ import com.ubiqube.etsi.mano.test.controllers.TestFactory;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfBlueprintJpa;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceService;
 import com.ubiqube.etsi.mano.vnfm.service.VnfLcmService;
+import com.ubiqube.mano.service.search.ManoSearch;
 
 import jakarta.persistence.EntityManager;
 
@@ -57,6 +58,8 @@ class VnfLcmServiceTest {
 	private VnfInstanceService vnfInstancesService;
 	@Mock
 	private GrammarParser grammarParser;
+	@Mock
+	private ManoSearch manoSearch;
 
 	@Test
 	void testCreateInstantiate() {
@@ -189,6 +192,6 @@ class VnfLcmServiceTest {
 	}
 
 	private VnfLcmService createVnfLcmService() {
-		return new VnfLcmService(vnfBlueprintJpa, em, vnfInstancesService, grammarParser);
+		return new VnfLcmService(vnfBlueprintJpa, vnfInstancesService, grammarParser, manoSearch);
 	}
 }
