@@ -44,6 +44,7 @@ import com.ubiqube.etsi.mano.nfvo.jpa.NsLiveInstanceJpa;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsVirtualLinkJpa;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsVnfPackageJpa;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsdInstanceJpa;
+import com.ubiqube.mano.service.search.ManoSearch;
 
 import jakarta.persistence.EntityManager;
 
@@ -61,10 +62,12 @@ class NsInstanceServiceTest {
 	private EntityManager em;
 	@Mock
 	private GrammarParser grammarParser;
+	@Mock
+	private ManoSearch manoSearch;
 
 	@Test
 	void testCountLiveInstanceOfVirtualLink() throws Exception {
-		final NsInstanceService srv = new NsInstanceService(nsVirtualLinkJpa, vnfPackageJpa, nsdInstanceJpa, nsLiveInstanceJpa, em, grammarParser);
+		final NsInstanceService srv = new NsInstanceService(nsVirtualLinkJpa, vnfPackageJpa, nsdInstanceJpa, nsLiveInstanceJpa, grammarParser, manoSearch);
 		when(nsLiveInstanceJpa.findByNsInstanceAndNsTaskToscaNameAndNsTaskClassGroupByNsTaskAlias(any(), any(), eq(NsVirtualLinkTask.class))).thenReturn(List.of());
 		srv.countLiveInstanceOfVirtualLink(null, null);
 		assertTrue(true);
@@ -72,7 +75,7 @@ class NsInstanceServiceTest {
 
 	@Test
 	void testCountLiveInstanceOfVnf() throws Exception {
-		final NsInstanceService srv = new NsInstanceService(nsVirtualLinkJpa, vnfPackageJpa, nsdInstanceJpa, nsLiveInstanceJpa, em, grammarParser);
+		final NsInstanceService srv = new NsInstanceService(nsVirtualLinkJpa, vnfPackageJpa, nsdInstanceJpa, nsLiveInstanceJpa, grammarParser, manoSearch);
 		final NsLiveInstance ns01 = new NsLiveInstance();
 		final NsTask nsTask = new NsVnfTask();
 		nsTask.setToscaName("");
@@ -84,7 +87,7 @@ class NsInstanceServiceTest {
 
 	@Test
 	void testCountLiveInstanceOfNsd() throws Exception {
-		final NsInstanceService srv = new NsInstanceService(nsVirtualLinkJpa, vnfPackageJpa, nsdInstanceJpa, nsLiveInstanceJpa, em, grammarParser);
+		final NsInstanceService srv = new NsInstanceService(nsVirtualLinkJpa, vnfPackageJpa, nsdInstanceJpa, nsLiveInstanceJpa, grammarParser, manoSearch);
 		when(nsLiveInstanceJpa.findByNsInstanceAndNsTaskToscaNameAndNsTaskClassGroupByNsTaskAlias(any(), any(), eq(NsdTask.class))).thenReturn(List.of());
 		srv.countLiveInstanceOfNsd(null, null);
 		assertTrue(true);
@@ -92,14 +95,14 @@ class NsInstanceServiceTest {
 
 	@Test
 	void testFindVlsByNsInstance() throws Exception {
-		final NsInstanceService srv = new NsInstanceService(nsVirtualLinkJpa, vnfPackageJpa, nsdInstanceJpa, nsLiveInstanceJpa, em, grammarParser);
+		final NsInstanceService srv = new NsInstanceService(nsVirtualLinkJpa, vnfPackageJpa, nsdInstanceJpa, nsLiveInstanceJpa, grammarParser, manoSearch);
 		srv.findVlsByNsInstance(null);
 		assertTrue(true);
 	}
 
 	@Test
 	void testFindVnfPackageByNsInstance() throws Exception {
-		final NsInstanceService srv = new NsInstanceService(nsVirtualLinkJpa, vnfPackageJpa, nsdInstanceJpa, nsLiveInstanceJpa, em, grammarParser);
+		final NsInstanceService srv = new NsInstanceService(nsVirtualLinkJpa, vnfPackageJpa, nsdInstanceJpa, nsLiveInstanceJpa, grammarParser, manoSearch);
 		final NsdPackage pkg = new NsdPackage();
 		srv.findVnfPackageByNsInstance(pkg);
 		assertTrue(true);
@@ -107,21 +110,21 @@ class NsInstanceServiceTest {
 
 	@Test
 	void testSave() throws Exception {
-		final NsInstanceService srv = new NsInstanceService(nsVirtualLinkJpa, vnfPackageJpa, nsdInstanceJpa, nsLiveInstanceJpa, em, grammarParser);
+		final NsInstanceService srv = new NsInstanceService(nsVirtualLinkJpa, vnfPackageJpa, nsdInstanceJpa, nsLiveInstanceJpa, grammarParser, manoSearch);
 		srv.save(null);
 		assertTrue(true);
 	}
 
 	@Test
 	void testDelete() throws Exception {
-		final NsInstanceService srv = new NsInstanceService(nsVirtualLinkJpa, vnfPackageJpa, nsdInstanceJpa, nsLiveInstanceJpa, em, grammarParser);
+		final NsInstanceService srv = new NsInstanceService(nsVirtualLinkJpa, vnfPackageJpa, nsdInstanceJpa, nsLiveInstanceJpa, grammarParser, manoSearch);
 		srv.delete(null);
 		assertTrue(true);
 	}
 
 	@Test
 	void testFindById() throws Exception {
-		final NsInstanceService srv = new NsInstanceService(nsVirtualLinkJpa, vnfPackageJpa, nsdInstanceJpa, nsLiveInstanceJpa, em, grammarParser);
+		final NsInstanceService srv = new NsInstanceService(nsVirtualLinkJpa, vnfPackageJpa, nsdInstanceJpa, nsLiveInstanceJpa, grammarParser, manoSearch);
 		final NsdInstance nsdInstance = new NsdInstance();
 		when(nsdInstanceJpa.findById(any())).thenReturn(Optional.of(nsdInstance));
 		srv.findById(null);
@@ -130,7 +133,7 @@ class NsInstanceServiceTest {
 
 	@Test
 	void testFindById_LiveNotNull() throws Exception {
-		final NsInstanceService srv = new NsInstanceService(nsVirtualLinkJpa, vnfPackageJpa, nsdInstanceJpa, nsLiveInstanceJpa, em, grammarParser);
+		final NsInstanceService srv = new NsInstanceService(nsVirtualLinkJpa, vnfPackageJpa, nsdInstanceJpa, nsLiveInstanceJpa, grammarParser, manoSearch);
 		final NsdInstance nsdInstance = new NsdInstance();
 		when(nsdInstanceJpa.findById(any())).thenReturn(Optional.of(nsdInstance));
 		when(nsLiveInstanceJpa.findByNsInstanceId(any())).thenReturn(List.of());
@@ -140,7 +143,7 @@ class NsInstanceServiceTest {
 
 	@Test
 	void testFindById_LiveOneElement() throws Exception {
-		final NsInstanceService srv = new NsInstanceService(nsVirtualLinkJpa, vnfPackageJpa, nsdInstanceJpa, nsLiveInstanceJpa, em, grammarParser);
+		final NsInstanceService srv = new NsInstanceService(nsVirtualLinkJpa, vnfPackageJpa, nsdInstanceJpa, nsLiveInstanceJpa, grammarParser, manoSearch);
 		final NsdInstance nsdInstance = new NsdInstance();
 		when(nsdInstanceJpa.findById(any())).thenReturn(Optional.of(nsdInstance));
 		final NsLiveInstance live = new NsLiveInstance();
@@ -151,20 +154,20 @@ class NsInstanceServiceTest {
 
 	@Test
 	void testFindById_Fail() throws Exception {
-		final NsInstanceService srv = new NsInstanceService(nsVirtualLinkJpa, vnfPackageJpa, nsdInstanceJpa, nsLiveInstanceJpa, em, grammarParser);
+		final NsInstanceService srv = new NsInstanceService(nsVirtualLinkJpa, vnfPackageJpa, nsdInstanceJpa, nsLiveInstanceJpa, grammarParser, manoSearch);
 		assertThrows(NotFoundException.class, () -> srv.findById(null));
 	}
 
 	@Test
 	void testIsInstantiated() throws Exception {
-		final NsInstanceService srv = new NsInstanceService(nsVirtualLinkJpa, vnfPackageJpa, nsdInstanceJpa, nsLiveInstanceJpa, em, grammarParser);
+		final NsInstanceService srv = new NsInstanceService(nsVirtualLinkJpa, vnfPackageJpa, nsdInstanceJpa, nsLiveInstanceJpa, grammarParser, manoSearch);
 		assertFalse(srv.isInstantiated(null));
 		assertTrue(true);
 	}
 
 	@Test
 	void testIsInstantiated_True() throws Exception {
-		final NsInstanceService srv = new NsInstanceService(nsVirtualLinkJpa, vnfPackageJpa, nsdInstanceJpa, nsLiveInstanceJpa, em, grammarParser);
+		final NsInstanceService srv = new NsInstanceService(nsVirtualLinkJpa, vnfPackageJpa, nsdInstanceJpa, nsLiveInstanceJpa, grammarParser, manoSearch);
 		when(nsdInstanceJpa.countByNsdInfo(any())).thenReturn(3);
 		assertTrue(srv.isInstantiated(null));
 		assertTrue(true);
@@ -172,14 +175,14 @@ class NsInstanceServiceTest {
 
 	@Test
 	void testFindAll() throws Exception {
-		final NsInstanceService srv = new NsInstanceService(nsVirtualLinkJpa, vnfPackageJpa, nsdInstanceJpa, nsLiveInstanceJpa, em, grammarParser);
+		final NsInstanceService srv = new NsInstanceService(nsVirtualLinkJpa, vnfPackageJpa, nsdInstanceJpa, nsLiveInstanceJpa, grammarParser, manoSearch);
 		srv.findAll();
 		assertTrue(true);
 	}
 
 	@Test
 	void testFindByNsInstanceId() throws Exception {
-		final NsInstanceService srv = new NsInstanceService(nsVirtualLinkJpa, vnfPackageJpa, nsdInstanceJpa, nsLiveInstanceJpa, em, grammarParser);
+		final NsInstanceService srv = new NsInstanceService(nsVirtualLinkJpa, vnfPackageJpa, nsdInstanceJpa, nsLiveInstanceJpa, grammarParser, manoSearch);
 		srv.findByNsInstanceId(null);
 		assertTrue(true);
 	}
