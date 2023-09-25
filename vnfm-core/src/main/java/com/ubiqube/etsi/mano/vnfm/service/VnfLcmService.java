@@ -38,30 +38,30 @@ import com.ubiqube.etsi.mano.dao.mano.vim.PlanStatusType;
 import com.ubiqube.etsi.mano.dao.mano.vnfi.ChangeExtVnfConnRequest;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.grammar.GrammarParser;
+import com.ubiqube.etsi.mano.grammar.Node;
 import com.ubiqube.etsi.mano.model.VnfHealRequest;
 import com.ubiqube.etsi.mano.model.VnfOperateRequest;
 import com.ubiqube.etsi.mano.model.VnfScaleRequest;
 import com.ubiqube.etsi.mano.model.VnfScaleToLevelRequest;
-import com.ubiqube.etsi.mano.repository.jpa.SearchQueryer;
 import com.ubiqube.etsi.mano.vnfm.controller.vnflcm.VnfLcmFactory;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfBlueprintJpa;
-
-import jakarta.persistence.EntityManager;
+import com.ubiqube.mano.service.search.ManoSearch;
 
 @Service
 public class VnfLcmService {
 
 	private final VnfBlueprintJpa vnfBlueprintJpa;
 
-	private final EntityManager em;
-
 	private final VnfInstanceService vnfInstancesService;
 
 	private final GrammarParser grammarParser;
 
-	public VnfLcmService(final VnfBlueprintJpa planJpa, final EntityManager em, final VnfInstanceService vnfInstancesService, final GrammarParser grammarParser) {
+	private final ManoSearch manoSearch;
+
+	public VnfLcmService(final VnfBlueprintJpa planJpa, final VnfInstanceService vnfInstancesService, final GrammarParser grammarParser,
+			final ManoSearch manoSearch) {
 		this.vnfBlueprintJpa = planJpa;
-		this.em = em;
+		this.manoSearch = manoSearch;
 		this.vnfInstancesService = vnfInstancesService;
 		this.grammarParser = grammarParser;
 	}
@@ -128,8 +128,8 @@ public class VnfLcmService {
 	}
 
 	public List<VnfBlueprint> query(final String filter) {
-		final SearchQueryer sq = new SearchQueryer(em, grammarParser);
-		return sq.getCriteria(filter, VnfBlueprint.class);
+		final List<Node<String>> nodes = grammarParser.parse(filter);
+		return manoSearch.getCriteria((List<Node<?>>) (Object) nodes, VnfBlueprint.class);
 	}
 
 	public VnfBlueprint findById(final UUID id) {

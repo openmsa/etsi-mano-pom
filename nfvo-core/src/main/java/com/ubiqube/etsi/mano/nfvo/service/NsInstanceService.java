@@ -34,13 +34,13 @@ import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVnfTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsdTask;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.grammar.GrammarParser;
+import com.ubiqube.etsi.mano.grammar.Node;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsLiveInstanceJpa;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsVirtualLinkJpa;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsVnfPackageJpa;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsdInstanceJpa;
-import com.ubiqube.etsi.mano.repository.jpa.SearchQueryer;
+import com.ubiqube.mano.service.search.ManoSearch;
 
-import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -53,17 +53,18 @@ public class NsInstanceService {
 
 	private final NsLiveInstanceJpa nsLiveInstanceJpa;
 
-	private final EntityManager em;
-
 	private final GrammarParser grammarParser;
 
+	private final ManoSearch manoSearch;
+
 	public NsInstanceService(final NsVirtualLinkJpa nsVirtualLinkJpa, final NsVnfPackageJpa vnfPackageJpa,
-			final NsdInstanceJpa nsdInstanceJpa, final NsLiveInstanceJpa nsLiveInstanceJpa, final EntityManager em, final GrammarParser grammarParser) {
+			final NsdInstanceJpa nsdInstanceJpa, final NsLiveInstanceJpa nsLiveInstanceJpa, final GrammarParser grammarParser,
+			final ManoSearch manoSearch) {
 		this.nsVirtualLinkJpa = nsVirtualLinkJpa;
 		this.vnfPackageJpa = vnfPackageJpa;
 		this.nsdInstanceJpa = nsdInstanceJpa;
 		this.nsLiveInstanceJpa = nsLiveInstanceJpa;
-		this.em = em;
+		this.manoSearch = manoSearch;
 		this.grammarParser = grammarParser;
 	}
 
@@ -110,8 +111,8 @@ public class NsInstanceService {
 	}
 
 	public List<NsdInstance> query(final String filter) {
-		final SearchQueryer sq = new SearchQueryer(em, grammarParser);
-		return sq.getCriteria(filter, NsdInstance.class);
+		final List<Node<String>> nodes = grammarParser.parse(filter);
+		return manoSearch.getCriteria((List<Node<?>>) (Object) nodes, NsdInstance.class);
 	}
 
 	public boolean isInstantiated(final NsdPackage nsPackage) {
