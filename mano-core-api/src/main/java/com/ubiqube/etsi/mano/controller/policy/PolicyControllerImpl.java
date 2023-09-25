@@ -96,8 +96,9 @@ public class PolicyControllerImpl implements PolicyController {
 	@Override
 	public Policies modify(final UUID safeUUID, final PolicyPatchDto patch) {
 		final Policies p = policyService.findPoliciesById(safeUUID).orElseThrow();
-		if (null != patch.getRemoveAssociations()) {
-			patch.getRemoveAssociations().forEach(x -> {
+		final List<String> removeAssociations = patch.getRemoveAssociations();
+		if (null != removeAssociations) {
+			removeAssociations.forEach(x -> {
 				final List<String> newList = p.getAssociations().stream().filter(y -> y.equals(x)).toList();
 				p.setAssociations(newList);
 			});
