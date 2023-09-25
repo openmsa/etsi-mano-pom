@@ -14,7 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see https://www.gnu.org/licenses/.
  */
-package com.ubiqube.mano.service.search.jpa;
+package com.ubiqube.etsi.mano.service.search.jpa;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,8 +27,8 @@ import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.grammar.Node;
 import com.ubiqube.etsi.mano.grammar.Node.Operand;
-import com.ubiqube.mano.service.search.ManoSearch;
-import com.ubiqube.mano.service.search.SearchException;
+import com.ubiqube.etsi.mano.service.search.ManoSearch;
+import com.ubiqube.etsi.mano.service.search.SearchException;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -51,6 +51,7 @@ public class JpaSearch implements ManoSearch {
 		final CriteriaQuery<T> cq = cb.createQuery(clazz);
 		final Root<T> itemRoot = cq.from(clazz);
 		final Predicate pred = getCriteria(cb, nodes, itemRoot, Map.of());
+		cq.where(pred);
 		return em.createQuery(cq).getResultList();
 	}
 

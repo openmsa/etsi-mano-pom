@@ -15,7 +15,7 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 module com.ubiqube.etsi.mano.search.api {
-	exports com.ubiqube.mano.service.search;
+	exports com.ubiqube.etsi.mano.service.search;
 
 	requires com.ubiqube.etsi.mano.grammar;
 }

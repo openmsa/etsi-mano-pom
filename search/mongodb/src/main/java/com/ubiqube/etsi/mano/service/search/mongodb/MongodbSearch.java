@@ -14,7 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see https://www.gnu.org/licenses/.
  */
-package com.ubiqube.mano.service.search.mongodb;
+package com.ubiqube.etsi.mano.service.search.mongodb;
 
 import java.util.List;
 import java.util.regex.Pattern;
@@ -26,8 +26,8 @@ import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.grammar.Node;
 import com.ubiqube.etsi.mano.grammar.Node.Operand;
-import com.ubiqube.mano.service.search.ManoSearch;
-import com.ubiqube.mano.service.search.SearchException;
+import com.ubiqube.etsi.mano.service.search.ManoSearch;
+import com.ubiqube.etsi.mano.service.search.SearchException;
 
 @Service
 public class MongodbSearch implements ManoSearch {

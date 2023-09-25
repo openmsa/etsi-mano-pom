@@ -14,15 +14,15 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.mano.service.search;
+package com.ubiqube.etsi.mano.service.search;
 
-public class SearchException extends RuntimeException {
+import java.util.List;
 
-	/** Serial. */
-	private static final long serialVersionUID = 1L;
+import com.ubiqube.etsi.mano.grammar.Node;
 
-	public SearchException(final String string) {
-		super(string);
-	}
+public interface ManoSearch {
 
+	<T> List<T> getCriteria(final List<Node<?>> nodes, final Class<T> clazz);
+
+	<T> void getByDistance(final Class<T> clazz, final double lat, final double lng);
 }

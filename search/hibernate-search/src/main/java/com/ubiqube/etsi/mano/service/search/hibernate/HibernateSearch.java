@@ -14,7 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see https://www.gnu.org/licenses/.
  */
-package com.ubiqube.mano.service.search.hibernate;
+package com.ubiqube.etsi.mano.service.search.hibernate;
 
 import java.util.List;
 
@@ -31,8 +31,8 @@ import org.springframework.stereotype.Service;
 import com.ubiqube.etsi.mano.grammar.GrammarParser;
 import com.ubiqube.etsi.mano.grammar.Node;
 import com.ubiqube.etsi.mano.grammar.Node.Operand;
-import com.ubiqube.mano.service.search.ManoSearch;
-import com.ubiqube.mano.service.search.SearchException;
+import com.ubiqube.etsi.mano.service.search.ManoSearch;
+import com.ubiqube.etsi.mano.service.search.SearchException;
 
 import jakarta.persistence.EntityManager;
 

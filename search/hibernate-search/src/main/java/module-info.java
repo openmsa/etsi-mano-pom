@@ -16,7 +16,7 @@
  */
 module com.ubiqube.etsi.mano.search.hsearch {
 	exports com.ubiqube.etsi.mano.config;
-	exports com.ubiqube.mano.service.search.hibernate;
+	exports com.ubiqube.etsi.mano.service.search.hibernate;
 
 	requires com.ubiqube.etsi.mano.grammar;
 	requires com.ubiqube.etsi.mano.search.api;

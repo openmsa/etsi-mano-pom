@@ -15,7 +15,7 @@
  * this program. If not, see https://www.gnu.org/licenses/.
  */
 module com.ubiqube.etsi.mano.search.mongodb {
-	exports com.ubiqube.mano.service.search.mongodb;
+	exports com.ubiqube.etsi.mano.service.search.mongodb;
 
 	requires com.ubiqube.etsi.mano.grammar;
 	requires com.ubiqube.etsi.mano.search.api;
