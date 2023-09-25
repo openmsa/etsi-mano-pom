@@ -19,6 +19,6 @@ module com.ubiqube.etsi.mano.search.mongodb {
 
 	requires com.ubiqube.etsi.mano.grammar;
 	requires com.ubiqube.etsi.mano.search.api;
-	requires spring.data.mongodb;
+	requires transitive spring.data.mongodb;
 	requires spring.context;
 }

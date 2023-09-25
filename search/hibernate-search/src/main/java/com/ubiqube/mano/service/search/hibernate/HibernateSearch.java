@@ -43,7 +43,6 @@ public class HibernateSearch implements ManoSearch {
 	private final GrammarParser grammarParser;
 
 	public HibernateSearch(final EntityManager entityManager, final GrammarParser grammarParser) {
-		super();
 		this.entityManager = entityManager;
 		this.grammarParser = grammarParser;
 	}
@@ -88,4 +87,12 @@ public class HibernateSearch implements ManoSearch {
 		};
 	}
 
+	@Override
+	public <T> void getByDistance(final Class<T> clazz, final double lat, final double lng) {
+		final SearchSession session = Search.session(entityManager);
+		final SearchQuerySelectStep<?, EntityReference, T, SearchLoadingOptionsStep, ?, ?> ss = session.search(clazz);
+		final SearchPredicateFactory pf = session.scope(clazz).predicate();
+		final SearchPredicate pr = pf.spatial().within().fields("").circle(lat, lng, 10000).toPredicate();
+		ss.where(pr);
+	}
 }

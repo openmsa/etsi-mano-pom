@@ -22,5 +22,7 @@ import com.ubiqube.etsi.mano.grammar.Node;
 
 public interface ManoSearch {
 
-	public <T> List<T> getCriteria(final List<Node<?>> nodes, final Class<T> clazz);
+	<T> List<T> getCriteria(final List<Node<?>> nodes, final Class<T> clazz);
+
+	<T> void getByDistance(final Class<T> clazz, final double lat, final double lng);
 }

@@ -34,7 +34,6 @@ public class MongodbSearch implements ManoSearch {
 	private final MongoTemplate mongoTemplate;
 
 	public MongodbSearch(final MongoTemplate mongoTemplate) {
-		super();
 		this.mongoTemplate = mongoTemplate;
 	}
 
@@ -74,6 +73,12 @@ public class MongodbSearch implements ManoSearch {
 	private String escapeRegexp(final String value) {
 		// /[-\/\\^$*+?.()|[\]{}]/g, '\\$&'
 		return Pattern.quote(value);
+	}
+
+	@Override
+	public <T> void getByDistance(final Class<T> clazz, final double lat, final double lng) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

@@ -102,4 +102,10 @@ public class JpaSearch implements ManoSearch {
 		private Optional<From<?, ?>> parent = Optional.empty();
 	}
 
+	@Override
+	public <T> void getByDistance(final Class<T> clazz, final double lat, final double lng) {
+		// TODO Auto-generated method stub
+
+	}
+
 }
