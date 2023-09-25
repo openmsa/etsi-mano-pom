@@ -20,20 +20,22 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import jakarta.persistence.EntityManager;
-import jakarta.validation.constraints.NotNull;
-
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.grammar.GrammarParser;
+import com.ubiqube.etsi.mano.grammar.Node;
 import com.ubiqube.etsi.mano.repository.CrudRepositoryNg;
+import com.ubiqube.mano.service.search.ManoSearch;
+
+import jakarta.validation.constraints.NotNull;
 
 public abstract class AbstractJpaOnly<U> implements CrudRepositoryNg<U> {
-	private final EntityManager em;
 	private final org.springframework.data.repository.CrudRepository<U, UUID> repository;
 	private final GrammarParser grammarParser;
+	private final ManoSearch manoSearch;
 
-	protected AbstractJpaOnly(final EntityManager em, final org.springframework.data.repository.CrudRepository<U, UUID> repository, final GrammarParser grammarParser) {
-		this.em = em;
+	protected AbstractJpaOnly(final org.springframework.data.repository.CrudRepository<U, UUID> repository, final GrammarParser grammarParser,
+			final ManoSearch manoSearch) {
+		this.manoSearch = manoSearch;
 		this.repository = repository;
 		this.grammarParser = grammarParser;
 	}
@@ -58,8 +60,8 @@ public abstract class AbstractJpaOnly<U> implements CrudRepositoryNg<U> {
 
 	@Override
 	public @NotNull List<U> query(final String filter) {
-		final SearchQueryer sq = new SearchQueryer(em, grammarParser);
-		return sq.getCriteria(filter, getFrontClass());
+		final List<Node<String>> nodes = grammarParser.parse(filter);
+		return manoSearch.getCriteria((List<Node<?>>) (Object) nodes, getFrontClass());
 	}
 
 }

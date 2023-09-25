@@ -18,8 +18,6 @@ package com.ubiqube.etsi.mano.repository.jpa;
 
 import java.util.UUID;
 
-import jakarta.persistence.EntityManager;
-
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +27,7 @@ import com.ubiqube.etsi.mano.grammar.GrammarParser;
 import com.ubiqube.etsi.mano.repository.ContentManager;
 import com.ubiqube.etsi.mano.repository.NamingStrategy;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
+import com.ubiqube.mano.service.search.ManoSearch;
 
 /**
  *
@@ -38,9 +37,9 @@ import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 @Service
 public class VnfPackageDb extends AbstractDirectJpa<VnfPackage> implements VnfPackageRepository {
 
-	public VnfPackageDb(final EntityManager em, final CrudRepository<VnfPackage, UUID> repository, final ContentManager contentManager, final ObjectMapper jsonMapper,
-			final NamingStrategy namingStrategy, final GrammarParser grammarParser) {
-		super(em, repository, contentManager, jsonMapper, namingStrategy, grammarParser);
+	public VnfPackageDb(final CrudRepository<VnfPackage, UUID> repository, final ContentManager contentManager, final ObjectMapper jsonMapper,
+			final NamingStrategy namingStrategy, final GrammarParser grammarParser, final ManoSearch manoSearch) {
+		super(repository, contentManager, jsonMapper, namingStrategy, grammarParser, manoSearch);
 	}
 
 	@Override

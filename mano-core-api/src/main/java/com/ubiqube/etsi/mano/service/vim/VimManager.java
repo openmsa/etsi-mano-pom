@@ -25,13 +25,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.hibernate.search.engine.search.predicate.SearchPredicate;
-import org.hibernate.search.engine.search.predicate.dsl.SearchPredicateFactory;
-import org.hibernate.search.engine.search.query.dsl.SearchQuerySelectStep;
-import org.hibernate.search.mapper.orm.Search;
-import org.hibernate.search.mapper.orm.common.EntityReference;
-import org.hibernate.search.mapper.orm.search.loading.dsl.SearchLoadingOptionsStep;
-import org.hibernate.search.mapper.orm.session.SearchSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -52,9 +45,9 @@ import com.ubiqube.etsi.mano.service.SystemService;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 import com.ubiqube.etsi.mano.vim.dto.SwImage;
+import com.ubiqube.mano.service.search.ManoSearch;
 
 import jakarta.annotation.Nonnull;
-import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import jakarta.transaction.Transactional.TxType;
 
@@ -74,8 +67,6 @@ public class VimManager {
 
 	private final Map<UUID, Vim> vimAssociation;
 
-	private final EntityManager entityManager;
-
 	private final SystemService systemService;
 
 	private final CnfServerJpa cnfServerJpa;
@@ -84,16 +75,18 @@ public class VimManager {
 
 	private final EventManager em;
 
-	public VimManager(final List<Vim> vims, final VimConnectionInformationJpa vimConnectionInformationJpa, final EntityManager entityManager, final SystemService systemService,
-			final CnfServerJpa cnfServerJpa, final VrQanJpa vrQanJpa, final EventManager em) {
+	private final ManoSearch manoSearch;
+
+	public VimManager(final List<Vim> vims, final VimConnectionInformationJpa vimConnectionInformationJpa, final SystemService systemService,
+			final CnfServerJpa cnfServerJpa, final VrQanJpa vrQanJpa, final EventManager em, final ManoSearch manoSearch) {
 		this.vims = vims;
 		this.vimAssociation = new HashMap<>();
 		this.vimConnectionInformationJpa = vimConnectionInformationJpa;
-		this.entityManager = entityManager;
 		this.systemService = systemService;
 		this.cnfServerJpa = cnfServerJpa;
 		this.vrQanJpa = vrQanJpa;
 		this.em = em;
+		this.manoSearch = manoSearch;
 		init();
 	}
 
@@ -141,11 +134,7 @@ public class VimManager {
 	}
 
 	public void getVimByDistance(final GeoPoint point) {
-		final SearchSession session = Search.session(entityManager);
-		final SearchQuerySelectStep<?, EntityReference, VimConnectionInformation, SearchLoadingOptionsStep, ?, ?> ss = session.search(VimConnectionInformation.class);
-		final SearchPredicateFactory pf = session.scope(VimConnectionInformation.class).predicate();
-		final SearchPredicate pr = pf.spatial().within().fields("").circle(point.getLat(), point.getLng(), 10000).toPredicate();
-		ss.where(pr);
+		manoSearch.getByDistance(VimConnectionInformation.class, point.getLat(), point.getLng());
 	}
 
 	@Transactional(TxType.REQUIRED)

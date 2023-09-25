@@ -49,6 +49,7 @@ import com.ubiqube.etsi.mano.service.SystemService;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 import com.ubiqube.etsi.mano.vim.dummy.DummyVim;
+import com.ubiqube.mano.service.search.ManoSearch;
 
 import jakarta.persistence.EntityManager;
 
@@ -66,6 +67,8 @@ class VimManagerTest {
 	private VrQanJpa vrQanJpa;
 	@Mock
 	private EventManager eventManager;
+	@Mock
+	private ManoSearch manoSearch;
 
 	private static final String uuidStr = "4d02c1b8-c185-11ed-ba42-c8f750509d3b";
 	private static final UUID uuid = UUID.fromString(uuidStr);
@@ -224,7 +227,7 @@ class VimManagerTest {
 		final List<Vim> vims = List.of(vim01);
 		final VimConnectionInformation vci = createVimConnection();
 		when(vimConnJpa.findByVimType("dummy-vim")).thenReturn(Set.of(vci));
-		return new VimManager(vims, vimConnJpa, entityManager, systemService, cnfServerJpa, vrQanJpa, eventManager);
+		return new VimManager(vims, vimConnJpa, systemService, cnfServerJpa, vrQanJpa, eventManager, manoSearch);
 	}
 
 	private static VimConnectionInformation createVimConnection() {

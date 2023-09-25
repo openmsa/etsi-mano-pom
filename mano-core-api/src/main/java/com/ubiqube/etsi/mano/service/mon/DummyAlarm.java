@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import com.ubiqube.etsi.mano.alarm.controller.AlarmClient;
 import com.ubiqube.etsi.mano.alarm.entities.alarm.Alarm;
 import com.ubiqube.etsi.mano.alarm.entities.alarm.dto.AlarmDto;
+import com.ubiqube.etsi.mano.dao.mano.TriggerDefinition;
 import com.ubiqube.etsi.mano.dao.mano.VnfIndicator;
 
 /**
@@ -43,6 +44,8 @@ public class DummyAlarm implements ExternalAlarm {
 	@Override
 	public String registerAlarm(final VnfIndicator vnfIndicator) {
 		final AlarmDto alarm = new AlarmDto();
+		final TriggerDefinition trigger = vnfIndicator.getTriggers().entrySet().iterator().next().getValue();
+		alarm.setConditions(trigger.getCondition());
 		final ResponseEntity<Alarm> ret = alarmClient.createAlarm(alarm);
 		final Alarm reta = Objects.requireNonNull(ret.getBody());
 		return reta.getId().toString();

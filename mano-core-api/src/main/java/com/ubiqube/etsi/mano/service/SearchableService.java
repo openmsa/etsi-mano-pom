@@ -28,7 +28,7 @@ import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.grammar.GrammarParser;
 import com.ubiqube.etsi.mano.grammar.Node;
-import com.ubiqube.etsi.mano.repository.jpa.SearchQueryer;
+import com.ubiqube.mano.service.search.ManoSearch;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.EntityManager;
@@ -47,10 +47,13 @@ public class SearchableService {
 
 	private final GrammarParser grammarParser;
 
-	public SearchableService(final ManoSearchResponseService searchService, final EntityManager em, final GrammarParser grammarParser) {
+	private final ManoSearch manoSearch;
+
+	public SearchableService(final ManoSearchResponseService searchService, final EntityManager em, final GrammarParser grammarParser, final ManoSearch manoSearch) {
 		this.searchService = searchService;
 		this.em = em;
 		this.grammarParser = grammarParser;
+		this.manoSearch = manoSearch;
 	}
 
 	@Transactional
@@ -58,13 +61,12 @@ public class SearchableService {
 		final String filter = getSingleField(requestParams, "filter");
 		final List<Node<String>> nodes = grammarParser.parse(filter);
 		nodes.addAll(additionalNodes);
-		final SearchQueryer sq = new SearchQueryer(em, grammarParser);
-		final List<?> result = sq.getCriteria((List<Node<?>>) (Object) nodes, dbClass);
+		final List<?> result = manoSearch.getCriteria((List<Node<?>>) (Object) nodes, dbClass);
 		return searchService.search(requestParams, clazz, excludeDefaults, mandatoryFields, result, clazz, makeLink);
 	}
 
 	public <U> List<U> query(final Class<U> clazz, final String filter) {
-		final SearchQueryer sq = new SearchQueryer(em, grammarParser);
-		return sq.getCriteria(filter, clazz);
+		final List<Node<String>> nodes = grammarParser.parse(filter);
+		return manoSearch.getCriteria((List<Node<?>>) (Object) filter, clazz);
 	}
 }

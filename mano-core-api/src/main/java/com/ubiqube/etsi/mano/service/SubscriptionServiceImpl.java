@@ -33,7 +33,6 @@ import com.ubiqube.etsi.mano.grammar.GrammarParser;
 import com.ubiqube.etsi.mano.grammar.Node;
 import com.ubiqube.etsi.mano.grammar.Node.Operand;
 import com.ubiqube.etsi.mano.jpa.SubscriptionJpa;
-import com.ubiqube.etsi.mano.repository.jpa.SearchQueryer;
 import com.ubiqube.etsi.mano.service.auth.model.ApiTypesEnum;
 import com.ubiqube.etsi.mano.service.eval.EvalService;
 import com.ubiqube.etsi.mano.service.event.Notifications;
@@ -43,17 +42,15 @@ import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
 import com.ubiqube.etsi.mano.utils.Version;
+import com.ubiqube.mano.service.search.ManoSearch;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
-import jakarta.persistence.EntityManager;
 import ma.glasnost.orika.MapperFacade;
 
 @Service
 public class SubscriptionServiceImpl implements SubscriptionService {
 	private static final Logger LOG = LoggerFactory.getLogger(SubscriptionServiceImpl.class);
-	@Nonnull
-	private final EntityManager em;
 	@Nonnull
 	private final SubscriptionJpa subscriptionJpa;
 	@Nonnull
@@ -66,24 +63,24 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 	private final EvalService evalService;
 	@Nonnull
 	private final MapperFacade mapper;
+	private final ManoSearch manoSearch;
 
-	public SubscriptionServiceImpl(final SubscriptionJpa repository, final EntityManager em, final GrammarParser grammarParser, final Notifications notifications,
-			final ServerService serverService, final EvalService evalService, final MapperFacade mapper) {
+	public SubscriptionServiceImpl(final SubscriptionJpa repository, final GrammarParser grammarParser, final Notifications notifications,
+			final ServerService serverService, final EvalService evalService, final MapperFacade mapper, final ManoSearch manoSearch) {
 		this.subscriptionJpa = repository;
-		this.em = em;
 		this.grammarParser = grammarParser;
 		this.notifications = notifications;
 		this.serverService = serverService;
 		this.evalService = evalService;
 		this.mapper = mapper;
+		this.manoSearch = manoSearch;
 	}
 
 	@Override
 	public List<Subscription> query(final String filter, final SubscriptionType type) {
-		final SearchQueryer sq = new SearchQueryer(em, grammarParser);
 		final List<Node<Object>> nodes = grammarParser.parse(filter);
 		nodes.add(Node.of("subscriptionType", Operand.EQ, type.toString()));
-		return sq.getCriteria((List<Node<?>>) (Object) nodes, Subscription.class);
+		return manoSearch.getCriteria((List<Node<?>>) (Object) nodes, Subscription.class);
 	}
 
 	@Override

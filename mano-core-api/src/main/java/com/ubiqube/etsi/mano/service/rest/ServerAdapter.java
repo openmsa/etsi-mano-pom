@@ -24,6 +24,8 @@ import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.HttpGateway;
 
+import jakarta.validation.constraints.NotNull;
+
 /**
  *
  * @author Olivier Vignaud {@literal <ovi@ubiqube.com>}
@@ -32,6 +34,7 @@ import com.ubiqube.etsi.mano.service.HttpGateway;
 public class ServerAdapter {
 
 	private final HttpGateway httpGateway;
+	@NotNull
 	private final FluxRest rest;
 	private final Servers server;
 

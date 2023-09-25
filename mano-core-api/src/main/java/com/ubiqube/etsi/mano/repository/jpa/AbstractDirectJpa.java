@@ -24,26 +24,28 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubiqube.etsi.mano.dao.base.BaseEntity;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.grammar.GrammarParser;
+import com.ubiqube.etsi.mano.grammar.Node;
 import com.ubiqube.etsi.mano.repository.ContentManager;
 import com.ubiqube.etsi.mano.repository.CrudRepositoryNg;
 import com.ubiqube.etsi.mano.repository.NamingStrategy;
+import com.ubiqube.mano.service.search.ManoSearch;
 
 import jakarta.annotation.Nullable;
-import jakarta.persistence.EntityManager;
 import jakarta.validation.constraints.NotNull;
 
 public abstract class AbstractDirectJpa<U extends BaseEntity> extends AbstractBinaryRepository implements CrudRepositoryNg<U> {
 
-	private final EntityManager em;
 	private final org.springframework.data.repository.CrudRepository<U, UUID> repository;
 	private final GrammarParser grammarParser;
+	private final ManoSearch manoSearch;
 
-	protected AbstractDirectJpa(final EntityManager em, final org.springframework.data.repository.CrudRepository<U, UUID> repository,
-			final ContentManager contentManager, final ObjectMapper jsonMapper, final NamingStrategy namingStrategy, final GrammarParser grammarParser) {
+	protected AbstractDirectJpa(final org.springframework.data.repository.CrudRepository<U, UUID> repository,
+			final ContentManager contentManager, final ObjectMapper jsonMapper, final NamingStrategy namingStrategy, final GrammarParser grammarParser,
+			final ManoSearch manoSearch) {
 		super(contentManager, jsonMapper, namingStrategy);
-		this.em = em;
 		this.repository = repository;
 		this.grammarParser = grammarParser;
+		this.manoSearch = manoSearch;
 	}
 
 	@Override
@@ -73,8 +75,8 @@ public abstract class AbstractDirectJpa<U extends BaseEntity> extends AbstractBi
 	@Override
 	@NotNull
 	public final List<U> query(@Nullable final String filter) {
-		final SearchQueryer sq = new SearchQueryer(em, grammarParser);
-		return sq.getCriteria(filter, getFrontClass());
+		final List<Node<String>> nodes = grammarParser.parse(filter);
+		return manoSearch.getCriteria((List<Node<?>>) (Object) nodes, getFrontClass());
 	}
 
 }

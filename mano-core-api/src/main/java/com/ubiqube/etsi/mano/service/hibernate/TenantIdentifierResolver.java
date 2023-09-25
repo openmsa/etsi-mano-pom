@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,15 +28,16 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernatePropertiesCustomi
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TenantIdentifierResolver implements CurrentTenantIdentifierResolver, HibernatePropertiesCustomizer {
 
 	private static final Logger LOG = LoggerFactory.getLogger(TenantIdentifierResolver.class);
 
 	@Override
 	public void customize(final Map<String, Object> hibernateProperties) {
-		// hibernateProperties.put(AvailableSettings.MULTI_TENANT_IDENTIFIER_RESOLVER,
-		// this)
+		hibernateProperties.put(AvailableSettings.MULTI_TENANT_IDENTIFIER_RESOLVER, this);
 	}
 
 	@Override
@@ -48,12 +50,11 @@ public class TenantIdentifierResolver implements CurrentTenantIdentifierResolver
 			}
 			return auth.get().getName();
 		}
-		return "unknown";
+		return "BOOTSTRAP";
 	}
 
 	private static String handleJwt(final Jwt jwt) {
-		final List<String> obj = jwt.getClaim("vimId");
-		return obj.get(0);
+		return Optional.ofNullable((List<String>) jwt.getClaim("vimId")).map(x -> x.get(0)).orElse("BOOTSTRAP");
 	}
 
 	@Override
