@@ -293,7 +293,8 @@ public class VnfInstanceServiceVnfm implements VnfInstanceGatewayService {
 		ret.setCpProtocolInfo(createCpInfo(vli, vpt));
 		ret.setId(vp.getId().toString());
 		ret.setParentCpId(null);
-		if ((null != vpt.getVnfLinkPort().getVirtualLink()) && vpt.getVnfLinkPort().getVirtualLink().startsWith(VIRTUAL_LINK)) {
+		final String vt = vpt.getVnfLinkPort().getVirtualLink();
+		if ((null != vt) && vt.startsWith(VIRTUAL_LINK)) {
 			ret.setVnfExtCpId(vp.getId().toString());
 		} else {
 			ret.setVnfLinkPortId(vp.getId().toString());
