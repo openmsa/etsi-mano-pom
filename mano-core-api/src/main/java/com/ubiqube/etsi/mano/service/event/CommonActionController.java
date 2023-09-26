@@ -41,6 +41,7 @@ import org.springframework.web.util.UriComponents;
 import com.ubiqube.etsi.mano.auth.config.SecurityType;
 import com.ubiqube.etsi.mano.auth.config.SecutiryConfig;
 import com.ubiqube.etsi.mano.config.properties.ManoProperties;
+import com.ubiqube.etsi.mano.dao.mano.config.LocalAuth;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.dao.mano.version.ApiVersion;
 import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
@@ -227,7 +228,7 @@ public class CommonActionController {
 		final FluxRest rest = serverAdapter.rest();
 		final Servers server = serverAdapter.getServer();
 		final List<FilterAttributes> filters = List.of(FilterAttributes.of(NOTIFICATION_TYPES_0, eventName));
-		final Subscription subsOut = createSubscriptionWithFilter(ApiTypesEnum.SOL003, url, SubscriptionType.NSDVNF, filters);
+		final Subscription subsOut = createSubscriptionWithFilter(ApiTypesEnum.SOL003, url, SubscriptionType.NSDVNF, filters, server.getLocalUser());
 		final URI uri = serverAdapter.getUriFor(ApiVersionType.SOL003_VNFPKGM, SUBSCRIPTIONS);
 		final HttpGateway hg = selectGateway(server);
 		final Class<?> clazz = hg.getVnfPackageSubscriptionClass();
@@ -242,7 +243,7 @@ public class CommonActionController {
 		final FluxRest rest = serverAdapter.rest();
 		final Servers server = serverAdapter.getServer();
 		final List<FilterAttributes> filters = List.of(FilterAttributes.of(NOTIFICATION_TYPES_0, "VnfIndicatorValueChangeNotification"));
-		final Subscription subsOut = createSubscriptionWithFilter(ApiTypesEnum.SOL003, "/vnfind/v1/notification/value-change", SubscriptionType.VNFIND, filters);
+		final Subscription subsOut = createSubscriptionWithFilter(ApiTypesEnum.SOL003, "/vnfind/v1/notification/value-change", SubscriptionType.VNFIND, filters, server.getLocalUser());
 		final URI uri = serverAdapter.getUriFor(ApiVersionType.SOL003_VNFIND, SUBSCRIPTIONS);
 		final HttpGateway hg = selectGateway(server);
 		final Class<?> clazz = hg.getVnfIndicatorValueChangeSubscriptionClass();
@@ -253,8 +254,8 @@ public class CommonActionController {
 		return res;
 	}
 
-	private Subscription createSubscriptionWithFilter(final ApiTypesEnum apiType, final String url, final SubscriptionType subscriptionType, final List<FilterAttributes> filters) {
-		final AuthentificationInformations auth = createAuthInformation();
+	private Subscription createSubscriptionWithFilter(final ApiTypesEnum apiType, final String url, final SubscriptionType subscriptionType, final List<FilterAttributes> filters, final LocalAuth localAuth) {
+		final AuthentificationInformations auth = createAuthInformation(localAuth);
 		return Subscription.builder()
 				.api(apiType)
 				.authentication(auth)
@@ -295,7 +296,7 @@ public class CommonActionController {
 	}
 
 	@Nullable
-	private AuthentificationInformations createAuthInformation() {
+	private AuthentificationInformations createAuthInformation(final LocalAuth locAuth) {
 		final SecutiryConfig sec = secutiryConfig.getIfAvailable();
 		if (sec == null) {
 			return null;
@@ -303,8 +304,8 @@ public class CommonActionController {
 		final AuthentificationInformations auth = new AuthentificationInformations();
 		if (sec.getSecurityType() == SecurityType.OAUTH2) {
 			final AuthParamOauth2 oauth2 = AuthParamOauth2.builder()
-					.clientId(env.getProperty("keycloak.resource"))
-					.clientSecret(env.getProperty("keycloak.credentials.secret"))
+					.clientId(locAuth.getClientId())
+					.clientSecret(locAuth.getClientSecret())
 					.tokenEndpoint(env.getProperty("mano.swagger-o-auth2"))
 					.build();
 			auth.setAuthParamOauth2(oauth2);

@@ -1,17 +1,7 @@
 #debug: true
-keycloak:
-  realm: mano-realm
-  auth-server-url: http://mano-auth:8080/auth/
-  ssl-required: external
-  resource: mano-vnfm
-  credentials:
-    secret: 50e312ab-9f12-481e-b6a8-c23e0de21628
-  use-resource-role-mappings: true
-  bearer-only: true
-
 logging:
   level:
-    com.ubiqube.etsi.mano.service.rest.ManoLoggingHandler: WARN
+    "[com.ubiqube.etsi.mano.service.rest.ManoLoggingHandler]": WARN
     com:
       ubiqube:
         etsi: DEBUG
