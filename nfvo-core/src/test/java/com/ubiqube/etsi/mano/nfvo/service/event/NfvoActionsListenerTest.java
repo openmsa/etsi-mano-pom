@@ -38,7 +38,7 @@ class NfvoActionsListenerTest {
 	void testOnEvent() {
 		final NfvoActionsListener nal = new NfvoActionsListener(actionController);
 		final UUID id = UUID.randomUUID();
-		final ActionMessage msg = new ActionMessage(ActionType.GRANT_REQUEST, id, Map.of());
+		final ActionMessage msg = new ActionMessage(ActionType.GRANT_REQUEST, id, "qa-tenant", Map.of());
 		nal.onEvent(msg);
 		assertTrue(true);
 	}
