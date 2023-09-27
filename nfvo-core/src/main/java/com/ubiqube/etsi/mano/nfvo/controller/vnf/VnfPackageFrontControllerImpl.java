@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -81,7 +82,8 @@ public class VnfPackageFrontControllerImpl implements VnfPackageFrontController 
 	public <U> ResponseEntity<U> findById(final UUID vnfPkgId, final Class<U> clazz, final Consumer<U> makeLinks) {
 		final VnfPackage vnfPackage = vnfManagement.vnfPackagesVnfPkgIdGet(vnfPkgId);
 		final FailureDetails error = vnfPackage.getOnboardingFailureDetails();
-		if ((null != error) && (error.getStatus() == 0)) {
+		final Long res = Optional.ofNullable(error).map(x -> x.getStatus()).orElse(0L);
+		if (res == 0L) {
 			vnfPackage.setOnboardingFailureDetails(null);
 		}
 		final U vnfPkgInfo = mapper.map(vnfPackage, clazz);
