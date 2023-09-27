@@ -65,8 +65,6 @@ public class VimManager {
 
 	private final VimConnectionInformationJpa vimConnectionInformationJpa;
 
-	private final Map<UUID, Vim> vimAssociation;
-
 	private final SystemService systemService;
 
 	private final CnfServerJpa cnfServerJpa;
@@ -80,7 +78,6 @@ public class VimManager {
 	public VimManager(final List<Vim> vims, final VimConnectionInformationJpa vimConnectionInformationJpa, final SystemService systemService,
 			final CnfServerJpa cnfServerJpa, final VrQanJpa vrQanJpa, final EventManager em, final ManoSearch manoSearch) {
 		this.vims = vims;
-		this.vimAssociation = new HashMap<>();
 		this.vimConnectionInformationJpa = vimConnectionInformationJpa;
 		this.systemService = systemService;
 		this.cnfServerJpa = cnfServerJpa;
@@ -90,18 +87,21 @@ public class VimManager {
 		init();
 	}
 
-	private void init() {
+	private Map<UUID, Vim> init() {
+		final Map<UUID, Vim> vimAssociation = new HashMap<>();
 		vims.forEach(x -> {
 			final Set<VimConnectionInformation> vimsId = vimConnectionInformationJpa.findByVimType(x.getType());
-			associateVims(vimsId, x);
+			associateVims(vimsId, x, vimAssociation);
 		});
+		return vimAssociation;
 	}
 
-	private void associateVims(final Set<VimConnectionInformation> vimsIs, final Vim vim) {
+	private static void associateVims(final Set<VimConnectionInformation> vimsIs, final Vim vim, final Map<UUID, Vim> vimAssociation) {
 		vimsIs.forEach(x -> vimAssociation.put(x.getId(), vim));
 	}
 
 	public Vim getVimById(final UUID id) {
+		final Map<UUID, Vim> vimAssociation = init();
 		return Optional.ofNullable(vimAssociation.get(id)).orElseThrow(() -> new NotFoundException("No such Vim: " + id));
 	}
 
