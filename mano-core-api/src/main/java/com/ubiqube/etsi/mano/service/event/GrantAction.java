@@ -233,7 +233,9 @@ public class GrantAction {
 	}
 
 	private static boolean noneMatchExtCp(final VnfPackage vnfPkg, final ListKeyPair x) {
-		return vnfPkg.getVnfExtCp().stream().noneMatch(y -> y.getExternalVirtualLink().equals(x.getValue()));
+		return vnfPkg.getVnfExtCp().stream().noneMatch(y -> Optional.ofNullable(y.getExternalVirtualLink())
+				.filter(z -> z.equals(x.getValue()))
+				.isPresent());
 	}
 
 	private static boolean noneMatchVirtualCp(final VnfPackage vnfPkg, final ListKeyPair x) {
