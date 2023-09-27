@@ -16,7 +16,6 @@
  */
 package com.ubiqube.etsi.mano.service.hibernate;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -25,10 +24,9 @@ import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernatePropertiesCustomizer;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
+
+import com.ubiqube.etsi.mano.auth.config.TenantHolder;
 
 @Component
 public class TenantIdentifierResolver implements CurrentTenantIdentifierResolver, HibernatePropertiesCustomizer {
@@ -42,26 +40,14 @@ public class TenantIdentifierResolver implements CurrentTenantIdentifierResolver
 
 	@Override
 	public String resolveCurrentTenantIdentifier() {
-		final Optional<Authentication> auth = Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication());
-		if (auth.isPresent()) {
-			final Object principal = auth.get().getPrincipal();
-			if (principal instanceof final Jwt jwt) {
-				return handleJwt(jwt);
-			}
-			return auth.get().getName();
-		}
-		return "BOOTSTRAP";
-	}
-
-	private static String handleJwt(final Jwt jwt) {
-		return Optional.ofNullable((List<String>) jwt.getClaim("vimId")).map(x -> x.get(0)).orElse("BOOTSTRAP");
+		return Optional.ofNullable(TenantHolder.getTenantId()).orElse("BOOTSTRAP");
 	}
 
 	@Override
 	public boolean validateExistingCurrentSessions() {
-		final Optional<Authentication> auth = Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication());
-		LOG.info("validateExistingCurrentSessions: {}", auth.isPresent());
-		return auth.isPresent();
+		final Optional<String> tenant = Optional.ofNullable(TenantHolder.getTenantId());
+		LOG.info("validateExistingCurrentSessions: {}", tenant.isPresent());
+		return tenant.isPresent();
 	}
 
 }
