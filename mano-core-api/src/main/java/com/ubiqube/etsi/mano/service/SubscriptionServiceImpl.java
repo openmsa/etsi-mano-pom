@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -34,6 +35,11 @@ import com.ubiqube.etsi.mano.grammar.Node;
 import com.ubiqube.etsi.mano.grammar.Node.Operand;
 import com.ubiqube.etsi.mano.jpa.SubscriptionJpa;
 import com.ubiqube.etsi.mano.service.auth.model.ApiTypesEnum;
+import com.ubiqube.etsi.mano.service.auth.model.AuthParamBasic;
+import com.ubiqube.etsi.mano.service.auth.model.AuthParamOauth2;
+import com.ubiqube.etsi.mano.service.auth.model.AuthType;
+import com.ubiqube.etsi.mano.service.auth.model.AuthentificationInformations;
+import com.ubiqube.etsi.mano.service.auth.model.OAuth2GrantType;
 import com.ubiqube.etsi.mano.service.eval.EvalService;
 import com.ubiqube.etsi.mano.service.event.Notifications;
 import com.ubiqube.etsi.mano.service.event.model.EventMessage;
@@ -44,25 +50,25 @@ import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
 import com.ubiqube.etsi.mano.service.search.ManoSearch;
 import com.ubiqube.etsi.mano.utils.Version;
 
-import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import ma.glasnost.orika.MapperFacade;
 
 @Service
 public class SubscriptionServiceImpl implements SubscriptionService {
 	private static final Logger LOG = LoggerFactory.getLogger(SubscriptionServiceImpl.class);
-	@Nonnull
+
 	private final SubscriptionJpa subscriptionJpa;
-	@Nonnull
+
 	private final GrammarParser grammarParser;
-	@Nonnull
+
 	private final Notifications notifications;
-	@Nonnull
+
 	private final ServerService serverService;
-	@Nonnull
+
 	private final EvalService evalService;
-	@Nonnull
+
 	private final MapperFacade mapper;
+
 	private final ManoSearch manoSearch;
 
 	public SubscriptionServiceImpl(final SubscriptionJpa repository, final GrammarParser grammarParser, final Notifications notifications,
@@ -94,11 +100,51 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 	public Subscription save(final Object subscriptionRequest, final Class<?> version, final SubscriptionType type) {
 		final Subscription subscription = mapper.map(subscriptionRequest, Subscription.class);
 		subscription.setSubscriptionType(type);
+		checkAuthData(subscription);
 		ensureUniqueness(subscription);
 		subscription.setNodeFilter(evalService.convertRequestToString(subscriptionRequest));
 		subscription.setVersion(extractVersion(version, type));
 		checkAvailability(subscription);
 		return subscriptionJpa.save(subscription);
+	}
+
+	private static void checkAuthData(final Subscription subscription) {
+		final AuthentificationInformations authInfo = subscription.getAuthentication();
+		if (null == authInfo) {
+			return;
+		}
+		authInfo.getAuthType().forEach(x -> check(x, authInfo));
+	}
+
+	private static void check(final AuthType authType, final AuthentificationInformations authInfo) {
+		switch (authType) {
+		case BASIC -> checkBasic(authInfo.getAuthParamBasic());
+		case OAUTH2_CLIENT_CREDENTIALS -> checkOauth2(authInfo.getAuthParamOauth2());
+		case TLS_CERT -> checkTls(authInfo.getAuthTlsCert());
+		default -> throw new IllegalArgumentException("Unexpected value: " + authType);
+		}
+		return;
+	}
+
+	private static void checkTls(final String authTlsCert) {
+		Objects.requireNonNull(authTlsCert, "TLS certificate should not be empty.");
+	}
+
+	private static void checkOauth2(final AuthParamOauth2 authParamOauth2) {
+		if (authParamOauth2 == null) {
+			throw new GenericException("No OAuth2 parameters.");
+		}
+		if (OAuth2GrantType.CLIENT_CREDENTIAL.equals(authParamOauth2.getGrantType())) {
+			Objects.requireNonNull(authParamOauth2.getClientId(), "Client ID must not be null");
+			Objects.requireNonNull(authParamOauth2.getClientSecret(), "Client Secret must not be null");
+		} else if (OAuth2GrantType.PASSWORD.equals(authParamOauth2.getGrantType())) {
+			Objects.requireNonNull(authParamOauth2.getO2Username(), "Username must not be null.");
+			Objects.requireNonNull(authParamOauth2.getO2Password(), "Passord must not be null.");
+		}
+	}
+
+	private static void checkBasic(final AuthParamBasic authParamBasic) {
+		Objects.requireNonNull(authParamBasic.getUserName(), "Username must not be null.");
 	}
 
 	private void checkAvailability(final Subscription subscription) {
