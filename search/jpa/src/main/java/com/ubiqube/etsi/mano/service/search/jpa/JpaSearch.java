@@ -51,7 +51,9 @@ public class JpaSearch implements ManoSearch {
 		final CriteriaQuery<T> cq = cb.createQuery(clazz);
 		final Root<T> itemRoot = cq.from(clazz);
 		final Predicate pred = getCriteria(cb, nodes, itemRoot, Map.of());
-		cq.where(pred);
+		if (null != pred) {
+			cq.where(pred);
+		}
 		return em.createQuery(cq).getResultList();
 	}
 
