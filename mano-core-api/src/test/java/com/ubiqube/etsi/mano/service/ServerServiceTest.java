@@ -100,7 +100,7 @@ class ServerServiceTest {
 		final Servers servers = Servers.builder()
 				.url(URI.create("http://www.123.com/"))
 				.build();
-		when(serversJpa.findByUrl(servers.getUrl().toString())).thenReturn(opt);
+		when(serversJpa.findByUrl(servers.getUrl())).thenReturn(opt);
 		assertThrows(GenericException.class, () -> ss.createServer(servers));
 	}
 
