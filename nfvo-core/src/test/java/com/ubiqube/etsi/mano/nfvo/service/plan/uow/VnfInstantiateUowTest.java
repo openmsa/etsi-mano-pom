@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import java.net.URI;
 import java.util.Set;
 import java.util.UUID;
 
@@ -93,7 +94,7 @@ class VnfInstantiateUowTest {
 		vnfBlueprint.setOperationStatus(OperationStatusType.COMPLETED);
 		when(vnfmInterface.vnfLcmOpOccsGet(any(), any())).thenReturn(vnfBlueprint);
 		final NsVnfInstantiateTask task = new NsVnfInstantiateTask();
-		final Servers srv = Servers.builder().id(UUID.randomUUID()).url("http://localhost/").build();
+		final Servers srv = Servers.builder().id(UUID.randomUUID()).url(URI.create("http://localhost/")).build();
 		task.setServer(srv);
 		final NsdVnfPackageCopy param = new NsdVnfPackageCopy();
 		final ForwarderMapping fw01 = new ForwarderMapping();

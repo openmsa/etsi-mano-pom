@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.nfvo.controller.vnf;
 
+import java.net.URI;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -51,7 +52,7 @@ public class VnfSubscriptionManagementImpl implements VnfSubscriptionManagement 
 		final UUID subscriptionId = UUID.fromString(notificationsMessage.getSubscriptionId());
 
 		final Subscription subscriptionsRepository = subscriptionService.findById(subscriptionId, SubscriptionType.VNF);
-		final String callbackUri = subscriptionsRepository.getCallbackUri();
+		final URI callbackUri = subscriptionsRepository.getCallbackUri();
 		final ServerAdapter server = serverService.buildServerAdapter(subscriptionsRepository);
 		notifications.doNotification(notificationsMessage, callbackUri, server);
 	}
@@ -60,7 +61,7 @@ public class VnfSubscriptionManagementImpl implements VnfSubscriptionManagement 
 	public void vnfPackageOnboardingNotificationPost(@Nonnull final VnfPackageOnboardingNotification notificationsMessage) {
 		final UUID subscriptionId = UUID.fromString(notificationsMessage.getSubscriptionId());
 		final Subscription subscription = subscriptionService.findById(subscriptionId, SubscriptionType.VNF);
-		final String cbUrl = subscription.getCallbackUri();
+		final URI cbUrl = subscription.getCallbackUri();
 		final ServerAdapter server = serverService.buildServerAdapter(subscription);
 		notifications.doNotification(notificationsMessage, cbUrl, server);
 	}
