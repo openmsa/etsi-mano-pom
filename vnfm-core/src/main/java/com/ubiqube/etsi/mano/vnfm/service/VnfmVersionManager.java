@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service;
 
+import java.net.URI;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.UUID;
@@ -66,7 +67,7 @@ public class VnfmVersionManager {
 		subscription.setApi(ApiTypesEnum.SOL003);
 		final AuthentificationInformations auth = createAuthInformation();
 		subscription.setAuthentication(auth);
-		subscription.setCallbackUri(manoProperties.getFrontendUrl() + "/vnfpkgm/v1/notification/onboarding");
+		subscription.setCallbackUri(URI.create(manoProperties.getFrontendUrl() + "/vnfpkgm/v1/notification/onboarding"));
 		return manoClientFactory.getClient()
 				.vnfPackage()
 				.subscription()
@@ -79,7 +80,7 @@ public class VnfmVersionManager {
 			final AuthParamOauth2 oauth2 = new AuthParamOauth2();
 			oauth2.setClientId(env.getProperty("keycloak.resource"));
 			oauth2.setClientSecret(env.getProperty("keycloak.credentials.secret"));
-			oauth2.setTokenEndpoint(env.getProperty("mano.swagger-o-auth2"));
+			oauth2.setTokenEndpoint(env.getProperty("mano.swagger-o-auth2", URI.class));
 			auth.setAuthParamOauth2(oauth2);
 			auth.setAuthType(List.of(AuthType.OAUTH2_CLIENT_CREDENTIALS));
 		} else {

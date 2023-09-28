@@ -18,6 +18,8 @@ package com.ubiqube.etsi.mano.vnfm.service.system;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.net.URI;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -54,7 +56,7 @@ class HelmSystemTest {
 	@Test
 	void test() {
 		final HelmWrapperProperty props = new HelmWrapperProperty();
-		props.setUrl("http://localhost/");
+		props.setUrl(URI.create("http://localhost/"));
 		final OAuth2 oauth2 = new OAuth2();
 		props.setOauth2(oauth2);
 		final HelmSystem srv = new HelmSystem(vimManager, client, serverJpa, k8sService, repo, props);

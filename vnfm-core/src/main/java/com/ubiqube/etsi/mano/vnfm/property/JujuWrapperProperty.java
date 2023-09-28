@@ -16,6 +16,8 @@
  */
 package com.ubiqube.etsi.mano.vnfm.property;
 
+import java.net.URI;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -26,7 +28,7 @@ import lombok.Data;
 @ConfigurationProperties(prefix = "mano.juju")
 public class JujuWrapperProperty {
 
-	private String url;
+	private URI url;
 
 	private OAuth2 oauth2;
 

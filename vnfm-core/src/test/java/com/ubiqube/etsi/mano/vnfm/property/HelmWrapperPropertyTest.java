@@ -19,6 +19,7 @@ package com.ubiqube.etsi.mano.vnfm.property;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.net.URI;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -41,8 +42,8 @@ class HelmWrapperPropertyTest {
 				.forClass(obj.getClass())
 				.suppress(Warning.INHERITED_DIRECTLY_FROM_OBJECT, Warning.SURROGATE_KEY)
 				.report();
-		obj.setUrl("url");
-		assertEquals("url", obj.getUrl());
+		obj.setUrl(URI.create("http://url/"));
+		assertEquals("http://url/", obj.getUrl());
 		final OAuth2 oauth2 = new OAuth2();
 		obj.setOauth2(oauth2);
 		assertEquals(oauth2, obj.getOauth2());
@@ -59,8 +60,8 @@ class HelmWrapperPropertyTest {
 		assertEquals(OAuth2GrantType.CLIENT_CREDENTIAL, oauth2.getGrantType());
 		oauth2.setScope(List.of());
 		assertNotNull(oauth2.getScope());
-		oauth2.setTokenEndpoint("tok");
-		assertEquals("tok", oauth2.getTokenEndpoint());
+		oauth2.setTokenEndpoint(URI.create("http://tok/"));
+		assertEquals("http://tok/", oauth2.getTokenEndpoint());
 		oauth2.toString();
 		final EqualsVerifierReport rep = EqualsVerifier
 				.simple()

@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.vnfm.controller.vnfpm;
 
 import static com.ubiqube.etsi.mano.Constants.getSafeUUID;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -73,7 +74,7 @@ public class VnfmPmControllerImpl implements VnfmPmController {
 	private final VnfInstanceGatewayService vnfInstanceGatewayService;
 	private final MonitoringManager monitoringManager;
 	@Nullable
-	private final String frontendUrl;
+	private final URI frontendUrl;
 
 	public VnfmPmControllerImpl(final PmJobsService pmJobsJpa, final SearchableService searchableService, final MetricGroupService metricGroupService,
 			final SubscriptionService subscriptionService, final com.ubiqube.etsi.mano.config.properties.ManoProperties props,
