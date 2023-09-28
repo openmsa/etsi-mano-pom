@@ -55,7 +55,7 @@ public class NotificationsImpl implements Notifications {
 	 * @param server A Servers object.
 	 */
 	@Override
-	public void doNotification(final Object obj, final String uri, final ServerAdapter server) {
+	public void doNotification(final Object obj, final URI uri, final ServerAdapter server) {
 		String content;
 		try {
 			content = mapper.writeValueAsString(obj);
@@ -66,21 +66,21 @@ public class NotificationsImpl implements Notifications {
 		sendRequest(content, server, uri, null);
 	}
 
-	private static void sendRequest(final String content, final ServerAdapter server, final String uri, @Nullable final String version) {
+	private static void sendRequest(final String content, final ServerAdapter server, final URI uri, @Nullable final String version) {
 		final var rest = server.rest();
 		LOG.info("Sending to {}", uri);
-		rest.post(URI.create(uri), content, Void.class, version);
+		rest.post(uri, content, Void.class, version);
 		LOG.debug("Event Sent to {}", uri);
 	}
 
 	@Override
-	public void check(final ServerAdapter server, final String uri) {
+	public void check(final ServerAdapter server, final URI uri) {
 		final var rest = server.rest();
 		doRealCheck(rest, uri);
 	}
 
-	private static void doRealCheck(final FluxRest rest, final String uri) {
-		final ResponseEntity<Void> status = rest.getWithReturn(URI.create(uri), Void.class, null);
+	private static void doRealCheck(final FluxRest rest, final URI uri) {
+		final ResponseEntity<Void> status = rest.getWithReturn(uri, Void.class, null);
 		if ((null == status) || (status.getStatusCode() != HttpStatus.NO_CONTENT)) {
 			final String code = getStatucCode(status);
 			LOG.error("Status response must be 204 by was: {} <=> {}", code, uri);
@@ -96,7 +96,7 @@ public class NotificationsImpl implements Notifications {
 	}
 
 	@Override
-	public void check(final AuthentificationInformations authentication, final String callbackUri) {
+	public void check(final AuthentificationInformations authentication, final URI callbackUri) {
 		final Servers server = new Servers(authentication, callbackUri);
 		final FluxRest rest = new FluxRest(server);
 		doRealCheck(rest, callbackUri);

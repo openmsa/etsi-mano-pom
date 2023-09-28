@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.service;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -41,7 +42,7 @@ import com.ubiqube.etsi.mano.service.EndpointService.Endpoint;
 public class InterfaceInfoService {
 
 	private final EndpointService endpointService;
-	private final String baseUrl;
+	private final URI baseUrl;
 
 	public InterfaceInfoService(final EndpointService endpointService, final ManoProperties props) {
 		this.endpointService = endpointService;

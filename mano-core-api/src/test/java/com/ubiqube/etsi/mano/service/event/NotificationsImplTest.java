@@ -21,6 +21,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import java.net.URI;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -43,7 +45,7 @@ class NotificationsImplTest {
 	@Mock
 	private FluxRest fluxRest;
 
-	private final Servers server = Servers.builder().url("http://localhost/").build();
+	private final Servers server = Servers.builder().url(URI.create("http://localhost/")).build();
 
 	@Test
 	void testCheckFail() throws Exception {
@@ -51,7 +53,7 @@ class NotificationsImplTest {
 		final ServerAdapter serverAdapter = new ServerAdapter(httpGateway, server, fluxRest);
 		final ResponseEntity<Object> resp = ResponseEntity.status(200).build();
 		when(fluxRest.getWithReturn(any(), any(), any())).thenReturn(resp);
-		assertThrows(GenericException.class, () -> srv.check(serverAdapter, ""));
+		assertThrows(GenericException.class, () -> srv.check(serverAdapter, URI.create("http://localhost/")));
 	}
 
 	@Test
@@ -59,7 +61,7 @@ class NotificationsImplTest {
 		final NotificationsImpl srv = new NotificationsImpl(mapper);
 		final ServerAdapter serverAdapter = new ServerAdapter(httpGateway, server, fluxRest);
 		when(fluxRest.getWithReturn(any(), any(), any())).thenReturn(null);
-		assertThrows(GenericException.class, () -> srv.check(serverAdapter, ""));
+		assertThrows(GenericException.class, () -> srv.check(serverAdapter, URI.create("http://localhost/")));
 	}
 
 	@Test
@@ -68,7 +70,7 @@ class NotificationsImplTest {
 		final ServerAdapter serverAdapter = new ServerAdapter(httpGateway, server, fluxRest);
 		final ResponseEntity<Object> resp = ResponseEntity.status(204).build();
 		when(fluxRest.getWithReturn(any(), any(), any())).thenReturn(resp);
-		srv.check(serverAdapter, "");
+		srv.check(serverAdapter, URI.create("http://localhost/"));
 		assertTrue(true);
 	}
 
@@ -76,7 +78,7 @@ class NotificationsImplTest {
 	void testDoNotification() {
 		final NotificationsImpl srv = new NotificationsImpl(mapper);
 		final ServerAdapter serverAdapter = new ServerAdapter(httpGateway, server, fluxRest);
-		srv.doNotification(null, "http://localhost/", serverAdapter);
+		srv.doNotification(null, URI.create("http://localhost/"), serverAdapter);
 		assertTrue(true);
 	}
 }

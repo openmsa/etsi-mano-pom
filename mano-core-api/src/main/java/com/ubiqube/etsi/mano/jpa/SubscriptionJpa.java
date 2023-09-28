@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.jpa;
 
+import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,5 +35,5 @@ public interface SubscriptionJpa extends CrudRepository<Subscription, UUID> {
 	@Query("select s from Subscription s")
 	List<Subscription> findEventAndVnfPkg(NotificationEvent notificationTypesEnum, String vnfPkgId);
 
-	List<Subscription> findByApiAndCallbackUriAndSubscriptionType(@Nullable ApiTypesEnum api, String callbackUri, SubscriptionType subscriptionType);
+	List<Subscription> findByApiAndCallbackUriAndSubscriptionType(@Nullable ApiTypesEnum api, URI callbackUri, SubscriptionType subscriptionType);
 }

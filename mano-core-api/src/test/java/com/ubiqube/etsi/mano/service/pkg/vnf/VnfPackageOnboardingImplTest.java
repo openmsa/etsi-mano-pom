@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import java.net.URI;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
@@ -93,7 +94,7 @@ class VnfPackageOnboardingImplTest {
 		final VnfPackage vnfPkg = new VnfPackage();
 		vnfPkg.setId(id);
 		final UploadUriParameters uriParams = new UploadUriParameters();
-		uriParams.setAddressInformation("http://nexus.ubiqube.com/repository/local-helm/index.yaml");
+		uriParams.setAddressInformation(URI.create("http://nexus.ubiqube.com/repository/local-helm/index.yaml"));
 		vnfPkg.setUploadUriParameters(uriParams);
 		final PackageDescriptor<VnfPackageReader> packageProvider = new TestPackageDescriptor();
 		//

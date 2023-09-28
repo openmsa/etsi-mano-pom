@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -58,7 +59,7 @@ class VnfEventTest {
 	private FluxRest fluxRest;
 
 	private final Servers server = Servers.builder()
-			.url("http://localhost/")
+			.url(URI.create("http://localhost/"))
 			.build();
 
 	@Test
@@ -80,7 +81,7 @@ class VnfEventTest {
 		final VnfEvent vnfEvent = new VnfEvent(subscriptionRepo, notifications, serverService, eventManager, evalService);
 		final Subscription subsc = Subscription.builder()
 				.id(UUID.randomUUID())
-				.callbackUri("test-uri")
+				.callbackUri(URI.create("http://test-uri/"))
 				.build();
 		final EventMessage event = new EventMessage(NotificationEvent.APP_INSTANCE_CREATE, UUID.randomUUID(), Map.of());
 		//
@@ -107,11 +108,11 @@ class VnfEventTest {
 		final EventMessage event = new EventMessage(NotificationEvent.APP_INSTANCE_CREATE, UUID.randomUUID(), Map.of());
 		final Subscription subsc1 = Subscription.builder()
 				.id(UUID.randomUUID())
-				.callbackUri("test-uri")
+				.callbackUri(URI.create("http://test-uri/"))
 				.build();
 		final Subscription subsc2 = Subscription.builder()
 				.id(UUID.randomUUID())
-				.callbackUri("test-uri")
+				.callbackUri(URI.create("http://test-uri/"))
 				.nodeFilter("{}")
 				.build();
 		//

@@ -117,7 +117,7 @@ class ManoClientTest {
 				.clientId("mano-nfvo")
 				.clientSecret("ed9aeb6d-3ea5-4392-bb22-835603cf3dfc")
 				.grantType(OAuth2GrantType.CLIENT_CREDENTIAL)
-				.tokenEndpoint("http://mano-auth/auth/realms/mano-realm/protocol/openid-connect/token")
+				.tokenEndpoint(URI.create("http://mano-auth/auth/realms/mano-realm/protocol/openid-connect/token"))
 				.build();
 	}
 
@@ -131,7 +131,7 @@ class ManoClientTest {
 		final HttpGateway httpGateway = new VnfmGateway261(vnfmFactory, nfvoFactory, mapperFactory.getMapperFacade());
 		final AuthParamOauth2 authParamOath2 = getNfvoAuth();
 		final Servers server = Servers.builder()
-				.url("http://localhost:8100/ubi-etsi-mano/sol005")
+				.url(URI.create("http://localhost:8100/ubi-etsi-mano/sol005"))
 				.version("2.6.1")
 				.tlsCert("-----BEGIN CERTIFICATE-----\n"
 						+ "MIIEPTCCAyWgAwIBAgIIFNYoTdjPHuIwDQYJKoZIhvcNAQELBQAwgY0xCzAJBgNV\n"
@@ -183,7 +183,7 @@ class ManoClientTest {
 		final HttpGateway httpGateway = new VnfmGateway261(vnfmFactory, nfvoFactory, mapperFactory.getMapperFacade());
 		final AuthParamOauth2 authParamOath2 = getNfvoAuth();
 		final Servers server = Servers.builder()
-				.url("http://localhost:8100/ubi-etsi-mano/sol005")
+				.url(URI.create("http://localhost:8100/ubi-etsi-mano/sol005"))
 				.version("2.6.1")
 				.authentification(
 						AuthentificationInformations.builder()
@@ -207,7 +207,7 @@ class ManoClientTest {
 		final HttpGateway httpGateway = new VnfmGateway261(vnfmFactory, nfvoFactory, mapperFactory.getMapperFacade());
 		final AuthParamOauth2 authParamOath2 = getNfvoAuth();
 		final Servers server = Servers.builder()
-				.url("http://localhost:8888/ubi-etsi-mano/sol003")
+				.url(URI.create("http://localhost:8888/ubi-etsi-mano/sol003"))
 				.version("2.7.1")
 				.authentification(
 						AuthentificationInformations.builder()
@@ -240,7 +240,7 @@ class ManoClientTest {
 		final HttpGateway httpGateway = new VnfmGateway261(vnfmFactory, nfvoFactory, mapperFactory.getMapperFacade());
 		final AuthParamOauth2 authParamOath2 = getNfvoAuth();
 		final Servers server = Servers.builder()
-				.url("http://10.31.1.29:8100/ubi-etsi-mano/sol003")
+				.url(URI.create("http://10.31.1.29:8100/ubi-etsi-mano/sol003"))
 				// .version("2.7.1")
 				.authentification(
 						AuthentificationInformations.builder()
@@ -273,7 +273,7 @@ class ManoClientTest {
 	void testGitHttps() throws URISyntaxException {
 		final AuthParamOauth2 authParamOath2 = getNfvoAuth();
 		final Servers server = Servers.builder()
-				.url("https://github.com/")
+				.url(URI.create("https://github.com/"))
 				.authentification(
 						AuthentificationInformations.builder()
 								.authParamOauth2(authParamOath2)

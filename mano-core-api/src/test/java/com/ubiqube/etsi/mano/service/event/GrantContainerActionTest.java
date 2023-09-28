@@ -23,6 +23,7 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -93,7 +94,7 @@ class GrantContainerActionTest {
 		when(vnfPkgService.findByVnfdId((UUID) any())).thenReturn(vnfPkg);
 		final ConnectionInformation conn = new ConnectionInformation();
 		conn.setName("conn1");
-		conn.setUrl("http://localhost/");
+		conn.setUrl(URI.create("http://localhost/"));
 		final AuthentificationInformations auth = AuthentificationInformations.builder()
 				.authParamBasic(AuthParamBasic.builder()
 						.build())
@@ -120,7 +121,7 @@ class GrantContainerActionTest {
 		when(vnfPkgService.findByVnfdId((UUID) any())).thenReturn(vnfPkg);
 		final ConnectionInformation conn = new ConnectionInformation();
 		conn.setName("conn1");
-		conn.setUrl("http://localhost/");
+		conn.setUrl(URI.create("http://localhost/"));
 		final AuthentificationInformations auth = AuthentificationInformations.builder()
 				.authParamBasic(AuthParamBasic.builder()
 						.build())
@@ -168,7 +169,7 @@ class GrantContainerActionTest {
 		when(vnfPkgService.findByVnfdId((UUID) any())).thenReturn(vnfPkg);
 		final ConnectionInformation conn = new ConnectionInformation();
 		conn.setName("conn1");
-		conn.setUrl("http://localhost/");
+		conn.setUrl(URI.create("http://localhost/"));
 		when(connJpa.findByConnType(ConnectionType.HELM)).thenReturn(List.of(conn));
 		srv.handleGrant(grant);
 		assertTrue(true);

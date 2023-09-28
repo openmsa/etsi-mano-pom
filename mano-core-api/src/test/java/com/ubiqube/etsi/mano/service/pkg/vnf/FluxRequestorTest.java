@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.InputStream;
+import java.net.URI;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.security.oauth2.client.ClientAuthorizationException;
@@ -35,7 +36,7 @@ class FluxRequestorTest {
 	@Test
 	void testNoAuth() throws Exception {
 		final UploadUriParameters params = new UploadUriParameters();
-		params.setAddressInformation("http://nexus.ubiqube.com/repository/local-helm/index.yaml");
+		params.setAddressInformation(URI.create("http://nexus.ubiqube.com/repository/local-helm/index.yaml"));
 		final FluxRequestor fr = new FluxRequestor(params);
 		final InputStream is = fr.getInputStream();
 		assertNotNull(is);
@@ -46,7 +47,7 @@ class FluxRequestorTest {
 	@Test
 	void testBasic() throws Exception {
 		final UploadUriParameters params = new UploadUriParameters();
-		params.setAddressInformation("http://nexus.ubiqube.com/repository/local-helm/index.yaml");
+		params.setAddressInformation(URI.create("http://nexus.ubiqube.com/repository/local-helm/index.yaml"));
 		params.setAuthType(AuthType.BASIC);
 		params.setUsername("user");
 		params.setPassword("pass");
@@ -57,12 +58,12 @@ class FluxRequestorTest {
 	@Test
 	void testOAuth2() throws Exception {
 		final UploadUriParameters params = new UploadUriParameters();
-		params.setAddressInformation("http://nexus.ubiqube.com/repository/local-helm/index.yaml");
+		params.setAddressInformation(URI.create("http://nexus.ubiqube.com/repository/local-helm/index.yaml"));
 		params.setAuthType(AuthType.OAUTH2_CLIENT_CREDENTIALS);
 		final ParamsOauth2ClientCredentials paramOAuth2 = new ParamsOauth2ClientCredentials();
 		paramOAuth2.setClientId("clientId");
 		paramOAuth2.setClientPassword("pass");
-		paramOAuth2.setTokenEndpoint("http://mano-auth/auth/realms/mano-realm/protocol/openid-connect/token");
+		paramOAuth2.setTokenEndpoint(URI.create("http://mano-auth/auth/realms/mano-realm/protocol/openid-connect/token"));
 		params.setParamsOauth2ClientCredentials(paramOAuth2);
 		final FluxRequestor fr = new FluxRequestor(params);
 		assertThrows(ClientAuthorizationException.class, () -> fr.getInputStream());
@@ -72,7 +73,7 @@ class FluxRequestorTest {
 	@Test
 	void testCloseNoInputStream() throws Exception {
 		final UploadUriParameters params = new UploadUriParameters();
-		params.setAddressInformation("http://nexus.ubiqube.com/repository/local-helm/index.yaml");
+		params.setAddressInformation(URI.create("http://nexus.ubiqube.com/repository/local-helm/index.yaml"));
 		final FluxRequestor fr = new FluxRequestor(params);
 		fr.close();
 		assertTrue(true);

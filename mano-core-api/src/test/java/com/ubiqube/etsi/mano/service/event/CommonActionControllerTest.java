@@ -22,6 +22,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -76,14 +77,14 @@ class CommonActionControllerTest {
 
 	@Test
 	void testVnfm() throws Exception {
-		final CommonActionController cac = new CommonActionController(serversJpa, env, List.of(hg), mapper, manoProperties, securityConfigProvider, serverService);
+		final CommonActionController cac = new CommonActionController(serversJpa, List.of(hg), mapper, manoProperties, securityConfigProvider, serverService);
 		final UUID id = UUID.randomUUID();
 		final Servers server = Servers.builder()
 				.remoteSubscriptions(Set.of())
 				.version("4.3.2")
 				.serverType(ServerType.VNFM)
 				.subscriptionType(SubscriptionType.VNF)
-				.url("http://localhost/")
+				.url(URI.create("http://localhost/"))
 				.build();
 		when(serversJpa.findById(id)).thenReturn(Optional.of(server));
 		final ServerAdapter serverAdapter = new ServerAdapter(hg, server, fluxRest);
@@ -103,12 +104,12 @@ class CommonActionControllerTest {
 
 	@Test
 	void testVnfmFail() throws Exception {
-		final CommonActionController cac = new CommonActionController(serversJpa, env, List.of(hg), mapper, manoProperties, securityConfigProvider, serverService);
+		final CommonActionController cac = new CommonActionController(serversJpa, List.of(hg), mapper, manoProperties, securityConfigProvider, serverService);
 		final UUID id = UUID.randomUUID();
 		final Servers server = Servers.builder()
 				.remoteSubscriptions(Set.of())
 				.version("4.3.2")
-				.url("http://localhost/")
+				.url(URI.create("http://localhost/"))
 				.serverType(ServerType.VNFM)
 				.subscriptionType(SubscriptionType.VNF)
 				.build();
@@ -125,13 +126,13 @@ class CommonActionControllerTest {
 
 	@Test
 	void testNfvo() throws Exception {
-		final CommonActionController cac = new CommonActionController(serversJpa, env, List.of(hg), mapper, manoProperties, securityConfigProvider, serverService);
+		final CommonActionController cac = new CommonActionController(serversJpa, List.of(hg), mapper, manoProperties, securityConfigProvider, serverService);
 		final UUID id = UUID.randomUUID();
 		final Servers server = Servers.builder()
 				.remoteSubscriptions(Set.of())
 				.version("4.3.2")
 				.serverType(ServerType.NFVO)
-				.url("http://localhost/")
+				.url(URI.create("http://localhost/"))
 				.subscriptionType(SubscriptionType.NSD)
 				.build();
 		when(serversJpa.findById(id)).thenReturn(Optional.of(server));
@@ -154,12 +155,12 @@ class CommonActionControllerTest {
 
 	@Test
 	void testNfvoCoverAuth2() throws Exception {
-		final CommonActionController cac = new CommonActionController(serversJpa, env, List.of(hg), mapper, manoProperties, securityConfigProvider, serverService);
+		final CommonActionController cac = new CommonActionController(serversJpa, List.of(hg), mapper, manoProperties, securityConfigProvider, serverService);
 		final UUID id = UUID.randomUUID();
 		final Servers server = Servers.builder()
 				.remoteSubscriptions(Set.of())
 				.version("4.3.2")
-				.url("http://localhost/")
+				.url(URI.create("http://localhost/"))
 				.serverType(ServerType.NFVO)
 				.subscriptionType(SubscriptionType.NSD)
 				.build();

@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.service;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -123,7 +124,6 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 		case TLS_CERT -> checkTls(authInfo.getAuthTlsCert());
 		default -> throw new IllegalArgumentException("Unexpected value: " + authType);
 		}
-		return;
 	}
 
 	private static void checkTls(final String authTlsCert) {
@@ -235,7 +235,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 	}
 
 	@Override
-	public List<Subscription> findByApiAndCallbackUriSubscriptionType(final @Nullable ApiTypesEnum api, final String callbackUri, final SubscriptionType subscriptionType) {
+	public List<Subscription> findByApiAndCallbackUriSubscriptionType(final @Nullable ApiTypesEnum api, final URI callbackUri, final SubscriptionType subscriptionType) {
 		return subscriptionJpa.findByApiAndCallbackUriAndSubscriptionType(api, callbackUri, subscriptionType);
 	}
 

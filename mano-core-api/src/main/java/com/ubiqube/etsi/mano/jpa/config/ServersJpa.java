@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.jpa.config;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -37,5 +38,5 @@ public interface ServersJpa extends ListCrudRepository<Servers, UUID> {
 
 	List<Servers> findByServerTypeAndServerStatusIn(ServerType serverType, List<PlanStatusType> asList);
 
-	Optional<Servers> findByUrl(String url);
+	Optional<Servers> findByUrl(URI url);
 }

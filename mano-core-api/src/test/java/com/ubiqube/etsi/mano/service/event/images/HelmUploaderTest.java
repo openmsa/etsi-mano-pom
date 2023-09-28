@@ -28,6 +28,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -102,7 +103,7 @@ class HelmUploaderTest {
 								.build())
 						.build())
 				.connType(ConnectionType.HELM)
-				.url(wmRuntimeInfo.getHttpBaseUrl())
+				.url(URI.create(wmRuntimeInfo.getHttpBaseUrl()))
 				.build();
 	}
 

@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import java.net.URI;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +51,7 @@ class ManoQueryBuilderTest {
 	@Mock
 	private FluxRest fluxRest;
 
-	private final Servers server = Servers.builder().url("http://localhost/").build();
+	private final Servers server = Servers.builder().url(URI.create("http://localhost/")).build();
 
 	@Test
 	void testDelete() throws Exception {

@@ -20,7 +20,6 @@ import java.io.Closeable;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -33,8 +32,8 @@ import com.ubiqube.etsi.mano.service.auth.model.AuthParamBasic;
 import com.ubiqube.etsi.mano.service.auth.model.AuthParamOauth2;
 import com.ubiqube.etsi.mano.service.auth.model.AuthType;
 import com.ubiqube.etsi.mano.service.auth.model.AuthentificationInformations;
-import com.ubiqube.etsi.mano.service.auth.model.OAuth2GrantType;
 import com.ubiqube.etsi.mano.service.auth.model.AuthentificationInformations.AuthentificationInformationsBuilder;
+import com.ubiqube.etsi.mano.service.auth.model.OAuth2GrantType;
 import com.ubiqube.etsi.mano.service.rest.FluxRest;
 
 import jakarta.annotation.Nullable;
@@ -83,7 +82,7 @@ public class FluxRequestor implements HttpRequestor, Closeable {
 	public InputStream getInputStream() {
 		try {
 			tmpPath = Files.createTempFile("dwn", "mano");
-			fr.download(URI.create(params.getAddressInformation()), tmpPath, null);
+			fr.download(params.getAddressInformation(), tmpPath, null);
 			final Path tmpPath2 = tmpPath;
 			if (tmpPath2 == null) {
 				throw new GenericException("");

@@ -33,7 +33,6 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.util.UriComponents;
@@ -84,7 +83,6 @@ public class CommonActionController {
 	private static final List<String> NFVO_FRAGMENT = Arrays.asList("grant", "vnfpkgm", "nsd", "nslcm", "nspm", "nsfm", "nfvici", "vnfsnapshotpkgm", "lcmcoord");
 
 	private final ServersJpa serversJpa;
-	private final Environment env;
 	private final List<HttpGateway> httpGateway;
 	private final MapperFacade mapper;
 	private final ManoProperties manoProperties;
@@ -92,10 +90,9 @@ public class CommonActionController {
 
 	private final ServerService serverService;
 
-	public CommonActionController(final ServersJpa serversJpa, final Environment env, final List<com.ubiqube.etsi.mano.service.HttpGateway> httpGateway,
+	public CommonActionController(final ServersJpa serversJpa, final List<com.ubiqube.etsi.mano.service.HttpGateway> httpGateway,
 			final MapperFacade mapper, final ManoProperties manoProperties, final ObjectProvider<SecutiryConfig> secutiryConfig, final ServerService serverService) {
 		this.serversJpa = serversJpa;
-		this.env = env;
 		this.httpGateway = httpGateway;
 		this.mapper = mapper;
 		this.manoProperties = manoProperties;
@@ -259,7 +256,8 @@ public class CommonActionController {
 		return Subscription.builder()
 				.api(apiType)
 				.authentication(auth)
-				.callbackUri(manoProperties.getFrontendUrl() + url)
+				// XXX: Mano property must be a URI.
+				.callbackUri(URI.create(manoProperties.getFrontendUrl() + url))
 				.subscriptionType(subscriptionType)
 				.filters(filters)
 				.build();
@@ -306,7 +304,7 @@ public class CommonActionController {
 			final AuthParamOauth2 oauth2 = AuthParamOauth2.builder()
 					.clientId(locAuth.getClientId())
 					.clientSecret(locAuth.getClientSecret())
-					.tokenEndpoint(env.getProperty("mano.swagger-o-auth2"))
+					.tokenEndpoint(locAuth.getTokenEndpoint())
 					.build();
 			auth.setAuthParamOauth2(oauth2);
 			auth.setAuthType(List.of(AuthType.OAUTH2_CLIENT_CREDENTIALS));

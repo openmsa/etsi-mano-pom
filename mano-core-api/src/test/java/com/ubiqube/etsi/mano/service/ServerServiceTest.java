@@ -25,6 +25,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -74,7 +75,7 @@ class ServerServiceTest {
 	@Test
 	void testBasic() throws Exception {
 		final Subscription servers = Subscription.builder()
-				.callbackUri("http://www.123.com/")
+				.callbackUri(URI.create("http://www.123.com/"))
 				.build();
 		when(springContext.getBean(ObservationRegistry.class)).thenReturn(observationRegistry);
 		final ServerAdapter res = ss.buildServerAdapter(servers);
@@ -84,7 +85,7 @@ class ServerServiceTest {
 	@Test
 	void testServerAdapter002() throws Exception {
 		final Subscription servers = Subscription.builder()
-				.callbackUri("http://www.123.com/")
+				.callbackUri(URI.create("http://www.123.com/"))
 				.version("3.4.5")
 				.build();
 		when(springContext.getBean(ObservationRegistry.class)).thenReturn(observationRegistry);
@@ -97,16 +98,16 @@ class ServerServiceTest {
 	void testCreateDuplicateServer() throws Exception {
 		final Optional<Servers> opt = Optional.ofNullable(new Servers());
 		final Servers servers = Servers.builder()
-				.url("http://www.123.com/")
+				.url(URI.create("http://www.123.com/"))
 				.build();
-		when(serversJpa.findByUrl(servers.getUrl())).thenReturn(opt);
+		when(serversJpa.findByUrl(servers.getUrl().toString())).thenReturn(opt);
 		assertThrows(GenericException.class, () -> ss.createServer(servers));
 	}
 
 	@Test
 	void testCreateServer() throws Exception {
 		final Servers servers = Servers.builder()
-				.url("http://www.123.com/")
+				.url(URI.create("http://www.123.com/"))
 				.serverStatus(PlanStatusType.REMOVED)
 				.build();
 		ss.createServer(servers);
@@ -116,7 +117,7 @@ class ServerServiceTest {
 	@Test
 	void testApaderServers() throws Exception {
 		final Servers servers = Servers.builder()
-				.url("http://www.123.com/")
+				.url(URI.create("http://www.123.com/"))
 				.serverStatus(PlanStatusType.REMOVED)
 				.version("3.3.1")
 				.build();
@@ -136,7 +137,7 @@ class ServerServiceTest {
 	void testDeleteByOkIt() throws Exception {
 		final UUID id = UUID.randomUUID();
 		final Servers srv = Servers.builder()
-				.url("http://localhost/")
+				.url(URI.create("http://localhost/"))
 				.remoteSubscriptions(Set.of())
 				.build();
 		final Optional<Servers> srvOpt = Optional.of(srv);
@@ -153,7 +154,7 @@ class ServerServiceTest {
 		rs01.setSubscriptionType(SubscriptionType.VNF);
 		final Servers srv = Servers.builder()
 				.id(id)
-				.url("http://localhost/")
+				.url(URI.create("http://localhost/"))
 				.remoteSubscriptions(Set.of(rs01))
 				.version("1.2.3")
 				.build();
@@ -175,7 +176,7 @@ class ServerServiceTest {
 		final UUID id = UUID.randomUUID();
 		final Servers srv = Servers.builder()
 				.id(id)
-				.url("http://localhost/")
+				.url(URI.create("http://localhost/"))
 				.version("1.2.3")
 				.build();
 		when(serversJpa.findByServerStatusIn(List.of(PlanStatusType.SUCCESS))).thenReturn(List.of(srv, srv));

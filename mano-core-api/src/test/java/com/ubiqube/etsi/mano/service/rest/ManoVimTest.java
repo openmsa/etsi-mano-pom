@@ -20,6 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import java.net.URI;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -42,7 +44,7 @@ class ManoVimTest {
 	void testName() throws Exception {
 		final ManoVim mv = new ManoVim(manoClient);
 		final VimConnectionInformation vim = new VimConnectionInformation();
-		final Servers server = Servers.builder().url("http://localhost/").build();
+		final Servers server = Servers.builder().url(URI.create("http://localhost/")).build();
 		final ServerAdapter serverAdapter = new ServerAdapter(httpGateway, server, fluxRest);
 		when(manoClient.getServer()).thenReturn(serverAdapter);
 		when(fluxRest.post(any(), any(), any(), any())).thenReturn(vim);

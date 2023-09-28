@@ -16,6 +16,8 @@
  */
 package com.ubiqube.etsi.mano.service.event;
 
+import java.net.URI;
+
 import com.ubiqube.etsi.mano.service.auth.model.AuthentificationInformations;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
 
@@ -44,10 +46,10 @@ public interface Notifications {
 	 * @param uri    The complete URL.
 	 * @param server A Servers object.
 	 */
-	void doNotification(final Object obj, final String uri, final ServerAdapter server);
+	void doNotification(final Object obj, final URI uri, final ServerAdapter server);
 
-	void check(ServerAdapter server, final String _uri);
+	void check(ServerAdapter server, final URI uri);
 
-	void check(AuthentificationInformations authentication, String callbackUri);
+	void check(AuthentificationInformations authentication, URI callbackUri);
 
 }

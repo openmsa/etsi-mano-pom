@@ -98,7 +98,7 @@ public class VnfPackageOnboardingImpl {
 		final UploadUriParameters params = vnfPackage.getUploadUriParameters();
 		LOG.info("Async. Download of {}", params);
 		try (FluxRequestor requestor = new FluxRequestor(vnfPackage.getUploadUriParameters())) {
-			final ManoResource data = new ManoUrlResource(0, vnfPackage.getUploadUriParameters().getAddressInformation(), requestor);
+			final ManoResource data = new ManoUrlResource(0, vnfPackage.getUploadUriParameters().getAddressInformation().toString(), requestor);
 			return uploadAndFinishOnboarding(vnfPackage, data);
 		} catch (final IOException e) {
 			throw new GenericException(e);

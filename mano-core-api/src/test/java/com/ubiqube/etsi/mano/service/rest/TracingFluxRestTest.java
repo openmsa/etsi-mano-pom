@@ -19,6 +19,8 @@ package com.ubiqube.etsi.mano.service.rest;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
+import java.net.URI;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -41,7 +43,7 @@ class TracingFluxRestTest {
 		when(appCtx.getBean(ObservationRegistry.class)).thenReturn(obsReg);
 
 		final Servers server = Servers.builder()
-				.url("http://localhost/")
+				.url(URI.create("http://localhost/"))
 				.build();
 		final TracingFluxRest srv = new TracingFluxRest(server, appCtx);
 		assertNotNull(srv);

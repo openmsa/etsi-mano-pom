@@ -21,6 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
+import java.net.URI;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
@@ -69,7 +70,7 @@ class ManoServerIdTest {
 		final ServerAdapter serverAdapter = createAdapter();
 		when(manoClient.getServer()).thenReturn(serverAdapter);
 		when(manoClient.getObjectId()).thenReturn(UUID.randomUUID());
-		final ResponseEntity<Servers> resp = ResponseEntity.status(200).body(Servers.builder().url("http://localhost/").build());
+		final ResponseEntity<Servers> resp = ResponseEntity.status(200).body(Servers.builder().url(URI.create("http://localhost/")).build());
 		when(fluxRest.getWithReturn(any(), eq(Servers.class), any())).thenReturn(resp);
 		srv.find("http://localhost/");
 		assertTrue(true);
@@ -83,7 +84,7 @@ class ManoServerIdTest {
 		when(manoClient.getObjectId()).thenReturn(UUID.randomUUID());
 		final ResponseEntity<Servers> resp = ResponseEntity.status(200).body(Servers.builder()
 				.serverStatus(PlanStatusType.FAILED)
-				.url("http://localhost/")
+				.url(URI.create("http://localhost/"))
 				.build());
 		when(fluxRest.getWithReturn(any(), eq(Servers.class), any())).thenReturn(resp);
 		srv.waitForServer("http://localhost/");
@@ -92,7 +93,7 @@ class ManoServerIdTest {
 
 	private ServerAdapter createAdapter() {
 		final Servers server = Servers.builder()
-				.url("http://localhost/")
+				.url(URI.create("http://localhost/"))
 				.build();
 		return new ServerAdapter(httpGateway, server, fluxRest);
 	}

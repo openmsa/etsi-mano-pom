@@ -19,6 +19,7 @@ package com.ubiqube.etsi.mano.service.rest;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
+import java.net.URI;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
@@ -63,7 +64,7 @@ class ManoServerTest {
 
 	private ServerAdapter createAdapter() {
 		final Servers server = Servers.builder()
-				.url("http://localhost/")
+				.url(URI.create("http://localhost/"))
 				.build();
 		return new ServerAdapter(httpGateway, server, fluxRest);
 	}

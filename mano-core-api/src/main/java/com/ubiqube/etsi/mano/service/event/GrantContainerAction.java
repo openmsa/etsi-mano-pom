@@ -165,7 +165,7 @@ public class GrantContainerAction {
 	}
 
 	private static RegistryInformations convert(final ConnectionInformation conn) {
-		final URI uri = URI.create(conn.getUrl());
+		final URI uri = conn.getUrl();
 		return RegistryInformations.builder()
 				.server(uri.getHost())
 				.username(conn.getAuthentification().getAuthParamBasic().getUserName())
@@ -174,7 +174,7 @@ public class GrantContainerAction {
 	}
 
 	private static String buildImageName(final ConnectionInformation conn, final String component, final String name) {
-		final URI uri = URI.create(conn.getUrl());
+		final URI uri = conn.getUrl();
 		return uri.getPath() + component + "/" + name;
 	}
 

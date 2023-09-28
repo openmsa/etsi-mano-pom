@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -74,12 +75,16 @@ class CommonActionControllerTest {
 	private FluxRest fluxRest;
 
 	private final Servers server = Servers.builder()
-			.url("http://localhost/")
+			.url(URI.create("http://localhost/"))
 			.build();
+
+	private CommonActionController createService() {
+		return new CommonActionController(serverJpa, createHttpGateway(), mapper, manoProperties, securityConfig, serverService);
+	}
 
 	@Test
 	void testBasicFail() throws Exception {
-		final CommonActionController cac = new CommonActionController(serverJpa, env, createHttpGateway(), mapper, manoProperties, securityConfig, serverService);
+		final CommonActionController cac = createService();
 		//
 		when(serverService.buildServerAdapter(server)).thenThrow(RuntimeException.class);
 		//
@@ -90,9 +95,9 @@ class CommonActionControllerTest {
 
 	@Test
 	void testBasicOk() throws Exception {
-		final CommonActionController cac = new CommonActionController(serverJpa, env, createHttpGateway(), mapper, manoProperties, securityConfig, serverService);
+		final CommonActionController cac = createService();
 		final Servers server = Servers.builder()
-				.url("http://localhost/")
+				.url(URI.create("http://localhost/"))
 				.build();
 		cac.register(server, this::registerNfvoEx, Map.of());
 		//
@@ -101,7 +106,7 @@ class CommonActionControllerTest {
 
 	@Test
 	void testRegisterServerFail() throws Exception {
-		final CommonActionController cac = new CommonActionController(serverJpa, env, createHttpGateway(), mapper, manoProperties, securityConfig, serverService);
+		final CommonActionController cac = createService();
 		//
 		final UUID id = UUID.randomUUID();
 		final Map<String, Object> map = Map.of();
@@ -111,10 +116,10 @@ class CommonActionControllerTest {
 
 	@Test
 	void testRegisterServerVnfmOk() throws Exception {
-		final CommonActionController cac = new CommonActionController(serverJpa, env, createHttpGateway(), mapper, manoProperties, securityConfig, serverService);
+		final CommonActionController cac = createService();
 		final Servers server = Servers.builder()
 				.remoteSubscriptions(Set.of())
-				.url("http://localhost/")
+				.url(URI.create("http://localhost/"))
 				.version("1.2.3")
 				.subscriptionType(SubscriptionType.VNF)
 				.build();
@@ -134,11 +139,11 @@ class CommonActionControllerTest {
 
 	@Test
 	void testRegisterServerNfvoOk() throws Exception {
-		final CommonActionController cac = new CommonActionController(serverJpa, env, createHttpGateway(), mapper, manoProperties, securityConfig, serverService);
+		final CommonActionController cac = createService();
 		final Servers server = Servers.builder()
 				.serverType(ServerType.NFVO)
 				.remoteSubscriptions(Set.of())
-				.url("http://localhost/")
+				.url(URI.create("http://localhost/"))
 				.version("1.2.3")
 				.build();
 		final UUID id = UUID.randomUUID();
