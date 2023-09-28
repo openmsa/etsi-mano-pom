@@ -130,7 +130,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 		Objects.requireNonNull(authTlsCert, "TLS certificate should not be empty.");
 	}
 
-	private static void checkOauth2(final AuthParamOauth2 authParamOauth2) {
+	private static void checkOauth2(final @Nullable AuthParamOauth2 authParamOauth2) {
 		if (authParamOauth2 == null) {
 			throw new GenericException("No OAuth2 parameters.");
 		}

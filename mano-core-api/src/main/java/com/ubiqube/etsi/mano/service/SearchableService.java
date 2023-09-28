@@ -43,15 +43,12 @@ import jakarta.transaction.Transactional;
 public class SearchableService {
 	private final ManoSearchResponseService searchService;
 
-	private final EntityManager em;
-
 	private final GrammarParser grammarParser;
 
 	private final ManoSearch manoSearch;
 
 	public SearchableService(final ManoSearchResponseService searchService, final EntityManager em, final GrammarParser grammarParser, final ManoSearch manoSearch) {
 		this.searchService = searchService;
-		this.em = em;
 		this.grammarParser = grammarParser;
 		this.manoSearch = manoSearch;
 	}
@@ -67,6 +64,6 @@ public class SearchableService {
 
 	public <U> List<U> query(final Class<U> clazz, final String filter) {
 		final List<Node<String>> nodes = grammarParser.parse(filter);
-		return manoSearch.getCriteria((List<Node<?>>) (Object) filter, clazz);
+		return manoSearch.getCriteria((List<Node<?>>) (Object) nodes, clazz);
 	}
 }

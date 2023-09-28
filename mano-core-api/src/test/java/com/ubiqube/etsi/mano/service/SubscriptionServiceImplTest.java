@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -46,6 +47,11 @@ import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.grammar.GrammarParser;
 import com.ubiqube.etsi.mano.jpa.SubscriptionJpa;
 import com.ubiqube.etsi.mano.service.auth.model.ApiTypesEnum;
+import com.ubiqube.etsi.mano.service.auth.model.AuthParamBasic;
+import com.ubiqube.etsi.mano.service.auth.model.AuthParamOauth2;
+import com.ubiqube.etsi.mano.service.auth.model.AuthType;
+import com.ubiqube.etsi.mano.service.auth.model.AuthentificationInformations;
+import com.ubiqube.etsi.mano.service.auth.model.OAuth2GrantType;
 import com.ubiqube.etsi.mano.service.eval.EvalService;
 import com.ubiqube.etsi.mano.service.event.Notifications;
 import com.ubiqube.etsi.mano.service.event.model.EventMessage;
@@ -92,6 +98,32 @@ class SubscriptionServiceImplTest {
 		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, mapper, manoSearch);
 		final Subscription request = Subscription.builder()
 				.api(ApiTypesEnum.SOL003)
+				.build();
+		when(mapper.map(request, Subscription.class)).thenReturn(request);
+		subs.save(request, TestRequestMapping.class, SubscriptionType.ALARM);
+		assertTrue(true);
+	}
+
+	@Test
+	void testSave_Subscription() throws Exception {
+		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, mapper, manoSearch);
+		final AuthParamBasic basic = AuthParamBasic.builder()
+				.userName("")
+				.build();
+		final AuthParamOauth2 oauth2 = AuthParamOauth2.builder()
+				.clientId("")
+				.clientSecret("")
+				.grantType(OAuth2GrantType.CLIENT_CREDENTIAL)
+				.build();
+		final AuthentificationInformations auth = AuthentificationInformations.builder()
+				.authType(List.of(AuthType.BASIC, AuthType.OAUTH2_CLIENT_CREDENTIALS, AuthType.TLS_CERT))
+				.authTlsCert("")
+				.authParamOauth2(oauth2)
+				.authParamBasic(basic)
+				.build();
+		final Subscription request = Subscription.builder()
+				.api(ApiTypesEnum.SOL003)
+				.authentication(auth)
 				.build();
 		when(mapper.map(request, Subscription.class)).thenReturn(request);
 		subs.save(request, TestRequestMapping.class, SubscriptionType.ALARM);
@@ -173,8 +205,19 @@ class SubscriptionServiceImplTest {
 		assertTrue(true);
 	}
 
-	@SuppressWarnings("resource")
+	@Test
 	void testQuery() {
+		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, mapper, manoSearch);
+		when(grammar.parse(any())).thenReturn(new ArrayList<>());
+		subs.query("", SubscriptionType.ALARM);
+		assertTrue(true);
+	}
+
+	/**
+	 * This code have to be push back in {@link ManoSearch}.
+	 */
+	@SuppressWarnings("resource")
+	void testQueryOld() {
 		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, mapper, manoSearch);
 		final Session session = Mockito.mock(Session.class);
 		when(em.unwrap(Session.class)).thenReturn(session);
@@ -210,4 +253,5 @@ class SubscriptionServiceImplTest {
 		subs.convert(notificationEvent);
 		assertTrue(true);
 	}
+
 }
