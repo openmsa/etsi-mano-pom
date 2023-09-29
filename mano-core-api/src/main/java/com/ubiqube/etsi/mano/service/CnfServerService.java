@@ -19,9 +19,6 @@ package com.ubiqube.etsi.mano.service;
 import java.util.Optional;
 import java.util.UUID;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
-
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.cnf.CnfServer;
@@ -44,7 +41,7 @@ public class CnfServerService {
 		return cnfServerJpa.findAll();
 	}
 
-	public CnfServer save(@Valid @NotNull final CnfServer in) {
+	public CnfServer save(final CnfServer in) {
 		return cnfServerJpa.save(in);
 	}
 
