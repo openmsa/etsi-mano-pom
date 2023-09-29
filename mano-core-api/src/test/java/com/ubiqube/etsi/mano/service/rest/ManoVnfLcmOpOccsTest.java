@@ -22,8 +22,13 @@ import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
+import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 
 @ExtendWith(MockitoExtension.class)
 class ManoVnfLcmOpOccsTest {
@@ -31,6 +36,10 @@ class ManoVnfLcmOpOccsTest {
 	private ManoClient client;
 	@Mock
 	private ManoQueryBuilder query;
+
+	private ManoVnfLcmOpOccs createService() {
+		return new ManoVnfLcmOpOccs(client);
+	}
 
 	@Test
 	void testList() {
@@ -51,4 +60,36 @@ class ManoVnfLcmOpOccsTest {
 		srv.find();
 		assertTrue(true);
 	}
+
+	@Test
+	void testWaitOnboarding() {
+		final ManoVnfLcmOpOccs srv = createService();
+		// Find
+		when(client.createQuery()).thenReturn(query);
+		when(query.setWireOutClass(any())).thenReturn(query);
+		when(query.setOutClass(any())).thenReturn(query);
+		final VnfBlueprint vnfBlue = new VnfBlueprint();
+		vnfBlue.setOperationStatus(OperationStatusType.COMPLETED);
+		when(query.getSingle()).thenReturn(vnfBlue);
+		srv.waitOnboading();
+		assertTrue(true);
+	}
+
+	@ParameterizedTest()
+	@EnumSource(value = OperationStatusType.class)
+	void testWaitOnboardingAllBreakingStatus(final OperationStatusType param) {
+		final ManoVnfLcmOpOccs srv = createService();
+		// Find
+		when(client.createQuery()).thenReturn(query);
+		when(query.setWireOutClass(any())).thenReturn(query);
+		when(query.setOutClass(any())).thenReturn(query);
+		final VnfBlueprint vnfBlue = new VnfBlueprint();
+		vnfBlue.setOperationStatus(param);
+		final VnfBlueprint vnfBlue2 = new VnfBlueprint();
+		vnfBlue2.setOperationStatus(OperationStatusType.COMPLETED);
+		when(query.getSingle()).thenReturn(vnfBlue).thenReturn(vnfBlue2);
+		srv.waitOnboading();
+		assertTrue(true);
+	}
+
 }

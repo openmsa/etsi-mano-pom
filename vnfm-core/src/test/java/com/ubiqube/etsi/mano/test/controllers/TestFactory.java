@@ -25,6 +25,7 @@ import com.ubiqube.etsi.mano.dao.mano.CancelModeTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.OnboardingStateType;
 import com.ubiqube.etsi.mano.dao.mano.OperateChanges;
 import com.ubiqube.etsi.mano.dao.mano.PackageOperationalState;
+import com.ubiqube.etsi.mano.dao.mano.SubNetworkTask;
 import com.ubiqube.etsi.mano.dao.mano.VnfCompute;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfLinkPort;
@@ -34,8 +35,11 @@ import com.ubiqube.etsi.mano.dao.mano.pm.PmJob;
 import com.ubiqube.etsi.mano.dao.mano.pm.PmJobCriteria;
 import com.ubiqube.etsi.mano.dao.mano.v2.BlueprintParameters;
 import com.ubiqube.etsi.mano.dao.mano.v2.ComputeTask;
+import com.ubiqube.etsi.mano.dao.mano.v2.IpSubnet;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfPortTask;
+import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
+import com.ubiqube.etsi.mano.dao.mano.vim.IpPool;
 
 public class TestFactory {
 	private TestFactory() {
@@ -77,7 +81,16 @@ public class TestFactory {
 		final VnfPortTask port = new VnfPortTask();
 		port.setToscaName("port01");
 		port.setVnfLinkPort(createVnfLinkPort());
+		port.setIpSubnet(createIpSubnet());
 		return port;
+	}
+
+	private static Set<IpSubnet> createIpSubnet() {
+		final IpSubnet ips = new IpSubnet();
+		ips.setId(UUID.randomUUID());
+		ips.setIp("1.2.3.4");
+		ips.setSubnetId("subnet01");
+		return Set.of(ips);
 	}
 
 	public static VnfLiveInstance createLiveCompute() {
@@ -102,5 +115,15 @@ public class TestFactory {
 		crit.setPerformanceMetricGroup(new LinkedHashSet<>());
 		pm.setCriteria(crit);
 		return pm;
+	}
+
+	public static VnfTask createSubNetwork() {
+		final SubNetworkTask snt = new SubNetworkTask();
+		snt.setId(UUID.randomUUID());
+		snt.setToscaName("subnet01");
+		snt.setVimResourceId("subnet01");
+		final IpPool ipPool = new IpPool();
+		snt.setIpPool(ipPool);
+		return snt;
 	}
 }

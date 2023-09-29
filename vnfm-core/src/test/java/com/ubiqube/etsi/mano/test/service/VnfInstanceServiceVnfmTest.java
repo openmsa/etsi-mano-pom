@@ -192,10 +192,15 @@ class VnfInstanceServiceVnfmTest {
 		final VnfLiveInstance liveVl = new VnfLiveInstance();
 		liveVl.setId(UUID.randomUUID());
 		liveVl.setTask(TestFactory.createVnfPortTask());
-
+		//
+		final VnfLiveInstance liveSubNet = new VnfLiveInstance();
+		liveSubNet.setId(UUID.randomUUID());
+		liveSubNet.setResourceId("subnet01");
+		liveSubNet.setTask(TestFactory.createSubNetwork());
+		//
 		final Optional<VnfInstance> vnfInst = Optional.of(instance);
 		when(vnfInstanceJpa.findById(id)).thenReturn(vnfInst);
-		when(vnfLiveInstanceJpa.findByVnfInstance(vnfInst.get())).thenReturn(List.of(liveCompute, liveVl));
+		when(vnfLiveInstanceJpa.findByVnfInstance(vnfInst.get())).thenReturn(List.of(liveCompute, liveVl, liveSubNet));
 		final Optional<VnfPackage> optPkg = Optional.of(instance.getVnfPkg());
 		// when(vnfPackageJpa.findById(instance.getVnfPkg().getId())).thenReturn(optPkg);
 		final VnfInstance res = op.findById(id);

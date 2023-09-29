@@ -131,6 +131,75 @@ class SubscriptionServiceImplTest {
 	}
 
 	@Test
+	void testSave_Subscription_oauth2Password() throws Exception {
+		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, mapper, manoSearch);
+		final AuthParamOauth2 oauth2 = AuthParamOauth2.builder()
+				.o2Username("")
+				.o2Password("")
+				.grantType(OAuth2GrantType.PASSWORD)
+				.build();
+		final AuthentificationInformations auth = AuthentificationInformations.builder()
+				.authType(List.of(AuthType.OAUTH2_CLIENT_CREDENTIALS))
+				.authParamOauth2(oauth2)
+				.build();
+		final Subscription request = Subscription.builder()
+				.api(ApiTypesEnum.SOL005)
+				.authentication(auth)
+				.build();
+		when(mapper.map(request, Subscription.class)).thenReturn(request);
+		subs.save(request, TestRequestMapping.class, SubscriptionType.ALARM);
+		assertTrue(true);
+	}
+
+	@Test
+	void testSave_Subscription_oauth2GrantTypeNull() throws Exception {
+		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, mapper, manoSearch);
+		final AuthParamOauth2 oauth2 = AuthParamOauth2.builder()
+				.o2Username("")
+				.o2Password("")
+				.build();
+		final AuthentificationInformations auth = AuthentificationInformations.builder()
+				.authType(List.of(AuthType.OAUTH2_CLIENT_CREDENTIALS))
+				.authParamOauth2(oauth2)
+				.build();
+		final Subscription request = Subscription.builder()
+				.api(ApiTypesEnum.SOL005)
+				.authentication(auth)
+				.build();
+		when(mapper.map(request, Subscription.class)).thenReturn(request);
+		subs.save(request, TestRequestMapping.class, SubscriptionType.ALARM);
+		assertTrue(true);
+	}
+
+	@Test
+	void testSave_Subscription_oauth2Null() throws Exception {
+		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, mapper, manoSearch);
+		final AuthentificationInformations auth = AuthentificationInformations.builder()
+				.authType(List.of(AuthType.OAUTH2_CLIENT_CREDENTIALS))
+				.build();
+		final Subscription request = Subscription.builder()
+				.api(ApiTypesEnum.SOL005)
+				.authentication(auth)
+				.build();
+		when(mapper.map(request, Subscription.class)).thenReturn(request);
+		assertThrows(GenericException.class, () -> subs.save(request, TestRequestMapping.class, SubscriptionType.ALARM));
+	}
+
+	@Test
+	void testSave_Subscription_BasicNull() throws Exception {
+		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, mapper, manoSearch);
+		final AuthentificationInformations auth = AuthentificationInformations.builder()
+				.authType(List.of(AuthType.BASIC))
+				.build();
+		final Subscription request = Subscription.builder()
+				.api(ApiTypesEnum.SOL005)
+				.authentication(auth)
+				.build();
+		when(mapper.map(request, Subscription.class)).thenReturn(request);
+		assertThrows(NullPointerException.class, () -> subs.save(request, TestRequestMapping.class, SubscriptionType.ALARM));
+	}
+
+	@Test
 	void testSave_BadVersion() throws Exception {
 		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, mapper, manoSearch);
 		final Subscription request = Subscription.builder()

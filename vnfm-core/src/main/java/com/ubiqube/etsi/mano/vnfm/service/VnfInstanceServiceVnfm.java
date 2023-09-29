@@ -343,7 +343,7 @@ public class VnfInstanceServiceVnfm implements VnfInstanceGatewayService {
 				.findFirst()
 				.map(x -> x.getTask())
 				.map(SubNetworkTask.class::cast)
-				.orElseThrow();
+				.orElseThrow(() -> new GenericException("Could not find SubNetworkTask with resourceId=" + subnetId));
 	}
 
 	private static VnfLiveInstance findPort(final List<VnfLiveInstance> vli, final String toscaName, final int rank) {
