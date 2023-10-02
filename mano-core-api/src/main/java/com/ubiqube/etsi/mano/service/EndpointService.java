@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.service;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -29,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
@@ -59,7 +61,7 @@ public class EndpointService {
 		final List<String> list = Arrays.asList(beans);
 		final Map<String, Endpoint> res = new HashMap<>();
 		list.stream().forEach(x -> {
-			LOG.debug("Reading: {}", x);
+			LOG.trace("Reading: {}", x);
 			if (isSkippable(x)) {
 				return;
 			}
@@ -71,15 +73,39 @@ public class EndpointService {
 				if (null == part) {
 					LOG.warn("Ignoring controller: {}", x);
 				} else {
-					version.forEach(y -> res.put(part + y, new Endpoint(part, y, x)));
+					final List<HttpMethod> lst = extractMethod(obj.getClass());
+					version.forEach(y -> res.put(part + y, new Endpoint(part, y, x, lst)));
 				}
 			}
 		});
 		res.entrySet().forEach(x -> dedupe.add(x.getValue().part, x.getValue()));
 	}
 
+	private List<HttpMethod> extractMethod(final Class<? extends Object> clazz) {
+		final List<HttpMethod> ret = new ArrayList<>();
+		final Method[] meths = clazz.getMethods();
+		for (final Method method : meths) {
+			final Set<RequestMapping> res = AnnotatedElementUtils.findAllMergedAnnotations(method, RequestMapping.class);
+			if (!res.isEmpty()) {
+				final RequestMapping req = res.iterator().next();
+				ret.add(new HttpMethod(req.method()[0].name(), safeGetAArray(req.value())));
+			}
+		}
+		return ret;
+	}
+
+	private static String safeGetAArray(final @Nullable String[] val) {
+		if ((null == val) || (val.length == 0)) {
+			return null;
+		}
+		return val[0];
+	}
+
 	@SuppressWarnings("static-method")
 	public MultiValueMap<String, Endpoint> getEndpoints() {
+		if (dedupe.isEmpty()) {
+			extractVersions();
+		}
 		return dedupe;
 	}
 
@@ -113,7 +139,11 @@ public class EndpointService {
 		return res;
 	}
 
-	record Endpoint(String part, Version versoin, Object bean) {
+	record Endpoint(String part, Version versoin, Object bean, List<HttpMethod> lst) {
+		//
+	}
+
+	record HttpMethod(String action, String payh) {
 		//
 	}
 }
