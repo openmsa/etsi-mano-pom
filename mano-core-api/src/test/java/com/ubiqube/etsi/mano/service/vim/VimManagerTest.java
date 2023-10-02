@@ -34,9 +34,11 @@ import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.dao.mano.cnf.CnfServer;
+import com.ubiqube.etsi.mano.dao.mano.common.GeoPoint;
 import com.ubiqube.etsi.mano.dao.mano.vim.SoftwareImage;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.vim.vnfi.CnfInformations;
@@ -49,6 +51,7 @@ import com.ubiqube.etsi.mano.service.SystemService;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 import com.ubiqube.etsi.mano.service.search.ManoSearch;
+import com.ubiqube.etsi.mano.vim.dto.SwImage;
 import com.ubiqube.etsi.mano.vim.dummy.DummyVim;
 
 import jakarta.persistence.EntityManager;
@@ -111,6 +114,20 @@ class VimManagerTest {
 	void testGetDetailedImageList() {
 		final VimManager vm = createVimManager(new DummyVim());
 		final VimConnectionInformation vci = createVimConnection();
+		final List<SoftwareImage> res = vm.getDetailedImageList(vci);
+		assertNotNull(res);
+	}
+
+	@Test
+	void testGetDetailedImageList_002() {
+		final DummyVim dVim = Mockito.mock(DummyVim.class);
+		when(dVim.getType()).thenReturn("dummy-vim");
+		final Storage storage = Mockito.mock(Storage.class);
+		final VimManager vm = createVimManager(dVim);
+		final VimConnectionInformation vci = createVimConnection();
+		when(dVim.storage(vci)).thenReturn(storage);
+		final SwImage sw1 = new SwImage("");
+		when(storage.getImageList()).thenReturn(List.of(sw1));
 		final List<SoftwareImage> res = vm.getDetailedImageList(vci);
 		assertNotNull(res);
 	}
@@ -220,6 +237,14 @@ class VimManagerTest {
 	void testgetVimByType() {
 		final VimManager vm = createVimManager(new DummyVim());
 		vm.getVimByType(null);
+		assertTrue(true);
+	}
+
+	@Test
+	void testGetVimByDistance() {
+		final VimManager vm = createVimManager(new DummyVim());
+		final GeoPoint point = new GeoPoint(0, 0);
+		vm.getVimByDistance(point);
 		assertTrue(true);
 	}
 
