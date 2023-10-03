@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.service.sol009;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
 
 import java.util.Optional;
 
@@ -26,19 +27,27 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.service.NfvoService;
+import com.ubiqube.etsi.mano.service.git.GitPropertyManager;
+import com.ubiqube.etsi.mano.service.git.GitVersion;
 
 @ExtendWith(MockitoExtension.class)
 class PeerEntityServiceTest {
 	@Mock
 	private NfvoService nfvoService;
+	@Mock
+	private GitPropertyManager gitPropertyManager;
+	@Mock
+	private SpecificServerInfo specificServerInfo;
 
 	private PeerEntityService createService() {
-		return new PeerEntityService(Optional.ofNullable(nfvoService));
+		return new PeerEntityService(Optional.ofNullable(nfvoService), "name", gitPropertyManager, specificServerInfo);
 	}
 
 	@Test
 	void test() {
 		final PeerEntityService srv = createService();
+		final GitVersion version = GitVersion.of(null, null, null, false, 0, null);
+		when(gitPropertyManager.getLocalPRoperty()).thenReturn(version);
 		srv.getMe();
 		assertTrue(true);
 	}

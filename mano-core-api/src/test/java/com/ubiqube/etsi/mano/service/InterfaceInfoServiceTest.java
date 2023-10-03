@@ -20,12 +20,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -38,11 +40,12 @@ import com.ubiqube.etsi.mano.utils.Version;
 class InterfaceInfoServiceTest {
 	@Mock
 	private EndpointService endpointService;
+	OAuth2ResourceServerProperties oAuth2Props = new OAuth2ResourceServerProperties();
 	private final ManoProperties props = new ManoProperties();
 
 	@Test
 	void testBasic() throws Exception {
-		final InterfaceInfoService iis = new InterfaceInfoService(endpointService, props);
+		final InterfaceInfoService iis = new InterfaceInfoService(endpointService, props, oAuth2Props);
 		final MultiValueMap<String, Endpoint> endp = new LinkedMultiValueMap<>();
 		//
 		when(endpointService.getEndpoints()).thenReturn(endp);
@@ -52,9 +55,9 @@ class InterfaceInfoServiceTest {
 
 	@Test
 	void testName() throws Exception {
-		final InterfaceInfoService iis = new InterfaceInfoService(endpointService, props);
+		final InterfaceInfoService iis = new InterfaceInfoService(endpointService, props, oAuth2Props);
 		final MultiValueMap<String, Endpoint> endp = new LinkedMultiValueMap<>();
-		final Endpoint v01 = new Endpoint("part", new Version("1.2.3"), new Object());
+		final Endpoint v01 = new Endpoint("part", new Version("1.2.3"), new Object(), new ArrayList<>());
 		endp.add("endpoint01", v01);
 		//
 		when(endpointService.getEndpoints()).thenReturn(endp);
