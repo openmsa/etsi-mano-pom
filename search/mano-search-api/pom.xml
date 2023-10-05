@@ -3,14 +3,14 @@
   <parent>
     <groupId>com.ubiqube.mano.service.search</groupId>
     <artifactId>search-aggregator</artifactId>
-    <version>3.1.0-SNAPSHOT</version>
+    <version>3.2.0</version>
   </parent>
   <artifactId>mano-search-api</artifactId>
   <dependencies>
 	  <dependency>
 		  <groupId>com.ubiqube.mano</groupId>
 		  <artifactId>mano-grammar-api</artifactId>
-		  <version>3.1.0-SNAPSHOT</version>
+		  <version>3.2.0</version>
 	  </dependency>
   </dependencies>
 </project>
