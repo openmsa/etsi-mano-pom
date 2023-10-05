@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.ubiqube.mano</groupId>
 	<artifactId>etsi-mano-pom</artifactId>
-	<version>3.2.0-SNAPSHOT</version>
+	<version>3.2.0</version>
 	<packaging>pom</packaging>
 	<name>etsi-mano-pom</name>
 	<description>Build document for ETSI-MANO project</description>
@@ -13,7 +13,7 @@
 	</modules>
 	<scm>
 		<developerConnection>scm:git:https://github.com/openmsa/etsi-mano-pom.git</developerConnection>
-	  <tag>HEAD</tag>
+	  <tag>etsi-mano-pom-3.2.0</tag>
   </scm>
 	<distributionManagement>
 		<snapshotRepository>
