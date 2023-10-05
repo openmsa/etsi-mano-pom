@@ -8,6 +8,7 @@
 		<relativePath />
 	</parent>
 	<artifactId>mano-commons</artifactId>
+  <version>3.2.1-SNAPSHOT</version>
 	<name>mano-commons</name>
 	<description>ETSI MANO commons interface.</description>
 	<distributionManagement>
