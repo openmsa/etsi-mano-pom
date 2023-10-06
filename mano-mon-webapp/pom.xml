@@ -9,6 +9,7 @@
 	</parent>
 	<groupId>com.ubiqube.mano.service.mon</groupId>
 	<artifactId>mano-mon-webapp</artifactId>
+  <version>3.2.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>mano-mon-webapp</name>
 	<description>Demo project for Spring Boot</description>
