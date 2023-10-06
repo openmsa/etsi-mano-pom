@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.ubiqube.mano.service.mon.poller</groupId>
 		<artifactId>mon-poller-aggregator</artifactId>
-		<version>3.1.0-SNAPSHOT</version>
+		<version>3.2.0</version>
 	</parent>
 	<artifactId>mano-zabbix-poller</artifactId>
 	<packaging>jar</packaging>

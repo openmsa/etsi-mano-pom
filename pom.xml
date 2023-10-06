@@ -30,4 +30,8 @@
 		<version.logstash-logback-encoder>7.2</version.logstash-logback-encoder>
 		<version.loki-logback-appender>1.4.0</version.loki-logback-appender>
 	</properties>
+
+  <scm>
+    <tag>mano-mon-aggregator-3.2.0</tag>
+  </scm>
 </project>
