@@ -157,6 +157,7 @@ spring:
             directory:
               root: /tmp/etsi-mano-vnfm/indexes
             type: lucene
+          enabled: false
   liquibase:
     enabled: false
   mvc:
