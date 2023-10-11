@@ -41,8 +41,11 @@ import com.ubiqube.etsi.mano.controller.vnf.VnfPackageManagement;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
-import com.ubiqube.etsi.mano.grammar.Node;
-import com.ubiqube.etsi.mano.grammar.Node.Operand;
+import com.ubiqube.etsi.mano.grammar.BooleanExpression;
+import com.ubiqube.etsi.mano.grammar.GrammarLabel;
+import com.ubiqube.etsi.mano.grammar.GrammarNode;
+import com.ubiqube.etsi.mano.grammar.GrammarOperandType;
+import com.ubiqube.etsi.mano.grammar.GrammarValue;
 import com.ubiqube.etsi.mano.repository.ManoResource;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 import com.ubiqube.etsi.mano.service.SearchableService;
@@ -196,7 +199,7 @@ public class VnfManagement implements VnfPackageManagement {
 
 	@Override
 	public <U> ResponseEntity<String> searchOnboarded(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLinks) {
-		final Node<String> onBoardedNode = new Node<>("onboardingState", Operand.EQ, List.of("ONBOARDED"));
+		final GrammarNode onBoardedNode = new BooleanExpression(new GrammarLabel("onboardingState"), GrammarOperandType.EQ, new GrammarValue("ONBOARDED"));
 		return searchableService.search(VnfPackage.class, requestParams, clazz, excludeDefaults, mandatoryFields, makeLinks, List.of(onBoardedNode));
 
 	}

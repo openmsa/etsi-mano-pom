@@ -33,8 +33,8 @@ import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVirtualLinkTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVnfTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsdTask;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
+import com.ubiqube.etsi.mano.grammar.GrammarNodeResult;
 import com.ubiqube.etsi.mano.grammar.GrammarParser;
-import com.ubiqube.etsi.mano.grammar.Node;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsLiveInstanceJpa;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsVirtualLinkJpa;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsVnfPackageJpa;
@@ -111,8 +111,8 @@ public class NsInstanceService {
 	}
 
 	public List<NsdInstance> query(final String filter) {
-		final List<Node<String>> nodes = grammarParser.parse(filter);
-		return manoSearch.getCriteria((List<Node<?>>) (Object) nodes, NsdInstance.class);
+		final GrammarNodeResult nodes = grammarParser.parse(filter);
+		return manoSearch.getCriteria(nodes.getNodes(), NsdInstance.class);
 	}
 
 	public boolean isInstantiated(final NsdPackage nsPackage) {
