@@ -37,8 +37,8 @@ import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
 import com.ubiqube.etsi.mano.dao.mano.vim.PlanStatusType;
 import com.ubiqube.etsi.mano.dao.mano.vnfi.ChangeExtVnfConnRequest;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
+import com.ubiqube.etsi.mano.grammar.GrammarNodeResult;
 import com.ubiqube.etsi.mano.grammar.GrammarParser;
-import com.ubiqube.etsi.mano.grammar.Node;
 import com.ubiqube.etsi.mano.model.VnfHealRequest;
 import com.ubiqube.etsi.mano.model.VnfOperateRequest;
 import com.ubiqube.etsi.mano.model.VnfScaleRequest;
@@ -128,8 +128,8 @@ public class VnfLcmService {
 	}
 
 	public List<VnfBlueprint> query(final String filter) {
-		final List<Node<String>> nodes = grammarParser.parse(filter);
-		return manoSearch.getCriteria((List<Node<?>>) (Object) nodes, VnfBlueprint.class);
+		final GrammarNodeResult nodes = grammarParser.parse(filter);
+		return manoSearch.getCriteria(nodes.getNodes(), VnfBlueprint.class);
 	}
 
 	public VnfBlueprint findById(final UUID id) {

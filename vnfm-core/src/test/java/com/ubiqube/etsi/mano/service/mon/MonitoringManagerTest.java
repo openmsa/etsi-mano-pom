@@ -35,9 +35,13 @@ import com.ubiqube.etsi.mano.dao.mano.pm.RemoteMetric;
 import com.ubiqube.etsi.mano.dao.mano.v2.ComputeTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
 import com.ubiqube.etsi.mano.exception.GenericException;
+import com.ubiqube.etsi.mano.grammar.BooleanExpression;
+import com.ubiqube.etsi.mano.grammar.GrammarLabel;
+import com.ubiqube.etsi.mano.grammar.GrammarNode;
+import com.ubiqube.etsi.mano.grammar.GrammarNodeResult;
+import com.ubiqube.etsi.mano.grammar.GrammarOperandType;
 import com.ubiqube.etsi.mano.grammar.GrammarParser;
-import com.ubiqube.etsi.mano.grammar.Node;
-import com.ubiqube.etsi.mano.grammar.Node.Operand;
+import com.ubiqube.etsi.mano.grammar.GrammarValue;
 import com.ubiqube.etsi.mano.mon.dao.TelemetryMetricsResult;
 import com.ubiqube.etsi.mano.test.controllers.TestFactory;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceService;
@@ -103,9 +107,9 @@ class MonitoringManagerTest {
 	void testSearch() {
 		final MonitoringManager srv = new MonitoringManager(em, vnfInstanceService, grammar);
 		final TelemetryMetricsResult tm = new TelemetryMetricsResult();
-		final Node<String> node = new Node<>("name", Operand.EQ, List.of());
-		final List lst = List.of(node);
-		when(grammar.parse(any())).thenReturn(lst);
+		final BooleanExpression node = new BooleanExpression(new GrammarLabel("name"), GrammarOperandType.EQ, new GrammarValue(null));
+		final List<GrammarNode> lst = List.of(node);
+		when(grammar.parse(any())).thenReturn(new GrammarNodeResult(lst));
 		when(em.searchMetric(any())).thenReturn(List.of(tm));
 		srv.search(null, null);
 		assertTrue(true);
@@ -115,9 +119,9 @@ class MonitoringManagerTest {
 	void testSearchBadNode() {
 		final MonitoringManager srv = new MonitoringManager(em, vnfInstanceService, grammar);
 		final TelemetryMetricsResult tm = new TelemetryMetricsResult();
-		final Node<String> node = new Node<>("name", Operand.CONT, List.of());
-		final List lst = List.of(node);
-		when(grammar.parse(any())).thenReturn(lst);
+		final BooleanExpression node = new BooleanExpression(new GrammarLabel("name"), GrammarOperandType.CONT, new GrammarValue(null));
+		final List<GrammarNode> lst = List.of(node);
+		when(grammar.parse(any())).thenReturn(new GrammarNodeResult(lst));
 		assertThrows(GenericException.class, () -> srv.search(null, null));
 	}
 }

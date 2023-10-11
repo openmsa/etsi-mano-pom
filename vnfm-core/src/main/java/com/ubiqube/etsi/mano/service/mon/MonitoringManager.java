@@ -36,9 +36,13 @@ import com.ubiqube.etsi.mano.dao.mano.pm.RemoteMetric;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
 import com.ubiqube.etsi.mano.em.v431.model.vnfind.VnfIndicator;
 import com.ubiqube.etsi.mano.exception.GenericException;
+import com.ubiqube.etsi.mano.grammar.BooleanExpression;
+import com.ubiqube.etsi.mano.grammar.GrammarLabel;
+import com.ubiqube.etsi.mano.grammar.GrammarNode;
+import com.ubiqube.etsi.mano.grammar.GrammarNodeResult;
+import com.ubiqube.etsi.mano.grammar.GrammarOperandType;
 import com.ubiqube.etsi.mano.grammar.GrammarParser;
-import com.ubiqube.etsi.mano.grammar.Node;
-import com.ubiqube.etsi.mano.grammar.Node.Operand;
+import com.ubiqube.etsi.mano.grammar.GrammarValue;
 import com.ubiqube.etsi.mano.mon.dao.TelemetryMetricsResult;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceService;
 
@@ -98,7 +102,7 @@ public class MonitoringManager {
 	}
 
 	public List<VnfIndicator> search(final String filter, final String nextpageOpaqueMarker) {
-		final List<Node<String>> res = grammar.parse(filter);
+		final GrammarNodeResult res = grammar.parse(filter);
 		final MultiValueMap<String, String> params = convert(res);
 		final List<TelemetryMetricsResult> ret = em.searchMetric(params);
 		return ret.stream()
@@ -115,14 +119,30 @@ public class MonitoringManager {
 		return ret;
 	}
 
-	private static MultiValueMap<String, String> convert(final List<Node<String>> res) {
+	private static MultiValueMap<String, String> convert(final GrammarNodeResult res) {
 		final MultiValueMap<String, String> ret = new LinkedMultiValueMap<>();
-		final List<Node<String>> badNode = res.stream().filter(x -> x.getOp() != Operand.EQ).toList();
+		final List<BooleanExpression> badNode = res.getNodes().stream()
+				.filter(BooleanExpression.class::isInstance)
+				.map(BooleanExpression.class::cast)
+				.filter(x -> x.getOp() != GrammarOperandType.EQ).toList();
 		if (!badNode.isEmpty()) {
 			throw new GenericException("Only equal node are accepted: " + badNode);
 		}
-		res.forEach(x -> ret.add(x.getName(), x.getValue()));
+		res.getNodes().stream()
+				.filter(BooleanExpression.class::isInstance)
+				.map(BooleanExpression.class::cast)
+				.forEach(x -> ret.add(nodeToString(x.getLeft()), nodeToString(x.getRight())));
 		return ret;
+	}
+
+	private static String nodeToString(final GrammarNode node) {
+		if (node instanceof final GrammarLabel gl) {
+			return gl.getAsString();
+		}
+		if (node instanceof final GrammarValue gv) {
+			return gv.getAsString();
+		}
+		throw new GenericException("Unknown node type: " + node.getClass());
 	}
 
 	public ResponseEntity<List<VnfIndicator>> findByVnfInstanceId(final String vnfInstanceId, final String filter, final String nextpageOpaqueMarker) {
