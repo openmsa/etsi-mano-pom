@@ -73,25 +73,25 @@
 		<version.event-jms>3.2.0</version.event-jms>
 		<version.helm3-api>0.0.2</version.helm3-api>
 		<version.k8s-parser>3.2.0</version.k8s-parser>
-		<version.mano-commons>3.2.0</version.mano-commons>
-		<version.mano-condition>3.2.0</version.mano-condition>
-		<version.mano-core-api>3.2.0</version.mano-core-api>
+		<version.mano-commons>3.2.1-SNAPSHOT</version.mano-commons>
+		<version.mano-condition>3.2.1-SNAPSHOT</version.mano-condition>
+		<version.mano-core-api>3.2.1-SNAPSHOT</version.mano-core-api>
 		<version.mano-db-auth>3.2.0</version.mano-db-auth>
 		<version.mano-docker-api>3.2.0</version.mano-docker-api>
 		<version.mano-docker-jib>3.2.0</version.mano-docker-jib>
 		<version.mano-fluxrest>3.2.0</version.mano-fluxrest>
-		<version.mano-grammar-api>3.2.0</version.mano-grammar-api>
-		<version.mano-grammar-v1>3.2.0</version.mano-grammar-v1>
-		<version.mano-grammar25>3.2.0</version.mano-grammar25>
+		<version.mano-grammar-api>4.0.0-SNAPSHOT</version.mano-grammar-api>
+		<version.mano-grammar-v1>4.0.0-SNAPSHOT</version.mano-grammar-v1>
+		<version.mano-grammar25>4.0.0-SNAPSHOT</version.mano-grammar25>
 		<version.mano-model>3.2.0</version.mano-model>
 		<version.mano-mon-api>3.2.0</version.mano-mon-api>
 		<version.mano-mon-webapp-client>3.2.0</version.mano-mon-webapp-client>
 		<version.mano-orika>3.2.0</version.mano-orika>
-		<version.mano-pkg-api>3.2.0</version.mano-pkg-api>
-		<version.mano-pkg-tosca>3.2.0</version.mano-pkg-tosca>
+		<version.mano-pkg-api>3.2.1-SNAPSHOT</version.mano-pkg-api>
+		<version.mano-pkg-tosca>3.2.1-SNAPSHOT</version.mano-pkg-tosca>
 		<version.mano-repo-api>3.2.0</version.mano-repo-api>
 		<version.mano-repo-fs>3.2.0</version.mano-repo-fs>
-		<version.search-api>3.2.0</version.search-api>
+		<version.search-api>3.2.1-SNAPSHOT</version.search-api>
 		<version.mano-spring-properties>3.2.0</version.mano-spring-properties>
 		<version.mano-vim-api>3.2.0</version.mano-vim-api>
 		<version.mano-vim-contrail>3.2.0</version.mano-vim-contrail>
@@ -99,7 +99,7 @@
 		<version.mano-vim-k8s>3.2.0</version.mano-vim-k8s>
 		<version.mano-vim-openstack>3.2.0</version.mano-vim-openstack>
 		<version.nfv-front-controller>3.2.0</version.nfv-front-controller>
-		<version.nfvo-core>3.2.0</version.nfvo-core>
+		<version.nfvo-core>3.2.1-SNAPSHOT</version.nfvo-core>
 		<version.nfvo-front-controller>3.2.0</version.nfvo-front-controller>
 		<version.openstack-commons>3.2.0</version.openstack-commons>
 		<version.orchestration-api>3.2.0</version.orchestration-api>
@@ -109,7 +109,7 @@
 		<version.tosca-test-utils>2.1.0</version.tosca-test-utils>
 		<version.ubi-juniper-contrail-api>4.0.0</version.ubi-juniper-contrail-api>
 		<version.ubi-spring-config>3.2.0</version.ubi-spring-config>
-		<version.vnfm-core>3.2.0</version.vnfm-core>
+		<version.vnfm-core>3.2.1-SNAPSHOT</version.vnfm-core>
 		<version.vnfm-front-controller>3.2.0</version.vnfm-front-controller>
 	</properties>
 	<dependencyManagement>
