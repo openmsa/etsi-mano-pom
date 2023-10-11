@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.service;
 
 import static com.ubiqube.etsi.mano.Constants.getSingleField;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -58,8 +59,9 @@ public class SearchableService {
 	public <U> ResponseEntity<String> search(final Class<?> dbClass, final MultiValueMap<String, String> requestParams, final Class<U> clazz, @Nullable final String excludeDefaults, @Nullable final Set<String> mandatoryFields, final Consumer<U> makeLink, final List<GrammarNode> additionalNodes) {
 		final String filter = getSingleField(requestParams, "filter");
 		final GrammarNodeResult nodes = grammarParser.parse(filter);
-		nodes.getNodes().addAll(additionalNodes);
-		final List<?> result = manoSearch.getCriteria(nodes.getNodes(), dbClass);
+		final ArrayList<GrammarNode> lst = new ArrayList<>(nodes.getNodes());
+		lst.addAll(additionalNodes);
+		final List<?> result = manoSearch.getCriteria(lst, dbClass);
 		return searchService.search(requestParams, clazz, excludeDefaults, mandatoryFields, result, clazz, makeLink);
 	}
 

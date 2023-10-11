@@ -60,6 +60,7 @@ class SearchableServiceTest {
 	@Test
 	void testQuery() {
 		final SearchableService srv = createService();
+		when(grammarParser.parse(any())).thenReturn(new GrammarNodeResult(List.of()));
 		srv.query(null, null);
 		assertTrue(true);
 	}

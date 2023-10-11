@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -32,6 +33,7 @@ import org.springframework.data.repository.CrudRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
+import com.ubiqube.etsi.mano.grammar.GrammarNodeResult;
 import com.ubiqube.etsi.mano.grammar.GrammarParser;
 import com.ubiqube.etsi.mano.repository.ContentManager;
 import com.ubiqube.etsi.mano.repository.NamingStrategy;
@@ -100,6 +102,7 @@ class VnfPackageDbTest {
 	@Test
 	void testSuery01() throws Exception {
 		final VnfPackageDb db = new VnfPackageDb(repository, contentManager, jsonMapper, namingStrategy, grammarParser, manoSearch);
+		when(grammarParser.parse("filename")).thenReturn(new GrammarNodeResult(List.of()));
 		db.query("filename");
 		assertTrue(true);
 	}

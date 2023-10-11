@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.service;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -89,10 +90,11 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
 	@Override
 	public List<Subscription> query(final String filter, final SubscriptionType type) {
-		GrammarNodeResult nodes = grammarParser.parse(filter);
-		GrammarNode gn = new BooleanExpression(new GrammarLabel("subscriptionType"), GrammarOperandType.EQ, new GrammarValue(type.toString()));
-		nodes.getNodes().add(gn);
-		return manoSearch.getCriteria(nodes.getNodes(), Subscription.class);
+		final GrammarNodeResult nodes = grammarParser.parse(filter);
+		final GrammarNode gn = new BooleanExpression(new GrammarLabel("subscriptionType"), GrammarOperandType.EQ, new GrammarValue(type.toString()));
+		final ArrayList<GrammarNode> lst = new ArrayList<>(nodes.getNodes());
+		lst.add(gn);
+		return manoSearch.getCriteria(lst, Subscription.class);
 	}
 
 	@Override
