@@ -29,6 +29,9 @@ logging:
           sniff:
             Sniffer: OFF
       hibernate:
+        collection:
+          spi:
+            AbstractPersistentCollection: ERROR
         SQL: INFO
       keycloak: INFO
       openstack4j: INFO
