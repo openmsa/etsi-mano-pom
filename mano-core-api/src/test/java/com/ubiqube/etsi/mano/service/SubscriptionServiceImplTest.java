@@ -21,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -44,6 +43,7 @@ import com.ubiqube.etsi.mano.controller.TestRequestMappingBadVersion;
 import com.ubiqube.etsi.mano.dao.subscription.SubscriptionType;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
+import com.ubiqube.etsi.mano.grammar.GrammarNodeResult;
 import com.ubiqube.etsi.mano.grammar.GrammarParser;
 import com.ubiqube.etsi.mano.jpa.SubscriptionJpa;
 import com.ubiqube.etsi.mano.service.auth.model.ApiTypesEnum;
@@ -277,7 +277,7 @@ class SubscriptionServiceImplTest {
 	@Test
 	void testQuery() {
 		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, mapper, manoSearch);
-		when(grammar.parse(any())).thenReturn(new ArrayList<>());
+		when(grammar.parse(any())).thenReturn(new GrammarNodeResult(List.of()));
 		subs.query("", SubscriptionType.ALARM);
 		assertTrue(true);
 	}

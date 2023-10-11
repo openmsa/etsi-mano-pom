@@ -23,8 +23,8 @@ import java.util.UUID;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubiqube.etsi.mano.dao.base.BaseEntity;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
+import com.ubiqube.etsi.mano.grammar.GrammarNodeResult;
 import com.ubiqube.etsi.mano.grammar.GrammarParser;
-import com.ubiqube.etsi.mano.grammar.Node;
 import com.ubiqube.etsi.mano.repository.ContentManager;
 import com.ubiqube.etsi.mano.repository.CrudRepositoryNg;
 import com.ubiqube.etsi.mano.repository.NamingStrategy;
@@ -75,8 +75,8 @@ public abstract class AbstractDirectJpa<U extends BaseEntity> extends AbstractBi
 	@Override
 	@NotNull
 	public final List<U> query(@Nullable final String filter) {
-		final List<Node<String>> nodes = grammarParser.parse(filter);
-		return manoSearch.getCriteria((List<Node<?>>) (Object) nodes, getFrontClass());
+		final GrammarNodeResult nodes = grammarParser.parse(filter);
+		return manoSearch.getCriteria(nodes.getNodes(), getFrontClass());
 	}
 
 }

@@ -20,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -29,6 +28,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.util.LinkedMultiValueMap;
 
+import com.ubiqube.etsi.mano.grammar.GrammarNodeResult;
 import com.ubiqube.etsi.mano.grammar.GrammarParser;
 import com.ubiqube.etsi.mano.service.search.ManoSearch;
 
@@ -52,7 +52,7 @@ class SearchableServiceTest {
 	@Test
 	void testSearch() {
 		final SearchableService srv = createService();
-		when(grammarParser.parse(any())).thenReturn(new ArrayList<>());
+		when(grammarParser.parse(any())).thenReturn(new GrammarNodeResult(List.of()));
 		srv.search(getClass(), new LinkedMultiValueMap<>(), null, null, null, null, List.of());
 		assertTrue(true);
 	}

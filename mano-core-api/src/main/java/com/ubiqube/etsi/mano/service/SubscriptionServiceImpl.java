@@ -31,9 +31,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.ubiqube.etsi.mano.dao.subscription.SubscriptionType;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
+import com.ubiqube.etsi.mano.grammar.BooleanExpression;
+import com.ubiqube.etsi.mano.grammar.GrammarLabel;
+import com.ubiqube.etsi.mano.grammar.GrammarNode;
+import com.ubiqube.etsi.mano.grammar.GrammarNodeResult;
+import com.ubiqube.etsi.mano.grammar.GrammarOperandType;
 import com.ubiqube.etsi.mano.grammar.GrammarParser;
-import com.ubiqube.etsi.mano.grammar.Node;
-import com.ubiqube.etsi.mano.grammar.Node.Operand;
+import com.ubiqube.etsi.mano.grammar.GrammarValue;
 import com.ubiqube.etsi.mano.jpa.SubscriptionJpa;
 import com.ubiqube.etsi.mano.service.auth.model.ApiTypesEnum;
 import com.ubiqube.etsi.mano.service.auth.model.AuthParamBasic;
@@ -85,9 +89,10 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
 	@Override
 	public List<Subscription> query(final String filter, final SubscriptionType type) {
-		final List<Node<Object>> nodes = grammarParser.parse(filter);
-		nodes.add(Node.of("subscriptionType", Operand.EQ, type.toString()));
-		return manoSearch.getCriteria((List<Node<?>>) (Object) nodes, Subscription.class);
+		GrammarNodeResult nodes = grammarParser.parse(filter);
+		GrammarNode gn = new BooleanExpression(new GrammarLabel("subscriptionType"), GrammarOperandType.EQ, new GrammarValue(type.toString()));
+		nodes.getNodes().add(gn);
+		return manoSearch.getCriteria(nodes.getNodes(), Subscription.class);
 	}
 
 	@Override

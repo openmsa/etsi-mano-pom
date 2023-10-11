@@ -21,8 +21,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.ubiqube.etsi.mano.exception.NotFoundException;
+import com.ubiqube.etsi.mano.grammar.GrammarNodeResult;
 import com.ubiqube.etsi.mano.grammar.GrammarParser;
-import com.ubiqube.etsi.mano.grammar.Node;
 import com.ubiqube.etsi.mano.repository.CrudRepositoryNg;
 import com.ubiqube.etsi.mano.service.search.ManoSearch;
 
@@ -60,8 +60,8 @@ public abstract class AbstractJpaOnly<U> implements CrudRepositoryNg<U> {
 
 	@Override
 	public @NotNull List<U> query(final String filter) {
-		final List<Node<String>> nodes = grammarParser.parse(filter);
-		return manoSearch.getCriteria((List<Node<?>>) (Object) nodes, getFrontClass());
+		final GrammarNodeResult nodes = grammarParser.parse(filter);
+		return manoSearch.getCriteria(nodes.getNodes(), getFrontClass());
 	}
 
 }

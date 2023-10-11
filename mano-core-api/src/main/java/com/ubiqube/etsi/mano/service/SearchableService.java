@@ -26,8 +26,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 
+import com.ubiqube.etsi.mano.grammar.GrammarNode;
+import com.ubiqube.etsi.mano.grammar.GrammarNodeResult;
 import com.ubiqube.etsi.mano.grammar.GrammarParser;
-import com.ubiqube.etsi.mano.grammar.Node;
 import com.ubiqube.etsi.mano.service.search.ManoSearch;
 
 import jakarta.annotation.Nullable;
@@ -54,16 +55,16 @@ public class SearchableService {
 	}
 
 	@Transactional
-	public <U> ResponseEntity<String> search(final Class<?> dbClass, final MultiValueMap<String, String> requestParams, final Class<U> clazz, @Nullable final String excludeDefaults, @Nullable final Set<String> mandatoryFields, final Consumer<U> makeLink, final List<Node<String>> additionalNodes) {
+	public <U> ResponseEntity<String> search(final Class<?> dbClass, final MultiValueMap<String, String> requestParams, final Class<U> clazz, @Nullable final String excludeDefaults, @Nullable final Set<String> mandatoryFields, final Consumer<U> makeLink, final List<GrammarNode> additionalNodes) {
 		final String filter = getSingleField(requestParams, "filter");
-		final List<Node<String>> nodes = grammarParser.parse(filter);
-		nodes.addAll(additionalNodes);
-		final List<?> result = manoSearch.getCriteria((List<Node<?>>) (Object) nodes, dbClass);
+		final GrammarNodeResult nodes = grammarParser.parse(filter);
+		nodes.getNodes().addAll(additionalNodes);
+		final List<?> result = manoSearch.getCriteria(nodes.getNodes(), dbClass);
 		return searchService.search(requestParams, clazz, excludeDefaults, mandatoryFields, result, clazz, makeLink);
 	}
 
 	public <U> List<U> query(final Class<U> clazz, final String filter) {
-		final List<Node<String>> nodes = grammarParser.parse(filter);
-		return manoSearch.getCriteria((List<Node<?>>) (Object) nodes, clazz);
+		final GrammarNodeResult nodes = grammarParser.parse(filter);
+		return manoSearch.getCriteria(nodes.getNodes(), clazz);
 	}
 }
