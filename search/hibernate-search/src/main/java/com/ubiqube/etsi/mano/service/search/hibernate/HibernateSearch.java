@@ -28,9 +28,14 @@ import org.hibernate.search.mapper.orm.search.loading.dsl.SearchLoadingOptionsSt
 import org.hibernate.search.mapper.orm.session.SearchSession;
 import org.springframework.stereotype.Service;
 
+import com.ubiqube.etsi.mano.grammar.BooleanExpression;
+import com.ubiqube.etsi.mano.grammar.GrammarException;
+import com.ubiqube.etsi.mano.grammar.GrammarLabel;
+import com.ubiqube.etsi.mano.grammar.GrammarNode;
+import com.ubiqube.etsi.mano.grammar.GrammarNodeResult;
+import com.ubiqube.etsi.mano.grammar.GrammarOperandType;
 import com.ubiqube.etsi.mano.grammar.GrammarParser;
-import com.ubiqube.etsi.mano.grammar.Node;
-import com.ubiqube.etsi.mano.grammar.Node.Operand;
+import com.ubiqube.etsi.mano.grammar.GrammarValue;
 import com.ubiqube.etsi.mano.service.search.ManoSearch;
 import com.ubiqube.etsi.mano.service.search.SearchException;
 
@@ -48,7 +53,7 @@ public class HibernateSearch implements ManoSearch {
 	}
 
 	@Override
-	public <T> List<T> getCriteria(final List<Node<?>> nodes, final Class<T> clazz) {
+	public <T> List<T> getCriteria(final List<GrammarNode> nodes, final Class<T> clazz) {
 		final SearchSession session = Search.session(entityManager);
 		final SearchQuerySelectStep<?, EntityReference, T, SearchLoadingOptionsStep, ?, ?> ss = session.search(clazz);
 		final SearchPredicateFactory pf = session.scope(clazz).predicate();
@@ -62,29 +67,45 @@ public class HibernateSearch implements ManoSearch {
 	}
 
 	public <T> List<T> getCriteria(final String filter, final Class<T> clazz) {
-		final List<Node<String>> nodes = grammarParser.parse(filter);
-		return getCriteria((List<Node<?>>) (Object) nodes, clazz);
+		final GrammarNodeResult nodes = grammarParser.parse(filter);
+		return getCriteria(nodes.getNodes(), clazz);
 	}
 
-	private static List<SearchPredicate> convertNodeList(final List<Node<?>> nodes, final SearchPredicateFactory pf) {
+	private static List<SearchPredicate> convertNodeList(final List<GrammarNode> nodes, final SearchPredicateFactory pf) {
 		return nodes.stream()
-				.map(x -> applyOp(x.getName(), x.getOp(), x.getValue(), pf))
+				.filter(BooleanExpression.class::isInstance)
+				.map(BooleanExpression.class::cast)
+				.map(x -> applyOp(x.getLeft(), x.getOp(), x.getRight(), pf))
 				.toList();
 	}
 
-	private static SearchPredicate applyOp(final String name, final Operand op, final Object value, final SearchPredicateFactory pf) {
+	private static SearchPredicate applyOp(final GrammarNode name, final GrammarOperandType op, final GrammarNode value, final SearchPredicateFactory pf) {
 		return switch (op) {
-		case EQ -> pf.match().field(name).matching(value, ValueConvert.NO).toPredicate();
-		case NEQ -> pf.matchAll().except(pf.match().field(name).matching(value)).toPredicate();
-		case GT -> pf.range().field(name).greaterThan(value).toPredicate();
-		case GTE -> pf.range().field(name).atLeast(value).toPredicate();
-		case LT -> pf.range().field(name).lessThan(value).toPredicate();
-		case LTE -> pf.range().field(name).atMost(value).toPredicate();
-		case CONT -> pf.match().field(name).matching(value).toPredicate();
-		case NCONT -> pf.matchAll().except(pf.match().field(name).matching(value)).toPredicate();
+		case EQ -> pf.match().field(toField(name)).matching(toValue(value), ValueConvert.NO).toPredicate();
+		case NEQ -> pf.matchAll().except(pf.match().field(toField(name)).matching(toValue(value))).toPredicate();
+		case GT -> pf.range().field(toField(name)).greaterThan(toValue(value)).toPredicate();
+		case GTE -> pf.range().field(toField(name)).atLeast(toValue(value)).toPredicate();
+		case LT -> pf.range().field(toField(name)).lessThan(toValue(value)).toPredicate();
+		case LTE -> pf.range().field(toField(name)).atMost(toValue(value)).toPredicate();
+		case CONT -> pf.match().field(toField(name)).matching(toValue(value)).toPredicate();
+		case NCONT -> pf.matchAll().except(pf.match().field(toField(name)).matching(toValue(value))).toPredicate();
 		case IN, NIN -> throw new SearchException("Unknown query Op: " + op);
 		default -> throw new SearchException("Unknown query Op: " + op);
 		};
+	}
+
+	private static Object toValue(final GrammarNode value) {
+		if (!(value instanceof final GrammarValue gv)) {
+			throw new GrammarException("");
+		}
+		return gv.getAsString();
+	}
+
+	private static String toField(final GrammarNode name) {
+		if (!(name instanceof final GrammarLabel gl)) {
+			throw new GrammarException("");
+		}
+		return gl.getAsString();
 	}
 
 	@Override

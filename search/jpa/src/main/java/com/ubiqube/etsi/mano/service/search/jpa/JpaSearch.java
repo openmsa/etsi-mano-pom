@@ -25,8 +25,11 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.grammar.Node;
-import com.ubiqube.etsi.mano.grammar.Node.Operand;
+import com.ubiqube.etsi.mano.grammar.BooleanExpression;
+import com.ubiqube.etsi.mano.grammar.GrammarLabel;
+import com.ubiqube.etsi.mano.grammar.GrammarNode;
+import com.ubiqube.etsi.mano.grammar.GrammarOperandType;
+import com.ubiqube.etsi.mano.grammar.GrammarValue;
 import com.ubiqube.etsi.mano.service.search.ManoSearch;
 import com.ubiqube.etsi.mano.service.search.SearchException;
 
@@ -46,7 +49,7 @@ public class JpaSearch implements ManoSearch {
 	}
 
 	@Override
-	public <T> List<T> getCriteria(final List<Node<?>> nodes, final Class<T> clazz) {
+	public <T> List<T> getCriteria(final List<GrammarNode> nodes, final Class<T> clazz) {
 		final CriteriaBuilder cb = em.getCriteriaBuilder();
 		final CriteriaQuery<T> cq = cb.createQuery(clazz);
 		final Root<T> itemRoot = cq.from(clazz);
@@ -57,10 +60,13 @@ public class JpaSearch implements ManoSearch {
 		return em.createQuery(cq).getResultList();
 	}
 
-	public <T> Predicate getCriteria(final CriteriaBuilder cb, final List<Node<?>> nodes, final Root<T> root, final Map<String, From<?, ?>> joins) {
+	public <T> Predicate getCriteria(final CriteriaBuilder cb, final List<GrammarNode> nodes, final Root<T> root, final Map<String, From<?, ?>> joins) {
 		final List<Predicate> predicates = new ArrayList<>();
-		for (final Node<?> node : nodes) {
-			final Optional<Predicate> res = applyOp(node.getName(), node.getOp(), node.getValue(), joins);
+		for (final GrammarNode node : nodes) {
+			if (!(node instanceof final BooleanExpression be)) {
+				throw new SearchException("COuld not handle class: " + node.getClass());
+			}
+			final Optional<Predicate> res = applyOp(be.getLeft(), be.getOp(), be.getRight(), joins);
 			if (res.isPresent()) {
 				predicates.add(res.get());
 			}
@@ -71,32 +77,42 @@ public class JpaSearch implements ManoSearch {
 		return null;
 	}
 
-	private <U> Optional<Predicate> applyOp(final String name, final Operand op, final U value, final Map<String, From<?, ?>> joins) {
+	private Optional<Predicate> applyOp(final GrammarNode left, final GrammarOperandType op, final GrammarNode value, final Map<String, From<?, ?>> joins) {
 		final CriteriaBuilder cb = em.getCriteriaBuilder();
-		final Attr attr = getParent(name, joins);
+		final Attr attr = getParent(left, joins);
 		final From<?, ?> p = attr.parent.orElse(joins.get("ROOT"));
 		final Predicate pred = switch (op) {
-		case EQ -> cb.equal(p.get(attr.name), value);
-		case NEQ -> cb.notEqual(p.get(attr.name), value);
-		case GT -> cb.greaterThan(p.get(attr.name), value.toString());
-		case GTE -> cb.greaterThanOrEqualTo(p.get(attr.name), value.toString());
-		case LT -> cb.lessThan(p.get(attr.name), value.toString());
-		case LTE -> cb.lessThanOrEqualTo(p.get(attr.name), value.toString());
+		case EQ -> cb.equal(p.get(attr.name), toValue(value));
+		case NEQ -> cb.notEqual(p.get(attr.name), toValue(value));
+		case GT -> cb.greaterThan(p.get(attr.name), toValue(value));
+		case GTE -> cb.greaterThanOrEqualTo(p.get(attr.name), toValue(value));
+		case LT -> cb.lessThan(p.get(attr.name), toValue(value));
+		case LTE -> cb.lessThanOrEqualTo(p.get(attr.name), toValue(value));
 		case CONT, NCONT, IN, NIN -> throw new SearchException("Unknown query Op: " + op);
 		};
 		return Optional.ofNullable(pred);
 	}
 
-	private Attr getParent(final String name, final Map<String, From<?, ?>> joins) {
-		final String[] arr = name.split("\\/");
+	private static String toValue(final GrammarNode value) {
+		if (!(value instanceof final GrammarValue gv)) {
+			throw new SearchException("Could not handle Value of type: " + value.getClass());
+		}
+		return gv.getAsString();
+	}
+
+	private static Attr getParent(final GrammarNode name, final Map<String, From<?, ?>> joins) {
+		if (!(name instanceof final GrammarLabel gl)) {
+			throw new SearchException("Node is not a GrammarLabel node: " + name.getClass());
+		}
 		final Attr attr = new Attr();
-		if (arr.length > 1) {
-			final String[] ro = new String[arr.length - 1];
+		final List<String> arr = gl.getList();
+		if (arr.size() > 1) {
+			final String[] ro = new String[arr.size() - 1];
 			System.arraycopy(arr, 0, ro, 0, ro.length);
 			final String key = Arrays.asList(ro).stream().collect(Collectors.joining("."));
 			attr.parent = Optional.ofNullable(joins.get(key));
 		}
-		attr.name = arr[arr.length - 1];
+		attr.name = arr.get(arr.size() - 1);
 		return attr;
 	}
 

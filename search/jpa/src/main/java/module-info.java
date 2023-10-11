@@ -17,8 +17,8 @@
 module com.ubiqube.etsi.mano.search.jpa {
 	exports com.ubiqube.etsi.mano.service.search.jpa;
 
-	requires com.ubiqube.etsi.mano.grammar;
-	requires com.ubiqube.etsi.mano.search.api;
+	requires transitive com.ubiqube.etsi.mano.grammar;
+	requires transitive com.ubiqube.etsi.mano.search.api;
 	requires transitive jakarta.persistence;
 	requires spring.context;
 }

@@ -18,11 +18,11 @@ package com.ubiqube.etsi.mano.service.search;
 
 import java.util.List;
 
-import com.ubiqube.etsi.mano.grammar.Node;
+import com.ubiqube.etsi.mano.grammar.GrammarNode;
 
 public interface ManoSearch {
 
-	<T> List<T> getCriteria(final List<Node<?>> nodes, final Class<T> clazz);
+	<T> List<T> getCriteria(final List<GrammarNode> nodes, final Class<T> clazz);
 
 	<T> void getByDistance(final Class<T> clazz, final double lat, final double lng);
 }

@@ -24,8 +24,11 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.grammar.Node;
-import com.ubiqube.etsi.mano.grammar.Node.Operand;
+import com.ubiqube.etsi.mano.grammar.BooleanExpression;
+import com.ubiqube.etsi.mano.grammar.GrammarLabel;
+import com.ubiqube.etsi.mano.grammar.GrammarNode;
+import com.ubiqube.etsi.mano.grammar.GrammarOperandType;
+import com.ubiqube.etsi.mano.grammar.GrammarValue;
 import com.ubiqube.etsi.mano.service.search.ManoSearch;
 import com.ubiqube.etsi.mano.service.search.SearchException;
 
@@ -38,7 +41,7 @@ public class MongodbSearch implements ManoSearch {
 	}
 
 	@Override
-	public <T> List<T> getCriteria(final List<Node<?>> nodes, final Class<T> clazz) {
+	public <T> List<T> getCriteria(final List<GrammarNode> nodes, final Class<T> clazz) {
 		final Query query = new Query();
 		final Criteria base = new Criteria();
 		final List<Criteria> criterias = convertNodeList(nodes);
@@ -49,13 +52,22 @@ public class MongodbSearch implements ManoSearch {
 		return mongoTemplate.find(query, clazz);
 	}
 
-	private List<Criteria> convertNodeList(final List<Node<?>> nodes) {
+	private static List<Criteria> convertNodeList(final List<GrammarNode> nodes) {
 		return nodes.stream()
-				.map(x -> applyOp(Criteria.where(x.getName()), x.getOp(), (String) x.getValue()))
+				.filter(BooleanExpression.class::isInstance)
+				.map(BooleanExpression.class::cast)
+				.map(x -> applyOp(Criteria.where(toKey(x.getLeft())), x.getOp(), x.getRight()))
 				.toList();
 	}
 
-	private Criteria applyOp(final Criteria crit, final Operand op, final String value) {
+	private static String toKey(final GrammarNode left) {
+		if (!(left instanceof final GrammarLabel gl)) {
+			throw new SearchException("");
+		}
+		return gl.getAsString();
+	}
+
+	private static Criteria applyOp(final Criteria crit, final GrammarOperandType op, final GrammarNode value) {
 		return switch (op) {
 		case EQ -> crit.is(value);
 		case NEQ -> crit.ne(value);
@@ -70,7 +82,11 @@ public class MongodbSearch implements ManoSearch {
 		};
 	}
 
-	private String escapeRegexp(final String value) {
+	private static String escapeRegexp(final GrammarNode v) {
+		if (!(v instanceof final GrammarValue gv)) {
+			throw new SearchException("");
+		}
+		final String value = gv.getAsString();
 		// /[-\/\\^$*+?.()|[\]{}]/g, '\\$&'
 		return Pattern.quote(value);
 	}
