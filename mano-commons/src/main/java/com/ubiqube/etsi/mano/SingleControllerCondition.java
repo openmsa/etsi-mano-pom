@@ -48,7 +48,7 @@ public class SingleControllerCondition extends SpringBootCondition implements Co
 
 	@Override
 	public ConditionOutcome getMatchOutcome(final ConditionContext context, final AnnotatedTypeMetadata metadata) {
-		final ConditionMessage matchMessage = ConditionMessage.empty();
+		ConditionMessage matchMessage = ConditionMessage.empty();
 		final MergedAnnotations annotations = metadata.getAnnotations();
 		final ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
 		final Object src = getSource(annotations);
@@ -64,8 +64,7 @@ public class SingleControllerCondition extends SpringBootCondition implements Co
 			if (!isMatching(srcAnnotation, dstAnnotation)) {
 				continue;
 			}
-			matchMessage.append(" Not initializing because " + type + " have the same values.");
-			LOG.warn("Ignoring {} because {} match.", src, type);
+			matchMessage = matchMessage.append(" Not initializing because " + type + " have the same values.");
 			return ConditionOutcome.noMatch(matchMessage);
 		}
 		LOG.info("Bean is matching {}", clazz);
