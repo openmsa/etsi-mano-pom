@@ -75,43 +75,12 @@
 			</dependencies>
 		</profile>
 		<profile>
-			<id>lucene</id>
-			<dependencies>
-				<dependency>
-					<groupId>com.ubiqube.mano.service.search</groupId>
-					<artifactId>hibernate-search</artifactId>
-					<version>${version.search-api}</version>
-				</dependency>
-				<dependency>
-					<groupId>org.hibernate.search</groupId>
-					<artifactId>hibernate-search-backend-lucene</artifactId>
-					<version>${com.ubiqube.hibernate-search6.version}</version>
-					<scope>runtime</scope>
-				</dependency>
-			</dependencies>
-		</profile>
-		<profile>
 			<id>search-jpa</id>
 			<dependencies>
 				<dependency>
 					<groupId>com.ubiqube.mano.service.search</groupId>
 					<artifactId>jpa</artifactId>
 					<version>${version.search-api}</version>
-				</dependency>
-			</dependencies>
-		</profile>
-		<profile>
-			<id>search-es</id>
-			<dependencies>
-				<dependency>
-					<groupId>com.ubiqube.mano.service.search</groupId>
-					<artifactId>hibernate-search</artifactId>
-					<version>${version.search-api}</version>
-				</dependency>
-				<dependency>
-					<groupId>org.hibernate.search</groupId>
-					<artifactId>hibernate-search-backend-elasticsearch</artifactId>
-					<scope>runtime</scope>
 				</dependency>
 			</dependencies>
 		</profile>
