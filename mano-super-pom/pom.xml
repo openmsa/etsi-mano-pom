@@ -69,21 +69,23 @@
 		<version.em-front-controller>3.2.0</version.em-front-controller>
 		<version.etsi-model-431>3.2.0</version.etsi-model-431>
 		<version.etsi-protocols>3.2.0</version.etsi-protocols>
-		<version.event-api>3.2.0</version.event-api>
-		<version.event-jms>3.2.0</version.event-jms>
+		<version.event-api>3.2.1-SNAPSHOT</version.event-api>
+		<version.event-jms>3.2.1-SNAPSHOT</version.event-jms>
+		<version.event-kafka>3.2.1-SNAPSHOT</version.event-kafka>
 		<version.helm3-api>0.0.2</version.helm3-api>
 		<version.k8s-parser>3.2.0</version.k8s-parser>
 		<version.mano-commons>3.2.1-SNAPSHOT</version.mano-commons>
 		<version.mano-condition>3.2.1-SNAPSHOT</version.mano-condition>
 		<version.mano-core-api>3.2.1-SNAPSHOT</version.mano-core-api>
 		<version.mano-db-auth>3.2.0</version.mano-db-auth>
+		<version.mano-db-subscription>3.2.1-SNAPSHOT</version.mano-db-subscription>
 		<version.mano-docker-api>3.2.0</version.mano-docker-api>
 		<version.mano-docker-jib>3.2.0</version.mano-docker-jib>
 		<version.mano-fluxrest>3.2.0</version.mano-fluxrest>
 		<version.mano-grammar-api>4.0.0-SNAPSHOT</version.mano-grammar-api>
 		<version.mano-grammar-v1>4.0.0-SNAPSHOT</version.mano-grammar-v1>
 		<version.mano-grammar25>4.0.0-SNAPSHOT</version.mano-grammar25>
-		<version.mano-model>3.2.0</version.mano-model>
+		<version.mano-model>3.2.1-SNAPSHOT</version.mano-model>
 		<version.mano-mon-api>3.2.0</version.mano-mon-api>
 		<version.mano-mon-webapp-client>3.2.0</version.mano-mon-webapp-client>
 		<version.mano-orika>3.2.0</version.mano-orika>
@@ -102,8 +104,8 @@
 		<version.nfvo-core>3.2.1-SNAPSHOT</version.nfvo-core>
 		<version.nfvo-front-controller>3.2.0</version.nfvo-front-controller>
 		<version.openstack-commons>3.2.0</version.openstack-commons>
-		<version.orchestration-api>3.2.0</version.orchestration-api>
-		<version.orchestration-core>3.2.0</version.orchestration-core>
+		<version.orchestration-api>3.2.1-SNAPSHOT</version.orchestration-api>
+		<version.orchestration-core>3.2.1-SNAPSHOT</version.orchestration-core>
 		<version.sol001-objects>2.1.0</version.sol001-objects>
 		<version.tosca-api>2.1.0</version.tosca-api>
 		<version.tosca-test-utils>2.1.0</version.tosca-test-utils>
