@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.service.search.jpa;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -37,6 +38,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.From;
+import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
@@ -53,7 +55,7 @@ public class JpaSearch implements ManoSearch {
 		final CriteriaBuilder cb = em.getCriteriaBuilder();
 		final CriteriaQuery<T> cq = cb.createQuery(clazz);
 		final Root<T> itemRoot = cq.from(clazz);
-		final Predicate pred = getCriteria(cb, nodes, itemRoot, Map.of());
+		final Predicate pred = getCriteria(cb, nodes, itemRoot, Map.of("ROOT", itemRoot));
 		if (null != pred) {
 			cq.where(pred);
 		}
@@ -64,7 +66,7 @@ public class JpaSearch implements ManoSearch {
 		final List<Predicate> predicates = new ArrayList<>();
 		for (final GrammarNode node : nodes) {
 			if (!(node instanceof final BooleanExpression be)) {
-				throw new SearchException("COuld not handle class: " + node.getClass());
+				throw new SearchException("Could not handle class: " + node.getClass());
 			}
 			final Optional<Predicate> res = applyOp(be.getLeft(), be.getOp(), be.getRight(), joins);
 			if (res.isPresent()) {
@@ -81,23 +83,44 @@ public class JpaSearch implements ManoSearch {
 		final CriteriaBuilder cb = em.getCriteriaBuilder();
 		final Attr attr = getParent(left, joins);
 		final From<?, ?> p = attr.parent.orElse(joins.get("ROOT"));
+		final Path name = p.get(attr.name);
 		final Predicate pred = switch (op) {
-		case EQ -> cb.equal(p.get(attr.name), toValue(value));
-		case NEQ -> cb.notEqual(p.get(attr.name), toValue(value));
-		case GT -> cb.greaterThan(p.get(attr.name), toValue(value));
-		case GTE -> cb.greaterThanOrEqualTo(p.get(attr.name), toValue(value));
-		case LT -> cb.lessThan(p.get(attr.name), toValue(value));
-		case LTE -> cb.lessThanOrEqualTo(p.get(attr.name), toValue(value));
-		case CONT, NCONT, IN, NIN -> throw new SearchException("Unknown query Op: " + op);
+		case EQ -> cb.equal(name, toComparableValue(value, name.getJavaType()));
+		case NEQ -> cb.notEqual(name, toComparableValue(value, name.getJavaType()));
+		case GT -> cb.greaterThan(name, toComparableValue(value, name.getJavaType()));
+		case GTE -> cb.greaterThanOrEqualTo(name, toComparableValue(value, name.getJavaType()));
+		case LT -> cb.lessThan(name, toComparableValue(value, name.getJavaType()));
+		case LTE -> cb.lessThanOrEqualTo(name, toComparableValue(value, name.getJavaType()));
+		case IN, CONT -> name.in(convertMultiValue(value, name.getJavaType()));
+		case NCONT, NIN -> name.in(convertMultiValue(value, name.getJavaType())).not();
+		default -> throw new SearchException("Unknown query Op: " + op);
 		};
 		return Optional.ofNullable(pred);
 	}
 
-	private static String toValue(final GrammarNode value) {
+	private Collection<?> convertMultiValue(final GrammarNode value, final Class<?> class1) {
 		if (!(value instanceof final GrammarValue gv)) {
 			throw new SearchException("Could not handle Value of type: " + value.getClass());
 		}
-		return gv.getAsString();
+		return recursive(gv, class1);
+	}
+
+	private List<?> recursive(final GrammarValue gv, final Class<?> clazz) {
+		final List ret = new ArrayList<>();
+		ret.add(toComparableValue(gv, clazz));
+		if (gv.getNext() != null) {
+			final List<?> res = recursive(gv.getNext(), clazz);
+			ret.addAll(res);
+		}
+		return ret;
+	}
+
+	private static Comparable toComparableValue(final GrammarNode value, final Class<?> clazz) {
+		if (!(value instanceof final GrammarValue gv)) {
+			throw new SearchException("Could not handle Value of type: " + value.getClass());
+		}
+
+		return ConvertHelper.convertComparable(gv, clazz);
 	}
 
 	private static Attr getParent(final GrammarNode name, final Map<String, From<?, ?>> joins) {
