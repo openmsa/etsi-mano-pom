@@ -30,6 +30,7 @@ import java.util.concurrent.ExecutorCompletionService;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.stream.Stream;
 
 import org.codehaus.groovy.control.CompilationFailedException;
@@ -46,6 +47,7 @@ import com.ubiqube.etsi.mano.exception.GenericException;
 
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
+import io.micrometer.context.ContextExecutorService;
 import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -64,7 +66,8 @@ public class GroovyElection implements VimElection {
 
 	@Override
 	public @Nullable VimConnectionInformation doElection(final List<VimConnectionInformation> inVims, final @Nullable GrantResponse grant, final Set<VnfCompute> vnfcs, final Set<VnfStorage> storages) {
-		final ExecutorService executor = Executors.newFixedThreadPool(5);
+		final ThreadPoolExecutor tpe = (ThreadPoolExecutor) Executors.newFixedThreadPool(5);
+		final ExecutorService executor = ContextExecutorService.wrap(tpe);
 		final CompletionService<VoteResponse> completionService = new ExecutorCompletionService<>(executor);
 		final List<Path> scripts = findScript();
 		final List<String> list = scripts.stream().map(Path::toString).toList();
