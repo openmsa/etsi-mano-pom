@@ -32,6 +32,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -67,6 +68,8 @@ import com.ubiqube.etsi.mano.service.sys.ServerGroup;
 import com.ubiqube.etsi.mano.service.vim.NetworkObject;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
+
+import io.micrometer.context.ContextExecutorService;
 
 /**
  *
@@ -150,7 +153,8 @@ public class GrantAction {
 	}
 
 	protected final void getVimInformations(final VimConnectionInformation vimInfo, final GrantResponse grants) {
-		final ExecutorService executorService = Executors.newFixedThreadPool(10);
+		final ThreadPoolExecutor tpe = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
+		final ExecutorService executorService = ContextExecutorService.wrap(tpe);
 		Exception throwable = null;
 		try {
 			getGrantInformationsImpl(executorService, vimInfo, grants);
