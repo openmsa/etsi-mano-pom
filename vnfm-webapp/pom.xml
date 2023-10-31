@@ -219,23 +219,6 @@
 			<artifactId>k8s-parser</artifactId>
 			<version>${version.k8s-parser}</version>
 		</dependency>
-		<!--
-		<dependency>
-			<groupId>com.ubiqube.mano.service.mon</groupId>
-			<artifactId>gnocchi-mon</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.ubiqube.mano.service.mon.serializer</groupId>
-			<artifactId>jpa-serializer</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.ubiqube.mano.service.mon.poller</groupId>
-			<artifactId>mano-pm-poller</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		-->
 		<dependency>
 			<groupId>com.ubiqube.mano.docker</groupId>
 			<artifactId>mano-docker-jib</artifactId>
