@@ -35,7 +35,7 @@
 		<m2e.apt.activation>jdt_apt</m2e.apt.activation>
 		<com.ubiqube.antlr4-runtime.version>4.13.1</com.ubiqube.antlr4-runtime.version>
 		<com.ubiqube.archunit.version>1.1.0</com.ubiqube.archunit.version>
-		<com.ubiqube.artemis-jms-server.version>2.31.0</com.ubiqube.artemis-jms-server.version>
+		<com.ubiqube.artemis-jms-server.version>2.31.2</com.ubiqube.artemis-jms-server.version>
 		<com.ubiqube.bcpkix-jdk18on.version>1.76</com.ubiqube.bcpkix-jdk18on.version>
 		<com.ubiqube.commons-vfs2>2.9.0</com.ubiqube.commons-vfs2>
 		<com.ubiqube.dexecutor-core.version>2.1.4</com.ubiqube.dexecutor-core.version>
@@ -45,8 +45,8 @@
 		<com.ubiqube.guava.version>32.0.1-jre</com.ubiqube.guava.version>
 		<com.ubiqube.hibernate-search6.version>6.2.1.Final</com.ubiqube.hibernate-search6.version>
 		<com.ubiqube.jgrapht.version>1.5.2</com.ubiqube.jgrapht.version>
-		<com.ubiqube.keycloak-spring-boot-starter.version>22.0.3</com.ubiqube.keycloak-spring-boot-starter.version>
-		<com.ubiqube.mockito.version>5.5.0</com.ubiqube.mockito.version>
+		<com.ubiqube.keycloak-spring-boot-starter.version>22.0.5</com.ubiqube.keycloak-spring-boot-starter.version>
+		<com.ubiqube.mockito.version>5.6.0</com.ubiqube.mockito.version>
 		<com.ubiqube.openstack4j.version>3.11</com.ubiqube.openstack4j.version>
 		<com.ubiqube.orika.version>1.5.7</com.ubiqube.orika.version>
 		<com.ubiqube.orika-spring-boot-starter.version>3.0.3</com.ubiqube.orika-spring-boot-starter.version>
@@ -54,9 +54,9 @@
 		<com.ubiqube.spring-boot-admin-starter-client.version>3.1.7</com.ubiqube.spring-boot-admin-starter-client.version>
 		<com.ubiqube.spring-cloud-dependencies.version>2022.0.4</com.ubiqube.spring-cloud-dependencies.version>
 		<com.ubiqube.springdoc.version>2.2.0</com.ubiqube.springdoc.version>
-		<com.ubiqube.swagger3.version>2.2.15</com.ubiqube.swagger3.version>
+		<com.ubiqube.swagger3.version>2.2.18</com.ubiqube.swagger3.version>
 		<com.ubiqube.reflections.version>0.10.2</com.ubiqube.reflections.version>
-		<com.ubiqube.wiremock3.version>3.1.0</com.ubiqube.wiremock3.version>
+		<com.ubiqube.wiremock3.version>3.2.0</com.ubiqube.wiremock3.version>
 		<version.jib-core>0.25.0</version.jib-core>
 		<version.commons-compress>1.24.0</version.commons-compress>
 		<version.javax.servlet-api>4.0.1</version.javax.servlet-api>
