@@ -215,10 +215,6 @@
 			<artifactId>mano-docker-jib</artifactId>
 			<version>${version.mano-docker-jib}</version>
 		</dependency>
-		<dependency>
-			<groupId>io.micrometer</groupId>
-			<artifactId>micrometer-registry-elastic</artifactId>
-		</dependency>
 	</dependencies>
 	<build>
 		<finalName>${artifactId}</finalName>
