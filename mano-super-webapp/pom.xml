@@ -58,7 +58,6 @@
 				</dependency>
 			</dependencies>
 		</profile>
-
 		<profile>
 			<id>ubiqube</id>
 			<dependencies>
@@ -130,6 +129,15 @@
 					<artifactId>artemis-jms-server</artifactId>
 					<version>${com.ubiqube.artemis-jms-server.version}</version>
 					<scope>runtime</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>kafka</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.springframework.kafka</groupId>
+					<artifactId>spring-kafka</artifactId>
 				</dependency>
 			</dependencies>
 		</profile>
