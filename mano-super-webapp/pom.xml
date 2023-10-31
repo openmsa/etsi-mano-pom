@@ -189,5 +189,23 @@
 				</dependency>
 			</dependencies>
 		</profile>
+		<profile>
+			<id>mm-es</id>
+			<dependencies>
+				<dependency>
+					<groupId>io.micrometer</groupId>
+					<artifactId>micrometer-registry-elastic</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>mm-prom</id>
+			<dependencies>
+				<dependency>
+					<groupId>io.micrometer</groupId>
+					<artifactId>micrometer-registry-prometheus</artifactId>
+				</dependency>
+			</dependencies>
+		</profile>
 	</profiles>
 </project>
