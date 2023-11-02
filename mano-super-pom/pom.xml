@@ -93,7 +93,6 @@
 		<version.mano-pkg-tosca>3.2.1-SNAPSHOT</version.mano-pkg-tosca>
 		<version.mano-repo-api>3.2.0</version.mano-repo-api>
 		<version.mano-repo-fs>3.2.0</version.mano-repo-fs>
-		<version.search-api>3.2.1-SNAPSHOT</version.search-api>
 		<version.mano-spring-properties>3.2.0</version.mano-spring-properties>
 		<version.mano-vim-api>3.2.0</version.mano-vim-api>
 		<version.mano-vim-contrail>3.2.0</version.mano-vim-contrail>
@@ -106,6 +105,8 @@
 		<version.openstack-commons>3.2.0</version.openstack-commons>
 		<version.orchestration-api>3.2.1-SNAPSHOT</version.orchestration-api>
 		<version.orchestration-core>3.2.1-SNAPSHOT</version.orchestration-core>
+		<version.search-api>3.2.1-SNAPSHOT</version.search-api>
+		<version.small-db>3.2.1-SNAPSHOT</version.small-db>
 		<version.sol001-objects>2.1.0</version.sol001-objects>
 		<version.tosca-api>2.1.0</version.tosca-api>
 		<version.tosca-test-utils>2.1.0</version.tosca-test-utils>
