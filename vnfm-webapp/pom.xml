@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.ubiqube.mano</groupId>
 		<artifactId>mano-super-webapp</artifactId>
-		<version>3.2.1-SNAPSHOT</version>
+		<version>3.2.1</version>
 		<relativePath />
 	</parent>
 	<artifactId>vnfm-webapp</artifactId>
