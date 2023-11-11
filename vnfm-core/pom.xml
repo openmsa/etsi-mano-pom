@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.ubiqube.mano</groupId>
 		<artifactId>mano-super-pom</artifactId>
-		<version>3.2.1</version>
+		<version>3.2.2-SNAPSHOT</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<artifactId>vnfm-core</artifactId>
@@ -163,7 +163,7 @@
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-vim-dummy</artifactId>
-			<version>${version.mano-vim-dummy}</version>
+			<version>${version.mano-vim-api}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

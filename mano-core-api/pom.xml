@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.ubiqube.mano</groupId>
 		<artifactId>mano-super-pom</artifactId>
-		<version>3.2.1</version>
+		<version>3.2.2-SNAPSHOT</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<artifactId>mano-core-api</artifactId>
@@ -209,7 +209,7 @@
 		<dependency>
 			<groupId>com.ubiqube.mano.service.mon</groupId>
 			<artifactId>mano-mon-webapp-client</artifactId>
-			<version>${version.mano-mon-webapp-client}</version>
+			<version>${version.mano-mon-api}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano.alarm</groupId>
@@ -286,7 +286,7 @@
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-grammar-v1</artifactId>
-			<version>${version.mano-grammar-v1}</version>
+			<version>${version.mano-grammar-api}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -302,7 +302,7 @@
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-vim-dummy</artifactId>
-			<version>${version.mano-vim-dummy}</version>
+			<version>${version.mano-vim-api}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

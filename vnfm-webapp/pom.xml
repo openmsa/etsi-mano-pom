@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.ubiqube.mano</groupId>
 		<artifactId>mano-super-webapp</artifactId>
-		<version>3.2.1</version>
+		<version>3.2.2-SNAPSHOT</version>
 		<relativePath />
 	</parent>
 	<artifactId>vnfm-webapp</artifactId>
@@ -147,22 +147,22 @@
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>orchestration-core</artifactId>
-			<version>${version.orchestration-core}</version>
+			<version>${version.orchestration-api}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano.auth</groupId>
 			<artifactId>auth-keycloak</artifactId>
-			<version>${version.auth-keycloak}</version>
+			<version>${version.auth-api}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-vim-openstack</artifactId>
-			<version>${version.mano-vim-openstack}</version>
+			<version>${version.mano-vim-api}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano.pkg</groupId>
 			<artifactId>mano-pkg-tosca</artifactId>
-			<version>${version.mano-pkg-tosca}</version>
+			<version>${version.mano-pkg-api}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
@@ -193,17 +193,17 @@
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-grammar25</artifactId>
-			<version>${version.mano-grammar25}</version>
+			<version>${version.mano-grammar-api}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano.repository</groupId>
 			<artifactId>mano-repo-fs</artifactId>
-			<version>${version.mano-repo-fs}</version>
+			<version>${version.mano-repo-api}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano.event</groupId>
 			<artifactId>event-jms</artifactId>
-			<version>${version.event-jms}</version>
+			<version>${version.event-api}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate.validator</groupId>
@@ -212,7 +212,7 @@
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-vim-k8s</artifactId>
-			<version>${version.mano-vim-k8s}</version>
+			<version>${version.mano-vim-api}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano.pkg</groupId>

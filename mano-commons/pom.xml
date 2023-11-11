@@ -4,11 +4,10 @@
 	<parent>
 		<groupId>com.ubiqube.mano</groupId>
 		<artifactId>mano-super-pom</artifactId>
-		<version>3.2.0</version>
+		<version>3.2.2-SNAPSHOT</version>
 		<relativePath />
 	</parent>
 	<artifactId>mano-commons</artifactId>
-	<version>3.2.1</version>
 	<name>mano-commons</name>
 	<description>ETSI MANO commons interface.</description>
 	<distributionManagement>
