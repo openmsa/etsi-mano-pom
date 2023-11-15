@@ -73,8 +73,7 @@
 		<version.mano-commons>3.2.1</version.mano-commons>
 		<version.mano-condition>3.2.1</version.mano-condition>
 		<version.mano-core-api>3.2.1</version.mano-core-api>
-		<version.mano-docker-api>3.2.0</version.mano-docker-api>
-		<version.mano-docker-jib>3.2.0</version.mano-docker-jib>
+		<version.mano-docker-api>3.2.2-SNAPSHOT</version.mano-docker-api>
 		<version.mano-fluxrest>3.2.0</version.mano-fluxrest>
 		<version.mano-grammar-api>4.0.0</version.mano-grammar-api>
 		<version.mano-model>3.2.1</version.mano-model>
