@@ -62,7 +62,7 @@
 		<version.jetty-bom>9.4.49.v20220914</version.jetty-bom>
 		<brave.version>5.16.0</brave.version>
 		<version.alarm-client>3.2.0</version.alarm-client>
-		<version.auth-api>3.2.0</version.auth-api>
+		<version.auth-api>3.2.1-SNAPSHOT</version.auth-api>
 		<version.em-client>3.2.0</version.em-client>
 		<version.em-front-controller>3.2.0</version.em-front-controller>
 		<version.etsi-model-431>3.2.0</version.etsi-model-431>
