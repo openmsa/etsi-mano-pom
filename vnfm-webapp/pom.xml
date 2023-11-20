@@ -222,7 +222,7 @@
 		<dependency>
 			<groupId>com.ubiqube.mano.docker</groupId>
 			<artifactId>mano-docker-jib</artifactId>
-			<version>${version.mano-docker-jib}</version>
+			<version>${version.mano-docker-api}</version>
 		</dependency>
 	</dependencies>
 	<build>
