@@ -70,24 +70,25 @@
 		<version.event-api>3.2.1</version.event-api>
 		<version.helm3-api>0.0.2</version.helm3-api>
 		<version.k8s-parser>3.2.0</version.k8s-parser>
-		<version.mano-commons>3.2.1</version.mano-commons>
+		<version.mano-bean-walker>3.2.2-SNAPSHOT</version.mano-bean-walker>
+		<version.mano-commons>3.2.2-SNAPSHOT</version.mano-commons>
 		<version.mano-condition>3.2.1</version.mano-condition>
-		<version.mano-core-api>3.2.1</version.mano-core-api>
+		<version.mano-core-api>3.2.2-SNAPSHOT</version.mano-core-api>
 		<version.mano-docker-api>3.2.2-SNAPSHOT</version.mano-docker-api>
 		<version.mano-fluxrest>3.2.0</version.mano-fluxrest>
 		<version.mano-grammar-api>4.0.0</version.mano-grammar-api>
-		<version.mano-model>3.2.1</version.mano-model>
+		<version.mano-model>3.2.2-SNAPSHOT</version.mano-model>
 		<version.mano-mon-api>3.2.0</version.mano-mon-api>
 		<version.mano-orika>3.2.0</version.mano-orika>
-		<version.mano-pkg-api>3.2.1</version.mano-pkg-api>
+		<version.mano-pkg-api>3.2.2-SNAPSHOT</version.mano-pkg-api>
 		<version.mano-repo-api>3.2.0</version.mano-repo-api>
 		<version.mano-spring-properties>3.2.0</version.mano-spring-properties>
 		<version.mano-vim-api>3.2.1</version.mano-vim-api>
 		<version.nfv-front-controller>3.2.0</version.nfv-front-controller>
-		<version.nfvo-core>3.2.1</version.nfvo-core>
+		<version.nfvo-core>3.2.2-SNAPSHOT</version.nfvo-core>
 		<version.nfvo-front-controller>3.2.0</version.nfvo-front-controller>
 		<version.openstack-commons>3.2.0</version.openstack-commons>
-		<version.orchestration-api>3.2.1</version.orchestration-api>
+		<version.orchestration-api>3.2.2-SNAPSHOT</version.orchestration-api>
 		<version.search-api>3.2.1</version.search-api>
 		<version.small-db>3.2.1</version.small-db>
 		<version.sol001-objects>2.1.0</version.sol001-objects>
@@ -95,7 +96,7 @@
 		<version.tosca-test-utils>2.1.0</version.tosca-test-utils>
 		<version.ubi-juniper-contrail-api>4.0.0</version.ubi-juniper-contrail-api>
 		<version.ubi-spring-config>3.2.0</version.ubi-spring-config>
-		<version.vnfm-core>3.2.1</version.vnfm-core>
+		<version.vnfm-core>3.2.2-SNAPSHOT</version.vnfm-core>
 		<version.vnfm-front-controller>3.2.0</version.vnfm-front-controller>
 	</properties>
 	<dependencyManagement>
