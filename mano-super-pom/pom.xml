@@ -47,7 +47,7 @@
 		<com.ubiqube.keycloak-spring-boot-starter.version>22.0.5</com.ubiqube.keycloak-spring-boot-starter.version>
 		<com.ubiqube.mockito.version>5.6.0</com.ubiqube.mockito.version>
 		<com.ubiqube.openstack4j.version>3.11</com.ubiqube.openstack4j.version>
-		<com.ubiqube.orika.version>1.5.7</com.ubiqube.orika.version>
+		<com.ubiqube.orika.version>1.5.8-SNAPSHOT</com.ubiqube.orika.version>
 		<com.ubiqube.orika-spring-boot-starter.version>3.0.3</com.ubiqube.orika-spring-boot-starter.version>
 		<com.ubiqube.podam.version>8.0.0.RELEASE</com.ubiqube.podam.version>
 		<com.ubiqube.spring-boot-admin-starter-client.version>3.1.7</com.ubiqube.spring-boot-admin-starter-client.version>
