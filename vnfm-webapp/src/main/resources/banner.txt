@@ -5,4 +5,5 @@
  | |____   | |  ____) |_| |_     | |  | |/ ____ \| |\  | |__| |  / ____ \| |    _| |_ 
  |______|  |_| |_____/|_____|    |_|  |_/_/    \_\_| \_|\____/  /_/    \_\_|   |_____|
                                                                                       
-  VNFM (${AnsiColor.120}Spring boot: ${spring-boot.version}${AnsiColor.DEFAULT})      
+  ${application.title}: ${application.formatted-version}
+  (${AnsiColor.120}Spring boot: ${AnsiStyle.BOLD}${AnsiStyle.ITALIC}${spring-boot.version}${AnsiColor.DEFAULT}${AnsiStyle.NORMAL})
