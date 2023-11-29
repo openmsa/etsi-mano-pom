@@ -6,4 +6,4 @@
  |______|  |_| |_____/|_____|    |_|  |_/_/    \_\_| \_|\____/  /_/    \_\_|   |_____|
                                                                                       
   ${application.title}: ${application.formatted-version}
-  (${AnsiColor.208}Spring boot: ${AnsiStyle.BOLD}${AnsiStyle.ITALIC}${spring-boot.version}${AnsiColor.DEFAULT}${AnsiStyle.NORMAL})      
+  (${AnsiColor.208}Spring boot: ${AnsiStyle.BOLD}${AnsiStyle.ITALIC}${spring-boot.version}${AnsiColor.DEFAULT}${AnsiStyle.NORMAL})
