@@ -104,7 +104,6 @@ spring:
     rest:
       base-path: /api
   datasource:
-    driverClassName: org.h2.Driver
     url: jdbc:h2:file:~/etsi-mano-nfvo.h2;MODE=PostgreSQL;AUTO_SERVER=TRUE;INIT=CREATE SCHEMA IF NOT EXISTS mec_meo
     username: sa
     hikari:
@@ -132,7 +131,6 @@ spring:
     open-in-view: true
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
         enable_lazy_load_no_trans: true
         search:
           backend:
