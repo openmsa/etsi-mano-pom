@@ -89,6 +89,7 @@
 		<version.nfvo-front-controller>3.2.0</version.nfvo-front-controller>
 		<version.openstack-commons>3.2.0</version.openstack-commons>
 		<version.orchestration-api>3.2.2-SNAPSHOT</version.orchestration-api>
+		<version.orchestration-core>3.2.2-SNAPSHOT</version.orchestration-core>
 		<version.search-api>3.2.1</version.search-api>
 		<version.small-db>3.2.1</version.small-db>
 		<version.sol001-objects>2.1.0</version.sol001-objects>
