@@ -26,6 +26,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.K8sInformationsTask;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.vim.k8s.K8sServers;
 import com.ubiqube.etsi.mano.dao.mano.vim.k8s.StatusType;
+import com.ubiqube.etsi.mano.dao.mano.vim.vnfi.CnfInformations;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerDeployableNode;
@@ -61,24 +62,27 @@ public class OsK8sClusterInfoUow extends AbstractVnfmUow<K8sInformationsTask> {
 		if (obj.isPresent()) {
 			return obj.get().getId().toString();
 		}
-		K8sServers status = vim.cnf(vimConnectionInformation).getClusterInformations(srv);
-		while (status.getStatus() == StatusType.CREATE_IN_PROGRESS) {
-			try {
-				Thread.sleep(1_000L);
-			} catch (final InterruptedException e) {
-				LOG.error("", e);
-				Thread.currentThread().interrupt();
+		if (vimConnectionInformation.getCnfInfo() != null) {
+			K8sServers status = vim.cnf(vimConnectionInformation).getClusterInformations(srv);
+			while (status.getStatus() == StatusType.CREATE_IN_PROGRESS) {
+				try {
+					Thread.sleep(1_000L);
+				} catch (final InterruptedException e) {
+					LOG.error("", e);
+					Thread.currentThread().interrupt();
+				}
+				status = vim.cnf(vimConnectionInformation).getClusterInformations(srv);
+				LOG.debug("Fetched OsContainer status: {} / {}", task.getToscaName(), status.getStatus());
 			}
-			status = vim.cnf(vimConnectionInformation).getClusterInformations(srv);
-			LOG.debug("Fetched OsContainer status: {} / {}", task.getToscaName(), status.getStatus());
+			status.setToscaName(task.getToscaName());
+			status.setId(UUID.fromString(srv));
+			final K8sServers n = serverInfoJpa.save(status);
+			if (status.getStatus() == StatusType.CREATE_FAILED) {
+				throw new GenericException("Create Failed: " + task.getToscaName());
+			}
+			return n.getId().toString();
 		}
-		status.setToscaName(task.getToscaName());
-		status.setId(UUID.fromString(srv));
-		final K8sServers n = serverInfoJpa.save(status);
-		if (status.getStatus() == StatusType.CREATE_FAILED) {
-			throw new GenericException("Create Failed: " + task.getToscaName());
-		}
-		return n.getId().toString();
+		return null;
 	}
 
 	@Override

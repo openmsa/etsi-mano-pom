@@ -48,6 +48,8 @@ public class VnfmActionController {
 		case VNF_CHANGE_CONN -> vnfmActions.vnfChangeVnfConn(objectId);
 		case VNF_PKG_ONBOARD_DOWNLOAD -> notificationActions.onPkgOnbarding(objectId);
 		case VNF_PKG_ONBOARD_DOWNLOAD_INSTANTIATE -> notificationActions.onPkgOnbardingInstantiate(objectId);
+		case VNF_JUJU_INSTANTIATE -> vnfmActions.jujuInstantiate(objectId);
+		case VNF_JUJU_TERMINATE -> vnfmActions.jujuTerminate(objectId);
 		default -> LOG.warn("Unknown event: {}", eventType);
 		}
 	}

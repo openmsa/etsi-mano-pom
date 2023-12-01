@@ -89,9 +89,11 @@ public class GrantContainerAction {
 				.map(Entry::getValue)
 				.forEach(x -> {
 					final ConnectionInformation ci = getConnection(x);
-					final ManoResource mr = vnfRepository.getBinary(vnfPkg.getId(), Constants.REPOSITORY_FOLDER_ARTIFACTS + "/" + x.getImagePath());
-					final String name = makeHelmName(x);
-					uploadFile(mr, ci, name);
+					if(ci!=null) {
+						final ManoResource mr = vnfRepository.getBinary(vnfPkg.getId(), Constants.REPOSITORY_FOLDER_ARTIFACTS + "/" + x.getImagePath());
+						final String name = makeHelmName(x);
+						uploadFile(mr, ci, name);
+					}
 				});
 	}
 
@@ -130,7 +132,11 @@ public class GrantContainerAction {
 			return connJpa.findByName(img.getRepository());
 		}
 		final List<ConnectionInformation> res = connJpa.findByConnType(ConnectionType.HELM);
+		if(res.isEmpty()) {
+			return null;
+		}
 		return res.get(0);
+		
 	}
 
 	private void upload(final VnfPackage vnfPkg, final ConnectionType ct) {
@@ -138,17 +144,19 @@ public class GrantContainerAction {
 			final List<ConnectionInformation> res = connJpa.findByConnType(ct);
 			final ConnectionInformation conn = checkAndGet(res, ct);
 			final SoftwareImage ref = find(vnfPkg.getOsContainer(), x.getName());
-			final ManoResource bin = vnfRepository.getBinary(vnfPkg.getId(), Constants.REPOSITORY_FOLDER_ARTIFACTS + "/" + ref.getImagePath());
-			final String imageName = buildImageName(conn, "mano", ref.getName());
-			final String tag = Optional.ofNullable(ref.getVersion()).orElse("latest");
-			final RegistryInformations regInfo = convert(conn);
-			try (InputStream is = bin.getInputStream()) {
-				dockerService.sendToRegistry(is, regInfo, imageName, tag);
-			} catch (final DockerApiException e) {
-				LOG.warn("Could not upload blob: {}", x.getName());
-				LOG.trace("", e);
-			} catch (final IOException e) {
-				throw new GenericException(e);
+			if(ref != null) {
+				final ManoResource bin = vnfRepository.getBinary(vnfPkg.getId(), Constants.REPOSITORY_FOLDER_ARTIFACTS + "/" + ref.getImagePath());
+				final String imageName = buildImageName(conn, "mano", ref.getName());
+				final String tag = Optional.ofNullable(ref.getVersion()).orElse("latest");
+				final RegistryInformations regInfo = convert(conn);
+				try (InputStream is = bin.getInputStream()) {
+					dockerService.sendToRegistry(is, regInfo, imageName, tag);
+				} catch (final DockerApiException e) {
+					LOG.warn("Could not upload blob: {}", x.getName());
+					LOG.trace("", e);
+				} catch (final IOException e) {
+					throw new GenericException(e);
+				}
 			}
 		});
 	}
@@ -179,11 +187,16 @@ public class GrantContainerAction {
 	}
 
 	private static SoftwareImage find(final Set<OsContainer> osContainer, final String vduId) {
+		for(OsContainer oscon : osContainer) {
+			if(oscon.getArtifacts().isEmpty()) {
+				return null;
+			}
+		}
 		return osContainer.stream().filter(x -> x.getName().equals(vduId))
 				.map(x -> x.getArtifacts().entrySet().iterator().next())
 				.map(Entry::getValue)
 				.findFirst()
-				.orElseThrow();
+				.orElse(null);
 	}
 
 	private void setConnectionConnection(final GrantResponse grants, final ResourceTypeEnum rt, final ConnectionType ct, final Consumer<Map<String, ConnectionInformation>> func) {

@@ -27,6 +27,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerTask;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.orchestrator.OrchestrationServiceV3;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
+import com.ubiqube.etsi.mano.service.JujuCloudService;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.vt.OsContainerVt;
@@ -39,10 +40,12 @@ class OsContainerSystemTest {
 	private Vim vim;
 	@Mock
 	private OrchestrationServiceV3<OsContainerTask> orchService;
+	@Mock
+	private JujuCloudService jujuCloudService;
 
 	@Test
 	void test() {
-		final OsContainerSystem srv = new OsContainerSystem(vim, vimManager);
+		final OsContainerSystem srv = new OsContainerSystem(vim, vimManager, jujuCloudService);
 		final OsContainerTask nt = new OsContainerTask();
 		final VirtualTaskV3<OsContainerTask> vt = new OsContainerVt(nt);
 		final VimConnectionInformation vimConn = new VimConnectionInformation();

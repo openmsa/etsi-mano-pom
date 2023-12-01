@@ -235,7 +235,7 @@
 		<dependency>
 			<groupId>com.ubiqube.mano.juju</groupId>
 			<artifactId>juju-client</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano.service.search</groupId>

@@ -101,8 +101,8 @@ mano:
 #        - openid
 #        - juju
 #      token-endpoint: http://mano-auth:8080/auth/realms/mano-realm/protocol/openid-connect/token
-#    url: http://10.31.1.242:8200/
-    url: http://localhost:8200/
+     url: http://mano-juju:8200/
+#    url: http://localhost:8200/
   repository:
     phys-root: /tmp/etsi-mano/repository
   swagger-o-auth2: http://mano-auth:8080/auth/realms/mano-realm/protocol/openid-connect/token

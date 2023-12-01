@@ -188,6 +188,14 @@ public abstract class AbstractGenericActionV3 {
 		instantiateShield(blueprintId, WorkflowEvent.SCALE_SUCCESS, WorkflowEvent.SCALE_FAILED);
 	}
 
+	public final void jujuInstantiate(final UUID blueprintId) {
+		
+	}
+
+	public final void jujuTerminate(final UUID blueprintId) {
+		
+	}
+
 	private void instantiateShield(final UUID blueprintId, final WorkflowEvent success, final WorkflowEvent failure) {
 		final Blueprint<? extends VimTask, ? extends Instance> blueprint = orchestrationAdapter.getBluePrint(blueprintId);
 		final Instance vnfInstance = orchestrationAdapter.getInstance(blueprint.getInstance().getId());

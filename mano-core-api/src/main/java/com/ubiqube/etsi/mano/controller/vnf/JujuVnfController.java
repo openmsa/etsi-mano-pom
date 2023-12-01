@@ -16,67 +16,98 @@
  */
 package com.ubiqube.etsi.mano.controller.vnf;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ubiqube.etsi.mano.exception.GenericException;
+import com.ubiqube.etsi.mano.service.JujuCloudService;
+import com.ubiqube.etsi.mano.service.event.ActionType;
+import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.juju.cli.JujuRemoteService;
 import com.ubiqube.etsi.mano.service.juju.entities.JujuCloud;
+
+import jakarta.validation.constraints.NotNull;
 
 @RestController
 @RequestMapping("/juju")
 public class JujuVnfController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(JujuVnfController.class);
-	private final JujuRemoteService remoteService;
 
-	public JujuVnfController(final JujuRemoteService remoteService) {
+	private final JujuRemoteService remoteService;
+	private final EventManager eventManager;
+	private final JujuCloudService jujuCloudService;
+
+	public JujuVnfController(JujuRemoteService remoteService, EventManager eventManager,
+			JujuCloudService jujuCloudService) {
+		super();
 		this.remoteService = remoteService;
+		this.eventManager = eventManager;
+		this.jujuCloudService = jujuCloudService;
 	}
 
 	@PostMapping(value = "/instantiate")
-	public ResponseEntity<String> instantiate(@RequestBody final JujuCloud jCloud) {
+	public ResponseEntity<String> instantiate(@RequestBody @NotNull final JujuCloud jCloud) {
 		LOG.info("Juju instantiating...");
-		if (!remoteService.addCloud(jCloud).getStatusCode().is2xxSuccessful()) {
-			throw new GenericException("Error Create Cloud");
-		}
-		if (!remoteService.addCredential(jCloud).getStatusCode().is2xxSuccessful()) {
-			throw new GenericException("Error Create Credential");
-		}
-//		if (!remoteService.genMetadata("path", "imageId", "osSeries", "region", "osAuthUrl").getStatusCode().is2xxSuccessful()) throw new Exception("Error Create Metadata"); //No need as will be there
-		if (!remoteService.addController(jCloud.getName(), jCloud.getMetadata()).getStatusCode().is2xxSuccessful()) {
-			throw new GenericException("Error Create Controller");
-		}
-		if (!remoteService.addModel(jCloud.getMetadata().getModels().get(0).getName()).getStatusCode().is2xxSuccessful()) {
-			throw new GenericException("Error Create Model");
-		}
-		if (!remoteService.deployApp(jCloud.getMetadata().getModels().get(0).getCharmName(), jCloud.getMetadata().getModels().get(0).getAppName()).getStatusCode().is2xxSuccessful()) {
-			throw new GenericException("Error Deploying Charm");
-		}
-
-		return ResponseEntity.ok("Success");
+		jujuCloudService.saveCloud(jCloud);
+		eventManager.sendActionVnfm(ActionType.VNF_JUJU_INSTANTIATE, jCloud.getId(), new HashMap<>());
+		return new ResponseEntity<String>(
+				"Accepted The request was accepted for processing, but the  processing has not been completed.",
+				HttpStatus.ACCEPTED);
 	}
 
-	@PostMapping(value = "/terminate")
-	public ResponseEntity<String> terminate(@RequestBody final JujuCloud jCloud) {
-		LOG.info("Juju terminating...");
-//		if (!remoteService.removeApplication("charm").getStatusCode().is2xxSuccessful()) throw new Exception("Error Removing Charm"); //No needed as will be removed by Controller
-//		if (!remoteService.removeModel("modelName").getStatusCode().is2xxSuccessful()) throw new Exception("Error Removing Model"); //No needed as will be removed by Controller
-		if (!remoteService.removeController(jCloud.getMetadata().getName()).getStatusCode().is2xxSuccessful()) {
-			throw new GenericException("Error Removing Controller");
+	@GetMapping(value = "/checkstatus/{cloudname}/{credname}/{controllername}/{modelname}/{name}")
+	public ResponseEntity<String> checkstatus(@PathVariable("cloudname") @NotNull final String cloudname,
+			@PathVariable("credname") @NotNull final String credname,
+			@PathVariable("controllername") @NotNull final String controllername,
+			@PathVariable("modelname") @NotNull final String modelname,
+			@PathVariable("name") @NotNull final String name) {
+
+		LOG.info("Juju checking status...");
+		ResponseEntity<String> responseobject = remoteService.cloudDetail(cloudname);
+		if (responseobject.getBody() != null && !(responseobject.getBody().contains("ERROR"))) {
+			responseobject = remoteService.credentialDetails(cloudname, credname);
+			if (responseobject.getBody() != null && !(responseobject.getBody().contains("ERROR"))) {
+				responseobject = remoteService.controllerDetail(controllername);
+				if (responseobject.getBody() != null && !(responseobject.getBody().contains("ERROR"))) {
+					responseobject = remoteService.modelDetail(modelname);
+					if (responseobject.getBody() != null && !(responseobject.getBody().contains("ERROR"))) {
+						responseobject = remoteService.application(name);
+						if (responseobject.getBody() != null && !(responseobject.getBody().contains("ERROR"))) {
+							return ResponseEntity.ok("Cloud : " + cloudname + "\n Credentail : " + credname
+									+ "\n Controller : " + controllername + "\n Model : " + modelname
+									+ "\n Application : " + name + "      are Successfully added");
+						}
+					}
+				}
+			}
 		}
-		if (!remoteService.removeCredential(jCloud.getName(), jCloud.getCredential().getName()).getStatusCode().is2xxSuccessful()) {
-			throw new GenericException("Error Removing Credential");
-		}
-		if (!remoteService.removeCloud(jCloud.getName()).getStatusCode().is2xxSuccessful()) {
-			throw new GenericException("Error Removing Cloud");
-		}
-		return ResponseEntity.ok("Success");
+		return new ResponseEntity<String>(responseobject.getBody(), HttpStatus.NOT_FOUND);
 	}
 
+	@PostMapping(value = "/terminate/{controllername}")
+	public ResponseEntity<String> terminate(@PathVariable("controllername") @NotNull final String controllername) {
+		ResponseEntity<String> responseobject = remoteService.controllerDetail(controllername);
+		if (responseobject.getBody() != null && !(responseobject.getBody().contains("ERROR"))) {
+			LOG.info("Juju terminating...");		
+			eventManager.sendActionVnfm(ActionType.VNF_JUJU_TERMINATE, UUID.randomUUID(), new HashMap<>());
+			//	eventManager.sendAction(ActionType.VNF_JUJU_TERMINATE, jClouds.get(0).getId());
+			return new ResponseEntity<String>(
+					"Accepted The request was accepted for processing, but the  processing has not been completed.",
+					HttpStatus.ACCEPTED);
+		} else {
+			return new ResponseEntity<String>(responseobject.getBody(), HttpStatus.NOT_FOUND);
+		}
+	}
 }
