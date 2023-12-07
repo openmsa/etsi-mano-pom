@@ -13,15 +13,12 @@
 	<packaging>war</packaging>
 	<name>vnfm-webapp</name>
 	<description>VNFM webapp Spring Boot</description>
-	<properties>
-		<spring-cloud.version>2022.0.4</spring-cloud.version>
-	</properties>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>${spring-cloud.version}</version>
+				<version>${com.ubiqube.spring-cloud-dependencies.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
