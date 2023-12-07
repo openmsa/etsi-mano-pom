@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.ubiqube.mano</groupId>
 		<artifactId>mano-super-pom</artifactId>
-		<version>3.2.1-SNAPSHOT</version>
+		<version>3.2.2-SNAPSHOT</version>
 		<relativePath />
 	</parent>
 	<artifactId>bean-walker</artifactId>
@@ -27,7 +27,7 @@
 		<dependency>
 			<groupId>com.ubiqube.mano.event</groupId>
 			<artifactId>event-api</artifactId>
-			<version>${project.version}</version>
+			<version>${version.event-api}</version>
 		</dependency>
 		<dependency>
 			<groupId>ma.glasnost.orika</groupId>
