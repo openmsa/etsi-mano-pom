@@ -24,6 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.core.MethodParameter;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
@@ -36,7 +37,8 @@ class ManoControllerAdviceTest {
 	void test() {
 		final ManoControllerAdvice c = new ManoControllerAdvice();
 		final Method m = this.getClass().getMethods()[0];
-		final MethodArgumentNotValidException ex = new MethodArgumentNotValidException(m, bindingResult);
+		final MethodParameter mp = new MethodParameter(m, 0);
+		final MethodArgumentNotValidException ex = new MethodArgumentNotValidException(mp, bindingResult);
 		c.handleValidationExceptions(ex);
 		assertTrue(true);
 	}
