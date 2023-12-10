@@ -63,7 +63,7 @@
 		<brave.version>5.16.0</brave.version>
 		<version.alarm-client>3.2.0</version.alarm-client>
 		<version.auth-api>3.2.1-SNAPSHOT</version.auth-api>
-		<version.em-client>3.2.0</version.em-client>
+		<version.em-client>3.2.2-SNAPSHOT</version.em-client>
 		<version.em-front-controller>3.2.0</version.em-front-controller>
 		<version.etsi-model-431>3.2.0</version.etsi-model-431>
 		<version.etsi-protocols>3.2.0</version.etsi-protocols>
@@ -75,15 +75,15 @@
 		<version.mano-condition>3.2.1</version.mano-condition>
 		<version.mano-core-api>3.2.2-SNAPSHOT</version.mano-core-api>
 		<version.mano-docker-api>3.2.2-SNAPSHOT</version.mano-docker-api>
-		<version.mano-fluxrest>3.2.0</version.mano-fluxrest>
+		<version.mano-fluxrest>3.2.2-SNAPSHOT</version.mano-fluxrest>
 		<version.mano-grammar-api>4.0.0</version.mano-grammar-api>
 		<version.mano-model>3.2.2-SNAPSHOT</version.mano-model>
 		<version.mano-mon-api>3.2.0</version.mano-mon-api>
-		<version.mano-orika>3.2.0</version.mano-orika>
+		<version.mano-orika>3.2.2-SNAPSHOT</version.mano-orika>
 		<version.mano-pkg-api>3.2.2-SNAPSHOT</version.mano-pkg-api>
 		<version.mano-repo-api>3.2.0</version.mano-repo-api>
 		<version.mano-spring-properties>3.2.0</version.mano-spring-properties>
-		<version.mano-vim-api>3.2.1</version.mano-vim-api>
+		<version.mano-vim-api>3.2.2-SNAPSHOT</version.mano-vim-api>
 		<version.nfv-front-controller>3.2.0</version.nfv-front-controller>
 		<version.nfvo-core>3.2.2-SNAPSHOT</version.nfvo-core>
 		<version.nfvo-front-controller>3.2.0</version.nfvo-front-controller>
@@ -91,7 +91,7 @@
 		<version.orchestration-api>3.2.2-SNAPSHOT</version.orchestration-api>
 		<version.orchestration-core>3.2.2-SNAPSHOT</version.orchestration-core>
 		<version.search-api>3.2.1</version.search-api>
-		<version.small-db>3.2.1</version.small-db>
+		<version.small-db>3.2.2-SNAPSHOT</version.small-db>
 		<version.sol001-objects>2.1.0</version.sol001-objects>
 		<version.tosca-api>2.1.0</version.tosca-api>
 		<version.tosca-test-utils>2.1.0</version.tosca-test-utils>
@@ -307,6 +307,11 @@
 			<dependency>
 				<groupId>org.wiremock</groupId>
 				<artifactId>wiremock</artifactId>
+				<version>${com.ubiqube.wiremock3.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.wiremock</groupId>
+				<artifactId>wiremock-standalone</artifactId>
 				<version>${com.ubiqube.wiremock3.version}</version>
 			</dependency>
 			<dependency>
