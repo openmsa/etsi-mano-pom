@@ -4,25 +4,23 @@
 	<parent>
 		<groupId>com.ubiqube.mano</groupId>
 		<artifactId>mano-super-webapp</artifactId>
-		<version>3.2.0</version>
+		<version>3.2.2-SNAPSHOT</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ubiqube.mano.service.mon</groupId>
 	<artifactId>mano-mon-webapp</artifactId>
-  <version>3.2.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>mano-mon-webapp</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
-		<spring-cloud-dependencies.version>2022.0.1</spring-cloud-dependencies.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>${spring-cloud-dependencies.version}</version>
+				<version>${com.ubiqube.spring-cloud-dependencies.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
