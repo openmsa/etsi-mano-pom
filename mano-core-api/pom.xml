@@ -12,17 +12,6 @@
 	<artifactId>mano-core-api</artifactId>
 	<name>mano-core-api</name>
 	<description>ETSI MANO Core API for NFV</description>
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-bom</artifactId>
-				<version>11.0.18</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
 	<dependencies>
 		<dependency>
 			<groupId>jakarta.validation</groupId>
@@ -318,7 +307,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.wiremock</groupId>
-			<artifactId>wiremock</artifactId>
+			<artifactId>wiremock-standalone</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
