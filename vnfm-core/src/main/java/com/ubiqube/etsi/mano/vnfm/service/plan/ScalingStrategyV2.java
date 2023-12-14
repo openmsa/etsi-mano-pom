@@ -34,6 +34,8 @@ import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.service.NsScaleType;
 
+import jakarta.annotation.Nullable;
+
 /**
  *
  * @author Olivier Vignaud {@literal <ovi@ubiqube.com>}
@@ -48,7 +50,7 @@ public class ScalingStrategyV2 implements ScalingStrategy {
 	}
 
 	@Override
-	public NumberOfCompute getNumberOfCompute(final VnfBlueprint blueprint, final VnfPackage bundle, final Set<ScaleInfo> scaling, final VnfCompute compute, final VnfInstance instance) {
+	public NumberOfCompute getNumberOfCompute(final VnfBlueprint blueprint, final VnfPackage bundle, final @Nullable Set<ScaleInfo> scaling, final VnfCompute compute, final VnfInstance instance) {
 		if (blueprint.getOperation() == PlanOperationType.INSTANTIATE) {
 			return handleInstantiate(blueprint, bundle, compute);
 		}
@@ -110,7 +112,7 @@ public class ScalingStrategyV2 implements ScalingStrategy {
 		if (null != params.getAspectId()) {
 			return NsScaleType.NS_SCALE_STEP;
 		}
-		if (null != params.getScaleStatus()) {
+		if ((null != params.getScaleStatus()) && !params.getScaleStatus().isEmpty()) {
 			return NsScaleType.NS_SCALE_LEVEL_INST_LEVEL;
 		}
 		throw new GenericException("Unknown scaling mode.");
