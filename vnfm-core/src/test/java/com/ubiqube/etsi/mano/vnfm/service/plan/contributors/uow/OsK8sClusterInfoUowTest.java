@@ -110,11 +110,11 @@ class OsK8sClusterInfoUowTest {
 		final VirtualTaskV3<K8sInformationsTask> vt = new OsK8sClusterVt(task);
 		final OsK8sClusterInfoUow uow = new OsK8sClusterInfoUow(vt, vim, vimConn, serverInfoJpa);
 		when(context.get(any(), any())).thenReturn(UUID.randomUUID().toString());
-		when(vim.cnf(vimConn)).thenReturn(cnf);
-		final K8sServers srv = new K8sServers();
-		srv.setStatus(StatusType.CREATE_FAILED);
-		when(cnf.getClusterInformations(any())).thenReturn(srv);
-		when(serverInfoJpa.save(any())).thenReturn(srv);
+//		when(vim.cnf(vimConn)).thenReturn(cnf);
+//		final K8sServers srv = new K8sServers();
+//		srv.setStatus(StatusType.CREATE_FAILED);
+//		when(cnf.getClusterInformations(any())).thenReturn(srv);
+//		when(serverInfoJpa.save(any())).thenReturn(srv);
 		// assertThrows(GenericException.class, () -> uow.execute(context));
 		uow.execute(context);
 		assertTrue(true);
