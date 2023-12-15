@@ -29,6 +29,7 @@ import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainer;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerTask;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.vim.vnfi.CnfInformations;
+import com.ubiqube.etsi.mano.dao.mano.vim.vnfi.JujuInformations;
 import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.JujuCloudService;
@@ -68,6 +69,9 @@ class OsContainerUowTest {
 		final OsContainerTask task = new OsContainerTask();
 		final VirtualTaskV3<OsContainerTask> vt = new OsContainerVt(task);
 		final VimConnectionInformation vimConn = new VimConnectionInformation();
+		final JujuInformations juju = new JujuInformations();
+		juju.setRegion("region");
+		vimConn.setJujuInfo(juju);
 		final OsContainerUow uow = new OsContainerUow(vt, vim, vimConn, jujuCloudService);
 		when(vim.cnf(vimConn)).thenReturn(cnf);
 		uow.rollback(context);
