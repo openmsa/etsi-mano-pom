@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.0</version>
+		<version>3.2.1</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ubiqube.mano</groupId>
@@ -78,7 +78,7 @@
 		<version.mano-fluxrest>3.2.2-SNAPSHOT</version.mano-fluxrest>
 		<version.mano-grammar-api>4.0.0</version.mano-grammar-api>
 		<version.mano-model>3.2.2-SNAPSHOT</version.mano-model>
-		<version.mano-mon-api>3.2.0</version.mano-mon-api>
+		<version.mano-mon-api>3.2.2-SNAPSHOT</version.mano-mon-api>
 		<version.mano-orika>3.2.2-SNAPSHOT</version.mano-orika>
 		<version.mano-pkg-api>3.2.2-SNAPSHOT</version.mano-pkg-api>
 		<version.mano-repo-api>3.2.0</version.mano-repo-api>
