@@ -62,7 +62,7 @@
 		<version.jetty-bom>11.0.18</version.jetty-bom>
 		<brave.version>5.16.0</brave.version>
 		<version.alarm-client>3.2.0</version.alarm-client>
-		<version.auth-api>3.2.1-SNAPSHOT</version.auth-api>
+		<version.auth-api>3.2.2-SNAPSHOT</version.auth-api>
 		<version.em-client>3.2.2-SNAPSHOT</version.em-client>
 		<version.em-front-controller>3.2.0</version.em-front-controller>
 		<version.etsi-model-431>3.2.0</version.etsi-model-431>
@@ -96,7 +96,7 @@
 		<version.tosca-api>2.1.0</version.tosca-api>
 		<version.tosca-test-utils>2.1.0</version.tosca-test-utils>
 		<version.ubi-juniper-contrail-api>4.0.0</version.ubi-juniper-contrail-api>
-		<version.ubi-spring-config>3.2.0</version.ubi-spring-config>
+		<version.ubi-spring-config>3.2.2-SNAPSHOT</version.ubi-spring-config>
 		<version.vnfm-core>3.2.2-SNAPSHOT</version.vnfm-core>
 		<version.vnfm-front-controller>3.2.0</version.vnfm-front-controller>
 	</properties>
