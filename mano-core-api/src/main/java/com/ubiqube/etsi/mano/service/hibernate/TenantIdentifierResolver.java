@@ -19,7 +19,7 @@ package com.ubiqube.etsi.mano.service.hibernate;
 import java.util.Map;
 import java.util.Optional;
 
-import org.hibernate.cfg.AvailableSettings;
+import org.hibernate.cfg.MultiTenancySettings;
 import org.hibernate.context.spi.CurrentTenantIdentifierResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,13 +29,13 @@ import org.springframework.stereotype.Component;
 import com.ubiqube.etsi.mano.auth.config.TenantHolder;
 
 @Component
-public class TenantIdentifierResolver implements CurrentTenantIdentifierResolver, HibernatePropertiesCustomizer {
+public class TenantIdentifierResolver implements CurrentTenantIdentifierResolver<String>, HibernatePropertiesCustomizer {
 
 	private static final Logger LOG = LoggerFactory.getLogger(TenantIdentifierResolver.class);
 
 	@Override
 	public void customize(final Map<String, Object> hibernateProperties) {
-		hibernateProperties.put(AvailableSettings.MULTI_TENANT_IDENTIFIER_RESOLVER, this);
+		hibernateProperties.put(MultiTenancySettings.MULTI_TENANT_IDENTIFIER_RESOLVER, this);
 	}
 
 	@Override
