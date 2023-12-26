@@ -69,7 +69,7 @@ public class ManoSearchResponseServiceImpl implements ManoSearchResponseService 
 		final MultiValueMap<String, String> params = Optional.ofNullable(parameters).orElse(new LinkedMultiValueMap<>());
 		checkParameters(params);
 		final List<String> fields = params.get("fields");
-		final List<String> excludeFields = params.get("excluse_fields");
+		final List<String> excludeFields = params.get("exclude_fields");
 		final boolean haveDefaultFields = params.containsKey("exclude_default");
 		final boolean allFields = params.containsKey("all_fields");
 		final List<U> vnfPkginfos = list.stream()
