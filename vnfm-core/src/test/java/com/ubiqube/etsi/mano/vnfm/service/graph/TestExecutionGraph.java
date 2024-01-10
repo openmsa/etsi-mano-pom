@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.vnfm.service.graph;
 
 import com.ubiqube.etsi.mano.orchestrator.ExecutionGraph;
+import com.ubiqube.etsi.mano.orchestrator.dump.ExecutionResult;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
 
 public class TestExecutionGraph implements ExecutionGraph {
@@ -28,9 +29,9 @@ public class TestExecutionGraph implements ExecutionGraph {
 	}
 
 	@Override
-	public void dump() {
+	public ExecutionResult dump() {
 		// TODO Auto-generated method stub
-
+		return null;
 	}
 
 }

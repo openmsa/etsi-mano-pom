@@ -35,10 +35,12 @@ import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.v2.ComputeTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.PlanOperationType;
+import com.ubiqube.etsi.mano.dao.mano.v2.Task;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.orchestrator.OrchExecutionResults;
+import com.ubiqube.etsi.mano.orchestrator.Planner;
 import com.ubiqube.etsi.mano.service.VimResourceService;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
@@ -68,10 +70,16 @@ class VnfmActionsTest {
 	private VnfInstanceServiceVnfm vnfInstanceServiceVnfm;
 	@Mock
 	private VnfWorkflow workflow;
+	@Mock
+	private Planner<Task> planner;
+
+	private VnfmActions createService() {
+		return new VnfmActions(vimManager, orchestrationAdapter, vnfInstanceService, blueprintService, vimResourceService, vnfLiveInstance, vnfInstanceServiceVnfm, workflow, planner);
+	}
 
 	@Test
 	void test() {
-		final VnfmActions srv = new VnfmActions(vimManager, orchestrationAdapter, vnfInstanceService, blueprintService, vimResourceService, vnfLiveInstance, vnfInstanceServiceVnfm, workflow);
+		final VnfmActions srv = createService();
 		final UUID id = UUID.randomUUID();
 		final VnfBlueprint value = new VnfBlueprint();
 		final VnfInstance vnfInst = new VnfInstance();
@@ -86,7 +94,7 @@ class VnfmActionsTest {
 
 	@Test
 	void test_Instantiate() {
-		final VnfmActions srv = new VnfmActions(vimManager, orchestrationAdapter, vnfInstanceService, blueprintService, vimResourceService, vnfLiveInstance, vnfInstanceServiceVnfm, workflow);
+		final VnfmActions srv = createService();
 		final UUID id = UUID.randomUUID();
 		final VnfBlueprint value = TestFactory.createBlueprint();
 		final VnfInstance vnfInst = TestFactory.createVnfInstance();
@@ -110,7 +118,7 @@ class VnfmActionsTest {
 
 	@Test
 	void testOperateStop() {
-		final VnfmActions srv = new VnfmActions(vimManager, orchestrationAdapter, vnfInstanceService, blueprintService, vimResourceService, vnfLiveInstance, vnfInstanceServiceVnfm, workflow);
+		final VnfmActions srv = createService();
 		final UUID id = UUID.randomUUID();
 		final VnfBlueprint blueprint = TestFactory.createBlueprint();
 		final VnfTask vnfTask = new ComputeTask();
@@ -129,7 +137,7 @@ class VnfmActionsTest {
 
 	@Test
 	void testOperateStart() {
-		final VnfmActions srv = new VnfmActions(vimManager, orchestrationAdapter, vnfInstanceService, blueprintService, vimResourceService, vnfLiveInstance, vnfInstanceServiceVnfm, workflow);
+		final VnfmActions srv = createService();
 		final UUID id = UUID.randomUUID();
 		final VnfBlueprint blueprint = TestFactory.createBlueprint();
 		final VnfTask vnfTask = new ComputeTask();
@@ -149,7 +157,7 @@ class VnfmActionsTest {
 
 	@Test
 	void testOperateEmptyTasks() {
-		final VnfmActions srv = new VnfmActions(vimManager, orchestrationAdapter, vnfInstanceService, blueprintService, vimResourceService, vnfLiveInstance, vnfInstanceServiceVnfm, workflow);
+		final VnfmActions srv = createService();
 		final UUID id = UUID.randomUUID();
 		final VnfBlueprint blueprint = TestFactory.createBlueprint();
 		final VnfInstance inst = TestFactory.createVnfInstance();
@@ -164,7 +172,7 @@ class VnfmActionsTest {
 
 	@Test
 	void testOperateFailed() {
-		final VnfmActions srv = new VnfmActions(vimManager, orchestrationAdapter, vnfInstanceService, blueprintService, vimResourceService, vnfLiveInstance, vnfInstanceServiceVnfm, workflow);
+		final VnfmActions srv = createService();
 		final UUID id = UUID.randomUUID();
 		final VnfBlueprint blueprint = TestFactory.createBlueprint();
 		final VnfInstance inst = new VnfInstance();
@@ -177,7 +185,7 @@ class VnfmActionsTest {
 
 	@Test
 	void testVnfHeal() {
-		final VnfmActions srv = new VnfmActions(vimManager, orchestrationAdapter, vnfInstanceService, blueprintService, vimResourceService, vnfLiveInstance, vnfInstanceServiceVnfm, workflow);
+		final VnfmActions srv = createService();
 		final UUID id = UUID.randomUUID();
 		final VnfBlueprint blueprint = TestFactory.createBlueprint();
 		final VnfInstance inst = TestFactory.createVnfInstance();
@@ -197,7 +205,7 @@ class VnfmActionsTest {
 
 	@Test
 	void testVnfHealFailed() {
-		final VnfmActions srv = new VnfmActions(vimManager, orchestrationAdapter, vnfInstanceService, blueprintService, vimResourceService, vnfLiveInstance, vnfInstanceServiceVnfm, workflow);
+		final VnfmActions srv = createService();
 		final UUID id = UUID.randomUUID();
 		final VnfBlueprint blueprint = TestFactory.createBlueprint();
 		final VnfInstance inst = TestFactory.createVnfInstance();
