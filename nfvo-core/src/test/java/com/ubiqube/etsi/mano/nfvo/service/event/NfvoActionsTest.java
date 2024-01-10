@@ -41,6 +41,7 @@ import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.v2.BlueprintParameters;
 import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
+import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVnfInstantiateTask;
@@ -49,6 +50,7 @@ import com.ubiqube.etsi.mano.nfvo.service.NsInstanceService;
 import com.ubiqube.etsi.mano.nfvo.service.graph.NfvoOrchestrationV3;
 import com.ubiqube.etsi.mano.nfvo.service.graph.NsOrchestrationAdapter;
 import com.ubiqube.etsi.mano.orchestrator.OrchExecutionResults;
+import com.ubiqube.etsi.mano.orchestrator.Planner;
 import com.ubiqube.etsi.mano.service.NsScaleStrategyV3;
 import com.ubiqube.etsi.mano.service.VimResourceService;
 import com.ubiqube.etsi.mano.service.VnfInstanceGatewayService;
@@ -79,9 +81,16 @@ class NfvoActionsTest {
 	@Mock
 	private ManoVnfInstanceId manoCliVnfInst;
 
+	@Mock
+	private Planner<VnfTask> planner;
+
+	private NfvoActions createService() {
+		return new NfvoActions(workflow, vimResource, orchAdapter, nsScaling, blueprintService, nsInstanceService, vnfInstanceService, manoClientFactory, planner);
+	}
+
 	@Test
 	void testInstantiate00() {
-		final NfvoActions na = new NfvoActions(workflow, vimResource, orchAdapter, nsScaling, blueprintService, nsInstanceService, vnfInstanceService, manoClientFactory);
+		final NfvoActions na = createService();
 		final UUID id = UUID.randomUUID();
 		final NsBlueprint blueprint = new NsBlueprint();
 		final NsdInstance nsInstance = new NsdInstance();
@@ -96,7 +105,7 @@ class NfvoActionsTest {
 
 	@Test
 	void testHeal01() {
-		final NfvoActions na = new NfvoActions(workflow, vimResource, orchAdapter, nsScaling, blueprintService, nsInstanceService, vnfInstanceService, manoClientFactory);
+		final NfvoActions na = createService();
 		final UUID id = UUID.randomUUID();
 		final NsBlueprint blueprint = new NsBlueprint();
 		final NsdInstance nsInstance = new NsdInstance();
@@ -113,7 +122,7 @@ class NfvoActionsTest {
 
 	@Test
 	void testInstantiate() {
-		final NfvoActions na = new NfvoActions(workflow, vimResource, orchAdapter, nsScaling, blueprintService, nsInstanceService, vnfInstanceService, manoClientFactory);
+		final NfvoActions na = createService();
 		final UUID id = UUID.randomUUID();
 		final NsBlueprint blueprint = new NsBlueprint();
 		final NsdInstance nsInstance = new NsdInstance();
@@ -140,7 +149,7 @@ class NfvoActionsTest {
 	@ParameterizedTest
 	@MethodSource("providerClass")
 	void testParam(final args arg) {
-		final NfvoActions na = new NfvoActions(workflow, vimResource, orchAdapter, nsScaling, blueprintService, nsInstanceService, vnfInstanceService, manoClientFactory);
+		final NfvoActions na = createService();
 		final UUID id = UUID.randomUUID();
 		final NsBlueprint blueprint = new NsBlueprint();
 		final NsdInstance nsInstance = new NsdInstance();
@@ -175,7 +184,7 @@ class NfvoActionsTest {
 
 	@Test
 	void testHeal() throws Exception {
-		final NfvoActions na = new NfvoActions(workflow, vimResource, orchAdapter, nsScaling, blueprintService, nsInstanceService, vnfInstanceService, manoClientFactory);
+		final NfvoActions na = createService();
 		final UUID id = UUID.randomUUID();
 		final NsBlueprint blueprint = new NsBlueprint();
 		final NsdInstance inst = new NsdInstance();
