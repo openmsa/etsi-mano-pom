@@ -32,12 +32,17 @@ import com.ubiqube.etsi.mano.dao.mano.PackageBase;
 import com.ubiqube.etsi.mano.dao.mano.ScaleInfo;
 import com.ubiqube.etsi.mano.dao.mano.ScaleTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.VimTask;
+import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.PlanOperationType;
 import com.ubiqube.etsi.mano.dao.mano.v2.Task;
+import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
+import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
 import com.ubiqube.etsi.mano.dao.rfc7807.FailureDetails;
+import com.ubiqube.etsi.mano.orchestrator.ExecutionGraph;
 import com.ubiqube.etsi.mano.orchestrator.OrchExecutionResults;
+import com.ubiqube.etsi.mano.orchestrator.Planner;
 import com.ubiqube.etsi.mano.orchestrator.v3.PreExecutionGraphV3;
 import com.ubiqube.etsi.mano.service.NsScaleStrategyV3;
 import com.ubiqube.etsi.mano.service.VimResourceService;
@@ -60,15 +65,40 @@ public abstract class AbstractGenericActionV3 {
 
 	private final NsScaleStrategyV3 nsScaleStrategy;
 
-	protected AbstractGenericActionV3(final WorkflowV3 workflow, final VimResourceService vimResourceService, final OrchestrationAdapter<?, ?> orchestrationAdapter, final NsScaleStrategyV3 nsScaleStrategy) {
+	private final Planner<VnfTask> planv2;
+
+	protected AbstractGenericActionV3(final WorkflowV3 workflow, final VimResourceService vimResourceService, final OrchestrationAdapter<?, ?> orchestrationAdapter, final NsScaleStrategyV3 nsScaleStrategy,
+			final Planner<VnfTask> planv2) {
 		this.workflow = workflow;
 		this.vimResourceService = vimResourceService;
 		this.orchestrationAdapter = orchestrationAdapter;
 		this.nsScaleStrategy = nsScaleStrategy;
+		this.planv2 = planv2;
 	}
 
 	public final void instantiate(final UUID blueprintId) {
 		instantiateShield(blueprintId, WorkflowEvent.INSTANTIATE_SUCCESS, WorkflowEvent.INSTANTIATE_FAILED);
+	}
+
+	public ExecutionGraph getExecutionGraph(final VnfInstance vnfInstance) {
+		final VnfBlueprint blueprint = new VnfBlueprint();
+		blueprint.setVnfInstance(vnfInstance);
+		blueprint.setVimConnections(vnfInstance.getVimConnectionInfo());
+		if (null == blueprint.getParameters().getInstantiationLevelId()) {
+			blueprint.getParameters().setInstantiationLevelId(vnfInstance.getInstantiatedVnfInfo().getInstantiationLevelId());
+		}
+		final PackageBase vnfPkg = orchestrationAdapter.getPackage(vnfInstance);
+		final Set<ScaleInfo> newScale = merge(blueprint, vnfInstance);
+		blueprint.getParameters().setScaleStatus(newScale);
+		final PreExecutionGraphV3<VnfTask> prePlan = workflow.setWorkflowBlueprint(vnfPkg, blueprint);
+		//
+		workflow.refresh(prePlan, blueprint);
+		blueprint.getTasks().forEach(x -> {
+			if (Optional.ofNullable(x.getVimConnectionId()).isEmpty()) {
+				x.setVimConnectionId(vnfInstance.getVimConnectionInfo().iterator().next().getVimId());
+			}
+		});
+		return planv2.implement(prePlan);
 	}
 
 	private final void instantiateInnerv2(final Blueprint<? extends VimTask, ? extends Instance> blueprint, final Instance vnfInstance) {
@@ -189,11 +219,11 @@ public abstract class AbstractGenericActionV3 {
 	}
 
 	public final void jujuInstantiate(final UUID blueprintId) {
-		
+
 	}
 
 	public final void jujuTerminate(final UUID blueprintId) {
-		
+
 	}
 
 	private void instantiateShield(final UUID blueprintId, final WorkflowEvent success, final WorkflowEvent failure) {

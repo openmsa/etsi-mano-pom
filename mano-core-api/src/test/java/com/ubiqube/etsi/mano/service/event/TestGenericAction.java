@@ -24,7 +24,7 @@ import com.ubiqube.etsi.mano.service.VimResourceService;
 public class TestGenericAction extends AbstractGenericActionV3 {
 
 	protected TestGenericAction(final WorkflowV3 workflow, final VimResourceService vimResourceService, final OrchestrationAdapter<?, ?> orchestrationAdapter, final NsScaleStrategyV3 nsScaleStrategy) {
-		super(workflow, vimResourceService, orchestrationAdapter, nsScaleStrategy);
+		super(workflow, vimResourceService, orchestrationAdapter, nsScaleStrategy, null);
 		// TODO Auto-generated constructor stub
 	}
 
