@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 
 import com.ubiqube.etsi.mano.dao.mano.ChangeType;
 import com.ubiqube.etsi.mano.dao.mano.Instance;
+import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.PackageBase;
 import com.ubiqube.etsi.mano.dao.mano.ScaleInfo;
 import com.ubiqube.etsi.mano.dao.mano.ScaleTypeEnum;
@@ -38,7 +39,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.PlanOperationType;
 import com.ubiqube.etsi.mano.dao.mano.v2.Task;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
-import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
+import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 import com.ubiqube.etsi.mano.dao.rfc7807.FailureDetails;
 import com.ubiqube.etsi.mano.orchestrator.ExecutionGraph;
 import com.ubiqube.etsi.mano.orchestrator.OrchExecutionResults;
@@ -65,10 +66,10 @@ public abstract class AbstractGenericActionV3 {
 
 	private final NsScaleStrategyV3 nsScaleStrategy;
 
-	private final Planner<VnfTask> planv2;
+	private final Planner<Task> planv2;
 
 	protected AbstractGenericActionV3(final WorkflowV3 workflow, final VimResourceService vimResourceService, final OrchestrationAdapter<?, ?> orchestrationAdapter, final NsScaleStrategyV3 nsScaleStrategy,
-			final Planner<VnfTask> planv2) {
+			final Planner<Task> planv2) {
 		this.workflow = workflow;
 		this.vimResourceService = vimResourceService;
 		this.orchestrationAdapter = orchestrationAdapter;
@@ -80,9 +81,13 @@ public abstract class AbstractGenericActionV3 {
 		instantiateShield(blueprintId, WorkflowEvent.INSTANTIATE_SUCCESS, WorkflowEvent.INSTANTIATE_FAILED);
 	}
 
-	public ExecutionGraph getExecutionGraph(final VnfInstance vnfInstance) {
-		final VnfBlueprint blueprint = new VnfBlueprint();
-		blueprint.setVnfInstance(vnfInstance);
+	public ExecutionGraph getExecutionGraph(final NsdInstance vnfInstance) {
+		final NsBlueprint blueprint = new NsBlueprint();
+		blueprint.setNsInstance(vnfInstance);
+		return getExecutionGraph(vnfInstance, blueprint);
+	}
+
+	public ExecutionGraph getExecutionGraph(final Instance vnfInstance, final Blueprint<? extends VimTask, ? extends Instance> blueprint) {
 		blueprint.setVimConnections(vnfInstance.getVimConnectionInfo());
 		if (null == blueprint.getParameters().getInstantiationLevelId()) {
 			blueprint.getParameters().setInstantiationLevelId(vnfInstance.getInstantiatedVnfInfo().getInstantiationLevelId());
@@ -90,7 +95,7 @@ public abstract class AbstractGenericActionV3 {
 		final PackageBase vnfPkg = orchestrationAdapter.getPackage(vnfInstance);
 		final Set<ScaleInfo> newScale = merge(blueprint, vnfInstance);
 		blueprint.getParameters().setScaleStatus(newScale);
-		final PreExecutionGraphV3<VnfTask> prePlan = workflow.setWorkflowBlueprint(vnfPkg, blueprint);
+		final PreExecutionGraphV3<Task> prePlan = workflow.setWorkflowBlueprint(vnfPkg, blueprint);
 		//
 		workflow.refresh(prePlan, blueprint);
 		blueprint.getTasks().forEach(x -> {
@@ -99,6 +104,12 @@ public abstract class AbstractGenericActionV3 {
 			}
 		});
 		return planv2.implement(prePlan);
+	}
+
+	public ExecutionGraph getExecutionGraph(final VnfInstance vnfInstance) {
+		final VnfBlueprint blueprint = new VnfBlueprint();
+		blueprint.setVnfInstance(vnfInstance);
+		return getExecutionGraph(vnfInstance, blueprint);
 	}
 
 	private final void instantiateInnerv2(final Blueprint<? extends VimTask, ? extends Instance> blueprint, final Instance vnfInstance) {
