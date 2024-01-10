@@ -41,7 +41,7 @@ import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.v2.BlueprintParameters;
 import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
-import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
+import com.ubiqube.etsi.mano.dao.mano.v2.Task;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVnfInstantiateTask;
@@ -82,7 +82,7 @@ class NfvoActionsTest {
 	private ManoVnfInstanceId manoCliVnfInst;
 
 	@Mock
-	private Planner<VnfTask> planner;
+	private Planner<Task> planner;
 
 	private NfvoActions createService() {
 		return new NfvoActions(workflow, vimResource, orchAdapter, nsScaling, blueprintService, nsInstanceService, vnfInstanceService, manoClientFactory, planner);
@@ -176,10 +176,10 @@ class NfvoActionsTest {
 	@SuppressWarnings("null")
 	private static Stream<Arguments> providerClass() {
 		return Stream.of(
-				Arguments.of(args.of((na, id) -> na.instantiate(id))),
-				Arguments.of(args.of((na, id) -> na.terminate(id))),
-				Arguments.of(args.of((na, id) -> na.scale(id))),
-				Arguments.of(args.of((na, id) -> na.scaleToLevel(id))));
+				Arguments.of(args.of(NfvoActions::instantiate)),
+				Arguments.of(args.of(NfvoActions::terminate)),
+				Arguments.of(args.of(NfvoActions::scale)),
+				Arguments.of(args.of(NfvoActions::scaleToLevel)));
 	}
 
 	@Test

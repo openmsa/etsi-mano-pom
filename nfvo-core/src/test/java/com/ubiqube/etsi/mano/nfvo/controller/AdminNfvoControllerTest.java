@@ -35,8 +35,10 @@ import com.ubiqube.etsi.mano.dao.mano.NsLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
+import com.ubiqube.etsi.mano.nfvo.jpa.NsdInstanceJpa;
 import com.ubiqube.etsi.mano.nfvo.service.NsBlueprintService;
 import com.ubiqube.etsi.mano.nfvo.service.NsInstanceService;
+import com.ubiqube.etsi.mano.nfvo.service.event.NfvoActions;
 import com.ubiqube.etsi.mano.nfvo.service.graph.NsPlanService;
 import com.ubiqube.etsi.mano.nfvo.service.graph.TestNsTask;
 import com.ubiqube.etsi.mano.nfvo.service.pkg.ns.NsPackageManager;
@@ -61,10 +63,18 @@ class AdminNfvoControllerTest {
 	private NsInstanceService nsLiveInstanceJpa;
 	@Mock
 	private NsBlueprintService nsBluePrintJpa;
+	@Mock
+	private NfvoActions nfvoActions;
+	@Mock
+	private NsdInstanceJpa nsdInstanceJpa;
 
 	@Test
+	private AdminNfvoController createService() {
+		return new AdminNfvoController(packageManager, nsPkgOnboarding, nsPlanService, nsLiveInstanceJpa, nsBluePrintJpa, nfvoActions, nsdInstanceJpa);
+	}
+
 	void testGetDeployementPicture() {
-		final AdminNfvoController srv = new AdminNfvoController(packageManager, nsPkgOnboarding, nsPlanService, nsLiveInstanceJpa, nsBluePrintJpa);
+		final AdminNfvoController srv = createService();
 		final NsBlueprint nsBp = new NsBlueprint();
 		final TestNsTask t1 = new TestNsTask(ResourceTypeEnum.AFFINITY_RULE);
 		final TestNsTask t2 = new TestNsTask(ResourceTypeEnum.AFFINITY_RULE);
@@ -82,7 +92,7 @@ class AdminNfvoControllerTest {
 
 	@Test
 	void testGztNs2Plan() {
-		final AdminNfvoController srv = new AdminNfvoController(packageManager, nsPkgOnboarding, nsPlanService, nsLiveInstanceJpa, nsBluePrintJpa);
+		final AdminNfvoController srv = createService();
 		final ListenableGraph<Vertex2d, Edge2d> lg = Mockito.mock(ListenableGraph.class);
 		when(nsPlanService.getPlanFor(any())).thenReturn(lg);
 		srv.getNs2dPlan(null);
@@ -91,7 +101,7 @@ class AdminNfvoControllerTest {
 
 	@Test
 	void testValidateNs() {
-		final AdminNfvoController srv = new AdminNfvoController(packageManager, nsPkgOnboarding, nsPlanService, nsLiveInstanceJpa, nsBluePrintJpa);
+		final AdminNfvoController srv = createService();
 		final MultipartFile file = Mockito.mock(MultipartFile.class);
 		srv.validateNs(file);
 		assertTrue(true);
