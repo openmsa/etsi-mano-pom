@@ -27,4 +27,10 @@ public class TestExecutionGraph implements ExecutionGraph {
 
 	}
 
+	@Override
+	public void dump() {
+		// TODO Auto-generated method stub
+
+	}
+
 }
