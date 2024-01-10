@@ -27,7 +27,7 @@ import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.VimTask;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
-import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
+import com.ubiqube.etsi.mano.dao.mano.v2.Task;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVnfInstantiateTask;
 import com.ubiqube.etsi.mano.model.VnfHealRequest;
 import com.ubiqube.etsi.mano.nfvo.service.NsBlueprintService;
@@ -57,7 +57,7 @@ public class NfvoActions extends AbstractGenericActionV3 {
 
 	public NfvoActions(final NfvoOrchestrationV3 workflow, final VimResourceService vimResourceService, final NsOrchestrationAdapter orchestrationAdapter, final NsScaleStrategyV3 nsScaleStrategy,
 			final NsBlueprintService blueprintService, final NsInstanceService nsInstanceService, final VnfInstanceGatewayService vnfInstancesService, final ManoClientFactory manoClientFactory,
-			final Planner<VnfTask> planner) {
+			final Planner<Task> planner) {
 		super(workflow, vimResourceService, orchestrationAdapter, nsScaleStrategy, planner);
 		this.blueprintService = blueprintService;
 		this.nsInstanceService = nsInstanceService;

@@ -47,17 +47,22 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ubiqube.etsi.mano.dao.mano.NsLiveInstance;
+import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
 import com.ubiqube.etsi.mano.exception.GenericException;
+import com.ubiqube.etsi.mano.nfvo.jpa.NsdInstanceJpa;
 import com.ubiqube.etsi.mano.nfvo.service.NsBlueprintService;
 import com.ubiqube.etsi.mano.nfvo.service.NsInstanceService;
+import com.ubiqube.etsi.mano.nfvo.service.event.NfvoActions;
 import com.ubiqube.etsi.mano.nfvo.service.graph.NsPlanService;
 import com.ubiqube.etsi.mano.nfvo.service.pkg.ns.NsPackageManager;
 import com.ubiqube.etsi.mano.nfvo.service.pkg.ns.NsPackageOnboardingImpl;
 import com.ubiqube.etsi.mano.orchestrator.Edge2d;
+import com.ubiqube.etsi.mano.orchestrator.ExecutionGraph;
 import com.ubiqube.etsi.mano.orchestrator.Vertex2d;
+import com.ubiqube.etsi.mano.orchestrator.dump.ExecutionResult;
 import com.ubiqube.etsi.mano.orchestrator.nodes.ConnectivityEdge;
 import com.ubiqube.etsi.mano.repository.ByteArrayResource;
 import com.ubiqube.etsi.mano.repository.ManoResource;
@@ -79,14 +84,18 @@ public class AdminNfvoController {
 	private final NsPlanService nsPlanService;
 	private final NsInstanceService nsLiveInstanceService;
 	private final NsBlueprintService nsBlueprintJpa;
+	private final NfvoActions nfvoActions;
+	private final NsdInstanceJpa nsdInstanceJpa;
 
 	public AdminNfvoController(final NsPackageManager packageManager, final NsPackageOnboardingImpl nsPackageOnboardingImpl, final NsPlanService nsPlanService,
-			final NsInstanceService nsLiveInstanceJpa, final NsBlueprintService nsBlueprintJpa) {
+			final NsInstanceService nsLiveInstanceJpa, final NsBlueprintService nsBlueprintJpa, final NfvoActions nfvoActions, final NsdInstanceJpa nsdInstanceJpa) {
 		this.packageManager = packageManager;
 		this.nsPackageOnboardingImpl = nsPackageOnboardingImpl;
 		this.nsPlanService = nsPlanService;
 		this.nsLiveInstanceService = nsLiveInstanceJpa;
 		this.nsBlueprintJpa = nsBlueprintJpa;
+		this.nfvoActions = nfvoActions;
+		this.nsdInstanceJpa = nsdInstanceJpa;
 	}
 
 	@PostMapping(value = "/validate/ns", consumes = { "multipart/form-data" })
@@ -161,4 +170,10 @@ public class AdminNfvoController {
 		return VertexStatusType.FAILED;
 	}
 
+	@GetMapping("/ns-lcm/graph/{id}")
+	public ResponseEntity<ExecutionResult> getNsLcmGraph(@PathVariable("id") final UUID id) {
+		final Optional<NsdInstance> inst = nsdInstanceJpa.findById(id);
+		final ExecutionGraph res = nfvoActions.getExecutionGraph(inst.orElseThrow());
+		return ResponseEntity.ok(res.dump());
+	}
 }
