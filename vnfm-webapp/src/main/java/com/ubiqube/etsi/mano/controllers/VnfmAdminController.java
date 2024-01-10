@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
@@ -36,12 +37,17 @@ import com.ubiqube.etsi.mano.Constants;
 import com.ubiqube.etsi.mano.dao.mano.OnboardingStateType;
 import com.ubiqube.etsi.mano.dao.mano.PackageOperationalState;
 import com.ubiqube.etsi.mano.dao.mano.UsageStateEnum;
+import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+import com.ubiqube.etsi.mano.jpa.VnfInstanceJpa;
 import com.ubiqube.etsi.mano.jpa.VnfPackageJpa;
+import com.ubiqube.etsi.mano.orchestrator.ExecutionGraph;
+import com.ubiqube.etsi.mano.orchestrator.dump.ExecutionResult;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 import com.ubiqube.etsi.mano.service.event.ActionType;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.vnfm.dto.VnfPackageDto;
+import com.ubiqube.etsi.mano.vnfm.service.event.VnfmActions;
 
 import ma.glasnost.orika.MapperFacade;
 
@@ -52,13 +58,17 @@ public class VnfmAdminController {
 	private final VnfPackageRepository vnfPackageRepository;
 	private final EventManager eventManager;
 	private final MapperFacade mapper;
+	private final VnfmActions vnfmActions;
+	private final VnfInstanceJpa vnfInstanceJpa;
 
 	public VnfmAdminController(final VnfPackageJpa vnfPackageRepositoryJpa, final VnfPackageRepository vnfPackageRepository, final EventManager eventManager,
-			final MapperFacade mapper) {
+			final MapperFacade mapper, VnfmActions vnfmActions, VnfInstanceJpa vnfInstanceJpa) {
 		this.vnfPackageRepositoryJpa = vnfPackageRepositoryJpa;
 		this.vnfPackageRepository = vnfPackageRepository;
 		this.eventManager = eventManager;
 		this.mapper = mapper;
+		this.vnfmActions = vnfmActions;
+		this.vnfInstanceJpa = vnfInstanceJpa;
 	}
 
 	@DeleteMapping("/vnf-package/{vnfPkgId}")
@@ -86,4 +96,12 @@ public class VnfmAdminController {
 		eventManager.sendActionVnfm(ActionType.VNF_PKG_ONBOARD_DOWNLOAD_INSTANTIATE, ne.getId(), Map.of());
 		return ResponseEntity.ok(mapper.map(ne, VnfPackageDto.class));
 	}
+
+	@GetMapping("/vnf-lcm/graph/{id}")
+	public ResponseEntity<ExecutionResult> getVnfLcmGraph(@PathVariable("id") UUID id) {
+		final Optional<VnfInstance> inst = vnfInstanceJpa.findById(id);
+		ExecutionGraph res = vnfmActions.getExecutionGraph(inst.orElseThrow());
+		return ResponseEntity.ok(res.dump());
+	}
+
 }
