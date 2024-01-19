@@ -35,7 +35,6 @@ import com.ubiqube.etsi.mano.dao.mano.NsLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
-import com.ubiqube.etsi.mano.nfvo.jpa.NsdInstanceJpa;
 import com.ubiqube.etsi.mano.nfvo.service.NsBlueprintService;
 import com.ubiqube.etsi.mano.nfvo.service.NsInstanceService;
 import com.ubiqube.etsi.mano.nfvo.service.event.NfvoActions;
@@ -66,7 +65,7 @@ class AdminNfvoControllerTest {
 	@Mock
 	private NfvoActions nfvoActions;
 	@Mock
-	private NsdInstanceJpa nsdInstanceJpa;
+	private NsInstanceService nsdInstanceJpa;
 
 	@Test
 	private AdminNfvoController createService() {
