@@ -52,7 +52,6 @@ import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
 import com.ubiqube.etsi.mano.exception.GenericException;
-import com.ubiqube.etsi.mano.nfvo.jpa.NsdInstanceJpa;
 import com.ubiqube.etsi.mano.nfvo.service.NsBlueprintService;
 import com.ubiqube.etsi.mano.nfvo.service.NsInstanceService;
 import com.ubiqube.etsi.mano.nfvo.service.event.NfvoActions;
@@ -85,17 +84,17 @@ public class AdminNfvoController {
 	private final NsInstanceService nsLiveInstanceService;
 	private final NsBlueprintService nsBlueprintJpa;
 	private final NfvoActions nfvoActions;
-	private final NsdInstanceJpa nsdInstanceJpa;
+	private final NsInstanceService nsdInstanceService;
 
 	public AdminNfvoController(final NsPackageManager packageManager, final NsPackageOnboardingImpl nsPackageOnboardingImpl, final NsPlanService nsPlanService,
-			final NsInstanceService nsLiveInstanceJpa, final NsBlueprintService nsBlueprintJpa, final NfvoActions nfvoActions, final NsdInstanceJpa nsdInstanceJpa) {
+			final NsInstanceService nsLiveInstanceJpa, final NsBlueprintService nsBlueprintJpa, final NfvoActions nfvoActions, final NsInstanceService nsdInstanceService) {
 		this.packageManager = packageManager;
 		this.nsPackageOnboardingImpl = nsPackageOnboardingImpl;
 		this.nsPlanService = nsPlanService;
 		this.nsLiveInstanceService = nsLiveInstanceJpa;
 		this.nsBlueprintJpa = nsBlueprintJpa;
 		this.nfvoActions = nfvoActions;
-		this.nsdInstanceJpa = nsdInstanceJpa;
+		this.nsdInstanceService = nsdInstanceService;
 	}
 
 	@PostMapping(value = "/validate/ns", consumes = { "multipart/form-data" })
@@ -172,8 +171,8 @@ public class AdminNfvoController {
 
 	@GetMapping("/ns-lcm/graph/{id}")
 	public ResponseEntity<ExecutionResult> getNsLcmGraph(@PathVariable("id") final UUID id) {
-		final Optional<NsdInstance> inst = nsdInstanceJpa.findById(id);
-		final ExecutionGraph res = nfvoActions.getExecutionGraph(inst.orElseThrow());
+		final NsdInstance inst = nsdInstanceService.findById(id);
+		final ExecutionGraph res = nfvoActions.getExecutionGraph(inst);
 		return ResponseEntity.ok(res.dump());
 	}
 }
