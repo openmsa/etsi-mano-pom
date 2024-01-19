@@ -44,8 +44,6 @@
 		<com.ubiqube.guava.version>32.0.1-jre</com.ubiqube.guava.version>
 		<com.ubiqube.hibernate-search6.version>6.2.1.Final</com.ubiqube.hibernate-search6.version>
 		<com.ubiqube.jgrapht.version>1.5.2</com.ubiqube.jgrapht.version>
-		<!-- In use ? -->
-		<com.ubiqube.keycloak-spring-boot-starter.version>22.0.5</com.ubiqube.keycloak-spring-boot-starter.version>
 		<com.ubiqube.mockito.version>5.9.0</com.ubiqube.mockito.version>
 		<com.ubiqube.openstack4j.version>3.11</com.ubiqube.openstack4j.version>
 		<com.ubiqube.orika.version>1.5.8-SNAPSHOT</com.ubiqube.orika.version>
@@ -61,8 +59,6 @@
 		<version.commons-compress>1.25.0</version.commons-compress>
 		<!-- Deprecated ? -->
 		<version.javax.servlet-api>4.0.1</version.javax.servlet-api>
-		<!-- In use ? -->
-		<version.jetty-bom>11.0.19</version.jetty-bom>
 		<version.alarm-client>3.2.0</version.alarm-client>
 		<version.auth-api>3.2.2-SNAPSHOT</version.auth-api>
 		<version.em-client>3.2.2-SNAPSHOT</version.em-client>
@@ -275,11 +271,6 @@
 				<groupId>com.google.guava</groupId>
 				<artifactId>guava</artifactId>
 				<version>${com.ubiqube.guava.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.keycloak</groupId>
-				<artifactId>keycloak-spring-boot-starter</artifactId>
-				<version>${com.ubiqube.keycloak-spring-boot-starter.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>de.codecentric</groupId>
