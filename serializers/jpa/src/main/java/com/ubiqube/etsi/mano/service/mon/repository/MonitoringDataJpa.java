@@ -16,8 +16,8 @@
  */
 package com.ubiqube.etsi.mano.service.mon.repository;
 
-import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -30,7 +30,7 @@ import com.ubiqube.etsi.mano.service.mon.model.MonitoringData;
  * @author Olivier Vignaud {@literal <ovi@ubiqube.com>}
  *
  */
-public interface MonitoringDataJpa extends CrudRepository<MonitoringData, OffsetDateTime> {
+public interface MonitoringDataJpa extends CrudRepository<MonitoringData, UUID> {
 
 	@Query(value = """
 			select time , master_job_id as masterJobId, "key",value ,"text", resource_id as resourceId  from monitoring_data
