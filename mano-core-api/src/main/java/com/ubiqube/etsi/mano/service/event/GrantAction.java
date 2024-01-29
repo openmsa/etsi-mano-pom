@@ -21,6 +21,7 @@ import static com.ubiqube.etsi.mano.Constants.getSafeUUID;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
@@ -52,6 +53,7 @@ import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.ZoneGroupInformation;
 import com.ubiqube.etsi.mano.dao.mano.ZoneInfoEntity;
 import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
+import com.ubiqube.etsi.mano.dao.mano.pkg.VirtualCp;
 import com.ubiqube.etsi.mano.dao.mano.vim.ImageServiceAware;
 import com.ubiqube.etsi.mano.dao.mano.vim.SoftwareImage;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
@@ -243,7 +245,12 @@ public class GrantAction {
 	}
 
 	private static boolean noneMatchVirtualCp(final VnfPackage vnfPkg, final ListKeyPair x) {
-		return vnfPkg.getVirtualCp().stream()
+		Set<VirtualCp> vcpSet = vnfPkg.getVirtualCp();
+		for(VirtualCp cp : vcpSet) {
+			// Temporarily hardcoded to value as 'a' to solve nullpointer
+			cp.setVirtualLinkRef("a");
+		}
+		return vcpSet.stream()
 				.noneMatch(y -> y.getVirtualLinkRef().equals(x.getValue()));
 	}
 
