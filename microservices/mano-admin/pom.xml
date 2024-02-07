@@ -6,12 +6,12 @@
 	<parent>
 		<groupId>com.ubiqube.mano</groupId>
 		<artifactId>mano-super-pom</artifactId>
-		<version>3.1.0-SNAPSHOT</version>
+		<version>3.2.1-SNAPSHOT</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ubiqube.mano.webapp</groupId>
 	<artifactId>mano-admin</artifactId>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>mano-admin</name>
 	<description>ETSI MANO admin interface.</description>
 	<distributionManagement>
