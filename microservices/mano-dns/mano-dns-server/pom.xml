@@ -4,24 +4,19 @@
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.0.4</version>
-		<relativePath /> <!-- lookup parent from repository -->
+		<groupId>com.ubiqube.mano</groupId>
+		<artifactId>mano-dns-aggregator</artifactId>
+		<version>3.2.2-SNAPSHOT</version>
 	</parent>
 	<artifactId>mano-dns-server</artifactId>
 	<name>mano-dns-server</name>
 	<description>DNS server for ETSI-MANO project</description>
-	<properties>
-		<maven.compiler.target>17</maven.compiler.target>
-		<maven.compiler.source>17</maven.compiler.source>
-	</properties>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>2022.0.1</version>
+				<version>2023.0.0</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -44,7 +39,7 @@
 		<dependency>
 			<groupId>io.github.lognet</groupId>
 			<artifactId>grpc-spring-boot-starter</artifactId>
-			<version>5.0.0</version>
+			<version>5.1.5</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -53,7 +48,7 @@
 		<dependency>
 			<groupId>dnsjava</groupId>
 			<artifactId>dnsjava</artifactId>
-			<version>3.5.2</version>
+			<version>3.5.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

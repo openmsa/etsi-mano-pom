@@ -4,25 +4,19 @@
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.0.4</version>
-		<relativePath /> <!-- lookup parent from repository -->
+		<groupId>com.ubiqube.mano</groupId>
+		<artifactId>mano-dns-aggregator</artifactId>
+		<version>3.2.2-SNAPSHOT</version>
 	</parent>
 	<artifactId>mano-dns-api</artifactId>
 	<name>mano-dns-api</name>
 	<description>DNS server for ETSI-MANO project</description>
-	<properties>
-		<maven.compiler.target>17</maven.compiler.target>
-		<maven.compiler.source>17</maven.compiler.source>
-		<ubiqube.grpc.version>1.53.0</ubiqube.grpc.version>
-	</properties>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>2022.0.1</version>
+				<version>2023.0.0</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -32,7 +26,7 @@
 		<dependency>
 			<groupId>com.google.protobuf</groupId>
 			<artifactId>protobuf-java</artifactId>
-			<version>3.21.12</version>
+			<version>${ubiqube.version.protobuf-java}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.grpc</groupId>
@@ -64,9 +58,9 @@
 				<artifactId>protobuf-maven-plugin</artifactId>
 				<version>0.6.1</version>
 				<configuration>
-					<protocArtifact>com.google.protobuf:protoc:3.21.12:exe:${os.detected.classifier}</protocArtifact>
+					<protocArtifact>com.google.protobuf:protoc:3.25.2:exe:${os.detected.classifier}</protocArtifact>
 					<pluginId>grpc-java</pluginId>
-					<pluginArtifact>io.grpc:protoc-gen-grpc-java:1.51.1:exe:${os.detected.classifier}</pluginArtifact>
+					<pluginArtifact>io.grpc:protoc-gen-grpc-java:1.61.1:exe:${os.detected.classifier}</pluginArtifact>
 				</configuration>
 				<executions>
 					<execution>
