@@ -23,28 +23,29 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
+@SuppressWarnings("static-method")
 public class KeycloakConfig {
 
 	@Bean
-	public SecurityFilterChain configure(final HttpSecurity http) throws Exception {
-		http.csrf().disable()
-				.authorizeRequests()
-				.requestMatchers(EndpointRequest.to(
-						InfoEndpoint.class,
-						HealthEndpoint.class))
-				.permitAll()
-				.requestMatchers(EndpointRequest.toAnyEndpoint())
-				.hasRole("ACTUATOR")
-				.anyRequest().permitAll()
-				.and()
-				.oauth2ResourceServer()
-				.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()));
+	SecurityFilterChain configure(final HttpSecurity http) throws Exception {
+		http.csrf(CsrfConfigurer::disable);
+		http.authorizeHttpRequests(autorize -> {
+			autorize.requestMatchers(EndpointRequest.to(
+					InfoEndpoint.class,
+					HealthEndpoint.class))
+					.permitAll()
+					.requestMatchers(EndpointRequest.toAnyEndpoint())
+					.hasRole("ACTUATOR")
+					.anyRequest().permitAll();
+		});
+		http.oauth2ResourceServer(server -> server.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())));
 		return http.build();
 	}
 
