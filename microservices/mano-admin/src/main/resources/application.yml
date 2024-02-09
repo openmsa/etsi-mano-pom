@@ -25,3 +25,6 @@ spring:
         password: admin
         url:
           - http://localhost:8081
+  output:
+    ansi:
+      enabled: always
