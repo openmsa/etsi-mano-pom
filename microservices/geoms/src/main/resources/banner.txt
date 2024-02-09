@@ -4,4 +4,5 @@
  | |_| | |  __/ | (_) | | |  | |  ___) |
   \____|  \___|  \___/  |_|  |_| |____/ 
                                         
-Geo-MS: ${application.version}  Spring: ${AnsiColor.BRIGHT_GREEN}${spring-boot.version}${AnsiColor.DEFAULT}
+  ${application.title}: ${application.formatted-version}
+  (${AnsiColor.BRIGHT_GREEN}Spring boot: ${AnsiStyle.BOLD}${AnsiStyle.ITALIC}${spring-boot.version}${AnsiColor.DEFAULT}${AnsiStyle.NORMAL})
