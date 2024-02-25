@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.2</version>
+		<version>3.2.3</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ubiqube.mano</groupId>
@@ -56,17 +56,17 @@
 		<com.ubiqube.reflections.version>0.10.2</com.ubiqube.reflections.version>
 		<com.ubiqube.wiremock3.version>3.3.1</com.ubiqube.wiremock3.version>
 		<version.jib-core>0.25.0</version.jib-core>
-		<version.commons-compress>1.25.0</version.commons-compress>
+		<version.commons-compress>1.26.0</version.commons-compress>
 		<!-- Deprecated ? -->
 		<version.javax.servlet-api>4.0.1</version.javax.servlet-api>
-		<version.alarm-client>3.2.0</version.alarm-client>
+		<version.alarm-client>3.2.2-SNAPSHOT</version.alarm-client>
 		<version.auth-api>3.2.2-SNAPSHOT</version.auth-api>
 		<version.em-client>3.2.2-SNAPSHOT</version.em-client>
-		<version.em-front-controller>3.2.0</version.em-front-controller>
+		<version.em-front-controller>3.2.2-SNAPSHOT</version.em-front-controller>
 		<version.etsi-model-431>3.2.0</version.etsi-model-431>
 		<version.etsi-protocols>3.2.0</version.etsi-protocols>
 		<version.event-api>3.2.1</version.event-api>
-		<version.helm3-api>0.0.2</version.helm3-api>
+		<version.helm3-api>4.0.0-SNAPSHOT</version.helm3-api>
 		<version.k8s-parser>3.2.0</version.k8s-parser>
 		<version.mano-bean-walker>3.2.2-SNAPSHOT</version.mano-bean-walker>
 		<version.mano-commons>3.2.2-SNAPSHOT</version.mano-commons>
