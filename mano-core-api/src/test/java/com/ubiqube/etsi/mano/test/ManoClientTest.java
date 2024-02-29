@@ -280,7 +280,7 @@ class ManoClientTest {
 								.build())
 				.build();
 		final FluxRest fr = new FluxRest(server);
-		fr.get(new URI("https://ubiqube.com/"), String.class, "2.6.1");
+		fr.get(new URI("https://google.com/"), String.class, "2.6.1");
 		assertTrue(true);
 	}
 
