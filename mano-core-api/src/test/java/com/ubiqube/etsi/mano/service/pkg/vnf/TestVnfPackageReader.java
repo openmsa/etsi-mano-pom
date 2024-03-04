@@ -47,6 +47,7 @@ import com.ubiqube.etsi.mano.dao.mano.VnfVl;
 import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainer;
 import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainerDeployableUnit;
 import com.ubiqube.etsi.mano.dao.mano.pkg.VirtualCp;
+import com.ubiqube.etsi.mano.dao.mano.repo.Repository;
 import com.ubiqube.etsi.mano.dao.mano.vim.VnfStorage;
 import com.ubiqube.etsi.mano.dao.mano.vnfm.McIops;
 import com.ubiqube.etsi.mano.service.pkg.bean.AffinityRuleAdapater;
@@ -223,6 +224,11 @@ public class TestVnfPackageReader implements VnfPackageReader {
 
 	public void setVnfdFiles(final List<String> vnfdFiles) {
 		this.vnfdFiles = vnfdFiles;
+	}
+
+	@Override
+	public Set<Repository> getRepositories() {
+		return Set.of();
 	}
 
 }
