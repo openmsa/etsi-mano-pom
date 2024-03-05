@@ -46,7 +46,7 @@ public class ManoWebMvcLinkBuilder extends TemplateVariableAwareLinkBuilderSuppo
 	private static final String PARAMETERS_MUST_NOT_BE_NULL = "Parameters must not be null!";
 	private static final ManoWebMvcLinkBuilderFactory FACTORY = new ManoWebMvcLinkBuilderFactory();
 	private static final DefaultUriBuilderFactory URI_FACTORY = new DefaultUriBuilderFactory();
-	private static final Pattern SOL_REGEXP = Pattern.compile("^\\/sol00[0-9]\\/");
+	private static final Pattern SOL_REGEXP = Pattern.compile("^\\/sol00[\\d]\\/");
 	private final UriComponents components;
 
 	/**
@@ -125,10 +125,6 @@ public class ManoWebMvcLinkBuilder extends TemplateVariableAwareLinkBuilderSuppo
 
 		final var uri = URI_FACTORY.expand(defaulted, parameters);
 		final var uriComponents = UriComponentsBuilder.fromUri(uri).build();
-
-		// return new
-		// ManoWebMvcLinkBuilder(UriComponentsBuilderFactory.getComponents()).slash(uriComponents,
-		// true);
 
 		return new ManoWebMvcLinkBuilder(ManoUriComponentsBuilder.getComponents()).slash(uriComponents, true);
 	}

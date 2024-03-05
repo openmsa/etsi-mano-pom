@@ -219,7 +219,8 @@ class SubscriptionServiceImplTest {
 				.build();
 		when(subscriptionJpa.findByApiAndCallbackUriAndSubscriptionType(any(), any(), any())).thenReturn(List.of(request));
 		when(mapper.map(request, Subscription.class)).thenReturn(request);
-		assertThrows(GenericException.class, () -> subs.save(request, getClass(), SubscriptionType.ALARM));
+		final Class clazz = getClass();
+		assertThrows(GenericException.class, () -> subs.save(request, clazz, SubscriptionType.ALARM));
 	}
 
 	@Test
@@ -236,7 +237,8 @@ class SubscriptionServiceImplTest {
 				.build();
 		when(subscriptionJpa.findByApiAndCallbackUriAndSubscriptionType(any(), any(), any())).thenReturn(List.of(request));
 		when(mapper.map(request, Subscription.class)).thenReturn(request);
-		assertThrows(GenericException.class, () -> subs.save(request, getClass(), SubscriptionType.ALARM));
+		final Class clazz = getClass();
+		assertThrows(GenericException.class, () -> subs.save(request, clazz, SubscriptionType.ALARM));
 	}
 
 	@Test

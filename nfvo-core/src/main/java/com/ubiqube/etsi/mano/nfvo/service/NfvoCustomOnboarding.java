@@ -158,7 +158,7 @@ public class NfvoCustomOnboarding implements CustomOnboarding {
 	}
 
 	private DownloadResult copyFile(final ZipOutputStream zipOut, final VnfPackageReader vnfPackageReader, final UUID id, final String artifactPath) {
-		DownloadResult ret = new DownloadResult(null, null, null, 0L);
+		DownloadResult ret = new DownloadResult(new byte[0], new byte[0], new byte[0], 0L);
 		try (final InputStream tgtIn = vnfPackageReader.getFileInputStream(artifactPath);
 				final CountingInputStream count = new CountingInputStream(tgtIn);
 				final DigestInputStream inMd5 = new DigestInputStream(count, MessageDigest.getInstance("md5"));

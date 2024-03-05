@@ -67,7 +67,6 @@ class AdminNfvoControllerTest {
 	@Mock
 	private NsInstanceService nsdInstanceJpa;
 
-	@Test
 	private AdminNfvoController createService() {
 		return new AdminNfvoController(packageManager, nsPkgOnboarding, nsPlanService, nsLiveInstanceJpa, nsBluePrintJpa, nfvoActions, nsdInstanceJpa);
 	}

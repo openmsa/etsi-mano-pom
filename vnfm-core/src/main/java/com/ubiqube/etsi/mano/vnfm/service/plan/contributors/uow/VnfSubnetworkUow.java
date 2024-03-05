@@ -47,7 +47,7 @@ public class VnfSubnetworkUow extends AbstractVnfmUow<SubNetworkTask> {
 	@Override
 	public @Nullable String rollback(final Context3d context) {
 		// params.getVim().deleteSubnet(params.getVimConnectionInformation(),
-		// params.getVimResourceId());
+		// params.getVimResourceId())
 		return null;
 	}
 

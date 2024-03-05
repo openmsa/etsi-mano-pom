@@ -16,6 +16,8 @@
  */
 package com.ubiqube.etsi.mano.service.git;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.net.MalformedURLException;
 import java.net.URI;
 
@@ -28,6 +30,7 @@ class GitVersionExtractorTest {
 	void test() throws MalformedURLException {
 		final GitVersionExtractor srv = new GitVersionExtractor();
 		final GitVersion res = srv.extract(URI.create("file:src/test/resources/git.properties").toURL());
+		assertNotNull(res);
 		System.out.println(res.toString());
 	}
 

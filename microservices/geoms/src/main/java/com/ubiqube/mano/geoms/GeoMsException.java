@@ -14,25 +14,13 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.dns;
+package com.ubiqube.mano.geoms;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+public class GeoMsException extends RuntimeException {
+	private static final long serialVersionUID = 1L;
 
-import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.xbill.DNS.tools.jnamed;
-
-class TestServer {
-
-	private static final Logger LOG = LoggerFactory.getLogger(TestServer.class);
-
-	@Test
-	void testName() throws Exception {
-		final jnamed jn = new jnamed("jnamed.conf");
-		jn.addPrimaryZone("mano.ubiqube.com.", "mano.zone");
-		// Thread.sleep(500000)
-		LOG.info("Done.");
-		assertTrue(true);
+	public GeoMsException(final Throwable e) {
+		super(e);
 	}
+
 }

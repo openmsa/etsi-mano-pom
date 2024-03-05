@@ -94,6 +94,7 @@ public class EndpointService {
 		return ret;
 	}
 
+	@Nullable
 	private static String safeGetAArray(final @Nullable String[] val) {
 		if ((null == val) || (val.length == 0)) {
 			return null;

@@ -129,6 +129,7 @@ public class AdminNfvoController {
 		final NsBlueprint blueprint = nsBlueprintJpa.findById(id);
 		final List<NsLiveInstance> liveInst = nsLiveInstanceService.findByNsInstanceId(blueprint.getInstance().getId());
 		final List<TaskVertex> vertices = blueprint.getTasks().stream().map(x -> toVertex(x, liveInst)).toList();
+		// Don't use generic below, because of openJDK.
 		final ListenableGraph<TaskVertex, ConnectivityEdge<TaskVertex>> g = new DefaultListenableGraph(new DirectedAcyclicGraph<>(ConnectivityEdge.class));
 		final DOTExporter<TaskVertex, ConnectivityEdge<TaskVertex>> exporter = new DOTExporter<>();
 		vertices.forEach(g::addVertex);

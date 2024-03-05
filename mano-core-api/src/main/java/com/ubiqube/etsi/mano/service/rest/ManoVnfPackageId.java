@@ -32,6 +32,8 @@ import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.HttpGateway;
 
+import jakarta.annotation.Nullable;
+
 /**
  *
  * @author ncuser
@@ -75,7 +77,7 @@ public class ManoVnfPackageId {
 		client.createQuery().upload(path, accept);
 	}
 
-	public void onboard(final Path path, final String accept, final String forceId) {
+	public void onboard(final Path path, final String accept, final @Nullable String forceId) {
 		client.setFragment(PACKAGE_CONTENT);
 		final MultiValueMap<String, String> headers = new HttpHeaders();
 		if (null != forceId) {

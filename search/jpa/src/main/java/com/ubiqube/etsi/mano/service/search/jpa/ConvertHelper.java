@@ -24,6 +24,10 @@ import com.ubiqube.etsi.mano.service.search.SearchException;
 
 public class ConvertHelper {
 
+	private ConvertHelper() {
+		//
+	}
+
 	@SuppressWarnings("unchecked")
 	public static Comparable convertComparable(final GrammarValue gv, final Class<?> clazz) {
 		if (clazz.isEnum()) {

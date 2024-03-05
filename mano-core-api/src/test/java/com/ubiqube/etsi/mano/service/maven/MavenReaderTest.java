@@ -16,6 +16,8 @@
  */
 package com.ubiqube.etsi.mano.service.maven;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -28,6 +30,7 @@ class MavenReaderTest {
 	void test() throws FileNotFoundException, IOException, XmlPullParserException {
 		final MavenReader srv = new MavenReader();
 		final MavenArtifact res = srv.extractVersion("pom.xml");
+		assertNotNull(res);
 		System.out.println(res.toString());
 	}
 

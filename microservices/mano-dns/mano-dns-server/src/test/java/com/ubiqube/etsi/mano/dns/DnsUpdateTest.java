@@ -16,6 +16,8 @@
  */
 package com.ubiqube.etsi.mano.dns;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.io.IOException;
 import java.net.UnknownHostException;
 
@@ -30,7 +32,7 @@ import org.xbill.DNS.TextParseException;
 import org.xbill.DNS.Type;
 import org.xbill.DNS.Update;
 
-public class DnsUpdateTest {
+class DnsUpdateTest {
 
 	private static Resolver createResolver() throws UnknownHostException, TextParseException {
 		final SimpleResolver resolver = new SimpleResolver("127.0.0.1");
@@ -56,17 +58,19 @@ public class DnsUpdateTest {
 		final Update update = new Update(zone);
 		update.add(host, Type.A, 86400, "1.2.3.4");
 		final Message response = resolver.send(update);
+		assertNotNull(response);
 		System.out.println("" + response);
 	}
 
 	@Test
-	public void testSubDomain() throws IOException {
+	void testSubDomain() throws IOException {
 		final Name zone = Name.fromConstantString("mano.ubiqube.com.");
 		final Name host = Name.fromString("test.79058b44-6343-4cd7-b439-5a3605326a46.mano.ubiqube.com.");
 		final Update update = new Update(zone);
 		update.add(host, Type.A, 86400, "1.1.1.1");
 		final Resolver resolver = createResolver();
 		final Message response = resolver.send(update);
+		assertNotNull(response);
 		System.out.println("" + response);
 	}
 }

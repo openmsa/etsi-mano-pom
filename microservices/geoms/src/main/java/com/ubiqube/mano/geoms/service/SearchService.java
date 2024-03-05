@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.model.CaPair;
 import com.ubiqube.etsi.mano.model.SearchResult;
+import com.ubiqube.mano.geoms.GeoMsException;
 
 /**
  *
@@ -40,7 +41,7 @@ public class SearchService {
 		try {
 			return indexManager.search(countryCode, caPair.getCaValue());
 		} catch (final IOException e) {
-			throw new RuntimeException(e);
+			throw new GeoMsException(e);
 		}
 	}
 

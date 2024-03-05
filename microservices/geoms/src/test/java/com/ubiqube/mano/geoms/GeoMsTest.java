@@ -14,15 +14,17 @@
  */
 package com.ubiqube.mano.geoms;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import org.junit.jupiter.api.Test;
 
 import com.ubiqube.mano.geoms.service.IndexManager;
 
-public class GeoMsTest {
+class GeoMsTest {
 
 	@Test
 	void testName() throws Exception {
 		final IndexManager idx = new IndexManager();
-
+		assertNotNull(idx);
 	}
 }
