@@ -24,11 +24,12 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 
-import com.ubiqube.etsi.mano.dao.subscription.SubscriptionType;
+import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.SubscriptionService;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
 
@@ -46,13 +47,13 @@ public class SubscriptionFrontControllerImpl implements SubscriptionFrontControl
 
 	private final MapperFacade mapper;
 
-	public SubscriptionFrontControllerImpl(final SubscriptionService subscriptionService, final MapperFacade mapper) {
+	public SubscriptionFrontControllerImpl(final @Lazy SubscriptionService subscriptionService, final MapperFacade mapper) {
 		this.subscriptionService = subscriptionService;
 		this.mapper = mapper;
 	}
 
 	@Override
-	public <U> ResponseEntity<List<U>> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final Consumer<U> makeLinks, final SubscriptionType type) {
+	public <U> ResponseEntity<List<U>> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final Consumer<U> makeLinks, final ApiVersionType type) {
 		final String filter = getSingleField(requestParams, "filter");
 		final List<Subscription> list = subscriptionService.query(filter, type);
 		final List<U> pkgms = mapper.mapAsList(list, clazz);
@@ -61,7 +62,7 @@ public class SubscriptionFrontControllerImpl implements SubscriptionFrontControl
 	}
 
 	@Override
-	public <U> ResponseEntity<U> create(final Object subscriptionRequest, final Class<U> clazz, final Class<?> versionController, final Consumer<U> makeLinks, final Function<U, String> getSelfLink, final SubscriptionType type) {
+	public <U> ResponseEntity<U> create(final Object subscriptionRequest, final Class<U> clazz, final Class<?> versionController, final Consumer<U> makeLinks, final Function<U, String> getSelfLink, final ApiVersionType type) {
 		final Subscription subscription = subscriptionService.save(subscriptionRequest, versionController, type);
 		final U res = mapper.map(subscription, clazz);
 		makeLinks.accept(res);
@@ -71,13 +72,13 @@ public class SubscriptionFrontControllerImpl implements SubscriptionFrontControl
 	}
 
 	@Override
-	public ResponseEntity<Void> deleteById(final String subscriptionId, final SubscriptionType type) {
+	public ResponseEntity<Void> deleteById(final String subscriptionId, final ApiVersionType type) {
 		subscriptionService.delete(getSafeUUID(subscriptionId), type);
 		return ResponseEntity.noContent().build();
 	}
 
 	@Override
-	public <U> ResponseEntity<U> findById(final String subscriptionId, final Class<U> clazz, final Consumer<U> makeLinks, final SubscriptionType type) {
+	public <U> ResponseEntity<U> findById(final String subscriptionId, final Class<U> clazz, final Consumer<U> makeLinks, final ApiVersionType type) {
 		final Subscription subscription = subscriptionService.findById(getSafeUUID(subscriptionId), type);
 		final U res = mapper.map(subscription, clazz);
 		makeLinks.accept(res);

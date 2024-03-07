@@ -20,6 +20,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
+import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.dao.subscription.SubscriptionType;
 import com.ubiqube.etsi.mano.service.auth.model.ApiTypesEnum;
 import com.ubiqube.etsi.mano.service.event.model.EventMessage;
@@ -29,13 +30,13 @@ import jakarta.annotation.Nullable;
 
 public interface SubscriptionService {
 
-	List<Subscription> query(String filter, SubscriptionType type);
+	List<Subscription> query(String filter, ApiVersionType type);
 
-	Subscription save(Object subscriptionPostQuery, final Class<?> version, SubscriptionType type);
+	Subscription save(Object subscriptionPostQuery, final Class<?> version, ApiVersionType type);
 
-	void delete(UUID subscriptionId, SubscriptionType type);
+	void delete(UUID subscriptionId, ApiVersionType type);
 
-	Subscription findById(UUID subscriptionId, SubscriptionType type);
+	Subscription findById(UUID subscriptionId, ApiVersionType type);
 
 	List<Subscription> selectNotifications(EventMessage event);
 

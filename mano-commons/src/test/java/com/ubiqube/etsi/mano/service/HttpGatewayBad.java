@@ -22,6 +22,7 @@ import java.util.UUID;
 
 import org.springframework.core.ParameterizedTypeReference;
 
+import com.ubiqube.etsi.mano.controller.subscription.ApiAndType;
 import com.ubiqube.etsi.mano.dao.mano.CancelModeTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.GrantInterface;
 import com.ubiqube.etsi.mano.dao.mano.ScaleTypeEnum;
@@ -72,12 +73,12 @@ public class HttpGatewayBad extends AbstractHttpGateway {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	@Override
 	public Class<?> getVnfIndicatorValueChangeSubscriptionClass() {
 		return null;
 	}
-	
+
 	@Override
 	public Class<?> getVnfIndicatorValueChangeSubscriptionRequest() {
 		return null;
@@ -215,19 +216,25 @@ public class HttpGatewayBad extends AbstractHttpGateway {
 	}
 
 	@Override
-	public Object createVnfInstanceScaleRequest(ScaleTypeEnum scaleTypeEnum, String aspectId, Integer numberOfSteps) {
+	public Object createVnfInstanceScaleRequest(final ScaleTypeEnum scaleTypeEnum, final String aspectId, final Integer numberOfSteps) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Object createVnfInstanceHealRequest(String cause) {
+	public Object createVnfInstanceHealRequest(final String cause) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Class<?> getVnfInstanceHealRequest() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getSubscriptionUriFor(final ApiAndType at, final String id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -29,9 +29,12 @@ import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ubiqube.etsi.mano.controller.subscription.ApiAndType;
+import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.dao.subscription.SubscriptionType;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
+import com.ubiqube.etsi.mano.exception.SeeOtherException;
 import com.ubiqube.etsi.mano.grammar.BooleanExpression;
 import com.ubiqube.etsi.mano.grammar.GrammarLabel;
 import com.ubiqube.etsi.mano.grammar.GrammarNode;
@@ -89,7 +92,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 	}
 
 	@Override
-	public List<Subscription> query(final String filter, final SubscriptionType type) {
+	public List<Subscription> query(final String filter, final ApiVersionType type) {
 		final GrammarNodeResult nodes = grammarParser.parse(filter);
 		final GrammarNode gn = new BooleanExpression(new GrammarLabel("subscriptionType"), GrammarOperandType.EQ, new GrammarValue(type.toString()));
 		final ArrayList<GrammarNode> lst = new ArrayList<>(nodes.getNodes());
@@ -105,13 +108,15 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 	}
 
 	@Override
-	public Subscription save(final Object subscriptionRequest, final Class<?> version, final SubscriptionType type) {
+	public Subscription save(final Object subscriptionRequest, final Class<?> version, final ApiVersionType type) {
 		final Subscription subscription = mapper.map(subscriptionRequest, Subscription.class);
-		subscription.setSubscriptionType(type);
+		final ApiAndType nt = ServerService.apiVersionTosubscriptionType(type);
+		subscription.setSubscriptionType(nt.type());
+		subscription.setApi(nt.api());
 		checkAuthData(subscription);
 		ensureUniqueness(subscription);
 		subscription.setNodeFilter(evalService.convertRequestToString(subscriptionRequest));
-		subscription.setVersion(extractVersion(version, type));
+		subscription.setVersion(extractVersion(version, nt.type()));
 		checkAvailability(subscription);
 		return subscriptionJpa.save(subscription);
 	}
@@ -166,20 +171,37 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
 	private void ensureUniqueness(final Subscription subscription) {
 		final List<Subscription> lst = findByApiAndCallbackUriSubscriptionType(subscription.getApi(), subscription.getCallbackUri(), subscription.getSubscriptionType());
-		if (isMatching(subscription, lst)) {
-			throw new GenericException("Subscription already exist.");
+		final Optional<Subscription> res = getMatchingList(subscription, lst);
+		if (res.isPresent()) {
+			final URI uri = makeLink(res.get());
+			throw new SeeOtherException(uri, "Subscription already exist.");
 		}
 	}
 
-	private static boolean isMatching(final Subscription subscription, final List<Subscription> lst) {
+	private URI makeLink(final Subscription subscription) {
+		final Optional<HttpGateway> optGateway = serverService.getHttpGatewayFromManoVersion(subscription.getVersion());
+		if (optGateway.isEmpty()) {
+			throw new GenericException("Could not find gateway for " + subscription.getSubscriptionType() + "/" + subscription.getVersion());
+		}
+		final HttpGateway gateway = optGateway.get();
+		final ApiAndType at = ApiAndType.of(subscription.getApi(), subscription.getSubscriptionType());
+		final String str = gateway.getSubscriptionUriFor(at, subscription.getId().toString());
+		return URI.create(str);
+	}
+
+	private static Optional<Subscription> getMatchingList(final Subscription subscription, final List<Subscription> lst) {
 		final List<FilterAttributes> filters = Optional.ofNullable(subscription.getFilters()).orElseGet(List::of);
 		if (filters.isEmpty()) {
-			return lst.stream().anyMatch(x -> x.getFilters().isEmpty());
+			return lst.stream().filter(x -> x.getFilters().isEmpty()).findFirst();
 		}
 		return lst.stream()
-				.flatMap(x -> x.getFilters().stream())
-				.anyMatch(x -> filters.stream()
-						.anyMatch(y -> y.getAttribute().equals(x.getAttribute()) && y.getValue().equals(x.getValue())));
+				.filter(x -> isFilterMatching(x, filters))
+				.findFirst();
+	}
+
+	private static boolean isFilterMatching(final Subscription x, final List<FilterAttributes> filters) {
+		final List<FilterAttributes> left = x.getFilters();
+		return left.stream().filter(filters::contains).toList().isEmpty();
 	}
 
 	private static @Nullable String extractVersion(final Class<?> version) {
@@ -197,13 +219,13 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 	}
 
 	@Override
-	public void delete(final UUID subscriptionId, final SubscriptionType type) {
+	public void delete(final UUID subscriptionId, final ApiVersionType type) {
 		findById(subscriptionId, type);
 		subscriptionJpa.deleteById(subscriptionId);
 	}
 
 	@Override
-	public Subscription findById(final UUID subscriptionId, final SubscriptionType type) {
+	public Subscription findById(final UUID subscriptionId, final ApiVersionType type) {
 		return subscriptionJpa.findById(subscriptionId).orElseThrow(() -> new NotFoundException("Could not find subscription id: " + subscriptionId));
 	}
 

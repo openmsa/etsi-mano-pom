@@ -49,6 +49,10 @@ public class Version implements Comparable<Version> {
 		patch = Integer.parseInt(m.group("patch"));
 	}
 
+	public static Version of(final String str) {
+		return new Version(str);
+	}
+
 	public int getMajor() {
 		return major;
 	}

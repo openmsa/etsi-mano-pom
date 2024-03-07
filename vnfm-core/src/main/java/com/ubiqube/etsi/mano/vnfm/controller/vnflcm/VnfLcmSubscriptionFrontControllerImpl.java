@@ -25,7 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.controller.SubscriptionFrontController;
-import com.ubiqube.etsi.mano.dao.subscription.SubscriptionType;
+import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.vnfm.fc.vnflcm.VnfLcmSubscriptionFrontController;
 
 import jakarta.annotation.Nullable;
@@ -45,22 +45,22 @@ public class VnfLcmSubscriptionFrontControllerImpl implements VnfLcmSubscription
 
 	@Override
 	public <U> ResponseEntity<U> findById(final String id, final Class<U> clazz, final Consumer<U> setLink) {
-		return subscriptionService.findById(id, clazz, setLink, SubscriptionType.VNFLCM);
+		return subscriptionService.findById(id, clazz, setLink, ApiVersionType.SOL003_VNFLCM);
 	}
 
 	@Override
 	public <U> ResponseEntity<List<U>> search(final MultiValueMap<String, String> requestParams, final @Nullable String nextpageOpaqueMarker, final Class<U> clazz, final Consumer<U> setLink) {
-		return subscriptionService.search(requestParams, clazz, setLink, SubscriptionType.VNFLCM);
+		return subscriptionService.search(requestParams, clazz, setLink, ApiVersionType.SOL003_VNFLCM);
 	}
 
 	@Override
 	public <U> ResponseEntity<U> create(final Object body, final Class<U> clazz, final Class<?> versionController, final Consumer<U> makeLinks, final Function<U, String> setLink) {
-		return subscriptionService.create(body, clazz, versionController, makeLinks, setLink, SubscriptionType.VNFLCM);
+		return subscriptionService.create(body, clazz, versionController, makeLinks, setLink, ApiVersionType.SOL003_VNFLCM);
 	}
 
 	@Override
 	public ResponseEntity<Void> deleteById(final String id) {
-		return subscriptionService.deleteById(id, SubscriptionType.VNFLCM);
+		return subscriptionService.deleteById(id, ApiVersionType.SOL003_VNFLCM);
 	}
 
 }

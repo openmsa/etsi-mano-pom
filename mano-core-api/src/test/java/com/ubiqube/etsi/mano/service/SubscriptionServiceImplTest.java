@@ -40,7 +40,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.controller.TestRequestMapping;
 import com.ubiqube.etsi.mano.controller.TestRequestMappingBadVersion;
-import com.ubiqube.etsi.mano.dao.subscription.SubscriptionType;
+import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.grammar.GrammarNodeResult;
@@ -89,7 +89,7 @@ class SubscriptionServiceImplTest {
 				.api(ApiTypesEnum.SOL003)
 				.build();
 		when(mapper.map(request, Subscription.class)).thenReturn(request);
-		subs.save(request, getClass(), SubscriptionType.ALARM);
+		subs.save(request, getClass(), ApiVersionType.SOL002_VNFFM);
 		assertTrue(true);
 	}
 
@@ -100,7 +100,7 @@ class SubscriptionServiceImplTest {
 				.api(ApiTypesEnum.SOL003)
 				.build();
 		when(mapper.map(request, Subscription.class)).thenReturn(request);
-		subs.save(request, TestRequestMapping.class, SubscriptionType.ALARM);
+		subs.save(request, TestRequestMapping.class, ApiVersionType.SOL002_VNFFM);
 		assertTrue(true);
 	}
 
@@ -126,7 +126,7 @@ class SubscriptionServiceImplTest {
 				.authentication(auth)
 				.build();
 		when(mapper.map(request, Subscription.class)).thenReturn(request);
-		subs.save(request, TestRequestMapping.class, SubscriptionType.ALARM);
+		subs.save(request, TestRequestMapping.class, ApiVersionType.SOL002_VNFFM);
 		assertTrue(true);
 	}
 
@@ -147,7 +147,7 @@ class SubscriptionServiceImplTest {
 				.authentication(auth)
 				.build();
 		when(mapper.map(request, Subscription.class)).thenReturn(request);
-		subs.save(request, TestRequestMapping.class, SubscriptionType.ALARM);
+		subs.save(request, TestRequestMapping.class, ApiVersionType.SOL002_VNFFM);
 		assertTrue(true);
 	}
 
@@ -167,7 +167,7 @@ class SubscriptionServiceImplTest {
 				.authentication(auth)
 				.build();
 		when(mapper.map(request, Subscription.class)).thenReturn(request);
-		subs.save(request, TestRequestMapping.class, SubscriptionType.ALARM);
+		subs.save(request, TestRequestMapping.class, ApiVersionType.SOL002_VNFFM);
 		assertTrue(true);
 	}
 
@@ -182,7 +182,7 @@ class SubscriptionServiceImplTest {
 				.authentication(auth)
 				.build();
 		when(mapper.map(request, Subscription.class)).thenReturn(request);
-		assertThrows(GenericException.class, () -> subs.save(request, TestRequestMapping.class, SubscriptionType.ALARM));
+		assertThrows(GenericException.class, () -> subs.save(request, TestRequestMapping.class, ApiVersionType.SOL002_VNFFM));
 	}
 
 	@Test
@@ -196,7 +196,7 @@ class SubscriptionServiceImplTest {
 				.authentication(auth)
 				.build();
 		when(mapper.map(request, Subscription.class)).thenReturn(request);
-		assertThrows(NullPointerException.class, () -> subs.save(request, TestRequestMapping.class, SubscriptionType.ALARM));
+		assertThrows(NullPointerException.class, () -> subs.save(request, TestRequestMapping.class, ApiVersionType.SOL002_VNFFM));
 	}
 
 	@Test
@@ -206,7 +206,7 @@ class SubscriptionServiceImplTest {
 				.api(ApiTypesEnum.SOL003)
 				.build();
 		when(mapper.map(request, Subscription.class)).thenReturn(request);
-		subs.save(request, TestRequestMappingBadVersion.class, SubscriptionType.ALARM);
+		subs.save(request, TestRequestMappingBadVersion.class, ApiVersionType.SOL002_VNFFM);
 		assertTrue(true);
 	}
 
@@ -220,7 +220,7 @@ class SubscriptionServiceImplTest {
 		when(subscriptionJpa.findByApiAndCallbackUriAndSubscriptionType(any(), any(), any())).thenReturn(List.of(request));
 		when(mapper.map(request, Subscription.class)).thenReturn(request);
 		final Class clazz = getClass();
-		assertThrows(GenericException.class, () -> subs.save(request, clazz, SubscriptionType.ALARM));
+		assertThrows(GenericException.class, () -> subs.save(request, clazz, ApiVersionType.SOL002_VNFFM));
 	}
 
 	@Test
@@ -231,14 +231,10 @@ class SubscriptionServiceImplTest {
 				.api(ApiTypesEnum.SOL003)
 				.filters(List.of(f1))
 				.build();
-		final Subscription request1 = Subscription.builder()
-				.api(ApiTypesEnum.SOL003)
-				.filters(List.of())
-				.build();
 		when(subscriptionJpa.findByApiAndCallbackUriAndSubscriptionType(any(), any(), any())).thenReturn(List.of(request));
 		when(mapper.map(request, Subscription.class)).thenReturn(request);
 		final Class clazz = getClass();
-		assertThrows(GenericException.class, () -> subs.save(request, clazz, SubscriptionType.ALARM));
+		assertThrows(GenericException.class, () -> subs.save(request, clazz, ApiVersionType.SOL003_VNFFM));
 	}
 
 	@Test
@@ -246,7 +242,7 @@ class SubscriptionServiceImplTest {
 		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, mapper, manoSearch);
 		final Subscription sub = new Subscription();
 		when(subscriptionJpa.findById(any())).thenReturn(Optional.of(sub));
-		subs.delete(UUID.randomUUID(), SubscriptionType.ALARM);
+		subs.delete(UUID.randomUUID(), ApiVersionType.SOL002_VNFFM);
 		assertTrue(true);
 	}
 
@@ -255,7 +251,7 @@ class SubscriptionServiceImplTest {
 		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, mapper, manoSearch);
 		final Subscription sub = new Subscription();
 		when(subscriptionJpa.findById(any())).thenReturn(Optional.of(sub));
-		subs.findById(UUID.randomUUID(), SubscriptionType.ALARM);
+		subs.findById(UUID.randomUUID(), ApiVersionType.SOL002_VNFFM);
 		assertTrue(true);
 	}
 
@@ -263,7 +259,7 @@ class SubscriptionServiceImplTest {
 	void testFindByIdFail() {
 		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, mapper, manoSearch);
 		final UUID uuid = UUID.randomUUID();
-		assertThrows(NotFoundException.class, () -> subs.findById(uuid, SubscriptionType.ALARM));
+		assertThrows(NotFoundException.class, () -> subs.findById(uuid, ApiVersionType.SOL002_VNFFM));
 	}
 
 	@Test
@@ -280,7 +276,7 @@ class SubscriptionServiceImplTest {
 	void testQuery() {
 		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, mapper, manoSearch);
 		when(grammar.parse(any())).thenReturn(new GrammarNodeResult(List.of()));
-		subs.query("", SubscriptionType.ALARM);
+		subs.query("", ApiVersionType.SOL002_VNFFM);
 		assertTrue(true);
 	}
 
@@ -304,7 +300,7 @@ class SubscriptionServiceImplTest {
 		final SessionImplementor sessImpl = Mockito.mock(SessionImplementor.class);
 		when(em.unwrap(SessionImplementor.class)).thenReturn(sessImpl);
 		when(subscriptionJpa.findEventAndVnfPkg(any(), any())).thenReturn(List.of());
-		subs.query(null, SubscriptionType.ALARM);
+		subs.query(null, ApiVersionType.SOL002_VNFFM);
 		assertTrue(true);
 	}
 

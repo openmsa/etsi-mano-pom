@@ -26,9 +26,11 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.ubiqube.etsi.mano.controller.subscription.ApiAndType;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.dao.mano.vim.PlanStatusType;
@@ -36,6 +38,7 @@ import com.ubiqube.etsi.mano.dao.subscription.RemoteSubscription;
 import com.ubiqube.etsi.mano.dao.subscription.SubscriptionType;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.jpa.config.ServersJpa;
+import com.ubiqube.etsi.mano.service.auth.model.ApiTypesEnum;
 import com.ubiqube.etsi.mano.service.event.ActionType;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
@@ -64,7 +67,7 @@ public class ServerService {
 
 	private final ConfigurableApplicationContext springContext;
 
-	public ServerService(final ServersJpa serversJpa, final EventManager eventManager, final List<HttpGateway> httpGateway, final ConfigurableApplicationContext springContext) {
+	public ServerService(final ServersJpa serversJpa, final EventManager eventManager, @Lazy final List<HttpGateway> httpGateway, final ConfigurableApplicationContext springContext) {
 		this.serversJpa = serversJpa;
 		this.eventManager = eventManager;
 		this.httpGateway = httpGateway.stream().sorted(Comparator.comparing(HttpGateway::getVersion)).toList();
@@ -171,13 +174,36 @@ public class ServerService {
 		return httpGateway.stream().filter(x -> x.isMatching(av, version)).findFirst().map(HttpGateway::getVersion);
 	}
 
-	private static ApiVersionType subscriptionTypeToApiVersion(final SubscriptionType subscriptionType) {
+	public Optional<HttpGateway> getHttpGatewayFromManoVersion(@Nullable final String version) {
+		if (null == version) {
+			return Optional.ofNullable(httpGateway.get(0));
+		}
+		return httpGateway.stream()
+				.filter(x -> x.getVersion().equals(Version.of(version)))
+				.findFirst();
+	}
+
+	public static ApiVersionType subscriptionTypeToApiVersion(final SubscriptionType subscriptionType) {
 		return switch (subscriptionType) {
 		case VNF -> ApiVersionType.SOL003_VNFPKGM;
 		case VNFLCM -> ApiVersionType.SOL003_VNFLCM;
 		case VNFIND -> ApiVersionType.SOL003_VNFIND;
 		case VRQAN -> ApiVersionType.SOL003_VRQAN;
 		case VNFPM -> ApiVersionType.SOL003_VNFPM;
+		default -> throw new GenericException("Unable to find " + subscriptionType);
+		};
+	}
+
+	public static ApiAndType apiVersionTosubscriptionType(final ApiVersionType subscriptionType) {
+		return switch (subscriptionType) {
+		case SOL003_VNFPKGM -> ApiAndType.of(ApiTypesEnum.SOL003, SubscriptionType.VNF);
+		case SOL003_VNFLCM -> ApiAndType.of(ApiTypesEnum.SOL003, SubscriptionType.VNFLCM);
+		case SOL003_VNFIND -> ApiAndType.of(ApiTypesEnum.SOL003, SubscriptionType.VNFIND);
+		case SOL003_VRQAN -> ApiAndType.of(ApiTypesEnum.SOL003, SubscriptionType.VRQAN);
+		case SOL003_VNFPM -> ApiAndType.of(ApiTypesEnum.SOL003, SubscriptionType.VNFPM);
+		case SOL003_VNFFM -> ApiAndType.of(ApiTypesEnum.SOL003, SubscriptionType.VNFFM);
+		case SOL002_VNFPM -> ApiAndType.of(ApiTypesEnum.SOL002, SubscriptionType.VNFPM);
+		case SOL002_VNFFM -> ApiAndType.of(ApiTypesEnum.SOL002, SubscriptionType.VNFFM);
 		default -> throw new GenericException("Unable to find " + subscriptionType);
 		};
 	}

@@ -23,6 +23,7 @@ import java.util.UUID;
 
 import org.springframework.core.ParameterizedTypeReference;
 
+import com.ubiqube.etsi.mano.controller.subscription.ApiAndType;
 import com.ubiqube.etsi.mano.dao.mano.CancelModeTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.GrantInterface;
 import com.ubiqube.etsi.mano.dao.mano.ScaleTypeEnum;
@@ -64,6 +65,8 @@ public interface HttpGateway {
 	void makeGrantLinks(Object manoGrant);
 
 	String getUrlFor(ApiVersionType type);
+
+	String getSubscriptionUriFor(ApiAndType at, String id);
 
 	Class<?> getVnfInstanceClass();
 

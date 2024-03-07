@@ -25,7 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.controller.SubscriptionFrontController;
-import com.ubiqube.etsi.mano.dao.subscription.SubscriptionType;
+import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.vnfm.fc.vnfind.VnfIndSubscriptionsFrontController;
 
 /**
@@ -43,22 +43,22 @@ public class Sol003VnfIndSubscriptionsFrontControllerImpl implements VnfIndSubsc
 
 	@Override
 	public <U> ResponseEntity<List<U>> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final Consumer<U> makeLink) {
-		return subscriptionService.search(requestParams, clazz, makeLink, SubscriptionType.VNFIND);
+		return subscriptionService.search(requestParams, clazz, makeLink, ApiVersionType.SOL003_VNFIND);
 	}
 
 	@Override
 	public <U> ResponseEntity<U> create(final Object vnfIndicatorSubscriptionRequest, final Class<U> clazz, final Class<?> versionController, final Consumer<U> makeLink, final Function<U, String> getSelfLink) {
-		return subscriptionService.create(vnfIndicatorSubscriptionRequest, clazz, versionController, makeLink, getSelfLink, SubscriptionType.VNFPM);
+		return subscriptionService.create(vnfIndicatorSubscriptionRequest, clazz, versionController, makeLink, getSelfLink, ApiVersionType.SOL003_VNFIND);
 	}
 
 	@Override
 	public ResponseEntity<Void> delete(final String subscriptionId) {
-		return subscriptionService.deleteById(subscriptionId, SubscriptionType.VNFPM);
+		return subscriptionService.deleteById(subscriptionId, ApiVersionType.SOL003_VNFIND);
 	}
 
 	@Override
 	public <U> ResponseEntity<U> findById(final String subscriptionId, final Class<U> clazz, final Consumer<U> makeLink) {
-		return subscriptionService.findById(subscriptionId, clazz, makeLink, SubscriptionType.ALARM);
+		return subscriptionService.findById(subscriptionId, clazz, makeLink, ApiVersionType.SOL003_VNFIND);
 	}
 
 }

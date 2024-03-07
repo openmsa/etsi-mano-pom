@@ -25,7 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.controller.SubscriptionFrontController;
-import com.ubiqube.etsi.mano.dao.subscription.SubscriptionType;
+import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.vnfm.fc.vnffm.FaultMngtSubscriptionsFrontController;
 
 /**
@@ -43,21 +43,21 @@ public class FaultMngtSubscriptionsFrontControllerImpl implements FaultMngtSubsc
 
 	@Override
 	public <U> ResponseEntity<List<U>> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final Consumer<U> makeLink) {
-		return subscriptionService.search(requestParams, clazz, makeLink, SubscriptionType.ALARM);
+		return subscriptionService.search(requestParams, clazz, makeLink, ApiVersionType.SOL003_VNFFM);
 	}
 
 	@Override
 	public <U> ResponseEntity<U> create(final Object fmSubscriptionRequest, final Class<U> clazz, final Class<?> versionController, final Consumer<U> makeLink, final Function<U, String> getSelfLink) {
-		return subscriptionService.create(fmSubscriptionRequest, clazz, versionController, makeLink, getSelfLink, SubscriptionType.ALARM);
+		return subscriptionService.create(fmSubscriptionRequest, clazz, versionController, makeLink, getSelfLink, ApiVersionType.SOL003_VNFFM);
 	}
 
 	@Override
 	public ResponseEntity<Void> delete(final String subscriptionId) {
-		return subscriptionService.deleteById(subscriptionId, SubscriptionType.ALARM);
+		return subscriptionService.deleteById(subscriptionId, ApiVersionType.SOL003_VNFFM);
 	}
 
 	@Override
 	public <U> ResponseEntity<U> findById(final String subscriptionId, final Class<U> clazz, final Consumer<U> makeLink) {
-		return subscriptionService.findById(subscriptionId, clazz, makeLink, SubscriptionType.ALARM);
+		return subscriptionService.findById(subscriptionId, clazz, makeLink, ApiVersionType.SOL003_VNFFM);
 	}
 }

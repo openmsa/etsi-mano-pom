@@ -34,6 +34,7 @@ import com.ubiqube.etsi.mano.common.v261.model.nslcm.VnfInstance;
 import com.ubiqube.etsi.mano.common.v261.model.vnf.PkgmSubscription;
 import com.ubiqube.etsi.mano.common.v261.model.vnf.PkgmSubscriptionRequest;
 import com.ubiqube.etsi.mano.common.v261.model.vnf.VnfPkgInfo;
+import com.ubiqube.etsi.mano.controller.subscription.ApiAndType;
 import com.ubiqube.etsi.mano.dao.mano.CancelModeTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.GrantInterface;
 import com.ubiqube.etsi.mano.dao.mano.ScaleTypeEnum;
@@ -297,5 +298,11 @@ public class VnfmGateway261 extends AbstractHttpGateway {
 	@Override
 	public Object createVnfThresholdRequest(final Threshold reqIn) {
 		return mapper.map(reqIn, CreateThresholdRequest.class);
+	}
+
+	@Override
+	public String getSubscriptionUriFor(final ApiAndType at, final String id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
