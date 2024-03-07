@@ -134,15 +134,15 @@ public class JujuCloudService {
 		}
 	}
 	
-	public boolean installHelm(final String helmname, final File helmFile) throws URISyntaxException  {
+	public boolean installHelm(final String helmname, final File helmFile) throws URISyntaxException {
 		while (!(remoteService.isK8sReady().getBody().booleanValue())) {
-            System.out.println("Kubernetes Not Ready.  Waiting...");
-            try {
-                Thread.sleep(5000); 
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+			System.out.println("Kubernetes Not Ready.  Waiting...");
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		remoteService.addKubeConfig("/home/ubuntu/.kube/config");
 		String jujuUrl = environment.getProperty("mano.juju.url");
 		ServerConnection server = new ServerConnection(null, new URI(jujuUrl));
@@ -150,10 +150,8 @@ public class JujuCloudService {
 		final WebClient wc = fr.getWebClient();
 		final MultipartBodyBuilder builder = new MultipartBodyBuilder();
 		builder.part("file", new FileSystemResource(helmFile), MediaType.APPLICATION_OCTET_STREAM);
-		final Mono<Object> res = wc.post()
-				.uri(server.getUrl() + "/juju/helminstall/"+helmname)
-				.contentType(MediaType.MULTIPART_FORM_DATA)
-				.body(BodyInserters.fromMultipartData(builder.build()))
+		final Mono<Object> res = wc.post().uri(server.getUrl() + "/juju/helminstall/" + helmname)
+				.contentType(MediaType.MULTIPART_FORM_DATA).body(BodyInserters.fromMultipartData(builder.build()))
 				.exchangeToMono(response -> {
 					if (HttpStatus.OK.equals(response.statusCode())) {
 						return response.bodyToMono(HttpStatus.class).thenReturn(response.statusCode());
@@ -165,6 +163,6 @@ public class JujuCloudService {
 	}
 
 	public void uninstallHelm(String helmName) {
-		remoteService.helmUninstall(helmName);	
+		remoteService.helmUninstall(helmName);
 	}
 }

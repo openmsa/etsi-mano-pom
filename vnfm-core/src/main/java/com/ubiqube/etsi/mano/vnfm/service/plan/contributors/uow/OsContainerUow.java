@@ -133,13 +133,14 @@ public class OsContainerUow extends AbstractVnfmUow<OsContainerTask> {
 			boolean isSuccess = jujuCloudService.jujuInstantiate(jCloud.getId());
 			try {
 				String helmName = task.getOsContainer().getArtifacts().entrySet().iterator().next().getValue().getName();
-				final File tmpFile = copyFile(task.getOsContainer().getArtifacts().entrySet().iterator().next().getValue().getImagePath(), task.getBlueprint().getInstance().getVnfPkg().getId());
-			    if(tmpFile != null && tmpFile.length() > 0) {
-				jujuCloudService.installHelm(helmName, tmpFile);
-			    }
-			    else {
-			    	throw new GenericException("File is Null or Empty ");
-			    }
+				final File tmpFile = copyFile(
+						task.getOsContainer().getArtifacts().entrySet().iterator().next().getValue().getImagePath(),
+						task.getBlueprint().getInstance().getVnfPkg().getId());
+				if (tmpFile != null && tmpFile.length() > 0) {
+					jujuCloudService.installHelm(helmName, tmpFile);
+				} else {
+					throw new GenericException("File is Null or Empty ");
+				}
 			} catch (URISyntaxException se) {
 				return "FAIL";
 			}
@@ -153,7 +154,8 @@ public class OsContainerUow extends AbstractVnfmUow<OsContainerTask> {
 		vim.cnf(vimConnectionInformation).deleteContainer(task.getVimResourceId());
 		String helmName = task.getOsContainer().getArtifacts().entrySet().iterator().next().getValue().getName();
 		jujuCloudService.uninstallHelm(helmName);
-		List<JujuCloud> jClouds = jujuCloudService.findByMetadataName(vimConnectionInformation.getVimId() + "-" + vimConnectionInformation.getJujuInfo().getRegion().toLowerCase(), "PASS");
+		List<JujuCloud> jClouds = jujuCloudService.findByMetadataName(vimConnectionInformation.getVimId() + "-"
+				+ vimConnectionInformation.getJujuInfo().getRegion().toLowerCase(), "PASS");
 		if (!jClouds.isEmpty()) {
 			boolean isSuccess = jujuCloudService.jujuTerminate(jClouds.get(0).getId());
 			return isSuccess ? "SUCCESS" : "FAIL";
