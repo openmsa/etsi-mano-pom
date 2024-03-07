@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.ubiqube.etsi.mano.exception.SeeOtherException;
 import com.ubiqube.etsi.mano.model.ProblemDetails;
 
 /**
@@ -53,6 +54,17 @@ public class ManoControllerAdvice {
 		});
 		final ProblemDetails problemDetail = new ProblemDetails(400, errors.toString());
 		return ResponseEntity.status(400)
+				.contentType(MediaType.APPLICATION_PROBLEM_JSON)
+				.body(problemDetail);
+	}
+
+	@SuppressWarnings("static-method")
+	@ResponseStatus(HttpStatus.SEE_OTHER)
+	@ExceptionHandler(SeeOtherException.class)
+	public ResponseEntity<ProblemDetails> handleSeeOtherExceptions(final SeeOtherException ex) {
+		final ProblemDetails problemDetail = new ProblemDetails(303, "See: " + ex.getUri());
+		return ResponseEntity.status(303)
+				.location(ex.getUri())
 				.contentType(MediaType.APPLICATION_PROBLEM_JSON)
 				.body(problemDetail);
 	}
