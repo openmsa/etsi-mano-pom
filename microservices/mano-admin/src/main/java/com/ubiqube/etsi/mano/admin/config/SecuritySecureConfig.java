@@ -24,6 +24,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer.FrameOptionsConfig;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -54,8 +56,8 @@ public class SecuritySecureConfig {
 		successHandler.setDefaultTargetUrl(this.adminServer.path("/"));
 
 		try {
-			http.headers(headers -> headers.frameOptions().sameOrigin());
-			http.csrf(csrf -> csrf.disable());
+			http.headers(headers -> headers.frameOptions(FrameOptionsConfig::sameOrigin));
+			http.csrf(CsrfConfigurer::disable);
 			http.authorizeHttpRequests(
 					authorizeRequests -> authorizeRequests.requestMatchers(this.adminServer.path("/assets/**")).permitAll()
 							.requestMatchers(this.adminServer.path("/actuator/**")).permitAll()
