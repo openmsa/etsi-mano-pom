@@ -26,6 +26,7 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerNode;
 import com.ubiqube.etsi.mano.orchestrator.uow.UnitOfWorkV3;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
+import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 import com.ubiqube.etsi.mano.service.JujuCloudService;
 import com.ubiqube.etsi.mano.service.system.AbstractVimSystemV3;
 import com.ubiqube.etsi.mano.service.vim.Vim;
@@ -35,12 +36,14 @@ import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.uow.OsContainerUow;
 @Service
 public class OsContainerSystem extends AbstractVimSystemV3<OsContainerTask> {
 	private final Vim vim;
-	private final JujuCloudService jujuCloudService ;
+	private final JujuCloudService jujuCloudService;
+	private final VnfPackageRepository vnfRepo;
 
-	protected OsContainerSystem(final Vim vim, final VimManager vimManager, final JujuCloudService jujuCloudService) {
+	protected OsContainerSystem(final Vim vim, final VimManager vimManager, final JujuCloudService jujuCloudService, final VnfPackageRepository vnfRepo) {
 		super(vimManager);
 		this.vim = vim;
 		this.jujuCloudService = jujuCloudService;
+		this.vnfRepo = vnfRepo;
 	}
 
 	@Override
@@ -55,7 +58,7 @@ public class OsContainerSystem extends AbstractVimSystemV3<OsContainerTask> {
 
 	@Override
 	protected SystemBuilder<UnitOfWorkV3<OsContainerTask>> getImplementation(final OrchestrationServiceV3<OsContainerTask> orchestrationService, final VirtualTaskV3<OsContainerTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
-		return orchestrationService.systemBuilderOf(new OsContainerUow(virtualTask, vim, vimConnectionInformation, jujuCloudService));
+		return orchestrationService.systemBuilderOf(new OsContainerUow(virtualTask, vim, vimConnectionInformation, jujuCloudService, vnfRepo));
 	}
 
 }

@@ -35,6 +35,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -63,11 +64,14 @@ public class JujuCloudServiceTest {
 	@Mock
 	private JujuRemoteService remoteService;
 	
+	@Mock
+	private Environment environment;
+	
 	private JujuCloudService jujuCloudService;
 
 	@BeforeEach
 	void init() {
-		jujuCloudService = new JujuCloudService(jujuCloudJpa, jujuCredentialJpa, jujuMetadataJpa, remoteService);
+		jujuCloudService = new JujuCloudService(jujuCloudJpa, jujuCredentialJpa, jujuMetadataJpa, remoteService, environment);
 	}
 
 	@Test

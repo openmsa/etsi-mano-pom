@@ -32,6 +32,7 @@ import com.ubiqube.etsi.mano.dao.mano.vim.vnfi.CnfInformations;
 import com.ubiqube.etsi.mano.dao.mano.vim.vnfi.JujuInformations;
 import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
+import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 import com.ubiqube.etsi.mano.service.JujuCloudService;
 import com.ubiqube.etsi.mano.service.vim.Cnf;
 import com.ubiqube.etsi.mano.service.vim.Vim;
@@ -47,6 +48,8 @@ class OsContainerUowTest {
 	private Cnf cnf;
 	@Mock
 	private JujuCloudService jujuCloudService;
+	@Mock
+	private VnfPackageRepository vnfRepo;
 
 	@Test
 	void testExecute() {
@@ -58,7 +61,7 @@ class OsContainerUowTest {
 		final VimConnectionInformation vimConn = new VimConnectionInformation();
 		final CnfInformations cnf1 = new CnfInformations();
 		vimConn.setCnfInfo(cnf1);
-		final OsContainerUow uow = new OsContainerUow(vt, vim, vimConn, jujuCloudService);
+		final OsContainerUow uow = new OsContainerUow(vt, vim, vimConn, jujuCloudService, vnfRepo);
 		when(vim.cnf(vimConn)).thenReturn(cnf);
 		uow.execute(context);
 		assertTrue(true);
@@ -72,7 +75,7 @@ class OsContainerUowTest {
 		final JujuInformations juju = new JujuInformations();
 		juju.setRegion("region");
 		vimConn.setJujuInfo(juju);
-		final OsContainerUow uow = new OsContainerUow(vt, vim, vimConn, jujuCloudService);
+		final OsContainerUow uow = new OsContainerUow(vt, vim, vimConn, jujuCloudService, vnfRepo);
 		when(vim.cnf(vimConn)).thenReturn(cnf);
 		uow.rollback(context);
 		assertTrue(true);
