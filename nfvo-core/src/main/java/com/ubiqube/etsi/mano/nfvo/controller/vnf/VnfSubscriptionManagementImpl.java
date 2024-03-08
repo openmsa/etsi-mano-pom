@@ -19,6 +19,7 @@ package com.ubiqube.etsi.mano.nfvo.controller.vnf;
 import java.net.URI;
 import java.util.UUID;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.controller.vnf.VnfSubscriptionManagement;
@@ -41,7 +42,7 @@ public class VnfSubscriptionManagementImpl implements VnfSubscriptionManagement 
 
 	private final ServerService serverService;
 
-	public VnfSubscriptionManagementImpl(final Notifications notifications, final SubscriptionService subscriptionRepository, final ServerService serverService) {
+	public VnfSubscriptionManagementImpl(final Notifications notifications, final SubscriptionService subscriptionRepository, final @Lazy ServerService serverService) {
 		this.notifications = notifications;
 		this.subscriptionService = subscriptionRepository;
 		this.serverService = serverService;

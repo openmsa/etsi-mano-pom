@@ -25,6 +25,7 @@ import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -81,7 +82,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 	private final ManoSearch manoSearch;
 
 	public SubscriptionServiceImpl(final SubscriptionJpa repository, final GrammarParser grammarParser, final Notifications notifications,
-			final ServerService serverService, final EvalService evalService, final MapperFacade mapper, final ManoSearch manoSearch) {
+			final @Lazy ServerService serverService, final EvalService evalService, final MapperFacade mapper, final ManoSearch manoSearch) {
 		this.subscriptionJpa = repository;
 		this.grammarParser = grammarParser;
 		this.notifications = notifications;
