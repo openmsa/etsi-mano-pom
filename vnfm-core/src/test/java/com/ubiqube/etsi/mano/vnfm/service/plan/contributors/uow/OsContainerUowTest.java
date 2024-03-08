@@ -20,6 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
+import java.util.Map;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -27,6 +29,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainer;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerTask;
+import com.ubiqube.etsi.mano.dao.mano.vim.SoftwareImage;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.vim.vnfi.CnfInformations;
 import com.ubiqube.etsi.mano.dao.mano.vim.vnfi.JujuInformations;
@@ -70,6 +73,11 @@ class OsContainerUowTest {
 	@Test
 	void testRollback() {
 		final OsContainerTask task = new OsContainerTask();
+		final OsContainer osc = new OsContainer();
+		final SoftwareImage sw = new SoftwareImage();
+		final Map<String, SoftwareImage> map = Map.of("img", sw);
+		osc.setArtifacts(map);
+		task.setOsContainer(osc);
 		final VirtualTaskV3<OsContainerTask> vt = new OsContainerVt(task);
 		final VimConnectionInformation vimConn = new VimConnectionInformation();
 		final JujuInformations juju = new JujuInformations();
