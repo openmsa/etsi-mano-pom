@@ -95,7 +95,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 	@Override
 	public List<Subscription> query(final String filter, final ApiVersionType type) {
 		final GrammarNodeResult nodes = grammarParser.parse(filter);
-		final GrammarNode gn = new BooleanExpression(new GrammarLabel("subscriptionType"), GrammarOperandType.EQ, new GrammarValue(type.toString()));
+		final GrammarNode gn = new BooleanExpression(new GrammarLabel("subscriptionType"), GrammarOperandType.EQ, new GrammarValue(type.toString().toUpperCase()));
 		final ArrayList<GrammarNode> lst = new ArrayList<>(nodes.getNodes());
 		lst.add(gn);
 		return manoSearch.getCriteria(lst, Subscription.class);
@@ -202,7 +202,9 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
 	private static boolean isFilterMatching(final Subscription subs, final List<FilterAttributes> filters) {
 		final List<FilterAttributes> left = subs.getFilters();
-		return !left.stream().filter(filters::contains).toList().isEmpty();
+		final List<FilterAttributes> inter = new ArrayList<>(left);
+		inter.retainAll(filters);
+		return filters.size() == inter.size();
 	}
 
 	private static @Nullable String extractVersion(final Class<?> version) {

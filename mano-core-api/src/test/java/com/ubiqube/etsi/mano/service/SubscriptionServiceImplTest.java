@@ -237,10 +237,15 @@ class SubscriptionServiceImplTest {
 				.api(ApiTypesEnum.SOL003)
 				.filters(List.of(f1))
 				.build();
+		final FilterAttributes f2 = new FilterAttributes("attr", "valuesss");
+		final Subscription r2 = Subscription.builder()
+				.api(ApiTypesEnum.SOL003)
+				.filters(List.of(f2))
+				.build();
 		when(subscriptionJpa.findByApiAndCallbackUriAndSubscriptionType(any(), any(), any())).thenReturn(List.of(request));
-		when(mapper.map(request, Subscription.class)).thenReturn(request);
+		when(mapper.map(request, Subscription.class)).thenReturn(r2);
 		final Class clazz = getClass();
-		assertThrows(GenericException.class, () -> subs.save(request, clazz, ApiVersionType.SOL003_VNFFM));
+		subs.save(request, clazz, ApiVersionType.SOL003_VNFFM);
 	}
 
 	@Test
@@ -326,5 +331,4 @@ class SubscriptionServiceImplTest {
 		subs.convert(notificationEvent);
 		assertTrue(true);
 	}
-
 }
