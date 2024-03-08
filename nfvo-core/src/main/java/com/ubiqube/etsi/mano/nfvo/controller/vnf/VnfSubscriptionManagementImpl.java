@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
 import com.ubiqube.etsi.mano.controller.vnf.VnfSubscriptionManagement;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackageChangeNotification;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackageOnboardingNotification;
-import com.ubiqube.etsi.mano.dao.subscription.SubscriptionType;
+import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.ServerService;
 import com.ubiqube.etsi.mano.service.SubscriptionService;
 import com.ubiqube.etsi.mano.service.event.Notifications;
@@ -51,7 +51,7 @@ public class VnfSubscriptionManagementImpl implements VnfSubscriptionManagement 
 	public void vnfPackageChangeNotificationPost(@Nonnull final VnfPackageChangeNotification notificationsMessage) {
 		final UUID subscriptionId = UUID.fromString(notificationsMessage.getSubscriptionId());
 
-		final Subscription subscriptionsRepository = subscriptionService.findById(subscriptionId, SubscriptionType.VNF);
+		final Subscription subscriptionsRepository = subscriptionService.findById(subscriptionId, ApiVersionType.SOL005_VNFPKGM);
 		final URI callbackUri = subscriptionsRepository.getCallbackUri();
 		final ServerAdapter server = serverService.buildServerAdapter(subscriptionsRepository);
 		notifications.doNotification(notificationsMessage, callbackUri, server);
@@ -60,7 +60,7 @@ public class VnfSubscriptionManagementImpl implements VnfSubscriptionManagement 
 	@Override
 	public void vnfPackageOnboardingNotificationPost(@Nonnull final VnfPackageOnboardingNotification notificationsMessage) {
 		final UUID subscriptionId = UUID.fromString(notificationsMessage.getSubscriptionId());
-		final Subscription subscription = subscriptionService.findById(subscriptionId, SubscriptionType.VNF);
+		final Subscription subscription = subscriptionService.findById(subscriptionId, ApiVersionType.SOL005_VNFPKGM);
 		final URI cbUrl = subscription.getCallbackUri();
 		final ServerAdapter server = serverService.buildServerAdapter(subscription);
 		notifications.doNotification(notificationsMessage, cbUrl, server);

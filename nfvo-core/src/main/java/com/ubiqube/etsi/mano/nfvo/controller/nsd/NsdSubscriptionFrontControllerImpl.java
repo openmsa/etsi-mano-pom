@@ -26,7 +26,7 @@ import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.controller.SubscriptionFrontController;
 import com.ubiqube.etsi.mano.controller.nsd.NsdSubscriptionFrontController;
-import com.ubiqube.etsi.mano.dao.subscription.SubscriptionType;
+import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 
 /**
  *
@@ -55,7 +55,7 @@ public class NsdSubscriptionFrontControllerImpl implements NsdSubscriptionFrontC
 	 */
 	@Override
 	public <U> ResponseEntity<List<U>> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final Consumer<U> makeLink) {
-		return subscriptionService.search(requestParams, clazz, makeLink, SubscriptionType.NSD);
+		return subscriptionService.search(requestParams, clazz, makeLink, ApiVersionType.SOL005_NSD);
 	}
 
 	/**
@@ -80,7 +80,7 @@ public class NsdSubscriptionFrontControllerImpl implements NsdSubscriptionFrontC
 	 */
 	@Override
 	public <U> ResponseEntity<U> create(final Object body, final Class<U> clazz, final Class<?> versionController, final Consumer<U> makeLink, final Function<U, String> getSelfLink) {
-		return subscriptionService.create(body, clazz, versionController, makeLink, getSelfLink, SubscriptionType.NSD);
+		return subscriptionService.create(body, clazz, versionController, makeLink, getSelfLink, ApiVersionType.SOL005_NSD);
 	}
 
 	/**
@@ -95,7 +95,7 @@ public class NsdSubscriptionFrontControllerImpl implements NsdSubscriptionFrontC
 	 */
 	@Override
 	public ResponseEntity<Void> delete(final String subscriptionId) {
-		return subscriptionService.deleteById(subscriptionId, SubscriptionType.NSD);
+		return subscriptionService.deleteById(subscriptionId, ApiVersionType.SOL005_NSD);
 	}
 
 	/**
@@ -111,7 +111,7 @@ public class NsdSubscriptionFrontControllerImpl implements NsdSubscriptionFrontC
 	 */
 	@Override
 	public <U> ResponseEntity<U> findById(final String subscriptionId, final Class<U> clazz, final Consumer<U> makeLink) {
-		return subscriptionService.findById(subscriptionId, clazz, makeLink, SubscriptionType.NSD);
+		return subscriptionService.findById(subscriptionId, clazz, makeLink, ApiVersionType.SOL005_NSD);
 	}
 
 }

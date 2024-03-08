@@ -27,7 +27,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.controller.nslcm.NsLcmSubscriptionsGenericFrontController;
-import com.ubiqube.etsi.mano.dao.subscription.SubscriptionType;
+import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.SubscriptionService;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
 
@@ -59,7 +59,7 @@ public class NsLcmSubscriptionsGenericFrontControllerImpl implements NsLcmSubscr
 	 */
 	@Override
 	public <U> ResponseEntity<List<U>> search(final String filter, final Class<U> clazz, final Consumer<U> makeLink) {
-		final List<Subscription> list = subscriptionService.query(filter, SubscriptionType.NSLCM);
+		final List<Subscription> list = subscriptionService.query(filter, ApiVersionType.SOL005_NSLCM);
 		final List<U> pkgms = mapper.mapAsList(list, clazz);
 		pkgms.stream().forEach(makeLink::accept);
 		return ResponseEntity.ok(pkgms);
@@ -85,7 +85,7 @@ public class NsLcmSubscriptionsGenericFrontControllerImpl implements NsLcmSubscr
 	 */
 	@Override
 	public <U> ResponseEntity<U> create(final Object lccnSubscriptionRequest, final Class<U> clazz, final Class<?> versionController, final Consumer<U> makeLink, final Function<U, String> setLink) {
-		final Object subscription = subscriptionService.save(lccnSubscriptionRequest, versionController, SubscriptionType.NSLCM);
+		final Object subscription = subscriptionService.save(lccnSubscriptionRequest, versionController, ApiVersionType.SOL005_NSLCM);
 		final U pkgmSubscription = mapper.map(subscription, clazz);
 		makeLink.accept(pkgmSubscription);
 		final String location = setLink.apply(pkgmSubscription);
@@ -102,7 +102,7 @@ public class NsLcmSubscriptionsGenericFrontControllerImpl implements NsLcmSubscr
 	 */
 	@Override
 	public ResponseEntity<Void> delete(final String subscriptionId) {
-		subscriptionService.delete(UUID.fromString(subscriptionId), SubscriptionType.NSLCM);
+		subscriptionService.delete(UUID.fromString(subscriptionId), ApiVersionType.SOL005_NSLCM);
 		return ResponseEntity.noContent().build();
 	}
 
@@ -117,7 +117,7 @@ public class NsLcmSubscriptionsGenericFrontControllerImpl implements NsLcmSubscr
 	 */
 	@Override
 	public <U> ResponseEntity<U> findById(final String subscriptionId, final Class<U> clazz, final Consumer<U> makeLink) {
-		final Subscription subscription = subscriptionService.findById(UUID.fromString(subscriptionId), SubscriptionType.NSLCM);
+		final Subscription subscription = subscriptionService.findById(UUID.fromString(subscriptionId), ApiVersionType.SOL005_NSLCM);
 		final U pkgmSubscription = mapper.map(subscription, clazz);
 		makeLink.accept(pkgmSubscription);
 		return new ResponseEntity<>(pkgmSubscription, HttpStatus.OK);

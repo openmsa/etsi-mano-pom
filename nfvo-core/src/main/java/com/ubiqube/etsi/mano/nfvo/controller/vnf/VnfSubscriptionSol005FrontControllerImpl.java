@@ -27,7 +27,7 @@ import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.controller.vnf.VnfSubscriptionManagement;
 import com.ubiqube.etsi.mano.controller.vnf.VnfSubscriptionSol005FrontController;
-import com.ubiqube.etsi.mano.dao.subscription.SubscriptionType;
+import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.SubscriptionService;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
 
@@ -55,7 +55,7 @@ public class VnfSubscriptionSol005FrontControllerImpl implements VnfSubscription
 
 	@Override
 	public <U> ResponseEntity<List<U>> search(final String filters, final Class<U> clazz, final Consumer<U> makeLinks) {
-		final List<Subscription> list = subscriptionService.query(filters, SubscriptionType.VNF);
+		final List<Subscription> list = subscriptionService.query(filters, ApiVersionType.SOL005_VNFPKGM);
 		final List<U> pkgms = mapper.mapAsList(list, clazz);
 		pkgms.stream().forEach(makeLinks::accept);
 		return ResponseEntity.ok(pkgms);
@@ -63,7 +63,7 @@ public class VnfSubscriptionSol005FrontControllerImpl implements VnfSubscription
 
 	@Override
 	public <U> ResponseEntity<U> create(final Object subscriptionsPostQuery, final Class<?> version, final Class<U> clazz, final Consumer<U> makeLinks) {
-		final Subscription subscription = subscriptionService.save(subscriptionsPostQuery, version, SubscriptionType.VNF);
+		final Subscription subscription = subscriptionService.save(subscriptionsPostQuery, version, ApiVersionType.SOL005_VNFPKGM);
 		final U pkgmSubscription = mapper.map(subscription, clazz);
 		makeLinks.accept(pkgmSubscription);
 		return new ResponseEntity<>(pkgmSubscription, HttpStatus.CREATED);
@@ -71,13 +71,13 @@ public class VnfSubscriptionSol005FrontControllerImpl implements VnfSubscription
 
 	@Override
 	public ResponseEntity<Void> delete(final String subscriptionId) {
-		subscriptionService.delete(getSafeUUID(subscriptionId), SubscriptionType.NSDVNF);
+		subscriptionService.delete(getSafeUUID(subscriptionId), ApiVersionType.SOL005_VNFPKGM);
 		return ResponseEntity.noContent().build();
 	}
 
 	@Override
 	public <U> ResponseEntity<U> findById(final String subscriptionId, final Class<U> clazz, final Consumer<U> makeLinks) {
-		final Subscription subscription = subscriptionService.findById(getSafeUUID(subscriptionId), SubscriptionType.NSDVNF);
+		final Subscription subscription = subscriptionService.findById(getSafeUUID(subscriptionId), ApiVersionType.SOL005_VNFPKGM);
 		final U pkgmSubscription = mapper.map(subscription, clazz);
 		makeLinks.accept(pkgmSubscription);
 		return new ResponseEntity<>(pkgmSubscription, HttpStatus.OK);

@@ -28,7 +28,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfPackageChangeNotification;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackageOnboardingNotification;
-import com.ubiqube.etsi.mano.dao.subscription.SubscriptionType;
+import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.ServerService;
 import com.ubiqube.etsi.mano.service.SubscriptionService;
 import com.ubiqube.etsi.mano.service.event.Notifications;
@@ -51,7 +51,7 @@ class VnfSubscriptionManagementImplTest {
 		final String strId = id.toString();
 		message.setSubscriptionId(strId);
 		final Subscription subs = new Subscription();
-		when(subscriptionRepo.findById(id, SubscriptionType.VNF)).thenReturn(subs);
+		when(subscriptionRepo.findById(id, ApiVersionType.SOL005_VNFPKGM)).thenReturn(subs);
 		srv.vnfPackageChangeNotificationPost(message);
 		assertTrue(true);
 	}
@@ -64,7 +64,7 @@ class VnfSubscriptionManagementImplTest {
 		final VnfPackageOnboardingNotification message = new VnfPackageOnboardingNotification();
 		message.setSubscriptionId(strId);
 		final Subscription subs = new Subscription();
-		when(subscriptionRepo.findById(id, SubscriptionType.VNF)).thenReturn(subs);
+		when(subscriptionRepo.findById(id, ApiVersionType.SOL005_VNFPKGM)).thenReturn(subs);
 		srv.vnfPackageOnboardingNotificationPost(message);
 		assertTrue(true);
 	}
