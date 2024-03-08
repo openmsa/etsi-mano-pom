@@ -43,6 +43,7 @@ import com.ubiqube.etsi.mano.controller.TestRequestMappingBadVersion;
 import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
+import com.ubiqube.etsi.mano.exception.SeeOtherException;
 import com.ubiqube.etsi.mano.grammar.GrammarNodeResult;
 import com.ubiqube.etsi.mano.grammar.GrammarParser;
 import com.ubiqube.etsi.mano.jpa.SubscriptionJpa;
@@ -214,13 +215,18 @@ class SubscriptionServiceImplTest {
 	void testSave_FailOnDuplicates() throws Exception {
 		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, mapper, manoSearch);
 		final Subscription request = Subscription.builder()
+				.id(UUID.randomUUID())
 				.api(ApiTypesEnum.SOL003)
 				.filters(List.of())
 				.build();
 		when(subscriptionJpa.findByApiAndCallbackUriAndSubscriptionType(any(), any(), any())).thenReturn(List.of(request));
 		when(mapper.map(request, Subscription.class)).thenReturn(request);
+		final HttpGateway httpGw = Mockito.mock(HttpGateway.class);
+		final Optional<HttpGateway> optHttpgw = Optional.of(httpGw);
+		when(httpGw.getSubscriptionUriFor(any(), any())).thenReturn("http://test.com/");
+		when(serverService.getHttpGatewayFromManoVersion(any())).thenReturn(optHttpgw);
 		final Class clazz = getClass();
-		assertThrows(GenericException.class, () -> subs.save(request, clazz, ApiVersionType.SOL002_VNFFM));
+		assertThrows(SeeOtherException.class, () -> subs.save(request, clazz, ApiVersionType.SOL002_VNFFM));
 	}
 
 	@Test

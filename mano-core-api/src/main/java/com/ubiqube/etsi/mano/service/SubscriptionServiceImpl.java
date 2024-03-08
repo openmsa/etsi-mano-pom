@@ -199,9 +199,9 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 				.findFirst();
 	}
 
-	private static boolean isFilterMatching(final Subscription x, final List<FilterAttributes> filters) {
-		final List<FilterAttributes> left = x.getFilters();
-		return left.stream().filter(filters::contains).toList().isEmpty();
+	private static boolean isFilterMatching(final Subscription subs, final List<FilterAttributes> filters) {
+		final List<FilterAttributes> left = subs.getFilters();
+		return !left.stream().filter(filters::contains).toList().isEmpty();
 	}
 
 	private static @Nullable String extractVersion(final Class<?> version) {
