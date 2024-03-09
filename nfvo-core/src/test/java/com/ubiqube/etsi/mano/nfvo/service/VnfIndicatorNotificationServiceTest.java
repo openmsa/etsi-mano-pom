@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import java.util.Optional;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -46,7 +46,7 @@ class VnfIndicatorNotificationServiceTest {
 		final VnfIndicatorNotificationService srv = new VnfIndicatorNotificationService(remoteSubscriptionJpa, vnfIndJpa);
 		final VnfIndiValueChangeNotification event = new VnfIndiValueChangeNotification();
 		final RemoteSubscription remoteSubs = new RemoteSubscription();
-		when(remoteSubscriptionJpa.findByRemoteSubscriptionId(any())).thenReturn(Optional.of(remoteSubs));
+		when(remoteSubscriptionJpa.findByRemoteSubscriptionId(any())).thenReturn(List.of(remoteSubs));
 		when(vnfIndJpa.save(any())).thenReturn(event);
 		srv.onNotification(event, null);
 		assertTrue(true);

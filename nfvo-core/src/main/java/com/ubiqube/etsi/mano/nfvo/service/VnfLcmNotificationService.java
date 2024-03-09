@@ -16,7 +16,7 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service;
 
-import java.util.Optional;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,11 +71,11 @@ public class VnfLcmNotificationService {
 	}
 
 	private RemoteSubscription getAndCheckSubscription(final VnfLcmNotification event) {
-		final Optional<RemoteSubscription> subscription = remoteSubscriptionJpa.findByRemoteSubscriptionId(event.getSubscriptionId());
+		final List<RemoteSubscription> subscription = remoteSubscriptionJpa.findByRemoteSubscriptionId(event.getSubscriptionId());
 		if (subscription.isEmpty()) {
 			LOG.warn(UNABLE_TO_FIND_NOTIFICATION_EVENT_IN_DATABASE, event.getSubscriptionId());
 			throw new NotFoundException(UNABLE_TO_FIND_NOTIFICATION_EVENT + event.getSubscriptionId());
 		}
-		return subscription.get();
+		return subscription.get(0);
 	}
 }

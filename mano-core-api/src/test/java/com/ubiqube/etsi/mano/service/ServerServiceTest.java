@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -47,6 +48,7 @@ import com.ubiqube.etsi.mano.dao.mano.vim.PlanStatusType;
 import com.ubiqube.etsi.mano.dao.subscription.RemoteSubscription;
 import com.ubiqube.etsi.mano.dao.subscription.SubscriptionType;
 import com.ubiqube.etsi.mano.exception.GenericException;
+import com.ubiqube.etsi.mano.jpa.RemoteSubscriptionJpa;
 import com.ubiqube.etsi.mano.jpa.config.ServersJpa;
 import com.ubiqube.etsi.mano.service.event.ActionType;
 import com.ubiqube.etsi.mano.service.event.EventManager;
@@ -71,12 +73,14 @@ class ServerServiceTest {
 	private ServerService ss;
 	@Mock
 	ObservationRegistry observationRegistry;
+	@Mock
+	private RemoteSubscriptionJpa remoteSubscriptionJpa;
 
 	@BeforeEach
 	void setup() {
 		when(hg.getVersion()).thenReturn(Version.of("1.2.5"));
 		when(hg2.getVersion()).thenReturn(Version.of("1.2.3"));
-		ss = new ServerService(serversJpa, eventManager, List.of(hg, hg2), springContext);
+		ss = new ServerService(serversJpa, eventManager, List.of(hg, hg2), springContext, remoteSubscriptionJpa);
 	}
 
 	@Test
@@ -138,6 +142,23 @@ class ServerServiceTest {
 	void testDeleteByIt() throws Exception {
 		final UUID id = UUID.randomUUID();
 		assertThrows(GenericException.class, () -> ss.deleteById(id));
+	}
+
+	@Test
+	void testDeleteByIt2() throws Exception {
+		final UUID id = UUID.randomUUID();
+		final RemoteSubscription rs = new RemoteSubscription();
+		rs.setRemoteServerId(id);
+		rs.setSubscriptionType(SubscriptionType.VNF);
+		final Servers srv = Servers.builder()
+				.id(id)
+				.url(URI.create("http://localhost/"))
+				.remoteSubscriptions(Set.of(rs))
+				.version("1.2.3")
+				.build();
+		when(serversJpa.findById(id)).thenReturn(Optional.of(srv));
+		when(remoteSubscriptionJpa.findByRemoteSubscriptionId(any())).thenReturn(List.of(rs));
+		ss.deleteById(id);
 	}
 
 	@Test

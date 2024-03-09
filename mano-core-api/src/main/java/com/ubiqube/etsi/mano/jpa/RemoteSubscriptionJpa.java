@@ -16,7 +16,7 @@
  */
 package com.ubiqube.etsi.mano.jpa;
 
-import java.util.Optional;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.repository.CrudRepository;
@@ -29,5 +29,5 @@ import com.ubiqube.etsi.mano.dao.subscription.RemoteSubscription;
  *
  */
 public interface RemoteSubscriptionJpa extends CrudRepository<RemoteSubscription, UUID> {
-	Optional<RemoteSubscription> findByRemoteSubscriptionId(String id);
+	List<RemoteSubscription> findByRemoteSubscriptionId(String id);
 }

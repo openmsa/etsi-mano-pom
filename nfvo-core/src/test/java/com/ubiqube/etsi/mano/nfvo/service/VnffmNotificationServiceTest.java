@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import java.util.Optional;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -46,7 +46,7 @@ class VnffmNotificationServiceTest {
 		final VnffmNotificationService srv = new VnffmNotificationService(remoteSubscriptionJpa, vnfFmJpa);
 		final AlarmNotification event = new AlarmNotification();
 		final RemoteSubscription rmt = new RemoteSubscription();
-		when(remoteSubscriptionJpa.findByRemoteSubscriptionId(any())).thenReturn(Optional.of(rmt));
+		when(remoteSubscriptionJpa.findByRemoteSubscriptionId(any())).thenReturn(List.of(rmt));
 		final AlarmNotification newEvent = new AlarmNotification();
 		when(vnfFmJpa.save(any())).thenReturn(newEvent);
 		srv.onNotification(event, null);

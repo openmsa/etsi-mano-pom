@@ -37,6 +37,7 @@ import com.ubiqube.etsi.mano.dao.mano.vim.PlanStatusType;
 import com.ubiqube.etsi.mano.dao.subscription.RemoteSubscription;
 import com.ubiqube.etsi.mano.dao.subscription.SubscriptionType;
 import com.ubiqube.etsi.mano.exception.GenericException;
+import com.ubiqube.etsi.mano.jpa.RemoteSubscriptionJpa;
 import com.ubiqube.etsi.mano.jpa.config.ServersJpa;
 import com.ubiqube.etsi.mano.service.auth.model.ApiTypesEnum;
 import com.ubiqube.etsi.mano.service.event.ActionType;
@@ -64,13 +65,15 @@ public class ServerService {
 	private final ServersJpa serversJpa;
 	private final EventManager eventManager;
 	private final List<HttpGateway> httpGateway;
-
+	private final RemoteSubscriptionJpa remoteSubscriptionJpa;
 	private final ConfigurableApplicationContext springContext;
 
-	public ServerService(final ServersJpa serversJpa, final EventManager eventManager, @Lazy final List<HttpGateway> httpGateway, final ConfigurableApplicationContext springContext) {
+	public ServerService(final ServersJpa serversJpa, final EventManager eventManager, @Lazy final List<HttpGateway> httpGateway, final ConfigurableApplicationContext springContext,
+			final RemoteSubscriptionJpa remoteSubscriptionJpa) {
 		this.serversJpa = serversJpa;
 		this.eventManager = eventManager;
 		this.httpGateway = httpGateway.stream().sorted(Comparator.comparing(HttpGateway::getVersion)).toList();
+		this.remoteSubscriptionJpa = remoteSubscriptionJpa;
 		this.springContext = springContext;
 	}
 
@@ -104,6 +107,9 @@ public class ServerService {
 	}
 
 	private void unregister(final FluxRest rest, final RemoteSubscription x) {
+		if (!isDeletebale(x)) {
+			return;
+		}
 		final Servers srv = findById(x.getRemoteServerId());
 		final HttpGateway hg = filterServer(srv);
 		final ApiVersionType sType = subscriptionTypeToApiVersion(x.getSubscriptionType());
@@ -116,6 +122,11 @@ public class ServerService {
 			LOG.debug("", e);
 			LOG.warn("Could not remove subscription: {}", x.getRemoteSubscriptionId());
 		}
+	}
+
+	private boolean isDeletebale(final RemoteSubscription x) {
+		final List<RemoteSubscription> res = remoteSubscriptionJpa.findByRemoteSubscriptionId(x.getRemoteSubscriptionId());
+		return res.size() == 1;
 	}
 
 	public ServerAdapter findNearestServer() {

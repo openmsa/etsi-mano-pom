@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import java.util.Optional;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -46,7 +46,7 @@ class VnfLcmNotificationServiceTest {
 		final VnfLcmNotificationService srv = new VnfLcmNotificationService(remoteSubscription, vnfLcmJpa);
 		final VnfLcmNotification evt = new VnfLcmNotification();
 		final RemoteSubscription rmt = new RemoteSubscription();
-		when(remoteSubscription.findByRemoteSubscriptionId(any())).thenReturn(Optional.of(rmt));
+		when(remoteSubscription.findByRemoteSubscriptionId(any())).thenReturn(List.of(rmt));
 		when(vnfLcmJpa.save(evt)).thenReturn(evt);
 		srv.onCreationNotification(evt, null);
 		assertTrue(true);
@@ -57,7 +57,7 @@ class VnfLcmNotificationServiceTest {
 		final VnfLcmNotificationService srv = new VnfLcmNotificationService(remoteSubscription, vnfLcmJpa);
 		final VnfLcmNotification evt = new VnfLcmNotification();
 		final RemoteSubscription rmt = new RemoteSubscription();
-		when(remoteSubscription.findByRemoteSubscriptionId(any())).thenReturn(Optional.of(rmt));
+		when(remoteSubscription.findByRemoteSubscriptionId(any())).thenReturn(List.of(rmt));
 		when(vnfLcmJpa.save(evt)).thenReturn(evt);
 		srv.onDeletionNotification(evt, null);
 		assertTrue(true);
@@ -68,7 +68,7 @@ class VnfLcmNotificationServiceTest {
 		final VnfLcmNotificationService srv = new VnfLcmNotificationService(remoteSubscription, vnfLcmJpa);
 		final VnfLcmNotification evt = new VnfLcmNotification();
 		final RemoteSubscription rmt = new RemoteSubscription();
-		when(remoteSubscription.findByRemoteSubscriptionId(any())).thenReturn(Optional.of(rmt));
+		when(remoteSubscription.findByRemoteSubscriptionId(any())).thenReturn(List.of(rmt));
 		when(vnfLcmJpa.save(evt)).thenReturn(evt);
 		srv.onVnfLcmOpOccsNotification(evt, null);
 		assertTrue(true);
@@ -78,7 +78,7 @@ class VnfLcmNotificationServiceTest {
 	void testOnVnfLcmOpOccsNotificationNotFound() throws Exception {
 		final VnfLcmNotificationService srv = new VnfLcmNotificationService(remoteSubscription, vnfLcmJpa);
 		final VnfLcmNotification evt = new VnfLcmNotification();
-		when(remoteSubscription.findByRemoteSubscriptionId(any())).thenReturn(Optional.empty());
+		when(remoteSubscription.findByRemoteSubscriptionId(any())).thenReturn(List.of());
 		assertThrows(NotFoundException.class, () -> srv.onVnfLcmOpOccsNotification(evt, null));
 		assertTrue(true);
 	}

@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -65,7 +66,7 @@ class VnfNotificationServiceTest {
 		final VnfPackageChangeNotification event = new VnfPackageChangeNotification();
 		event.setChangeType(PackageChangeType.PKG_DELETE);
 		final RemoteSubscription remoteSubs = new RemoteSubscription();
-		when(remoteSubscription.findByRemoteSubscriptionId(any())).thenReturn(Optional.of(remoteSubs));
+		when(remoteSubscription.findByRemoteSubscriptionId(any())).thenReturn(List.of(remoteSubs));
 		srv.onChange(event);
 		assertTrue(true);
 	}
@@ -75,7 +76,7 @@ class VnfNotificationServiceTest {
 		final VnfNotificationService srv = new VnfNotificationService(vnfPkgOnboardNotif, eventManager, remoteSubscription, vnfPackageJpa);
 		final VnfPackageChangeNotification event = new VnfPackageChangeNotification();
 		final RemoteSubscription remoteSubs = new RemoteSubscription();
-		when(remoteSubscription.findByRemoteSubscriptionId(any())).thenReturn(Optional.of(remoteSubs));
+		when(remoteSubscription.findByRemoteSubscriptionId(any())).thenReturn(List.of(remoteSubs));
 		srv.onChange(event);
 		assertTrue(true);
 	}
@@ -86,7 +87,7 @@ class VnfNotificationServiceTest {
 		final VnfPackageChangeNotification event = new VnfPackageChangeNotification();
 		event.setOperationalState(PackageOperationalStateType.DISABLED);
 		final RemoteSubscription remoteSubs = new RemoteSubscription();
-		when(remoteSubscription.findByRemoteSubscriptionId(any())).thenReturn(Optional.of(remoteSubs));
+		when(remoteSubscription.findByRemoteSubscriptionId(any())).thenReturn(List.of(remoteSubs));
 		final VnfPackage vnfPkg = new VnfPackage();
 		when(vnfPackageJpa.findByVnfdId(any())).thenReturn(Optional.of(vnfPkg));
 		srv.onChange(event);
@@ -98,7 +99,7 @@ class VnfNotificationServiceTest {
 		final VnfNotificationService srv = new VnfNotificationService(vnfPkgOnboardNotif, eventManager, remoteSubscription, vnfPackageJpa);
 		final VnfPackageOnboardingNotification event = new VnfPackageOnboardingNotification();
 		final RemoteSubscription remoteSubs = new RemoteSubscription();
-		when(remoteSubscription.findByRemoteSubscriptionId(any())).thenReturn(Optional.of(remoteSubs));
+		when(remoteSubscription.findByRemoteSubscriptionId(any())).thenReturn(List.of(remoteSubs));
 		when(vnfPkgOnboardNotif.save(event)).thenReturn(event);
 		srv.onNotification(event, null);
 		assertTrue(true);

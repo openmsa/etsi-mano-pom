@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.vnfm.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -84,11 +85,11 @@ public class VnfNotificationService {
 	}
 
 	private RemoteSubscription findRemoteSubscription(final String id) {
-		final Optional<RemoteSubscription> subscription = remoteSubscriptionJpa.findByRemoteSubscriptionId(id);
+		final List<RemoteSubscription> subscription = remoteSubscriptionJpa.findByRemoteSubscriptionId(id);
 		if (subscription.isEmpty()) {
 			LOG.warn("Unable to find change event {} in database.", id);
 			throw new NotFoundException("Unable to find notification event " + id);
 		}
-		return subscription.get();
+		return subscription.get(0);
 	}
 }
