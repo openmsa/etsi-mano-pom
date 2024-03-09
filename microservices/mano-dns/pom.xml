@@ -16,9 +16,7 @@
 		<module>mano-dns-server</module>
 	</modules>
 	<properties>
-		<maven.compiler.target>17</maven.compiler.target>
-		<maven.compiler.source>17</maven.compiler.source>
-		<ubiqube.grpc.version>1.61.1</ubiqube.grpc.version>
-		<ubiqube.version.protobuf-java>3.25.2</ubiqube.version.protobuf-java>
+		<ubiqube.grpc.version>1.62.2</ubiqube.grpc.version>
+		<ubiqube.version.protobuf-java>3.25.3</ubiqube.version.protobuf-java>
 	</properties>
 </project>
