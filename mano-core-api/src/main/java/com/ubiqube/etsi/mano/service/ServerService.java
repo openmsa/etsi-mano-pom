@@ -196,15 +196,24 @@ public class ServerService {
 
 	public static ApiAndType apiVersionTosubscriptionType(final ApiVersionType subscriptionType) {
 		return switch (subscriptionType) {
+		case SOL005_NSD -> ApiAndType.of(ApiTypesEnum.SOL005, SubscriptionType.NSD);
+		case SOL005_NSFM -> ApiAndType.of(ApiTypesEnum.SOL005, SubscriptionType.NSFM);
+		case SOL005_NSLCM -> ApiAndType.of(ApiTypesEnum.SOL005, SubscriptionType.NSLCM);
+		case SOL005_NSPM -> ApiAndType.of(ApiTypesEnum.SOL005, SubscriptionType.NSPM);
+		case SOL005_VNFPKGM -> ApiAndType.of(ApiTypesEnum.SOL005, SubscriptionType.VNF);
 		case SOL003_VNFPKGM -> ApiAndType.of(ApiTypesEnum.SOL003, SubscriptionType.VNF);
 		case SOL003_VNFLCM -> ApiAndType.of(ApiTypesEnum.SOL003, SubscriptionType.VNFLCM);
 		case SOL003_VNFIND -> ApiAndType.of(ApiTypesEnum.SOL003, SubscriptionType.VNFIND);
 		case SOL003_VRQAN -> ApiAndType.of(ApiTypesEnum.SOL003, SubscriptionType.VRQAN);
 		case SOL003_VNFPM -> ApiAndType.of(ApiTypesEnum.SOL003, SubscriptionType.VNFPM);
 		case SOL003_VNFFM -> ApiAndType.of(ApiTypesEnum.SOL003, SubscriptionType.VNFFM);
+		case SOL003_VNFSNAPSHOTPKGM -> ApiAndType.of(ApiTypesEnum.SOL003, SubscriptionType.VNFSNAPSHOTPKGM);
+		case SOL003_GRANT -> ApiAndType.of(ApiTypesEnum.SOL003, SubscriptionType.GRANT);
+		case SOL002_VNFLCM -> ApiAndType.of(ApiTypesEnum.SOL002, SubscriptionType.VNFLCM);
 		case SOL002_VNFPM -> ApiAndType.of(ApiTypesEnum.SOL002, SubscriptionType.VNFPM);
 		case SOL002_VNFFM -> ApiAndType.of(ApiTypesEnum.SOL002, SubscriptionType.VNFFM);
-		case SOL005_VNFPKGM -> ApiAndType.of(ApiTypesEnum.SOL005, SubscriptionType.VNF);
+		case SOL002_VNFIND -> ApiAndType.of(ApiTypesEnum.SOL002, SubscriptionType.VNFIND);
+		case SOL002_VNFCONFIG -> ApiAndType.of(ApiTypesEnum.SOL002, SubscriptionType.VNFCONFIG);
 		default -> throw new GenericException("Unable to find " + subscriptionType);
 		};
 	}

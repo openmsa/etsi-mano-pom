@@ -34,10 +34,13 @@ import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import com.ubiqube.etsi.mano.controller.subscription.ApiAndType;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.dao.mano.vim.PlanStatusType;
@@ -63,13 +66,17 @@ class ServerServiceTest {
 	private ConfigurableApplicationContext springContext;
 	@Mock
 	HttpGateway hg;
+	@Mock
+	HttpGateway hg2;
 	private ServerService ss;
 	@Mock
 	ObservationRegistry observationRegistry;
 
 	@BeforeEach
 	void setup() {
-		ss = new ServerService(serversJpa, eventManager, List.of(hg), springContext);
+		when(hg.getVersion()).thenReturn(Version.of("1.2.5"));
+		when(hg2.getVersion()).thenReturn(Version.of("1.2.3"));
+		ss = new ServerService(serversJpa, eventManager, List.of(hg, hg2), springContext);
 	}
 
 	@Test
@@ -160,7 +167,6 @@ class ServerServiceTest {
 				.build();
 		final Optional<Servers> srvOpt = Optional.of(srv);
 		when(serversJpa.findById(id)).thenReturn(srvOpt);
-		when(hg.getVersion()).thenReturn(new Version(1, 2, 3));
 		ss.deleteById(id);
 		assertTrue(true);
 	}
@@ -180,7 +186,6 @@ class ServerServiceTest {
 				.version("1.2.3")
 				.build();
 		when(serversJpa.findByServerStatusIn(List.of(PlanStatusType.SUCCESS))).thenReturn(List.of(srv, srv));
-		when(hg.getVersion()).thenReturn(new Version(1, 2, 3));
 		when(springContext.getBean(ObservationRegistry.class)).thenReturn(observationRegistry);
 		ss.findNearestServer();
 		assertTrue(true);
@@ -232,5 +237,27 @@ class ServerServiceTest {
 	@Test
 	void testSubscriptionTypeToApiVersionFail() {
 		assertThrows(GenericException.class, () -> ss.convertManoVersionToFe(SubscriptionType.MEOPKG, null));
+	}
+
+	@ParameterizedTest
+	@EnumSource(ApiVersionType.class)
+	void testApiVersionTosubscriptionType(final ApiVersionType type) {
+		final ApiAndType res = ServerService.apiVersionTosubscriptionType(type);
+		assertNotNull(res);
+	}
+
+	@Test
+	void testGetHttpGatewayFromManoVersion() {
+		final Optional<HttpGateway> res = ss.getHttpGatewayFromManoVersion(null);
+		assertTrue(res.isPresent());
+		// Because list is sorted.
+		assertEquals(hg2, res.get());
+	}
+
+	@Test
+	void testGetHttpGatewayFromManoVersionFound() {
+		final Optional<HttpGateway> res = ss.getHttpGatewayFromManoVersion("1.2.3");
+		assertTrue(res.isPresent());
+		assertEquals(hg2, res.get());
 	}
 }
