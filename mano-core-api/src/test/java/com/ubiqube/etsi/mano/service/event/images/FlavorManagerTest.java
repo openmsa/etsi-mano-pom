@@ -19,6 +19,7 @@ package com.ubiqube.etsi.mano.service.event.images;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -55,18 +56,16 @@ class FlavorManagerTest {
 	private Vim vim;
 
 	private List<Flavor> createFlavorList() {
-		final Flavor f1 = new Flavor();
-		f1.setId("1");
-		f1.setDisk(5);
-		f1.setRam(500000000);
-		f1.setVcpus(2);
-		f1.setName("f1");
-		final Flavor f2 = new Flavor();
-		f2.setId("2");
-		f2.setDisk(15);
-		f2.setRam(2000000000);
-		f2.setVcpus(4);
-		f2.setName("f2");
+		// id: 1, disk: 5, cpu: 2, ram: 500_000_000
+		final Flavor f1 = createFlavor1();
+		// id: 2, disk: 15, cpu: 4, ram: 2_000_000_000
+		final Flavor f2 = createFlavor2();
+		// id: 22, disk: 15, cpu: 4, ram: 2_000_000_000, a: b
+		final Flavor f22 = createFlavor22();
+		return List.of(f1, f2, f22);
+	}
+
+	private Flavor createFlavor22() {
 		final Flavor f22 = new Flavor();
 		f22.setId("22");
 		f22.setDisk(15);
@@ -74,7 +73,27 @@ class FlavorManagerTest {
 		f22.setVcpus(4);
 		f22.setName("f22");
 		f22.setAdditional(Map.of("a", "b"));
-		return List.of(f1, f2, f22);
+		return f22;
+	}
+
+	private Flavor createFlavor2() {
+		final Flavor f2 = new Flavor();
+		f2.setId("2");
+		f2.setDisk(15);
+		f2.setRam(2_000_000_000);
+		f2.setVcpus(4);
+		f2.setName("f2");
+		return f2;
+	}
+
+	private Flavor createFlavor1() {
+		final Flavor f1 = new Flavor();
+		f1.setId("1");
+		f1.setDisk(5);
+		f1.setRam(500_000_000);
+		f1.setVcpus(2);
+		f1.setName("f1");
+		return f1;
 	}
 
 	@Test
@@ -139,6 +158,58 @@ class FlavorManagerTest {
 	}
 
 	@Test
+	void testFlavorMatchF22() throws Exception {
+		final FlavorManager fm = new FlavorManager(vimManager);
+		when(vimManager.getVimById(any())).thenReturn(vim);
+		when(vim.getFlavorList(any())).thenReturn(createFlavorList());
+		when(vim.canCreateFlavor()).thenReturn(true);
+		final VimConnectionInformation vimConnectionInformation = new VimConnectionInformation();
+		vimConnectionInformation.setId(UUID.randomUUID());
+		final VnfCompute vnf = new VnfCompute();
+		final VirtualCpu virtualCpu = new VirtualCpu();
+		virtualCpu.setNumVirtualCpu(4);
+		vnf.setVirtualCpu(virtualCpu);
+		final VirtualMemory virtualMemory = new VirtualMemory();
+		virtualMemory.setVduMemRequirements(Map.of("a", "b"));
+		virtualMemory.setVirtualMemSize(2_000_000_000);
+		vnf.setVirtualMemory(virtualMemory);
+		vnf.setDiskSize(15);
+		final Set<VnfCompute> vnfCompute = Set.of(vnf);
+		when(vim.isEqualMemFlavor(eq(2_000_000_000L), eq(2_000_000_000L))).thenReturn(true);
+		final List<VimComputeResourceFlavourEntity> flv = fm.getFlavors(vimConnectionInformation, vnfCompute);
+		assertEquals(1, flv.size());
+		assertEquals("22", flv.get(0).getVimFlavourId());
+	}
+
+	/**
+	 * Disk change don't match 22
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	void testFlavorDontMatchF22() throws Exception {
+		final FlavorManager fm = new FlavorManager(vimManager);
+		when(vimManager.getVimById(any())).thenReturn(vim);
+		when(vim.getFlavorList(any())).thenReturn(createFlavorList());
+		when(vim.canCreateFlavor()).thenReturn(true);
+		final VimConnectionInformation vimConnectionInformation = new VimConnectionInformation();
+		vimConnectionInformation.setId(UUID.randomUUID());
+		final VnfCompute vnf = new VnfCompute();
+		final VirtualCpu virtualCpu = new VirtualCpu();
+		virtualCpu.setNumVirtualCpu(4);
+		vnf.setVirtualCpu(virtualCpu);
+		final VirtualMemory virtualMemory = new VirtualMemory();
+		virtualMemory.setVduMemRequirements(Map.of("a", "b"));
+		virtualMemory.setVirtualMemSize(2_000_000_000);
+		vnf.setVirtualMemory(virtualMemory);
+		vnf.setDiskSize(5);
+		final Set<VnfCompute> vnfCompute = Set.of(vnf);
+		final List<VimComputeResourceFlavourEntity> flv = fm.getFlavors(vimConnectionInformation, vnfCompute);
+		assertEquals(1, flv.size());
+		assertEquals(null, flv.get(0).getVimFlavourId());
+	}
+
+	@Test
 	void testFlavorMatchF2ButExtendedAttr() throws Exception {
 		final FlavorManager fm = new FlavorManager(vimManager);
 		when(vimManager.getVimById(any())).thenReturn(vim);
@@ -152,7 +223,7 @@ class FlavorManagerTest {
 		vnf.setVirtualCpu(virtualCpu);
 		final VirtualMemory virtualMemory = new VirtualMemory();
 		virtualMemory.setVduMemRequirements(Map.of("a", "b"));
-		virtualMemory.setVirtualMemSize(2000000000);
+		virtualMemory.setVirtualMemSize(2_000_000_000);
 		vnf.setVirtualMemory(virtualMemory);
 		vnf.setDiskSize(15);
 		final Set<VnfCompute> vnfCompute = Set.of(vnf);
