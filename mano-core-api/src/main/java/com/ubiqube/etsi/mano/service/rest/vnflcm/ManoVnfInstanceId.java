@@ -14,7 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see https://www.gnu.org/licenses/.
  */
-package com.ubiqube.etsi.mano.service.rest;
+package com.ubiqube.etsi.mano.service.rest.vnflcm;
 
 import java.util.Map;
 import java.util.UUID;
@@ -35,6 +35,7 @@ import com.ubiqube.etsi.mano.model.VnfOperateRequest;
 import com.ubiqube.etsi.mano.model.VnfScaleRequest;
 import com.ubiqube.etsi.mano.model.VnfScaleToLevelRequest;
 import com.ubiqube.etsi.mano.service.HttpGateway;
+import com.ubiqube.etsi.mano.service.rest.ManoClient;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;

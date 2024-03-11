@@ -14,13 +14,14 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service.rest;
+package com.ubiqube.etsi.mano.service.rest.vnflcm;
 
 import java.util.UUID;
 import java.util.function.Function;
 
 import com.ubiqube.etsi.mano.service.HttpGateway;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
+import com.ubiqube.etsi.mano.service.rest.ManoClient;
 
 public class ManoVnfInstanceSubscription {
 	private final ManoClient client;

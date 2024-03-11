@@ -12,29 +12,11 @@
  *     GNU General Public License for more details.
  *
  *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *     along with this program.  If not, see https://www.gnu.org/licenses/.
  */
-package com.ubiqube.etsi.mano.service.rest;
+@NonNullApi
+@NonNullFields
+package com.ubiqube.etsi.mano.service.rest.vnfpkg;
 
-import java.util.UUID;
-
-import com.ubiqube.etsi.mano.alarm.entities.alarm.Alarm;
-
-public class ManoVnfFmId {
-
-	public ManoVnfFmId(final ManoClient manoClient, final UUID id) {
-		// TODO Auto-generated constructor stub
-	}
-
-	public Alarm find() {
-		return null;
-	}
-
-	public Alarm patch(final Alarm alarm) {
-		return null;
-	}
-
-	public void escalate() {
-		//
-	}
-}
+import org.springframework.lang.NonNullApi;
+import org.springframework.lang.NonNullFields;

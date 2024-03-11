@@ -14,26 +14,9 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see https://www.gnu.org/licenses/.
  */
-package com.ubiqube.etsi.mano.service.rest;
+@NonNullApi
+@NonNullFields
+package com.ubiqube.etsi.mano.service.rest.admin;
 
-/**
- *
- * @author Olivier Vignaud {@literal <ovi@ubiqube.com>}
- *
- */
-public class ManoAdmin {
-
-	private final ManoClient client;
-
-	public ManoAdmin(final ManoClient manoClient) {
-		this.client = manoClient;
-	}
-
-	public ManoServer server() {
-		return new ManoServer(client);
-	}
-
-	public ManoVim vim() {
-		return new ManoVim(client);
-	}
-}
+import org.springframework.lang.NonNullApi;
+import org.springframework.lang.NonNullFields;

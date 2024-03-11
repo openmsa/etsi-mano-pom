@@ -14,56 +14,54 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see https://www.gnu.org/licenses/.
  */
-package com.ubiqube.etsi.mano.service.rest;
+package com.ubiqube.etsi.mano.service.rest.vnfpkg;
 
-import java.io.InputStream;
-import java.nio.file.Paths;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
-import java.util.function.Consumer;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.HttpGateway;
+import com.ubiqube.etsi.mano.service.rest.ManoClient;
 
 /**
  *
  * @author Olivier Vignaud {@literal <ovi@ubiqube.com>}
  *
  */
-public class ManoOnboarded {
+public class ManoVnfPackage {
 	private final ManoClient client;
 
-	public ManoOnboarded(final ManoClient client, final UUID vnfdId) {
-		this.client = client;
-		client.setObjectId(vnfdId);
+	public ManoVnfPackage(final ManoClient manoClient) {
+		this.client = manoClient;
 		client.setQueryType(ApiVersionType.SOL003_VNFPKGM);
-		client.setFragment("/onboarded_vnf_packages/{id}");
+		client.setFragment("/vnf_packages");
 	}
 
-	public VnfPackage find() {
+	public ManoVnfPackageId id(final UUID id) {
+		return new ManoVnfPackageId(client, id);
+	}
+
+	public List<VnfPackage> list() {
 		return client.createQuery()
+				.setInClassList(HttpGateway::getVnfPackageClassList)
+				.setOutClass(VnfPackage.class)
+				.getList();
+	}
+
+	public VnfPackage create(final Map<String, String> userDefinedData) {
+		return client.createQuery(httpGateway -> httpGateway.createVnfPackageRequest(userDefinedData))
 				.setWireOutClass(HttpGateway::getVnfPackageClass)
 				.setOutClass(VnfPackage.class)
-				.getSingle();
+				.post();
 	}
 
-	public void vnfd(final Consumer<InputStream> tgt) {
-		client.createQuery()
-				.download(Paths.get("vnfd"), tgt);
+	public ManoOnboarded onboarded(final UUID vnfdId) {
+		return new ManoOnboarded(client, vnfdId);
 	}
 
-	public void packageContent(final Consumer<InputStream> tgt) {
-		client.createQuery()
-				.download(Paths.get("package_content"), tgt);
-	}
-
-	public void manifest(final Consumer<InputStream> tgt) {
-		client.createQuery()
-				.download(Paths.get("manifest"), tgt);
-	}
-
-	public void artifacts(final Consumer<InputStream> tgt, final String artifacts) {
-		client.createQuery()
-				.download(Paths.get("artifacts", artifacts), tgt);
+	public ManoVnfPackageSubscription subscription() {
+		return new ManoVnfPackageSubscription(client);
 	}
 }

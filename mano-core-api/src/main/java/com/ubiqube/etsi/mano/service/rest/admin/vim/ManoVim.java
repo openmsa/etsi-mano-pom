@@ -14,7 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see https://www.gnu.org/licenses/.
  */
-package com.ubiqube.etsi.mano.service.rest;
+package com.ubiqube.etsi.mano.service.rest.admin.vim;
 
 import java.net.URI;
 import java.util.Map;
@@ -25,6 +25,8 @@ import java.util.UUID;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
+import com.ubiqube.etsi.mano.service.rest.ManoClient;
+import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
 
 public class ManoVim {
 

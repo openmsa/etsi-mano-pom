@@ -41,6 +41,7 @@ import com.ubiqube.etsi.mano.model.VnfInstantiate;
 import com.ubiqube.etsi.mano.model.VnfOperateRequest;
 import com.ubiqube.etsi.mano.model.VnfScaleRequest;
 import com.ubiqube.etsi.mano.model.VnfScaleToLevelRequest;
+import com.ubiqube.etsi.mano.service.rest.vnflcm.ManoVnfInstanceId;
 
 @ExtendWith(MockitoExtension.class)
 class ManoVnfInstanceIdTest {

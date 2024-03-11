@@ -26,6 +26,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.ubiqube.etsi.mano.service.rest.admin.vim.ManoVimId;
+
 @ExtendWith(MockitoExtension.class)
 class ManoVimIdTest {
 	@Mock

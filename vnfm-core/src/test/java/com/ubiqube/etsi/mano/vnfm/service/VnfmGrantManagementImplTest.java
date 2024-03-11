@@ -28,7 +28,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.service.rest.ManoClient;
 import com.ubiqube.etsi.mano.service.rest.ManoClientFactory;
-import com.ubiqube.etsi.mano.service.rest.ManoGrant;
+import com.ubiqube.etsi.mano.service.rest.grant.ManoGrant;
 
 @ExtendWith(MockitoExtension.class)
 class VnfmGrantManagementImplTest {

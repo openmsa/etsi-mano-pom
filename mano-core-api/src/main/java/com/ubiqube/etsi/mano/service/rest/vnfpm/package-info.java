@@ -14,30 +14,9 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see https://www.gnu.org/licenses/.
  */
-package com.ubiqube.etsi.mano.service.rest;
+@NonNullApi
+@NonNullFields
+package com.ubiqube.etsi.mano.service.rest.vnfpm;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.UUID;
-
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-import com.ubiqube.etsi.mano.service.rest.admin.ManoAdmin;
-
-@ExtendWith(MockitoExtension.class)
-class ManoAdminTest {
-	@Mock
-	private ManoClient client;
-
-	@Test
-	void test() {
-		final ManoAdmin srv = new ManoAdmin(client);
-		srv.server().id(UUID.randomUUID());
-		srv.vim().id(UUID.randomUUID());
-		assertTrue(true);
-	}
-
-}
+import org.springframework.lang.NonNullApi;
+import org.springframework.lang.NonNullFields;

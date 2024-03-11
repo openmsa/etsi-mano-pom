@@ -12,32 +12,11 @@
  *     GNU General Public License for more details.
  *
  *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *     along with this program.  If not, see https://www.gnu.org/licenses/.
  */
-package com.ubiqube.etsi.mano.service.rest;
+@NonNullApi
+@NonNullFields
+package com.ubiqube.etsi.mano.service.rest.vnflcm;
 
-import java.util.List;
-import java.util.UUID;
-
-import com.ubiqube.etsi.mano.alarm.entities.alarm.Alarm;
-
-public class ManoVnfFm {
-
-	private final ManoClient manoClient;
-
-	public ManoVnfFm(final ManoClient manoClient) {
-		this.manoClient = manoClient;
-	}
-
-	public List<Alarm> find() {
-		return List.of();
-	}
-
-	public ManoVnfFmId id(final UUID id) {
-		return new ManoVnfFmId(manoClient, id);
-	}
-
-	public ManoVnfFmSubscription subscription() {
-		return new ManoVnfFmSubscription(manoClient);
-	}
-}
+import org.springframework.lang.NonNullApi;
+import org.springframework.lang.NonNullFields;

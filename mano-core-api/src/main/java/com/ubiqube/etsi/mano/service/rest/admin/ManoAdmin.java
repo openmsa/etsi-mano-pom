@@ -14,37 +14,30 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see https://www.gnu.org/licenses/.
  */
-package com.ubiqube.etsi.mano.service.rest;
+package com.ubiqube.etsi.mano.service.rest.admin;
 
-import java.net.URI;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
-
-import org.springframework.web.util.UriComponentsBuilder;
+import com.ubiqube.etsi.mano.service.rest.ManoClient;
+import com.ubiqube.etsi.mano.service.rest.ManoServer;
+import com.ubiqube.etsi.mano.service.rest.admin.vim.ManoVim;
 
 /**
  *
  * @author Olivier Vignaud {@literal <ovi@ubiqube.com>}
  *
  */
-public class ManoVimId {
+public class ManoAdmin {
 
 	private final ManoClient client;
 
-	public ManoVimId(final ManoClient client, final UUID id) {
-		this.client = client;
-		client.setObjectId(id);
+	public ManoAdmin(final ManoClient manoClient) {
+		this.client = manoClient;
 	}
 
-	public void delete(final String root) {
-		final ServerAdapter server = client.getServer();
-		final URI uri = buildUri(root, "admin/vim/{id}");
-		server.rest().delete(uri, Object.class, null);
+	public ManoServer server() {
+		return new ManoServer(client);
 	}
 
-	private URI buildUri(final String urlRoot, final String url) {
-		final Map<String, Object> uriParams = Optional.ofNullable(client.getObjectId()).map(x -> Map.of("id", (Object) x.toString())).orElseGet(Map::of);
-		return UriComponentsBuilder.fromHttpUrl(urlRoot).pathSegment(url).buildAndExpand(uriParams).toUri();
+	public ManoVim vim() {
+		return new ManoVim(client);
 	}
 }

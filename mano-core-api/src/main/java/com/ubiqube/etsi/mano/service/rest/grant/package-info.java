@@ -12,29 +12,11 @@
  *     GNU General Public License for more details.
  *
  *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *     along with this program.  If not, see https://www.gnu.org/licenses/.
  */
-package com.ubiqube.etsi.mano.service.rest;
+@NonNullApi
+@NonNullFields
+package com.ubiqube.etsi.mano.service.rest.grant;
 
-import java.util.UUID;
-
-import com.ubiqube.etsi.mano.dao.mano.pm.Threshold;
-
-public class ManoThresholdId {
-
-	public ManoThresholdId(final ManoClient client, final UUID id) {
-		// TODO Auto-generated constructor stub
-	}
-
-	public Threshold find() {
-		return null;
-	}
-
-	public void delete() {
-		//
-	}
-
-	public Threshold patch() {
-		return null;
-	}
-}
+import org.springframework.lang.NonNullApi;
+import org.springframework.lang.NonNullFields;

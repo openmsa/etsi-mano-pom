@@ -61,8 +61,8 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfCreateNode;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.rest.ManoClient;
 import com.ubiqube.etsi.mano.service.rest.ManoClientFactory;
-import com.ubiqube.etsi.mano.service.rest.ManoVnfInstance;
-import com.ubiqube.etsi.mano.service.rest.ManoVnfInstanceId;
+import com.ubiqube.etsi.mano.service.rest.vnflcm.ManoVnfInstance;
+import com.ubiqube.etsi.mano.service.rest.vnflcm.ManoVnfInstanceId;
 
 import ma.glasnost.orika.MapperFacade;
 

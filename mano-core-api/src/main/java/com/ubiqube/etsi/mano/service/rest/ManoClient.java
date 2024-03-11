@@ -22,6 +22,15 @@ import java.util.function.Function;
 
 import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.HttpGateway;
+import com.ubiqube.etsi.mano.service.rest.admin.ManoAdmin;
+import com.ubiqube.etsi.mano.service.rest.grant.ManoGrant;
+import com.ubiqube.etsi.mano.service.rest.nspkg.ManoNsPackage;
+import com.ubiqube.etsi.mano.service.rest.vnffm.ManoVnfFm;
+import com.ubiqube.etsi.mano.service.rest.vnfind.ManoVnfIndicator;
+import com.ubiqube.etsi.mano.service.rest.vnflcm.ManoVnfInstance;
+import com.ubiqube.etsi.mano.service.rest.vnflcm.ManoVnfLcmOpOccs;
+import com.ubiqube.etsi.mano.service.rest.vnfpkg.ManoVnfPackage;
+import com.ubiqube.etsi.mano.service.rest.vnfpm.ManoVnfPm;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;

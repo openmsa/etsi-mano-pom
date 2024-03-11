@@ -31,9 +31,9 @@ import com.ubiqube.etsi.mano.config.properties.ManoProperties;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.service.rest.ManoClient;
 import com.ubiqube.etsi.mano.service.rest.ManoClientFactory;
-import com.ubiqube.etsi.mano.service.rest.ManoVnfPackage;
-import com.ubiqube.etsi.mano.service.rest.ManoVnfPackageId;
-import com.ubiqube.etsi.mano.service.rest.ManoVnfPackageSubscription;
+import com.ubiqube.etsi.mano.service.rest.vnfpkg.ManoVnfPackage;
+import com.ubiqube.etsi.mano.service.rest.vnfpkg.ManoVnfPackageId;
+import com.ubiqube.etsi.mano.service.rest.vnfpkg.ManoVnfPackageSubscription;
 
 @ExtendWith(MockitoExtension.class)
 class VnfmVersionManagerTest {

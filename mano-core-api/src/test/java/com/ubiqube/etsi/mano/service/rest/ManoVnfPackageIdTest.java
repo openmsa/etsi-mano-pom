@@ -30,6 +30,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.dao.mano.OnboardingStateType;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+import com.ubiqube.etsi.mano.service.rest.vnfpkg.ManoVnfPackageId;
 
 @ExtendWith(MockitoExtension.class)
 class ManoVnfPackageIdTest {

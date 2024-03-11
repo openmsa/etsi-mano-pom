@@ -14,27 +14,28 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service.rest;
+package com.ubiqube.etsi.mano.service.rest.vnffm;
 
 import java.util.UUID;
 import java.util.function.Function;
 
 import com.ubiqube.etsi.mano.service.HttpGateway;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
+import com.ubiqube.etsi.mano.service.rest.ManoClient;
 
-public class ManoVnfIndicatorSubscription {
+public class ManoVnfFmSubscription {
 	private final ManoClient client;
 
-	public ManoVnfIndicatorSubscription(final ManoClient manoClient) {
+	public ManoVnfFmSubscription(final ManoClient manoClient) {
 		this.client = manoClient;
 	}
 
 	public Subscription subscribe(final Subscription subscription) {
 		client.setFragment("/subscriptions");
-		final Function<HttpGateway, Object> request = (final HttpGateway httpGateway) -> httpGateway.createVnfIndicatorSubscriptionRequest(subscription);
+		final Function<HttpGateway, Object> request = (final HttpGateway httpGateway) -> httpGateway.createVnfFmSubscriptionRequest(subscription);
 		return client.createQuery(request)
-				.setWireInClass(HttpGateway::getVnfIndicatorRequest)
-				.setWireOutClass(HttpGateway::getVnfIndicatorClass)
+				.setWireInClass(HttpGateway::getVnfFmSubscriptionRequest)
+				.setWireOutClass(HttpGateway::getVnfFmSubscriptionClass)
 				.setOutClass(Subscription.class)
 				.post(subscription);
 	}
@@ -43,7 +44,7 @@ public class ManoVnfIndicatorSubscription {
 		client.setFragment("/subscriptions/{id}");
 		client.setObjectId(id);
 		return client.createQuery()
-				.setWireOutClass(HttpGateway::getVnfIndicatorSubscriptionClass)
+				.setWireOutClass(HttpGateway::getVnfFmSubscriptionClass)
 				.setOutClass(Subscription.class)
 				.getSingle();
 	}
@@ -53,4 +54,5 @@ public class ManoVnfIndicatorSubscription {
 		client.setObjectId(id);
 		client.createQuery().delete();
 	}
+
 }

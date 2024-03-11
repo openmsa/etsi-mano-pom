@@ -14,40 +14,39 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see https://www.gnu.org/licenses/.
  */
-package com.ubiqube.etsi.mano.service.rest;
+package com.ubiqube.etsi.mano.service.rest.vnfpm;
 
-import java.util.UUID;
 import java.util.function.Function;
 
-import com.ubiqube.etsi.mano.dao.mano.pm.Threshold;
+import com.ubiqube.etsi.mano.dao.mano.pm.PmJob;
 import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.HttpGateway;
+import com.ubiqube.etsi.mano.service.rest.ManoClient;
 
 /**
- * Sol003 threshold.
+ * Sol003 VNF PM.
  *
  * @author olivier
  *
  */
-public class ManoThreshold {
-
+public class ManoVnfPm {
 	private final ManoClient client;
 
-	public ManoThreshold(final ManoClient manoClient) {
+	public ManoVnfPm(final ManoClient manoClient) {
 		this.client = manoClient;
-		manoClient.setFragment("threshold");
+		manoClient.setFragment("pm_jobs");
 		manoClient.setQueryType(ApiVersionType.SOL003_VNFPM);
 	}
 
-	public Threshold create(final Threshold req) {
-		final Function<HttpGateway, Object> request = (final HttpGateway httpGateway) -> httpGateway.createVnfThresholdRequest(req);
-		return client.createQuery(request)
-				.setWireOutClass(HttpGateway::getVnfInstanceClass)
-				.setOutClass(Threshold.class)
-				.post();
+	public ManoThreshold threshold() {
+		return new ManoThreshold(client);
 	}
 
-	public ManoThresholdId id(final UUID id) {
-		return new ManoThresholdId(client, id);
+	public PmJob create(final PmJob pmJob) {
+		final Function<HttpGateway, Object> request = (final HttpGateway httpGateway) -> httpGateway.createVnfPmJobRequest(pmJob);
+		return client.createQuery(request)
+				.setWireOutClass(HttpGateway::getVnfPmJobClass)
+				.setOutClass(PmJob.class)
+				.post();
 	}
 }

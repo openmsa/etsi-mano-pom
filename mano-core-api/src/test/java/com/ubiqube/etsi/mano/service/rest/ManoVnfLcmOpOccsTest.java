@@ -29,6 +29,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
+import com.ubiqube.etsi.mano.service.rest.vnflcm.ManoVnfLcmOpOccs;
 
 @ExtendWith(MockitoExtension.class)
 class ManoVnfLcmOpOccsTest {

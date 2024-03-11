@@ -14,29 +14,31 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service.rest;
+package com.ubiqube.etsi.mano.service.rest.vnffm;
 
+import java.util.List;
 import java.util.UUID;
 
-import com.ubiqube.etsi.mano.dao.mano.VnfIndicator;
-import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
-import com.ubiqube.etsi.mano.service.HttpGateway;
+import com.ubiqube.etsi.mano.alarm.entities.alarm.Alarm;
+import com.ubiqube.etsi.mano.service.rest.ManoClient;
 
-public class ManoVnfIndicatorId {
+public class ManoVnfFm {
 
-	private ManoClient client;
+	private final ManoClient manoClient;
 
-	public ManoVnfIndicatorId(final ManoClient manoClient, final UUID id) {
-		this.client = manoClient;
-		client.setQueryType(ApiVersionType.SOL003_VNFIND);
-		client.setFragment("/indicators/{id}");
-		client.setObjectId(id);
+	public ManoVnfFm(final ManoClient manoClient) {
+		this.manoClient = manoClient;
 	}
 
-	public VnfIndicator find() {
-		return client.createQuery()
-				.setWireOutClass(HttpGateway::getVnfIndicatorClass)
-				.setOutClass(VnfIndicator.class)
-				.getSingle();
+	public List<Alarm> find() {
+		return List.of();
+	}
+
+	public ManoVnfFmId id(final UUID id) {
+		return new ManoVnfFmId(manoClient, id);
+	}
+
+	public ManoVnfFmSubscription subscription() {
+		return new ManoVnfFmSubscription(manoClient);
 	}
 }

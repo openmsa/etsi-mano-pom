@@ -25,6 +25,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.ubiqube.etsi.mano.service.rest.nspkg.ManoNsPackage;
+
 @ExtendWith(MockitoExtension.class)
 class ManoNsPackageTest {
 	@Mock

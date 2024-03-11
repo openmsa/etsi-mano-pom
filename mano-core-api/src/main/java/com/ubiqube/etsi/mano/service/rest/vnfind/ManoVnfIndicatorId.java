@@ -14,38 +14,30 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service.rest;
+package com.ubiqube.etsi.mano.service.rest.vnfind;
 
-import java.util.List;
 import java.util.UUID;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfIndicator;
 import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.HttpGateway;
+import com.ubiqube.etsi.mano.service.rest.ManoClient;
 
-public class ManoVnfIndicator {
+public class ManoVnfIndicatorId {
 
-	private final ManoClient client;
+	private ManoClient client;
 
-	public ManoVnfIndicator(final ManoClient manoClient) {
+	public ManoVnfIndicatorId(final ManoClient manoClient, final UUID id) {
 		this.client = manoClient;
-		manoClient.setFragment("vnfind");
-		manoClient.setQueryType(ApiVersionType.SOL003_VNFIND);
+		client.setQueryType(ApiVersionType.SOL003_VNFIND);
+		client.setFragment("/indicators/{id}");
+		client.setObjectId(id);
 	}
 
-	public ManoVnfIndicatorSubscription subscription() {
-		return new ManoVnfIndicatorSubscription(client);
-	}
-
-	public List<VnfIndicator> list() {
+	public VnfIndicator find() {
 		return client.createQuery()
-				.setInClassList(HttpGateway::getVnfIndicatorClassList)
+				.setWireOutClass(HttpGateway::getVnfIndicatorClass)
 				.setOutClass(VnfIndicator.class)
-				.getList();
+				.getSingle();
 	}
-
-	public ManoVnfIndicatorId id(final UUID id) {
-		return new ManoVnfIndicatorId(client, id);
-	}
-
 }

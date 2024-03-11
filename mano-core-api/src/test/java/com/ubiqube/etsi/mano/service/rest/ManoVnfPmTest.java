@@ -26,6 +26,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.dao.mano.pm.PmJob;
+import com.ubiqube.etsi.mano.service.rest.vnfpm.ManoVnfPm;
 
 @ExtendWith(MockitoExtension.class)
 class ManoVnfPmTest {

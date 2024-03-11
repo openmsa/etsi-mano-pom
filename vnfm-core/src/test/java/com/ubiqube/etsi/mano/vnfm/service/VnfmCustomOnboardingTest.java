@@ -34,8 +34,8 @@ import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 import com.ubiqube.etsi.mano.service.rest.ManoClient;
 import com.ubiqube.etsi.mano.service.rest.ManoClientFactory;
-import com.ubiqube.etsi.mano.service.rest.ManoOnboarded;
-import com.ubiqube.etsi.mano.service.rest.ManoVnfPackage;
+import com.ubiqube.etsi.mano.service.rest.vnfpkg.ManoOnboarded;
+import com.ubiqube.etsi.mano.service.rest.vnfpkg.ManoVnfPackage;
 import com.ubiqube.etsi.mano.test.controllers.TestFactory;
 
 @ExtendWith(MockitoExtension.class)

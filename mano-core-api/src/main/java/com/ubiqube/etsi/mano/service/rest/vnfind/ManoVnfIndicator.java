@@ -12,49 +12,41 @@
  *     GNU General Public License for more details.
  *
  *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see https://www.gnu.org/licenses/.
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service.rest;
+package com.ubiqube.etsi.mano.service.rest.vnfind;
 
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
-import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
+import com.ubiqube.etsi.mano.dao.mano.VnfIndicator;
 import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.HttpGateway;
+import com.ubiqube.etsi.mano.service.rest.ManoClient;
 
-/**
- *
- * @author Olivier Vignaud {@literal <ovi@ubiqube.com>}
- *
- */
-public class ManoNsPackage {
+public class ManoVnfIndicator {
 
 	private final ManoClient client;
 
-	public ManoNsPackage(final ManoClient manoClient) {
+	public ManoVnfIndicator(final ManoClient manoClient) {
 		this.client = manoClient;
-		client.setQueryType(ApiVersionType.SOL005_NSD);
-		client.setFragment("/ns_descriptors");
+		manoClient.setFragment("vnfind");
+		manoClient.setQueryType(ApiVersionType.SOL003_VNFIND);
 	}
 
-	public ManoNsPackageId id(final UUID id) {
-		return new ManoNsPackageId(client, id);
+	public ManoVnfIndicatorSubscription subscription() {
+		return new ManoVnfIndicatorSubscription(client);
 	}
 
-	public List<NsdPackage> list() {
+	public List<VnfIndicator> list() {
 		return client.createQuery()
-				.setInClassList(HttpGateway::getNsdPackageClassList)
-				.setOutClass(NsdPackage.class)
+				.setInClassList(HttpGateway::getVnfIndicatorClassList)
+				.setOutClass(VnfIndicator.class)
 				.getList();
 	}
 
-	public NsdPackage create(final Map<String, Object> userDefinedData) {
-		return client.createQuery(httpGateway -> httpGateway.createNsdPackageRequest(userDefinedData))
-				.setWireOutClass(HttpGateway::getNsdPackageClass)
-				.setOutClass(NsdPackage.class)
-				.post();
+	public ManoVnfIndicatorId id(final UUID id) {
+		return new ManoVnfIndicatorId(client, id);
 	}
 
 }

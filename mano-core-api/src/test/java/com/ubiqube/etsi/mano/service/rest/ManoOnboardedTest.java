@@ -32,6 +32,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.ubiqube.etsi.mano.service.rest.vnfpkg.ManoOnboarded;
+
 @ExtendWith(MockitoExtension.class)
 class ManoOnboardedTest {
 	@Mock
