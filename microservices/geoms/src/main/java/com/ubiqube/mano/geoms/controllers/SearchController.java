@@ -32,8 +32,8 @@ import com.ubiqube.mano.geoms.service.SearchService;
 public class SearchController {
 	private final SearchService searchService;
 
-	public SearchController(final SearchService _searchService) {
-		searchService = _searchService;
+	public SearchController(final SearchService searchService) {
+		this.searchService = searchService;
 	}
 
 	@PostMapping(value = "/city", consumes = "application/json")

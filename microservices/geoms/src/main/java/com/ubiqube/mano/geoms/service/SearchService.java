@@ -32,8 +32,8 @@ import com.ubiqube.mano.geoms.GeoMsException;
 public class SearchService {
 	private final IndexManager indexManager;
 
-	public SearchService(final IndexManager _indexManager) {
-		indexManager = _indexManager;
+	public SearchService(final IndexManager indexManager) {
+		this.indexManager = indexManager;
 	}
 
 	public SearchResult searchForCa(final String countryCode, final List<CaPair> caElements) {

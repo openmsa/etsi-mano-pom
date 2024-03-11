@@ -36,15 +36,13 @@ public class KeycloakConfig {
 	@Bean
 	SecurityFilterChain configure(final HttpSecurity http) throws Exception {
 		http.csrf(CsrfConfigurer::disable);
-		http.authorizeHttpRequests(autorize -> {
-			autorize.requestMatchers(EndpointRequest.to(
-					InfoEndpoint.class,
-					HealthEndpoint.class))
-					.permitAll()
-					.requestMatchers(EndpointRequest.toAnyEndpoint())
-					.hasRole("ACTUATOR")
-					.anyRequest().permitAll();
-		});
+		http.authorizeHttpRequests(autorize -> autorize.requestMatchers(EndpointRequest.to(
+				InfoEndpoint.class,
+				HealthEndpoint.class))
+				.permitAll()
+				.requestMatchers(EndpointRequest.toAnyEndpoint())
+				.hasRole("ACTUATOR")
+				.anyRequest().permitAll());
 		http.oauth2ResourceServer(server -> server.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())));
 		return http.build();
 	}

@@ -52,6 +52,7 @@ import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.bean.HeaderColumnNameMappingStrategy;
 import com.opencsv.bean.MappingStrategy;
 import com.ubiqube.etsi.mano.model.SearchResult;
+import com.ubiqube.mano.geoms.GeoMsException;
 import com.ubiqube.mano.geoms.beans.GeoFile;
 
 /**
@@ -76,7 +77,7 @@ public class IndexManager {
 		try {
 			buildIndex(indexPath);
 		} catch (final IOException e) {
-			throw new RuntimeException(e);
+			throw new GeoMsException(e);
 		}
 	}
 
@@ -105,7 +106,7 @@ public class IndexManager {
 			try {
 				iwriter.addDocument(doc);
 			} catch (final IOException e) {
-				throw new RuntimeException(e);
+				throw new GeoMsException(e);
 			}
 		});
 	}
@@ -119,7 +120,7 @@ public class IndexManager {
 					.withMappingStrategy(mappingStrategy)
 					.withType(GeoFile.class).build().parse();
 		} catch (final IOException e) {
-			throw new RuntimeException(e);
+			throw new GeoMsException(e);
 		}
 	}
 
@@ -131,14 +132,12 @@ public class IndexManager {
 			LOG.info("Hit: {} , for query: {}", hits.length, query);
 			final SearchResult sr = new SearchResult();
 			for (final ScoreDoc hit : hits) {
-				final Document hitDoc = isearcher.doc(hit.doc);
+				final Document hitDoc = isearcher.storedFields().document(hit.doc);
 				final StoredField lat = (StoredField) hitDoc.getField("lat");
 				sr.setLat(lat.numericValue().doubleValue());
 				final StoredField lon = (StoredField) hitDoc.getField("lon");
 				sr.setLng(lon.numericValue().doubleValue());
 			}
-			ireader.close();
-			directory.close();
 			return sr;
 		}
 	}
