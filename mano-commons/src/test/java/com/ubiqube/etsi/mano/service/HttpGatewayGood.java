@@ -288,4 +288,22 @@ public class HttpGatewayGood extends AbstractHttpGateway {
 		return null;
 	}
 
+	@Override
+	public Object createVnfFmSubscriptionRequest(final Subscription subscription) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Class<?> getVnfFmSubscriptionRequest() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Class<?> getVnfFmSubscriptionClass() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
