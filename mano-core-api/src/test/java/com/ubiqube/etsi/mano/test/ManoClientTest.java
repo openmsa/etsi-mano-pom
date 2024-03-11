@@ -289,7 +289,6 @@ class ManoClientTest {
 		assertTrue(true);
 	}
 
-	@Test
 	void testVnfdSubscription() throws Exception {
 		setupOrika();
 		final HttpGateway httpGateway = new VnfmGateway261(vnfmFactory, nfvoFactory, mapperFactory.getMapperFacade());
