@@ -57,6 +57,7 @@ import com.ubiqube.etsi.mano.dao.mano.vim.ImageServiceAware;
 import com.ubiqube.etsi.mano.dao.mano.vim.SoftwareImage;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.vim.VnfStorage;
+import com.ubiqube.etsi.mano.dao.rfc7807.FailureDetails;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.jpa.GrantsResponseJpa;
@@ -113,17 +114,22 @@ public class GrantAction {
 	}
 
 	public final void grantRequest(final UUID objectId) {
-		try {
-			grantRequestException(objectId);
-		} catch (final RuntimeException e) {
-			LOG.error("Removing Grand id: {}", objectId, e);
-			grantJpa.deleteById(objectId);
-		}
-	}
-
-	private final void grantRequestException(final UUID objectId) {
 		LOG.info("Evaluating grant {}", objectId);
 		final GrantResponse grants = getGrant(objectId);
+		try {
+			grantRequestException(grants);
+		} catch (final RuntimeException e) {
+			LOG.error("Removing Grand id: {}", objectId, e);
+			grants.setError(new FailureDetails(500, e.getMessage()));
+		}
+		LOG.debug("Saving grant: {}", grants.getId());
+		grants.setAvailable(Boolean.TRUE);
+		grantJpa.save(grants);
+		LOG.info("Grant {} Available.", grants.getId());
+	}
+
+	private final void grantRequestException(final GrantResponse grants) {
+		final UUID objectId = grants.getId();
 		removeResources(grants);
 		final List<VimConnectionInformation> vims = grantSupport.getVims(grants);
 		final VimConnectionInformation vimInfo = vimElection.doElection(vims, null, grantSupport.getVnfCompute(objectId), grantSupport.getVnfStorage(objectId));
@@ -131,18 +137,13 @@ public class GrantAction {
 			throw new GenericException("No suitable VIM after election.");
 		}
 		getVimInformations(vimInfo, grants);
-		grants.setAvailable(Boolean.TRUE);
-
-		LOG.debug("Saving...");
-		grantJpa.save(grants);
-		LOG.info("Grant {} Available.", grants.getId());
 	}
 
 	private void removeResources(final GrantResponse grants) {
 		grants.getRemoveResources().forEach(x -> {
 			if (x.getReservationId() != null) {
-				final VimConnectionInformation vci = vimManager.findVimById(UUID.fromString(x.getVimConnectionId()));
-				final Vim vim = vimManager.getVimById(UUID.fromString(x.getVimConnectionId()));
+				final VimConnectionInformation vci = vimManager.findVimById(getSafeUUID(x.getVimConnectionId()));
+				final Vim vim = vimManager.getVimById(getSafeUUID(x.getVimConnectionId()));
 				vim.freeResources(vci, x.getReservationId());
 			}
 		});

@@ -16,8 +16,6 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service.event;
 
-import static com.ubiqube.etsi.mano.Constants.getSafeUUID;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -295,7 +293,8 @@ public class GrantActionSupport implements GrantSupport {
 
 	@Override
 	public List<VimConnectionInformation> getVims(final GrantResponse grants) {
-		final VnfPackage vnfPackage = vnfPackageService.findByVnfdId(getSafeUUID(grants.getVnfdId()));
+		final VnfPackage vnfPackage = vnfPackageService.findByVnfdId(grants.getVnfdId())
+				.orElseThrow(() -> new NotFoundException("Unable to find vnfd: " + grants.getVnfdId()));
 		final QuotaNeeded needed = summarizeResources(grants, vnfPackage);
 		return preVimSelection.selectVims(vnfPackage, grants, needed);
 	}

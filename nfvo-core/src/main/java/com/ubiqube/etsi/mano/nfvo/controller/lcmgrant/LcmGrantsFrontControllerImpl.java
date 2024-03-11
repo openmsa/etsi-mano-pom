@@ -16,8 +16,10 @@
  */
 package com.ubiqube.etsi.mano.nfvo.controller.lcmgrant;
 
+import static com.ubiqube.etsi.mano.Constants.getSafeUUID;
+
 import java.net.URI;
-import java.util.UUID;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -48,13 +50,17 @@ public class LcmGrantsFrontControllerImpl implements LcmGrantsFrontController {
 
 	@Override
 	public <U> ResponseEntity<U> grantsGrantIdGet(final String grantId, final Class<U> clazz, final Consumer<U> makeLink) {
-		final GrantResponse grants = grantManagement.get(UUID.fromString(grantId));
+		final GrantResponse grants = grantManagement.get(getSafeUUID(grantId));
 		if (!grants.getAvailable().equals(Boolean.TRUE)) {
 			return ResponseEntity.accepted().build();
 		}
 		final U jsonGrant = mapper.map(grants, clazz);
 		makeLink.accept(jsonGrant);
-		return ResponseEntity.ok(jsonGrant);
+		final Optional<Object> optError = Optional.ofNullable(grants.getError()).map(x -> x.getStatus());
+		if (optError.isEmpty()) {
+			return ResponseEntity.ok(jsonGrant);
+		}
+		return (ResponseEntity<U>) ResponseEntity.internalServerError().body(grants.getError());
 	}
 
 	@Override
