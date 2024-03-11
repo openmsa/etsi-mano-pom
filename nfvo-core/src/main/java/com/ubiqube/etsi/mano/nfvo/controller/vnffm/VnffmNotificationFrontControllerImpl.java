@@ -35,7 +35,7 @@ public class VnffmNotificationFrontControllerImpl implements VnffmNotificationFr
 	private final MapperFacade mapper;
 	private final VnffmNotificationService vnffmNotificationService;
 
-	public VnffmNotificationFrontControllerImpl(final MapperFacade mapper, final VnffmNotificationService ns, final VnffmNotificationService vnffmNotificationService) {
+	public VnffmNotificationFrontControllerImpl(final MapperFacade mapper, final VnffmNotificationService vnffmNotificationService) {
 		this.mapper = mapper;
 		this.vnffmNotificationService = vnffmNotificationService;
 	}
