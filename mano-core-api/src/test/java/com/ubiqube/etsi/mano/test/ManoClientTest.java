@@ -288,4 +288,23 @@ class ManoClientTest {
 	void testDummy() throws Exception {
 		assertTrue(true);
 	}
+
+	@Test
+	void testVnfdSubscription() throws Exception {
+		setupOrika();
+		final HttpGateway httpGateway = new VnfmGateway261(vnfmFactory, nfvoFactory, mapperFactory.getMapperFacade());
+		final AuthParamOauth2 authParamOath2 = getNfvoAuth();
+		final Servers server = Servers.builder()
+				.url(URI.create("http://localhost:8100/ubi-etsi-mano/sol003"))
+				// .version("2.7.1")
+				.authentification(
+						AuthentificationInformations.builder()
+								.authParamOauth2(authParamOath2)
+								.build())
+				.build();
+		final ServerAdapter serverAdapter = new ServerAdapter(httpGateway, server, new FluxRest(server));
+		final MapperFacade mapper = mapperFactory.getMapperFacade();
+		final ManoClient mc = new ManoClient(mapper, serverAdapter);
+		mc.vnfPackage().subscription();
+	}
 }

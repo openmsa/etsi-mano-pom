@@ -17,7 +17,6 @@
 package com.ubiqube.etsi.mano.controller.vnf;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -49,9 +48,8 @@ public class JujuVnfController {
 	private final EventManager eventManager;
 	private final JujuCloudService jujuCloudService;
 
-	public JujuVnfController(JujuRemoteService remoteService, EventManager eventManager,
-			JujuCloudService jujuCloudService) {
-		super();
+	public JujuVnfController(final JujuRemoteService remoteService, final EventManager eventManager,
+			final JujuCloudService jujuCloudService) {
 		this.remoteService = remoteService;
 		this.eventManager = eventManager;
 		this.jujuCloudService = jujuCloudService;
@@ -62,7 +60,7 @@ public class JujuVnfController {
 		LOG.info("Juju instantiating...");
 		jujuCloudService.saveCloud(jCloud);
 		eventManager.sendActionVnfm(ActionType.VNF_JUJU_INSTANTIATE, jCloud.getId(), new HashMap<>());
-		return new ResponseEntity<String>(
+		return new ResponseEntity<>(
 				"Accepted The request was accepted for processing, but the  processing has not been completed.",
 				HttpStatus.ACCEPTED);
 	}
@@ -76,15 +74,15 @@ public class JujuVnfController {
 
 		LOG.info("Juju checking status...");
 		ResponseEntity<String> responseobject = remoteService.cloudDetail(cloudname);
-		if (responseobject.getBody() != null && !(responseobject.getBody().contains("ERROR"))) {
+		if ((responseobject.getBody() != null) && !(responseobject.getBody().contains("ERROR"))) {
 			responseobject = remoteService.credentialDetails(cloudname, credname);
-			if (responseobject.getBody() != null && !(responseobject.getBody().contains("ERROR"))) {
+			if ((responseobject.getBody() != null) && !(responseobject.getBody().contains("ERROR"))) {
 				responseobject = remoteService.controllerDetail(controllername);
-				if (responseobject.getBody() != null && !(responseobject.getBody().contains("ERROR"))) {
+				if ((responseobject.getBody() != null) && !(responseobject.getBody().contains("ERROR"))) {
 					responseobject = remoteService.modelDetail(modelname);
-					if (responseobject.getBody() != null && !(responseobject.getBody().contains("ERROR"))) {
+					if ((responseobject.getBody() != null) && !(responseobject.getBody().contains("ERROR"))) {
 						responseobject = remoteService.application(name);
-						if (responseobject.getBody() != null && !(responseobject.getBody().contains("ERROR"))) {
+						if ((responseobject.getBody() != null) && !(responseobject.getBody().contains("ERROR"))) {
 							return ResponseEntity.ok("Cloud : " + cloudname + "\n Credentail : " + credname
 									+ "\n Controller : " + controllername + "\n Model : " + modelname
 									+ "\n Application : " + name + "      are Successfully added");
@@ -93,21 +91,21 @@ public class JujuVnfController {
 				}
 			}
 		}
-		return new ResponseEntity<String>(responseobject.getBody(), HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(responseobject.getBody(), HttpStatus.NOT_FOUND);
 	}
 
 	@PostMapping(value = "/terminate/{controllername}")
 	public ResponseEntity<String> terminate(@PathVariable("controllername") @NotNull final String controllername) {
-		ResponseEntity<String> responseobject = remoteService.controllerDetail(controllername);
-		if (responseobject.getBody() != null && !(responseobject.getBody().contains("ERROR"))) {
-			LOG.info("Juju terminating...");		
+		final ResponseEntity<String> responseobject = remoteService.controllerDetail(controllername);
+		if ((responseobject.getBody() != null) && !(responseobject.getBody().contains("ERROR"))) {
+			LOG.info("Juju terminating...");
 			eventManager.sendActionVnfm(ActionType.VNF_JUJU_TERMINATE, UUID.randomUUID(), new HashMap<>());
-			//	eventManager.sendAction(ActionType.VNF_JUJU_TERMINATE, jClouds.get(0).getId());
-			return new ResponseEntity<String>(
+			// eventManager.sendAction(ActionType.VNF_JUJU_TERMINATE,
+			// jClouds.get(0).getId());
+			return new ResponseEntity<>(
 					"Accepted The request was accepted for processing, but the  processing has not been completed.",
 					HttpStatus.ACCEPTED);
-		} else {
-			return new ResponseEntity<String>(responseobject.getBody(), HttpStatus.NOT_FOUND);
 		}
+		return new ResponseEntity<>(responseobject.getBody(), HttpStatus.NOT_FOUND);
 	}
 }

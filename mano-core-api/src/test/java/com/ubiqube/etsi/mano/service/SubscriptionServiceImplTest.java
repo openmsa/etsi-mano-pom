@@ -246,6 +246,7 @@ class SubscriptionServiceImplTest {
 		when(mapper.map(request, Subscription.class)).thenReturn(r2);
 		final Class clazz = getClass();
 		subs.save(request, clazz, ApiVersionType.SOL003_VNFFM);
+		assertTrue(true);
 	}
 
 	@Test

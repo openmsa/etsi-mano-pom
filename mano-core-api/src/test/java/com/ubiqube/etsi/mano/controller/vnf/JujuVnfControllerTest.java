@@ -38,7 +38,7 @@ import com.ubiqube.etsi.mano.service.juju.cli.JujuRemoteService;
 import com.ubiqube.etsi.mano.service.juju.entities.JujuCloud;
 
 @ExtendWith(MockitoExtension.class)
-public class JujuVnfControllerTest {
+class JujuVnfControllerTest {
 
 	@Mock
 	private EventManager eventManager;
@@ -63,55 +63,55 @@ public class JujuVnfControllerTest {
 	}
 
 	@Test
-	public void test_Tnstantiate() throws Exception {
-		JujuCloud jCloud = new JujuCloud();
+	void test_Tnstantiate() throws Exception {
+		final JujuCloud jCloud = new JujuCloud();
 		jCloud.setId(UUID.randomUUID());
 		jujuVnfController.instantiate(jCloud);
 		assertTrue(true);
 	}
 
 	@Test
-	public void test_CheckStatus() {
-		ResponseEntity<String> responseobject = new ResponseEntity<String>("creating cloud", HttpStatus.OK);
+	void test_CheckStatus() {
+		final ResponseEntity<String> responseobject = new ResponseEntity<>("creating cloud", HttpStatus.OK);
 		Mockito.when(remoteService.cloudDetail(Mockito.anyString())).thenReturn(responseobject);
-		ResponseEntity<String> responseobject2 = new ResponseEntity<String>("creating cloud", HttpStatus.OK);
+		final ResponseEntity<String> responseobject2 = new ResponseEntity<>("creating cloud", HttpStatus.OK);
 		Mockito.when(remoteService.credentialDetails(Mockito.anyString(), Mockito.anyString()))
 				.thenReturn(responseobject2);
-		ResponseEntity<String> responseobject3 = new ResponseEntity<String>("creating cloud", HttpStatus.OK);
+		final ResponseEntity<String> responseobject3 = new ResponseEntity<>("creating cloud", HttpStatus.OK);
 		Mockito.when(remoteService.controllerDetail(Mockito.anyString())).thenReturn(responseobject3);
-		ResponseEntity<String> responseobject4 = new ResponseEntity<String>("creating cloud", HttpStatus.OK);
+		final ResponseEntity<String> responseobject4 = new ResponseEntity<>("creating cloud", HttpStatus.OK);
 		Mockito.when(remoteService.modelDetail(Mockito.anyString())).thenReturn(responseobject4);
-		ResponseEntity<String> responseobject5 = new ResponseEntity<String>("creating cloud", HttpStatus.OK);
+		final ResponseEntity<String> responseobject5 = new ResponseEntity<>("creating cloud", HttpStatus.OK);
 		Mockito.when(remoteService.application(Mockito.anyString())).thenReturn(responseobject5);
 		jujuVnfController.checkstatus("test", "test2", "test3", "test4", "test5");
 		assertTrue(true);
 	}
-	
+
 	@Test
-	public void test_CheckStatus_error_when_no_cloud_found() {
-		ResponseEntity<String> responseobject = new ResponseEntity<String>("ERROR no testcloud found", HttpStatus.NOT_FOUND);
+	void test_CheckStatus_error_when_no_cloud_found() {
+		final ResponseEntity<String> responseobject = new ResponseEntity<>("ERROR no testcloud found", HttpStatus.NOT_FOUND);
 		Mockito.when(remoteService.cloudDetail(Mockito.anyString())).thenReturn(responseobject);
 		jujuVnfController.checkstatus("test", "test2", "test3", "test4", "test5");
 		assertTrue(true);
 	}
 
 	@Test
-	public void test_Terminate() {
-		String controlername = "test";
-		List<JujuCloud> jClouds = new ArrayList();
-		JujuCloud jujuCloud = new JujuCloud();
+	void test_Terminate() {
+		final String controlername = "test";
+		final List<JujuCloud> jClouds = new ArrayList();
+		final JujuCloud jujuCloud = new JujuCloud();
 		jujuCloud.setId(UUID.randomUUID());
 		jClouds.add(jujuCloud);
-		ResponseEntity<String> responseobject = new ResponseEntity<String>("test", HttpStatus.OK);
+		final ResponseEntity<String> responseobject = new ResponseEntity<>("test", HttpStatus.OK);
 		Mockito.when(remoteService.controllerDetail(Mockito.anyString())).thenReturn(responseobject);
 		jujuVnfController.terminate(controlername);
 		assertTrue(true);
 	}
-	
+
 	@Test
-	public void test_Terminate_error_when_no_controller_found() {
-		String controlername = "test";
-		ResponseEntity<String> responseobject = new ResponseEntity<String>("ERROR", HttpStatus.NOT_FOUND);
+	void test_Terminate_error_when_no_controller_found() {
+		final String controlername = "test";
+		final ResponseEntity<String> responseobject = new ResponseEntity<>("ERROR", HttpStatus.NOT_FOUND);
 		Mockito.when(remoteService.controllerDetail(Mockito.anyString())).thenReturn(responseobject);
 		jujuVnfController.terminate(controlername);
 		assertTrue(true);
