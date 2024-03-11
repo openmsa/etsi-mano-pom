@@ -44,6 +44,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVirtualLinkTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVnfTask;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.exception.GenericException;
+import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.jpa.GrantsResponseJpa;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsLiveInstanceJpa;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
@@ -175,11 +176,23 @@ class GrantActionSupportTest {
 	}
 
 	@Test
+	void testGetVimsNotFound() {
+		final GrantActionSupport gas = new GrantActionSupport(grantJpa, vimManager, vnfPackageService, nsLiveInstance, preVimSelection);
+		final UUID id = UUID.randomUUID();
+		final GrantResponse resp = new GrantResponse();
+		resp.setVnfdId(id.toString());
+		assertThrows(NotFoundException.class, () -> gas.getVims(resp));
+	}
+
+	@Test
 	void testGetVims() {
 		final GrantActionSupport gas = new GrantActionSupport(grantJpa, vimManager, vnfPackageService, nsLiveInstance, preVimSelection);
 		final UUID id = UUID.randomUUID();
 		final GrantResponse resp = new GrantResponse();
 		resp.setVnfdId(id.toString());
+		final VnfPackage pkg = new VnfPackage();
+		final Optional<VnfPackage> optPkg = Optional.of(pkg);
+		when(vnfPackageService.findByVnfdId(eq(id.toString()))).thenReturn(optPkg);
 		gas.getVims(resp);
 		assertTrue(true);
 	}
