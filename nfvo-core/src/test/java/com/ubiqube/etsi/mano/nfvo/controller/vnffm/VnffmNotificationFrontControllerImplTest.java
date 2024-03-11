@@ -38,42 +38,42 @@ class VnffmNotificationFrontControllerImplTest {
 
 	@Test
 	void testCheck() {
-		final VnffmNotificationFrontControllerImpl srv = new VnffmNotificationFrontControllerImpl(mapper, ns, vnfmNotificationService);
+		final VnffmNotificationFrontControllerImpl srv = new VnffmNotificationFrontControllerImpl(mapper, vnfmNotificationService);
 		srv.alarmCheck();
 		assertTrue(true);
 	}
 
 	@Test
 	void testClearedCheck() {
-		final VnffmNotificationFrontControllerImpl srv = new VnffmNotificationFrontControllerImpl(mapper, ns, vnfmNotificationService);
+		final VnffmNotificationFrontControllerImpl srv = new VnffmNotificationFrontControllerImpl(mapper, vnfmNotificationService);
 		srv.alarmClearedCheck();
 		assertTrue(true);
 	}
 
 	@Test
 	void testClearedNotification() {
-		final VnffmNotificationFrontControllerImpl srv = new VnffmNotificationFrontControllerImpl(mapper, ns, vnfmNotificationService);
+		final VnffmNotificationFrontControllerImpl srv = new VnffmNotificationFrontControllerImpl(mapper, vnfmNotificationService);
 		srv.alarmClearedNotification(srv, null);
 		assertTrue(true);
 	}
 
 	@Test
 	void testRebuildCheck() {
-		final VnffmNotificationFrontControllerImpl srv = new VnffmNotificationFrontControllerImpl(mapper, ns, vnfmNotificationService);
+		final VnffmNotificationFrontControllerImpl srv = new VnffmNotificationFrontControllerImpl(mapper, vnfmNotificationService);
 		srv.alarmRebuiltCheck();
 		assertTrue(true);
 	}
 
 	@Test
 	void testAlarmRebuildNotification() {
-		final VnffmNotificationFrontControllerImpl srv = new VnffmNotificationFrontControllerImpl(mapper, ns, vnfmNotificationService);
+		final VnffmNotificationFrontControllerImpl srv = new VnffmNotificationFrontControllerImpl(mapper, vnfmNotificationService);
 		srv.alarmRebuiltNotification(srv, null);
 		assertTrue(true);
 	}
 
 	@Test
 	void testAlarmNotification() {
-		final VnffmNotificationFrontControllerImpl srv = new VnffmNotificationFrontControllerImpl(mapper, ns, vnfmNotificationService);
+		final VnffmNotificationFrontControllerImpl srv = new VnffmNotificationFrontControllerImpl(mapper, vnfmNotificationService);
 		srv.alarmNotification(srv, null);
 		assertTrue(true);
 	}
