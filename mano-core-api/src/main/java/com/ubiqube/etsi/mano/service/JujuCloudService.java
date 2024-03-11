@@ -22,6 +22,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpStatus;
@@ -46,7 +48,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 public class JujuCloudService {
-
+	private static final Logger LOG = LoggerFactory.getLogger(JujuCloudService.class);
 	private final JujuCloudJpa jujuCloudJpa;
 	private final JujuCredentialJpa jujuCredentialJpa;
 	private final JujuMetadataJpa jujuMetadataJpa;
@@ -69,50 +71,47 @@ public class JujuCloudService {
 		return jujuCloudJpa.save(jCloud);
 	}
 
-	public List<JujuCloud> findByMetadataName(String controllername, String status) {
+	public List<JujuCloud> findByMetadataName(final String controllername, final String status) {
 		return jujuCloudJpa.findByMetadataName(controllername, status);
 	}
-	
+
 	public boolean jujuInstantiate(final UUID objectId) {
 		final JujuCloud jCloud = jujuCloudJpa.findById(objectId)
 				.orElseThrow(() -> new VnfmException("Could not find Juju Cloud: " + objectId));
 		try {
-			if (jCloud.getName() != null) {
-				remoteService.addCloud(jCloud);
-				if (jCloud.getCredential().getName() != null) {
-					remoteService.addCredential(jCloud);
-					if (jCloud.getMetadata().getName() != null) {
-						remoteService.addController(jCloud.getName(), jCloud.getMetadata());
-						ResponseEntity<String> responseobject = remoteService
-								.controllerDetail(jCloud.getMetadata().getName());
-						if (responseobject.getBody() != null && !(responseobject.getBody().contains("ERROR"))) {
-							if (jCloud.getMetadata().getModels().get(0).getName() != null) {
-								remoteService.addModel(jCloud.getMetadata().getModels().get(0).getName());
-								if (jCloud.getMetadata().getModels().get(0).getCharmName() != null
-										&& jCloud.getMetadata().getModels().get(0).getAppName() != null) {
-									remoteService.deployApp(jCloud.getMetadata().getModels().get(0).getCharmName(),
-											jCloud.getMetadata().getModels().get(0).getAppName());
-								} else {
-									throw new VnfmException("Error Deploying Charm");
-								}
-							} else {
-								throw new VnfmException("Error Create Model");
-							}
-					    } else {
-							jCloud.setStatus("FAIL");
-							jujuCloudJpa.save(jCloud);
-							throw new VnfmException("Error Create Controller");
-						}
-					} else {
-						throw new VnfmException("Error Create Controller");
-					}
-				} else {
-					throw new VnfmException("Error Create Credential");
-				}
-			} else {
+			if (jCloud.getName() == null) {
 				throw new VnfmException("Error Create Cloud");
 			}
-		} catch (VnfmException e) {
+			remoteService.addCloud(jCloud);
+			if (jCloud.getCredential().getName() == null) {
+				throw new VnfmException("Error Create Credential");
+			}
+			remoteService.addCredential(jCloud);
+			if (jCloud.getMetadata().getName() == null) {
+				throw new VnfmException("Error Create Controller");
+			}
+			remoteService.addController(jCloud.getName(), jCloud.getMetadata());
+			final ResponseEntity<String> responseobject = remoteService
+					.controllerDetail(jCloud.getMetadata().getName());
+			if ((responseobject.getBody() != null) && !(responseobject.getBody().contains("ERROR"))) {
+				if (jCloud.getMetadata().getModels().get(0).getName() != null) {
+					remoteService.addModel(jCloud.getMetadata().getModels().get(0).getName());
+					if ((jCloud.getMetadata().getModels().get(0).getCharmName() != null)
+							&& (jCloud.getMetadata().getModels().get(0).getAppName() != null)) {
+						remoteService.deployApp(jCloud.getMetadata().getModels().get(0).getCharmName(),
+								jCloud.getMetadata().getModels().get(0).getAppName());
+					} else {
+						throw new VnfmException("Error Deploying Charm");
+					}
+				} else {
+					throw new VnfmException("Error Create Model");
+				}
+			} else {
+				jCloud.setStatus("FAIL");
+				jujuCloudJpa.save(jCloud);
+				throw new VnfmException("Error Create Controller");
+			}
+		} catch (final VnfmException e) {
 			jCloud.setStatus("FAIL");
 			jujuCloudJpa.save(jCloud);
 			return false;
@@ -129,23 +128,24 @@ public class JujuCloudService {
 			remoteService.removeController(jCloud.getMetadata().getName());
 			jujuCloudJpa.delete(jCloud);
 			return true;
-		} catch (VnfmException e) {
+		} catch (final VnfmException e) {
 			return false;
 		}
 	}
-	
+
 	public boolean installHelm(final String helmname, final File helmFile) throws URISyntaxException {
 		while (!(remoteService.isK8sReady().getBody().booleanValue())) {
-			System.out.println("Kubernetes Not Ready.  Waiting...");
+			LOG.info("Kubernetes Not Ready.  Waiting...");
 			try {
 				Thread.sleep(5000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			} catch (final InterruptedException e) {
+				LOG.info("", e);
+				Thread.currentThread().interrupt();
 			}
 		}
 		remoteService.addKubeConfig("/home/ubuntu/.kube/config");
-		String jujuUrl = environment.getProperty("mano.juju.url");
-		ServerConnection server = new ServerConnection(null, new URI(jujuUrl));
+		final String jujuUrl = environment.getProperty("mano.juju.url");
+		final ServerConnection server = new ServerConnection(null, new URI(jujuUrl));
 		final FluxRest fr = new FluxRest(server);
 		final WebClient wc = fr.getWebClient();
 		final MultipartBodyBuilder builder = new MultipartBodyBuilder();
@@ -162,7 +162,7 @@ public class JujuCloudService {
 		return true;
 	}
 
-	public void uninstallHelm(String helmName) {
+	public void uninstallHelm(final String helmName) {
 		remoteService.helmUninstall(helmName);
 	}
 }
