@@ -20,6 +20,7 @@ import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -93,24 +94,20 @@ public class JujuCloudService {
 			remoteService.addController(jCloud.getName(), jCloud.getMetadata());
 			final ResponseEntity<String> responseobject = remoteService
 					.controllerDetail(jCloud.getMetadata().getName());
-			if ((responseobject.getBody() != null) && !(responseobject.getBody().contains("ERROR"))) {
-				if (jCloud.getMetadata().getModels().get(0).getName() != null) {
-					remoteService.addModel(jCloud.getMetadata().getModels().get(0).getName());
-					if ((jCloud.getMetadata().getModels().get(0).getCharmName() != null)
-							&& (jCloud.getMetadata().getModels().get(0).getAppName() != null)) {
-						remoteService.deployApp(jCloud.getMetadata().getModels().get(0).getCharmName(),
-								jCloud.getMetadata().getModels().get(0).getAppName());
-					} else {
-						throw new VnfmException("Error Deploying Charm");
-					}
-				} else {
-					throw new VnfmException("Error Create Model");
-				}
-			} else {
+			if ((responseobject.getBody() == null) || (responseobject.getBody().contains("ERROR"))) {
 				jCloud.setStatus("FAIL");
 				jujuCloudJpa.save(jCloud);
 				throw new VnfmException("Error Create Controller");
 			}
+			if (jCloud.getMetadata().getModels().get(0).getName() == null) {
+				throw new VnfmException("Error Create Model");
+			}
+			remoteService.addModel(jCloud.getMetadata().getModels().get(0).getName());
+			if ((jCloud.getMetadata().getModels().get(0).getCharmName() == null) || (jCloud.getMetadata().getModels().get(0).getAppName() == null)) {
+				throw new VnfmException("Error Deploying Charm");
+			}
+			remoteService.deployApp(jCloud.getMetadata().getModels().get(0).getCharmName(),
+					jCloud.getMetadata().getModels().get(0).getAppName());
 		} catch (final VnfmException e) {
 			jCloud.setStatus("FAIL");
 			jujuCloudJpa.save(jCloud);
@@ -134,7 +131,11 @@ public class JujuCloudService {
 	}
 
 	public boolean installHelm(final String helmname, final File helmFile) throws URISyntaxException {
-		while (!(remoteService.isK8sReady().getBody().booleanValue())) {
+		final Boolean opt = Optional.ofNullable(remoteService.isK8sReady())
+				.map(ResponseEntity::getBody)
+				.map(Boolean::booleanValue)
+				.orElse(Boolean.FALSE);
+		while (Boolean.FALSE.equals(opt)) {
 			LOG.info("Kubernetes Not Ready.  Waiting...");
 			try {
 				Thread.sleep(5000);
