@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<ns2:nfv xmlns:ns2="urn:etsi:nfv:yang:etsi-nfv-descriptors">
-    <vnfd>
-        <id>id</id>
-    </vnfd>
-</ns2:nfv>
