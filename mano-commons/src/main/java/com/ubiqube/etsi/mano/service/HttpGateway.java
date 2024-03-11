@@ -31,6 +31,7 @@ import com.ubiqube.etsi.mano.dao.mano.pm.PmJob;
 import com.ubiqube.etsi.mano.dao.mano.pm.Threshold;
 import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.event.model.EventMessage;
+import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.utils.Version;
 
 import jakarta.annotation.Nullable;
@@ -116,4 +117,26 @@ public interface HttpGateway {
 	Object createVnfPmJobRequest(PmJob pmJob);
 
 	Object createVnfThresholdRequest(Threshold req);
+
+	Class<?> getVnfInstanceSubscriptionRequest();
+
+	Class<?> getVnfInstanceSubscriptionClass();
+
+	Class<?> getVnfIndicatorClass();
+
+	ParameterizedTypeReference<List<Class<?>>> getVnfIndicatorClassList();
+
+	Class<?> getVnfIndicatorSubscriptionClass();
+
+	Class<?> getVnfIndicatorRequest();
+
+	Object createVnfInstanceSubscriptionRequest(Subscription subscription);
+
+	Object createVnfIndicatorSubscriptionRequest(Subscription subscription);
+
+	Object createVnfFmSubscriptionRequest(Subscription subscription);
+
+	Class<?> getVnfFmSubscriptionRequest();
+
+	Class<?> getVnfFmSubscriptionClass();
 }

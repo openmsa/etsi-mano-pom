@@ -29,6 +29,7 @@ import com.ubiqube.etsi.mano.dao.mano.ScaleTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.pm.PmJob;
 import com.ubiqube.etsi.mano.dao.mano.pm.Threshold;
 import com.ubiqube.etsi.mano.service.event.model.EventMessage;
+import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.utils.Version;
 
 /**
@@ -235,6 +236,54 @@ public class HttpGatewayBad extends AbstractHttpGateway {
 
 	@Override
 	public String getSubscriptionUriFor(final ApiAndType at, final String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Class<?> getVnfInstanceSubscriptionRequest() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Class<?> getVnfInstanceSubscriptionClass() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Class<?> getVnfIndicatorClass() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ParameterizedTypeReference<List<Class<?>>> getVnfIndicatorClassList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Class<?> getVnfIndicatorSubscriptionClass() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Class<?> getVnfIndicatorRequest() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object createVnfInstanceSubscriptionRequest(final Subscription subscription) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object createVnfIndicatorSubscriptionRequest(final Subscription subscription) {
 		// TODO Auto-generated method stub
 		return null;
 	}

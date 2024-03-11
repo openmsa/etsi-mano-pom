@@ -45,17 +45,20 @@ import com.ubiqube.etsi.mano.nfvo.v261.model.lcmgrant.GrantRequest;
 import com.ubiqube.etsi.mano.nfvo.v261.model.lcmgrant.GrantRequestLinks;
 import com.ubiqube.etsi.mano.nfvo.v261.model.nsd.sol005.CreateNsdInfoRequest;
 import com.ubiqube.etsi.mano.nfvo.v261.model.nsd.sol005.NsdInfo;
+import com.ubiqube.etsi.mano.nfvo.v261.model.nslcm.LccnSubscription;
 import com.ubiqube.etsi.mano.nfvo.v261.model.nsperfo.PmJobsCreatePmJobRequest;
 import com.ubiqube.etsi.mano.nfvo.v261.model.vnf.CreateVnfPkgInfoRequest;
 import com.ubiqube.etsi.mano.service.AbstractHttpGateway;
 import com.ubiqube.etsi.mano.service.NfvoFactory;
 import com.ubiqube.etsi.mano.service.VnfmFactory;
 import com.ubiqube.etsi.mano.service.event.model.EventMessage;
+import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.utils.Version;
 import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.ChangeExtVnfConnectivityRequest;
 import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.CreateVnfRequest;
 import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.HealVnfRequest;
 import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.InstantiateVnfRequest;
+import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.LccnSubscriptionRequest;
 import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.OperateVnfRequest;
 import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.ScaleVnfRequest;
 import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.ScaleVnfToLevelRequest;
@@ -63,6 +66,7 @@ import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.TerminateVnfRequest;
 import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.TerminateVnfRequest.TerminationTypeEnum;
 import com.ubiqube.etsi.mano.vnfm.v261.model.nslcm.VnfLcmOpOcc;
 import com.ubiqube.etsi.mano.vnfm.v261.model.nsperfo.CreateThresholdRequest;
+import com.ubiqube.etsi.mano.vnfm.v261.model.vnfind.VnfIndicator;
 import com.ubiqube.etsi.mano.vnfm.v261.model.vnfind.VnfIndicatorSubscription;
 import com.ubiqube.etsi.mano.vnfm.v261.model.vnfind.VnfIndicatorSubscriptionRequest;
 
@@ -302,6 +306,67 @@ public class VnfmGateway261 extends AbstractHttpGateway {
 
 	@Override
 	public String getSubscriptionUriFor(final ApiAndType at, final String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Class<?> getVnfInstanceSubscriptionRequest() {
+		return LccnSubscriptionRequest.class;
+	}
+
+	@Override
+	public Class<?> getVnfInstanceSubscriptionClass() {
+		return LccnSubscription.class;
+	}
+
+	@Override
+	public Class<?> getVnfIndicatorClass() {
+		return VnfIndicator.class;
+	}
+
+	@Override
+	public ParameterizedTypeReference<List<Class<?>>> getVnfIndicatorClassList() {
+		final ParameterizedTypeReference<List<VnfIndicator>> res = new ParameterizedTypeReference<>() {
+			// Nothing.
+		};
+		return (ParameterizedTypeReference<List<Class<?>>>) (Object) res;
+	}
+
+	@Override
+	public Class<?> getVnfIndicatorSubscriptionClass() {
+		return VnfIndicatorSubscriptionRequest.class;
+	}
+
+	@Override
+	public Class<?> getVnfIndicatorRequest() {
+		return VnfIndicatorSubscriptionRequest.class;
+	}
+
+	@Override
+	public Object createVnfInstanceSubscriptionRequest(final Subscription subscription) {
+		return mapper.map(subscription, LccnSubscriptionRequest.class);
+	}
+
+	@Override
+	public Object createVnfIndicatorSubscriptionRequest(final Subscription subscription) {
+		return mapper.map(subscription, VnfIndicatorSubscriptionRequest.class);
+	}
+
+	@Override
+	public Object createVnfFmSubscriptionRequest(final Subscription subscription) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Class<?> getVnfFmSubscriptionRequest() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Class<?> getVnfFmSubscriptionClass() {
 		// TODO Auto-generated method stub
 		return null;
 	}
