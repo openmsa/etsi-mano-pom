@@ -63,7 +63,7 @@ public class SecuritySecureConfig {
 							.requestMatchers(this.adminServer.path("/actuator/**")).permitAll()
 							.requestMatchers(this.adminServer.path("/login")).permitAll().anyRequest().authenticated())
 					.formLogin(
-							formLogin -> formLogin.loginPage(this.adminServer.path("/login")).successHandler(successHandler).and())
+							formLogin -> formLogin.loginPage(this.adminServer.path("/login")).successHandler(successHandler))
 					.logout(logout -> logout.logoutUrl(this.adminServer.path("/logout"))).httpBasic(Customizer.withDefaults())
 					.csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 							.ignoringRequestMatchers(
