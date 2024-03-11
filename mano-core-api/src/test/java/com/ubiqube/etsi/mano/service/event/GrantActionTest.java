@@ -16,10 +16,10 @@
  */
 package com.ubiqube.etsi.mano.service.event;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.HashSet;
@@ -36,6 +36,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
+import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.jpa.GrantsResponseJpa;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.event.elect.VimElection;
@@ -67,8 +68,7 @@ class GrantActionTest {
 	void testName() throws Exception {
 		final GrantAction ga = new GrantAction(grantJpa, vimManager, vimElection, imageService, flavorManager, grantSupport, grantContainerAction, vnfPackageService);
 		final UUID id = UUID.randomUUID();
-		ga.grantRequest(id);
-		verify(grantJpa).deleteById(id);
+		assertThrows(NotFoundException.class, () -> ga.grantRequest(id));
 	}
 
 	@Test
@@ -80,7 +80,6 @@ class GrantActionTest {
 		when(grantJpa.findById(id)).thenReturn(optGrant);
 		// No suitable vim
 		ga.grantRequest(id);
-		verify(grantJpa).deleteById(id);
 	}
 
 	@Test
