@@ -96,52 +96,51 @@ public class OsContainerUow extends AbstractVnfmUow<OsContainerTask> {
 			vim.cnf(vimConnectionInformation).createContainer(params);
 		}
 		if (jujui != null) {
-			String type = vimConnectionInformation.getVimType();
-			String nameofCloud = vimConnectionInformation.getVimId();
-			Map<String, String> accessInfo = vimConnectionInformation.getAccessInfo();
-			String password = accessInfo.get("password");
-			String credName = "admin-" + accessInfo.get("projectId");
-			String username = accessInfo.get("username");
-			Map<String, String> interfaceInfo = vimConnectionInformation.getInterfaceInfo();
-			String endpoint = interfaceInfo.get("endpoint");
-			String controllerName = vimConnectionInformation.getVimId() + "-" + vimConnectionInformation.getJujuInfo().getRegion().toLowerCase();
-			String imageId = vimConnectionInformation.getJujuInfo().getImageId();
-			String constraints = vimConnectionInformation.getJujuInfo().getConstraints();
-			String region = vimConnectionInformation.getJujuInfo().getRegion();
-			String networkId = vimConnectionInformation.getJujuInfo().getNetworkId();
+			final String type = vimConnectionInformation.getVimType();
+			final String nameofCloud = vimConnectionInformation.getVimId();
+			final Map<String, String> accessInfo = vimConnectionInformation.getAccessInfo();
+			final String password = accessInfo.get("password");
+			final String credName = "admin-" + accessInfo.get("projectId");
+			final String username = accessInfo.get("username");
+			final Map<String, String> interfaceInfo = vimConnectionInformation.getInterfaceInfo();
+			final String endpoint = interfaceInfo.get("endpoint");
+			final String controllerName = vimConnectionInformation.getVimId() + "-" + vimConnectionInformation.getJujuInfo().getRegion().toLowerCase();
+			final String imageId = vimConnectionInformation.getJujuInfo().getImageId();
+			final String constraints = vimConnectionInformation.getJujuInfo().getConstraints();
+			final String region = vimConnectionInformation.getJujuInfo().getRegion();
+			final String networkId = vimConnectionInformation.getJujuInfo().getNetworkId();
 			String charmName = vimConnectionInformation.getJujuInfo().getCharmName();
 			String appName = vimConnectionInformation.getJujuInfo().getAppName();
-			String osSeries = vimConnectionInformation.getJujuInfo().getOsSeries();
-			String charmAppName = osc.getDescription();
-			if (charmAppName.indexOf('/')>= 1) {
-				String[] charmAppValues = charmAppName.split("/");
+			final String osSeries = vimConnectionInformation.getJujuInfo().getOsSeries();
+			final String charmAppName = osc.getDescription();
+			if (charmAppName.indexOf('/') >= 1) {
+				final String[] charmAppValues = charmAppName.split("/");
 				charmName = charmAppValues[0];
 				appName = charmAppValues[1];
 			}
-			JujuRegion region2 = new JujuRegion(region, endpoint);
-			List<JujuRegion> regions = new ArrayList<>();
+			final JujuRegion region2 = new JujuRegion(region, endpoint);
+			final List<JujuRegion> regions = new ArrayList<>();
 			regions.add(region2);
-			JujuCredential jujuCredential = new JujuCredential(credName, "userpass", username, password, "admin");
-			JujuModel model = new JujuModel("k8s-ubi-model-kt", charmName, appName);
-			List<JujuModel> models = new ArrayList<>();
+			final JujuCredential jujuCredential = new JujuCredential(credName, "userpass", username, password, "admin");
+			final JujuModel model = new JujuModel("k8s-ubi-model-kt", charmName, appName);
+			final List<JujuModel> models = new ArrayList<>();
 			models.add(model);
-			List<String> constraints2 = new ArrayList<>();
+			final List<String> constraints2 = new ArrayList<>();
 			constraints2.add(constraints);
-			JujuMetadata metadata = new JujuMetadata(controllerName, imageId, "~/simplestreams", osSeries, endpoint, constraints2, networkId, region, models);
-			JujuCloud jCloud = new JujuCloud(nameofCloud, type, "userpass", regions, jujuCredential, metadata);
+			final JujuMetadata metadata = new JujuMetadata(controllerName, imageId, "~/simplestreams", osSeries, endpoint, constraints2, networkId, region, models);
+			final JujuCloud jCloud = new JujuCloud(nameofCloud, type, "userpass", regions, jujuCredential, metadata);
 			jujuCloudService.saveCloud(jCloud);
-			boolean isSuccess = jujuCloudService.jujuInstantiate(jCloud.getId());
+			final boolean isSuccess = jujuCloudService.jujuInstantiate(jCloud.getId());
 			try {
-				String helmName = task.getOsContainer().getArtifacts().entrySet().iterator().next().getValue().getName();
+				final String helmName = task.getOsContainer().getArtifacts().entrySet().iterator().next().getValue().getName();
 				final File tmpFile = copyFile(
 						task.getOsContainer().getArtifacts().entrySet().iterator().next().getValue().getImagePath(),
 						task.getBlueprint().getInstance().getVnfPkg().getId());
-				if (tmpFile != null && tmpFile.length() > 0) {
-					jujuCloudService.installHelm(helmName, tmpFile);
-				} else {
+				if (tmpFile.length() <= 0) {
 					throw new GenericException("File is Null or Empty ");
 				}
-			} catch (URISyntaxException se) {
+				jujuCloudService.installHelm(helmName, tmpFile);
+			} catch (final URISyntaxException se) {
 				return "FAIL";
 			}
 			return isSuccess ? "SUCCESS" : "FAIL";
@@ -152,17 +151,17 @@ public class OsContainerUow extends AbstractVnfmUow<OsContainerTask> {
 	@Override
 	public @Nullable String rollback(final Context3d context) {
 		vim.cnf(vimConnectionInformation).deleteContainer(task.getVimResourceId());
-		String helmName = task.getOsContainer().getArtifacts().entrySet().iterator().next().getValue().getName();
+		final String helmName = task.getOsContainer().getArtifacts().entrySet().iterator().next().getValue().getName();
 		jujuCloudService.uninstallHelm(helmName);
-		List<JujuCloud> jClouds = jujuCloudService.findByMetadataName(vimConnectionInformation.getVimId() + "-"
+		final List<JujuCloud> jClouds = jujuCloudService.findByMetadataName(vimConnectionInformation.getVimId() + "-"
 				+ vimConnectionInformation.getJujuInfo().getRegion().toLowerCase(), "PASS");
 		if (!jClouds.isEmpty()) {
-			boolean isSuccess = jujuCloudService.jujuTerminate(jClouds.get(0).getId());
+			final boolean isSuccess = jujuCloudService.jujuTerminate(jClouds.get(0).getId());
 			return isSuccess ? "SUCCESS" : "FAIL";
 		}
 		return null;
 	}
-	
+
 	private File copyFile(final String url, final UUID id) {
 		final ManoResource f = vnfRepo.getBinary(id, new File(Constants.REPOSITORY_FOLDER_ARTIFACTS, url).toString());
 		final Path tmp = createTempFile();
