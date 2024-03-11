@@ -71,4 +71,8 @@ public class ManoNsPackageId {
 				.getSingle();
 	}
 
+	public void delete() {
+		client.createQuery().delete();
+	}
+
 }

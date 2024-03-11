@@ -35,14 +35,13 @@ public class VnfmGrantManagementImpl implements GrantManagement {
 	private final ManoClientFactory manoClientFactory;
 
 	public VnfmGrantManagementImpl(final ManoClientFactory manoClientFactory) {
-		super();
 		this.manoClientFactory = manoClientFactory;
 	}
 
 	@Override
 	public GrantResponse get(final UUID grantId) {
 		return manoClientFactory.getClient()
-				.grant(grantId)
+				.grant().id(grantId)
 				.find();
 	}
 

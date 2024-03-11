@@ -26,6 +26,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -47,7 +48,8 @@ import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.rest.ManoClient;
 import com.ubiqube.etsi.mano.service.rest.ManoClientFactory;
-import com.ubiqube.etsi.mano.service.rest.ManoOnboardedVnfPackage;
+import com.ubiqube.etsi.mano.service.rest.ManoOnboarded;
+import com.ubiqube.etsi.mano.service.rest.ManoVnfPackage;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 import com.ubiqube.etsi.mano.test.MapperService;
 import com.ubiqube.etsi.mano.vnfm.controller.vnflcm.VnfInstanceLcmImpl;
@@ -77,8 +79,6 @@ class VnfInstanceLcmTest {
 	private VnfInstanceServiceVnfm vnfInstanceServiceVnfm;
 	@Mock
 	private ManoClient onboardVnfPkg;
-	@Mock
-	private ManoOnboardedVnfPackage manoOnboard;
 
 	public VnfInstanceLcmTest() {
 		mapper = MapperService.getInstance().getMapper();
@@ -150,7 +150,10 @@ class VnfInstanceLcmTest {
 		final VnfPackage pkg = TestFactory.createVnfPkg(vnfdId);
 		pkg.setOnboardingState(OnboardingStateType.ONBOARDED);
 		when(manoClientFactory.getClient()).thenReturn(onboardVnfPkg);
-		when(onboardVnfPkg.onbardedVnfPackage(any())).thenReturn(manoOnboard);
+		final ManoVnfPackage manoVnfPackage = Mockito.mock(ManoVnfPackage.class);
+		when(onboardVnfPkg.vnfPackage()).thenReturn(manoVnfPackage);
+		final ManoOnboarded manoOnboard = Mockito.mock(ManoOnboarded.class);
+		when(manoVnfPackage.onboarded(any())).thenReturn(manoOnboard);
 		when(manoOnboard.find()).thenReturn(pkg);
 		when(vnfPackageService.save(pkg)).thenReturn(pkg);
 		final VnfInstance vnfInstance = TestFactory.createVnfInstance();

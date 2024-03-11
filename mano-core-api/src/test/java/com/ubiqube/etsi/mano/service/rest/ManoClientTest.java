@@ -40,28 +40,23 @@ class ManoClientTest {
 	@SuppressWarnings("null")
 	private static Stream<Arguments> providerClass() {
 		return Stream.of(
-				Arguments.of(args.of(srv -> srv.admin())),
-				Arguments.of(args.of(srv -> srv.getMapper())),
-				Arguments.of(args.of(srv -> srv.getObjectId())),
-				Arguments.of(args.of(srv -> srv.getQueryType())),
-				Arguments.of(args.of(srv -> srv.getRequestObject())),
-				Arguments.of(args.of(srv -> srv.getServer())),
-				Arguments.of(args.of(srv -> srv.getSetFragment())),
-				Arguments.of(args.of(srv -> srv.grant())),
-				Arguments.of(args.of(srv -> srv.grant(null))),
-				Arguments.of(args.of(srv -> srv.nsPackage())),
-				Arguments.of(args.of(srv -> srv.nsPackage(null))),
-				Arguments.of(args.of(srv -> srv.onbardedVnfPackage(null))),
-				Arguments.of(args.of(srv -> srv.vnfInstance())),
-				Arguments.of(args.of(srv -> srv.vnfInstance(null))),
-				Arguments.of(args.of(srv -> srv.vnfLcmOpOccs())),
+				Arguments.of(args.of(ManoClient::admin)),
+				Arguments.of(args.of(ManoClient::getMapper)),
+				Arguments.of(args.of(ManoClient::getObjectId)),
+				Arguments.of(args.of(ManoClient::getQueryType)),
+				Arguments.of(args.of(ManoClient::getRequestObject)),
+				Arguments.of(args.of(ManoClient::getServer)),
+				Arguments.of(args.of(ManoClient::getSetFragment)),
+				Arguments.of(args.of(ManoClient::grant)),
+				Arguments.of(args.of(ManoClient::nsPackage)),
+				Arguments.of(args.of(ManoClient::vnfInstance)),
+				Arguments.of(args.of(ManoClient::vnfLcmOpOccs)),
 				Arguments.of(args.of(srv -> srv.vnfLcmOpOccs(null))),
-				Arguments.of(args.of(srv -> srv.vnfPackage())),
-				Arguments.of(args.of(srv -> srv.vnfPackage(null))),
-				Arguments.of(args.of(srv -> srv.vnfPm())),
-				Arguments.of(args.of(srv -> srv.vnfThreshold())),
+				Arguments.of(args.of(ManoClient::vnfPackage)),
+				Arguments.of(args.of(ManoClient::vnfPm)),
+				Arguments.of(args.of(ManoClient::vnfIndicator)),
 				Arguments.of(args.of(srv -> srv.createQuery(x -> ""))),
-				Arguments.of(args.of(srv -> srv.createQuery())));
+				Arguments.of(args.of(ManoClient::createQuery)));
 	}
 
 	@ParameterizedTest

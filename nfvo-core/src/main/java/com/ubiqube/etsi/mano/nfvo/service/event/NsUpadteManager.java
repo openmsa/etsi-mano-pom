@@ -199,7 +199,7 @@ public class NsUpadteManager {
 	private void sendOperate(final String resourceId, final Servers servers, final OperateVnfData operateData) {
 		final ManoClient mc = manoClientFactory.getClient(servers);
 		final VnfOperateRequest req = mapper.map(operateData, VnfOperateRequest.class);
-		mc.vnfInstance(getSafeUUID(resourceId)).operate(req);
+		mc.vnfInstance().id(getSafeUUID(resourceId)).operate(req);
 	}
 
 	private @Nullable Object modifyVnfInformation(final NsdInstance inst, final List<ModifyVnfInfoData> modifyVnfInfoData) {
@@ -217,7 +217,7 @@ public class NsUpadteManager {
 	private void sendModify(final String resourceId, final Servers servers, final ModifyVnfInfoData patchData) {
 		final ManoClient mc = manoClientFactory.getClient(servers);
 		final Map<String, Object> req = toMap(patchData);
-		mc.vnfInstance(getSafeUUID(resourceId)).patch(req);
+		mc.vnfInstance().id(getSafeUUID(resourceId)).patch(req);
 	}
 
 	private static Map<String, Object> toMap(final ModifyVnfInfoData patchData) {
@@ -252,7 +252,7 @@ public class NsUpadteManager {
 	private void sendChangeDf(final String resourceId, final Servers server, final ChangeVnfFlavourData x) {
 		final ChangeVnfFlavourData req = mapper.map(x, ChangeVnfFlavourData.class);
 		final ManoClient mc = manoClientFactory.getClient(server);
-		mc.vnfInstance(getSafeUUID(resourceId)).changeFlavour(req);
+		mc.vnfInstance().id(getSafeUUID(resourceId)).changeFlavour(req);
 	}
 
 	private @Nullable Object changeExtVnfConn(final NsdInstance inst, final List<ChangeExtVnfConnectivityData> changeExtVnfConnectivityData) {
@@ -267,7 +267,7 @@ public class NsUpadteManager {
 	private void sendChangeExt(final String resourceId, final Servers server, final ChangeExtVnfConnectivityData x) {
 		final ChangeExtVnfConnRequest req = mapper.map(x, ChangeExtVnfConnRequest.class);
 		final ManoClient mc = manoClientFactory.getClient(server);
-		mc.vnfInstance(getSafeUUID(resourceId)).changeExtConn(req);
+		mc.vnfInstance().id(getSafeUUID(resourceId)).changeExtConn(req);
 	}
 
 	private void addVnf(final NsdInstance inst, final NsBlueprint blueprint, final List<VnfInstanceData> addVnfIstance) {

@@ -30,6 +30,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.dao.mano.InstantiationState;
@@ -44,7 +45,8 @@ import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.rest.ManoClient;
 import com.ubiqube.etsi.mano.service.rest.ManoClientFactory;
-import com.ubiqube.etsi.mano.service.rest.ManoOnboardedVnfPackage;
+import com.ubiqube.etsi.mano.service.rest.ManoOnboarded;
+import com.ubiqube.etsi.mano.service.rest.ManoVnfPackage;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 import com.ubiqube.etsi.mano.test.controllers.TestFactory;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceService;
@@ -73,8 +75,6 @@ class VnfInstanceLcmImplTest {
 	private ManoClientFactory manoClient;
 	@Mock
 	private ManoClient mc;
-	@Mock
-	private ManoOnboardedVnfPackage manoOnboard;
 
 	@Test
 	void testFindById() {
@@ -194,8 +194,11 @@ class VnfInstanceLcmImplTest {
 		// Onboard
 		final VnfPackage pkg = TestFactory.createVnfPkg(id);
 		when(manoClient.getClient()).thenReturn(mc);
-		when(mc.onbardedVnfPackage(id)).thenReturn(manoOnboard);
-		when(manoOnboard.find()).thenReturn(pkg);
+		final ManoVnfPackage manoVnfPackage = Mockito.mock(ManoVnfPackage.class);
+		when(mc.vnfPackage()).thenReturn(manoVnfPackage);
+		final ManoOnboarded manoOnboarded = Mockito.mock(ManoOnboarded.class);
+		when(manoVnfPackage.onboarded(id)).thenReturn(manoOnboarded);
+		when(manoOnboarded.find()).thenReturn(pkg);
 		when(vnfPackageService.save(pkg)).thenReturn(pkg);
 		when(vnfInstanceServiec.save((VnfInstance) any())).thenReturn(inst);
 		srv.post(null, id.toString(), null, null);

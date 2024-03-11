@@ -12,40 +12,31 @@
  *     GNU General Public License for more details.
  *
  *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see https://www.gnu.org/licenses/.
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 package com.ubiqube.etsi.mano.service.rest;
 
-import java.util.function.Function;
+import java.util.UUID;
 
-import com.ubiqube.etsi.mano.dao.mano.pm.PmJob;
+import com.ubiqube.etsi.mano.dao.mano.VnfIndicator;
 import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.HttpGateway;
 
-/**
- * Sol003 VNF PM.
- *
- * @author olivier
- *
- */
-public class ManoVnfPm {
-	private final ManoClient client;
+public class ManoVnfIndicatorId {
 
-	public ManoVnfPm(final ManoClient manoClient) {
+	private ManoClient client;
+
+	public ManoVnfIndicatorId(final ManoClient manoClient, final UUID id) {
 		this.client = manoClient;
-		manoClient.setFragment("pm_jobs");
-		manoClient.setQueryType(ApiVersionType.SOL003_VNFPM);
+		client.setQueryType(ApiVersionType.SOL003_VNFIND);
+		client.setFragment("/indicators/{id}");
+		client.setObjectId(id);
 	}
 
-	public ManoThreshold threshold() {
-		return new ManoThreshold(client);
-	}
-
-	public PmJob create(final PmJob pmJob) {
-		final Function<HttpGateway, Object> request = (final HttpGateway httpGateway) -> httpGateway.createVnfPmJobRequest(pmJob);
-		return client.createQuery(request)
-				.setWireOutClass(HttpGateway::getVnfPmJobClass)
-				.setOutClass(PmJob.class)
-				.post();
+	public VnfIndicator find() {
+		return client.createQuery()
+				.setWireOutClass(HttpGateway::getVnfIndicatorClass)
+				.setOutClass(VnfIndicator.class)
+				.getSingle();
 	}
 }

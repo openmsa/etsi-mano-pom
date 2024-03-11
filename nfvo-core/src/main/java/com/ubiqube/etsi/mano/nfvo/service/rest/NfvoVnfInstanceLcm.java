@@ -19,8 +19,6 @@ package com.ubiqube.etsi.mano.nfvo.service.rest;
 import java.util.List;
 import java.util.UUID;
 
-import jakarta.validation.constraints.NotNull;
-
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
@@ -39,6 +37,8 @@ import com.ubiqube.etsi.mano.model.VnfScaleToLevelRequest;
 import com.ubiqube.etsi.mano.service.VnfmService;
 import com.ubiqube.etsi.mano.service.rest.ManoClientFactory;
 
+import jakarta.validation.constraints.NotNull;
+
 /**
  * This class Is preparing querying a VNFM using HHTP.
  *
@@ -51,7 +51,6 @@ public class NfvoVnfInstanceLcm implements VnfInstanceLcm {
 	private final ManoClientFactory manoClientFactory;
 
 	public NfvoVnfInstanceLcm(final ManoClientFactory manoClientFactory) {
-		super();
 		this.manoClientFactory = manoClientFactory;
 	}
 
@@ -72,49 +71,49 @@ public class NfvoVnfInstanceLcm implements VnfInstanceLcm {
 	@Override
 	public void delete(final Servers servers, final UUID vnfInstanceId) {
 		manoClientFactory.getClient(servers)
-				.vnfInstance(vnfInstanceId)
+				.vnfInstance().id(vnfInstanceId)
 				.delete();
 	}
 
 	@Override
 	public VnfBlueprint instantiate(final Servers servers, final UUID vnfInstanceId, final VnfInstantiate instantiateVnfRequest) {
 		return manoClientFactory.getClient(servers)
-				.vnfInstance(vnfInstanceId)
+				.vnfInstance().id(vnfInstanceId)
 				.instantiate(instantiateVnfRequest);
 	}
 
 	@Override
 	public VnfBlueprint terminate(final Servers servers, final UUID vnfInstanceId, final CancelModeTypeEnum terminationType, final Integer gracefulTerminationTimeout) {
 		return manoClientFactory.getClient(servers)
-				.vnfInstance(vnfInstanceId)
+				.vnfInstance().id(vnfInstanceId)
 				.terminate(terminationType, gracefulTerminationTimeout);
 	}
 
 	@Override
 	public VnfBlueprint scaleToLevel(final Servers servers, final UUID vnfInstanceId, final VnfScaleToLevelRequest scaleVnfToLevelRequest) {
 		return manoClientFactory.getClient(servers)
-				.vnfInstance(vnfInstanceId)
+				.vnfInstance().id(vnfInstanceId)
 				.scaleToLevel(scaleVnfToLevelRequest);
 	}
 
 	@Override
 	public VnfBlueprint scale(final Servers servers, final UUID vnfInstanceId, final VnfScaleRequest scaleVnfRequest) {
 		return manoClientFactory.getClient(servers)
-				.vnfInstance(vnfInstanceId)
+				.vnfInstance().id(vnfInstanceId)
 				.scale(scaleVnfRequest);
 	}
 
 	@Override
 	public VnfBlueprint heal(final Servers servers, final UUID vnfInstanceId, final VnfHealRequest vnfHealRequest) {
 		return manoClientFactory.getClient(servers)
-				.vnfInstance(vnfInstanceId)
+				.vnfInstance().id(vnfInstanceId)
 				.heal(vnfHealRequest);
 	}
 
 	@Override
 	public VnfBlueprint operate(final Servers servers, final UUID vnfInstanceId, final VnfOperateRequest operateVnfRequest) {
 		return manoClientFactory.getClient(servers)
-				.vnfInstance(vnfInstanceId)
+				.vnfInstance().id(vnfInstanceId)
 				.operate(operateVnfRequest);
 	}
 
@@ -128,14 +127,14 @@ public class NfvoVnfInstanceLcm implements VnfInstanceLcm {
 	@Override
 	public VnfBlueprint changeExtConn(final Servers servers, @NotNull final UUID vnfInstanceId, final ChangeExtVnfConnRequest cevcr) {
 		return manoClientFactory.getClient(servers)
-				.vnfInstance(vnfInstanceId)
+				.vnfInstance().id(vnfInstanceId)
 				.changeExtConn(cevcr);
 	}
 
 	@Override
 	public VnfInstance findById(final Servers servers, final String vnfInstance) {
 		return manoClientFactory.getClient(servers)
-				.vnfInstance(UUID.fromString(vnfInstance))
+				.vnfInstance().id(UUID.fromString(vnfInstance))
 				.find();
 	}
 

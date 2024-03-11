@@ -174,8 +174,8 @@ class ManoClientTest {
 		final UUID id = pkg.getId();
 		assertNotNull(id);
 		final Path path = null;
-		mc.vnfPackage(id).onboard(path, "application/zip");
-		mc.vnfPackage(id).delete();
+		mc.vnfPackage().id(id).onboard(path, "application/zip");
+		mc.vnfPackage().id(id).delete();
 	}
 
 	void nsTest() {
@@ -198,8 +198,8 @@ class ManoClientTest {
 		final UUID nsdId = nsd.getId();
 		assertNotNull(nsdId);
 		final Path path = Path.of("/home/olivier/workspace/workspace17.1.1/ubi-etsi-mano/package-parser/demo/ubi-nsd-empty-tosca.csar");
-		mc.nsPackage(nsdId).onboard(path, "application/zip");
-		mc.nsPackage(nsdId).waitForOnboarding();
+		mc.nsPackage().id(nsdId).onboard(path, "application/zip");
+		mc.nsPackage().id(nsdId).waitForOnboarding();
 	}
 
 	void testLcmOpOccs() {

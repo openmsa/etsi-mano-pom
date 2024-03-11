@@ -20,6 +20,7 @@ import java.net.URI;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -42,6 +43,10 @@ public class ManoVim {
 	private URI buildUri(final String urlRoot, final String url) {
 		final Map<String, Object> uriParams = Optional.ofNullable(client.getObjectId()).map(x -> Map.of("id", (Object) x.toString())).orElseGet(Map::of);
 		return UriComponentsBuilder.fromHttpUrl(urlRoot).pathSegment(url).buildAndExpand(uriParams).toUri();
+	}
+
+	public ManoVimId id(final UUID id) {
+		return new ManoVimId(client, id);
 	}
 
 }

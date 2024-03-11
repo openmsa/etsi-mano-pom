@@ -57,7 +57,8 @@ class VnfmVersionManagerTest {
 		final UUID id = UUID.randomUUID();
 		final String strId = id.toString();
 		when(manoCliFactory.getClient()).thenReturn(manoClient);
-		when(manoClient.vnfPackage(id)).thenReturn(manoPkgId);
+		when(manoClient.vnfPackage()).thenReturn(manoVnfPackage);
+		when(manoVnfPackage.id(id)).thenReturn(manoPkgId);
 		srv.findVnfPkgById(strId);
 		assertTrue(true);
 	}
@@ -69,7 +70,8 @@ class VnfmVersionManagerTest {
 		final UUID id = UUID.randomUUID();
 		final String strId = id.toString();
 		when(manoCliFactory.getClient()).thenReturn(manoClient);
-		when(manoClient.vnfPackage(id)).thenReturn(manoPkgId);
+		when(manoClient.vnfPackage()).thenReturn(manoVnfPackage);
+		when(manoVnfPackage.id(id)).thenReturn(manoPkgId);
 		srv.getPackageContent(strId, null);
 		assertTrue(true);
 	}

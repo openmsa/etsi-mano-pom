@@ -16,8 +16,6 @@
  */
 package com.ubiqube.etsi.mano.service.rest;
 
-import java.util.UUID;
-
 /**
  *
  * @author Olivier Vignaud {@literal <ovi@ubiqube.com>}
@@ -35,15 +33,7 @@ public class ManoAdmin {
 		return new ManoServer(client);
 	}
 
-	public ManoServerId server(final UUID id) {
-		return new ManoServerId(client, id);
-	}
-
 	public ManoVim vim() {
 		return new ManoVim(client);
-	}
-
-	public ManoVimId vim(final UUID id) {
-		return new ManoVimId(client, id);
 	}
 }

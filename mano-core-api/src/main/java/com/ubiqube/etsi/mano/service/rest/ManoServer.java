@@ -20,6 +20,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -61,6 +62,10 @@ public class ManoServer {
 		final ServerAdapter server = client.getServer();
 		final URI uri = buildUri(root, "admin/server");
 		return server.rest().post(uri, srv, Servers.class, null);
+	}
+
+	public ManoServerId id(final UUID id) {
+		return new ManoServerId(client, id);
 	}
 
 }

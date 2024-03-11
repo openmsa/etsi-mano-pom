@@ -17,11 +17,13 @@
 package com.ubiqube.etsi.mano.vnfm.service;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.service.rest.ManoClient;
@@ -45,7 +47,9 @@ class VnfmGrantManagementImplTest {
 	void testGet() {
 		final VnfmGrantManagementImpl srv = createService();
 		when(manoClient.getClient()).thenReturn(manoCli);
-		when(manoCli.grant(null)).thenReturn(manoGrant);
+		when(manoCli.grant()).thenReturn(manoGrant);
+		final ManoGrant mg = Mockito.mock(ManoGrant.class);
+		when(manoGrant.id(any())).thenReturn(mg);
 		srv.get(null);
 		assertTrue(true);
 	}

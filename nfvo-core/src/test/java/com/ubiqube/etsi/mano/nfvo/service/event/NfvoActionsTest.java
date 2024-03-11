@@ -33,6 +33,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.dao.mano.Instance;
@@ -56,6 +57,7 @@ import com.ubiqube.etsi.mano.service.VimResourceService;
 import com.ubiqube.etsi.mano.service.VnfInstanceGatewayService;
 import com.ubiqube.etsi.mano.service.rest.ManoClient;
 import com.ubiqube.etsi.mano.service.rest.ManoClientFactory;
+import com.ubiqube.etsi.mano.service.rest.ManoVnfInstance;
 import com.ubiqube.etsi.mano.service.rest.ManoVnfInstanceId;
 
 @ExtendWith(MockitoExtension.class)
@@ -199,7 +201,9 @@ class NfvoActionsTest {
 		when(manoClientFactory.getClient(any())).thenReturn(manoClient);
 		final VnfInstance vnfInstance = new VnfInstance();
 		when(vnfInstanceService.findById(any())).thenReturn(vnfInstance);
-		when(manoClient.vnfInstance(any())).thenReturn(manoCliVnfInst);
+		final ManoVnfInstance manoVnfInstance = Mockito.mock(ManoVnfInstance.class);
+		when(manoClient.vnfInstance()).thenReturn(manoVnfInstance);
+		when(manoVnfInstance.id(any())).thenReturn(manoCliVnfInst);
 		na.heal(id);
 		assertTrue(true);
 	}

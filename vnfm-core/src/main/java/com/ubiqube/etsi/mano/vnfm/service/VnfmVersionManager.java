@@ -53,13 +53,13 @@ public class VnfmVersionManager {
 
 	public VnfPackage findVnfPkgById(final String pkgId) {
 		return manoClientFactory.getClient()
-				.vnfPackage(UUID.fromString(pkgId))
+				.vnfPackage().id(UUID.fromString(pkgId))
 				.find();
 	}
 
 	public void getPackageContent(final String pkgId, final Path file) {
 		manoClientFactory.getClient()
-				.vnfPackage(UUID.fromString(pkgId))
+				.vnfPackage().id(UUID.fromString(pkgId))
 				.downloadContent(file);
 	}
 

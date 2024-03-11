@@ -52,10 +52,6 @@ public class ManoClient {
 		return new ManoVnfInstance(this);
 	}
 
-	public ManoVnfInstanceId vnfInstance(final UUID vnfInstanceId) {
-		return new ManoVnfInstanceId(this, vnfInstanceId);
-	}
-
 	public ManoVnfLcmOpOccs vnfLcmOpOccs(final UUID id) {
 		return new ManoVnfLcmOpOccs(this, id);
 	}
@@ -110,14 +106,6 @@ public class ManoClient {
 		return new ManoGrant(this);
 	}
 
-	public ManoGrant grant(final UUID id) {
-		return new ManoGrant(this, id);
-	}
-
-	public ManoVnfPackageId vnfPackage(final UUID id) {
-		return new ManoVnfPackageId(this, id);
-	}
-
 	public ManoVnfPackage vnfPackage() {
 		return new ManoVnfPackage(this);
 	}
@@ -134,14 +122,6 @@ public class ManoClient {
 		return new ManoNsPackage(this);
 	}
 
-	public ManoNsPackageId nsPackage(final UUID id) {
-		return new ManoNsPackageId(this, id);
-	}
-
-	public ManoOnboardedVnfPackage onbardedVnfPackage(final UUID id) {
-		return new ManoOnboardedVnfPackage(this, id);
-	}
-
 	public ManoAdmin admin() {
 		return new ManoAdmin(this);
 	}
@@ -150,7 +130,11 @@ public class ManoClient {
 		return new ManoVnfPm(this);
 	}
 
-	public ManoThreshold vnfThreshold() {
-		return new ManoThreshold(this);
+	public ManoVnfFm vnfFm() {
+		return new ManoVnfFm(this);
+	}
+
+	public ManoVnfIndicator vnfIndicator() {
+		return new ManoVnfIndicator(this);
 	}
 }

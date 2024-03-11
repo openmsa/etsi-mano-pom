@@ -38,7 +38,7 @@ class ManoThresholdTest {
 		when(client.createQuery(any())).thenReturn(query);
 		when(query.setWireOutClass(any())).thenReturn(query);
 		when(query.setOutClass(any())).thenReturn(query);
-		srv.creat(null);
+		srv.create(null);
 		assertTrue(true);
 	}
 

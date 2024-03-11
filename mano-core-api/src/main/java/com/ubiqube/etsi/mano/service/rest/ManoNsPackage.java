@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.service.rest;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
@@ -36,6 +37,10 @@ public class ManoNsPackage {
 		this.client = manoClient;
 		client.setQueryType(ApiVersionType.SOL005_NSD);
 		client.setFragment("/ns_descriptors");
+	}
+
+	public ManoNsPackageId id(final UUID id) {
+		return new ManoNsPackageId(client, id);
 	}
 
 	public List<NsdPackage> list() {

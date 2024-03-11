@@ -12,30 +12,32 @@
  *     GNU General Public License for more details.
  *
  *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see https://www.gnu.org/licenses/.
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 package com.ubiqube.etsi.mano.service.rest;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
+import java.util.List;
 import java.util.UUID;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import com.ubiqube.etsi.mano.alarm.entities.alarm.Alarm;
 
-@ExtendWith(MockitoExtension.class)
-class ManoAdminTest {
-	@Mock
-	private ManoClient client;
+public class ManoVnfFm {
 
-	@Test
-	void test() {
-		final ManoAdmin srv = new ManoAdmin(client);
-		srv.server().id(UUID.randomUUID());
-		srv.vim().id(UUID.randomUUID());
-		assertTrue(true);
+	private final ManoClient manoClient;
+
+	public ManoVnfFm(final ManoClient manoClient) {
+		this.manoClient = manoClient;
 	}
 
+	public List<Alarm> find() {
+		return List.of();
+	}
+
+	public ManoVnfFmId id(final UUID id) {
+		return new ManoVnfFmId(manoClient, id);
+	}
+
+	public ManoVnfFmSubscription subscription() {
+		return new ManoVnfFmSubscription(manoClient);
+	}
 }

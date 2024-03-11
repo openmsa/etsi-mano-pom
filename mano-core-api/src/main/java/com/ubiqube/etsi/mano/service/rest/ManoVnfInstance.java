@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.service.rest;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Function;
 
 import org.springframework.util.MultiValueMap;
@@ -39,6 +40,10 @@ public class ManoVnfInstance {
 		manoClient.setQueryType(ApiVersionType.SOL003_VNFLCM);
 	}
 
+	public ManoVnfInstanceId id(final UUID vnfInstanceId) {
+		return new ManoVnfInstanceId(client, vnfInstanceId);
+	}
+
 	public List<VnfInstance> list(final MultiValueMap<String, String> requestParams) {
 		return client.createQuery()
 				.setInClassList(HttpGateway::getVnfInstanceListParam)
@@ -52,5 +57,9 @@ public class ManoVnfInstance {
 				.setWireOutClass(HttpGateway::getVnfInstanceClass)
 				.setOutClass(VnfInstance.class)
 				.post();
+	}
+
+	public ManoVnfInstanceSubscription subscription() {
+		return new ManoVnfInstanceSubscription(client);
 	}
 }

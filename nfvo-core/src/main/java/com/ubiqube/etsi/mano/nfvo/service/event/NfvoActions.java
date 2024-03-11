@@ -73,7 +73,7 @@ public class NfvoActions extends AbstractGenericActionV3 {
 			final VnfInstance vnfInstance = vnfInstancesService.findById(UUID.fromString(nsli.getResourceId()));
 			final NsVnfInstantiateTask t = (NsVnfInstantiateTask) nsli.getNsTask();
 			final ManoClient mc = manoClientFactory.getClient(t.getServer());
-			mc.vnfInstance(vnfInstance.getId()).heal(new VnfHealRequest());
+			mc.vnfInstance().id(vnfInstance.getId()).heal(new VnfHealRequest());
 		});
 	}
 

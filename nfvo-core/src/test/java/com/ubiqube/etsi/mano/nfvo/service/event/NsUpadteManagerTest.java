@@ -32,6 +32,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.dao.mano.NsLiveInstance;
@@ -60,6 +61,7 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfCreateNode;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.rest.ManoClient;
 import com.ubiqube.etsi.mano.service.rest.ManoClientFactory;
+import com.ubiqube.etsi.mano.service.rest.ManoVnfInstance;
 import com.ubiqube.etsi.mano.service.rest.ManoVnfInstanceId;
 
 import ma.glasnost.orika.MapperFacade;
@@ -203,7 +205,9 @@ class NsUpadteManagerTest {
 
 	private void sendNotify() {
 		when(manoClientFactory.getClient(any())).thenReturn(manoClient);
-		when(manoClient.vnfInstance(any())).thenReturn(manoVnf);
+		final ManoVnfInstance manoVnfInstance = Mockito.mock(ManoVnfInstance.class);
+		when(manoClient.vnfInstance()).thenReturn(manoVnfInstance);
+		when(manoVnfInstance.id(any())).thenReturn(manoVnf);
 	}
 
 	@Test

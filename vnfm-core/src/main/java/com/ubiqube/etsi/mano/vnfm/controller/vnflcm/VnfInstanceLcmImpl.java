@@ -133,7 +133,7 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 	}
 
 	private VnfPackage onboardPackage(final String vnfdId) {
-		final VnfPackage vnfPkg = manoClientFactory.getClient().onbardedVnfPackage(getSafeUUID(vnfdId)).find();
+		final VnfPackage vnfPkg = manoClientFactory.getClient().vnfPackage().onboarded(getSafeUUID(vnfdId)).find();
 		vnfPkg.setNfvoId(vnfPkg.getId().toString());
 		vnfPkg.setOnboardingState(OnboardingStateType.CREATED);
 		vnfPkg.setUsageState(UsageStateEnum.NOT_IN_USE);

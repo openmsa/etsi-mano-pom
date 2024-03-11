@@ -63,6 +63,10 @@ public class ManoGrant {
 		this.id = id;
 	}
 
+	public ManoGrant id(final UUID id) {
+		return new ManoGrant(client, id);
+	}
+
 	public GrantResponse find() {
 		final ResponseEntity<?> resp = client.createQuery()
 				.setWireOutClass(HttpGateway::getGrantResponse)

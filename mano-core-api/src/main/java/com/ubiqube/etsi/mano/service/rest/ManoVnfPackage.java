@@ -32,15 +32,14 @@ import com.ubiqube.etsi.mano.service.HttpGateway;
 public class ManoVnfPackage {
 	private final ManoClient client;
 
-	public ManoVnfPackage(final ManoClient manoClient, final UUID id) {
+	public ManoVnfPackage(final ManoClient manoClient) {
 		this.client = manoClient;
-		client.setObjectId(id);
 		client.setQueryType(ApiVersionType.SOL003_VNFPKGM);
 		client.setFragment("/vnf_packages");
 	}
 
-	public ManoVnfPackage(final ManoClient manoClient) {
-		this(manoClient, null);
+	public ManoVnfPackageId id(final UUID id) {
+		return new ManoVnfPackageId(client, id);
 	}
 
 	public List<VnfPackage> list() {
