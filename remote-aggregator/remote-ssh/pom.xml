@@ -7,18 +7,15 @@
 	</parent>
 	<artifactId>remote-ssh</artifactId>
 	<properties>
-		<version.apache.mina>2.10.0</version.apache.mina>
+		<version.apache.mina>2.12.1</version.apache.mina>
+		<version.jsch>0.2.17</version.jsch>
+		<version.eddsa>0.3.0</version.eddsa>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>com.github.mwiede</groupId>
 			<artifactId>jsch</artifactId>
-			<version>0.2.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-api</artifactId>
-			<scope>true</scope>
+			<version>${version.jsch}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.sshd</groupId>
@@ -38,7 +35,7 @@
 		<dependency>
 			<groupId>net.i2p.crypto</groupId>
 			<artifactId>eddsa</artifactId>
-			<version>0.3.0</version>
+			<version>${version.eddsa}</version>
 		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
@@ -52,6 +49,11 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>
