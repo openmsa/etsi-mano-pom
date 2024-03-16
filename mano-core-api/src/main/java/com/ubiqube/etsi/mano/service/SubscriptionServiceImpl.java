@@ -156,7 +156,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 		}
 	}
 
-	private static void checkBasic(final AuthParamBasic authParamBasic) {
+	private static void checkBasic(final @Nullable AuthParamBasic authParamBasic) {
+		Objects.requireNonNull(authParamBasic, "No basic parameters provided.");
 		Objects.requireNonNull(authParamBasic.getUserName(), "Username must not be null.");
 	}
 
