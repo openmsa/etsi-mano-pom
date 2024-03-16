@@ -139,7 +139,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 		}
 	}
 
-	private static void checkTls(final String authTlsCert) {
+	private static void checkTls(final @Nullable String authTlsCert) {
 		Objects.requireNonNull(authTlsCert, "TLS certificate should not be empty.");
 	}
 
