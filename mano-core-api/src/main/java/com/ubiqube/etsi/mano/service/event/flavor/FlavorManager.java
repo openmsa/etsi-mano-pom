@@ -27,6 +27,8 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Predicate;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.VimComputeResourceFlavourEntity;
@@ -45,6 +47,7 @@ import com.ubiqube.etsi.mano.vim.dto.Flavor;
  */
 @Service
 public class FlavorManager {
+	private static final Logger LOG = LoggerFactory.getLogger(FlavorManager.class);
 	private final VimManager vimManager;
 
 	public FlavorManager(final VimManager vimManager) {
@@ -85,6 +88,7 @@ public class FlavorManager {
 		if (basicFlavor.isEmpty()) {
 			final String flv = createFlavor(vimConnectionInformation, vCpu, vMem, comp.getToscaName(), disk);
 			cache.put(flv, comp);
+			LOG.info("Flavor created: {}", flv);
 			return flv;
 		}
 		if (haveAdditionalRequirement(vCpu, vMem)) {
@@ -92,6 +96,7 @@ public class FlavorManager {
 			if (flv2.isEmpty()) {
 				final String flv = createFlavor(vimConnectionInformation, vCpu, vMem, comp.getToscaName(), disk);
 				cache.put(flv, comp);
+				LOG.info("Flavor created with specs: {}", flv);
 				return flv;
 			}
 			return flv2.get(0).getId();
