@@ -71,7 +71,7 @@ class VnfPackageServiceImplTest {
 	@Test
 	void testByDescriptorId() throws Exception {
 		final VnfPackageServiceImpl srv = new VnfPackageServiceImpl(vnfPackageJpa, vnfInstanceJpa, vnfPackageRepository);
-		srv.findByVnfdId("");
+		srv.findByVnfdIdOpt("");
 		assertTrue(true);
 	}
 
