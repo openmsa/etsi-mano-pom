@@ -132,7 +132,7 @@ public class VnfPackageVisitor implements NsOnboardingVisitor {
 			return Optional.empty();
 		}
 		if (part == 1) {
-			return vnfPackageService.findByVnfdId(descriptorId);
+			return vnfPackageService.findByVnfdIdOpt(descriptorId);
 		}
 		if (part == 2) {
 			return vnfPackageService.findByVnfdIdAndSoftwareVersion(descriptorId, version);

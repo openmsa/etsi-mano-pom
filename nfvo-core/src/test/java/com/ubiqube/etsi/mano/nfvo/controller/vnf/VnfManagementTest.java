@@ -74,8 +74,8 @@ class VnfManagementTest {
 		final UUID id = UUID.randomUUID();
 		final VnfPackage vnfPackage = new VnfPackage();
 		vnfPackage.setId(id);
-		when(vnfPackageJpa.findByVnfdId(id)).thenReturn(vnfPackage);
-		mng.onboardedGetManifestByVnfd(id, null);
+		when(vnfPackageJpa.findByVnfdId(id.toString())).thenReturn(vnfPackage);
+		mng.onboardedGetManifestByVnfd(id.toString(), null);
 		assertTrue(true);
 	}
 
@@ -86,11 +86,11 @@ class VnfManagementTest {
 		final UUID id = UUID.randomUUID();
 		final VnfPackage vnfPackage = new VnfPackage();
 		vnfPackage.setId(id);
-		when(vnfPackageJpa.findByVnfdId(id)).thenReturn(vnfPackage);
+		when(vnfPackageJpa.findByVnfdId(id.toString())).thenReturn(vnfPackage);
 		when(vnfPkgRepo.getBinary(id, "vnfd")).thenReturn(manoRes);
 		final InputStream is = new FileInputStream("/tmp/test.zip");
 		when(manoRes.getInputStream()).thenReturn(is);
-		mng.onboardedVnfPackagesVnfdIdArtifactsGet(id, "test");
+		mng.onboardedVnfPackagesVnfdIdArtifactsGet(id.toString(), "test");
 		assertTrue(true);
 	}
 
@@ -101,11 +101,11 @@ class VnfManagementTest {
 		final UUID id = UUID.randomUUID();
 		final VnfPackage vnfPackage = new VnfPackage();
 		vnfPackage.setId(id);
-		when(vnfPackageJpa.findByVnfdId(id)).thenReturn(vnfPackage);
+		when(vnfPackageJpa.findByVnfdId(id.toString())).thenReturn(vnfPackage);
 		when(vnfPkgRepo.getBinary(id, "vnfd")).thenReturn(manoRes);
 		final InputStream is = new FileInputStream("/tmp/test.zip");
 		when(manoRes.getInputStream()).thenReturn(is);
-		assertThrows(NotFoundException.class, () -> mng.onboardedVnfPackagesVnfdIdArtifactsGet(id, "test"));
+		assertThrows(NotFoundException.class, () -> mng.onboardedVnfPackagesVnfdIdArtifactsGet(id.toString(), "test"));
 	}
 
 	@Test
@@ -114,8 +114,8 @@ class VnfManagementTest {
 		final UUID id = UUID.randomUUID();
 		final VnfPackage vnfPackage = new VnfPackage();
 		vnfPackage.setId(id);
-		when(vnfPackageJpa.findByVnfdId(id)).thenReturn(vnfPackage);
-		mng.onboardedVnfPackagesVnfdIdGet(id, null);
+		when(vnfPackageJpa.findByVnfdId(id.toString())).thenReturn(vnfPackage);
+		mng.onboardedVnfPackagesVnfdIdGet(id.toString(), null);
 		assertTrue(true);
 	}
 
@@ -125,8 +125,8 @@ class VnfManagementTest {
 		final UUID id = UUID.randomUUID();
 		final VnfPackage vnfPackage = new VnfPackage();
 		vnfPackage.setId(id);
-		when(vnfPackageJpa.findByVnfdId(id)).thenReturn(vnfPackage);
-		mng.onboardedVnfPackagesVnfdIdManifestGet(id, null);
+		when(vnfPackageJpa.findByVnfdId(id.toString())).thenReturn(vnfPackage);
+		mng.onboardedVnfPackagesVnfdIdManifestGet(id.toString(), null);
 		assertTrue(true);
 	}
 
@@ -176,8 +176,8 @@ class VnfManagementTest {
 		final UUID id = UUID.randomUUID();
 		final VnfPackage vnfPkg = new VnfPackage();
 		vnfPkg.setId(id);
-		when(vnfPackageJpa.findByVnfdId(id)).thenReturn(vnfPkg);
-		mng.onboardedVnfPackagesVnfdIdPackageContentGet(id);
+		when(vnfPackageJpa.findByVnfdId(id.toString())).thenReturn(vnfPkg);
+		mng.onboardedVnfPackagesVnfdIdPackageContentGet(id.toString());
 		assertTrue(true);
 	}
 
@@ -187,8 +187,8 @@ class VnfManagementTest {
 		final UUID id = UUID.randomUUID();
 		final VnfPackage vnfPkg = new VnfPackage();
 		vnfPkg.setId(id);
-		when(vnfPackageJpa.findByVnfdId(id)).thenReturn(vnfPkg);
-		mng.onboardedVnfPackagesVnfdIdVnfdGet(id, "", null);
+		when(vnfPackageJpa.findByVnfdId(id.toString())).thenReturn(vnfPkg);
+		mng.onboardedVnfPackagesVnfdIdVnfdGet(id.toString(), "", null);
 		assertTrue(true);
 	}
 
@@ -196,7 +196,7 @@ class VnfManagementTest {
 	void testVnfPackagesVnfPkgVnfdIdGet() {
 		final VnfManagement mng = new VnfManagement(vnfPkgRepo, mapper, vnfPackageJpa, searchService);
 		final UUID id = UUID.randomUUID();
-		mng.vnfPackagesVnfPkgVnfdIdGet(id, null);
+		mng.vnfPackagesVnfPkgVnfdIdGet(id.toString(), null);
 		assertTrue(true);
 	}
 

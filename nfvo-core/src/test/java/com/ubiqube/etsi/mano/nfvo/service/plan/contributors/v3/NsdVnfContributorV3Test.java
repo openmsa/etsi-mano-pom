@@ -93,7 +93,7 @@ class NsdVnfContributorV3Test {
 		final VnfPackage vnfPkg01 = new VnfPackage();
 		vnfPkg01.setVnfdId(id.toString());
 		final Optional<VnfPackage> pkgOpt = Optional.of(vnfPkg01);
-		when(vnfPackageService.findByVnfdId(anyString())).thenReturn(pkgOpt);
+		when(vnfPackageService.findByVnfdIdOpt(anyString())).thenReturn(pkgOpt);
 		final List<SclableResources<Object>> res = nvc.contribute(bundle, blueprint);
 		assertNotNull(res);
 		assertEquals(3, res.size());
@@ -117,7 +117,7 @@ class NsdVnfContributorV3Test {
 		final VnfPackage vnfPkg01 = new VnfPackage();
 		vnfPkg01.setVnfdId(id.toString());
 		final Optional<VnfPackage> pkgOpt = Optional.of(vnfPkg01);
-		when(vnfPackageService.findByVnfdId(anyString())).thenReturn(pkgOpt);
+		when(vnfPackageService.findByVnfdIdOpt(anyString())).thenReturn(pkgOpt);
 		//
 		vnfPkg01.setVnfmInfo(Set.of());
 		final Servers srv01 = Servers.builder().url(URI.create("http://localhost/")).build();
@@ -145,7 +145,7 @@ class NsdVnfContributorV3Test {
 		final VnfPackage vnfPkg01 = new VnfPackage();
 		vnfPkg01.setVnfdId(id.toString());
 		final Optional<VnfPackage> pkgOpt = Optional.of(vnfPkg01);
-		when(vnfPackageService.findByVnfdId(anyString())).thenReturn(pkgOpt);
+		when(vnfPackageService.findByVnfdIdOpt(anyString())).thenReturn(pkgOpt);
 		//
 		vnfPkg01.setVnfmInfo(Set.of("caps01"));
 		final Servers srv01 = Servers.builder()
@@ -173,7 +173,7 @@ class NsdVnfContributorV3Test {
 		final VnfPackage vnfPkg01 = new VnfPackage();
 		vnfPkg01.setVnfdId(id.toString());
 		final Optional<VnfPackage> pkgOpt = Optional.of(vnfPkg01);
-		when(vnfPackageService.findByVnfdId(anyString())).thenReturn(pkgOpt);
+		when(vnfPackageService.findByVnfdIdOpt(anyString())).thenReturn(pkgOpt);
 		//
 		vnfPkg01.setVnfmInfo(Set.of("caps01"));
 		final Servers srv01 = Servers.builder()
@@ -208,7 +208,7 @@ class NsdVnfContributorV3Test {
 		final VnfPackage vnfPkg01 = new VnfPackage();
 		vnfPkg01.setVnfdId(id.toString());
 		final Optional<VnfPackage> pkgOpt = Optional.of(vnfPkg01);
-		when(vnfPackageService.findByVnfdId(anyString())).thenReturn(pkgOpt);
+		when(vnfPackageService.findByVnfdIdOpt(anyString())).thenReturn(pkgOpt);
 		final List<SclableResources<Object>> res = nvc.contribute(bundle, blueprint);
 		assertNotNull(res);
 		assertEquals(3, res.size());

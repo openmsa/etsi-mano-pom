@@ -18,7 +18,6 @@ package com.ubiqube.etsi.mano.nfvo.controller.vnf;
 
 import static com.ubiqube.etsi.mano.Constants.VNF_SEARCH_DEFAULT_EXCLUDE_FIELDS;
 import static com.ubiqube.etsi.mano.Constants.VNF_SEARCH_MANDATORY_FIELDS;
-import static com.ubiqube.etsi.mano.Constants.getSafeUUID;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -75,8 +74,8 @@ public class OnboardedPackageFrontControllerImpl implements OnboardedPackageFron
 
 	@Override
 	public ResponseEntity<Resource> onboardedGetContentByVnfdId(final String vnfdId, final String accept, final @Nullable String includeSignature) {
-		final VnfPackage vnfPkg = vnfPackageService.findByVnfdId(getSafeUUID(vnfdId));
-		final ManoResource content = vnfManagement.onboardedVnfPackagesVnfdIdVnfdGet(vnfPkg.getId(), accept, includeSignature);
+		final VnfPackage vnfPkg = vnfPackageService.findByVnfdId(vnfdId);
+		final ManoResource content = vnfManagement.onboardedVnfPackagesVnfdIdVnfdGet(vnfPkg.getVnfdId(), accept, includeSignature);
 		if (null == includeSignature) {
 			return returnDownloadable(content);
 		}
@@ -85,7 +84,7 @@ public class OnboardedPackageFrontControllerImpl implements OnboardedPackageFron
 
 	@Override
 	public ResponseEntity<Resource> onboardedGetVnfdByVnfdId(final String vnfdId, final @Nullable String includeSignatures) {
-		final VnfPackage vnfPkg = vnfPackageService.findByVnfdId(getSafeUUID(vnfdId));
+		final VnfPackage vnfPkg = vnfPackageService.findByVnfdId(vnfdId);
 		final ManoResource content = vnfPackageRepository.getBinary(vnfPkg.getId(), Constants.REPOSITORY_FILENAME_VNFD);
 		if (null == includeSignatures) {
 			return returnDownloadable(content);
@@ -94,7 +93,7 @@ public class OnboardedPackageFrontControllerImpl implements OnboardedPackageFron
 	}
 
 	@Override
-	public ResponseEntity<Resource> onboardedGetArtifact(final HttpServletRequest request, final UUID vnfdId, final @Nullable String includeSignatures) {
+	public ResponseEntity<Resource> onboardedGetArtifact(final HttpServletRequest request, final String vnfdId, final @Nullable String includeSignatures) {
 		final UUID vnfPkgId = vnfPackageService.findByVnfdId(vnfdId).getId();
 		final String path = SpringUtils.extractParams(request);
 		final File f = new File(Constants.REPOSITORY_FOLDER_ARTIFACTS, path);
@@ -155,21 +154,21 @@ public class OnboardedPackageFrontControllerImpl implements OnboardedPackageFron
 	}
 
 	@Override
-	public <U> ResponseEntity<U> onboardedFindById(final UUID vnfdId, final Class<U> clazz, final Consumer<U> makeLinks) {
+	public <U> ResponseEntity<U> onboardedFindById(final String vnfdId, final Class<U> clazz, final Consumer<U> makeLinks) {
 		final U vnfPkgInfo = vnfManagement.vnfPackagesVnfPkgVnfdIdGet(vnfdId, clazz);
 		makeLinks.accept(vnfPkgInfo);
 		return new ResponseEntity<>(vnfPkgInfo, HttpStatus.OK);
 	}
 
 	@Override
-	public ResponseEntity<Resource> onboardedGetArtifactByVnfdId(final UUID vnfdId) {
+	public ResponseEntity<Resource> onboardedGetArtifactByVnfdId(final String vnfdId) {
 		final VnfPackage vnfPkg = vnfPackageService.findByVnfdId(vnfdId);
 		final ManoResource content = vnfPackageRepository.getBinary(vnfPkg.getId(), Constants.REPOSITORY_ZIP_ARTIFACT);
 		return returnDownloadable(content);
 	}
 
 	@Override
-	public ResponseEntity<Resource> onboardedGetManifestByVnfd(final UUID vnfdId, final @Nullable String includeSignature) {
+	public ResponseEntity<Resource> onboardedGetManifestByVnfd(final String vnfdId, final @Nullable String includeSignature) {
 		final VnfPackage vnfPkg = vnfPackageService.findByVnfdId(vnfdId);
 		final ManoResource content = vnfPackageRepository.getBinary(vnfPkg.getId(), Constants.REPOSITORY_ZIP_ARTIFACT);
 		return returnDownloadable(content);
@@ -178,13 +177,6 @@ public class OnboardedPackageFrontControllerImpl implements OnboardedPackageFron
 	@Override
 	public <U> ResponseEntity<String> onboardedSearch(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final Consumer<U> makeLinks) {
 		return vnfManagement.searchOnboarded(requestParams, clazz, VNF_SEARCH_DEFAULT_EXCLUDE_FIELDS, VNF_SEARCH_MANDATORY_FIELDS, makeLinks);
-	}
-
-	@Override
-	public ResponseEntity<Resource> onboardedGetVnfdByVnfdId(final UUID vnfdId, final String accept) {
-		final VnfPackage vnfPkg = vnfPackageService.findByVnfdId(vnfdId);
-		final ManoResource content = vnfPackageRepository.getBinary(vnfPkg.getId(), Constants.REPOSITORY_FILENAME_VNFD);
-		return returnDownloadable(content);
 	}
 
 }

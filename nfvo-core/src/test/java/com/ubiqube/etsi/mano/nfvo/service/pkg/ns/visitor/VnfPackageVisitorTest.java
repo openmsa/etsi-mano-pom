@@ -16,8 +16,8 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service.pkg.ns.visitor;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -71,7 +71,7 @@ class VnfPackageVisitorTest {
 		final ListKeyPair pair = new ListKeyPair();
 		pair.setValue("p");
 		pkg.setVirtualLinks(Set.of(pair));
-		when(vnfPackageService.findByVnfdId(anyString())).thenReturn(Optional.of(pkg));
+		when(vnfPackageService.findByVnfdIdOpt(anyString())).thenReturn(Optional.of(pkg));
 		vis.visit(nsPackage, packageProvider, Map.of());
 		assertTrue(true);
 	}

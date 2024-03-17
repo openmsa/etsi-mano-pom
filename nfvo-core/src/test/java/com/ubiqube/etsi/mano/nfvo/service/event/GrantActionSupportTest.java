@@ -82,7 +82,7 @@ class GrantActionSupportTest {
 		response.setVnfdId(id.toString());
 		when(grantJpa.findById(id)).thenReturn(Optional.of(response));
 		final VnfPackage vnfPkg = new VnfPackage();
-		when(vnfPackageService.findByVnfdId(id)).thenReturn(vnfPkg);
+		when(vnfPackageService.findByVnfdId(id.toString())).thenReturn(vnfPkg);
 		gas.getVnfCompute(id);
 		assertTrue(true);
 	}
@@ -97,7 +97,7 @@ class GrantActionSupportTest {
 		when(grantJpa.findById(id)).thenReturn(Optional.of(response));
 		//
 		final VnfPackage vnfPkg = new VnfPackage();
-		when(vnfPackageService.findByVnfdId(id)).thenReturn(vnfPkg);
+		when(vnfPackageService.findByVnfdId(id.toString())).thenReturn(vnfPkg);
 		gas.getVnfStorage(id);
 		assertTrue(true);
 	}
@@ -112,7 +112,7 @@ class GrantActionSupportTest {
 		when(grantJpa.findById(id)).thenReturn(Optional.of(response));
 		//
 		final VnfPackage vnfPkg = new VnfPackage();
-		when(vnfPackageService.findByVnfdId(id)).thenReturn(vnfPkg);
+		when(vnfPackageService.findByVnfdId(id.toString())).thenReturn(vnfPkg);
 		gas.getOsContainer(id);
 		assertTrue(true);
 	}
@@ -170,7 +170,7 @@ class GrantActionSupportTest {
 		final GrantActionSupport gas = new GrantActionSupport(grantJpa, vimManager, vnfPackageService, nsLiveInstance, preVimSelection);
 		final UUID id = UUID.randomUUID();
 		final VnfPackage vnfPkg = new VnfPackage();
-		when(vnfPackageService.findByVnfdId(id)).thenReturn(vnfPkg);
+		when(vnfPackageService.findByVnfdId(id.toString())).thenReturn(vnfPkg);
 		gas.convertVnfdToId(id.toString());
 		assertTrue(true);
 	}
@@ -192,7 +192,7 @@ class GrantActionSupportTest {
 		resp.setVnfdId(id.toString());
 		final VnfPackage pkg = new VnfPackage();
 		final Optional<VnfPackage> optPkg = Optional.of(pkg);
-		when(vnfPackageService.findByVnfdId(eq(id.toString()))).thenReturn(optPkg);
+		when(vnfPackageService.findByVnfdIdOpt(eq(id.toString()))).thenReturn(optPkg);
 		gas.getVims(resp);
 		assertTrue(true);
 	}

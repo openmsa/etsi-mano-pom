@@ -77,7 +77,7 @@ public class NsdVnfContributorV3 extends AbstractNsdContributorV3<Object> {
 	@Override
 	public List<SclableResources<Object>> contribute(final NsdPackage bundle, final NsBlueprint parameters) {
 		final Set<NsdVnfPackageCopy> vnfsCopy = parameters.getInstance().getVnfPkgIds();
-		final List<VnfPackage> vnfs = vnfsCopy.stream().map(x -> vnfPackageService.findByVnfdId(x.getVnfdId()).orElseThrow()).toList();
+		final List<VnfPackage> vnfs = vnfsCopy.stream().map(x -> vnfPackageService.findByVnfdIdOpt(x.getVnfdId()).orElseThrow()).toList();
 		final List<SclableResources<Object>> ret = new ArrayList<>();
 		vnfs.forEach(x -> {
 			final NsdVnfPackageCopy nsPackageVnfPackage = find(x, vnfsCopy);

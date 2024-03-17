@@ -95,21 +95,21 @@ public class GrantActionSupport implements GrantSupport {
 	@Override
 	public @Nonnull Set<VnfCompute> getVnfCompute(final UUID objectId) {
 		final GrantResponse grant = grantJpa.findById(objectId).orElseThrow(() -> new GenericException("Could not find: " + objectId));
-		final VnfPackage pkg = vnfPackageService.findByVnfdId(UUID.fromString(grant.getVnfdId()));
+		final VnfPackage pkg = vnfPackageService.findByVnfdId(grant.getVnfdId());
 		return pkg.getVnfCompute();
 	}
 
 	@Override
 	public @Nonnull Set<VnfStorage> getVnfStorage(final UUID objectId) {
 		final GrantResponse grant = grantJpa.findById(objectId).orElseThrow();
-		final VnfPackage pkg = vnfPackageService.findByVnfdId(UUID.fromString(grant.getVnfdId()));
+		final VnfPackage pkg = vnfPackageService.findByVnfdId(grant.getVnfdId());
 		return pkg.getVnfStorage();
 	}
 
 	@Override
 	public Set<OsContainer> getOsContainer(final UUID objectId) {
 		final GrantResponse grant = grantJpa.findById(objectId).orElseThrow();
-		final VnfPackage pkg = vnfPackageService.findByVnfdId(UUID.fromString(grant.getVnfdId()));
+		final VnfPackage pkg = vnfPackageService.findByVnfdId(grant.getVnfdId());
 		return pkg.getOsContainer();
 	}
 
@@ -288,12 +288,12 @@ public class GrantActionSupport implements GrantSupport {
 
 	@Override
 	public UUID convertVnfdToId(final String vnfdId) {
-		return vnfPackageService.findByVnfdId(UUID.fromString(vnfdId)).getId();
+		return vnfPackageService.findByVnfdId(vnfdId).getId();
 	}
 
 	@Override
 	public List<VimConnectionInformation> getVims(final GrantResponse grants) {
-		final VnfPackage vnfPackage = vnfPackageService.findByVnfdId(grants.getVnfdId())
+		final VnfPackage vnfPackage = vnfPackageService.findByVnfdIdOpt(grants.getVnfdId())
 				.orElseThrow(() -> new NotFoundException("Unable to find vnfd: " + grants.getVnfdId()));
 		final QuotaNeeded needed = summarizeResources(grants, vnfPackage);
 		return preVimSelection.selectVims(vnfPackage, grants, needed);

@@ -63,7 +63,7 @@ class OnboardedPackageFrontControllerImplTest {
 			//
 		};
 		final UUID id = UUID.randomUUID();
-		srv.onboardedFindById(id, getClass(), cons);
+		srv.onboardedFindById(id.toString(), getClass(), cons);
 		assertTrue(true);
 	}
 
@@ -77,7 +77,7 @@ class OnboardedPackageFrontControllerImplTest {
 	@Test
 	void testOnboardedGetArtifactByVnfdId() throws Exception {
 		final OnboardedPackageFrontControllerImpl srv = new OnboardedPackageFrontControllerImpl(vnfManagement, vnfPackageService, vnfPackageRepo);
-		final UUID id = UUID.randomUUID();
+		final String id = UUID.randomUUID().toString();
 		final VnfPackage vnfPackage = new VnfPackage();
 		when(vnfPackageService.findByVnfdId(id)).thenReturn(vnfPackage);
 		srv.onboardedGetArtifactByVnfdId(id);
@@ -87,7 +87,7 @@ class OnboardedPackageFrontControllerImplTest {
 	@Test
 	void testOnboardedGetManifestByVnfd() throws Exception {
 		final OnboardedPackageFrontControllerImpl srv = new OnboardedPackageFrontControllerImpl(vnfManagement, vnfPackageService, vnfPackageRepo);
-		final UUID id = UUID.randomUUID();
+		final String id = UUID.randomUUID().toString();
 		final VnfPackage vnfPackage = new VnfPackage();
 		when(vnfPackageService.findByVnfdId(id)).thenReturn(vnfPackage);
 		srv.onboardedGetManifestByVnfd(id, null);
@@ -97,7 +97,7 @@ class OnboardedPackageFrontControllerImplTest {
 	@Test
 	void testOnboardedGetVnfdByVnfdId() throws Exception {
 		final OnboardedPackageFrontControllerImpl srv = new OnboardedPackageFrontControllerImpl(vnfManagement, vnfPackageService, vnfPackageRepo);
-		final UUID id = UUID.randomUUID();
+		final String id = UUID.randomUUID().toString();
 		final VnfPackage vnfPackage = new VnfPackage();
 		when(vnfPackageService.findByVnfdId(id)).thenReturn(vnfPackage);
 		srv.onboardedGetVnfdByVnfdId(id, null);
@@ -109,7 +109,7 @@ class OnboardedPackageFrontControllerImplTest {
 		final OnboardedPackageFrontControllerImpl srv = new OnboardedPackageFrontControllerImpl(vnfManagement, vnfPackageService, vnfPackageRepo);
 		final UUID id = UUID.randomUUID();
 		final VnfPackage vnfPackage = new VnfPackage();
-		when(vnfPackageService.findByVnfdId(id)).thenReturn(vnfPackage);
+		when(vnfPackageService.findByVnfdId(id.toString())).thenReturn(vnfPackage);
 		srv.onboardedGetContentByVnfdId(id.toString(), null, null);
 		assertTrue(true);
 	}
@@ -123,7 +123,7 @@ class OnboardedPackageFrontControllerImplTest {
 		final AdditionalArtifact arte = new AdditionalArtifact();
 		arte.setArtifactPath("vnfd.sig");
 		vnfPackage.setAdditionalArtifacts(Set.of(arte));
-		when(vnfPackageService.findByVnfdId(id)).thenReturn(vnfPackage);
+		when(vnfPackageService.findByVnfdId(id.toString())).thenReturn(vnfPackage);
 		when(vnfPackageService.findById(id)).thenReturn(vnfPackage);
 		srv.onboardedGetContentByVnfdId(id.toString(), null, "false");
 		assertTrue(true);
@@ -139,7 +139,7 @@ class OnboardedPackageFrontControllerImplTest {
 		arte.setArtifactPath("vnfd.sig");
 		arte.setSignature("");
 		vnfPackage.setAdditionalArtifacts(Set.of(arte));
-		when(vnfPackageService.findByVnfdId(id)).thenReturn(vnfPackage);
+		when(vnfPackageService.findByVnfdId(id.toString())).thenReturn(vnfPackage);
 		when(vnfPackageService.findById(id)).thenReturn(vnfPackage);
 		when(vnfManagement.onboardedVnfPackagesVnfdIdVnfdGet(any(), any(), any())).thenReturn(manoResource);
 		when(manoResource.getInputStream()).thenReturn(InputStream.nullInputStream());
@@ -158,8 +158,8 @@ class OnboardedPackageFrontControllerImplTest {
 		final AdditionalArtifact arte = new AdditionalArtifact();
 		arte.setArtifactPath("vnfd.sig");
 		vnfPackage.setAdditionalArtifacts(Set.of(arte));
-		when(vnfPackageService.findByVnfdId(id)).thenReturn(vnfPackage);
-		srv.onboardedGetArtifact(req, id, null);
+		when(vnfPackageService.findByVnfdId(id.toString())).thenReturn(vnfPackage);
+		srv.onboardedGetArtifact(req, id.toString(), null);
 		assertTrue(true);
 	}
 
@@ -172,11 +172,11 @@ class OnboardedPackageFrontControllerImplTest {
 		final AdditionalArtifact arte = new AdditionalArtifact();
 		arte.setArtifactPath("");
 		vnfPackage.setAdditionalArtifacts(Set.of(arte));
-		when(vnfPackageService.findByVnfdId(id)).thenReturn(vnfPackage);
+		when(vnfPackageService.findByVnfdId(id.toString())).thenReturn(vnfPackage);
 		//
 		when(vnfPackageService.findById(id)).thenReturn(vnfPackage);
 		when(vnfPackageRepo.getBinary(any(), any())).thenReturn(manoResource2);
-		srv.onboardedGetArtifact(req, id, "");
+		srv.onboardedGetArtifact(req, id.toString(), "");
 		assertTrue(true);
 	}
 
@@ -189,11 +189,12 @@ class OnboardedPackageFrontControllerImplTest {
 		final AdditionalArtifact arte = new AdditionalArtifact();
 		arte.setArtifactPath("ghgh");
 		vnfPackage.setAdditionalArtifacts(Set.of(arte));
-		when(vnfPackageService.findByVnfdId(id)).thenReturn(vnfPackage);
+		when(vnfPackageService.findByVnfdId(id.toString())).thenReturn(vnfPackage);
 		//
 		when(vnfPackageService.findById(id)).thenReturn(vnfPackage);
 		when(vnfPackageRepo.getBinary(any(), any())).thenReturn(manoResource2);
-		assertThrows(GenericException.class, () -> srv.onboardedGetArtifact(req, id, ""));
+		final String strId = id.toString();
+		assertThrows(GenericException.class, () -> srv.onboardedGetArtifact(req, strId, ""));
 	}
 
 	@Test
@@ -205,7 +206,7 @@ class OnboardedPackageFrontControllerImplTest {
 		final AdditionalArtifact arte = new AdditionalArtifact();
 		arte.setArtifactPath("vnfd.sig");
 		vnfPackage.setAdditionalArtifacts(Set.of(arte));
-		when(vnfPackageService.findByVnfdId(id)).thenReturn(vnfPackage);
+		when(vnfPackageService.findByVnfdId(id.toString())).thenReturn(vnfPackage);
 		srv.onboardedGetVnfdByVnfdId(id.toString(), null);
 		assertTrue(true);
 	}
@@ -219,7 +220,7 @@ class OnboardedPackageFrontControllerImplTest {
 		final AdditionalArtifact arte = new AdditionalArtifact();
 		arte.setArtifactPath("vnfd.sig");
 		vnfPackage.setAdditionalArtifacts(Set.of(arte));
-		when(vnfPackageService.findByVnfdId(id)).thenReturn(vnfPackage);
+		when(vnfPackageService.findByVnfdId(id.toString())).thenReturn(vnfPackage);
 		//
 		when(vnfPackageService.findById(id)).thenReturn(vnfPackage);
 		when(vnfPackageRepo.getBinary(any(), any())).thenReturn(manoResource2);

@@ -211,7 +211,7 @@ public class VnfIndicatorValueChangeNotificationImpl {
 			}
 		} else {
 			final String vnfdId = notifications.get(0).getVnfdId();
-			final VnfPackage vnfPackage = vnfPackageServiceImpl.findByVnfdId(UUID.fromString(vnfdId));
+			final VnfPackage vnfPackage = vnfPackageServiceImpl.findByVnfdId(vnfdId);
 			final Set<VnfIndicator> vnfIndicators = vnfPackage.getVnfIndicator();
 			for (final VnfIndicator vnfIndicator : vnfIndicators) {
 				final Map<String, TriggerDefinition> vnfTriggers = vnfIndicator.getTriggers();
