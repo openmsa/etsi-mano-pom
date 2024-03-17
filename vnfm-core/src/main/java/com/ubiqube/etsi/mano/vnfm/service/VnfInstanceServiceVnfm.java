@@ -181,7 +181,7 @@ public class VnfInstanceServiceVnfm implements VnfInstanceGatewayService {
 	private static void extractStorage(final BlueprintParameters vnfInfo, final List<VnfLiveInstance> vli) {
 		final List<VnfLiveInstance> storageVli = vli.stream().filter(x -> x.getTask() instanceof StorageTask).toList();
 		final Set<VirtualStorageResourceInfo> storages = storageVli.stream()
-				.map(x -> createVirtualStorageResourceInfo(x))
+				.map(VnfInstanceServiceVnfm::createVirtualStorageResourceInfo)
 				.collect(Collectors.toSet());
 		vnfInfo.setVirtualStorageResourceInfo(storages);
 	}
@@ -319,6 +319,7 @@ public class VnfInstanceServiceVnfm implements VnfInstanceGatewayService {
 		return List.of(ret);
 	}
 
+	@SuppressWarnings("null")
 	private static List<IpOverEthernetAddressDataIpAddressesEntity> mapIps(final List<VnfLiveInstance> vli, final Set<IpSubnet> ips) {
 		return ips.stream().map(x -> {
 			final SubNetworkTask snt = findSubnetworkTaskByResourceId(vli, x.getSubnetId());
@@ -337,11 +338,12 @@ public class VnfInstanceServiceVnfm implements VnfInstanceGatewayService {
 		}).toList();
 	}
 
+	@SuppressWarnings("null")
 	private static SubNetworkTask findSubnetworkTaskByResourceId(final List<VnfLiveInstance> vli, final String subnetId) {
 		return vli.stream()
 				.filter(x -> subnetId.equals(x.getResourceId()))
 				.findFirst()
-				.map(x -> x.getTask())
+				.map(VnfLiveInstance::getTask)
 				.map(SubNetworkTask.class::cast)
 				.orElseThrow(() -> new GenericException("Could not find SubNetworkTask with resourceId=" + subnetId));
 	}
