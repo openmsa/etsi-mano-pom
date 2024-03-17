@@ -117,7 +117,7 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 	public VnfInstance post(final @Nullable Servers servers, final String vnfdId, final String vnfInstanceName, @Nullable final String vnfInstanceDescription) {
 		VnfPackage vnfPkgInfo;
 		try {
-			vnfPkgInfo = vnfPackageService.findByVnfdId(getSafeUUID(vnfdId));
+			vnfPkgInfo = vnfPackageService.findByVnfdId(vnfdId);
 		} catch (final NotFoundException e) {
 			LOG.trace("", e);
 			vnfPkgInfo = onboardPackage(vnfdId);

@@ -190,7 +190,7 @@ class VnfInstanceLcmImplTest {
 		final VnfInstance inst = TestFactory.createVnfInstance();
 		inst.setInstantiationState(InstantiationState.INSTANTIATED);
 		final VnfBlueprint bp = TestFactory.createBlueprint();
-		when(vnfPackageService.findByVnfdId(id)).thenThrow(NotFoundException.class);
+		when(vnfPackageService.findByVnfdId(id.toString())).thenThrow(NotFoundException.class);
 		// Onboard
 		final VnfPackage pkg = TestFactory.createVnfPkg(id);
 		when(manoClient.getClient()).thenReturn(mc);
@@ -213,7 +213,7 @@ class VnfInstanceLcmImplTest {
 		inst.setInstantiationState(InstantiationState.INSTANTIATED);
 		final VnfBlueprint bp = TestFactory.createBlueprint();
 		final VnfPackage pkg = TestFactory.createVnfPkg(id);
-		when(vnfPackageService.findByVnfdId(id)).thenReturn(pkg);
+		when(vnfPackageService.findByVnfdId(id.toString())).thenReturn(pkg);
 		when(vnfInstanceServiec.save((VnfInstance) any())).thenReturn(inst);
 		srv.post(null, id.toString(), null, null);
 		assertTrue(true);

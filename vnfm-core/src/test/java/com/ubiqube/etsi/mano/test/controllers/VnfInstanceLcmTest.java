@@ -133,7 +133,7 @@ class VnfInstanceLcmTest {
 		final UUID vnfdId = UUID.randomUUID();
 		final VnfPackage pkg = TestFactory.createVnfPkg(vnfdId);
 		final VnfInstance vnfInstance = TestFactory.createVnfInstance();
-		when(vnfPackageService.findByVnfdId(vnfdId)).thenReturn(pkg);
+		when(vnfPackageService.findByVnfdId(vnfdId.toString())).thenReturn(pkg);
 		when(vnfInstanceService.save((VnfInstance) any())).thenReturn(vnfInstance);
 		vnfInstanceLcm.post(null, vnfdId.toString(), "vnfInstanceName", "descr");
 		assertTrue(true);
@@ -145,7 +145,7 @@ class VnfInstanceLcmTest {
 				vnfInstanceService, vimManager, vnfPackageService,
 				vnfInstanceServiceVnfm, manoClientFactory);
 		final UUID vnfdId = UUID.randomUUID();
-		when(vnfPackageService.findByVnfdId(vnfdId)).thenThrow(NotFoundException.class);
+		when(vnfPackageService.findByVnfdId(vnfdId.toString())).thenThrow(NotFoundException.class);
 		//
 		final VnfPackage pkg = TestFactory.createVnfPkg(vnfdId);
 		pkg.setOnboardingState(OnboardingStateType.ONBOARDED);
