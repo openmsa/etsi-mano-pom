@@ -25,7 +25,6 @@ import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -73,7 +72,7 @@ public class GrantContainerAction {
 	}
 
 	public void handleGrant(final GrantResponse grants) {
-		final VnfPackage vnfPkg = vnfPackageService.findByVnfdId(UUID.fromString(grants.getVnfdId()));
+		final VnfPackage vnfPkg = vnfPackageService.findByVnfdId(grants.getVnfdId());
 		setConnectionConnection(grants, ResourceTypeEnum.OS_CONTAINER, ConnectionType.OCI, grants::setCirConnectionInfo);
 		upload(vnfPkg, ConnectionType.OCI);
 		setConnectionConnection(grants, ResourceTypeEnum.HELM, ConnectionType.HELM, grants::setMciopRepositoryInfo);
@@ -89,7 +88,7 @@ public class GrantContainerAction {
 				.map(Entry::getValue)
 				.forEach(x -> {
 					final ConnectionInformation ci = getConnection(x);
-					if(ci!=null) {
+					if (ci != null) {
 						final ManoResource mr = vnfRepository.getBinary(vnfPkg.getId(), Constants.REPOSITORY_FOLDER_ARTIFACTS + "/" + x.getImagePath());
 						final String name = makeHelmName(x);
 						uploadFile(mr, ci, name);
@@ -132,11 +131,11 @@ public class GrantContainerAction {
 			return connJpa.findByName(img.getRepository());
 		}
 		final List<ConnectionInformation> res = connJpa.findByConnType(ConnectionType.HELM);
-		if(res.isEmpty()) {
+		if (res.isEmpty()) {
 			return null;
 		}
 		return res.get(0);
-		
+
 	}
 
 	private void upload(final VnfPackage vnfPkg, final ConnectionType ct) {
@@ -144,7 +143,7 @@ public class GrantContainerAction {
 			final List<ConnectionInformation> res = connJpa.findByConnType(ct);
 			final ConnectionInformation conn = checkAndGet(res, ct);
 			final SoftwareImage ref = find(vnfPkg.getOsContainer(), x.getName());
-			if(ref != null) {
+			if (ref != null) {
 				final ManoResource bin = vnfRepository.getBinary(vnfPkg.getId(), Constants.REPOSITORY_FOLDER_ARTIFACTS + "/" + ref.getImagePath());
 				final String imageName = buildImageName(conn, "mano", ref.getName());
 				final String tag = Optional.ofNullable(ref.getVersion()).orElse("latest");
@@ -187,8 +186,8 @@ public class GrantContainerAction {
 	}
 
 	private static SoftwareImage find(final Set<OsContainer> osContainer, final String vduId) {
-		for(OsContainer oscon : osContainer) {
-			if(oscon.getArtifacts().isEmpty()) {
+		for (final OsContainer oscon : osContainer) {
+			if (oscon.getArtifacts().isEmpty()) {
 				return null;
 			}
 		}

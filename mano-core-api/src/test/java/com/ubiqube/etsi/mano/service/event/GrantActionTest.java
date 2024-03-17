@@ -95,7 +95,7 @@ class GrantActionTest {
 		vnfPackage.setVirtualLinks(Set.of());
 		when(grantJpa.findById(id)).thenReturn(optGrant);
 		when(vimElection.doElection(any(LinkedList.class), eq(null), any(HashSet.class), any(HashSet.class))).thenReturn(vimConn);
-		when(vnfPackageService.findByVnfdId(id)).thenReturn(vnfPackage);
+		when(vnfPackageService.findByVnfdId(id.toString())).thenReturn(vnfPackage);
 		when(vimManager.getVimById(any())).thenReturn(new DummyVim());
 		ga.grantRequest(id);
 		assertTrue(true);

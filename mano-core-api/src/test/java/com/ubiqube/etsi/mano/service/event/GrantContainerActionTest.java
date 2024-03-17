@@ -75,7 +75,7 @@ class GrantContainerActionTest {
 		final GrantResponse grant = new GrantResponse();
 		grant.setVnfdId(UUID.randomUUID().toString());
 		final VnfPackage vnfPkg = TestFactory.createVnfPkg(UUID.randomUUID());
-		when(vnfPkgService.findByVnfdId((UUID) any())).thenReturn(vnfPkg);
+		when(vnfPkgService.findByVnfdId(any())).thenReturn(vnfPkg);
 		srv.handleGrant(grant);
 		assertTrue(true);
 	}
@@ -91,7 +91,7 @@ class GrantContainerActionTest {
 		final SoftwareImage si1 = new SoftwareImage();
 		osc.setArtifacts(Map.of("art1", si1));
 		vnfPkg.getOsContainer().add(osc);
-		when(vnfPkgService.findByVnfdId((UUID) any())).thenReturn(vnfPkg);
+		when(vnfPkgService.findByVnfdId(any())).thenReturn(vnfPkg);
 		final ConnectionInformation conn = new ConnectionInformation();
 		conn.setName("conn1");
 		conn.setUrl(URI.create("http://localhost/"));
@@ -118,7 +118,7 @@ class GrantContainerActionTest {
 		final SoftwareImage si1 = new SoftwareImage();
 		osc.setArtifacts(Map.of("art1", si1));
 		vnfPkg.getOsContainer().add(osc);
-		when(vnfPkgService.findByVnfdId((UUID) any())).thenReturn(vnfPkg);
+		when(vnfPkgService.findByVnfdId(any())).thenReturn(vnfPkg);
 		final ConnectionInformation conn = new ConnectionInformation();
 		conn.setName("conn1");
 		conn.setUrl(URI.create("http://localhost/"));
@@ -146,7 +146,7 @@ class GrantContainerActionTest {
 		grant.getAddResources().add(gie);
 		grant.setVnfdId(UUID.randomUUID().toString());
 		final VnfPackage vnfPkg = TestFactory.createVnfPkg(UUID.randomUUID());
-		when(vnfPkgService.findByVnfdId((UUID) any())).thenReturn(vnfPkg);
+		when(vnfPkgService.findByVnfdId(any())).thenReturn(vnfPkg);
 		final ConnectionInformation conn = new ConnectionInformation();
 		conn.setName("conn1");
 		when(connJpa.findByConnType(any())).thenReturn(List.of(conn));
@@ -166,7 +166,7 @@ class GrantContainerActionTest {
 		si1.setVersion("123");
 		mciops.setArtifacts(Map.of("arte", si1));
 		vnfPkg.getMciops().add(mciops);
-		when(vnfPkgService.findByVnfdId((UUID) any())).thenReturn(vnfPkg);
+		when(vnfPkgService.findByVnfdId(any())).thenReturn(vnfPkg);
 		final ConnectionInformation conn = new ConnectionInformation();
 		conn.setName("conn1");
 		conn.setUrl(URI.create("http://localhost/"));

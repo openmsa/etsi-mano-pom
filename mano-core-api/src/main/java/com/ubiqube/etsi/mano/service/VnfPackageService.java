@@ -27,13 +27,13 @@ public interface VnfPackageService {
 
 	VnfPackage save(final VnfPackage vnfPackage);
 
-	Optional<VnfPackage> findByVnfdId(final String descriptorId);
+	Optional<VnfPackage> findByVnfdIdOpt(final String descriptorId);
 
 	Optional<VnfPackage> findByVnfdIdFlavorIdVnfdVersion(final String descriptorId, final String flavorId, final String versionId);
 
 	Optional<VnfPackage> findByVnfdIdAndSoftwareVersion(final String name, final String version);
 
-	VnfPackage findByVnfdId(final UUID id);
+	VnfPackage findByVnfdId(final String id);
 
 	void delete(UUID id);
 

@@ -92,14 +92,14 @@ class VnfPackageServiceImplTest {
 	@Test
 	void testByVnfdIdFailed() throws Exception {
 		final VnfPackageServiceImpl srv = new VnfPackageServiceImpl(vnfPackageJpa, vnfInstanceJpa, vnfPackageRepository);
-		final UUID id = UUID.randomUUID();
+		final String id = UUID.randomUUID().toString();
 		assertThrows(NotFoundException.class, () -> srv.findByVnfdId(id));
 	}
 
 	@Test
 	void testByVnfdId() throws Exception {
 		final VnfPackageServiceImpl srv = new VnfPackageServiceImpl(vnfPackageJpa, vnfInstanceJpa, vnfPackageRepository);
-		final UUID id = UUID.randomUUID();
+		final String id = UUID.randomUUID().toString();
 		final Optional<VnfPackage> optPkg = Optional.of(new VnfPackage());
 		when(vnfPackageJpa.findByVnfdIdAndOnboardingState(id.toString(), OnboardingStateType.ONBOARDED)).thenReturn(optPkg);
 		srv.findByVnfdId(id);

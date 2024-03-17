@@ -204,7 +204,7 @@ public class GrantAction {
 		executorService.submit(getComputeResourceFlavours);
 
 		// Add public networks.
-		final VnfPackage vnfPkg = vnfPackageService.findByVnfdId(getSafeUUID(grants.getVnfdId()));
+		final VnfPackage vnfPkg = vnfPackageService.findByVnfdId(grants.getVnfdId());
 		// XXX The none match ExtCp cause to discard all extCp pointing to an existing
 		// network.
 		final List<String> lst = vnfPkg.getVirtualLinks().stream()

@@ -206,7 +206,7 @@ public class VnfPackageOnboardingImpl {
 		case 0:
 			return Optional.empty();
 		case 1:
-			return vnfPackageService.findByVnfdId(descriptorId);
+			return vnfPackageService.findByVnfdIdOpt(descriptorId);
 		case 2:
 			return vnfPackageService.findByVnfdIdAndSoftwareVersion(descriptorId, version);
 		case 3:

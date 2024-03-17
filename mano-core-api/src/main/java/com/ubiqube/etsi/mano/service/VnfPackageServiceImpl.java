@@ -65,7 +65,7 @@ public class VnfPackageServiceImpl implements VnfPackageService {
 	}
 
 	@Override
-	public Optional<VnfPackage> findByVnfdId(final String descriptorId) {
+	public Optional<VnfPackage> findByVnfdIdOpt(final String descriptorId) {
 		return vnfPackageJpa.findByVnfdId(descriptorId);
 	}
 
@@ -80,8 +80,8 @@ public class VnfPackageServiceImpl implements VnfPackageService {
 	}
 
 	@Override
-	public VnfPackage findByVnfdId(final UUID id) {
-		return vnfPackageJpa.findByVnfdIdAndOnboardingState(id.toString(), OnboardingStateType.ONBOARDED).orElseThrow(() -> new NotFoundException("Could not find vnfdId: " + id + ", or it is not ONBOARDED."));
+	public VnfPackage findByVnfdId(final String id) {
+		return vnfPackageJpa.findByVnfdIdAndOnboardingState(id, OnboardingStateType.ONBOARDED).orElseThrow(() -> new NotFoundException("Could not find vnfdId: " + id + ", or it is not ONBOARDED."));
 	}
 
 	@Override

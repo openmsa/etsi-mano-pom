@@ -65,21 +65,21 @@ public interface VnfPackageManagement {
 
 	ManoResource getPackageManifest(UUID vnfPkgId, String includeSignatures);
 
-	ManoResource onboardedVnfPackagesVnfdIdManifestGet(UUID vnfdId, String includeSignatures);
+	ManoResource onboardedVnfPackagesVnfdIdManifestGet(String vnfdId, String includeSignatures);
 
-	ResponseEntity<Resource> onboardedVnfPackagesVnfdIdPackageContentGet(UUID vnfdId);
+	ResponseEntity<Resource> onboardedVnfPackagesVnfdIdPackageContentGet(String vnfdId);
 
-	ManoResource onboardedVnfPackagesVnfdIdVnfdGet(UUID vnfdId, String contentType, String includeSignatures);
+	ManoResource onboardedVnfPackagesVnfdIdVnfdGet(String vnfdId, String contentType, String includeSignatures);
 
-	<U> U onboardedVnfPackagesVnfdIdGet(UUID vnfdId, Class<U> clazz);
+	<U> U onboardedVnfPackagesVnfdIdGet(String vnfdId, Class<U> clazz);
 
 	<U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, Class<U> clazz, String excludeDefaults, Set<String> mandatoryFields, Consumer<U> makeLink);
 
-	ManoResource onboardedGetManifestByVnfd(UUID vnfdId, @Valid String includeSignature);
+	ManoResource onboardedGetManifestByVnfd(String vnfdId, @Valid String includeSignature);
 
-	ResponseEntity<Resource> onboardedVnfPackagesVnfdIdArtifactsGet(UUID vnfdId, final String artifactPath);
+	ResponseEntity<Resource> onboardedVnfPackagesVnfdIdArtifactsGet(String vnfdId, final String artifactPath);
 
-	<U> U vnfPackagesVnfPkgVnfdIdGet(UUID vnfPkgId, Class<U> clazz);
+	<U> U vnfPackagesVnfPkgVnfdIdGet(String vnfPkgId, Class<U> clazz);
 
 	<U> ResponseEntity<String> searchOnboarded(MultiValueMap<String, String> requestParams, Class<U> clazz, String excludeDefaults, Set<String> mandatoryFields, Consumer<U> makeLinks);
 
