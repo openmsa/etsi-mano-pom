@@ -224,6 +224,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
 	@Override
 	public void delete(final UUID subscriptionId, final ApiVersionType type) {
+		LOG.info("Delete subscription {} / {}", type, subscriptionId);
 		findById(subscriptionId, type);
 		subscriptionJpa.deleteById(subscriptionId);
 	}
