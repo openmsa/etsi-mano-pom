@@ -5,5 +5,5 @@
  | |____   | |  ____) |_| |_     | |  | |/ ____ \| |\  | |__| |  / ____ \| |    _| |_ 
  |______|  |_| |_____/|_____|    |_|  |_/_/    \_\_| \_|\____/  /_/    \_\_|   |_____|
                                                                                       
-  ${application.title}: ${application.formatted-version}
+  ${application.title}: ${application.formatted-version} 💚
   (${AnsiColor.120}Spring boot: ${AnsiStyle.BOLD}${AnsiStyle.ITALIC}${spring-boot.version}${AnsiColor.DEFAULT}${AnsiStyle.NORMAL})
