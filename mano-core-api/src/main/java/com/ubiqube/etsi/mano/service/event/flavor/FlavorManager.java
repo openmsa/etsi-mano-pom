@@ -40,6 +40,8 @@ import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 import com.ubiqube.etsi.mano.vim.dto.Flavor;
 
+import jakarta.annotation.Nullable;
+
 /**
  *
  * @author Olivier Vignaud {@literal <ovi@ubiqube.com>}
@@ -80,7 +82,7 @@ public class FlavorManager {
 	private String findOrCreateFlavor(final VimConnectionInformation vimConnectionInformation, final VnfCompute comp, final long disk, final List<Flavor> flavors, final boolean exactMatch, final Map<String, VnfCompute> cache) {
 		final VirtualCpu vCpu = comp.getVirtualCpu();
 		final VirtualMemory vMem = comp.getVirtualMemory();
-		final Optional<Entry<String, VnfCompute>> str = isInCache(cache, vCpu, vMem, disk);
+		final Optional<Entry<String, VnfCompute>> str = getFlavorFromCache(cache, vCpu, vMem, disk);
 		if (str.isPresent()) {
 			return str.get().getKey();
 		}
@@ -104,7 +106,7 @@ public class FlavorManager {
 		return basicFlavor.get(0).getId();
 	}
 
-	private static Optional<Entry<String, VnfCompute>> isInCache(final Map<String, VnfCompute> cache, final VirtualCpu vCpu, final VirtualMemory vMem, final long disk) {
+	private static Optional<Entry<String, VnfCompute>> getFlavorFromCache(final Map<String, VnfCompute> cache, final VirtualCpu vCpu, final VirtualMemory vMem, final long disk) {
 		return cache.entrySet().stream().filter(x -> {
 			final VnfCompute vnfc = x.getValue();
 			final boolean cpuEq = isEqual(vnfc.getVirtualCpu(), vCpu);
@@ -114,25 +116,25 @@ public class FlavorManager {
 		}).findFirst();
 	}
 
-	private static boolean isEqual(final VirtualMemory virtualMemory, final VirtualMemory vMem) {
-		if (!Objects.equals(virtualMemory.getNumaEnabled(), vMem.getNumaEnabled()) || (virtualMemory.getVirtualMemSize() != vMem.getVirtualMemSize())) {
+	private static boolean isEqual(final VirtualMemory left, final VirtualMemory right) {
+		if (!Objects.equals(left.getNumaEnabled(), right.getNumaEnabled()) || (left.getVirtualMemSize() != right.getVirtualMemSize())) {
 			return false;
 		}
-		final Map<String, String> a = virtualMemory.getVduMemRequirements();
-		final Map<String, String> b = vMem.getVduMemRequirements();
+		final Map<String, String> a = left.getVduMemRequirements();
+		final Map<String, String> b = right.getVduMemRequirements();
 		return compareMap(a, b);
 	}
 
-	private static boolean isEqual(final VirtualCpu virtualCpu, final VirtualCpu vCpu) {
-		if (virtualCpu.getNumVirtualCpu() != vCpu.getNumVirtualCpu()) {
+	private static boolean isEqual(final VirtualCpu left, final VirtualCpu right) {
+		if (left.getNumVirtualCpu() != right.getNumVirtualCpu()) {
 			return false;
 		}
-		final Map<String, String> a = virtualCpu.getVduCpuRequirements();
-		final Map<String, String> b = vCpu.getVduCpuRequirements();
+		final Map<String, String> a = left.getVduCpuRequirements();
+		final Map<String, String> b = right.getVduCpuRequirements();
 		return compareMap(a, b);
 	}
 
-	private static boolean compareMap(final Map<String, String> aIn, final Map<String, String> bIn) {
+	private static boolean compareMap(final @Nullable Map<String, String> aIn, final @Nullable Map<String, String> bIn) {
 		final Map<String, String> a = Optional.ofNullable(aIn).orElse(Map.of());
 		final Map<String, String> b = Optional.ofNullable(bIn).orElse(Map.of());
 		if (a.size() != b.size()) {
@@ -147,9 +149,9 @@ public class FlavorManager {
 
 	private String createFlavor(final VimConnectionInformation vimConnectionInformation, final VirtualCpu vCpu, final VirtualMemory vMem, final String toscaName, final long disk) {
 		final Vim vim = vimManager.getVimById(vimConnectionInformation.getId());
-		final Map<String, String> add = new HashMap<>(Optional.ofNullable(vCpu.getVduCpuRequirements()).orElse(Map.of()));
-		add.putAll(Optional.ofNullable(vMem.getVduMemRequirements()).orElse(Map.of()));
-		return vim.createFlavor(vimConnectionInformation, buildFlavorName(toscaName), vCpu.getNumVirtualCpu(), vMem.getVirtualMemSize(), disk, add);
+		final Map<String, String> metadata = new HashMap<>(Optional.ofNullable(vCpu.getVduCpuRequirements()).orElse(Map.of()));
+		metadata.putAll(Optional.ofNullable(vMem.getVduMemRequirements()).orElse(Map.of()));
+		return vim.createFlavor(vimConnectionInformation, buildFlavorName(toscaName), vCpu.getNumVirtualCpu(), vMem.getVirtualMemSize(), disk, metadata);
 	}
 
 	private static String buildFlavorName(final String toscaName) {
