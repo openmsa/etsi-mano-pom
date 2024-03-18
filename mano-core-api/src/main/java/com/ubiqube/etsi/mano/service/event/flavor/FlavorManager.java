@@ -137,14 +137,7 @@ public class FlavorManager {
 	private static boolean compareMap(final @Nullable Map<String, String> aIn, final @Nullable Map<String, String> bIn) {
 		final Map<String, String> a = Optional.ofNullable(aIn).orElse(Map.of());
 		final Map<String, String> b = Optional.ofNullable(bIn).orElse(Map.of());
-		if (a.size() != b.size()) {
-			return false;
-		}
-		final List<Entry<String, String>> res = a.entrySet().stream()
-				.filter(x -> b.get(x.getKey()) != null)
-				.filter(x -> b.get(x.getKey()).equals(x.getValue()))
-				.toList();
-		return res.size() == a.size();
+		return a.equals(b);
 	}
 
 	private String createFlavor(final VimConnectionInformation vimConnectionInformation, final VirtualCpu vCpu, final VirtualMemory vMem, final String toscaName, final long disk) {
@@ -163,26 +156,20 @@ public class FlavorManager {
 	}
 
 	private static boolean match(final Flavor flv, final VirtualCpu vCpu, final VirtualMemory vMem) {
-		final Map<String, String> add = flv.getAdditional();
+		final Map<String, String> add = Optional.ofNullable(flv.getAdditional()).orElse(Map.of());
 		final Map<String, String> cpuReq = Optional.ofNullable(vCpu.getVduCpuRequirements()).orElse(Map.of());
 		final Map<String, String> memReq = Optional.ofNullable(vMem.getVduMemRequirements()).orElse(Map.of());
 		final Map<String, String> allReq = new HashMap<>(cpuReq);
 		allReq.putAll(memReq);
-		if ((null == add) || add.isEmpty()) {
+		if (add.isEmpty()) {
 			return allReq.isEmpty();
 		}
-		for (final Entry<String, String> entry : add.entrySet()) {
-			final String k = entry.getKey();
-			if ((cpuReq.get(k) == null) && (null == memReq.get(k))) {
-				return false;
-			}
-		}
-		return true;
+		return add.equals(allReq);
 	}
 
 	private static boolean haveAdditionalRequirement(final VirtualCpu vCpu, final VirtualMemory vMem) {
-		final boolean vCpuReq = (vCpu.getVduCpuRequirements() != null) && !vCpu.getVduCpuRequirements().isEmpty();
-		final boolean memReq = (vMem.getVduMemRequirements() != null) && !vMem.getVduMemRequirements().isEmpty();
+		final boolean vCpuReq = !Optional.ofNullable(vCpu.getVduCpuRequirements()).orElse(Map.of()).isEmpty();
+		final boolean memReq = !Optional.ofNullable(vMem.getVduMemRequirements()).orElse(Map.of()).isEmpty();
 		return vCpuReq || memReq;
 	}
 
@@ -201,8 +188,8 @@ public class FlavorManager {
 		return x -> ((vCpu.getNumVirtualCpu() == x.getVcpus()) && (diskSize == x.getDisk()) && isMatching(vc, vMem.getVirtualMemSize(), x.getRam()));
 	}
 
-	boolean isMatching(final VimConnectionInformation vc, final long tosca, final long vimMem) {
+	boolean isMatching(final VimConnectionInformation vc, final long left, final long right) {
 		final Vim vim = vimManager.getVimById(vc.getId());
-		return vim.isEqualMemFlavor(tosca, vimMem);
+		return vim.isEqualMemFlavor(left, right);
 	}
 }
