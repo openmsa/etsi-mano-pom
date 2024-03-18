@@ -98,9 +98,7 @@ class FlavorManagerTest {
 
 	@Test
 	void testFlavorNoExact() throws Exception {
-		final FlavorManager fm = new FlavorManager(vimManager);
-		when(vimManager.getVimById(any())).thenReturn(vim);
-		when(vim.getFlavorList(any())).thenReturn(createFlavorList());
+		final FlavorManager fm = getFlavorList();
 		final VimConnectionInformation vimConnectionInformation = new VimConnectionInformation();
 		vimConnectionInformation.setId(UUID.randomUUID());
 		final VnfCompute vnf = new VnfCompute();
@@ -114,15 +112,19 @@ class FlavorManagerTest {
 		assertEquals("1", flv.get(0).getVimFlavourId());
 	}
 
-	@Test
-	void testFlavorCreate() throws Exception {
+	private FlavorManager getFlavorList() {
 		final FlavorManager fm = new FlavorManager(vimManager);
 		when(vimManager.getVimById(any())).thenReturn(vim);
 		when(vim.getFlavorList(any())).thenReturn(createFlavorList());
+		return fm;
+	}
+
+	@Test
+	void testFlavorCreate() throws Exception {
+		final FlavorManager fm = getFlavorList();
 		when(vim.canCreateFlavor()).thenReturn(true);
 		when(vim.createFlavor(any(), any(), anyLong(), anyLong(), anyLong(), any())).thenReturn("3");
-		final VimConnectionInformation vimConnectionInformation = new VimConnectionInformation();
-		vimConnectionInformation.setId(UUID.randomUUID());
+		final VimConnectionInformation vimConnectionInformation = createVimConnection();
 		final VnfCompute vnf = new VnfCompute();
 		final VirtualCpu virtualCpu = new VirtualCpu();
 		vnf.setVirtualCpu(virtualCpu);
@@ -134,14 +136,17 @@ class FlavorManagerTest {
 		assertEquals("3", flv.get(0).getVimFlavourId());
 	}
 
-	@Test
-	void testFlavorMatchF2() throws Exception {
-		final FlavorManager fm = new FlavorManager(vimManager);
-		when(vimManager.getVimById(any())).thenReturn(vim);
-		when(vim.getFlavorList(any())).thenReturn(createFlavorList());
-		when(vim.canCreateFlavor()).thenReturn(true);
+	private VimConnectionInformation createVimConnection() {
 		final VimConnectionInformation vimConnectionInformation = new VimConnectionInformation();
 		vimConnectionInformation.setId(UUID.randomUUID());
+		return vimConnectionInformation;
+	}
+
+	@Test
+	void testFlavorMatchF2() throws Exception {
+		final FlavorManager fm = getFlavorList();
+		when(vim.canCreateFlavor()).thenReturn(true);
+		final VimConnectionInformation vimConnectionInformation = createVimConnection();
 		final VnfCompute vnf = new VnfCompute();
 		final VirtualCpu virtualCpu = new VirtualCpu();
 		virtualCpu.setNumVirtualCpu(4);
@@ -159,12 +164,9 @@ class FlavorManagerTest {
 
 	@Test
 	void testFlavorMatchF22() throws Exception {
-		final FlavorManager fm = new FlavorManager(vimManager);
-		when(vimManager.getVimById(any())).thenReturn(vim);
-		when(vim.getFlavorList(any())).thenReturn(createFlavorList());
+		final FlavorManager fm = getFlavorList();
 		when(vim.canCreateFlavor()).thenReturn(true);
-		final VimConnectionInformation vimConnectionInformation = new VimConnectionInformation();
-		vimConnectionInformation.setId(UUID.randomUUID());
+		final VimConnectionInformation vimConnectionInformation = createVimConnection();
 		final VnfCompute vnf = new VnfCompute();
 		final VirtualCpu virtualCpu = new VirtualCpu();
 		virtualCpu.setNumVirtualCpu(4);
@@ -188,12 +190,9 @@ class FlavorManagerTest {
 	 */
 	@Test
 	void testFlavorDontMatchF22() throws Exception {
-		final FlavorManager fm = new FlavorManager(vimManager);
-		when(vimManager.getVimById(any())).thenReturn(vim);
-		when(vim.getFlavorList(any())).thenReturn(createFlavorList());
+		final FlavorManager fm = getFlavorList();
 		when(vim.canCreateFlavor()).thenReturn(true);
-		final VimConnectionInformation vimConnectionInformation = new VimConnectionInformation();
-		vimConnectionInformation.setId(UUID.randomUUID());
+		final VimConnectionInformation vimConnectionInformation = createVimConnection();
 		final VnfCompute vnf = new VnfCompute();
 		final VirtualCpu virtualCpu = new VirtualCpu();
 		virtualCpu.setNumVirtualCpu(4);
@@ -211,12 +210,9 @@ class FlavorManagerTest {
 
 	@Test
 	void testFlavorMatchF2ButExtendedAttr() throws Exception {
-		final FlavorManager fm = new FlavorManager(vimManager);
-		when(vimManager.getVimById(any())).thenReturn(vim);
-		when(vim.getFlavorList(any())).thenReturn(createFlavorList());
+		final FlavorManager fm = getFlavorList();
 		when(vim.canCreateFlavor()).thenReturn(true);
-		final VimConnectionInformation vimConnectionInformation = new VimConnectionInformation();
-		vimConnectionInformation.setId(UUID.randomUUID());
+		final VimConnectionInformation vimConnectionInformation = createVimConnection();
 		final VnfCompute vnf = new VnfCompute();
 		final VirtualCpu virtualCpu = new VirtualCpu();
 		virtualCpu.setNumVirtualCpu(4);
@@ -235,13 +231,10 @@ class FlavorManagerTest {
 
 	@Test
 	void testFlavorCacheTest() throws Exception {
-		final FlavorManager fm = new FlavorManager(vimManager);
-		when(vimManager.getVimById(any())).thenReturn(vim);
-		when(vim.getFlavorList(any())).thenReturn(createFlavorList());
+		final FlavorManager fm = getFlavorList();
 		when(vim.canCreateFlavor()).thenReturn(true);
 		when(vim.createFlavor(any(), any(), anyLong(), anyLong(), anyLong(), any())).thenReturn("3", "4");
-		final VimConnectionInformation vimConnectionInformation = new VimConnectionInformation();
-		vimConnectionInformation.setId(UUID.randomUUID());
+		final VimConnectionInformation vimConnectionInformation = createVimConnection();
 		final VnfCompute vnf = new VnfCompute();
 		final VirtualCpu virtualCpu = new VirtualCpu();
 		virtualCpu.setNumVirtualCpu(64);
@@ -264,13 +257,10 @@ class FlavorManagerTest {
 
 	@Test
 	void testFlavorMakeSureCacheAdditionalTest() throws Exception {
-		final FlavorManager fm = new FlavorManager(vimManager);
-		when(vimManager.getVimById(any())).thenReturn(vim);
-		when(vim.getFlavorList(any())).thenReturn(createFlavorList());
+		final FlavorManager fm = getFlavorList();
 		when(vim.canCreateFlavor()).thenReturn(true);
 		when(vim.createFlavor(any(), any(), anyLong(), anyLong(), anyLong(), any())).thenReturn("3", "4");
-		final VimConnectionInformation vimConnectionInformation = new VimConnectionInformation();
-		vimConnectionInformation.setId(UUID.randomUUID());
+		final VimConnectionInformation vimConnectionInformation = createVimConnection();
 		final VnfCompute vnf = new VnfCompute();
 		final VirtualCpu virtualCpu = new VirtualCpu();
 		virtualCpu.setNumVirtualCpu(64);
