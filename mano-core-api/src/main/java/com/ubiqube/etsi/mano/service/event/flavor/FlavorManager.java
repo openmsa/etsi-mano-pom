@@ -185,7 +185,12 @@ public class FlavorManager {
 	}
 
 	private Predicate<? super Flavor> exactMatch(final VimConnectionInformation vc, final VirtualCpu vCpu, final VirtualMemory vMem, final long diskSize) {
-		return x -> ((vCpu.getNumVirtualCpu() == x.getVcpus()) && (diskSize == x.getDisk()) && isMatching(vc, vMem.getVirtualMemSize(), x.getRam()));
+		return x -> {
+			final boolean cpu = (vCpu.getNumVirtualCpu() == x.getVcpus());
+			final boolean disk = diskSize == x.getDisk();
+			final boolean mem = isMatching(vc, vMem.getVirtualMemSize(), x.getRam());
+			return cpu && disk && mem;
+		};
 	}
 
 	boolean isMatching(final VimConnectionInformation vc, final long left, final long right) {
