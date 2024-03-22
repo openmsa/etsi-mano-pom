@@ -44,7 +44,7 @@
 		<com.ubiqube.guava.version>32.0.1-jre</com.ubiqube.guava.version>
 		<com.ubiqube.hibernate-search6.version>6.2.3.Final</com.ubiqube.hibernate-search6.version>
 		<com.ubiqube.jgrapht.version>1.5.2</com.ubiqube.jgrapht.version>
-		<com.ubiqube.mockito.version>5.9.0</com.ubiqube.mockito.version>
+		<com.ubiqube.mockito.version>5.11.0</com.ubiqube.mockito.version>
 		<com.ubiqube.openstack4j.version>3.12-SNAPSHOT</com.ubiqube.openstack4j.version>
 		<com.ubiqube.orika.version>1.5.8-SNAPSHOT</com.ubiqube.orika.version>
 		<com.ubiqube.orika-spring-boot-starter.version>3.0.3</com.ubiqube.orika-spring-boot-starter.version>
