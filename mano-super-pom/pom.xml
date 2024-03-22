@@ -55,7 +55,7 @@
 		<com.ubiqube.swagger3.version>2.2.21</com.ubiqube.swagger3.version>
 		<com.ubiqube.reflections.version>0.10.2</com.ubiqube.reflections.version>
 		<com.ubiqube.wiremock3.version>3.4.2</com.ubiqube.wiremock3.version>
-		<version.jib-core>0.25.0</version.jib-core>
+		<version.jib-core>0.26.0</version.jib-core>
 		<version.commons-compress>1.26.0</version.commons-compress>
 		<!-- Deprecated ? -->
 		<version.javax.servlet-api>4.0.1</version.javax.servlet-api>
