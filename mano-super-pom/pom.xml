@@ -49,7 +49,7 @@
 		<com.ubiqube.orika.version>1.5.8-SNAPSHOT</com.ubiqube.orika.version>
 		<com.ubiqube.orika-spring-boot-starter.version>3.0.3</com.ubiqube.orika-spring-boot-starter.version>
 		<com.ubiqube.podam.version>8.0.1.RELEASE</com.ubiqube.podam.version>
-		<com.ubiqube.spring-boot-admin-starter-client.version>3.2.1</com.ubiqube.spring-boot-admin-starter-client.version>
+		<com.ubiqube.spring-boot-admin-starter-client.version>3.2.2</com.ubiqube.spring-boot-admin-starter-client.version>
 		<com.ubiqube.spring-cloud-dependencies.version>2023.0.0</com.ubiqube.spring-cloud-dependencies.version>
 		<com.ubiqube.springdoc.version>2.3.0</com.ubiqube.springdoc.version>
 		<com.ubiqube.swagger3.version>2.2.20</com.ubiqube.swagger3.version>
