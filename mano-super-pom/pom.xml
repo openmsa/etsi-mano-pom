@@ -39,7 +39,7 @@
 		<com.ubiqube.commons-vfs2>2.9.0</com.ubiqube.commons-vfs2>
 		<com.ubiqube.dexecutor-core.version>2.1.4</com.ubiqube.dexecutor-core.version>
 		<com.ubiqube.elasticsearch.version>8.6.2</com.ubiqube.elasticsearch.version>
-		<com.ubiqube.equalsverifier.version>3.15.6</com.ubiqube.equalsverifier.version>
+		<com.ubiqube.equalsverifier.version>3.15.8</com.ubiqube.equalsverifier.version>
 		<com.ubiqube.expressly.version>5.0.0</com.ubiqube.expressly.version>
 		<com.ubiqube.guava.version>32.0.1-jre</com.ubiqube.guava.version>
 		<com.ubiqube.hibernate-search6.version>6.2.1.Final</com.ubiqube.hibernate-search6.version>
