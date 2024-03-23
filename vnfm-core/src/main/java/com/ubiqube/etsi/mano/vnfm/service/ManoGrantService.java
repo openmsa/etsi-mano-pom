@@ -65,7 +65,7 @@ public class ManoGrantService extends AbstractGrantService {
 					if (null == fVl) {
 						return;
 					}
-					LOG.info("Assigning VL {}", fVl);
+					LOG.info("Assigning VL {}", fVl.getResourceId());
 					t.setExternal(fVl);
 				});
 
