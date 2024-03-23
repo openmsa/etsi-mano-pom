@@ -208,6 +208,6 @@ class VnfInstanceServiceVnfmTest {
 	}
 
 	private VnfInstanceServiceVnfm createServicce() {
-		return new VnfInstanceServiceVnfm(vnfInstanceJpa, vnfLiveInstanceJpa, mapper, namingStrategy, vnfPackageJpa);
+		return new VnfInstanceServiceVnfm(vnfInstanceJpa, vnfLiveInstanceJpa, List.of());
 	}
 }
