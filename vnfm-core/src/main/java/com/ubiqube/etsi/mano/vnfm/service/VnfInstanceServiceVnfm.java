@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.vnfm.service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -322,30 +323,32 @@ public class VnfInstanceServiceVnfm implements VnfInstanceGatewayService {
 	@SuppressWarnings("null")
 	private static List<IpOverEthernetAddressDataIpAddressesEntity> mapIps(final List<VnfLiveInstance> vli, final Set<IpSubnet> ips) {
 		return ips.stream().map(x -> {
-			final SubNetworkTask snt = findSubnetworkTaskByResourceId(vli, x.getSubnetId());
-			final IpPool pool = snt.getIpPool();
 			final IpOverEthernetAddressDataIpAddressesEntity ret = new IpOverEthernetAddressDataIpAddressesEntity();
 			ret.setId(x.getId());
 			ret.setAddresses(List.of(x.getIp()));
-			final IpOverEthernetAddressDataAddressRangeEntity range = new IpOverEthernetAddressDataAddressRangeEntity();
-			range.setMinAddress(pool.getStartIpAddress());
-			range.setMaxAddress(pool.getEndIpAddress());
-			ret.setAddressRange(range);
-			ret.setNumDynamicAddresses(1);
-			ret.setSubnetId(x.getSubnetId());
 			ret.setType(IpType.IPV4);
+			ret.setSubnetId(x.getSubnetId());
+			final Optional<SubNetworkTask> sntOpt = findSubnetworkTaskByResourceId(vli, x.getSubnetId());
+			if (sntOpt.isPresent()) {
+				final SubNetworkTask snt = sntOpt.get();
+				final IpPool pool = snt.getIpPool();
+				final IpOverEthernetAddressDataAddressRangeEntity range = new IpOverEthernetAddressDataAddressRangeEntity();
+				range.setMinAddress(pool.getStartIpAddress());
+				range.setMaxAddress(pool.getEndIpAddress());
+				ret.setAddressRange(range);
+				ret.setNumDynamicAddresses(1);
+			}
 			return ret;
 		}).toList();
 	}
 
 	@SuppressWarnings("null")
-	private static SubNetworkTask findSubnetworkTaskByResourceId(final List<VnfLiveInstance> vli, final String subnetId) {
+	private static Optional<SubNetworkTask> findSubnetworkTaskByResourceId(final List<VnfLiveInstance> vli, final String subnetId) {
 		return vli.stream()
 				.filter(x -> subnetId.equals(x.getResourceId()))
 				.findFirst()
 				.map(VnfLiveInstance::getTask)
-				.map(SubNetworkTask.class::cast)
-				.orElseThrow(() -> new GenericException("Could not find SubNetworkTask with resourceId=" + subnetId));
+				.map(SubNetworkTask.class::cast);
 	}
 
 	private static VnfLiveInstance findPort(final List<VnfLiveInstance> vli, final String toscaName, final int rank) {
