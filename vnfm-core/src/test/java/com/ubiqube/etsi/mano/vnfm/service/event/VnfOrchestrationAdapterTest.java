@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -62,9 +63,13 @@ class VnfOrchestrationAdapterTest {
 	@Mock
 	private VnfInstanceServiceVnfm vnfInstanceService;
 
+	VnfOrchestrationAdapter createService() {
+		return new VnfOrchestrationAdapter(vnfInstance, blueprintService, vnfLiveInstance, eventManager, vnfPackageService, vnfInstanceService, List.of());
+	}
+
 	@Test
 	void testCreateLiveInstance() {
-		final VnfOrchestrationAdapter srv = new VnfOrchestrationAdapter(vnfInstance, blueprintService, vnfLiveInstance, eventManager, vnfPackageService, vnfInstanceService);
+		final VnfOrchestrationAdapter srv = createService();
 		final Task task = new NetworkTask();
 		srv.createLiveInstance(null, null, task, null);
 		assertTrue(true);
@@ -72,7 +77,7 @@ class VnfOrchestrationAdapterTest {
 
 	@Test
 	void testDeleteLiveInstance() {
-		final VnfOrchestrationAdapter srv = new VnfOrchestrationAdapter(vnfInstance, blueprintService, vnfLiveInstance, eventManager, vnfPackageService, vnfInstanceService);
+		final VnfOrchestrationAdapter srv = createService();
 		final VnfLiveInstance vli = new VnfLiveInstance();
 		when(vnfInstance.findLiveInstanceById(any())).thenReturn(Optional.of(vli));
 		srv.deleteLiveInstance(null);
@@ -81,7 +86,7 @@ class VnfOrchestrationAdapterTest {
 
 	@Test
 	void testDeleteLiveInstanceFail() {
-		final VnfOrchestrationAdapter srv = new VnfOrchestrationAdapter(vnfInstance, blueprintService, vnfLiveInstance, eventManager, vnfPackageService, vnfInstanceService);
+		final VnfOrchestrationAdapter srv = createService();
 		when(vnfInstance.findLiveInstanceById(any())).thenReturn(Optional.empty());
 		assertThrows(NotFoundException.class, () -> srv.deleteLiveInstance(null));
 		assertTrue(true);
@@ -90,28 +95,28 @@ class VnfOrchestrationAdapterTest {
 	@ParameterizedTest
 	@EnumSource(WorkflowEvent.class)
 	void testFireEvent(final WorkflowEvent param) {
-		final VnfOrchestrationAdapter srv = new VnfOrchestrationAdapter(vnfInstance, blueprintService, vnfLiveInstance, eventManager, vnfPackageService, vnfInstanceService);
+		final VnfOrchestrationAdapter srv = createService();
 		srv.fireEvent(param, null);
 		assertTrue(true);
 	}
 
 	@Test
 	void testGetBlueprint() {
-		final VnfOrchestrationAdapter srv = new VnfOrchestrationAdapter(vnfInstance, blueprintService, vnfLiveInstance, eventManager, vnfPackageService, vnfInstanceService);
+		final VnfOrchestrationAdapter srv = createService();
 		srv.getBluePrint(null);
 		assertTrue(true);
 	}
 
 	@Test
 	void testGetInstanceUUID() {
-		final VnfOrchestrationAdapter srv = new VnfOrchestrationAdapter(vnfInstance, blueprintService, vnfLiveInstance, eventManager, vnfPackageService, vnfInstanceService);
+		final VnfOrchestrationAdapter srv = createService();
 		srv.getInstance(UUID.randomUUID());
 		assertTrue(true);
 	}
 
 	@Test
 	void testGetBlueprintInstance() {
-		final VnfOrchestrationAdapter srv = new VnfOrchestrationAdapter(vnfInstance, blueprintService, vnfLiveInstance, eventManager, vnfPackageService, vnfInstanceService);
+		final VnfOrchestrationAdapter srv = createService();
 		final VnfBlueprint blueprint = TestFactory.createBlueprint();
 		srv.getInstance(blueprint);
 		assertTrue(true);
@@ -119,7 +124,7 @@ class VnfOrchestrationAdapterTest {
 
 	@Test
 	void testGetPackage() {
-		final VnfOrchestrationAdapter srv = new VnfOrchestrationAdapter(vnfInstance, blueprintService, vnfLiveInstance, eventManager, vnfPackageService, vnfInstanceService);
+		final VnfOrchestrationAdapter srv = createService();
 		final VnfInstance inst = new VnfInstance();
 		final VnfPackage pkg = new VnfPackage();
 		inst.setVnfPkg(pkg);
@@ -129,7 +134,7 @@ class VnfOrchestrationAdapterTest {
 
 	@Test
 	void testSaveBlueprint() {
-		final VnfOrchestrationAdapter srv = new VnfOrchestrationAdapter(vnfInstance, blueprintService, vnfLiveInstance, eventManager, vnfPackageService, vnfInstanceService);
+		final VnfOrchestrationAdapter srv = createService();
 		final VnfBlueprint blueprint = TestFactory.createBlueprint();
 		srv.save(blueprint);
 		assertTrue(true);
@@ -137,7 +142,7 @@ class VnfOrchestrationAdapterTest {
 
 	@Test
 	void testSaveVnfInstance() {
-		final VnfOrchestrationAdapter srv = new VnfOrchestrationAdapter(vnfInstance, blueprintService, vnfLiveInstance, eventManager, vnfPackageService, vnfInstanceService);
+		final VnfOrchestrationAdapter srv = createService();
 		final VnfInstance inst = TestFactory.createVnfInstance();
 		srv.save(inst);
 		assertTrue(true);
@@ -145,7 +150,7 @@ class VnfOrchestrationAdapterTest {
 
 	@Test
 	void testSaveVnfInstanceLive() {
-		final VnfOrchestrationAdapter srv = new VnfOrchestrationAdapter(vnfInstance, blueprintService, vnfLiveInstance, eventManager, vnfPackageService, vnfInstanceService);
+		final VnfOrchestrationAdapter srv = createService();
 		final VnfInstance inst = TestFactory.createVnfInstance();
 		when(vnfLiveInstance.countByVnfInstance(inst)).thenReturn(5L);
 		srv.save(inst);
@@ -154,7 +159,7 @@ class VnfOrchestrationAdapterTest {
 
 	@Test
 	void testUpdateSatte() {
-		final VnfOrchestrationAdapter srv = new VnfOrchestrationAdapter(vnfInstance, blueprintService, vnfLiveInstance, eventManager, vnfPackageService, vnfInstanceService);
+		final VnfOrchestrationAdapter srv = createService();
 		srv.updateState(null, null);
 		assertTrue(true);
 	}

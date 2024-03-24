@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service.event;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -27,6 +28,7 @@ import com.ubiqube.etsi.mano.dao.mano.PackageBase;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
+import com.ubiqube.etsi.mano.dao.mano.v2.BlueprintParameters;
 import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.Task;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
@@ -42,6 +44,7 @@ import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
 import com.ubiqube.etsi.mano.vnfm.service.VnfBlueprintService;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceService;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceServiceVnfm;
+import com.ubiqube.etsi.mano.vnfm.service.vnflcm.VnfLcmExtractor;
 
 import jakarta.annotation.Nonnull;
 
@@ -58,15 +61,17 @@ public class VnfOrchestrationAdapter implements OrchestrationAdapter<VnfTask, Vn
 	private final VnfPackageService vnfPackageService;
 	private final EventManager eventManager;
 	private final VnfInstanceServiceVnfm vnfInstanceServiceVnfm;
+	private final List<VnfLcmExtractor> extractors;
 
 	public VnfOrchestrationAdapter(final VnfInstanceService vnfInstancesService, final VnfBlueprintService blueprintService, final VnfLiveInstanceJpa vnfLiveInstanceJpa,
-			final EventManager eventManager, final VnfPackageService vnfPackageService, final VnfInstanceServiceVnfm vnfInstanceServiceVnfm) {
+			final EventManager eventManager, final VnfPackageService vnfPackageService, final VnfInstanceServiceVnfm vnfInstanceServiceVnfm, final List<VnfLcmExtractor> extractors) {
 		this.vnfInstancesService = vnfInstancesService;
 		this.blueprintService = blueprintService;
 		this.vnfLiveInstanceJpa = vnfLiveInstanceJpa;
 		this.eventManager = eventManager;
 		this.vnfPackageService = vnfPackageService;
 		this.vnfInstanceServiceVnfm = vnfInstanceServiceVnfm;
+		this.extractors = extractors;
 	}
 
 	@Override
@@ -140,6 +145,14 @@ public class VnfOrchestrationAdapter implements OrchestrationAdapter<VnfTask, Vn
 		case TERMINATE_SUCCESS -> NotificationEvent.VNF_TERMINATE;
 		default -> throw new GenericException("Unknow event: " + instantiateProcessing);
 		};
+	}
+
+	@Override
+	public void consolidate(final Instance inst) {
+		final BlueprintParameters params = inst.getInstantiatedVnfInfo();
+		final VnfInstance vnfInst = (VnfInstance) inst;
+		final List<VnfLiveInstance> vli = vnfLiveInstanceJpa.findByVnfInstance(vnfInst);
+		extractors.forEach(x -> x.extract(vnfInst, params, vli));
 	}
 
 }

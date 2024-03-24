@@ -54,4 +54,5 @@ public interface OrchestrationAdapter<B extends VimTask, V extends Instance> {
 
 	void fireEvent(WorkflowEvent instantiateProcessing, UUID id);
 
+	void consolidate(Instance inst);
 }

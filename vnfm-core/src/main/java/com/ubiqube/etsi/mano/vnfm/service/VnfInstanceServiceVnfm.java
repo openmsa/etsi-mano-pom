@@ -16,21 +16,16 @@
  */
 package com.ubiqube.etsi.mano.vnfm.service;
 
-import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.InstantiationState;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
-import com.ubiqube.etsi.mano.dao.mano.VnfLiveInstance;
-import com.ubiqube.etsi.mano.dao.mano.v2.BlueprintParameters;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.jpa.VnfInstanceJpa;
 import com.ubiqube.etsi.mano.service.VnfInstanceGatewayService;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
-import com.ubiqube.etsi.mano.vnfm.service.vnflcm.VnfLcmExtractor;
 
 /**
  *
@@ -44,20 +39,14 @@ public class VnfInstanceServiceVnfm implements VnfInstanceGatewayService {
 
 	private final VnfLiveInstanceJpa vnfLiveInstanceJpa;
 
-	private final List<VnfLcmExtractor> extractors;
-
-	public VnfInstanceServiceVnfm(final VnfInstanceJpa vnfInstanceJpa, final VnfLiveInstanceJpa vnfLiveInstanceJpa, final List<VnfLcmExtractor> extractors) {
+	public VnfInstanceServiceVnfm(final VnfInstanceJpa vnfInstanceJpa, final VnfLiveInstanceJpa vnfLiveInstanceJpa) {
 		this.vnfInstanceJpa = vnfInstanceJpa;
 		this.vnfLiveInstanceJpa = vnfLiveInstanceJpa;
-		this.extractors = extractors;
 	}
 
 	@Override
 	public VnfInstance findById(final UUID id) {
 		final VnfInstance inst = vnfInstanceJpa.findById(id).orElseThrow(() -> new NotFoundException("Could not find VNF instance: " + id));
-		final BlueprintParameters vnfInfo = Objects.requireNonNull(inst.getInstantiatedVnfInfo());
-		final List<VnfLiveInstance> vli = vnfLiveInstanceJpa.findByVnfInstance(inst);
-		extractors.forEach(x -> x.extract(inst, vnfInfo, vli));
 		inst.setInstantiationState(isLive(id));
 		return inst;
 	}

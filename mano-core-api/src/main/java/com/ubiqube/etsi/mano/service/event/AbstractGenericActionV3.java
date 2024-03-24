@@ -128,6 +128,7 @@ public abstract class AbstractGenericActionV3 {
 		final OrchExecutionResults<Task> res = workflow.execute(prePlan, localPlan);
 		localPlan = orchestrationAdapter.getBluePrint(localPlan.getId());
 		setLiveSatus(res);
+		orchestrationAdapter.consolidate(vnfInstance);
 		//
 		setResultLcmInstance(localPlan, res);
 		if (OperationStatusType.COMPLETED == localPlan.getOperationStatus()) {

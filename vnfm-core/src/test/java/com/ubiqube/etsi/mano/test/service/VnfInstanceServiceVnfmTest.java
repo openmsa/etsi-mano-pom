@@ -19,7 +19,6 @@ package com.ubiqube.etsi.mano.test.service;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -75,7 +74,7 @@ class VnfInstanceServiceVnfmTest {
 		final VnfInstance instance = TestFactory.createVnfInstance();
 		final Optional<VnfInstance> vnfInst = Optional.of(instance);
 		when(vnfInstanceJpa.findById(id)).thenReturn(vnfInst);
-		when(vnfLiveInstanceJpa.findByVnfInstance(vnfInst.get())).thenReturn(List.of());
+//		when(vnfLiveInstanceJpa.findByVnfInstance(vnfInst.get())).thenReturn(List.of());
 		final VnfInstance res = op.findById(id);
 		assertNotNull(res);
 	}
@@ -93,7 +92,7 @@ class VnfInstanceServiceVnfmTest {
 		final MonitoringParams params = new MonitoringParams();
 		monTask.setMonitoringParams(params);
 		liveVl.setTask(monTask);
-		when(vnfLiveInstanceJpa.findByVnfInstance(vnfInst.get())).thenReturn(List.of((liveVl)));
+//		when(vnfLiveInstanceJpa.findByVnfInstance(vnfInst.get())).thenReturn(List.of((liveVl)));
 		final VnfInstance res = op.findById(id);
 		assertNotNull(res);
 	}
@@ -110,7 +109,7 @@ class VnfInstanceServiceVnfmTest {
 		port.setToscaName("port01");
 		liveVl.setTask(port);
 		when(vnfInstanceJpa.findById(id)).thenReturn(vnfInst);
-		when(vnfLiveInstanceJpa.findByVnfInstance(vnfInst.get())).thenReturn(List.of(liveVl));
+//		when(vnfLiveInstanceJpa.findByVnfInstance(vnfInst.get())).thenReturn(List.of(liveVl));
 		final VnfInstance res = op.findById(id);
 		assertNotNull(res);
 	}
@@ -127,7 +126,6 @@ class VnfInstanceServiceVnfmTest {
 		storage.setToscaName("storageà1");
 		liveVl.setTask(storage);
 		when(vnfInstanceJpa.findById(id)).thenReturn(vnfInst);
-		when(vnfLiveInstanceJpa.findByVnfInstance(vnfInst.get())).thenReturn(List.of(liveVl));
 		final VnfInstance res = op.findById(id);
 		assertNotNull(res);
 	}
@@ -144,7 +142,7 @@ class VnfInstanceServiceVnfmTest {
 		storage.setToscaName("storageà1");
 		liveVl.setTask(storage);
 		when(vnfInstanceJpa.findById(id)).thenReturn(vnfInst);
-		when(vnfLiveInstanceJpa.findByVnfInstance(vnfInst.get())).thenReturn(List.of(liveVl));
+//		when(vnfLiveInstanceJpa.findByVnfInstance(vnfInst.get())).thenReturn(List.of(liveVl));
 		final VnfInstance res = op.findById(id);
 		assertNotNull(res);
 	}
@@ -163,9 +161,7 @@ class VnfInstanceServiceVnfmTest {
 		liveVl.setId(UUID.randomUUID());
 		liveVl.setTask(TestFactory.createVnfPortTask());
 		when(vnfInstanceJpa.findById(id)).thenReturn(vnfInst);
-		when(vnfLiveInstanceJpa.findByVnfInstance(vnfInst.get())).thenReturn(List.of(liveVl));
-		final Optional<VnfPackage> optPkg = Optional.of(instance.getVnfPkg());
-		when(vnfPackageJpa.findById(instance.getVnfPkg().getId())).thenReturn(optPkg);
+//		when(vnfLiveInstanceJpa.findByVnfInstance(vnfInst.get())).thenReturn(List.of(liveVl));
 		final VnfInstance res = op.findById(id);
 		assertNotNull(res);
 	}
@@ -200,7 +196,6 @@ class VnfInstanceServiceVnfmTest {
 		//
 		final Optional<VnfInstance> vnfInst = Optional.of(instance);
 		when(vnfInstanceJpa.findById(id)).thenReturn(vnfInst);
-		when(vnfLiveInstanceJpa.findByVnfInstance(vnfInst.get())).thenReturn(List.of(liveCompute, liveVl, liveSubNet));
 		final Optional<VnfPackage> optPkg = Optional.of(instance.getVnfPkg());
 		// when(vnfPackageJpa.findById(instance.getVnfPkg().getId())).thenReturn(optPkg);
 		final VnfInstance res = op.findById(id);
@@ -208,6 +203,6 @@ class VnfInstanceServiceVnfmTest {
 	}
 
 	private VnfInstanceServiceVnfm createServicce() {
-		return new VnfInstanceServiceVnfm(vnfInstanceJpa, vnfLiveInstanceJpa, List.of());
+		return new VnfInstanceServiceVnfm(vnfInstanceJpa, vnfLiveInstanceJpa);
 	}
 }
