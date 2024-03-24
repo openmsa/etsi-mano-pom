@@ -85,13 +85,14 @@ public class ManoClient {
 		return server;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Nullable
 	public <T> Function<HttpGateway, T> getRequestObject() {
-		return (Function<HttpGateway, T>) requestObject;
+		return (Function<HttpGateway, T>) Objects.requireNonNull(requestObject);
 	}
 
 	public String getSetFragment() {
-		return setFragment;
+		return Objects.requireNonNull(setFragment);
 	}
 
 	/**
@@ -99,11 +100,11 @@ public class ManoClient {
 	 * @return Cannot be null.
 	 */
 	public UUID getObjectId() {
-		return objectId;
+		return Objects.requireNonNull(objectId);
 	}
 
 	public ApiVersionType getQueryType() {
-		return setQueryType;
+		return Objects.requireNonNull(setQueryType);
 	}
 
 	/**
