@@ -61,10 +61,6 @@ public class ManoClient {
 		return new ManoVnfInstance(this);
 	}
 
-	public ManoVnfLcmOpOccs vnfLcmOpOccs(final UUID id) {
-		return new ManoVnfLcmOpOccs(this, id);
-	}
-
 	public void setQueryType(final ApiVersionType sol003Vnflcm) {
 		this.setQueryType = sol003Vnflcm;
 	}

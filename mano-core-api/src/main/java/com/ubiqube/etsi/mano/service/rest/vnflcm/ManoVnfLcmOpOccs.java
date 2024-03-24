@@ -28,6 +28,8 @@ import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.HttpGateway;
 import com.ubiqube.etsi.mano.service.rest.ManoClient;
 
+import jakarta.validation.constraints.NotNull;
+
 /**
  *
  * @author Olivier Vignaud {@literal <ovi@ubiqube.com>}
@@ -37,6 +39,7 @@ public class ManoVnfLcmOpOccs {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ManoVnfLcmOpOccs.class);
 
+	@NotNull
 	private final ManoClient client;
 
 	public ManoVnfLcmOpOccs(final ManoClient client, final UUID id) {
@@ -83,5 +86,9 @@ public class ManoVnfLcmOpOccs {
 				return pkg;
 			}
 		}
+	}
+
+	public ManoVnfLcmOpOccs id(final UUID id) {
+		return new ManoVnfLcmOpOccs(client, id);
 	}
 }

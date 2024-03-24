@@ -120,7 +120,8 @@ public class NfvoVnfInstanceLcm implements VnfInstanceLcm {
 	@Override
 	public VnfBlueprint vnfLcmOpOccsGet(final Servers servers, @NotNull final UUID id) {
 		return manoClientFactory.getClient(servers)
-				.vnfLcmOpOccs(id)
+				.vnfLcmOpOccs()
+				.id(id)
 				.find();
 	}
 

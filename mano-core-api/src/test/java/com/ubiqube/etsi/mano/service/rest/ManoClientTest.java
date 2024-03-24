@@ -51,7 +51,6 @@ class ManoClientTest {
 				Arguments.of(args.of(ManoClient::nsPackage)),
 				Arguments.of(args.of(ManoClient::vnfInstance)),
 				Arguments.of(args.of(ManoClient::vnfLcmOpOccs)),
-				Arguments.of(args.of(srv -> srv.vnfLcmOpOccs(null))),
 				Arguments.of(args.of(ManoClient::vnfPackage)),
 				Arguments.of(args.of(ManoClient::vnfPm)),
 				Arguments.of(args.of(ManoClient::vnfIndicator)),

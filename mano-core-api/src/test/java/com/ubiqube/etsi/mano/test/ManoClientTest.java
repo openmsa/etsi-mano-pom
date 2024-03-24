@@ -133,31 +133,32 @@ class ManoClientTest {
 		final Servers server = Servers.builder()
 				.url(URI.create("http://localhost:8100/ubi-etsi-mano/sol005"))
 				.version("2.6.1")
-				.tlsCert("-----BEGIN CERTIFICATE-----\n"
-						+ "MIIEPTCCAyWgAwIBAgIIFNYoTdjPHuIwDQYJKoZIhvcNAQELBQAwgY0xCzAJBgNV\n"
-						+ "BAYTAkZSMQ4wDAYDVQQIEwVJU0VSRTERMA8GA1UEBxMIR1JFTk9CTEUxHTAbBgNV\n"
-						+ "BAoTFHdlYi5tYW5vLnViaXF1YmUuY29tMR0wGwYDVQQLExR3ZWIubWFuby51Ymlx\n"
-						+ "dWJlLmNvbTEdMBsGA1UEAxMUd2ViLm1hbm8udWJpcXViZS5jb20wHhcNMjExMDIy\n"
-						+ "MDg0MzAwWhcNMjIxMDIyMDg0MzAwWjCBhzELMAkGA1UEBhMCRlIxDjAMBgNVBAgT\n"
-						+ "BUlTRVJFMREwDwYDVQQHEwhHUkVOT0JMRTEbMBkGA1UECgwSKi5tYW5vLnViaXF1\n"
-						+ "YmUuY29tMRswGQYDVQQLDBIqLm1hbm8udWJpcXViZS5jb20xGzAZBgNVBAMMEiou\n"
-						+ "bWFuby51YmlxdWJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEB\n"
-						+ "ANHy4SnXHsQUzpi0cgPPWKk0j5OdVigNTtULCrSrP/yyO47r9DWFWlkHfGGAK6G4\n"
-						+ "LcEcvg8cZfcJFy9g0qS0R1QtpF0lPw9IFo4s5UBUjp6me8MZTLpxchQ1zviKJ2TM\n"
-						+ "yk1P1tfRbFqaFTHNVyXZ7QCWl9gd5nb8ASrlPGIlkRiERYBXoFaTByoX/q9dj1i6\n"
-						+ "LqNOm1VY+aGPqj2ON9X7U5A03YZBz5C0A30hcrEuDxlrdeFtwFxosyC7XmZQKiim\n"
-						+ "Yl/eVz0vgezCS4oJQ1vPKZOkAMefWVYepgUgJi3ZXxsMytcDHXZIB7Q2iI1oNqNw\n"
-						+ "zHwAF7xxYYPmIFIA9qM/bUcCAwEAAaOBpDCBoTAMBgNVHRMBAf8EAjAAMB0GA1Ud\n"
-						+ "DgQWBBSkwiPmKrKXWEKjeoz+vGe5cO3G5zALBgNVHQ8EBAMCA+gwEwYDVR0lBAww\n"
-						+ "CgYIKwYBBQUHAwEwHQYDVR0RBBYwFIISKi5tYW5vLnViaXF1YmUuY29tMBEGCWCG\n"
-						+ "SAGG+EIBAQQEAwIGQDAeBglghkgBhvhCAQ0EERYPeGNhIGNlcnRpZmljYXRlMA0G\n"
-						+ "CSqGSIb3DQEBCwUAA4IBAQAfxsM5XAfCBV4sDByJbYdNWx52kkzbbo79a3dE4nhi\n"
-						+ "D+VvnB0TVDxXITSZ4pVbG/f+RxQ1rek4VWfCdpG66fqLSr/6sg5gefsPAISy0eJh\n"
-						+ "lzvWCaqcR+7GHyk2I9ymjnt6zeaI6EmL3CfcIKr0Mv543K8b6wZgGfpNhjhXpEvV\n"
-						+ "pAHGGQWQpTLABcrVLitDrBj+8amyLzqoMCs29CgUkDjYTnKQQ9iuyz1jG0ajPdwn\n"
-						+ "5tdEDcBOGj90Xl2MnuMwH4T0QYWN/njW1h+i7rHbEeAfJ+Rr2rxerJFf33HSC1RX\n"
-						+ "3bN4KgYJvPQwSU2zGpm6wW3po1jHZnmUFRUEp+H3aA5j\r\n"
-						+ "-----END CERTIFICATE-----")
+				.tlsCert("""
+						-----BEGIN CERTIFICATE-----
+						MIIEPTCCAyWgAwIBAgIIFNYoTdjPHuIwDQYJKoZIhvcNAQELBQAwgY0xCzAJBgNV
+						BAYTAkZSMQ4wDAYDVQQIEwVJU0VSRTERMA8GA1UEBxMIR1JFTk9CTEUxHTAbBgNV
+						BAoTFHdlYi5tYW5vLnViaXF1YmUuY29tMR0wGwYDVQQLExR3ZWIubWFuby51Ymlx
+						dWJlLmNvbTEdMBsGA1UEAxMUd2ViLm1hbm8udWJpcXViZS5jb20wHhcNMjExMDIy
+						MDg0MzAwWhcNMjIxMDIyMDg0MzAwWjCBhzELMAkGA1UEBhMCRlIxDjAMBgNVBAgT
+						BUlTRVJFMREwDwYDVQQHEwhHUkVOT0JMRTEbMBkGA1UECgwSKi5tYW5vLnViaXF1
+						YmUuY29tMRswGQYDVQQLDBIqLm1hbm8udWJpcXViZS5jb20xGzAZBgNVBAMMEiou
+						bWFuby51YmlxdWJlLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEB
+						ANHy4SnXHsQUzpi0cgPPWKk0j5OdVigNTtULCrSrP/yyO47r9DWFWlkHfGGAK6G4
+						LcEcvg8cZfcJFy9g0qS0R1QtpF0lPw9IFo4s5UBUjp6me8MZTLpxchQ1zviKJ2TM
+						yk1P1tfRbFqaFTHNVyXZ7QCWl9gd5nb8ASrlPGIlkRiERYBXoFaTByoX/q9dj1i6
+						LqNOm1VY+aGPqj2ON9X7U5A03YZBz5C0A30hcrEuDxlrdeFtwFxosyC7XmZQKiim
+						Yl/eVz0vgezCS4oJQ1vPKZOkAMefWVYepgUgJi3ZXxsMytcDHXZIB7Q2iI1oNqNw
+						zHwAF7xxYYPmIFIA9qM/bUcCAwEAAaOBpDCBoTAMBgNVHRMBAf8EAjAAMB0GA1Ud
+						DgQWBBSkwiPmKrKXWEKjeoz+vGe5cO3G5zALBgNVHQ8EBAMCA+gwEwYDVR0lBAww
+						CgYIKwYBBQUHAwEwHQYDVR0RBBYwFIISKi5tYW5vLnViaXF1YmUuY29tMBEGCWCG
+						SAGG+EIBAQQEAwIGQDAeBglghkgBhvhCAQ0EERYPeGNhIGNlcnRpZmljYXRlMA0G
+						CSqGSIb3DQEBCwUAA4IBAQAfxsM5XAfCBV4sDByJbYdNWx52kkzbbo79a3dE4nhi
+						D+VvnB0TVDxXITSZ4pVbG/f+RxQ1rek4VWfCdpG66fqLSr/6sg5gefsPAISy0eJh
+						lzvWCaqcR+7GHyk2I9ymjnt6zeaI6EmL3CfcIKr0Mv543K8b6wZgGfpNhjhXpEvV
+						pAHGGQWQpTLABcrVLitDrBj+8amyLzqoMCs29CgUkDjYTnKQQ9iuyz1jG0ajPdwn
+						5tdEDcBOGj90Xl2MnuMwH4T0QYWN/njW1h+i7rHbEeAfJ+Rr2rxerJFf33HSC1RX
+						3bN4KgYJvPQwSU2zGpm6wW3po1jHZnmUFRUEp+H3aA5j\r
+						-----END CERTIFICATE-----""")
 				.authentification(
 						AuthentificationInformations.builder()
 								.authParamOauth2(authParamOath2)
@@ -219,7 +220,8 @@ class ManoClientTest {
 		final ManoClient mc = new ManoClient(mapper, serverAdapter);
 		//
 		final UUID id = UUID.fromString("51d2048d-2e9f-4b82-8991-7e52a2fbccca");
-		final VnfBlueprint obj = mc.vnfLcmOpOccs(id)
+		final VnfBlueprint obj = mc.vnfLcmOpOccs()
+				.id(id)
 				.find();
 		assertNotNull(obj.getOperationStatus());
 	}
