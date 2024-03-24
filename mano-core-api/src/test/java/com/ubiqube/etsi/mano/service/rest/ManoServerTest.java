@@ -29,6 +29,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.service.HttpGateway;
+import com.ubiqube.etsi.mano.service.rest.admin.srv.ManoServer;
 
 import ma.glasnost.orika.MapperFacade;
 

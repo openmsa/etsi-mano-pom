@@ -14,7 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see https://www.gnu.org/licenses/.
  */
-package com.ubiqube.etsi.mano.service.rest;
+package com.ubiqube.etsi.mano.service.rest.admin.srv;
 
 import java.net.URI;
 import java.util.Map;
@@ -29,6 +29,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.dao.mano.vim.PlanStatusType;
 import com.ubiqube.etsi.mano.exception.GenericException;
+import com.ubiqube.etsi.mano.service.rest.ManoClient;
+import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
 
 import jakarta.annotation.Nullable;
 

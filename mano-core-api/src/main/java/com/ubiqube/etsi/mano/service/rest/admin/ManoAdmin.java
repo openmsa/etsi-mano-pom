@@ -17,7 +17,7 @@
 package com.ubiqube.etsi.mano.service.rest.admin;
 
 import com.ubiqube.etsi.mano.service.rest.ManoClient;
-import com.ubiqube.etsi.mano.service.rest.ManoServer;
+import com.ubiqube.etsi.mano.service.rest.admin.srv.ManoServer;
 import com.ubiqube.etsi.mano.service.rest.admin.vim.ManoVim;
 
 /**

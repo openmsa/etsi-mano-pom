@@ -33,6 +33,7 @@ import org.springframework.http.ResponseEntity;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.dao.mano.vim.PlanStatusType;
 import com.ubiqube.etsi.mano.service.HttpGateway;
+import com.ubiqube.etsi.mano.service.rest.admin.srv.ManoServerId;
 
 @ExtendWith(MockitoExtension.class)
 class ManoServerIdTest {
