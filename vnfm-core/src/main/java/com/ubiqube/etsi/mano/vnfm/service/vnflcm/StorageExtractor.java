@@ -41,14 +41,14 @@ public class StorageExtractor implements VnfLcmExtractor {
 		params.setVirtualStorageResourceInfo(storages);
 	}
 
-	private static VirtualStorageResourceInfo createVirtualStorageResourceInfo(final VnfLiveInstance inst) {
+	private static VirtualStorageResourceInfo createVirtualStorageResourceInfo(final VnfLiveInstance vli) {
 		final VirtualStorageResourceInfo ret = new VirtualStorageResourceInfo();
 		ret.setReservationId(null);
-		final VimResource vimResource = createResource(inst);
-		ret.setId(inst.getId());
+		final VimResource vimResource = createResource(vli);
+		ret.setId(vli.getId());
 		ret.setStorageResource(vimResource);
-		ret.setVirtualStorageDescId(inst.getTask().getToscaName());
-		ret.setVnfdId(inst.getVnfInstance().getVnfdId());
+		ret.setVirtualStorageDescId(vli.getTask().getToscaName());
+		ret.setVnfdId(vli.getVnfInstance().getVnfdId());
 		ret.setZoneId(null);
 		return ret;
 	}
