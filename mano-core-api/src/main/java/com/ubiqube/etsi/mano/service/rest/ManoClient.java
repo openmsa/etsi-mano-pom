@@ -57,10 +57,6 @@ public class ManoClient {
 		this.server = server;
 	}
 
-	public ManoVnfInstance vnfInstance() {
-		return new ManoVnfInstance(this);
-	}
-
 	public void setQueryType(final ApiVersionType sol003Vnflcm) {
 		this.setQueryType = sol003Vnflcm;
 	}
@@ -105,6 +101,15 @@ public class ManoClient {
 
 	public ApiVersionType getQueryType() {
 		return setQueryType;
+	}
+
+	/**
+	 * Public methods.
+	 *
+	 * @return An instance.
+	 */
+	public ManoVnfInstance vnfInstance() {
+		return new ManoVnfInstance(this);
 	}
 
 	public ManoGrant grant() {
