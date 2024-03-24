@@ -48,8 +48,11 @@ public class ManoClient {
 	private final ServerAdapter server;
 	@Nullable
 	private Function<HttpGateway, ?> requestObject;
+	@Nullable
 	private String setFragment;
+	@Nullable
 	private ApiVersionType setQueryType;
+	@Nullable
 	private UUID objectId;
 
 	public ManoClient(final MapperFacade mapper, final ServerAdapter server) {
