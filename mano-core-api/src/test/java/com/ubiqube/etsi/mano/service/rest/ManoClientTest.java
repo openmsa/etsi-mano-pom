@@ -18,12 +18,17 @@ package com.ubiqube.etsi.mano.service.rest;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
+import com.ubiqube.etsi.mano.service.HttpGateway;
 
 import ma.glasnost.orika.MapperFacade;
 
@@ -63,6 +68,11 @@ class ManoClientTest {
 	void testName(final args arg) throws Exception {
 		final ServerAdapter serverAdapter = new ServerAdapter(null, null, null);
 		final ManoClient mc = new ManoClient(mapper, serverAdapter);
+		mc.setObjectId(UUID.randomUUID());
+		mc.setQueryType(ApiVersionType.SOL002_VNFCONFIG);
+		mc.setFragment("hh");
+		final Function<HttpGateway, ?> func = x -> null;
+		mc.createQuery(func);
 		arg.func().accept(mc);
 		assertTrue(true);
 	}
