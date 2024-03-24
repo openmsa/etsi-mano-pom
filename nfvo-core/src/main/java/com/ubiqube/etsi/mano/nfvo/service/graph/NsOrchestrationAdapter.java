@@ -137,4 +137,9 @@ public class NsOrchestrationAdapter implements OrchestrationAdapter<NsTask, NsdI
 		};
 	}
 
+	@Override
+	public void consolidate(final Instance inst) {
+		// Noting.
+	}
+
 }
