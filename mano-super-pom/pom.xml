@@ -9,7 +9,7 @@
 	</parent>
 	<groupId>com.ubiqube.mano</groupId>
 	<artifactId>mano-super-pom</artifactId>
-	<version>3.2.1</version>
+	<version>3.2.2</version>
 	<packaging>pom</packaging>
 	<name>mano-super-pom</name>
 	<description>ETSI-MANO super pom</description>
@@ -111,7 +111,7 @@
 		<version.tosca-test-utils>2.1.0</version.tosca-test-utils>
 		<version.ubi-juniper-contrail-api>4.0.0</version.ubi-juniper-contrail-api>
 		<version.ubi-spring-config>3.2.0</version.ubi-spring-config>
-		<version.vnfm-core>3.2.1</version.vnfm-core>
+		<version.vnfm-core>3.2.2</version.vnfm-core>
 		<version.vnfm-front-controller>3.2.0</version.vnfm-front-controller>
 	</properties>
 	<dependencyManagement>
