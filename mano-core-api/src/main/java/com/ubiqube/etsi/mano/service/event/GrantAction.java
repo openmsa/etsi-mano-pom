@@ -203,6 +203,26 @@ public class GrantAction {
 		};
 		executorService.submit(getComputeResourceFlavours);
 
+		final Runnable networkRunnable = () -> extractNetwork(grants, vimInfo, vim);
+		executorService.submit(networkRunnable);
+		grantSupport.getUnmanagedNetworks(grants, vim, vimInfo);
+		final String zoneId = futureZone.get();
+		final ZoneGroupInformation zgi = futureSg.get();
+		// XXX It depends on Grant policy GRANT_RESERVE_SINGLE.
+		grants.getAddResources().forEach(x -> {
+			vim.allocateResources(vimInfo, x.getReservationId());
+			x.setResourceProviderId(vim.getType());
+			x.setVimConnectionId(vimInfo.getVimId());
+			x.setZoneId(zoneId);
+			x.setResourceGroupId(zgi.getZoneId().iterator().next());
+			if (x.getType() == ResourceTypeEnum.OS_CONTAINER) {
+				x.setContainerNamespace("mano");
+			}
+		});
+		grantContainerAction.handleGrant(grants);
+	}
+
+	private void extractNetwork(final GrantResponse grants, final VimConnectionInformation vimInfo, final Vim vim) {
 		// Add public networks.
 		final VnfPackage vnfPkg = vnfPackageService.findByVnfdId(grants.getVnfdId());
 		// XXX The none match ExtCp cause to discard all extCp pointing to an existing
@@ -221,21 +241,7 @@ public class GrantAction {
 			extVl.setGrants(grants);
 			grants.addExtManagedVl(extVl);
 		});
-		grantSupport.getUnmanagedNetworks(grants, vim, vimInfo);
-		final String zoneId = futureZone.get();
-		final ZoneGroupInformation zgi = futureSg.get();
-		// XXX It depends on Grant policy GRANT_RESERVE_SINGLE.
-		grants.getAddResources().forEach(x -> {
-			vim.allocateResources(vimInfo, x.getReservationId());
-			x.setResourceProviderId(vim.getType());
-			x.setVimConnectionId(vimInfo.getVimId());
-			x.setZoneId(zoneId);
-			x.setResourceGroupId(zgi.getZoneId().iterator().next());
-			if (x.getType() == ResourceTypeEnum.OS_CONTAINER) {
-				x.setContainerNamespace("mano");
-			}
-		});
-		grantContainerAction.handleGrant(grants);
+
 	}
 
 	private static boolean noneMatchExtCp(final VnfPackage vnfPkg, final ListKeyPair x) {
