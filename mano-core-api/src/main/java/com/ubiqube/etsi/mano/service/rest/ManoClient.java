@@ -52,7 +52,7 @@ public class ManoClient {
 	private String setFragment;
 	@Nullable
 	private ApiVersionType setQueryType;
-	@Nullable
+	// Can be null.
 	private UUID objectId;
 
 	public ManoClient(final MapperFacade mapper, final ServerAdapter server) {
@@ -100,7 +100,7 @@ public class ManoClient {
 	 * @return Cannot be null.
 	 */
 	public UUID getObjectId() {
-		return Objects.requireNonNull(objectId);
+		return objectId;
 	}
 
 	public ApiVersionType getQueryType() {
