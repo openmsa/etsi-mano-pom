@@ -42,7 +42,11 @@ import com.ubiqube.etsi.mano.dao.mano.v2.ComputeTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.IpSubnet;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfPortTask;
 import com.ubiqube.etsi.mano.dao.mano.vim.IpPool;
+import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.exception.GenericException;
+import com.ubiqube.etsi.mano.service.vim.SubNetwork;
+import com.ubiqube.etsi.mano.service.vim.Vim;
+import com.ubiqube.etsi.mano.service.vim.VimManager;
 
 import ma.glasnost.orika.MapperFacade;
 
@@ -50,9 +54,11 @@ import ma.glasnost.orika.MapperFacade;
 public class ComputeExtractor implements VnfLcmExtractor {
 	private static final String VIRTUAL_LINK = "virtual_link";
 	private final MapperFacade mapper;
+	private final VimManager vimManager;
 
-	public ComputeExtractor(final MapperFacade mapper) {
+	public ComputeExtractor(final MapperFacade mapper, final VimManager vimManager) {
 		this.mapper = mapper;
+		this.vimManager = vimManager;
 	}
 
 	@Override
@@ -80,13 +86,13 @@ public class ComputeExtractor implements VnfLcmExtractor {
 	}
 
 	@SuppressWarnings("null")
-	private static Set<VnfcResourceInfoVnfcCpInfoEntity> extractCpInfo(final ComputeTask ct, final List<VnfLiveInstance> vli) {
+	private Set<VnfcResourceInfoVnfcCpInfoEntity> extractCpInfo(final ComputeTask ct, final List<VnfLiveInstance> vli) {
 		return ct.getVnfCompute().getPorts().stream()
 				.map(x -> createVnfcResourceInfoVnfcCpInfoEntity(ct, vli, x))
 				.collect(Collectors.toSet());
 	}
 
-	private static VnfcResourceInfoVnfcCpInfoEntity createVnfcResourceInfoVnfcCpInfoEntity(final ComputeTask ct, final List<VnfLiveInstance> vli, final VnfLinkPort linkPort) {
+	private VnfcResourceInfoVnfcCpInfoEntity createVnfcResourceInfoVnfcCpInfoEntity(final ComputeTask ct, final List<VnfLiveInstance> vli, final VnfLinkPort linkPort) {
 		final VnfLiveInstance vp = findPortByNameAndRank(vli, linkPort.getToscaName(), ct.getRank());
 		final VnfcResourceInfoVnfcCpInfoEntity ret = new VnfcResourceInfoVnfcCpInfoEntity();
 		final VnfPortTask vpt = (VnfPortTask) vp.getTask();
@@ -113,9 +119,9 @@ public class ComputeExtractor implements VnfLcmExtractor {
 				.orElseThrow(() -> new GenericException("Could not find port " + toscaName + " with rank: " + String.format("%04d", rank)));
 	}
 
-	private static List<CpProtocolInfoEntity> createCpInfo(final List<VnfLiveInstance> vli, final VnfPortTask vp) {
+	private List<CpProtocolInfoEntity> createCpInfo(final List<VnfLiveInstance> vli, final VnfPortTask vp) {
 		final CpProtocolInfoEntity ret = new CpProtocolInfoEntity();
-		final List<IpOverEthernetAddressDataIpAddressesEntity> addrs = mapIps(vli, vp.getIpSubnet());
+		final List<IpOverEthernetAddressDataIpAddressesEntity> addrs = mapIps(vli, vp);
 		final IpOverEthernetAddressInfoEntity ioe = createIoe(vp, addrs);
 		ret.setIpOverEthernet(ioe);
 		ret.setLayerProtocol(LayerProtocolEnum.IP_OVER_ETHERNET);
@@ -135,8 +141,9 @@ public class ComputeExtractor implements VnfLcmExtractor {
 	}
 
 	@SuppressWarnings("null")
-	private static List<IpOverEthernetAddressDataIpAddressesEntity> mapIps(final List<VnfLiveInstance> vli, final Set<IpSubnet> ips) {
-		return ips.stream().map(x -> {
+	private List<IpOverEthernetAddressDataIpAddressesEntity> mapIps(final List<VnfLiveInstance> vli, final VnfPortTask vpt) {
+		final Set<IpSubnet> vp = vpt.getIpSubnet();
+		return vp.stream().map(x -> {
 			final IpOverEthernetAddressDataIpAddressesEntity ret = createIpOverEthernetAddressDataIpAddressesEntity(x);
 			final Optional<SubNetworkTask> sntOpt = findSubnetworkTaskByResourceId(vli, x.getSubnetId());
 			if (sntOpt.isPresent()) {
@@ -144,10 +151,27 @@ public class ComputeExtractor implements VnfLcmExtractor {
 				final IpPool pool = snt.getIpPool();
 				final IpOverEthernetAddressDataAddressRangeEntity range = mapPoolToRange(pool);
 				ret.setAddressRange(range);
-				ret.setNumDynamicAddresses(1);
+			} else {
+				findOsSubNetInfo(ret, vpt, x.getSubnetId());
 			}
 			return ret;
 		}).toList();
+	}
+
+	private void findOsSubNetInfo(final IpOverEthernetAddressDataIpAddressesEntity ret, final VnfPortTask vpt, final String subnetId) {
+		vpt.getVimConnectionId();
+		final VimConnectionInformation vimConn = vimManager.findVimByVimId(vpt.getVimConnectionId());
+		final Vim vim = vimManager.getVimById(vimConn.getId());
+		final SubNetwork res = vim.network(vimConn).findSubNetworkById(subnetId);
+		ret.setAddressRange(poolToRange(res.getPools()));
+	}
+
+	private IpOverEthernetAddressDataAddressRangeEntity poolToRange(final List<IpPool> pools) {
+		final IpOverEthernetAddressDataAddressRangeEntity range = new IpOverEthernetAddressDataAddressRangeEntity();
+		final IpPool p = pools.get(0);
+		range.setMinAddress(p.getStartIpAddress());
+		range.setMaxAddress(p.getEndIpAddress());
+		return range;
 	}
 
 	private static IpOverEthernetAddressDataAddressRangeEntity mapPoolToRange(final IpPool pool) {
