@@ -30,6 +30,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.dao.mano.VimResource;
@@ -40,6 +41,12 @@ import com.ubiqube.etsi.mano.dao.mano.v2.BlueprintParameters;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfPortTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.HelmTask;
+import com.ubiqube.etsi.mano.dao.mano.vim.IpPool;
+import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
+import com.ubiqube.etsi.mano.service.vim.Network;
+import com.ubiqube.etsi.mano.service.vim.SubNetwork;
+import com.ubiqube.etsi.mano.service.vim.Vim;
+import com.ubiqube.etsi.mano.service.vim.VimManager;
 import com.ubiqube.etsi.mano.test.controllers.TestFactory;
 
 import ma.glasnost.orika.MapperFacade;
@@ -48,9 +55,11 @@ import ma.glasnost.orika.MapperFacade;
 class ComputeExtractorTest {
 	@Mock
 	private MapperFacade mapper;
+	@Mock
+	private VimManager vimManager;
 
 	ComputeExtractor createService() {
-		return new ComputeExtractor(mapper);
+		return new ComputeExtractor(mapper, vimManager);
 	}
 
 	VnfLiveInstance createDummyVli() {
@@ -85,6 +94,17 @@ class ComputeExtractorTest {
 		final VnfLiveInstance vli2 = new VnfLiveInstance();
 		vli2.setId(UUID.randomUUID());
 		vli2.setTask(p);
+		//
+		final VimConnectionInformation vinConn = new VimConnectionInformation();
+		when(vimManager.findVimByVimId(any())).thenReturn(vinConn);
+		final Vim vim = Mockito.mock(Vim.class);
+		when(vimManager.getVimById(any())).thenReturn(vim);
+		final Network net = Mockito.mock(Network.class);
+		when(vim.network(any())).thenReturn(net);
+		final SubNetwork subnet = new SubNetwork();
+		final IpPool pool = new IpPool();
+		subnet.setPools(List.of(pool));
+		when(net.findSubNetworkById(any())).thenReturn(subnet);
 		srv.extract(instance, params, List.of(vli0, vli1, vli2));
 		final Set<VnfcResourceInfoEntity> mon = params.getVnfcResourceInfo();
 		assertNotNull(mon);
