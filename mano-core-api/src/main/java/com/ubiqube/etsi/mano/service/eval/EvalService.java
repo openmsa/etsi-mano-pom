@@ -19,6 +19,7 @@ package com.ubiqube.etsi.mano.service.eval;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -154,6 +155,12 @@ public class EvalService {
 	public boolean evaluate(final Node nodes, final UUID objectId, final SubscriptionType subscriptionType, final String eventName) {
 		final EvaluatorVisitor eval = new EvaluatorVisitor();
 		final Context ctx = contextBuilderService.build(subscriptionType, objectId, eventName);
+		return nodes.accept(eval, ctx);
+	}
+
+	public boolean evaluate(final Node nodes, final Map<String, String> additionalParameters, final String eventName) {
+		final EvaluatorVisitor eval = new EvaluatorVisitor();
+		final Context ctx = contextBuilderService.build(additionalParameters, eventName);
 		return nodes.accept(eval, ctx);
 	}
 

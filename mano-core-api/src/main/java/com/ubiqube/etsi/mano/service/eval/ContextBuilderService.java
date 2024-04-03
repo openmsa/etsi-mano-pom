@@ -22,6 +22,7 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
@@ -60,6 +61,12 @@ public class ContextBuilderService {
 		};
 		Objects.requireNonNull(res, "No result for " + type + '#' + id);
 		return buildContext(res, eventName);
+	}
+
+	public static Context build(final Map<String, String> map, final String eventName) {
+		final Map<String, Object> m2 = new LinkedHashMap<>(map);
+		m2.put("notificationTypes", eventName);
+		return new BasicContext(m2);
 	}
 
 	private static Context buildContext(final Object res, final String eventName) {

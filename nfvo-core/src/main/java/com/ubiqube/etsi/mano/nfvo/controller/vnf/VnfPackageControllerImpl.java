@@ -21,6 +21,7 @@ import static com.ubiqube.etsi.mano.Constants.ensureNotInUse;
 import static com.ubiqube.etsi.mano.Constants.ensureNotOnboarded;
 
 import java.io.InputStream;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -88,8 +89,22 @@ public class VnfPackageControllerImpl implements VnfPackageController {
 		}
 		vnfPackageRepository.delete(id);
 		if (null != vnfPackage.getVnfdId()) {
-			eventManager.sendNotification(NotificationEvent.VNF_PKG_ONDELETION, id, Map.of("vnfdId", vnfPackage.getVnfdId()));
+			eventManager.sendNotification(NotificationEvent.VNF_PKG_ONDELETION, id, buildMap(vnfPackage));
 		}
+	}
+
+	private static Map<String, String> buildMap(final VnfPackage vnfPackage) {
+		final Map<String, String> map = new LinkedHashMap<>();
+		map.put("vnfdId", vnfPackage.getVnfdId());
+		map.put("vnfProductsFromProviders.vnfProvider", vnfPackage.getVnfProvider());
+		map.put("vnfProductsFromProviders.vnfProducts.vnfProductName", vnfPackage.getVnfProductName());
+		map.put("vnfProductsFromProviders.vnfProducts.versions.vnfSoftwareVersion", vnfPackage.getVnfSoftwareVersion());
+		map.put("vnfProductsFromProviders.vnfProducts.versions.vnfdVersions", vnfPackage.getDescriptorVersion());
+		map.put("operationalState", "" + vnfPackage.getOperationalState());
+		map.put("usageState", "" + vnfPackage.getUsageState());
+		map.put("vnfmInfo", "" + vnfPackage.getVnfmInfo());
+		return map;
+
 	}
 
 	@Override

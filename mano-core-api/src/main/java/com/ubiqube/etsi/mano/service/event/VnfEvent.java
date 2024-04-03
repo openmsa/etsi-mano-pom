@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.service.event;
 
+import java.util.EnumSet;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -30,6 +31,7 @@ import com.ubiqube.etsi.mano.service.SubscriptionServiceImpl;
 import com.ubiqube.etsi.mano.service.cond.Node;
 import com.ubiqube.etsi.mano.service.eval.EvalService;
 import com.ubiqube.etsi.mano.service.event.model.EventMessage;
+import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
 
@@ -48,6 +50,7 @@ public class VnfEvent {
 	private final Notifications notifications;
 	private final EventManager eventManager;
 	private final EvalService evalService;
+	private EnumSet<NotificationEvent> deleteEnums;
 
 	public VnfEvent(final SubscriptionService subscriptionRepository, final Notifications notifications, final ServerService serverService,
 			final EventManager eventManager, final EvalService evalService) {
@@ -56,6 +59,7 @@ public class VnfEvent {
 		this.serverService = serverService;
 		this.eventManager = eventManager;
 		this.evalService = evalService;
+		this.deleteEnums = EnumSet.of(NotificationEvent.VNF_INSTANCE_DELETE, NotificationEvent.NS_PKG_ONDELETION, NotificationEvent.NS_INSTANCE_DELETE, NotificationEvent.VNF_PKG_ONDELETION);
 	}
 
 	public void sendNotification(final Subscription subscription, final EventMessage event) {
@@ -91,7 +95,11 @@ public class VnfEvent {
 			return true;
 		}
 		final Node nodes = evalService.convertStringToNode(filters);
-		return evalService.evaluate(nodes, ev.getObjectId(), subscription.getSubscriptionType(), SubscriptionServiceImpl.convert(ev.getNotificationEvent()));
+		final String eventName = SubscriptionServiceImpl.convert(ev.getNotificationEvent());
+		if (deleteEnums.contains(ev.getNotificationEvent())) {
+			return evalService.evaluate(nodes, ev.getAdditionalParameters(), eventName);
+		}
+		return evalService.evaluate(nodes, ev.getObjectId(), subscription.getSubscriptionType(), eventName);
 	}
 
 }
