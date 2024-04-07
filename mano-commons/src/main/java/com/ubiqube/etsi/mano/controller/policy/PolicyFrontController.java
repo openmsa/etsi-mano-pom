@@ -18,10 +18,13 @@ package com.ubiqube.etsi.mano.controller.policy;
 
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.springframework.core.io.InputStreamSource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
+
+import com.ubiqube.etsi.mano.dao.mano.policy.Policies;
 
 public interface PolicyFrontController {
 
@@ -29,7 +32,7 @@ public interface PolicyFrontController {
 
 	ResponseEntity<Void> deleteById(UUID safeUUID);
 
-	<U> ResponseEntity<U> findById(String uuid, Class<U> clazz, Consumer<U> makeLinks);
+	<U> ResponseEntity<U> findById(String uuid, Function<Policies, U> mapper, Consumer<U> makeLinks);
 
 	ResponseEntity<Void> deleteByVersion(String policyId, String version);
 
@@ -39,8 +42,8 @@ public interface PolicyFrontController {
 
 	ResponseEntity<Void> putContent(String policyId, String version, InputStreamSource file);
 
-	<U> ResponseEntity<U> create(Object body, Class<U> clazz, Consumer<U> makeLinks);
+	<U> ResponseEntity<U> create(Policies body, Function<Policies, U> mapper, Consumer<U> makeLinks);
 
-	<U, V> ResponseEntity<V> modify(String policyId, V body, Class<U> clazz, Consumer<U> makeLinks);
+	<U> ResponseEntity<U> modify(String policyId, PolicyPatchDto body, Function<Policies, U> mapper, Consumer<U> makeLinks);
 
 }

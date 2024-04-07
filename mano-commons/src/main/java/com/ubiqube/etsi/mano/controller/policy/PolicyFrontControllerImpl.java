@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.springframework.core.io.InputStreamSource;
 import org.springframework.http.HttpStatus;
@@ -34,8 +35,6 @@ import com.ubiqube.etsi.mano.dao.mano.policy.Policies;
 import com.ubiqube.etsi.mano.dao.mano.policy.TransfertStatusType;
 import com.ubiqube.etsi.mano.exception.GenericException;
 
-import ma.glasnost.orika.MapperFacade;
-
 /**
  *
  * @author Olivier Vignaud {@literal <ovi@ubiqube.com>}
@@ -44,12 +43,9 @@ import ma.glasnost.orika.MapperFacade;
 @Service
 public class PolicyFrontControllerImpl implements PolicyFrontController {
 	private final PolicyController policyController;
-	private final MapperFacade mapper;
 
-	public PolicyFrontControllerImpl(final PolicyController policyController, final MapperFacade mapper) {
-		super();
+	public PolicyFrontControllerImpl(final PolicyController policyController) {
 		this.policyController = policyController;
-		this.mapper = mapper;
 	}
 
 	@Override
@@ -64,9 +60,9 @@ public class PolicyFrontControllerImpl implements PolicyFrontController {
 	}
 
 	@Override
-	public <U> ResponseEntity<U> findById(final String uuid, final Class<U> clazz, final Consumer<U> makeLinks) {
+	public <U> ResponseEntity<U> findById(final String uuid, final Function<Policies, U> mapper, final Consumer<U> makeLinks) {
 		final Policies p = policyController.findById(getSafeUUID(uuid));
-		final U e = mapper.map(p, clazz);
+		final U e = mapper.apply(p);
 		makeLinks.accept(e);
 		return ResponseEntity.ok().eTag("" + p.getVersion()).body(e);
 	}
@@ -100,23 +96,23 @@ public class PolicyFrontControllerImpl implements PolicyFrontController {
 	}
 
 	@Override
-	public <U> ResponseEntity<U> create(final Object body, final Class<U> clazz, final Consumer<U> makeLinks) {
-		Policies p = mapper.map(body, Policies.class);
+	public <U> ResponseEntity<U> create(final Policies body, final Function<Policies, U> mapper, final Consumer<U> makeLinks) {
+		Policies p = body;
 		p.setActivationStatus(ActivationStatusType.DEACTIVATED);
 		p.setTransferStatus(TransfertStatusType.CREATED);
 		p = policyController.create(p);
-		final U e = mapper.map(p, clazz);
+		final U e = mapper.apply(p);
 		makeLinks.accept(e);
 		return ResponseEntity.status(HttpStatus.CREATED).body(e);
 	}
 
 	@Override
-	public <U, V> ResponseEntity<V> modify(final String policyId, final V body, final Class<U> clazz, final Consumer<U> makeLinks) {
-		final PolicyPatchDto patch = mapper.map(body, PolicyPatchDto.class);
+	public <U> ResponseEntity<U> modify(final String policyId, final PolicyPatchDto body, final Function<Policies, U> mapper, final Consumer<U> makeLinks) {
+		final PolicyPatchDto patch = body;
 		final Policies p = policyController.modify(getSafeUUID(policyId), patch);
-		final U e = mapper.map(p, clazz);
+		final U e = mapper.apply(p);
 		makeLinks.accept(e);
-		return ResponseEntity.ok(body);
+		return ResponseEntity.ok(e);
 	}
 
 }

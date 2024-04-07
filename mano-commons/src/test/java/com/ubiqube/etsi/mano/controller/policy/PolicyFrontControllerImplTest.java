@@ -47,18 +47,18 @@ class PolicyFrontControllerImplTest {
 
 	@Test
 	void testCreate() {
-		final PolicyFrontControllerImpl srv = new PolicyFrontControllerImpl(policyController, mapper);
+		final PolicyFrontControllerImpl srv = new PolicyFrontControllerImpl(policyController);
 		final Policies val = new Policies();
 		when(mapper.map(any(), eq(Policies.class))).thenReturn(val);
 		final Consumer<Object> mkLink = x -> {
 		};
-		srv.create(srv, null, mkLink);
+		srv.create(val, null, mkLink);
 		assertTrue(true);
 	}
 
 	@Test
 	void testDeleteById() {
-		final PolicyFrontControllerImpl srv = new PolicyFrontControllerImpl(policyController, mapper);
+		final PolicyFrontControllerImpl srv = new PolicyFrontControllerImpl(policyController);
 		final UUID id = UUID.randomUUID();
 		srv.deleteById(id);
 		assertTrue(true);
@@ -66,7 +66,7 @@ class PolicyFrontControllerImplTest {
 
 	@Test
 	void testDeleteByVersion() {
-		final PolicyFrontControllerImpl srv = new PolicyFrontControllerImpl(policyController, mapper);
+		final PolicyFrontControllerImpl srv = new PolicyFrontControllerImpl(policyController);
 		final UUID id = UUID.randomUUID();
 		srv.deleteByVersion(id.toString(), null);
 		assertTrue(true);
@@ -74,7 +74,7 @@ class PolicyFrontControllerImplTest {
 
 	@Test
 	void testFindById() {
-		final PolicyFrontControllerImpl srv = new PolicyFrontControllerImpl(policyController, mapper);
+		final PolicyFrontControllerImpl srv = new PolicyFrontControllerImpl(policyController);
 		final UUID id = UUID.randomUUID();
 		final Consumer<Object> mkLink = x -> {
 		};
@@ -86,7 +86,7 @@ class PolicyFrontControllerImplTest {
 
 	@Test
 	void testGetContentByPolicyIdAndVersion() {
-		final PolicyFrontControllerImpl srv = new PolicyFrontControllerImpl(policyController, mapper);
+		final PolicyFrontControllerImpl srv = new PolicyFrontControllerImpl(policyController);
 		final UUID id = UUID.randomUUID();
 		srv.getContentByPolicyIdAndVersion(id.toString(), null);
 		assertTrue(true);
@@ -94,14 +94,14 @@ class PolicyFrontControllerImplTest {
 
 	@Test
 	void testsearch() {
-		final PolicyFrontControllerImpl srv = new PolicyFrontControllerImpl(policyController, mapper);
+		final PolicyFrontControllerImpl srv = new PolicyFrontControllerImpl(policyController);
 		srv.search(null, null, null, null);
 		assertTrue(true);
 	}
 
 	@Test
 	void testGetContentBySelectedVersion() {
-		final PolicyFrontControllerImpl srv = new PolicyFrontControllerImpl(policyController, mapper);
+		final PolicyFrontControllerImpl srv = new PolicyFrontControllerImpl(policyController);
 		final UUID id = UUID.randomUUID();
 		srv.getContentBySelectedVersion(id.toString());
 		assertTrue(true);
@@ -109,7 +109,7 @@ class PolicyFrontControllerImplTest {
 
 	@Test
 	void testPutContent() {
-		final PolicyFrontControllerImpl srv = new PolicyFrontControllerImpl(policyController, mapper);
+		final PolicyFrontControllerImpl srv = new PolicyFrontControllerImpl(policyController);
 		final UUID id = UUID.randomUUID();
 		final InputStreamSource is = Mockito.mock(InputStreamSource.class);
 		srv.putContent(id.toString(), null, is);
@@ -118,7 +118,7 @@ class PolicyFrontControllerImplTest {
 
 	@Test
 	void testPutContent2() throws IOException {
-		final PolicyFrontControllerImpl srv = new PolicyFrontControllerImpl(policyController, mapper);
+		final PolicyFrontControllerImpl srv = new PolicyFrontControllerImpl(policyController);
 		final UUID id = UUID.randomUUID();
 		final InputStreamSource is = Mockito.mock(InputStreamSource.class);
 		when(is.getInputStream()).thenThrow(IOException.class);
@@ -128,7 +128,7 @@ class PolicyFrontControllerImplTest {
 
 	@Test
 	void testModify() {
-		final PolicyFrontControllerImpl srv = new PolicyFrontControllerImpl(policyController, mapper);
+		final PolicyFrontControllerImpl srv = new PolicyFrontControllerImpl(policyController);
 		final UUID id = UUID.randomUUID();
 		final Consumer<Object> mkLink = x -> {
 		};
