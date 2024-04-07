@@ -51,7 +51,6 @@ import com.ubiqube.etsi.mano.utils.SpringUtils;
 
 import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpServletRequest;
-import ma.glasnost.orika.MapperFacade;
 
 /**
  *
@@ -64,12 +63,9 @@ public class VnfPackageFrontControllerImpl implements VnfPackageFrontController 
 
 	private final VnfPackageController vnfPackageController;
 
-	private final MapperFacade mapper;
-
-	public VnfPackageFrontControllerImpl(final VnfPackageManagement vnfManagement, final VnfPackageController vnfPackageController, final MapperFacade mapper) {
+	public VnfPackageFrontControllerImpl(final VnfPackageManagement vnfManagement, final VnfPackageController vnfPackageController) {
 		this.vnfManagement = vnfManagement;
 		this.vnfPackageController = vnfPackageController;
-		this.mapper = mapper;
 	}
 
 	@Override
@@ -79,14 +75,14 @@ public class VnfPackageFrontControllerImpl implements VnfPackageFrontController 
 	}
 
 	@Override
-	public <U> ResponseEntity<U> findById(final UUID vnfPkgId, final Class<U> clazz, final Consumer<U> makeLinks) {
+	public <U> ResponseEntity<U> findById(final UUID vnfPkgId, final Function<VnfPackage, U> mapper, final Consumer<U> makeLinks) {
 		final VnfPackage vnfPackage = vnfManagement.vnfPackagesVnfPkgIdGet(vnfPkgId);
 		final FailureDetails error = vnfPackage.getOnboardingFailureDetails();
 		final Long res = Optional.ofNullable(error).map(x -> x.getStatus()).orElse(0L);
 		if (res == 0L) {
 			vnfPackage.setOnboardingFailureDetails(null);
 		}
-		final U vnfPkgInfo = mapper.map(vnfPackage, clazz);
+		final U vnfPkgInfo = mapper.apply(vnfPackage);
 		makeLinks.accept(vnfPkgInfo);
 		return ResponseEntity.ok().eTag("" + vnfPackage.getVersion()).body(vnfPkgInfo);
 	}
@@ -140,9 +136,9 @@ public class VnfPackageFrontControllerImpl implements VnfPackageFrontController 
 	}
 
 	@Override
-	public <U> ResponseEntity<U> create(final Map<String, String> userDefinedData, final Class<U> clazz, final Consumer<U> makeLinks, final Function<U, String> getSelfLink) {
+	public <U> ResponseEntity<U> create(final Map<String, String> userDefinedData, final Function<VnfPackage, U> mapper, final Consumer<U> makeLinks, final Function<U, String> getSelfLink) {
 		final VnfPackage vnfPackage = vnfPackageController.vnfPackagesPost(userDefinedData);
-		final U vnfPkgInfo = mapper.map(vnfPackage, clazz);
+		final U vnfPkgInfo = mapper.apply(vnfPackage);
 		makeLinks.accept(vnfPkgInfo);
 		final String link = getSelfLink.apply(vnfPkgInfo);
 		return ResponseEntity.created(URI.create(link)).body(vnfPkgInfo);
@@ -172,19 +168,18 @@ public class VnfPackageFrontControllerImpl implements VnfPackageFrontController 
 	}
 
 	@Override
-	public <U> ResponseEntity<Void> uploadFromUri(final U body, final UUID id, final String contentType) {
-		final UploadUriParameters params = mapper.map(body, UploadUriParameters.class);
-		if ((null == params.getAuthType()) && (params.getUsername() != null)) {
-			params.setAuthType(AuthType.BASIC);
+	public ResponseEntity<Void> uploadFromUri(final @Nullable UploadUriParameters body, final UUID id, final String contentType) {
+		if ((null == body.getAuthType()) && (body.getUsername() != null)) {
+			body.setAuthType(AuthType.BASIC);
 		}
-		vnfPackageController.vnfPackagesVnfPkgIdPackageContentUploadFromUriPost(id, contentType, params);
+		vnfPackageController.vnfPackagesVnfPkgIdPackageContentUploadFromUriPost(id, contentType, body);
 		return ResponseEntity.accepted().build();
 	}
 
 	@Override
-	public <U> ResponseEntity<U> modify(final String body, final UUID vnfPkgId, final String ifMatch, final Class<U> clazz, final Consumer<U> makeLinks) {
+	public <U> ResponseEntity<U> modify(final String body, final UUID vnfPkgId, final @Nullable String ifMatch, final Function<VnfPackage, U> mapper, final Consumer<U> makeLinks) {
 		final VnfPackage vnfPackage = vnfPackageController.vnfPackagesVnfPkgIdPatch(vnfPkgId, body, ifMatch);
-		final U vnfPkgInfo = mapper.map(vnfPackage, clazz);
+		final U vnfPkgInfo = mapper.apply(vnfPackage);
 		makeLinks.accept(vnfPkgInfo);
 		return new ResponseEntity<>(vnfPkgInfo, HttpStatus.OK);
 	}

@@ -176,7 +176,8 @@ public class GrantActionSupport implements GrantSupport {
 		return new QuotaNeeded(disk, vcpu, ram);
 	}
 
-	private static VnfCompute findCompute(final VnfPackage vnfPackage, final String vduId) {
+	private static VnfCompute findCompute(final VnfPackage vnfPackage, final Set<String> vduIdIn) {
+		final String vduId = vduIdIn.iterator().next();
 		return vnfPackage.getVnfCompute().stream()
 				.filter(x -> x.getToscaName().equals(vduId))
 				.findFirst()
