@@ -61,7 +61,6 @@ import com.ubiqube.etsi.mano.service.search.ManoSearch;
 import com.ubiqube.etsi.mano.utils.Version;
 
 import jakarta.annotation.Nullable;
-import ma.glasnost.orika.MapperFacade;
 
 @Service
 public class SubscriptionServiceImpl implements SubscriptionService {
@@ -77,18 +76,15 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
 	private final EvalService evalService;
 
-	private final MapperFacade mapper;
-
 	private final ManoSearch manoSearch;
 
 	public SubscriptionServiceImpl(final SubscriptionJpa repository, final GrammarParser grammarParser, final Notifications notifications,
-			final @Lazy ServerService serverService, final EvalService evalService, final MapperFacade mapper, final ManoSearch manoSearch) {
+			final @Lazy ServerService serverService, final EvalService evalService, final ManoSearch manoSearch) {
 		this.subscriptionJpa = repository;
 		this.grammarParser = grammarParser;
 		this.notifications = notifications;
 		this.serverService = serverService;
 		this.evalService = evalService;
-		this.mapper = mapper;
 		this.manoSearch = manoSearch;
 	}
 
@@ -109,8 +105,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 	}
 
 	@Override
-	public Subscription save(final Object subscriptionRequest, final Class<?> version, final ApiVersionType type) {
-		final Subscription subscription = mapper.map(subscriptionRequest, Subscription.class);
+	public Subscription save(final Subscription subscriptionRequest, final Class<?> version, final ApiVersionType type) {
+		final Subscription subscription = subscriptionRequest;
 		final ApiAndType nt = ServerService.apiVersionTosubscriptionType(type);
 		subscription.setSubscriptionType(nt.type());
 		subscription.setApi(nt.api());

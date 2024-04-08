@@ -32,7 +32,7 @@ public interface SubscriptionService {
 
 	List<Subscription> query(String filter, ApiVersionType type);
 
-	Subscription save(Object subscriptionPostQuery, final Class<?> version, ApiVersionType type);
+	Subscription save(Subscription subscriptionPostQuery, Class<?> version, ApiVersionType type);
 
 	void delete(UUID subscriptionId, ApiVersionType type);
 

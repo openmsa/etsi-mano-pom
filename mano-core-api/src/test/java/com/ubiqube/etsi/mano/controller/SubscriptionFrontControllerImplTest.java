@@ -69,8 +69,8 @@ class SubscriptionFrontControllerImplTest {
 		final SubscriptionFrontControllerImpl srv = createService();
 		final Consumer<Object> cons = x -> {
 		};
-		final Function<Object, String> func = x -> "http://localhost/";
-		srv.create(srv, null, getClass(), cons, func, null);
+		final Function<String, String> func = x -> "http://localhost/";
+		srv.create(srv, x -> "", getClass(), cons, func, null);
 		assertTrue(true);
 	}
 
