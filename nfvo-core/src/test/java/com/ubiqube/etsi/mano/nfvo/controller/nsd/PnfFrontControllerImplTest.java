@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
 
@@ -44,7 +45,7 @@ class PnfFrontControllerImplTest {
 		when(mapper.map(any(), any())).thenReturn(srv);
 		final Consumer<Object> cons = x -> {
 		};
-		srv.create(null, null, cons);
+		srv.create(Map.of(), x -> "", cons);
 		assertTrue(true);
 	}
 
@@ -60,7 +61,7 @@ class PnfFrontControllerImplTest {
 		final PnfFrontControllerImpl srv = new PnfFrontControllerImpl(pnfController);
 		final Consumer<Object> cons = x -> {
 		};
-		srv.findById(UUID.randomUUID().toString(), null, cons);
+		srv.findById(UUID.randomUUID().toString(), x -> "", cons);
 		assertTrue(true);
 	}
 

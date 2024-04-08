@@ -42,14 +42,14 @@ class NsAlarmFrontControllerImplTest {
 		final NsAlarmFrontControllerImpl srv = new NsAlarmFrontControllerImpl(mapper, alarmNfvoController);
 		final Consumer<String> makeLinks = x -> {
 		};
-		srv.findById(UUID.randomUUID(), null, makeLinks);
+		srv.findById(UUID.randomUUID(), x -> "", makeLinks);
 		assertTrue(true);
 	}
 
 	@Test
 	void testPatch() {
 		final NsAlarmFrontControllerImpl srv = new NsAlarmFrontControllerImpl(mapper, alarmNfvoController);
-		srv.patch(UUID.randomUUID().toString(), null, null, null);
+		srv.patch(UUID.randomUUID().toString(), null, null, x -> "");
 		assertTrue(true);
 	}
 

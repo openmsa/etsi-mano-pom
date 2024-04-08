@@ -64,7 +64,7 @@ class NsLcmGenericFrontControllerImplTest {
 		final NsLcmGenericFrontControllerImpl srv = new NsLcmGenericFrontControllerImpl(nsLcmOpOccsService);
 		final Consumer<Object> cons = x -> {
 		};
-		srv.findById(UUID.randomUUID().toString(), null, cons);
+		srv.findById(UUID.randomUUID().toString(), x -> "", cons);
 		assertTrue(true);
 	}
 
