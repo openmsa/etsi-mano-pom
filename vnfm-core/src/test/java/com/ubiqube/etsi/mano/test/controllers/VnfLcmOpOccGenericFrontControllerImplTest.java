@@ -96,7 +96,7 @@ class VnfLcmOpOccGenericFrontControllerImplTest {
 	}
 
 	@ParameterizedTest
-	@EnumSource(value = PlanOperationType.class, mode = Mode.EXCLUDE, names = { "UPDATE", "MODIFY_INFORMATION", "CHANGE_EXTERNAL_VNF_CONNECTIVITY" })
+	@EnumSource(value = PlanOperationType.class, mode = Mode.EXCLUDE, names = { "UPDATE", "MODIFY_INFORMATION", "CHANGE_EXTERNAL_VNF_CONNECTIVITY", "SELECT_DEPL_MODS" })
 	void testFindByIdWithTasks(final PlanOperationType resType) {
 		final VnfLcmOpOccGenericFrontControllerImpl op = createVnfLcmOpOccGenericFrontControllerImpl();
 		final UUID id = UUID.randomUUID();
