@@ -26,6 +26,7 @@ import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.controller.SubscriptionFrontController;
 import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
+import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.vnfm.fc.vnffm.FaultMngtSubscriptionsFrontController;
 
 /**
@@ -47,7 +48,7 @@ public class FaultMngtSubscriptionsFrontControllerImpl implements FaultMngtSubsc
 	}
 
 	@Override
-	public <U> ResponseEntity<U> create(final Object fmSubscriptionRequest, final Class<U> clazz, final Class<?> versionController, final Consumer<U> makeLink, final Function<U, String> getSelfLink) {
+	public <U> ResponseEntity<U> create(final Subscription fmSubscriptionRequest, final Function<Subscription, U> clazz, final Class<?> versionController, final Consumer<U> makeLink, final Function<U, String> getSelfLink) {
 		return subscriptionService.create(fmSubscriptionRequest, clazz, versionController, makeLink, getSelfLink, ApiVersionType.SOL003_VNFFM);
 	}
 

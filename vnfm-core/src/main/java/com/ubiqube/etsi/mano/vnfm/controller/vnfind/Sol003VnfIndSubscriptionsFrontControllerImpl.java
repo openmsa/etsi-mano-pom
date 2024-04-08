@@ -26,6 +26,7 @@ import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.controller.SubscriptionFrontController;
 import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
+import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.vnfm.fc.vnfind.VnfIndSubscriptionsFrontController;
 
 /**
@@ -47,8 +48,8 @@ public class Sol003VnfIndSubscriptionsFrontControllerImpl implements VnfIndSubsc
 	}
 
 	@Override
-	public <U> ResponseEntity<U> create(final Object vnfIndicatorSubscriptionRequest, final Class<U> clazz, final Class<?> versionController, final Consumer<U> makeLink, final Function<U, String> getSelfLink) {
-		return subscriptionService.create(vnfIndicatorSubscriptionRequest, clazz, versionController, makeLink, getSelfLink, ApiVersionType.SOL003_VNFIND);
+	public <U> ResponseEntity<U> create(final Subscription vnfIndicatorSubscriptionRequest, final Function<Subscription, U> func, final Class<?> versionController, final Consumer<U> makeLink, final Function<U, String> getSelfLink) {
+		return subscriptionService.create(vnfIndicatorSubscriptionRequest, func, versionController, makeLink, getSelfLink, ApiVersionType.SOL003_VNFIND);
 	}
 
 	@Override

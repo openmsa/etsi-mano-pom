@@ -50,9 +50,13 @@ class VnfInstanceGenericFrontControllerImplTest {
 	@Mock
 	private VnfInstanceServiceVnfm VnfInstanceVnfm;
 
+	VnfInstanceGenericFrontControllerImpl createService() {
+		return new VnfInstanceGenericFrontControllerImpl(vnfInstanceLcm, vnfInstanceService, VnfInstanceVnfm);
+	}
+
 	@Test
 	void test() {
-		final VnfInstanceGenericFrontControllerImpl srv = new VnfInstanceGenericFrontControllerImpl(vnfInstanceLcm, vnfInstanceService, mapper, VnfInstanceVnfm);
+		final VnfInstanceGenericFrontControllerImpl srv = createService();
 		final Function<VnfBlueprint, String> func = x -> "";
 		final VnfInstance inst = TestFactory.createVnfInstance();
 		inst.setInstantiationState(InstantiationState.INSTANTIATED);
@@ -63,7 +67,7 @@ class VnfInstanceGenericFrontControllerImplTest {
 
 	@Test
 	void testChangeFalvor() {
-		final VnfInstanceGenericFrontControllerImpl srv = new VnfInstanceGenericFrontControllerImpl(vnfInstanceLcm, vnfInstanceService, mapper, VnfInstanceVnfm);
+		final VnfInstanceGenericFrontControllerImpl srv = createService();
 		final Function<VnfBlueprint, String> func = x -> "";
 		final VnfInstance inst = TestFactory.createVnfInstance();
 		inst.setInstantiationState(InstantiationState.INSTANTIATED);
@@ -73,7 +77,7 @@ class VnfInstanceGenericFrontControllerImplTest {
 
 	@Test
 	void testChangeVnfPkg() {
-		final VnfInstanceGenericFrontControllerImpl srv = new VnfInstanceGenericFrontControllerImpl(vnfInstanceLcm, vnfInstanceService, mapper, VnfInstanceVnfm);
+		final VnfInstanceGenericFrontControllerImpl srv = createService();
 		final Function<VnfBlueprint, String> func = x -> "";
 		final VnfInstance inst = TestFactory.createVnfInstance();
 		inst.setInstantiationState(InstantiationState.INSTANTIATED);
@@ -83,7 +87,7 @@ class VnfInstanceGenericFrontControllerImplTest {
 
 	@Test
 	void testCreateSnaphot() {
-		final VnfInstanceGenericFrontControllerImpl srv = new VnfInstanceGenericFrontControllerImpl(vnfInstanceLcm, vnfInstanceService, mapper, VnfInstanceVnfm);
+		final VnfInstanceGenericFrontControllerImpl srv = createService();
 		final Function<VnfBlueprint, String> func = x -> "";
 		final VnfInstance inst = TestFactory.createVnfInstance();
 		inst.setInstantiationState(InstantiationState.INSTANTIATED);
@@ -93,7 +97,7 @@ class VnfInstanceGenericFrontControllerImplTest {
 
 	@Test
 	void testSnaphot() {
-		final VnfInstanceGenericFrontControllerImpl srv = new VnfInstanceGenericFrontControllerImpl(vnfInstanceLcm, vnfInstanceService, mapper, VnfInstanceVnfm);
+		final VnfInstanceGenericFrontControllerImpl srv = createService();
 		final Function<VnfBlueprint, String> func = x -> "";
 		final VnfInstance inst = TestFactory.createVnfInstance();
 		inst.setInstantiationState(InstantiationState.INSTANTIATED);
@@ -103,7 +107,7 @@ class VnfInstanceGenericFrontControllerImplTest {
 
 	@Test
 	void testInstantiate() {
-		final VnfInstanceGenericFrontControllerImpl srv = new VnfInstanceGenericFrontControllerImpl(vnfInstanceLcm, vnfInstanceService, mapper, VnfInstanceVnfm);
+		final VnfInstanceGenericFrontControllerImpl srv = createService();
 		final Function<VnfBlueprint, String> func = x -> "";
 		final VnfInstance inst = TestFactory.createVnfInstance();
 		inst.setInstantiationState(InstantiationState.INSTANTIATED);
@@ -113,7 +117,7 @@ class VnfInstanceGenericFrontControllerImplTest {
 
 	@Test
 	void testHeal() {
-		final VnfInstanceGenericFrontControllerImpl srv = new VnfInstanceGenericFrontControllerImpl(vnfInstanceLcm, vnfInstanceService, mapper, VnfInstanceVnfm);
+		final VnfInstanceGenericFrontControllerImpl srv = createService();
 		final Function<VnfBlueprint, String> func = x -> "";
 		final VnfInstance inst = TestFactory.createVnfInstance();
 		inst.setInstantiationState(InstantiationState.INSTANTIATED);
@@ -124,7 +128,7 @@ class VnfInstanceGenericFrontControllerImplTest {
 
 	@Test
 	void testOperate() {
-		final VnfInstanceGenericFrontControllerImpl srv = new VnfInstanceGenericFrontControllerImpl(vnfInstanceLcm, vnfInstanceService, mapper, VnfInstanceVnfm);
+		final VnfInstanceGenericFrontControllerImpl srv = createService();
 		final Function<VnfBlueprint, String> func = x -> "";
 		final VnfInstance inst = TestFactory.createVnfInstance();
 		inst.setInstantiationState(InstantiationState.INSTANTIATED);
@@ -134,7 +138,7 @@ class VnfInstanceGenericFrontControllerImplTest {
 
 	@Test
 	void testModify() {
-		final VnfInstanceGenericFrontControllerImpl srv = new VnfInstanceGenericFrontControllerImpl(vnfInstanceLcm, vnfInstanceService, mapper, VnfInstanceVnfm);
+		final VnfInstanceGenericFrontControllerImpl srv = createService();
 		final Function<VnfBlueprint, String> func = x -> "";
 		final VnfInstance inst = TestFactory.createVnfInstance();
 		inst.setInstantiationState(InstantiationState.INSTANTIATED);
@@ -145,7 +149,7 @@ class VnfInstanceGenericFrontControllerImplTest {
 
 	@Test
 	void testScale() {
-		final VnfInstanceGenericFrontControllerImpl srv = new VnfInstanceGenericFrontControllerImpl(vnfInstanceLcm, vnfInstanceService, mapper, VnfInstanceVnfm);
+		final VnfInstanceGenericFrontControllerImpl srv = createService();
 		final Function<VnfBlueprint, String> func = x -> "";
 		final VnfInstance inst = TestFactory.createVnfInstance();
 		inst.setInstantiationState(InstantiationState.INSTANTIATED);
@@ -155,7 +159,7 @@ class VnfInstanceGenericFrontControllerImplTest {
 
 	@Test
 	void testScaleToLevevl() {
-		final VnfInstanceGenericFrontControllerImpl srv = new VnfInstanceGenericFrontControllerImpl(vnfInstanceLcm, vnfInstanceService, mapper, VnfInstanceVnfm);
+		final VnfInstanceGenericFrontControllerImpl srv = createService();
 		final Function<VnfBlueprint, String> func = x -> "";
 		final VnfInstance inst = TestFactory.createVnfInstance();
 		inst.setInstantiationState(InstantiationState.INSTANTIATED);
@@ -165,7 +169,7 @@ class VnfInstanceGenericFrontControllerImplTest {
 
 	@Test
 	void testTerminate() {
-		final VnfInstanceGenericFrontControllerImpl srv = new VnfInstanceGenericFrontControllerImpl(vnfInstanceLcm, vnfInstanceService, mapper, VnfInstanceVnfm);
+		final VnfInstanceGenericFrontControllerImpl srv = createService();
 		final Function<VnfBlueprint, String> func = x -> "";
 		final VnfInstance inst = TestFactory.createVnfInstance();
 		inst.setInstantiationState(InstantiationState.INSTANTIATED);
@@ -175,32 +179,32 @@ class VnfInstanceGenericFrontControllerImplTest {
 
 	@Test
 	void testFindById() {
-		final VnfInstanceGenericFrontControllerImpl srv = new VnfInstanceGenericFrontControllerImpl(vnfInstanceLcm, vnfInstanceService, mapper, VnfInstanceVnfm);
+		final VnfInstanceGenericFrontControllerImpl srv = createService();
 		final Consumer<String> lnk = x -> {
 		};
-		srv.findById(null, null, lnk, null);
+		srv.findById(null, x -> "", lnk, null);
 		assertTrue(true);
 	}
 
 	@Test
 	void testDeleteById() {
-		final VnfInstanceGenericFrontControllerImpl srv = new VnfInstanceGenericFrontControllerImpl(vnfInstanceLcm, vnfInstanceService, mapper, VnfInstanceVnfm);
+		final VnfInstanceGenericFrontControllerImpl srv = createService();
 		srv.deleteById(null);
 		assertTrue(true);
 	}
 
 	@Test
 	void testCreate() {
-		final VnfInstanceGenericFrontControllerImpl srv = new VnfInstanceGenericFrontControllerImpl(vnfInstanceLcm, vnfInstanceService, mapper, VnfInstanceVnfm);
+		final VnfInstanceGenericFrontControllerImpl srv = createService();
 		final Consumer<String> lnk = x -> {
 		};
-		srv.create(null, null, null, null, lnk, "http://localhost/");
+		srv.create(null, null, null, x -> "", lnk, "http://localhost/");
 		assertTrue(true);
 	}
 
 	@Test
 	void testSearch() {
-		final VnfInstanceGenericFrontControllerImpl srv = new VnfInstanceGenericFrontControllerImpl(vnfInstanceLcm, vnfInstanceService, mapper, VnfInstanceVnfm);
+		final VnfInstanceGenericFrontControllerImpl srv = createService();
 		srv.search(null, null, null, null);
 		assertTrue(true);
 	}

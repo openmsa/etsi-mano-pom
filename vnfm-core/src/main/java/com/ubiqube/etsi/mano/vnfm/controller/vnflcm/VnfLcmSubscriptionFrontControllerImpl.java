@@ -26,6 +26,7 @@ import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.controller.SubscriptionFrontController;
 import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
+import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.vnfm.fc.vnflcm.VnfLcmSubscriptionFrontController;
 
 import jakarta.annotation.Nullable;
@@ -54,8 +55,8 @@ public class VnfLcmSubscriptionFrontControllerImpl implements VnfLcmSubscription
 	}
 
 	@Override
-	public <U> ResponseEntity<U> create(final Object body, final Class<U> clazz, final Class<?> versionController, final Consumer<U> makeLinks, final Function<U, String> setLink) {
-		return subscriptionService.create(body, clazz, versionController, makeLinks, setLink, ApiVersionType.SOL003_VNFLCM);
+	public <U> ResponseEntity<U> create(final Subscription body, final Function<Subscription, U> func, final Class<?> versionController, final Consumer<U> makeLinks, final Function<U, String> setLink) {
+		return subscriptionService.create(body, func, versionController, makeLinks, setLink, ApiVersionType.SOL003_VNFLCM);
 	}
 
 	@Override

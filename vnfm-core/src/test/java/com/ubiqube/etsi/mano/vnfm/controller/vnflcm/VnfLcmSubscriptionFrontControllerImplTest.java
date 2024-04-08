@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import com.ubiqube.etsi.mano.controller.SubscriptionFrontController;
+import com.ubiqube.etsi.mano.service.event.model.Subscription;
 
 class VnfLcmSubscriptionFrontControllerImplTest {
 	private final VnfLcmSubscriptionFrontControllerImpl srv;
@@ -46,7 +47,8 @@ class VnfLcmSubscriptionFrontControllerImplTest {
 
 	@Test
 	void testCreate() {
-		srv.create(srv, null, getClass(), null, null);
+		final Subscription req = new Subscription();
+		srv.create(req, x -> "", getClass(), null, null);
 		assertTrue(true);
 	}
 

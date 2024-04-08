@@ -38,8 +38,12 @@ import com.ubiqube.etsi.mano.dao.mano.CancelModeTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.InstantiationState;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
+import com.ubiqube.etsi.mano.dao.mano.vnfi.ChangeExtVnfConnRequest;
 import com.ubiqube.etsi.mano.exception.GenericException;
-import com.ubiqube.etsi.mano.test.MapperService;
+import com.ubiqube.etsi.mano.model.VnfInstantiate;
+import com.ubiqube.etsi.mano.model.VnfOperateRequest;
+import com.ubiqube.etsi.mano.model.VnfScaleRequest;
+import com.ubiqube.etsi.mano.model.VnfScaleToLevelRequest;
 import com.ubiqube.etsi.mano.vnfm.controller.vnflcm.VnfInstanceGenericFrontControllerImpl;
 import com.ubiqube.etsi.mano.vnfm.controller.vnflcm.VnfInstanceLcmImpl;
 import com.ubiqube.etsi.mano.vnfm.fc.vnflcm.VnfInstanceGenericFrontController;
@@ -47,7 +51,6 @@ import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceService;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceServiceVnfm;
 
 import jakarta.annotation.Nonnull;
-import ma.glasnost.orika.MapperFacade;
 
 @ExtendWith(MockitoExtension.class)
 class VnfInstanceGenericFrontControllerTest {
@@ -55,21 +58,16 @@ class VnfInstanceGenericFrontControllerTest {
 	private VnfInstanceLcmImpl vnfInstanceLcm;
 	@Mock
 	private VnfInstanceService vnfInstancesService;
-	private final MapperFacade mapper;
 	@Mock
 	private VnfInstanceServiceVnfm vnfInstanceServiceVnfm;
 	@Nonnull
-	private final Function<VnfBlueprint, String> getSelfLink = (x) -> "http://test-link";
+	private final Function<VnfBlueprint, String> getSelfLink = x -> "http://test-link";
 	@Nonnull
-	private final Function<VnfInstance, String> getInstanceSelfLink = (x) -> "http://test-link";
+	private final Function<VnfInstance, String> getInstanceSelfLink = x -> "http://test-link";
 	@Nonnull
 	private final Consumer<Object> makeLink = x -> {
 		//
 	};
-
-	public VnfInstanceGenericFrontControllerTest() {
-		mapper = MapperService.getInstance().getMapper();
-	}
 
 	@Test
 	void testTerminate() {
@@ -86,7 +84,7 @@ class VnfInstanceGenericFrontControllerTest {
 	void testScaleToLevel() {
 		final VnfInstanceGenericFrontController fc = createFc();
 		final UUID vnfInstanceId = UUID.randomUUID();
-		final ResponseEntity<Void> res = fc.scaleToLevel(vnfInstanceId, new Object(), getSelfLink);
+		final ResponseEntity<Void> res = fc.scaleToLevel(vnfInstanceId, new VnfScaleToLevelRequest(), getSelfLink);
 		assertEquals(HttpStatusCode.valueOf(202), res.getStatusCode());
 		assertEquals(URI.create("http://test-link"), res.getHeaders().getLocation());
 	}
@@ -95,7 +93,7 @@ class VnfInstanceGenericFrontControllerTest {
 	void testScale() {
 		final VnfInstanceGenericFrontController fc = createFc();
 		final UUID vnfInstanceId = UUID.randomUUID();
-		final ResponseEntity<Void> res = fc.scale(vnfInstanceId, new Object(), getSelfLink);
+		final ResponseEntity<Void> res = fc.scale(vnfInstanceId, new VnfScaleRequest(), getSelfLink);
 		assertEquals(HttpStatusCode.valueOf(202), res.getStatusCode());
 		assertEquals(URI.create("http://test-link"), res.getHeaders().getLocation());
 	}
@@ -125,7 +123,7 @@ class VnfInstanceGenericFrontControllerTest {
 	void testOperate() {
 		final VnfInstanceGenericFrontController fc = createFc();
 		final UUID vnfInstanceId = UUID.randomUUID();
-		final ResponseEntity<Void> res = fc.operate(vnfInstanceId, new Object(), getSelfLink);
+		final ResponseEntity<Void> res = fc.operate(vnfInstanceId, new VnfOperateRequest(), getSelfLink);
 		assertEquals(HttpStatusCode.valueOf(202), res.getStatusCode());
 		assertEquals(URI.create("http://test-link"), res.getHeaders().getLocation());
 	}
@@ -134,7 +132,7 @@ class VnfInstanceGenericFrontControllerTest {
 	void testInstantiate() {
 		final VnfInstanceGenericFrontController fc = createFc();
 		final UUID vnfInstanceId = UUID.randomUUID();
-		final ResponseEntity<Void> res = fc.instantiate(vnfInstanceId, new Object(), getSelfLink);
+		final ResponseEntity<Void> res = fc.instantiate(vnfInstanceId, new VnfInstantiate(), getSelfLink);
 		assertEquals(HttpStatusCode.valueOf(202), res.getStatusCode());
 		assertEquals(URI.create("http://test-link"), res.getHeaders().getLocation());
 	}
@@ -158,7 +156,7 @@ class VnfInstanceGenericFrontControllerTest {
 		final VnfInstance vnfInstance = TestFactory.createVnfInstance();
 		vnfInstance.setInstantiationState(InstantiationState.INSTANTIATED);
 		when(vnfInstanceServiceVnfm.findById(vnfInstanceId)).thenReturn(vnfInstance);
-		final ResponseEntity<Object> res = fc.findById(vnfInstanceId, Object.class, makeLink, "http://test-link");
+		final ResponseEntity<Object> res = fc.findById(vnfInstanceId, x -> "", makeLink, "http://test-link");
 		assertEquals(HttpStatusCode.valueOf(200), res.getStatusCode());
 	}
 
@@ -209,7 +207,7 @@ class VnfInstanceGenericFrontControllerTest {
 		final VnfInstance vnfInstance = TestFactory.createVnfInstance();
 		vnfInstance.setInstantiationState(InstantiationState.INSTANTIATED);
 		when(vnfInstanceServiceVnfm.findById(vnfInstanceId)).thenReturn(vnfInstance);
-		final ResponseEntity<Void> res = fc.changeExtConn(vnfInstanceId, new Object(), getSelfLink);
+		final ResponseEntity<Void> res = fc.changeExtConn(vnfInstanceId, new ChangeExtVnfConnRequest(), getSelfLink);
 		assertEquals(HttpStatusCode.valueOf(202), res.getStatusCode());
 		assertEquals(URI.create("http://test-link"), res.getHeaders().getLocation());
 	}
@@ -218,7 +216,7 @@ class VnfInstanceGenericFrontControllerTest {
 	void testCreate() {
 		final VnfInstanceGenericFrontController fc = createFc();
 		final UUID vnfInstanceId = UUID.randomUUID();
-		final ResponseEntity<Object> res = fc.create(vnfInstanceId.toString(), "name", "descr", Object.class, makeLink, getSelfLink.apply(null));
+		final ResponseEntity<Object> res = fc.create(vnfInstanceId.toString(), "name", "descr", x -> "", makeLink, getSelfLink.apply(null));
 		assertEquals(HttpStatusCode.valueOf(201), res.getStatusCode());
 		assertEquals(URI.create("http://test-link"), res.getHeaders().getLocation());
 	}
@@ -231,6 +229,6 @@ class VnfInstanceGenericFrontControllerTest {
 	}
 
 	private VnfInstanceGenericFrontController createFc() {
-		return new VnfInstanceGenericFrontControllerImpl(vnfInstanceLcm, vnfInstancesService, mapper, vnfInstanceServiceVnfm);
+		return new VnfInstanceGenericFrontControllerImpl(vnfInstanceLcm, vnfInstancesService, vnfInstanceServiceVnfm);
 	}
 }
