@@ -18,8 +18,6 @@ package com.ubiqube.etsi.mano.controller.policy;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
@@ -49,7 +47,6 @@ class PolicyFrontControllerImplTest {
 	void testCreate() {
 		final PolicyFrontControllerImpl srv = new PolicyFrontControllerImpl(policyController);
 		final Policies val = new Policies();
-		when(mapper.map(any(), eq(Policies.class))).thenReturn(val);
 		final Consumer<Object> mkLink = x -> {
 		};
 		srv.create(val, x -> "", mkLink);
