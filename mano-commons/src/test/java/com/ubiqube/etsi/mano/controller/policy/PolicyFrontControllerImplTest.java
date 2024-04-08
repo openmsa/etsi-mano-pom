@@ -52,7 +52,7 @@ class PolicyFrontControllerImplTest {
 		when(mapper.map(any(), eq(Policies.class))).thenReturn(val);
 		final Consumer<Object> mkLink = x -> {
 		};
-		srv.create(val, null, mkLink);
+		srv.create(val, x -> "", mkLink);
 		assertTrue(true);
 	}
 
@@ -80,7 +80,7 @@ class PolicyFrontControllerImplTest {
 		};
 		final Policies pol = new Policies();
 		when(policyController.findById(id)).thenReturn(pol);
-		srv.findById(id.toString(), null, mkLink);
+		srv.findById(id.toString(), x -> "", mkLink);
 		assertTrue(true);
 	}
 
@@ -132,7 +132,7 @@ class PolicyFrontControllerImplTest {
 		final UUID id = UUID.randomUUID();
 		final Consumer<Object> mkLink = x -> {
 		};
-		srv.modify(id.toString(), null, null, mkLink);
+		srv.modify(id.toString(), null, x -> "", mkLink);
 		assertTrue(true);
 	}
 

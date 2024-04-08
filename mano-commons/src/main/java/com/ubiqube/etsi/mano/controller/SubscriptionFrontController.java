@@ -24,6 +24,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
+import com.ubiqube.etsi.mano.service.event.model.Subscription;
 
 /**
  *
@@ -33,7 +34,7 @@ import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 public interface SubscriptionFrontController {
 	<U> ResponseEntity<List<U>> search(MultiValueMap<String, String> requestParams, Class<U> clazz, Consumer<U> makeLinks, ApiVersionType type);
 
-	<U> ResponseEntity<U> create(Object subscriptionRequest, Class<U> clazz, Class<?> versionController, Consumer<U> makeLinks, Function<U, String> getSelfLink, ApiVersionType type);
+	<U> ResponseEntity<U> create(Subscription subscriptionRequest, Function<Subscription, U> mapper, Class<?> versionController, Consumer<U> makeLinks, Function<U, String> getSelfLink, ApiVersionType type);
 
 	ResponseEntity<Void> deleteById(String subscriptionId, ApiVersionType type);
 
