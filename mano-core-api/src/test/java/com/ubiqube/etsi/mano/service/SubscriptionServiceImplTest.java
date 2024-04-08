@@ -89,7 +89,6 @@ class SubscriptionServiceImplTest {
 		final Subscription request = Subscription.builder()
 				.api(ApiTypesEnum.SOL003)
 				.build();
-		when(mapper.map(request, Subscription.class)).thenReturn(request);
 		subs.save(request, getClass(), ApiVersionType.SOL002_VNFFM);
 		assertTrue(true);
 	}
@@ -100,7 +99,6 @@ class SubscriptionServiceImplTest {
 		final Subscription request = Subscription.builder()
 				.api(ApiTypesEnum.SOL003)
 				.build();
-		when(mapper.map(request, Subscription.class)).thenReturn(request);
 		subs.save(request, TestRequestMapping.class, ApiVersionType.SOL002_VNFFM);
 		assertTrue(true);
 	}
@@ -126,7 +124,6 @@ class SubscriptionServiceImplTest {
 				.api(ApiTypesEnum.SOL003)
 				.authentication(auth)
 				.build();
-		when(mapper.map(request, Subscription.class)).thenReturn(request);
 		subs.save(request, TestRequestMapping.class, ApiVersionType.SOL002_VNFFM);
 		assertTrue(true);
 	}
@@ -147,7 +144,6 @@ class SubscriptionServiceImplTest {
 				.api(ApiTypesEnum.SOL005)
 				.authentication(auth)
 				.build();
-		when(mapper.map(request, Subscription.class)).thenReturn(request);
 		subs.save(request, TestRequestMapping.class, ApiVersionType.SOL002_VNFFM);
 		assertTrue(true);
 	}
@@ -167,7 +163,6 @@ class SubscriptionServiceImplTest {
 				.api(ApiTypesEnum.SOL005)
 				.authentication(auth)
 				.build();
-		when(mapper.map(request, Subscription.class)).thenReturn(request);
 		subs.save(request, TestRequestMapping.class, ApiVersionType.SOL002_VNFFM);
 		assertTrue(true);
 	}
@@ -182,7 +177,6 @@ class SubscriptionServiceImplTest {
 				.api(ApiTypesEnum.SOL005)
 				.authentication(auth)
 				.build();
-		when(mapper.map(request, Subscription.class)).thenReturn(request);
 		assertThrows(GenericException.class, () -> subs.save(request, TestRequestMapping.class, ApiVersionType.SOL002_VNFFM));
 	}
 
@@ -196,7 +190,6 @@ class SubscriptionServiceImplTest {
 				.api(ApiTypesEnum.SOL005)
 				.authentication(auth)
 				.build();
-		when(mapper.map(request, Subscription.class)).thenReturn(request);
 		assertThrows(NullPointerException.class, () -> subs.save(request, TestRequestMapping.class, ApiVersionType.SOL002_VNFFM));
 	}
 
@@ -206,7 +199,6 @@ class SubscriptionServiceImplTest {
 		final Subscription request = Subscription.builder()
 				.api(ApiTypesEnum.SOL003)
 				.build();
-		when(mapper.map(request, Subscription.class)).thenReturn(request);
 		subs.save(request, TestRequestMappingBadVersion.class, ApiVersionType.SOL002_VNFFM);
 		assertTrue(true);
 	}
@@ -220,10 +212,9 @@ class SubscriptionServiceImplTest {
 				.filters(List.of())
 				.build();
 		when(subscriptionJpa.findByApiAndCallbackUriAndSubscriptionType(any(), any(), any())).thenReturn(List.of(request));
-		when(mapper.map(request, Subscription.class)).thenReturn(request);
 		final HttpGateway httpGw = Mockito.mock(HttpGateway.class);
+		when(httpGw.getSubscriptionUriFor(any(), any())).thenReturn("http://localhost/");
 		final Optional<HttpGateway> optHttpgw = Optional.of(httpGw);
-		when(httpGw.getSubscriptionUriFor(any(), any())).thenReturn("http://test.com/");
 		when(serverService.getHttpGatewayFromManoVersion(any())).thenReturn(optHttpgw);
 		final Class clazz = getClass();
 		assertThrows(SeeOtherException.class, () -> subs.save(request, clazz, ApiVersionType.SOL002_VNFFM));
@@ -243,9 +234,8 @@ class SubscriptionServiceImplTest {
 				.filters(List.of(f2))
 				.build();
 		when(subscriptionJpa.findByApiAndCallbackUriAndSubscriptionType(any(), any(), any())).thenReturn(List.of(request));
-		when(mapper.map(request, Subscription.class)).thenReturn(r2);
 		final Class clazz = getClass();
-		subs.save(request, clazz, ApiVersionType.SOL003_VNFFM);
+		assertThrows(GenericException.class, () -> subs.save(request, clazz, ApiVersionType.SOL003_VNFFM));
 		assertTrue(true);
 	}
 
