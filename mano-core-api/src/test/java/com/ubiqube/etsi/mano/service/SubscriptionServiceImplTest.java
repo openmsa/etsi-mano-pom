@@ -85,7 +85,7 @@ class SubscriptionServiceImplTest {
 
 	@Test
 	void testSave() throws Exception {
-		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, mapper, manoSearch);
+		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, manoSearch);
 		final Subscription request = Subscription.builder()
 				.api(ApiTypesEnum.SOL003)
 				.build();
@@ -96,7 +96,7 @@ class SubscriptionServiceImplTest {
 
 	@Test
 	void testSave_Version() throws Exception {
-		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, mapper, manoSearch);
+		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, manoSearch);
 		final Subscription request = Subscription.builder()
 				.api(ApiTypesEnum.SOL003)
 				.build();
@@ -107,7 +107,7 @@ class SubscriptionServiceImplTest {
 
 	@Test
 	void testSave_Subscription() throws Exception {
-		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, mapper, manoSearch);
+		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, manoSearch);
 		final AuthParamBasic basic = AuthParamBasic.builder()
 				.userName("")
 				.build();
@@ -133,7 +133,7 @@ class SubscriptionServiceImplTest {
 
 	@Test
 	void testSave_Subscription_oauth2Password() throws Exception {
-		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, mapper, manoSearch);
+		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, manoSearch);
 		final AuthParamOauth2 oauth2 = AuthParamOauth2.builder()
 				.o2Username("")
 				.o2Password("")
@@ -154,7 +154,7 @@ class SubscriptionServiceImplTest {
 
 	@Test
 	void testSave_Subscription_oauth2GrantTypeNull() throws Exception {
-		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, mapper, manoSearch);
+		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, manoSearch);
 		final AuthParamOauth2 oauth2 = AuthParamOauth2.builder()
 				.o2Username("")
 				.o2Password("")
@@ -174,7 +174,7 @@ class SubscriptionServiceImplTest {
 
 	@Test
 	void testSave_Subscription_oauth2Null() throws Exception {
-		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, mapper, manoSearch);
+		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, manoSearch);
 		final AuthentificationInformations auth = AuthentificationInformations.builder()
 				.authType(List.of(AuthType.OAUTH2_CLIENT_CREDENTIALS))
 				.build();
@@ -188,7 +188,7 @@ class SubscriptionServiceImplTest {
 
 	@Test
 	void testSave_Subscription_BasicNull() throws Exception {
-		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, mapper, manoSearch);
+		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, manoSearch);
 		final AuthentificationInformations auth = AuthentificationInformations.builder()
 				.authType(List.of(AuthType.BASIC))
 				.build();
@@ -202,7 +202,7 @@ class SubscriptionServiceImplTest {
 
 	@Test
 	void testSave_BadVersion() throws Exception {
-		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, mapper, manoSearch);
+		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, manoSearch);
 		final Subscription request = Subscription.builder()
 				.api(ApiTypesEnum.SOL003)
 				.build();
@@ -213,7 +213,7 @@ class SubscriptionServiceImplTest {
 
 	@Test
 	void testSave_FailOnDuplicates() throws Exception {
-		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, mapper, manoSearch);
+		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, manoSearch);
 		final Subscription request = Subscription.builder()
 				.id(UUID.randomUUID())
 				.api(ApiTypesEnum.SOL003)
@@ -231,7 +231,7 @@ class SubscriptionServiceImplTest {
 
 	@Test
 	void testSave_WithDiffFilter() throws Exception {
-		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, mapper, manoSearch);
+		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, manoSearch);
 		final FilterAttributes f1 = new FilterAttributes("attr", "value");
 		final Subscription request = Subscription.builder()
 				.api(ApiTypesEnum.SOL003)
@@ -251,7 +251,7 @@ class SubscriptionServiceImplTest {
 
 	@Test
 	void testDelete() {
-		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, mapper, manoSearch);
+		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, manoSearch);
 		final Subscription sub = new Subscription();
 		when(subscriptionJpa.findById(any())).thenReturn(Optional.of(sub));
 		subs.delete(UUID.randomUUID(), ApiVersionType.SOL002_VNFFM);
@@ -260,7 +260,7 @@ class SubscriptionServiceImplTest {
 
 	@Test
 	void testFindById() {
-		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, mapper, manoSearch);
+		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, manoSearch);
 		final Subscription sub = new Subscription();
 		when(subscriptionJpa.findById(any())).thenReturn(Optional.of(sub));
 		subs.findById(UUID.randomUUID(), ApiVersionType.SOL002_VNFFM);
@@ -269,14 +269,14 @@ class SubscriptionServiceImplTest {
 
 	@Test
 	void testFindByIdFail() {
-		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, mapper, manoSearch);
+		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, manoSearch);
 		final UUID uuid = UUID.randomUUID();
 		assertThrows(NotFoundException.class, () -> subs.findById(uuid, ApiVersionType.SOL002_VNFFM));
 	}
 
 	@Test
 	void testSelectNotificaton() {
-		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, mapper, manoSearch);
+		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, manoSearch);
 		when(subscriptionJpa.findEventAndVnfPkg(any(), any())).thenReturn(List.of());
 		final EventMessage ev = new EventMessage();
 		ev.setObjectId(UUID.randomUUID());
@@ -286,7 +286,7 @@ class SubscriptionServiceImplTest {
 
 	@Test
 	void testQuery() {
-		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, mapper, manoSearch);
+		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, manoSearch);
 		when(grammar.parse(any())).thenReturn(new GrammarNodeResult(List.of()));
 		subs.query("", ApiVersionType.SOL002_VNFFM);
 		assertTrue(true);
@@ -297,7 +297,7 @@ class SubscriptionServiceImplTest {
 	 */
 	@SuppressWarnings("resource")
 	void testQueryOld() {
-		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, mapper, manoSearch);
+		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, manoSearch);
 		final Session session = Mockito.mock(Session.class);
 		when(em.unwrap(Session.class)).thenReturn(session);
 		final SessionFactory sessionFactory = Mockito.mock(SessionFactory.class);
@@ -318,7 +318,7 @@ class SubscriptionServiceImplTest {
 
 	@Test
 	void testSaveSubscription() {
-		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, mapper, manoSearch);
+		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, manoSearch);
 		final Subscription subscription = new Subscription();
 		subs.save(subscription);
 		assertTrue(true);
@@ -327,7 +327,7 @@ class SubscriptionServiceImplTest {
 	@ParameterizedTest
 	@EnumSource(NotificationEvent.class)
 	void testConvert(final NotificationEvent notificationEvent) {
-		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, mapper, manoSearch);
+		final SubscriptionServiceImpl subs = new SubscriptionServiceImpl(subscriptionJpa, grammar, notifications, serverService, evalService, manoSearch);
 		// return null if not found.
 		subs.convert(notificationEvent);
 		assertTrue(true);
