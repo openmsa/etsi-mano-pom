@@ -87,16 +87,16 @@ public class NsInstanceGenericFrontControllerImpl implements NsInstanceGenericFr
 	}
 
 	@Override
-	public <U> ResponseEntity<U> findById(final String nsInstanceId, final Class<U> clazz, final Consumer<U> makeLink) {
+	public <U> ResponseEntity<U> findById(final String nsInstanceId, final Function<NsInstanceDto, U> func, final Consumer<U> makeLink) {
 		final UUID nsInstanceUuid = UUID.fromString(nsInstanceId);
 		final NsInstanceDto nsInstanceDb = nsLcmController.nsInstancesNsInstanceIdGet(nsInstanceUuid);
-		final U nsInstance = mapper.map(nsInstanceDb, clazz);
+		final U nsInstance = func.apply(nsInstanceDb);
 		makeLink.accept(nsInstance);
 		return new ResponseEntity<>(nsInstance, HttpStatus.OK);
 	}
 
 	@Override
-	public <U> ResponseEntity<U> heal(final String nsInstanceId, final Object request, final Function<NsBlueprint, String> getSelfLink) {
+	public <U> ResponseEntity<U> heal(final String nsInstanceId, final NsHeal request, final Function<NsBlueprint, String> getSelfLink) {
 		final UUID nsInstanceUuid = UUID.fromString(nsInstanceId);
 		final NsHeal nsInst = mapper.map(request, NsHeal.class);
 		final NsBlueprint nsLcm = nsInstanceControllerService.heal(nsInstanceUuid, nsInst);
@@ -105,7 +105,7 @@ public class NsInstanceGenericFrontControllerImpl implements NsInstanceGenericFr
 	}
 
 	@Override
-	public <U> ResponseEntity<U> instantiate(final String nsInstanceId, final Object request, final Function<NsBlueprint, String> getSelfLink) {
+	public <U> ResponseEntity<U> instantiate(final String nsInstanceId, final NsInstantiate request, final Function<NsBlueprint, String> getSelfLink) {
 		final UUID nsInstanceUuid = UUID.fromString(nsInstanceId);
 		final NsInstantiate nsInst = mapper.map(request, NsInstantiate.class);
 		final NsBlueprint nsLcm = nsInstanceControllerService.instantiate(nsInstanceUuid, nsInst);
@@ -114,7 +114,7 @@ public class NsInstanceGenericFrontControllerImpl implements NsInstanceGenericFr
 	}
 
 	@Override
-	public <U> ResponseEntity<U> scale(final String nsInstanceId, final Object request, final Function<NsBlueprint, String> getSelfLink) {
+	public <U> ResponseEntity<U> scale(final String nsInstanceId, final NsScale request, final Function<NsBlueprint, String> getSelfLink) {
 		final UUID nsInstanceUuid = UUID.fromString(nsInstanceId);
 		final NsScale nsInst = mapper.map(request, NsScale.class);
 		final NsBlueprint nsLcm = nsInstanceControllerService.scale(nsInstanceUuid, nsInst);
@@ -131,7 +131,7 @@ public class NsInstanceGenericFrontControllerImpl implements NsInstanceGenericFr
 	}
 
 	@Override
-	public <U> ResponseEntity<U> update(final String nsInstanceId, final Object request, final Function<NsBlueprint, String> getSelfLink) {
+	public <U> ResponseEntity<U> update(final String nsInstanceId, final UpdateRequest request, final Function<NsBlueprint, String> getSelfLink) {
 		final UUID nsInstanceUuid = UUID.fromString(nsInstanceId);
 		final UpdateRequest req = mapper.map(request, UpdateRequest.class);
 		final NsBlueprint lcm = nsLcmController.nsInstancesNsInstanceIdUpdatePost(nsInstanceUuid, req);
@@ -140,15 +140,15 @@ public class NsInstanceGenericFrontControllerImpl implements NsInstanceGenericFr
 	}
 
 	@Override
-	public <U> ResponseEntity<U> create(final Object request, final Class<U> clazz, final Consumer<U> makeLink, final Function<U, String> getSelfLink) {
-		final CreateNsInstance req = mapper.map(request, CreateNsInstance.class);
+	public <U> ResponseEntity<U> create(final CreateNsInstance req, final Function<NsdInstance, U> func, final Consumer<U> makeLink, final Function<U, String> getSelfLink) {
 		if (req.getNsdId() == null) {
 			throw new NotFoundException("NsdId field is empty.");
 		}
 		final NsdInstance nsInstance = nsInstanceControllerService.createNsd(req.getNsdId(), req.getNsName(), req.getNsDescription());
-		final U nsInstanceWeb = mapper.map(nsInstance, clazz);
+		final U nsInstanceWeb = func.apply(nsInstance);
 		makeLink.accept(nsInstanceWeb);
 		final String location = getSelfLink.apply(nsInstanceWeb);
 		return ResponseEntity.created(URI.create(location)).body(nsInstanceWeb);
 	}
+
 }

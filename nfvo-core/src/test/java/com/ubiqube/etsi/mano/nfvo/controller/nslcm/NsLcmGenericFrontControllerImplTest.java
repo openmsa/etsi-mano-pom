@@ -40,28 +40,28 @@ class NsLcmGenericFrontControllerImplTest {
 
 	@Test
 	void testCancel() {
-		final NsLcmGenericFrontControllerImpl srv = new NsLcmGenericFrontControllerImpl(nsLcmOpOccsService, mapper);
+		final NsLcmGenericFrontControllerImpl srv = new NsLcmGenericFrontControllerImpl(nsLcmOpOccsService);
 		srv.cancel(null, null);
 		assertTrue(true);
 	}
 
 	@Test
 	void testContinue() {
-		final NsLcmGenericFrontControllerImpl srv = new NsLcmGenericFrontControllerImpl(nsLcmOpOccsService, mapper);
+		final NsLcmGenericFrontControllerImpl srv = new NsLcmGenericFrontControllerImpl(nsLcmOpOccsService);
 		srv.continu(null);
 		assertTrue(true);
 	}
 
 	@Test
 	void testFail() {
-		final NsLcmGenericFrontControllerImpl srv = new NsLcmGenericFrontControllerImpl(nsLcmOpOccsService, mapper);
+		final NsLcmGenericFrontControllerImpl srv = new NsLcmGenericFrontControllerImpl(nsLcmOpOccsService);
 		srv.fail(null, null, null);
 		assertTrue(true);
 	}
 
 	@Test
 	void testFindById() {
-		final NsLcmGenericFrontControllerImpl srv = new NsLcmGenericFrontControllerImpl(nsLcmOpOccsService, mapper);
+		final NsLcmGenericFrontControllerImpl srv = new NsLcmGenericFrontControllerImpl(nsLcmOpOccsService);
 		final Consumer<Object> cons = x -> {
 		};
 		srv.findById(UUID.randomUUID().toString(), null, cons);
@@ -70,21 +70,21 @@ class NsLcmGenericFrontControllerImplTest {
 
 	@Test
 	void testRetry() {
-		final NsLcmGenericFrontControllerImpl srv = new NsLcmGenericFrontControllerImpl(nsLcmOpOccsService, mapper);
+		final NsLcmGenericFrontControllerImpl srv = new NsLcmGenericFrontControllerImpl(nsLcmOpOccsService);
 		srv.retry(null);
 		assertTrue(true);
 	}
 
 	@Test
 	void testRollback() {
-		final NsLcmGenericFrontControllerImpl srv = new NsLcmGenericFrontControllerImpl(nsLcmOpOccsService, mapper);
+		final NsLcmGenericFrontControllerImpl srv = new NsLcmGenericFrontControllerImpl(nsLcmOpOccsService);
 		srv.rollback(null);
 		assertTrue(true);
 	}
 
 	@Test
 	void testSearch() {
-		final NsLcmGenericFrontControllerImpl srv = new NsLcmGenericFrontControllerImpl(nsLcmOpOccsService, mapper);
+		final NsLcmGenericFrontControllerImpl srv = new NsLcmGenericFrontControllerImpl(nsLcmOpOccsService);
 		srv.search(null, null, null, null);
 		assertTrue(true);
 	}

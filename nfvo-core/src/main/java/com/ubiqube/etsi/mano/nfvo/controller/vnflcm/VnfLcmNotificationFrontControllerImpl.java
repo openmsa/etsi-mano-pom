@@ -23,8 +23,6 @@ import com.ubiqube.etsi.mano.controller.vnflcm.VnfLcmNotificationFrontController
 import com.ubiqube.etsi.mano.dao.mano.vnflcm.VnfLcmNotification;
 import com.ubiqube.etsi.mano.nfvo.service.VnfLcmNotificationService;
 
-import ma.glasnost.orika.MapperFacade;
-
 /**
  *
  * @author olivier
@@ -32,11 +30,9 @@ import ma.glasnost.orika.MapperFacade;
  */
 @Service
 public class VnfLcmNotificationFrontControllerImpl implements VnfLcmNotificationFrontController {
-	private final MapperFacade mapper;
 	private final VnfLcmNotificationService notificationService;
 
-	public VnfLcmNotificationFrontControllerImpl(final MapperFacade mapper, final VnfLcmNotificationService notificationService) {
-		this.mapper = mapper;
+	public VnfLcmNotificationFrontControllerImpl(final VnfLcmNotificationService notificationService) {
 		this.notificationService = notificationService;
 	}
 
@@ -46,8 +42,8 @@ public class VnfLcmNotificationFrontControllerImpl implements VnfLcmNotification
 	}
 
 	@Override
-	public ResponseEntity<Void> creationNotification(final Object body, final String version) {
-		final VnfLcmNotification event = mapper.map(body, VnfLcmNotification.class);
+	public ResponseEntity<Void> creationNotification(final VnfLcmNotification body, final String version) {
+		final VnfLcmNotification event = body;
 		notificationService.onCreationNotification(event, version);
 		return ResponseEntity.noContent().build();
 	}
@@ -58,8 +54,8 @@ public class VnfLcmNotificationFrontControllerImpl implements VnfLcmNotification
 	}
 
 	@Override
-	public ResponseEntity<Void> deletionNotification(final Object body, final String version) {
-		final VnfLcmNotification event = mapper.map(body, VnfLcmNotification.class);
+	public ResponseEntity<Void> deletionNotification(final VnfLcmNotification body, final String version) {
+		final VnfLcmNotification event = body;
 		notificationService.onDeletionNotification(event, version);
 		return ResponseEntity.noContent().build();
 	}
@@ -70,8 +66,8 @@ public class VnfLcmNotificationFrontControllerImpl implements VnfLcmNotification
 	}
 
 	@Override
-	public ResponseEntity<Void> vnflcmopoccNotification(final Object body, final String version) {
-		final VnfLcmNotification event = mapper.map(body, VnfLcmNotification.class);
+	public ResponseEntity<Void> vnflcmopoccNotification(final VnfLcmNotification body, final String version) {
+		final VnfLcmNotification event = body;
 		notificationService.onVnfLcmOpOccsNotification(event, version);
 		return ResponseEntity.noContent().build();
 	}

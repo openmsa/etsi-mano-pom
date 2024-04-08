@@ -24,8 +24,6 @@ import com.ubiqube.etsi.mano.dao.mano.pm.PerformanceInformationAvailableNotifica
 import com.ubiqube.etsi.mano.dao.mano.pm.ThresholdCrossedNotification;
 import com.ubiqube.etsi.mano.nfvo.service.VnfPerformanceNotificationService;
 
-import ma.glasnost.orika.MapperFacade;
-
 /**
  *
  * @author olivier
@@ -33,17 +31,15 @@ import ma.glasnost.orika.MapperFacade;
  */
 @Service
 public class VnfPerformanceNotificationFrontControllerImpl implements VnfPerformanceNotificationFrontController {
-	private final MapperFacade mapper;
 	private final VnfPerformanceNotificationService notificationService;
 
-	public VnfPerformanceNotificationFrontControllerImpl(final MapperFacade mapper, final VnfPerformanceNotificationService notificationService) {
-		this.mapper = mapper;
+	public VnfPerformanceNotificationFrontControllerImpl(final VnfPerformanceNotificationService notificationService) {
 		this.notificationService = notificationService;
 	}
 
 	@Override
-	public ResponseEntity<Void> crossedPost(final Object body, final String version) {
-		final ThresholdCrossedNotification event = mapper.map(body, ThresholdCrossedNotification.class);
+	public ResponseEntity<Void> crossedPost(final ThresholdCrossedNotification body, final String version) {
+		final ThresholdCrossedNotification event = body;
 		notificationService.onCrossedNotification(event, version);
 		return ResponseEntity.noContent().build();
 	}
@@ -54,8 +50,8 @@ public class VnfPerformanceNotificationFrontControllerImpl implements VnfPerform
 	}
 
 	@Override
-	public ResponseEntity<Void> availablePost(final Object body, final String version) {
-		final PerformanceInformationAvailableNotification event = mapper.map(body, PerformanceInformationAvailableNotification.class);
+	public ResponseEntity<Void> availablePost(final PerformanceInformationAvailableNotification body, final String version) {
+		final PerformanceInformationAvailableNotification event = body;
 		notificationService.onAvailableNotification(event, version);
 		return ResponseEntity.noContent().build();
 	}

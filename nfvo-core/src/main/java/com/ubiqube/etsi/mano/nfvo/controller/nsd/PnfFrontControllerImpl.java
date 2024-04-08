@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +36,6 @@ import com.ubiqube.etsi.mano.dao.mano.PnfDescriptor;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
-import ma.glasnost.orika.MapperFacade;
 
 /**
  *
@@ -51,11 +51,8 @@ public class PnfFrontControllerImpl implements PnfFrontController {
 
 	private final PnfdController pnfdController;
 
-	private final MapperFacade mapper;
-
-	public PnfFrontControllerImpl(final PnfdController pnfdController, final MapperFacade mapper) {
+	public PnfFrontControllerImpl(final PnfdController pnfdController) {
 		this.pnfdController = pnfdController;
-		this.mapper = mapper;
 	}
 
 	/**
@@ -99,9 +96,9 @@ public class PnfFrontControllerImpl implements PnfFrontController {
 	 *
 	 */
 	@Override
-	public <U> ResponseEntity<U> findById(final String pnfdInfoId, final Class<U> clazz, final Consumer<U> makeLink) {
+	public <U> ResponseEntity<U> findById(final String pnfdInfoId, final Function<PnfDescriptor, U> func, final Consumer<U> makeLink) {
 		final PnfDescriptor pnfdInfoDb = pnfdController.pnfDescriptorsPnfdInfoIdGet(getSafeUUID(pnfdInfoId));
-		final U pnfdInfo = mapper.map(pnfdInfoDb, clazz);
+		final U pnfdInfo = func.apply(pnfdInfoDb);
 		makeLink.accept(pnfdInfo);
 		return new ResponseEntity<>(pnfdInfo, HttpStatus.OK);
 	}
@@ -156,9 +153,9 @@ public class PnfFrontControllerImpl implements PnfFrontController {
 	 *
 	 */
 	@Override
-	public <U> ResponseEntity<U> create(final Map<String, Object> userDefinedData, final Class<U> clazz, final Consumer<U> makeLink) {
+	public <U> ResponseEntity<U> create(final Map<String, Object> userDefinedData, final Function<PnfDescriptor, U> func, final Consumer<U> makeLink) {
 		final PnfDescriptor pnfdDb = pnfdController.pnfDescriptorsPost(userDefinedData);
-		final U pnfd = mapper.map(pnfdDb, clazz);
+		final U pnfd = func.apply(pnfdDb);
 		makeLink.accept(pnfd);
 		return new ResponseEntity<>(pnfd, HttpStatus.OK);
 	}

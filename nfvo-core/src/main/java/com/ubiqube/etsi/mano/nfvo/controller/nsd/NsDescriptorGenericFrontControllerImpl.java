@@ -44,7 +44,6 @@ import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.repository.ManoResource;
 
 import jakarta.annotation.Nonnull;
-import ma.glasnost.orika.MapperFacade;
 
 /**
  *
@@ -58,12 +57,9 @@ public class NsDescriptorGenericFrontControllerImpl implements NsDescriptorGener
 	@Nonnull
 	private static final Set<String> NSD_SEARCH_MANDATORY_FIELDS = new HashSet<>(Arrays.asList("id", "nsdOnboardingState", "nsdOperationalState", "nsdUsageState", "_links", "_links.self.href", "_links.nsd_content.href"));
 
-	private final MapperFacade mapper;
-
 	private final NsdController nsdController;
 
-	public NsDescriptorGenericFrontControllerImpl(final MapperFacade mapper, final NsdController nsdController) {
-		this.mapper = mapper;
+	public NsDescriptorGenericFrontControllerImpl(final NsdController nsdController) {
 		this.nsdController = nsdController;
 	}
 
@@ -107,9 +103,9 @@ public class NsDescriptorGenericFrontControllerImpl implements NsDescriptorGener
 	 *
 	 */
 	@Override
-	public <U> ResponseEntity<U> finsById(final String nsdInfoId, final Class<U> clazz, final Consumer<U> makeLink) {
+	public <U> ResponseEntity<U> finsById(final String nsdInfoId, final Function<NsdPackage, U> func, final Consumer<U> makeLink) {
 		final NsdPackage nsdPackage = nsdController.nsDescriptorsNsdInfoIdGet(getSafeUUID(nsdInfoId));
-		final U nsdInfo = mapper.map(nsdPackage, clazz);
+		final U nsdInfo = func.apply(nsdPackage);
 		makeLink.accept(nsdInfo);
 		return ResponseEntity.ok().eTag("" + nsdPackage.getVersion()).body(nsdInfo);
 	}
@@ -190,9 +186,9 @@ public class NsDescriptorGenericFrontControllerImpl implements NsDescriptorGener
 	 *
 	 */
 	@Override
-	public <U> ResponseEntity<U> modify(final String nsdInfoId, final String body, final String ifMatch, final Class<U> clazz, final Consumer<U> makeLink) {
+	public <U> ResponseEntity<U> modify(final String nsdInfoId, final String body, final String ifMatch, final Function<NsdPackage, U> func, final Consumer<U> makeLink) {
 		final NsdPackage nsdPkgInfo = nsdController.nsDescriptorsNsdInfoIdPatch(getSafeUUID(nsdInfoId), body, ifMatch);
-		final U ret = mapper.map(nsdPkgInfo, clazz);
+		final U ret = func.apply(nsdPkgInfo);
 		makeLink.accept(ret);
 		return new ResponseEntity<>(ret, HttpStatus.OK);
 	}
@@ -205,9 +201,9 @@ public class NsDescriptorGenericFrontControllerImpl implements NsDescriptorGener
 	 *
 	 */
 	@Override
-	public <U> ResponseEntity<U> create(final String contentType, final Map<String, String> userDefinedData, final Class<U> clazz, final Consumer<U> makeLink, final Function<U, String> getSelfLink) {
+	public <U> ResponseEntity<U> create(final String contentType, final Map<String, String> userDefinedData, final Function<NsdPackage, U> func, final Consumer<U> makeLink, final Function<U, String> getSelfLink) {
 		final NsdPackage nsdPackage = nsdController.nsDescriptorsPost(userDefinedData);
-		final U nsdDescriptor = mapper.map(nsdPackage, clazz);
+		final U nsdDescriptor = func.apply(nsdPackage);
 		makeLink.accept(nsdDescriptor);
 		final URI location = URI.create(getSelfLink.apply(nsdDescriptor));
 		return ResponseEntity.created(location).body(nsdDescriptor);

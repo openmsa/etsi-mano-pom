@@ -27,6 +27,7 @@ import org.springframework.util.MultiValueMap;
 import com.ubiqube.etsi.mano.controller.SubscriptionFrontController;
 import com.ubiqube.etsi.mano.controller.nsd.NsdSubscriptionFrontController;
 import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
+import com.ubiqube.etsi.mano.service.event.model.Subscription;
 
 /**
  *
@@ -79,8 +80,8 @@ public class NsdSubscriptionFrontControllerImpl implements NsdSubscriptionFrontC
 	 *
 	 */
 	@Override
-	public <U> ResponseEntity<U> create(final Object body, final Class<U> clazz, final Class<?> versionController, final Consumer<U> makeLink, final Function<U, String> getSelfLink) {
-		return subscriptionService.create(body, clazz, versionController, makeLink, getSelfLink, ApiVersionType.SOL005_NSD);
+	public <U> ResponseEntity<U> create(final Subscription body, final Function<Subscription, U> mapper, final Class<?> versionController, final Consumer<U> makeLink, final Function<U, String> getSelfLink) {
+		return subscriptionService.create(body, mapper, versionController, makeLink, getSelfLink, ApiVersionType.SOL005_NSD);
 	}
 
 	/**

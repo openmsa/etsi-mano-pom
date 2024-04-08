@@ -23,6 +23,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.ubiqube.etsi.mano.dao.mano.vnflcm.VnfLcmNotification;
 import com.ubiqube.etsi.mano.nfvo.service.VnfLcmNotificationService;
 
 import ma.glasnost.orika.MapperFacade;
@@ -41,44 +42,48 @@ class VnfLcmNotificationFrontControllerImplTest {
 
 	@Test
 	void testCreationCheck() {
-		final VnfLcmNotificationFrontControllerImpl srv = new VnfLcmNotificationFrontControllerImpl(mapper, notificationService);
+		final VnfLcmNotificationFrontControllerImpl srv = new VnfLcmNotificationFrontControllerImpl(notificationService);
 		srv.creationCheck();
 		assertTrue(true);
 	}
 
 	@Test
 	void testCreationNotification() {
-		final VnfLcmNotificationFrontControllerImpl srv = new VnfLcmNotificationFrontControllerImpl(mapper, notificationService);
-		srv.creationNotification(srv, null);
+		final VnfLcmNotificationFrontControllerImpl srv = new VnfLcmNotificationFrontControllerImpl(notificationService);
+		srv.creationNotification(createVnfLcmNotification(), null);
 		assertTrue(true);
 	}
 
 	@Test
 	void testDeleteCheck() {
-		final VnfLcmNotificationFrontControllerImpl srv = new VnfLcmNotificationFrontControllerImpl(mapper, notificationService);
+		final VnfLcmNotificationFrontControllerImpl srv = new VnfLcmNotificationFrontControllerImpl(notificationService);
 		srv.deletionCheck();
 		assertTrue(true);
 	}
 
 	@Test
 	void testNotificationCheck() {
-		final VnfLcmNotificationFrontControllerImpl srv = new VnfLcmNotificationFrontControllerImpl(mapper, notificationService);
-		srv.deletionNotification(srv, null);
+		final VnfLcmNotificationFrontControllerImpl srv = new VnfLcmNotificationFrontControllerImpl(notificationService);
+		srv.deletionNotification(createVnfLcmNotification(), null);
 		assertTrue(true);
 	}
 
 	@Test
 	void testVnfLcmOpOccsCheck() {
-		final VnfLcmNotificationFrontControllerImpl srv = new VnfLcmNotificationFrontControllerImpl(mapper, notificationService);
+		final VnfLcmNotificationFrontControllerImpl srv = new VnfLcmNotificationFrontControllerImpl(notificationService);
 		srv.vnflcmopoccCheck();
 		assertTrue(true);
 	}
 
 	@Test
 	void testVnflcmopoccNotification() {
-		final VnfLcmNotificationFrontControllerImpl srv = new VnfLcmNotificationFrontControllerImpl(mapper, notificationService);
-		srv.vnflcmopoccNotification(srv, null);
+		final VnfLcmNotificationFrontControllerImpl srv = new VnfLcmNotificationFrontControllerImpl(notificationService);
+		srv.vnflcmopoccNotification(createVnfLcmNotification(), null);
 		assertTrue(true);
+	}
+
+	static VnfLcmNotification createVnfLcmNotification() {
+		return new VnfLcmNotification();
 	}
 
 }

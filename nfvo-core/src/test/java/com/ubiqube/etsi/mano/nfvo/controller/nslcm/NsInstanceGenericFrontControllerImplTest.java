@@ -17,9 +17,6 @@
 package com.ubiqube.etsi.mano.nfvo.controller.nslcm;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
 
 import java.util.UUID;
 
@@ -29,6 +26,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.dao.mano.dto.CreateNsInstance;
+import com.ubiqube.etsi.mano.dao.mano.dto.nsi.NsInstantiate;
+import com.ubiqube.etsi.mano.dao.mano.nsd.upd.UpdateRequest;
+import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.NsHeal;
+import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.NsScale;
 
 import ma.glasnost.orika.MapperFacade;
 
@@ -62,7 +63,7 @@ class NsInstanceGenericFrontControllerImplTest {
 		final NsInstanceGenericFrontControllerImpl srv = new NsInstanceGenericFrontControllerImpl(mapper, instanceController, nsLcmController);
 		final UUID id = UUID.randomUUID();
 		final String strId = id.toString();
-		srv.findById(strId, getClass(), t -> {
+		srv.findById(strId, x -> "", t -> {
 		});
 		assertTrue(true);
 	}
@@ -72,7 +73,8 @@ class NsInstanceGenericFrontControllerImplTest {
 		final NsInstanceGenericFrontControllerImpl srv = new NsInstanceGenericFrontControllerImpl(mapper, instanceController, nsLcmController);
 		final UUID id = UUID.randomUUID();
 		final String strId = id.toString();
-		srv.heal(strId, "req", t -> "");
+		final NsHeal req = new NsHeal();
+		srv.heal(strId, req, t -> "");
 		assertTrue(true);
 	}
 
@@ -81,7 +83,8 @@ class NsInstanceGenericFrontControllerImplTest {
 		final NsInstanceGenericFrontControllerImpl srv = new NsInstanceGenericFrontControllerImpl(mapper, instanceController, nsLcmController);
 		final UUID id = UUID.randomUUID();
 		final String strId = id.toString();
-		srv.instantiate(strId, "req", t -> "");
+		final NsInstantiate req = new NsInstantiate();
+		srv.instantiate(strId, req, t -> "");
 		assertTrue(true);
 	}
 
@@ -90,7 +93,8 @@ class NsInstanceGenericFrontControllerImplTest {
 		final NsInstanceGenericFrontControllerImpl srv = new NsInstanceGenericFrontControllerImpl(mapper, instanceController, nsLcmController);
 		final UUID id = UUID.randomUUID();
 		final String strId = id.toString();
-		srv.scale(strId, "req", t -> "");
+		final NsScale req = new NsScale();
+		srv.scale(strId, req, t -> "");
 		assertTrue(true);
 	}
 
@@ -99,7 +103,8 @@ class NsInstanceGenericFrontControllerImplTest {
 		final NsInstanceGenericFrontControllerImpl srv = new NsInstanceGenericFrontControllerImpl(mapper, instanceController, nsLcmController);
 		final UUID id = UUID.randomUUID();
 		final String strId = id.toString();
-		srv.terminate(strId, "req", t -> "");
+		final Object req = "";
+		srv.terminate(strId, req, t -> "");
 		assertTrue(true);
 	}
 
@@ -108,7 +113,8 @@ class NsInstanceGenericFrontControllerImplTest {
 		final NsInstanceGenericFrontControllerImpl srv = new NsInstanceGenericFrontControllerImpl(mapper, instanceController, nsLcmController);
 		final UUID id = UUID.randomUUID();
 		final String strId = id.toString();
-		srv.update(strId, "req", t -> "");
+		final UpdateRequest req = new UpdateRequest();
+		srv.update(strId, req, t -> "");
 		assertTrue(true);
 	}
 
@@ -119,8 +125,7 @@ class NsInstanceGenericFrontControllerImplTest {
 		final String strId = id.toString();
 		final CreateNsInstance value = new CreateNsInstance();
 		value.setNsdId(strId);
-		when(mapper.map(any(), eq(CreateNsInstance.class))).thenReturn(value);
-		srv.create("req", getClass(), t -> {
+		srv.create(value, x -> "", t -> {
 		}, t -> "");
 		assertTrue(true);
 	}

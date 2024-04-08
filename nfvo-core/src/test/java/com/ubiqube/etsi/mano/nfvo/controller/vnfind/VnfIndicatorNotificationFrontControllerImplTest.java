@@ -23,6 +23,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.ubiqube.etsi.mano.dao.mano.ind.VnfIndiValueChangeNotification;
 import com.ubiqube.etsi.mano.nfvo.service.VnfIndicatorNotificationService;
 
 import ma.glasnost.orika.MapperFacade;
@@ -41,30 +42,33 @@ class VnfIndicatorNotificationFrontControllerImplTest {
 
 	@Test
 	void testSupportedChangeCheck() {
-		final VnfIndicatorNotificationFrontControllerImpl srv = new VnfIndicatorNotificationFrontControllerImpl(mapper, vnfNotificationService);
+		final VnfIndicatorNotificationFrontControllerImpl srv = new VnfIndicatorNotificationFrontControllerImpl(vnfNotificationService);
 		srv.supportedChangeCheck();
 		assertTrue(true);
 	}
 
 	@Test
 	void testSupportedChangeNotification() {
-		final VnfIndicatorNotificationFrontControllerImpl srv = new VnfIndicatorNotificationFrontControllerImpl(mapper, vnfNotificationService);
-		srv.supportedChangeNotification(srv, null);
+		final VnfIndicatorNotificationFrontControllerImpl srv = new VnfIndicatorNotificationFrontControllerImpl(vnfNotificationService);
+		srv.supportedChangeNotification(createVnfIndiValueChangeNotification(), null);
 		assertTrue(true);
 	}
 
 	@Test
 	void testValueChangeCheck() {
-		final VnfIndicatorNotificationFrontControllerImpl srv = new VnfIndicatorNotificationFrontControllerImpl(mapper, vnfNotificationService);
+		final VnfIndicatorNotificationFrontControllerImpl srv = new VnfIndicatorNotificationFrontControllerImpl(vnfNotificationService);
 		srv.valueChangeCheck();
 		assertTrue(true);
 	}
 
 	@Test
 	void testValueChangeNotification() {
-		final VnfIndicatorNotificationFrontControllerImpl srv = new VnfIndicatorNotificationFrontControllerImpl(mapper, vnfNotificationService);
-		srv.valueChangeNotification(srv, null);
+		final VnfIndicatorNotificationFrontControllerImpl srv = new VnfIndicatorNotificationFrontControllerImpl(vnfNotificationService);
+		srv.valueChangeNotification(createVnfIndiValueChangeNotification(), null);
 		assertTrue(true);
 	}
 
+	static VnfIndiValueChangeNotification createVnfIndiValueChangeNotification() {
+		return new VnfIndiValueChangeNotification();
+	}
 }

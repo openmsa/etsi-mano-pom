@@ -28,6 +28,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.service.SubscriptionService;
+import com.ubiqube.etsi.mano.service.event.model.Subscription;
 
 import ma.glasnost.orika.MapperFacade;
 
@@ -40,36 +41,37 @@ class NsLcmSubscriptionsGenericFrontControllerImplTest {
 
 	@Test
 	void testCreate() {
-		final NsLcmSubscriptionsGenericFrontControllerImpl srv = new NsLcmSubscriptionsGenericFrontControllerImpl(subscriptionService, mapper);
+		final NsLcmSubscriptionsGenericFrontControllerImpl srv = new NsLcmSubscriptionsGenericFrontControllerImpl(subscriptionService);
 		final Consumer<Object> cons = x -> {
 		};
 		final Function<Object, String> func = x -> "http://loaclhost/";
-		srv.create(srv, Object.class, null, cons, func);
+		final Subscription req = new Subscription();
+		srv.create(req, x -> "", getClass(), cons, func);
 		assertTrue(true);
 	}
 
 	@Test
 	void testDelete() {
-		final NsLcmSubscriptionsGenericFrontControllerImpl srv = new NsLcmSubscriptionsGenericFrontControllerImpl(subscriptionService, mapper);
+		final NsLcmSubscriptionsGenericFrontControllerImpl srv = new NsLcmSubscriptionsGenericFrontControllerImpl(subscriptionService);
 		srv.delete(UUID.randomUUID().toString());
 		assertTrue(true);
 	}
 
 	@Test
 	void testFindById() {
-		final NsLcmSubscriptionsGenericFrontControllerImpl srv = new NsLcmSubscriptionsGenericFrontControllerImpl(subscriptionService, mapper);
+		final NsLcmSubscriptionsGenericFrontControllerImpl srv = new NsLcmSubscriptionsGenericFrontControllerImpl(subscriptionService);
 		final Consumer<Object> cons = x -> {
 		};
-		srv.findById(UUID.randomUUID().toString(), null, cons);
+		srv.findById(UUID.randomUUID().toString(), x -> "", cons);
 		assertTrue(true);
 	}
 
 	@Test
 	void testSearch() {
-		final NsLcmSubscriptionsGenericFrontControllerImpl srv = new NsLcmSubscriptionsGenericFrontControllerImpl(subscriptionService, mapper);
+		final NsLcmSubscriptionsGenericFrontControllerImpl srv = new NsLcmSubscriptionsGenericFrontControllerImpl(subscriptionService);
 		final Consumer<Object> cons = x -> {
 		};
-		srv.search(null, null, cons);
+		srv.search("filter", x -> "", cons);
 		assertTrue(true);
 	}
 

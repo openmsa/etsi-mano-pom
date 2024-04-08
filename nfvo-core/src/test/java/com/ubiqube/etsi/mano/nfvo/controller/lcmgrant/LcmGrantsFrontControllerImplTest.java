@@ -18,7 +18,6 @@ package com.ubiqube.etsi.mano.nfvo.controller.lcmgrant;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 import java.util.UUID;
@@ -33,30 +32,26 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.ubiqube.etsi.mano.controller.lcmgrant.GrantManagement;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 
-import ma.glasnost.orika.MapperFacade;
-
 @ExtendWith(MockitoExtension.class)
 class LcmGrantsFrontControllerImplTest {
 	@Mock
 	private GrantManagement grantManagement;
-	@Mock
-	private MapperFacade mapper;
 
 	@Test
 	void testGet() {
-		final LcmGrantsFrontControllerImpl srv = new LcmGrantsFrontControllerImpl(grantManagement, mapper);
+		final LcmGrantsFrontControllerImpl srv = new LcmGrantsFrontControllerImpl(grantManagement);
 		final GrantResponse resp = new GrantResponse();
 		resp.setAvailable(true);
 		final Consumer<Object> cons = x -> {
 		};
 		when(grantManagement.get(any())).thenReturn(resp);
-		srv.grantsGrantIdGet(UUID.randomUUID().toString(), Object.class, cons);
+		srv.grantsGrantIdGet(UUID.randomUUID().toString(), x -> "", cons);
 		assertTrue(true);
 	}
 
 	@Test
 	void testGet2() {
-		final LcmGrantsFrontControllerImpl srv = new LcmGrantsFrontControllerImpl(grantManagement, mapper);
+		final LcmGrantsFrontControllerImpl srv = new LcmGrantsFrontControllerImpl(grantManagement);
 		final GrantResponse resp = new GrantResponse();
 		resp.setAvailable(false);
 		when(grantManagement.get(any())).thenReturn(resp);
@@ -66,14 +61,11 @@ class LcmGrantsFrontControllerImplTest {
 
 	@Test
 	void testPost() {
-		final LcmGrantsFrontControllerImpl srv = new LcmGrantsFrontControllerImpl(grantManagement, mapper);
+		final LcmGrantsFrontControllerImpl srv = new LcmGrantsFrontControllerImpl(grantManagement);
 		final Function<Object, String> func = x -> "";
-		final Object grantRequest = new Object();
 		final GrantResponse resp = new GrantResponse();
-		when(mapper.map(grantRequest, GrantResponse.class)).thenReturn(resp);
 		when(grantManagement.post(resp)).thenReturn(resp);
-		when(mapper.map(any(), eq(Object.class))).thenReturn(grantRequest);
-		srv.grantsPost(grantRequest, Object.class, func);
+		srv.grantsPost(resp, x -> "", func);
 		assertTrue(true);
 	}
 }

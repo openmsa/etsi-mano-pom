@@ -23,6 +23,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.ubiqube.etsi.mano.dao.mano.pm.PerformanceInformationAvailableNotification;
+import com.ubiqube.etsi.mano.dao.mano.pm.ThresholdCrossedNotification;
 import com.ubiqube.etsi.mano.nfvo.service.VnfPerformanceNotificationService;
 
 import ma.glasnost.orika.MapperFacade;
@@ -41,30 +43,37 @@ class VnfPerformanceNotificationFrontControllerImplTest {
 
 	@Test
 	void testAvailableCheck() {
-		final VnfPerformanceNotificationFrontControllerImpl srv = new VnfPerformanceNotificationFrontControllerImpl(mapper, notificationService);
+		final VnfPerformanceNotificationFrontControllerImpl srv = new VnfPerformanceNotificationFrontControllerImpl(notificationService);
 		srv.availableCheck();
 		assertTrue(true);
 	}
 
 	@Test
 	void testAvailablePost() {
-		final VnfPerformanceNotificationFrontControllerImpl srv = new VnfPerformanceNotificationFrontControllerImpl(mapper, notificationService);
-		srv.availablePost(srv, null);
+		final VnfPerformanceNotificationFrontControllerImpl srv = new VnfPerformanceNotificationFrontControllerImpl(notificationService);
+		srv.availablePost(createPerformanceInformationAvailableNotification(), null);
 		assertTrue(true);
 	}
 
 	@Test
 	void testCrossedCheck() {
-		final VnfPerformanceNotificationFrontControllerImpl srv = new VnfPerformanceNotificationFrontControllerImpl(mapper, notificationService);
+		final VnfPerformanceNotificationFrontControllerImpl srv = new VnfPerformanceNotificationFrontControllerImpl(notificationService);
 		srv.crossedCheck();
 		assertTrue(true);
 	}
 
 	@Test
 	void testCrossedPost() {
-		final VnfPerformanceNotificationFrontControllerImpl srv = new VnfPerformanceNotificationFrontControllerImpl(mapper, notificationService);
-		srv.crossedPost(srv, null);
+		final VnfPerformanceNotificationFrontControllerImpl srv = new VnfPerformanceNotificationFrontControllerImpl(notificationService);
+		srv.crossedPost(createThresholdCrossedNotification(), null);
 		assertTrue(true);
 	}
 
+	ThresholdCrossedNotification createThresholdCrossedNotification() {
+		return new ThresholdCrossedNotification();
+	}
+
+	PerformanceInformationAvailableNotification createPerformanceInformationAvailableNotification() {
+		return new PerformanceInformationAvailableNotification();
+	}
 }

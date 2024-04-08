@@ -31,8 +31,6 @@ import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.SubscriptionService;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
 
-import ma.glasnost.orika.MapperFacade;
-
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
@@ -42,11 +40,8 @@ import ma.glasnost.orika.MapperFacade;
 public class NsLcmSubscriptionsGenericFrontControllerImpl implements NsLcmSubscriptionsGenericFrontController {
 	private final SubscriptionService subscriptionService;
 
-	private final MapperFacade mapper;
-
-	public NsLcmSubscriptionsGenericFrontControllerImpl(final SubscriptionService subscriptionService, final MapperFacade mapper) {
+	public NsLcmSubscriptionsGenericFrontControllerImpl(final SubscriptionService subscriptionService) {
 		this.subscriptionService = subscriptionService;
-		this.mapper = mapper;
 	}
 
 	/**
@@ -58,9 +53,9 @@ public class NsLcmSubscriptionsGenericFrontControllerImpl implements NsLcmSubscr
 	 *
 	 */
 	@Override
-	public <U> ResponseEntity<List<U>> search(final String filter, final Class<U> clazz, final Consumer<U> makeLink) {
+	public <U> ResponseEntity<List<U>> search(final String filter, final Function<Subscription, U> func, final Consumer<U> makeLink) {
 		final List<Subscription> list = subscriptionService.query(filter, ApiVersionType.SOL005_NSLCM);
-		final List<U> pkgms = mapper.mapAsList(list, clazz);
+		final List<U> pkgms = list.stream().map(func::apply).toList();
 		pkgms.stream().forEach(makeLink::accept);
 		return ResponseEntity.ok(pkgms);
 	}
@@ -84,9 +79,9 @@ public class NsLcmSubscriptionsGenericFrontControllerImpl implements NsLcmSubscr
 	 *
 	 */
 	@Override
-	public <U> ResponseEntity<U> create(final Object lccnSubscriptionRequest, final Class<U> clazz, final Class<?> versionController, final Consumer<U> makeLink, final Function<U, String> setLink) {
-		final Object subscription = subscriptionService.save(lccnSubscriptionRequest, versionController, ApiVersionType.SOL005_NSLCM);
-		final U pkgmSubscription = mapper.map(subscription, clazz);
+	public <U> ResponseEntity<U> create(final Subscription lccnSubscriptionRequest, final Function<Subscription, U> func, final Class<?> versionController, final Consumer<U> makeLink, final Function<U, String> setLink) {
+		final Subscription subscription = subscriptionService.save(lccnSubscriptionRequest, versionController, ApiVersionType.SOL005_NSLCM);
+		final U pkgmSubscription = func.apply(subscription);
 		makeLink.accept(pkgmSubscription);
 		final String location = setLink.apply(pkgmSubscription);
 		return ResponseEntity.created(URI.create(location)).body(pkgmSubscription);
@@ -116,9 +111,9 @@ public class NsLcmSubscriptionsGenericFrontControllerImpl implements NsLcmSubscr
 	 *
 	 */
 	@Override
-	public <U> ResponseEntity<U> findById(final String subscriptionId, final Class<U> clazz, final Consumer<U> makeLink) {
+	public <U> ResponseEntity<U> findById(final String subscriptionId, final Function<Subscription, U> func, final Consumer<U> makeLink) {
 		final Subscription subscription = subscriptionService.findById(UUID.fromString(subscriptionId), ApiVersionType.SOL005_NSLCM);
-		final U pkgmSubscription = mapper.map(subscription, clazz);
+		final U pkgmSubscription = func.apply(subscription);
 		makeLink.accept(pkgmSubscription);
 		return new ResponseEntity<>(pkgmSubscription, HttpStatus.OK);
 	}

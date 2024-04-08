@@ -40,7 +40,7 @@ class PnfFrontControllerImplTest {
 
 	@Test
 	void testCreate() {
-		final PnfFrontControllerImpl srv = new PnfFrontControllerImpl(pnfController, mapper);
+		final PnfFrontControllerImpl srv = new PnfFrontControllerImpl(pnfController);
 		when(mapper.map(any(), any())).thenReturn(srv);
 		final Consumer<Object> cons = x -> {
 		};
@@ -50,14 +50,14 @@ class PnfFrontControllerImplTest {
 
 	@Test
 	void testDelete() {
-		final PnfFrontControllerImpl srv = new PnfFrontControllerImpl(pnfController, mapper);
+		final PnfFrontControllerImpl srv = new PnfFrontControllerImpl(pnfController);
 		srv.delete(UUID.randomUUID().toString());
 		assertTrue(true);
 	}
 
 	@Test
 	void testFindById() {
-		final PnfFrontControllerImpl srv = new PnfFrontControllerImpl(pnfController, mapper);
+		final PnfFrontControllerImpl srv = new PnfFrontControllerImpl(pnfController);
 		final Consumer<Object> cons = x -> {
 		};
 		srv.findById(UUID.randomUUID().toString(), null, cons);
@@ -66,49 +66,49 @@ class PnfFrontControllerImplTest {
 
 	@Test
 	void testGetArtifact() {
-		final PnfFrontControllerImpl srv = new PnfFrontControllerImpl(pnfController, mapper);
+		final PnfFrontControllerImpl srv = new PnfFrontControllerImpl(pnfController);
 		assertThrows(UnsupportedOperationException.class, () -> srv.getArtifact(null, null, null, null));
 		assertTrue(true);
 	}
 
 	@Test
 	void testGetContent() {
-		final PnfFrontControllerImpl srv = new PnfFrontControllerImpl(pnfController, mapper);
+		final PnfFrontControllerImpl srv = new PnfFrontControllerImpl(pnfController);
 		srv.getContent(null, null);
 		assertTrue(true);
 	}
 
 	@Test
 	void testgetPnfd() {
-		final PnfFrontControllerImpl srv = new PnfFrontControllerImpl(pnfController, mapper);
+		final PnfFrontControllerImpl srv = new PnfFrontControllerImpl(pnfController);
 		assertThrows(UnsupportedOperationException.class, () -> srv.getPnfd(null, null, null));
 		assertTrue(true);
 	}
 
 	@Test
 	void testGetManifest() {
-		final PnfFrontControllerImpl srv = new PnfFrontControllerImpl(pnfController, mapper);
+		final PnfFrontControllerImpl srv = new PnfFrontControllerImpl(pnfController);
 		assertThrows(UnsupportedOperationException.class, () -> srv.manifestGet(null, null));
 		assertTrue(true);
 	}
 
 	@Test
 	void testModify() {
-		final PnfFrontControllerImpl srv = new PnfFrontControllerImpl(pnfController, mapper);
+		final PnfFrontControllerImpl srv = new PnfFrontControllerImpl(pnfController);
 		assertThrows(UnsupportedOperationException.class, () -> srv.modify(null, null, srv));
 		assertTrue(true);
 	}
 
 	@Test
 	void testPutContent() {
-		final PnfFrontControllerImpl srv = new PnfFrontControllerImpl(pnfController, mapper);
+		final PnfFrontControllerImpl srv = new PnfFrontControllerImpl(pnfController);
 		srv.putContent(null, null);
 		assertTrue(true);
 	}
 
 	@Test
 	void testSearch() {
-		final PnfFrontControllerImpl srv = new PnfFrontControllerImpl(pnfController, mapper);
+		final PnfFrontControllerImpl srv = new PnfFrontControllerImpl(pnfController);
 		srv.search(null, null, null);
 		assertTrue(true);
 	}

@@ -17,11 +17,7 @@
 package com.ubiqube.etsi.mano.nfvo.controller.vnf;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.Mockito.when;
 
-import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 
@@ -31,32 +27,30 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.controller.vnf.VnfSubscriptionManagement;
+import com.ubiqube.etsi.mano.dao.mano.VnfPackageChangeNotification;
+import com.ubiqube.etsi.mano.dao.mano.VnfPackageOnboardingNotification;
 import com.ubiqube.etsi.mano.service.SubscriptionService;
-
-import ma.glasnost.orika.MapperFacade;
 
 @ExtendWith(MockitoExtension.class)
 class VnfSubscriptionSol003FrontControllerImplTest {
 	@Mock
 	private VnfSubscriptionManagement vnfSubscriptionMngt;
 	@Mock
-	private MapperFacade mapper;
-	@Mock
 	private SubscriptionService subsService;
 
 	@Test
 	void testCreate() throws Exception {
-		final VnfSubscriptionSol003FrontControllerImpl srv = new VnfSubscriptionSol003FrontControllerImpl(vnfSubscriptionMngt, mapper, subsService);
+		final VnfSubscriptionSol003FrontControllerImpl srv = new VnfSubscriptionSol003FrontControllerImpl(vnfSubscriptionMngt, subsService);
 		final Consumer func = x -> {
 			//
 		};
-		srv.create(null, "".getClass(), func);
+		srv.create(null, x -> null, "".getClass(), func);
 		assertTrue(true);
 	}
 
 	@Test
 	void testdelete() throws Exception {
-		final VnfSubscriptionSol003FrontControllerImpl srv = new VnfSubscriptionSol003FrontControllerImpl(vnfSubscriptionMngt, mapper, subsService);
+		final VnfSubscriptionSol003FrontControllerImpl srv = new VnfSubscriptionSol003FrontControllerImpl(vnfSubscriptionMngt, subsService);
 		final Consumer func = x -> {
 			//
 		};
@@ -67,43 +61,45 @@ class VnfSubscriptionSol003FrontControllerImplTest {
 
 	@Test
 	void testFindById() throws Exception {
-		final VnfSubscriptionSol003FrontControllerImpl srv = new VnfSubscriptionSol003FrontControllerImpl(vnfSubscriptionMngt, mapper, subsService);
+		final VnfSubscriptionSol003FrontControllerImpl srv = new VnfSubscriptionSol003FrontControllerImpl(vnfSubscriptionMngt, subsService);
 		final Consumer func = x -> {
 			//
 		};
 		final String id = UUID.randomUUID().toString();
-		srv.findById(id, "".getClass(), func);
+		srv.findById(id, x -> null, func);
 		assertTrue(true);
 	}
 
 	@Test
 	void testSearch() throws Exception {
-		final VnfSubscriptionSol003FrontControllerImpl srv = new VnfSubscriptionSol003FrontControllerImpl(vnfSubscriptionMngt, mapper, subsService);
+		final VnfSubscriptionSol003FrontControllerImpl srv = new VnfSubscriptionSol003FrontControllerImpl(vnfSubscriptionMngt, subsService);
 		final Consumer func = x -> {
 			//
 		};
-		when(mapper.mapAsList(anyList(), any())).thenReturn(List.of());
-		srv.search(null, null, func);
+//		when(mapper.mapAsList(anyList(), any())).thenReturn(List.of());
+		srv.search(null, x -> "", func);
 		assertTrue(true);
 	}
 
 	@Test
 	void testVnfPackageChangeNotificationPost() throws Exception {
-		final VnfSubscriptionSol003FrontControllerImpl srv = new VnfSubscriptionSol003FrontControllerImpl(vnfSubscriptionMngt, mapper, subsService);
+		final VnfSubscriptionSol003FrontControllerImpl srv = new VnfSubscriptionSol003FrontControllerImpl(vnfSubscriptionMngt, subsService);
 		final Consumer func = x -> {
 			//
 		};
-		srv.vnfPackageChangeNotificationPost("");
+		final VnfPackageChangeNotification notificationsMessage = new VnfPackageChangeNotification();
+		srv.vnfPackageChangeNotificationPost(notificationsMessage);
 		assertTrue(true);
 	}
 
 	@Test
 	void testVnfPackageOnboardingNotificationPost() throws Exception {
-		final VnfSubscriptionSol003FrontControllerImpl srv = new VnfSubscriptionSol003FrontControllerImpl(vnfSubscriptionMngt, mapper, subsService);
+		final VnfSubscriptionSol003FrontControllerImpl srv = new VnfSubscriptionSol003FrontControllerImpl(vnfSubscriptionMngt, subsService);
 		final Consumer func = x -> {
 			//
 		};
-		srv.vnfPackageOnboardingNotificationPost("");
+		final VnfPackageOnboardingNotification notification = new VnfPackageOnboardingNotification();
+		srv.vnfPackageOnboardingNotificationPost(notification);
 		assertTrue(true);
 	}
 }

@@ -22,6 +22,7 @@ import static com.ubiqube.etsi.mano.Constants.getSafeUUID;
 
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -46,17 +47,17 @@ public class NsAlarmFrontControllerImpl implements NsAlarmFrontController {
 	}
 
 	@Override
-	public <U> ResponseEntity<U> findById(final UUID id, final Class<U> clazz, final Consumer<U> makeLinks) {
+	public <U> ResponseEntity<U> findById(final UUID id, final Function<Alarms, U> func, final Consumer<U> makeLinks) {
 		final Alarms alarm = alarmNfvoController.findById(id);
-		final U ret = mapper.map(alarm, clazz);
+		final U ret = func.apply(alarm);
 		makeLinks.accept(ret);
 		return ResponseEntity.ok(ret);
 	}
 
 	@Override
-	public <U> ResponseEntity<U> patch(final String alarmId, final AckState ackState, final @Nullable String ifMatch, final Class<U> clazz) {
+	public <U> ResponseEntity<U> patch(final String alarmId, final AckState ackState, final @Nullable String ifMatch, final Function<Alarms, U> func) {
 		final Alarms alarm = alarmNfvoController.modify(getSafeUUID(alarmId), ackState, ifMatch);
-		return ResponseEntity.ok(mapper.map(alarm, clazz));
+		return ResponseEntity.ok(func.apply(alarm));
 	}
 
 	@Override

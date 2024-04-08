@@ -23,6 +23,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.ubiqube.etsi.mano.dao.mano.alarm.AlarmNotification;
 import com.ubiqube.etsi.mano.nfvo.service.VnffmNotificationService;
 
 import ma.glasnost.orika.MapperFacade;
@@ -38,44 +39,47 @@ class VnffmNotificationFrontControllerImplTest {
 
 	@Test
 	void testCheck() {
-		final VnffmNotificationFrontControllerImpl srv = new VnffmNotificationFrontControllerImpl(mapper, vnfmNotificationService);
+		final VnffmNotificationFrontControllerImpl srv = new VnffmNotificationFrontControllerImpl(vnfmNotificationService);
 		srv.alarmCheck();
 		assertTrue(true);
 	}
 
 	@Test
 	void testClearedCheck() {
-		final VnffmNotificationFrontControllerImpl srv = new VnffmNotificationFrontControllerImpl(mapper, vnfmNotificationService);
+		final VnffmNotificationFrontControllerImpl srv = new VnffmNotificationFrontControllerImpl(vnfmNotificationService);
 		srv.alarmClearedCheck();
 		assertTrue(true);
 	}
 
 	@Test
 	void testClearedNotification() {
-		final VnffmNotificationFrontControllerImpl srv = new VnffmNotificationFrontControllerImpl(mapper, vnfmNotificationService);
-		srv.alarmClearedNotification(srv, null);
+		final VnffmNotificationFrontControllerImpl srv = new VnffmNotificationFrontControllerImpl(vnfmNotificationService);
+		srv.alarmClearedNotification(createAlarmNotification(), null);
 		assertTrue(true);
 	}
 
 	@Test
 	void testRebuildCheck() {
-		final VnffmNotificationFrontControllerImpl srv = new VnffmNotificationFrontControllerImpl(mapper, vnfmNotificationService);
+		final VnffmNotificationFrontControllerImpl srv = new VnffmNotificationFrontControllerImpl(vnfmNotificationService);
 		srv.alarmRebuiltCheck();
 		assertTrue(true);
 	}
 
 	@Test
 	void testAlarmRebuildNotification() {
-		final VnffmNotificationFrontControllerImpl srv = new VnffmNotificationFrontControllerImpl(mapper, vnfmNotificationService);
-		srv.alarmRebuiltNotification(srv, null);
+		final VnffmNotificationFrontControllerImpl srv = new VnffmNotificationFrontControllerImpl(vnfmNotificationService);
+		srv.alarmRebuiltNotification(createAlarmNotification(), null);
 		assertTrue(true);
 	}
 
 	@Test
 	void testAlarmNotification() {
-		final VnffmNotificationFrontControllerImpl srv = new VnffmNotificationFrontControllerImpl(mapper, vnfmNotificationService);
-		srv.alarmNotification(srv, null);
+		final VnffmNotificationFrontControllerImpl srv = new VnffmNotificationFrontControllerImpl(vnfmNotificationService);
+		srv.alarmNotification(createAlarmNotification(), null);
 		assertTrue(true);
 	}
 
+	static AlarmNotification createAlarmNotification() {
+		return new AlarmNotification();
+	}
 }

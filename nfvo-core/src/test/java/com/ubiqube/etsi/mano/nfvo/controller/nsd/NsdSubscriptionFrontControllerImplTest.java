@@ -24,6 +24,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.controller.SubscriptionFrontController;
+import com.ubiqube.etsi.mano.service.event.model.Subscription;
 
 @ExtendWith(MockitoExtension.class)
 class NsdSubscriptionFrontControllerImplTest {
@@ -33,7 +34,8 @@ class NsdSubscriptionFrontControllerImplTest {
 	@Test
 	void testCreate() {
 		final NsdSubscriptionFrontControllerImpl srv = new NsdSubscriptionFrontControllerImpl(subscriptionService);
-		srv.create(srv, null, getClass(), null, null);
+		final Subscription req = new Subscription();
+		srv.create(req, x -> "", getClass(), null, null);
 		assertTrue(true);
 	}
 

@@ -21,6 +21,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +31,6 @@ import org.springframework.util.MultiValueMap;
 import com.ubiqube.etsi.mano.controller.nslcm.NsLcmGenericFrontController;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 import com.ubiqube.etsi.mano.nfvo.service.NsBlueprintService;
-
-import ma.glasnost.orika.MapperFacade;
 
 /**
  *
@@ -45,16 +44,12 @@ public class NsLcmGenericFrontControllerImpl implements NsLcmGenericFrontControl
 	private static final Set<String> NSLCM_SEARCH_MANDATORY_FIELDS = new HashSet<>(Arrays.asList("id", "startTime", "operationState", "statusEnteredTime", "nsInstanceId", "lcmOperationType", "isAutomaticInvocation", "isCancelPending", "_links.continue.href", "_links.self.href", "_links.nsInstance.href", "_links.retry.href", "_links.rollback.href"));
 	private final NsBlueprintService nsLcmOpOccsService;
 
-	private final MapperFacade mapper;
-
-	public NsLcmGenericFrontControllerImpl(final NsBlueprintService nsLcmOpOccsService, final MapperFacade mapper) {
-		super();
+	public NsLcmGenericFrontControllerImpl(final NsBlueprintService nsLcmOpOccsService) {
 		this.nsLcmOpOccsService = nsLcmOpOccsService;
-		this.mapper = mapper;
 	}
 
 	@Override
-	public <U> ResponseEntity<U> fail(final String nsLcmOpOccId, final Class<U> clazz, final Consumer<U> makeLinks) {
+	public <U> ResponseEntity<U> fail(final String nsLcmOpOccId, final Function<NsBlueprint, U> func, final Consumer<U> makeLinks) {
 		return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 	}
 
@@ -74,9 +69,9 @@ public class NsLcmGenericFrontControllerImpl implements NsLcmGenericFrontControl
 	}
 
 	@Override
-	public <U> ResponseEntity<U> findById(final String nsLcmOpOccId, final Class<U> clazz, final Consumer<U> makeLinks) {
+	public <U> ResponseEntity<U> findById(final String nsLcmOpOccId, final Function<NsBlueprint, U> func, final Consumer<U> makeLinks) {
 		final NsBlueprint nsLcmOpOccs = nsLcmOpOccsService.findById(UUID.fromString(nsLcmOpOccId));
-		final U res = mapper.map(nsLcmOpOccs, clazz);
+		final U res = func.apply(nsLcmOpOccs);
 		makeLinks.accept(res);
 		return new ResponseEntity<>(res, HttpStatus.OK);
 	}

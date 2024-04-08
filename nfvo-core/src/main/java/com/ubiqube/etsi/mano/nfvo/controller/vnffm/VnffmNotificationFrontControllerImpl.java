@@ -23,8 +23,6 @@ import com.ubiqube.etsi.mano.controller.vnffm.VnffmNotificationFrontController;
 import com.ubiqube.etsi.mano.dao.mano.alarm.AlarmNotification;
 import com.ubiqube.etsi.mano.nfvo.service.VnffmNotificationService;
 
-import ma.glasnost.orika.MapperFacade;
-
 /**
  *
  * @author olivier
@@ -32,11 +30,9 @@ import ma.glasnost.orika.MapperFacade;
  */
 @Service
 public class VnffmNotificationFrontControllerImpl implements VnffmNotificationFrontController {
-	private final MapperFacade mapper;
 	private final VnffmNotificationService vnffmNotificationService;
 
-	public VnffmNotificationFrontControllerImpl(final MapperFacade mapper, final VnffmNotificationService vnffmNotificationService) {
-		this.mapper = mapper;
+	public VnffmNotificationFrontControllerImpl(final VnffmNotificationService vnffmNotificationService) {
 		this.vnffmNotificationService = vnffmNotificationService;
 	}
 
@@ -46,8 +42,8 @@ public class VnffmNotificationFrontControllerImpl implements VnffmNotificationFr
 	}
 
 	@Override
-	public ResponseEntity<Void> alarmNotification(final Object body, final String version) {
-		final AlarmNotification event = mapper.map(body, AlarmNotification.class);
+	public ResponseEntity<Void> alarmNotification(final AlarmNotification body, final String version) {
+		final AlarmNotification event = body;
 		vnffmNotificationService.onNotification(event, version);
 		return ResponseEntity.noContent().build();
 	}
@@ -58,8 +54,8 @@ public class VnffmNotificationFrontControllerImpl implements VnffmNotificationFr
 	}
 
 	@Override
-	public ResponseEntity<Void> alarmRebuiltNotification(final Object body, final String version) {
-		final AlarmNotification event = mapper.map(body, AlarmNotification.class);
+	public ResponseEntity<Void> alarmRebuiltNotification(final AlarmNotification body, final String version) {
+		final AlarmNotification event = body;
 		vnffmNotificationService.onNotification(event, version);
 		return ResponseEntity.noContent().build();
 	}
@@ -70,8 +66,8 @@ public class VnffmNotificationFrontControllerImpl implements VnffmNotificationFr
 	}
 
 	@Override
-	public ResponseEntity<Void> alarmClearedNotification(final Object body, final String version) {
-		final AlarmNotification event = mapper.map(body, AlarmNotification.class);
+	public ResponseEntity<Void> alarmClearedNotification(final AlarmNotification body, final String version) {
+		final AlarmNotification event = body;
 		vnffmNotificationService.onNotification(event, version);
 		return ResponseEntity.noContent().build();
 	}

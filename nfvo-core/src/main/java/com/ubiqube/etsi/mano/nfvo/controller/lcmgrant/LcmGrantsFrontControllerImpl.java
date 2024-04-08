@@ -31,7 +31,6 @@ import com.ubiqube.etsi.mano.controller.lcmgrant.LcmGrantsFrontController;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 
 import jakarta.validation.Valid;
-import ma.glasnost.orika.MapperFacade;
 
 /**
  *
@@ -41,20 +40,18 @@ import ma.glasnost.orika.MapperFacade;
 @Service
 public class LcmGrantsFrontControllerImpl implements LcmGrantsFrontController {
 	private final GrantManagement grantManagement;
-	private final MapperFacade mapper;
 
-	public LcmGrantsFrontControllerImpl(final GrantManagement grantManagement, final MapperFacade mapper) {
+	public LcmGrantsFrontControllerImpl(final GrantManagement grantManagement) {
 		this.grantManagement = grantManagement;
-		this.mapper = mapper;
 	}
 
 	@Override
-	public <U> ResponseEntity<U> grantsGrantIdGet(final String grantId, final Class<U> clazz, final Consumer<U> makeLink) {
+	public <U> ResponseEntity<U> grantsGrantIdGet(final String grantId, final Function<GrantResponse, U> func, final Consumer<U> makeLink) {
 		final GrantResponse grants = grantManagement.get(getSafeUUID(grantId));
 		if (!grants.getAvailable().equals(Boolean.TRUE)) {
 			return ResponseEntity.accepted().build();
 		}
-		final U jsonGrant = mapper.map(grants, clazz);
+		final U jsonGrant = func.apply(grants);
 		makeLink.accept(jsonGrant);
 		final Optional<Object> optError = Optional.ofNullable(grants.getError()).map(x -> x.getStatus());
 		if (optError.isEmpty()) {
@@ -64,10 +61,9 @@ public class LcmGrantsFrontControllerImpl implements LcmGrantsFrontController {
 	}
 
 	@Override
-	public <U> ResponseEntity<U> grantsPost(@Valid final Object grantRequest, final Class<U> clazz, final Function<U, String> getSelfLink) {
-		final GrantResponse obj = mapper.map(grantRequest, GrantResponse.class);
-		final GrantResponse resp = grantManagement.post(obj);
-		final U res = mapper.map(resp, clazz);
+	public <U> ResponseEntity<U> grantsPost(@Valid final GrantResponse grantRequest, final Function<GrantResponse, U> func, final Function<U, String> getSelfLink) {
+		final GrantResponse resp = grantManagement.post(grantRequest);
+		final U res = func.apply(resp);
 		final URI location = URI.create(getSelfLink.apply(res));
 		return ResponseEntity.accepted().location(location).build();
 	}

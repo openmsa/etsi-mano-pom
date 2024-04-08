@@ -23,8 +23,6 @@ import com.ubiqube.etsi.mano.controller.vnfind.VnfIndicatorNotificationFrontCont
 import com.ubiqube.etsi.mano.dao.mano.ind.VnfIndiValueChangeNotification;
 import com.ubiqube.etsi.mano.nfvo.service.VnfIndicatorNotificationService;
 
-import ma.glasnost.orika.MapperFacade;
-
 /**
  *
  * @author olivier
@@ -32,11 +30,9 @@ import ma.glasnost.orika.MapperFacade;
  */
 @Service
 public class VnfIndicatorNotificationFrontControllerImpl implements VnfIndicatorNotificationFrontController {
-	private final MapperFacade mapper;
 	private final VnfIndicatorNotificationService vnfNotificationService;
 
-	public VnfIndicatorNotificationFrontControllerImpl(final MapperFacade mapper, final VnfIndicatorNotificationService vnfNotificationService) {
-		this.mapper = mapper;
+	public VnfIndicatorNotificationFrontControllerImpl(final VnfIndicatorNotificationService vnfNotificationService) {
 		this.vnfNotificationService = vnfNotificationService;
 	}
 
@@ -46,8 +42,8 @@ public class VnfIndicatorNotificationFrontControllerImpl implements VnfIndicator
 	}
 
 	@Override
-	public ResponseEntity<Void> valueChangeNotification(final Object body, final String version) {
-		final VnfIndiValueChangeNotification event = mapper.map(body, VnfIndiValueChangeNotification.class);
+	public ResponseEntity<Void> valueChangeNotification(final VnfIndiValueChangeNotification body, final String version) {
+		final VnfIndiValueChangeNotification event = body;
 		vnfNotificationService.onNotification(event, version);
 		return ResponseEntity.noContent().build();
 	}
@@ -58,9 +54,8 @@ public class VnfIndicatorNotificationFrontControllerImpl implements VnfIndicator
 	}
 
 	@Override
-	public ResponseEntity<Void> supportedChangeNotification(final Object body, final String version) {
-		final VnfIndiValueChangeNotification event = mapper.map(body, VnfIndiValueChangeNotification.class);
-		vnfNotificationService.onNotification(event, version);
+	public ResponseEntity<Void> supportedChangeNotification(final VnfIndiValueChangeNotification body, final String version) {
+		vnfNotificationService.onNotification(body, version);
 		return ResponseEntity.noContent().build();
 	}
 

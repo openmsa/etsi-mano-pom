@@ -52,51 +52,51 @@ class NsDescriptorGenericFrontControllerImplTest {
 
 	@Test
 	void testCreate() {
-		final NsDescriptorGenericFrontControllerImpl srv = new NsDescriptorGenericFrontControllerImpl(mapper, nsdController);
-		when(mapper.map(any(), any())).thenReturn(new Object());
+		final NsDescriptorGenericFrontControllerImpl srv = new NsDescriptorGenericFrontControllerImpl(nsdController);
+//		when(mapper.map(any(), any())).thenReturn(new Object());
 		final Consumer<Object> cons = x -> {
 		};
 		final Function<Object, String> func = x -> "http://localhost/";
-		srv.create(null, null, null, cons, func);
+		srv.create(null, null, x -> "", cons, func);
 		assertTrue(true);
 	}
 
 	@Test
 	void testSearch() {
-		final NsDescriptorGenericFrontControllerImpl srv = new NsDescriptorGenericFrontControllerImpl(mapper, nsdController);
+		final NsDescriptorGenericFrontControllerImpl srv = new NsDescriptorGenericFrontControllerImpl(nsdController);
 		srv.search(null, null, null);
 		assertTrue(true);
 	}
 
 	@Test
 	void testDelete() {
-		final NsDescriptorGenericFrontControllerImpl srv = new NsDescriptorGenericFrontControllerImpl(mapper, nsdController);
+		final NsDescriptorGenericFrontControllerImpl srv = new NsDescriptorGenericFrontControllerImpl(nsdController);
 		srv.delete(UUID.randomUUID().toString());
 		assertTrue(true);
 	}
 
 	@Test
 	void testFindById() {
-		final NsDescriptorGenericFrontControllerImpl srv = new NsDescriptorGenericFrontControllerImpl(mapper, nsdController);
-		when(mapper.map(any(), any())).thenReturn(new Object());
+		final NsDescriptorGenericFrontControllerImpl srv = new NsDescriptorGenericFrontControllerImpl(nsdController);
+//		when(mapper.map(any(), any())).thenReturn(new Object());
 		final Consumer<Object> cons = x -> {
 		};
 		final NsdPackage nespckg = new NsdPackage();
 		when(nsdController.nsDescriptorsNsdInfoIdGet(any())).thenReturn(nespckg);
-		srv.finsById(UUID.randomUUID().toString(), Object.class, cons);
+		srv.finsById(UUID.randomUUID().toString(), x -> "", cons);
 		assertTrue(true);
 	}
 
 	@Test
 	void testGetContent() {
-		final NsDescriptorGenericFrontControllerImpl srv = new NsDescriptorGenericFrontControllerImpl(mapper, nsdController);
+		final NsDescriptorGenericFrontControllerImpl srv = new NsDescriptorGenericFrontControllerImpl(nsdController);
 		srv.getNsdContent(UUID.randomUUID().toString(), null);
 		assertTrue(true);
 	}
 
 	@Test
 	void testPutContent() throws IOException {
-		final NsDescriptorGenericFrontControllerImpl srv = new NsDescriptorGenericFrontControllerImpl(mapper, nsdController);
+		final NsDescriptorGenericFrontControllerImpl srv = new NsDescriptorGenericFrontControllerImpl(nsdController);
 		final InputStreamSource iss = Mockito.mock(InputStreamSource.class);
 		when(iss.getInputStream()).thenReturn(InputStream.nullInputStream());
 		srv.putNsdContent(UUID.randomUUID().toString(), null, iss);
@@ -105,7 +105,7 @@ class NsDescriptorGenericFrontControllerImplTest {
 
 	@Test
 	void testPutContentFail() throws IOException {
-		final NsDescriptorGenericFrontControllerImpl srv = new NsDescriptorGenericFrontControllerImpl(mapper, nsdController);
+		final NsDescriptorGenericFrontControllerImpl srv = new NsDescriptorGenericFrontControllerImpl(nsdController);
 		final InputStreamSource iss = Mockito.mock(InputStreamSource.class);
 		final InputStream fakeIs = Mockito.mock(InputStream.class);
 		doThrow(IOException.class).when(fakeIs).close();
@@ -117,31 +117,30 @@ class NsDescriptorGenericFrontControllerImplTest {
 
 	@Test
 	void testModify() {
-		final NsDescriptorGenericFrontControllerImpl srv = new NsDescriptorGenericFrontControllerImpl(mapper, nsdController);
-		when(mapper.map(any(), any())).thenReturn(new Object());
+		final NsDescriptorGenericFrontControllerImpl srv = new NsDescriptorGenericFrontControllerImpl(nsdController);
 		final Consumer<Object> cons = x -> {
 		};
-		srv.modify(UUID.randomUUID().toString(), null, null, null, cons);
+		srv.modify(UUID.randomUUID().toString(), null, null, x -> "", cons);
 		assertTrue(true);
 	}
 
 	@Test
 	void testGetArtifact() {
-		final NsDescriptorGenericFrontControllerImpl srv = new NsDescriptorGenericFrontControllerImpl(mapper, nsdController);
+		final NsDescriptorGenericFrontControllerImpl srv = new NsDescriptorGenericFrontControllerImpl(nsdController);
 		assertThrows(UnsupportedOperationException.class, () -> srv.getArtifact(null, null, null));
 		assertTrue(true);
 	}
 
 	@Test
 	void testGetManifest() {
-		final NsDescriptorGenericFrontControllerImpl srv = new NsDescriptorGenericFrontControllerImpl(mapper, nsdController);
+		final NsDescriptorGenericFrontControllerImpl srv = new NsDescriptorGenericFrontControllerImpl(nsdController);
 		assertThrows(UnsupportedOperationException.class, () -> srv.getManifest(null, null));
 		assertTrue(true);
 	}
 
 	@Test
 	void testGetNsd() {
-		final NsDescriptorGenericFrontControllerImpl srv = new NsDescriptorGenericFrontControllerImpl(mapper, nsdController);
+		final NsDescriptorGenericFrontControllerImpl srv = new NsDescriptorGenericFrontControllerImpl(nsdController);
 		assertThrows(UnsupportedOperationException.class, () -> srv.getNsd(null, null));
 		assertTrue(true);
 	}
