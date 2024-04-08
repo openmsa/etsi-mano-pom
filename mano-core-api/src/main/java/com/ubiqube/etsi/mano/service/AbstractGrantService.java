@@ -90,7 +90,9 @@ public abstract class AbstractGrantService implements VimResourceService {
 				.forEach(x -> {
 					if (x.getChangeType() == ChangeType.ADDED) {
 						final GrantInformationExt obj = mapper.map(x, GrantInformationExt.class);
-						obj.setResourceTemplateId(Set.of(x.getToscaName()));
+						if (null != x.getToscaName()) {
+							obj.setResourceTemplateId(Set.of(x.getToscaName()));
+						}
 						grantRequest.addAddResources(obj);
 					} else {
 						final GrantInformationExt obj = mapper.map(x, GrantInformationExt.class);
