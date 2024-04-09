@@ -34,14 +34,10 @@ import org.springframework.core.io.InputStreamSource;
 import com.ubiqube.etsi.mano.dao.mano.policy.Policies;
 import com.ubiqube.etsi.mano.exception.GenericException;
 
-import ma.glasnost.orika.MapperFacade;
-
 @ExtendWith(MockitoExtension.class)
 class PolicyFrontControllerImplTest {
 	@Mock
 	private PolicyController policyController;
-	@Mock
-	private MapperFacade mapper;
 
 	@Test
 	void testCreate() {
