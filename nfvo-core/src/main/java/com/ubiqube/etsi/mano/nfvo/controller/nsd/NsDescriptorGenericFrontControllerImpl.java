@@ -73,8 +73,8 @@ public class NsDescriptorGenericFrontControllerImpl implements NsDescriptorGener
 	 *
 	 */
 	@Override
-	public <U> ResponseEntity<String> search(@RequestParam final MultiValueMap<String, String> requestParams, final Class<U> clazz, final Consumer<U> makeLink) {
-		return nsdController.search(requestParams, clazz, NSD_SEARCH_DEFAULT_EXCLUDE_FIELDS, NSD_SEARCH_MANDATORY_FIELDS, makeLink);
+	public <U> ResponseEntity<String> search(@RequestParam final MultiValueMap<String, String> requestParams, final Function<NsdPackage, U> mapper, final Consumer<U> makeLink) {
+		return nsdController.search(requestParams, mapper, NSD_SEARCH_DEFAULT_EXCLUDE_FIELDS, NSD_SEARCH_MANDATORY_FIELDS, makeLink);
 	}
 
 	/**

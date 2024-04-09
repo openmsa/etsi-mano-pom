@@ -59,8 +59,8 @@ public class NsLcmGenericFrontControllerImpl implements NsLcmGenericFrontControl
 	}
 
 	@Override
-	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String nextpageOpaqueMarker, final Consumer<U> makeLinks) {
-		return nsLcmOpOccsService.search(requestParams, clazz, NSLCM_SEARCH_DEFAULT_EXCLUDE_FIELDS, NSLCM_SEARCH_MANDATORY_FIELDS, makeLinks);
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<NsBlueprint, U> mapper, final String nextpageOpaqueMarker, final Consumer<U> makeLinks) {
+		return nsLcmOpOccsService.search(requestParams, mapper, NSLCM_SEARCH_DEFAULT_EXCLUDE_FIELDS, NSLCM_SEARCH_MANDATORY_FIELDS, makeLinks);
 	}
 
 	@Override

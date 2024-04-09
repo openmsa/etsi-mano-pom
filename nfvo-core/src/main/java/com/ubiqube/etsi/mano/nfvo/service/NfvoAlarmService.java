@@ -21,6 +21,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -63,8 +64,8 @@ public class NfvoAlarmService {
 		return alarmJpa.save(alarm);
 	}
 
-	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String alarmSearchDefaultExcludeFields, final Set<String> alarmSearchMandatoryFields, final Consumer<U> makeLinks) {
-		return searchableService.search(Alarms.class, requestParams, clazz, alarmSearchDefaultExcludeFields, alarmSearchMandatoryFields, makeLinks, List.of());
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<Alarms, U> mapper, final String alarmSearchDefaultExcludeFields, final Set<String> alarmSearchMandatoryFields, final Consumer<U> makeLinks) {
+		return searchableService.search(Alarms.class, requestParams, mapper, alarmSearchDefaultExcludeFields, alarmSearchMandatoryFields, makeLinks, List.of());
 	}
 
 }

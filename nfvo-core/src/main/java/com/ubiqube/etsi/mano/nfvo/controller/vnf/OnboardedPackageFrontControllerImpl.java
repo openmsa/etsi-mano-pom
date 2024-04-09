@@ -26,6 +26,7 @@ import java.io.InputStream;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -154,8 +155,8 @@ public class OnboardedPackageFrontControllerImpl implements OnboardedPackageFron
 	}
 
 	@Override
-	public <U> ResponseEntity<U> onboardedFindById(final String vnfdId, final Class<U> clazz, final Consumer<U> makeLinks) {
-		final U vnfPkgInfo = vnfManagement.vnfPackagesVnfPkgVnfdIdGet(vnfdId, clazz);
+	public <U> ResponseEntity<U> onboardedFindById(final String vnfdId, final Function<VnfPackage, U> mapper, final Consumer<U> makeLinks) {
+		final U vnfPkgInfo = vnfManagement.vnfPackagesVnfPkgVnfdIdGet(vnfdId, mapper);
 		makeLinks.accept(vnfPkgInfo);
 		return new ResponseEntity<>(vnfPkgInfo, HttpStatus.OK);
 	}
@@ -175,8 +176,8 @@ public class OnboardedPackageFrontControllerImpl implements OnboardedPackageFron
 	}
 
 	@Override
-	public <U> ResponseEntity<String> onboardedSearch(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final Consumer<U> makeLinks) {
-		return vnfManagement.searchOnboarded(requestParams, clazz, VNF_SEARCH_DEFAULT_EXCLUDE_FIELDS, VNF_SEARCH_MANDATORY_FIELDS, makeLinks);
+	public <U> ResponseEntity<String> onboardedSearch(final MultiValueMap<String, String> requestParams, final Function<VnfPackage, U> mapper, final Consumer<U> makeLinks) {
+		return vnfManagement.searchOnboarded(requestParams, mapper, VNF_SEARCH_DEFAULT_EXCLUDE_FIELDS, VNF_SEARCH_MANDATORY_FIELDS, makeLinks);
 	}
 
 }

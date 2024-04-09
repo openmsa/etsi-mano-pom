@@ -63,8 +63,8 @@ public class PnfFrontControllerImpl implements PnfFrontController {
 	 *
 	 */
 	@Override
-	public <U> ResponseEntity<String> search(@RequestParam final MultiValueMap<String, String> requestParams, final Class<U> clazz, final Consumer<U> makeLink) {
-		return pnfdController.search(requestParams, clazz, PNFD_SEARCH_DEFAULT_EXCLUDE_FIELDS, PNFD_SEARCH_MANDATORY_FIELDS, makeLink);
+	public <U> ResponseEntity<String> search(@RequestParam final MultiValueMap<String, String> requestParams, final Function<PnfDescriptor, U> mapper, final Consumer<U> makeLink) {
+		return pnfdController.search(requestParams, mapper, PNFD_SEARCH_DEFAULT_EXCLUDE_FIELDS, PNFD_SEARCH_MANDATORY_FIELDS, makeLink);
 	}
 
 	/**

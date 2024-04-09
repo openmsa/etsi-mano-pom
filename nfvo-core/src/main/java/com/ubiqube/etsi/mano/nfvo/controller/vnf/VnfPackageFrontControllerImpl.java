@@ -131,8 +131,8 @@ public class VnfPackageFrontControllerImpl implements VnfPackageFrontController 
 	}
 
 	@Override
-	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final Consumer<U> makeLinks) {
-		return vnfManagement.search(requestParams, clazz, VNF_SEARCH_DEFAULT_EXCLUDE_FIELDS, VNF_SEARCH_MANDATORY_FIELDS, makeLinks);
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<VnfPackage, U> mapper, final Consumer<U> makeLinks) {
+		return vnfManagement.search(requestParams, mapper, VNF_SEARCH_DEFAULT_EXCLUDE_FIELDS, VNF_SEARCH_MANDATORY_FIELDS, makeLinks);
 	}
 
 	@Override

@@ -22,6 +22,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -165,9 +166,9 @@ public class VnfManagement implements VnfPackageManagement {
 	}
 
 	@Override
-	public <U> U onboardedVnfPackagesVnfdIdGet(final String vnfdId, final Class<U> clazz) {
+	public <U> U onboardedVnfPackagesVnfdIdGet(final String vnfdId, final Function<VnfPackage, U> mapper) {
 		final VnfPackage vnfPackage = vnfPackageService.findByVnfdId(vnfdId);
-		return mapper.map(vnfPackage, clazz);
+		return mapper.apply(vnfPackage);
 	}
 
 	@Override
@@ -187,20 +188,20 @@ public class VnfManagement implements VnfPackageManagement {
 	}
 
 	@Override
-	public <U> U vnfPackagesVnfPkgVnfdIdGet(final String vnfdId, final Class<U> clazz) {
+	public <U> U vnfPackagesVnfPkgVnfdIdGet(final String vnfdId, final Function<VnfPackage, U> mapper) {
 		final VnfPackage vnfPackage = vnfPackageService.findByVnfdId(vnfdId);
-		return mapper.map(vnfPackage, clazz);
+		return mapper.apply(vnfPackage);
 	}
 
 	@Override
-	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink) {
-		return searchableService.search(VnfPackage.class, requestParams, clazz, excludeDefaults, mandatoryFields, makeLink, List.of());
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<VnfPackage, U> mapper, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink) {
+		return searchableService.search(VnfPackage.class, requestParams, mapper, excludeDefaults, mandatoryFields, makeLink, List.of());
 	}
 
 	@Override
-	public <U> ResponseEntity<String> searchOnboarded(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLinks) {
+	public <U> ResponseEntity<String> searchOnboarded(final MultiValueMap<String, String> requestParams, final Function<VnfPackage, U> mapper, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLinks) {
 		final GrammarNode onBoardedNode = new BooleanExpression(new GrammarLabel("onboardingState"), GrammarOperandType.EQ, new GrammarValue("ONBOARDED"));
-		return searchableService.search(VnfPackage.class, requestParams, clazz, excludeDefaults, mandatoryFields, makeLinks, List.of(onBoardedNode));
+		return searchableService.search(VnfPackage.class, requestParams, mapper, excludeDefaults, mandatoryFields, makeLinks, List.of(onBoardedNode));
 
 	}
 }

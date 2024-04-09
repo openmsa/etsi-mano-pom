@@ -58,8 +58,8 @@ public class NsAlarmFrontControllerImpl implements NsAlarmFrontController {
 	}
 
 	@Override
-	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final String nextpageOpaqueMarker, final Class<U> clazz, final Consumer<U> makeLinks) {
-		return alarmNfvoController.search(requestParams, clazz, ALARM_SEARCH_DEFAULT_EXCLUDE_FIELDS, ALARM_SEARCH_MANDATORY_FIELDS, makeLinks);
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final String nextpageOpaqueMarker, final Function<Alarms, U> mapper, final Consumer<U> makeLinks) {
+		return alarmNfvoController.search(requestParams, mapper, ALARM_SEARCH_DEFAULT_EXCLUDE_FIELDS, ALARM_SEARCH_MANDATORY_FIELDS, makeLinks);
 	}
 
 }
