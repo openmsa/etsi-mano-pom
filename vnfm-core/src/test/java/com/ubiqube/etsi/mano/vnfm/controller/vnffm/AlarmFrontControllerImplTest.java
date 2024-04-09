@@ -39,15 +39,19 @@ class AlarmFrontControllerImplTest {
 
 	@Test
 	void testEscalate() {
-		final AlarmFrontControllerImpl srv = new AlarmFrontControllerImpl(mapper, alarmController);
+		final AlarmFrontControllerImpl srv = createService();
 		final String id = UUID.randomUUID().toString();
 		srv.escalate(id, null);
 		assertTrue(true);
 	}
 
+	private AlarmFrontControllerImpl createService() {
+		return new AlarmFrontControllerImpl(alarmController);
+	}
+
 	@Test
 	void testFindById() {
-		final AlarmFrontControllerImpl srv = new AlarmFrontControllerImpl(mapper, alarmController);
+		final AlarmFrontControllerImpl srv = createService();
 		final String id = UUID.randomUUID().toString();
 		final Consumer<String> con = x -> {
 		};
@@ -57,7 +61,7 @@ class AlarmFrontControllerImplTest {
 
 	@Test
 	void testPatch() {
-		final AlarmFrontControllerImpl srv = new AlarmFrontControllerImpl(mapper, alarmController);
+		final AlarmFrontControllerImpl srv = createService();
 		final String id = UUID.randomUUID().toString();
 		srv.patch(id, null, null, null);
 		assertTrue(true);
@@ -65,7 +69,7 @@ class AlarmFrontControllerImplTest {
 
 	@Test
 	void testSearch() {
-		final AlarmFrontControllerImpl srv = new AlarmFrontControllerImpl(mapper, alarmController);
+		final AlarmFrontControllerImpl srv = createService();
 		srv.search(null, null, null);
 		assertTrue(true);
 	}

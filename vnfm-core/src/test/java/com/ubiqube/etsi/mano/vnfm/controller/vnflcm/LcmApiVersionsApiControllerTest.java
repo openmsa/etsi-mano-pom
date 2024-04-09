@@ -22,10 +22,12 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.controller.EtsiImplementation;
+import com.ubiqube.etsi.mano.vnfm.service.mapping.ApiVersionInformationApiVersionsMapping;
 
 import ma.glasnost.orika.MapperFacade;
 
@@ -33,19 +35,24 @@ import ma.glasnost.orika.MapperFacade;
 class LcmApiVersionsApiControllerTest {
 	@Mock
 	private MapperFacade mapper;
+	ApiVersionInformationApiVersionsMapping apiVersionInformationApiVersionsMapping = Mappers.getMapper(ApiVersionInformationApiVersionsMapping.class);
 
 	@Test
 	void testApiVersionsGet() {
 		final List<EtsiImplementation> impls = List.of();
-		final LcmApiVersionsApiController srv = new LcmApiVersionsApiController(impls, mapper);
+		final LcmApiVersionsApiController srv = createService(impls);
 		srv.apiVersionsGet(null);
 		assertTrue(true);
+	}
+
+	private LcmApiVersionsApiController createService(final List<EtsiImplementation> impls) {
+		return new LcmApiVersionsApiController(impls, apiVersionInformationApiVersionsMapping);
 	}
 
 	@Test
 	void testApiVersionsV1Get() {
 		final List<EtsiImplementation> impls = List.of();
-		final LcmApiVersionsApiController srv = new LcmApiVersionsApiController(impls, mapper);
+		final LcmApiVersionsApiController srv = createService(impls);
 		srv.apiVersionsV1Get(null);
 		assertTrue(true);
 	}

@@ -28,6 +28,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.config.properties.ManoProperties;
+import com.ubiqube.etsi.mano.dao.mano.pm.PmJob;
 
 import ma.glasnost.orika.MapperFacade;
 
@@ -41,15 +42,19 @@ class VnfmPmGenericFrontControllerImplTest {
 	@Test
 	void testSearch() {
 		final ManoProperties props = new ManoProperties();
-		final VnfmPmGenericFrontControllerImpl srv = new VnfmPmGenericFrontControllerImpl(vnfPmController, mapper);
+		final VnfmPmGenericFrontControllerImpl srv = createService();
 		srv.search(null, null, null);
 		assertTrue(true);
+	}
+
+	private VnfmPmGenericFrontControllerImpl createService() {
+		return new VnfmPmGenericFrontControllerImpl(vnfPmController);
 	}
 
 	@Test
 	void testDeleteById() {
 		final ManoProperties props = new ManoProperties();
-		final VnfmPmGenericFrontControllerImpl srv = new VnfmPmGenericFrontControllerImpl(vnfPmController, mapper);
+		final VnfmPmGenericFrontControllerImpl srv = createService();
 		srv.deleteById(null);
 		assertTrue(true);
 	}
@@ -57,7 +62,7 @@ class VnfmPmGenericFrontControllerImplTest {
 	@Test
 	void testFindById() {
 		final ManoProperties props = new ManoProperties();
-		final VnfmPmGenericFrontControllerImpl srv = new VnfmPmGenericFrontControllerImpl(vnfPmController, mapper);
+		final VnfmPmGenericFrontControllerImpl srv = createService();
 		final Consumer<String> cons = x -> {
 		};
 		srv.findById(null, null, cons);
@@ -67,7 +72,7 @@ class VnfmPmGenericFrontControllerImplTest {
 	@Test
 	void testFindReportById() {
 		final ManoProperties props = new ManoProperties();
-		final VnfmPmGenericFrontControllerImpl srv = new VnfmPmGenericFrontControllerImpl(vnfPmController, mapper);
+		final VnfmPmGenericFrontControllerImpl srv = createService();
 		final String is = UUID.randomUUID().toString();
 		srv.findReportById(is, is, null);
 		assertTrue(true);
@@ -76,11 +81,12 @@ class VnfmPmGenericFrontControllerImplTest {
 	@Test
 	void testPmJobsPost() {
 		final ManoProperties props = new ManoProperties();
-		final VnfmPmGenericFrontControllerImpl srv = new VnfmPmGenericFrontControllerImpl(vnfPmController, mapper);
+		final VnfmPmGenericFrontControllerImpl srv = createService();
 		final Consumer<String> cons = x -> {
 		};
 		final Function<String, String> func = x -> "";
-		srv.pmJobsPost(srv, null, cons, func);
+		final Function<PmJob, String> mapper = x -> null;
+		srv.pmJobsPost(null, mapper, cons, func);
 		assertTrue(true);
 	}
 }

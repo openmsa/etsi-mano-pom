@@ -26,6 +26,7 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -36,6 +37,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfPortTask;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.jpa.ConnectionInformationJpa;
+import com.ubiqube.etsi.mano.service.mapping.BlueZoneGroupInformationMapping;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 import com.ubiqube.etsi.mano.test.controllers.TestFactory;
 
@@ -51,10 +53,11 @@ class ManoGrantServiceTest {
 	private VimManager vimManager;
 	@Mock
 	private ConnectionInformationJpa connectionJpa;
+	private final BlueZoneGroupInformationMapping blueZoneGroupInformationMapping = Mappers.getMapper(BlueZoneGroupInformationMapping.class);
 
 	@Test
 	void test() {
-		final ManoGrantService srv = new ManoGrantService(mapper, nfvo, vimManager, connectionJpa);
+		final ManoGrantService srv = createServer();
 		final VnfBlueprint bp = TestFactory.createBlueprint();
 		bp.setTasks(Set.of());
 		final GrantResponse response = new GrantResponse();
@@ -73,9 +76,13 @@ class ManoGrantServiceTest {
 		assertTrue(true);
 	}
 
+	private ManoGrantService createServer() {
+		return new ManoGrantService(mapper, nfvo, vimManager, connectionJpa, blueZoneGroupInformationMapping);
+	}
+
 	@Test
 	void test2() {
-		final ManoGrantService srv = new ManoGrantService(mapper, nfvo, vimManager, connectionJpa);
+		final ManoGrantService srv = createServer();
 		final VnfBlueprint bp = TestFactory.createBlueprint();
 		bp.setTasks(Set.of());
 		final GrantResponse response = new GrantResponse();
