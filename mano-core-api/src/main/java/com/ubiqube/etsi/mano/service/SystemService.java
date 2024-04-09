@@ -58,8 +58,7 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.SubNetwork;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfExtCp;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfIndicator;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfPortNode;
-
-import ma.glasnost.orika.MapperFacade;
+import com.ubiqube.etsi.mano.service.mapping.SystemConnectionsMapping;
 
 /**
  *
@@ -68,16 +67,16 @@ import ma.glasnost.orika.MapperFacade;
  */
 @Service
 public class SystemService {
-	private final MapperFacade mapper;
 	private final SystemsJpa systemJpa;
 	private final SysConnectionJpa systemConnectionsJpa;
 	private final Patcher patcher;
+	private final SystemConnectionsMapping systemConnectionsMapping;
 
-	public SystemService(final MapperFacade mapper, final SystemsJpa systemJpa, final Patcher patcher, final SysConnectionJpa systemConnectionsJpa) {
-		this.mapper = mapper;
+	public SystemService(final SystemsJpa systemJpa, final Patcher patcher, final SysConnectionJpa systemConnectionsJpa, final SystemConnectionsMapping systemConnectionsMapping) {
 		this.systemJpa = systemJpa;
 		this.patcher = patcher;
 		this.systemConnectionsJpa = systemConnectionsJpa;
+		this.systemConnectionsMapping = systemConnectionsMapping;
 	}
 
 	/**
@@ -142,7 +141,7 @@ public class SystemService {
 	}
 
 	private SystemConnections createSystem(final String moduleName, final VimConnectionInformation vimConnectionInformation, final String systemName) {
-		final SystemConnections sc = mapper.map(vimConnectionInformation, SystemConnections.class);
+		final SystemConnections sc = systemConnectionsMapping.map(vimConnectionInformation);
 		sc.setVimType(systemName);
 		sc.setModuleName(moduleName);
 		sc.setId(null);

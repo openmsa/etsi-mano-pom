@@ -34,29 +34,29 @@ import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.dto.ConnectionInformationDto;
 import com.ubiqube.etsi.mano.exception.PreConditionException;
 import com.ubiqube.etsi.mano.service.Patcher;
+import com.ubiqube.etsi.mano.service.mapping.CirConnectionControllerMapping;
 import com.ubiqube.etsi.mano.service.vim.CirConnectionManager;
 
 import jakarta.annotation.Nullable;
-import ma.glasnost.orika.MapperFacade;
 
 @RestController
 @RequestMapping(value = "/admin/cir", produces = "application/json")
 public class CirConnectionController {
-	private final MapperFacade mapper;
+	private final CirConnectionControllerMapping cirConnectionControllerMapping;
 	private final CirConnectionManager vimManager;
 	private final Patcher patcher;
 
-	public CirConnectionController(final MapperFacade mapper, final CirConnectionManager vimManager, final Patcher patcher) {
-		this.mapper = mapper;
+	public CirConnectionController(final CirConnectionControllerMapping cirConnectionControllerMapping, final CirConnectionManager vimManager, final Patcher patcher) {
+		this.cirConnectionControllerMapping = cirConnectionControllerMapping;
 		this.vimManager = vimManager;
 		this.patcher = patcher;
 	}
 
 	@PostMapping
 	public ResponseEntity<ConnectionInformation> registerVim(@RequestBody final ConnectionInformationDto body) {
-		final ConnectionInformation nvci = mapper.map(body, ConnectionInformation.class);
+		final ConnectionInformation nvci = cirConnectionControllerMapping.map(body);
 		final ConnectionInformation vci = vimManager.save(nvci);
-		return ResponseEntity.ok(mapper.map(vci, ConnectionInformation.class));
+		return ResponseEntity.ok(vci);
 	}
 
 	@DeleteMapping(value = "/{id}")

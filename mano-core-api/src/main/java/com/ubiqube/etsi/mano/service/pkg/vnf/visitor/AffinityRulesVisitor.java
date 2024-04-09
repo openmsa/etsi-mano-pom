@@ -24,11 +24,10 @@ import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.vim.AffinityRule;
+import com.ubiqube.etsi.mano.service.mapping.AffinityRuleMapping;
 import com.ubiqube.etsi.mano.service.pkg.bean.AffinityRuleAdapater;
 import com.ubiqube.etsi.mano.service.pkg.vnf.OnboardVisitor;
 import com.ubiqube.etsi.mano.service.pkg.vnf.VnfPackageReader;
-
-import ma.glasnost.orika.MapperFacade;
 
 /**
  *
@@ -37,11 +36,10 @@ import ma.glasnost.orika.MapperFacade;
  */
 @Service
 public class AffinityRulesVisitor implements OnboardVisitor {
-	private final MapperFacade mapper;
+	private final AffinityRuleMapping affinityRuleMapping;
 
-	public AffinityRulesVisitor(final MapperFacade mapper) {
-		super();
-		this.mapper = mapper;
+	public AffinityRulesVisitor(final AffinityRuleMapping affinityRuleMapping) {
+		this.affinityRuleMapping = affinityRuleMapping;
 	}
 
 	@Override
@@ -61,7 +59,7 @@ public class AffinityRulesVisitor implements OnboardVisitor {
 					.forEach(y -> y.addAffinity(x.getAffinityRule().getToscaName()));
 			// Placement group.
 		});
-		final Set<AffinityRule> res = ar.stream().map(x -> mapper.map(x.getAffinityRule(), AffinityRule.class)).collect(Collectors.toSet());
+		final Set<AffinityRule> res = ar.stream().map(x -> affinityRuleMapping.map(x.getAffinityRule())).collect(Collectors.toSet());
 		vnfPackage.setAffinityRules(res);
 	}
 

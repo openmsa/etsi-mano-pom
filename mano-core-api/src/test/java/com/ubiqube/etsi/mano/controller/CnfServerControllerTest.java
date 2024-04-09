@@ -25,6 +25,7 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -32,9 +33,8 @@ import com.ubiqube.etsi.mano.dao.mano.cnf.CnfServer;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.service.CnfServerService;
+import com.ubiqube.etsi.mano.service.mapping.CnfServerDtoMapping;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
-
-import ma.glasnost.orika.MapperFacade;
 
 /**
  *
@@ -48,8 +48,7 @@ class CnfServerControllerTest {
 	private CnfServerService cnfServerService;
 	@Mock
 	private VimManager vimManager;
-	@Mock
-	private MapperFacade mapper;
+	private final CnfServerDtoMapping mapper = Mappers.getMapper(CnfServerDtoMapping.class);
 
 	@Test
 	void testCreate() {

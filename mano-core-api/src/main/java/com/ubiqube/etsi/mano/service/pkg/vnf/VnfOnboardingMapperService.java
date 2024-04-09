@@ -78,7 +78,7 @@ public class VnfOnboardingMapperService {
 		vnfPackage.addVirtualLink(pd.getVirtualLink10Req());
 		final Set<ListKeyPair> nl = vnfPackage.getVirtualLinks().stream().filter(x -> x.getValue() != null).collect(Collectors.toSet());
 		final List<AttributeAssignements> opt = Optional.ofNullable(pd.getOverloadedAttributes())
-				.map(x -> x.entrySet().stream().map(y -> map(y)).toList())
+				.map(x -> x.entrySet().stream().map(VnfOnboardingMapperService::map).toList())
 				.orElseGet(List::of);
 		vnfPackage.setOverloadedAttribute(opt);
 		vnfPackage.setVirtualLinks(nl);

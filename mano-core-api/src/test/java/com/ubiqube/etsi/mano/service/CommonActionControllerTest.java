@@ -31,6 +31,7 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.ObjectProvider;
@@ -47,6 +48,7 @@ import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.jpa.config.ServersJpa;
 import com.ubiqube.etsi.mano.service.auth.model.ServerType;
 import com.ubiqube.etsi.mano.service.event.CommonActionController;
+import com.ubiqube.etsi.mano.service.mapping.ApiVersionMapping;
 import com.ubiqube.etsi.mano.service.rest.FluxRest;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
 import com.ubiqube.etsi.mano.utils.Version;
@@ -73,13 +75,14 @@ class CommonActionControllerTest {
 	private HttpGateway httpGateWay1;
 	@Mock
 	private FluxRest fluxRest;
+	private final ApiVersionMapping apiVersionMapping = Mappers.getMapper(ApiVersionMapping.class);
 
 	private final Servers server = Servers.builder()
 			.url(URI.create("http://localhost/"))
 			.build();
 
 	private CommonActionController createService() {
-		return new CommonActionController(serverJpa, createHttpGateway(), mapper, manoProperties, securityConfig, serverService);
+		return new CommonActionController(serverJpa, createHttpGateway(), mapper, manoProperties, securityConfig, serverService, apiVersionMapping);
 	}
 
 	@Test

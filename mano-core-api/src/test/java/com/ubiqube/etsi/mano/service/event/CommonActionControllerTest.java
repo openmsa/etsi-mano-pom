@@ -31,6 +31,7 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.ObjectProvider;
@@ -48,6 +49,7 @@ import com.ubiqube.etsi.mano.service.HttpGateway;
 import com.ubiqube.etsi.mano.service.ServerService;
 import com.ubiqube.etsi.mano.service.auth.model.ServerType;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
+import com.ubiqube.etsi.mano.service.mapping.ApiVersionMapping;
 import com.ubiqube.etsi.mano.service.rest.FluxRest;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
 import com.ubiqube.etsi.mano.utils.Version;
@@ -74,10 +76,11 @@ class CommonActionControllerTest {
 	private ServerService serverService;
 	@Mock
 	private FluxRest fluxRest;
+	private final ApiVersionMapping apiVersionMapping = Mappers.getMapper(ApiVersionMapping.class);
 
 	@Test
 	void testVnfm() throws Exception {
-		final CommonActionController cac = new CommonActionController(serversJpa, List.of(hg), mapper, manoProperties, securityConfigProvider, serverService);
+		final CommonActionController cac = createService();
 		final UUID id = UUID.randomUUID();
 		final Servers server = Servers.builder()
 				.remoteSubscriptions(Set.of())
@@ -102,9 +105,13 @@ class CommonActionControllerTest {
 		assertEquals(PlanStatusType.SUCCESS, res.getServerStatus());
 	}
 
+	private CommonActionController createService() {
+		return new CommonActionController(serversJpa, List.of(hg), mapper, manoProperties, securityConfigProvider, serverService, apiVersionMapping);
+	}
+
 	@Test
 	void testVnfmFail() throws Exception {
-		final CommonActionController cac = new CommonActionController(serversJpa, List.of(hg), mapper, manoProperties, securityConfigProvider, serverService);
+		final CommonActionController cac = createService();
 		final UUID id = UUID.randomUUID();
 		final Servers server = Servers.builder()
 				.remoteSubscriptions(Set.of())
@@ -126,7 +133,7 @@ class CommonActionControllerTest {
 
 	@Test
 	void testNfvo() throws Exception {
-		final CommonActionController cac = new CommonActionController(serversJpa, List.of(hg), mapper, manoProperties, securityConfigProvider, serverService);
+		final CommonActionController cac = createService();
 		final UUID id = UUID.randomUUID();
 		final Servers server = Servers.builder()
 				.remoteSubscriptions(Set.of())
@@ -155,7 +162,7 @@ class CommonActionControllerTest {
 
 	@Test
 	void testNfvoCoverAuth2() throws Exception {
-		final CommonActionController cac = new CommonActionController(serversJpa, List.of(hg), mapper, manoProperties, securityConfigProvider, serverService);
+		final CommonActionController cac = createService();
 		final UUID id = UUID.randomUUID();
 		final Servers server = Servers.builder()
 				.remoteSubscriptions(Set.of())

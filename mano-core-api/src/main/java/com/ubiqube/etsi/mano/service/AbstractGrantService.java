@@ -42,6 +42,7 @@ import com.ubiqube.etsi.mano.dao.mano.VimComputeResourceFlavourEntity;
 import com.ubiqube.etsi.mano.dao.mano.VimSoftwareImageEntity;
 import com.ubiqube.etsi.mano.dao.mano.VimTask;
 import com.ubiqube.etsi.mano.dao.mano.VnfCompute;
+import com.ubiqube.etsi.mano.dao.mano.ZoneGroupInformation;
 import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionType;
 import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
@@ -49,8 +50,10 @@ import com.ubiqube.etsi.mano.dao.mano.v2.ComputeTask;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.jpa.ConnectionInformationJpa;
+import com.ubiqube.etsi.mano.service.mapping.BlueZoneGroupInformationMapping;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 
+import jakarta.annotation.Nonnull;
 import ma.glasnost.orika.MapperFacade;
 
 /**
@@ -62,19 +65,21 @@ public abstract class AbstractGrantService implements VimResourceService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(AbstractGrantService.class);
 
-	private final MapperFacade mapper;
-
 	private final ResourceAllocate nfvo;
 
 	private final VimManager vimManager;
 
 	private final ConnectionInformationJpa connectionJpa;
+	private final BlueZoneGroupInformationMapping blueZoneGroupInformationMapping;
 
-	protected AbstractGrantService(final MapperFacade mapper, final ResourceAllocate nfvo, final VimManager vimManager, final ConnectionInformationJpa connectionJpa) {
+	private @Nonnull final MapperFacade mapper;
+
+	protected AbstractGrantService(final MapperFacade mapper, final ResourceAllocate nfvo, final VimManager vimManager, final ConnectionInformationJpa connectionJpa, final BlueZoneGroupInformationMapping blueZoneGroupInformationMapping) {
 		this.mapper = Objects.requireNonNull(mapper);
 		this.nfvo = Objects.requireNonNull(nfvo);
 		this.vimManager = Objects.requireNonNull(vimManager);
 		this.connectionJpa = Objects.requireNonNull(connectionJpa);
+		this.blueZoneGroupInformationMapping = blueZoneGroupInformationMapping;
 	}
 
 	@Override
@@ -115,7 +120,7 @@ public abstract class AbstractGrantService implements VimResourceService {
 					task.setVimConnectionId(x.getVimConnectionId());
 				});
 		returnedGrant.getVimConnections().forEach(plan::addVimConnection);
-		plan.setZoneGroups(mapper.mapAsSet(returnedGrant.getZoneGroups(), BlueZoneGroupInformation.class));
+		plan.setZoneGroups(mapAsSet(returnedGrant.getZoneGroups()));
 		plan.setZones(returnedGrant.getZones());
 		plan.addExtManagedVirtualLinks(returnedGrant.getExtManagedVirtualLinks());
 		Optional.ofNullable(returnedGrant.getExtVirtualLinks()).ifPresent(plan::addExtVirtualLinks);
@@ -125,6 +130,10 @@ public abstract class AbstractGrantService implements VimResourceService {
 		plan.setVimConnections(fixVimConnections(plan.getVimConnections()));
 		fixContainerBefore431(plan);
 		check(plan);
+	}
+
+	private Set<BlueZoneGroupInformation> mapAsSet(final Set<ZoneGroupInformation> zoneGroups) {
+		return zoneGroups.stream().map(x -> blueZoneGroupInformationMapping.map(x)).collect(Collectors.toSet());
 	}
 
 	private void fixContainerBefore431(final Blueprint<? extends VimTask, ? extends Instance> plan) {

@@ -25,15 +25,15 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionInformation;
 import com.ubiqube.etsi.mano.exception.PreConditionException;
 import com.ubiqube.etsi.mano.service.Patcher;
+import com.ubiqube.etsi.mano.service.mapping.CirConnectionControllerMapping;
 import com.ubiqube.etsi.mano.service.vim.CirConnectionManager;
-
-import ma.glasnost.orika.MapperFacade;
 
 /**
  *
@@ -43,7 +43,7 @@ import ma.glasnost.orika.MapperFacade;
 @ExtendWith(MockitoExtension.class)
 class CirConnectionControllerTest {
 	@Mock
-	private MapperFacade mapper;
+	private final CirConnectionControllerMapping mapper = Mappers.getMapper(CirConnectionControllerMapping.class);
 	@Mock
 	private CirConnectionManager vimManager;
 	@Mock

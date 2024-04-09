@@ -38,11 +38,11 @@ import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.exception.PreConditionException;
 import com.ubiqube.etsi.mano.service.Patcher;
 import com.ubiqube.etsi.mano.service.VimService;
+import com.ubiqube.etsi.mano.service.mapping.VimConnectionInformationMapping;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 
 import jakarta.annotation.Nullable;
-import ma.glasnost.orika.MapperFacade;
 
 /**
  *
@@ -54,22 +54,22 @@ import ma.glasnost.orika.MapperFacade;
 @Validated
 public class VimController {
 	private final VimService vimService;
-	private final MapperFacade mapper;
 	private final VimManager vimManager;
 	private final Patcher patcher;
+	private final VimConnectionInformationMapping vimConnectionInformationMapping;
 
-	public VimController(final VimService vimService, final MapperFacade mapper, final VimManager vimManager, final Patcher patcher) {
+	public VimController(final VimService vimService, final VimConnectionInformationMapping vimConnectionInformationMapping, final VimManager vimManager, final Patcher patcher) {
 		this.vimService = vimService;
-		this.mapper = mapper;
+		this.vimConnectionInformationMapping = vimConnectionInformationMapping;
 		this.vimManager = vimManager;
 		this.patcher = patcher;
 	}
 
 	@PostMapping(value = "/vim/register")
 	public ResponseEntity<VimConnectionInformation> registerVim(@RequestBody final VimConnectionInfoDto body) {
-		final VimConnectionInformation nvim = mapper.map(body, VimConnectionInformation.class);
+		final VimConnectionInformation nvim = vimConnectionInformationMapping.map(body);
 		final VimConnectionInformation vci = vimManager.register(nvim);
-		return ResponseEntity.ok(mapper.map(vci, VimConnectionInformation.class));
+		return ResponseEntity.ok(vci);
 	}
 
 	@DeleteMapping(value = "/vim/{id}")
@@ -81,7 +81,7 @@ public class VimController {
 	@GetMapping(value = "/vim/{id}/refresh")
 	public ResponseEntity<VimConnectionInformation> updateVim(@PathVariable("id") final UUID id) {
 		final VimConnectionInformation vci = vimManager.refresh(id);
-		return ResponseEntity.ok(mapper.map(vci, VimConnectionInformation.class));
+		return ResponseEntity.ok(vci);
 	}
 
 	@PatchMapping(value = "/vim/{id}")

@@ -26,6 +26,7 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -34,11 +35,10 @@ import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.exception.PreConditionException;
 import com.ubiqube.etsi.mano.service.Patcher;
 import com.ubiqube.etsi.mano.service.VimService;
+import com.ubiqube.etsi.mano.service.mapping.VimConnectionInformationMapping;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 import com.ubiqube.etsi.mano.vim.dummy.DummyVim;
-
-import ma.glasnost.orika.MapperFacade;
 
 /**
  *
@@ -49,8 +49,7 @@ import ma.glasnost.orika.MapperFacade;
 class VimControllerTest {
 	@Mock
 	private VimService vnfService;
-	@Mock
-	private MapperFacade mapper;
+	private final VimConnectionInformationMapping mapper = Mappers.getMapper(VimConnectionInformationMapping.class);
 	@Mock
 	private VimManager vimManager;
 	@Mock

@@ -30,11 +30,11 @@ import com.ubiqube.etsi.mano.dao.mano.dto.CnfServerDto;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.service.CnfServerService;
+import com.ubiqube.etsi.mano.service.mapping.CnfServerDtoMapping;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-import ma.glasnost.orika.MapperFacade;
 
 /**
  *
@@ -46,13 +46,12 @@ import ma.glasnost.orika.MapperFacade;
 public class CnfServerController {
 	private final CnfServerService cnfServerService;
 	private final VimManager vimManager;
+	private final CnfServerDtoMapping cnfServerDtoMapping;
 
-	private final MapperFacade mapper;
-
-	public CnfServerController(final CnfServerService cnfServerService, final VimManager vimManager, final MapperFacade mapper) {
+	public CnfServerController(final CnfServerService cnfServerService, final VimManager vimManager, final CnfServerDtoMapping cnfServerDtoMapping) {
 		this.cnfServerService = cnfServerService;
 		this.vimManager = vimManager;
-		this.mapper = mapper;
+		this.cnfServerDtoMapping = cnfServerDtoMapping;
 	}
 
 	@GetMapping
@@ -63,7 +62,7 @@ public class CnfServerController {
 
 	@PostMapping
 	public ResponseEntity<CnfServer> createCnfServer(@Valid @NotNull @RequestBody final CnfServerDto in) {
-		final CnfServer cnf = mapper.map(in, CnfServer.class);
+		final CnfServer cnf = cnfServerDtoMapping.map(in);
 		final CnfServer resp = cnfServerService.save(cnf);
 		return ResponseEntity.ok(resp);
 	}

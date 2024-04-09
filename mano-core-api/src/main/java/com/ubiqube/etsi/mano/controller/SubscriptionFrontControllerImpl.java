@@ -33,8 +33,6 @@ import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.SubscriptionService;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
 
-import ma.glasnost.orika.MapperFacade;
-
 /**
  *
  * @author Olivier Vignaud {@literal <ovi@ubiqube.com>}
@@ -45,18 +43,15 @@ public class SubscriptionFrontControllerImpl implements SubscriptionFrontControl
 
 	private final SubscriptionService subscriptionService;
 
-	private final MapperFacade mapper;
-
-	public SubscriptionFrontControllerImpl(final @Lazy SubscriptionService subscriptionService, final MapperFacade mapper) {
+	public SubscriptionFrontControllerImpl(final @Lazy SubscriptionService subscriptionService) {
 		this.subscriptionService = subscriptionService;
-		this.mapper = mapper;
 	}
 
 	@Override
-	public <U> ResponseEntity<List<U>> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final Consumer<U> makeLinks, final ApiVersionType type) {
+	public <U> ResponseEntity<List<U>> search(final MultiValueMap<String, String> requestParams, final Function<Subscription, U> mapper, final Consumer<U> makeLinks, final ApiVersionType type) {
 		final String filter = getSingleField(requestParams, "filter");
 		final List<Subscription> list = subscriptionService.query(filter, type);
-		final List<U> pkgms = mapper.mapAsList(list, clazz);
+		final List<U> pkgms = list.stream().map(mapper::apply).toList();
 		pkgms.stream().forEach(makeLinks);
 		return ResponseEntity.ok(pkgms);
 	}
@@ -78,9 +73,9 @@ public class SubscriptionFrontControllerImpl implements SubscriptionFrontControl
 	}
 
 	@Override
-	public <U> ResponseEntity<U> findById(final String subscriptionId, final Class<U> clazz, final Consumer<U> makeLinks, final ApiVersionType type) {
+	public <U> ResponseEntity<U> findById(final String subscriptionId, final Function<Subscription, U> mapper, final Consumer<U> makeLinks, final ApiVersionType type) {
 		final Subscription subscription = subscriptionService.findById(getSafeUUID(subscriptionId), type);
-		final U res = mapper.map(subscription, clazz);
+		final U res = mapper.apply(subscription);
 		makeLinks.accept(res);
 		return ResponseEntity.ok(res);
 	}

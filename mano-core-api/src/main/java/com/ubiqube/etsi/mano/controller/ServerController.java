@@ -41,10 +41,10 @@ import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.service.ServerService;
 import com.ubiqube.etsi.mano.service.event.ActionType;
 import com.ubiqube.etsi.mano.service.event.EventManager;
+import com.ubiqube.etsi.mano.service.mapping.ServersMapping;
 
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
-import ma.glasnost.orika.MapperFacade;
 
 /**
  *
@@ -56,18 +56,18 @@ import ma.glasnost.orika.MapperFacade;
 @RequestMapping("/admin/server")
 public class ServerController {
 	private final ServerService serverService;
-	private final MapperFacade mapper;
 	private final EventManager eventManager;
+	private final ServersMapping serversMapping;
 
-	public ServerController(final ServerService serverService, final MapperFacade mapper, final EventManager eventManager) {
+	public ServerController(final ServerService serverService, final ServersMapping serversMapping, final EventManager eventManager) {
 		this.serverService = serverService;
-		this.mapper = mapper;
+		this.serversMapping = serversMapping;
 		this.eventManager = eventManager;
 	}
 
 	@PostMapping
 	public ResponseEntity<Void> createServer(@Valid @RequestBody final ServerDto serversDto) {
-		final Servers servers = mapper.map(serversDto, Servers.class);
+		final Servers servers = serversMapping.map(serversDto);
 		final Servers newServer = serverService.createServer(servers);
 		// Move that elsewhere, there is transaction problem.
 		eventManager.sendAction(ActionType.REGISTER_SERVER, newServer.getId());

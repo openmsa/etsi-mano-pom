@@ -61,6 +61,7 @@ import com.ubiqube.etsi.mano.service.auth.model.AuthentificationInformations;
 import com.ubiqube.etsi.mano.service.auth.model.ServerType;
 import com.ubiqube.etsi.mano.service.event.model.FilterAttributes;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
+import com.ubiqube.etsi.mano.service.mapping.ApiVersionMapping;
 import com.ubiqube.etsi.mano.service.rest.FluxRest;
 import com.ubiqube.etsi.mano.service.rest.ManoClient;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
@@ -84,19 +85,20 @@ public class CommonActionController {
 
 	private final ServersJpa serversJpa;
 	private final List<HttpGateway> httpGateway;
-	private final MapperFacade mapper;
 	private final ManoProperties manoProperties;
 	private final ObjectProvider<SecutiryConfig> secutiryConfig;
-
+	private final ApiVersionMapping apiVersionMapping;
 	private final ServerService serverService;
+	private final MapperFacade mapper;
 
 	public CommonActionController(final ServersJpa serversJpa, final List<com.ubiqube.etsi.mano.service.HttpGateway> httpGateway,
-			final MapperFacade mapper, final ManoProperties manoProperties, final ObjectProvider<SecutiryConfig> secutiryConfig, final ServerService serverService) {
+			final MapperFacade mapper, final ManoProperties manoProperties, final ObjectProvider<SecutiryConfig> secutiryConfig, final ServerService serverService, final ApiVersionMapping apiVersionMapping) {
 		this.serversJpa = serversJpa;
 		this.httpGateway = httpGateway;
 		this.mapper = mapper;
 		this.manoProperties = manoProperties;
 		this.secutiryConfig = secutiryConfig;
+		this.apiVersionMapping = apiVersionMapping;
 		this.serverService = serverService;
 	}
 
@@ -159,7 +161,7 @@ public class CommonActionController {
 			final UriComponents uri = rest.uriBuilder().pathSegment("{fragment}/api_versions")
 					.buildAndExpand(uriVariables);
 			final ApiVersionInformation res = rest.get(uri.toUri(), ApiVersionInformation.class, null);
-			return mapper.map(res, ApiVersion.class);
+			return apiVersionMapping.map(res);
 		} catch (final RuntimeException e) {
 			LOG.info("Error fetching " + fragment, e);
 		}
@@ -330,7 +332,7 @@ public class CommonActionController {
 		final UriComponents uri = rest.uriBuilder().pathSegment("{module}/api_versions")
 				.buildAndExpand(uriVariables);
 		final ApiVersionInformation res = rest.get(uri.toUri(), ApiVersionInformation.class, null);
-		return mapper.map(res, ApiVersion.class);
+		return apiVersionMapping.map(res);
 	}
 
 	private HttpGateway selectGateway(final Servers server) {

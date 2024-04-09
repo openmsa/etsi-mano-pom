@@ -18,7 +18,6 @@ package com.ubiqube.etsi.mano.controller;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -57,10 +56,9 @@ class SubscriptionFrontControllerImplTest {
 		final List<Subscription> lst = List.of();
 		when(subscriptionService.query(any(), any())).thenReturn(lst);
 		final List<Object> lo = List.of();
-		when(mapper.mapAsList(eq(lst), any())).thenReturn(lo);
 		final Consumer<Object> cons = x -> {
 		};
-		srv.search(null, Object.class, cons, null);
+		srv.search(null, x -> "", cons, null);
 		assertTrue(true);
 	}
 
@@ -76,7 +74,7 @@ class SubscriptionFrontControllerImplTest {
 	}
 
 	private SubscriptionFrontControllerImpl createService() {
-		return new SubscriptionFrontControllerImpl(subscriptionService, mapper);
+		return new SubscriptionFrontControllerImpl(subscriptionService);
 	}
 
 	@Test
@@ -91,7 +89,7 @@ class SubscriptionFrontControllerImplTest {
 		final SubscriptionFrontControllerImpl srv = createService();
 		final Consumer<Object> cons = x -> {
 		};
-		srv.findById(UUID.randomUUID().toString(), null, cons, null);
+		srv.findById(UUID.randomUUID().toString(), x -> "", cons, null);
 		assertTrue(true);
 	}
 

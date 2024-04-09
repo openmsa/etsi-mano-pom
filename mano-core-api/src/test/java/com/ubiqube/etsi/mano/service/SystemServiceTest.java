@@ -17,13 +17,13 @@
 package com.ubiqube.etsi.mano.service;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.when;
 
 import java.util.Map;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -31,13 +31,11 @@ import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.jpa.SysConnectionJpa;
 import com.ubiqube.etsi.mano.jpa.SystemsJpa;
 import com.ubiqube.etsi.mano.orchestrator.entities.SystemConnections;
-
-import ma.glasnost.orika.MapperFacade;
+import com.ubiqube.etsi.mano.service.mapping.SystemConnectionsMapping;
 
 @ExtendWith(MockitoExtension.class)
 class SystemServiceTest {
-	@Mock
-	private MapperFacade mapper;
+	private final SystemConnectionsMapping systemConnectionsMapping = Mappers.getMapper(SystemConnectionsMapping.class);
 	@Mock
 	private SystemsJpa systemJpa;
 	@Mock
@@ -48,7 +46,7 @@ class SystemServiceTest {
 	@Test
 	void testName() throws Exception {
 		final UUID vimId = UUID.randomUUID();
-		final SystemService ss = new SystemService(mapper, systemJpa, patcher, connectionJpa);
+		final SystemService ss = new SystemService(systemJpa, patcher, connectionJpa, systemConnectionsMapping);
 		final SystemConnections sc = new SystemConnections();
 		sc.setVimId(vimId.toString());
 		sc.setVimType("OPENSTACK_V3");
@@ -57,7 +55,6 @@ class SystemServiceTest {
 		vimConn.setVimType("OPENSTACK_V3");
 		vimConn.setAccessInfo(Map.of());
 		vimConn.setInterfaceInfo(Map.of("sdn-endpoint", "http://"));
-		when(mapper.map(vimConn, SystemConnections.class)).thenReturn(sc);
 		ss.registerVim(vimConn);
 		assertTrue(true);
 	}

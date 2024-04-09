@@ -24,35 +24,37 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
+import org.mapstruct.factory.Mappers;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfCompute;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.VnfVl;
 import com.ubiqube.etsi.mano.dao.mano.vim.AffinityRule;
+import com.ubiqube.etsi.mano.service.mapping.AffinityRuleMapping;
 import com.ubiqube.etsi.mano.service.pkg.bean.AffinityRuleAdapater;
 import com.ubiqube.etsi.mano.service.pkg.vnf.TestVnfPackageReader;
 
-import ma.glasnost.orika.MapperFacade;
-
 @ExtendWith(MockitoExtension.class)
 class AffinityRulesVisitorTest {
-	@Mock
-	private MapperFacade mapper;
+	AffinityRuleMapping affinityRuleMapping = Mappers.getMapper(AffinityRuleMapping.class);
 
 	@Test
 	void testSimple() throws Exception {
-		final AffinityRulesVisitor srv = new AffinityRulesVisitor(mapper);
+		final AffinityRulesVisitor srv = createService();
 		final VnfPackage vnfPackage = new VnfPackage();
 		final TestVnfPackageReader vnfReader = new TestVnfPackageReader();
 		srv.visit(vnfPackage, vnfReader, Map.of());
 		assertTrue(true);
 	}
 
+	private AffinityRulesVisitor createService() {
+		return new AffinityRulesVisitor(affinityRuleMapping);
+	}
+
 	@Test
 	void test01() throws Exception {
-		final AffinityRulesVisitor srv = new AffinityRulesVisitor(mapper);
+		final AffinityRulesVisitor srv = createService();
 		final VnfPackage vnfPackage = new VnfPackage();
 		final VnfCompute comp01 = new VnfCompute();
 		comp01.setToscaName("compute");

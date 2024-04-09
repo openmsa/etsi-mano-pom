@@ -24,14 +24,14 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.service.ServerService;
 import com.ubiqube.etsi.mano.service.event.EventManager;
-
-import ma.glasnost.orika.MapperFacade;
+import com.ubiqube.etsi.mano.service.mapping.ServersMapping;
 
 /**
  *
@@ -42,8 +42,7 @@ import ma.glasnost.orika.MapperFacade;
 class ServerControllerTest {
 	@Mock
 	private ServerService serverService;
-	@Mock
-	private MapperFacade mapper;
+	private final ServersMapping mapper = Mappers.getMapper(ServersMapping.class);
 	@Mock
 	private EventManager eventManager;
 

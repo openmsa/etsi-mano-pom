@@ -24,35 +24,37 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
+import org.mapstruct.factory.Mappers;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfCompute;
 import com.ubiqube.etsi.mano.dao.mano.VnfExtCp;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.vim.SecurityGroup;
+import com.ubiqube.etsi.mano.service.mapping.SecurityGroupMapping;
 import com.ubiqube.etsi.mano.service.pkg.bean.SecurityGroupAdapter;
 import com.ubiqube.etsi.mano.service.pkg.vnf.TestVnfPackageReader;
 
-import ma.glasnost.orika.MapperFacade;
-
 @ExtendWith(MockitoExtension.class)
 class SecurityGroupVisitorTest {
-	@Mock
-	private MapperFacade mapper;
+	final SecurityGroupMapping securityGroupMapping = Mappers.getMapper(SecurityGroupMapping.class);
 
 	@Test
 	void testName() throws Exception {
-		final SecurityGroupVisitor sgv = new SecurityGroupVisitor(mapper);
+		final SecurityGroupVisitor sgv = createService();
 		final VnfPackage vnfPackage = new VnfPackage();
 		final TestVnfPackageReader vnfReader = new TestVnfPackageReader();
 		sgv.visit(vnfPackage, vnfReader, Map.of());
 		assertTrue(true);
 	}
 
+	private SecurityGroupVisitor createService() {
+		return new SecurityGroupVisitor(securityGroupMapping);
+	}
+
 	@Test
 	void testSg01() throws Exception {
-		final SecurityGroupVisitor sgv = new SecurityGroupVisitor(mapper);
+		final SecurityGroupVisitor sgv = createService();
 		final VnfPackage vnfPackage = new VnfPackage();
 		final VnfCompute comp01 = new VnfCompute();
 		comp01.setToscaName("compute");

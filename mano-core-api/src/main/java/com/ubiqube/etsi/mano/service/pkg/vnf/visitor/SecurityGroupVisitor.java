@@ -25,11 +25,10 @@ import org.springframework.stereotype.Service;
 import com.ubiqube.etsi.mano.dao.mano.VnfExtCp;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.vim.SecurityGroup;
+import com.ubiqube.etsi.mano.service.mapping.SecurityGroupMapping;
 import com.ubiqube.etsi.mano.service.pkg.bean.SecurityGroupAdapter;
 import com.ubiqube.etsi.mano.service.pkg.vnf.OnboardVisitor;
 import com.ubiqube.etsi.mano.service.pkg.vnf.VnfPackageReader;
-
-import ma.glasnost.orika.MapperFacade;
 
 /**
  * Have a dependency on VNFExtCp.
@@ -39,11 +38,10 @@ import ma.glasnost.orika.MapperFacade;
  */
 @Service
 public class SecurityGroupVisitor implements OnboardVisitor {
-	private final MapperFacade mapper;
+	private final SecurityGroupMapping securityGroupMapping;
 
-	public SecurityGroupVisitor(final MapperFacade mapper) {
-		super();
-		this.mapper = mapper;
+	public SecurityGroupVisitor(final SecurityGroupMapping securityGroupMapping) {
+		this.securityGroupMapping = securityGroupMapping;
 	}
 
 	@Override
@@ -62,7 +60,7 @@ public class SecurityGroupVisitor implements OnboardVisitor {
 					.filter(y -> x.getTargets().contains(y.getToscaName()))
 					.forEach(y -> y.addSecurityGroup(x.getSecurityGroup().getToscaName()));
 		});
-		final Set<SecurityGroup> res = sgAdapters.stream().map(x -> mapper.map(x.getSecurityGroup(), SecurityGroup.class)).collect(Collectors.toSet());
+		final Set<SecurityGroup> res = sgAdapters.stream().map(x -> securityGroupMapping.map(x.getSecurityGroup())).collect(Collectors.toSet());
 		vnfPackage.setSecurityGroups(res);
 	}
 
