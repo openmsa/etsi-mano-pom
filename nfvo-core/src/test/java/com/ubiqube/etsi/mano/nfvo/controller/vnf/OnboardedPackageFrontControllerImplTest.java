@@ -63,7 +63,7 @@ class OnboardedPackageFrontControllerImplTest {
 			//
 		};
 		final UUID id = UUID.randomUUID();
-		srv.onboardedFindById(id.toString(), getClass(), cons);
+		srv.onboardedFindById(id.toString(), x -> "", cons);
 		assertTrue(true);
 	}
 

@@ -138,7 +138,7 @@ class VnfPackageFrontControllerImplTest {
 		final Consumer func = x -> {
 			//
 		};
-		srv.search(null, "".getClass(), func);
+		srv.search(null, x -> "", func);
 		assertTrue(true);
 	}
 
