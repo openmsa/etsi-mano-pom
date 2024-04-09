@@ -17,48 +17,29 @@
 package com.ubiqube.etsi.mano.mapper;
 
 import java.util.List;
-import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.convert.support.DefaultConversionService;
-import org.springframework.expression.ExpressionParser;
-import org.springframework.expression.TypeConverter;
-import org.springframework.expression.spel.SpelParserConfiguration;
-import org.springframework.expression.spel.standard.SpelExpressionParser;
-import org.springframework.expression.spel.support.StandardEvaluationContext;
-import org.springframework.expression.spel.support.StandardTypeConverter;
 
 import com.ubiqube.etsi.mano.service.event.model.FilterAttributes;
 
-import ma.glasnost.orika.MapperFacade;
-import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.MappingContext;
 import ma.glasnost.orika.converter.BidirectionalConverter;
 import ma.glasnost.orika.impl.DefaultConstructorObjectFactory;
-import ma.glasnost.orika.impl.DefaultMapperFactory;
 import ma.glasnost.orika.metadata.Type;
 
 public class OrikaFilterMapper extends BidirectionalConverter<Object, List<FilterAttributes>> {
 
 	private static final Logger LOG = LoggerFactory.getLogger(OrikaFilterMapper.class);
-	private final BeanWalker beanWalker;
-	private final MapperFacade mapper;
+	private final DotMapper dotMapper;
 
 	public OrikaFilterMapper() {
-		beanWalker = new BeanWalker();
-		final MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
-		mapper = mapperFactory.getMapperFacade();
+		this.dotMapper = new DotMapper();
 	}
 
 	@Override
 	public List<FilterAttributes> convertTo(final Object source, final Type<List<FilterAttributes>> destinationTypeIn, final MappingContext mappingContext) {
-		LOG.info("A to B");
-		final CollectNonNullListener beanListener = new CollectNonNullListener();
-		beanWalker.walk(source, beanListener);
-		final List<AttrHolder> attrs = beanListener.getAttrs();
-		final SpelWriter sw = new SpelWriter(mapper);
-		return sw.getFilterAttrs(attrs);
+		return dotMapper.objectToAttr(source);
 	}
 
 	@Override
@@ -67,44 +48,16 @@ public class OrikaFilterMapper extends BidirectionalConverter<Object, List<Filte
 		// Create an empty object.
 		final DefaultConstructorObjectFactory<Object> objectFactory = new DefaultConstructorObjectFactory<>(destinationTypeIn.getRawType());
 		final Object ret = objectFactory.create(source, mappingContext);
-		// Auto create objects if null.
-		final SpelParserConfiguration config = new SpelParserConfiguration(true, true);
-		final ExpressionParser parser = new SpelExpressionParser(config);
-		final StandardEvaluationContext modelContext = getModelContext(ret);
-		LOG.debug("Setting on entity type: {}", ret.getClass());
-		source.forEach(x -> {
-			LOG.debug(" - Setting: {}", x.getAttribute());
-			parser.parseExpression(x.getAttribute()).setValue(modelContext, x.getValue());
-		});
-		return ret;
-	}
-
-	private static StandardEvaluationContext getModelContext(final Object ret) {
-		final StandardEvaluationContext modelContext = new StandardEvaluationContext(ret);
-		final DefaultConversionService conversionService = new DefaultConversionService();
-		conversionService.addConverterFactory(new ManoLenientStringToEnum());
-		final TypeConverter typeConverter = new StandardTypeConverter(conversionService);
-		modelContext.setTypeConverter(typeConverter);
-		return modelContext;
+		return dotMapper.AttrToObject(source, ret);
 	}
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		final int result = super.hashCode();
-		return (prime * result) + Objects.hash(beanWalker, mapper);
+		return super.hashCode();
 	}
 
 	@Override
-	public boolean equals(final Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (!super.equals(obj) || (getClass() != obj.getClass())) {
-			return false;
-		}
-		final OrikaFilterMapper other = (OrikaFilterMapper) obj;
-		return Objects.equals(beanWalker, other.beanWalker) && Objects.equals(mapper, other.mapper);
+	public boolean equals(final Object other) {
+		return super.equals(other);
 	}
-
 }
