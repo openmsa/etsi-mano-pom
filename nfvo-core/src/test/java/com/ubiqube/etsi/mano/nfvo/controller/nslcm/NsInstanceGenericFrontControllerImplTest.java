@@ -44,14 +44,18 @@ class NsInstanceGenericFrontControllerImplTest {
 
 	@Test
 	void testSearch() {
-		final NsInstanceGenericFrontControllerImpl srv = new NsInstanceGenericFrontControllerImpl(mapper, instanceController, nsLcmController);
+		final NsInstanceGenericFrontControllerImpl srv = createService();
 		srv.search(null, null, null, null);
 		assertTrue(true);
 	}
 
+	private NsInstanceGenericFrontControllerImpl createService() {
+		return new NsInstanceGenericFrontControllerImpl(instanceController, nsLcmController);
+	}
+
 	@Test
 	void testDelete() {
-		final NsInstanceGenericFrontControllerImpl srv = new NsInstanceGenericFrontControllerImpl(mapper, instanceController, nsLcmController);
+		final NsInstanceGenericFrontControllerImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		final String strId = id.toString();
 		srv.delete(strId);
@@ -60,7 +64,7 @@ class NsInstanceGenericFrontControllerImplTest {
 
 	@Test
 	void testFindById() {
-		final NsInstanceGenericFrontControllerImpl srv = new NsInstanceGenericFrontControllerImpl(mapper, instanceController, nsLcmController);
+		final NsInstanceGenericFrontControllerImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		final String strId = id.toString();
 		srv.findById(strId, x -> "", t -> {
@@ -70,7 +74,7 @@ class NsInstanceGenericFrontControllerImplTest {
 
 	@Test
 	void testHeal() {
-		final NsInstanceGenericFrontControllerImpl srv = new NsInstanceGenericFrontControllerImpl(mapper, instanceController, nsLcmController);
+		final NsInstanceGenericFrontControllerImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		final String strId = id.toString();
 		final NsHeal req = new NsHeal();
@@ -80,7 +84,7 @@ class NsInstanceGenericFrontControllerImplTest {
 
 	@Test
 	void testInstantiate() {
-		final NsInstanceGenericFrontControllerImpl srv = new NsInstanceGenericFrontControllerImpl(mapper, instanceController, nsLcmController);
+		final NsInstanceGenericFrontControllerImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		final String strId = id.toString();
 		final NsInstantiate req = new NsInstantiate();
@@ -90,7 +94,7 @@ class NsInstanceGenericFrontControllerImplTest {
 
 	@Test
 	void testScale() {
-		final NsInstanceGenericFrontControllerImpl srv = new NsInstanceGenericFrontControllerImpl(mapper, instanceController, nsLcmController);
+		final NsInstanceGenericFrontControllerImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		final String strId = id.toString();
 		final NsScale req = new NsScale();
@@ -100,7 +104,7 @@ class NsInstanceGenericFrontControllerImplTest {
 
 	@Test
 	void testTerminate() {
-		final NsInstanceGenericFrontControllerImpl srv = new NsInstanceGenericFrontControllerImpl(mapper, instanceController, nsLcmController);
+		final NsInstanceGenericFrontControllerImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		final String strId = id.toString();
 		final Object req = "";
@@ -110,7 +114,7 @@ class NsInstanceGenericFrontControllerImplTest {
 
 	@Test
 	void testUpdate() {
-		final NsInstanceGenericFrontControllerImpl srv = new NsInstanceGenericFrontControllerImpl(mapper, instanceController, nsLcmController);
+		final NsInstanceGenericFrontControllerImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		final String strId = id.toString();
 		final UpdateRequest req = new UpdateRequest();
@@ -120,7 +124,7 @@ class NsInstanceGenericFrontControllerImplTest {
 
 	@Test
 	void testCreate() {
-		final NsInstanceGenericFrontControllerImpl srv = new NsInstanceGenericFrontControllerImpl(mapper, instanceController, nsLcmController);
+		final NsInstanceGenericFrontControllerImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		final String strId = id.toString();
 		final CreateNsInstance value = new CreateNsInstance();

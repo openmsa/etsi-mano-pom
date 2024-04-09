@@ -29,6 +29,7 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -55,6 +56,7 @@ import com.ubiqube.etsi.mano.dao.mano.vim.vnffg.Classifier;
 import com.ubiqube.etsi.mano.nfvo.service.NsBlueprintService;
 import com.ubiqube.etsi.mano.nfvo.service.NsInstanceService;
 import com.ubiqube.etsi.mano.nfvo.service.NsdPackageService;
+import com.ubiqube.etsi.mano.nfvo.service.mapping.nsinstance.NsInstanceMapping;
 import com.ubiqube.etsi.mano.service.SearchableService;
 import com.ubiqube.etsi.mano.service.event.ActionType;
 import com.ubiqube.etsi.mano.service.event.EventManager;
@@ -75,10 +77,11 @@ class NsInstanceControllerServiceImplTest {
 	private NsBlueprintService nsBlueprintService;
 	@Mock
 	private SearchableService searchService;
+	NsInstanceMapping nsInstanceMapping = Mappers.getMapper(NsInstanceMapping.class);
 
 	@Test
 	void testCreateNsd() {
-		final NsInstanceControllerServiceImpl srv = new NsInstanceControllerServiceImpl(nsdPackageService, nsInstanceService, eventManager, mapper, nsBlueprintService, searchService);
+		final NsInstanceControllerServiceImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		final String strId = id.toString();
 		final NsdPackage nsdPkg = new NsdPackage();
@@ -94,9 +97,13 @@ class NsInstanceControllerServiceImplTest {
 		assertTrue(true);
 	}
 
+	private NsInstanceControllerServiceImpl createService() {
+		return new NsInstanceControllerServiceImpl(nsdPackageService, nsInstanceService, eventManager, mapper, nsBlueprintService, searchService, nsInstanceMapping);
+	}
+
 	@Test
 	void testCreateNsd_Advance() {
-		final NsInstanceControllerServiceImpl srv = new NsInstanceControllerServiceImpl(nsdPackageService, nsInstanceService, eventManager, mapper, nsBlueprintService, searchService);
+		final NsInstanceControllerServiceImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		final String strId = id.toString();
 		final NsdPackage nsdPkg = new NsdPackage();
@@ -129,23 +136,16 @@ class NsInstanceControllerServiceImplTest {
 		final NsdInstance nsdInstance = new NsdInstance();
 		vnfPkg.setNsdPackage(nsdPkg);
 		final Classifier clas = new Classifier();
+		vnffg.setClassifier(clas);
 		when(nsInstanceService.save(any())).thenReturn(nsdInstance);
 		when(nsdPackageService.findByNsdId(strId)).thenReturn(nsdPkg);
-		when(mapper.map(any(), eq(ForwarderMapping.class))).thenReturn(fw);
-		when(mapper.map(any(), eq(VnfScalingLevelMapping.class))).thenReturn(level);
-		when(mapper.map(any(), eq(VnfScalingStepMapping.class))).thenReturn(step);
-		when(mapper.map(any(), eq(ListKeyPair.class))).thenReturn(pair);
-		when(mapper.map(any(), eq(Classifier.class))).thenReturn(clas);
-		when(mapper.map(any(), eq(NfpDescriptor.class))).thenReturn(nfp);
-		when(mapper.map(any(), eq(VnffgInstance.class))).thenReturn(vnffgInst);
-		when(mapper.map(any(), eq(CpPair.class))).thenReturn(cpPair);
 		srv.createNsd(strId, "name", "descr");
 		assertTrue(true);
 	}
 
 	@Test
 	void testInstantiate() throws Exception {
-		final NsInstanceControllerServiceImpl srv = new NsInstanceControllerServiceImpl(nsdPackageService, nsInstanceService, eventManager, mapper, nsBlueprintService, searchService);
+		final NsInstanceControllerServiceImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		final NsInstantiate req = new NsInstantiate();
 		final NsdInstance inst = new NsdInstance();
@@ -161,7 +161,7 @@ class NsInstanceControllerServiceImplTest {
 
 	@Test
 	void testTerminate() throws Exception {
-		final NsInstanceControllerServiceImpl srv = new NsInstanceControllerServiceImpl(nsdPackageService, nsInstanceService, eventManager, mapper, nsBlueprintService, searchService);
+		final NsInstanceControllerServiceImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		final NsdInstance inst = new NsdInstance();
 		inst.setInstantiationState(InstantiationState.INSTANTIATED);
@@ -173,7 +173,7 @@ class NsInstanceControllerServiceImplTest {
 
 	@Test
 	void testHeal() throws Exception {
-		final NsInstanceControllerServiceImpl srv = new NsInstanceControllerServiceImpl(nsdPackageService, nsInstanceService, eventManager, mapper, nsBlueprintService, searchService);
+		final NsInstanceControllerServiceImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		final NsdInstance inst = new NsdInstance();
 		inst.setInstantiationState(InstantiationState.INSTANTIATED);
@@ -186,7 +186,7 @@ class NsInstanceControllerServiceImplTest {
 
 	@Test
 	void testScale() throws Exception {
-		final NsInstanceControllerServiceImpl srv = new NsInstanceControllerServiceImpl(nsdPackageService, nsInstanceService, eventManager, mapper, nsBlueprintService, searchService);
+		final NsInstanceControllerServiceImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		final NsdInstance inst = new NsdInstance();
 		inst.setInstantiationState(InstantiationState.INSTANTIATED);
@@ -199,7 +199,7 @@ class NsInstanceControllerServiceImplTest {
 
 	@Test
 	void testSearch() throws Exception {
-		final NsInstanceControllerServiceImpl srv = new NsInstanceControllerServiceImpl(nsdPackageService, nsInstanceService, eventManager, mapper, nsBlueprintService, searchService);
+		final NsInstanceControllerServiceImpl srv = createService();
 		srv.search(null, null, null, null, null);
 		assertTrue(true);
 	}

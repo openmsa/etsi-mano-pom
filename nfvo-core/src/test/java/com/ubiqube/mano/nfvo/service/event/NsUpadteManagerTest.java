@@ -26,6 +26,7 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -39,6 +40,7 @@ import com.ubiqube.etsi.mano.nfvo.jpa.NsLiveInstanceJpa;
 import com.ubiqube.etsi.mano.nfvo.service.NsBlueprintService;
 import com.ubiqube.etsi.mano.nfvo.service.NsInstanceService;
 import com.ubiqube.etsi.mano.nfvo.service.event.NsUpadteManager;
+import com.ubiqube.etsi.mano.nfvo.service.mapping.NsUpdateMapping;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.rest.ManoClientFactory;
 
@@ -59,6 +61,7 @@ class NsUpadteManagerTest {
 	private EventManager eventManager;
 	@Mock
 	private NsInstanceService nsInstanceService;
+	private final NsUpdateMapping nsUpdateMapping = Mappers.getMapper(NsUpdateMapping.class);
 
 	@Test
 	void testFailed() throws Exception {
@@ -141,7 +144,7 @@ class NsUpadteManagerTest {
 	}
 
 	NsUpadteManager createNsUpadteManager() {
-		return new NsUpadteManager(nsBlueprint, liveInstanceJpa, mapper, manoClientFactory,
-				eventManager, nsInstanceService);
+		return new NsUpadteManager(nsBlueprint, liveInstanceJpa, manoClientFactory,
+				eventManager, nsInstanceService, nsUpdateMapping);
 	}
 }

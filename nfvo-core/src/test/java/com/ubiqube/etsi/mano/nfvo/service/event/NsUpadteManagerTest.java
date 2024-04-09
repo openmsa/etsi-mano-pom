@@ -19,8 +19,6 @@ package com.ubiqube.etsi.mano.nfvo.service.event;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -31,13 +29,13 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.dao.mano.NsLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
-import com.ubiqube.etsi.mano.dao.mano.nsd.NfpDescriptor;
 import com.ubiqube.etsi.mano.dao.mano.nsd.NsdVnfPackageCopy;
 import com.ubiqube.etsi.mano.dao.mano.nsd.VnffgDescriptor;
 import com.ubiqube.etsi.mano.dao.mano.nsd.upd.AddVnffgData;
@@ -57,6 +55,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVnfTask;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsLiveInstanceJpa;
 import com.ubiqube.etsi.mano.nfvo.service.NsBlueprintService;
 import com.ubiqube.etsi.mano.nfvo.service.NsInstanceService;
+import com.ubiqube.etsi.mano.nfvo.service.mapping.NsUpdateMapping;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfCreateNode;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.rest.ManoClient;
@@ -64,14 +63,10 @@ import com.ubiqube.etsi.mano.service.rest.ManoClientFactory;
 import com.ubiqube.etsi.mano.service.rest.vnflcm.ManoVnfInstance;
 import com.ubiqube.etsi.mano.service.rest.vnflcm.ManoVnfInstanceId;
 
-import ma.glasnost.orika.MapperFacade;
-
 @ExtendWith(MockitoExtension.class)
 class NsUpadteManagerTest {
 	@Mock
 	private NsLiveInstanceJpa liveInstanceJpa;
-	@Mock
-	private MapperFacade mapper;
 	@Mock
 	private ManoClientFactory manoClientFactory;
 	@Mock
@@ -84,10 +79,11 @@ class NsUpadteManagerTest {
 	private ManoClient manoClient;
 	@Mock
 	private ManoVnfInstanceId manoVnf;
+	NsUpdateMapping nsUpdateMapping = Mappers.getMapper(NsUpdateMapping.class);
 
 	@Test
 	void testUpdate() {
-		final NsUpadteManager um = new NsUpadteManager(nsBlueprint, liveInstanceJpa, mapper, manoClientFactory, eventManager, nsInstanceService);
+		final NsUpadteManager um = createService();
 		final UUID id = UUID.randomUUID();
 		final NsBlueprint blueprint = new NsBlueprint();
 		when(nsBlueprint.findById(id)).thenReturn(blueprint);
@@ -95,9 +91,13 @@ class NsUpadteManagerTest {
 		assertNotNull(blueprint.getError());
 	}
 
+	private NsUpadteManager createService() {
+		return new NsUpadteManager(nsBlueprint, liveInstanceJpa, manoClientFactory, eventManager, nsInstanceService, nsUpdateMapping);
+	}
+
 	@Test
 	void testUpdate_AddVnf_allReadyPresent() {
-		final NsUpadteManager um = new NsUpadteManager(nsBlueprint, liveInstanceJpa, mapper, manoClientFactory, eventManager, nsInstanceService);
+		final NsUpadteManager um = createService();
 		final UUID id = UUID.randomUUID();
 		final NsBlueprint blueprint = new NsBlueprint();
 		final NsdInstance instance = new NsdInstance();
@@ -121,7 +121,7 @@ class NsUpadteManagerTest {
 
 	@Test
 	void testUpdate_AddVnf() {
-		final NsUpadteManager um = new NsUpadteManager(nsBlueprint, liveInstanceJpa, mapper, manoClientFactory, eventManager, nsInstanceService);
+		final NsUpadteManager um = createService();
 		final UUID id = UUID.randomUUID();
 		final NsBlueprint blueprint = new NsBlueprint();
 		final NsdInstance instance = new NsdInstance();
@@ -147,7 +147,7 @@ class NsUpadteManagerTest {
 
 	@Test
 	void testUpdate_ChenageExtConn() throws Exception {
-		final NsUpadteManager um = new NsUpadteManager(nsBlueprint, liveInstanceJpa, mapper, manoClientFactory, eventManager, nsInstanceService);
+		final NsUpadteManager um = createService();
 		final UUID id = UUID.randomUUID();
 		final NsBlueprint blueprint = new NsBlueprint();
 		final NsdInstance instance = new NsdInstance();
@@ -175,7 +175,7 @@ class NsUpadteManagerTest {
 
 	@Test
 	void testUpdate_DhangeVnfDf() throws Exception {
-		final NsUpadteManager um = new NsUpadteManager(nsBlueprint, liveInstanceJpa, mapper, manoClientFactory, eventManager, nsInstanceService);
+		final NsUpadteManager um = createService();
 		final UUID id = UUID.randomUUID();
 		final NsBlueprint blueprint = new NsBlueprint();
 		final NsdInstance instance = new NsdInstance();
@@ -212,7 +212,7 @@ class NsUpadteManagerTest {
 
 	@Test
 	void testUpdate_InstantiateVnf() throws Exception {
-		final NsUpadteManager um = new NsUpadteManager(nsBlueprint, liveInstanceJpa, mapper, manoClientFactory, eventManager, nsInstanceService);
+		final NsUpadteManager um = createService();
 		final UUID id = UUID.randomUUID();
 		final NsBlueprint blueprint = new NsBlueprint();
 		final NsdInstance instance = new NsdInstance();
@@ -238,7 +238,7 @@ class NsUpadteManagerTest {
 
 	@Test
 	void testUpdate_ModifyVnfInfo() throws Exception {
-		final NsUpadteManager um = new NsUpadteManager(nsBlueprint, liveInstanceJpa, mapper, manoClientFactory, eventManager, nsInstanceService);
+		final NsUpadteManager um = createService();
 		final UUID id = UUID.randomUUID();
 		final NsBlueprint blueprint = new NsBlueprint();
 		final NsdInstance instance = new NsdInstance();
@@ -269,7 +269,7 @@ class NsUpadteManagerTest {
 
 	@Test
 	void testUpdate_OperateVnf() throws Exception {
-		final NsUpadteManager um = new NsUpadteManager(nsBlueprint, liveInstanceJpa, mapper, manoClientFactory, eventManager, nsInstanceService);
+		final NsUpadteManager um = createService();
 		final UUID id = UUID.randomUUID();
 		final NsBlueprint blueprint = new NsBlueprint();
 		final NsdInstance instance = new NsdInstance();
@@ -301,7 +301,7 @@ class NsUpadteManagerTest {
 
 	@Test
 	void testUpdate_RemoveVnf() throws Exception {
-		final NsUpadteManager um = new NsUpadteManager(nsBlueprint, liveInstanceJpa, mapper, manoClientFactory, eventManager, nsInstanceService);
+		final NsUpadteManager um = createService();
 		final UUID id = UUID.randomUUID();
 		final NsBlueprint blueprint = new NsBlueprint();
 		final NsdInstance instance = new NsdInstance();
@@ -336,7 +336,7 @@ class NsUpadteManagerTest {
 
 	@Test
 	void testUpdate_RemoveVnf_NotFound() throws Exception {
-		final NsUpadteManager um = new NsUpadteManager(nsBlueprint, liveInstanceJpa, mapper, manoClientFactory, eventManager, nsInstanceService);
+		final NsUpadteManager um = createService();
 		final UUID id = UUID.randomUUID();
 		final NsBlueprint blueprint = new NsBlueprint();
 		final NsdInstance instance = new NsdInstance();
@@ -363,7 +363,7 @@ class NsUpadteManagerTest {
 
 	@Test
 	void testUpdate_MoveVnf() throws Exception {
-		final NsUpadteManager um = new NsUpadteManager(nsBlueprint, liveInstanceJpa, mapper, manoClientFactory, eventManager, nsInstanceService);
+		final NsUpadteManager um = createService();
 		final UUID id = UUID.randomUUID();
 		final NsBlueprint blueprint = new NsBlueprint();
 		final NsdInstance instance = new NsdInstance();
@@ -391,7 +391,7 @@ class NsUpadteManagerTest {
 
 	@Test
 	void testUpdate_AddVnffg() throws Exception {
-		final NsUpadteManager um = new NsUpadteManager(nsBlueprint, liveInstanceJpa, mapper, manoClientFactory, eventManager, nsInstanceService);
+		final NsUpadteManager um = createService();
 		final UUID id = UUID.randomUUID();
 		final NsBlueprint blueprint = new NsBlueprint();
 		final NsdInstance instance = new NsdInstance();
@@ -415,7 +415,7 @@ class NsUpadteManagerTest {
 
 	@Test
 	void testUpdate_RemoveVnffg() throws Exception {
-		final NsUpadteManager um = new NsUpadteManager(nsBlueprint, liveInstanceJpa, mapper, manoClientFactory, eventManager, nsInstanceService);
+		final NsUpadteManager um = createService();
 		final UUID id = UUID.randomUUID();
 		final NsBlueprint blueprint = new NsBlueprint();
 		final NsdInstance instance = new NsdInstance();
@@ -438,7 +438,7 @@ class NsUpadteManagerTest {
 
 	@Test
 	void testUpdate_UpdateVnffg() throws Exception {
-		final NsUpadteManager um = new NsUpadteManager(nsBlueprint, liveInstanceJpa, mapper, manoClientFactory, eventManager, nsInstanceService);
+		final NsUpadteManager um = createService();
 		final UUID id = UUID.randomUUID();
 		final NsBlueprint blueprint = new NsBlueprint();
 		final NsdInstance instance = new NsdInstance();
@@ -459,7 +459,6 @@ class NsUpadteManagerTest {
 		vnffg.setName(id.toString());
 		vnffg.setNfpd(new ArrayList<>());
 		instance.getVnffgs().add(vnffg);
-		when(mapper.mapAsList(anyList(), eq(NfpDescriptor.class))).thenReturn(List.of());
 		//
 		params.setUpdData(upd);
 		blueprint.setParameters(params);
