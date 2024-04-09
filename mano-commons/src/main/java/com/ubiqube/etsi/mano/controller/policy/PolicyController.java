@@ -19,6 +19,7 @@ package com.ubiqube.etsi.mano.controller.policy;
 import java.io.InputStream;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
@@ -48,6 +49,6 @@ public interface PolicyController {
 
 	Policies modify(UUID safeUUID, PolicyPatchDto patch);
 
-	<U> ResponseEntity<String> search(MultiValueMap<String, String> requestParams, Class<U> clazz, Consumer<U> makeLinks);
+	<U> ResponseEntity<String> search(MultiValueMap<String, String> requestParams, Function<Policies, U> mapper, Consumer<U> makeLinks);
 
 }
