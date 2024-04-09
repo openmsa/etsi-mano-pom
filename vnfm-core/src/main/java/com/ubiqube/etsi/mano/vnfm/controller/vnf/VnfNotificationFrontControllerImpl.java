@@ -25,7 +25,6 @@ import com.ubiqube.etsi.mano.vnfm.fc.vnf.VnfNotificationFrontController;
 import com.ubiqube.etsi.mano.vnfm.service.VnfNotificationService;
 
 import jakarta.transaction.Transactional;
-import ma.glasnost.orika.MapperFacade;
 
 /**
  *
@@ -34,11 +33,9 @@ import ma.glasnost.orika.MapperFacade;
  */
 @Service
 public class VnfNotificationFrontControllerImpl implements VnfNotificationFrontController {
-	private final MapperFacade mapper;
 	private final VnfNotificationService vnfNotificationService;
 
-	public VnfNotificationFrontControllerImpl(final MapperFacade mapper, final VnfNotificationService vnfNotificationService) {
-		this.mapper = mapper;
+	public VnfNotificationFrontControllerImpl(final VnfNotificationService vnfNotificationService) {
 		this.vnfNotificationService = vnfNotificationService;
 
 	}
@@ -49,17 +46,15 @@ public class VnfNotificationFrontControllerImpl implements VnfNotificationFrontC
 	}
 
 	@Override
-	public ResponseEntity<Void> onNotification(final Object body, final String version) {
-		final VnfPackageOnboardingNotification event = mapper.map(body, VnfPackageOnboardingNotification.class);
+	public ResponseEntity<Void> onNotification(final VnfPackageOnboardingNotification event, final String version) {
 		vnfNotificationService.onNotification(event, version);
 		return ResponseEntity.noContent().build();
 	}
 
 	@Transactional
 	@Override
-	public ResponseEntity<Void> onChange(final Object body, final String version) {
-		final VnfPackageChangeNotification event = mapper.map(body, VnfPackageChangeNotification.class);
-		vnfNotificationService.onChange(event);
+	public ResponseEntity<Void> onChange(final VnfPackageChangeNotification body, final String version) {
+		vnfNotificationService.onChange(body);
 		return ResponseEntity.noContent().build();
 	}
 

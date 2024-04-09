@@ -23,33 +23,30 @@ import org.springframework.stereotype.Controller;
 
 import com.ubiqube.etsi.mano.controller.EtsiImplementation;
 import com.ubiqube.etsi.mano.model.ApiVersionInformation;
-import com.ubiqube.etsi.mano.model.ApiVersionInformationApiVersions;
-
-import ma.glasnost.orika.MapperFacade;
+import com.ubiqube.etsi.mano.vnfm.service.mapping.ApiVersionInformationApiVersionsMapping;
 
 @Controller
 public class LcmApiVersionsApiController implements LcmApiVersionsApi {
 
-	private final MapperFacade mapper;
-
+	private final ApiVersionInformationApiVersionsMapping apiVersionInformationApiVersionsMapping;
 	private final List<EtsiImplementation> implementations;
 
-	public LcmApiVersionsApiController(final List<EtsiImplementation> implementations, final MapperFacade mapper) {
+	public LcmApiVersionsApiController(final List<EtsiImplementation> implementations, final ApiVersionInformationApiVersionsMapping apiVersionInformationApiVersionsMapping) {
+		this.apiVersionInformationApiVersionsMapping = apiVersionInformationApiVersionsMapping;
 		this.implementations = implementations;
-		this.mapper = mapper;
 	}
 
 	@Override
 	public ResponseEntity<ApiVersionInformation> apiVersionsGet(final String version) {
 		final ApiVersionInformation apiVersionInformation = new ApiVersionInformation();
-		apiVersionInformation.setApiVersions(mapper.mapAsList(implementations, ApiVersionInformationApiVersions.class));
+		apiVersionInformation.setApiVersions(implementations.stream().map(apiVersionInformationApiVersionsMapping::map).toList());
 		return ResponseEntity.ok(apiVersionInformation);
 	}
 
 	@Override
 	public ResponseEntity<ApiVersionInformation> apiVersionsV1Get(final String version) {
 		final ApiVersionInformation apiVersionInformation = new ApiVersionInformation();
-		apiVersionInformation.setApiVersions(mapper.mapAsList(implementations, ApiVersionInformationApiVersions.class));
+		apiVersionInformation.setApiVersions(implementations.stream().map(apiVersionInformationApiVersionsMapping::map).toList());
 		return ResponseEntity.ok(apiVersionInformation);
 	}
 

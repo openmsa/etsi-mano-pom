@@ -182,8 +182,8 @@ public class VnfInstanceGenericFrontControllerImpl implements VnfInstanceGeneric
 	}
 
 	@Override
-	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final @Nullable String nextpageOpaqueMarker, final Consumer<U> makeLink) {
-		return vnfInstancesService.search(requestParams, clazz, VNFLCM_SEARCH_DEFAULT_EXCLUDE_FIELDS, VNFLCM_SEARCH_MANDATORY_FIELDS, makeLink);
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<VnfInstance, U> mapper, final @Nullable String nextpageOpaqueMarker, final Consumer<U> makeLink) {
+		return vnfInstancesService.search(requestParams, mapper, VNFLCM_SEARCH_DEFAULT_EXCLUDE_FIELDS, VNFLCM_SEARCH_MANDATORY_FIELDS, makeLink);
 	}
 
 }

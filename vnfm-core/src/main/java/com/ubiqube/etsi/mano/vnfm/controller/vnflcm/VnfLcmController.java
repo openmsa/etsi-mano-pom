@@ -19,6 +19,7 @@ package com.ubiqube.etsi.mano.vnfm.controller.vnflcm;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
@@ -32,7 +33,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
  */
 public interface VnfLcmController {
 
-	<U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink);
+	<U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<VnfBlueprint, U> mapper, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink);
 
 	VnfBlueprint vnfLcmOpOccsVnfLcmOpOccIdGet(final UUID id);
 

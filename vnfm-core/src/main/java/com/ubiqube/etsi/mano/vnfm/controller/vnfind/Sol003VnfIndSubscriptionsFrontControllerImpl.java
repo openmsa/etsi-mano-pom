@@ -43,8 +43,8 @@ public class Sol003VnfIndSubscriptionsFrontControllerImpl implements VnfIndSubsc
 	}
 
 	@Override
-	public <U> ResponseEntity<List<U>> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final Consumer<U> makeLink) {
-		return subscriptionService.search(requestParams, clazz, makeLink, ApiVersionType.SOL003_VNFIND);
+	public <U> ResponseEntity<List<U>> search(final MultiValueMap<String, String> requestParams, final Function<Subscription, U> mapper, final Consumer<U> makeLink) {
+		return subscriptionService.search(requestParams, mapper, makeLink, ApiVersionType.SOL003_VNFIND);
 	}
 
 	@Override
@@ -58,8 +58,8 @@ public class Sol003VnfIndSubscriptionsFrontControllerImpl implements VnfIndSubsc
 	}
 
 	@Override
-	public <U> ResponseEntity<U> findById(final String subscriptionId, final Class<U> clazz, final Consumer<U> makeLink) {
-		return subscriptionService.findById(subscriptionId, clazz, makeLink, ApiVersionType.SOL003_VNFIND);
+	public <U> ResponseEntity<U> findById(final String subscriptionId, final Function<Subscription, U> mapper, final Consumer<U> makeLink) {
+		return subscriptionService.findById(subscriptionId, mapper, makeLink, ApiVersionType.SOL003_VNFIND);
 	}
 
 }

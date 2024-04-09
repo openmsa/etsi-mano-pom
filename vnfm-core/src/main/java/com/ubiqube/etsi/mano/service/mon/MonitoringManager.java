@@ -19,7 +19,6 @@ package com.ubiqube.etsi.mano.service.mon;
 import static com.ubiqube.etsi.mano.Constants.getSafeUUID;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -29,12 +28,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import com.ubiqube.etsi.mano.dao.mano.VnfIndicator;
 import com.ubiqube.etsi.mano.dao.mano.VnfLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.pm.PmJob;
 import com.ubiqube.etsi.mano.dao.mano.pm.PmJobCriteria;
 import com.ubiqube.etsi.mano.dao.mano.pm.RemoteMetric;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
-import com.ubiqube.etsi.mano.em.v431.model.vnfind.VnfIndicator;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.grammar.BooleanExpression;
 import com.ubiqube.etsi.mano.grammar.GrammarLabel;
@@ -106,7 +105,7 @@ public class MonitoringManager {
 		final MultiValueMap<String, String> params = convert(res);
 		final List<TelemetryMetricsResult> ret = em.searchMetric(params);
 		return ret.stream()
-				.map(x -> convertToVnfIndicator(x))
+				.map(MonitoringManager::convertToVnfIndicator)
 				.toList();
 	}
 
@@ -114,7 +113,8 @@ public class MonitoringManager {
 		final VnfIndicator ret = new VnfIndicator();
 		// Id
 		ret.setName(x.getMasterJobId());
-		ret.setValue(Optional.ofNullable((Object) x.getValue()).orElse(x.getText()));
+		// TODO: Fix this double type assignation.
+//		ret.setValue(Optional.ofNullable((Object) x.getValue()).orElse(x.getText()));
 		ret.setVnfInstanceId(x.getKey());
 		return ret;
 	}

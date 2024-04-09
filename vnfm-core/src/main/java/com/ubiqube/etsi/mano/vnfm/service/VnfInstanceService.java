@@ -21,6 +21,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
@@ -55,7 +56,7 @@ public interface VnfInstanceService {
 
 	VnfInstance vnfLcmPatch(VnfInstance vnfInstance, String body, @Nullable String ifMatch);
 
-	<U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, @Nullable final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink);
+	<U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<VnfInstance, U> mapper, @Nullable final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink);
 
 	List<VnfLiveInstance> findByResourceIdIn(List<String> objectInstanceIds);
 

@@ -22,6 +22,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -139,8 +140,8 @@ public class VnfInstanceServiceImpl implements VnfInstanceService {
 	}
 
 	@Override
-	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final @Nullable String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink) {
-		return searchableService.search(VnfInstance.class, requestParams, clazz, excludeDefaults, mandatoryFields, makeLink, List.of());
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<VnfInstance, U> mapper, final @Nullable String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink) {
+		return searchableService.search(VnfInstance.class, requestParams, mapper, excludeDefaults, mandatoryFields, makeLink, List.of());
 	}
 
 	@Override

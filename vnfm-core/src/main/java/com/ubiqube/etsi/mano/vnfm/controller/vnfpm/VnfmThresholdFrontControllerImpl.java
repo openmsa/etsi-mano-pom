@@ -28,10 +28,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 
+import com.ubiqube.etsi.mano.dao.mano.pm.Threshold;
 import com.ubiqube.etsi.mano.vnfm.fc.vnfpm.VnfmThresholdFrontController;
 
 import jakarta.annotation.Nullable;
-import ma.glasnost.orika.MapperFacade;
 
 /**
  *
@@ -42,18 +42,14 @@ import ma.glasnost.orika.MapperFacade;
 public class VnfmThresholdFrontControllerImpl implements VnfmThresholdFrontController {
 	private final VnfmThresholdController vnfmThresholdController;
 
-	private final MapperFacade mapper;
-
-	public VnfmThresholdFrontControllerImpl(final VnfmThresholdController vnfmThresholdController, final MapperFacade mapper) {
+	public VnfmThresholdFrontControllerImpl(final VnfmThresholdController vnfmThresholdController) {
 		this.vnfmThresholdController = vnfmThresholdController;
-		this.mapper = mapper;
 	}
 
 	@Override
-	public <U> ResponseEntity<U> thresholdsCreate(final Object request, final Class<U> clazz, final Consumer<U> makeLink, final Function<U, String> getSelfLink) {
-		com.ubiqube.etsi.mano.dao.mano.pm.Threshold res = mapper.map(request, com.ubiqube.etsi.mano.dao.mano.pm.Threshold.class);
-		res = vnfmThresholdController.save(res);
-		final U ret = mapper.map(res, clazz);
+	public <U> ResponseEntity<U> thresholdsCreate(final Threshold req, final Function<Threshold, U> mapper, final Consumer<U> makeLink, final Function<U, String> getSelfLink) {
+		final Threshold res = vnfmThresholdController.save(req);
+		final U ret = mapper.apply(res);
 		makeLink.accept(ret);
 		final String link = getSelfLink.apply(ret);
 		return ResponseEntity.created(URI.create(link)).body(ret);
@@ -66,20 +62,20 @@ public class VnfmThresholdFrontControllerImpl implements VnfmThresholdFrontContr
 	}
 
 	@Override
-	public <U> ResponseEntity<U> findById(final String thresholdId, final Class<U> clazz, final Consumer<U> makeLink) {
+	public <U> ResponseEntity<U> findById(final String thresholdId, final Function<Threshold, U> mapper, final Consumer<U> makeLink) {
 		final com.ubiqube.etsi.mano.dao.mano.pm.Threshold res = vnfmThresholdController.findById(UUID.fromString(thresholdId));
-		final U ret = mapper.map(res, clazz);
+		final U ret = mapper.apply(res);
 		makeLink.accept(ret);
 		return ResponseEntity.ok(ret);
 	}
 
 	@Override
-	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final @Nullable String nextpageOpaqueMarker, final Class<U> clazz, final Consumer<U> makeLink) {
-		return vnfmThresholdController.search(requestParams, clazz, VNFTHR_SEARCH_DEFAULT_EXCLUDE_FIELDS, VNFTHR_SEARCH_MANDATORY_FIELDS, makeLink);
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final @Nullable String nextpageOpaqueMarker, final Function<Threshold, U> mapper, final Consumer<U> makeLink) {
+		return vnfmThresholdController.search(requestParams, mapper, VNFTHR_SEARCH_DEFAULT_EXCLUDE_FIELDS, VNFTHR_SEARCH_MANDATORY_FIELDS, makeLink);
 	}
 
 	@Override
-	public <U> ResponseEntity<U> patch(final String thresholdId, final Object body, final Class<U> clazz) {
+	public <U> ResponseEntity<U> patch(final String thresholdId, final Object body, final Function<Threshold, U> mapper) {
 		throw new UnsupportedOperationException();
 	}
 

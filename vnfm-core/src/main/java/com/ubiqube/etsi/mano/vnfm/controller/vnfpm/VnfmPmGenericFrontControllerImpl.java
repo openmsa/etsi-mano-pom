@@ -30,10 +30,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 
+import com.ubiqube.etsi.mano.dao.mano.pm.PerformanceReport;
+import com.ubiqube.etsi.mano.dao.mano.pm.PmJob;
 import com.ubiqube.etsi.mano.vnfm.fc.vnfpm.VnfmPmGenericFrontController;
 
 import jakarta.validation.Valid;
-import ma.glasnost.orika.MapperFacade;
 
 /**
  *
@@ -43,16 +44,14 @@ import ma.glasnost.orika.MapperFacade;
 @Service
 public class VnfmPmGenericFrontControllerImpl implements VnfmPmGenericFrontController {
 	private final VnfmPmController vnfmPmController;
-	private final MapperFacade mapper;
 
-	public VnfmPmGenericFrontControllerImpl(final VnfmPmController vnfmPmController, final MapperFacade mapper) {
+	public VnfmPmGenericFrontControllerImpl(final VnfmPmController vnfmPmController) {
 		this.vnfmPmController = vnfmPmController;
-		this.mapper = mapper;
 	}
 
 	@Override
-	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final Consumer<U> makeLink) {
-		return vnfmPmController.search(requestParams, clazz, VNFPMJOB_SEARCH_DEFAULT_EXCLUDE_FIELDS, VNFPMJOB_SEARCH_MANDATORY_FIELDS, makeLink);
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<PmJob, U> mapper, final Consumer<U> makeLink) {
+		return vnfmPmController.search(requestParams, mapper, VNFPMJOB_SEARCH_DEFAULT_EXCLUDE_FIELDS, VNFPMJOB_SEARCH_MANDATORY_FIELDS, makeLink);
 	}
 
 	@Override
@@ -62,24 +61,23 @@ public class VnfmPmGenericFrontControllerImpl implements VnfmPmGenericFrontContr
 	}
 
 	@Override
-	public <U> ResponseEntity<U> findById(final UUID pmJobIdn, final Class<U> clazz, final Consumer<U> makeLinks) {
+	public <U> ResponseEntity<U> findById(final UUID pmJobIdn, final Function<PmJob, U> mapper, final Consumer<U> makeLinks) {
 		final com.ubiqube.etsi.mano.dao.mano.pm.PmJob pmJob = vnfmPmController.findById(pmJobIdn);
-		final U ret = mapper.map(pmJob, clazz);
+		final U ret = mapper.apply(pmJob);
 		makeLinks.accept(ret);
 		return new ResponseEntity<>(ret, HttpStatus.OK);
 	}
 
 	@Override
-	public <U> ResponseEntity<U> findReportById(final String pmJobId, final String reportId, final Class<U> clazz) {
-		final com.ubiqube.etsi.mano.dao.mano.pm.PerformanceReport pm = vnfmPmController.findReport(getSafeUUID(pmJobId), getSafeUUID(reportId));
-		return ResponseEntity.ok(mapper.map(pm, clazz));
+	public <U> ResponseEntity<U> findReportById(final String pmJobId, final String reportId, final Function<PerformanceReport, U> mapper) {
+		final PerformanceReport pm = vnfmPmController.findReport(getSafeUUID(pmJobId), getSafeUUID(reportId));
+		return ResponseEntity.ok(mapper.apply(pm));
 	}
 
 	@Override
-	public <U> ResponseEntity<U> pmJobsPost(@Valid final Object createPmJobRequest, final Class<U> clazz, final Consumer<U> makeLinks, final Function<U, String> getSelfLink) {
-		com.ubiqube.etsi.mano.dao.mano.pm.PmJob res = mapper.map(createPmJobRequest, com.ubiqube.etsi.mano.dao.mano.pm.PmJob.class);
-		res = vnfmPmController.save(res);
-		final U obj = mapper.map(res, clazz);
+	public <U> ResponseEntity<U> pmJobsPost(@Valid final PmJob resIn, final Function<PmJob, U> mapper, final Consumer<U> makeLinks, final Function<U, String> getSelfLink) {
+		final PmJob res = vnfmPmController.save(resIn);
+		final U obj = mapper.apply(res);
 		makeLinks.accept(obj);
 		final String link = getSelfLink.apply(obj);
 		return ResponseEntity.created(URI.create(link)).body(obj);

@@ -21,6 +21,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -80,8 +81,8 @@ public class VnfmThresholdControllerDirectVim implements VnfmThresholdController
 	}
 
 	@Override
-	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink) {
-		return searchableService.search(Threshold.class, requestParams, clazz, excludeDefaults, mandatoryFields, makeLink, List.of());
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<Threshold, U> mapper, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink) {
+		return searchableService.search(Threshold.class, requestParams, mapper, excludeDefaults, mandatoryFields, makeLink, List.of());
 	}
 
 }

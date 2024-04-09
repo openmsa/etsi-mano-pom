@@ -45,12 +45,12 @@ public class VnfLcmSubscriptionFrontControllerImpl implements VnfLcmSubscription
 	}
 
 	@Override
-	public <U> ResponseEntity<U> findById(final String id, final Class<U> clazz, final Consumer<U> setLink) {
+	public <U> ResponseEntity<U> findById(final String id, final Function<Subscription, U> clazz, final Consumer<U> setLink) {
 		return subscriptionService.findById(id, clazz, setLink, ApiVersionType.SOL003_VNFLCM);
 	}
 
 	@Override
-	public <U> ResponseEntity<List<U>> search(final MultiValueMap<String, String> requestParams, final @Nullable String nextpageOpaqueMarker, final Class<U> clazz, final Consumer<U> setLink) {
+	public <U> ResponseEntity<List<U>> search(final MultiValueMap<String, String> requestParams, final @Nullable String nextpageOpaqueMarker, final Function<Subscription, U> clazz, final Consumer<U> setLink) {
 		return subscriptionService.search(requestParams, clazz, setLink, ApiVersionType.SOL003_VNFLCM);
 	}
 

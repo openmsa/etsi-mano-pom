@@ -30,6 +30,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.VnfPortTask;
 import com.ubiqube.etsi.mano.jpa.ConnectionInformationJpa;
 import com.ubiqube.etsi.mano.service.AbstractGrantService;
 import com.ubiqube.etsi.mano.service.NfvoService;
+import com.ubiqube.etsi.mano.service.mapping.BlueZoneGroupInformationMapping;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 
 import jakarta.transaction.Transactional;
@@ -49,8 +50,8 @@ public class ManoGrantService extends AbstractGrantService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ManoGrantService.class);
 
-	public ManoGrantService(final MapperFacade mapper, final VnfResourceAllocate nfvo, final VimManager vimManager, final ConnectionInformationJpa connectionJpa) {
-		super(mapper, nfvo, vimManager, connectionJpa);
+	public ManoGrantService(final MapperFacade mapper, final VnfResourceAllocate nfvo, final VimManager vimManager, final ConnectionInformationJpa connectionJpa, final BlueZoneGroupInformationMapping blueZoneGroupInformationMapping) {
+		super(mapper, nfvo, vimManager, connectionJpa, blueZoneGroupInformationMapping);
 	}
 
 	@Override

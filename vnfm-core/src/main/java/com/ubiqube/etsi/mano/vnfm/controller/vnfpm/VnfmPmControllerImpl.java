@@ -25,6 +25,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
@@ -206,28 +207,28 @@ public class VnfmPmControllerImpl implements VnfmPmController {
 
 	private static ResolvedObjectId findVnfName(final String str, final List<VnfInstance> insts) {
 		final List<ResolvedObjectId> osDu = insts.stream()
-				.map(x -> x.getVnfPkg())
+				.map(VnfInstance::getVnfPkg)
 				.flatMap(x -> x.getOsContainerDeployableUnits().stream())
 				.filter(x -> x.getName().equals(str))
 				.map(x -> new ResolvedObjectId(null, str, ObjectType.OS_CONTAINER, x.getId()))
 				.toList();
 		final List<ResolvedObjectId> ret = new ArrayList<>(osDu);
 		final List<ResolvedObjectId> vnfComp = insts.stream()
-				.map(x -> x.getVnfPkg())
+				.map(VnfInstance::getVnfPkg)
 				.flatMap(x -> x.getVnfCompute().stream())
 				.filter(x -> x.getToscaName().equals(str))
 				.map(x -> new ResolvedObjectId(null, str, ObjectType.COMPUTE, x.getId()))
 				.toList();
 		ret.addAll(vnfComp);
 		final List<ResolvedObjectId> vnfExtCp = insts.stream()
-				.map(x -> x.getVnfPkg())
+				.map(VnfInstance::getVnfPkg)
 				.flatMap(x -> x.getVnfExtCp().stream())
 				.filter(x -> x.getToscaName().equals(str))
 				.map(x -> new ResolvedObjectId(null, str, ObjectType.EXT_CP, x.getId()))
 				.toList();
 		ret.addAll(vnfExtCp);
 		final List<ResolvedObjectId> vnfVl = insts.stream()
-				.map(x -> x.getVnfPkg())
+				.map(VnfInstance::getVnfPkg)
 				.flatMap(x -> x.getVnfVl().stream())
 				.filter(x -> x.getToscaName().equals(str))
 				.map(x -> new ResolvedObjectId(null, str, ObjectType.VL, x.getId()))
@@ -243,8 +244,8 @@ public class VnfmPmControllerImpl implements VnfmPmController {
 	}
 
 	@Override
-	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink) {
-		return searchableService.search(PmJob.class, requestParams, clazz, excludeDefaults, mandatoryFields, makeLink, List.of());
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<PmJob, U> mapper, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink) {
+		return searchableService.search(PmJob.class, requestParams, mapper, excludeDefaults, mandatoryFields, makeLink, List.of());
 	}
 
 }
