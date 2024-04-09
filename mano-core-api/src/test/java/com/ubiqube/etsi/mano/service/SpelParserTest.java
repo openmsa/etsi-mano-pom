@@ -26,21 +26,12 @@ import com.ubiqube.etsi.mano.mapper.JsonWalker;
 import com.ubiqube.etsi.mano.mapper.SpelWriter;
 import com.ubiqube.etsi.mano.test.TestTools;
 
-import ma.glasnost.orika.MapperFacade;
-import ma.glasnost.orika.impl.DefaultMapperFactory;
-
 class SpelParserTest {
-	private final DefaultMapperFactory mapperFactory;
-
-	public SpelParserTest() {
-		mapperFactory = new DefaultMapperFactory.Builder().build();
-	}
 
 	@Test
 	void testComplexPatch() throws Exception {
 		final ObjectMapper _mapper = new ObjectMapper();
-		final MapperFacade _mapperFacade = mapperFactory.getMapperFacade();
-		final SpelWriter _spelWriter = new SpelWriter(_mapperFacade);
+		final SpelWriter _spelWriter = new SpelWriter();
 		final JsonWalker _jsonWalker = new JsonWalker(_mapper);
 		final SpelPatcher sp = new SpelPatcher(_mapper, _jsonWalker, _spelWriter);
 		final VnfPkgInfo vpi = new VnfPkgInfo();

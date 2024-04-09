@@ -31,8 +31,6 @@ import com.ubiqube.etsi.mano.mapper.JsonWalker;
 import com.ubiqube.etsi.mano.mapper.SpelWriter;
 import com.ubiqube.etsi.mano.service.cond.ConditionService;
 
-import ma.glasnost.orika.MapperFacade;
-
 /**
  *
  * @author olivier
@@ -66,7 +64,7 @@ public class GlobalConfiguraton {
 	}
 
 	@Bean
-	SpelWriter spelWriter(final MapperFacade mapper) {
-		return new SpelWriter(mapper);
+	SpelWriter spelWriter() {
+		return new SpelWriter();
 	}
 }

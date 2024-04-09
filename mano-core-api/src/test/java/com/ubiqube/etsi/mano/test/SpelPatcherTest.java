@@ -31,16 +31,13 @@ import com.ubiqube.etsi.mano.mapper.JsonWalker;
 import com.ubiqube.etsi.mano.mapper.SpelWriter;
 import com.ubiqube.etsi.mano.service.SpelPatcher;
 
-import ma.glasnost.orika.impl.DefaultMapperFactory;
-
 class SpelPatcherTest {
 
 	@Test
 	void testName() throws Exception {
 		final ObjectMapper mapper = new ObjectMapper();
 		final JsonWalker jsonWalker = new JsonWalker(mapper);
-		final DefaultMapperFactory mapperFacade = new DefaultMapperFactory.Builder().build();
-		final SpelWriter spelWriter = new SpelWriter(mapperFacade.getMapperFacade());
+		final SpelWriter spelWriter = new SpelWriter();
 		final SpelPatcher sp = new SpelPatcher(mapper, jsonWalker, spelWriter);
 		final TestVim vim = new TestVim();
 		sp.patch("""

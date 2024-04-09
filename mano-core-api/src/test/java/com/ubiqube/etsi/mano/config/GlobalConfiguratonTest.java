@@ -59,7 +59,7 @@ class GlobalConfiguratonTest {
 	@Test
 	void testSpelwriter() {
 		final GlobalConfiguraton srv = new GlobalConfiguraton();
-		final var res = srv.spelWriter(null);
+		final var res = srv.spelWriter();
 		assertNotNull(res);
 	}
 }
