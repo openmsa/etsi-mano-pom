@@ -50,16 +50,8 @@ import com.ubiqube.mapper.objects.PkgmSubscription;
 import com.ubiqube.mapper.objects.PkgmSubscriptionLinks;
 import com.ubiqube.mapper.objects.VnfPkgInfo;
 
-import ma.glasnost.orika.impl.DefaultMapperFactory;
-
 @SuppressWarnings("static-method")
 class BeanWalkerTest {
-
-	private final DefaultMapperFactory mapperFactory;
-
-	public BeanWalkerTest() {
-		mapperFactory = new DefaultMapperFactory.Builder().build();
-	}
 
 	@Test
 	void testName() {
@@ -68,7 +60,7 @@ class BeanWalkerTest {
 		final CollectNonNullListener beanListener = new CollectNonNullListener();
 		bw.walk(subsJson, beanListener);
 		final List<AttrHolder> attrs = beanListener.getAttrs();
-		final SpelWriter sw = new SpelWriter(mapperFactory.getMapperFacade());
+		final SpelWriter sw = new SpelWriter();
 		final List<FilterAttributes> swRes = sw.getFilterAttrs(attrs);
 
 		assertEquals(4, swRes.size());
@@ -113,7 +105,7 @@ class BeanWalkerTest {
 		final CollectNonNullListener beanListener = new CollectNonNullListener();
 		bw.walk(subsJson, beanListener);
 		final List<AttrHolder> attrs = beanListener.getAttrs();
-		final SpelWriter sw = new SpelWriter(mapperFactory.getMapperFacade());
+		final SpelWriter sw = new SpelWriter();
 		final List<FilterAttributes> swRes = sw.getFilterAttrs(attrs);
 		assertEquals(1, swRes.size());
 		final FilterAttributes sw0 = swRes.get(0);

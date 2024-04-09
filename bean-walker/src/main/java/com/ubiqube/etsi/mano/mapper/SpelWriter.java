@@ -17,21 +17,18 @@
 package com.ubiqube.etsi.mano.mapper;
 
 import java.util.Deque;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 import com.ubiqube.etsi.mano.service.event.model.FilterAttributes;
 
 import jakarta.annotation.Nullable;
-import ma.glasnost.orika.MapperFacade;
-import ma.glasnost.orika.MappingContext;
 
 public class SpelWriter {
-	private final MapperFacade mapper;
+	private final BasicConverter basicConverter;
 
-	public SpelWriter(final MapperFacade mapperFacade) {
-		this.mapper = mapperFacade;
+	public SpelWriter() {
+		this.basicConverter = new BasicConverter();
 	}
 
 	public List<FilterAttributes> getFilterAttrs(final List<AttrHolder> attrs) {
@@ -54,7 +51,7 @@ public class SpelWriter {
 		final FilterAttributes filterAttributes = new FilterAttributes();
 		filterAttributes.setAttribute(sb.toString());
 		if (null != attrHolder.getValue()) {
-			filterAttributes.setValue(mapper.convert(attrHolder.getValue(), String.class, null, new MappingContext(new HashMap<>())));
+			filterAttributes.setValue(basicConverter.convert(attrHolder.getValue(), String.class));
 		}
 
 		return filterAttributes;
