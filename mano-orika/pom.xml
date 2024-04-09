@@ -11,10 +11,12 @@
   		<dependency>
 			<groupId>ma.glasnost.orika</groupId>
 			<artifactId>ubi-orika-core</artifactId>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>ma.glasnost.orika</groupId>
 			<artifactId>ubi-orika-eclipse-tools</artifactId>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
