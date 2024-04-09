@@ -19,6 +19,7 @@ package com.ubiqube.etsi.mano.service;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
@@ -32,5 +33,5 @@ import jakarta.annotation.Nullable;
  */
 public interface ManoSearchResponseService {
 
-	<U> ResponseEntity<String> search(@Nullable final MultiValueMap<String, String> parameters, final Class<?> clazz, @Nullable final String excludeDefaults, @Nullable final Set<String> mandatoryFields, final List<?> list, final Class<U> target, final Consumer<U> makeLink);
+	<T, U> ResponseEntity<String> search(@Nullable MultiValueMap<String, String> parameters, final Class<?> clazz, @Nullable final String excludeDefaults, @Nullable final Set<String> mandatoryFields, final List<?> list, final Function<T, U> target, final Consumer<U> makeLink);
 }

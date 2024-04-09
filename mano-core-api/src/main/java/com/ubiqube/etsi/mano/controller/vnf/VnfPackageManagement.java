@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
@@ -71,16 +72,16 @@ public interface VnfPackageManagement {
 
 	ManoResource onboardedVnfPackagesVnfdIdVnfdGet(String vnfdId, String contentType, String includeSignatures);
 
-	<U> U onboardedVnfPackagesVnfdIdGet(String vnfdId, Class<U> clazz);
+	<U> U onboardedVnfPackagesVnfdIdGet(String vnfdId, Function<VnfPackage, U> mapper);
 
-	<U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, Class<U> clazz, String excludeDefaults, Set<String> mandatoryFields, Consumer<U> makeLink);
+	<U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, Function<VnfPackage, U> mapper, String excludeDefaults, Set<String> mandatoryFields, Consumer<U> makeLink);
 
 	ManoResource onboardedGetManifestByVnfd(String vnfdId, @Valid String includeSignature);
 
 	ResponseEntity<Resource> onboardedVnfPackagesVnfdIdArtifactsGet(String vnfdId, final String artifactPath);
 
-	<U> U vnfPackagesVnfPkgVnfdIdGet(String vnfPkgId, Class<U> clazz);
+	<U> U vnfPackagesVnfPkgVnfdIdGet(String vnfPkgId, Function<VnfPackage, U> mapper);
 
-	<U> ResponseEntity<String> searchOnboarded(MultiValueMap<String, String> requestParams, Class<U> clazz, String excludeDefaults, Set<String> mandatoryFields, Consumer<U> makeLinks);
+	<U> ResponseEntity<String> searchOnboarded(MultiValueMap<String, String> requestParams, Function<VnfPackage, U> mapper, String excludeDefaults, Set<String> mandatoryFields, Consumer<U> makeLinks);
 
 }

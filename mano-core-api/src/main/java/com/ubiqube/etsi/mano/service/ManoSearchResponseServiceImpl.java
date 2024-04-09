@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
@@ -65,7 +66,7 @@ public class ManoSearchResponseServiceImpl implements ManoSearchResponseService 
 	}
 
 	@Override
-	public <U> ResponseEntity<String> search(final @Nullable MultiValueMap<String, String> parameters, final Class<?> clazz, @Nullable final String excludeDefaults, final Set<String> mandatoryFields, final List<?> list, final Class<U> target, final Consumer<U> makeLink) {
+	public <T, U> ResponseEntity<String> search(final @Nullable MultiValueMap<String, String> parameters, final Class<?> clazz, @Nullable final String excludeDefaults, final Set<String> mandatoryFields, final List<?> list, final Function<T, U> mapper, final Consumer<U> makeLink) {
 		final MultiValueMap<String, String> params = Optional.ofNullable(parameters).orElse(new LinkedMultiValueMap<>());
 		checkParameters(params);
 		final List<String> fields = params.get("fields");
@@ -73,7 +74,7 @@ public class ManoSearchResponseServiceImpl implements ManoSearchResponseService 
 		final boolean haveDefaultFields = params.containsKey("exclude_default");
 		final boolean allFields = params.containsKey("all_fields");
 		final List<U> vnfPkginfos = list.stream()
-				.map(x -> mapper.map(x, target))
+				.map(x -> mapper.apply((T) x))
 				.toList();
 		vnfPkginfos.forEach(makeLink);
 

@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -116,8 +117,8 @@ public class PolicyControllerImpl implements PolicyController {
 	}
 
 	@Override
-	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> clazz, final Consumer<U> makeLinks) {
-		return searchableService.search(Policies.class, requestParams, clazz, null, null, makeLinks, List.of());
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<Policies, U> mapper, final Consumer<U> makeLinks) {
+		return searchableService.search(Policies.class, requestParams, mapper, null, null, makeLinks, List.of());
 	}
 
 }
