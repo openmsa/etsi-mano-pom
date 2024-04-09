@@ -59,6 +59,7 @@ import com.ubiqube.etsi.mano.model.VnfOperateRequest;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsLiveInstanceJpa;
 import com.ubiqube.etsi.mano.nfvo.service.NsBlueprintService;
 import com.ubiqube.etsi.mano.nfvo.service.NsInstanceService;
+import com.ubiqube.etsi.mano.nfvo.service.mapping.NsUpdateMapping;
 import com.ubiqube.etsi.mano.orchestrator.nodes.nfvo.VnfCreateNode;
 import com.ubiqube.etsi.mano.service.event.ActionType;
 import com.ubiqube.etsi.mano.service.event.EventManager;
@@ -66,7 +67,6 @@ import com.ubiqube.etsi.mano.service.rest.ManoClient;
 import com.ubiqube.etsi.mano.service.rest.ManoClientFactory;
 
 import jakarta.annotation.Nullable;
-import ma.glasnost.orika.MapperFacade;
 
 /**
  *
@@ -80,19 +80,19 @@ public class NsUpadteManager {
 
 	private final NsBlueprintService nsBlueprint;
 	private final NsLiveInstanceJpa liveInstanceJpa;
-	private final MapperFacade mapper;
 	private final ManoClientFactory manoClientFactory;
 	private final EventManager eventManager;
 	private final NsInstanceService nsInstanceService;
+	private final NsUpdateMapping nsUpdateMapping;
 
-	public NsUpadteManager(final NsBlueprintService nsBlueprint, final NsLiveInstanceJpa liveInstanceJpa, final MapperFacade mapper, final ManoClientFactory manoClientFactory,
-			final EventManager eventManager, final NsInstanceService nsInstanceService) {
+	public NsUpadteManager(final NsBlueprintService nsBlueprint, final NsLiveInstanceJpa liveInstanceJpa, final ManoClientFactory manoClientFactory,
+			final EventManager eventManager, final NsInstanceService nsInstanceService, final NsUpdateMapping nsUpdateMapping) {
 		this.nsBlueprint = nsBlueprint;
 		this.liveInstanceJpa = liveInstanceJpa;
-		this.mapper = mapper;
 		this.manoClientFactory = manoClientFactory;
 		this.eventManager = eventManager;
 		this.nsInstanceService = nsInstanceService;
+		this.nsUpdateMapping = nsUpdateMapping;
 	}
 
 	public void update(final UUID objectId) {
@@ -133,7 +133,7 @@ public class NsUpadteManager {
 			final List<NfpDescriptor> notDeleted = vnffg.getNfpd().stream().filter(y -> !x.getNfpInfoId().contains(y.getToscaName())).toList();
 			vnffg.setNfpd(new ArrayList<>(notDeleted));
 			//
-			final List<@NonNull NfpDescriptor> newNfp = mapper.mapAsList(x.getNfp(), NfpDescriptor.class);
+			final List<@NonNull NfpDescriptor> newNfp = x.getNfp().stream().map(y -> nsUpdateMapping.map(y)).toList();
 			vnffg.getNfpd().addAll(newNfp);
 		});
 
@@ -198,7 +198,7 @@ public class NsUpadteManager {
 
 	private void sendOperate(final String resourceId, final Servers servers, final OperateVnfData operateData) {
 		final ManoClient mc = manoClientFactory.getClient(servers);
-		final VnfOperateRequest req = mapper.map(operateData, VnfOperateRequest.class);
+		final VnfOperateRequest req = nsUpdateMapping.map(operateData);
 		mc.vnfInstance().id(getSafeUUID(resourceId)).operate(req);
 	}
 
@@ -236,7 +236,7 @@ public class NsUpadteManager {
 	}
 
 	private @Nullable Object instantiateVnf(final List<InstantiateVnfData> instantiateVnfData) {
-		instantiateVnfData.stream().forEach(x -> mapper.map(x, NsBlueprint.class));
+		instantiateVnfData.stream().forEach(x -> nsUpdateMapping.map(x));
 		return null;
 	}
 
@@ -250,7 +250,7 @@ public class NsUpadteManager {
 	}
 
 	private void sendChangeDf(final String resourceId, final Servers server, final ChangeVnfFlavourData x) {
-		final ChangeVnfFlavourData req = mapper.map(x, ChangeVnfFlavourData.class);
+		final ChangeVnfFlavourData req = nsUpdateMapping.map(x);
 		final ManoClient mc = manoClientFactory.getClient(server);
 		mc.vnfInstance().id(getSafeUUID(resourceId)).changeFlavour(req);
 	}
@@ -265,7 +265,7 @@ public class NsUpadteManager {
 	}
 
 	private void sendChangeExt(final String resourceId, final Servers server, final ChangeExtVnfConnectivityData x) {
-		final ChangeExtVnfConnRequest req = mapper.map(x, ChangeExtVnfConnRequest.class);
+		final ChangeExtVnfConnRequest req = nsUpdateMapping.map(x);
 		final ManoClient mc = manoClientFactory.getClient(server);
 		mc.vnfInstance().id(getSafeUUID(resourceId)).changeExtConn(req);
 	}

@@ -43,8 +43,6 @@ import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.NsScale;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 
-import ma.glasnost.orika.MapperFacade;
-
 /**
  *
  * @author Olivier Vignaud <ovi@ubiqube.com>
@@ -60,15 +58,12 @@ public class NsInstanceGenericFrontControllerImpl implements NsInstanceGenericFr
 
 	private static final String NSI_SEARCH_DEFAULT_EXCLUDE_FIELDS = "vnfInstances,pnfInfo,virtualLinkInfo,vnffgInfo,sapInfo,,nsScaleStatus,additionalAffinityOrAntiAffinityRules";
 
-	private final MapperFacade mapper;
-
 	private final NsInstanceControllerService nsInstanceControllerService;
 
 	private final NsInstanceController nsLcmController;
 
-	public NsInstanceGenericFrontControllerImpl(final MapperFacade mapper, final NsInstanceControllerService nsInstanceControllerService,
+	public NsInstanceGenericFrontControllerImpl(final NsInstanceControllerService nsInstanceControllerService,
 			final NsInstanceController nsLcmController) {
-		this.mapper = mapper;
 		this.nsInstanceControllerService = nsInstanceControllerService;
 		this.nsLcmController = nsLcmController;
 		LOG.debug("Starting Ns Instance SOL005 Controller.");
@@ -96,27 +91,24 @@ public class NsInstanceGenericFrontControllerImpl implements NsInstanceGenericFr
 	}
 
 	@Override
-	public <U> ResponseEntity<U> heal(final String nsInstanceId, final NsHeal request, final Function<NsBlueprint, String> getSelfLink) {
+	public <U> ResponseEntity<U> heal(final String nsInstanceId, final NsHeal nsInst, final Function<NsBlueprint, String> getSelfLink) {
 		final UUID nsInstanceUuid = UUID.fromString(nsInstanceId);
-		final NsHeal nsInst = mapper.map(request, NsHeal.class);
 		final NsBlueprint nsLcm = nsInstanceControllerService.heal(nsInstanceUuid, nsInst);
 		final String link = getSelfLink.apply(nsLcm);
 		return ResponseEntity.accepted().header(LOCATION, link).build();
 	}
 
 	@Override
-	public <U> ResponseEntity<U> instantiate(final String nsInstanceId, final NsInstantiate request, final Function<NsBlueprint, String> getSelfLink) {
+	public <U> ResponseEntity<U> instantiate(final String nsInstanceId, final NsInstantiate nsInst, final Function<NsBlueprint, String> getSelfLink) {
 		final UUID nsInstanceUuid = UUID.fromString(nsInstanceId);
-		final NsInstantiate nsInst = mapper.map(request, NsInstantiate.class);
 		final NsBlueprint nsLcm = nsInstanceControllerService.instantiate(nsInstanceUuid, nsInst);
 		final String link = getSelfLink.apply(nsLcm);
 		return ResponseEntity.accepted().header(LOCATION, link).build();
 	}
 
 	@Override
-	public <U> ResponseEntity<U> scale(final String nsInstanceId, final NsScale request, final Function<NsBlueprint, String> getSelfLink) {
+	public <U> ResponseEntity<U> scale(final String nsInstanceId, final NsScale nsInst, final Function<NsBlueprint, String> getSelfLink) {
 		final UUID nsInstanceUuid = UUID.fromString(nsInstanceId);
-		final NsScale nsInst = mapper.map(request, NsScale.class);
 		final NsBlueprint nsLcm = nsInstanceControllerService.scale(nsInstanceUuid, nsInst);
 		final String link = getSelfLink.apply(nsLcm);
 		return ResponseEntity.accepted().header(LOCATION, link).build();
@@ -131,9 +123,8 @@ public class NsInstanceGenericFrontControllerImpl implements NsInstanceGenericFr
 	}
 
 	@Override
-	public <U> ResponseEntity<U> update(final String nsInstanceId, final UpdateRequest request, final Function<NsBlueprint, String> getSelfLink) {
+	public <U> ResponseEntity<U> update(final String nsInstanceId, final UpdateRequest req, final Function<NsBlueprint, String> getSelfLink) {
 		final UUID nsInstanceUuid = UUID.fromString(nsInstanceId);
-		final UpdateRequest req = mapper.map(request, UpdateRequest.class);
 		final NsBlueprint lcm = nsLcmController.nsInstancesNsInstanceIdUpdatePost(nsInstanceUuid, req);
 		final String link = getSelfLink.apply(lcm);
 		return ResponseEntity.accepted().header(LOCATION, link).build();

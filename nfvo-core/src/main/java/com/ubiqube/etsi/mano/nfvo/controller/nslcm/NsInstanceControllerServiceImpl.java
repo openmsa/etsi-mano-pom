@@ -69,6 +69,7 @@ import com.ubiqube.etsi.mano.nfvo.factory.LcmFactory;
 import com.ubiqube.etsi.mano.nfvo.service.NsBlueprintService;
 import com.ubiqube.etsi.mano.nfvo.service.NsInstanceService;
 import com.ubiqube.etsi.mano.nfvo.service.NsdPackageService;
+import com.ubiqube.etsi.mano.nfvo.service.mapping.nsinstance.NsInstanceMapping;
 import com.ubiqube.etsi.mano.service.SearchableService;
 import com.ubiqube.etsi.mano.service.event.ActionType;
 import com.ubiqube.etsi.mano.service.event.EventManager;
@@ -90,14 +91,17 @@ public class NsInstanceControllerServiceImpl implements NsInstanceControllerServ
 
 	private final SearchableService searchableService;
 
+	private final NsInstanceMapping nsInstanceMapping;
+
 	public NsInstanceControllerServiceImpl(final NsdPackageService nsdPackageService, final NsInstanceService nsInstanceService, final EventManager eventManager,
-			final MapperFacade mapper, final NsBlueprintService nsBlueprintService, final SearchableService searchableService) {
+			final MapperFacade mapper, final NsBlueprintService nsBlueprintService, final SearchableService searchableService, final NsInstanceMapping nsInstanceMapping) {
 		this.nsdPackageService = nsdPackageService;
 		this.nsInstanceService = nsInstanceService;
 		this.eventManager = eventManager;
 		this.mapper = mapper;
 		this.nsBlueprintService = nsBlueprintService;
 		this.searchableService = searchableService;
+		this.nsInstanceMapping = nsInstanceMapping;
 	}
 
 	@Override
@@ -170,13 +174,13 @@ public class NsInstanceControllerServiceImpl implements NsInstanceControllerServ
 	}
 
 	private Set<ListKeyPair> copyVirtualLinks(final Set<ListKeyPair> virtualLinks) {
-		final List<ListKeyPair> tmp = virtualLinks.stream().map(x -> mapper.map(x, ListKeyPair.class)).toList();
+		final List<ListKeyPair> tmp = virtualLinks.stream().map(x -> nsInstanceMapping.map(x)).toList();
 		tmp.forEach(x -> x.setId(null));
 		return tmp.stream().collect(Collectors.toSet());
 	}
 
 	private Set<VnfScalingStepMapping> copyStepMapping(final Set<VnfScalingStepMapping> stepMapping) {
-		final List<VnfScalingStepMapping> tmp = stepMapping.stream().map(x -> mapper.map(x, VnfScalingStepMapping.class)).toList();
+		final List<VnfScalingStepMapping> tmp = stepMapping.stream().map(x -> nsInstanceMapping.map(x)).toList();
 		tmp.forEach(x -> {
 			x.setId(null);
 			x.getLevels().forEach(y -> y.setId(null));
@@ -185,13 +189,13 @@ public class NsInstanceControllerServiceImpl implements NsInstanceControllerServ
 	}
 
 	private Set<VnfScalingLevelMapping> copyLevelMapping(final Set<VnfScalingLevelMapping> levelMapping) {
-		final List<VnfScalingLevelMapping> tmp = levelMapping.stream().map(x -> mapper.map(x, VnfScalingLevelMapping.class)).toList();
+		final List<VnfScalingLevelMapping> tmp = levelMapping.stream().map(x -> nsInstanceMapping.map(x)).toList();
 		tmp.forEach(x -> x.setId(null));
 		return tmp.stream().collect(Collectors.toSet());
 	}
 
 	private Set<ForwarderMapping> copyForwardMapping(final Set<ForwarderMapping> forwardMapping) {
-		final List<@NonNull ForwarderMapping> tmp = forwardMapping.stream().map(x -> mapper.map(x, ForwarderMapping.class)).toList();
+		final List<@NonNull ForwarderMapping> tmp = forwardMapping.stream().map(x -> nsInstanceMapping.map(x)).toList();
 		tmp.forEach(x -> x.setId(null));
 		return tmp.stream().collect(Collectors.toSet());
 	}
@@ -201,7 +205,7 @@ public class NsInstanceControllerServiceImpl implements NsInstanceControllerServ
 		n.setId(null);
 		n.setName(o.getName());
 		n.setDescription(o.getDescription());
-		final Classifier c = mapper.map(o.getClassifier(), Classifier.class);
+		final Classifier c = nsInstanceMapping.map(o.getClassifier());
 		c.setId(null);
 		n.setClassifier(c);
 		n.setVnfProfileId(o.getVnfProfileId());
@@ -214,7 +218,7 @@ public class NsInstanceControllerServiceImpl implements NsInstanceControllerServ
 	}
 
 	private List<NfpDescriptor> copyNfpd(final List<NfpDescriptor> nfpd) {
-		final List<NfpDescriptor> tmp = nfpd.stream().map(x -> mapper.map(x, NfpDescriptor.class)).toList();
+		final List<NfpDescriptor> tmp = nfpd.stream().map(x -> nsInstanceMapping.map(x)).toList();
 		tmp.forEach(x -> {
 			x.setId(null);
 			x.setInstances(copyVnffgInstance(x.getInstances()));
@@ -223,7 +227,7 @@ public class NsInstanceControllerServiceImpl implements NsInstanceControllerServ
 	}
 
 	private List<VnffgInstance> copyVnffgInstance(final List<VnffgInstance> instance) {
-		final List<VnffgInstance> tmp = instance.stream().map(x -> mapper.map(x, VnffgInstance.class)).toList();
+		final List<VnffgInstance> tmp = instance.stream().map(x -> nsInstanceMapping.map(x)).toList();
 		tmp.forEach(x -> {
 			x.setId(null);
 			x.setPairs(copyCpPair(x.getPairs()));
@@ -232,7 +236,7 @@ public class NsInstanceControllerServiceImpl implements NsInstanceControllerServ
 	}
 
 	private List<CpPair> copyCpPair(final List<CpPair> pair) {
-		final List<CpPair> tmp = pair.stream().map(x -> mapper.map(x, CpPair.class)).toList();
+		final List<CpPair> tmp = pair.stream().map(x -> nsInstanceMapping.map(x)).toList();
 		tmp.forEach(x -> x.setId(null));
 		return tmp.stream().toList();
 	}
