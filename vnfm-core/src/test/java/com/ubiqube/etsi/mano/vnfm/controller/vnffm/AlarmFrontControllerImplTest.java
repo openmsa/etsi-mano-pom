@@ -55,7 +55,7 @@ class AlarmFrontControllerImplTest {
 		final String id = UUID.randomUUID().toString();
 		final Consumer<String> con = x -> {
 		};
-		srv.findById(id, null, con);
+		srv.findById(id, x -> "", con);
 		assertTrue(true);
 	}
 
@@ -63,7 +63,7 @@ class AlarmFrontControllerImplTest {
 	void testPatch() {
 		final AlarmFrontControllerImpl srv = createService();
 		final String id = UUID.randomUUID().toString();
-		srv.patch(id, null, null, null);
+		srv.patch(id, null, null, x -> "");
 		assertTrue(true);
 	}
 

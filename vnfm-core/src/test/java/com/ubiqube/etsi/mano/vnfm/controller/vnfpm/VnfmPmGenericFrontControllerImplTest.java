@@ -65,7 +65,7 @@ class VnfmPmGenericFrontControllerImplTest {
 		final VnfmPmGenericFrontControllerImpl srv = createService();
 		final Consumer<String> cons = x -> {
 		};
-		srv.findById(null, null, cons);
+		srv.findById(null, x -> "", cons);
 		assertTrue(true);
 	}
 
@@ -74,7 +74,7 @@ class VnfmPmGenericFrontControllerImplTest {
 		final ManoProperties props = new ManoProperties();
 		final VnfmPmGenericFrontControllerImpl srv = createService();
 		final String is = UUID.randomUUID().toString();
-		srv.findReportById(is, is, null);
+		srv.findReportById(is, is, x -> "");
 		assertTrue(true);
 	}
 
