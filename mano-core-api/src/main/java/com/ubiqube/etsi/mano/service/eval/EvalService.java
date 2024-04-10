@@ -16,7 +16,6 @@
  */
 package com.ubiqube.etsi.mano.service.eval;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +32,6 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.ubiqube.etsi.mano.dao.subscription.SubscriptionType;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.mapper.BeanWalker;
-import com.ubiqube.etsi.mano.mapper.QueryFilterListener;
 import com.ubiqube.etsi.mano.mapper.QueryFilterListener.ListRecord;
 import com.ubiqube.etsi.mano.service.cond.BooleanOperatorEnum;
 import com.ubiqube.etsi.mano.service.cond.Context;
@@ -49,7 +47,8 @@ import com.ubiqube.etsi.mano.service.cond.ast.NumberValueExpr;
 import com.ubiqube.etsi.mano.service.cond.ast.TestValueExpr;
 import com.ubiqube.etsi.mano.service.cond.visitor.BooleanListExprRemoverVisitor;
 import com.ubiqube.etsi.mano.service.cond.visitor.EvaluatorVisitor;
-import com.ubiqube.etsi.mano.utils.ReflectionUtils;
+import com.ubiqube.etsi.mano.service.event.model.FilterAttributes;
+import com.ubiqube.etsi.mano.service.event.model.Subscription;
 
 @Service
 public class EvalService {
@@ -66,15 +65,13 @@ public class EvalService {
 		this.contextBuilderService = contextBuilderService;
 	}
 
-	public Node convertRequestToNode(final Object obj) {
-		final Method meth = ReflectionUtils.getMethod(obj.getClass(), "getFilter");
-		LOG.debug("{}", obj.getClass());
-		final Object res = ReflectionUtils.invoke(meth, obj);
-		Objects.requireNonNull(res, "Null when calling getFilter() method.");
+	public Node convertRequestToNode(final Subscription obj) {
+		final List<FilterAttributes> res = obj.getFilters();
+		Objects.requireNonNull(res, "Null when calling getFilters() method.");
 		return convertToNode(res);
 	}
 
-	public String convertRequestToString(final Object obj) {
+	public String convertRequestToString(final Subscription obj) {
 		final Node res = convertRequestToNode(obj);
 		try {
 			return mapper.writeValueAsString(res);
@@ -91,11 +88,19 @@ public class EvalService {
 		}
 	}
 
-	public Node convertToNode(final Object obj) {
-		final QueryFilterListener beanListener = new QueryFilterListener();
-		beanWalker.walk(obj, beanListener);
-		final List<ListRecord> attrs = beanListener.getResults();
-		return toNodes(attrs);
+	public Node convertToNode(final List<FilterAttributes> obj) {
+		final List<? extends BooleanExpression> nodes = obj.stream().map(x -> {
+			LabelExpression l = LabelExpression.of(x.getAttribute());
+			TestValueExpr v = new TestValueExpr(x.getValue());
+			return new GenericCondition(l, Operator.EQUAL, v);
+		}).toList();
+		return new BooleanListExpr(BooleanOperatorEnum.AND, (List<BooleanExpression>) nodes);
+		// TODO: Move this to mapping time, but we will need to write in 2 properties.
+//		final QueryFilterListener beanListener = new QueryFilterListener();
+//		beanWalker.walk(obj, beanListener);
+//		final List<ListRecord> attrs = beanListener.getResults();
+//		toManoCondition(attrs)
+//		return toNodes(attrs);
 	}
 
 	private static Node toNodes(final List<ListRecord> attrs) {

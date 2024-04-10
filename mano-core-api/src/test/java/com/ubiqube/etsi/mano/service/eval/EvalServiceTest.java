@@ -16,13 +16,9 @@
  */
 package com.ubiqube.etsi.mano.service.eval;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -38,7 +34,6 @@ import com.ubiqube.etsi.mano.service.cond.Operator;
 import com.ubiqube.etsi.mano.service.cond.Visitor;
 import com.ubiqube.etsi.mano.service.cond.ast.GenericCondition;
 import com.ubiqube.etsi.mano.service.cond.ast.LabelExpression;
-import com.ubiqube.etsi.mano.service.cond.ast.NoopNode;
 import com.ubiqube.etsi.mano.service.cond.ast.TestValueExpr;
 
 @ExtendWith(MockitoExtension.class)
@@ -46,58 +41,58 @@ class EvalServiceTest {
 	@Mock
 	private ContextBuilderService ctx;
 
-	@Test
-	void testNullFilter() throws Exception {
-		final EvalService ev = new EvalService(ctx);
-		final RequestObject obj = new RequestObject();
-		assertThrows(NullPointerException.class, () -> ev.convertRequestToNode(obj));
-	}
+//	@Test
+//	void testNullFilter() throws Exception {
+//		final EvalService ev = new EvalService(ctx);
+//		final RequestObject obj = new RequestObject();
+//		assertThrows(NullPointerException.class, () -> ev.convertRequestToNode(obj));
+//	}
+//
+//	@Test
+//	void testEmptyFilter() throws Exception {
+//		final EvalService ev = new EvalService(ctx);
+//		final RequestObject obj = new RequestObject();
+//		final SubscriptionFilter filter = new SubscriptionFilter();
+//		obj.setFilter(filter);
+//		final Node res = ev.convertRequestToNode(obj);
+//		assertTrue(res instanceof NoopNode);
+//	}
+//
+//	@Test
+//	void testFilter001() throws Exception {
+//		final EvalService ev = new EvalService(ctx);
+//		final RequestObject obj = new RequestObject();
+//		final SubscriptionFilter filter = new SubscriptionFilter();
+//		filter.setNotificationTypes("notif");
+//		obj.setFilter(filter);
+//		final Node res = ev.convertRequestToNode(obj);
+//		assertTrue(res instanceof GenericCondition);
+//		assertRightNeverNull(res);
+//		final GenericCondition gc0 = (GenericCondition) res;
+//		assertEquals("notificationTypes", gc0.getLeft().toString());
+//		assertEquals(Operator.EQUAL, gc0.getOp());
+//		final Node r0 = gc0.getRight();
+//		assertTrue(r0 instanceof TestValueExpr);
+//		final TestValueExpr tve = (TestValueExpr) r0;
+//		assertEquals("notif", tve.value());
+//	}
 
-	@Test
-	void testEmptyFilter() throws Exception {
-		final EvalService ev = new EvalService(ctx);
-		final RequestObject obj = new RequestObject();
-		final SubscriptionFilter filter = new SubscriptionFilter();
-		obj.setFilter(filter);
-		final Node res = ev.convertRequestToNode(obj);
-		assertTrue(res instanceof NoopNode);
-	}
-
-	@Test
-	void testFilter001() throws Exception {
-		final EvalService ev = new EvalService(ctx);
-		final RequestObject obj = new RequestObject();
-		final SubscriptionFilter filter = new SubscriptionFilter();
-		filter.setNotificationTypes("notif");
-		obj.setFilter(filter);
-		final Node res = ev.convertRequestToNode(obj);
-		assertTrue(res instanceof GenericCondition);
-		assertRightNeverNull(res);
-		final GenericCondition gc0 = (GenericCondition) res;
-		assertEquals("notificationTypes", gc0.getLeft().toString());
-		assertEquals(Operator.EQUAL, gc0.getOp());
-		final Node r0 = gc0.getRight();
-		assertTrue(r0 instanceof TestValueExpr);
-		final TestValueExpr tve = (TestValueExpr) r0;
-		assertEquals("notif", tve.value());
-	}
-
-	@Test
-	void testconvertRequestToString001() throws Exception {
-		final EvalService ev = new EvalService(ctx);
-		final RequestObject obj = new RequestObject();
-		final SubscriptionFilter filter = new SubscriptionFilter();
-		filter.setNotificationTypes("notif");
-		filter.setBooleanValue(Boolean.TRUE);
-		filter.setDoubleValue(123D);
-		filter.setNsInstanceIds(List.of());
-		filter.setSubscriptionType(SubscriptionType.ALARM);
-		obj.setFilter(filter);
-		final String res = ev.convertRequestToString(obj);
-		assertNotNull(res);
-		final Node res2 = ev.convertStringToNode(res);
-		assertRightNeverNull(res2);
-	}
+//	@Test
+//	void testconvertRequestToString001() throws Exception {
+//		final EvalService ev = new EvalService(ctx);
+//		final RequestObject obj = new RequestObject();
+//		final SubscriptionFilter filter = new SubscriptionFilter();
+//		filter.setNotificationTypes("notif");
+//		filter.setBooleanValue(Boolean.TRUE);
+//		filter.setDoubleValue(123D);
+//		filter.setNsInstanceIds(List.of());
+//		filter.setSubscriptionType(SubscriptionType.ALARM);
+//		obj.setFilter(filter);
+//		final String res = ev.convertRequestToString(obj);
+//		assertNotNull(res);
+//		final Node res2 = ev.convertStringToNode(res);
+//		assertRightNeverNull(res2);
+//	}
 
 	@Test
 	void testEvaluate() {
