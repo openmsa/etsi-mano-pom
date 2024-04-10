@@ -88,7 +88,7 @@ class PolicyFrontControllerImplTest {
 	@Test
 	void testsearch() {
 		final PolicyFrontControllerImpl srv = new PolicyFrontControllerImpl(policyController);
-		srv.search(null, null, null, null);
+		srv.search(null, null, null, null, null);
 		assertTrue(true);
 	}
 

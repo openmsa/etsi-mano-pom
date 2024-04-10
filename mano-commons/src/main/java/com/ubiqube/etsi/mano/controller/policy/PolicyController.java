@@ -49,6 +49,6 @@ public interface PolicyController {
 
 	Policies modify(UUID safeUUID, PolicyPatchDto patch);
 
-	<U> ResponseEntity<String> search(MultiValueMap<String, String> requestParams, Function<Policies, U> mapper, Consumer<U> makeLinks);
+	<U> ResponseEntity<String> search(MultiValueMap<String, String> requestParams, Function<Policies, U> mapper, Consumer<U> makeLinks, Class<?> frontClass);
 
 }

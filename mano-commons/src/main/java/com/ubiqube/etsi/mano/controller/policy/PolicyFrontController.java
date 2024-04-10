@@ -28,7 +28,7 @@ import com.ubiqube.etsi.mano.dao.mano.policy.Policies;
 
 public interface PolicyFrontController {
 
-	<U> ResponseEntity<String> search(MultiValueMap<String, String> requestParams, String nextpageOpaqueMarker, Function<Policies, U> mapper, Consumer<U> makeLinks);
+	<U> ResponseEntity<String> search(MultiValueMap<String, String> requestParams, String nextpageOpaqueMarker, Function<Policies, U> mapper, Consumer<U> makeLinks, Class<?> frontClass);
 
 	ResponseEntity<Void> deleteById(UUID safeUUID);
 

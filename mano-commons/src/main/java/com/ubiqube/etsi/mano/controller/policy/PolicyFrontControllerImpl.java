@@ -49,8 +49,8 @@ public class PolicyFrontControllerImpl implements PolicyFrontController {
 	}
 
 	@Override
-	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final String nextpageOpaqueMarker, final Function<Policies, U> mapper, final Consumer<U> makeLinks) {
-		return policyController.search(requestParams, mapper, makeLinks);
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final String nextpageOpaqueMarker, final Function<Policies, U> mapper, final Consumer<U> makeLinks, final Class<?> frontClass) {
+		return policyController.search(requestParams, mapper, makeLinks, frontClass);
 	}
 
 	@Override
