@@ -74,7 +74,7 @@ public interface VnfPackageManagement {
 
 	<U> U onboardedVnfPackagesVnfdIdGet(String vnfdId, Function<VnfPackage, U> mapper);
 
-	<U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, Function<VnfPackage, U> mapper, String excludeDefaults, Set<String> mandatoryFields, Consumer<U> makeLink);
+	<U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, Function<VnfPackage, U> mapper, String excludeDefaults, Set<String> mandatoryFields, Consumer<U> makeLink, Class<?> frontClass);
 
 	ManoResource onboardedGetManifestByVnfd(String vnfdId, @Valid String includeSignature);
 
@@ -82,6 +82,6 @@ public interface VnfPackageManagement {
 
 	<U> U vnfPackagesVnfPkgVnfdIdGet(String vnfPkgId, Function<VnfPackage, U> mapper);
 
-	<U> ResponseEntity<String> searchOnboarded(MultiValueMap<String, String> requestParams, Function<VnfPackage, U> mapper, String excludeDefaults, Set<String> mandatoryFields, Consumer<U> makeLinks);
+	<U> ResponseEntity<String> searchOnboarded(MultiValueMap<String, String> requestParams, Function<VnfPackage, U> mapper, String excludeDefaults, Set<String> mandatoryFields, Consumer<U> makeLinks, Class<?> frontClass);
 
 }

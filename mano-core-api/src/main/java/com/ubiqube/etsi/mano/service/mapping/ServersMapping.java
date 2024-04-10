@@ -17,15 +17,16 @@
 package com.ubiqube.etsi.mano.service.mapping;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 
 import com.ubiqube.etsi.mano.dao.mano.config.ServerDto;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
-import org.mapstruct.Mapping;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface ServersMapping extends StringToUriMapping {
 
+	@Mapping(target = "tenantId", ignore = true)
 	@Mapping(target = "id", ignore = true)
 	@Mapping(target = "remoteSubscriptions", ignore = true)
 	@Mapping(target = "serverStatus", ignore = true)

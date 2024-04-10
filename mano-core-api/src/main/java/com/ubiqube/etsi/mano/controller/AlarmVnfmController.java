@@ -44,6 +44,6 @@ public interface AlarmVnfmController {
 
 	Alarms modify(UUID id, AckState acknowledged, @Nullable String ifMatch);
 
-	<U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<Alarms, U> mapper, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink);
+	<U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<Alarms, U> mapper, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink, Class<?> frontClass);
 
 }

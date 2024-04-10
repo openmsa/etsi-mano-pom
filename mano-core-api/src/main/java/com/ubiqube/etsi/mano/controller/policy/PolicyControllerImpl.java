@@ -117,8 +117,8 @@ public class PolicyControllerImpl implements PolicyController {
 	}
 
 	@Override
-	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<Policies, U> mapper, final Consumer<U> makeLinks) {
-		return searchableService.search(Policies.class, requestParams, mapper, null, null, makeLinks, List.of());
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<Policies, U> mapper, final Consumer<U> makeLinks, final Class<?> frontClass) {
+		return searchableService.search(Policies.class, requestParams, mapper, null, null, makeLinks, List.of(), frontClass);
 	}
 
 }

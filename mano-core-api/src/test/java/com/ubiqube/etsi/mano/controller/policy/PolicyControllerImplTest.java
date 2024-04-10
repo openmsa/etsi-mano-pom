@@ -190,7 +190,7 @@ class PolicyControllerImplTest {
 	@Test
 	void testSearch() {
 		final PolicyControllerImpl srv = new PolicyControllerImpl(policyService, searchService);
-		srv.search(null, null, null);
+		srv.search(null, null, null, null);
 		assertTrue(true);
 	}
 

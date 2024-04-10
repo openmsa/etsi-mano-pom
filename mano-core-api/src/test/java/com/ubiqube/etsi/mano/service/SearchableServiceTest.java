@@ -53,7 +53,7 @@ class SearchableServiceTest {
 	void testSearch() {
 		final SearchableService srv = createService();
 		when(grammarParser.parse(any())).thenReturn(new GrammarNodeResult(List.of()));
-		srv.search(getClass(), new LinkedMultiValueMap<>(), null, null, null, null, List.of());
+		srv.search(getClass(), new LinkedMultiValueMap<>(), null, null, null, null, List.of(), null);
 		assertTrue(true);
 	}
 
