@@ -123,7 +123,7 @@ class VnfLcmOpOccGenericFrontControllerImplTest {
 	void testSearch() {
 		final VnfLcmOpOccGenericFrontControllerImpl srv = new VnfLcmOpOccGenericFrontControllerImpl(vnfLcmController, mapper);
 		final UUID id = UUID.randomUUID();
-		srv.search(null, null, null);
+		srv.search(null, null, null, null);
 		assertTrue(true);
 	}
 }

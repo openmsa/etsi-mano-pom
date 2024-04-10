@@ -66,7 +66,7 @@ class VnfLcmOpOccGenericFrontControllerImplTest {
 	@Test
 	void testSearch() {
 		final VnfLcmOpOccGenericFrontControllerImpl op = createVnfLcmOpOccGenericFrontControllerImpl();
-		op.search(null, null, null);
+		op.search(null, null, null, null);
 		assertTrue(true);
 	}
 

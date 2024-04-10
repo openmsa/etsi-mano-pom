@@ -69,7 +69,7 @@ class VnfmThresholdControllerDirectVimTest {
 	@Test
 	void testSearch() {
 		final VnfmThresholdControllerDirectVim srv = new VnfmThresholdControllerDirectVim(thresholdJpa, vnfBluePrintJpa, search, alarmSystem);
-		srv.search(null, null, null, null, null);
+		srv.search(null, null, null, null, null, null);
 		assertTrue(true);
 	}
 

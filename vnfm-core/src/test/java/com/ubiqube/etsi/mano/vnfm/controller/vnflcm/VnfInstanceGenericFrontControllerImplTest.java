@@ -205,7 +205,7 @@ class VnfInstanceGenericFrontControllerImplTest {
 	@Test
 	void testSearch() {
 		final VnfInstanceGenericFrontControllerImpl srv = createService();
-		srv.search(null, null, null, null);
+		srv.search(null, null, null, null, null);
 		assertTrue(true);
 	}
 }

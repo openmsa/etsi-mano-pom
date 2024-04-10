@@ -97,7 +97,7 @@ class AlarmVnfmControllerImplTest {
 	@Test
 	void testSearch() {
 		final AlarmVnfmControllerImpl srv = new AlarmVnfmControllerImpl(searchService, alarmsJpa);
-		srv.search(null, null, null, null, null);
+		srv.search(null, null, null, null, null, null);
 		assertTrue(true);
 	}
 }

@@ -43,7 +43,7 @@ class VnfmPmGenericFrontControllerImplTest {
 	void testSearch() {
 		final ManoProperties props = new ManoProperties();
 		final VnfmPmGenericFrontControllerImpl srv = createService();
-		srv.search(null, null, null);
+		srv.search(null, null, null, null);
 		assertTrue(true);
 	}
 

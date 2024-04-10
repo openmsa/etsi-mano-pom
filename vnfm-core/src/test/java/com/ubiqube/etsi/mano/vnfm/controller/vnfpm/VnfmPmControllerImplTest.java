@@ -171,7 +171,7 @@ class VnfmPmControllerImplTest {
 	void testSearch() {
 		final ManoProperties props = new ManoProperties();
 		final VnfmPmControllerImpl srv = new VnfmPmControllerImpl(pmJobsJpa, searchableService, metricGroupService, subscriptionService, props, vnfInstanceGateway, monitoringManager);
-		srv.search(null, null, null, null, null);
+		srv.search(null, null, null, null, null, null);
 		assertTrue(true);
 	}
 }

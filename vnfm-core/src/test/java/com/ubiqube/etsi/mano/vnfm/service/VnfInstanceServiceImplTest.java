@@ -188,7 +188,7 @@ class VnfInstanceServiceImplTest {
 	@Test
 	void testSearch() {
 		final VnfInstanceServiceImpl srv = new VnfInstanceServiceImpl(vnfInstanceJpa, vnfLiveInstance, patcher, eventManager, serchableService);
-		srv.search(null, null, null, null, null);
+		srv.search(null, null, null, null, null, null);
 		assertTrue(true);
 	}
 

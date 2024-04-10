@@ -224,7 +224,7 @@ class VnfInstanceGenericFrontControllerTest {
 	@Test
 	void testSearch() {
 		final VnfInstanceGenericFrontController fc = createFc();
-		fc.search(null, null, null, null);
+		fc.search(null, null, null, null, null);
 		assertTrue(true);
 	}
 

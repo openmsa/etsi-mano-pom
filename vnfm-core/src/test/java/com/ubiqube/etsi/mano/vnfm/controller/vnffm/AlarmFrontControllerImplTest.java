@@ -70,7 +70,7 @@ class AlarmFrontControllerImplTest {
 	@Test
 	void testSearch() {
 		final AlarmFrontControllerImpl srv = createService();
-		srv.search(null, null, null);
+		srv.search(null, null, null, null);
 		assertTrue(true);
 	}
 }
