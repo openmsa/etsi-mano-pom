@@ -115,7 +115,7 @@ class VnfManagementTest {
 		final VnfPackage vnfPackage = new VnfPackage();
 		vnfPackage.setId(id);
 		when(vnfPackageJpa.findByVnfdId(id.toString())).thenReturn(vnfPackage);
-		mng.onboardedVnfPackagesVnfdIdGet(id.toString(), null);
+		mng.onboardedVnfPackagesVnfdIdGet(id.toString(), x -> "");
 		assertTrue(true);
 	}
 
@@ -196,7 +196,7 @@ class VnfManagementTest {
 	void testVnfPackagesVnfPkgVnfdIdGet() {
 		final VnfManagement mng = new VnfManagement(vnfPkgRepo, mapper, vnfPackageJpa, searchService);
 		final UUID id = UUID.randomUUID();
-		mng.vnfPackagesVnfPkgVnfdIdGet(id.toString(), null);
+		mng.vnfPackagesVnfPkgVnfdIdGet(id.toString(), x -> "");
 		assertTrue(true);
 	}
 
