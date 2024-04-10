@@ -41,6 +41,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.ubiqube.etsi.mano.auth.config.SecurityType;
 import com.ubiqube.etsi.mano.auth.config.SecutiryConfig;
 import com.ubiqube.etsi.mano.config.properties.ManoProperties;
+import com.ubiqube.etsi.mano.dao.mano.config.LocalAuth;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.dao.mano.vim.PlanStatusType;
 import com.ubiqube.etsi.mano.dao.subscription.SubscriptionType;
@@ -170,6 +171,7 @@ class CommonActionControllerTest {
 				.url(URI.create("http://localhost/"))
 				.serverType(ServerType.NFVO)
 				.subscriptionType(SubscriptionType.NSD)
+				.localUser(new LocalAuth())
 				.build();
 		when(serversJpa.findById(id)).thenReturn(Optional.of(server));
 		final ServerAdapter serverAdapter = new ServerAdapter(hg, server, fluxRest);
