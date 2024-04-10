@@ -34,7 +34,7 @@ import jakarta.validation.constraints.NotNull;
 
 public interface NsdController {
 
-	<U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<NsdPackage, U> mapper, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink);
+	<U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<NsdPackage, U> mapper, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink, Class<?> frontClass);
 
 	void nsDescriptorsNsdInfoIdDelete(@NotNull UUID id);
 

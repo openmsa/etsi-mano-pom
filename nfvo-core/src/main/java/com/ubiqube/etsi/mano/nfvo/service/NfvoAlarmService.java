@@ -64,8 +64,8 @@ public class NfvoAlarmService {
 		return alarmJpa.save(alarm);
 	}
 
-	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<Alarms, U> mapper, final String alarmSearchDefaultExcludeFields, final Set<String> alarmSearchMandatoryFields, final Consumer<U> makeLinks) {
-		return searchableService.search(Alarms.class, requestParams, mapper, alarmSearchDefaultExcludeFields, alarmSearchMandatoryFields, makeLinks, List.of());
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<Alarms, U> mapper, final String alarmSearchDefaultExcludeFields, final Set<String> alarmSearchMandatoryFields, final Consumer<U> makeLinks, final Class<?> frontClass) {
+		return searchableService.search(Alarms.class, requestParams, mapper, alarmSearchDefaultExcludeFields, alarmSearchMandatoryFields, makeLinks, List.of(), frontClass);
 	}
 
 }

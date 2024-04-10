@@ -48,7 +48,7 @@ public interface NsInstanceControllerService {
 
 	NsBlueprint terminate(UUID nsInstanceUuid, @Nullable OffsetDateTime terminationTime);
 
-	<U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<NsInstanceDto, U> mapper, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink);
+	<U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<NsInstanceDto, U> mapper, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink, Class<?> frontClass);
 
 	NsBlueprint heal(UUID nsInstanceUuid, NsHeal nsHeal);
 

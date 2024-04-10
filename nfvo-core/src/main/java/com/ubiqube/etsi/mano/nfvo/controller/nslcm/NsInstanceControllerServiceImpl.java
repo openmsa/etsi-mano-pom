@@ -314,7 +314,7 @@ public class NsInstanceControllerServiceImpl implements NsInstanceControllerServ
 	}
 
 	@Override
-	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<NsInstanceDto, U> mapper, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink) {
-		return searchableService.search(NsdInstance.class, requestParams, mapper, excludeDefaults, mandatoryFields, makeLink, List.of());
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<NsInstanceDto, U> mapper, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink, final Class<?> frontClass) {
+		return searchableService.search(NsdInstance.class, requestParams, mapper, excludeDefaults, mandatoryFields, makeLink, List.of(), frontClass);
 	}
 }

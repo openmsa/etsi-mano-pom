@@ -70,8 +70,8 @@ public class NsInstanceGenericFrontControllerImpl implements NsInstanceGenericFr
 	}
 
 	@Override
-	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<NsInstanceDto, U> mapper, final String nextpageOpaqueMarker, final Consumer<U> makeLink) {
-		return nsInstanceControllerService.search(requestParams, mapper, NSI_SEARCH_DEFAULT_EXCLUDE_FIELDS, NSI_SEARCH_MANDATORY_FIELDS, makeLink);
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<NsInstanceDto, U> mapper, final String nextpageOpaqueMarker, final Consumer<U> makeLink, final Class<?> frontClass) {
+		return nsInstanceControllerService.search(requestParams, mapper, NSI_SEARCH_DEFAULT_EXCLUDE_FIELDS, NSI_SEARCH_MANDATORY_FIELDS, makeLink, frontClass);
 	}
 
 	@Override

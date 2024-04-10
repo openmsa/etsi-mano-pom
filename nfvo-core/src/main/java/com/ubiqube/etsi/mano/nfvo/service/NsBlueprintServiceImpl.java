@@ -91,8 +91,8 @@ public class NsBlueprintServiceImpl implements NsBlueprintService {
 	}
 
 	@Override
-	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<NsBlueprint, U> mapper, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink) {
-		return searchableService.search(NsBlueprint.class, requestParams, mapper, excludeDefaults, mandatoryFields, makeLink, List.of());
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<NsBlueprint, U> mapper, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink, final Class<?> frontClass) {
+		return searchableService.search(NsBlueprint.class, requestParams, mapper, excludeDefaults, mandatoryFields, makeLink, List.of(), frontClass);
 	}
 
 }

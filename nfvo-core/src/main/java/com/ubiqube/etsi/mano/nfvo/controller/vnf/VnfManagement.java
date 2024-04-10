@@ -194,14 +194,14 @@ public class VnfManagement implements VnfPackageManagement {
 	}
 
 	@Override
-	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<VnfPackage, U> mapper, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink) {
-		return searchableService.search(VnfPackage.class, requestParams, mapper, excludeDefaults, mandatoryFields, makeLink, List.of());
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<VnfPackage, U> mapper, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink, final Class<?> frontClass) {
+		return searchableService.search(VnfPackage.class, requestParams, mapper, excludeDefaults, mandatoryFields, makeLink, List.of(), frontClass);
 	}
 
 	@Override
-	public <U> ResponseEntity<String> searchOnboarded(final MultiValueMap<String, String> requestParams, final Function<VnfPackage, U> mapper, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLinks) {
+	public <U> ResponseEntity<String> searchOnboarded(final MultiValueMap<String, String> requestParams, final Function<VnfPackage, U> mapper, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLinks, final Class<?> frontClass) {
 		final GrammarNode onBoardedNode = new BooleanExpression(new GrammarLabel("onboardingState"), GrammarOperandType.EQ, new GrammarValue("ONBOARDED"));
-		return searchableService.search(VnfPackage.class, requestParams, mapper, excludeDefaults, mandatoryFields, makeLinks, List.of(onBoardedNode));
+		return searchableService.search(VnfPackage.class, requestParams, mapper, excludeDefaults, mandatoryFields, makeLinks, List.of(onBoardedNode), frontClass);
 
 	}
 }

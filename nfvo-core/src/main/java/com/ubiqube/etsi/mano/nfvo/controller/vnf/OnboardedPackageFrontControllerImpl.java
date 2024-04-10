@@ -176,8 +176,8 @@ public class OnboardedPackageFrontControllerImpl implements OnboardedPackageFron
 	}
 
 	@Override
-	public <U> ResponseEntity<String> onboardedSearch(final MultiValueMap<String, String> requestParams, final Function<VnfPackage, U> mapper, final Consumer<U> makeLinks) {
-		return vnfManagement.searchOnboarded(requestParams, mapper, VNF_SEARCH_DEFAULT_EXCLUDE_FIELDS, VNF_SEARCH_MANDATORY_FIELDS, makeLinks);
+	public <U> ResponseEntity<String> onboardedSearch(final MultiValueMap<String, String> requestParams, final Function<VnfPackage, U> mapper, final Consumer<U> makeLinks, final Class<?> frontClass) {
+		return vnfManagement.searchOnboarded(requestParams, mapper, VNF_SEARCH_DEFAULT_EXCLUDE_FIELDS, VNF_SEARCH_MANDATORY_FIELDS, makeLinks, frontClass);
 	}
 
 }

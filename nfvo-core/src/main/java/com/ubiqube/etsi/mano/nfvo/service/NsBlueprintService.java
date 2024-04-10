@@ -44,7 +44,7 @@ public interface NsBlueprintService {
 	@Nonnull
 	NsBlueprint save(NsBlueprint nsBlueprint);
 
-	<U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<NsBlueprint, U> mapper, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink);
+	<U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<NsBlueprint, U> mapper, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink, Class<?> frontClass);
 
 	Blueprint<NsTask, NsdInstance> updateState(NsBlueprint localPlan, OperationStatusType processing);
 

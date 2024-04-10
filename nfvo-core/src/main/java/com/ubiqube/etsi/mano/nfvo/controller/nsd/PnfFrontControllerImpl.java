@@ -29,7 +29,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ubiqube.etsi.mano.controller.nsd.PnfFrontController;
 import com.ubiqube.etsi.mano.dao.mano.PnfDescriptor;
@@ -63,8 +62,8 @@ public class PnfFrontControllerImpl implements PnfFrontController {
 	 *
 	 */
 	@Override
-	public <U> ResponseEntity<String> search(@RequestParam final MultiValueMap<String, String> requestParams, final Function<PnfDescriptor, U> mapper, final Consumer<U> makeLink) {
-		return pnfdController.search(requestParams, mapper, PNFD_SEARCH_DEFAULT_EXCLUDE_FIELDS, PNFD_SEARCH_MANDATORY_FIELDS, makeLink);
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<PnfDescriptor, U> mapper, final Consumer<U> makeLink, final Class<?> frontClass) {
+		return pnfdController.search(requestParams, mapper, PNFD_SEARCH_DEFAULT_EXCLUDE_FIELDS, PNFD_SEARCH_MANDATORY_FIELDS, makeLink, frontClass);
 	}
 
 	/**
