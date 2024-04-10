@@ -203,14 +203,14 @@ class VnfManagementTest {
 	@Test
 	void testSearch() {
 		final VnfManagement mng = new VnfManagement(vnfPkgRepo, mapper, vnfPackageJpa, searchService);
-		mng.search(null, null, null, null, null);
+		mng.search(null, null, null, null, null, null);
 		assertTrue(true);
 	}
 
 	@Test
 	void testSearchOnboarded() {
 		final VnfManagement mng = new VnfManagement(vnfPkgRepo, mapper, vnfPackageJpa, searchService);
-		mng.searchOnboarded(null, null, null, null, null);
+		mng.searchOnboarded(null, null, null, null, null, null);
 		assertTrue(true);
 	}
 

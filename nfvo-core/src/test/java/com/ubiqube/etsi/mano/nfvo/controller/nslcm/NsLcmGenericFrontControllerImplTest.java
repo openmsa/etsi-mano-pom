@@ -85,7 +85,7 @@ class NsLcmGenericFrontControllerImplTest {
 	@Test
 	void testSearch() {
 		final NsLcmGenericFrontControllerImpl srv = new NsLcmGenericFrontControllerImpl(nsLcmOpOccsService);
-		srv.search(null, null, null, null);
+		srv.search(null, null, null, null, null);
 		assertTrue(true);
 	}
 

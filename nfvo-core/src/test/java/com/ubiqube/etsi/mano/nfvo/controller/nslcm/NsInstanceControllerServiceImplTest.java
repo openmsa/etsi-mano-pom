@@ -200,7 +200,7 @@ class NsInstanceControllerServiceImplTest {
 	@Test
 	void testSearch() throws Exception {
 		final NsInstanceControllerServiceImpl srv = createService();
-		srv.search(null, null, null, null, null);
+		srv.search(null, null, null, null, null, null);
 		assertTrue(true);
 	}
 }

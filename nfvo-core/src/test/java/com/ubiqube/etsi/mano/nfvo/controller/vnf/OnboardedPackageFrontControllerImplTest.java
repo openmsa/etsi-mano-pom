@@ -70,7 +70,7 @@ class OnboardedPackageFrontControllerImplTest {
 	@Test
 	void testOnboardedSearch() throws Exception {
 		final OnboardedPackageFrontControllerImpl srv = new OnboardedPackageFrontControllerImpl(vnfManagement, vnfPackageService, vnfPackageRepo);
-		srv.onboardedSearch(null, null, null);
+		srv.onboardedSearch(null, null, null, null);
 		assertTrue(true);
 	}
 

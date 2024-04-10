@@ -101,7 +101,7 @@ class NsBlueprintServiceImplTest {
 	@Test
 	void testSearch() throws Exception {
 		final NsBlueprintServiceImpl srv = new NsBlueprintServiceImpl(nsBlueprintJpa, nsLiveInstanceJpa, searchService);
-		srv.search(null, null, null, null, null);
+		srv.search(null, null, null, null, null, null);
 		assertTrue(true);
 	}
 }

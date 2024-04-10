@@ -45,7 +45,7 @@ class NsInstanceGenericFrontControllerImplTest {
 	@Test
 	void testSearch() {
 		final NsInstanceGenericFrontControllerImpl srv = createService();
-		srv.search(null, null, null, null);
+		srv.search(null, null, null, null, null);
 		assertTrue(true);
 	}
 

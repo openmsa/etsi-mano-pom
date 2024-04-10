@@ -64,7 +64,7 @@ class NsDescriptorGenericFrontControllerImplTest {
 	@Test
 	void testSearch() {
 		final NsDescriptorGenericFrontControllerImpl srv = new NsDescriptorGenericFrontControllerImpl(nsdController);
-		srv.search(null, null, null);
+		srv.search(null, null, null, null);
 		assertTrue(true);
 	}
 

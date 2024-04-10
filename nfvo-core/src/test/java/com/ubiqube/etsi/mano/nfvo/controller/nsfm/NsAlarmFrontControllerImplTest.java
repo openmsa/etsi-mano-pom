@@ -56,7 +56,7 @@ class NsAlarmFrontControllerImplTest {
 	@Test
 	void testSearh() {
 		final NsAlarmFrontControllerImpl srv = new NsAlarmFrontControllerImpl(alarmNfvoController);
-		srv.search(null, null, null, null);
+		srv.search(null, null, null, null, null);
 		assertTrue(true);
 	}
 }

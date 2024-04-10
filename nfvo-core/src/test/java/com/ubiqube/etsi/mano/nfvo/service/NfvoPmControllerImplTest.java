@@ -80,7 +80,7 @@ class NfvoPmControllerImplTest {
 	@Test
 	void testSearch() throws Exception {
 		final NfvoPmControllerImpl srv = new NfvoPmControllerImpl(searchService, pmJobsJpa);
-		srv.search(null, null, null, null, null);
+		srv.search(null, null, null, null, null, null);
 		assertTrue(true);
 	}
 }

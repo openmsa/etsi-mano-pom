@@ -107,7 +107,7 @@ class PnfFrontControllerImplTest {
 	@Test
 	void testSearch() {
 		final PnfFrontControllerImpl srv = new PnfFrontControllerImpl(pnfController);
-		srv.search(null, null, null);
+		srv.search(null, null, null, null);
 		assertTrue(true);
 	}
 

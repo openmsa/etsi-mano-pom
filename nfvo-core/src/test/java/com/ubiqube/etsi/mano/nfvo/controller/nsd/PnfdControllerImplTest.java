@@ -57,7 +57,7 @@ class PnfdControllerImplTest {
 	@Test
 	void testSearch() {
 		final PnfdControllerImpl srv = new PnfdControllerImpl(pnfRepository, searchService);
-		srv.search(null, null, null, null, null);
+		srv.search(null, null, null, null, null, null);
 		assertTrue(true);
 	}
 }

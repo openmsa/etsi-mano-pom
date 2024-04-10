@@ -134,7 +134,7 @@ class NsdControllerImplTest {
 	@Test
 	void testSearch() {
 		final NsdControllerImpl srv = new NsdControllerImpl(nsdRepository, patcher, eventManager, searchableService);
-		srv.search(null, null, null, null, null);
+		srv.search(null, null, null, null, null, null);
 		assertTrue(true);
 	}
 }

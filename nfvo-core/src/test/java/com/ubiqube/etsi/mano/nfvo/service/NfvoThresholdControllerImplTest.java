@@ -74,7 +74,7 @@ class NfvoThresholdControllerImplTest {
 	@Test
 	void testSearch() throws Exception {
 		final NfvoThresholdControllerImpl srv = new NfvoThresholdControllerImpl(searchService, thresholdJpa);
-		srv.search(null, null, null, null, null);
+		srv.search(null, null, null, null, null, null);
 		assertTrue(true);
 	}
 }
