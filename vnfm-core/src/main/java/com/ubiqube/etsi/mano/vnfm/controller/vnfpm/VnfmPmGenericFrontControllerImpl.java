@@ -50,8 +50,8 @@ public class VnfmPmGenericFrontControllerImpl implements VnfmPmGenericFrontContr
 	}
 
 	@Override
-	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<PmJob, U> mapper, final Consumer<U> makeLink) {
-		return vnfmPmController.search(requestParams, mapper, VNFPMJOB_SEARCH_DEFAULT_EXCLUDE_FIELDS, VNFPMJOB_SEARCH_MANDATORY_FIELDS, makeLink);
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<PmJob, U> mapper, final Consumer<U> makeLink, final Class<?> frontClass) {
+		return vnfmPmController.search(requestParams, mapper, VNFPMJOB_SEARCH_DEFAULT_EXCLUDE_FIELDS, VNFPMJOB_SEARCH_MANDATORY_FIELDS, makeLink, frontClass);
 	}
 
 	@Override

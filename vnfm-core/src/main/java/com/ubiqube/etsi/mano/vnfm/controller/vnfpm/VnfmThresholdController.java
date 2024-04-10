@@ -34,5 +34,5 @@ public interface VnfmThresholdController {
 
 	Threshold findById(UUID fromString);
 
-	<U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<Threshold, U> clazz, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink);
+	<U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<Threshold, U> clazz, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink, Class<?> frontClass);
 }

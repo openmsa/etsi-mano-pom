@@ -70,8 +70,8 @@ public class AlarmFrontControllerImpl implements AlarmFrontController {
 	}
 
 	@Override
-	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<Alarms, U> mapper, final Consumer<U> makeLink) {
-		return alarmVnfmController.search(requestParams, mapper, ALARM_SEARCH_DEFAULT_EXCLUDE_FIELDS, ALARM_SEARCH_MANDATORY_FIELDS, makeLink);
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<Alarms, U> mapper, final Consumer<U> makeLink, final Class<?> frontClass) {
+		return alarmVnfmController.search(requestParams, mapper, ALARM_SEARCH_DEFAULT_EXCLUDE_FIELDS, ALARM_SEARCH_MANDATORY_FIELDS, makeLink, frontClass);
 	}
 
 }

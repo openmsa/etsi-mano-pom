@@ -70,8 +70,8 @@ public class VnfmThresholdFrontControllerImpl implements VnfmThresholdFrontContr
 	}
 
 	@Override
-	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final @Nullable String nextpageOpaqueMarker, final Function<Threshold, U> mapper, final Consumer<U> makeLink) {
-		return vnfmThresholdController.search(requestParams, mapper, VNFTHR_SEARCH_DEFAULT_EXCLUDE_FIELDS, VNFTHR_SEARCH_MANDATORY_FIELDS, makeLink);
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final @Nullable String nextpageOpaqueMarker, final Function<Threshold, U> mapper, final Consumer<U> makeLink, final Class<?> frontClass) {
+		return vnfmThresholdController.search(requestParams, mapper, VNFTHR_SEARCH_DEFAULT_EXCLUDE_FIELDS, VNFTHR_SEARCH_MANDATORY_FIELDS, makeLink, frontClass);
 	}
 
 	@Override

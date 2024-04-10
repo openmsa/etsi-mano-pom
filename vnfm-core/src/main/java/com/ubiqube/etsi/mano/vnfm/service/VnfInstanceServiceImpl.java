@@ -140,8 +140,8 @@ public class VnfInstanceServiceImpl implements VnfInstanceService {
 	}
 
 	@Override
-	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<VnfInstance, U> mapper, final @Nullable String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink) {
-		return searchableService.search(VnfInstance.class, requestParams, mapper, excludeDefaults, mandatoryFields, makeLink, List.of());
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<VnfInstance, U> mapper, final @Nullable String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink, final Class<?> frontClass) {
+		return searchableService.search(VnfInstance.class, requestParams, mapper, excludeDefaults, mandatoryFields, makeLink, List.of(), frontClass);
 	}
 
 	@Override

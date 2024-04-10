@@ -56,7 +56,7 @@ public interface VnfInstanceService {
 
 	VnfInstance vnfLcmPatch(VnfInstance vnfInstance, String body, @Nullable String ifMatch);
 
-	<U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<VnfInstance, U> mapper, @Nullable final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink);
+	<U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<VnfInstance, U> mapper, @Nullable final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink, Class<?> frontClass);
 
 	List<VnfLiveInstance> findByResourceIdIn(List<String> objectInstanceIds);
 

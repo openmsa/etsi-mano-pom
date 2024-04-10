@@ -82,8 +82,8 @@ public class AlarmVnfmControllerImpl implements AlarmVnfmController {
 	}
 
 	@Override
-	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<Alarms, U> mapper, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink) {
-		return searchableService.search(Alarms.class, requestParams, mapper, excludeDefaults, mandatoryFields, makeLink, List.of());
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<Alarms, U> mapper, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink, final Class<?> frontClass) {
+		return searchableService.search(Alarms.class, requestParams, mapper, excludeDefaults, mandatoryFields, makeLink, List.of(), frontClass);
 	}
 
 }

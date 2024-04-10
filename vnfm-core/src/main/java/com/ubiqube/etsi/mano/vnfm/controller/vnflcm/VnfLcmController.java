@@ -33,7 +33,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
  */
 public interface VnfLcmController {
 
-	<U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<VnfBlueprint, U> mapper, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink);
+	<U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<VnfBlueprint, U> mapper, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLink, Class<?> frontClass);
 
 	VnfBlueprint vnfLcmOpOccsVnfLcmOpOccIdGet(final UUID id);
 
