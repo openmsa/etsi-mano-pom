@@ -139,4 +139,8 @@ public interface HttpGateway {
 	Class<?> getVnfFmSubscriptionRequest();
 
 	Class<?> getVnfFmSubscriptionClass();
+
+	Class<?> getVrQanSubscriptionRequest();
+
+	Class<?> getVrQanSubscriptionClass();
 }

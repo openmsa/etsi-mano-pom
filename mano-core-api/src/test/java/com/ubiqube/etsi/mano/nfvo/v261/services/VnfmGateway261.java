@@ -69,6 +69,8 @@ import com.ubiqube.etsi.mano.vnfm.v261.model.nsperfo.CreateThresholdRequest;
 import com.ubiqube.etsi.mano.vnfm.v261.model.vnfind.VnfIndicator;
 import com.ubiqube.etsi.mano.vnfm.v261.model.vnfind.VnfIndicatorSubscription;
 import com.ubiqube.etsi.mano.vnfm.v261.model.vnfind.VnfIndicatorSubscriptionRequest;
+import com.ubiqube.etsi.mano.vnfm.v261.model.vrqan.VrQuotaAvailSubscription;
+import com.ubiqube.etsi.mano.vnfm.v261.model.vrqan.VrQuotaAvailSubscriptionRequest;
 
 import ma.glasnost.orika.MapperFacade;
 
@@ -370,4 +372,15 @@ public class VnfmGateway261 extends AbstractHttpGateway {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public Class<?> getVrQanSubscriptionRequest() {
+		return VrQuotaAvailSubscriptionRequest.class;
+	}
+
+	@Override
+	public Class<?> getVrQanSubscriptionClass() {
+		return VrQuotaAvailSubscription.class;
+	}
+
 }

@@ -306,4 +306,16 @@ public class HttpGatewayBad extends AbstractHttpGateway {
 		return null;
 	}
 
+	@Override
+	public Class<?> getVrQanSubscriptionRequest() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Class<?> getVrQanSubscriptionClass() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
