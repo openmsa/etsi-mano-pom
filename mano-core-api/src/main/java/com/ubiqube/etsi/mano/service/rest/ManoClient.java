@@ -151,4 +151,8 @@ public class ManoClient {
 	public ManoVnfIndicator vnfIndicator() {
 		return new ManoVnfIndicator(this);
 	}
+
+	public ManoVrQan vrQan() {
+		return new ManoVrQan(this);
+	}
 }
