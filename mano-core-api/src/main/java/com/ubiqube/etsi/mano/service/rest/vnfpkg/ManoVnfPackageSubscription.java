@@ -46,4 +46,10 @@ public class ManoVnfPackageSubscription {
 				.setOutClass(Subscription.class)
 				.getSingle();
 	}
+
+	public void delete(final UUID id) {
+		client.setFragment("/subscriptions/{id}");
+		client.setObjectId(id);
+		client.createQuery().delete();
+	}
 }
