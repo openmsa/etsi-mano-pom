@@ -94,7 +94,13 @@ public class EvalService {
 			TestValueExpr v = new TestValueExpr(x.getValue());
 			return new GenericCondition(l, Operator.EQUAL, v);
 		}).toList();
-		return new BooleanListExpr(BooleanOperatorEnum.AND, (List<BooleanExpression>) nodes);
+		final BooleanListExpr nd = new BooleanListExpr(BooleanOperatorEnum.AND, (List<BooleanExpression>) nodes);
+		final BooleanListExprRemoverVisitor visitor = new BooleanListExprRemoverVisitor();
+		final Node tmp = nd.accept(visitor, null);
+		if (null == tmp) {
+			return new NoopNode();
+		}
+		return tmp.accept(visitor, null);
 		// TODO: Move this to mapping time, but we will need to write in 2 properties.
 //		final QueryFilterListener beanListener = new QueryFilterListener();
 //		beanWalker.walk(obj, beanListener);
