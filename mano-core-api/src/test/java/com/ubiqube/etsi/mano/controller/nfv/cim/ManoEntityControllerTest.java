@@ -84,7 +84,7 @@ class ManoEntityControllerTest {
 	@Test
 	void testInterfaceSearch() {
 		final ManoEntityController srv = createService();
-		srv.interfaceSearch(null, null);
+		srv.interfaceSearch(null, x -> "");
 		assertTrue(true);
 	}
 
