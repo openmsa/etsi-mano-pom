@@ -20,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -29,6 +28,7 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -48,13 +48,11 @@ import com.ubiqube.etsi.mano.service.vim.SubNetwork;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 import com.ubiqube.etsi.mano.test.controllers.TestFactory;
-
-import ma.glasnost.orika.MapperFacade;
+import com.ubiqube.etsi.mano.vnfm.service.mapping.VnfcResourceInfoEntityMapping;
 
 @ExtendWith(MockitoExtension.class)
 class ComputeExtractorTest {
-	@Mock
-	private MapperFacade mapper;
+	private final VnfcResourceInfoEntityMapping mapper = Mappers.getMapper(VnfcResourceInfoEntityMapping.class);
 	@Mock
 	private VimManager vimManager;
 
@@ -87,9 +85,7 @@ class ComputeExtractorTest {
 		final VnfLiveInstance vli1 = createDummyVli();
 		final VnfInstance instance = TestFactory.createVnfInstance();
 		final VnfcResourceInfoEntity vnfRie = new VnfcResourceInfoEntity();
-		when(mapper.map(any(), eq(VnfcResourceInfoEntity.class))).thenReturn(vnfRie);
 		final VimResource vr = new VimResource();
-		when(mapper.map(any(), eq(VimResource.class))).thenReturn(vr);
 		final VnfPortTask p = TestFactory.createVnfPortTask();
 		final VnfLiveInstance vli2 = new VnfLiveInstance();
 		vli2.setId(UUID.randomUUID());
@@ -119,9 +115,7 @@ class ComputeExtractorTest {
 		final VnfLiveInstance vli1 = createDummyVli();
 		final VnfInstance instance = TestFactory.createVnfInstance();
 		final VnfcResourceInfoEntity vnfRie = new VnfcResourceInfoEntity();
-		when(mapper.map(any(), eq(VnfcResourceInfoEntity.class))).thenReturn(vnfRie);
 		final VimResource vr = new VimResource();
-		when(mapper.map(any(), eq(VimResource.class))).thenReturn(vr);
 		final VnfPortTask p = TestFactory.createVnfPortTask();
 		final VnfLiveInstance vli2 = new VnfLiveInstance();
 		vli2.setId(UUID.randomUUID());

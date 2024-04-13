@@ -31,7 +31,6 @@ import com.ubiqube.etsi.mano.dao.mano.IpOverEthernetAddressInfoEntity;
 import com.ubiqube.etsi.mano.dao.mano.IpOverEthernetAddressInfoEntity.TypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.IpType;
 import com.ubiqube.etsi.mano.dao.mano.SubNetworkTask;
-import com.ubiqube.etsi.mano.dao.mano.VimResource;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfLinkPort;
 import com.ubiqube.etsi.mano.dao.mano.VnfLiveInstance;
@@ -47,16 +46,15 @@ import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.service.vim.SubNetwork;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
-
-import ma.glasnost.orika.MapperFacade;
+import com.ubiqube.etsi.mano.vnfm.service.mapping.VnfcResourceInfoEntityMapping;
 
 @Service
 public class ComputeExtractor implements VnfLcmExtractor {
 	private static final String VIRTUAL_LINK = "virtual_link";
-	private final MapperFacade mapper;
+	private final VnfcResourceInfoEntityMapping mapper;
 	private final VimManager vimManager;
 
-	public ComputeExtractor(final MapperFacade mapper, final VimManager vimManager) {
+	public ComputeExtractor(final VnfcResourceInfoEntityMapping mapper, final VimManager vimManager) {
 		this.mapper = mapper;
 		this.vimManager = vimManager;
 	}
@@ -73,8 +71,9 @@ public class ComputeExtractor implements VnfLcmExtractor {
 
 	private VnfcResourceInfoEntity createVnfcResourceInfoEntity(final List<VnfLiveInstance> vlis, final VnfLiveInstance vli) {
 		final ComputeTask ct = (ComputeTask) vli.getTask();
-		final VnfcResourceInfoEntity ret = mapper.map(vli, VnfcResourceInfoEntity.class);
-		ret.setComputeResource(mapper.map(vli.getTask(), VimResource.class));
+		final VnfcResourceInfoEntity ret = mapper.map(vli);
+		// Probably done previously.
+		ret.setComputeResource(mapper.map(vli.getTask()));
 		ret.setId(vli.getId().toString());
 		ret.setStorageResourceIds(ct.getVnfCompute().getStorages());
 		ret.setVduId(ct.getToscaName());
