@@ -41,9 +41,6 @@ import com.ubiqube.etsi.mano.test.MapperService;
 import com.ubiqube.etsi.mano.test.controllers.TestFactory;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceServiceVnfm;
-import com.ubiqube.etsi.mano.vnfm.service.graph.DefaultVduNamingStrategy;
-
-import ma.glasnost.orika.MapperFacade;
 
 @ExtendWith(MockitoExtension.class)
 class VnfInstanceServiceVnfmTest {
@@ -52,14 +49,11 @@ class VnfInstanceServiceVnfmTest {
 	private VnfInstanceJpa vnfInstanceJpa;
 	@Mock
 	private VnfLiveInstanceJpa vnfLiveInstanceJpa;
-	private final MapperFacade mapper;
-	private final DefaultVduNamingStrategy namingStrategy;
 	@Mock
 	private VnfPackageJpa vnfPackageJpa;
 
 	public VnfInstanceServiceVnfmTest() {
-		mapper = MapperService.getInstance().getMapper();
-		namingStrategy = new DefaultVduNamingStrategy();
+		MapperService.getInstance().getMapper();
 	}
 
 	@Test

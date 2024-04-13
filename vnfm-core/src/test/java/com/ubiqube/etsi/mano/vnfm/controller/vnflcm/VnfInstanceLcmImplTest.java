@@ -18,8 +18,6 @@ package com.ubiqube.etsi.mano.vnfm.controller.vnflcm;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -29,6 +27,7 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -43,6 +42,7 @@ import com.ubiqube.etsi.mano.model.ExternalManagedVirtualLink;
 import com.ubiqube.etsi.mano.model.VnfInstantiate;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.event.EventManager;
+import com.ubiqube.etsi.mano.service.mapping.VimConnectionInformationMapping;
 import com.ubiqube.etsi.mano.service.rest.ManoClient;
 import com.ubiqube.etsi.mano.service.rest.ManoClientFactory;
 import com.ubiqube.etsi.mano.service.rest.vnfpkg.ManoOnboarded;
@@ -52,15 +52,13 @@ import com.ubiqube.etsi.mano.test.controllers.TestFactory;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceService;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceServiceVnfm;
 import com.ubiqube.etsi.mano.vnfm.service.VnfLcmService;
-
-import ma.glasnost.orika.MapperFacade;
+import com.ubiqube.etsi.mano.vnfm.service.graph.VnfBlueprintMapping;
+import com.ubiqube.etsi.mano.vnfm.service.mapping.VnfInstanceMapping;
 
 @ExtendWith(MockitoExtension.class)
 class VnfInstanceLcmImplTest {
 	@Mock
 	private EventManager eventManager;
-	@Mock
-	private MapperFacade mapper;
 	@Mock
 	private VnfLcmService vnfLcmService;
 	@Mock
@@ -75,39 +73,48 @@ class VnfInstanceLcmImplTest {
 	private ManoClientFactory manoClient;
 	@Mock
 	private ManoClient mc;
+	private final VimConnectionInformationMapping vimConnectionInformationMapping = Mappers.getMapper(VimConnectionInformationMapping.class);
+
+	private final VnfBlueprintMapping vnfBlueprintMapping = Mappers.getMapper(VnfBlueprintMapping.class);
+
+	private final VnfInstanceMapping vnfInstanceMapping = Mappers.getMapper(VnfInstanceMapping.class);
 
 	@Test
 	void testFindById() {
-		final VnfInstanceLcmImpl srv = new VnfInstanceLcmImpl(eventManager, mapper, vnfLcmService, vnfInstanceServiec, vimManager, vnfPackageService, vnfInstanceVnfm, manoClient);
+		final VnfInstanceLcmImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		srv.findById(null, id.toString());
 		assertTrue(true);
 	}
 
+	private VnfInstanceLcmImpl createService() {
+		return new VnfInstanceLcmImpl(eventManager, vnfLcmService, vnfInstanceServiec, vimManager, vnfPackageService, vnfInstanceVnfm, manoClient, vnfInstanceMapping, vnfBlueprintMapping, vimConnectionInformationMapping);
+	}
+
 	@Test
 	void testFindByVnfInstanceId() {
-		final VnfInstanceLcmImpl srv = new VnfInstanceLcmImpl(eventManager, mapper, vnfLcmService, vnfInstanceServiec, vimManager, vnfPackageService, vnfInstanceVnfm, manoClient);
+		final VnfInstanceLcmImpl srv = createService();
 		srv.findByVnfInstanceId(null, null);
 		assertTrue(true);
 	}
 
 	@Test
 	void testVnfLcmOpOccsGet() {
-		final VnfInstanceLcmImpl srv = new VnfInstanceLcmImpl(eventManager, mapper, vnfLcmService, vnfInstanceServiec, vimManager, vnfPackageService, vnfInstanceVnfm, manoClient);
+		final VnfInstanceLcmImpl srv = createService();
 		srv.vnfLcmOpOccsGet(null, null);
 		assertTrue(true);
 	}
 
 	@Test
 	void testGet() {
-		final VnfInstanceLcmImpl srv = new VnfInstanceLcmImpl(eventManager, mapper, vnfLcmService, vnfInstanceServiec, vimManager, vnfPackageService, vnfInstanceVnfm, manoClient);
+		final VnfInstanceLcmImpl srv = createService();
 		srv.get(null, null);
 		assertTrue(true);
 	}
 
 	@Test
 	void test() {
-		final VnfInstanceLcmImpl srv = new VnfInstanceLcmImpl(eventManager, mapper, vnfLcmService, vnfInstanceServiec, vimManager, vnfPackageService, vnfInstanceVnfm, manoClient);
+		final VnfInstanceLcmImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		final VnfInstance inst = TestFactory.createVnfInstance();
 		inst.setInstantiationState(InstantiationState.INSTANTIATED);
@@ -120,7 +127,7 @@ class VnfInstanceLcmImplTest {
 
 	@Test
 	void testHeal() {
-		final VnfInstanceLcmImpl srv = new VnfInstanceLcmImpl(eventManager, mapper, vnfLcmService, vnfInstanceServiec, vimManager, vnfPackageService, vnfInstanceVnfm, manoClient);
+		final VnfInstanceLcmImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		final VnfInstance inst = TestFactory.createVnfInstance();
 		inst.setInstantiationState(InstantiationState.INSTANTIATED);
@@ -133,7 +140,7 @@ class VnfInstanceLcmImplTest {
 
 	@Test
 	void testOperate() {
-		final VnfInstanceLcmImpl srv = new VnfInstanceLcmImpl(eventManager, mapper, vnfLcmService, vnfInstanceServiec, vimManager, vnfPackageService, vnfInstanceVnfm, manoClient);
+		final VnfInstanceLcmImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		final VnfInstance inst = TestFactory.createVnfInstance();
 		inst.setInstantiationState(InstantiationState.INSTANTIATED);
@@ -146,7 +153,7 @@ class VnfInstanceLcmImplTest {
 
 	@Test
 	void testScale() {
-		final VnfInstanceLcmImpl srv = new VnfInstanceLcmImpl(eventManager, mapper, vnfLcmService, vnfInstanceServiec, vimManager, vnfPackageService, vnfInstanceVnfm, manoClient);
+		final VnfInstanceLcmImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		final VnfInstance inst = TestFactory.createVnfInstance();
 		inst.setInstantiationState(InstantiationState.INSTANTIATED);
@@ -159,7 +166,7 @@ class VnfInstanceLcmImplTest {
 
 	@Test
 	void testScaleToLevel() {
-		final VnfInstanceLcmImpl srv = new VnfInstanceLcmImpl(eventManager, mapper, vnfLcmService, vnfInstanceServiec, vimManager, vnfPackageService, vnfInstanceVnfm, manoClient);
+		final VnfInstanceLcmImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		final VnfInstance inst = TestFactory.createVnfInstance();
 		inst.setInstantiationState(InstantiationState.INSTANTIATED);
@@ -172,7 +179,7 @@ class VnfInstanceLcmImplTest {
 
 	@Test
 	void testTerminate() {
-		final VnfInstanceLcmImpl srv = new VnfInstanceLcmImpl(eventManager, mapper, vnfLcmService, vnfInstanceServiec, vimManager, vnfPackageService, vnfInstanceVnfm, manoClient);
+		final VnfInstanceLcmImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		final VnfInstance inst = TestFactory.createVnfInstance();
 		inst.setInstantiationState(InstantiationState.INSTANTIATED);
@@ -185,7 +192,7 @@ class VnfInstanceLcmImplTest {
 
 	@Test
 	void testPostOnboard() {
-		final VnfInstanceLcmImpl srv = new VnfInstanceLcmImpl(eventManager, mapper, vnfLcmService, vnfInstanceServiec, vimManager, vnfPackageService, vnfInstanceVnfm, manoClient);
+		final VnfInstanceLcmImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		final VnfInstance inst = TestFactory.createVnfInstance();
 		inst.setInstantiationState(InstantiationState.INSTANTIATED);
@@ -207,7 +214,7 @@ class VnfInstanceLcmImplTest {
 
 	@Test
 	void testPost() {
-		final VnfInstanceLcmImpl srv = new VnfInstanceLcmImpl(eventManager, mapper, vnfLcmService, vnfInstanceServiec, vimManager, vnfPackageService, vnfInstanceVnfm, manoClient);
+		final VnfInstanceLcmImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		final VnfInstance inst = TestFactory.createVnfInstance();
 		inst.setInstantiationState(InstantiationState.INSTANTIATED);
@@ -221,7 +228,7 @@ class VnfInstanceLcmImplTest {
 
 	@Test
 	void testDelete() {
-		final VnfInstanceLcmImpl srv = new VnfInstanceLcmImpl(eventManager, mapper, vnfLcmService, vnfInstanceServiec, vimManager, vnfPackageService, vnfInstanceVnfm, manoClient);
+		final VnfInstanceLcmImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		final VnfInstance inst = TestFactory.createVnfInstance();
 		when(vnfInstanceVnfm.findById(id)).thenReturn(inst);
@@ -234,7 +241,7 @@ class VnfInstanceLcmImplTest {
 
 	@Test
 	void testDeleteInstantiated() {
-		final VnfInstanceLcmImpl srv = new VnfInstanceLcmImpl(eventManager, mapper, vnfLcmService, vnfInstanceServiec, vimManager, vnfPackageService, vnfInstanceVnfm, manoClient);
+		final VnfInstanceLcmImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		final VnfInstance inst = TestFactory.createVnfInstance();
 		when(vnfInstanceVnfm.findById(id)).thenReturn(inst);
@@ -246,7 +253,7 @@ class VnfInstanceLcmImplTest {
 
 	@Test
 	void testInstantiate() {
-		final VnfInstanceLcmImpl srv = new VnfInstanceLcmImpl(eventManager, mapper, vnfLcmService, vnfInstanceServiec, vimManager, vnfPackageService, vnfInstanceVnfm, manoClient);
+		final VnfInstanceLcmImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		final VnfInstance inst = TestFactory.createVnfInstance();
 		final VnfPackage pkg = TestFactory.createVnfPkg(id);
@@ -262,7 +269,7 @@ class VnfInstanceLcmImplTest {
 
 	@Test
 	void testInstantiateMapping() {
-		final VnfInstanceLcmImpl srv = new VnfInstanceLcmImpl(eventManager, mapper, vnfLcmService, vnfInstanceServiec, vimManager, vnfPackageService, vnfInstanceVnfm, manoClient);
+		final VnfInstanceLcmImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		final VnfInstance inst = TestFactory.createVnfInstance();
 		final VnfPackage pkg = TestFactory.createVnfPkg(id);
@@ -281,7 +288,7 @@ class VnfInstanceLcmImplTest {
 
 	@Test
 	void testInstantiateVimConnection() {
-		final VnfInstanceLcmImpl srv = new VnfInstanceLcmImpl(eventManager, mapper, vnfLcmService, vnfInstanceServiec, vimManager, vnfPackageService, vnfInstanceVnfm, manoClient);
+		final VnfInstanceLcmImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		final VnfInstance inst = TestFactory.createVnfInstance();
 		final VnfPackage pkg = TestFactory.createVnfPkg(id);
@@ -294,14 +301,13 @@ class VnfInstanceLcmImplTest {
 		when(vnfLcmService.createIntatiateOpOcc(inst)).thenReturn(bp);
 		when(vnfLcmService.save(bp)).thenReturn(bp);
 		//
-		when(mapper.mapAsList(anyList(), eq(VimConnectionInformation.class))).thenReturn(List.of(conn1));
 		srv.instantiate(null, id, req);
 		assertTrue(true);
 	}
 
 	@Test
 	void testInstantiateVimConnection2() {
-		final VnfInstanceLcmImpl srv = new VnfInstanceLcmImpl(eventManager, mapper, vnfLcmService, vnfInstanceServiec, vimManager, vnfPackageService, vnfInstanceVnfm, manoClient);
+		final VnfInstanceLcmImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		final VnfInstance inst = TestFactory.createVnfInstance();
 		final VnfPackage pkg = TestFactory.createVnfPkg(id);
@@ -314,7 +320,6 @@ class VnfInstanceLcmImplTest {
 		when(vnfLcmService.createIntatiateOpOcc(inst)).thenReturn(bp);
 		when(vnfLcmService.save(bp)).thenReturn(bp);
 		//
-		when(mapper.mapAsList(anyList(), eq(VimConnectionInformation.class))).thenReturn(List.of(conn1));
 		when(vimManager.findOptionalVimByVimId(any())).thenReturn(Optional.of(conn1));
 		srv.instantiate(null, id, req);
 		assertTrue(true);

@@ -30,14 +30,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.ubiqube.etsi.mano.config.properties.ManoProperties;
 import com.ubiqube.etsi.mano.dao.mano.pm.PmJob;
 
-import ma.glasnost.orika.MapperFacade;
-
 @ExtendWith(MockitoExtension.class)
 class VnfmPmGenericFrontControllerImplTest {
 	@Mock
 	private VnfmPmController vnfPmController;
-	@Mock
-	private MapperFacade mapper;
 
 	@Test
 	void testSearch() {

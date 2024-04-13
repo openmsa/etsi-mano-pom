@@ -37,16 +37,12 @@ import com.ubiqube.etsi.mano.test.controllers.TestFactory;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceService;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceServiceVnfm;
 
-import ma.glasnost.orika.MapperFacade;
-
 @ExtendWith(MockitoExtension.class)
 class VnfInstanceGenericFrontControllerImplTest {
 	@Mock
 	private VnfInstanceLcmImpl vnfInstanceLcm;
 	@Mock
 	private VnfInstanceService vnfInstanceService;
-	@Mock
-	private MapperFacade mapper;
 	@Mock
 	private VnfInstanceServiceVnfm VnfInstanceVnfm;
 
