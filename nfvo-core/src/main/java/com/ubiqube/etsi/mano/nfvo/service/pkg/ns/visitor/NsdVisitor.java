@@ -22,12 +22,12 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
+import com.ubiqube.etsi.mano.nfvo.service.mapping.NsdPackageMapping;
 import com.ubiqube.etsi.mano.nfvo.service.pkg.ns.NsOnboardingVisitor;
 import com.ubiqube.etsi.mano.service.pkg.bean.NsInformations;
 import com.ubiqube.etsi.mano.service.pkg.ns.NsPackageProvider;
 
 import jakarta.annotation.Priority;
-import ma.glasnost.orika.MapperFacade;
 
 /**
  *
@@ -37,9 +37,9 @@ import ma.glasnost.orika.MapperFacade;
 @Priority(0)
 @Service
 public class NsdVisitor implements NsOnboardingVisitor {
-	private final MapperFacade mapper;
+	private final NsdPackageMapping mapper;
 
-	public NsdVisitor(final MapperFacade mapper) {
+	public NsdVisitor(final NsdPackageMapping mapper) {
 		this.mapper = mapper;
 	}
 
