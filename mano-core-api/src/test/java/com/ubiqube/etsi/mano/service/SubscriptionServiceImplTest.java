@@ -62,7 +62,6 @@ import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.service.search.ManoSearch;
 
 import jakarta.persistence.EntityManager;
-import ma.glasnost.orika.MapperFacade;
 
 @ExtendWith(MockitoExtension.class)
 class SubscriptionServiceImplTest {
@@ -78,8 +77,6 @@ class SubscriptionServiceImplTest {
 	private ServerService serverService;
 	@Mock
 	private EvalService evalService;
-	@Mock
-	private MapperFacade mapper;
 	@Mock
 	private ManoSearch manoSearch;
 

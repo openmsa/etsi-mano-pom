@@ -18,8 +18,6 @@ package com.ubiqube.etsi.mano.controller.nfv.cim;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,8 +26,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.service.InterfaceInfoService;
 import com.ubiqube.etsi.mano.service.sol009.PeerEntityService;
-
-import ma.glasnost.orika.MapperFacade;
 
 /**
  *
@@ -40,8 +36,6 @@ import ma.glasnost.orika.MapperFacade;
 class ManoEntityControllerTest {
 	@Mock
 	private PeerEntityService peerEntityService;
-	@Mock
-	private MapperFacade mapper;
 	@Mock
 	private InterfaceInfoService interfaceInfoService;
 
@@ -83,8 +77,7 @@ class ManoEntityControllerTest {
 	@Test
 	void testFind() {
 		final ManoEntityController srv = createService();
-		when(mapper.map(any(), any())).thenReturn(srv);
-		srv.find(null);
+		srv.find(x -> "");
 		assertTrue(true);
 	}
 

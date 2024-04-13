@@ -34,8 +34,6 @@ import com.ubiqube.etsi.mano.service.ServerService;
 import com.ubiqube.etsi.mano.service.SubscriptionService;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
 
-import ma.glasnost.orika.MapperFacade;
-
 /**
  *
  * @author Olivier Vignaud
@@ -45,8 +43,6 @@ import ma.glasnost.orika.MapperFacade;
 class SubscriptionFrontControllerImplTest {
 	@Mock
 	private SubscriptionService subscriptionService;
-	@Mock
-	private MapperFacade mapper;
 	@Mock
 	private ServerService serverService;
 

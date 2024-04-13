@@ -30,12 +30,8 @@ import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.grammar.JsonBeanUtil;
 
-import ma.glasnost.orika.MapperFacade;
-
 @ExtendWith(MockitoExtension.class)
 class ManoSearchResponseServiceImplTest {
-	@Mock
-	private MapperFacade mapper;
 	@Mock
 	private JsonBeanUtil jsonBeanUtil;
 
