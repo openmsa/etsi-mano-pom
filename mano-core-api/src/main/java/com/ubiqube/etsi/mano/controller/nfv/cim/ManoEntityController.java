@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.controller.nfv.cim;
 
 import java.util.List;
+import java.util.function.Function;
 
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
@@ -28,17 +29,13 @@ import com.ubiqube.etsi.mano.dao.mano.sol009.iface.ManoServiceInterface;
 import com.ubiqube.etsi.mano.service.InterfaceInfoService;
 import com.ubiqube.etsi.mano.service.sol009.PeerEntityService;
 
-import ma.glasnost.orika.MapperFacade;
-
 @Service
 public class ManoEntityController implements ManoEntityFrontController {
 	private final PeerEntityService peerEntiityService;
 	private final InterfaceInfoService interfaceInfoService;
-	private final MapperFacade mapper;
 
-	public ManoEntityController(final PeerEntityService peerEntiityService, final MapperFacade mapper, final @Lazy InterfaceInfoService interfaceInfoService) {
+	public ManoEntityController(final PeerEntityService peerEntiityService, final @Lazy InterfaceInfoService interfaceInfoService) {
 		this.peerEntiityService = peerEntiityService;
-		this.mapper = mapper;
 		this.interfaceInfoService = interfaceInfoService;
 	}
 
@@ -48,16 +45,16 @@ public class ManoEntityController implements ManoEntityFrontController {
 	}
 
 	@Override
-	public <U> ResponseEntity<U> find(final Class<U> clazz) {
+	public <U> ResponseEntity<U> find(final Function<ManoEntity, U> mapper) {
 		final ManoEntity me = peerEntiityService.getMe();
-		final U ret = mapper.map(me, clazz);
+		final U ret = mapper.apply(me);
 		return ResponseEntity.ok(ret);
 	}
 
 	@Override
-	public <U> ResponseEntity<List<U>> interfaceSearch(final String filter, final Class<U> clazz) {
+	public <U> ResponseEntity<List<U>> interfaceSearch(final String filter, final Function<ManoServiceInterface, U> mapper) {
 		final List<ManoServiceInterface> db = interfaceInfoService.getInterfaceEndpoint();
-		final List<U> ret = mapper.mapAsList(db, clazz);
+		final List<U> ret = db.stream().map(mapper::apply).toList();
 		return ResponseEntity.ok(ret);
 	}
 
@@ -67,17 +64,17 @@ public class ManoEntityController implements ManoEntityFrontController {
 	}
 
 	@Override
-	public <U> ResponseEntity<U> interfaceFindById(final String manoServiceInterfaceId, final Class<U> clazz) {
+	public <U> ResponseEntity<U> interfaceFindById(final String manoServiceInterfaceId, final Function<ManoEntity, U> mapper) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public <U> ResponseEntity<U> interfacePatch(final String manoServiceInterfaceId, final Object body, final Class<U> clazz) {
+	public <U> ResponseEntity<U> interfacePatch(final String manoServiceInterfaceId, final Object body, final Function<ManoEntity, U> mapper) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public <U> ResponseEntity<U> patch(final Object body, final Class<U> clazz) {
+	public <U> ResponseEntity<U> patch(final Object body, final Function<ManoEntity, U> mapper) {
 		throw new UnsupportedOperationException();
 	}
 

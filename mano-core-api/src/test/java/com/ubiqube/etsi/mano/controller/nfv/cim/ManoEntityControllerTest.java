@@ -47,38 +47,42 @@ class ManoEntityControllerTest {
 
 	@Test
 	void testChangeStatus() {
-		final ManoEntityController srv = new ManoEntityController(peerEntityService, mapper, interfaceInfoService);
+		final ManoEntityController srv = createService();
 		assertThrows(UnsupportedOperationException.class, () -> srv.changeStatus(srv));
+	}
+
+	private ManoEntityController createService() {
+		return new ManoEntityController(peerEntityService, interfaceInfoService);
 	}
 
 	@Test
 	void testInterfaceChangeState() {
-		final ManoEntityController srv = new ManoEntityController(peerEntityService, mapper, interfaceInfoService);
+		final ManoEntityController srv = createService();
 		assertThrows(UnsupportedOperationException.class, () -> srv.interfaceChangeState(null, srv));
 	}
 
 	@Test
 	void testInterfaceFindById() {
-		final ManoEntityController srv = new ManoEntityController(peerEntityService, mapper, interfaceInfoService);
+		final ManoEntityController srv = createService();
 		assertThrows(UnsupportedOperationException.class, () -> srv.interfaceFindById(null, null));
 	}
 
 	@Test
 	void testInterfacePatch() {
-		final ManoEntityController srv = new ManoEntityController(peerEntityService, mapper, interfaceInfoService);
+		final ManoEntityController srv = createService();
 		assertThrows(UnsupportedOperationException.class, () -> srv.interfacePatch(null, srv, null));
 	}
 
 	@Test
 	void testPatch() {
-		final ManoEntityController srv = new ManoEntityController(peerEntityService, mapper, interfaceInfoService);
+		final ManoEntityController srv = createService();
 		assertThrows(UnsupportedOperationException.class, () -> srv.patch(srv, null));
 		assertTrue(true);
 	}
 
 	@Test
 	void testFind() {
-		final ManoEntityController srv = new ManoEntityController(peerEntityService, mapper, interfaceInfoService);
+		final ManoEntityController srv = createService();
 		when(mapper.map(any(), any())).thenReturn(srv);
 		srv.find(null);
 		assertTrue(true);
@@ -86,7 +90,7 @@ class ManoEntityControllerTest {
 
 	@Test
 	void testInterfaceSearch() {
-		final ManoEntityController srv = new ManoEntityController(peerEntityService, mapper, interfaceInfoService);
+		final ManoEntityController srv = createService();
 		srv.interfaceSearch(null, null);
 		assertTrue(true);
 	}
