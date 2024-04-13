@@ -44,7 +44,6 @@ import com.ubiqube.etsi.mano.grammar.JsonBeanUtil;
 import com.ubiqube.etsi.mano.json.MapperForView;
 
 import jakarta.annotation.Nullable;
-import ma.glasnost.orika.MapperFacade;
 
 /**
  *
@@ -53,14 +52,11 @@ import ma.glasnost.orika.MapperFacade;
  */
 @Service
 public class ManoSearchResponseServiceImpl implements ManoSearchResponseService {
-	private final MapperFacade mapper;
-
 	private final Set<String> officialParameters;
 
 	private final JsonBeanUtil jsonBeanUtil;
 
-	public ManoSearchResponseServiceImpl(final MapperFacade mapper, final JsonBeanUtil jsonBeanUtil) {
-		this.mapper = mapper;
+	public ManoSearchResponseServiceImpl(final JsonBeanUtil jsonBeanUtil) {
 		this.jsonBeanUtil = jsonBeanUtil;
 		officialParameters = new HashSet<>(Arrays.asList("fields", "exclude_fields", "exclude_default", "filter", "all_fields"));
 	}

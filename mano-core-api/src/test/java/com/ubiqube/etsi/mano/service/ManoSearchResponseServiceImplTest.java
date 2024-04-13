@@ -41,11 +41,15 @@ class ManoSearchResponseServiceImplTest {
 
 	@Test
 	void testName() throws Exception {
-		final ManoSearchResponseServiceImpl msrs = new ManoSearchResponseServiceImpl(mapper, jsonBeanUtil);
+		final ManoSearchResponseServiceImpl msrs = createService();
 		final MultiValueMap<String, String> paramaters = new LinkedMultiValueMap<>();
 		msrs.search(paramaters, getClass(), null, Set.of(), List.of(), null, x -> {
 			//
 		});
 		assertTrue(true);
+	}
+
+	private ManoSearchResponseServiceImpl createService() {
+		return new ManoSearchResponseServiceImpl(jsonBeanUtil);
 	}
 }
