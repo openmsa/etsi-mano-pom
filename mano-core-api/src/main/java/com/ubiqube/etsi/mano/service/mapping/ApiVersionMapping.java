@@ -17,11 +17,12 @@
 package com.ubiqube.etsi.mano.service.mapping;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 
 import com.ubiqube.etsi.mano.dao.mano.version.ApiVersion;
 import com.ubiqube.etsi.mano.model.ApiVersionInformation;
-import org.mapstruct.Mapping;
+import com.ubiqube.etsi.mano.model.ApiVersionInformationApiVersions;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface ApiVersionMapping {
@@ -29,4 +30,7 @@ public interface ApiVersionMapping {
 	@Mapping(target = "id", ignore = true)
 	@Mapping(target = "type", ignore = true)
 	ApiVersion map(ApiVersionInformation o);
+
+	@Mapping(target = "id", ignore = true)
+	com.ubiqube.etsi.mano.dao.mano.version.ApiVersionInformation map(ApiVersionInformationApiVersions o);
 }
