@@ -19,6 +19,7 @@ package com.ubiqube.etsi.mano.service.mapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
+import org.mapstruct.MappingTarget;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.service.pkg.bean.ProviderData;
@@ -73,6 +74,54 @@ public interface VnfPackageMapping {
 	@Mapping(target = "vnfdId", source = "descriptorId")
 	@Mapping(target = "vnfmInfo281", ignore = true)
 	VnfPackage map(ProviderData o);
+
+	@Mapping(target = "additionalArtifacts", ignore = true)
+	@Mapping(target = "affinityRules", ignore = true)
+	@Mapping(target = "audit", ignore = true)
+	@Mapping(target = "checksum", ignore = true)
+	@Mapping(target = "compatibleSpecificationVersions", ignore = true)
+	@Mapping(target = "defaultInstantiationLevel", ignore = true)
+	@Mapping(target = "id", ignore = true)
+	@Mapping(target = "mciopId", ignore = true)
+	@Mapping(target = "mciops", ignore = true)
+	@Mapping(target = "nfvoId", ignore = true)
+	@Mapping(target = "nonManoArtifactSetId", ignore = true)
+	@Mapping(target = "nsInstance", ignore = true)
+	@Mapping(target = "nsdPackages", ignore = true)
+	@Mapping(target = "onboardingFailureDetails", ignore = true)
+	@Mapping(target = "onboardingState", ignore = true)
+	@Mapping(target = "operationalState", ignore = true)
+	@Mapping(target = "osContainer", ignore = true)
+	@Mapping(target = "osContainerDeployableUnits", ignore = true)
+	@Mapping(target = "osContainerDesc", ignore = true)
+	@Mapping(target = "overloadedAttribute", ignore = true)
+	@Mapping(target = "overwriteDescId", ignore = true)
+	@Mapping(target = "packageProvider", ignore = true)
+	@Mapping(target = "packageSecurityOption", ignore = true)
+	@Mapping(target = "repositories", ignore = true)
+	@Mapping(target = "securityGroups", ignore = true)
+	@Mapping(target = "server", ignore = true)
+	@Mapping(target = "signingCertificate", ignore = true)
+	@Mapping(target = "softwareImages", ignore = true)
+	@Mapping(target = "uploadUriParameters", ignore = true)
+	@Mapping(target = "usageState", ignore = true)
+	@Mapping(target = "userDefinedData", ignore = true)
+	@Mapping(target = "version", ignore = true)
+	@Mapping(target = "vimCapabilities", ignore = true)
+	@Mapping(target = "virtualCp", ignore = true)
+	@Mapping(target = "virtualLinks", ignore = true)
+	@Mapping(target = "vnfCompute", ignore = true)
+	@Mapping(target = "vnfExtCp", ignore = true)
+	@Mapping(target = "vnfIndicator", ignore = true)
+	@Mapping(target = "vnfInstantiationLevels", ignore = true)
+	@Mapping(target = "vnfLinkPort", ignore = true)
+	@Mapping(target = "vnfStorage", ignore = true)
+	@Mapping(target = "vnfVl", ignore = true)
+	@Mapping(target = "vnfdContentType", ignore = true)
+	@Mapping(target = "vnfdExtInvariantId", ignore = true)
+	@Mapping(target = "vnfdId", source = "descriptorId")
+	@Mapping(target = "vnfmInfo281", ignore = true)
+	void map(ProviderData o, @MappingTarget VnfPackage dst);
 
 	@Mapping(target = "aspectId", source = "name")
 	@Mapping(target = "id", ignore = true)

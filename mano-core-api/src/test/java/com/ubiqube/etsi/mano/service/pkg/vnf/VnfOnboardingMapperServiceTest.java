@@ -25,37 +25,40 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
+import com.ubiqube.etsi.mano.service.mapping.VnfPackageMapping;
 import com.ubiqube.etsi.mano.service.pkg.bean.ProviderData;
-
-import ma.glasnost.orika.MapperFacade;
 
 @ExtendWith(MockitoExtension.class)
 class VnfOnboardingMapperServiceTest {
 	@Mock
-	private MapperFacade mapper;
-	@Mock
 	private CustomOnboarding cunstomOnboarding;
 	private VnfPackageReader vnfPkgReader;
+	private final VnfPackageMapping vnfPackageMapping = Mappers.getMapper(VnfPackageMapping.class);
 
 	@Test
 	void testName() throws Exception {
-		final VnfOnboardingMapperService srv = new VnfOnboardingMapperService(mapper, List.of(), List.of(), cunstomOnboarding);
+		final VnfOnboardingMapperService srv = createService();
 		final VnfPackage VnfPackage = new VnfPackage();
 		final ProviderData providerData = new ProviderData();
 		srv.mapper(vnfPkgReader, VnfPackage, providerData);
 		assertTrue(true);
 	}
 
+	private VnfOnboardingMapperService createService() {
+		return new VnfOnboardingMapperService(List.of(), List.of(), cunstomOnboarding, vnfPackageMapping);
+	}
+
 	@Test
 	void testWithVisitors() throws Exception {
 		final OnboardVisitor ov01 = new TestOnboardVisitor();
 		final OnboardingPostProcessorVisitor op01 = new TestOnboardingPostProcessorVisitor();
-		final VnfOnboardingMapperService srv = new VnfOnboardingMapperService(mapper, List.of(ov01), List.of(op01), cunstomOnboarding);
+		final VnfOnboardingMapperService srv = new VnfOnboardingMapperService(List.of(ov01), List.of(op01), cunstomOnboarding, vnfPackageMapping);
 		final VnfPackage VnfPackage = new VnfPackage();
 		final ProviderData providerData = new ProviderData();
 		srv.mapper(vnfPkgReader, VnfPackage, providerData);
@@ -64,7 +67,7 @@ class VnfOnboardingMapperServiceTest {
 
 	@Test
 	void testVirtualLink() throws Exception {
-		final VnfOnboardingMapperService srv = new VnfOnboardingMapperService(mapper, List.of(), List.of(), cunstomOnboarding);
+		final VnfOnboardingMapperService srv = createService();
 		final VnfPackage vnfPackage = new VnfPackage();
 		final ProviderData providerData = new ProviderData();
 		providerData.setVirtualLink5Req("vl05");

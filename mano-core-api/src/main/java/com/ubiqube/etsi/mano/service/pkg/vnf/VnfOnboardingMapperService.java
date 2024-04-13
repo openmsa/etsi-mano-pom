@@ -28,10 +28,9 @@ import org.springframework.stereotype.Service;
 import com.ubiqube.etsi.mano.dao.mano.AttributeAssignements;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
+import com.ubiqube.etsi.mano.service.mapping.VnfPackageMapping;
 import com.ubiqube.etsi.mano.service.pkg.bean.ProviderData;
 import com.ubiqube.parser.tosca.AttributeAssignement;
-
-import ma.glasnost.orika.MapperFacade;
 
 /**
  *
@@ -40,23 +39,23 @@ import ma.glasnost.orika.MapperFacade;
  */
 @Service
 public class VnfOnboardingMapperService {
-	private final MapperFacade mapper;
-
 	private final List<OnboardVisitor> onboardVisitors;
 
 	private final List<OnboardingPostProcessorVisitor> postProcessors;
 
 	private final CustomOnboarding customOnboarding;
 
-	public VnfOnboardingMapperService(final MapperFacade mapper, final List<OnboardVisitor> onboardVisitors, final List<OnboardingPostProcessorVisitor> postProcessors, final CustomOnboarding customOnboarding) {
-		this.mapper = mapper;
+	private final VnfPackageMapping vnfPackageMapping;
+
+	public VnfOnboardingMapperService(final List<OnboardVisitor> onboardVisitors, final List<OnboardingPostProcessorVisitor> postProcessors, final CustomOnboarding customOnboarding, final VnfPackageMapping vnfPackageMapping) {
 		this.onboardVisitors = onboardVisitors;
 		this.postProcessors = postProcessors;
 		this.customOnboarding = customOnboarding;
+		this.vnfPackageMapping = vnfPackageMapping;
 	}
 
 	void mapper(final VnfPackageReader vnfPackageReader, final VnfPackage vnfPackage, final ProviderData pd) {
-		mapper.map(pd, vnfPackage);
+		vnfPackageMapping.map(pd, vnfPackage);
 		additionalMapping(pd, vnfPackage);
 		final Map<String, String> userData = vnfPackage.getUserDefinedData();
 		onboardVisitors.forEach(x -> x.visit(vnfPackage, vnfPackageReader, userData));
