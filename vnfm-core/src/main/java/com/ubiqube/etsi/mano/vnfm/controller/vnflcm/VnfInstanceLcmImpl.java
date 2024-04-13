@@ -61,16 +61,18 @@ import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.event.ActionType;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
+import com.ubiqube.etsi.mano.service.mapping.VimConnectionInformationMapping;
 import com.ubiqube.etsi.mano.service.rest.ManoClientFactory;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceService;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceServiceVnfm;
 import com.ubiqube.etsi.mano.vnfm.service.VnfLcmService;
+import com.ubiqube.etsi.mano.vnfm.service.graph.VnfBlueprintMapping;
+import com.ubiqube.etsi.mano.vnfm.service.mapping.VnfInstanceMapping;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.transaction.Transactional;
-import ma.glasnost.orika.MapperFacade;
 
 @Service
 public class VnfInstanceLcmImpl implements VnfInstanceLcm {
@@ -80,8 +82,6 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 	private final VnfPackageService vnfPackageService;
 
 	private final EventManager eventManager;
-
-	private final MapperFacade mapper;
 
 	private final VnfLcmService vnfLcmService;
 
@@ -93,17 +93,25 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 
 	private final ManoClientFactory manoClientFactory;
 
-	public VnfInstanceLcmImpl(final EventManager eventManager, final MapperFacade mapper, final VnfLcmService vnfLcmService,
+	private final VimConnectionInformationMapping vimConnectionInformationMapping;
+
+	private final VnfBlueprintMapping vnfBlueprintMapping;
+
+	private final VnfInstanceMapping vnfInstanceMapping;
+
+	public VnfInstanceLcmImpl(final EventManager eventManager, final VnfLcmService vnfLcmService,
 			final VnfInstanceService vnfInstanceService, final VimManager vimManager, final VnfPackageService vnfPackageService,
-			final VnfInstanceServiceVnfm vnfInstanceServiceVnfm, final ManoClientFactory manoClientFactory) {
+			final VnfInstanceServiceVnfm vnfInstanceServiceVnfm, final ManoClientFactory manoClientFactory, final VnfInstanceMapping vnfInstanceMapping, final VnfBlueprintMapping vnfBlueprintMapping, final VimConnectionInformationMapping vimConnectionInformationMapping) {
 		this.eventManager = eventManager;
-		this.mapper = mapper;
 		this.vnfLcmService = vnfLcmService;
 		this.vnfInstanceService = vnfInstanceService;
 		this.vimManager = vimManager;
 		this.vnfPackageService = vnfPackageService;
 		this.vnfInstanceServiceVnfm = vnfInstanceServiceVnfm;
 		this.manoClientFactory = manoClientFactory;
+		this.vimConnectionInformationMapping = vimConnectionInformationMapping;
+		this.vnfBlueprintMapping = vnfBlueprintMapping;
+		this.vnfInstanceMapping = vnfInstanceMapping;
 	}
 
 	@Override
@@ -125,7 +133,7 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 		ensureIsOnboarded(vnfPkgInfo);
 		ensureIsEnabled(vnfPkgInfo);
 		VnfInstance vnfInstance = VnfLcmFactory.createVnfInstance(vnfInstanceName, vnfInstanceDescription, vnfPkgInfo);
-		mapper.map(vnfPkgInfo, vnfInstance);
+		vnfInstanceMapping.map(vnfPkgInfo, vnfInstance);
 		// VnfIdentifierCreationNotification NFVO + EM
 		vnfInstance = vnfInstanceService.save(vnfInstance);
 		eventManager.sendNotification(NotificationEvent.VNF_INSTANCE_CREATE, vnfInstance.getId(), Map.of());
@@ -172,7 +180,7 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 		ensureIsEnabled(vnfPkg);
 
 		if (null != instantiateVnfRequest.getVimConnectionInfo()) {
-			final List<VimConnectionInformation> vimconnections = mapper.mapAsList(instantiateVnfRequest.getVimConnectionInfo(), VimConnectionInformation.class);
+			final List<VimConnectionInformation> vimconnections = vimConnectionInformationMapping.mapAsList(instantiateVnfRequest.getVimConnectionInfo());
 			final Set<VimConnectionInformation> vimSet = vimconnections.stream()
 					.map(x -> {
 						final Optional<VimConnectionInformation> optVim = vimManager.findOptionalVimByVimId(x.getVimId());
@@ -187,7 +195,7 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 
 		VnfBlueprint blueprint = vnfLcmService.createIntatiateOpOcc(vnfInstance);
 		instantiateVnfRequest.setExtManagedVirtualLinks(new ArrayList<>());
-		mapper.map(instantiateVnfRequest, blueprint);
+		vnfBlueprintMapping.map(instantiateVnfRequest, blueprint);
 		fixMapping(instantiateVnfRequest, blueprint);
 		blueprint.getParameters().setScaleStatus(extractScaleStaus(vnfPkg));
 		blueprint = vnfLcmService.save(blueprint);

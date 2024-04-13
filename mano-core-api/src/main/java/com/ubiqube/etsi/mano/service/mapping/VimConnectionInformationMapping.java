@@ -16,12 +16,14 @@
  */
 package com.ubiqube.etsi.mano.service.mapping;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 
 import com.ubiqube.etsi.mano.dao.mano.dto.VimConnectionInfoDto;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
-import org.mapstruct.Mapping;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface VimConnectionInformationMapping {
@@ -30,4 +32,10 @@ public interface VimConnectionInformationMapping {
 	@Mapping(target = "tenantId", ignore = true)
 	@Mapping(target = "version", ignore = true)
 	VimConnectionInformation map(VimConnectionInfoDto o);
+
+	default List<VimConnectionInformation> mapAsList(final List<VimConnectionInformation> vimConnectionInfo) {
+		return vimConnectionInfo.stream().map(this::map).toList();
+	}
+
+	VimConnectionInformation map(VimConnectionInformation x);
 }

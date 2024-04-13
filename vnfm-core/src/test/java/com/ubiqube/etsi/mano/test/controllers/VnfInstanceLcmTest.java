@@ -25,6 +25,7 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -46,25 +47,24 @@ import com.ubiqube.etsi.mano.model.VnfScaleRequest;
 import com.ubiqube.etsi.mano.model.VnfScaleToLevelRequest;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.event.EventManager;
+import com.ubiqube.etsi.mano.service.mapping.VimConnectionInformationMapping;
 import com.ubiqube.etsi.mano.service.rest.ManoClient;
 import com.ubiqube.etsi.mano.service.rest.ManoClientFactory;
 import com.ubiqube.etsi.mano.service.rest.vnfpkg.ManoOnboarded;
 import com.ubiqube.etsi.mano.service.rest.vnfpkg.ManoVnfPackage;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
-import com.ubiqube.etsi.mano.test.MapperService;
 import com.ubiqube.etsi.mano.vnfm.controller.vnflcm.VnfInstanceLcmImpl;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceService;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceServiceVnfm;
 import com.ubiqube.etsi.mano.vnfm.service.VnfLcmService;
-
-import ma.glasnost.orika.MapperFacade;
+import com.ubiqube.etsi.mano.vnfm.service.graph.VnfBlueprintMapping;
+import com.ubiqube.etsi.mano.vnfm.service.mapping.VnfInstanceMapping;
 
 @ExtendWith(MockitoExtension.class)
 class VnfInstanceLcmTest {
 	@Mock
 	private EventManager eventManager;
 
-	private final MapperFacade mapper;
 	@Mock
 	private VnfLcmService vnfLcmService;
 	@Mock
@@ -79,25 +79,28 @@ class VnfInstanceLcmTest {
 	private VnfInstanceServiceVnfm vnfInstanceServiceVnfm;
 	@Mock
 	private ManoClient onboardVnfPkg;
+	private final VimConnectionInformationMapping vimConnectionInformationMapping = Mappers.getMapper(VimConnectionInformationMapping.class);
 
-	public VnfInstanceLcmTest() {
-		mapper = MapperService.getInstance().getMapper();
-	}
+	private final VnfBlueprintMapping vnfBlueprintMapping = Mappers.getMapper(VnfBlueprintMapping.class);
+
+	private final VnfInstanceMapping vnfInstanceMapping = Mappers.getMapper(VnfInstanceMapping.class);
 
 	@Test
 	void testGetNull() throws Exception {
-		final VnfInstanceLcmImpl vnfInstanceLcm = new VnfInstanceLcmImpl(eventManager, mapper, vnfLcmService,
-				vnfInstanceService, vimManager, vnfPackageService,
-				vnfInstanceServiceVnfm, manoClientFactory);
+		final VnfInstanceLcmImpl vnfInstanceLcm = createService();
 		vnfInstanceLcm.get(null, null);
 		assertTrue(true);
 	}
 
+	private VnfInstanceLcmImpl createService() {
+		return new VnfInstanceLcmImpl(eventManager, vnfLcmService,
+				vnfInstanceService, vimManager, vnfPackageService,
+				vnfInstanceServiceVnfm, manoClientFactory, vnfInstanceMapping, vnfBlueprintMapping, vimConnectionInformationMapping);
+	}
+
 	@Test
 	void testGetEmpty() throws Exception {
-		final VnfInstanceLcmImpl vnfInstanceLcm = new VnfInstanceLcmImpl(eventManager, mapper, vnfLcmService,
-				vnfInstanceService, vimManager, vnfPackageService,
-				vnfInstanceServiceVnfm, manoClientFactory);
+		final VnfInstanceLcmImpl vnfInstanceLcm = createService();
 		final MultiValueMap<String, String> rq = new LinkedMultiValueMap<>();
 		vnfInstanceLcm.get(null, rq);
 		assertTrue(true);
@@ -105,9 +108,7 @@ class VnfInstanceLcmTest {
 
 	@Test
 	void testGetEmptyFilter() throws Exception {
-		final VnfInstanceLcmImpl vnfInstanceLcm = new VnfInstanceLcmImpl(eventManager, mapper, vnfLcmService,
-				vnfInstanceService, vimManager, vnfPackageService,
-				vnfInstanceServiceVnfm, manoClientFactory);
+		final VnfInstanceLcmImpl vnfInstanceLcm = createService();
 		final MultiValueMap<String, String> rq = new LinkedMultiValueMap<>();
 		vnfInstanceLcm.get(null, rq);
 		rq.put("filter", List.of());
@@ -116,9 +117,7 @@ class VnfInstanceLcmTest {
 
 	@Test
 	void testGetOneElement() throws Exception {
-		final VnfInstanceLcmImpl vnfInstanceLcm = new VnfInstanceLcmImpl(eventManager, mapper, vnfLcmService,
-				vnfInstanceService, vimManager, vnfPackageService,
-				vnfInstanceServiceVnfm, manoClientFactory);
+		final VnfInstanceLcmImpl vnfInstanceLcm = createService();
 		final MultiValueMap<String, String> rq = new LinkedMultiValueMap<>();
 		rq.put("filter", List.of(""));
 		vnfInstanceLcm.get(null, rq);
@@ -127,9 +126,7 @@ class VnfInstanceLcmTest {
 
 	@Test
 	void testPost() {
-		final VnfInstanceLcmImpl vnfInstanceLcm = new VnfInstanceLcmImpl(eventManager, mapper, vnfLcmService,
-				vnfInstanceService, vimManager, vnfPackageService,
-				vnfInstanceServiceVnfm, manoClientFactory);
+		final VnfInstanceLcmImpl vnfInstanceLcm = createService();
 		final UUID vnfdId = UUID.randomUUID();
 		final VnfPackage pkg = TestFactory.createVnfPkg(vnfdId);
 		final VnfInstance vnfInstance = TestFactory.createVnfInstance();
@@ -141,9 +138,7 @@ class VnfInstanceLcmTest {
 
 	@Test
 	void testPostOnboard() {
-		final VnfInstanceLcmImpl vnfInstanceLcm = new VnfInstanceLcmImpl(eventManager, mapper, vnfLcmService,
-				vnfInstanceService, vimManager, vnfPackageService,
-				vnfInstanceServiceVnfm, manoClientFactory);
+		final VnfInstanceLcmImpl vnfInstanceLcm = createService();
 		final UUID vnfdId = UUID.randomUUID();
 		when(vnfPackageService.findByVnfdId(vnfdId.toString())).thenThrow(NotFoundException.class);
 		//
@@ -280,8 +275,7 @@ class VnfInstanceLcmTest {
 	}
 
 	private VnfInstanceLcmImpl createVnfInstanceLcm() {
-		return new VnfInstanceLcmImpl(eventManager, mapper, vnfLcmService,
-				vnfInstanceService, vimManager, vnfPackageService,
-				vnfInstanceServiceVnfm, manoClientFactory);
+		return new VnfInstanceLcmImpl(eventManager, vnfLcmService, vnfInstanceService, vimManager, vnfPackageService, vnfInstanceServiceVnfm, manoClientFactory,
+				vnfInstanceMapping, vnfBlueprintMapping, vimConnectionInformationMapping);
 	}
 }
