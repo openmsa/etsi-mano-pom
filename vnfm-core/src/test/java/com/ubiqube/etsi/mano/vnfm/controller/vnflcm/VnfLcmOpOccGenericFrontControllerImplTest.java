@@ -31,6 +31,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.EnumSource.Mode;
+import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -43,6 +44,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
 import com.ubiqube.etsi.mano.test.controllers.TestFactory;
 import com.ubiqube.etsi.mano.vnfm.fc.vnflcm.VnfLcmClassMaping;
+import com.ubiqube.etsi.mano.vnfm.service.mapping.VnfLcmOpOccMapping;
 
 import ma.glasnost.orika.MapperFacade;
 
@@ -54,18 +56,23 @@ class VnfLcmOpOccGenericFrontControllerImplTest {
 	private MapperFacade mapper;
 	@Mock
 	private VnfLcmClassMaping mapping;
+	private final VnfLcmOpOccMapping vnfLcmOpOccMapping = Mappers.getMapper(VnfLcmOpOccMapping.class);
 
 	@Test
 	void testCancel() {
-		final VnfLcmOpOccGenericFrontControllerImpl srv = new VnfLcmOpOccGenericFrontControllerImpl(vnfLcmController, mapper);
+		final VnfLcmOpOccGenericFrontControllerImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		srv.lcmOpOccCancel(id);
 		assertTrue(true);
 	}
 
+	private VnfLcmOpOccGenericFrontControllerImpl createService() {
+		return new VnfLcmOpOccGenericFrontControllerImpl(vnfLcmController, mapper, vnfLcmOpOccMapping);
+	}
+
 	@Test
 	void testFail() {
-		final VnfLcmOpOccGenericFrontControllerImpl srv = new VnfLcmOpOccGenericFrontControllerImpl(vnfLcmController, mapper);
+		final VnfLcmOpOccGenericFrontControllerImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		srv.lcmOpOccFail(id);
 		assertTrue(true);
@@ -74,7 +81,7 @@ class VnfLcmOpOccGenericFrontControllerImplTest {
 	@ParameterizedTest
 	@EnumSource(value = PlanOperationType.class, mode = Mode.EXCLUDE, names = { "UPDATE", "MODIFY_INFORMATION", "CHANGE_EXTERNAL_VNF_CONNECTIVITY", "SELECT_DEPL_MODS" })
 	void testFindById(final PlanOperationType param) {
-		final VnfLcmOpOccGenericFrontControllerImpl srv = new VnfLcmOpOccGenericFrontControllerImpl(vnfLcmController, mapper);
+		final VnfLcmOpOccGenericFrontControllerImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		final VnfBlueprint bp = TestFactory.createBlueprint();
 		bp.setOperation(param);
@@ -105,7 +112,7 @@ class VnfLcmOpOccGenericFrontControllerImplTest {
 
 	@Test
 	void testRetry() {
-		final VnfLcmOpOccGenericFrontControllerImpl srv = new VnfLcmOpOccGenericFrontControllerImpl(vnfLcmController, mapper);
+		final VnfLcmOpOccGenericFrontControllerImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		srv.lcmOpOccRetry(id);
 		assertTrue(true);
@@ -113,7 +120,7 @@ class VnfLcmOpOccGenericFrontControllerImplTest {
 
 	@Test
 	void testRollback() {
-		final VnfLcmOpOccGenericFrontControllerImpl srv = new VnfLcmOpOccGenericFrontControllerImpl(vnfLcmController, mapper);
+		final VnfLcmOpOccGenericFrontControllerImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		srv.lcmOpOccRollback(id);
 		assertTrue(true);
@@ -121,7 +128,7 @@ class VnfLcmOpOccGenericFrontControllerImplTest {
 
 	@Test
 	void testSearch() {
-		final VnfLcmOpOccGenericFrontControllerImpl srv = new VnfLcmOpOccGenericFrontControllerImpl(vnfLcmController, mapper);
+		final VnfLcmOpOccGenericFrontControllerImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		srv.search(null, null, null, null);
 		assertTrue(true);

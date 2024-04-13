@@ -31,6 +31,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.EnumSource.Mode;
+import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +46,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
 import com.ubiqube.etsi.mano.vnfm.controller.vnflcm.VnfLcmController;
 import com.ubiqube.etsi.mano.vnfm.controller.vnflcm.VnfLcmOpOccGenericFrontControllerImpl;
 import com.ubiqube.etsi.mano.vnfm.fc.vnflcm.VnfLcmClassMaping;
+import com.ubiqube.etsi.mano.vnfm.service.mapping.VnfLcmOpOccMapping;
 
 import ma.glasnost.orika.MapperFacade;
 
@@ -62,6 +64,7 @@ class VnfLcmOpOccGenericFrontControllerImplTest {
 	private MapperFacade mapper;
 	@Mock
 	private VnfLcmClassMaping mapping;
+	private final VnfLcmOpOccMapping vnfLcmOpOccMapping = Mappers.getMapper(VnfLcmOpOccMapping.class);
 
 	@Test
 	void testSearch() {
@@ -144,6 +147,6 @@ class VnfLcmOpOccGenericFrontControllerImplTest {
 	}
 
 	private VnfLcmOpOccGenericFrontControllerImpl createVnfLcmOpOccGenericFrontControllerImpl() {
-		return new VnfLcmOpOccGenericFrontControllerImpl(vnfLcmController, mapper);
+		return new VnfLcmOpOccGenericFrontControllerImpl(vnfLcmController, mapper, vnfLcmOpOccMapping);
 	}
 }

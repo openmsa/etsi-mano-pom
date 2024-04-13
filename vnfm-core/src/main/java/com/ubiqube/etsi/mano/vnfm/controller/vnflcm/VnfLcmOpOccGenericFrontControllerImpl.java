@@ -30,13 +30,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
-import com.ubiqube.etsi.mano.dao.mano.dto.VnfInstantiatedCompute;
-import com.ubiqube.etsi.mano.dao.mano.dto.VnfInstantiatedStorage;
-import com.ubiqube.etsi.mano.dao.mano.dto.VnfInstantiatedVirtualLink;
 import com.ubiqube.etsi.mano.dao.mano.dto.VnfLcmResourceChanges;
+import com.ubiqube.etsi.mano.dao.mano.v2.ComputeTask;
+import com.ubiqube.etsi.mano.dao.mano.v2.NetworkTask;
+import com.ubiqube.etsi.mano.dao.mano.v2.StorageTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.vnfm.fc.vnflcm.VnfLcmClassMaping;
 import com.ubiqube.etsi.mano.vnfm.fc.vnflcm.VnfLcmOpOccGenericFrontController;
+import com.ubiqube.etsi.mano.vnfm.service.mapping.VnfLcmOpOccMapping;
 
 import jakarta.validation.constraints.NotNull;
 import ma.glasnost.orika.MapperFacade;
@@ -50,10 +51,12 @@ import ma.glasnost.orika.MapperFacade;
 public class VnfLcmOpOccGenericFrontControllerImpl implements VnfLcmOpOccGenericFrontController {
 	private final VnfLcmController vnfLcmController;
 	private final MapperFacade mapper;
+	private final VnfLcmOpOccMapping vnfLcmOpOccMapping;
 
-	public VnfLcmOpOccGenericFrontControllerImpl(final VnfLcmController vnfLcmController, final MapperFacade mapper) {
+	public VnfLcmOpOccGenericFrontControllerImpl(final VnfLcmController vnfLcmController, final MapperFacade mapper, final VnfLcmOpOccMapping vnfLcmOpOccMapping) {
 		this.vnfLcmController = vnfLcmController;
 		this.mapper = mapper;
+		this.vnfLcmOpOccMapping = vnfLcmOpOccMapping;
 	}
 
 	@Override
@@ -77,15 +80,18 @@ public class VnfLcmOpOccGenericFrontControllerImpl implements VnfLcmOpOccGeneric
 		final VnfLcmResourceChanges resourceChanged = new VnfLcmResourceChanges();
 		resultDb.getTasks().stream()
 				.filter(x -> x.getType() == ResourceTypeEnum.VL)
-				.map(x -> mapper.map(x, VnfInstantiatedVirtualLink.class))
+				.map(NetworkTask.class::cast)
+				.map(vnfLcmOpOccMapping::mapToVnfInstantiatedVirtualLink)
 				.forEach(resourceChanged::addAffectedVirtualLink);
 		resultDb.getTasks().stream()
 				.filter(x -> x.getType() == ResourceTypeEnum.STORAGE)
-				.map(x -> mapper.map(x, VnfInstantiatedStorage.class))
+				.map(StorageTask.class::cast)
+				.map(vnfLcmOpOccMapping::mapToVnfInstantiatedStorage)
 				.forEach(resourceChanged::addAffectedVirtualStorage);
 		resultDb.getTasks().stream()
 				.filter(x -> x.getType() == ResourceTypeEnum.COMPUTE)
-				.map(x -> mapper.map(x, VnfInstantiatedCompute.class))
+				.map(ComputeTask.class::cast)
+				.map(vnfLcmOpOccMapping::mapToVnfInstantiatedCompute)
 				.forEach(resourceChanged::addAffectedVnfcs);
 		resultDb.setResourceChanges(resourceChanged);
 
