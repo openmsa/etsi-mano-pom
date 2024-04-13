@@ -26,12 +26,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.ubiqube.etsi.mano.dao.mano.alarm.AlarmNotification;
 import com.ubiqube.etsi.mano.nfvo.service.VnffmNotificationService;
 
-import ma.glasnost.orika.MapperFacade;
-
 @ExtendWith(MockitoExtension.class)
 class VnffmNotificationFrontControllerImplTest {
-	@Mock
-	private MapperFacade mapper;
 	@Mock
 	private VnffmNotificationService ns;
 	@Mock

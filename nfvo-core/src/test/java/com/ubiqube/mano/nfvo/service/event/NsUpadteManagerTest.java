@@ -45,7 +45,6 @@ import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.rest.ManoClientFactory;
 
 import jakarta.validation.constraints.NotNull;
-import ma.glasnost.orika.MapperFacade;
 
 @ExtendWith(MockitoExtension.class)
 class NsUpadteManagerTest {
@@ -53,8 +52,6 @@ class NsUpadteManagerTest {
 	private NsBlueprintService nsBlueprint;
 	@Mock
 	private NsLiveInstanceJpa liveInstanceJpa;
-	@Mock
-	private MapperFacade mapper;
 	@Mock
 	private ManoClientFactory manoClientFactory;
 	@Mock

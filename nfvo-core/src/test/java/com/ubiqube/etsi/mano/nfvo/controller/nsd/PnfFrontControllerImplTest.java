@@ -28,14 +28,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import ma.glasnost.orika.MapperFacade;
-
 @ExtendWith(MockitoExtension.class)
 class PnfFrontControllerImplTest {
 	@Mock
 	private PnfdController pnfController;
-	@Mock
-	private MapperFacade mapper;
 
 	@Test
 	void testCreate() {

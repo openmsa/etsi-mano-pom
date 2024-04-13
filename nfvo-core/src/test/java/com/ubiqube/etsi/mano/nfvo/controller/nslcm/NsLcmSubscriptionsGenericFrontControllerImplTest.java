@@ -30,14 +30,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.ubiqube.etsi.mano.service.SubscriptionService;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
 
-import ma.glasnost.orika.MapperFacade;
-
 @ExtendWith(MockitoExtension.class)
 class NsLcmSubscriptionsGenericFrontControllerImplTest {
 	@Mock
 	private SubscriptionService subscriptionService;
-	@Mock
-	private MapperFacade mapper;
 
 	@Test
 	void testCreate() {

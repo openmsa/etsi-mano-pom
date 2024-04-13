@@ -22,18 +22,17 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
+import com.ubiqube.etsi.mano.nfvo.service.mapping.NsdPackageMapping;
 import com.ubiqube.etsi.mano.service.pkg.ns.NsPackageProvider;
-
-import ma.glasnost.orika.MapperFacade;
 
 @ExtendWith(MockitoExtension.class)
 class NsdVisitorTest {
-	@Mock
-	private MapperFacade mapper;
+	private final NsdPackageMapping mapper = Mappers.getMapper(NsdPackageMapping.class);
 	@Mock
 	private NsPackageProvider packageProvider;
 

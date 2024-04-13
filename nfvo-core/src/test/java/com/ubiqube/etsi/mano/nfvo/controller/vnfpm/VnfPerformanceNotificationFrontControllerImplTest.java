@@ -27,8 +27,6 @@ import com.ubiqube.etsi.mano.dao.mano.pm.PerformanceInformationAvailableNotifica
 import com.ubiqube.etsi.mano.dao.mano.pm.ThresholdCrossedNotification;
 import com.ubiqube.etsi.mano.nfvo.service.VnfPerformanceNotificationService;
 
-import ma.glasnost.orika.MapperFacade;
-
 /**
  *
  * @author Olivier Vignaud
@@ -36,8 +34,6 @@ import ma.glasnost.orika.MapperFacade;
  */
 @ExtendWith(MockitoExtension.class)
 class VnfPerformanceNotificationFrontControllerImplTest {
-	@Mock
-	private MapperFacade mapper;
 	@Mock
 	private VnfPerformanceNotificationService notificationService;
 

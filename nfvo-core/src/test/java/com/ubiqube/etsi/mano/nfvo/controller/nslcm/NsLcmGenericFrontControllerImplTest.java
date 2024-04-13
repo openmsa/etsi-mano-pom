@@ -28,15 +28,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.nfvo.service.NsBlueprintService;
 
-import ma.glasnost.orika.MapperFacade;
-
 @ExtendWith(MockitoExtension.class)
 class NsLcmGenericFrontControllerImplTest {
 	@Mock
 
 	private NsBlueprintService nsLcmOpOccsService;
-	@Mock
-	private MapperFacade mapper;
 
 	@Test
 	void testCancel() {

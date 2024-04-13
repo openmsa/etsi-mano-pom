@@ -28,12 +28,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.nfvo.service.NfvoAlarmService;
 
-import ma.glasnost.orika.MapperFacade;
-
 @ExtendWith(MockitoExtension.class)
 class NsAlarmFrontControllerImplTest {
-	@Mock
-	private MapperFacade mapper;
 	@Mock
 	private NfvoAlarmService alarmNfvoController;
 

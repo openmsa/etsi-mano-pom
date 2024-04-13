@@ -26,8 +26,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.ubiqube.etsi.mano.dao.mano.vnflcm.VnfLcmNotification;
 import com.ubiqube.etsi.mano.nfvo.service.VnfLcmNotificationService;
 
-import ma.glasnost.orika.MapperFacade;
-
 /**
  *
  * @author Olivier Vignaud
@@ -35,8 +33,6 @@ import ma.glasnost.orika.MapperFacade;
  */
 @ExtendWith(MockitoExtension.class)
 class VnfLcmNotificationFrontControllerImplTest {
-	@Mock
-	private MapperFacade mapper;
 	@Mock
 	private VnfLcmNotificationService notificationService;
 

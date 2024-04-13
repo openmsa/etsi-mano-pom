@@ -26,8 +26,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.ubiqube.etsi.mano.dao.mano.ind.VnfIndiValueChangeNotification;
 import com.ubiqube.etsi.mano.nfvo.service.VnfIndicatorNotificationService;
 
-import ma.glasnost.orika.MapperFacade;
-
 /**
  *
  * @author Olivier Vignaud
@@ -35,8 +33,6 @@ import ma.glasnost.orika.MapperFacade;
  */
 @ExtendWith(MockitoExtension.class)
 class VnfIndicatorNotificationFrontControllerImplTest {
-	@Mock
-	private MapperFacade mapper;
 	@Mock
 	private VnfIndicatorNotificationService vnfNotificationService;
 

@@ -31,12 +31,8 @@ import com.ubiqube.etsi.mano.dao.mano.nsd.upd.UpdateRequest;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.NsHeal;
 import com.ubiqube.etsi.mano.dao.mano.nslcm.scale.NsScale;
 
-import ma.glasnost.orika.MapperFacade;
-
 @ExtendWith(MockitoExtension.class)
 class NsInstanceGenericFrontControllerImplTest {
-	@Mock
-	private MapperFacade mapper;
 	@Mock
 	private NsInstanceControllerService instanceController;
 	@Mock

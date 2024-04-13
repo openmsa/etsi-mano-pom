@@ -39,13 +39,9 @@ import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.exception.GenericException;
 
 import jakarta.annotation.Nonnull;
-import ma.glasnost.orika.MapperFacade;
 
 @ExtendWith(MockitoExtension.class)
 class NsDescriptorGenericFrontControllerImplTest {
-	@Mock
-	@Nonnull
-	private MapperFacade mapper;
 	@Mock
 	@Nonnull
 	private NsdController nsdController;
