@@ -42,14 +42,10 @@ import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 import com.ubiqube.etsi.mano.service.SearchableService;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
 
-import ma.glasnost.orika.MapperFacade;
-
 @ExtendWith(MockitoExtension.class)
 class VnfManagementTest {
 	@Mock
 	private VnfPackageRepository vnfPkgRepo;
-	@Mock
-	private MapperFacade mapper;
 	@Mock
 	private VnfPackageService vnfPackageJpa;
 	@Mock

@@ -20,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -37,7 +36,6 @@ import com.ubiqube.etsi.mano.dao.mano.NsLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.alarm.ResourceHandle;
-import com.ubiqube.etsi.mano.dao.mano.dto.nsi.NsInstanceDto;
 import com.ubiqube.etsi.mano.dao.mano.nsd.upd.UpdateRequest;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsVirtualLinkTask;
@@ -50,8 +48,6 @@ import com.ubiqube.etsi.mano.nfvo.service.mapping.NsInstanceDtoMapping;
 import com.ubiqube.etsi.mano.service.VnfInstanceGatewayService;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 
-import ma.glasnost.orika.MapperFacade;
-
 @SuppressWarnings("null")
 @ExtendWith(MockitoExtension.class)
 class NsInstanceControllerImplTest {
@@ -59,8 +55,6 @@ class NsInstanceControllerImplTest {
 	private NsInstanceService nsInstanceService;
 	@Mock
 	private NsBlueprintService lcmOpOccsService;
-	@Mock
-	private MapperFacade mapper;
 	@Mock
 	private VnfInstanceGatewayService vnfInstancesService;
 	@Mock
@@ -156,13 +150,9 @@ class NsInstanceControllerImplTest {
 		live.setId(id);
 		final NsTask task = new NsVirtualLinkTask();
 		live.setNsTask(task);
-		final NsInstanceDto dto = new NsInstanceDto();
-		when(mapper.map(any(), eq(NsInstanceDto.class))).thenReturn(dto);
-		doNothing().when(mapper).map(inst, dto);
 		when(lcmOpOccsService.findByNsdInstanceAndClass(any(), eq(NsVnfTask.class))).thenReturn(List.of());
 		when(lcmOpOccsService.findByNsdInstanceAndClass(any(), eq(NsVirtualLinkTask.class))).thenReturn(List.of(live));
 		final ResourceHandle val = new ResourceHandle();
-		when(mapper.map(any(), eq(ResourceHandle.class))).thenReturn(val);
 		srv.nsInstancesNsInstanceIdGet(id);
 		assertTrue(true);
 	}
