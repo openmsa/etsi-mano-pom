@@ -26,38 +26,41 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.dao.mano.GrantInterface;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
+import com.ubiqube.etsi.mano.nfvo.service.mapping.GrantInterfaceMapping;
 import com.ubiqube.etsi.mano.service.GrantService;
 import com.ubiqube.etsi.mano.service.event.EventManager;
-
-import ma.glasnost.orika.MapperFacade;
 
 @ExtendWith(MockitoExtension.class)
 class GrantMngtSol005Test {
 	@Mock
 	private GrantService grantJpa;
-	@Mock
-	private MapperFacade mapper;
+	private final GrantInterfaceMapping mapper = Mappers.getMapper(GrantInterfaceMapping.class);
 	@Mock
 	private EventManager eventManager;
 
 	@Test
 	void testGet() {
-		final GrantMngtSol005 srv = new GrantMngtSol005(grantJpa, mapper, eventManager);
+		final GrantMngtSol005 srv = createService();
 		final GrantResponse grant = new GrantResponse();
 		when(grantJpa.findById(any())).thenReturn(Optional.of(grant));
 		srv.get(UUID.randomUUID());
 		assertTrue(true);
 	}
 
+	private GrantMngtSol005 createService() {
+		return new GrantMngtSol005(grantJpa, mapper, eventManager);
+	}
+
 	@Test
 	void testGetFail() {
-		final GrantMngtSol005 srv = new GrantMngtSol005(grantJpa, mapper, eventManager);
+		final GrantMngtSol005 srv = createService();
 		final UUID uuid = UUID.randomUUID();
 		assertThrows(NotFoundException.class, () -> srv.get(uuid));
 		assertTrue(true);
@@ -65,10 +68,9 @@ class GrantMngtSol005Test {
 
 	@Test
 	void test() {
-		final GrantMngtSol005 srv = new GrantMngtSol005(grantJpa, mapper, eventManager);
+		final GrantMngtSol005 srv = createService();
 		final GrantInterface grantRequest = new GrantResponse();
 		final GrantResponse grant = new GrantResponse();
-		when(mapper.map(grantRequest, GrantResponse.class)).thenReturn(grant);
 		when(grantJpa.save(grant)).thenReturn(grant);
 		srv.post(grantRequest);
 		assertTrue(true);

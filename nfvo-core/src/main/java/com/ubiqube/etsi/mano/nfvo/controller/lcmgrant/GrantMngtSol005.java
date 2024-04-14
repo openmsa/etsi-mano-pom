@@ -29,12 +29,12 @@ import com.ubiqube.etsi.mano.controller.lcmgrant.GrantManagement;
 import com.ubiqube.etsi.mano.dao.mano.GrantInterface;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
+import com.ubiqube.etsi.mano.nfvo.service.mapping.GrantInterfaceMapping;
 import com.ubiqube.etsi.mano.service.GrantService;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 
 import jakarta.transaction.Transactional;
 import jakarta.transaction.Transactional.TxType;
-import ma.glasnost.orika.MapperFacade;
 
 /**
  *
@@ -49,10 +49,10 @@ public class GrantMngtSol005 implements GrantManagement {
 	private static final Logger LOG = LoggerFactory.getLogger(GrantMngtSol005.class);
 
 	private final GrantService grantsResponseJpa;
-	private final MapperFacade mapper;
+	private final GrantInterfaceMapping mapper;
 	private final EventManager eventManager;
 
-	public GrantMngtSol005(final GrantService grantsJpa, final MapperFacade mapper, final EventManager eventManager) {
+	public GrantMngtSol005(final GrantService grantsJpa, final GrantInterfaceMapping mapper, final EventManager eventManager) {
 		this.grantsResponseJpa = grantsJpa;
 		this.mapper = mapper;
 		this.eventManager = eventManager;
@@ -66,7 +66,7 @@ public class GrantMngtSol005 implements GrantManagement {
 
 	@Override
 	public GrantResponse post(final GrantInterface grantRequest) {
-		final GrantResponse grants = mapper.map(grantRequest, GrantResponse.class);
+		final GrantResponse grants = mapper.map(grantRequest);
 		grants.setAvailable(Boolean.FALSE);
 		grants.setLcmLink("http://");
 		grants.setInstanceLink("http://");
