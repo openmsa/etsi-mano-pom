@@ -21,14 +21,15 @@ import com.ubiqube.etsi.mano.dao.mano.VimTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
 import com.ubiqube.etsi.mano.jpa.ConnectionInformationJpa;
 import com.ubiqube.etsi.mano.service.mapping.BlueZoneGroupInformationMapping;
+import com.ubiqube.etsi.mano.service.mapping.GrantInformationExtMapping;
+import com.ubiqube.etsi.mano.service.mapping.GrantMapper;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
-
-import ma.glasnost.orika.MapperFacade;
 
 public class TestAbstractGrantService extends AbstractGrantService {
 
-	protected TestAbstractGrantService(final MapperFacade mapper, final ResourceAllocate nfvo, final VimManager vimManager, final ConnectionInformationJpa connectionJpa, final BlueZoneGroupInformationMapping blueZoneGroupInformationMapping) {
-		super(mapper, nfvo, vimManager, connectionJpa, blueZoneGroupInformationMapping);
+	protected TestAbstractGrantService(final ResourceAllocate nfvo, final VimManager vimManager, final ConnectionInformationJpa connectionJpa, final BlueZoneGroupInformationMapping blueZoneGroupInformationMapping,
+			final GrantMapper vnfGrantMapper, final GrantInformationExtMapping grantInformationExtMapping) {
+		super(nfvo, vimManager, connectionJpa, blueZoneGroupInformationMapping, vnfGrantMapper, grantInformationExtMapping);
 	}
 
 	@Override

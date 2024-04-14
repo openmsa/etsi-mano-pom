@@ -36,31 +36,34 @@ import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.jpa.ConnectionInformationJpa;
 import com.ubiqube.etsi.mano.service.mapping.BlueZoneGroupInformationMapping;
+import com.ubiqube.etsi.mano.service.mapping.GrantInformationExtMapping;
+import com.ubiqube.etsi.mano.service.mapping.GrantMapper;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 
-import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 import ma.glasnost.orika.impl.generator.EclipseJdtCompilerStrategy;
 
 @ExtendWith(MockitoExtension.class)
 class AbstractGrantServiceTest {
-	private final MapperFacade mapper;
 	@Mock
 	private ResourceAllocate nfvo;
 	@Mock
 	private VimManager vimManager;
 	@Mock
 	private ConnectionInformationJpa connectionJpa;
+	@Mock
+	private GrantMapper vnfGrantMapper;
+	@Mock
+	private GrantInformationExtMapping grantInformationExtMapping;
 	private final BlueZoneGroupInformationMapping blueZoneGroupInformationMapping = Mappers.getMapper(BlueZoneGroupInformationMapping.class);
 
 	public AbstractGrantServiceTest() {
 		final DefaultMapperFactory mapperFactory = new DefaultMapperFactory.Builder().compilerStrategy(new EclipseJdtCompilerStrategy()).build();
-		mapper = mapperFactory.getMapperFacade();
 	}
 
 	@Test
 	void testBasic() throws Exception {
-		final TestAbstractGrantService srv = new TestAbstractGrantService(mapper, nfvo, vimManager, connectionJpa, blueZoneGroupInformationMapping);
+		final TestAbstractGrantService srv = createService();
 		final TestBluePrint bp = new TestBluePrint();
 		bp.setTasks(Set.of());
 		final GrantResponse response = new GrantResponse();
@@ -74,6 +77,10 @@ class AbstractGrantServiceTest {
 		assertTrue(true);
 	}
 
+	private TestAbstractGrantService createService() {
+		return new TestAbstractGrantService(nfvo, vimManager, connectionJpa, blueZoneGroupInformationMapping, vnfGrantMapper, grantInformationExtMapping);
+	}
+
 	/**
 	 * Pre grant request.
 	 *
@@ -81,7 +88,7 @@ class AbstractGrantServiceTest {
 	 */
 	@Test
 	void testOneTask() throws Exception {
-		final TestAbstractGrantService srv = new TestAbstractGrantService(mapper, nfvo, vimManager, connectionJpa, blueZoneGroupInformationMapping);
+		final TestAbstractGrantService srv = createService();
 		final TestBluePrint bp = new TestBluePrint();
 		//
 		final TestTask task = new TestTask(ResourceTypeEnum.COMPUTE);
@@ -106,7 +113,7 @@ class AbstractGrantServiceTest {
 
 	@Test
 	void testPostRequest() throws Exception {
-		final TestAbstractGrantService srv = new TestAbstractGrantService(mapper, nfvo, vimManager, connectionJpa, blueZoneGroupInformationMapping);
+		final TestAbstractGrantService srv = createService();
 		final UUID tid = UUID.randomUUID();
 		final TestBluePrint bp = new TestBluePrint();
 		bp.setTasks(Set.of());

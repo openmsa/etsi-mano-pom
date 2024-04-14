@@ -22,18 +22,15 @@ import org.mapstruct.MappingConstants;
 
 import com.ubiqube.etsi.mano.dao.mano.GrantInterface;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
-import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
+import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface GrantResponseMapping {
+
 	@Mapping(target = "addResources", ignore = true)
-	@Mapping(target = "additionalParams", ignore = true)
-	@Mapping(target = "audit", ignore = true)
-	@Mapping(target = "automaticInvocation", ignore = true)
 	@Mapping(target = "available", ignore = true)
 	@Mapping(target = "computeReservationId", ignore = true)
 	@Mapping(target = "dstVnfdId", ignore = true)
-	@Mapping(target = "error", ignore = true)
 	@Mapping(target = "extManagedVirtualLinks", ignore = true)
 	@Mapping(target = "extVirtualLinks", ignore = true)
 	@Mapping(target = "flavourId", ignore = true)
@@ -54,9 +51,7 @@ public interface GrantResponseMapping {
 	@Mapping(target = "vnfInstanceId", ignore = true)
 	@Mapping(target = "vnfLcmOpOccId", ignore = true)
 	@Mapping(target = "vnfdId", ignore = true)
-	@Mapping(target = "zoneGroups", ignore = true)
-	@Mapping(target = "zones", ignore = true)
-	GrantResponse map(Blueprint o);
+	GrantResponse mapVnfBlueprint(VnfBlueprint o);
 
 	@Mapping(target = "additionalParams", ignore = true)
 	@Mapping(target = "audit", ignore = true)

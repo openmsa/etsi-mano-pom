@@ -51,10 +51,9 @@ import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.jpa.ConnectionInformationJpa;
 import com.ubiqube.etsi.mano.service.mapping.BlueZoneGroupInformationMapping;
+import com.ubiqube.etsi.mano.service.mapping.GrantInformationExtMapping;
+import com.ubiqube.etsi.mano.service.mapping.GrantMapper;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
-
-import jakarta.annotation.Nonnull;
-import ma.glasnost.orika.MapperFacade;
 
 /**
  *
@@ -71,20 +70,21 @@ public abstract class AbstractGrantService implements VimResourceService {
 
 	private final ConnectionInformationJpa connectionJpa;
 	private final BlueZoneGroupInformationMapping blueZoneGroupInformationMapping;
+	private final GrantMapper vnfGrantMapper;
+	private final GrantInformationExtMapping grantInformationExtMapping;
 
-	private @Nonnull final MapperFacade mapper;
-
-	protected AbstractGrantService(final MapperFacade mapper, final ResourceAllocate nfvo, final VimManager vimManager, final ConnectionInformationJpa connectionJpa, final BlueZoneGroupInformationMapping blueZoneGroupInformationMapping) {
-		this.mapper = Objects.requireNonNull(mapper);
+	protected AbstractGrantService(final ResourceAllocate nfvo, final VimManager vimManager, final ConnectionInformationJpa connectionJpa, final BlueZoneGroupInformationMapping blueZoneGroupInformationMapping, final GrantMapper vnfGrantMapper, final GrantInformationExtMapping grantInformationExtMapping) {
 		this.nfvo = Objects.requireNonNull(nfvo);
 		this.vimManager = Objects.requireNonNull(vimManager);
 		this.connectionJpa = Objects.requireNonNull(connectionJpa);
 		this.blueZoneGroupInformationMapping = blueZoneGroupInformationMapping;
+		this.vnfGrantMapper = vnfGrantMapper;
+		this.grantInformationExtMapping = grantInformationExtMapping;
 	}
 
 	@Override
 	public void allocate(final Blueprint<? extends VimTask, ? extends Instance> plan) {
-		final GrantResponse grantRequest = mapper.map(plan, GrantResponse.class);
+		final GrantResponse grantRequest = vnfGrantMapper.mapToGrantResponse(plan);
 		final Predicate<? super VimTask> isManoClass = x -> (x.getType() == ResourceTypeEnum.COMPUTE) ||
 				(x.getType() == ResourceTypeEnum.LINKPORT) ||
 				(x.getType() == ResourceTypeEnum.STORAGE) ||
@@ -94,13 +94,13 @@ public abstract class AbstractGrantService implements VimResourceService {
 				.map(VimTask.class::cast)
 				.forEach(x -> {
 					if (x.getChangeType() == ChangeType.ADDED) {
-						final GrantInformationExt obj = mapper.map(x, GrantInformationExt.class);
+						final GrantInformationExt obj = grantInformationExtMapping.map(x);
 						if (null != x.getToscaName()) {
 							obj.setResourceTemplateId(Set.of(x.getToscaName()));
 						}
 						grantRequest.addAddResources(obj);
 					} else {
-						final GrantInformationExt obj = mapper.map(x, GrantInformationExt.class);
+						final GrantInformationExt obj = grantInformationExtMapping.map(x);
 						obj.setResourceId(Objects.requireNonNull(x.getVimResourceId()));
 						obj.setVimConnectionId(Objects.requireNonNull(x.getVimConnectionId()));
 						grantRequest.addRemoveResources(obj);
