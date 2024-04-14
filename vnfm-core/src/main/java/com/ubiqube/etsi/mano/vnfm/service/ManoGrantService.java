@@ -37,7 +37,6 @@ import com.ubiqube.etsi.mano.service.vim.VimManager;
 
 import jakarta.transaction.Transactional;
 import jakarta.transaction.Transactional.TxType;
-import ma.glasnost.orika.MapperFacade;
 
 /**
  *
@@ -52,7 +51,7 @@ public class ManoGrantService extends AbstractGrantService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ManoGrantService.class);
 
-	public ManoGrantService(final MapperFacade mapper, final VnfResourceAllocate nfvo, final VimManager vimManager, final ConnectionInformationJpa connectionJpa, final BlueZoneGroupInformationMapping blueZoneGroupInformationMapping, final GrantMapper vnfGrantMapper, final GrantInformationExtMapping grantInformationExtMapping) {
+	public ManoGrantService(final VnfResourceAllocate nfvo, final VimManager vimManager, final ConnectionInformationJpa connectionJpa, final BlueZoneGroupInformationMapping blueZoneGroupInformationMapping, final GrantMapper vnfGrantMapper, final GrantInformationExtMapping grantInformationExtMapping) {
 		super(nfvo, vimManager, connectionJpa, blueZoneGroupInformationMapping, vnfGrantMapper, grantInformationExtMapping);
 	}
 

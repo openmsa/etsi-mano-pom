@@ -43,12 +43,8 @@ import com.ubiqube.etsi.mano.service.mapping.GrantMapper;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 import com.ubiqube.etsi.mano.test.controllers.TestFactory;
 
-import ma.glasnost.orika.MapperFacade;
-
 @ExtendWith(MockitoExtension.class)
 class ManoGrantServiceTest {
-	@Mock
-	private MapperFacade mapper;
 	@Mock
 	private VnfResourceAllocate nfvo;
 	@Mock
@@ -83,7 +79,7 @@ class ManoGrantServiceTest {
 	}
 
 	private ManoGrantService createServer() {
-		return new ManoGrantService(mapper, nfvo, vimManager, connectionJpa, blueZoneGroupInformationMapping, vnfGrantMapper, grantInformationExtMapping);
+		return new ManoGrantService(nfvo, vimManager, connectionJpa, blueZoneGroupInformationMapping, vnfGrantMapper, grantInformationExtMapping);
 	}
 
 	@Test
