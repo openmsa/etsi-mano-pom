@@ -32,12 +32,16 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.ubiqube.etsi.mano.dao.mano.ChangeType;
 import com.ubiqube.etsi.mano.dao.mano.GrantInformationExt;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
-import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
+import com.ubiqube.etsi.mano.dao.mano.v2.ComputeTask;
+import com.ubiqube.etsi.mano.dao.mano.v2.NetworkTask;
+import com.ubiqube.etsi.mano.dao.mano.v2.VnfPortTask;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.jpa.ConnectionInformationJpa;
 import com.ubiqube.etsi.mano.service.mapping.BlueZoneGroupInformationMapping;
 import com.ubiqube.etsi.mano.service.mapping.GrantInformationExtMapping;
 import com.ubiqube.etsi.mano.service.mapping.GrantMapper;
+import com.ubiqube.etsi.mano.service.mapping.VnfGrantMapper;
+import com.ubiqube.etsi.mano.service.mapping.VnfGrantMapping;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 
 import ma.glasnost.orika.impl.DefaultMapperFactory;
@@ -51,10 +55,9 @@ class AbstractGrantServiceTest {
 	private VimManager vimManager;
 	@Mock
 	private ConnectionInformationJpa connectionJpa;
-	@Mock
-	private GrantMapper vnfGrantMapper;
-	@Mock
-	private GrantInformationExtMapping grantInformationExtMapping;
+	private final VnfGrantMapping vnfGrantMapping = Mappers.getMapper(VnfGrantMapping.class);
+	private final GrantMapper vnfGrantMapper = new VnfGrantMapper(vnfGrantMapping);
+	private final GrantInformationExtMapping grantInformationExtMapping = Mappers.getMapper(GrantInformationExtMapping.class);
 	private final BlueZoneGroupInformationMapping blueZoneGroupInformationMapping = Mappers.getMapper(BlueZoneGroupInformationMapping.class);
 
 	public AbstractGrantServiceTest() {
@@ -91,10 +94,10 @@ class AbstractGrantServiceTest {
 		final TestAbstractGrantService srv = createService();
 		final TestBluePrint bp = new TestBluePrint();
 		//
-		final TestTask task = new TestTask(ResourceTypeEnum.COMPUTE);
+		final NetworkTask task = new NetworkTask();
 		task.setChangeType(ChangeType.ADDED);
 		//
-		final TestTask task2 = new TestTask(ResourceTypeEnum.VL);
+		final ComputeTask task2 = new ComputeTask();
 		task2.setChangeType(ChangeType.REMOVED);
 		task2.setVimResourceId("");
 		task2.setVimConnectionId("");
@@ -124,7 +127,7 @@ class AbstractGrantServiceTest {
 		final UUID id = UUID.randomUUID();
 		response.setId(id);
 		response.setZoneGroups(Set.of());
-		final TestTask task = new TestTask(ResourceTypeEnum.STORAGE);
+		final VnfPortTask task = new VnfPortTask();
 		task.setChangeType(ChangeType.ADDED);
 		task.setId(tid);
 		bp.setTasks(Set.of(task));

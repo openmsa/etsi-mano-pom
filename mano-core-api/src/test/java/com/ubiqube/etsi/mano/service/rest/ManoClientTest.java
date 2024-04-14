@@ -30,8 +30,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.HttpGateway;
 
-import ma.glasnost.orika.MapperFacade;
-
 /**
  * Basic test as there is nothing to test.
  *
@@ -40,13 +38,10 @@ import ma.glasnost.orika.MapperFacade;
  */
 class ManoClientTest {
 
-	private MapperFacade mapper;
-
 	@SuppressWarnings("null")
 	private static Stream<Arguments> providerClass() {
 		return Stream.of(
 				Arguments.of(args.of(ManoClient::admin)),
-				Arguments.of(args.of(ManoClient::getMapper)),
 				Arguments.of(args.of(ManoClient::getObjectId)),
 				Arguments.of(args.of(ManoClient::getQueryType)),
 				Arguments.of(args.of(ManoClient::getRequestObject)),
@@ -67,7 +62,7 @@ class ManoClientTest {
 	@MethodSource("providerClass")
 	void testName(final args arg) throws Exception {
 		final ServerAdapter serverAdapter = new ServerAdapter(null, null, null);
-		final ManoClient mc = new ManoClient(mapper, serverAdapter);
+		final ManoClient mc = new ManoClient(serverAdapter);
 		mc.setObjectId(UUID.randomUUID());
 		mc.setQueryType(ApiVersionType.SOL002_VNFCONFIG);
 		mc.setFragment("hh");
