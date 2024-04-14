@@ -88,8 +88,8 @@ public class VnfPackageFrontControllerImpl implements VnfPackageFrontController 
 	}
 
 	@Override
-	public <U> ResponseEntity<U> findByIdReadOnly(final UUID vnfPkgId, final Class<U> clazz, final Consumer<U> makeLinks) {
-		final U vnfPkgInfo = vnfManagement.vnfPackagesVnfPkgIdGet(vnfPkgId, clazz);
+	public <U> ResponseEntity<U> findByIdReadOnly(final UUID vnfPkgId, final Function<VnfPackage, U> mapper, final Consumer<U> makeLinks) {
+		final U vnfPkgInfo = vnfManagement.vnfPackagesVnfPkgIdGet(vnfPkgId, mapper);
 		makeLinks.accept(vnfPkgInfo);
 		return new ResponseEntity<>(vnfPkgInfo, HttpStatus.OK);
 	}

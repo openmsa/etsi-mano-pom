@@ -95,7 +95,7 @@ class VnfPackageFrontControllerImplTest {
 		};
 		final VnfPackage vnfPkg = new VnfPackage();
 		when(vnfPkgMng.vnfPackagesVnfPkgIdGet(any(), any())).thenReturn(vnfPkg);
-		srv.findByIdReadOnly(id, "".getClass(), func);
+		srv.findByIdReadOnly(id, x -> "", func);
 		assertTrue(true);
 	}
 

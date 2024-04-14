@@ -59,7 +59,7 @@ class VnfManagementTest {
 
 	@Test
 	void testName() throws Exception {
-		final VnfManagement mng = new VnfManagement(vnfPkgRepo, mapper, vnfPackageJpa, searchService);
+		final VnfManagement mng = createService();
 		final UUID id = UUID.randomUUID();
 		final VnfPackage vnfPackage = new VnfPackage();
 		vnfPackage.setId(id);
@@ -68,9 +68,13 @@ class VnfManagementTest {
 		assertTrue(true);
 	}
 
+	private VnfManagement createService() {
+		return new VnfManagement(vnfPkgRepo, vnfPackageJpa, searchService);
+	}
+
 	@Test
 	void testOnboardedGetMananifest() throws Exception {
-		final VnfManagement mng = new VnfManagement(vnfPkgRepo, mapper, vnfPackageJpa, searchService);
+		final VnfManagement mng = createService();
 		final UUID id = UUID.randomUUID();
 		final VnfPackage vnfPackage = new VnfPackage();
 		vnfPackage.setId(id);
@@ -81,7 +85,7 @@ class VnfManagementTest {
 
 	@Test
 	void testOnboardedGet() throws Exception {
-		final VnfManagement mng = new VnfManagement(vnfPkgRepo, mapper, vnfPackageJpa, searchService);
+		final VnfManagement mng = createService();
 		createZip("test");
 		final UUID id = UUID.randomUUID();
 		final VnfPackage vnfPackage = new VnfPackage();
@@ -96,7 +100,7 @@ class VnfManagementTest {
 
 	@Test
 	void testOnboardedGet_NotFound() throws Exception {
-		final VnfManagement mng = new VnfManagement(vnfPkgRepo, mapper, vnfPackageJpa, searchService);
+		final VnfManagement mng = createService();
 		createZip("test2");
 		final UUID id = UUID.randomUUID();
 		final VnfPackage vnfPackage = new VnfPackage();
@@ -110,7 +114,7 @@ class VnfManagementTest {
 
 	@Test
 	void testOnboardedSet() throws Exception {
-		final VnfManagement mng = new VnfManagement(vnfPkgRepo, mapper, vnfPackageJpa, searchService);
+		final VnfManagement mng = createService();
 		final UUID id = UUID.randomUUID();
 		final VnfPackage vnfPackage = new VnfPackage();
 		vnfPackage.setId(id);
@@ -121,7 +125,7 @@ class VnfManagementTest {
 
 	@Test
 	void testOnboardedManif() throws Exception {
-		final VnfManagement mng = new VnfManagement(vnfPkgRepo, mapper, vnfPackageJpa, searchService);
+		final VnfManagement mng = createService();
 		final UUID id = UUID.randomUUID();
 		final VnfPackage vnfPackage = new VnfPackage();
 		vnfPackage.setId(id);
@@ -132,15 +136,15 @@ class VnfManagementTest {
 
 	@Test
 	void testVnfPackagesVnfPkgIdGet() {
-		final VnfManagement mng = new VnfManagement(vnfPkgRepo, mapper, vnfPackageJpa, searchService);
+		final VnfManagement mng = createService();
 		final UUID id = UUID.randomUUID();
-		mng.vnfPackagesVnfPkgIdGet(id, getClass());
+		mng.vnfPackagesVnfPkgIdGet(id, x -> "");
 		assertTrue(true);
 	}
 
 	@Test
 	void testVnfPackagesVnfPkgIdGet002() {
-		final VnfManagement mng = new VnfManagement(vnfPkgRepo, mapper, vnfPackageJpa, searchService);
+		final VnfManagement mng = createService();
 		final UUID id = UUID.randomUUID();
 		mng.vnfPackagesVnfPkgIdGet(id);
 		assertTrue(true);
@@ -148,7 +152,7 @@ class VnfManagementTest {
 
 	@Test
 	void testVnfPackagesGet() {
-		final VnfManagement mng = new VnfManagement(vnfPkgRepo, mapper, vnfPackageJpa, searchService);
+		final VnfManagement mng = createService();
 		final UUID id = UUID.randomUUID();
 		mng.vnfPackagesGet("");
 		assertTrue(true);
@@ -156,7 +160,7 @@ class VnfManagementTest {
 
 	@Test
 	void testVnfPackagesVnfPkgIdVnfdGet() {
-		final VnfManagement mng = new VnfManagement(vnfPkgRepo, mapper, vnfPackageJpa, searchService);
+		final VnfManagement mng = createService();
 		final UUID id = UUID.randomUUID();
 		mng.vnfPackagesVnfPkgIdVnfdGet(id, "", false);
 		assertTrue(true);
@@ -164,7 +168,7 @@ class VnfManagementTest {
 
 	@Test
 	void testVnfPackagesVnfPkgIdPackageContentGet() {
-		final VnfManagement mng = new VnfManagement(vnfPkgRepo, mapper, vnfPackageJpa, searchService);
+		final VnfManagement mng = createService();
 		final UUID id = UUID.randomUUID();
 		mng.vnfPackagesVnfPkgIdPackageContentGet(id);
 		assertTrue(true);
@@ -172,7 +176,7 @@ class VnfManagementTest {
 
 	@Test
 	void testOnboardedVnfPackagesVnfdIdPackageContentGet() {
-		final VnfManagement mng = new VnfManagement(vnfPkgRepo, mapper, vnfPackageJpa, searchService);
+		final VnfManagement mng = createService();
 		final UUID id = UUID.randomUUID();
 		final VnfPackage vnfPkg = new VnfPackage();
 		vnfPkg.setId(id);
@@ -183,7 +187,7 @@ class VnfManagementTest {
 
 	@Test
 	void testOnboardedVnfPackagesVnfdIdVnfdGet() {
-		final VnfManagement mng = new VnfManagement(vnfPkgRepo, mapper, vnfPackageJpa, searchService);
+		final VnfManagement mng = createService();
 		final UUID id = UUID.randomUUID();
 		final VnfPackage vnfPkg = new VnfPackage();
 		vnfPkg.setId(id);
@@ -194,7 +198,7 @@ class VnfManagementTest {
 
 	@Test
 	void testVnfPackagesVnfPkgVnfdIdGet() {
-		final VnfManagement mng = new VnfManagement(vnfPkgRepo, mapper, vnfPackageJpa, searchService);
+		final VnfManagement mng = createService();
 		final UUID id = UUID.randomUUID();
 		mng.vnfPackagesVnfPkgVnfdIdGet(id.toString(), x -> "");
 		assertTrue(true);
@@ -202,14 +206,14 @@ class VnfManagementTest {
 
 	@Test
 	void testSearch() {
-		final VnfManagement mng = new VnfManagement(vnfPkgRepo, mapper, vnfPackageJpa, searchService);
+		final VnfManagement mng = createService();
 		mng.search(null, null, null, null, null, null);
 		assertTrue(true);
 	}
 
 	@Test
 	void testSearchOnboarded() {
-		final VnfManagement mng = new VnfManagement(vnfPkgRepo, mapper, vnfPackageJpa, searchService);
+		final VnfManagement mng = createService();
 		mng.searchOnboarded(null, null, null, null, null, null);
 		assertTrue(true);
 	}

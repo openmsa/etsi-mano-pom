@@ -53,7 +53,6 @@ import com.ubiqube.etsi.mano.service.SearchableService;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
 
 import jakarta.validation.Valid;
-import ma.glasnost.orika.MapperFacade;
 
 /**
  * This implementation cover VNFO + NFVM & VNFO only.
@@ -67,21 +66,19 @@ public class VnfManagement implements VnfPackageManagement {
 
 	private final VnfPackageRepository vnfPackageRepository;
 	private final VnfPackageService vnfPackageService;
-	private final MapperFacade mapper;
 	private final SearchableService searchableService;
 
-	public VnfManagement(final VnfPackageRepository vnfPackageRepository, final MapperFacade mapper, final VnfPackageService vnfPackageService, final SearchableService searchableService) {
+	public VnfManagement(final VnfPackageRepository vnfPackageRepository, final VnfPackageService vnfPackageService, final SearchableService searchableService) {
 		this.vnfPackageRepository = vnfPackageRepository;
-		this.mapper = mapper;
 		this.vnfPackageService = vnfPackageService;
 		this.searchableService = searchableService;
 		LOG.info("Starting VNF Package Management For NFVO+VNFM or NFVO Only Management.");
 	}
 
 	@Override
-	public <U> U vnfPackagesVnfPkgIdGet(final UUID vnfPkgId, final Class<U> u) {
+	public <U> U vnfPackagesVnfPkgIdGet(final UUID vnfPkgId, final Function<VnfPackage, U> mapper) {
 		final VnfPackage vnfPackage = vnfPackageRepository.get(vnfPkgId);
-		return mapper.map(vnfPackage, u);
+		return mapper.apply(vnfPackage);
 	}
 
 	@Override
