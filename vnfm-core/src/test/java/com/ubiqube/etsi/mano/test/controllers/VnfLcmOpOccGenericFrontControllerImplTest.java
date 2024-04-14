@@ -48,8 +48,6 @@ import com.ubiqube.etsi.mano.vnfm.controller.vnflcm.VnfLcmOpOccGenericFrontContr
 import com.ubiqube.etsi.mano.vnfm.fc.vnflcm.VnfLcmClassMaping;
 import com.ubiqube.etsi.mano.vnfm.service.mapping.VnfLcmOpOccMapping;
 
-import ma.glasnost.orika.MapperFacade;
-
 @ExtendWith(MockitoExtension.class)
 class VnfLcmOpOccGenericFrontControllerImplTest {
 	private final Consumer<VnfBlueprint> makeLink = x -> {
@@ -60,8 +58,6 @@ class VnfLcmOpOccGenericFrontControllerImplTest {
 	};
 	@Mock
 	private VnfLcmController vnfLcmController;
-	@Mock
-	private MapperFacade mapper;
 	@Mock
 	private VnfLcmClassMaping mapping;
 	private final VnfLcmOpOccMapping vnfLcmOpOccMapping = Mappers.getMapper(VnfLcmOpOccMapping.class);
@@ -94,7 +90,7 @@ class VnfLcmOpOccGenericFrontControllerImplTest {
 		final VnfBlueprint vnfBlue = TestFactory.createBlueprint();
 		vnfBlue.setOperation(PlanOperationType.INSTANTIATE);
 		when(vnfLcmController.vnfLcmOpOccsVnfLcmOpOccIdGet(id)).thenReturn(vnfBlue);
-		final ResponseEntity<VnfBlueprint> res = op.lcmOpOccFindById(mapping, id, VnfBlueprint.class, makeLink, operationParameter);
+		final ResponseEntity<VnfBlueprint> res = op.lcmOpOccFindById(mapping, id, makeLink, operationParameter);
 		assertTrue(true);
 	}
 
@@ -107,7 +103,7 @@ class VnfLcmOpOccGenericFrontControllerImplTest {
 		vnfBlue.setOperation(resType);
 		addTasks(vnfBlue);
 		when(vnfLcmController.vnfLcmOpOccsVnfLcmOpOccIdGet(id)).thenReturn(vnfBlue);
-		final ResponseEntity<VnfBlueprint> res = op.lcmOpOccFindById(mapping, id, VnfBlueprint.class, makeLink, operationParameter);
+		final ResponseEntity<VnfBlueprint> res = op.lcmOpOccFindById(mapping, id, makeLink, operationParameter);
 		assertTrue(true);
 	}
 
@@ -119,7 +115,7 @@ class VnfLcmOpOccGenericFrontControllerImplTest {
 		vnfBlue.setOperation(PlanOperationType.CHANGE_EXTERNAL_VNF_CONNECTIVITY);
 		addTasks(vnfBlue);
 		when(vnfLcmController.vnfLcmOpOccsVnfLcmOpOccIdGet(id)).thenReturn(vnfBlue);
-		assertThrows(IllegalArgumentException.class, () -> op.lcmOpOccFindById(mapping, id, VnfBlueprint.class, makeLink, operationParameter));
+		assertThrows(IllegalArgumentException.class, () -> op.lcmOpOccFindById(mapping, id, makeLink, operationParameter));
 		assertTrue(true);
 	}
 
@@ -147,6 +143,6 @@ class VnfLcmOpOccGenericFrontControllerImplTest {
 	}
 
 	private VnfLcmOpOccGenericFrontControllerImpl createVnfLcmOpOccGenericFrontControllerImpl() {
-		return new VnfLcmOpOccGenericFrontControllerImpl(vnfLcmController, mapper, vnfLcmOpOccMapping);
+		return new VnfLcmOpOccGenericFrontControllerImpl(vnfLcmController, vnfLcmOpOccMapping);
 	}
 }

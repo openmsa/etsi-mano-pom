@@ -46,14 +46,10 @@ import com.ubiqube.etsi.mano.test.controllers.TestFactory;
 import com.ubiqube.etsi.mano.vnfm.fc.vnflcm.VnfLcmClassMaping;
 import com.ubiqube.etsi.mano.vnfm.service.mapping.VnfLcmOpOccMapping;
 
-import ma.glasnost.orika.MapperFacade;
-
 @ExtendWith(MockitoExtension.class)
 class VnfLcmOpOccGenericFrontControllerImplTest {
 	@Mock
 	private VnfLcmController vnfLcmController;
-	@Mock
-	private MapperFacade mapper;
 	@Mock
 	private VnfLcmClassMaping mapping;
 	private final VnfLcmOpOccMapping vnfLcmOpOccMapping = Mappers.getMapper(VnfLcmOpOccMapping.class);
@@ -67,7 +63,7 @@ class VnfLcmOpOccGenericFrontControllerImplTest {
 	}
 
 	private VnfLcmOpOccGenericFrontControllerImpl createService() {
-		return new VnfLcmOpOccGenericFrontControllerImpl(vnfLcmController, mapper, vnfLcmOpOccMapping);
+		return new VnfLcmOpOccGenericFrontControllerImpl(vnfLcmController, vnfLcmOpOccMapping);
 	}
 
 	@Test
@@ -101,7 +97,7 @@ class VnfLcmOpOccGenericFrontControllerImplTest {
 		};
 		final BiConsumer<String, Object> operationParameter = (x, y) -> {
 		};
-		srv.lcmOpOccFindById(mapping, id, null, link, operationParameter);
+		srv.lcmOpOccFindById(mapping, id, link, operationParameter);
 		assertTrue(true);
 	}
 

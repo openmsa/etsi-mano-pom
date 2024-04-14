@@ -40,7 +40,6 @@ import com.ubiqube.etsi.mano.vnfm.fc.vnflcm.VnfLcmOpOccGenericFrontController;
 import com.ubiqube.etsi.mano.vnfm.service.mapping.VnfLcmOpOccMapping;
 
 import jakarta.validation.constraints.NotNull;
-import ma.glasnost.orika.MapperFacade;
 
 /**
  *
@@ -50,12 +49,10 @@ import ma.glasnost.orika.MapperFacade;
 @Service
 public class VnfLcmOpOccGenericFrontControllerImpl implements VnfLcmOpOccGenericFrontController {
 	private final VnfLcmController vnfLcmController;
-	private final MapperFacade mapper;
 	private final VnfLcmOpOccMapping vnfLcmOpOccMapping;
 
-	public VnfLcmOpOccGenericFrontControllerImpl(final VnfLcmController vnfLcmController, final MapperFacade mapper, final VnfLcmOpOccMapping vnfLcmOpOccMapping) {
+	public VnfLcmOpOccGenericFrontControllerImpl(final VnfLcmController vnfLcmController, final VnfLcmOpOccMapping vnfLcmOpOccMapping) {
 		this.vnfLcmController = vnfLcmController;
-		this.mapper = mapper;
 		this.vnfLcmOpOccMapping = vnfLcmOpOccMapping;
 	}
 
@@ -75,7 +72,7 @@ public class VnfLcmOpOccGenericFrontControllerImpl implements VnfLcmOpOccGeneric
 	}
 
 	@Override
-	public <U> ResponseEntity<U> lcmOpOccFindById(final VnfLcmClassMaping mapping, final UUID id, final Class<U> clazz, final Consumer<U> makeLink, final BiConsumer<@NotNull U, Object> operationParameter) {
+	public <U> ResponseEntity<U> lcmOpOccFindById(final VnfLcmClassMaping mapping, final UUID id, final Consumer<U> makeLink, final BiConsumer<@NotNull U, Object> operationParameter) {
 		final VnfBlueprint resultDb = vnfLcmController.vnfLcmOpOccsVnfLcmOpOccIdGet(id);
 		final VnfLcmResourceChanges resourceChanged = new VnfLcmResourceChanges();
 		resultDb.getTasks().stream()
@@ -95,21 +92,21 @@ public class VnfLcmOpOccGenericFrontControllerImpl implements VnfLcmOpOccGeneric
 				.forEach(resourceChanged::addAffectedVnfcs);
 		resultDb.setResourceChanges(resourceChanged);
 
-		final U ret = mapper.map(resultDb, clazz);
+		final U ret = mapping.mapToVnfLcmOpOcc(resultDb);
 		makeLink.accept(ret);
 		switch (resultDb.getOperation()) {
-		case INSTANTIATE -> operationParameter.accept(ret, mapper.map(resultDb, mapping.getInstantiateVnfRequest()));
-		case SCALE -> operationParameter.accept(ret, mapper.map(resultDb, mapping.getScaleVnfRequest()));
-		case SCALE_TO_LEVEL -> operationParameter.accept(ret, mapper.map(resultDb, mapping.getScaleVnfToLevelRequest()));
-		case CHANGE_FLAVOUR -> operationParameter.accept(ret, mapper.map(resultDb, mapping.getChangeVnfFlavourRequest()));
-		case OPERATE -> operationParameter.accept(ret, mapper.map(resultDb, mapping.getOperateVnfRequest()));
-		case HEAL -> operationParameter.accept(ret, mapper.map(resultDb, mapping.getHealVnfRequest()));
-		case CHANGE_EXT_CONN -> operationParameter.accept(ret, mapper.map(resultDb, mapping.getChangeExtVnfConnectivityRequest()));
-		case TERMINATE -> operationParameter.accept(ret, mapper.map(resultDb, mapping.getTerminateVnfRequest()));
-		case MODIFY_INFO -> operationParameter.accept(ret, mapper.map(resultDb, mapping.getVnfInfoModificationRequest()));
-		case CREATE_SNAPSHOT -> operationParameter.accept(ret, mapper.map(resultDb, mapping.getCreateVnfSnapshotRequest()));
-		case REVERT_TO_SNAPSHOT -> operationParameter.accept(ret, mapper.map(resultDb, mapping.getRevertToVnfSnapshotRequest()));
-		case CHANGE_VNFPKG -> operationParameter.accept(ret, mapper.map(resultDb, mapping.getChangeCurrentVnfPkgRequest()));
+		case INSTANTIATE -> operationParameter.accept(ret, mapping.getInstantiateVnfRequest(resultDb));
+		case SCALE -> operationParameter.accept(ret, mapping.getScaleVnfRequest(resultDb));
+		case SCALE_TO_LEVEL -> operationParameter.accept(ret, mapping.getScaleVnfToLevelRequest(resultDb));
+		case CHANGE_FLAVOUR -> operationParameter.accept(ret, mapping.getChangeVnfFlavourRequest(resultDb));
+		case OPERATE -> operationParameter.accept(ret, mapping.getOperateVnfRequest(resultDb));
+		case HEAL -> operationParameter.accept(ret, mapping.getHealVnfRequest(resultDb));
+		case CHANGE_EXT_CONN -> operationParameter.accept(ret, mapping.getChangeExtVnfConnectivityRequest(resultDb));
+		case TERMINATE -> operationParameter.accept(ret, mapping.getTerminateVnfRequest(resultDb));
+		case MODIFY_INFO -> operationParameter.accept(ret, mapping.getVnfInfoModificationRequest(resultDb));
+		case CREATE_SNAPSHOT -> operationParameter.accept(ret, mapping.getCreateVnfSnapshotRequest(resultDb));
+		case REVERT_TO_SNAPSHOT -> operationParameter.accept(ret, mapping.getRevertToVnfSnapshotRequest(resultDb));
+		case CHANGE_VNFPKG -> operationParameter.accept(ret, mapping.getChangeCurrentVnfPkgRequest(resultDb));
 		default -> throw new IllegalArgumentException("Unexpected value: " + resultDb.getOperation());
 		}
 		return ResponseEntity.ok(ret);
