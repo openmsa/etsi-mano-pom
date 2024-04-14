@@ -28,6 +28,7 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -45,6 +46,7 @@ import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.nfvo.service.NsBlueprintService;
 import com.ubiqube.etsi.mano.nfvo.service.NsInstanceService;
 import com.ubiqube.etsi.mano.nfvo.service.NsdPackageService;
+import com.ubiqube.etsi.mano.nfvo.service.mapping.NsInstanceDtoMapping;
 import com.ubiqube.etsi.mano.service.VnfInstanceGatewayService;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 
@@ -66,16 +68,22 @@ class NsInstanceControllerImplTest {
 	@Mock
 	private EventManager eventManager;
 
+	private final NsInstanceDtoMapping nsInstanceDtoMapping = Mappers.getMapper(NsInstanceDtoMapping.class);
+
 	@Test
 	void testInstanceGet() {
-		final NsInstanceControllerImpl srv = new NsInstanceControllerImpl(nsInstanceService, lcmOpOccsService, mapper, vnfInstancesService, nsdPackageJpa, eventManager);
+		final NsInstanceControllerImpl srv = createService();
 		srv.nsInstancesGet("");
 		assertTrue(true);
 	}
 
+	private NsInstanceControllerImpl createService() {
+		return new NsInstanceControllerImpl(nsInstanceService, lcmOpOccsService, vnfInstancesService, nsdPackageJpa, eventManager, nsInstanceDtoMapping);
+	}
+
 	@Test
 	void testInstanceDelete() {
-		final NsInstanceControllerImpl srv = new NsInstanceControllerImpl(nsInstanceService, lcmOpOccsService, mapper, vnfInstancesService, nsdPackageJpa, eventManager);
+		final NsInstanceControllerImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		final NsdInstance inst = new NsdInstance();
 		inst.setInstantiationState(InstantiationState.NOT_INSTANTIATED);
@@ -87,7 +95,7 @@ class NsInstanceControllerImplTest {
 
 	@Test
 	void testInstanceDelete001() {
-		final NsInstanceControllerImpl srv = new NsInstanceControllerImpl(nsInstanceService, lcmOpOccsService, mapper, vnfInstancesService, nsdPackageJpa, eventManager);
+		final NsInstanceControllerImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		final NsdInstance inst = new NsdInstance();
 		final NsdPackage info = new NsdPackage();
@@ -102,7 +110,7 @@ class NsInstanceControllerImplTest {
 
 	@Test
 	void testInstanceHeal() {
-		final NsInstanceControllerImpl srv = new NsInstanceControllerImpl(nsInstanceService, lcmOpOccsService, mapper, vnfInstancesService, nsdPackageJpa, eventManager);
+		final NsInstanceControllerImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		final NsdInstance inst = new NsdInstance();
 		inst.setInstantiationState(InstantiationState.INSTANTIATED);
@@ -113,7 +121,7 @@ class NsInstanceControllerImplTest {
 
 	@Test
 	void testInstanceScale() {
-		final NsInstanceControllerImpl srv = new NsInstanceControllerImpl(nsInstanceService, lcmOpOccsService, mapper, vnfInstancesService, nsdPackageJpa, eventManager);
+		final NsInstanceControllerImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		final NsdInstance inst = new NsdInstance();
 		inst.setInstantiationState(InstantiationState.INSTANTIATED);
@@ -124,7 +132,7 @@ class NsInstanceControllerImplTest {
 
 	@Test
 	void testInstanceUpdate() {
-		final NsInstanceControllerImpl srv = new NsInstanceControllerImpl(nsInstanceService, lcmOpOccsService, mapper, vnfInstancesService, nsdPackageJpa, eventManager);
+		final NsInstanceControllerImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		final NsdInstance inst = new NsdInstance();
 		inst.setInstantiationState(InstantiationState.INSTANTIATED);
@@ -136,7 +144,7 @@ class NsInstanceControllerImplTest {
 
 	@Test
 	void testNsInstancesNsInstanceIdGet() {
-		final NsInstanceControllerImpl srv = new NsInstanceControllerImpl(nsInstanceService, lcmOpOccsService, mapper, vnfInstancesService, nsdPackageJpa, eventManager);
+		final NsInstanceControllerImpl srv = createService();
 		final UUID id = UUID.randomUUID();
 		final NsdInstance inst = new NsdInstance();
 		final NsdPackage info = new NsdPackage();

@@ -46,30 +46,29 @@ import com.ubiqube.etsi.mano.nfvo.factory.LcmFactory;
 import com.ubiqube.etsi.mano.nfvo.service.NsBlueprintService;
 import com.ubiqube.etsi.mano.nfvo.service.NsInstanceService;
 import com.ubiqube.etsi.mano.nfvo.service.NsdPackageService;
+import com.ubiqube.etsi.mano.nfvo.service.mapping.NsInstanceDtoMapping;
 import com.ubiqube.etsi.mano.service.VnfInstanceGatewayService;
 import com.ubiqube.etsi.mano.service.event.ActionType;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 
-import ma.glasnost.orika.MapperFacade;
-
 @Service
 public class NsInstanceControllerImpl implements NsInstanceController {
 	private final NsBlueprintService blueprintService;
 	private final NsInstanceService nsInstanceService;
-	private final MapperFacade mapper;
 	private final VnfInstanceGatewayService vnfInstancesService;
 	private final NsdPackageService nsdPackageJpa;
 	private final EventManager eventManager;
+	private final NsInstanceDtoMapping nsInstanceDtoMapping;
 
-	public NsInstanceControllerImpl(final NsInstanceService nsInstanceService, final NsBlueprintService lcmOpOccsService, final MapperFacade mapper,
-			final VnfInstanceGatewayService vnfInstancesService, final NsdPackageService nsdPackageJpa, final EventManager eventManager) {
+	public NsInstanceControllerImpl(final NsInstanceService nsInstanceService, final NsBlueprintService lcmOpOccsService,
+			final VnfInstanceGatewayService vnfInstancesService, final NsdPackageService nsdPackageJpa, final EventManager eventManager, final NsInstanceDtoMapping nsInstanceDtoMapping) {
 		this.nsInstanceService = nsInstanceService;
 		this.blueprintService = lcmOpOccsService;
-		this.mapper = mapper;
 		this.vnfInstancesService = vnfInstancesService;
 		this.nsdPackageJpa = nsdPackageJpa;
 		this.eventManager = eventManager;
+		this.nsInstanceDtoMapping = nsInstanceDtoMapping;
 	}
 
 	@Override
@@ -94,12 +93,12 @@ public class NsInstanceControllerImpl implements NsInstanceController {
 	public NsInstanceDto nsInstancesNsInstanceIdGet(final UUID id) {
 		final NsdInstance ret = nsInstanceService.findById(id);
 
-		final NsInstanceDto dto = mapper.map(ret.getNsdInfo(), NsInstanceDto.class);
-		mapper.map(ret, dto);
+		final NsInstanceDto dto = nsInstanceDtoMapping.map(ret.getNsdInfo());
+		nsInstanceDtoMapping.map(ret, dto);
 		final List<NsLiveInstance> vnfs = blueprintService.findByNsdInstanceAndClass(ret, NsVnfTask.class);
 		final List<VnfInstanceDto> vnfInstance = vnfs.stream()
 				.map(x -> vnfInstancesService.findById(UUID.fromString(x.getResourceId())))
-				.map(x -> mapper.map(x, VnfInstanceDto.class))
+				.map(nsInstanceDtoMapping::map)
 				.toList();
 		dto.setVnfInstance(vnfInstance);
 		dto.setNsdInfoId(ret.getNsdInfo().getId().toString());
@@ -110,7 +109,7 @@ public class NsInstanceControllerImpl implements NsInstanceController {
 			vlDto.setId(x.getId().toString());
 			vlDto.setNsVirtualLinkDescId(x.getNsTask().getToscaName());
 			final List<ResourceHandle> resourceHandle = new ArrayList<>();
-			final ResourceHandle r = mapper.map(x, ResourceHandle.class);
+			final ResourceHandle r = nsInstanceDtoMapping.map(x);
 			resourceHandle.add(r);
 			vlDto.setResourceHandle(resourceHandle);
 			return vlDto;
