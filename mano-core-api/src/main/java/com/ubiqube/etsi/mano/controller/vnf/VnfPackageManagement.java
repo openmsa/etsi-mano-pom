@@ -40,7 +40,7 @@ public interface VnfPackageManagement {
 	 * @param u        The json class.
 	 * @return A Json instance.
 	 */
-	<U> U vnfPackagesVnfPkgIdGet(UUID vnfPkgId, Class<U> u);
+	<U> U vnfPackagesVnfPkgIdGet(UUID vnfPkgId, Function<VnfPackage, U> mapper);
 
 	/**
 	 * Only for write.
