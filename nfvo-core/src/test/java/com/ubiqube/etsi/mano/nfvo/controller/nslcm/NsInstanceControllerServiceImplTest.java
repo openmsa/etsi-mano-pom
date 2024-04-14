@@ -56,12 +56,11 @@ import com.ubiqube.etsi.mano.dao.mano.vim.vnffg.Classifier;
 import com.ubiqube.etsi.mano.nfvo.service.NsBlueprintService;
 import com.ubiqube.etsi.mano.nfvo.service.NsInstanceService;
 import com.ubiqube.etsi.mano.nfvo.service.NsdPackageService;
+import com.ubiqube.etsi.mano.nfvo.service.mapping.NsBlueprintMapping;
 import com.ubiqube.etsi.mano.nfvo.service.mapping.nsinstance.NsInstanceMapping;
 import com.ubiqube.etsi.mano.service.SearchableService;
 import com.ubiqube.etsi.mano.service.event.ActionType;
 import com.ubiqube.etsi.mano.service.event.EventManager;
-
-import ma.glasnost.orika.MapperFacade;
 
 @ExtendWith(MockitoExtension.class)
 class NsInstanceControllerServiceImplTest {
@@ -71,8 +70,7 @@ class NsInstanceControllerServiceImplTest {
 	private NsInstanceService nsInstanceService;
 	@Mock
 	private EventManager eventManager;
-	@Mock
-	private MapperFacade mapper;
+	private final NsBlueprintMapping mapper = Mappers.getMapper(NsBlueprintMapping.class);
 	@Mock
 	private NsBlueprintService nsBlueprintService;
 	@Mock

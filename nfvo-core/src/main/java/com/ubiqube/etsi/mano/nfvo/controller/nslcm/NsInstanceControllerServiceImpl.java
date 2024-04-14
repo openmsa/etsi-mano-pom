@@ -71,12 +71,11 @@ import com.ubiqube.etsi.mano.nfvo.factory.LcmFactory;
 import com.ubiqube.etsi.mano.nfvo.service.NsBlueprintService;
 import com.ubiqube.etsi.mano.nfvo.service.NsInstanceService;
 import com.ubiqube.etsi.mano.nfvo.service.NsdPackageService;
+import com.ubiqube.etsi.mano.nfvo.service.mapping.NsBlueprintMapping;
 import com.ubiqube.etsi.mano.nfvo.service.mapping.nsinstance.NsInstanceMapping;
 import com.ubiqube.etsi.mano.service.SearchableService;
 import com.ubiqube.etsi.mano.service.event.ActionType;
 import com.ubiqube.etsi.mano.service.event.EventManager;
-
-import ma.glasnost.orika.MapperFacade;
 
 @Service
 public class NsInstanceControllerServiceImpl implements NsInstanceControllerService {
@@ -87,7 +86,7 @@ public class NsInstanceControllerServiceImpl implements NsInstanceControllerServ
 
 	private final EventManager eventManager;
 
-	private final MapperFacade mapper;
+	private final NsBlueprintMapping mapper;
 
 	private final NsBlueprintService nsBlueprintService;
 
@@ -96,7 +95,7 @@ public class NsInstanceControllerServiceImpl implements NsInstanceControllerServ
 	private final NsInstanceMapping nsInstanceMapping;
 
 	public NsInstanceControllerServiceImpl(final NsdPackageService nsdPackageService, final NsInstanceService nsInstanceService, final EventManager eventManager,
-			final MapperFacade mapper, final NsBlueprintService nsBlueprintService, final SearchableService searchableService, final NsInstanceMapping nsInstanceMapping) {
+			final NsBlueprintMapping mapper, final NsBlueprintService nsBlueprintService, final SearchableService searchableService, final NsInstanceMapping nsInstanceMapping) {
 		this.nsdPackageService = nsdPackageService;
 		this.nsInstanceService = nsInstanceService;
 		this.eventManager = eventManager;
