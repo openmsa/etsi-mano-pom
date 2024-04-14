@@ -50,8 +50,6 @@ import com.ubiqube.etsi.mano.service.mapping.VnfPackageDtoMapping;
 import com.ubiqube.etsi.mano.vnfm.dto.VnfPackageDto;
 import com.ubiqube.etsi.mano.vnfm.service.event.VnfmActions;
 
-import ma.glasnost.orika.MapperFacade;
-
 @RestController
 @RequestMapping("/vnfm-admin")
 public class VnfmAdminController {
