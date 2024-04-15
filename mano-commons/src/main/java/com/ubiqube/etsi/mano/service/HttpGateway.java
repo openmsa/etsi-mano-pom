@@ -26,10 +26,22 @@ import org.springframework.core.ParameterizedTypeReference;
 import com.ubiqube.etsi.mano.controller.subscription.ApiAndType;
 import com.ubiqube.etsi.mano.dao.mano.CancelModeTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.GrantInterface;
+import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
+import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.ScaleTypeEnum;
+import com.ubiqube.etsi.mano.dao.mano.VnfIndicator;
+import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
+import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+import com.ubiqube.etsi.mano.dao.mano.nsd.upd.ChangeVnfFlavourData;
 import com.ubiqube.etsi.mano.dao.mano.pm.PmJob;
 import com.ubiqube.etsi.mano.dao.mano.pm.Threshold;
+import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
+import com.ubiqube.etsi.mano.dao.mano.vnfi.ChangeExtVnfConnRequest;
+import com.ubiqube.etsi.mano.model.VnfHealRequest;
+import com.ubiqube.etsi.mano.model.VnfInstantiate;
+import com.ubiqube.etsi.mano.model.VnfOperateRequest;
+import com.ubiqube.etsi.mano.model.VnfScaleToLevelRequest;
 import com.ubiqube.etsi.mano.service.event.model.EventMessage;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.utils.Version;
@@ -51,13 +63,13 @@ public interface HttpGateway {
 
 	Class<?> getVnfPackageSubscriptionClass();
 
-	Class<?> getPkgmSubscriptionRequest();
+	Object getPkgmSubscriptionRequest(Subscription req);
 
 	Class<?> getVnfIndicatorValueChangeSubscriptionClass();
 
 	Class<?> getVnfIndicatorValueChangeSubscriptionRequest();
 
-	Class<?> getGrantRequest();
+	Object mapGrantRequest(GrantInterface o);
 
 	Class<?> getGrantResponse();
 
@@ -71,6 +83,8 @@ public interface HttpGateway {
 
 	Class<?> getVnfInstanceClass();
 
+	Class<?> getVnfThresholdClass();
+
 	ParameterizedTypeReference<List<Class<?>>> getVnfInstanceListParam();
 
 	ParameterizedTypeReference<List<Class<?>>> getListVnfLcmOpOccs();
@@ -79,25 +93,23 @@ public interface HttpGateway {
 
 	Object createVnfInstanceRequest(String vnfdId, String vnfInstanceName, String vnfInstanceDescription);
 
-	Class<?> getVnfInstanceInstantiateRequestClass();
+	Object getVnfInstanceInstantiateRequestClass(VnfInstantiate req);
 
 	Class<?> getVnfLcmOpOccs();
 
 	Object createVnfInstanceTerminate(CancelModeTypeEnum terminationType, Integer gracefulTerminationTimeout);
 
-	Class<?> getVnfInstanceScaleToLevelRequest();
+	Object getVnfInstanceScaleToLevelRequest(VnfScaleToLevelRequest req);
 
 	Object createVnfInstanceScaleRequest(ScaleTypeEnum scaleTypeEnum, String aspectId, Integer numberOfSteps);
 
-	Object createVnfInstanceHealRequest(String cause);
+	Object createVnfInstanceHealRequest(VnfHealRequest req);
 
-	Class<?> getVnfInstanceScaleRequest();
+	Object getVnfInstanceOperateRequest(VnfOperateRequest req);
 
-	Class<?> getVnfInstanceHealRequest();
+	Object getVnfInstanceChangeFalvourRequest(ChangeVnfFlavourData req);
 
-	Class<?> getVnfInstanceOperateRequest();
-
-	Class<?> getVnfInstanceChangeExtConnRequest();
+	Object getVnfInstanceChangeExtConnRequest(ChangeExtVnfConnRequest req);
 
 	@Nullable
 	Object createEvent(UUID uuid, EventMessage event);
@@ -118,17 +130,11 @@ public interface HttpGateway {
 
 	Object createVnfThresholdRequest(Threshold req);
 
-	Class<?> getVnfInstanceSubscriptionRequest();
-
-	Class<?> getVnfInstanceSubscriptionClass();
-
 	Class<?> getVnfIndicatorClass();
 
 	ParameterizedTypeReference<List<Class<?>>> getVnfIndicatorClassList();
 
 	Class<?> getVnfIndicatorSubscriptionClass();
-
-	Class<?> getVnfIndicatorRequest();
 
 	Object createVnfInstanceSubscriptionRequest(Subscription subscription);
 
@@ -136,11 +142,33 @@ public interface HttpGateway {
 
 	Object createVnfFmSubscriptionRequest(Subscription subscription);
 
-	Class<?> getVnfFmSubscriptionRequest();
-
 	Class<?> getVnfFmSubscriptionClass();
 
-	Class<?> getVrQanSubscriptionRequest();
+	Object mapVrQanSubscriptionRequest(Subscription o);
 
 	Class<?> getVrQanSubscriptionClass();
+
+	Subscription mapSubscription(Object o);
+
+	Subscription mapVrQanSubscriptionSubscription(Object o);
+
+	Subscription mapToPkgmSubscription(Object o);
+
+	Subscription mapToVnfIndicatorSubscription(Object o);
+
+	GrantResponse mapToGrantResponse(Object o);
+
+	NsdPackage mapToNsdPackage(Object o);
+
+	VnfIndicator mapToVnfIndicator(Object o);
+
+	VnfInstance mapToVnfInstance(Object o);
+
+	VnfBlueprint mapToVnfBlueprint(Object o);
+
+	VnfPackage mapToVnfPackage(Object o);
+
+	Threshold mapToThreshold(Object o);
+
+	PmJob mapToPmJob(Object o);
 }

@@ -25,9 +25,21 @@ import org.springframework.core.ParameterizedTypeReference;
 import com.ubiqube.etsi.mano.controller.subscription.ApiAndType;
 import com.ubiqube.etsi.mano.dao.mano.CancelModeTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.GrantInterface;
+import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
+import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.ScaleTypeEnum;
+import com.ubiqube.etsi.mano.dao.mano.VnfIndicator;
+import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
+import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+import com.ubiqube.etsi.mano.dao.mano.nsd.upd.ChangeVnfFlavourData;
 import com.ubiqube.etsi.mano.dao.mano.pm.PmJob;
 import com.ubiqube.etsi.mano.dao.mano.pm.Threshold;
+import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
+import com.ubiqube.etsi.mano.dao.mano.vnfi.ChangeExtVnfConnRequest;
+import com.ubiqube.etsi.mano.model.VnfHealRequest;
+import com.ubiqube.etsi.mano.model.VnfInstantiate;
+import com.ubiqube.etsi.mano.model.VnfOperateRequest;
+import com.ubiqube.etsi.mano.model.VnfScaleToLevelRequest;
 import com.ubiqube.etsi.mano.service.event.model.EventMessage;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.utils.Version;
@@ -64,24 +76,26 @@ public class HttpGatewayBad extends AbstractHttpGateway {
 	}
 
 	@Override
-	public Class<?> getPkgmSubscriptionRequest() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Class<?> getGrantRequest() {
+	public Object getPkgmSubscriptionRequest(final Subscription req) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Class<?> getVnfIndicatorValueChangeSubscriptionClass() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Class<?> getVnfIndicatorValueChangeSubscriptionRequest() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object mapGrantRequest(final GrantInterface o) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -104,7 +118,19 @@ public class HttpGatewayBad extends AbstractHttpGateway {
 	}
 
 	@Override
+	public String getSubscriptionUriFor(final ApiAndType at, final String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public Class<?> getVnfInstanceClass() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Class<?> getVnfThresholdClass() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -134,7 +160,7 @@ public class HttpGatewayBad extends AbstractHttpGateway {
 	}
 
 	@Override
-	public Class<?> getVnfInstanceInstantiateRequestClass() {
+	public Object getVnfInstanceInstantiateRequestClass(final VnfInstantiate req) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -152,25 +178,37 @@ public class HttpGatewayBad extends AbstractHttpGateway {
 	}
 
 	@Override
-	public Class<?> getVnfInstanceScaleToLevelRequest() {
+	public Object getVnfInstanceScaleToLevelRequest(final VnfScaleToLevelRequest req) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Class<?> getVnfInstanceScaleRequest() {
+	public Object createVnfInstanceScaleRequest(final ScaleTypeEnum scaleTypeEnum, final String aspectId, final Integer numberOfSteps) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Class<?> getVnfInstanceOperateRequest() {
+	public Object createVnfInstanceHealRequest(final VnfHealRequest req) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Class<?> getVnfInstanceChangeExtConnRequest() {
+	public Object getVnfInstanceOperateRequest(final VnfOperateRequest req) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object getVnfInstanceChangeFalvourRequest(final ChangeVnfFlavourData req) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object getVnfInstanceChangeExtConnRequest(final ChangeExtVnfConnRequest req) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -183,7 +221,8 @@ public class HttpGatewayBad extends AbstractHttpGateway {
 
 	@Override
 	public Version getVersion() {
-		return new Version("1.2.3");
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
@@ -217,42 +256,6 @@ public class HttpGatewayBad extends AbstractHttpGateway {
 	}
 
 	@Override
-	public Object createVnfInstanceScaleRequest(final ScaleTypeEnum scaleTypeEnum, final String aspectId, final Integer numberOfSteps) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Object createVnfInstanceHealRequest(final String cause) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Class<?> getVnfInstanceHealRequest() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getSubscriptionUriFor(final ApiAndType at, final String id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Class<?> getVnfInstanceSubscriptionRequest() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Class<?> getVnfInstanceSubscriptionClass() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Class<?> getVnfIndicatorClass() {
 		// TODO Auto-generated method stub
 		return null;
@@ -266,12 +269,6 @@ public class HttpGatewayBad extends AbstractHttpGateway {
 
 	@Override
 	public Class<?> getVnfIndicatorSubscriptionClass() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Class<?> getVnfIndicatorRequest() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -295,25 +292,91 @@ public class HttpGatewayBad extends AbstractHttpGateway {
 	}
 
 	@Override
-	public Class<?> getVnfFmSubscriptionRequest() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Class<?> getVnfFmSubscriptionClass() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Class<?> getVrQanSubscriptionRequest() {
+	public Object mapVrQanSubscriptionRequest(final Subscription o) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Class<?> getVrQanSubscriptionClass() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Subscription mapSubscription(final Object o) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Subscription mapVrQanSubscriptionSubscription(final Object o) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Subscription mapToPkgmSubscription(final Object o) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Subscription mapToVnfIndicatorSubscription(final Object o) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public GrantResponse mapToGrantResponse(final Object o) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public NsdPackage mapToNsdPackage(final Object o) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public VnfIndicator mapToVnfIndicator(final Object o) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public VnfInstance mapToVnfInstance(final Object o) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public VnfBlueprint mapToVnfBlueprint(final Object o) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public VnfPackage mapToVnfPackage(final Object o) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Threshold mapToThreshold(final Object o) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PmJob mapToPmJob(final Object o) {
 		// TODO Auto-generated method stub
 		return null;
 	}
