@@ -40,9 +40,6 @@ import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.exception.GenericException;
-import com.ubiqube.etsi.mano.mapper.OffsetDateTimeToDateConverter;
-import com.ubiqube.etsi.mano.mapper.OrikaFilterMapper;
-import com.ubiqube.etsi.mano.mapper.UuidConverter;
 import com.ubiqube.etsi.mano.nfvo.v261.services.VnfmGateway261;
 import com.ubiqube.etsi.mano.service.HttpGateway;
 import com.ubiqube.etsi.mano.service.NfvoFactory;
@@ -54,17 +51,10 @@ import com.ubiqube.etsi.mano.service.rest.FluxRest;
 import com.ubiqube.etsi.mano.service.rest.ManoClient;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
 
-import ma.glasnost.orika.OrikaSystemProperties;
-import ma.glasnost.orika.converter.ConverterFactory;
-import ma.glasnost.orika.impl.DefaultMapperFactory;
-import ma.glasnost.orika.impl.generator.EclipseJdtCompilerStrategy;
-
 @SuppressWarnings("static-method")
 class ManoClientTest {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ManoClientTest.class);
-
-	private DefaultMapperFactory mapperFactory;
 
 	final ObjectProvider<VnfmFactory> vnfmFactory = new ObjectProvider<>() {
 
@@ -126,8 +116,7 @@ class ManoClientTest {
 	}
 
 	void testName() throws URISyntaxException {
-		setupOrika();
-		final HttpGateway httpGateway = new VnfmGateway261(vnfmFactory, nfvoFactory, mapperFactory.getMapperFacade());
+		final HttpGateway httpGateway = new VnfmGateway261(vnfmFactory, nfvoFactory);
 		final AuthParamOauth2 authParamOath2 = getNfvoAuth();
 		final Servers server = Servers.builder()
 				.url(URI.create("http://localhost:8100/ubi-etsi-mano/sol005"))
@@ -178,8 +167,7 @@ class ManoClientTest {
 	}
 
 	void nsTest() {
-		setupOrika();
-		final HttpGateway httpGateway = new VnfmGateway261(vnfmFactory, nfvoFactory, mapperFactory.getMapperFacade());
+		final HttpGateway httpGateway = new VnfmGateway261(vnfmFactory, nfvoFactory);
 		final AuthParamOauth2 authParamOath2 = getNfvoAuth();
 		final Servers server = Servers.builder()
 				.url(URI.create("http://localhost:8100/ubi-etsi-mano/sol005"))
@@ -201,8 +189,7 @@ class ManoClientTest {
 	}
 
 	void testLcmOpOccs() {
-		setupOrika();
-		final HttpGateway httpGateway = new VnfmGateway261(vnfmFactory, nfvoFactory, mapperFactory.getMapperFacade());
+		final HttpGateway httpGateway = new VnfmGateway261(vnfmFactory, nfvoFactory);
 		final AuthParamOauth2 authParamOath2 = getNfvoAuth();
 		final Servers server = Servers.builder()
 				.url(URI.create("http://localhost:8888/ubi-etsi-mano/sol003"))
@@ -222,20 +209,8 @@ class ManoClientTest {
 		assertNotNull(obj.getOperationStatus());
 	}
 
-	private void setupOrika() {
-		System.setProperty(OrikaSystemProperties.COMPILER_STRATEGY, EclipseJdtCompilerStrategy.class.getName());
-		System.setProperty(OrikaSystemProperties.WRITE_SOURCE_FILES, "true");
-		System.setProperty(OrikaSystemProperties.WRITE_SOURCE_FILES_TO_PATH, "/tmp/orika-test");
-		mapperFactory = new DefaultMapperFactory.Builder().compilerStrategy(new EclipseJdtCompilerStrategy()).build();
-		final ConverterFactory converterFactory = mapperFactory.getConverterFactory();
-		converterFactory.registerConverter("filterConverter", new OrikaFilterMapper());
-		converterFactory.registerConverter(new UuidConverter());
-		converterFactory.registerConverter(new OffsetDateTimeToDateConverter());
-	}
-
 	void testVnfdArtifacts() throws Exception {
-		setupOrika();
-		final HttpGateway httpGateway = new VnfmGateway261(vnfmFactory, nfvoFactory, mapperFactory.getMapperFacade());
+		final HttpGateway httpGateway = new VnfmGateway261(vnfmFactory, nfvoFactory);
 		final AuthParamOauth2 authParamOath2 = getNfvoAuth();
 		final Servers server = Servers.builder()
 				.url(URI.create("http://10.31.1.29:8100/ubi-etsi-mano/sol003"))
@@ -287,8 +262,7 @@ class ManoClientTest {
 	}
 
 	void testVnfdSubscription() throws Exception {
-		setupOrika();
-		final HttpGateway httpGateway = new VnfmGateway261(vnfmFactory, nfvoFactory, mapperFactory.getMapperFacade());
+		final HttpGateway httpGateway = new VnfmGateway261(vnfmFactory, nfvoFactory);
 		final AuthParamOauth2 authParamOath2 = getNfvoAuth();
 		final Servers server = Servers.builder()
 				.url(URI.create("http://localhost:8100/ubi-etsi-mano/sol003"))
