@@ -60,10 +60,10 @@ public class ManoVnfInstanceId {
 
 	public VnfBlueprint instantiate(final VnfInstantiate instantiateVnfRequest) {
 		client.setFragment("vnf_instances/{id}/instantiate");
-		final BiFunction<HttpGateway, Object, Object> mapper = (x, y) -> x.getVnfInstanceInstantiateRequestClass(instantiateVnfRequest);
+		final BiFunction<HttpGateway, Object, Object> mapper = (x, y) -> x.getVnfInstanceInstantiateRequest(instantiateVnfRequest);
 		return (VnfBlueprint) client.createQuery()
 				.setWireInClass(mapper)
-				.setWireOutClass(HttpGateway::getVnfLcmOpOccs)
+				.setWireOutClass(HttpGateway::getVnfLcmOpOccsClass)
 				.setOutClass(HttpGateway::mapToVnfBlueprint)
 				.post(instantiateVnfRequest);
 	}
@@ -79,7 +79,7 @@ public class ManoVnfInstanceId {
 			final BiFunction<HttpGateway, Object, Object> request = (httpGateway, x) -> httpGateway.createVnfInstanceTerminate(terminationType, gracefulTerminationTimeout);
 			return (VnfBlueprint) client.createQuery()
 					.setWireInClass(request)
-					.setWireOutClass(HttpGateway::getVnfLcmOpOccs)
+					.setWireOutClass(HttpGateway::getVnfLcmOpOccsClass)
 					.setOutClass(HttpGateway::mapToVnfBlueprint)
 					.post();
 		} catch (final RuntimeException e) {
@@ -93,7 +93,7 @@ public class ManoVnfInstanceId {
 		final BiFunction<HttpGateway, Object, Object> mapper = (x, y) -> x.getVnfInstanceScaleToLevelRequest(scaleVnfToLevelRequest);
 		return (VnfBlueprint) client.createQuery()
 				.setWireInClass(mapper)
-				.setWireOutClass(HttpGateway::getVnfLcmOpOccs)
+				.setWireOutClass(HttpGateway::getVnfLcmOpOccsClass)
 				.setOutClass(HttpGateway::mapToVnfBlueprint)
 				.post(scaleVnfToLevelRequest);
 
@@ -104,7 +104,7 @@ public class ManoVnfInstanceId {
 		final BiFunction<HttpGateway, Object, Object> request = (httpGateway, y) -> httpGateway.createVnfInstanceScaleRequest(scaleVnfRequest.getType(), scaleVnfRequest.getAspectId(), scaleVnfRequest.getNumberOfSteps());
 		return (VnfBlueprint) client.createQuery()
 				.setWireInClass(request)
-				.setWireOutClass(HttpGateway::getVnfLcmOpOccs)
+				.setWireOutClass(HttpGateway::getVnfLcmOpOccsClass)
 				.setOutClass(HttpGateway::mapToVnfBlueprint)
 				.post(scaleVnfRequest);
 	}
@@ -114,7 +114,7 @@ public class ManoVnfInstanceId {
 		final BiFunction<HttpGateway, Object, Object> request = (httpGateway, y) -> httpGateway.createVnfInstanceHealRequest(healVnfRequest);
 		return (VnfBlueprint) client.createQuery()
 				.setWireInClass(request)
-				.setWireOutClass(HttpGateway::getVnfLcmOpOccs)
+				.setWireOutClass(HttpGateway::getVnfLcmOpOccsClass)
 				.setOutClass(HttpGateway::mapToVnfBlueprint)
 				.post(healVnfRequest);
 	}
@@ -124,7 +124,7 @@ public class ManoVnfInstanceId {
 		final BiFunction<HttpGateway, Object, Object> mapper = (x, y) -> x.getVnfInstanceOperateRequest(operateVnfRequest);
 		return (VnfBlueprint) client.createQuery()
 				.setWireInClass(mapper)
-				.setWireOutClass(HttpGateway::getVnfLcmOpOccs)
+				.setWireOutClass(HttpGateway::getVnfLcmOpOccsClass)
 				.setOutClass(HttpGateway::mapToVnfBlueprint)
 				.post(operateVnfRequest);
 	}
@@ -134,7 +134,7 @@ public class ManoVnfInstanceId {
 		final BiFunction<HttpGateway, Object, Object> mapper = (x, y) -> x.getVnfInstanceChangeExtConnRequest(cevcr);
 		return (VnfBlueprint) client.createQuery()
 				.setWireInClass(mapper)
-				.setWireOutClass(HttpGateway::getVnfLcmOpOccs)
+				.setWireOutClass(HttpGateway::getVnfLcmOpOccsClass)
 				.setOutClass(HttpGateway::mapToVnfBlueprint)
 				.post(cevcr);
 	}
@@ -151,7 +151,7 @@ public class ManoVnfInstanceId {
 		final BiFunction<HttpGateway, Object, Object> mapper = (x, y) -> x.getVnfInstanceChangeFalvourRequest(req);
 		return (VnfBlueprint) client.createQuery()
 				.setWireInClass(mapper)
-				.setWireOutClass(HttpGateway::getVnfLcmOpOccs)
+				.setWireOutClass(HttpGateway::getVnfLcmOpOccsClass)
 				.setOutClass(HttpGateway::mapToVnfBlueprint)
 				.post(req);
 	}

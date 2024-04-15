@@ -36,7 +36,7 @@ public class ManoVnfFmSubscription {
 		return (Subscription) client.createQuery()
 				.setWireInClass(request)
 				.setWireOutClass(HttpGateway::getVnfFmSubscriptionClass)
-				.setOutClass(HttpGateway::mapSubscription)
+				.setOutClass(HttpGateway::mapVnfFmSubscription)
 				.post(subscription);
 	}
 
@@ -45,7 +45,7 @@ public class ManoVnfFmSubscription {
 		client.setObjectId(id);
 		return (Subscription) client.createQuery()
 				.setWireOutClass(HttpGateway::getVnfFmSubscriptionClass)
-				.setOutClass((final HttpGateway httpGateway, final Object x) -> httpGateway.mapSubscription(x))
+				.setOutClass((final HttpGateway httpGateway, final Object x) -> httpGateway.mapVnfFmSubscription(x))
 				.getSingle();
 	}
 

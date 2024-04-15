@@ -158,7 +158,7 @@ public class VnfmGateway261 extends AbstractHttpGateway {
 	}
 
 	@Override
-	public Class<?> getVnfLcmOpOccs() {
+	public Class<?> getVnfLcmOpOccsClass() {
 		return VnfLcmOpOcc.class;
 	}
 
@@ -312,7 +312,7 @@ public class VnfmGateway261 extends AbstractHttpGateway {
 	}
 
 	@Override
-	public Subscription mapSubscription(final Object o) {
+	public Subscription mapVnfFmSubscription(final Object o) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -408,7 +408,7 @@ public class VnfmGateway261 extends AbstractHttpGateway {
 	}
 
 	@Override
-	public Object getVnfInstanceInstantiateRequestClass(final VnfInstantiate req) {
+	public Object getVnfInstanceInstantiateRequest(final VnfInstantiate req) {
 		// TODO Auto-generated method stub
 		return null;
 	}
