@@ -54,7 +54,6 @@ import com.ubiqube.etsi.mano.service.rest.FluxRest;
 import com.ubiqube.etsi.mano.service.rest.ManoClient;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
 
-import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.OrikaSystemProperties;
 import ma.glasnost.orika.converter.ConverterFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
@@ -167,7 +166,6 @@ class ManoClientTest {
 		final FluxRest fr = new FluxRest(server);
 		fr.get(new URI("https://web.mano.ubiqube.com/"), Servers.class, "2.6.1"); // need to set "10.31.1.245 web.mano.ubiqube.com" in /etc/hosts
 		final ServerAdapter serverAdapter = new ServerAdapter(httpGateway, server, new FluxRest(server));
-		final MapperFacade mapper = mapperFactory.getMapperFacade();
 		final ManoClient mc = new ManoClient(serverAdapter);
 		mc.vnfPackage().list();
 		final Map<String, String> userDefinedData = Map.of();
@@ -192,7 +190,6 @@ class ManoClientTest {
 								.build())
 				.build();
 		final ServerAdapter serverAdapter = new ServerAdapter(httpGateway, server, new FluxRest(server));
-		final MapperFacade mapper = mapperFactory.getMapperFacade();
 		final ManoClient mc = new ManoClient(serverAdapter);
 		//
 		final NsdPackage nsd = mc.nsPackage().create(Map.of());
@@ -216,7 +213,6 @@ class ManoClientTest {
 								.build())
 				.build();
 		final ServerAdapter serverAdapter = new ServerAdapter(httpGateway, server, new FluxRest(server));
-		final MapperFacade mapper = mapperFactory.getMapperFacade();
 		final ManoClient mc = new ManoClient(serverAdapter);
 		//
 		final UUID id = UUID.fromString("51d2048d-2e9f-4b82-8991-7e52a2fbccca");
@@ -250,7 +246,6 @@ class ManoClientTest {
 								.build())
 				.build();
 		final ServerAdapter serverAdapter = new ServerAdapter(httpGateway, server, new FluxRest(server));
-		final MapperFacade mapper = mapperFactory.getMapperFacade();
 		final ManoClient mc = new ManoClient(serverAdapter);
 		//
 		final UUID id = UUID.fromString("5af09567-fc5f-4be9-b372-0cc431ad5c03");
@@ -304,7 +299,6 @@ class ManoClientTest {
 								.build())
 				.build();
 		final ServerAdapter serverAdapter = new ServerAdapter(httpGateway, server, new FluxRest(server));
-		final MapperFacade mapper = mapperFactory.getMapperFacade();
 		final ManoClient mc = new ManoClient(serverAdapter);
 		mc.vnfPackage().subscription();
 	}
