@@ -93,9 +93,9 @@ public interface HttpGateway {
 
 	Object createVnfInstanceRequest(String vnfdId, String vnfInstanceName, String vnfInstanceDescription);
 
-	Object getVnfInstanceInstantiateRequestClass(VnfInstantiate req);
+	Object getVnfInstanceInstantiateRequest(VnfInstantiate req);
 
-	Class<?> getVnfLcmOpOccs();
+	Class<?> getVnfLcmOpOccsClass();
 
 	Object createVnfInstanceTerminate(CancelModeTypeEnum terminationType, Integer gracefulTerminationTimeout);
 
@@ -148,7 +148,7 @@ public interface HttpGateway {
 
 	Class<?> getVrQanSubscriptionClass();
 
-	Subscription mapSubscription(Object o);
+	Subscription mapVnfFmSubscription(Object o);
 
 	Subscription mapVrQanSubscriptionSubscription(Object o);
 

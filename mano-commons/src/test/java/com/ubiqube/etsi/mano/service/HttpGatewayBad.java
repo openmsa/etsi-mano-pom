@@ -160,13 +160,13 @@ public class HttpGatewayBad extends AbstractHttpGateway {
 	}
 
 	@Override
-	public Object getVnfInstanceInstantiateRequestClass(final VnfInstantiate req) {
+	public Object getVnfInstanceInstantiateRequest(final VnfInstantiate req) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Class<?> getVnfLcmOpOccs() {
+	public Class<?> getVnfLcmOpOccsClass() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -310,7 +310,7 @@ public class HttpGatewayBad extends AbstractHttpGateway {
 	}
 
 	@Override
-	public Subscription mapSubscription(final Object o) {
+	public Subscription mapVnfFmSubscription(final Object o) {
 		// TODO Auto-generated method stub
 		return null;
 	}
