@@ -71,7 +71,7 @@ class GrantMngtSol005Test {
 		final GrantMngtSol005 srv = createService();
 		final GrantInterface grantRequest = new GrantResponse();
 		final GrantResponse grant = new GrantResponse();
-		when(grantJpa.save(grant)).thenReturn(grant);
+		when(grantJpa.save(any())).thenReturn(grant);
 		srv.post(grantRequest);
 		assertTrue(true);
 	}
