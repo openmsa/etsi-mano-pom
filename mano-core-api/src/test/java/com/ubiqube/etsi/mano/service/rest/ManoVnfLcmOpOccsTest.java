@@ -34,7 +34,7 @@ import com.ubiqube.etsi.mano.service.rest.vnflcm.ManoVnfLcmOpOccs;
 @ExtendWith(MockitoExtension.class)
 class ManoVnfLcmOpOccsTest {
 	@Mock
-	private ManoClient client;
+	private QueryParameters client;
 	@Mock
 	private ManoQueryBuilder query;
 

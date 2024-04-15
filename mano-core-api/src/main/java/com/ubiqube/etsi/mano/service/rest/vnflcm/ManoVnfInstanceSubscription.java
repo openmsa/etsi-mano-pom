@@ -17,35 +17,35 @@
 package com.ubiqube.etsi.mano.service.rest.vnflcm;
 
 import java.util.UUID;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 
 import com.ubiqube.etsi.mano.service.HttpGateway;
 import com.ubiqube.etsi.mano.service.event.model.Subscription;
-import com.ubiqube.etsi.mano.service.rest.ManoClient;
+import com.ubiqube.etsi.mano.service.rest.QueryParameters;
 
 public class ManoVnfInstanceSubscription {
-	private final ManoClient client;
+	private final QueryParameters client;
 
-	public ManoVnfInstanceSubscription(final ManoClient manoClient) {
+	public ManoVnfInstanceSubscription(final QueryParameters manoClient) {
 		this.client = manoClient;
 	}
 
 	public Subscription subscribe(final Subscription subscription) {
 		client.setFragment("/subscriptions");
-		final Function<HttpGateway, Object> request = (final HttpGateway httpGateway) -> httpGateway.createVnfInstanceSubscriptionRequest(subscription);
-		return client.createQuery(request)
-				.setWireInClass(HttpGateway::getPkgmSubscriptionRequest)
+		final BiFunction<HttpGateway, Object, Object> request = (final HttpGateway httpGateway, final Object x) -> httpGateway.createVnfInstanceSubscriptionRequest((Subscription) x);
+		return (Subscription) client.createQuery()
+				.setWireInClass(request)
 				.setWireOutClass(HttpGateway::getVnfPackageSubscriptionClass)
-				.setOutClass(Subscription.class)
+				.setOutClass(HttpGateway::mapToPkgmSubscription)
 				.post(subscription);
 	}
 
 	public Subscription find(final UUID id) {
 		client.setFragment("/subscriptions/{id}");
 		client.setObjectId(id);
-		return client.createQuery()
+		return (Subscription) client.createQuery()
 				.setWireOutClass(HttpGateway::getVnfPackageSubscriptionClass)
-				.setOutClass(Subscription.class)
+				.setOutClass(HttpGateway::mapToPkgmSubscription)
 				.getSingle();
 	}
 

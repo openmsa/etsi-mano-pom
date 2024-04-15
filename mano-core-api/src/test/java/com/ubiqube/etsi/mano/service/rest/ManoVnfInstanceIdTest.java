@@ -46,7 +46,7 @@ import com.ubiqube.etsi.mano.service.rest.vnflcm.ManoVnfInstanceId;
 @ExtendWith(MockitoExtension.class)
 class ManoVnfInstanceIdTest {
 	@Mock
-	private ManoClient manoClient;
+	private QueryParameters manoClient;
 	@Mock
 	private ManoQueryBuilder manoQueryBuilder;
 
@@ -106,7 +106,7 @@ class ManoVnfInstanceIdTest {
 	void testGenericAction2(final args func) throws Exception {
 		final ManoVnfInstanceId srv = new ManoVnfInstanceId(manoClient, UUID.randomUUID());
 		final ChangeExtVnfConnRequest req = new ChangeExtVnfConnRequest();
-		when(manoClient.createQuery(any())).thenReturn(manoQueryBuilder);
+		when(manoClient.createQuery()).thenReturn(manoQueryBuilder);
 		when(manoQueryBuilder.setWireInClass(any())).thenReturn(manoQueryBuilder);
 		when(manoQueryBuilder.setWireOutClass(any())).thenReturn(manoQueryBuilder);
 		when(manoQueryBuilder.setOutClass(any())).thenReturn(manoQueryBuilder);
@@ -117,7 +117,7 @@ class ManoVnfInstanceIdTest {
 	@SuppressWarnings("null")
 	private static Stream<Arguments> provider3Class() {
 		return Stream.of(
-				Arguments.of(args.of(srv -> srv.find())),
+				Arguments.of(args.of(ManoVnfInstanceId::find)),
 				Arguments.of(args.of(srv -> srv.patch(Map.of()))));
 	}
 
@@ -143,9 +143,7 @@ class ManoVnfInstanceIdTest {
 	@Test
 	void testTerminate() {
 		final ManoVnfInstanceId srv = new ManoVnfInstanceId(manoClient, UUID.randomUUID());
-		when(manoClient.createQuery(any())).thenReturn(manoQueryBuilder);
-		when(manoQueryBuilder.setWireOutClass(any())).thenReturn(manoQueryBuilder);
-		when(manoQueryBuilder.setOutClass(any())).thenReturn(manoQueryBuilder);
+		when(manoClient.createQuery()).thenReturn(manoQueryBuilder);
 		srv.terminate(CancelModeTypeEnum.GRACEFUL, 5);
 		assertTrue(true);
 	}
@@ -153,7 +151,7 @@ class ManoVnfInstanceIdTest {
 	@Test
 	void testTerminateFailNoCrash() {
 		final ManoVnfInstanceId srv = new ManoVnfInstanceId(manoClient, UUID.randomUUID());
-		when(manoClient.createQuery(any())).thenReturn(manoQueryBuilder);
+		when(manoClient.createQuery()).thenReturn(manoQueryBuilder);
 		srv.terminate(CancelModeTypeEnum.GRACEFUL, 5);
 		assertTrue(true);
 	}

@@ -35,7 +35,7 @@ import com.ubiqube.etsi.mano.service.rest.admin.vim.ManoVim;
 @ExtendWith(MockitoExtension.class)
 class ManoVimTest {
 	@Mock
-	private ManoClient manoClient;
+	private QueryParameters manoClient;
 	@Mock
 	private HttpGateway httpGateway;
 	@Mock

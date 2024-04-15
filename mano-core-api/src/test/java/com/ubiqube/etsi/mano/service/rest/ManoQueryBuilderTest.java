@@ -24,6 +24,7 @@ import java.net.URI;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import org.junit.jupiter.api.Test;
@@ -38,14 +39,10 @@ import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.HttpGateway;
 
-import ma.glasnost.orika.MapperFacade;
-
 @ExtendWith(MockitoExtension.class)
 class ManoQueryBuilderTest {
 	@Mock
-	private MapperFacade mapper;
-	@Mock
-	private ManoClient manoClient;
+	private QueryParameters manoClient;
 	@Mock
 	private HttpGateway httpGateway;
 	@Mock
@@ -55,11 +52,11 @@ class ManoQueryBuilderTest {
 
 	@Test
 	void testDelete() throws Exception {
-		final ManoQueryBuilder mqb = new ManoQueryBuilder(mapper, manoClient);
+		final ManoQueryBuilder mqb = createService();
 		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
-		when(manoClient.getSetFragment()).thenReturn("frg");
+		when(manoClient.getFragment()).thenReturn("frg");
 		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
 		//
 		when(fluxRest.delete(any(), any(), any())).thenReturn(null);
@@ -67,13 +64,17 @@ class ManoQueryBuilderTest {
 		assertTrue(true);
 	}
 
+	private ManoQueryBuilder createService() {
+		return new ManoQueryBuilder(manoClient);
+	}
+
 	@Test
 	void testGetRaw() throws Exception {
-		final ManoQueryBuilder mqb = new ManoQueryBuilder(mapper, manoClient);
+		final ManoQueryBuilder mqb = createService();
 		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
-		when(manoClient.getSetFragment()).thenReturn("frg");
+		when(manoClient.getFragment()).thenReturn("frg");
 		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
 		//
 		when(fluxRest.getWithReturn(any(), any(), any())).thenReturn(null);
@@ -85,11 +86,11 @@ class ManoQueryBuilderTest {
 
 	@Test
 	void testGetSingleNull() throws Exception {
-		final ManoQueryBuilder mqb = new ManoQueryBuilder(mapper, manoClient);
+		final ManoQueryBuilder mqb = createService();
 		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
-		when(manoClient.getSetFragment()).thenReturn("frg");
+		when(manoClient.getFragment()).thenReturn("frg");
 		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
 		//
 		when(fluxRest.getWithReturn(any(), any(), any())).thenReturn(null);
@@ -101,27 +102,29 @@ class ManoQueryBuilderTest {
 
 	@Test
 	void testGetSingleNonNull() throws Exception {
-		final ManoQueryBuilder mqb = new ManoQueryBuilder(mapper, manoClient);
+		final ManoQueryBuilder mqb = createService();
 		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
-		when(manoClient.getSetFragment()).thenReturn("frg");
+		when(manoClient.getFragment()).thenReturn("frg");
 		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
 		//
 		when(fluxRest.getWithReturn(any(), any(), any())).thenReturn(ResponseEntity.ok(""));
 		final Function<HttpGateway, Class<?>> func = x -> String.class;
 		mqb.setWireOutClass(func);
+		final BiFunction mapper = (x, y) -> "";
+		mqb.setOutClass(mapper);
 		mqb.getSingle();
 		assertTrue(true);
 	}
 
 	@Test
 	void testGetList() throws Exception {
-		final ManoQueryBuilder mqb = new ManoQueryBuilder(mapper, manoClient);
+		final ManoQueryBuilder mqb = createService();
 		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
-		when(manoClient.getSetFragment()).thenReturn("frg");
+		when(manoClient.getFragment()).thenReturn("frg");
 		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
 		//
 		// when(fluxRest.get(any(), any(), any())).thenReturn(null);
@@ -131,40 +134,46 @@ class ManoQueryBuilderTest {
 		};
 		mqb.setWireOutClass(func);
 		mqb.setInClassList(func2);
+		final BiFunction mapper = (x, y) -> "";
+		mqb.setOutClass(mapper);
+		when(fluxRest.get(any(), (ParameterizedTypeReference) any(), any())).thenReturn(List.of());
 		mqb.getList();
 		assertTrue(true);
 	}
 
 	@Test
 	void testPostObject() throws Exception {
-		final ManoQueryBuilder mqb = new ManoQueryBuilder(mapper, manoClient);
+		final ManoQueryBuilder mqb = createService();
 		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
-		when(manoClient.getSetFragment()).thenReturn("frg");
+		when(manoClient.getFragment()).thenReturn("frg");
 		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
 		//
 		// when(fluxRest.get(any(), any(), any())).thenReturn(null);
 		final Function<HttpGateway, Class<?>> func = x -> String.class;
-		final Function<HttpGateway, Class<?>> func2 = x -> String.class;
+		final BiFunction<HttpGateway, Object, Object> func2 = (x, y) -> "";
 		mqb.setWireInClass(func2);
 		mqb.setWireOutClass(func);
+		final BiFunction mapper = (x, y) -> "";
+		mqb.setOutClass(mapper);
+//		when(fluxRest.get(any(), (Class) any(), any())).thenReturn(List.of());
 		mqb.post("");
 		assertTrue(true);
 	}
 
 	@Test
 	void testPostRawObject() throws Exception {
-		final ManoQueryBuilder mqb = new ManoQueryBuilder(mapper, manoClient);
+		final ManoQueryBuilder mqb = createService();
 		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
-		when(manoClient.getSetFragment()).thenReturn("frg");
+		when(manoClient.getFragment()).thenReturn("frg");
 		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
 		//
 		// when(fluxRest.get(any(), any(), any())).thenReturn(null);
 		final Function<HttpGateway, Class<?>> func = x -> String.class;
-		final Function<HttpGateway, Class<?>> func2 = x -> String.class;
+		final BiFunction<HttpGateway, Object, Object> func2 = (x, y) -> "";
 		mqb.setWireInClass(func2);
 		mqb.setWireOutClass(func);
 		mqb.postRaw("");
@@ -173,15 +182,15 @@ class ManoQueryBuilderTest {
 
 	@Test
 	void testPostRaw() throws Exception {
-		final ManoQueryBuilder mqb = new ManoQueryBuilder(mapper, manoClient);
+		final ManoQueryBuilder mqb = createService();
 		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
-		when(manoClient.getSetFragment()).thenReturn("frg");
+		when(manoClient.getFragment()).thenReturn("frg");
 		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
 		//
 		final Function<HttpGateway, Class<?>> func = x -> String.class;
-		final Function<HttpGateway, Object> func2 = x -> "";
+		final Function func2 = x -> "";
 		when(manoClient.getRequestObject()).thenReturn(func2);
 		mqb.setWireOutClass(func);
 		mqb.postRaw();
@@ -190,29 +199,31 @@ class ManoQueryBuilderTest {
 
 	@Test
 	void testPost() throws Exception {
-		final ManoQueryBuilder mqb = new ManoQueryBuilder(mapper, manoClient);
+		final ManoQueryBuilder mqb = createService();
 		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
-		when(manoClient.getSetFragment()).thenReturn("frg");
+		when(manoClient.getFragment()).thenReturn("frg");
 		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
 		//
 		// when(fluxRest.get(any(), any(), any())).thenReturn(null);
 		final Function<HttpGateway, Class<?>> func = x -> String.class;
-		final Function<HttpGateway, Object> func2 = x -> "";
+		final Function func2 = x -> "";
 		when(manoClient.getRequestObject()).thenReturn(func2);
 		mqb.setWireOutClass(func);
+		final BiFunction func4 = (x, y) -> "";
+		mqb.setOutClass(func4);
 		mqb.post();
 		assertTrue(true);
 	}
 
 	@Test
 	void testDownlad() throws Exception {
-		final ManoQueryBuilder mqb = new ManoQueryBuilder(mapper, manoClient);
+		final ManoQueryBuilder mqb = createService();
 		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
-		when(manoClient.getSetFragment()).thenReturn("frg");
+		when(manoClient.getFragment()).thenReturn("frg");
 		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
 		//
 		mqb.download(Paths.get("/tmp/test"));
@@ -221,11 +232,11 @@ class ManoQueryBuilderTest {
 
 	@Test
 	void testDownlad2() throws Exception {
-		final ManoQueryBuilder mqb = new ManoQueryBuilder(mapper, manoClient);
+		final ManoQueryBuilder mqb = createService();
 		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
-		when(manoClient.getSetFragment()).thenReturn("frg");
+		when(manoClient.getFragment()).thenReturn("frg");
 		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
 		//
 		mqb.download(Paths.get("/tmp/test"), null);
@@ -234,11 +245,11 @@ class ManoQueryBuilderTest {
 
 	@Test
 	void testUpload() throws Exception {
-		final ManoQueryBuilder mqb = new ManoQueryBuilder(mapper, manoClient);
+		final ManoQueryBuilder mqb = createService();
 		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
-		when(manoClient.getSetFragment()).thenReturn("frg");
+		when(manoClient.getFragment()).thenReturn("frg");
 		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
 		//
 		mqb.upload(Paths.get("/tmp/test"), null);
@@ -247,15 +258,17 @@ class ManoQueryBuilderTest {
 
 	@Test
 	void testUpload2() throws Exception {
-		final ManoQueryBuilder mqb = new ManoQueryBuilder(mapper, manoClient);
+		final ManoQueryBuilder mqb = createService();
 		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
-		when(manoClient.getSetFragment()).thenReturn("frg");
+		when(manoClient.getFragment()).thenReturn("frg");
 		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
 		//
 		final Function<HttpGateway, Class<?>> func = x -> String.class;
 		mqb.setWireOutClass(func);
+		final BiFunction mapper = (x, y) -> "";
+		mqb.setOutClass(mapper);
 		mqb.patch(null, Map.of());
 		assertTrue(true);
 	}

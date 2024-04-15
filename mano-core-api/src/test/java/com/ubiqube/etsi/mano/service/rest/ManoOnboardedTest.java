@@ -37,7 +37,7 @@ import com.ubiqube.etsi.mano.service.rest.vnfpkg.ManoOnboarded;
 @ExtendWith(MockitoExtension.class)
 class ManoOnboardedTest {
 	@Mock
-	private ManoClient manoClient;
+	private QueryParameters manoClient;
 	@Mock
 	private ManoQueryBuilder manoQueryBuilder;
 

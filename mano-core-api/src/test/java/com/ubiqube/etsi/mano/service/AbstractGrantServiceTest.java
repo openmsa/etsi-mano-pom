@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -32,15 +33,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.ubiqube.etsi.mano.dao.mano.ChangeType;
 import com.ubiqube.etsi.mano.dao.mano.GrantInformationExt;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
-import com.ubiqube.etsi.mano.dao.mano.v2.ComputeTask;
-import com.ubiqube.etsi.mano.dao.mano.v2.NetworkTask;
-import com.ubiqube.etsi.mano.dao.mano.v2.VnfPortTask;
+import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.jpa.ConnectionInformationJpa;
 import com.ubiqube.etsi.mano.service.mapping.BlueZoneGroupInformationMapping;
 import com.ubiqube.etsi.mano.service.mapping.GrantInformationExtMapping;
 import com.ubiqube.etsi.mano.service.mapping.GrantMapper;
-import com.ubiqube.etsi.mano.service.mapping.VnfGrantMapper;
 import com.ubiqube.etsi.mano.service.mapping.VnfGrantMapping;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 
@@ -56,7 +54,8 @@ class AbstractGrantServiceTest {
 	@Mock
 	private ConnectionInformationJpa connectionJpa;
 	private final VnfGrantMapping vnfGrantMapping = Mappers.getMapper(VnfGrantMapping.class);
-	private final GrantMapper vnfGrantMapper = new VnfGrantMapper(vnfGrantMapping);
+	@Mock
+	private GrantMapper vnfGrantMapper;
 	private final GrantInformationExtMapping grantInformationExtMapping = Mappers.getMapper(GrantInformationExtMapping.class);
 	private final BlueZoneGroupInformationMapping blueZoneGroupInformationMapping = Mappers.getMapper(BlueZoneGroupInformationMapping.class);
 
@@ -94,10 +93,10 @@ class AbstractGrantServiceTest {
 		final TestAbstractGrantService srv = createService();
 		final TestBluePrint bp = new TestBluePrint();
 		//
-		final NetworkTask task = new NetworkTask();
+		final TestTask task = new TestTask(ResourceTypeEnum.NETWORK);
 		task.setChangeType(ChangeType.ADDED);
 		//
-		final ComputeTask task2 = new ComputeTask();
+		final TestTask task2 = new TestTask(ResourceTypeEnum.COMPUTE);
 		task2.setChangeType(ChangeType.REMOVED);
 		task2.setVimResourceId("");
 		task2.setVimConnectionId("");
@@ -109,6 +108,7 @@ class AbstractGrantServiceTest {
 		response.setZoneGroups(Set.of());
 		final VimConnectionInformation vim01 = new VimConnectionInformation();
 		bp.setVimConnections(Set.of(vim01));
+		when(vnfGrantMapper.mapToGrantResponse(bp)).thenReturn(response);
 		when(nfvo.sendSyncGrantRequest(any())).thenReturn(response);
 		srv.allocate(bp);
 		assertTrue(true);
@@ -123,17 +123,24 @@ class AbstractGrantServiceTest {
 		final GrantResponse response = new GrantResponse();
 		final GrantInformationExt gie01 = new GrantInformationExt();
 		gie01.setResourceDefinitionId(tid.toString());
-		response.setAddResources(Set.of(gie01));
+		final LinkedHashSet<GrantInformationExt> set = new LinkedHashSet<>();
+		set.add(gie01);
+		response.setAddResources(set);
 		final UUID id = UUID.randomUUID();
 		response.setId(id);
 		response.setZoneGroups(Set.of());
-		final VnfPortTask task = new VnfPortTask();
+		final TestTask task = new TestTask(ResourceTypeEnum.COMPUTE);
 		task.setChangeType(ChangeType.ADDED);
 		task.setId(tid);
 		bp.setTasks(Set.of(task));
 		final VimConnectionInformation vim01 = new VimConnectionInformation();
 		bp.setVimConnections(Set.of(vim01));
-		when(nfvo.sendSyncGrantRequest(any())).thenReturn(response);
+		when(vnfGrantMapper.mapToGrantResponse(bp)).thenReturn(response);
+		final GrantResponse response2 = new GrantResponse();
+		response2.setId(id);
+		response2.setZoneGroups(Set.of());
+		response2.setAddResources(Set.of(gie01));
+		when(nfvo.sendSyncGrantRequest(any())).thenReturn(response2);
 		srv.allocate(bp);
 		assertTrue(true);
 	}

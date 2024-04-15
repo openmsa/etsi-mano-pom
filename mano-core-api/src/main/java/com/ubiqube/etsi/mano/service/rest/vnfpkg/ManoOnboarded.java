@@ -24,7 +24,7 @@ import java.util.function.Consumer;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.HttpGateway;
-import com.ubiqube.etsi.mano.service.rest.ManoClient;
+import com.ubiqube.etsi.mano.service.rest.QueryParameters;
 
 /**
  *
@@ -32,9 +32,9 @@ import com.ubiqube.etsi.mano.service.rest.ManoClient;
  *
  */
 public class ManoOnboarded {
-	private final ManoClient client;
+	private final QueryParameters client;
 
-	public ManoOnboarded(final ManoClient client, final UUID vnfdId) {
+	public ManoOnboarded(final QueryParameters client, final UUID vnfdId) {
 		this.client = client;
 		client.setObjectId(vnfdId);
 		client.setQueryType(ApiVersionType.SOL003_VNFPKGM);
@@ -42,9 +42,9 @@ public class ManoOnboarded {
 	}
 
 	public VnfPackage find() {
-		return client.createQuery()
+		return (VnfPackage) client.createQuery()
 				.setWireOutClass(HttpGateway::getVnfPackageClass)
-				.setOutClass(VnfPackage.class)
+				.setOutClass(HttpGateway::mapToVnfPackage)
 				.getSingle();
 	}
 

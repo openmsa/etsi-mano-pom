@@ -31,7 +31,7 @@ import com.ubiqube.etsi.mano.dao.mano.OnboardingStateType;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.HttpGateway;
-import com.ubiqube.etsi.mano.service.rest.ManoClient;
+import com.ubiqube.etsi.mano.service.rest.QueryParameters;
 
 import jakarta.annotation.Nullable;
 
@@ -46,9 +46,9 @@ public class ManoVnfPackageId {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ManoVnfPackageId.class);
 
-	private final ManoClient client;
+	private final QueryParameters client;
 
-	public ManoVnfPackageId(final ManoClient manoClient, final UUID id) {
+	public ManoVnfPackageId(final QueryParameters manoClient, final UUID id) {
 		this.client = manoClient;
 		client.setObjectId(id);
 		client.setQueryType(ApiVersionType.SOL003_VNFPKGM);
@@ -56,9 +56,9 @@ public class ManoVnfPackageId {
 	}
 
 	public VnfPackage find() {
-		return client.createQuery()
+		return (VnfPackage) client.createQuery()
 				.setWireOutClass(HttpGateway::getVnfPackageClass)
-				.setOutClass(VnfPackage.class)
+				.setOutClass(HttpGateway::mapToVnfPackage)
 				.getSingle();
 	}
 
@@ -105,9 +105,9 @@ public class ManoVnfPackageId {
 	}
 
 	public VnfPackage patch(final String ifMatch, final Map<String, Object> patch) {
-		return client.createQuery()
+		return (VnfPackage) client.createQuery()
 				.setWireOutClass(HttpGateway::getVnfPackageClass)
-				.setOutClass(VnfPackage.class)
+				.setOutClass(HttpGateway::mapToVnfPackage)
 				.patch(ifMatch, patch);
 	}
 

@@ -31,7 +31,7 @@ import com.ubiqube.etsi.mano.service.rest.admin.vim.ManoVimId;
 @ExtendWith(MockitoExtension.class)
 class ManoVimIdTest {
 	@Mock
-	private ManoClient client;
+	private QueryParameters client;
 	@Mock
 	private ServerAdapter server;
 	@Mock

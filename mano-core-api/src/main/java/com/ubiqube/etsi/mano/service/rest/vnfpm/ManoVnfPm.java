@@ -16,12 +16,12 @@
  */
 package com.ubiqube.etsi.mano.service.rest.vnfpm;
 
-import java.util.function.Function;
+import java.util.function.BiFunction;
 
 import com.ubiqube.etsi.mano.dao.mano.pm.PmJob;
 import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.HttpGateway;
-import com.ubiqube.etsi.mano.service.rest.ManoClient;
+import com.ubiqube.etsi.mano.service.rest.QueryParameters;
 
 /**
  * Sol003 VNF PM.
@@ -30,9 +30,9 @@ import com.ubiqube.etsi.mano.service.rest.ManoClient;
  *
  */
 public class ManoVnfPm {
-	private final ManoClient client;
+	private final QueryParameters client;
 
-	public ManoVnfPm(final ManoClient manoClient) {
+	public ManoVnfPm(final QueryParameters manoClient) {
 		this.client = manoClient;
 		manoClient.setFragment("pm_jobs");
 		manoClient.setQueryType(ApiVersionType.SOL003_VNFPM);
@@ -43,10 +43,11 @@ public class ManoVnfPm {
 	}
 
 	public PmJob create(final PmJob pmJob) {
-		final Function<HttpGateway, Object> request = (final HttpGateway httpGateway) -> httpGateway.createVnfPmJobRequest(pmJob);
-		return client.createQuery(request)
+		final BiFunction<HttpGateway, Object, Object> request = (final HttpGateway httpGateway, Object r) -> httpGateway.createVnfPmJobRequest(pmJob);
+		return (PmJob) client.createQuery()
+				.setWireInClass(request)
 				.setWireOutClass(HttpGateway::getVnfPmJobClass)
-				.setOutClass(PmJob.class)
+				.setOutClass(HttpGateway::mapToPmJob)
 				.post();
 	}
 }

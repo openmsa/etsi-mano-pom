@@ -14,30 +14,44 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service.rest.vnfind;
+package com.ubiqube.etsi.mano.service.rest;
 
 import java.util.UUID;
+import java.util.function.Function;
 
-import com.ubiqube.etsi.mano.dao.mano.VnfIndicator;
 import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.HttpGateway;
-import com.ubiqube.etsi.mano.service.rest.QueryParameters;
 
-public class ManoVnfIndicatorId {
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+import lombok.Getter;
+import lombok.Setter;
 
-	private QueryParameters client;
+@Getter
+@Setter
+public class QueryParameters {
+	@Nonnull
+	private final ServerAdapter server;
+	@Nullable
+	private Function<HttpGateway, ?> requestObject;
+	@Nullable
+	private String fragment;
+	@Nullable
+	private ApiVersionType queryType;
+	// Can be null.
+	private UUID objectId;
 
-	public ManoVnfIndicatorId(final QueryParameters manoClient, final UUID id) {
-		this.client = manoClient;
-		client.setQueryType(ApiVersionType.SOL003_VNFIND);
-		client.setFragment("/indicators/{id}");
-		client.setObjectId(id);
+	public QueryParameters(final ServerAdapter server) {
+		this.server = server;
 	}
 
-	public VnfIndicator find() {
-		return (VnfIndicator) client.createQuery()
-				.setWireOutClass(HttpGateway::getVnfIndicatorClass)
-				.setOutClass(HttpGateway::mapToVnfIndicator)
-				.getSingle();
+	public <U, R> ManoQueryBuilder<U, R> createQuery() {
+		return new ManoQueryBuilder<>(this);
 	}
+
+//	public <U, R> ManoQueryBuilder<U, R> createQuery(final Function<HttpGateway, U> func) {
+//		this.requestObject = Objects.requireNonNull(func, "HttpGateway function cannot be null.");
+//		return new ManoQueryBuilder<>(this);
+//	}
+
 }

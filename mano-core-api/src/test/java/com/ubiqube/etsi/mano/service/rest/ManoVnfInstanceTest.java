@@ -30,16 +30,17 @@ import com.ubiqube.etsi.mano.service.rest.vnflcm.ManoVnfInstance;
 @ExtendWith(MockitoExtension.class)
 class ManoVnfInstanceTest {
 	@Mock
-	private ManoClient client;
+	private QueryParameters client;
 	@Mock
 	private ManoQueryBuilder query;
 
 	@Test
 	void testCreate() {
 		final ManoVnfInstance srv = new ManoVnfInstance(client);
-		when(client.createQuery(any())).thenReturn(query);
+		when(client.createQuery()).thenReturn(query);
 		when(query.setWireOutClass(any())).thenReturn(query);
 		when(query.setOutClass(any())).thenReturn(query);
+		when(query.setWireInClass(any())).thenReturn(query);
 		srv.create(null, null, null);
 		assertTrue(true);
 	}

@@ -23,7 +23,7 @@ import java.util.UUID;
 
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.ubiqube.etsi.mano.service.rest.ManoClient;
+import com.ubiqube.etsi.mano.service.rest.QueryParameters;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
 
 /**
@@ -33,9 +33,9 @@ import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
  */
 public class ManoVimId {
 
-	private final ManoClient client;
+	private final QueryParameters client;
 
-	public ManoVimId(final ManoClient client, final UUID id) {
+	public ManoVimId(final QueryParameters client, final UUID id) {
 		this.client = client;
 		client.setObjectId(id);
 	}

@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,7 +33,7 @@ import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.service.HttpGateway;
-import com.ubiqube.etsi.mano.service.rest.ManoClient;
+import com.ubiqube.etsi.mano.service.rest.QueryParameters;
 
 import jakarta.annotation.Nonnull;
 
@@ -47,16 +47,16 @@ public class ManoGrant {
 	private static final Logger LOG = LoggerFactory.getLogger(ManoGrant.class);
 	private static final Pattern UUID_REGEXP = Pattern.compile("(?<uuid>[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12})$");
 	@Nonnull
-	private final ManoClient client;
+	private final QueryParameters client;
 	private UUID id;
 
-	public ManoGrant(final ManoClient manoClient) {
+	public ManoGrant(final QueryParameters manoClient) {
 		this.client = manoClient;
 		client.setFragment("grants");
 		manoClient.setQueryType(ApiVersionType.SOL003_GRANT);
 	}
 
-	public ManoGrant(final ManoClient manoClient, final UUID id) {
+	public ManoGrant(final QueryParameters manoClient, final UUID id) {
 		this.client = manoClient;
 		client.setObjectId(id);
 		client.setFragment("grants/{id}");
@@ -76,11 +76,11 @@ public class ManoGrant {
 	}
 
 	public GrantResponse create(final GrantInterface grant) {
-		final Function<HttpGateway, Object> request = (final HttpGateway httpGateway) -> httpGateway.createGrantRequest(grant);
-		final ResponseEntity<?> resp = client.createQuery(request)
-				.setWireInClass(HttpGateway::getGrantRequest)
+		final BiFunction<HttpGateway, Object, Object> request = (final HttpGateway httpGateway, Object r) -> httpGateway.createGrantRequest(grant);
+		final ResponseEntity<?> resp = client.createQuery()
+				.setWireInClass(request)
 				.setWireOutClass(HttpGateway::getGrantResponse)
-				.setOutClass(GrantResponse.class)
+				.setOutClass(HttpGateway::mapToGrantResponse)
 				.postRaw();
 		GrantResponse respCreate = handleLocation(resp);
 		final ManoGrant manoId = new ManoGrant(client, respCreate.getId());
@@ -116,7 +116,9 @@ public class ManoGrant {
 			grants.setId(grantId);
 			grants.setAvailable(Boolean.FALSE);
 		} else {
-			grants = client.getMapper().map(resp.getBody(), GrantResponse.class);
+			grants = (GrantResponse) client.createQuery()
+					.setWireOutClass(HttpGateway::getGrantResponse)
+					.getSingle();
 			grants.setAvailable(true);
 		}
 		return grants;

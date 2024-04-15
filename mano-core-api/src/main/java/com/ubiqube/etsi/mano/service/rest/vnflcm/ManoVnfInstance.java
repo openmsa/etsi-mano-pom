@@ -18,14 +18,15 @@ package com.ubiqube.etsi.mano.service.rest.vnflcm;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 
 import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.HttpGateway;
-import com.ubiqube.etsi.mano.service.rest.ManoClient;
+import com.ubiqube.etsi.mano.service.rest.ManoQueryBuilder;
+import com.ubiqube.etsi.mano.service.rest.QueryParameters;
 
 /**
  *
@@ -33,9 +34,9 @@ import com.ubiqube.etsi.mano.service.rest.ManoClient;
  *
  */
 public class ManoVnfInstance {
-	private final ManoClient client;
+	private final QueryParameters client;
 
-	public ManoVnfInstance(final ManoClient manoClient) {
+	public ManoVnfInstance(final QueryParameters manoClient) {
 		this.client = manoClient;
 		manoClient.setFragment("vnf_instances");
 		manoClient.setQueryType(ApiVersionType.SOL003_VNFLCM);
@@ -46,17 +47,19 @@ public class ManoVnfInstance {
 	}
 
 	public List<VnfInstance> list(final MultiValueMap<String, String> requestParams) {
-		return client.createQuery()
+		final ManoQueryBuilder<Object, VnfInstance> q = client.createQuery();
+		return q
 				.setInClassList(HttpGateway::getVnfInstanceListParam)
-				.setOutClass(VnfInstance.class)
+				.setOutClass(HttpGateway::mapToVnfInstance)
 				.getList();
 	}
 
 	public <T> T create(final String vnfdId, final String vnfInstanceName, final String vnfInstanceDescription) {
-		final Function<HttpGateway, Object> request = (final HttpGateway httpGateway) -> httpGateway.createVnfInstanceRequest(vnfdId, vnfInstanceName, vnfInstanceDescription);
-		return client.createQuery(request)
+		final BiFunction<HttpGateway, Object, Object> request = (final HttpGateway httpGateway, final Object req) -> httpGateway.createVnfInstanceRequest(vnfdId, vnfInstanceName, vnfInstanceDescription);
+		return (T) client.createQuery()
+				.setWireInClass(request)
 				.setWireOutClass(HttpGateway::getVnfInstanceClass)
-				.setOutClass(VnfInstance.class)
+				.setOutClass(HttpGateway::mapToVnfInstance)
 				.post();
 	}
 

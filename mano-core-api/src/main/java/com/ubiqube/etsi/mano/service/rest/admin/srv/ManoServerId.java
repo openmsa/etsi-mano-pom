@@ -29,7 +29,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.dao.mano.vim.PlanStatusType;
 import com.ubiqube.etsi.mano.exception.GenericException;
-import com.ubiqube.etsi.mano.service.rest.ManoClient;
+import com.ubiqube.etsi.mano.service.rest.QueryParameters;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
 
 import jakarta.annotation.Nullable;
@@ -43,9 +43,9 @@ public class ManoServerId {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ManoServerId.class);
 
-	private final ManoClient client;
+	private final QueryParameters client;
 
-	public ManoServerId(final ManoClient client, final UUID id) {
+	public ManoServerId(final QueryParameters client, final UUID id) {
 		this.client = client;
 		client.setObjectId(id);
 	}

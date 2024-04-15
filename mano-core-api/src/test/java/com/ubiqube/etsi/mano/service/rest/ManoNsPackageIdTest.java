@@ -35,7 +35,7 @@ import com.ubiqube.etsi.mano.service.rest.nspkg.ManoNsPackageId;
 @ExtendWith(MockitoExtension.class)
 class ManoNsPackageIdTest {
 	@Mock
-	private ManoClient client;
+	private QueryParameters client;
 	@Mock
 	private ManoQueryBuilder query;
 

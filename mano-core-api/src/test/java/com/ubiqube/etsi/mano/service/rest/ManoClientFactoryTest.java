@@ -26,25 +26,21 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.service.ServerService;
 
-import ma.glasnost.orika.MapperFacade;
-
 @ExtendWith(MockitoExtension.class)
 class ManoClientFactoryTest {
-	@Mock
-	private MapperFacade mapper;
 	@Mock
 	private ServerService server;
 
 	@Test
 	void testGetClient() {
-		final ManoClientFactory srv = new ManoClientFactory(mapper, server);
+		final ManoClientFactory srv = new ManoClientFactory(server);
 		srv.getClient();
 		assertTrue(true);
 	}
 
 	@Test
 	void testgetClient2() {
-		final ManoClientFactory srv = new ManoClientFactory(mapper, server);
+		final ManoClientFactory srv = new ManoClientFactory(server);
 		final Servers servers = new Servers();
 		srv.getClient(servers);
 		assertTrue(true);

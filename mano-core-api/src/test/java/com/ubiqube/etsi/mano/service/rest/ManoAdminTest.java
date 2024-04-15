@@ -30,7 +30,7 @@ import com.ubiqube.etsi.mano.service.rest.admin.ManoAdmin;
 @ExtendWith(MockitoExtension.class)
 class ManoAdminTest {
 	@Mock
-	private ManoClient client;
+	private QueryParameters client;
 
 	@Test
 	void test() {

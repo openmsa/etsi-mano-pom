@@ -25,14 +25,14 @@ import java.util.UUID;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
-import com.ubiqube.etsi.mano.service.rest.ManoClient;
+import com.ubiqube.etsi.mano.service.rest.QueryParameters;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
 
 public class ManoVim {
 
-	private final ManoClient client;
+	private final QueryParameters client;
 
-	public ManoVim(final ManoClient client) {
+	public ManoVim(final QueryParameters client) {
 		this.client = client;
 	}
 

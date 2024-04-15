@@ -19,16 +19,15 @@ package com.ubiqube.etsi.mano.service.rest.vnfind;
 import java.util.List;
 import java.util.UUID;
 
-import com.ubiqube.etsi.mano.dao.mano.VnfIndicator;
 import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.HttpGateway;
-import com.ubiqube.etsi.mano.service.rest.ManoClient;
+import com.ubiqube.etsi.mano.service.rest.QueryParameters;
 
 public class ManoVnfIndicator {
 
-	private final ManoClient client;
+	private final QueryParameters client;
 
-	public ManoVnfIndicator(final ManoClient manoClient) {
+	public ManoVnfIndicator(final QueryParameters manoClient) {
 		this.client = manoClient;
 		manoClient.setFragment("vnfind");
 		manoClient.setQueryType(ApiVersionType.SOL003_VNFIND);
@@ -38,10 +37,10 @@ public class ManoVnfIndicator {
 		return new ManoVnfIndicatorSubscription(client);
 	}
 
-	public List<VnfIndicator> list() {
+	public List<Object> list() {
 		return client.createQuery()
 				.setInClassList(HttpGateway::getVnfIndicatorClassList)
-				.setOutClass(VnfIndicator.class)
+				.setOutClass(HttpGateway::mapToVnfIndicator)
 				.getList();
 	}
 

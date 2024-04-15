@@ -20,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 import java.net.URI;
@@ -37,22 +36,18 @@ import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.service.rest.grant.ManoGrant;
 
-import ma.glasnost.orika.MapperFacade;
-
 @ExtendWith(MockitoExtension.class)
 class ManoGrantTest {
 	@Mock
-	private ManoClient manoClient;
+	private QueryParameters manoClient;
 	@Mock
 	private ManoQueryBuilder manoQueryBuilder;
-	@Mock
-	private MapperFacade mapper;
 
 	@Test
 	void testWithNoLocation() throws Exception {
 		final ManoGrant mg = new ManoGrant(manoClient);
 		final GrantInterface grant = new GrantResponse();
-		when(manoClient.createQuery(any())).thenReturn(manoQueryBuilder);
+		when(manoClient.createQuery()).thenReturn(manoQueryBuilder);
 		when(manoQueryBuilder.setWireInClass(any())).thenReturn(manoQueryBuilder);
 		when(manoQueryBuilder.setWireOutClass(any())).thenReturn(manoQueryBuilder);
 		when(manoQueryBuilder.setOutClass(any())).thenReturn(manoQueryBuilder);
@@ -65,7 +60,7 @@ class ManoGrantTest {
 	void testCreate() throws Exception {
 		final ManoGrant mg = new ManoGrant(manoClient);
 		final GrantInterface grant = new GrantResponse();
-		when(manoClient.createQuery(any())).thenReturn(manoQueryBuilder);
+		when(manoClient.createQuery()).thenReturn(manoQueryBuilder);
 		when(manoQueryBuilder.setWireInClass(any())).thenReturn(manoQueryBuilder);
 		when(manoQueryBuilder.setWireOutClass(any())).thenReturn(manoQueryBuilder);
 		when(manoQueryBuilder.setOutClass(any())).thenReturn(manoQueryBuilder);
@@ -85,9 +80,7 @@ class ManoGrantTest {
 		final ResponseEntity<Object> resp = ResponseEntity.ok()
 				.build();
 		when(manoQueryBuilder.getRaw()).thenReturn(resp);
-		when(manoClient.getMapper()).thenReturn(mapper);
-		final GrantResponse grant = new GrantResponse();
-		when(mapper.map(any(), eq(GrantResponse.class))).thenReturn(grant);
+		when(manoQueryBuilder.getSingle()).thenReturn(new GrantResponse());
 		final GrantResponse res = mg.find();
 		assertTrue(res.getAvailable());
 	}

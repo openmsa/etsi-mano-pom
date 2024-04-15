@@ -23,27 +23,28 @@ import com.ubiqube.etsi.mano.service.event.model.Subscription;
 
 public class ManoVrQan {
 
-	private final ManoClient client;
+	private final QueryParameters client;
 
-	public ManoVrQan(final ManoClient manoClient) {
+	public ManoVrQan(final QueryParameters manoClient) {
 		this.client = manoClient;
 	}
 
 	public Subscription subscribe(final Subscription subscription) {
 		client.setFragment("/subscriptions");
-		return client.createQuery()
-				.setWireInClass(HttpGateway::getVrQanSubscriptionRequest)
+		final ManoQueryBuilder<Object, Subscription> q = client.createQuery();
+		return (Subscription) q
+				.setWireInClass((HttpGateway x, Object y) -> x.mapVrQanSubscriptionRequest(subscription))
 				.setWireOutClass(HttpGateway::getVrQanSubscriptionClass)
-				.setOutClass(Subscription.class)
+				.setOutClass(HttpGateway::mapVrQanSubscriptionSubscription)
 				.post(subscription);
 	}
 
 	public Subscription find(final UUID id) {
 		client.setFragment("/subscriptions/{id}");
 		client.setObjectId(id);
-		return client.createQuery()
+		return (Subscription) client.createQuery()
 				.setWireOutClass(HttpGateway::getVrQanSubscriptionClass)
-				.setOutClass(Subscription.class)
+				.setOutClass(HttpGateway::mapVrQanSubscriptionSubscription)
 				.getSingle();
 	}
 

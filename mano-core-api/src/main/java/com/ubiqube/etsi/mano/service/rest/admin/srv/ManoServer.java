@@ -26,11 +26,10 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
-import com.ubiqube.etsi.mano.service.rest.ManoClient;
+import com.ubiqube.etsi.mano.service.rest.QueryParameters;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
 
 import jakarta.annotation.Nullable;
-import ma.glasnost.orika.MapperFacade;
 
 /**
  *
@@ -39,20 +38,19 @@ import ma.glasnost.orika.MapperFacade;
  */
 public class ManoServer {
 
-	private final ManoClient client;
+	private final QueryParameters client;
 
-	public ManoServer(final ManoClient client) {
+	public ManoServer(final QueryParameters client) {
 		this.client = client;
 	}
 
-	public List<Servers> list(final MapperFacade mapper, final String root) {
+	public List<Servers> list(final String root) {
 		final ParameterizedTypeReference<List<Servers>> res = new ParameterizedTypeReference<>() {
 			// Nothing.
 		};
 		final ServerAdapter server = client.getServer();
 		final URI uri = buildUri(root, "admin/server");
-		final List<?> resp = server.rest().get(uri, res, null);
-		return mapper.mapAsList(resp, Servers.class);
+		return server.rest().get(uri, res, null);
 	}
 
 	private URI buildUri(final String urlRoot, final String url) {

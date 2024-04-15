@@ -23,13 +23,13 @@ import com.ubiqube.etsi.mano.dao.mano.BlueZoneGroupInformation;
 import com.ubiqube.etsi.mano.dao.mano.ExtManagedVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.ExtVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.ZoneInfoEntity;
+import com.ubiqube.etsi.mano.dao.mano.v2.AbstractBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.BlueprintParameters;
-import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 
-public class TestBluePrint extends VnfBlueprint {
+public class TestBluePrint extends AbstractBlueprint<TestTask, TestInstance> {
 
-	private final Set<TestTask> task = Set.of();
+	private Set<TestTask> task = Set.of();
 	private Set<VimConnectionInformation> vimConn;
 	private Set<TestTask> tasks;
 	private TestInstance instance;
@@ -42,6 +42,14 @@ public class TestBluePrint extends VnfBlueprint {
 	}
 
 	@Override
+	public Set<TestTask> getTasks() {
+		return task;
+	}
+
+	public TestInstance getVnfInstance() {
+		return instance;
+	}
+
 	public void setParameters(final BlueprintParameters parameters) {
 		this.parameters = parameters;
 	}
@@ -102,9 +110,24 @@ public class TestBluePrint extends VnfBlueprint {
 		return id;
 	}
 
-	@Override
 	public void setId(final UUID id) {
 		this.id = id;
+	}
+
+	@Override
+	public void addTask(final TestTask task) {
+		tasks.add(task);
+
+	}
+
+	@Override
+	public TestInstance getInstance() {
+		return instance;
+	}
+
+	@Override
+	public void setTasks(final Set<TestTask> tasks) {
+		this.task = tasks;
 	}
 
 }

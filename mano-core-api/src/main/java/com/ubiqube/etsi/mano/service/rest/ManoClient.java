@@ -16,12 +16,6 @@
  */
 package com.ubiqube.etsi.mano.service.rest;
 
-import java.util.Objects;
-import java.util.UUID;
-import java.util.function.Function;
-
-import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
-import com.ubiqube.etsi.mano.service.HttpGateway;
 import com.ubiqube.etsi.mano.service.rest.admin.ManoAdmin;
 import com.ubiqube.etsi.mano.service.rest.grant.ManoGrant;
 import com.ubiqube.etsi.mano.service.rest.nspkg.ManoNsPackage;
@@ -32,79 +26,17 @@ import com.ubiqube.etsi.mano.service.rest.vnflcm.ManoVnfLcmOpOccs;
 import com.ubiqube.etsi.mano.service.rest.vnfpkg.ManoVnfPackage;
 import com.ubiqube.etsi.mano.service.rest.vnfpm.ManoVnfPm;
 
-import jakarta.annotation.Nonnull;
-import jakarta.annotation.Nullable;
-import ma.glasnost.orika.MapperFacade;
-
 /**
  *
  * @author Olivier Vignaud {@literal <ovi@ubiqube.com>}
  *
  */
 public class ManoClient {
-	@Nonnull
-	private final MapperFacade mapper;
-	@Nonnull
-	private final ServerAdapter server;
-	@Nullable
-	private Function<HttpGateway, ?> requestObject;
-	@Nullable
-	private String setFragment;
-	@Nullable
-	private ApiVersionType setQueryType;
-	// Can be null.
-	private UUID objectId;
 
-	public ManoClient(final MapperFacade mapper, final ServerAdapter server) {
-		this.mapper = mapper;
-		this.server = server;
-	}
+	private final QueryParameters params;
 
-	public void setQueryType(final ApiVersionType sol003Vnflcm) {
-		this.setQueryType = sol003Vnflcm;
-	}
-
-	public void setObjectId(final UUID vnfInstanceId) {
-		this.objectId = vnfInstanceId;
-	}
-
-	public ManoQueryBuilder createQuery() {
-		return new ManoQueryBuilder(mapper, this);
-	}
-
-	public ManoQueryBuilder createQuery(final Function<HttpGateway, ?> func) {
-		this.requestObject = Objects.requireNonNull(func, "HttpGateway function cannot be null.");
-		return new ManoQueryBuilder(mapper, this);
-	}
-
-	public void setFragment(final String string) {
-		this.setFragment = string;
-	}
-
-	public ServerAdapter getServer() {
-		return server;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Nullable
-	public <T> Function<HttpGateway, T> getRequestObject() {
-		return (Function<HttpGateway, T>) Objects.requireNonNull(requestObject);
-	}
-
-	public String getSetFragment() {
-		return Objects.requireNonNull(setFragment);
-	}
-
-	/**
-	 *
-	 * @return Cannot be null.
-	 */
-	public UUID getObjectId() {
-		return objectId;
-	}
-
-	public ApiVersionType getQueryType() {
-		return Objects.requireNonNull(setQueryType);
+	public ManoClient(final ServerAdapter server) {
+		this.params = new QueryParameters(server);
 	}
 
 	/**
@@ -113,46 +45,42 @@ public class ManoClient {
 	 * @return An instance.
 	 */
 	public ManoVnfInstance vnfInstance() {
-		return new ManoVnfInstance(this);
+		return new ManoVnfInstance(params);
 	}
 
 	public ManoGrant grant() {
-		return new ManoGrant(this);
+		return new ManoGrant(params);
 	}
 
 	public ManoVnfPackage vnfPackage() {
-		return new ManoVnfPackage(this);
-	}
-
-	public MapperFacade getMapper() {
-		return mapper;
+		return new ManoVnfPackage(params);
 	}
 
 	public ManoVnfLcmOpOccs vnfLcmOpOccs() {
-		return new ManoVnfLcmOpOccs(this);
+		return new ManoVnfLcmOpOccs(params);
 	}
 
 	public ManoNsPackage nsPackage() {
-		return new ManoNsPackage(this);
+		return new ManoNsPackage(params);
 	}
 
 	public ManoAdmin admin() {
-		return new ManoAdmin(this);
+		return new ManoAdmin(params);
 	}
 
 	public ManoVnfPm vnfPm() {
-		return new ManoVnfPm(this);
+		return new ManoVnfPm(params);
 	}
 
 	public ManoVnfFm vnfFm() {
-		return new ManoVnfFm(this);
+		return new ManoVnfFm(params);
 	}
 
 	public ManoVnfIndicator vnfIndicator() {
-		return new ManoVnfIndicator(this);
+		return new ManoVnfIndicator(params);
 	}
 
 	public ManoVrQan vrQan() {
-		return new ManoVrQan(this);
+		return new ManoVrQan(params);
 	}
 }

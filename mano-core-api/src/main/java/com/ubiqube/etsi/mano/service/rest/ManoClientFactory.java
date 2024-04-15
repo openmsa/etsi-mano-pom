@@ -21,8 +21,6 @@ import org.springframework.stereotype.Service;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.service.ServerService;
 
-import ma.glasnost.orika.MapperFacade;
-
 /**
  *
  * @author Olivier Vignaud {@literal <ovi@ubiqube.com>}
@@ -31,22 +29,19 @@ import ma.glasnost.orika.MapperFacade;
 @Service
 public class ManoClientFactory {
 
-	private final MapperFacade mapper;
 	private final ServerService serverService;
 
-	public ManoClientFactory(final MapperFacade mapper, final ServerService serverService) {
-		super();
-		this.mapper = mapper;
+	public ManoClientFactory(final ServerService serverService) {
 		this.serverService = serverService;
 	}
 
 	public ManoClient getClient() {
 		final ServerAdapter server = serverService.findNearestServer();
-		return new ManoClient(mapper, server);
+		return new ManoClient(server);
 	}
 
 	public ManoClient getClient(final Servers servers) {
 		final ServerAdapter server = serverService.buildServerAdapter(servers);
-		return new ManoClient(mapper, server);
+		return new ManoClient(server);
 	}
 }

@@ -30,7 +30,7 @@ import com.ubiqube.etsi.mano.service.rest.nspkg.ManoNsPackage;
 @ExtendWith(MockitoExtension.class)
 class ManoNsPackageTest {
 	@Mock
-	private ManoClient client;
+	private QueryParameters client;
 	@Mock
 	private ManoQueryBuilder query;
 
@@ -47,9 +47,10 @@ class ManoNsPackageTest {
 	@Test
 	void testCreate() {
 		final ManoNsPackage srv = new ManoNsPackage(client);
-		when(client.createQuery(any())).thenReturn(query);
+		when(client.createQuery()).thenReturn(query);
 		when(query.setWireOutClass(any())).thenReturn(query);
 		when(query.setOutClass(any())).thenReturn(query);
+		when(query.setWireInClass(any())).thenReturn(query);
 		srv.create(null);
 		assertTrue(true);
 	}

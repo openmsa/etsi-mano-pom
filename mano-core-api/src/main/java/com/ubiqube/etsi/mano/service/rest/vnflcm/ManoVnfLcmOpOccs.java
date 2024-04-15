@@ -26,7 +26,8 @@ import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.HttpGateway;
-import com.ubiqube.etsi.mano.service.rest.ManoClient;
+import com.ubiqube.etsi.mano.service.rest.ManoQueryBuilder;
+import com.ubiqube.etsi.mano.service.rest.QueryParameters;
 
 import jakarta.validation.constraints.NotNull;
 
@@ -40,31 +41,32 @@ public class ManoVnfLcmOpOccs {
 	private static final Logger LOG = LoggerFactory.getLogger(ManoVnfLcmOpOccs.class);
 
 	@NotNull
-	private final ManoClient client;
+	private final QueryParameters client;
 
-	public ManoVnfLcmOpOccs(final ManoClient client, final UUID id) {
+	public ManoVnfLcmOpOccs(final QueryParameters client, final UUID id) {
 		this.client = client;
 		client.setQueryType(ApiVersionType.SOL003_VNFLCM);
 		client.setObjectId(id);
 		client.setFragment("vnf_lcm_op_occs");
 	}
 
-	public ManoVnfLcmOpOccs(final ManoClient manoClient) {
+	public ManoVnfLcmOpOccs(final QueryParameters manoClient) {
 		this(manoClient, null);
 	}
 
 	public List<VnfBlueprint> list() {
-		return client.createQuery()
+		final ManoQueryBuilder<Object, VnfBlueprint> q = client.createQuery();
+		return q
 				.setInClassList(HttpGateway::getListVnfLcmOpOccs)
-				.setOutClass(VnfBlueprint.class)
+				.setOutClass(HttpGateway::mapToVnfBlueprint)
 				.getList();
 	}
 
 	public VnfBlueprint find() {
 		client.setFragment("vnf_lcm_op_occs/{id}");
-		return client.createQuery()
+		return (VnfBlueprint) client.createQuery()
 				.setWireOutClass(HttpGateway::getVnfLcmOpOccs)
-				.setOutClass(VnfBlueprint.class)
+				.setOutClass(HttpGateway::mapToVnfBlueprint)
 				.getSingle();
 	}
 

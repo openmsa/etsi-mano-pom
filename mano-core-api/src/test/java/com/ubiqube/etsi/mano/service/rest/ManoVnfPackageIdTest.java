@@ -35,7 +35,7 @@ import com.ubiqube.etsi.mano.service.rest.vnfpkg.ManoVnfPackageId;
 @ExtendWith(MockitoExtension.class)
 class ManoVnfPackageIdTest {
 	@Mock
-	private ManoClient manoClient;
+	private QueryParameters manoClient;
 	@Mock
 	private ManoQueryBuilder manoQueryBuilder;
 

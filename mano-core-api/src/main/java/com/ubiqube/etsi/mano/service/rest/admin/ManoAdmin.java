@@ -16,7 +16,7 @@
  */
 package com.ubiqube.etsi.mano.service.rest.admin;
 
-import com.ubiqube.etsi.mano.service.rest.ManoClient;
+import com.ubiqube.etsi.mano.service.rest.QueryParameters;
 import com.ubiqube.etsi.mano.service.rest.admin.srv.ManoServer;
 import com.ubiqube.etsi.mano.service.rest.admin.vim.ManoVim;
 
@@ -27,9 +27,9 @@ import com.ubiqube.etsi.mano.service.rest.admin.vim.ManoVim;
  */
 public class ManoAdmin {
 
-	private final ManoClient client;
+	private final QueryParameters client;
 
-	public ManoAdmin(final ManoClient manoClient) {
+	public ManoAdmin(final QueryParameters manoClient) {
 		this.client = manoClient;
 	}
 

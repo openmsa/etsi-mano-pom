@@ -36,7 +36,7 @@ import ma.glasnost.orika.MapperFacade;
 @ExtendWith(MockitoExtension.class)
 class ManoServerTest {
 	@Mock
-	private ManoClient manoClient;
+	private QueryParameters manoClient;
 	@Mock
 	private HttpGateway httpGateway;
 	@Mock
@@ -59,7 +59,7 @@ class ManoServerTest {
 		final ServerAdapter sa = createAdapter();
 		when(manoClient.getServer()).thenReturn(sa);
 		when(manoClient.getObjectId()).thenReturn(UUID.randomUUID());
-		ms.list(mapper, "http://localhost/");
+		ms.list("http://localhost/");
 		assertTrue(true);
 	}
 

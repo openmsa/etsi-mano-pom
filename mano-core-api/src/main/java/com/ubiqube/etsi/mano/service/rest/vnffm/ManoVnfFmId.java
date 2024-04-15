@@ -19,11 +19,11 @@ package com.ubiqube.etsi.mano.service.rest.vnffm;
 import java.util.UUID;
 
 import com.ubiqube.etsi.mano.alarm.entities.alarm.Alarm;
-import com.ubiqube.etsi.mano.service.rest.ManoClient;
+import com.ubiqube.etsi.mano.service.rest.QueryParameters;
 
 public class ManoVnfFmId {
 
-	public ManoVnfFmId(final ManoClient manoClient, final UUID id) {
+	public ManoVnfFmId(final QueryParameters manoClient, final UUID id) {
 		// TODO Auto-generated constructor stub
 	}
 

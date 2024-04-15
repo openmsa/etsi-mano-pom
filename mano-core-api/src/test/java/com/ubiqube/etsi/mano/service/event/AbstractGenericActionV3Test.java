@@ -81,10 +81,10 @@ class AbstractGenericActionV3Test {
 
 	private static Stream<Arguments> providerClass() {
 		return Stream.of(
-				Arguments.of(args.of((srv, i) -> srv.instantiate(i))),
-				Arguments.of(args.of((srv, i) -> srv.terminate(i))),
-				Arguments.of(args.of((srv, i) -> srv.scale(i))),
-				Arguments.of(args.of((srv, i) -> srv.scaleToLevel(i))));
+				Arguments.of(args.of(TestGenericAction::instantiate)),
+				Arguments.of(args.of(TestGenericAction::terminate)),
+				Arguments.of(args.of(TestGenericAction::scale)),
+				Arguments.of(args.of(TestGenericAction::scaleToLevel)));
 	}
 
 	@ParameterizedTest

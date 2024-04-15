@@ -17,12 +17,12 @@
 package com.ubiqube.etsi.mano.service.rest.vnfpm;
 
 import java.util.UUID;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 
 import com.ubiqube.etsi.mano.dao.mano.pm.Threshold;
 import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.HttpGateway;
-import com.ubiqube.etsi.mano.service.rest.ManoClient;
+import com.ubiqube.etsi.mano.service.rest.QueryParameters;
 
 /**
  * Sol003 threshold.
@@ -32,19 +32,20 @@ import com.ubiqube.etsi.mano.service.rest.ManoClient;
  */
 public class ManoThreshold {
 
-	private final ManoClient client;
+	private final QueryParameters client;
 
-	public ManoThreshold(final ManoClient manoClient) {
+	public ManoThreshold(final QueryParameters manoClient) {
 		this.client = manoClient;
 		manoClient.setFragment("threshold");
 		manoClient.setQueryType(ApiVersionType.SOL003_VNFPM);
 	}
 
 	public Threshold create(final Threshold req) {
-		final Function<HttpGateway, Object> request = (final HttpGateway httpGateway) -> httpGateway.createVnfThresholdRequest(req);
-		return client.createQuery(request)
-				.setWireOutClass(HttpGateway::getVnfInstanceClass)
-				.setOutClass(Threshold.class)
+		final BiFunction<HttpGateway, Object, Object> request = (final HttpGateway httpGateway, Object r) -> httpGateway.createVnfThresholdRequest(req);
+		return (Threshold) client.createQuery()
+				.setWireInClass(request)
+				.setWireOutClass(HttpGateway::getVnfThresholdClass)
+				.setOutClass(HttpGateway::mapToThreshold)
 				.post();
 	}
 

@@ -19,11 +19,11 @@ package com.ubiqube.etsi.mano.service.rest.vnfpm;
 import java.util.UUID;
 
 import com.ubiqube.etsi.mano.dao.mano.pm.Threshold;
-import com.ubiqube.etsi.mano.service.rest.ManoClient;
+import com.ubiqube.etsi.mano.service.rest.QueryParameters;
 
 public class ManoThresholdId {
 
-	public ManoThresholdId(final ManoClient client, final UUID id) {
+	public ManoThresholdId(final QueryParameters client, final UUID id) {
 		// TODO Auto-generated constructor stub
 	}
 

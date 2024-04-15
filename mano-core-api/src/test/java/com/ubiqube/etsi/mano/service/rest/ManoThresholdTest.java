@@ -30,16 +30,17 @@ import com.ubiqube.etsi.mano.service.rest.vnfpm.ManoThreshold;
 @ExtendWith(MockitoExtension.class)
 class ManoThresholdTest {
 	@Mock
-	private ManoClient client;
+	private QueryParameters client;
 	@Mock
 	private ManoQueryBuilder query;
 
 	@Test
 	void test() {
 		final ManoThreshold srv = new ManoThreshold(client);
-		when(client.createQuery(any())).thenReturn(query);
+		when(client.createQuery()).thenReturn(query);
 		when(query.setWireOutClass(any())).thenReturn(query);
 		when(query.setOutClass(any())).thenReturn(query);
+		when(query.setWireInClass(any())).thenReturn(query);
 		srv.create(null);
 		assertTrue(true);
 	}

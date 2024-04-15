@@ -25,22 +25,22 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.ubiqube.etsi.mano.dao.mano.pm.PmJob;
 import com.ubiqube.etsi.mano.service.rest.vnfpm.ManoVnfPm;
 
 @ExtendWith(MockitoExtension.class)
 class ManoVnfPmTest {
 	@Mock
-	private ManoClient client;
+	private QueryParameters client;
 	@Mock
 	private ManoQueryBuilder query;
 
 	@Test
 	void test() {
 		final ManoVnfPm srv = new ManoVnfPm(client);
-		when(client.createQuery(any())).thenReturn(query);
+		when(client.createQuery()).thenReturn(query);
 		when(query.setWireOutClass(any())).thenReturn(query);
-		when(query.setOutClass(PmJob.class)).thenReturn(query);
+		when(query.setOutClass(any())).thenReturn(query);
+		when(query.setWireInClass(any())).thenReturn(query);
 		srv.create(null);
 		assertTrue(true);
 	}

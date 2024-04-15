@@ -26,7 +26,7 @@ import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.OnboardingStateType;
 import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.HttpGateway;
-import com.ubiqube.etsi.mano.service.rest.ManoClient;
+import com.ubiqube.etsi.mano.service.rest.QueryParameters;
 
 /**
  *
@@ -37,9 +37,9 @@ public class ManoNsPackageId {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ManoNsPackageId.class);
 
-	private final ManoClient client;
+	private final QueryParameters client;
 
-	public ManoNsPackageId(final ManoClient manoClient, final UUID id) {
+	public ManoNsPackageId(final QueryParameters manoClient, final UUID id) {
 		this.client = manoClient;
 		client.setQueryType(ApiVersionType.SOL005_NSD);
 		client.setFragment("/ns_descriptors/{id}");
@@ -66,9 +66,9 @@ public class ManoNsPackageId {
 	}
 
 	public NsdPackage find() {
-		return client.createQuery()
+		return (NsdPackage) client.createQuery()
 				.setWireOutClass(HttpGateway::getNsdPackageClass)
-				.setOutClass(NsdPackage.class)
+				.setOutClass(HttpGateway::mapToNsdPackage)
 				.getSingle();
 	}
 

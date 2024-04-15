@@ -20,13 +20,13 @@ import java.util.List;
 import java.util.UUID;
 
 import com.ubiqube.etsi.mano.alarm.entities.alarm.Alarm;
-import com.ubiqube.etsi.mano.service.rest.ManoClient;
+import com.ubiqube.etsi.mano.service.rest.QueryParameters;
 
 public class ManoVnfFm {
 
-	private final ManoClient manoClient;
+	private final QueryParameters manoClient;
 
-	public ManoVnfFm(final ManoClient manoClient) {
+	public ManoVnfFm(final QueryParameters manoClient) {
 		this.manoClient = manoClient;
 	}
 

@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -35,44 +36,46 @@ import com.ubiqube.etsi.mano.service.HttpGateway;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
-import ma.glasnost.orika.MapperFacade;
 
 /**
  *
  * @author Olivier Vignaud {@literal <ovi@ubiqube.com>}
  *
  */
-public class ManoQueryBuilder {
+public class ManoQueryBuilder<U, R> {
 	@Nonnull
-	private final MapperFacade mapper;
-	@Nonnull
-	private final ManoClient client;
+	private final QueryParameters client;
 	private Function<HttpGateway, ParameterizedTypeReference<List<Class<?>>>> inClassList;
-	private Function<HttpGateway, Class<?>> wireInClass;
-	private Class<?> outClass;
+	private BiFunction<HttpGateway, Object, Object> wireInClass;
+	private BiFunction<HttpGateway, U, R> outClass;
 	private Function<HttpGateway, Class<?>> wireOutClass;
 
-	public ManoQueryBuilder(final MapperFacade mapper, final ManoClient manoClient) {
-		this.mapper = mapper;
+	public ManoQueryBuilder(final QueryParameters manoClient) {
 		this.client = manoClient;
 	}
 
-	public ManoQueryBuilder setInClassList(final Function<HttpGateway, ParameterizedTypeReference<List<Class<?>>>> func) {
+	public ManoQueryBuilder<U, R> setInClassList(final Function<HttpGateway, ParameterizedTypeReference<List<Class<?>>>> func) {
 		this.inClassList = func;
 		return this;
 	}
 
-	public ManoQueryBuilder setWireInClass(final Function<HttpGateway, Class<?>> func) {
+	/**
+	 * Set input mano class mapper to wire class.
+	 *
+	 * @param func Function to map input to wire object.
+	 * @return An object to send on the wire.
+	 */
+	public ManoQueryBuilder<U, R> setWireInClass(final BiFunction<HttpGateway, Object, Object> func) {
 		this.wireInClass = func;
 		return this;
 	}
 
-	public ManoQueryBuilder setOutClass(final Class<?> class1) {
-		this.outClass = class1;
+	public ManoQueryBuilder<U, R> setOutClass(final BiFunction<HttpGateway, U, R> mapper) {
+		this.outClass = mapper;
 		return this;
 	}
 
-	public ManoQueryBuilder setWireOutClass(final Function<HttpGateway, Class<?>> func) {
+	public ManoQueryBuilder<U, R> setWireOutClass(final Function<HttpGateway, Class<?>> func) {
 		this.wireOutClass = func;
 		return this;
 	}
@@ -85,54 +88,54 @@ public class ManoQueryBuilder {
 		server.rest().delete(uri, Object.class, version);
 	}
 
-	public @Nullable <T> ResponseEntity<T> getRaw() {
+	public @Nullable ResponseEntity<R> getRaw() {
 		final ServerAdapter server = client.getServer();
 		final HttpGateway httpGateway = server.httpGateway();
 		final URI uri = buildUri(server);
 		final String version = httpGateway.getHeaderVersion(client.getQueryType()).orElse(null);
-		return (ResponseEntity<T>) server.rest().getWithReturn(uri, this.wireOutClass.apply(httpGateway), version);
+		return (ResponseEntity<R>) server.rest().getWithReturn(uri, this.wireOutClass.apply(httpGateway), version);
 	}
 
-	public @Nullable <T> T getSingle() {
+	public @Nullable R getSingle() {
 		final ServerAdapter server = client.getServer();
 		final HttpGateway httpGateway = server.httpGateway();
 		final URI uri = buildUri(server);
 		final String version = httpGateway.getHeaderVersion(client.getQueryType()).orElse(null);
-		final ResponseEntity<?> resp = server.rest().getWithReturn(uri, this.wireOutClass.apply(httpGateway), version);
+		final ResponseEntity<U> resp = (ResponseEntity<U>) server.rest().getWithReturn(uri, this.wireOutClass.apply(httpGateway), version);
 		if (null == resp) {
 			return null;
 		}
-		return (T) mapper.map(resp.getBody(), this.outClass);
+		return outClass.apply(httpGateway, resp.getBody());
 	}
 
-	public <T> List<T> getList() {
+	public List<R> getList() {
 		final ServerAdapter server = client.getServer();
 		final URI uri = buildUri(server);
 		final HttpGateway httpGateway = server.httpGateway();
 		final ParameterizedTypeReference<List<Class<?>>> clazz = this.inClassList.apply(httpGateway);
 		final String version = httpGateway.getHeaderVersion(client.getQueryType()).orElse(null);
-		final List<?> resp = server.rest().get(uri, clazz, version);
-		return (List<T>) mapper.mapAsList(resp, this.outClass);
+		final List<U> resp = (List<U>) server.rest().get(uri, clazz, version);
+		return resp.stream().map(x -> outClass.apply(httpGateway, x)).toList();
 	}
 
-	public <T> T post(final Object req) {
+	public R post(final Object req) {
 		final ServerAdapter server = client.getServer();
 		final URI uri = buildUri(server);
 		final HttpGateway httpGateway = server.httpGateway();
 		final Object reqMap = remapRequest(req);
 		final Class<?> clazz = wireOutClass.apply(httpGateway);
 		final String version = httpGateway.getHeaderVersion(client.getQueryType()).orElse(null);
-		final var res = server.rest().post(uri, reqMap, clazz, version);
-		return (T) mapper.map(res, this.outClass);
+		final U res = (U) server.rest().post(uri, reqMap, clazz, version);
+		return outClass.apply(httpGateway, res);
 	}
 
-	public @Nullable <T> ResponseEntity<T> postRaw(final Object req) {
+	public @Nullable ResponseEntity<R> postRaw(final Object req) {
 		final ServerAdapter server = client.getServer();
 		final HttpGateway httpGateway = server.httpGateway();
 		final URI uri = buildUri(server);
 		final Object reqMap = remapRequest(req);
 		final String version = httpGateway.getHeaderVersion(client.getQueryType()).orElse(null);
-		return (ResponseEntity<T>) server.rest().postWithReturn(uri, reqMap, this.wireOutClass.apply(httpGateway), version);
+		return (ResponseEntity<R>) server.rest().postWithReturn(uri, reqMap, this.wireOutClass.apply(httpGateway), version);
 	}
 
 	public @Nullable <T> ResponseEntity<T> postRaw() {
@@ -146,28 +149,24 @@ public class ManoQueryBuilder {
 
 	private Object remapRequest(final Object req) {
 		final HttpGateway httpGateway = client.getServer().httpGateway();
-		final Object obj = wireInClass.apply(httpGateway);
-		if (obj instanceof final Class<?> clz) {
-			return mapper.map(req, clz);
-		}
-		return obj;
+		return wireInClass.apply(httpGateway, req);
 	}
 
-	public <T> T post() {
+	public R post() {
 		final ServerAdapter server = client.getServer();
 		final URI uri = buildUri(server);
 		final HttpGateway httpGateway = server.httpGateway();
 		final Object reqMap = Objects.requireNonNull(client.getRequestObject()).apply(httpGateway);
 		final Class<?> clazz = wireOutClass.apply(httpGateway);
 		final String version = httpGateway.getHeaderVersion(client.getQueryType()).orElse(null);
-		final var res = server.rest().post(uri, reqMap, clazz, version);
-		return (T) mapper.map(res, this.outClass);
+		final U res = (U) server.rest().post(uri, reqMap, clazz, version);
+		return outClass.apply(httpGateway, res);
 	}
 
 	private URI buildUri(final ServerAdapter server) {
 		final Map<String, Object> uriParams = Optional.ofNullable(client.getObjectId())
 				.map(x -> Map.of("id", (Object) x.toString())).orElseGet(Map::of);
-		return server.getUriFor(client.getQueryType(), client.getSetFragment(), uriParams);
+		return server.getUriFor(client.getQueryType(), client.getFragment(), uriParams);
 	}
 
 	public void download(final Path file) {
@@ -202,14 +201,14 @@ public class ManoQueryBuilder {
 		server.rest().upload(uri, path, accept, headers);
 	}
 
-	public <T> T patch(@Nullable final String ifMatch, final Map<String, Object> patch) {
+	public R patch(@Nullable final String ifMatch, final Map<String, Object> patch) {
 		final ServerAdapter server = client.getServer();
 		final URI uri = buildUri(server);
 		final HttpGateway httpGateway = server.httpGateway();
 		final Class<?> clazz = wireOutClass.apply(httpGateway);
 		final String version = httpGateway.getHeaderVersion(client.getQueryType()).orElse(null);
-		final Object res = server.rest().patch(uri, clazz, ifMatch, patch, version);
-		return (T) mapper.map(res, this.outClass);
+		final U res = (U) server.rest().patch(uri, clazz, ifMatch, patch, version);
+		return outClass.apply(httpGateway, res);
 	}
 
 }

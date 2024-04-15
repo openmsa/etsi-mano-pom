@@ -30,7 +30,7 @@ import com.ubiqube.etsi.mano.service.rest.vnfpkg.ManoVnfPackage;
 @ExtendWith(MockitoExtension.class)
 class ManoVnfPackageTest {
 	@Mock
-	private ManoClient client;
+	private QueryParameters client;
 	@Mock
 	private ManoQueryBuilder query;
 
@@ -47,9 +47,10 @@ class ManoVnfPackageTest {
 	@Test
 	void testCreate() {
 		final ManoVnfPackage srv = new ManoVnfPackage(client);
-		when(client.createQuery(any())).thenReturn(query);
+		when(client.createQuery()).thenReturn(query);
 		when(query.setWireOutClass(any())).thenReturn(query);
 		when(query.setOutClass(any())).thenReturn(query);
+		when(query.setWireInClass(any())).thenReturn(query);
 		srv.create(null);
 		assertTrue(true);
 	}

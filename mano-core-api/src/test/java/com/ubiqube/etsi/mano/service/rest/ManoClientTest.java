@@ -18,17 +18,12 @@ package com.ubiqube.etsi.mano.service.rest;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.UUID;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-
-import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
-import com.ubiqube.etsi.mano.service.HttpGateway;
 
 /**
  * Basic test as there is nothing to test.
@@ -42,20 +37,13 @@ class ManoClientTest {
 	private static Stream<Arguments> providerClass() {
 		return Stream.of(
 				Arguments.of(args.of(ManoClient::admin)),
-				Arguments.of(args.of(ManoClient::getObjectId)),
-				Arguments.of(args.of(ManoClient::getQueryType)),
-				Arguments.of(args.of(ManoClient::getRequestObject)),
-				Arguments.of(args.of(ManoClient::getServer)),
-				Arguments.of(args.of(ManoClient::getSetFragment)),
 				Arguments.of(args.of(ManoClient::grant)),
 				Arguments.of(args.of(ManoClient::nsPackage)),
 				Arguments.of(args.of(ManoClient::vnfInstance)),
 				Arguments.of(args.of(ManoClient::vnfLcmOpOccs)),
 				Arguments.of(args.of(ManoClient::vnfPackage)),
 				Arguments.of(args.of(ManoClient::vnfPm)),
-				Arguments.of(args.of(ManoClient::vnfIndicator)),
-				Arguments.of(args.of(srv -> srv.createQuery(x -> ""))),
-				Arguments.of(args.of(ManoClient::createQuery)));
+				Arguments.of(args.of(ManoClient::vnfIndicator)));
 	}
 
 	@ParameterizedTest
@@ -63,11 +51,6 @@ class ManoClientTest {
 	void testName(final args arg) throws Exception {
 		final ServerAdapter serverAdapter = new ServerAdapter(null, null, null);
 		final ManoClient mc = new ManoClient(serverAdapter);
-		mc.setObjectId(UUID.randomUUID());
-		mc.setQueryType(ApiVersionType.SOL002_VNFCONFIG);
-		mc.setFragment("hh");
-		final Function<HttpGateway, ?> func = x -> null;
-		mc.createQuery(func);
 		arg.func().accept(mc);
 		assertTrue(true);
 	}

@@ -38,7 +38,7 @@ import com.ubiqube.etsi.mano.service.rest.admin.srv.ManoServerId;
 @ExtendWith(MockitoExtension.class)
 class ManoServerIdTest {
 	@Mock
-	private ManoClient manoClient;
+	private QueryParameters manoClient;
 	@Mock
 	private HttpGateway httpGateway;
 	@Mock

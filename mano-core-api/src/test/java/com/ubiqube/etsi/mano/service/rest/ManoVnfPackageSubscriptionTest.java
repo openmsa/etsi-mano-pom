@@ -30,7 +30,7 @@ import com.ubiqube.etsi.mano.service.rest.vnfpkg.ManoVnfPackageSubscription;
 @ExtendWith(MockitoExtension.class)
 class ManoVnfPackageSubscriptionTest {
 	@Mock
-	private ManoClient client;
+	private QueryParameters client;
 	@Mock
 	private ManoQueryBuilder query;
 
