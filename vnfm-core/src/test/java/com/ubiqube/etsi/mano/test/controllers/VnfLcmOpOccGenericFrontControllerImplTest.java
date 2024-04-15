@@ -134,10 +134,10 @@ class VnfLcmOpOccGenericFrontControllerImplTest {
 		taskVl.setType(ResourceTypeEnum.VL);
 		tasks.add(taskVl);
 		final VnfTask taskStorage = new StorageTask();
-		taskVl.setType(ResourceTypeEnum.STORAGE);
+		taskStorage.setType(ResourceTypeEnum.STORAGE);
 		tasks.add(taskStorage);
 		final VnfTask taskCompute = new ComputeTask();
-		taskVl.setType(ResourceTypeEnum.COMPUTE);
+		taskCompute.setType(ResourceTypeEnum.COMPUTE);
 		tasks.add(taskCompute);
 		vnfBlue.setTasks(tasks);
 	}
