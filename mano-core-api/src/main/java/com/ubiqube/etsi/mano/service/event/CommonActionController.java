@@ -231,7 +231,7 @@ public class CommonActionController {
 		final URI uri = serverAdapter.getUriFor(ApiVersionType.SOL003_VNFPKGM, SUBSCRIPTIONS);
 		final HttpGateway hg = selectGateway(server);
 		final Class<?> clazz = hg.getVnfPackageSubscriptionClass();
-		final Class<?> clazzWire = hg.getPkgmSubscriptionRequest();
+		final Object clazzWire = hg.getPkgmSubscriptionRequest(subsOut);
 		final String v = hg.getHeaderVersion(ApiVersionType.SOL003_VNFPKGM).orElse(null);
 		final Subscription res = postSubscription(rest, uri, subsOut, clazzWire, clazz, v);
 		res.setSubscriptionType(SubscriptionType.VNF);
@@ -265,8 +265,7 @@ public class CommonActionController {
 				.build();
 	}
 
-	private Subscription postSubscription(final FluxRest rest, final URI uri, final Object subsOut, final Class<?> clazzWire, final Class<?> clazz, @Nullable final String version) {
-		final Object wire = mapper.map(subsOut, clazzWire);
+	private Subscription postSubscription(final FluxRest rest, final URI uri, final Object subsOut, final Object wire, final Class<?> clazz, @Nullable final String version) {
 		final Object res = rest.post(uri, wire, clazz, version);
 		return mapper.map(res, Subscription.class);
 	}
@@ -285,7 +284,7 @@ public class CommonActionController {
 	private boolean checkRemoteSubscription(final RemoteSubscription remoteSubscription) {
 		final Servers server = serverService.findById(remoteSubscription.getRemoteServerId());
 		final ServerAdapter sa = serverService.buildServerAdapter(server);
-		final ManoClient mc = new ManoClient(mapper, sa);
+		final ManoClient mc = new ManoClient(sa);
 		try {
 			final Subscription res = mc.vnfPackage().subscription().find(getSafeUUID(remoteSubscription.getRemoteSubscriptionId()));
 			return res != null;
