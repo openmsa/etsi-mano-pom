@@ -222,7 +222,7 @@ public class HttpGatewayGood extends AbstractHttpGateway {
 	@Override
 	public Version getVersion() {
 		// TODO Auto-generated method stub
-		return null;
+		return Version.of("2.3.4");
 	}
 
 	@Override
