@@ -102,8 +102,8 @@ public class VnfmGateway261 extends AbstractHttpGateway {
 	}
 
 	@Override
-	public Class<?> getVnfIndicatorValueChangeSubscriptionRequest() {
-		return VnfIndicatorSubscriptionRequest.class;
+	public Object getVnfIndicatorValueChangeSubscriptionRequest(final Subscription req) {
+		return null;
 	}
 
 	@Override

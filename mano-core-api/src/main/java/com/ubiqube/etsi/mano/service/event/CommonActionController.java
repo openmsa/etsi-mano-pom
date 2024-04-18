@@ -246,7 +246,7 @@ public class CommonActionController {
 		final URI uri = serverAdapter.getUriFor(ApiVersionType.SOL003_VNFIND, SUBSCRIPTIONS);
 		final HttpGateway hg = selectGateway(server);
 		final Class<?> clazz = hg.getVnfIndicatorValueChangeSubscriptionClass();
-		final Class<?> clazzWire = hg.getVnfIndicatorValueChangeSubscriptionRequest();
+		final Object clazzWire = hg.getVnfIndicatorValueChangeSubscriptionRequest(subsOut);
 		final String v = hg.getHeaderVersion(ApiVersionType.SOL003_VNFIND).orElse(null);
 		final Subscription res = postSubscription(rest, uri, subsOut, clazzWire, clazz, v);
 		res.setSubscriptionType(SubscriptionType.VNFIND);
