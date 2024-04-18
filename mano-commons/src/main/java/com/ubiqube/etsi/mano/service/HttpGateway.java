@@ -67,7 +67,7 @@ public interface HttpGateway {
 
 	Class<?> getVnfIndicatorValueChangeSubscriptionClass();
 
-	Class<?> getVnfIndicatorValueChangeSubscriptionRequest();
+	Object getVnfIndicatorValueChangeSubscriptionRequest(Subscription req);
 
 	Object mapGrantRequest(GrantInterface o);
 

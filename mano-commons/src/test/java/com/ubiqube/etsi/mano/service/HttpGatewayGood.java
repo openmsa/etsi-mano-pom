@@ -88,7 +88,7 @@ public class HttpGatewayGood extends AbstractHttpGateway {
 	}
 
 	@Override
-	public Class<?> getVnfIndicatorValueChangeSubscriptionRequest() {
+	public Object getVnfIndicatorValueChangeSubscriptionRequest(final Subscription req) {
 		// TODO Auto-generated method stub
 		return null;
 	}
