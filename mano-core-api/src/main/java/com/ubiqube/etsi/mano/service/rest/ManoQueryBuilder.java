@@ -142,7 +142,7 @@ public class ManoQueryBuilder<U, R> {
 		final ServerAdapter server = client.getServer();
 		final HttpGateway httpGateway = server.httpGateway();
 		final URI uri = buildUri(server);
-		final Object reqMap = Objects.requireNonNull(client.getRequestObject()).apply(httpGateway);
+		final Object reqMap = Objects.requireNonNull(wireInClass).apply(httpGateway, client.getRequestObject());
 		final String version = httpGateway.getHeaderVersion(client.getQueryType()).orElse(null);
 		return (ResponseEntity<T>) server.rest().postWithReturn(uri, reqMap, this.wireOutClass.apply(httpGateway), version);
 	}
@@ -156,7 +156,7 @@ public class ManoQueryBuilder<U, R> {
 		final ServerAdapter server = client.getServer();
 		final URI uri = buildUri(server);
 		final HttpGateway httpGateway = server.httpGateway();
-		final Object reqMap = Objects.requireNonNull(client.getRequestObject()).apply(httpGateway);
+		final Object reqMap = Objects.requireNonNull(wireInClass).apply(httpGateway, client.getRequestObject());
 		final Class<?> clazz = wireOutClass.apply(httpGateway);
 		final String version = httpGateway.getHeaderVersion(client.getQueryType()).orElse(null);
 		final U res = (U) server.rest().post(uri, reqMap, clazz, version);
