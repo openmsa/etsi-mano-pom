@@ -25,7 +25,6 @@ import org.springframework.core.ParameterizedTypeReference;
 
 import com.ubiqube.etsi.mano.controller.subscription.ApiAndType;
 import com.ubiqube.etsi.mano.dao.mano.CancelModeTypeEnum;
-import com.ubiqube.etsi.mano.dao.mano.GrantInterface;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.ScaleTypeEnum;
@@ -69,11 +68,11 @@ public interface HttpGateway {
 
 	Object getVnfIndicatorValueChangeSubscriptionRequest(Subscription req);
 
-	Object mapGrantRequest(GrantInterface o);
+	Object mapGrantRequest(GrantResponse o);
 
 	Class<?> getGrantResponse();
 
-	Object createGrantRequest(GrantInterface grant);
+	Object createGrantRequest(GrantResponse grant);
 
 	void makeGrantLinks(Object manoGrant);
 

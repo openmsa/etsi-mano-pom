@@ -24,7 +24,6 @@ import org.springframework.core.ParameterizedTypeReference;
 
 import com.ubiqube.etsi.mano.controller.subscription.ApiAndType;
 import com.ubiqube.etsi.mano.dao.mano.CancelModeTypeEnum;
-import com.ubiqube.etsi.mano.dao.mano.GrantInterface;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.ScaleTypeEnum;
@@ -94,7 +93,7 @@ public class HttpGatewayBad extends AbstractHttpGateway {
 	}
 
 	@Override
-	public Object mapGrantRequest(final GrantInterface o) {
+	public Object mapGrantRequest(final GrantResponse o) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -106,7 +105,7 @@ public class HttpGatewayBad extends AbstractHttpGateway {
 	}
 
 	@Override
-	public Object createGrantRequest(final GrantInterface grant) {
+	public Object createGrantRequest(final GrantResponse grant) {
 		// TODO Auto-generated method stub
 		return null;
 	}

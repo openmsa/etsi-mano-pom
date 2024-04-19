@@ -18,12 +18,11 @@ package com.ubiqube.etsi.mano.controller.lcmgrant;
 
 import java.util.UUID;
 
-import com.ubiqube.etsi.mano.dao.mano.GrantInterface;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 
 public interface GrantManagement {
 	GrantResponse get(UUID grantId);
 
-	GrantResponse post(GrantInterface grant);
+	GrantResponse post(GrantResponse grant);
 
 }

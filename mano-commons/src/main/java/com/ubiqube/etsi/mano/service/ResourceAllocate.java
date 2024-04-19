@@ -16,11 +16,10 @@
  */
 package com.ubiqube.etsi.mano.service;
 
-import com.ubiqube.etsi.mano.dao.mano.GrantInterface;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 
 public interface ResourceAllocate {
 
-	GrantResponse sendSyncGrantRequest(GrantInterface req);
+	GrantResponse sendSyncGrantRequest(GrantResponse req);
 
 }
