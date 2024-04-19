@@ -135,14 +135,14 @@ public class ManoVnfInstanceId {
 		return (VnfBlueprint) client.createQuery()
 				.setWireInClass(mapper)
 				.setWireOutClass(HttpGateway::getVnfLcmOpOccsClass)
-				.setOutClass(HttpGateway::mapToVnfBlueprint)
+				.setOutClass(HttpGateway::mapToVnfInstance)
 				.post(cevcr);
 	}
 
 	public @Nullable VnfInstance find() {
 		return (VnfInstance) client.createQuery()
 				.setWireOutClass(HttpGateway::getVnfInstanceClass)
-				.setOutClass(HttpGateway::mapToVnfBlueprint)
+				.setOutClass(HttpGateway::mapToVnfInstance)
 				.getSingle();
 	}
 
