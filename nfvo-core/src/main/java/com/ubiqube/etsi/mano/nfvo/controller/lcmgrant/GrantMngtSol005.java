@@ -26,10 +26,8 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.controller.lcmgrant.GrantManagement;
-import com.ubiqube.etsi.mano.dao.mano.GrantInterface;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
-import com.ubiqube.etsi.mano.nfvo.service.mapping.GrantInterfaceMapping;
 import com.ubiqube.etsi.mano.service.GrantService;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 
@@ -49,12 +47,10 @@ public class GrantMngtSol005 implements GrantManagement {
 	private static final Logger LOG = LoggerFactory.getLogger(GrantMngtSol005.class);
 
 	private final GrantService grantsResponseJpa;
-	private final GrantInterfaceMapping mapper;
 	private final EventManager eventManager;
 
-	public GrantMngtSol005(final GrantService grantsJpa, final GrantInterfaceMapping mapper, final EventManager eventManager) {
+	public GrantMngtSol005(final GrantService grantsJpa, final EventManager eventManager) {
 		this.grantsResponseJpa = grantsJpa;
-		this.mapper = mapper;
 		this.eventManager = eventManager;
 	}
 
@@ -65,11 +61,8 @@ public class GrantMngtSol005 implements GrantManagement {
 	}
 
 	@Override
-	public GrantResponse post(final GrantInterface grantRequest) {
-		final GrantResponse grants = mapper.map(grantRequest);
+	public GrantResponse post(final GrantResponse grants) {
 		grants.setAvailable(Boolean.FALSE);
-		grants.setLcmLink("http://");
-		grants.setInstanceLink("http://");
 		final GrantResponse grantsDb = grantsResponseJpa.save(grants);
 		LOG.debug("Sending grants {}", grantsDb.getId());
 		eventManager.sendGrant(grantsDb.getId(), new HashMap<>());

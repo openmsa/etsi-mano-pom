@@ -26,14 +26,11 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.ubiqube.etsi.mano.dao.mano.GrantInterface;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
-import com.ubiqube.etsi.mano.nfvo.service.mapping.GrantInterfaceMapping;
 import com.ubiqube.etsi.mano.service.GrantService;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 
@@ -41,7 +38,6 @@ import com.ubiqube.etsi.mano.service.event.EventManager;
 class GrantMngtSol005Test {
 	@Mock
 	private GrantService grantJpa;
-	private final GrantInterfaceMapping mapper = Mappers.getMapper(GrantInterfaceMapping.class);
 	@Mock
 	private EventManager eventManager;
 
@@ -55,7 +51,7 @@ class GrantMngtSol005Test {
 	}
 
 	private GrantMngtSol005 createService() {
-		return new GrantMngtSol005(grantJpa, mapper, eventManager);
+		return new GrantMngtSol005(grantJpa, eventManager);
 	}
 
 	@Test
@@ -69,7 +65,7 @@ class GrantMngtSol005Test {
 	@Test
 	void test() {
 		final GrantMngtSol005 srv = createService();
-		final GrantInterface grantRequest = new GrantResponse();
+		final GrantResponse grantRequest = new GrantResponse();
 		final GrantResponse grant = new GrantResponse();
 		when(grantJpa.save(any())).thenReturn(grant);
 		srv.post(grantRequest);
