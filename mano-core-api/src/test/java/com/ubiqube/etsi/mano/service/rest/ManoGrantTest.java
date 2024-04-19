@@ -31,7 +31,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
-import com.ubiqube.etsi.mano.dao.mano.GrantInterface;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.service.rest.grant.ManoGrant;
@@ -46,7 +45,7 @@ class ManoGrantTest {
 	@Test
 	void testWithNoLocation() throws Exception {
 		final ManoGrant mg = new ManoGrant(manoClient);
-		final GrantInterface grant = new GrantResponse();
+		final GrantResponse grant = new GrantResponse();
 		when(manoClient.createQuery()).thenReturn(manoQueryBuilder);
 		when(manoQueryBuilder.setWireInClass(any())).thenReturn(manoQueryBuilder);
 		when(manoQueryBuilder.setWireOutClass(any())).thenReturn(manoQueryBuilder);
@@ -59,7 +58,7 @@ class ManoGrantTest {
 	@Test
 	void testCreate() throws Exception {
 		final ManoGrant mg = new ManoGrant(manoClient);
-		final GrantInterface grant = new GrantResponse();
+		final GrantResponse grant = new GrantResponse();
 		when(manoClient.createQuery()).thenReturn(manoQueryBuilder);
 		when(manoQueryBuilder.setWireInClass(any())).thenReturn(manoQueryBuilder);
 		when(manoQueryBuilder.setWireOutClass(any())).thenReturn(manoQueryBuilder);

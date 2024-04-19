@@ -34,7 +34,6 @@ import com.ubiqube.etsi.mano.common.v261.model.vnf.PkgmSubscription;
 import com.ubiqube.etsi.mano.common.v261.model.vnf.VnfPkgInfo;
 import com.ubiqube.etsi.mano.controller.subscription.ApiAndType;
 import com.ubiqube.etsi.mano.dao.mano.CancelModeTypeEnum;
-import com.ubiqube.etsi.mano.dao.mano.GrantInterface;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.ScaleTypeEnum;
@@ -225,7 +224,7 @@ public class VnfmGateway261 extends AbstractHttpGateway {
 	}
 
 	@Override
-	public Object createGrantRequest(final GrantInterface grant) {
+	public Object createGrantRequest(final GrantResponse grant) {
 		return null;
 	}
 
@@ -368,7 +367,7 @@ public class VnfmGateway261 extends AbstractHttpGateway {
 	}
 
 	@Override
-	public Object mapGrantRequest(final GrantInterface o) {
+	public Object mapGrantRequest(final GrantResponse o) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -28,7 +28,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 
-import com.ubiqube.etsi.mano.dao.mano.GrantInterface;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.exception.GenericException;
@@ -75,8 +74,8 @@ public class ManoGrant {
 		return buildResponse(resp, Objects.requireNonNull(id));
 	}
 
-	public GrantResponse create(final GrantInterface grant) {
-		final BiFunction<HttpGateway, Object, Object> request = (final HttpGateway httpGateway, Object r) -> httpGateway.createGrantRequest(grant);
+	public GrantResponse create(final GrantResponse grant) {
+		final BiFunction<HttpGateway, Object, Object> request = (final HttpGateway httpGateway, final Object r) -> httpGateway.createGrantRequest(grant);
 		final ResponseEntity<?> resp = client.createQuery()
 				.setWireInClass(request)
 				.setWireOutClass(HttpGateway::getGrantResponse)
