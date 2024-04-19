@@ -193,6 +193,8 @@ class ManoQueryBuilderTest {
 		final Function func2 = x -> "";
 		when(manoClient.getRequestObject()).thenReturn(func2);
 		mqb.setWireOutClass(func);
+		final BiFunction func4 = (x, y) -> "";
+		mqb.setWireInClass(func4);
 		mqb.postRaw();
 		assertTrue(true);
 	}
@@ -213,6 +215,7 @@ class ManoQueryBuilderTest {
 		mqb.setWireOutClass(func);
 		final BiFunction func4 = (x, y) -> "";
 		mqb.setOutClass(func4);
+		mqb.setWireInClass(func4);
 		mqb.post();
 		assertTrue(true);
 	}
