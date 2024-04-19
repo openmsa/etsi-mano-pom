@@ -26,7 +26,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.controller.lcmgrant.GrantManagement;
-import com.ubiqube.etsi.mano.dao.mano.GrantInterface;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 
 @ExtendWith(MockitoExtension.class)
@@ -38,7 +37,7 @@ class VnfResourceAllocateTest {
 	@Test
 	void test() {
 		final VnfResourceAllocate srv = new VnfResourceAllocate(grantManagement);
-		final GrantInterface req = new GrantResponse();
+		final GrantResponse req = new GrantResponse();
 		final GrantResponse resp = new GrantResponse();
 		resp.setAvailable(false);
 		final GrantResponse resp2 = new GrantResponse();

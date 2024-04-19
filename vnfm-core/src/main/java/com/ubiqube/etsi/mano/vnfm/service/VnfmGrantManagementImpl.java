@@ -21,7 +21,6 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.controller.lcmgrant.GrantManagement;
-import com.ubiqube.etsi.mano.dao.mano.GrantInterface;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.service.rest.ManoClientFactory;
 
@@ -46,7 +45,7 @@ public class VnfmGrantManagementImpl implements GrantManagement {
 	}
 
 	@Override
-	public GrantResponse post(final GrantInterface grant) {
+	public GrantResponse post(final GrantResponse grant) {
 		return manoClientFactory.getClient()
 				.grant()
 				.create(grant);

@@ -21,7 +21,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.controller.lcmgrant.GrantManagement;
-import com.ubiqube.etsi.mano.dao.mano.GrantInterface;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.service.ResourceAllocate;
@@ -44,11 +43,11 @@ public class VnfResourceAllocate implements ResourceAllocate {
 	}
 
 	@Override
-	public GrantResponse sendSyncGrantRequest(final GrantInterface req) {
+	public GrantResponse sendSyncGrantRequest(final GrantResponse req) {
 		return sendAndWaitGrantRequest(req);
 	}
 
-	private GrantResponse sendAndWaitGrantRequest(final GrantInterface grantRequest) {
+	private GrantResponse sendAndWaitGrantRequest(final GrantResponse grantRequest) {
 		final GrantResponse grants = grantManagement.post(grantRequest);
 		return pollGrants(grants);
 	}
