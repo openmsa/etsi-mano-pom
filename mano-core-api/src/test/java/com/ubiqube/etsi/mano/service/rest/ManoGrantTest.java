@@ -80,6 +80,7 @@ class ManoGrantTest {
 				.build();
 		when(manoQueryBuilder.getRaw()).thenReturn(resp);
 		when(manoQueryBuilder.getSingle()).thenReturn(new GrantResponse());
+		when(manoQueryBuilder.setOutClass(any())).thenReturn(manoQueryBuilder);
 		final GrantResponse res = mg.find();
 		assertTrue(res.getAvailable());
 	}
@@ -93,6 +94,7 @@ class ManoGrantTest {
 				.status(202)
 				.build();
 		when(manoQueryBuilder.getRaw()).thenReturn(resp);
+		when(manoQueryBuilder.setOutClass(any())).thenReturn(manoQueryBuilder);
 		final GrantResponse res = mg.find();
 		assertFalse(res.getAvailable());
 	}
