@@ -17,11 +17,11 @@
 package com.ubiqube.etsi.mano.service.mapping;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 
 import com.ubiqube.etsi.mano.dao.mano.GrantInformationExt;
 import com.ubiqube.etsi.mano.dao.mano.VimTask;
-import org.mapstruct.Mapping;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface GrantInformationExtMapping {
@@ -29,7 +29,7 @@ public interface GrantInformationExtMapping {
 	@Mapping(target = "containerNamespace", ignore = true)
 	@Mapping(target = "mcioConstraints", ignore = true)
 	@Mapping(target = "reservationId", ignore = true)
-	@Mapping(target = "resourceDefinitionId", ignore = true)
+	@Mapping(target = "resourceDefinitionId", source = "id")
 	@Mapping(target = "resourceGroupId", ignore = true)
 	@Mapping(target = "resourceId", ignore = true)
 	@Mapping(target = "resourceProviderId", ignore = true)
