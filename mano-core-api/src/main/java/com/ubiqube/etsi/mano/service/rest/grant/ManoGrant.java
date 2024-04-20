@@ -70,6 +70,7 @@ public class ManoGrant {
 	public GrantResponse find() {
 		final ResponseEntity<?> resp = client.createQuery()
 				.setWireOutClass(HttpGateway::getGrantResponse)
+				.setOutClass(HttpGateway::mapToGrantResponse)
 				.getRaw();
 		return buildResponse(resp, Objects.requireNonNull(id));
 	}
@@ -117,6 +118,7 @@ public class ManoGrant {
 		} else {
 			grants = (GrantResponse) client.createQuery()
 					.setWireOutClass(HttpGateway::getGrantResponse)
+					.setOutClass(HttpGateway::mapToGrantResponse)
 					.getSingle();
 			grants.setAvailable(true);
 		}
