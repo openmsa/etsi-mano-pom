@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.service.rest.nspkg;
 
 import java.nio.file.Path;
+import java.util.Map;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -74,6 +75,14 @@ public class ManoNsPackageId {
 
 	public void delete() {
 		client.createQuery().delete();
+	}
+
+	public NsdPackage patch(final String ifMatch, final Map<String, Object> patch) {
+		return (NsdPackage) client.createQuery()
+				.setWireOutClass(HttpGateway::getNsdPackageClass)
+				.setOutClass(HttpGateway::mapToNsdPackage)
+				.patch(ifMatch, patch);
+
 	}
 
 }
