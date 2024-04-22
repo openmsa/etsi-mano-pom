@@ -39,11 +39,7 @@ import com.ubiqube.etsi.mano.jpa.ConnectionInformationJpa;
 import com.ubiqube.etsi.mano.service.mapping.BlueZoneGroupInformationMapping;
 import com.ubiqube.etsi.mano.service.mapping.GrantInformationExtMapping;
 import com.ubiqube.etsi.mano.service.mapping.GrantMapper;
-import com.ubiqube.etsi.mano.service.mapping.VnfGrantMapping;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
-
-import ma.glasnost.orika.impl.DefaultMapperFactory;
-import ma.glasnost.orika.impl.generator.EclipseJdtCompilerStrategy;
 
 @ExtendWith(MockitoExtension.class)
 class AbstractGrantServiceTest {
@@ -53,14 +49,13 @@ class AbstractGrantServiceTest {
 	private VimManager vimManager;
 	@Mock
 	private ConnectionInformationJpa connectionJpa;
-	private final VnfGrantMapping vnfGrantMapping = Mappers.getMapper(VnfGrantMapping.class);
 	@Mock
 	private GrantMapper vnfGrantMapper;
 	private final GrantInformationExtMapping grantInformationExtMapping = Mappers.getMapper(GrantInformationExtMapping.class);
 	private final BlueZoneGroupInformationMapping blueZoneGroupInformationMapping = Mappers.getMapper(BlueZoneGroupInformationMapping.class);
 
 	public AbstractGrantServiceTest() {
-		final DefaultMapperFactory mapperFactory = new DefaultMapperFactory.Builder().compilerStrategy(new EclipseJdtCompilerStrategy()).build();
+		//
 	}
 
 	@Test
