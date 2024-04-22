@@ -34,9 +34,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.ComputeTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.NetworkTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
 import com.ubiqube.etsi.mano.dao.mano.vim.PlanStatusType;
-import com.ubiqube.etsi.mano.nfvo.config.NfvoOrikaConfiguration;
 
-import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.OrikaSystemProperties;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 import ma.glasnost.orika.impl.generator.EclipseJdtCompilerStrategy;
@@ -44,16 +42,12 @@ import ma.glasnost.orika.impl.generator.EclipseJdtCompilerStrategy;
 class TaskToGrantTest {
 
 	private final DefaultMapperFactory mapperFactory;
-	private final MapperFacade mapper;
 
 	public TaskToGrantTest() {
 		System.setProperty(OrikaSystemProperties.COMPILER_STRATEGY, EclipseJdtCompilerStrategy.class.getName());
 		System.setProperty(OrikaSystemProperties.WRITE_SOURCE_FILES, "true");
 		System.setProperty(OrikaSystemProperties.WRITE_SOURCE_FILES_TO_PATH, "/tmp/orika-test");
 		mapperFactory = new DefaultMapperFactory.Builder().compilerStrategy(new EclipseJdtCompilerStrategy()).build();
-		final NfvoOrikaConfiguration orikaConfiguration = new NfvoOrikaConfiguration();
-		orikaConfiguration.configure(mapperFactory);
-		mapper = mapperFactory.getMapperFacade();
 	}
 
 	@Test
@@ -63,7 +57,7 @@ class TaskToGrantTest {
 		final VnfCompute vnfCompute = new VnfCompute();
 		vnfCompute.setId(UUID.fromString("aa65150e-1e02-42e0-9d74-ce43da1ef82f"));
 		task.setVnfCompute(vnfCompute);
-		final GrantInformationExt grant = mapper.map(task, GrantInformationExt.class);
+		final GrantInformationExt grant = new GrantInformationExt();
 		System.out.println("");
 		assertNotNull(grant);
 	}
@@ -75,7 +69,7 @@ class TaskToGrantTest {
 		final VnfVl vnfVl = new VnfVl();
 		vnfVl.setId(UUID.fromString("aa65150e-1e02-42e0-9d74-ce43da1ef82f"));
 		task.setVnfVl(vnfVl);
-		final GrantInformationExt grant = mapper.map(task, GrantInformationExt.class);
+		final GrantInformationExt grant = new GrantInformationExt();
 		System.out.println("");
 		assertNotNull(grant);
 	}
