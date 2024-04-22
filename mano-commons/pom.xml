@@ -70,11 +70,6 @@
 			<artifactId>jackson-core</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>ma.glasnost.orika</groupId>
-			<artifactId>ubi-orika-core</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
 		</dependency>
@@ -124,11 +119,6 @@
 		<dependency>
 			<groupId>uk.co.jemos.podam</groupId>
 			<artifactId>podam</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>ma.glasnost.orika</groupId>
-			<artifactId>ubi-orika-eclipse-tools</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
