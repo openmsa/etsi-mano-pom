@@ -31,14 +31,10 @@ import com.ubiqube.etsi.mano.service.ServerService;
 import com.ubiqube.etsi.mano.service.rest.FluxRest;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
 
-import ma.glasnost.orika.MapperFacade;
-
 @ExtendWith(MockitoExtension.class)
 class VnfInstanceServiceNfvoTest {
 	@Mock
 	private ServerService serverService;
-	@Mock
-	private MapperFacade mapper;
 	@Mock
 	private ServerAdapter serverAdapter;
 	@Mock
@@ -48,7 +44,7 @@ class VnfInstanceServiceNfvoTest {
 
 	@Test
 	void testName() throws Exception {
-		final VnfInstanceServiceNfvo srv = new VnfInstanceServiceNfvo(serverService, mapper);
+		final VnfInstanceServiceNfvo srv = new VnfInstanceServiceNfvo(serverService);
 		when(serverService.findNearestServer()).thenReturn(serverAdapter);
 		when(serverAdapter.httpGateway()).thenReturn(httpGateway);
 		when(serverAdapter.rest()).thenReturn(fluxRest);
