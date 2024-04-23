@@ -67,7 +67,6 @@ import com.ubiqube.etsi.mano.service.rest.ManoClient;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
 
 import jakarta.annotation.Nullable;
-import ma.glasnost.orika.MapperFacade;
 
 /**
  *
@@ -78,7 +77,6 @@ import ma.glasnost.orika.MapperFacade;
 public class CommonActionController {
 	private static final Logger LOG = LoggerFactory.getLogger(CommonActionController.class);
 
-	private static final String SUBSCRIPTIONS = "subscriptions";
 	private static final String NOTIFICATION_TYPES_0 = "notificationTypes[0]";
 	private static final List<String> VNFM_FRAGMENT = Arrays.asList("vnflcm", "vnfpm", "vnffm", "vnfind", "vrqan", "vnfsnapshotpkgm");
 	private static final List<String> NFVO_FRAGMENT = Arrays.asList("grant", "vnfpkgm", "nsd", "nslcm", "nspm", "nsfm", "nfvici", "vnfsnapshotpkgm", "lcmcoord");
@@ -89,13 +87,11 @@ public class CommonActionController {
 	private final ObjectProvider<SecutiryConfig> secutiryConfig;
 	private final ApiVersionMapping apiVersionMapping;
 	private final ServerService serverService;
-	private final MapperFacade mapper;
 
 	public CommonActionController(final ServersJpa serversJpa, final List<com.ubiqube.etsi.mano.service.HttpGateway> httpGateway,
-			final MapperFacade mapper, final ManoProperties manoProperties, final ObjectProvider<SecutiryConfig> secutiryConfig, final ServerService serverService, final ApiVersionMapping apiVersionMapping) {
+			final ManoProperties manoProperties, final ObjectProvider<SecutiryConfig> secutiryConfig, final ServerService serverService, final ApiVersionMapping apiVersionMapping) {
 		this.serversJpa = serversJpa;
 		this.httpGateway = httpGateway;
-		this.mapper = mapper;
 		this.manoProperties = manoProperties;
 		this.secutiryConfig = secutiryConfig;
 		this.apiVersionMapping = apiVersionMapping;
@@ -224,31 +220,21 @@ public class CommonActionController {
 	}
 
 	private Subscription vnfPackageSubscribe(final ServerAdapter serverAdapter, final String eventName, final String url) {
-		final FluxRest rest = serverAdapter.rest();
 		final Servers server = serverAdapter.getServer();
 		final List<FilterAttributes> filters = List.of(FilterAttributes.of(NOTIFICATION_TYPES_0, eventName));
 		final Subscription subsOut = createSubscriptionWithFilter(ApiTypesEnum.SOL003, url, SubscriptionType.NSDVNF, filters, server.getLocalUser());
-		final URI uri = serverAdapter.getUriFor(ApiVersionType.SOL003_VNFPKGM, SUBSCRIPTIONS);
-		final HttpGateway hg = selectGateway(server);
-		final Class<?> clazz = hg.getVnfPackageSubscriptionClass();
-		final Object clazzWire = hg.getPkgmSubscriptionRequest(subsOut);
-		final String v = hg.getHeaderVersion(ApiVersionType.SOL003_VNFPKGM).orElse(null);
-		final Subscription res = postSubscription(rest, uri, subsOut, clazzWire, clazz, v);
+		final ManoClient mc = new ManoClient(serverAdapter);
+		final Subscription res = mc.vnfPackage().subscription().subscribe(subsOut);
 		res.setSubscriptionType(SubscriptionType.VNF);
 		return res;
 	}
 
 	private Subscription vnfIndicatorValueChangeSubscribe(final ServerAdapter serverAdapter) {
-		final FluxRest rest = serverAdapter.rest();
 		final Servers server = serverAdapter.getServer();
 		final List<FilterAttributes> filters = List.of(FilterAttributes.of(NOTIFICATION_TYPES_0, "VnfIndicatorValueChangeNotification"));
 		final Subscription subsOut = createSubscriptionWithFilter(ApiTypesEnum.SOL003, "/vnfind/v1/notification/value-change", SubscriptionType.VNFIND, filters, server.getLocalUser());
-		final URI uri = serverAdapter.getUriFor(ApiVersionType.SOL003_VNFIND, SUBSCRIPTIONS);
-		final HttpGateway hg = selectGateway(server);
-		final Class<?> clazz = hg.getVnfIndicatorValueChangeSubscriptionClass();
-		final Object clazzWire = hg.getVnfIndicatorValueChangeSubscriptionRequest(subsOut);
-		final String v = hg.getHeaderVersion(ApiVersionType.SOL003_VNFIND).orElse(null);
-		final Subscription res = postSubscription(rest, uri, subsOut, clazzWire, clazz, v);
+		final ManoClient mc = new ManoClient(serverAdapter);
+		final Subscription res = mc.vnfIndicator().subscription().subscribe(subsOut);
 		res.setSubscriptionType(SubscriptionType.VNFIND);
 		return res;
 	}
@@ -263,11 +249,6 @@ public class CommonActionController {
 				.subscriptionType(subscriptionType)
 				.filters(filters)
 				.build();
-	}
-
-	private Subscription postSubscription(final FluxRest rest, final URI uri, final Object subsOut, final Object wire, final Class<?> clazz, @Nullable final String version) {
-		final Object res = rest.post(uri, wire, clazz, version);
-		return mapper.map(res, Subscription.class);
 	}
 
 	private static boolean isSubscribe(final SubscriptionType subscriptionType, final Set<RemoteSubscription> remoteSubscriptions) {

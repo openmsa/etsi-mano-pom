@@ -31,8 +31,6 @@ import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.service.HttpGateway;
 import com.ubiqube.etsi.mano.service.rest.admin.srv.ManoServer;
 
-import ma.glasnost.orika.MapperFacade;
-
 @ExtendWith(MockitoExtension.class)
 class ManoServerTest {
 	@Mock
@@ -41,8 +39,6 @@ class ManoServerTest {
 	private HttpGateway httpGateway;
 	@Mock
 	private FluxRest fluxRest;
-	@Mock
-	private MapperFacade mapper;
 
 	@Test
 	void testCreate() throws Exception {

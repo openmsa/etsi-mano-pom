@@ -53,16 +53,12 @@ import com.ubiqube.etsi.mano.service.rest.FluxRest;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
 import com.ubiqube.etsi.mano.utils.Version;
 
-import ma.glasnost.orika.MapperFacade;
-
 @ExtendWith(MockitoExtension.class)
 class CommonActionControllerTest {
 	@Mock
 	private ServersJpa serverJpa;
 	@Mock
 	private Environment env;
-	@Mock
-	private MapperFacade mapper;
 	@Mock
 	private ManoProperties manoProperties;
 	@Mock
@@ -82,7 +78,7 @@ class CommonActionControllerTest {
 			.build();
 
 	private CommonActionController createService() {
-		return new CommonActionController(serverJpa, createHttpGateway(), mapper, manoProperties, securityConfig, serverService, apiVersionMapping);
+		return new CommonActionController(serverJpa, createHttpGateway(), manoProperties, securityConfig, serverService, apiVersionMapping);
 	}
 
 	@Test
@@ -133,7 +129,6 @@ class CommonActionControllerTest {
 		when(serverService.buildServerAdapter(server)).thenReturn(serverAdapter);
 		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.newInstance());
 		when(httpGateWay0.getUrlFor(ApiVersionType.SOL003_VNFIND)).thenReturn("");
-		when(httpGateWay0.getVersion()).thenReturn(new Version("1.2.3"));
 		//
 		cac.registerServer(id, Map.of());
 		//

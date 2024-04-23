@@ -19,7 +19,6 @@ package com.ubiqube.etsi.mano.service.event;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 import java.net.URI;
@@ -53,9 +52,6 @@ import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.service.mapping.ApiVersionMapping;
 import com.ubiqube.etsi.mano.service.rest.FluxRest;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
-import com.ubiqube.etsi.mano.utils.Version;
-
-import ma.glasnost.orika.MapperFacade;
 
 @ExtendWith(MockitoExtension.class)
 class CommonActionControllerTest {
@@ -65,8 +61,6 @@ class CommonActionControllerTest {
 	private Environment env;
 	@Mock
 	private HttpGateway hg;
-	@Mock
-	private MapperFacade mapper;
 	@Mock
 	private ManoProperties manoProperties;
 	@Mock
@@ -94,20 +88,19 @@ class CommonActionControllerTest {
 		final ServerAdapter serverAdapter = new ServerAdapter(hg, server, fluxRest);
 		when(serverService.buildServerAdapter(server)).thenReturn(serverAdapter);
 		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://test/"));
-		when(hg.getVersion()).thenReturn(new Version("4.3.2"));
 		final Subscription subsc = new Subscription();
 		subsc.setId(UUID.randomUUID());
 		subsc.setSubscriptionType(SubscriptionType.VNF);
-		when(mapper.map(any(), eq(null))).thenReturn(subsc);
-		when(mapper.map(any(), eq(Subscription.class))).thenReturn(subsc);
 		when(serversJpa.save(any())).thenReturn(server);
+		when(fluxRest.post(any(), any(), any(), any())).thenReturn(subsc);
+		when(hg.mapToVnfIndicatorSubscription(any())).thenReturn(subsc);
 		final Servers res = cac.registerServer(id, Map.of());
 		assertNotNull(res);
 		assertEquals(PlanStatusType.SUCCESS, res.getServerStatus());
 	}
 
 	private CommonActionController createService() {
-		return new CommonActionController(serversJpa, List.of(hg), mapper, manoProperties, securityConfigProvider, serverService, apiVersionMapping);
+		return new CommonActionController(serversJpa, List.of(hg), manoProperties, securityConfigProvider, serverService, apiVersionMapping);
 	}
 
 	@Test
@@ -125,7 +118,7 @@ class CommonActionControllerTest {
 		final ServerAdapter serverAdapter = new ServerAdapter(hg, server, fluxRest);
 		when(serverService.buildServerAdapter(server)).thenReturn(serverAdapter);
 		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://test/"));
-		when(hg.getVersion()).thenReturn(new Version("4.3.2"));
+//		when(hg.getVersion()).thenReturn(new Version("4.3.2"));
 		when(serversJpa.save(any())).thenReturn(server);
 		final Servers res = cac.registerServer(id, Map.of());
 		assertNotNull(res);
@@ -147,16 +140,15 @@ class CommonActionControllerTest {
 		final ServerAdapter serverAdapter = new ServerAdapter(hg, server, fluxRest);
 		when(serverService.buildServerAdapter(server)).thenReturn(serverAdapter);
 		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://test/"));
-		when(hg.getVersion()).thenReturn(new Version("4.3.2"));
 		//
 		final Subscription subsc = new Subscription();
 		subsc.setId(UUID.randomUUID());
 		subsc.setSubscriptionType(SubscriptionType.NSD);
-		when(mapper.map(any(), eq(null))).thenReturn(subsc);
-		when(mapper.map(any(), eq(Subscription.class))).thenReturn(subsc);
 		when(serversJpa.save(any())).thenReturn(server);
 		// Security
 		when(securityConfigProvider.getIfAvailable()).thenReturn(securityConfig);
+		when(fluxRest.post(any(), any(), any(), any())).thenReturn(subsc);
+		when(hg.mapToPkgmSubscription(any())).thenReturn(subsc);
 		final Servers res = cac.registerServer(id, Map.of());
 		assertEquals(PlanStatusType.SUCCESS, res.getServerStatus());
 	}
@@ -177,17 +169,16 @@ class CommonActionControllerTest {
 		final ServerAdapter serverAdapter = new ServerAdapter(hg, server, fluxRest);
 		when(serverService.buildServerAdapter(server)).thenReturn(serverAdapter);
 		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://test/"));
-		when(hg.getVersion()).thenReturn(new Version("4.3.2"));
 		//
 		final Subscription subsc = new Subscription();
 		subsc.setId(UUID.randomUUID());
 		subsc.setSubscriptionType(SubscriptionType.NSD);
-		when(mapper.map(any(), eq(null))).thenReturn(subsc);
-		when(mapper.map(any(), eq(Subscription.class))).thenReturn(subsc);
 		when(serversJpa.save(any())).thenReturn(server);
 		// Security
 		when(securityConfigProvider.getIfAvailable()).thenReturn(securityConfig);
 		when(securityConfig.getSecurityType()).thenReturn(SecurityType.OAUTH2);
+		when(fluxRest.post(any(), any(), any(), any())).thenReturn(subsc);
+		when(hg.mapToPkgmSubscription(any())).thenReturn(subsc);
 		final Servers res = cac.registerServer(id, Map.of());
 		assertEquals(PlanStatusType.SUCCESS, res.getServerStatus());
 	}
