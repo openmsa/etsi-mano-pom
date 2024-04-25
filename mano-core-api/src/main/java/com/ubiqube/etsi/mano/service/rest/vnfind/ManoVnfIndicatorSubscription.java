@@ -32,10 +32,10 @@ public class ManoVnfIndicatorSubscription {
 
 	public Subscription subscribe(final Subscription subscription) {
 		client.setFragment("/subscriptions");
-		final BiFunction<HttpGateway, Object, Object> request = (final HttpGateway httpGateway, Object r) -> httpGateway.createVnfIndicatorSubscriptionRequest(subscription);
+		final BiFunction<HttpGateway, Object, Object> request = (final HttpGateway httpGateway, final Object r) -> httpGateway.createVnfIndicatorSubscriptionRequest(subscription);
 		return (Subscription) client.createQuery()
 				.setWireInClass(request)
-				.setWireOutClass(HttpGateway::getVnfIndicatorClass)
+				.setWireOutClass(HttpGateway::getVnfIndicatorSubscriptionClass)
 				.setOutClass(HttpGateway::mapToVnfIndicatorSubscription)
 				.post(subscription);
 	}
