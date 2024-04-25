@@ -36,7 +36,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Validated
 public class FmSubscriptionRequest {
 	@JsonProperty("filter")
-	private FmNotificationsFilter filter = null;
+	private FmNotificationsNsFilter filter = null;
 
 	@JsonProperty("callbackUri")
 	private String callbackUri = null;
@@ -44,7 +44,7 @@ public class FmSubscriptionRequest {
 	@JsonProperty("authentication")
 	private SubscriptionAuthentication authentication = null;
 
-	public FmSubscriptionRequest filter(final FmNotificationsFilter filter) {
+	public FmSubscriptionRequest filter(final FmNotificationsNsFilter filter) {
 		this.filter = filter;
 		return this;
 	}
@@ -57,11 +57,11 @@ public class FmSubscriptionRequest {
 	@Schema(description = "")
 
 	@Valid
-	public FmNotificationsFilter getFilter() {
+	public FmNotificationsNsFilter getFilter() {
 		return filter;
 	}
 
-	public void setFilter(final FmNotificationsFilter filter) {
+	public void setFilter(final FmNotificationsNsFilter filter) {
 		this.filter = filter;
 	}
 
