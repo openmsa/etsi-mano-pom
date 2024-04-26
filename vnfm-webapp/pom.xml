@@ -138,6 +138,16 @@
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
+			<artifactId>etsi-vnfm-451-controllers</artifactId>
+			<version>${version.etsi-protocols}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ubiqube.mano</groupId>
+			<artifactId>etsi-nfvem-451-controllers</artifactId>
+			<version>${version.etsi-protocols}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>etsi-sol012-341</artifactId>
 			<version>${version.etsi-protocols}</version>
 		</dependency>
