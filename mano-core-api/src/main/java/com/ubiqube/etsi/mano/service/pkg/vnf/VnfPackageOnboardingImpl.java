@@ -37,7 +37,6 @@ import com.ubiqube.etsi.mano.dao.mano.PkgChecksum;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.pkg.UploadUriParameters;
 import com.ubiqube.etsi.mano.dao.rfc7807.FailureDetails;
-import com.ubiqube.etsi.mano.exception.ConflictException;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.repository.ManoResource;
 import com.ubiqube.etsi.mano.repository.ManoUrlResource;
@@ -86,8 +85,6 @@ public class VnfPackageOnboardingImpl {
 	public VnfPackage vnfPackagesVnfPkgIdPackageContentPut(final String vnfPkgId) {
 		final ManoResource data = vnfPackageRepository.getBinary(getSafeUUID(vnfPkgId), Constants.REPOSITORY_FILENAME_PACKAGE);
 		VnfPackage vnfPpackage = vnfPackageService.findById(getSafeUUID(vnfPkgId));
-		// MSA-11833
-		ensureNotProcessing(vnfPpackage);
 		vnfPpackage = startOnboarding(vnfPpackage);
 		return uploadAndFinishOnboarding(vnfPpackage, data);
 	}
@@ -215,13 +212,6 @@ public class VnfPackageOnboardingImpl {
 			break;
 		}
 		throw new GenericException("Unknown version " + part);
-	}
-
-	// MSA-11833
-	public static void ensureNotProcessing(final VnfPackage vnfPackage) {
-		if (OnboardingStateType.PROCESSING == vnfPackage.getOnboardingState()) {
-			throw new ConflictException("THE_VNF_PACKAGE" + vnfPackage.getId() + " is already stared ONBOARDING..");
-		}
 	}
 
 }

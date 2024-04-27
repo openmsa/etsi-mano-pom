@@ -159,6 +159,12 @@ public final class Constants {
 		}
 	}
 
+	public static void ensureNotProcessing(final PackageBase vnfPackage) {
+		if (OnboardingStateType.PROCESSING == vnfPackage.getOnboardingState()) {
+			throw new ConflictException(THE_VNF_PACKAGE + vnfPackage.getId() + " is already PROCESSING");
+		}
+	}
+
 	public static void ensureInstantiated(final Instance vnfInstance) {
 		if (InstantiationState.INSTANTIATED != vnfInstance.getInstantiationState()) {
 			throw new ConflictException(THE_VNF_INSTANCE + vnfInstance.getId() + " is not in INSTANTIATED state.");

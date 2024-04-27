@@ -19,6 +19,7 @@ package com.ubiqube.etsi.mano.nfvo.controller.vnf;
 import static com.ubiqube.etsi.mano.Constants.ensureDisabled;
 import static com.ubiqube.etsi.mano.Constants.ensureNotInUse;
 import static com.ubiqube.etsi.mano.Constants.ensureNotOnboarded;
+import static com.ubiqube.etsi.mano.Constants.ensureNotProcessing;
 
 import java.io.InputStream;
 import java.util.LinkedHashMap;
@@ -125,6 +126,7 @@ public class VnfPackageControllerImpl implements VnfPackageController {
 	public void vnfPackagesVnfPkgIdPackageContentPut(final UUID id, final InputStream is, final String accept) {
 		final VnfPackage vnfPackage = vnfPackageService.findById(id);
 		ensureNotOnboarded(vnfPackage);
+		ensureNotProcessing(vnfPackage);
 		forceVnfdId(vnfPackage);
 		vnfPackage.setOnboardingState(OnboardingStateType.PROCESSING);
 		vnfPackageService.save(vnfPackage);
@@ -136,6 +138,7 @@ public class VnfPackageControllerImpl implements VnfPackageController {
 	public void vnfPackagesVnfPkgIdPackageContentUploadFromUriPost(final UUID id, final String contentType, final UploadUriParameters params) {
 		final VnfPackage vnfPackage = vnfPackageService.findById(id);
 		ensureNotOnboarded(vnfPackage);
+		ensureNotProcessing(vnfPackage);
 		vnfPackage.setUploadUriParameters(params);
 		forceVnfdId(vnfPackage);
 		vnfPackageService.save(vnfPackage);
