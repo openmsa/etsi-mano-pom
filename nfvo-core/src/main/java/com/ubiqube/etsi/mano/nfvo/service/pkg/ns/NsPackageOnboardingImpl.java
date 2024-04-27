@@ -79,7 +79,7 @@ public class NsPackageOnboardingImpl {
 		} catch (final RuntimeException e) {
 			LOG.error("NSD error", e);
 			// XXX: ERROR on 2.6.1+
-			final NsdPackage v2 = nsdPackageJpa.findById(nsPackage.getId()).orElseThrow();
+			final NsdPackage v2 = nsdPackageJpa.findById(nsPackage.getId()).orElseThrow(() -> new GenericException("Unable to find package " + nsPackage.getId(), e));
 			v2.setNsdOnboardingState(OnboardingStateType.ERROR);
 			v2.setNsdOperationalState(PackageOperationalState.DISABLED);
 			v2.setOnboardingFailureDetails(new FailureDetails(500, e.getMessage()));
