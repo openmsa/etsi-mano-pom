@@ -98,7 +98,9 @@ public class ManoVnfPackageId {
 			final VnfPackage pkg = find();
 			final OnboardingStateType state = pkg.getOnboardingState();
 			LOG.debug("state {}", state);
-			if ((state == OnboardingStateType.ONBOARDED) || (state == OnboardingStateType.ERROR)) {
+			if ((state == OnboardingStateType.ONBOARDED)
+					|| (state == OnboardingStateType.ERROR)
+					|| (state == OnboardingStateType.CREATED)) {
 				return pkg;
 			}
 		}

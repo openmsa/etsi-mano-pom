@@ -54,7 +54,9 @@ public class ManoNsPackageId {
 
 	public NsdPackage waitForOnboarding() {
 		NsdPackage nsd = find();
-		while ((nsd.getNsdOnboardingState() == OnboardingStateType.UPLOADING) || (nsd.getNsdOnboardingState() == OnboardingStateType.PROCESSING)) {
+		while ((nsd.getNsdOnboardingState() == OnboardingStateType.UPLOADING)
+				|| (nsd.getNsdOnboardingState() == OnboardingStateType.PROCESSING)
+				|| (nsd.getNsdOnboardingState() == OnboardingStateType.CREATED)) {
 			try {
 				Thread.sleep(1000);
 			} catch (final InterruptedException e) {
