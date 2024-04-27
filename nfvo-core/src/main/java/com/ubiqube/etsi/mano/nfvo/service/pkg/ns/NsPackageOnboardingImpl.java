@@ -80,7 +80,7 @@ public class NsPackageOnboardingImpl {
 			LOG.error("NSD error", e);
 			// XXX: ERROR on 2.6.1+
 			final NsdPackage v2 = nsdPackageJpa.findById(nsPackage.getId()).orElseThrow();
-			v2.setNsdOnboardingState(OnboardingStateType.CREATED);
+			v2.setNsdOnboardingState(OnboardingStateType.ERROR);
 			v2.setNsdOperationalState(PackageOperationalState.DISABLED);
 			v2.setOnboardingFailureDetails(new FailureDetails(500, e.getMessage()));
 			nsdPackageJpa.save(v2);
