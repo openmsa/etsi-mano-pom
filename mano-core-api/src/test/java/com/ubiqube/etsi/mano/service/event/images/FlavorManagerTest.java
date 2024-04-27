@@ -290,7 +290,6 @@ class FlavorManagerTest {
 		final VimConnectionInformation vimConnectionInformation = createVimConnection();
 		final VnfCompute vnf = createCompute22();
 		final Set<VnfCompute> vnfCompute = Set.of(vnf);
-		when(vim.isEqualMemFlavor(0L, 0L)).thenReturn(true);
 		when(vim.isEqualMemFlavor(2_000_000_000L, 500_000_000L)).thenReturn(false);
 		when(vim.isEqualMemFlavor(2_000_000_000L, 2_000_000_000L)).thenReturn(true);
 		final List<VimComputeResourceFlavourEntity> flv = fm.getFlavors(vimConnectionInformation, vnfCompute);
