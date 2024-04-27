@@ -16,6 +16,8 @@
  */
 package com.ubiqube.etsi.mano.service.mapping;
 
+import java.util.Set;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
@@ -33,7 +35,7 @@ public interface GrantInformationExtMapping {
 	@Mapping(target = "resourceGroupId", ignore = true)
 	@Mapping(target = "resourceId", ignore = true)
 	@Mapping(target = "resourceProviderId", ignore = true)
-	@Mapping(target = "resourceTemplateId", ignore = true)
+	@Mapping(target = "resourceTemplateId", source = "toscaName")
 	@Mapping(target = "secondaryResourceTemplateId", ignore = true)
 	@Mapping(target = "snapshotResDef", ignore = true)
 	@Mapping(target = "vduId", ignore = true)
@@ -42,4 +44,11 @@ public interface GrantInformationExtMapping {
 	@Mapping(target = "vnfdId", ignore = true)
 	@Mapping(target = "zoneId", ignore = true)
 	GrantInformationExt map(VimTask o);
+
+	default Set<String> mapResourceTemplateId(final String value) {
+		if (null == value) {
+			return Set.of();
+		}
+		return Set.of(value);
+	}
 }
