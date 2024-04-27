@@ -35,6 +35,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import com.ubiqube.etsi.mano.Constants;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackageVnfPackage;
+import com.ubiqube.etsi.mano.dao.mano.OnboardingStateType;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.pkg.UploadUriParameters;
 import com.ubiqube.etsi.mano.exception.ConflictException;
@@ -125,6 +126,7 @@ public class VnfPackageControllerImpl implements VnfPackageController {
 		final VnfPackage vnfPackage = vnfPackageService.findById(id);
 		ensureNotOnboarded(vnfPackage);
 		forceVnfdId(vnfPackage);
+		vnfPackage.setOnboardingState(OnboardingStateType.PROCESSING);
 		vnfPackageService.save(vnfPackage);
 		vnfPackageRepository.storeBinary(id, Constants.REPOSITORY_FILENAME_PACKAGE, is);
 		eventManager.sendActionNfvo(ActionType.VNF_PKG_ONBOARD_FROM_BYTES, id, Map.of());
