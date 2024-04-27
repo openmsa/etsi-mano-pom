@@ -22,8 +22,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -31,7 +29,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.ubiqube.etsi.mano.dao.subscription.SubscriptionType;
 import com.ubiqube.etsi.mano.exception.GenericException;
-import com.ubiqube.etsi.mano.mapper.BeanWalker;
 import com.ubiqube.etsi.mano.mapper.QueryFilterListener.ListRecord;
 import com.ubiqube.etsi.mano.service.cond.BooleanOperatorEnum;
 import com.ubiqube.etsi.mano.service.cond.Context;
@@ -52,14 +49,10 @@ import com.ubiqube.etsi.mano.service.event.model.Subscription;
 
 @Service
 public class EvalService {
-	private static final Logger LOG = LoggerFactory.getLogger(EvalService.class);
-
-	private final BeanWalker beanWalker;
 	private final ObjectMapper mapper;
 	private final ContextBuilderService contextBuilderService;
 
 	public EvalService(final ContextBuilderService contextBuilderService) {
-		beanWalker = new BeanWalker();
 		mapper = new ObjectMapper();
 		mapper.registerModule(new JavaTimeModule());
 		this.contextBuilderService = contextBuilderService;

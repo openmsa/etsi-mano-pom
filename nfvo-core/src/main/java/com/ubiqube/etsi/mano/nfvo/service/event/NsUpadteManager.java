@@ -133,7 +133,7 @@ public class NsUpadteManager {
 			final List<NfpDescriptor> notDeleted = vnffg.getNfpd().stream().filter(y -> !x.getNfpInfoId().contains(y.getToscaName())).toList();
 			vnffg.setNfpd(new ArrayList<>(notDeleted));
 			//
-			final List<@NonNull NfpDescriptor> newNfp = x.getNfp().stream().map(y -> nsUpdateMapping.map(y)).toList();
+			final List<@NonNull NfpDescriptor> newNfp = x.getNfp().stream().map(nsUpdateMapping::map).toList();
 			vnffg.getNfpd().addAll(newNfp);
 		});
 
@@ -236,7 +236,7 @@ public class NsUpadteManager {
 	}
 
 	private @Nullable Object instantiateVnf(final List<InstantiateVnfData> instantiateVnfData) {
-		instantiateVnfData.stream().forEach(x -> nsUpdateMapping.map(x));
+		instantiateVnfData.stream().forEach(nsUpdateMapping::map);
 		return null;
 	}
 

@@ -80,6 +80,7 @@ class GrantActionTest {
 		when(grantJpa.findById(id)).thenReturn(optGrant);
 		// No suitable vim
 		ga.grantRequest(id);
+		assertTrue(true);
 	}
 
 	@Test

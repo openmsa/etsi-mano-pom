@@ -81,7 +81,7 @@ public class VnfmAdminController {
 		final Iterable<VnfPackage> all = vnfPackageRepositoryJpa.findAll();
 		final List<VnfPackage> ret = new ArrayList<>();
 		all.forEach(ret::add);
-		return ResponseEntity.ok(ret.stream().map(x -> mapper.map(x)).toList());
+		return ResponseEntity.ok(ret.stream().map(mapper::map).toList());
 	}
 
 	@PostMapping("/vnf-package/onboard")

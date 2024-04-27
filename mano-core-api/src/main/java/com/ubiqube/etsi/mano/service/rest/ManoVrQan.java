@@ -32,7 +32,7 @@ public class ManoVrQan {
 	public Subscription subscribe(final Subscription subscription) {
 		client.setFragment("/subscriptions");
 		final ManoQueryBuilder<Object, Subscription> q = client.createQuery();
-		return (Subscription) q
+		return q
 				.setWireInClass((HttpGateway x, Object y) -> x.mapVrQanSubscriptionRequest(subscription))
 				.setWireOutClass(HttpGateway::getVrQanSubscriptionClass)
 				.setOutClass(HttpGateway::mapVrQanSubscriptionSubscription)

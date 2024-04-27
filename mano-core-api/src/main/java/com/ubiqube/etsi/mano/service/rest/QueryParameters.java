@@ -49,9 +49,4 @@ public class QueryParameters {
 		return new ManoQueryBuilder<>(this);
 	}
 
-//	public <U, R> ManoQueryBuilder<U, R> createQuery(final Function<HttpGateway, U> func) {
-//		this.requestObject = Objects.requireNonNull(func, "HttpGateway function cannot be null.");
-//		return new ManoQueryBuilder<>(this);
-//	}
-
 }

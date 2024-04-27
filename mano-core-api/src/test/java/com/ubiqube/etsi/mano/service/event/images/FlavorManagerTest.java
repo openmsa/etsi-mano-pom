@@ -19,7 +19,6 @@ package com.ubiqube.etsi.mano.service.event.images;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -291,9 +290,9 @@ class FlavorManagerTest {
 		final VimConnectionInformation vimConnectionInformation = createVimConnection();
 		final VnfCompute vnf = createCompute22();
 		final Set<VnfCompute> vnfCompute = Set.of(vnf);
-		when(vim.isEqualMemFlavor(eq(0L), eq(0L))).thenReturn(true);
-		when(vim.isEqualMemFlavor(eq(2_000_000_000L), eq(500_000_000L))).thenReturn(false);
-		when(vim.isEqualMemFlavor(eq(2_000_000_000L), eq(2_000_000_000L))).thenReturn(true);
+		when(vim.isEqualMemFlavor(0L, 0L)).thenReturn(true);
+		when(vim.isEqualMemFlavor(2_000_000_000L, 500_000_000L)).thenReturn(false);
+		when(vim.isEqualMemFlavor(2_000_000_000L, 2_000_000_000L)).thenReturn(true);
 		final List<VimComputeResourceFlavourEntity> flv = fm.getFlavors(vimConnectionInformation, vnfCompute);
 		assertEquals(1, flv.size());
 		assertEquals("22", flv.get(0).getVimFlavourId());
@@ -329,7 +328,7 @@ class FlavorManagerTest {
 		final VnfCompute vnf = createCompute22MetadataMissmatch();
 		final Set<VnfCompute> vnfCompute = Set.of(vnf);
 		when(vim.isEqualMemFlavor(2_000_000_000, 2_000_000_000)).thenReturn(true);
-		when(vim.isEqualMemFlavor(eq(2_000_000_000L), eq(500_000_000L))).thenReturn(false);
+		when(vim.isEqualMemFlavor(2_000_000_000L, 500_000_000L)).thenReturn(false);
 		final List<VimComputeResourceFlavourEntity> flv = fm.getFlavors(vimConnectionInformation, vnfCompute);
 		assertEquals(1, flv.size());
 		assertEquals(null, flv.get(0).getVimFlavourId());
@@ -348,7 +347,7 @@ class FlavorManagerTest {
 		final VnfCompute vnf = createCompute22();
 		final Set<VnfCompute> vnfCompute = Set.of(vnf);
 		when(vim.isEqualMemFlavor(2_000_000_000, 2_000_000_000)).thenReturn(true);
-		when(vim.isEqualMemFlavor(eq(2_000_000_000L), eq(500_000_000L))).thenReturn(false);
+		when(vim.isEqualMemFlavor(2_000_000_000L, 500_000_000L)).thenReturn(false);
 		final List<VimComputeResourceFlavourEntity> flv = fm.getFlavors(vimConnectionInformation, vnfCompute);
 		assertEquals(1, flv.size());
 		assertEquals("22", flv.get(0).getVimFlavourId());

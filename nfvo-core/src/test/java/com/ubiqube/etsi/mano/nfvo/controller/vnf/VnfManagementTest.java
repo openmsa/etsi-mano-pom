@@ -105,7 +105,8 @@ class VnfManagementTest {
 		when(vnfPkgRepo.getBinary(id, "vnfd")).thenReturn(manoRes);
 		final InputStream is = new FileInputStream("/tmp/test.zip");
 		when(manoRes.getInputStream()).thenReturn(is);
-		assertThrows(NotFoundException.class, () -> mng.onboardedVnfPackagesVnfdIdArtifactsGet(id.toString(), "test"));
+		final String strId = id.toString();
+		assertThrows(NotFoundException.class, () -> mng.onboardedVnfPackagesVnfdIdArtifactsGet(strId, "test"));
 	}
 
 	@Test

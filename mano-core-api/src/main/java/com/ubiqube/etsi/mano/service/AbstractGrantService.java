@@ -95,9 +95,6 @@ public abstract class AbstractGrantService implements VimResourceService {
 				.forEach(x -> {
 					if (x.getChangeType() == ChangeType.ADDED) {
 						final GrantInformationExt obj = grantInformationExtMapping.map(x);
-						if (null != x.getToscaName()) {
-							obj.setResourceTemplateId(Set.of(x.getToscaName()));
-						}
 						grantRequest.addAddResources(obj);
 					} else {
 						final GrantInformationExt obj = grantInformationExtMapping.map(x);
@@ -133,7 +130,7 @@ public abstract class AbstractGrantService implements VimResourceService {
 	}
 
 	private Set<BlueZoneGroupInformation> mapAsSet(final Set<ZoneGroupInformation> zoneGroups) {
-		return zoneGroups.stream().map(x -> blueZoneGroupInformationMapping.map(x)).collect(Collectors.toSet());
+		return zoneGroups.stream().map(blueZoneGroupInformationMapping::map).collect(Collectors.toSet());
 	}
 
 	private void fixContainerBefore431(final Blueprint<? extends VimTask, ? extends Instance> plan) {
