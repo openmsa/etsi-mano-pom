@@ -105,7 +105,7 @@ class NsPackageOnboardingImplTest {
 		doThrow(IOException.class).when(inputStream).close();
 		when(nsdPackageJpa.findById(any())).thenReturn(Optional.of(nsPkg));
 		pkg.nsOnboarding(id);
-		assertEquals(OnboardingStateType.CREATED, nsPkg.getNsdOnboardingState());
+		assertEquals(OnboardingStateType.ERROR, nsPkg.getNsdOnboardingState());
 		assertEquals(PackageOperationalState.DISABLED, nsPkg.getOperationalState());
 	}
 
