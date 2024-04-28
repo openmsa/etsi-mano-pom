@@ -84,6 +84,13 @@ public class VnfmAdminController {
 		return ResponseEntity.ok(ret.stream().map(mapper::map).toList());
 	}
 
+	@GetMapping("/vnf-package/{vnfd}")
+	public ResponseEntity<VnfPackageDto> findByVnfd(@PathVariable("vnfd") String vnfd) {
+		final Optional<VnfPackage> all = vnfPackageRepositoryJpa.findByVnfdId(vnfd);
+		if (all.isEmpty()) return ResponseEntity.notFound().build();
+		return ResponseEntity.ok(mapper.map(all.get()));
+	}
+
 	@PostMapping("/vnf-package/onboard")
 	public ResponseEntity<VnfPackageDto> onboardVnfPackage(@RequestParam("file") final MultipartFile file) throws IOException {
 		final VnfPackage entity = new VnfPackage();
