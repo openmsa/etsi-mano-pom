@@ -23,6 +23,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -87,7 +89,10 @@ public class VnfmAdminController {
 	@GetMapping("/vnf-package/{vnfd}")
 	public ResponseEntity<VnfPackageDto> findByVnfd(@PathVariable("vnfd") String vnfd) {
 		final Optional<VnfPackage> all = vnfPackageRepositoryJpa.findByVnfdId(vnfd);
-		if (all.isEmpty()) return ResponseEntity.notFound().build();
+		if (all.isEmpty()) {
+			ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(404), "No vnfdId " + vnfd);
+			return ResponseEntity.of(problemDetail).build();
+		}
 		return ResponseEntity.ok(mapper.map(all.get()));
 	}
 
