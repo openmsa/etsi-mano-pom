@@ -20,6 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
+import com.ubiqube.etsi.mano.dao.mano.dto.VnfPackageDto;
+
 class VnfPackageDtoTest {
 
 	@Test

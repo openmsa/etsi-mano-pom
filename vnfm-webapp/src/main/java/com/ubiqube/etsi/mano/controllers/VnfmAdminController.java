@@ -39,6 +39,7 @@ import com.ubiqube.etsi.mano.dao.mano.PackageOperationalState;
 import com.ubiqube.etsi.mano.dao.mano.UsageStateEnum;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+import com.ubiqube.etsi.mano.dao.mano.dto.VnfPackageDto;
 import com.ubiqube.etsi.mano.jpa.VnfInstanceJpa;
 import com.ubiqube.etsi.mano.jpa.VnfPackageJpa;
 import com.ubiqube.etsi.mano.orchestrator.ExecutionGraph;
@@ -47,7 +48,6 @@ import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 import com.ubiqube.etsi.mano.service.event.ActionType;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.mapping.VnfPackageDtoMapping;
-import com.ubiqube.etsi.mano.vnfm.dto.VnfPackageDto;
 import com.ubiqube.etsi.mano.vnfm.service.event.VnfmActions;
 
 @RestController

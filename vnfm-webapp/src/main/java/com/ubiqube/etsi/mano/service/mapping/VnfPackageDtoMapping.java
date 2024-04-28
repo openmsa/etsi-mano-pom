@@ -20,7 +20,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
-import com.ubiqube.etsi.mano.vnfm.dto.VnfPackageDto;
+import com.ubiqube.etsi.mano.dao.mano.dto.VnfPackageDto;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface VnfPackageDtoMapping {
