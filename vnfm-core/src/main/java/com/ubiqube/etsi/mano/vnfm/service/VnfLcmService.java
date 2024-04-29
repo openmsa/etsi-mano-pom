@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.vnfm.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -107,7 +108,7 @@ public class VnfLcmService {
 		final VnfBlueprint lcmOpOccs = VnfLcmFactory.createVnfBlueprint(PlanOperationType.OPERATE, vnfInstance.getId());
 		final OperateChanges opChanges = lcmOpOccs.getOperateChanges();
 		opChanges.setTerminationType(OperationalStateType.fromValue(operateVnfRequest.getChangeStateTo().toString()));
-		opChanges.setGracefulTerminationTimeout(operateVnfRequest.getGracefulStopTimeout());
+		opChanges.setGracefulTerminationTimeout(Optional.ofNullable(operateVnfRequest.getGracefulStopTimeout()).orElse(0));
 		final List<VnfLiveInstance> instantiatedCompute = vnfInstancesService.getLiveComputeInstanceOf(vnfInstance);
 		instantiatedCompute.forEach(x -> {
 			final VnfTask affectedCompute = copyInstantiedResource(x, new ComputeTask(), lcmOpOccs);
