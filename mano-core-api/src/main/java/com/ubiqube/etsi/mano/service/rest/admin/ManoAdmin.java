@@ -16,16 +16,7 @@
  */
 package com.ubiqube.etsi.mano.service.rest.admin;
 
-import java.net.URI;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
-
-import org.springframework.web.util.UriComponentsBuilder;
-
-import com.ubiqube.etsi.mano.dao.mano.dto.VnfPackageDto;
 import com.ubiqube.etsi.mano.service.rest.QueryParameters;
-import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
 import com.ubiqube.etsi.mano.service.rest.admin.srv.ManoServer;
 import com.ubiqube.etsi.mano.service.rest.admin.vim.ManoVim;
 
@@ -50,16 +41,7 @@ public class ManoAdmin {
 		return new ManoVim(client);
 	}
 
-	public VnfPackageDto vnfmGetVnfPackage(final String root, final UUID vnfd) {
-		client.setObjectId(vnfd);
-		final ServerAdapter server = client.getServer();
-		final URI uri = buildUri(root, "vnfm-admin/vnf-package/{id}");
-		return server.rest().get(uri, VnfPackageDto.class, null);
+	public AdminVnfPackage vnfPackage() {
+		return new AdminVnfPackage(client);
 	}
-
-	private URI buildUri(final String urlRoot, final String url) {
-		final Map<String, Object> uriParams = Optional.ofNullable(client.getObjectId()).map(x -> Map.of("id", (Object) x.toString())).orElseGet(Map::of);
-		return UriComponentsBuilder.fromHttpUrl(urlRoot).pathSegment(url).buildAndExpand(uriParams).toUri();
-	}
-
 }
