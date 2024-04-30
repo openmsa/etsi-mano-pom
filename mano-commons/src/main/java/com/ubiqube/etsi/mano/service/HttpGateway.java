@@ -100,7 +100,7 @@ public interface HttpGateway {
 
 	Object getVnfInstanceScaleToLevelRequest(VnfScaleToLevelRequest req);
 
-	Object createVnfInstanceScaleRequest(ScaleTypeEnum scaleTypeEnum, String aspectId, Integer numberOfSteps);
+	Object createVnfInstanceScaleRequest(@Nullable ScaleTypeEnum scaleTypeEnum, @Nullable String aspectId, @Nullable Integer numberOfSteps);
 
 	Object createVnfInstanceHealRequest(VnfHealRequest req);
 

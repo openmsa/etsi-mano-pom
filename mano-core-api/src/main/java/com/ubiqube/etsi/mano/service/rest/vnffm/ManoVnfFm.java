@@ -22,8 +22,10 @@ import java.util.UUID;
 import com.ubiqube.etsi.mano.alarm.entities.alarm.Alarm;
 import com.ubiqube.etsi.mano.service.rest.QueryParameters;
 
-public class ManoVnfFm {
+import jakarta.annotation.Nonnull;
 
+public class ManoVnfFm {
+	@Nonnull
 	private final QueryParameters manoClient;
 
 	public ManoVnfFm(final QueryParameters manoClient) {

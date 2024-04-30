@@ -14,16 +14,9 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see https://www.gnu.org/licenses/.
  */
-package com.ubiqube.etsi.mano.jpa;
+@NonNullApi
+@NonNullFields
+package com.ubiqube.etsi.mano.service.rest.admin.srv;
 
-import java.util.UUID;
-
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
-
-import com.ubiqube.etsi.mano.dao.mano.pm.Threshold;
-
-@Repository
-public interface ThresholdJpa extends CrudRepository<Threshold, UUID> {
-	//
-}
+import org.springframework.lang.NonNullApi;
+import org.springframework.lang.NonNullFields;

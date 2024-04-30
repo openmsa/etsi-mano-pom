@@ -45,9 +45,13 @@ import jakarta.annotation.Nullable;
 public class ManoQueryBuilder<U, R> {
 	@Nonnull
 	private final QueryParameters client;
+	@Nullable
 	private Function<HttpGateway, ParameterizedTypeReference<List<Class<?>>>> inClassList;
+	@Nullable
 	private BiFunction<HttpGateway, Object, Object> wireInClass;
+	@Nullable
 	private BiFunction<HttpGateway, U, R> outClass;
+	@Nullable
 	private Function<HttpGateway, Class<?>> wireOutClass;
 
 	public ManoQueryBuilder(final QueryParameters manoClient) {

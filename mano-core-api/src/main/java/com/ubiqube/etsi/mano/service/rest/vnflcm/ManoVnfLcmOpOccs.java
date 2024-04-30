@@ -29,6 +29,7 @@ import com.ubiqube.etsi.mano.service.HttpGateway;
 import com.ubiqube.etsi.mano.service.rest.ManoQueryBuilder;
 import com.ubiqube.etsi.mano.service.rest.QueryParameters;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 
 /**
@@ -43,7 +44,7 @@ public class ManoVnfLcmOpOccs {
 	@NotNull
 	private final QueryParameters client;
 
-	public ManoVnfLcmOpOccs(final QueryParameters client, final UUID id) {
+	public ManoVnfLcmOpOccs(final QueryParameters client, @Nullable final UUID id) {
 		this.client = client;
 		client.setQueryType(ApiVersionType.SOL003_VNFLCM);
 		client.setObjectId(id);

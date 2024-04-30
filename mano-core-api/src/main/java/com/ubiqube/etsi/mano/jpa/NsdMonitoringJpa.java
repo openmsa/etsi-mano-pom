@@ -22,6 +22,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.ubiqube.etsi.mano.dao.mano.NsMonitoringParameter;
 
-public interface NsdMonitoringJpa  extends CrudRepository<NsMonitoringParameter, UUID>{
-
+public interface NsdMonitoringJpa extends CrudRepository<NsMonitoringParameter, UUID> {
+	//
 }

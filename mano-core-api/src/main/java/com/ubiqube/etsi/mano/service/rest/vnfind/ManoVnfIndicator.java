@@ -23,8 +23,10 @@ import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.HttpGateway;
 import com.ubiqube.etsi.mano.service.rest.QueryParameters;
 
-public class ManoVnfIndicator {
+import jakarta.annotation.Nonnull;
 
+public class ManoVnfIndicator {
+	@Nonnull
 	private final QueryParameters client;
 
 	public ManoVnfIndicator(final QueryParameters manoClient) {

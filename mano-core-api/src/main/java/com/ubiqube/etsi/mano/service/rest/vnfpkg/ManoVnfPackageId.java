@@ -33,6 +33,7 @@ import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.HttpGateway;
 import com.ubiqube.etsi.mano.service.rest.QueryParameters;
 
+import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
 /**
@@ -45,7 +46,7 @@ public class ManoVnfPackageId {
 	private static final String PACKAGE_CONTENT = "/vnf_packages/{id}/package_content";
 
 	private static final Logger LOG = LoggerFactory.getLogger(ManoVnfPackageId.class);
-
+	@Nonnull
 	private final QueryParameters client;
 
 	public ManoVnfPackageId(final QueryParameters manoClient, final UUID id) {

@@ -23,6 +23,8 @@ import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.HttpGateway;
 import com.ubiqube.etsi.mano.service.rest.QueryParameters;
 
+import jakarta.annotation.Nonnull;
+
 /**
  * Sol003 VNF PM.
  *
@@ -30,6 +32,7 @@ import com.ubiqube.etsi.mano.service.rest.QueryParameters;
  *
  */
 public class ManoVnfPm {
+	@Nonnull
 	private final QueryParameters client;
 
 	public ManoVnfPm(final QueryParameters manoClient) {
@@ -43,7 +46,7 @@ public class ManoVnfPm {
 	}
 
 	public PmJob create(final PmJob pmJob) {
-		final BiFunction<HttpGateway, Object, Object> request = (final HttpGateway httpGateway, Object r) -> httpGateway.createVnfPmJobRequest(pmJob);
+		final BiFunction<HttpGateway, Object, Object> request = (final HttpGateway httpGateway, final Object r) -> httpGateway.createVnfPmJobRequest(pmJob);
 		return (PmJob) client.createQuery()
 				.setWireInClass(request)
 				.setWireOutClass(HttpGateway::getVnfPmJobClass)

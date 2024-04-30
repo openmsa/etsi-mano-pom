@@ -12,18 +12,25 @@
  *     GNU General Public License for more details.
  *
  *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see https://www.gnu.org/licenses/.
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.jpa;
+package com.ubiqube.etsi.mano.service.rest;
 
-import java.util.UUID;
+import java.util.List;
 
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import jakarta.annotation.Nullable;
 
-import com.ubiqube.etsi.mano.dao.mano.pm.Threshold;
+public class McConstants {
 
-@Repository
-public interface ThresholdJpa extends CrudRepository<Threshold, UUID> {
-	//
+	private McConstants() {
+		//
+	}
+
+	@SuppressWarnings("null")
+	public static <E> List<E> listOfNullable(@Nullable final List<E> obj) {
+		if (obj == null) {
+			return List.of();
+		}
+		return obj;
+	}
 }

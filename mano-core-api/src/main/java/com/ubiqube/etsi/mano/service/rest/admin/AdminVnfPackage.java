@@ -42,7 +42,11 @@ public class AdminVnfPackage {
 		final ParameterizedTypeReference<List<VnfPackageDto>> myBean = new ParameterizedTypeReference<>() {
 			//
 		};
-		return server.rest().get(uri, myBean, null);
+		final List<VnfPackageDto> res = server.rest().get(uri, myBean, null);
+		if (res == null) {
+			return List.of();
+		}
+		return res;
 	}
 
 	public void delete(final String root, final UUID vnfPkgId) {

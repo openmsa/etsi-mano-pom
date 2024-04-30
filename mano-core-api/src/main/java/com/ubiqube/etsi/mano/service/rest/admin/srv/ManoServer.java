@@ -26,9 +26,11 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
+import com.ubiqube.etsi.mano.service.rest.McConstants;
 import com.ubiqube.etsi.mano.service.rest.QueryParameters;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
 
+import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
 /**
@@ -37,7 +39,7 @@ import jakarta.annotation.Nullable;
  *
  */
 public class ManoServer {
-
+	@Nonnull
 	private final QueryParameters client;
 
 	public ManoServer(final QueryParameters client) {
@@ -50,7 +52,7 @@ public class ManoServer {
 		};
 		final ServerAdapter server = client.getServer();
 		final URI uri = buildUri(root, "admin/server");
-		return server.rest().get(uri, res, null);
+		return McConstants.listOfNullable(server.rest().get(uri, res, null));
 	}
 
 	private URI buildUri(final String urlRoot, final String url) {

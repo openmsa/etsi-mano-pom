@@ -32,10 +32,11 @@ import jakarta.validation.constraints.NotNull;
  *
  */
 public class ServerAdapter {
-
+	@NotNull
 	private final HttpGateway httpGateway;
 	@NotNull
 	private final FluxRest rest;
+	@NotNull
 	private final Servers server;
 
 	public ServerAdapter(final HttpGateway httpGateway, final Servers server, final FluxRest fluxRest) {

@@ -20,13 +20,15 @@ import com.ubiqube.etsi.mano.service.rest.QueryParameters;
 import com.ubiqube.etsi.mano.service.rest.admin.srv.ManoServer;
 import com.ubiqube.etsi.mano.service.rest.admin.vim.ManoVim;
 
+import jakarta.annotation.Nonnull;
+
 /**
  *
  * @author Olivier Vignaud {@literal <ovi@ubiqube.com>}
  *
  */
 public class ManoAdmin {
-
+	@Nonnull
 	private final QueryParameters client;
 
 	public ManoAdmin(final QueryParameters manoClient) {

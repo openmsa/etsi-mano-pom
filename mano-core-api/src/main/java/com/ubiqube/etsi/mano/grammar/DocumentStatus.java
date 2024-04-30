@@ -16,6 +16,8 @@
  */
 package com.ubiqube.etsi.mano.grammar;
 
+import jakarta.annotation.Nonnull;
+
 public class DocumentStatus {
 	public enum Status {
 		REFUSED,
@@ -23,11 +25,11 @@ public class DocumentStatus {
 		NOSTATE
 	}
 
-	public DocumentStatus(Status status) {
-		super();
+	public DocumentStatus(final Status status) {
 		this.status = status;
 	}
 
+	@Nonnull
 	private Status status;
 	private boolean result;
 
@@ -35,7 +37,7 @@ public class DocumentStatus {
 		return status;
 	}
 
-	public void setStatus(Status status) {
+	public void setStatus(final Status status) {
 		this.status = status;
 	}
 
@@ -43,7 +45,7 @@ public class DocumentStatus {
 		return result;
 	}
 
-	public void setResult(boolean result) {
+	public void setResult(final boolean result) {
 		this.result = result;
 	}
 

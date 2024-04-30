@@ -24,6 +24,8 @@ import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.HttpGateway;
 import com.ubiqube.etsi.mano.service.rest.QueryParameters;
 
+import jakarta.annotation.Nonnull;
+
 /**
  * Sol003 threshold.
  *
@@ -31,7 +33,7 @@ import com.ubiqube.etsi.mano.service.rest.QueryParameters;
  *
  */
 public class ManoThreshold {
-
+	@Nonnull
 	private final QueryParameters client;
 
 	public ManoThreshold(final QueryParameters manoClient) {
@@ -41,7 +43,7 @@ public class ManoThreshold {
 	}
 
 	public Threshold create(final Threshold req) {
-		final BiFunction<HttpGateway, Object, Object> request = (final HttpGateway httpGateway, Object r) -> httpGateway.createVnfThresholdRequest(req);
+		final BiFunction<HttpGateway, Object, Object> request = (final HttpGateway httpGateway, final Object r) -> httpGateway.createVnfThresholdRequest(req);
 		return (Threshold) client.createQuery()
 				.setWireInClass(request)
 				.setWireOutClass(HttpGateway::getVnfThresholdClass)

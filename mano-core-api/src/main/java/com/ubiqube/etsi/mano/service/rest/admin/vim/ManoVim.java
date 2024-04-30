@@ -28,8 +28,10 @@ import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.service.rest.QueryParameters;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
 
-public class ManoVim {
+import jakarta.annotation.Nonnull;
 
+public class ManoVim {
+	@Nonnull
 	private final QueryParameters client;
 
 	public ManoVim(final QueryParameters client) {

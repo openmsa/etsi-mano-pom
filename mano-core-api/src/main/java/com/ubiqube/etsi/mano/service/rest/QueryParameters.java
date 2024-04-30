@@ -39,6 +39,7 @@ public class QueryParameters {
 	@Nullable
 	private ApiVersionType queryType;
 	// Can be null.
+	@Nullable
 	private UUID objectId;
 
 	public QueryParameters(final ServerAdapter server) {

@@ -28,12 +28,15 @@ import com.ubiqube.etsi.mano.service.HttpGateway;
 import com.ubiqube.etsi.mano.service.rest.ManoQueryBuilder;
 import com.ubiqube.etsi.mano.service.rest.QueryParameters;
 
+import jakarta.annotation.Nonnull;
+
 /**
  *
  * @author Olivier Vignaud {@literal <ovi@ubiqube.com>}
  *
  */
 public class ManoVnfInstance {
+	@Nonnull
 	private final QueryParameters client;
 
 	public ManoVnfInstance(final QueryParameters manoClient) {
