@@ -106,6 +106,7 @@ class ScalingStepTest {
 		final VnfPackage bundle = ScalingFactory.createBaseVnfPackage();
 		final ScaleInfo si = new ScaleInfo();
 		si.setAspectId("aspect_2");
+		si.setScaleLevel(0);
 		bundle.getScaleStatus().add(si);
 		final ScaleInfo si2 = new ScaleInfo();
 		si2.setAspectId("bb");
