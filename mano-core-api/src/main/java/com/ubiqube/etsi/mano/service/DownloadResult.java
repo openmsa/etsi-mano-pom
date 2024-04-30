@@ -16,16 +16,13 @@
  */
 package com.ubiqube.etsi.mano.service;
 
-import java.util.Arrays;
 import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
-public record DownloadResult(byte[] md5, byte[] sha256, byte[] sha512, Long count) {
+public record DownloadResult(String md5, String sha256, String sha512, Long count) {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(Arrays.hashCode(md5), Arrays.hashCode(sha256), Arrays.hashCode(sha512), count);
+		return Objects.hash(count, md5, sha256, sha512);
 	}
 
 	@Override
@@ -37,31 +34,23 @@ public record DownloadResult(byte[] md5, byte[] sha256, byte[] sha512, Long coun
 			return false;
 		}
 		final DownloadResult other = (DownloadResult) obj;
-		return Arrays.equals(md5, other.md5) && Arrays.equals(sha256, other.sha256) && Arrays.equals(sha512, other.sha512) && (count == other.count);
+		return Objects.equals(count, other.count) && Objects.equals(md5, other.md5) && Objects.equals(sha256, other.sha256) && Objects.equals(sha512, other.sha512);
 	}
 
 	@Override
 	public String toString() {
-		return "DownloadResult [md5=" + Arrays.toString(md5) + ", sha256=" + Arrays.toString(sha256) + ", sha512=" + Arrays.toString(sha512) + ", count=" + count + "]";
+		return "DownloadResult [md5=" + md5 + ", sha256=" + sha256 + ", sha512=" + sha512 + ", count=" + count + "]";
 	}
 
 	public String md5String() {
-		return toString(md5);
+		return md5;
 	}
 
 	public String sha256String() {
-		return toString(sha256);
+		return sha256;
 	}
 
 	public String sha512String() {
-		return toString(sha512);
-	}
-
-	private static String toString(final byte[] hash) {
-		return IntStream.range(0, hash.length)
-				.mapToObj(x -> hash[x])
-				.map(b -> String.format("%02X", b))
-				.collect(Collectors.joining())
-				.toLowerCase();
+		return sha512;
 	}
 }

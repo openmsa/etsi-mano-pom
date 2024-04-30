@@ -21,9 +21,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Paths;
-import java.security.DigestInputStream;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
@@ -48,6 +45,7 @@ import com.ubiqube.etsi.mano.service.DownloadResult;
 import com.ubiqube.etsi.mano.service.pkg.ns.NsPackageProvider;
 import com.ubiqube.etsi.mano.service.pkg.vnf.CustomOnboarding;
 import com.ubiqube.etsi.mano.service.pkg.vnf.VnfPackageReader;
+import com.ubiqube.etsi.mano.service.utils.MultiHashInputStream;
 
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
@@ -158,15 +156,12 @@ public class NfvoCustomOnboarding implements CustomOnboarding {
 	}
 
 	private DownloadResult copyFile(final ZipOutputStream zipOut, final VnfPackageReader vnfPackageReader, final UUID id, final String artifactPath) {
-		DownloadResult ret = new DownloadResult(new byte[0], new byte[0], new byte[0], 0L);
-		try (final InputStream tgtIn = vnfPackageReader.getFileInputStream(artifactPath);
-				final CountingInputStream count = new CountingInputStream(tgtIn);
-				final DigestInputStream inMd5 = new DigestInputStream(count, MessageDigest.getInstance("md5"));
-				final DigestInputStream inSha256 = new DigestInputStream(inMd5, MessageDigest.getInstance("SHA-256"));
-				final DigestInputStream tgt = new DigestInputStream(inSha256, MessageDigest.getInstance("SHA-512"));) {
-			repo.storeBinary(id, mkPath(artifactPath), tgt);
-			ret = new DownloadResult(inMd5.getMessageDigest().digest(), inSha256.getMessageDigest().digest(), tgt.getMessageDigest().digest(), count.getByteCount());
-		} catch (final IOException | NoSuchAlgorithmException e) {
+		DownloadResult ret = new DownloadResult("", "", "", 0L);
+		try (MultiHashInputStream mhis = new MultiHashInputStream(vnfPackageReader.getFileInputStream(artifactPath));
+				final CountingInputStream count = new CountingInputStream(mhis);) {
+			repo.storeBinary(id, mkPath(artifactPath), count);
+			ret = new DownloadResult(mhis.getMd5(), mhis.getSha256(), mhis.getSha512(), count.getByteCount());
+		} catch (final IOException e) {
 			throw new GenericException("Problem reading " + artifactPath, e);
 		}
 		try (final InputStream tgt = vnfPackageReader.getFileInputStream(artifactPath)) {

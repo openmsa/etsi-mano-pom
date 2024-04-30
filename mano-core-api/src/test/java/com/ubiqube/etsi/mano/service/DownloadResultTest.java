@@ -29,7 +29,7 @@ class DownloadResultTest {
 
 	@Test
 	void testBasic() throws Exception {
-		final DownloadResult dr = new DownloadResult("".getBytes(), "sha256".getBytes(), "sha512".getBytes(), 123L);
+		final DownloadResult dr = new DownloadResult("", "sha256", "sha512", 123L);
 		dr.toString();
 		dr.md5String();
 		dr.sha256String();

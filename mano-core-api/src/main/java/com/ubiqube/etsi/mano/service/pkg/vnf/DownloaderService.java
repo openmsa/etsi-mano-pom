@@ -20,9 +20,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
-import java.security.DigestInputStream;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -55,6 +52,7 @@ import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 import com.ubiqube.etsi.mano.service.DownloadResult;
 import com.ubiqube.etsi.mano.service.rest.ExceptionHandler;
+import com.ubiqube.etsi.mano.service.utils.MultiHashInputStream;
 import com.ubiqube.etsi.mano.service.vim.VimException;
 
 import io.micrometer.context.ContextExecutorService;
@@ -126,9 +124,7 @@ public class DownloaderService {
 		try (final PipedOutputStream osPipe = new PipedOutputStream();
 				final PipedInputStream isPipeIn = new PipedInputStream(osPipe);
 				final CountingInputStream count = new CountingInputStream(isPipeIn);
-				final DigestInputStream inMd5 = new DigestInputStream(count, MessageDigest.getInstance("md5"));
-				final DigestInputStream inSha256 = new DigestInputStream(inMd5, MessageDigest.getInstance("SHA-256"));
-				final DigestInputStream isPipe = new DigestInputStream(inSha256, MessageDigest.getInstance("SHA-512"));) {
+				MultiHashInputStream mhis = new MultiHashInputStream(count);) {
 
 			final Flux<DataBuffer> wc = webclient
 					.get()
@@ -149,9 +145,9 @@ public class DownloaderService {
 			if (eh.getMessage() != null) {
 				throw new GenericException(eh.getE());
 			}
-			packageRepository.storeBinary(vnfPkgId, target, isPipe);
-			return new DownloadResult(inMd5.getMessageDigest().digest(), inSha256.getMessageDigest().digest(), isPipe.getMessageDigest().digest(), count.getByteCount());
-		} catch (final IOException | NoSuchAlgorithmException e) {
+			packageRepository.storeBinary(vnfPkgId, target, mhis);
+			return new DownloadResult(mhis.getMd5(), mhis.getSha256(), mhis.getSha512(), count.getByteCount());
+		} catch (final IOException e) {
 			throw new GenericException(e);
 		}
 	}

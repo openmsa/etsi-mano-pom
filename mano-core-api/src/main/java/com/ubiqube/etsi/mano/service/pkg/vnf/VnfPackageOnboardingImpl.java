@@ -20,8 +20,6 @@ import static com.ubiqube.etsi.mano.Constants.getSafeUUID;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.DigestInputStream;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.Optional;
@@ -46,6 +44,7 @@ import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
 import com.ubiqube.etsi.mano.service.pkg.PackageDescriptor;
 import com.ubiqube.etsi.mano.service.pkg.bean.ProviderData;
+import com.ubiqube.etsi.mano.service.utils.MultiHashInputStream;
 
 import jakarta.annotation.Nullable;
 
@@ -121,11 +120,9 @@ public class VnfPackageOnboardingImpl {
 	}
 
 	private VnfPackage buildChecksum(final VnfPackage vnfPackage, final ManoResource data) throws NoSuchAlgorithmException, IOException {
-		try (final DigestInputStream inMd5 = new DigestInputStream(data.getInputStream(), MessageDigest.getInstance("md5"));
-				final DigestInputStream inSha256 = new DigestInputStream(inMd5, MessageDigest.getInstance("SHA-256"));
-				final DigestInputStream isPipe = new DigestInputStream(inSha256, MessageDigest.getInstance("SHA-512"));) {
-			isPipe.readAllBytes();
-			vnfPackage.setChecksum(getChecksum(inMd5, inSha256, isPipe));
+		try (final MultiHashInputStream mis = new MultiHashInputStream(data.getInputStream())) {
+			mis.readAllBytes();
+			vnfPackage.setChecksum(getChecksum(mis.getMd5(), mis.getSha256(), mis.getSha512()));
 		}
 		return vnfPackageService.save(vnfPackage);
 	}
@@ -150,30 +147,14 @@ public class VnfPackageOnboardingImpl {
 		onboardingMapper.mapper(vnfPackageReader, vnfPackage, pd);
 	}
 
-	private static PkgChecksum getChecksum(final DigestInputStream inMd5, final DigestInputStream inSha256, final DigestInputStream inSha512) {
+	private static PkgChecksum getChecksum(final String inMd5, final String inSha256, final String inSha512) {
 		final PkgChecksum checksum = new PkgChecksum();
-		final byte[] md5Bytes = inMd5.getMessageDigest().digest();
-		checksum.setMd5(bytesToHex(md5Bytes));
-		final byte[] sha256Bytes = inSha256.getMessageDigest().digest();
-		checksum.setSha256(bytesToHex(sha256Bytes));
-		final byte[] sha512Bytes = inSha512.getMessageDigest().digest();
-		final String sha512Str = bytesToHex(sha512Bytes);
+		checksum.setMd5(inMd5);
+		checksum.setSha256(inSha256);
 		checksum.setAlgorithm(Constants.HASH_ALGORITHM);
-		checksum.setHash(sha512Str);
-		checksum.setSha512(sha512Str);
+		checksum.setHash(inSha512);
+		checksum.setSha512(inSha512);
 		return checksum;
-	}
-
-	private static String bytesToHex(final byte[] hash) {
-		final StringBuilder hexString = new StringBuilder();
-		for (final byte element : hash) {
-			final String hex = Integer.toHexString(0xff & element);
-			if (hex.length() == 1) {
-				hexString.append('0');
-			}
-			hexString.append(hex);
-		}
-		return hexString.toString();
 	}
 
 	private VnfPackage finishOnboarding(final VnfPackage vnfPackage) {
