@@ -10,6 +10,8 @@ import java.util.stream.IntStream;
 
 import com.ubiqube.etsi.mano.exception.GenericException;
 
+import jakarta.annotation.Nullable;
+
 public class MultiHashInputStream extends InputStream {
 
 	private DigestInputStream inMd5;
@@ -34,7 +36,7 @@ public class MultiHashInputStream extends InputStream {
 	}
 
 	@Override
-	public int read(final byte[] b, final int off, final int len) throws IOException {
+	public int read(final @Nullable byte[] b, final int off, final int len) throws IOException {
 		return inSha512.read(b, off, len);
 	}
 
