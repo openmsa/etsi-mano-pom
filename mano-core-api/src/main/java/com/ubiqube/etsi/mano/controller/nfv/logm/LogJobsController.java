@@ -16,22 +16,28 @@
  */
 package com.ubiqube.etsi.mano.controller.nfv.logm;
 
+import java.util.function.Function;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.controller.nfvmanologm.LogJobsFrontController;
+import com.ubiqube.etsi.mano.dao.mano.sol009.logm.CompileLogRequest;
+import com.ubiqube.etsi.mano.dao.mano.sol009.logm.CreateLoggingJobRequest;
+import com.ubiqube.etsi.mano.dao.mano.sol009.logm.LogReport;
+import com.ubiqube.etsi.mano.dao.mano.sol009.logm.LoggingJob;
 
 @Service
 public class LogJobsController implements LogJobsFrontController {
 
 	@Override
-	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Class<U> class1, final String nextpageOpaqueMarker) {
+	public <U> ResponseEntity<String> search(final MultiValueMap<String, String> requestParams, final Function<LoggingJob, U> mapper, final String nextpageOpaqueMarker) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public <U> ResponseEntity<U> compile(final String logJobId, final Object body, final Class<U> clazz) {
+	public <U> ResponseEntity<U> compile(final String logJobId, final CompileLogRequest req, final Function<LogReport, U> mapper) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -41,17 +47,17 @@ public class LogJobsController implements LogJobsFrontController {
 	}
 
 	@Override
-	public <U> ResponseEntity<U> findById(final String logJobId, final Class<U> clazz) {
+	public <U> ResponseEntity<U> findById(final String logJobId, final Function<LoggingJob, U> mapper) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public <U> ResponseEntity<U> findLogReport(final String logJobId, final String logReportId, final Class<U> clazz) {
+	public <U> ResponseEntity<U> findLogReport(final String logJobId, final String logReportId, final Function<LogReport, U> mapper) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public <U> ResponseEntity<U> create(final Object body, final Class<U> clazz) {
+	public <U> ResponseEntity<U> create(final CreateLoggingJobRequest request, final Function<LoggingJob, U> mapper) {
 		throw new UnsupportedOperationException();
 	}
 
