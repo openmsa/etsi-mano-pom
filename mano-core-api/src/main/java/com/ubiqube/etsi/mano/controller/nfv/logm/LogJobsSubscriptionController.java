@@ -17,22 +17,24 @@
 package com.ubiqube.etsi.mano.controller.nfv.logm;
 
 import java.util.List;
+import java.util.function.Function;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.controller.nfvmanologm.LogJobsSubscriptionFrontController;
+import com.ubiqube.etsi.mano.service.event.model.Subscription;
 
 @Service
 public class LogJobsSubscriptionController implements LogJobsSubscriptionFrontController {
 
 	@Override
-	public <U> ResponseEntity<List<U>> search(final String filter, final Class<U> claee) {
+	public <U> ResponseEntity<List<U>> search(final String filter, final Function<Subscription, U> mapper) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public <U> ResponseEntity<U> create(final Object body, final Class<U> clazz) {
+	public <U> ResponseEntity<U> create(final Subscription body, final Function<Subscription, U> mapper) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -42,7 +44,7 @@ public class LogJobsSubscriptionController implements LogJobsSubscriptionFrontCo
 	}
 
 	@Override
-	public <U> ResponseEntity<U> findById(final String subscriptionId, final Class<U> clazz) {
+	public <U> ResponseEntity<U> findById(final String subscriptionId, final Function<Subscription, U> mapper) {
 		throw new UnsupportedOperationException();
 	}
 

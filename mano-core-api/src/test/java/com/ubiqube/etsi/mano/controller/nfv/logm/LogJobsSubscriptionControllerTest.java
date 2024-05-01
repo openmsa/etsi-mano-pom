@@ -20,6 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
+import com.ubiqube.etsi.mano.service.event.model.Subscription;
+
 /**
  *
  * @author Olivier Vignaud
@@ -36,7 +38,8 @@ class LogJobsSubscriptionControllerTest {
 	@Test
 	void testCreate() {
 		final LogJobsSubscriptionController srv = new LogJobsSubscriptionController();
-		assertThrows(UnsupportedOperationException.class, () -> srv.create(srv, null));
+		final Subscription req = new Subscription();
+		assertThrows(UnsupportedOperationException.class, () -> srv.create(req, null));
 	}
 
 	@Test
