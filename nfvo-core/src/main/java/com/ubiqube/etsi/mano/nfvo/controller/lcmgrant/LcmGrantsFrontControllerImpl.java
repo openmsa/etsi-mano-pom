@@ -30,6 +30,7 @@ import com.ubiqube.etsi.mano.controller.lcmgrant.GrantManagement;
 import com.ubiqube.etsi.mano.controller.lcmgrant.LcmGrantsFrontController;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 
+import jakarta.annotation.Nonnull;
 import jakarta.validation.Valid;
 
 /**
@@ -41,7 +42,7 @@ import jakarta.validation.Valid;
 public class LcmGrantsFrontControllerImpl implements LcmGrantsFrontController {
 	private final GrantManagement grantManagement;
 
-	public LcmGrantsFrontControllerImpl(final GrantManagement grantManagement) {
+	public LcmGrantsFrontControllerImpl(final @Nonnull GrantManagement grantManagement) {
 		this.grantManagement = grantManagement;
 	}
 
@@ -52,8 +53,9 @@ public class LcmGrantsFrontControllerImpl implements LcmGrantsFrontController {
 			return ResponseEntity.accepted().build();
 		}
 		final U jsonGrant = func.apply(grants);
+		// Only self link, other links came from request (mapping).
 		makeLink.accept(jsonGrant);
-		final Optional<Object> optError = Optional.ofNullable(grants.getError()).map(x -> x.getStatus());
+		final Optional<Long> optError = Optional.ofNullable(grants.getError()).map(x -> x.getStatus());
 		if (optError.isEmpty()) {
 			return ResponseEntity.ok(jsonGrant);
 		}
