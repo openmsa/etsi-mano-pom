@@ -25,18 +25,12 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import ma.glasnost.orika.OrikaSystemProperties;
-import ma.glasnost.orika.impl.generator.EclipseJdtCompilerStrategy;
-
 @SpringBootApplication
 @EnableScheduling
 @EnableJms
 public class Application extends SpringBootServletInitializer {
 
 	public static void main(final String[] args) {
-		System.setProperty(OrikaSystemProperties.COMPILER_STRATEGY, EclipseJdtCompilerStrategy.class.getName());
-		System.setProperty(OrikaSystemProperties.WRITE_SOURCE_FILES, "true");
-		System.setProperty(OrikaSystemProperties.WRITE_SOURCE_FILES_TO_PATH, "/tmp/okika");
 		Security.addProvider(new BouncyCastleProvider());
 		SpringApplication.run(Application.class, args);
 	}
