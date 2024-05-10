@@ -152,8 +152,8 @@
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
-			<artifactId>mano-orika</artifactId>
-			<version>${version.mano-orika}</version>
+			<artifactId>bean-walker</artifactId>
+			<version>${version.mano-bean-walker}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
