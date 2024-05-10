@@ -12,27 +12,29 @@
  *     GNU General Public License for more details.
  *
  *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see https://www.gnu.org/licenses/.
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.exception;
+package com.ubiqube.etsi.mano.controller.policy;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-/**
- *
- * @author Olivier Vignaud {@literal <ovi@ubiqube.com>}
- *
- */
-public class PreConditionException extends ResponseStatusException {
-	/** Serial. */
-	private static final long serialVersionUID = 1L;
+import org.junit.jupiter.api.Test;
 
-	public PreConditionException(final String detail) {
-		super(HttpStatus.PRECONDITION_FAILED, detail);
+class PolicyPatchDtoTest {
+
+	@Test
+	void test() {
+		final PolicyPatchDto p = new PolicyPatchDto();
+		p.setActivationStatus(null);
+		p.setAddAssociations(null);
+		p.setRemoveAllAssociations(false);
+		p.setRemoveAssociations(null);
+		p.setSelectedVersion(null);
+		p.getActivationStatus();
+		p.getAddAssociations();
+		p.getRemoveAssociations();
+		p.getSelectedVersion();
+		assertNotNull(p.toString());
 	}
 
-	public PreConditionException(final String detail, final Throwable e) {
-		super(HttpStatus.PRECONDITION_FAILED, detail, e);
-	}
 }

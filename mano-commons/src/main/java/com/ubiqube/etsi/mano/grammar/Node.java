@@ -91,6 +91,9 @@ public class Node<U> {
 	}
 
 	public @Nullable U getValue() {
+		if (null == value) {
+			return null;
+		}
 		if (value.size() > 1) {
 			throw new GenericException("Calling a multivalue.");
 		}

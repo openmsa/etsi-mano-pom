@@ -12,23 +12,25 @@
  *     GNU General Public License for more details.
  *
  *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see https://www.gnu.org/licenses/.
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 package com.ubiqube.etsi.mano.exception;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class RequestRangeNotSatisfiableException extends ResponseStatusException {
+import org.junit.jupiter.api.Test;
 
-	/** Serial. */
-	private static final long serialVersionUID = 1L;
+class BadRequestExceptionTest {
 
-	public RequestRangeNotSatisfiableException(final String detail) {
-		super(HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE, detail);
+	@Test
+	void test() {
+		final BadRequestException e = new BadRequestException("");
+		assertNotNull(e);
 	}
 
-	public RequestRangeNotSatisfiableException(final String message, final IllegalArgumentException e) {
-		super(HttpStatus.REQUESTED_RANGE_NOT_SATISFIABLE, message, e);
+	@Test
+	void test2() {
+		final BadRequestException e = new BadRequestException("", new RuntimeException());
+		assertNotNull(e);
 	}
 }
