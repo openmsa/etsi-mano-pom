@@ -26,19 +26,11 @@ import org.springframework.test.context.ContextConfiguration;
 
 import com.ubiqube.etsi.mano.VnfmApplication;
 
-import ma.glasnost.orika.OrikaSystemProperties;
-import ma.glasnost.orika.impl.generator.EclipseJdtCompilerStrategy;
-
 @SpringBootTest
 @ContextConfiguration(classes = { VnfmApplication.class })
 @AutoConfigureObservability(tracing = true)
 @ActiveProfiles("test")
 class VnfmApplicationTest {
-	static {
-		System.setProperty(OrikaSystemProperties.COMPILER_STRATEGY, EclipseJdtCompilerStrategy.class.getName());
-		System.setProperty(OrikaSystemProperties.WRITE_SOURCE_FILES, "true");
-		System.setProperty(OrikaSystemProperties.WRITE_SOURCE_FILES_TO_PATH, "/tmp/okika");
-	}
 
 	@Test
 	void contextLoads() {
