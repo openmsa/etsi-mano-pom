@@ -15,9 +15,6 @@ logging:
     com:
       ubiqube:
         etsi: DEBUG
-    ma:
-      glasnost:
-        orika: INFO
     org:
       apache:
         http:

@@ -28,18 +28,12 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 import com.ubiqube.etsi.mano.docker.JibDockerService;
 
-import ma.glasnost.orika.OrikaSystemProperties;
-import ma.glasnost.orika.impl.generator.EclipseJdtCompilerStrategy;
-
 @SpringBootApplication
 @EnableJms
 @EnableScheduling
 public class NfvoApplication extends SpringBootServletInitializer {
 
 	public static void main(final String[] args) {
-		System.setProperty(OrikaSystemProperties.COMPILER_STRATEGY, EclipseJdtCompilerStrategy.class.getName());
-		System.setProperty(OrikaSystemProperties.WRITE_SOURCE_FILES, "true");
-		System.setProperty(OrikaSystemProperties.WRITE_SOURCE_FILES_TO_PATH, "/tmp/orika-nfvo");
 		Security.addProvider(new BouncyCastleProvider());
 		SpringApplication.run(NfvoApplication.class, args);
 	}

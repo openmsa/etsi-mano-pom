@@ -54,10 +54,6 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>com.ubiqube.orika</groupId>
-			<artifactId>orika-spring-boot-starter</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.liquibase</groupId>
 			<artifactId>liquibase-core</artifactId>
 		</dependency>
@@ -186,14 +182,6 @@
 		<dependency>
 			<groupId>org.jgrapht</groupId>
 			<artifactId>jgrapht-ext</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>ma.glasnost.orika</groupId>
-			<artifactId>ubi-orika-eclipse-tools</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>ma.glasnost.orika</groupId>
-			<artifactId>ubi-orika-core</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springdoc</groupId>

@@ -42,9 +42,6 @@ import org.springframework.test.context.ContextConfiguration;
 
 import com.ubiqube.etsi.mano.NfvoApplication;
 
-import ma.glasnost.orika.OrikaSystemProperties;
-import ma.glasnost.orika.impl.generator.EclipseJdtCompilerStrategy;
-
 /**
  * Copyright (C) 2019-2020 Ubiqube.
  *
@@ -66,11 +63,6 @@ import ma.glasnost.orika.impl.generator.EclipseJdtCompilerStrategy;
 @ActiveProfiles("test")
 @ContextConfiguration(classes = { NfvoApplication.class })
 class NfvoApplicationTest {
-	static {
-		System.setProperty(OrikaSystemProperties.COMPILER_STRATEGY, EclipseJdtCompilerStrategy.class.getName());
-		System.setProperty(OrikaSystemProperties.WRITE_SOURCE_FILES, "true");
-		System.setProperty(OrikaSystemProperties.WRITE_SOURCE_FILES_TO_PATH, "/tmp/okika");
-	}
 
 	@SuppressWarnings("static-method")
 	@Test
