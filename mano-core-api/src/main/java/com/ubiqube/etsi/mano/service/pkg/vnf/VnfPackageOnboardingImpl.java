@@ -20,7 +20,6 @@ import static com.ubiqube.etsi.mano.Constants.getSafeUUID;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 import java.util.Optional;
 
@@ -109,7 +108,7 @@ public class VnfPackageOnboardingImpl {
 			ret = finishOnboarding(vnfPackage);
 			buildChecksum(ret, data);
 			eventManager.sendNotification(NotificationEvent.VNF_PKG_ONBOARDING, vnfPackage.getId(), Map.of());
-		} catch (final RuntimeException | NoSuchAlgorithmException | IOException e) {
+		} catch (final RuntimeException | IOException e) {
 			LOG.error("", e);
 			final VnfPackage v2 = vnfPackageService.findById(vnfPackage.getId());
 			v2.setOnboardingState(OnboardingStateType.ERROR);
@@ -119,7 +118,7 @@ public class VnfPackageOnboardingImpl {
 		return ret;
 	}
 
-	private VnfPackage buildChecksum(final VnfPackage vnfPackage, final ManoResource data) throws NoSuchAlgorithmException, IOException {
+	private VnfPackage buildChecksum(final VnfPackage vnfPackage, final ManoResource data) throws IOException {
 		try (final MultiHashInputStream mis = new MultiHashInputStream(data.getInputStream())) {
 			mis.readAllBytes();
 			vnfPackage.setChecksum(getChecksum(mis.getMd5(), mis.getSha256(), mis.getSha512()));
