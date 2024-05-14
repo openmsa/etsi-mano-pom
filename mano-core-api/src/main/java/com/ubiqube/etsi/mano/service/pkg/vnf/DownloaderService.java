@@ -35,7 +35,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import org.apache.commons.io.input.CountingInputStream;
+import org.apache.commons.io.input.BoundedInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.buffer.DataBuffer;
@@ -123,7 +123,7 @@ public class DownloaderService {
 		final WebClient webclient = createWebClient();
 		try (final PipedOutputStream osPipe = new PipedOutputStream();
 				final PipedInputStream isPipeIn = new PipedInputStream(osPipe);
-				final CountingInputStream count = new CountingInputStream(isPipeIn);
+				final BoundedInputStream count = new BoundedInputStream(isPipeIn);
 				MultiHashInputStream mhis = new MultiHashInputStream(count);) {
 
 			final Flux<DataBuffer> wc = webclient
@@ -146,7 +146,7 @@ public class DownloaderService {
 				throw new GenericException(eh.getE());
 			}
 			packageRepository.storeBinary(vnfPkgId, target, mhis);
-			return new DownloadResult(mhis.getMd5(), mhis.getSha256(), mhis.getSha512(), count.getByteCount());
+			return new DownloadResult(mhis.getMd5(), mhis.getSha256(), mhis.getSha512(), count.getCount());
 		} catch (final IOException e) {
 			throw new GenericException(e);
 		}
