@@ -45,7 +45,7 @@ public class Sol003IndicatorsFrontControllerImpl implements IndicatorsFrontContr
 	@Override
 	public <U> ResponseEntity<List<U>> search(final @Nullable String filter, final @Nullable String nextpageOpaqueMarker, final Function<VnfIndicator, U> mapper, final Consumer<U> makeLink) {
 		final List<VnfIndicator> res = monitoringManager.search(filter, nextpageOpaqueMarker);
-		final List<U> ret = res.stream().map(x -> mapper.apply(x)).toList();
+		final List<U> ret = res.stream().map(mapper::apply).toList();
 		return ResponseEntity.ok(ret);
 	}
 
