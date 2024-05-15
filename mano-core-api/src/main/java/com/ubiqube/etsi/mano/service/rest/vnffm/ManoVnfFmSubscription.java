@@ -32,7 +32,7 @@ public class ManoVnfFmSubscription {
 
 	public Subscription subscribe(final Subscription subscription) {
 		client.setFragment("/subscriptions");
-		final BiFunction<HttpGateway, Object, Object> request = (final HttpGateway httpGateway, Object r) -> httpGateway.createVnfFmSubscriptionRequest(subscription);
+		final BiFunction<HttpGateway, Object, Object> request = (final HttpGateway httpGateway, final Object r) -> httpGateway.createVnfFmSubscriptionRequest(subscription);
 		return (Subscription) client.createQuery()
 				.setWireInClass(request)
 				.setWireOutClass(HttpGateway::getVnfFmSubscriptionClass)
@@ -45,7 +45,7 @@ public class ManoVnfFmSubscription {
 		client.setObjectId(id);
 		return (Subscription) client.createQuery()
 				.setWireOutClass(HttpGateway::getVnfFmSubscriptionClass)
-				.setOutClass((final HttpGateway httpGateway, final Object x) -> httpGateway.mapVnfFmSubscription(x))
+				.setOutClass(HttpGateway::mapVnfFmSubscription)
 				.getSingle();
 	}
 
