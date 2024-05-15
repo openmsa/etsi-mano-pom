@@ -182,7 +182,6 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: http://mano-auth:8080/auth/realms/mano-realm
-          jwk-set-uri: http://mano-auth:8080/auth/realms/mano-realm/protocol/openid-connect/certs
   servlet:
     multipart:
       max-file-size: 1024MB
