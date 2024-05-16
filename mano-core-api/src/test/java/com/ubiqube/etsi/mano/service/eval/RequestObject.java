@@ -16,9 +16,11 @@
  */
 package com.ubiqube.etsi.mano.service.eval;
 
+import com.ubiqube.etsi.mano.service.event.model.Subscription;
+
 import lombok.Data;
 
 @Data
-public class RequestObject {
-	private SubscriptionFilter filter;
+public class RequestObject extends Subscription {
+	private static final long serialVersionUID = 1L;
 }
