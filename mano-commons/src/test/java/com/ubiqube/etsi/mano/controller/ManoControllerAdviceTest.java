@@ -17,8 +17,11 @@
 package com.ubiqube.etsi.mano.controller;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
 
 import java.lang.reflect.Method;
+import java.net.URI;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +29,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.MethodParameter;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+
+import com.ubiqube.etsi.mano.exception.SeeOtherException;
 
 @ExtendWith(MockitoExtension.class)
 class ManoControllerAdviceTest {
@@ -39,8 +45,17 @@ class ManoControllerAdviceTest {
 		final Method m = this.getClass().getMethods()[0];
 		final MethodParameter mp = new MethodParameter(m, 0);
 		final MethodArgumentNotValidException ex = new MethodArgumentNotValidException(mp, bindingResult);
+		final FieldError fe = new FieldError("name", "field", "default");
+		when(bindingResult.getAllErrors()).thenReturn(List.of(fe));
 		c.handleValidationExceptions(ex);
 		assertTrue(true);
 	}
 
+	@Test
+	void testHandleSeeOtherExceptions() {
+		final ManoControllerAdvice c = new ManoControllerAdvice();
+		final SeeOtherException ex = new SeeOtherException(URI.create("http://localhost/"), "See other");
+		c.handleSeeOtherExceptions(ex);
+		assertTrue(true);
+	}
 }
