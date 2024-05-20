@@ -22,7 +22,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
@@ -53,6 +52,8 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.jms.core.JmsTemplate;
 
+import com.ubiqube.etsi.mano.dao.mano.vim.AccessInfo;
+import com.ubiqube.etsi.mano.dao.mano.vim.InterfaceInfo;
 import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
 import com.ubiqube.etsi.mano.service.mon.data.Metric;
 import com.ubiqube.etsi.mano.service.mon.data.MonConnInformation;
@@ -76,8 +77,13 @@ class SnmpTest {
 	@Test
 	void testSnmpPoller() {
 		final MonConnInformation conn = new MonConnInformation();
-		conn.setAccessInfo(Map.of("community", "ubiqube"));
-		conn.setInterfaceInfo(Map.of("endpoint", "udp:10.31.1.248/161"));
+		final AccessInfo ai = AccessInfo.builder()
+				.community("ubiqube")
+				.build();
+		conn.setAccessInfo(ai);
+		final InterfaceInfo ii = new InterfaceInfo();
+		ii.setEndpoint("udp:10.31.1.248/161");
+		conn.setInterfaceInfo(ii);
 		conn.setConnType("SNMP");
 		final SnmpPoller sp = new SnmpPoller(jmsTemplate, configurableApplicationContext);
 		final BatchPollingJob pj = new BatchPollingJob();
@@ -95,12 +101,17 @@ class SnmpTest {
 	@Test
 	void testSnmpV3Poller() {
 		final MonConnInformation conn = new MonConnInformation();
-		conn.setAccessInfo(Map.of("securityName", "ovi",
-				"privacyPassphrase", "	ubiqube123",
-				"authenticationProtocol", "md5",
-				"authenticationPassphrase", "ubiqube123",
-				"privacyProtocol", "des"));
-		conn.setInterfaceInfo(Map.of("endpoint", "udp:10.31.1.247/161"));
+		final AccessInfo ai = AccessInfo.builder()
+				.securityName("ovi")
+				.privacyPassphrase("ubiqube123")
+				.authenticationProtocol("md5")
+				.authenticationPassphrase("ubiqube123")
+				.privacyProtocol("des")
+				.build();
+		conn.setAccessInfo(ai);
+		final InterfaceInfo ii = new InterfaceInfo();
+		ii.setEndpoint("udp:10.31.1.247/161");
+		conn.setInterfaceInfo(ii);
 		conn.setConnType("SNMP3");
 		final Snmp3Poller sp = new Snmp3Poller(jmsTemplate, configurableApplicationContext);
 		final BatchPollingJob pj = new BatchPollingJob();

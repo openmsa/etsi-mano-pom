@@ -81,7 +81,7 @@ public class Snmp3Poller extends AbstractSnmpPoller {
 		setupSecurity();
 		final UserTarget<Address> target = createUserTarget(conn);
 		final MPv3 mPv3 = createMpv3(conn);
-		final String securityName = conn.getAccessInfo().get(SECURITY_NAME);
+		final String securityName = conn.getAccessInfo().getSecurityName();
 		try (final Snmp snmp = new Snmp(new DefaultUdpTransportMapping())) {
 			((MPv3) snmp.getMessageProcessingModel(MPv3.ID)).setSecurityModels(mPv3.getSecurityModels());
 			snmp.getMessageDispatcher().addMessageProcessingModel(mPv3);
@@ -107,11 +107,11 @@ public class Snmp3Poller extends AbstractSnmpPoller {
 	}
 
 	private static UsmUser createUsmUser(final MonConnInformation conn) {
-		final String securityName = conn.getAccessInfo().get(SECURITY_NAME);
-		final String privacyPassphrase = conn.getAccessInfo().get("privacyPassphrase");
-		final OID authenticationProtocol = toOid(conn.getAccessInfo().get("authenticationProtocol"));
-		final String authenticationPassphrase = conn.getAccessInfo().get("authenticationPassphrase");
-		final OID privacyProtocol = toOid(conn.getAccessInfo().get("privacyProtocol"));
+		final String securityName = conn.getAccessInfo().getSecurityName();
+		final String privacyPassphrase = conn.getAccessInfo().getPrivacyPassphrase();
+		final OID authenticationProtocol = toOid(conn.getAccessInfo().getAuthenticationProtocol());
+		final String authenticationPassphrase = conn.getAccessInfo().getAuthenticationPassphrase();
+		final OID privacyProtocol = toOid(conn.getAccessInfo().getPrivacyProtocol());
 		return new UsmUser(new OctetString(securityName),
 				authenticationProtocol, new OctetString(authenticationPassphrase),
 				privacyProtocol, new OctetString(privacyPassphrase));
@@ -138,8 +138,8 @@ public class Snmp3Poller extends AbstractSnmpPoller {
 	}
 
 	private static UserTarget<Address> createUserTarget(final MonConnInformation conn) {
-		final String endpoint = conn.getInterfaceInfo().get("endpoint");
-		final String user = conn.getAccessInfo().get(SECURITY_NAME);
+		final String endpoint = conn.getInterfaceInfo().getEndpoint();
+		final String user = conn.getAccessInfo().getSecurityName();
 		final Address address = GenericAddress.parse(endpoint);
 		final UserTarget<Address> target = new UserTarget<>();
 		target.setAddress(address);

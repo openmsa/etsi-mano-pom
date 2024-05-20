@@ -18,7 +18,6 @@ package com.ubiqube.etsi.mano.service.mon.poller.snmp;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import org.snmp4j.CommunityTarget;
 import org.snmp4j.PDU;
@@ -37,6 +36,8 @@ import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
+import com.ubiqube.etsi.mano.dao.mano.vim.AccessInfo;
+import com.ubiqube.etsi.mano.dao.mano.vim.InterfaceInfo;
 import com.ubiqube.etsi.mano.mon.MonGenericException;
 import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
 import com.ubiqube.etsi.mano.service.mon.data.Metric;
@@ -59,10 +60,10 @@ public class SnmpPoller extends AbstractSnmpPoller {
 	@Override
 	protected PDU getResponse(final BatchPollingJob pj) {
 		final MonConnInformation conn = pj.getConnection();
-		final Map<String, String> ii = conn.getInterfaceInfo();
-		final Map<String, String> ai = conn.getAccessInfo();
-		final String endpoint = ii.get("endpoint");
-		final String community = ai.get("community");
+		final InterfaceInfo ii = conn.getInterfaceInfo();
+		final AccessInfo ai = conn.getAccessInfo();
+		final String endpoint = ii.getEndpoint();
+		final String community = ai.getCommunity();
 		final List<Metric> metrics = pj.getMetrics();
 		final PDU pdu = createPdu(metrics);
 		try (final Snmp snmp = new Snmp(new DefaultUdpTransportMapping())) {
