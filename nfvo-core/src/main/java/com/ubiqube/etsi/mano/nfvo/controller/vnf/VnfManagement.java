@@ -19,6 +19,7 @@ package com.ubiqube.etsi.mano.nfvo.controller.vnf;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -40,6 +41,8 @@ import com.ubiqube.etsi.mano.Constants;
 import com.ubiqube.etsi.mano.controller.MetaStreamResource;
 import com.ubiqube.etsi.mano.controller.vnf.VnfPackageManagement;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+import com.ubiqube.etsi.mano.dao.mano.pkg.ExternalArtifactsAccessConfig;
+import com.ubiqube.etsi.mano.dao.mano.pkg.ExternalArtifactsAccessConfigArtifact;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.grammar.BooleanExpression;
@@ -199,6 +202,22 @@ public class VnfManagement implements VnfPackageManagement {
 	public <U> ResponseEntity<String> searchOnboarded(final MultiValueMap<String, String> requestParams, final Function<VnfPackage, U> mapper, final String excludeDefaults, final Set<String> mandatoryFields, final Consumer<U> makeLinks, final Class<?> frontClass) {
 		final GrammarNode onBoardedNode = new BooleanExpression(new GrammarLabel("onboardingState"), GrammarOperandType.EQ, new GrammarValue("ONBOARDED"));
 		return searchableService.search(VnfPackage.class, requestParams, mapper, excludeDefaults, mandatoryFields, makeLinks, List.of(onBoardedNode), frontClass);
+	}
 
+	@Override
+	public ExternalArtifactsAccessConfig putExternalArtifact(final ExternalArtifactsAccessConfig body, final UUID id) {
+		final VnfPackage vnfPackage = vnfPackageService.findById(id);
+		merge(vnfPackage.getExternalArtifactsAccessConfig(), body);
+		final VnfPackage res = vnfPackageService.save(vnfPackage);
+		return res.getExternalArtifactsAccessConfig();
+	}
+
+	private static void merge(final ExternalArtifactsAccessConfig orig, final ExternalArtifactsAccessConfig dst) {
+		final List<ExternalArtifactsAccessConfigArtifact> arts = orig.getArtifact();
+		dst.getArtifact().forEach(x -> {
+			final Optional<ExternalArtifactsAccessConfigArtifact> res = arts.stream().filter(y -> y.getArtifactUri().equals(x.getArtifactUri())).findFirst();
+			res.ifPresent(arts::remove);
+			arts.add(x);
+		});
 	}
 }

@@ -42,6 +42,7 @@ import com.ubiqube.etsi.mano.controller.MetaStreamResource;
 import com.ubiqube.etsi.mano.controller.vnf.VnfPackageFrontController;
 import com.ubiqube.etsi.mano.controller.vnf.VnfPackageManagement;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+import com.ubiqube.etsi.mano.dao.mano.pkg.ExternalArtifactsAccessConfig;
 import com.ubiqube.etsi.mano.dao.mano.pkg.UploadUriParameters;
 import com.ubiqube.etsi.mano.dao.rfc7807.FailureDetails;
 import com.ubiqube.etsi.mano.exception.GenericException;
@@ -60,7 +61,6 @@ import jakarta.servlet.http.HttpServletRequest;
 @Service
 public class VnfPackageFrontControllerImpl implements VnfPackageFrontController {
 	private final VnfPackageManagement vnfManagement;
-
 	private final VnfPackageController vnfPackageController;
 
 	public VnfPackageFrontControllerImpl(final VnfPackageManagement vnfManagement, final VnfPackageController vnfPackageController) {
@@ -150,8 +150,9 @@ public class VnfPackageFrontControllerImpl implements VnfPackageFrontController 
 	}
 
 	@Override
-	public <U> ResponseEntity<U> putExternalArtifact(final U body, final UUID id) {
-		throw new UnsupportedOperationException();
+	public <U> ResponseEntity<U> putExternalArtifactAccessConfig(final ExternalArtifactsAccessConfig body, final UUID id, final Function<ExternalArtifactsAccessConfig, U> mapper) {
+		final ExternalArtifactsAccessConfig res = vnfManagement.putExternalArtifact(body, id);
+		return ResponseEntity.ok(mapper.apply(res));
 	}
 
 	@Override
