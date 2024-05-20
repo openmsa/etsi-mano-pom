@@ -112,6 +112,7 @@ class GnocchiPollerListenerTest {
 		conn.setAccessInfo(ai);
 		final InterfaceInfo ii = new InterfaceInfo();
 		ii.setEndpoint(wri.getHttpBaseUrl());
+		conn.setInterfaceInfo(ii);
 		bpj.setConnection(conn);
 		//
 		when(configurableCtx.getBeanFactory()).thenReturn(beanFactory);
@@ -145,6 +146,7 @@ class GnocchiPollerListenerTest {
 		conn.setAccessInfo(ai);
 		final InterfaceInfo ii = new InterfaceInfo();
 		ii.setEndpoint(wri.getHttpBaseUrl());
+		conn.setInterfaceInfo(ii);
 		bpj.setConnection(conn);
 		//
 		when(configurableCtx.getBeanFactory()).thenReturn(beanFactory);
