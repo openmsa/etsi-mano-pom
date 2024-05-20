@@ -25,12 +25,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import com.ubiqube.etsi.mano.Constants;
 import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainer;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerTask;
+import com.ubiqube.etsi.mano.dao.mano.vim.AccessInfo;
+import com.ubiqube.etsi.mano.dao.mano.vim.InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.vim.vnfi.CnfInformations;
 import com.ubiqube.etsi.mano.dao.mano.vim.vnfi.JujuInformations;
@@ -98,12 +99,12 @@ public class OsContainerUow extends AbstractVnfmUow<OsContainerTask> {
 		if (jujui != null) {
 			final String type = vimConnectionInformation.getVimType();
 			final String nameofCloud = vimConnectionInformation.getVimId();
-			final Map<String, String> accessInfo = vimConnectionInformation.getAccessInfo();
-			final String password = accessInfo.get("password");
-			final String credName = "admin-" + accessInfo.get("projectId");
-			final String username = accessInfo.get("username");
-			final Map<String, String> interfaceInfo = vimConnectionInformation.getInterfaceInfo();
-			final String endpoint = interfaceInfo.get("endpoint");
+			final AccessInfo accessInfo = vimConnectionInformation.getAccessInfo();
+			final String password = accessInfo.getPassword();
+			final String credName = "admin-" + accessInfo.getProjectId();
+			final String username = accessInfo.getUsername();
+			final InterfaceInfo interfaceInfo = vimConnectionInformation.getInterfaceInfo();
+			final String endpoint = interfaceInfo.getEndpoint();
 			final String controllerName = vimConnectionInformation.getVimId() + "-" + vimConnectionInformation.getJujuInfo().getRegion().toLowerCase();
 			final String imageId = vimConnectionInformation.getJujuInfo().getImageId();
 			final String constraints = vimConnectionInformation.getJujuInfo().getConstraints();
