@@ -29,7 +29,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
@@ -42,6 +41,8 @@ import org.springframework.jms.core.JmsTemplate;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
+import com.ubiqube.etsi.mano.dao.mano.vim.AccessInfo;
+import com.ubiqube.etsi.mano.dao.mano.vim.InterfaceInfo;
 import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
 import com.ubiqube.etsi.mano.service.mon.data.Metric;
 import com.ubiqube.etsi.mano.service.mon.data.MonConnInformation;
@@ -73,8 +74,13 @@ class GnocchiPollerListenerTest {
 		bpj.setMetrics(List.of());
 		bpj.setResourceId("res");
 		final MonConnInformation conn = new MonConnInformation();
-		conn.setAccessInfo(Map.of("projectId", "proj"));
-		conn.setInterfaceInfo(Map.of("endpoint", wri.getHttpBaseUrl()));
+		final AccessInfo ai = AccessInfo.builder()
+				.projectId("proj")
+				.build();
+		conn.setAccessInfo(ai);
+		final InterfaceInfo ii = new InterfaceInfo();
+		ii.setEndpoint(wri.getHttpBaseUrl());
+		conn.setInterfaceInfo(ii);
 		bpj.setConnection(conn);
 		//
 		when(configurableCtx.getBeanFactory()).thenReturn(beanFactory);
@@ -100,8 +106,12 @@ class GnocchiPollerListenerTest {
 		bpj.setMetrics(List.of(m));
 		bpj.setResourceId("res");
 		final MonConnInformation conn = new MonConnInformation();
-		conn.setAccessInfo(Map.of("projectId", "proj"));
-		conn.setInterfaceInfo(Map.of("endpoint", wri.getHttpBaseUrl()));
+		final AccessInfo ai = AccessInfo.builder()
+				.projectId("proj")
+				.build();
+		conn.setAccessInfo(ai);
+		final InterfaceInfo ii = new InterfaceInfo();
+		ii.setEndpoint(wri.getHttpBaseUrl());
 		bpj.setConnection(conn);
 		//
 		when(configurableCtx.getBeanFactory()).thenReturn(beanFactory);
@@ -129,8 +139,12 @@ class GnocchiPollerListenerTest {
 		bpj.setMetrics(List.of(m));
 		bpj.setResourceId("res");
 		final MonConnInformation conn = new MonConnInformation();
-		conn.setAccessInfo(Map.of("projectId", "proj"));
-		conn.setInterfaceInfo(Map.of("endpoint", wri.getHttpBaseUrl()));
+		final AccessInfo ai = AccessInfo.builder()
+				.projectId("proj")
+				.build();
+		conn.setAccessInfo(ai);
+		final InterfaceInfo ii = new InterfaceInfo();
+		ii.setEndpoint(wri.getHttpBaseUrl());
 		bpj.setConnection(conn);
 		//
 		when(configurableCtx.getBeanFactory()).thenReturn(beanFactory);
