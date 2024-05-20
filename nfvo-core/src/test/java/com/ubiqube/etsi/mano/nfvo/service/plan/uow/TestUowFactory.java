@@ -16,8 +16,7 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service.plan.uow;
 
-import java.util.Map;
-
+import com.ubiqube.etsi.mano.dao.mano.vim.InterfaceInfo;
 import com.ubiqube.etsi.mano.orchestrator.entities.SystemConnections;
 
 public class TestUowFactory {
@@ -28,8 +27,9 @@ public class TestUowFactory {
 
 	public static SystemConnections createSystemConnections() {
 		final SystemConnections ret = new SystemConnections();
-		ret.setInterfaceInfo(Map.of("sdn-endpoint", "http://bad-host/"));
-		ret.setAccessInfo(Map.of());
+		final InterfaceInfo ii = new InterfaceInfo();
+		ii.setSdnEndpoint("http://bad-host/");
+		ret.setInterfaceInfo(ii);
 		return ret;
 	}
 }
