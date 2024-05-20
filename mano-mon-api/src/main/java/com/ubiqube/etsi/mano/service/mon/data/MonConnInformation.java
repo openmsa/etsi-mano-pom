@@ -53,10 +53,10 @@ public class MonConnInformation {
 	private String name;
 
 	@OneToOne
-	private InterfaceInfo interfaceInfo;
+	private InterfaceInfo interfaceInfo = new InterfaceInfo();
 
 	@OneToOne
-	private AccessInfo accessInfo;
+	private AccessInfo accessInfo = new AccessInfo();
 
 	@ElementCollection(fetch = FetchType.EAGER)
 	private Map<String, String> extra;
