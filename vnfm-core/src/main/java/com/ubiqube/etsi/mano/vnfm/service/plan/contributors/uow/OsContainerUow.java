@@ -28,10 +28,10 @@ import java.util.List;
 import java.util.UUID;
 
 import com.ubiqube.etsi.mano.Constants;
+import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
+import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainer;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerTask;
-import com.ubiqube.etsi.mano.dao.mano.vim.AccessInfo;
-import com.ubiqube.etsi.mano.dao.mano.vim.InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.vim.vnfi.CnfInformations;
 import com.ubiqube.etsi.mano.dao.mano.vim.vnfi.JujuInformations;
