@@ -27,6 +27,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+import com.ubiqube.etsi.mano.dao.mano.pkg.ExternalArtifactsAccessConfig;
 import com.ubiqube.etsi.mano.repository.ManoResource;
 
 import jakarta.validation.Valid;
@@ -83,5 +84,7 @@ public interface VnfPackageManagement {
 	<U> U vnfPackagesVnfPkgVnfdIdGet(String vnfPkgId, Function<VnfPackage, U> mapper);
 
 	<U> ResponseEntity<String> searchOnboarded(MultiValueMap<String, String> requestParams, Function<VnfPackage, U> mapper, String excludeDefaults, Set<String> mandatoryFields, Consumer<U> makeLinks, Class<?> frontClass);
+
+	ExternalArtifactsAccessConfig putExternalArtifact(ExternalArtifactsAccessConfig body, UUID id);
 
 }
