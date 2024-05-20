@@ -18,7 +18,6 @@ package com.ubiqube.etsi.mano.service;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Map;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
@@ -27,6 +26,7 @@ import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.ubiqube.etsi.mano.dao.mano.vim.InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.jpa.SysConnectionJpa;
 import com.ubiqube.etsi.mano.jpa.SystemsJpa;
@@ -53,8 +53,9 @@ class SystemServiceTest {
 		final VimConnectionInformation vimConn = new VimConnectionInformation();
 		vimConn.setVimId(vimId.toString());
 		vimConn.setVimType("OPENSTACK_V3");
-		vimConn.setAccessInfo(Map.of());
-		vimConn.setInterfaceInfo(Map.of("sdn-endpoint", "http://"));
+		final InterfaceInfo ii = new InterfaceInfo();
+		ii.setSdnEndpoint("http://");
+		vimConn.setInterfaceInfo(ii);
 		ss.registerVim(vimConn);
 		assertTrue(true);
 	}

@@ -132,7 +132,7 @@ public class SystemService {
 				PortPairNode.class,
 				NetworkPolicyNode.class,
 		};
-		if (vimConnectionInformation.getInterfaceInfo().get("sdn-endpoint") != null) {
+		if (vimConnectionInformation.getInterfaceInfo().getSdnEndpoint() != null) {
 			for (final Class<?> string : sysContrail) {
 				sys.add(createSystem(string.getSimpleName(), vimConnectionInformation, "CONTRAIL"));
 			}

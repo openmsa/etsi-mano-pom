@@ -75,7 +75,7 @@ class SpelPatcherTest {
 		final StandardEvaluationContext modelContext = new StandardEvaluationContext(entity);
 		parser.parseExpression("accessInfo[username]").setValue(modelContext, "hello!!!");
 		assertNotNull(entity.getAccessInfo());
-		assertEquals("hello!!!", entity.getAccessInfo().get("username"));
+		assertEquals("hello!!!", entity.getAccessInfo().getUsername());
 	}
 
 }
