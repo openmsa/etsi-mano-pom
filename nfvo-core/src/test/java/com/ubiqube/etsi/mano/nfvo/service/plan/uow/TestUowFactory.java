@@ -16,7 +16,7 @@
  */
 package com.ubiqube.etsi.mano.nfvo.service.plan.uow;
 
-import com.ubiqube.etsi.mano.dao.mano.vim.InterfaceInfo;
+import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
 import com.ubiqube.etsi.mano.orchestrator.entities.SystemConnections;
 
 public class TestUowFactory {
