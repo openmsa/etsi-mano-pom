@@ -73,7 +73,7 @@ class SpelPatcherTest {
 		final ExpressionParser parser = new SpelExpressionParser(config);
 		final VimConnectionInformation entity = new VimConnectionInformation();
 		final StandardEvaluationContext modelContext = new StandardEvaluationContext(entity);
-		parser.parseExpression("accessInfo[username]").setValue(modelContext, "hello!!!");
+		parser.parseExpression("accessInfo.username").setValue(modelContext, "hello!!!");
 		assertNotNull(entity.getAccessInfo());
 		assertEquals("hello!!!", entity.getAccessInfo().getUsername());
 	}
