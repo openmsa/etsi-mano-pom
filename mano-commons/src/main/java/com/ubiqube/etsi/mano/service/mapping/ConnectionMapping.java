@@ -22,8 +22,8 @@ import java.util.Optional;
 
 import org.mapstruct.Mapper;
 
-import com.ubiqube.etsi.mano.dao.mano.vim.AccessInfo;
-import com.ubiqube.etsi.mano.dao.mano.vim.InterfaceInfo;
+import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
+import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
 
 @Mapper
 public interface ConnectionMapping {
