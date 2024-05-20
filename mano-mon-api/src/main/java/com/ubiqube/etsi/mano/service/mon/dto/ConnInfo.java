@@ -19,6 +19,9 @@ package com.ubiqube.etsi.mano.service.mon.dto;
 import java.util.Map;
 import java.util.UUID;
 
+import com.ubiqube.etsi.mano.dao.mano.vim.AccessInfo;
+import com.ubiqube.etsi.mano.dao.mano.vim.InterfaceInfo;
+
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.FetchType;
 import jakarta.validation.constraints.NotNull;
@@ -33,9 +36,9 @@ public class ConnInfo {
 
 	private String name;
 
-	private Map<String, String> interfaceInfo;
+	private InterfaceInfo interfaceInfo;
 
-	private Map<String, String> accessInfo;
+	private AccessInfo accessInfo;
 
 	@ElementCollection(fetch = FetchType.EAGER)
 	private Map<String, String> extra;
