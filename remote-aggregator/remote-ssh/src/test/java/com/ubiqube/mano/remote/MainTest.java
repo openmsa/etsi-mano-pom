@@ -42,6 +42,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.sshd.client.SshClient;
 import org.apache.sshd.client.channel.ChannelExec;
 import org.apache.sshd.client.channel.ClientChannelEvent;
+import org.apache.sshd.client.config.hosts.HostConfigEntry;
 import org.apache.sshd.client.session.ClientSession;
 import org.apache.sshd.sftp.client.SftpClient;
 import org.apache.sshd.sftp.client.SftpClientFactory;
@@ -123,5 +124,37 @@ class MainTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	@Test
+	void testJumpHost() {
+		final SshClient client = SshClient.setUpDefaultClient();
+		client.start();
+		final HostConfigEntry hostConfig = new HostConfigEntry("", "10.255.3.50", 22, "devops", "devops@10.255.3.56:22, devops@10.255.3.52:22");
+		try (ClientSession session = client.connect(hostConfig)
+				.verify(5000)
+				.getSession()) {
+			session.auth().verify();
+			try (ByteArrayOutputStream responseStream = new ByteArrayOutputStream();
+					ByteArrayOutputStream errorStream = new ByteArrayOutputStream();
+					ChannelExec channel = session.createExecChannel("ls -lha")) {
+				channel.setOut(responseStream);
+				channel.setErr(errorStream);
+				channel.open().verify(30, TimeUnit.SECONDS);
+				try (OutputStream pipedIn = channel.getInvertedIn()) {
+					pipedIn.write("ls -lha".getBytes());
+					pipedIn.flush();
+				}
+				channel.waitFor(EnumSet.of(ClientChannelEvent.CLOSED),
+						TimeUnit.SECONDS.toMillis(30));
+				final String error = new String(errorStream.toByteArray());
+				System.out.println("error> " + error);
+				System.out.println("ok> " + responseStream.toString());
+				System.out.println("ec> " + channel.getExitStatus());
+			}
+		} catch (final IOException e) {
+			e.printStackTrace();
+		}
+		assertTrue(true);
 	}
 }
