@@ -33,6 +33,7 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -72,6 +73,8 @@ class VimManagerTest {
 	private EventManager eventManager;
 	@Mock
 	private ManoSearch manoSearch;
+
+	CnfInformationsMapping cnfMapper = Mappers.getMapper(CnfInformationsMapping.class);
 
 	private static final String uuidStr = "4d02c1b8-c185-11ed-ba42-c8f750509d3b";
 	private static final UUID uuid = UUID.fromString(uuidStr);
@@ -252,7 +255,7 @@ class VimManagerTest {
 		final List<Vim> vims = List.of(vim01);
 		final VimConnectionInformation vci = createVimConnection();
 		when(vimConnJpa.findByVimType("dummy-vim")).thenReturn(Set.of(vci));
-		return new VimManager(vims, vimConnJpa, systemService, cnfServerJpa, vrQanJpa, eventManager, manoSearch);
+		return new VimManager(vims, vimConnJpa, systemService, cnfServerJpa, vrQanJpa, eventManager, manoSearch, cnfMapper);
 	}
 
 	private static VimConnectionInformation createVimConnection() {
