@@ -17,7 +17,6 @@
 package com.ubiqube.etsi.mano.service.mapping;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 
 import com.ubiqube.etsi.mano.dao.mano.cnf.CnfServer;
@@ -26,6 +25,5 @@ import com.ubiqube.etsi.mano.dao.mano.dto.CnfServerDto;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface CnfServerDtoMapping {
 
-	@Mapping(target = "id", ignore = true)
 	CnfServer map(CnfServerDto o);
 }
