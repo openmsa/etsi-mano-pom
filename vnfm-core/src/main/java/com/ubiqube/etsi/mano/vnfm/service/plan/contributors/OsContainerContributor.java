@@ -71,11 +71,13 @@ public class OsContainerContributor extends AbstractVnfmContributor<Object> {
 			t.setBlueprint(parameters);
 			t.setOsContainerDeployableUnit(x);
 			t.setToscaName(x.getName());
+			t.setVnfInstId(parameters.getVnfInstance().getId().toString());
 			t.setType(ResourceTypeEnum.OS_CONTAINER_DEPLOYABLE);
 			ret.add(create(OsContainerDeployableNode.class, t.getClass(), t.getToscaName(), 1, t, parameters.getInstance(), parameters));
 			final K8sInformationsTask inf = createTask(K8sInformationsTask::new);
 			inf.setToscaName(x.getName());
 			inf.setBlueprint(parameters);
+			inf.setVnfInstId(parameters.getVnfInstance().getId().toString());
 			inf.setType(ResourceTypeEnum.OS_CONTAINER_INFO);
 			ret.add(create(OsK8sInformationsNode.class, inf.getClass(), inf.getToscaName(), 1, inf, parameters.getInstance(), parameters));
 			final MciopUserTask mciop = createTask(MciopUserTask::new);
