@@ -17,14 +17,22 @@
 package com.ubiqube.etsi.mano.service.mapping;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 
+import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
+import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.orchestrator.entities.SystemConnections;
-import org.mapstruct.Mapping;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface SystemConnectionsMapping {
 	@Mapping(target = "moduleName", ignore = true)
 	SystemConnections map(VimConnectionInformation o);
+
+	@Mapping(target = "id", ignore = true)
+	AccessInfo map(AccessInfo o);
+
+	@Mapping(target = "id", ignore = true)
+	InterfaceInfo map(InterfaceInfo o);
 }
