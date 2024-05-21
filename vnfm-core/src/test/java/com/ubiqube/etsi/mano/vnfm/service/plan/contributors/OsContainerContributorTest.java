@@ -20,12 +20,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Set;
+import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainer;
 import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainerDeployableUnit;
@@ -71,6 +73,8 @@ class OsContainerContributorTest {
 	void test_Du() {
 		final OsContainerContributor con = new OsContainerContributor(vnfLiveInstanceJpa);
 		final VnfBlueprint params = new VnfBlueprint();
+		params.setVnfInstance(new VnfInstance());
+		params.getVnfInstance().setId(UUID.randomUUID());
 		final VnfPackage pkg = new VnfPackage();
 		final OsContainerDeployableUnit du = new OsContainerDeployableUnit();
 		du.setVirtualStorageReq(Set.of("sto"));
