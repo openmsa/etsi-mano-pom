@@ -75,8 +75,10 @@ public class VimManager {
 
 	private final ManoSearch manoSearch;
 
+	private final CnfInformationsMapping cnfMapper;
+
 	public VimManager(final List<Vim> vims, final VimConnectionInformationJpa vimConnectionInformationJpa, final SystemService systemService,
-			final CnfServerJpa cnfServerJpa, final VrQanJpa vrQanJpa, final EventManager em, final ManoSearch manoSearch) {
+			final CnfServerJpa cnfServerJpa, final VrQanJpa vrQanJpa, final EventManager em, final ManoSearch manoSearch, final CnfInformationsMapping cnfMapper) {
 		this.vims = vims;
 		this.vimConnectionInformationJpa = vimConnectionInformationJpa;
 		this.systemService = systemService;
@@ -84,6 +86,7 @@ public class VimManager {
 		this.vrQanJpa = vrQanJpa;
 		this.em = em;
 		this.manoSearch = manoSearch;
+		this.cnfMapper = cnfMapper;
 		init();
 	}
 
@@ -196,13 +199,7 @@ public class VimManager {
 			return;
 		}
 		final CnfInformations cnfi = cnfServer.get().getInfo();
-		final CnfInformations cni = new CnfInformations();
-		cni.setClusterTemplate(cnfi.getClusterTemplate());
-		cni.setDnsServer(cnfi.getDnsServer());
-		cni.setKeyPair(cnfi.getKeyPair());
-		cni.setMasterFlavorId(cnfi.getMasterFlavorId());
-		cni.setNetworkDriver(cnfi.getNetworkDriver());
-		cni.setServerType(cnfi.getServerType());
+		final CnfInformations cni = cnfMapper.map(cnfi);
 		vci.setCnfInfo(cni);
 	}
 
