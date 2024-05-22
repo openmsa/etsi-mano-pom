@@ -18,23 +18,29 @@ package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.uow;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import java.io.ByteArrayInputStream;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
+import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainer;
+import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerTask;
 import com.ubiqube.etsi.mano.dao.mano.vim.SoftwareImage;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
-import com.ubiqube.etsi.mano.dao.mano.vim.vnfi.CnfInformations;
 import com.ubiqube.etsi.mano.dao.mano.vim.vnfi.JujuInformations;
 import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
+import com.ubiqube.etsi.mano.repository.ManoResource;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 import com.ubiqube.etsi.mano.service.JujuCloudService;
 import com.ubiqube.etsi.mano.service.vim.Cnf;
@@ -58,14 +64,27 @@ class OsContainerUowTest {
 	void testExecute() {
 		final OsContainerTask task = new OsContainerTask();
 		final OsContainer cont = new OsContainer();
+		cont.setDescription("charm/a/b");
+		final SoftwareImage sw1 = new SoftwareImage();
+		sw1.setName("name-sw1");
+		sw1.setImagePath("/tmp/bad");
+		cont.setArtifacts(Map.of("name", sw1));
 		task.setOsContainer(cont);
+		final VnfBlueprint vnfbp = new VnfBlueprint();
+		final VnfInstance instance = new VnfInstance();
+		instance.setVnfPkg(new VnfPackage());
+		vnfbp.setVnfInstance(instance);
+		task.setBlueprint(vnfbp);
 		final VirtualTaskV3<OsContainerTask> vt = new OsContainerVt(task);
 		assertNotNull(vt.getType());
 		final VimConnectionInformation vimConn = new VimConnectionInformation();
-		final CnfInformations cnf1 = new CnfInformations();
-		vimConn.setCnfInfo(cnf1);
+		final JujuInformations jujuInfo = new JujuInformations();
+		jujuInfo.setRegion("reg");
+		vimConn.setJujuInfo(jujuInfo);
 		final OsContainerUow uow = new OsContainerUow(vt, vim, vimConn, jujuCloudService, vnfRepo);
-		when(vim.cnf(vimConn)).thenReturn(cnf);
+		final ManoResource manoRes = Mockito.mock(ManoResource.class);
+		when(manoRes.getInputStream()).thenReturn(new ByteArrayInputStream("abcdef".getBytes()));
+		when(vnfRepo.getBinary(any(), any())).thenReturn(manoRes);
 		uow.execute(context);
 		assertTrue(true);
 	}
