@@ -33,8 +33,6 @@ import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainer;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerTask;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
-import com.ubiqube.etsi.mano.dao.mano.vim.vnfi.CnfInformations;
-import com.ubiqube.etsi.mano.dao.mano.vim.vnfi.JujuInformations;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerNode;
@@ -47,7 +45,6 @@ import com.ubiqube.etsi.mano.service.juju.entities.JujuCredential;
 import com.ubiqube.etsi.mano.service.juju.entities.JujuMetadata;
 import com.ubiqube.etsi.mano.service.juju.entities.JujuModel;
 import com.ubiqube.etsi.mano.service.juju.entities.JujuRegion;
-import com.ubiqube.etsi.mano.service.vim.CnfK8sParams;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 
 import jakarta.annotation.Nullable;
@@ -71,8 +68,6 @@ public class OsContainerUow extends AbstractVnfmUow<OsContainerTask> {
 
 	@Override
 	public @Nullable String execute(final Context3d context) {
-		final CnfInformations cnfi = vimConnectionInformation.getCnfInfo();
-		final JujuInformations jujui = vimConnectionInformation.getJujuInfo();
 		final OsContainer osc = task.getOsContainer();
 		osc.getCpuResourceLimit();
 		osc.getEphemeralStorageResourceLimit();
@@ -82,71 +77,54 @@ public class OsContainerUow extends AbstractVnfmUow<OsContainerTask> {
 		osc.getRequestedCpuResources();
 		osc.getRequestedEphemeralStorageResources();
 		osc.getRequestedMemoryResources();
-		if (cnfi != null) {
-			final CnfK8sParams params = CnfK8sParams.builder()
-					.clusterTemplate(cnfi.getClusterTemplate())
-					.dnsServer(cnfi.getDnsServer())
-					.externalNetworkId("")
-					.keypair(cnfi.getKeyPair())
-					.masterFlavor(cnfi.getMasterFlavorId())
-					.name(task.getAlias())
-					.networkDriver("flannel")
-					.serverType("vm")
-					.volumeSize(10)
-					.build();
-			vim.cnf(vimConnectionInformation).createContainer(params);
+		final String type = vimConnectionInformation.getVimType();
+		final String nameofCloud = vimConnectionInformation.getVimId();
+		final AccessInfo accessInfo = vimConnectionInformation.getAccessInfo();
+		final String password = accessInfo.getPassword();
+		final String credName = "admin-" + accessInfo.getProjectId();
+		final String username = accessInfo.getUsername();
+		final InterfaceInfo interfaceInfo = vimConnectionInformation.getInterfaceInfo();
+		final String endpoint = interfaceInfo.getEndpoint();
+		final String controllerName = vimConnectionInformation.getVimId() + "-" + vimConnectionInformation.getJujuInfo().getRegion().toLowerCase();
+		final String imageId = vimConnectionInformation.getJujuInfo().getImageId();
+		final String constraints = vimConnectionInformation.getJujuInfo().getConstraints();
+		final String region = vimConnectionInformation.getJujuInfo().getRegion();
+		final String networkId = vimConnectionInformation.getJujuInfo().getNetworkId();
+		String charmName = vimConnectionInformation.getJujuInfo().getCharmName();
+		String appName = vimConnectionInformation.getJujuInfo().getAppName();
+		final String osSeries = vimConnectionInformation.getJujuInfo().getOsSeries();
+		final String charmAppName = osc.getDescription();
+		if (charmAppName.indexOf('/') >= 1) {
+			final String[] charmAppValues = charmAppName.split("/");
+			charmName = charmAppValues[0];
+			appName = charmAppValues[1];
 		}
-		if (jujui != null) {
-			final String type = vimConnectionInformation.getVimType();
-			final String nameofCloud = vimConnectionInformation.getVimId();
-			final AccessInfo accessInfo = vimConnectionInformation.getAccessInfo();
-			final String password = accessInfo.getPassword();
-			final String credName = "admin-" + accessInfo.getProjectId();
-			final String username = accessInfo.getUsername();
-			final InterfaceInfo interfaceInfo = vimConnectionInformation.getInterfaceInfo();
-			final String endpoint = interfaceInfo.getEndpoint();
-			final String controllerName = vimConnectionInformation.getVimId() + "-" + vimConnectionInformation.getJujuInfo().getRegion().toLowerCase();
-			final String imageId = vimConnectionInformation.getJujuInfo().getImageId();
-			final String constraints = vimConnectionInformation.getJujuInfo().getConstraints();
-			final String region = vimConnectionInformation.getJujuInfo().getRegion();
-			final String networkId = vimConnectionInformation.getJujuInfo().getNetworkId();
-			String charmName = vimConnectionInformation.getJujuInfo().getCharmName();
-			String appName = vimConnectionInformation.getJujuInfo().getAppName();
-			final String osSeries = vimConnectionInformation.getJujuInfo().getOsSeries();
-			final String charmAppName = osc.getDescription();
-			if (charmAppName.indexOf('/') >= 1) {
-				final String[] charmAppValues = charmAppName.split("/");
-				charmName = charmAppValues[0];
-				appName = charmAppValues[1];
+		final JujuRegion region2 = new JujuRegion(region, endpoint);
+		final List<JujuRegion> regions = new ArrayList<>();
+		regions.add(region2);
+		final JujuCredential jujuCredential = new JujuCredential(credName, "userpass", username, password, "admin");
+		final JujuModel model = new JujuModel("k8s-ubi-model-kt", charmName, appName);
+		final List<JujuModel> models = new ArrayList<>();
+		models.add(model);
+		final List<String> constraints2 = new ArrayList<>();
+		constraints2.add(constraints);
+		final JujuMetadata metadata = new JujuMetadata(controllerName, imageId, "~/simplestreams", osSeries, endpoint, constraints2, networkId, region, models);
+		final JujuCloud jCloud = new JujuCloud(nameofCloud, type, "userpass", regions, jujuCredential, metadata);
+		jujuCloudService.saveCloud(jCloud);
+		final boolean isSuccess = jujuCloudService.jujuInstantiate(jCloud.getId());
+		try {
+			final String helmName = task.getOsContainer().getArtifacts().entrySet().iterator().next().getValue().getName();
+			final File tmpFile = copyFile(
+					task.getOsContainer().getArtifacts().entrySet().iterator().next().getValue().getImagePath(),
+					task.getBlueprint().getInstance().getVnfPkg().getId());
+			if (tmpFile.length() <= 0) {
+				throw new GenericException("File is Null or Empty ");
 			}
-			final JujuRegion region2 = new JujuRegion(region, endpoint);
-			final List<JujuRegion> regions = new ArrayList<>();
-			regions.add(region2);
-			final JujuCredential jujuCredential = new JujuCredential(credName, "userpass", username, password, "admin");
-			final JujuModel model = new JujuModel("k8s-ubi-model-kt", charmName, appName);
-			final List<JujuModel> models = new ArrayList<>();
-			models.add(model);
-			final List<String> constraints2 = new ArrayList<>();
-			constraints2.add(constraints);
-			final JujuMetadata metadata = new JujuMetadata(controllerName, imageId, "~/simplestreams", osSeries, endpoint, constraints2, networkId, region, models);
-			final JujuCloud jCloud = new JujuCloud(nameofCloud, type, "userpass", regions, jujuCredential, metadata);
-			jujuCloudService.saveCloud(jCloud);
-			final boolean isSuccess = jujuCloudService.jujuInstantiate(jCloud.getId());
-			try {
-				final String helmName = task.getOsContainer().getArtifacts().entrySet().iterator().next().getValue().getName();
-				final File tmpFile = copyFile(
-						task.getOsContainer().getArtifacts().entrySet().iterator().next().getValue().getImagePath(),
-						task.getBlueprint().getInstance().getVnfPkg().getId());
-				if (tmpFile.length() <= 0) {
-					throw new GenericException("File is Null or Empty ");
-				}
-				jujuCloudService.installHelm(helmName, tmpFile);
-			} catch (final URISyntaxException se) {
-				return "FAIL";
-			}
-			return isSuccess ? "SUCCESS" : "FAIL";
+			jujuCloudService.installHelm(helmName, tmpFile);
+		} catch (final URISyntaxException se) {
+			return "FAIL";
 		}
-		return null;
+		return isSuccess ? "SUCCESS" : "FAIL";
 	}
 
 	@Override
