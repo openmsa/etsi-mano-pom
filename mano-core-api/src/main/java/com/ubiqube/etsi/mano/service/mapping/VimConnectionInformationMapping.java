@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.service.mapping;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -38,4 +39,11 @@ public interface VimConnectionInformationMapping {
 	}
 
 	VimConnectionInformation map(VimConnectionInformation x);
+
+	default UUID mapUuid(final String str) {
+		if (null == str) {
+			return null;
+		}
+		return UUID.fromString(str);
+	}
 }
