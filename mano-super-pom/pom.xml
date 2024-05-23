@@ -44,6 +44,7 @@
 		<com.ubiqube.expressly.version>5.0.0</com.ubiqube.expressly.version>
 		<com.ubiqube.guava.version>32.0.1-jre</com.ubiqube.guava.version>
 		<com.ubiqube.hibernate-search6.version>6.2.3.Final</com.ubiqube.hibernate-search6.version>
+		<com.ubiqube.io.fabric8.kubernetes-client.version>6.12.1</com.ubiqube.io.fabric8.kubernetes-client.version>
 		<com.ubiqube.io.kubernetes.client-java>20.0.1</com.ubiqube.io.kubernetes.client-java>
 		<com.ubiqube.jgrapht.version>1.5.2</com.ubiqube.jgrapht.version>
 		<com.ubiqube.mockito.version>5.11.0</com.ubiqube.mockito.version>
@@ -309,6 +310,21 @@
 				<groupId>io.kubernetes</groupId>
 				<artifactId>client-java</artifactId>
 				<version>${com.ubiqube.io.kubernetes.client-java}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.fabric8</groupId>
+				<artifactId>kubernetes-client</artifactId>
+				<version>${com.ubiqube.io.fabric8.kubernetes-client.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.fabric8</groupId>
+				<artifactId>kubernetes-client-api</artifactId>
+				<version>${com.ubiqube.io.fabric8.kubernetes-client.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.fabric8</groupId>
+				<artifactId>kubernetes-httpclient-okhttp</artifactId>
+				<version>${com.ubiqube.io.fabric8.kubernetes-client.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
