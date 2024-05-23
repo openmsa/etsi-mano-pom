@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.vnfm.controller;
 
+import java.io.IOException;
 import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
@@ -33,16 +34,19 @@ import com.ubiqube.etsi.mano.dao.mano.cnf.capi.CapiServer;
 import com.ubiqube.etsi.mano.vim.k8s.K8s;
 import com.ubiqube.etsi.mano.vim.k8s.OsClusterService;
 import com.ubiqube.etsi.mano.vnfm.jpa.CapiServerJpa;
+import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.uow.capi.CapiServerMapping;
 
 @RestController
 @RequestMapping("/vnfm-admin/capi")
 public class CapiController {
 	private final CapiServerJpa capiServerJpa;
 	private final OsClusterService osClusterService;
+	private final CapiServerMapping mapper;
 
-	public CapiController(final CapiServerJpa capiServerJpa, final OsClusterService osClusterService) {
+	public CapiController(final CapiServerJpa capiServerJpa, final OsClusterService osClusterService, final CapiServerMapping mapper) {
 		this.capiServerJpa = capiServerJpa;
 		this.osClusterService = osClusterService;
+		this.mapper = mapper;
 	}
 
 	@GetMapping
@@ -58,9 +62,9 @@ public class CapiController {
 	}
 
 	@PostMapping("kube-config/{context}")
-	public ResponseEntity<CapiServer> postKubeConfig(@PathVariable("context") final String context, @RequestParam("file") final MultipartFile file) {
+	public ResponseEntity<CapiServer> postKubeConfig(@PathVariable("context") final String context, @RequestParam("file") final MultipartFile file) throws IOException {
 		final K8s srv = osClusterService.fromKubeConfig(context, file.getBytes());
-		final CapiServer res = capiServerJpa.save(srv);
+		final CapiServer res = capiServerJpa.save(mapper.map(srv));
 		return ResponseEntity.ok(res);
 	}
 

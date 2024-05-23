@@ -31,4 +31,12 @@ public interface CapiServerMapping {
 	@Mapping(target = "namespace", constant = "default")
 	K8s map(CapiServer capiSrv);
 
+	@Mapping(target = "certificateAuthorityData", source = "caData")
+	@Mapping(target = "clientCertificateData", source = "clientCrt")
+	@Mapping(target = "clientKeyData", source = "clientKey")
+	@Mapping(target = "id", ignore = true)
+	@Mapping(target = "name", ignore = true)
+	@Mapping(target = "url", source = "apiUrl")
+	CapiServer map(K8s srv);
+
 }
