@@ -71,6 +71,7 @@ public class OsContainerContributor extends AbstractVnfmContributor<Object> {
 			t.setBlueprint(parameters);
 			t.setOsContainerDeployableUnit(x);
 			t.setToscaName(x.getName());
+			t.setNetwork("public");
 			t.setVnfInstId(parameters.getVnfInstance().getId().toString());
 			t.setType(ResourceTypeEnum.OS_CONTAINER_DEPLOYABLE);
 			ret.add(create(OsContainerDeployableNode.class, t.getClass(), t.getToscaName(), 1, t, parameters.getInstance(), parameters));

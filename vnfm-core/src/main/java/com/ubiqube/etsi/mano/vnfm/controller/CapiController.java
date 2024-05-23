@@ -25,18 +25,24 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ubiqube.etsi.mano.dao.mano.cnf.capi.CapiServer;
+import com.ubiqube.etsi.mano.vim.k8s.K8s;
+import com.ubiqube.etsi.mano.vim.k8s.OsClusterService;
 import com.ubiqube.etsi.mano.vnfm.jpa.CapiServerJpa;
 
 @RestController
 @RequestMapping("/vnfm-admin/capi")
 public class CapiController {
 	private final CapiServerJpa capiServerJpa;
+	private final OsClusterService osClusterService;
 
-	public CapiController(final CapiServerJpa capiServerJpa) {
+	public CapiController(final CapiServerJpa capiServerJpa, final OsClusterService osClusterService) {
 		this.capiServerJpa = capiServerJpa;
+		this.osClusterService = osClusterService;
 	}
 
 	@GetMapping
@@ -47,6 +53,13 @@ public class CapiController {
 
 	@PostMapping
 	public ResponseEntity<CapiServer> post(@RequestBody final CapiServer srv) {
+		final CapiServer res = capiServerJpa.save(srv);
+		return ResponseEntity.ok(res);
+	}
+
+	@PostMapping("kube-config/{context}")
+	public ResponseEntity<CapiServer> postKubeConfig(@PathVariable("context") final String context, @RequestParam("file") final MultipartFile file) {
+		final K8s srv = osClusterService.fromKubeConfig(context, file.getBytes());
 		final CapiServer res = capiServerJpa.save(srv);
 		return ResponseEntity.ok(res);
 	}
