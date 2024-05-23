@@ -18,11 +18,12 @@ package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.uow.capi;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingConstants;
 
 import com.ubiqube.etsi.mano.dao.mano.cnf.capi.CapiServer;
 import com.ubiqube.etsi.mano.vim.k8s.K8s;
 
-@Mapper
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface CapiServerMapping {
 	@Mapping(target = "apiUrl", source = "url")
 	@Mapping(target = "caData", source = "certificateAuthorityData")
