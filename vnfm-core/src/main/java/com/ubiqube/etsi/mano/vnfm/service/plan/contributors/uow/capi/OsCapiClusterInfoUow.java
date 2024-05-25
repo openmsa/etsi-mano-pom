@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.uow.capi;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.mapstruct.factory.Mappers;
 
@@ -61,6 +62,7 @@ public class OsCapiClusterInfoUow extends AbstractVnfmUow<K8sInformationsTask> {
 		final K8s k8sConfig = mapper.map(capiSrv);
 		final K8s res = osClusterService.getKubeConfig(k8sConfig, "default", buildClusterName(task.getToscaName(), task.getVnfInstId()));
 		final K8sServers ret = toK8sServers(res);
+		ret.setId(UUID.fromString(srv));
 		final K8sServers r = serverInfoJpa.save(ret);
 		return r.getId().toString();
 	}
