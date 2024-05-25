@@ -71,7 +71,7 @@ class HelmV3DeployUowTest {
 		final VirtualTaskV3<HelmTask> vt = new HelmVt(nt);
 		assertNotNull(vt.getType());
 		final Servers servers = new Servers();
-		final HelmV3DeployUow uow = new HelmV3DeployUow(vt, client, serverInfoJpa, vnfRepo, "manokey", servers);
+		final HelmV3DeployUow uow = new HelmV3DeployUow(vt, client, serverInfoJpa, vnfRepo, servers);
 		when(context.get(any(), any())).thenReturn("778cca86-ce29-11ed-93ee-c8f750509d3b");
 		final K8sServers k8s = new K8sServers();
 		when(serverInfoJpa.findById(any())).thenReturn(Optional.of(k8s));
@@ -91,7 +91,7 @@ class HelmV3DeployUowTest {
 		nt.setMciop(mciop);
 		final VirtualTaskV3<HelmTask> vt = new HelmVt(nt);
 		final Servers servers = new Servers();
-		final HelmV3DeployUow uow = new HelmV3DeployUow(vt, client, serverInfoJpa, vnfRepo, "manokey", servers);
+		final HelmV3DeployUow uow = new HelmV3DeployUow(vt, client, serverInfoJpa, vnfRepo, servers);
 		when(context.get(any(), any())).thenReturn("778cca86-ce29-11ed-93ee-c8f750509d3b");
 		assertThrows(GenericException.class, () -> uow.execute(context));
 		assertTrue(true);
@@ -107,7 +107,7 @@ class HelmV3DeployUowTest {
 		nt.setMciop(mciop);
 		final VirtualTaskV3<HelmTask> vt = new HelmVt(nt);
 		final Servers servers = new Servers();
-		final HelmV3DeployUow uow = new HelmV3DeployUow(vt, client, serverInfoJpa, vnfRepo, "manokey", servers);
+		final HelmV3DeployUow uow = new HelmV3DeployUow(vt, client, serverInfoJpa, vnfRepo, servers);
 		when(context.get(any(), any())).thenReturn("778cca86-ce29-11ed-93ee-c8f750509d3b");
 		final K8sServers k8s = new K8sServers();
 		when(serverInfoJpa.findById(any())).thenReturn(Optional.of(k8s));
@@ -123,7 +123,7 @@ class HelmV3DeployUowTest {
 		final HelmTask nt = new HelmTask();
 		final VirtualTaskV3<HelmTask> vt = new HelmVt(nt);
 		final Servers servers = new Servers();
-		final HelmV3DeployUow uow = new HelmV3DeployUow(vt, client, serverInfoJpa, vnfRepo, "manokey", servers);
+		final HelmV3DeployUow uow = new HelmV3DeployUow(vt, client, serverInfoJpa, vnfRepo, servers);
 		uow.rollback(context);
 		assertTrue(true);
 	}

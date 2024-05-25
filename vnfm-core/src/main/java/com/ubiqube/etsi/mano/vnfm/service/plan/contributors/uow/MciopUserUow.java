@@ -26,6 +26,7 @@ import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.MciopUser;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsK8sInformationsNode;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
+import com.ubiqube.etsi.mano.service.boot.K8sPkService;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.vnfm.jpa.K8sServerInfoJpa;
 
@@ -36,23 +37,25 @@ public class MciopUserUow extends AbstractVnfmUow<MciopUserTask> {
 	private final K8sServerInfoJpa serverInfoJpa;
 	private final Vim vim;
 	private final VimConnectionInformation vci;
-	private final String userCn;
+	private final K8sPkService k8sPkService;
 
 	public MciopUserUow(final VirtualTaskV3<MciopUserTask> task, final Vim vim, final VimConnectionInformation vimConnectionInformation,
-			final K8sServerInfoJpa serverInfoJpa, final String userCn) {
+			final K8sServerInfoJpa serverInfoJpa, final K8sPkService k8sPkService) {
 		super(task, MciopUser.class);
 		this.task = task.getTemplateParameters();
 		this.vim = vim;
 		this.vci = vimConnectionInformation;
 		this.serverInfoJpa = serverInfoJpa;
-		this.userCn = userCn;
+		this.k8sPkService = k8sPkService;
 	}
 
 	@Override
 	public @Nullable String execute(final Context3d context) {
+		final String crt = k8sPkService.createCsr("CN=kubernetes-admin,O=system:masters");
 		final String db = context.get(OsK8sInformationsNode.class, task.getParentVdu());
 		final K8sServers server = serverInfoJpa.findById(UUID.fromString(db)).orElseThrow(() -> new GenericException("Unable to find k8s server: " + db));
-		final K8sServers res = vim.cnf(vci).sign(userCn, server);
+		final K8sServers res = vim.cnf(vci).sign(crt, server);
+		res.setUserKey(k8sPkService.getPrivateKey());
 		serverInfoJpa.save(res);
 		return res.getUserCrt();
 	}

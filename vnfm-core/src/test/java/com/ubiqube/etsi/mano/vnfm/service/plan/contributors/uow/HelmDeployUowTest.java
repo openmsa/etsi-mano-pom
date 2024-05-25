@@ -70,7 +70,7 @@ class HelmDeployUowTest {
 		nt.setMciop(mciop);
 		final VirtualTaskV3<HelmTask> task = new HelmVt(nt);
 		assertNotNull(task.getType());
-		final HelmDeployUow uow = new HelmDeployUow(task, client, serverInfoJpa, vnfRepo, manoKey);
+		final HelmDeployUow uow = new HelmDeployUow(task, client, serverInfoJpa, vnfRepo);
 		final K8sServers k8sServer = new K8sServers();
 		when(ctx.get(any(), any())).thenReturn("e4950a2a-cd80-11ed-80f9-c8f750509d3b");
 		when(serverInfoJpa.findById(any())).thenReturn(Optional.of(k8sServer));
@@ -89,7 +89,7 @@ class HelmDeployUowTest {
 		mciop.setArtifacts(Map.of("img", si));
 		nt.setMciop(mciop);
 		final VirtualTaskV3<HelmTask> task = new HelmVt(nt);
-		final HelmDeployUow uow = new HelmDeployUow(task, client, serverInfoJpa, vnfRepo, manoKey);
+		final HelmDeployUow uow = new HelmDeployUow(task, client, serverInfoJpa, vnfRepo);
 		final K8sServers k8sServer = new K8sServers();
 		when(ctx.get(any(), any())).thenReturn("e4950a2a-cd80-11ed-80f9-c8f750509d3b");
 		when(serverInfoJpa.findById(any())).thenReturn(Optional.of(k8sServer));
@@ -109,7 +109,7 @@ class HelmDeployUowTest {
 		mciop.setArtifacts(Map.of("img", si));
 		nt.setMciop(mciop);
 		final VirtualTaskV3<HelmTask> task = new HelmVt(nt);
-		final HelmDeployUow uow = new HelmDeployUow(task, client, serverInfoJpa, vnfRepo, manoKey);
+		final HelmDeployUow uow = new HelmDeployUow(task, client, serverInfoJpa, vnfRepo);
 		when(ctx.get(any(), any())).thenReturn("e4950a2a-cd80-11ed-80f9-c8f750509d3b");
 		assertThrows(GenericException.class, () -> uow.execute(ctx));
 	}
@@ -118,7 +118,7 @@ class HelmDeployUowTest {
 	void testRollback() {
 		final HelmTask nt = new HelmTask();
 		final VirtualTaskV3<HelmTask> task = new HelmVt(nt);
-		final HelmDeployUow uow = new HelmDeployUow(task, client, serverInfoJpa, vnfRepo, manoKey);
+		final HelmDeployUow uow = new HelmDeployUow(task, client, serverInfoJpa, vnfRepo);
 		uow.rollback(null);
 		assertTrue(true);
 	}

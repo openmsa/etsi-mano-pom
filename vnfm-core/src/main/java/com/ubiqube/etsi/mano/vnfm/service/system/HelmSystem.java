@@ -65,8 +65,6 @@ public class HelmSystem extends AbstractVimSystemV3<HelmTask> {
 
 	@Override
 	protected SystemBuilder getImplementation(final OrchestrationServiceV3<HelmTask> orchestrationService, final VirtualTaskV3<HelmTask> virtualTask, final VimConnectionInformation vimConnectionInformation) {
-		final String crt = k8sPkService.createCsr("CN=kubernetes-admin,O=system:masters");
-		final String pk = k8sPkService.getPrivateKey();
 		final Servers srv = Servers.builder()
 				.authentification(AuthentificationInformations.builder()
 						.authParamOauth2(AuthParamOauth2.builder()
@@ -78,9 +76,7 @@ public class HelmSystem extends AbstractVimSystemV3<HelmTask> {
 						.build())
 				.url(props.getUrl())
 				.build();
-		// final UnitOfWorkV3<MciopTask> createUser = new MciopUserUowV3(virtualTask,
-		// vim, vimConnectionInformation, serverInfoJpa, crt);
-		final UnitOfWorkV3<HelmTask> uow = new HelmV3DeployUow(virtualTask, client, serverInfoJpa, repo, pk, srv);
+		final UnitOfWorkV3<HelmTask> uow = new HelmV3DeployUow(virtualTask, client, serverInfoJpa, repo, srv);
 		return orchestrationService.systemBuilderOf(uow);
 	}
 

@@ -49,16 +49,13 @@ public class HelmDeployUow extends AbstractVnfmUow<HelmTask> {
 	private final HelmTask task;
 	private final K8sServerInfoJpa serverInfoJpa;
 	private final VnfPackageRepository vnfRepo;
-	private final String manoKey;
 
-	public HelmDeployUow(final VirtualTaskV3<HelmTask> task, final K8sClient client, final K8sServerInfoJpa serverInfoJpa, final VnfPackageRepository vnfRepo,
-			final String manoKey) {
+	public HelmDeployUow(final VirtualTaskV3<HelmTask> task, final K8sClient client, final K8sServerInfoJpa serverInfoJpa, final VnfPackageRepository vnfRepo) {
 		super(task, HelmNode.class);
 		this.task = task.getTemplateParameters();
 		this.client = client;
 		this.serverInfoJpa = serverInfoJpa;
 		this.vnfRepo = vnfRepo;
-		this.manoKey = manoKey;
 	}
 
 	@Override
@@ -66,7 +63,7 @@ public class HelmDeployUow extends AbstractVnfmUow<HelmTask> {
 		final String server = context.get(OsContainerDeployableNode.class, task.getParentVdu());
 		final K8sServers s = serverInfoJpa.findById(UUID.fromString(server)).orElseThrow(() -> new GenericException("Unable to find erver " + server));
 		final File tmpFile = copyFile(task.getMciop().getArtifacts().entrySet().iterator().next().getValue().getImagePath(), task.getVnfPackageId());
-		return client.deploy(null, s, manoKey, tmpFile, UUID.randomUUID().toString());
+		return client.deploy(null, s, tmpFile, UUID.randomUUID().toString());
 	}
 
 	private File copyFile(final String url, final UUID id) {

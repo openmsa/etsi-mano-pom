@@ -38,6 +38,7 @@ import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsK8sInformationsNode;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
+import com.ubiqube.etsi.mano.service.boot.K8sPkService;
 import com.ubiqube.etsi.mano.service.vim.Cnf;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.vnfm.jpa.K8sServerInfoJpa;
@@ -53,6 +54,8 @@ class MciopUserUowTest {
 	private Context3d context;
 	@Mock
 	private Cnf cnf;
+	@Mock
+	private K8sPkService k8sPkService;
 
 	@Test
 	void test() {
@@ -60,7 +63,7 @@ class MciopUserUowTest {
 		final VirtualTaskV3<MciopUserTask> vt = new MciopUserVt(nt);
 		assertNotNull(vt.getType());
 		final VimConnectionInformation vimConn = new VimConnectionInformation();
-		final MciopUserUow uow = new MciopUserUow(vt, vim, vimConn, serverInfoJpa, "cn");
+		final MciopUserUow uow = new MciopUserUow(vt, vim, vimConn, serverInfoJpa, k8sPkService);
 		when(context.get(eq(OsK8sInformationsNode.class), any())).thenReturn(UUID.randomUUID().toString());
 		final K8sServers k8s = new K8sServers();
 		when(serverInfoJpa.findById(any())).thenReturn(Optional.of(k8s));
@@ -75,7 +78,7 @@ class MciopUserUowTest {
 		final MciopUserTask nt = new MciopUserTask();
 		final VirtualTaskV3<MciopUserTask> vt = new MciopUserVt(nt);
 		final VimConnectionInformation vimConn = new VimConnectionInformation();
-		final MciopUserUow uow = new MciopUserUow(vt, vim, vimConn, serverInfoJpa, "cn");
+		final MciopUserUow uow = new MciopUserUow(vt, vim, vimConn, serverInfoJpa, k8sPkService);
 		when(context.get(eq(OsK8sInformationsNode.class), any())).thenReturn(UUID.randomUUID().toString());
 		assertThrows(GenericException.class, () -> uow.execute(context));
 	}
@@ -85,7 +88,7 @@ class MciopUserUowTest {
 		final MciopUserTask nt = new MciopUserTask();
 		final VirtualTaskV3<MciopUserTask> vt = new MciopUserVt(nt);
 		final VimConnectionInformation vimConn = new VimConnectionInformation();
-		final MciopUserUow uow = new MciopUserUow(vt, vim, vimConn, serverInfoJpa, "cn");
+		final MciopUserUow uow = new MciopUserUow(vt, vim, vimConn, serverInfoJpa, k8sPkService);
 		uow.rollback(context);
 		assertTrue(true);
 	}
