@@ -18,6 +18,7 @@ package com.ubiqube.etsi.mano.vnfm.service.plan.contributors.uow.capi;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
@@ -96,7 +97,7 @@ public class OsCapiClusterUow extends AbstractVnfmUow<OsContainerDeployableTask>
 			LOG.error("", e);
 			throw new GenericException(e);
 		}
-		return clusterName;
+		return UUID.randomUUID().toString();
 	}
 
 	private static String buildClusterName(final String toscaName, final String vnfInstId) {
