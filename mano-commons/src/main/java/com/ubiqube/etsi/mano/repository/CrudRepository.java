@@ -20,18 +20,16 @@ import java.util.List;
 import java.util.UUID;
 
 import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.NotNull;
 
 public interface CrudRepository<T> {
 
-	@NotNull
-	T get(@NotNull UUID id);
+	T get(UUID id);
 
-	void delete(@NotNull UUID id);
+	void delete(UUID id);
 
-	@NotNull
-	T save(@NotNull T entity);
+	void deleteRepositoryOnly(UUID id);
 
-	@NotNull
+	T save(T entity);
+
 	List<T> query(@Nullable String filter);
 }
