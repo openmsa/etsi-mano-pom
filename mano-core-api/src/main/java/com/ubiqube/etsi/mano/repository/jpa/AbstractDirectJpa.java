@@ -66,7 +66,7 @@ public abstract class AbstractDirectJpa<U extends BaseEntity> extends AbstractBi
 
 	@Override
 	public void deleteRepositoryOnly(final UUID id) {
-		repository.deleteById(id);
+		super.delete(id);
 	}
 
 	@Override
