@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -35,6 +36,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.input.BoundedInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +48,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.ubiqube.etsi.mano.Constants;
 import com.ubiqube.etsi.mano.dao.mano.vim.Checksum;
 import com.ubiqube.etsi.mano.dao.mano.vim.SoftwareImage;
 import com.ubiqube.etsi.mano.exception.GenericException;
@@ -153,10 +156,11 @@ public class DownloaderService {
 	}
 
 	private String doDownload(final SoftwareImage si, final UUID vnfPkgId) {
-		LOG.info("Downloading: {}", si.getImagePath());
-		si.setNfvoPath(UUID.randomUUID().toString());
+		final String filename = getFilename(si);
+		LOG.info("Downloading: {} {}", filename, si.getImagePath());
+		si.setNfvoPath(filename);
 		final String imgUrl = Objects.requireNonNull(si.getImagePath(), "Software image url is null, ID: " + si.getId());
-		final DownloadResult hash = doDownload(vnfPkgId, imgUrl, si.getNfvoPath());
+		final DownloadResult hash = doDownload(vnfPkgId, imgUrl, Constants.REPOSITORY_FOLDER_ARTIFACTS + "/" + si.getNfvoPath());
 		final Checksum chk = new Checksum();
 		chk.setMd5(hash.md5String());
 		chk.setSha256(hash.sha256String());
@@ -167,7 +171,13 @@ public class DownloaderService {
 		} else if (si.getSize().equals(hash.count())) {
 			throw new GenericException("File size for [" + si.getImagePath() + "] doesn't match the given size: " + si.getSize() + ", but found: " + hash.count());
 		}
+		si.setImagePath(filename);
 		return "OK";
+	}
+
+	private static String getFilename(final SoftwareImage si) {
+		final URI uri = URI.create(si.getImagePath());
+		return FilenameUtils.getName(uri.getPath());
 	}
 
 	private static Consumer<SignalType> onComplete(final PipedOutputStream osPipe) {

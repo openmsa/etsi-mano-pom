@@ -40,6 +40,7 @@ import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.vim.Checksum;
 import com.ubiqube.etsi.mano.dao.mano.vim.SoftwareImage;
 import com.ubiqube.etsi.mano.exception.GenericException;
+import com.ubiqube.etsi.mano.repository.ManoResource;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 import com.ubiqube.etsi.mano.service.DownloadResult;
 import com.ubiqube.etsi.mano.service.pkg.ns.NsPackageProvider;
@@ -90,9 +91,12 @@ public class NfvoCustomOnboarding implements CustomOnboarding {
 		if (cache.contains(value.getImagePath())) {
 			return;
 		}
-		addEntry(zipOut, value.getImagePath());
-		final DownloadResult hash = copyFile(zipOut, vnfPackageReader, id, value.getImagePath());
-		setHash(value, hash);
+		final String artefactName = value.getImagePath();
+		addEntry(zipOut, artefactName);
+		if (value.getNfvoPath() == null) {
+			copyFileWithHash(vnfPackageReader, id, value);
+		}
+		addFileToZip(zipOut, vnfPackageReader, id, artefactName);
 		cache.add(value.getImagePath());
 	}
 
@@ -103,19 +107,21 @@ public class NfvoCustomOnboarding implements CustomOnboarding {
 		}
 		if (!cache.contains(artifact.getArtifactPath())) {
 			cache.add(artifact.getArtifactPath());
+			copyFileNoHash(vnfPackageReader, id, artifact.getArtifactPath());
 			addEntry(zipOut, artifact.getArtifactPath());
-			final DownloadResult hash = copyFile(zipOut, vnfPackageReader, id, artifact.getArtifactPath());
-			setHash(artifact, hash);
+			addFileToZip(zipOut, vnfPackageReader, id, artifact.getArtifactPath());
 		}
 		if ((artifact.getSignature() != null) && !cache.contains(artifact.getSignature())) {
 			cache.add(artifact.getSignature());
+			copyFileNoHash(vnfPackageReader, id, artifact.getSignature());
 			addEntry(zipOut, artifact.getSignature());
-			copyFile(zipOut, vnfPackageReader, id, artifact.getSignature());
+			addFileToZip(zipOut, vnfPackageReader, id, artifact.getSignature());
 		}
 		if ((artifact.getCertificate() != null) && !cache.contains(artifact.getCertificate())) {
 			cache.add(artifact.getCertificate());
+			copyFileNoHash(vnfPackageReader, id, artifact.getCertificate());
 			addEntry(zipOut, artifact.getCertificate());
-			copyFile(zipOut, vnfPackageReader, id, artifact.getCertificate());
+			addFileToZip(zipOut, vnfPackageReader, id, artifact.getCertificate());
 		}
 	}
 
@@ -155,22 +161,36 @@ public class NfvoCustomOnboarding implements CustomOnboarding {
 		return Paths.get(Constants.REPOSITORY_FOLDER_ARTIFACTS, path).toString();
 	}
 
-	private DownloadResult copyFile(final ZipOutputStream zipOut, final VnfPackageReader vnfPackageReader, final UUID id, final String artifactPath) {
+	private void copyFileWithHash(final VnfPackageReader vnfPackageReader, final UUID id, final SoftwareImage artifact) {
 		DownloadResult ret = new DownloadResult("", "", "", 0L);
-		try (MultiHashInputStream mhis = new MultiHashInputStream(vnfPackageReader.getFileInputStream(artifactPath));
+		try (MultiHashInputStream mhis = new MultiHashInputStream(vnfPackageReader.getFileInputStream(artifact.getImagePath()));
 				final CountingInputStream count = new CountingInputStream(mhis);) {
-			repo.storeBinary(id, mkPath(artifactPath), count);
+			repo.storeBinary(id, mkPath(artifact.getImagePath()), count);
 			ret = new DownloadResult(mhis.getMd5(), mhis.getSha256(), mhis.getSha512(), count.getByteCount());
+		} catch (final IOException e) {
+			throw new GenericException("Problem reading " + artifact, e);
+		}
+		setHash(artifact, ret);
+	}
+
+	private void copyFileNoHash(final VnfPackageReader vnfPackageReader, final UUID id, final String artifactPath) {
+		try (InputStream tgt = vnfPackageReader.getFileInputStream(artifactPath)) {
+			Objects.requireNonNull(tgt, () -> "Unable to open: " + artifactPath);
+			repo.storeBinary(id, mkPath(artifactPath), tgt);
 		} catch (final IOException e) {
 			throw new GenericException("Problem reading " + artifactPath, e);
 		}
-		try (final InputStream tgt = vnfPackageReader.getFileInputStream(artifactPath)) {
+	}
+
+	private void addFileToZip(final ZipOutputStream zipOut, final VnfPackageReader vnfPackageReader, final UUID id, final String artifactPath) {
+		final ManoResource mr = repo.getBinary(id, mkPath(artifactPath));
+		try (final InputStream tgt = mr.getInputStream()) {
+			Objects.requireNonNull(tgt, () -> "Unable to open: " + mkPath(artifactPath));
 			tgt.transferTo(zipOut);
 			zipOut.closeEntry();
 		} catch (final IOException e) {
 			throw new GenericException("Problem adding " + artifactPath + " to zip.", e);
 		}
-		return ret;
 	}
 
 	@Override
