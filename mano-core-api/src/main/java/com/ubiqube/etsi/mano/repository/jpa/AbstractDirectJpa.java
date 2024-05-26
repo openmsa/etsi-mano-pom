@@ -50,7 +50,7 @@ public abstract class AbstractDirectJpa<U extends BaseEntity> extends AbstractBi
 
 	@Override
 	@NotNull
-	public final U get(@NotNull final UUID id) {
+	public final U get(final UUID id) {
 		final Optional<U> entity = repository.findById(id);
 		return entity.orElseThrow(() -> new NotFoundException(getFrontClass().getSimpleName() + " entity " + id + " not found."));
 	}
@@ -59,14 +59,19 @@ public abstract class AbstractDirectJpa<U extends BaseEntity> extends AbstractBi
 	protected abstract Class<U> getFrontClass();
 
 	@Override
-	public final void delete(@NotNull final UUID id) {
+	public final void delete(final UUID id) {
 		repository.deleteById(id);
 		super.delete(id);
 	}
 
 	@Override
+	public void deleteRepositoryOnly(final UUID id) {
+		repository.deleteById(id);
+	}
+
+	@Override
 	@NotNull
-	public final U save(@NotNull final U entity) {
+	public final U save(final U entity) {
 		final U res = repository.save(entity);
 		mkdir(res.getId());
 		return res;
