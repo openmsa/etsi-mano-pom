@@ -157,10 +157,11 @@ public class DownloaderService {
 		si.setNfvoPath(UUID.randomUUID().toString());
 		final String imgUrl = Objects.requireNonNull(si.getImagePath(), "Software image url is null, ID: " + si.getId());
 		final DownloadResult hash = doDownload(vnfPkgId, imgUrl, si.getNfvoPath());
-		final Checksum chk = si.getChecksum();
+		final Checksum chk = new Checksum();
 		chk.setMd5(hash.md5String());
 		chk.setSha256(hash.sha256String());
 		chk.setSha512(hash.sha512String());
+		si.setChecksum(chk);
 		if (si.getSize() == null) {
 			si.setSize(hash.count());
 		} else if (si.getSize().equals(hash.count())) {
