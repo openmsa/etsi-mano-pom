@@ -111,6 +111,7 @@ public class VnfPackageOnboardingImpl {
 		} catch (final RuntimeException | IOException e) {
 			LOG.error("", e);
 			final VnfPackage v2 = vnfPackageService.findById(vnfPackage.getId());
+			vnfPackageRepository.delete(v2.getId());
 			v2.setOnboardingState(OnboardingStateType.ERROR);
 			v2.setOnboardingFailureDetails(new FailureDetails(500, e.getMessage()));
 			ret = vnfPackageService.save(v2);
