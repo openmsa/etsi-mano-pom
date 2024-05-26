@@ -39,6 +39,8 @@ class VnfOnboardingMapperServiceTest {
 	@Mock
 	private CustomOnboarding cunstomOnboarding;
 	private VnfPackageReader vnfPkgReader;
+	@Mock
+	private RegistryUploader registryUploader;
 	private final VnfPackageMapping vnfPackageMapping = Mappers.getMapper(VnfPackageMapping.class);
 
 	@Test
@@ -51,14 +53,14 @@ class VnfOnboardingMapperServiceTest {
 	}
 
 	private VnfOnboardingMapperService createService() {
-		return new VnfOnboardingMapperService(List.of(), List.of(), cunstomOnboarding, vnfPackageMapping);
+		return new VnfOnboardingMapperService(List.of(), List.of(), cunstomOnboarding, vnfPackageMapping, registryUploader);
 	}
 
 	@Test
 	void testWithVisitors() throws Exception {
 		final OnboardVisitor ov01 = new TestOnboardVisitor();
 		final OnboardingPostProcessorVisitor op01 = new TestOnboardingPostProcessorVisitor();
-		final VnfOnboardingMapperService srv = new VnfOnboardingMapperService(List.of(ov01), List.of(op01), cunstomOnboarding, vnfPackageMapping);
+		final VnfOnboardingMapperService srv = new VnfOnboardingMapperService(List.of(ov01), List.of(op01), cunstomOnboarding, vnfPackageMapping, registryUploader);
 		final VnfPackage VnfPackage = new VnfPackage();
 		final ProviderData providerData = new ProviderData();
 		srv.mapper(vnfPkgReader, VnfPackage, providerData);

@@ -22,6 +22,7 @@ import org.mapstruct.MappingConstants;
 
 import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.dto.ConnectionInformationDto;
+import com.ubiqube.etsi.mano.docker.RegistryInformations;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface CirConnectionControllerMapping extends StringToUriMapping {
@@ -29,4 +30,9 @@ public interface CirConnectionControllerMapping extends StringToUriMapping {
 	@Mapping(target = "audit", ignore = true)
 	@Mapping(target = "version", ignore = true)
 	ConnectionInformation map(ConnectionInformationDto o);
+
+	@Mapping(target = "password", source = "authentification.authParamBasic.password")
+	@Mapping(target = "server", source = "url")
+	@Mapping(target = "username", source = "authentification.authParamBasic.userName")
+	RegistryInformations map(ConnectionInformation cirConn);
 }

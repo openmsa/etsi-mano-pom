@@ -47,11 +47,14 @@ public class VnfOnboardingMapperService {
 
 	private final VnfPackageMapping vnfPackageMapping;
 
-	public VnfOnboardingMapperService(final List<OnboardVisitor> onboardVisitors, final List<OnboardingPostProcessorVisitor> postProcessors, final CustomOnboarding customOnboarding, final VnfPackageMapping vnfPackageMapping) {
+	private final RegistryUploader registryUploader;
+
+	public VnfOnboardingMapperService(final List<OnboardVisitor> onboardVisitors, final List<OnboardingPostProcessorVisitor> postProcessors, final CustomOnboarding customOnboarding, final VnfPackageMapping vnfPackageMapping, final RegistryUploader registryUploader) {
 		this.onboardVisitors = onboardVisitors;
 		this.postProcessors = postProcessors;
 		this.customOnboarding = customOnboarding;
 		this.vnfPackageMapping = vnfPackageMapping;
+		this.registryUploader = registryUploader;
 	}
 
 	void mapper(final VnfPackageReader vnfPackageReader, final VnfPackage vnfPackage, final ProviderData pd) {
@@ -61,6 +64,7 @@ public class VnfOnboardingMapperService {
 		onboardVisitors.forEach(x -> x.visit(vnfPackage, vnfPackageReader, userData));
 		postProcessors.forEach(x -> x.visit(vnfPackage));
 		customOnboarding.handleArtifacts(vnfPackage, vnfPackageReader);
+		registryUploader.uploadToRegistry(vnfPackage);
 	}
 
 	private static void additionalMapping(final ProviderData pd, final VnfPackage vnfPackage) {
