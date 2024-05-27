@@ -71,7 +71,7 @@ public class SoftwareImageVisitor implements OnboardingPostProcessorVisitor {
 		mall.putAll(osco);
 		mall.putAll(mciop);
 		final List<SoftwareImage> toUpload = mall.entrySet().stream().map(Entry::getValue).filter(x -> isRemote(x.getImagePath())).toList();
-		downloaderService.doDownload(toUpload, vnfPackage.getId());
+		downloaderService.doDownload(toUpload, vnfPackage);
 		vnfPackage.setSoftwareImages(mall.entrySet().stream().map(Entry::getValue).collect(Collectors.toSet()));
 	}
 

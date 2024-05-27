@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.service.pkg.vnf;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -26,9 +27,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+import com.ubiqube.etsi.mano.dao.mano.pkg.ExternalArtifactsAccessConfig;
 import com.ubiqube.etsi.mano.dao.mano.vim.Checksum;
 import com.ubiqube.etsi.mano.dao.mano.vim.SoftwareImage;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
+import com.ubiqube.etsi.mano.service.vim.VimException;
 
 @ExtendWith(MockitoExtension.class)
 class DownloaderServiceTest {
@@ -38,8 +42,8 @@ class DownloaderServiceTest {
 	@Test
 	void testBasic() throws Exception {
 		final DownloaderService srv = new DownloaderService(vnfPackageRepository);
-		final UUID id = UUID.randomUUID();
-		srv.doDownload(List.of(), id);
+		final VnfPackage vnfPkg = new VnfPackage();
+		srv.doDownload(List.of(), vnfPkg);
 		assertTrue(true);
 	}
 
@@ -48,9 +52,13 @@ class DownloaderServiceTest {
 		final DownloaderService srv = new DownloaderService(vnfPackageRepository);
 		final UUID id = UUID.randomUUID();
 		final SoftwareImage sw01 = new SoftwareImage();
-		sw01.setImagePath("http://nexus.ubiqube.com/repository/local-helm/index.yaml");
+		sw01.setImagePath("http://nexus.ubiqube.com/repository/helm-local/index.yaml");
 		sw01.setChecksum(new Checksum());
-		srv.doDownload(List.of(sw01), id);
+		final VnfPackage vnfPkg = new VnfPackage();
+		final ExternalArtifactsAccessConfig eaac = new ExternalArtifactsAccessConfig();
+		eaac.setArtifact(List.of());
+		vnfPkg.setExternalArtifactsAccessConfig(eaac);
+		srv.doDownload(List.of(sw01), vnfPkg);
 		assertTrue(true);
 	}
 
@@ -61,8 +69,11 @@ class DownloaderServiceTest {
 		final SoftwareImage sw01 = new SoftwareImage();
 		sw01.setImagePath("http://nexus.ubiqube.com/repository/local-helm-bad/index.yaml");
 		sw01.setChecksum(new Checksum());
-		srv.doDownload(List.of(sw01), id);
-		// TODO This test should crash
-		assertTrue(true);
+		final VnfPackage vnfPkg = new VnfPackage();
+		final ExternalArtifactsAccessConfig eaac = new ExternalArtifactsAccessConfig();
+		eaac.setArtifact(List.of());
+		vnfPkg.setExternalArtifactsAccessConfig(eaac);
+		final List<SoftwareImage> lst = List.of(sw01);
+		assertThrows(VimException.class, () -> srv.doDownload(lst, vnfPkg));
 	}
 }
