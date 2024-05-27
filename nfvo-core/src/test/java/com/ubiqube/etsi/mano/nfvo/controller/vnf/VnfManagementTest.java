@@ -26,6 +26,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -36,6 +38,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+import com.ubiqube.etsi.mano.dao.mano.pkg.ExternalArtifactsAccessConfig;
+import com.ubiqube.etsi.mano.dao.mano.pkg.ExternalArtifactsAccessConfigArtifact;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.repository.ManoResource;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
@@ -212,6 +216,25 @@ class VnfManagementTest {
 	void testSearchOnboarded() {
 		final VnfManagement mng = createService();
 		mng.searchOnboarded(null, null, null, null, null, null);
+		assertTrue(true);
+	}
+
+	@Test
+	void testPutExternalArtifact() {
+		final VnfManagement srv = createService();
+		final VnfPackage vnfPkg = new VnfPackage();
+		final ExternalArtifactsAccessConfig extConf = new ExternalArtifactsAccessConfig();
+		vnfPkg.setExternalArtifactsAccessConfig(extConf);
+		extConf.setArtifact(new ArrayList<>());
+		when(vnfPackageJpa.findById(null)).thenReturn(vnfPkg);
+		final ExternalArtifactsAccessConfig dst = new ExternalArtifactsAccessConfig();
+		final List<ExternalArtifactsAccessConfigArtifact> lst = new ArrayList<>();
+		final ExternalArtifactsAccessConfigArtifact arte = new ExternalArtifactsAccessConfigArtifact();
+		arte.setArtifactUri("http://localhost/");
+		lst.add(arte);
+		dst.setArtifact(lst);
+		when(vnfPackageJpa.save(vnfPkg)).thenReturn(vnfPkg);
+		srv.putExternalArtifact(dst, null);
 		assertTrue(true);
 	}
 
