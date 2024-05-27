@@ -36,7 +36,7 @@ class FluxRequestorTest {
 	@Test
 	void testNoAuth() throws Exception {
 		final UploadUriParameters params = new UploadUriParameters();
-		params.setAddressInformation(URI.create("http://nexus.ubiqube.com/repository/local-helm/index.yaml"));
+		params.setAddressInformation(URI.create("http://nexus.ubiqube.com/repository/helm-local/index.yaml"));
 		final FluxRequestor fr = new FluxRequestor(params);
 		final InputStream is = fr.getInputStream();
 		assertNotNull(is);
