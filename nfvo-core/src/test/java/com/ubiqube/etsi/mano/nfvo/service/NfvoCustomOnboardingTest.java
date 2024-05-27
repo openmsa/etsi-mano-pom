@@ -25,6 +25,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -35,11 +36,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.ubiqube.etsi.mano.Constants;
 import com.ubiqube.etsi.mano.dao.mano.AdditionalArtifact;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainer;
 import com.ubiqube.etsi.mano.dao.mano.vim.SoftwareImage;
 import com.ubiqube.etsi.mano.dao.mano.vnfm.McIops;
+import com.ubiqube.etsi.mano.repository.ByteArrayResource;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 import com.ubiqube.etsi.mano.service.pkg.vnf.VnfPackageReader;
 
@@ -102,6 +105,7 @@ class NfvoCustomOnboardingTest {
 		final FileInputStream fis1 = new FileInputStream(ARTEFACT_1);
 		final FileInputStream fis2 = new FileInputStream(ARTEFACT_1);
 		when(packageReader.getFileInputStream(ARTEFACT_1)).thenReturn(fis1, fis2);
+		when(vnfRepo.getBinary(id, mkPath(ARTEFACT_1))).thenReturn(new ByteArrayResource("content".getBytes(), ARTEFACT_1));
 		srv.handleArtifacts(pkg, packageReader);
 		assertTrue(true);
 	}
@@ -128,6 +132,8 @@ class NfvoCustomOnboardingTest {
 		final FileInputStream fis3 = new FileInputStream(ARTEFACT_2);
 		final FileInputStream fis4 = new FileInputStream(ARTEFACT_2);
 		when(packageReader.getFileInputStream(ARTEFACT_2)).thenReturn(fis3, fis4);
+		when(vnfRepo.getBinary(id, mkPath(ARTEFACT_1))).thenReturn(new ByteArrayResource("content".getBytes(), ARTEFACT_1));
+		when(vnfRepo.getBinary(id, mkPath(ARTEFACT_2))).thenReturn(new ByteArrayResource("content".getBytes(), ARTEFACT_2));
 		srv.handleArtifacts(pkg, packageReader);
 		assertTrue(true);
 	}
@@ -154,6 +160,8 @@ class NfvoCustomOnboardingTest {
 		final FileInputStream fis3 = new FileInputStream(ARTEFACT_2);
 		final FileInputStream fis4 = new FileInputStream(ARTEFACT_2);
 		when(packageReader.getFileInputStream(ARTEFACT_2)).thenReturn(fis3, fis4);
+		when(vnfRepo.getBinary(id, mkPath(ARTEFACT_1))).thenReturn(new ByteArrayResource("content".getBytes(), ARTEFACT_1));
+		when(vnfRepo.getBinary(id, mkPath(ARTEFACT_2))).thenReturn(new ByteArrayResource("content".getBytes(), ARTEFACT_2));
 		srv.handleArtifacts(pkg, packageReader);
 		assertTrue(true);
 	}
@@ -180,6 +188,7 @@ class NfvoCustomOnboardingTest {
 		final FileInputStream fis1 = new FileInputStream(ARTEFACT_1);
 		final FileInputStream fis2 = new FileInputStream(ARTEFACT_1);
 		when(packageReader.getFileInputStream(ARTEFACT_1)).thenReturn(fis1, fis2);
+		when(vnfRepo.getBinary(id, mkPath(ARTEFACT_1))).thenReturn(new ByteArrayResource("content".getBytes(), ARTEFACT_1));
 		srv.handleArtifacts(pkg, packageReader);
 		assertTrue(true);
 	}
@@ -204,7 +213,12 @@ class NfvoCustomOnboardingTest {
 		final FileInputStream fis1 = new FileInputStream(ARTEFACT_1);
 		final FileInputStream fis2 = new FileInputStream(ARTEFACT_1);
 		when(packageReader.getFileInputStream(ARTEFACT_1)).thenReturn(fis1, fis2);
+		when(vnfRepo.getBinary(id, mkPath(ARTEFACT_1))).thenReturn(new ByteArrayResource("content".getBytes(), ARTEFACT_1));
 		srv.handleArtifacts(pkg, packageReader);
 		assertTrue(true);
+	}
+
+	private static String mkPath(final String path) {
+		return Paths.get(Constants.REPOSITORY_FOLDER_ARTIFACTS, path).toString();
 	}
 }
