@@ -43,7 +43,6 @@ import org.apache.lucene.search.PhraseQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.util.QueryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -168,10 +167,6 @@ public class IndexManager {
 				return pBuilder.build();
 			}
 		}
-	}
-
-	private void search2() {
-		final QueryBuilder qb = new QueryBuilder(null);
 	}
 
 }
