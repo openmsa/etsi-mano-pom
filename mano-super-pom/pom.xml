@@ -76,6 +76,7 @@
 		<version.mano-docker-api>4.0.0-SNAPSHOT</version.mano-docker-api>
 		<version.mano-fluxrest>4.0.0-SNAPSHOT</version.mano-fluxrest>
 		<version.mano-grammar-api>5.0.0-SNAPSHOT</version.mano-grammar-api>
+		<version.mano-juju>1.0.1-SNAPSHOT</version.mano-juju>
 		<version.mano-model>4.0.0-SNAPSHOT</version.mano-model>
 		<version.mano-mon-api>4.0.0-SNAPSHOT</version.mano-mon-api>
 		<version.mano-orika>4.0.0-SNAPSHOT</version.mano-orika>
