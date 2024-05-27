@@ -77,14 +77,14 @@ public class VnfInstanceGenericFrontControllerImpl implements VnfInstanceGeneric
 	}
 
 	@Override
-	public <U> ResponseEntity<Void> scaleToLevel(final @Nonnull UUID vnfInstanceId, final VnfScaleToLevelRequest req, final Function<VnfBlueprint, String> getSelfLink) {
+	public ResponseEntity<Void> scaleToLevel(final @Nonnull UUID vnfInstanceId, final VnfScaleToLevelRequest req, final Function<VnfBlueprint, String> getSelfLink) {
 		final VnfBlueprint lcm = vnfInstanceLcm.scaleToLevel(null, vnfInstanceId, req);
 		final String link = getSelfLink.apply(lcm);
 		return ResponseEntity.accepted().header(LOCATION, link).build();
 	}
 
 	@Override
-	public <U> ResponseEntity<Void> scale(final @Nonnull UUID vnfInstanceId, final VnfScaleRequest req, final Function<VnfBlueprint, String> getSelfLink) {
+	public ResponseEntity<Void> scale(final @Nonnull UUID vnfInstanceId, final VnfScaleRequest req, final Function<VnfBlueprint, String> getSelfLink) {
 		final VnfBlueprint lcm = vnfInstanceLcm.scale(null, vnfInstanceId, req);
 		final String link = getSelfLink.apply(lcm);
 		return ResponseEntity.accepted().header(LOCATION, link).build();
@@ -106,14 +106,14 @@ public class VnfInstanceGenericFrontControllerImpl implements VnfInstanceGeneric
 	}
 
 	@Override
-	public <U> ResponseEntity<Void> operate(final @Nonnull UUID vnfInstanceId, final VnfOperateRequest req, final Function<VnfBlueprint, String> getSelfLink) {
+	public ResponseEntity<Void> operate(final @Nonnull UUID vnfInstanceId, final VnfOperateRequest req, final Function<VnfBlueprint, String> getSelfLink) {
 		final VnfBlueprint lcm = vnfInstanceLcm.operate(null, vnfInstanceId, req);
 		final String link = getSelfLink.apply(lcm);
 		return ResponseEntity.accepted().header(LOCATION, link).build();
 	}
 
 	@Override
-	public <U> ResponseEntity<Void> instantiate(final @Nonnull UUID vnfInstanceId, final VnfInstantiate req, final Function<VnfBlueprint, String> getSelfLink) {
+	public ResponseEntity<Void> instantiate(final @Nonnull UUID vnfInstanceId, final VnfInstantiate req, final Function<VnfBlueprint, String> getSelfLink) {
 		final VnfBlueprint lcm = vnfInstanceLcm.instantiate(null, vnfInstanceId, req);
 		final String link = getSelfLink.apply(lcm);
 		return ResponseEntity.accepted().header(LOCATION, link).build();

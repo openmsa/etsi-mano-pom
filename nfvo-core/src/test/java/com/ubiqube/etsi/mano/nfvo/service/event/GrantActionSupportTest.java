@@ -192,7 +192,7 @@ class GrantActionSupportTest {
 		resp.setVnfdId(id.toString());
 		final VnfPackage pkg = new VnfPackage();
 		final Optional<VnfPackage> optPkg = Optional.of(pkg);
-		when(vnfPackageService.findByVnfdIdOpt(eq(id.toString()))).thenReturn(optPkg);
+		when(vnfPackageService.findByVnfdIdOpt(id.toString())).thenReturn(optPkg);
 		gas.getVims(resp);
 		assertTrue(true);
 	}

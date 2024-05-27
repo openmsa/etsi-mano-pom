@@ -23,7 +23,6 @@ import java.util.function.BiFunction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ubiqube.etsi.mano.dao.mano.InstantiationStatusType;
 import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.dao.mano.v2.OperationStatusType;
@@ -88,7 +87,7 @@ public class UowUtils {
 				.filter(x -> ((x.getOperationStatus() == OperationStatusType.STARTING) || (x.getOperationStatus() == OperationStatusType.PROCESSING)))
 				.toList();
 		if (!liFilteredByState.isEmpty()) {
-			LOG.info("VNF Lcm operation running with state: {}, cannot launch scale or heal at this time", InstantiationStatusType.STARTING);
+			LOG.info("VNF Lcm operation running with state: {}, cannot launch scale or heal at this time", OperationStatusType.STARTING);
 			return true;
 		}
 		return false;
@@ -102,7 +101,7 @@ public class UowUtils {
 				.filter(x -> ((x.getOperationStatus() == OperationStatusType.STARTING) || (x.getOperationStatus() == OperationStatusType.PROCESSING)))
 				.toList();
 		if (!liFilteredByState.isEmpty()) {
-			LOG.info("NS Lcm operation running with state: {}, cannot launch scale at this time", InstantiationStatusType.STARTING);
+			LOG.info("NS Lcm operation running with state: {}, cannot launch scale at this time", OperationStatusType.STARTING);
 			return true;
 		}
 		return false;
