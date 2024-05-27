@@ -29,7 +29,6 @@ import com.ubiqube.etsi.mano.dao.mano.cnf.capi.CapiServer;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerDeployableTask;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.vim.vnfi.CnfInformations;
-import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerDeployableNode;
@@ -91,12 +90,7 @@ public class OsCapiClusterUow extends AbstractVnfmUow<OsContainerDeployableTask>
 				.build();
 		final CapiServer capiSrv = capiServerJpa.findAll().iterator().next();
 		final K8s k8sConfig = mapper.map(capiSrv);
-		try {
-			osCluster.createCluster(vci, k8sConfig, k8sParams);
-		} catch (final Throwable e) {
-			LOG.error("", e);
-			throw new GenericException(e);
-		}
+		osCluster.createCluster(vci, k8sConfig, k8sParams);
 		return UUID.randomUUID().toString();
 	}
 
