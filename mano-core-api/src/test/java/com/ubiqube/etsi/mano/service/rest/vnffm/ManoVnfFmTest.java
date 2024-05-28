@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.service.rest.vnffm;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.UUID;
 
@@ -35,7 +36,8 @@ class ManoVnfFmTest {
 	void test() {
 		final ManoVnfFm srv = createService();
 		assertNotNull(srv.find());
-		srv.id(UUID.randomUUID());
+		final UUID uuid = UUID.randomUUID();
+		assertThrows(UnsupportedOperationException.class, () -> srv.id(uuid));
 		srv.subscription();
 		srv.toString();
 	}
