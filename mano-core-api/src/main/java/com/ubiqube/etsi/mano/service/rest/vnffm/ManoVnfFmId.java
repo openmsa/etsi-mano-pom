@@ -24,15 +24,15 @@ import com.ubiqube.etsi.mano.service.rest.QueryParameters;
 public class ManoVnfFmId {
 
 	public ManoVnfFmId(final QueryParameters manoClient, final UUID id) {
-		// TODO Auto-generated constructor stub
+		throw new UnsupportedOperationException();
 	}
 
 	public Alarm find() {
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	public Alarm patch(final Alarm alarm) {
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	public void escalate() {

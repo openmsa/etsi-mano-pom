@@ -24,11 +24,11 @@ import com.ubiqube.etsi.mano.service.rest.QueryParameters;
 public class ManoThresholdId {
 
 	public ManoThresholdId(final QueryParameters client, final UUID id) {
-		// TODO Auto-generated constructor stub
+		throw new UnsupportedOperationException();
 	}
 
 	public Threshold find() {
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	public void delete() {
@@ -36,6 +36,6 @@ public class ManoThresholdId {
 	}
 
 	public Threshold patch() {
-		return null;
+		throw new UnsupportedOperationException();
 	}
 }
