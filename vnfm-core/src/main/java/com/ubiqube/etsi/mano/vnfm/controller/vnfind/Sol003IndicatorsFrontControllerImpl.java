@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.vnfm.controller.vnfind;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -52,7 +53,8 @@ public class Sol003IndicatorsFrontControllerImpl implements IndicatorsFrontContr
 	@Override
 	public <U> ResponseEntity<List<U>> findByVnfInstanceId(final String vnfInstanceId, final @Nullable String filter, final @Nullable String nextpageOpaqueMarker, final Function<VnfIndicator, U> mapper, final Consumer<U> makeLink) {
 		final ResponseEntity<List<VnfIndicator>> res = monitoringManager.findByVnfInstanceId(vnfInstanceId, filter, nextpageOpaqueMarker);
-		final List<U> ret = res.getBody().stream().map(mapper::apply).toList();
+		final List<VnfIndicator> body = Objects.requireNonNull(res.getBody());
+		final List<U> ret = body.stream().map(mapper::apply).toList();
 		return ResponseEntity.ok(ret);
 	}
 

@@ -45,6 +45,8 @@ import com.ubiqube.etsi.mano.grammar.GrammarValue;
 import com.ubiqube.etsi.mano.mon.dao.TelemetryMetricsResult;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceService;
 
+import jakarta.annotation.Nullable;
+
 /**
  *
  * @author Olivier Vignaud
@@ -100,7 +102,7 @@ public class MonitoringManager {
 		em.createBatch(resourceId, crit.getPerformanceMetric(), crit.getCollectionPeriod(), pmJob.getVimConnectionInformation());
 	}
 
-	public List<VnfIndicator> search(final String filter, final String nextpageOpaqueMarker) {
+	public List<VnfIndicator> search(final @Nullable String filter, final String nextpageOpaqueMarker) {
 		final GrammarNodeResult res = grammar.parse(filter);
 		final MultiValueMap<String, String> params = convert(res);
 		final List<TelemetryMetricsResult> ret = em.searchMetric(params);
