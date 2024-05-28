@@ -57,6 +57,9 @@ public class CirRegistryUploader implements RegistryUploader {
 
 	@Override
 	public void uploadToRegistry(final VnfPackage vnfPackage) {
+		if (System.getenv("MANO_UPLOAD_TO_CIR") == null) {
+			return;
+		}
 		final ConnectionInformation cirConn = getCirConnection();
 		final RegistryInformations regInfo = mapper.map(cirConn);
 		vnfPackage.getMciops().stream().flatMap(x -> x.getArtifacts().values().parallelStream())
