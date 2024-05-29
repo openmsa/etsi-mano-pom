@@ -165,7 +165,7 @@ public class VnfInstanceGenericFrontControllerImpl implements VnfInstanceGeneric
 	}
 
 	@Override
-	public <U> ResponseEntity<Void> changeExtConn(final @Nonnull UUID vnfInstanceId, final ChangeExtVnfConnRequest cevcr, final Function<VnfBlueprint, String> getSelfLink) {
+	public ResponseEntity<Void> changeExtConn(final @Nonnull UUID vnfInstanceId, final ChangeExtVnfConnRequest cevcr, final Function<VnfBlueprint, String> getSelfLink) {
 		final VnfInstance vnfInstance = vnfInstanceServiceVnfm.findById(vnfInstanceId);
 		ensureInstantiated(vnfInstance);
 		final VnfBlueprint lcm = vnfInstanceLcm.changeExtConn(null, vnfInstanceId, cevcr);
