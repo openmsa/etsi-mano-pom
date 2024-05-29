@@ -133,7 +133,7 @@ public class DownloaderService {
 		final Consumer<InputStream> func = is -> {
 			try (final PipedOutputStream osPipe = new PipedOutputStream();
 					final PipedInputStream isPipeIn = new PipedInputStream(osPipe);
-					final BoundedInputStream count = new BoundedInputStream(is);
+					BoundedInputStream count = new BoundedInputStream.Builder().setInputStream(is).get();
 					MultiHashInputStream mhis = new MultiHashInputStream(count);) {
 				packageRepository.storeBinary(vnfPkgId, path, mhis);
 				setChecksum(si, mhis);
