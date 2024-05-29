@@ -19,17 +19,16 @@ package com.ubiqube.etsi.mano.json;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.annotation.Nonnull;
-
 import com.fasterxml.jackson.databind.BeanDescription;
 import com.fasterxml.jackson.databind.SerializationConfig;
 import com.fasterxml.jackson.databind.ser.BeanPropertyWriter;
 import com.fasterxml.jackson.databind.ser.BeanSerializerModifier;
 
 public class ExclusionSerializer extends BeanSerializerModifier {
+	private static final long serialVersionUID = 1L;
 	private final List<ViewHolder> excluded;
 
-	public ExclusionSerializer(@Nonnull final List<ViewHolder> excluded) {
+	public ExclusionSerializer(final List<ViewHolder> excluded) {
 		this.excluded = excluded;
 	}
 
