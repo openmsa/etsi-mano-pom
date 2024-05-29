@@ -96,7 +96,7 @@ public class NfvoCustomOnboarding implements CustomOnboarding {
 		if (value.getNfvoPath() == null) {
 			copyFileWithHash(vnfPackageReader, id, value);
 		}
-		addFileToZip(zipOut, vnfPackageReader, id, artefactName);
+		addFileToZip(zipOut, id, artefactName);
 		cache.add(value.getImagePath());
 	}
 
@@ -109,19 +109,19 @@ public class NfvoCustomOnboarding implements CustomOnboarding {
 			cache.add(artifact.getArtifactPath());
 			copyFileNoHash(vnfPackageReader, id, artifact.getArtifactPath());
 			addEntry(zipOut, artifact.getArtifactPath());
-			addFileToZip(zipOut, vnfPackageReader, id, artifact.getArtifactPath());
+			addFileToZip(zipOut, id, artifact.getArtifactPath());
 		}
 		if ((artifact.getSignature() != null) && !cache.contains(artifact.getSignature())) {
 			cache.add(artifact.getSignature());
 			copyFileNoHash(vnfPackageReader, id, artifact.getSignature());
 			addEntry(zipOut, artifact.getSignature());
-			addFileToZip(zipOut, vnfPackageReader, id, artifact.getSignature());
+			addFileToZip(zipOut, id, artifact.getSignature());
 		}
 		if ((artifact.getCertificate() != null) && !cache.contains(artifact.getCertificate())) {
 			cache.add(artifact.getCertificate());
 			copyFileNoHash(vnfPackageReader, id, artifact.getCertificate());
 			addEntry(zipOut, artifact.getCertificate());
-			addFileToZip(zipOut, vnfPackageReader, id, artifact.getCertificate());
+			addFileToZip(zipOut, id, artifact.getCertificate());
 		}
 	}
 
@@ -136,14 +136,6 @@ public class NfvoCustomOnboarding implements CustomOnboarding {
 			throw new GenericException("File size for [" + value.getImagePath() + "] doesn't match the given size: " + value.getSize() + ", but found: " + hash.count());
 		}
 		value.setChecksum(chk);
-	}
-
-	private static void setHash(final AdditionalArtifact artifact, final DownloadResult hash) {
-		final Checksum chk = Optional.ofNullable(artifact.getChecksum()).orElseGet(Checksum::new);
-		chk.setMd5(hash.md5String());
-		chk.setSha256(hash.sha256String());
-		chk.setSha512(hash.sha512String());
-		artifact.setChecksum(chk);
 	}
 
 	private static void addEntry(final ZipOutputStream zipOut, final String path) {
@@ -182,7 +174,7 @@ public class NfvoCustomOnboarding implements CustomOnboarding {
 		}
 	}
 
-	private void addFileToZip(final ZipOutputStream zipOut, final VnfPackageReader vnfPackageReader, final UUID id, final String artifactPath) {
+	private void addFileToZip(final ZipOutputStream zipOut, final UUID id, final String artifactPath) {
 		final ManoResource mr = repo.getBinary(id, mkPath(artifactPath));
 		try (final InputStream tgt = mr.getInputStream()) {
 			Objects.requireNonNull(tgt, () -> "Unable to open: " + mkPath(artifactPath));
