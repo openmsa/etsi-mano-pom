@@ -44,7 +44,7 @@
 		<com.ubiqube.expressly.version>5.0.0</com.ubiqube.expressly.version>
 		<com.ubiqube.guava.version>32.0.1-jre</com.ubiqube.guava.version>
 		<com.ubiqube.hibernate-search6.version>6.2.3.Final</com.ubiqube.hibernate-search6.version>
-		<com.ubiqube.io.fabric8.kubernetes-client.version>6.12.1</com.ubiqube.io.fabric8.kubernetes-client.version>
+		<com.ubiqube.io.fabric8.kubernetes-client.version>6.13.0</com.ubiqube.io.fabric8.kubernetes-client.version>
 		<com.ubiqube.io.kubernetes.client-java>20.0.1</com.ubiqube.io.kubernetes.client-java>
 		<com.ubiqube.jgrapht.version>1.5.2</com.ubiqube.jgrapht.version>
 		<com.ubiqube.mockito.version>5.11.0</com.ubiqube.mockito.version>
