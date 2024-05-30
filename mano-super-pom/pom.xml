@@ -47,7 +47,7 @@
 		<com.ubiqube.io.fabric8.kubernetes-client.version>6.13.0</com.ubiqube.io.fabric8.kubernetes-client.version>
 		<com.ubiqube.io.kubernetes.client-java>20.0.1</com.ubiqube.io.kubernetes.client-java>
 		<com.ubiqube.jgrapht.version>1.5.2</com.ubiqube.jgrapht.version>
-		<com.ubiqube.mockito.version>5.11.0</com.ubiqube.mockito.version>
+		<com.ubiqube.mockito.version>5.12.0</com.ubiqube.mockito.version>
 		<com.ubiqube.openstack4j.version>3.12-SNAPSHOT</com.ubiqube.openstack4j.version>
 		<com.ubiqube.podam.version>8.0.1.RELEASE</com.ubiqube.podam.version>
 		<com.ubiqube.spring-boot-admin-starter-client.version>3.2.3</com.ubiqube.spring-boot-admin-starter-client.version>
