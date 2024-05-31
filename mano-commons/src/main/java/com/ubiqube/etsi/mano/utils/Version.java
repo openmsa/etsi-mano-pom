@@ -31,7 +31,7 @@ public class Version implements Comparable<Version> {
 	private final int major;
 	private final int minor;
 	private final int patch;
-	private final Pattern p = Pattern.compile("^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$");
+	private final Pattern p = Pattern.compile("^(?<major>\\d+)\\.(?<minor>\\d+)(\\.(?<patch>\\d+))?$");
 
 	public Version(final int major, final int minor, final int patch) {
 		this.major = major;
@@ -46,7 +46,11 @@ public class Version implements Comparable<Version> {
 		}
 		major = Integer.parseInt(m.group("major"));
 		minor = Integer.parseInt(m.group("minor"));
-		patch = Integer.parseInt(m.group("patch"));
+		if (m.group("patch") != null) {
+			patch = Integer.parseInt(m.group("patch"));
+		} else {
+			patch = 0;
+		}
 	}
 
 	public static Version of(final String str) {

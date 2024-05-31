@@ -22,8 +22,8 @@ import java.util.Optional;
 
 import org.mapstruct.Mapper;
 
-import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
 import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
+import com.ubiqube.etsi.mano.dao.mano.ai.KeystoneAuthV3;
 
 @Mapper
 public interface ConnectionMapping {
@@ -46,7 +46,7 @@ public interface ConnectionMapping {
 		return ret;
 	}
 
-	default Map<String, String> map(final AccessInfo value) {
+	default Map<String, String> map(final KeystoneAuthV3 value) {
 		if (null == value) {
 			return Map.of();
 		}
@@ -56,9 +56,9 @@ public interface ConnectionMapping {
 
 		Optional.ofNullable(value.getUserDomain()).ifPresent(x -> ret.put("userDomain", x));
 		Optional.ofNullable(value.getProject()).ifPresent(x -> ret.put("project", x));
-		Optional.ofNullable(value.getProjectId()).ifPresent(x -> ret.put("projectId", x));
+//		Optional.ofNullable(value.getProjectId()).ifPresent(x -> ret.put("projectId", x));
 		Optional.ofNullable(value.getProjectDomain()).ifPresent(x -> ret.put("projectDomain", x));
-		Optional.ofNullable(value.getProjectName()).ifPresent(x -> ret.put("projectName", x));
+//		Optional.ofNullable(value.getProjectName()).ifPresent(x -> ret.put("projectName", x));
 		return ret;
 	}
 

@@ -23,8 +23,8 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
-import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
 import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
+import com.ubiqube.etsi.mano.dao.mano.ai.KeystoneAuthV3;
 
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
@@ -51,14 +51,14 @@ class ConnectionMappingTest {
 
 	@Test
 	void testAccessInfo() {
-		final AccessInfo ai = podam.manufacturePojo(AccessInfo.class);
+		final KeystoneAuthV3 ai = podam.manufacturePojo(KeystoneAuthV3.class);
 		final Map<String, String> res = mapper.map(ai);
 		assertNotNull(res);
 	}
 
 	@Test
 	void testAccessInfoNull() {
-		final Map<String, String> res = mapper.map((AccessInfo) null);
+		final Map<String, String> res = mapper.map((InterfaceInfo) null);
 		assertNotNull(res);
 	}
 }

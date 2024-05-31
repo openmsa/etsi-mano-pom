@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.utils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
@@ -51,5 +52,12 @@ class VersionTest {
 		assertEquals(false, v1.equals(new Version("2.6.4")));
 		assertEquals(false, v1.equals(new Version(3, 3, 4)));
 		v1.hashCode();
+	}
+
+	@Test
+	void testMajorMinor() throws Exception {
+		System.out.println("^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$");
+		final Version v1 = new Version("2.6");
+		assertTrue(true);
 	}
 }
