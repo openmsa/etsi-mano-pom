@@ -52,13 +52,14 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.jms.core.JmsTemplate;
 
-import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
 import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
+import com.ubiqube.etsi.mano.dao.mano.ai.SnmpV3Auth;
 import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
 import com.ubiqube.etsi.mano.service.mon.data.Metric;
 import com.ubiqube.etsi.mano.service.mon.data.MonConnInformation;
 import com.ubiqube.etsi.mano.service.mon.poller.snmp.Snmp3Poller;
 import com.ubiqube.etsi.mano.service.mon.poller.snmp.SnmpPoller;
+import com.ubiqube.etsi.mano.service.mon.poller.snmp.SnmpV2AuthInfo;
 
 /**
  *
@@ -76,8 +77,8 @@ class SnmpTest {
 
 	@Test
 	void testSnmpPoller() {
-		final MonConnInformation conn = new MonConnInformation();
-		final AccessInfo ai = AccessInfo.builder()
+		final MonConnInformation<InterfaceInfo, SnmpV2AuthInfo> conn = new MonConnInformation<>();
+		final SnmpV2AuthInfo ai = SnmpV2AuthInfo.builder()
 				.community("ubiqube")
 				.build();
 		conn.setAccessInfo(ai);
@@ -86,7 +87,7 @@ class SnmpTest {
 		conn.setInterfaceInfo(ii);
 		conn.setConnType("SNMP");
 		final SnmpPoller sp = new SnmpPoller(jmsTemplate, configurableApplicationContext);
-		final BatchPollingJob pj = new BatchPollingJob();
+		final BatchPollingJob<InterfaceInfo, SnmpV2AuthInfo> pj = new BatchPollingJob<>();
 		pj.setId(UUID.randomUUID());
 		pj.setConnection(conn);
 		final List<Metric> metrics = new ArrayList<>();
@@ -100,8 +101,8 @@ class SnmpTest {
 
 	@Test
 	void testSnmpV3Poller() {
-		final MonConnInformation conn = new MonConnInformation();
-		final AccessInfo ai = AccessInfo.builder()
+		final MonConnInformation<InterfaceInfo, SnmpV3Auth> conn = new MonConnInformation<>();
+		final SnmpV3Auth ai = SnmpV3Auth.builder()
 				.securityName("ovi")
 				.privacyPassphrase("ubiqube123")
 				.authenticationProtocol("md5")
@@ -114,7 +115,7 @@ class SnmpTest {
 		conn.setInterfaceInfo(ii);
 		conn.setConnType("SNMP3");
 		final Snmp3Poller sp = new Snmp3Poller(jmsTemplate, configurableApplicationContext);
-		final BatchPollingJob pj = new BatchPollingJob();
+		final BatchPollingJob<InterfaceInfo, SnmpV3Auth> pj = new BatchPollingJob<>();
 		pj.setId(UUID.randomUUID());
 		pj.setConnection(conn);
 		final List<Metric> metrics = new ArrayList<>();

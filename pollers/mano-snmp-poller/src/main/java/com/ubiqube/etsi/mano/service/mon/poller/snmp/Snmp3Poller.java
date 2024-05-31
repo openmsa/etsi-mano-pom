@@ -52,6 +52,8 @@ import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
+import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
+import com.ubiqube.etsi.mano.dao.mano.ai.SnmpV3Auth;
 import com.ubiqube.etsi.mano.mon.MonGenericException;
 import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
 import com.ubiqube.etsi.mano.service.mon.data.Metric;
@@ -61,8 +63,7 @@ import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 
 @Service
-public class Snmp3Poller extends AbstractSnmpPoller {
-	private static final String SECURITY_NAME = "securityName";
+public class Snmp3Poller extends AbstractSnmpPoller<InterfaceInfo, SnmpV3Auth> {
 	private static final Logger LOG = LoggerFactory.getLogger(Snmp3Poller.class);
 
 	public Snmp3Poller(@Qualifier("topicJmsTemplate") final JmsTemplate jmsTemplate, final ConfigurableApplicationContext configurableApplicationContext) {
@@ -70,13 +71,13 @@ public class Snmp3Poller extends AbstractSnmpPoller {
 	}
 
 	@JmsListener(destination = Constants.QUEUE_SNMP3_DATA_POLLING, concurrency = "5")
-	public void onEvent(@Nonnull final BatchPollingJob batchPollingJob) {
+	public void onEvent(@Nonnull final BatchPollingJob<InterfaceInfo, SnmpV3Auth> batchPollingJob) {
 		getMetrics(batchPollingJob);
 	}
 
 	@Override
-	protected PDU getResponse(final BatchPollingJob pj) {
-		final MonConnInformation conn = pj.getConnection();
+	protected PDU getResponse(final BatchPollingJob<InterfaceInfo, SnmpV3Auth> pj) {
+		final MonConnInformation<InterfaceInfo, SnmpV3Auth> conn = pj.getConnection();
 		final ScopedPDU pdu = createScopePdu(pj.getMetrics());
 		setupSecurity();
 		final UserTarget<Address> target = createUserTarget(conn);
@@ -95,7 +96,7 @@ public class Snmp3Poller extends AbstractSnmpPoller {
 		}
 	}
 
-	private static MPv3 createMpv3(final MonConnInformation conn) {
+	private static MPv3 createMpv3(final MonConnInformation<InterfaceInfo, SnmpV3Auth> conn) {
 		final USM usm = new USM(SecurityProtocols.getInstance(), new OctetString(MPv3.createLocalEngineID()), 0);
 		usm.setEngineDiscoveryEnabled(true);
 		final MPv3 mpv3 = new MPv3(usm);
@@ -106,7 +107,7 @@ public class Snmp3Poller extends AbstractSnmpPoller {
 		return mpv3;
 	}
 
-	private static UsmUser createUsmUser(final MonConnInformation conn) {
+	private static UsmUser createUsmUser(final MonConnInformation<InterfaceInfo, SnmpV3Auth> conn) {
 		final String securityName = conn.getAccessInfo().getSecurityName();
 		final String privacyPassphrase = conn.getAccessInfo().getPrivacyPassphrase();
 		final OID authenticationProtocol = toOid(conn.getAccessInfo().getAuthenticationProtocol());
@@ -137,7 +138,7 @@ public class Snmp3Poller extends AbstractSnmpPoller {
 		};
 	}
 
-	private static UserTarget<Address> createUserTarget(final MonConnInformation conn) {
+	private static UserTarget<Address> createUserTarget(final MonConnInformation<InterfaceInfo, SnmpV3Auth> conn) {
 		final String endpoint = conn.getInterfaceInfo().getEndpoint();
 		final String user = conn.getAccessInfo().getSecurityName();
 		final Address address = GenericAddress.parse(endpoint);

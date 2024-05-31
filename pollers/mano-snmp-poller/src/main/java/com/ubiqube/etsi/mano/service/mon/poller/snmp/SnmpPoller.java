@@ -36,7 +36,6 @@ import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
 import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
 import com.ubiqube.etsi.mano.mon.MonGenericException;
 import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
@@ -46,22 +45,22 @@ import com.ubiqube.etsi.mano.service.mon.data.MonConnInformation;
 import jakarta.annotation.Nonnull;
 
 @Service
-public class SnmpPoller extends AbstractSnmpPoller {
+public class SnmpPoller extends AbstractSnmpPoller<InterfaceInfo, SnmpV2AuthInfo> {
 
 	public SnmpPoller(@Qualifier("topicJmsTemplate") final JmsTemplate jmsTemplate, final ConfigurableApplicationContext configurableApplicationContext) {
 		super(jmsTemplate, configurableApplicationContext);
 	}
 
 	@JmsListener(destination = Constants.QUEUE_SNMP_DATA_POLLING, concurrency = "5")
-	public void onEvent(@Nonnull final BatchPollingJob batchPollingJob) {
+	public void onEvent(@Nonnull final BatchPollingJob<InterfaceInfo, SnmpV2AuthInfo> batchPollingJob) {
 		getMetrics(batchPollingJob);
 	}
 
 	@Override
-	protected PDU getResponse(final BatchPollingJob pj) {
-		final MonConnInformation conn = pj.getConnection();
+	protected PDU getResponse(final BatchPollingJob<InterfaceInfo, SnmpV2AuthInfo> pj) {
+		final MonConnInformation<InterfaceInfo, SnmpV2AuthInfo> conn = pj.getConnection();
 		final InterfaceInfo ii = conn.getInterfaceInfo();
-		final AccessInfo ai = conn.getAccessInfo();
+		final SnmpV2AuthInfo ai = conn.getAccessInfo();
 		final String endpoint = ii.getEndpoint();
 		final String community = ai.getCommunity();
 		final List<Metric> metrics = pj.getMetrics();

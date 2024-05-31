@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.service.mon.data;
 
+import java.io.Serializable;
 import java.util.Map;
 import java.util.UUID;
 
@@ -31,15 +32,20 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Version;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-@Entity
 @Data
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-public class MonConnInformation {
+@Entity
+public class MonConnInformation<I extends InterfaceInfo, A extends AccessInfo> implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
@@ -52,11 +58,11 @@ public class MonConnInformation {
 
 	private String name;
 
-	@OneToOne
-	private InterfaceInfo interfaceInfo = new InterfaceInfo();
+	@OneToOne(targetEntity = InterfaceInfo.class)
+	private I interfaceInfo;
 
-	@OneToOne
-	private AccessInfo accessInfo = new AccessInfo();
+	@OneToOne(targetEntity = AccessInfo.class)
+	private A accessInfo;
 
 	@ElementCollection(fetch = FetchType.EAGER)
 	private Map<String, String> extra;

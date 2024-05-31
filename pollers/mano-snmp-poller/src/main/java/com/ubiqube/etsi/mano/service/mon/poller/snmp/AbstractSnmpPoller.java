@@ -35,6 +35,8 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.jms.core.JmsTemplate;
 
+import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
+import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
 import com.ubiqube.etsi.mano.mon.api.BusHelper;
 import com.ubiqube.etsi.mano.mon.dao.TelemetryMetricsResult;
 import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
@@ -44,7 +46,7 @@ import com.ubiqube.etsi.mano.service.mon.data.MonitoringDataSlim;
 
 import jakarta.annotation.Nonnull;
 
-public abstract class AbstractSnmpPoller {
+public abstract class AbstractSnmpPoller<I extends InterfaceInfo, A extends AccessInfo> {
 	private static final Logger LOG = LoggerFactory.getLogger(AbstractSnmpPoller.class);
 
 	private final JmsTemplate jmsTemplate;
@@ -56,13 +58,13 @@ public abstract class AbstractSnmpPoller {
 		this.configurableApplicationContext = configurableApplicationContext;
 	}
 
-	protected void getMetrics(final BatchPollingJob pj) {
+	protected void getMetrics(final BatchPollingJob<I, A> pj) {
 		final PDU resp = getResponse(pj);
 		final List<MonitoringDataSlim> metrics = prepareResponse(pj, resp);
 		jmsTemplate.convertAndSend(resolvQueueName(BusHelper.TOPIC_SERIALZE_DATA), JmsMetricHolder.of(metrics));
 	}
 
-	private static List<MonitoringDataSlim> prepareResponse(final BatchPollingJob pj, final PDU resp) {
+	private List<MonitoringDataSlim> prepareResponse(final BatchPollingJob<I, A> pj, final PDU resp) {
 		if (null == resp) {
 			LOG.warn("Time out: {}", resp);
 			return (List<MonitoringDataSlim>) prepareError(pj);
@@ -70,22 +72,22 @@ public abstract class AbstractSnmpPoller {
 		return (List<MonitoringDataSlim>) prepareReponse(pj, resp);
 	}
 
-	abstract PDU getResponse(BatchPollingJob pj);
+	abstract PDU getResponse(BatchPollingJob<I, A> pj);
 
-	private static List<? extends MonitoringDataSlim> prepareReponse(final BatchPollingJob pj, final PDU resp) {
+	private List<? extends MonitoringDataSlim> prepareReponse(final BatchPollingJob<I, A> pj, final PDU resp) {
 		return pj.getMetrics().stream()
 				.map(x -> map(pj, x, resp))
 				.toList();
 	}
 
-	protected static List<? extends MonitoringDataSlim> prepareError(final BatchPollingJob pj) {
+	protected List<? extends MonitoringDataSlim> prepareError(final BatchPollingJob<I, A> pj) {
 		final List<Metric> metrics = pj.getMetrics();
 		return metrics.stream()
 				.map(x -> new TelemetryMetricsResult(pj.getResourceId(), pj.getResourceId(), x.getMetricName(), Double.valueOf(0), null, OffsetDateTime.now(), false))
 				.toList();
 	}
 
-	private static TelemetryMetricsResult map(final BatchPollingJob pj, final Metric x, final PDU resp) {
+	private TelemetryMetricsResult map(final BatchPollingJob<I, A> pj, final Metric x, final PDU resp) {
 		final Variable variable = resp.getVariable(new OID(x.getMetricName()));
 		double value = 0;
 		boolean success = false;

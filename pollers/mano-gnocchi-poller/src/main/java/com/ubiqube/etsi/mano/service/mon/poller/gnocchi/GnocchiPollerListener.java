@@ -36,6 +36,8 @@ import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
+import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
+import com.ubiqube.etsi.mano.dao.mano.ai.KeystoneAuthV3;
 import com.ubiqube.etsi.mano.mon.api.BusHelper;
 import com.ubiqube.etsi.mano.mon.dao.TelemetryMetricsResult;
 import com.ubiqube.etsi.mano.openstack.OsUtils;
@@ -64,9 +66,9 @@ public class GnocchiPollerListener {
 	}
 
 	@JmsListener(destination = Constants.QUEUE_GNOCCHI_DATA_POLLING, concurrency = "5")
-	public void onEvent(final BatchPollingJob batchPollingJob) {
+	public void onEvent(final BatchPollingJob<InterfaceInfo, KeystoneAuthV3> batchPollingJob) {
 		final UUID id = Objects.requireNonNull(batchPollingJob.getId());
-		final MonConnInformation conn = batchPollingJob.getConnection();
+		final MonConnInformation<InterfaceInfo, KeystoneAuthV3> conn = batchPollingJob.getConnection();
 		final OSClientV3 os = OsUtils.authenticate(conn.getInterfaceInfo(), conn.getAccessInfo());
 		final List<MonitoringDataSlim> metrics = getMetrics(id, batchPollingJob.getResourceId(), batchPollingJob.getMetrics(), os);
 		jmsTemplate.convertAndSend(resolvQueueName(BusHelper.TOPIC_SERIALZE_DATA), JmsMetricHolder.of(metrics));

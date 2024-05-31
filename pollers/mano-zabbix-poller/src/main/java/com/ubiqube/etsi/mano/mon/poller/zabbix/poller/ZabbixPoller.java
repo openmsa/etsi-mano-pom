@@ -29,6 +29,8 @@ import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
+import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
+import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
 import com.ubiqube.etsi.mano.mon.api.BusHelper;
 import com.ubiqube.etsi.mano.mon.dao.TelemetryMetricsResult;
 import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
@@ -54,12 +56,12 @@ public class ZabbixPoller {
 	}
 
 	@JmsListener(destination = Constants.QUEUE_ZABBIX_DATA_POLLING, concurrency = "5")
-	public void onEvent(final BatchPollingJob batchPollingJob) {
+	public void onEvent(final BatchPollingJob<InterfaceInfo, AccessInfo> batchPollingJob) {
 		final List<MonitoringDataSlim> metrics = (List<MonitoringDataSlim>) getMetrics(batchPollingJob);
 		jmsTemplate.convertAndSend(resolvQueueName(BusHelper.TOPIC_SERIALZE_DATA), JmsMetricHolder.of(metrics));
 	}
 
-	private List<? extends MonitoringDataSlim> getMetrics(final BatchPollingJob batchPollingJob) {
+	private List<? extends MonitoringDataSlim> getMetrics(final BatchPollingJob<InterfaceInfo, AccessInfo> batchPollingJob) {
 		final String resourceId = batchPollingJob.getResourceId();
 		final List<Metric> metrics = batchPollingJob.getMetrics();
 		final int port = getPort(resourceId);
@@ -67,7 +69,7 @@ public class ZabbixPoller {
 		return metrics.stream().map(x -> map(batchPollingJob, host, port, x)).toList();
 	}
 
-	private TelemetryMetricsResult map(final BatchPollingJob pj, final String host, final int port, final Metric x) {
+	private TelemetryMetricsResult map(final BatchPollingJob<InterfaceInfo, AccessInfo> pj, final String host, final int port, final Metric x) {
 		try {
 			final TelemetryMetricsResult tmr = new TelemetryMetricsResult(pj.getId().toString(), pj.getResourceId(), x.getMetricName(), null, null, OffsetDateTime.now(), false);
 			final List<String> res = zmq.result(host, port, x.getMetricName());

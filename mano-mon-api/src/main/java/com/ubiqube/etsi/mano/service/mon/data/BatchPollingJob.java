@@ -20,6 +20,9 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
+import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
+
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -40,7 +43,7 @@ import lombok.Setter;
 @Entity
 @Setter
 @Getter
-public class BatchPollingJob {
+public class BatchPollingJob<I extends InterfaceInfo, A extends AccessInfo> {
 	/**
 	 * Internal ID.
 	 */
@@ -64,8 +67,8 @@ public class BatchPollingJob {
 	/**
 	 * Connection ID. Linked to where/how to poll question.
 	 */
-	@ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
-	private MonConnInformation connection;
+	@ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER, targetEntity = MonConnInformation.class)
+	private MonConnInformation<I, A> connection;
 
 	/**
 	 * Interval between polling ticks.

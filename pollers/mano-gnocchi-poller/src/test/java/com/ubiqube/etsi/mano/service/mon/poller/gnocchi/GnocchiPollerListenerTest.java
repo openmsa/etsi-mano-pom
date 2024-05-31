@@ -41,8 +41,8 @@ import org.springframework.jms.core.JmsTemplate;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
-import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
 import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
+import com.ubiqube.etsi.mano.dao.mano.ai.KeystoneAuthV3;
 import com.ubiqube.etsi.mano.service.mon.data.BatchPollingJob;
 import com.ubiqube.etsi.mano.service.mon.data.Metric;
 import com.ubiqube.etsi.mano.service.mon.data.MonConnInformation;
@@ -74,7 +74,7 @@ class GnocchiPollerListenerTest {
 		bpj.setMetrics(List.of());
 		bpj.setResourceId("res");
 		final MonConnInformation conn = new MonConnInformation();
-		final AccessInfo ai = AccessInfo.builder()
+		final KeystoneAuthV3 ai = KeystoneAuthV3.builder()
 				.projectId("proj")
 				.build();
 		conn.setAccessInfo(ai);
@@ -106,7 +106,7 @@ class GnocchiPollerListenerTest {
 		bpj.setMetrics(List.of(m));
 		bpj.setResourceId("res");
 		final MonConnInformation conn = new MonConnInformation();
-		final AccessInfo ai = AccessInfo.builder()
+		final KeystoneAuthV3 ai = KeystoneAuthV3.builder()
 				.projectId("proj")
 				.build();
 		conn.setAccessInfo(ai);
@@ -140,7 +140,7 @@ class GnocchiPollerListenerTest {
 		bpj.setMetrics(List.of(m));
 		bpj.setResourceId("res");
 		final MonConnInformation conn = new MonConnInformation();
-		final AccessInfo ai = AccessInfo.builder()
+		final KeystoneAuthV3 ai = KeystoneAuthV3.builder()
 				.projectId("proj")
 				.build();
 		conn.setAccessInfo(ai);
