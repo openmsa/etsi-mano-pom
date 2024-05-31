@@ -28,8 +28,8 @@ import java.util.List;
 import java.util.UUID;
 
 import com.ubiqube.etsi.mano.Constants;
-import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
 import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
+import com.ubiqube.etsi.mano.dao.mano.ai.KeystoneAuthV3;
 import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainer;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerTask;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
@@ -79,9 +79,9 @@ public class OsContainerUow extends AbstractVnfmUow<OsContainerTask> {
 		osc.getRequestedMemoryResources();
 		final String type = vimConnectionInformation.getVimType();
 		final String nameofCloud = vimConnectionInformation.getVimId();
-		final AccessInfo accessInfo = vimConnectionInformation.getAccessInfo();
+		final KeystoneAuthV3 accessInfo = vimConnectionInformation.getAccessInfo();
 		final String password = accessInfo.getPassword();
-		final String credName = "admin-" + accessInfo.getProjectId();
+		final String credName = "admin-" + accessInfo.getProject();
 		final String username = accessInfo.getUsername();
 		final InterfaceInfo interfaceInfo = vimConnectionInformation.getInterfaceInfo();
 		final String endpoint = interfaceInfo.getEndpoint();
