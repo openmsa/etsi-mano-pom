@@ -26,6 +26,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
+import com.ubiqube.etsi.mano.dao.mano.ai.KeystoneAuthV3;
 import com.ubiqube.etsi.mano.nfvo.service.plan.contributors.vt.NetworkPolicyVt;
 import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.entities.SystemConnections;
@@ -36,7 +38,7 @@ import com.ubiqube.etsi.mano.tf.entities.NetworkPolicyTask;
 
 @ExtendWith(MockitoExtension.class)
 class NetworkPolicyUowTest {
-	private final SystemConnections systemConnection = TestUowFactory.createSystemConnections();
+	private final SystemConnections<InterfaceInfo, KeystoneAuthV3> systemConnection = TestUowFactory.createSystemConnections();
 	@Mock
 	private Context3d ctx;
 

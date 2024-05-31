@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.nfvo.service.plan.uow;
 
 import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
+import com.ubiqube.etsi.mano.dao.mano.ai.KeystoneAuthV3;
 import com.ubiqube.etsi.mano.orchestrator.entities.SystemConnections;
 
 public class TestUowFactory {
@@ -25,11 +26,12 @@ public class TestUowFactory {
 		//
 	}
 
-	public static SystemConnections createSystemConnections() {
-		final SystemConnections ret = new SystemConnections();
+	public static SystemConnections<InterfaceInfo, KeystoneAuthV3> createSystemConnections() {
+		final SystemConnections<InterfaceInfo, KeystoneAuthV3> ret = new SystemConnections<>();
 		final InterfaceInfo ii = new InterfaceInfo();
 		ii.setSdnEndpoint("http://bad-host/");
 		ret.setInterfaceInfo(ii);
+		ret.setAccessInfo(new KeystoneAuthV3());
 		return ret;
 	}
 }
