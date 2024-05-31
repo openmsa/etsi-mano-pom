@@ -79,12 +79,14 @@ public class OsContainerUow extends AbstractVnfmUow<OsContainerTask> {
 		osc.getRequestedMemoryResources();
 		final String type = vimConnectionInformation.getVimType();
 		final String nameofCloud = vimConnectionInformation.getVimId();
-		final KeystoneAuthV3 accessInfo = vimConnectionInformation.getAccessInfo();
+		final KeystoneAuthV3 accessInfo = new KeystoneAuthV3();
 		final String password = accessInfo.getPassword();
 		final String credName = "admin-" + accessInfo.getProject();
 		final String username = accessInfo.getUsername();
-		final InterfaceInfo interfaceInfo = vimConnectionInformation.getInterfaceInfo();
+		final InterfaceInfo interfaceInfo = new InterfaceInfo();
 		final String endpoint = interfaceInfo.getEndpoint();
+		vimConnectionInformation.setAccessInfo(accessInfo);
+		vimConnectionInformation.setInterfaceInfo(interfaceInfo);
 		final String controllerName = vimConnectionInformation.getVimId() + "-" + vimConnectionInformation.getJujuInfo().getRegion().toLowerCase();
 		final String imageId = vimConnectionInformation.getJujuInfo().getImageId();
 		final String constraints = vimConnectionInformation.getJujuInfo().getConstraints();
