@@ -31,15 +31,18 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.controller.lcmgrant.GrantManagement;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
+import com.ubiqube.etsi.mano.service.vim.VimTypeConverter;
 
 @ExtendWith(MockitoExtension.class)
 class LcmGrantsFrontControllerImplTest {
 	@Mock
 	private GrantManagement grantManagement;
+	@Mock
+	private VimTypeConverter vimTypeConverter;
 
 	@Test
 	void testGet() {
-		final LcmGrantsFrontControllerImpl srv = new LcmGrantsFrontControllerImpl(grantManagement);
+		final LcmGrantsFrontControllerImpl srv = createService();
 		final GrantResponse resp = new GrantResponse();
 		resp.setAvailable(true);
 		final Consumer<Object> cons = x -> {
@@ -49,9 +52,13 @@ class LcmGrantsFrontControllerImplTest {
 		assertTrue(true);
 	}
 
+	private LcmGrantsFrontControllerImpl createService() {
+		return new LcmGrantsFrontControllerImpl(grantManagement, vimTypeConverter);
+	}
+
 	@Test
 	void testGet2() {
-		final LcmGrantsFrontControllerImpl srv = new LcmGrantsFrontControllerImpl(grantManagement);
+		final LcmGrantsFrontControllerImpl srv = createService();
 		final GrantResponse resp = new GrantResponse();
 		resp.setAvailable(false);
 		when(grantManagement.get(any())).thenReturn(resp);
@@ -61,7 +68,7 @@ class LcmGrantsFrontControllerImplTest {
 
 	@Test
 	void testPost() {
-		final LcmGrantsFrontControllerImpl srv = new LcmGrantsFrontControllerImpl(grantManagement);
+		final LcmGrantsFrontControllerImpl srv = createService();
 		final Function<Object, String> func = x -> "";
 		final GrantResponse resp = new GrantResponse();
 		when(grantManagement.post(resp)).thenReturn(resp);
