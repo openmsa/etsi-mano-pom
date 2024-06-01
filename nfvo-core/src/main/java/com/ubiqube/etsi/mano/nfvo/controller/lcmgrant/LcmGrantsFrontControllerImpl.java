@@ -29,6 +29,7 @@ import org.springframework.stereotype.Service;
 import com.ubiqube.etsi.mano.controller.lcmgrant.GrantManagement;
 import com.ubiqube.etsi.mano.controller.lcmgrant.LcmGrantsFrontController;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
+import com.ubiqube.etsi.mano.service.vim.VimTypeConverter;
 
 import jakarta.annotation.Nonnull;
 import jakarta.validation.Valid;
@@ -41,9 +42,11 @@ import jakarta.validation.Valid;
 @Service
 public class LcmGrantsFrontControllerImpl implements LcmGrantsFrontController {
 	private final GrantManagement grantManagement;
+	private final VimTypeConverter vimTypeConverter;
 
-	public LcmGrantsFrontControllerImpl(final @Nonnull GrantManagement grantManagement) {
+	public LcmGrantsFrontControllerImpl(final @Nonnull GrantManagement grantManagement, final VimTypeConverter vimTypeConverter) {
 		this.grantManagement = grantManagement;
+		this.vimTypeConverter = vimTypeConverter;
 	}
 
 	@Override
@@ -52,6 +55,7 @@ public class LcmGrantsFrontControllerImpl implements LcmGrantsFrontController {
 		if (!grants.getAvailable().equals(Boolean.TRUE)) {
 			return ResponseEntity.accepted().build();
 		}
+		grants.getVimConnections().forEach(vimTypeConverter::setToExternalType);
 		final U jsonGrant = func.apply(grants);
 		// Only self link, other links came from request (mapping).
 		makeLink.accept(jsonGrant);
