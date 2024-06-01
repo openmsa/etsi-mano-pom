@@ -73,7 +73,8 @@ class VimManagerTest {
 	private EventManager eventManager;
 	@Mock
 	private ManoSearch manoSearch;
-
+	@Mock
+	private VimTypeConverter vimTypeConverter;
 	CnfInformationsMapping cnfMapper = Mappers.getMapper(CnfInformationsMapping.class);
 
 	private static final String uuidStr = "4d02c1b8-c185-11ed-ba42-c8f750509d3b";
@@ -255,7 +256,7 @@ class VimManagerTest {
 		final List<Vim> vims = List.of(vim01);
 		final VimConnectionInformation vci = createVimConnection();
 		when(vimConnJpa.findByVimType("dummy-vim")).thenReturn(Set.of(vci));
-		return new VimManager(vims, vimConnJpa, systemService, cnfServerJpa, vrQanJpa, eventManager, manoSearch, cnfMapper);
+		return new VimManager(vims, vimConnJpa, systemService, cnfServerJpa, vrQanJpa, eventManager, manoSearch, cnfMapper, vimTypeConverter);
 	}
 
 	private static VimConnectionInformation createVimConnection() {
