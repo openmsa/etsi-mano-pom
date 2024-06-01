@@ -77,8 +77,10 @@ public class VimManager {
 
 	private final CnfInformationsMapping cnfMapper;
 
+	private final VimTypeConverter vimTypeConverter;
+
 	public VimManager(final List<Vim> vims, final VimConnectionInformationJpa vimConnectionInformationJpa, final SystemService systemService,
-			final CnfServerJpa cnfServerJpa, final VrQanJpa vrQanJpa, final EventManager em, final ManoSearch manoSearch, final CnfInformationsMapping cnfMapper) {
+			final CnfServerJpa cnfServerJpa, final VrQanJpa vrQanJpa, final EventManager em, final ManoSearch manoSearch, final CnfInformationsMapping cnfMapper, final VimTypeConverter vimTypeConverter) {
 		this.vims = vims;
 		this.vimConnectionInformationJpa = vimConnectionInformationJpa;
 		this.systemService = systemService;
@@ -87,6 +89,7 @@ public class VimManager {
 		this.em = em;
 		this.manoSearch = manoSearch;
 		this.cnfMapper = cnfMapper;
+		this.vimTypeConverter = vimTypeConverter;
 		init();
 	}
 
@@ -160,6 +163,7 @@ public class VimManager {
 
 	@Transactional
 	public VimConnectionInformation register(final VimConnectionInformation vci) {
+		vimTypeConverter.setToInternalType(vci);
 		checkUniqueness(vci);
 		checkVimConnectivity(vci);
 		registerVim(vci);
