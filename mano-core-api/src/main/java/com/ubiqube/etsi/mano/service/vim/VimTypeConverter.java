@@ -42,12 +42,15 @@ public class VimTypeConverter {
 		}
 		if ("ETSINFV.OPENSTACK_KEYSTONE.V_3".equals(vci.getVimType())) {
 			vci.setVimType("OPENSTACK_V3");
+			return;
 		}
 		if ("UBINFV.AZURE.V_1".equals(vci.getVimType())) {
 			vci.setVimType("AZURE");
+			return;
 		}
 		if ("UBINFV.AWS.V_1".equals(vci.getVimType())) {
 			vci.setVimType("AWS");
+			return;
 		}
 		throw new GenericException("Unsupported vim type: " + vci.getVimType());
 	}
