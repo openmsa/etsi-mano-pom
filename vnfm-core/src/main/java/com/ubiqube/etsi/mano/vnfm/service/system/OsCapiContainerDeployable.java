@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerDeployableTask;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
+import com.ubiqube.etsi.mano.jpa.CapiServerJpa;
 import com.ubiqube.etsi.mano.orchestrator.OrchestrationServiceV3;
 import com.ubiqube.etsi.mano.orchestrator.SystemBuilder;
 import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
@@ -29,7 +30,6 @@ import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.service.system.AbstractVimSystemV3;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 import com.ubiqube.etsi.mano.vim.k8s.OsClusterService;
-import com.ubiqube.etsi.mano.vnfm.jpa.CapiServerJpa;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.uow.capi.OsCapiClusterUow;
 
 import jakarta.annotation.Nonnull;

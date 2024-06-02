@@ -19,13 +19,28 @@ package com.ubiqube.etsi.mano.service.grant.ccm;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
+import com.ubiqube.etsi.mano.service.CapiServerService;
+import com.ubiqube.etsi.mano.vnfm.jpa.K8sServerInfoJpa;
 
 public class NoopCcm implements CcmManager {
+	private final CapiServerService capiServerService;
+	private final K8sServerInfoJpa k8sServerInfoJpa;
+
+	public NoopCcm(final CapiServerService capiServerService, final K8sServerInfoJpa k8sServerInfoJpa) {
+		this.capiServerService = capiServerService;
+		this.k8sServerInfoJpa = k8sServerInfoJpa;
+	}
 
 	@Override
 	public VimConnectionInformation getVimConnection(final GrantResponse grants, final VnfPackage vnfPackage) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void getTerminateCluster(final String vnfInstanceId) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

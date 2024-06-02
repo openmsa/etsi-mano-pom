@@ -28,8 +28,8 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ubiqube.etsi.mano.service.CapiServerService;
 import com.ubiqube.etsi.mano.vim.k8s.OsClusterService;
-import com.ubiqube.etsi.mano.vnfm.service.CapiServerService;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.uow.capi.CapiServerMapping;
 
 @ExtendWith(MockitoExtension.class)

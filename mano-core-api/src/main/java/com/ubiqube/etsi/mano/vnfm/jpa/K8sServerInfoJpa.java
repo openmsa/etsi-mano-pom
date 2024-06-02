@@ -30,6 +30,8 @@ import com.ubiqube.etsi.mano.dao.mano.vim.k8s.K8sServers;
  */
 public interface K8sServerInfoJpa extends CrudRepository<K8sServers, UUID> {
 
+	Optional<K8sServers> findByVnfInstanceId(UUID vnfInstanceId);
+
 	Optional<K8sServers> findByVimResourceId(String id);
 
 	void deleteByVimResourceId(String id);

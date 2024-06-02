@@ -23,7 +23,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.ubiqube.etsi.mano.vnfm.jpa.CapiServerJpa;
+import com.ubiqube.etsi.mano.jpa.CapiServerJpa;
+import com.ubiqube.etsi.mano.service.CapiServerService;
 
 @ExtendWith(MockitoExtension.class)
 class CapiServerServiceTest {

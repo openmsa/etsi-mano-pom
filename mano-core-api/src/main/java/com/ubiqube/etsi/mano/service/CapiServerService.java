@@ -14,14 +14,14 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.vnfm.service;
+package com.ubiqube.etsi.mano.service;
 
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.cnf.capi.CapiServer;
-import com.ubiqube.etsi.mano.vnfm.jpa.CapiServerJpa;
+import com.ubiqube.etsi.mano.jpa.CapiServerJpa;
 
 @Service
 public class CapiServerService {

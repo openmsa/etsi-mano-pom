@@ -103,6 +103,8 @@ public class GrantAction {
 
 	private final CcmManager ccmManager;
 
+	private final Set<String> requireVimInfo;
+
 	protected GrantAction(final GrantsResponseJpa grantJpa, final VimManager vimManager, final VimElection vimElection,
 			final SoftwareImageService imageService, final FlavorManager flavorManager, final GrantSupport grantSupport,
 			final GrantContainerAction grantContainerAction, final VnfPackageService vnfPackageService, final CcmManager ccmManager) {
@@ -115,6 +117,7 @@ public class GrantAction {
 		this.grantContainerAction = grantContainerAction;
 		this.vnfPackageService = vnfPackageService;
 		this.ccmManager = ccmManager;
+		requireVimInfo = Set.of("INSTANTIATE", "SCALE", "SCALE_TO_LEVL", "CHANGE_FLAVOUR", "CHANGE_VNFPKG");
 	}
 
 	public final void grantRequest(final UUID objectId) {
@@ -141,8 +144,22 @@ public class GrantAction {
 		if (vimInfo == null) {
 			throw new GenericException("No suitable VIM after election.");
 		}
-		getVimInformations(vimInfo, grants);
-		addOrCreateK8sVim(grants);
+		grants.setVimConnections(Collections.singleton(vimInfo));
+		if (requireVimInfo.contains(grants.getOperation())) {
+			getVimInformations(vimInfo, grants);
+			addOrCreateK8sVim(grants);
+		}
+		if ("TERMINATE".equals(grants.getOperation())) {
+			removeK8sCluster(grants);
+		}
+	}
+
+	private void removeK8sCluster(final GrantResponse grants) {
+		final VnfPackage vnfPackage = vnfPackageService.findByVnfdId(grants.getVnfdId());
+		if (!haveCni(vnfPackage)) {
+			return;
+		}
+		ccmManager.getTerminateCluster(grants.getVnfInstanceId());
 	}
 
 	private void addOrCreateK8sVim(final GrantResponse grants) {
@@ -211,8 +228,6 @@ public class GrantAction {
 		// Zone Group
 		final Vim vim = vimManager.getVimById(vimInfo.getId());
 		final Future<ZoneGroupInformation> futureSg = executorService.submit(getServerGroup(grants));
-
-		grants.setVimConnections(Collections.singleton(vimInfo));
 
 		final GrantVimAssetsEntity grantVimAssetsEntity = new GrantVimAssetsEntity();
 		grants.setVimAssets(grantVimAssetsEntity);

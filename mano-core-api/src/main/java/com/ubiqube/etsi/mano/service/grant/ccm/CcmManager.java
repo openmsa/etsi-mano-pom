@@ -24,4 +24,6 @@ public interface CcmManager {
 
 	VimConnectionInformation getVimConnection(GrantResponse grants, VnfPackage vnfPackage);
 
+	void getTerminateCluster(String vnfInstanceId);
+
 }

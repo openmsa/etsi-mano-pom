@@ -32,9 +32,9 @@ import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainerDeployableUnit;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerDeployableTask;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.vim.vnfi.CnfInformations;
+import com.ubiqube.etsi.mano.jpa.CapiServerJpa;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.vim.k8s.OsClusterService;
-import com.ubiqube.etsi.mano.vnfm.jpa.CapiServerJpa;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.vt.OsContainerDeployableVt;
 
 @ExtendWith(MockitoExtension.class)
