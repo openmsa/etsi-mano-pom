@@ -44,6 +44,7 @@ import com.ubiqube.etsi.mano.model.VnfInstantiate;
 import com.ubiqube.etsi.mano.model.VnfOperateRequest;
 import com.ubiqube.etsi.mano.model.VnfScaleRequest;
 import com.ubiqube.etsi.mano.model.VnfScaleToLevelRequest;
+import com.ubiqube.etsi.mano.service.vim.VimTypeConverter;
 import com.ubiqube.etsi.mano.vnfm.controller.vnflcm.VnfInstanceGenericFrontControllerImpl;
 import com.ubiqube.etsi.mano.vnfm.controller.vnflcm.VnfInstanceLcmImpl;
 import com.ubiqube.etsi.mano.vnfm.fc.vnflcm.VnfInstanceGenericFrontController;
@@ -64,6 +65,8 @@ class VnfInstanceGenericFrontControllerTest {
 	private final Function<VnfBlueprint, String> getSelfLink = x -> "http://test-link";
 	@Nonnull
 	private final Function<VnfInstance, String> getInstanceSelfLink = x -> "http://test-link";
+	@Mock
+	private VimTypeConverter vimTypeConverter;
 	@Nonnull
 	private final Consumer<Object> makeLink = x -> {
 		//
@@ -229,6 +232,6 @@ class VnfInstanceGenericFrontControllerTest {
 	}
 
 	private VnfInstanceGenericFrontController createFc() {
-		return new VnfInstanceGenericFrontControllerImpl(vnfInstanceLcm, vnfInstancesService, vnfInstanceServiceVnfm);
+		return new VnfInstanceGenericFrontControllerImpl(vnfInstanceLcm, vnfInstancesService, vnfInstanceServiceVnfm, vimTypeConverter);
 	}
 }
