@@ -119,7 +119,7 @@ public class GrantAction {
 		try {
 			grantRequestException(grants);
 		} catch (final RuntimeException e) {
-			LOG.error("Removing Grand id: {}", objectId, e);
+			LOG.error("Set grant: {} on error.", objectId, e);
 			grants.setError(new FailureDetails(500, e.getMessage()));
 		}
 		LOG.debug("Saving grant: {}", grants.getId());
