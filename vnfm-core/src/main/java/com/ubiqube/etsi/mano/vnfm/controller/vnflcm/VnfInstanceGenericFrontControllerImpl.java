@@ -40,6 +40,7 @@ import com.ubiqube.etsi.mano.model.VnfInstantiate;
 import com.ubiqube.etsi.mano.model.VnfOperateRequest;
 import com.ubiqube.etsi.mano.model.VnfScaleRequest;
 import com.ubiqube.etsi.mano.model.VnfScaleToLevelRequest;
+import com.ubiqube.etsi.mano.service.vim.VimTypeConverter;
 import com.ubiqube.etsi.mano.vnfm.fc.vnflcm.VnfInstanceGenericFrontController;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceService;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceServiceVnfm;
@@ -62,11 +63,14 @@ public class VnfInstanceGenericFrontControllerImpl implements VnfInstanceGeneric
 
 	private final VnfInstanceServiceVnfm vnfInstanceServiceVnfm;
 
+	private final VimTypeConverter vimTypeConverter;
+
 	public VnfInstanceGenericFrontControllerImpl(final VnfInstanceLcmImpl vnfInstanceLcm, final VnfInstanceService vnfInstancesService,
-			final VnfInstanceServiceVnfm vnfInstanceServiceVnfm) {
+			final VnfInstanceServiceVnfm vnfInstanceServiceVnfm, final VimTypeConverter vimTypeConverter) {
 		this.vnfInstanceLcm = vnfInstanceLcm;
 		this.vnfInstancesService = vnfInstancesService;
 		this.vnfInstanceServiceVnfm = vnfInstanceServiceVnfm;
+		this.vimTypeConverter = vimTypeConverter;
 	}
 
 	@Override
@@ -132,6 +136,7 @@ public class VnfInstanceGenericFrontControllerImpl implements VnfInstanceGeneric
 	@Override
 	public <U> ResponseEntity<U> findById(final @Nonnull UUID vnfInstanceId, final Function<VnfInstance, U> func, final Consumer<U> makeLink, final String instanceSelfLink) {
 		final VnfInstance vnfInstanceDb = vnfInstanceServiceVnfm.findById(vnfInstanceId);
+		vnfInstanceDb.getVimConnectionInfo().forEach(vimTypeConverter::setToExternalType);
 		final U vnfInstance = func.apply(vnfInstanceDb);
 		makeLink.accept(vnfInstance);
 		return ResponseEntity.ok(vnfInstance);

@@ -33,6 +33,7 @@ import com.ubiqube.etsi.mano.dao.mano.InstantiationState;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.exception.GenericException;
+import com.ubiqube.etsi.mano.service.vim.VimTypeConverter;
 import com.ubiqube.etsi.mano.test.controllers.TestFactory;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceService;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceServiceVnfm;
@@ -45,9 +46,11 @@ class VnfInstanceGenericFrontControllerImplTest {
 	private VnfInstanceService vnfInstanceService;
 	@Mock
 	private VnfInstanceServiceVnfm VnfInstanceVnfm;
+	@Mock
+	private VimTypeConverter vimTypeConverter;
 
 	VnfInstanceGenericFrontControllerImpl createService() {
-		return new VnfInstanceGenericFrontControllerImpl(vnfInstanceLcm, vnfInstanceService, VnfInstanceVnfm);
+		return new VnfInstanceGenericFrontControllerImpl(vnfInstanceLcm, vnfInstanceService, VnfInstanceVnfm, vimTypeConverter);
 	}
 
 	@Test
