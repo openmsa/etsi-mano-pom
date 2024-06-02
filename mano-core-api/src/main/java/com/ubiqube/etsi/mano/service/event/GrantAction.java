@@ -168,7 +168,7 @@ public class GrantAction {
 		LOG.debug("Shutdown Grant executor.");
 		executorService.shutdown();
 		try {
-			executorService.awaitTermination(5, TimeUnit.MINUTES);
+			executorService.awaitTermination(15, TimeUnit.MINUTES);
 		} catch (final InterruptedException e) {
 			LOG.info("", e);
 			Thread.currentThread().interrupt();
