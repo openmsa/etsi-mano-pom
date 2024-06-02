@@ -63,6 +63,7 @@ import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.jpa.GrantsResponseJpa;
 import com.ubiqube.etsi.mano.service.NfvoService;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
+import com.ubiqube.etsi.mano.service.event.ccm.CcmManager;
 import com.ubiqube.etsi.mano.service.event.elect.VimElection;
 import com.ubiqube.etsi.mano.service.event.flavor.FlavorManager;
 import com.ubiqube.etsi.mano.service.event.images.SoftwareImageService;
@@ -100,9 +101,11 @@ public class GrantAction {
 
 	private final VnfPackageService vnfPackageService;
 
+	private final CcmManager ccmManager;
+
 	protected GrantAction(final GrantsResponseJpa grantJpa, final VimManager vimManager, final VimElection vimElection,
 			final SoftwareImageService imageService, final FlavorManager flavorManager, final GrantSupport grantSupport,
-			final GrantContainerAction grantContainerAction, final VnfPackageService vnfPackageService) {
+			final GrantContainerAction grantContainerAction, final VnfPackageService vnfPackageService, final CcmManager ccmManager) {
 		this.vimManager = vimManager;
 		this.vimElection = vimElection;
 		this.grantJpa = grantJpa;
@@ -111,6 +114,7 @@ public class GrantAction {
 		this.grantSupport = grantSupport;
 		this.grantContainerAction = grantContainerAction;
 		this.vnfPackageService = vnfPackageService;
+		this.ccmManager = ccmManager;
 	}
 
 	public final void grantRequest(final UUID objectId) {
@@ -137,6 +141,28 @@ public class GrantAction {
 			throw new GenericException("No suitable VIM after election.");
 		}
 		getVimInformations(vimInfo, grants);
+		addOrCreateK8sVim(grants);
+	}
+
+	private void addOrCreateK8sVim(final GrantResponse grants) {
+		final VnfPackage vnfPackage = vnfPackageService.findByVnfdId(grants.getVnfdId());
+		if (!haveCni(vnfPackage)) {
+			return;
+		}
+		final VimConnectionInformation vimc = ccmManager.getVimConnection(grants, vnfPackage);
+		final LinkedHashSet<VimConnectionInformation> vims = new LinkedHashSet<>(grants.getVimConnections());
+		vims.add(vimc);
+		grants.setVimConnections(vims);
+	}
+
+	private static boolean haveCni(final VnfPackage vnfPackage) {
+		if (((null != vnfPackage.getOsContainer()) && !vnfPackage.getOsContainer().isEmpty()) || ((null != vnfPackage.getOsContainerDeployableUnits()) && !vnfPackage.getOsContainerDeployableUnits().isEmpty())) {
+			return true;
+		}
+		if (((null != vnfPackage.getOsContainerDesc()) && !vnfPackage.getOsContainerDesc().isEmpty()) || ((null != vnfPackage.getMciops()) && !vnfPackage.getMciops().isEmpty())) {
+			return true;
+		}
+		return false;
 	}
 
 	private void removeResources(final GrantResponse grants) {
