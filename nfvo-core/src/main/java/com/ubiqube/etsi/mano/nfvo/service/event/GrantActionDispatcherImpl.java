@@ -20,8 +20,8 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.service.event.GrantAction;
 import com.ubiqube.etsi.mano.service.event.GrantActionDispatcher;
+import com.ubiqube.etsi.mano.service.grant.GrantAction;
 
 import jakarta.transaction.Transactional;
 import jakarta.transaction.Transactional.TxType;

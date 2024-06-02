@@ -14,7 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see https://www.gnu.org/licenses/.
  */
-package com.ubiqube.etsi.mano.service.event;
+package com.ubiqube.etsi.mano.service.grant;
 
 import static com.ubiqube.etsi.mano.Constants.getSafeUUID;
 
@@ -63,10 +63,10 @@ import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.jpa.GrantsResponseJpa;
 import com.ubiqube.etsi.mano.service.NfvoService;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
-import com.ubiqube.etsi.mano.service.event.ccm.CcmManager;
 import com.ubiqube.etsi.mano.service.event.elect.VimElection;
 import com.ubiqube.etsi.mano.service.event.flavor.FlavorManager;
 import com.ubiqube.etsi.mano.service.event.images.SoftwareImageService;
+import com.ubiqube.etsi.mano.service.grant.ccm.CcmManager;
 import com.ubiqube.etsi.mano.service.sys.ServerGroup;
 import com.ubiqube.etsi.mano.service.vim.NetworkObject;
 import com.ubiqube.etsi.mano.service.vim.Vim;
@@ -134,6 +134,7 @@ public class GrantAction {
 
 	private final void grantRequestException(final GrantResponse grants) {
 		final UUID objectId = grants.getId();
+		grants.getOperation();
 		removeResources(grants);
 		final List<VimConnectionInformation> vims = grantSupport.getVims(grants);
 		final VimConnectionInformation vimInfo = vimElection.doElection(vims, null, grantSupport.getVnfCompute(objectId), grantSupport.getVnfStorage(objectId));

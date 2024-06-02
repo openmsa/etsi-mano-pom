@@ -14,7 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see https://www.gnu.org/licenses/.
  */
-package com.ubiqube.etsi.mano.service.event;
+package com.ubiqube.etsi.mano.service.grant;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -42,6 +42,7 @@ import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.event.elect.VimElection;
 import com.ubiqube.etsi.mano.service.event.flavor.FlavorManager;
 import com.ubiqube.etsi.mano.service.event.images.SoftwareImageService;
+import com.ubiqube.etsi.mano.service.grant.ccm.CcmManager;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 import com.ubiqube.etsi.mano.vim.dummy.DummyVim;
 
@@ -63,17 +64,23 @@ class GrantActionTest {
 	private GrantContainerAction grantContainerAction;
 	@Mock
 	private VnfPackageService vnfPackageService;
+	@Mock
+	private CcmManager ccmManager;
 
 	@Test
 	void testName() throws Exception {
-		final GrantAction ga = new GrantAction(grantJpa, vimManager, vimElection, imageService, flavorManager, grantSupport, grantContainerAction, vnfPackageService);
+		final GrantAction ga = createService();
 		final UUID id = UUID.randomUUID();
 		assertThrows(NotFoundException.class, () -> ga.grantRequest(id));
 	}
 
+	private GrantAction createService() {
+		return new GrantAction(grantJpa, vimManager, vimElection, imageService, flavorManager, grantSupport, grantContainerAction, vnfPackageService, ccmManager);
+	}
+
 	@Test
 	void test002() throws Exception {
-		final GrantAction ga = new GrantAction(grantJpa, vimManager, vimElection, imageService, flavorManager, grantSupport, grantContainerAction, vnfPackageService);
+		final GrantAction ga = createService();
 		final UUID id = UUID.randomUUID();
 		final GrantResponse grantResponse = new GrantResponse();
 		final Optional<GrantResponse> optGrant = Optional.of(grantResponse);
@@ -85,7 +92,7 @@ class GrantActionTest {
 
 	@Test
 	void test003() throws Exception {
-		final GrantAction ga = new GrantAction(grantJpa, vimManager, vimElection, imageService, flavorManager, grantSupport, grantContainerAction, vnfPackageService);
+		final GrantAction ga = createService();
 		final UUID id = UUID.randomUUID();
 		final GrantResponse grantResponse = new GrantResponse();
 		grantResponse.setVnfdId(id.toString());

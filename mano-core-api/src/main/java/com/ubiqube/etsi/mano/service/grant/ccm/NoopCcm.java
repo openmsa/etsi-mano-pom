@@ -12,26 +12,20 @@
  *     GNU General Public License for more details.
  *
  *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see https://www.gnu.org/licenses/.
+ *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service.event;
-
-import java.util.List;
+package com.ubiqube.etsi.mano.service.grant.ccm;
 
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
-import com.ubiqube.etsi.mano.service.event.elect.GroovyElection;
 
-/**
- * The idea is to evict all VIM that doesn't have the require resources or
- * features. The difference with the {@link GroovyElection} is that this one is
- * boolean while the groovy one is a ranked decision one.
- *
- * @author Olivier Vignaud {@literal <ovi@ubiqube.com>}
- *
- */
-public interface PreVimSelection {
+public class NoopCcm implements CcmManager {
 
-	List<VimConnectionInformation> selectVims(final VnfPackage vnfPackage, final GrantResponse grantResponse, QuotaNeeded needed);
+	@Override
+	public VimConnectionInformation getVimConnection(final GrantResponse grants, final VnfPackage vnfPackage) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

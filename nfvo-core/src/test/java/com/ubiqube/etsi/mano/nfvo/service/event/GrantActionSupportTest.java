@@ -48,7 +48,7 @@ import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.jpa.GrantsResponseJpa;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsLiveInstanceJpa;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
-import com.ubiqube.etsi.mano.service.event.PreVimSelection;
+import com.ubiqube.etsi.mano.service.grant.PreVimSelection;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 import com.ubiqube.etsi.mano.vim.dummy.DummyVim;

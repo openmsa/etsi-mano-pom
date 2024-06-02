@@ -14,34 +14,25 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see https://www.gnu.org/licenses/.
  */
-package com.ubiqube.etsi.mano.service.event;
+package com.ubiqube.etsi.mano.service.grant;
 
 import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
-import com.ubiqube.etsi.mano.dao.mano.VnfCompute;
-import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainer;
+import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
-import com.ubiqube.etsi.mano.dao.mano.vim.VnfStorage;
-import com.ubiqube.etsi.mano.service.vim.Vim;
+import com.ubiqube.etsi.mano.service.event.QuotaNeeded;
+import com.ubiqube.etsi.mano.service.event.elect.GroovyElection;
 
 /**
+ * The idea is to evict all VIM that doesn't have the require resources or
+ * features. The difference with the {@link GroovyElection} is that this one is
+ * boolean while the groovy one is a ranked decision one.
  *
- * @author olivier
+ * @author Olivier Vignaud {@literal <ovi@ubiqube.com>}
  *
  */
-public interface GrantSupport {
-	Set<VnfCompute> getVnfCompute(UUID objectId);
+public interface PreVimSelection {
 
-	Set<VnfStorage> getVnfStorage(UUID objectId);
-
-	Set<OsContainer> getOsContainer(UUID objectId);
-
-	List<VimConnectionInformation> getVims(GrantResponse grants);
-
-	void getUnmanagedNetworks(GrantResponse grants, Vim vim, VimConnectionInformation vimInfo);
-
-	UUID convertVnfdToId(String vnfdId);
+	List<VimConnectionInformation> selectVims(final VnfPackage vnfPackage, final GrantResponse grantResponse, QuotaNeeded needed);
 }

@@ -14,7 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see https://www.gnu.org/licenses/.
  */
-package com.ubiqube.etsi.mano.service.event;
+package com.ubiqube.etsi.mano.service.grant;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -52,6 +52,8 @@ import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.auth.model.AuthParamBasic;
 import com.ubiqube.etsi.mano.service.auth.model.AuthentificationInformations;
+import com.ubiqube.etsi.mano.service.event.TestFactory;
+import com.ubiqube.etsi.mano.service.grant.GrantContainerAction;
 
 /**
  *

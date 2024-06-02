@@ -14,18 +14,14 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package com.ubiqube.etsi.mano.service.event.ccm;
+package com.ubiqube.etsi.mano.service.grant.ccm;
 
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 
-public class NoopCcm implements CcmManager {
+public interface CcmManager {
 
-	@Override
-	public VimConnectionInformation getVimConnection(final GrantResponse grants, final VnfPackage vnfPackage) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	VimConnectionInformation getVimConnection(GrantResponse grants, VnfPackage vnfPackage);
 
 }
