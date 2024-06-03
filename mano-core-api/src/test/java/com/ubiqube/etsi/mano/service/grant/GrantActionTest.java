@@ -43,6 +43,7 @@ import com.ubiqube.etsi.mano.service.event.elect.VimElection;
 import com.ubiqube.etsi.mano.service.event.flavor.FlavorManager;
 import com.ubiqube.etsi.mano.service.event.images.SoftwareImageService;
 import com.ubiqube.etsi.mano.service.grant.ccm.CcmManager;
+import com.ubiqube.etsi.mano.service.vim.CirConnectionManager;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 import com.ubiqube.etsi.mano.vim.dummy.DummyVim;
 
@@ -66,6 +67,8 @@ class GrantActionTest {
 	private VnfPackageService vnfPackageService;
 	@Mock
 	private CcmManager ccmManager;
+	@Mock
+	private CirConnectionManager cirManager;
 
 	@Test
 	void testName() throws Exception {
@@ -75,7 +78,7 @@ class GrantActionTest {
 	}
 
 	private GrantAction createService() {
-		return new GrantAction(grantJpa, vimManager, vimElection, imageService, flavorManager, grantSupport, grantContainerAction, vnfPackageService, ccmManager);
+		return new GrantAction(grantJpa, vimManager, vimElection, imageService, flavorManager, grantSupport, grantContainerAction, vnfPackageService, ccmManager, cirManager);
 	}
 
 	@Test
