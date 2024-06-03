@@ -371,7 +371,7 @@ public class GrantAction {
 	}
 
 	/**
-	 * XXX Check Vim caps. ZG are not availlable on all vims.
+	 * XXX Check Vim caps. ZoneGroup are not available on all vims.
 	 *
 	 * @param grants
 	 * @return
