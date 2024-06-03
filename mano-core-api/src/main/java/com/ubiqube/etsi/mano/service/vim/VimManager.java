@@ -150,6 +150,7 @@ public class VimManager {
 			if (vim.isPresent()) {
 				return vim.get();
 			}
+			vimTypeConverter.setToInternalType(x);
 			return registerVim(x);
 		}
 	}
