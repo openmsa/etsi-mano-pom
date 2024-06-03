@@ -23,8 +23,10 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 
+import com.ubiqube.etsi.mano.dao.mano.ai.KubernetesV1Auth;
 import com.ubiqube.etsi.mano.dao.mano.dto.VimConnectionInfoDto;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
+import com.ubiqube.etsi.mano.dao.mano.vim.k8s.K8sServers;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface VimConnectionInformationMapping {
@@ -46,4 +48,22 @@ public interface VimConnectionInformationMapping {
 		}
 		return UUID.fromString(str);
 	}
+
+	@Mapping(target = "accessInfo", source = ".")
+	@Mapping(target = "extra", ignore = true)
+	@Mapping(target = "interfaceInfo.endpoint", source = "apiAddress")
+	@Mapping(target = "audit", ignore = true)
+	@Mapping(target = "cnfInfo", ignore = true)
+	@Mapping(target = "jujuInfo", ignore = true)
+	@Mapping(target = "tenantId", ignore = true)
+	@Mapping(target = "version", ignore = true)
+	@Mapping(target = "vimCapabilities", ignore = true)
+	@Mapping(target = "vimId", source = "id")
+	@Mapping(target = "vimType", constant = "UBINFV:KUBERNETES_TLS:V_1")
+	VimConnectionInformation mapFromTls(K8sServers tls);
+
+	@Mapping(target = "clientCertificateData", source = "userCrt")
+	@Mapping(target = "clientKeyData", source = "userKey")
+	@Mapping(target = "url", source = "apiAddress")
+	KubernetesV1Auth map(K8sServers o);
 }

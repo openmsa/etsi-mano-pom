@@ -16,14 +16,65 @@
  */
 package com.ubiqube.etsi.mano.service.grant.ccm;
 
+import static com.ubiqube.etsi.mano.Constants.getSafeUUID;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import org.springframework.stereotype.Service;
+
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
+import com.ubiqube.etsi.mano.dao.mano.vim.k8s.K8sServers;
+import com.ubiqube.etsi.mano.dao.mano.vim.k8s.StatusType;
+import com.ubiqube.etsi.mano.service.mapping.VimConnectionInformationMapping;
+import com.ubiqube.etsi.mano.vim.k8s.K8s;
+import com.ubiqube.etsi.mano.vnfm.jpa.K8sServerInfoJpa;
 
-public interface CcmManager {
+@Service
+public class CcmManager {
+	private final K8sServerInfoJpa k8sServerInfoJpa;
+	private final VimConnectionInformationMapping connectionInformationMapping;
+	private final CcmServerService ccmServerService;
 
-	VimConnectionInformation getVimConnection(GrantResponse grants, VnfPackage vnfPackage);
+	public CcmManager(final K8sServerInfoJpa k8sServerInfoJpa, final VimConnectionInformationMapping connectionInformationMapping, final CcmServerService ccmServerService) {
+		this.k8sServerInfoJpa = k8sServerInfoJpa;
+		this.connectionInformationMapping = connectionInformationMapping;
+		this.ccmServerService = ccmServerService;
+	}
 
-	void getTerminateCluster(String vnfInstanceId);
+	public VimConnectionInformation getVimConnection(final GrantResponse grants, final VnfPackage vnfPackage) {
+		final Optional<K8sServers> k8sInfo = k8sServerInfoJpa.findByVnfInstanceId(getSafeUUID(grants.getVnfInstanceId()));
+		if (k8sInfo.isPresent()) {
+			return connectionInformationMapping.mapFromTls(k8sInfo.get());
+		}
+		final K8s res = ccmServerService.createCluster();
+		final K8sServers ret = toK8sServers(res, grants.getVnfInstanceId());
+		ret.setId(UUID.randomUUID());
+		final K8sServers r = k8sServerInfoJpa.save(ret);
+		return null;
+	}
+
+	private K8sServers toK8sServers(final K8s ret, final String name) {
+		final K8sServers r = new K8sServers();
+		r.setApiAddress(ret.getApiUrl());
+		r.setCaPem(ret.getCaData());
+		r.setMasterAddresses(List.of(ret.getApiUrl()));
+		r.setStatus(StatusType.CREATE_COMPLETE);
+		r.setToscaName(name);
+		r.setUserCrt(ret.getClientCrt());
+		r.setUserKey(ret.getClientKey());
+		return r;
+	}
+
+	public void getTerminateCluster(final String vnfInstanceId) {
+		ccmServerService.terminateCluster(vnfInstanceId);
+		final Optional<K8sServers> k8s = k8sServerInfoJpa.findByVnfInstanceId(getSafeUUID(vnfInstanceId));
+		if (k8s.isPresent()) {
+			k8sServerInfoJpa.delete(k8s.get());
+		}
+	}
 
 }
