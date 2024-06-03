@@ -48,6 +48,9 @@ public class VnfInstanceServiceVnfm implements VnfInstanceGatewayService {
 	public VnfInstance findById(final UUID id) {
 		final VnfInstance inst = vnfInstanceJpa.findById(id).orElseThrow(() -> new NotFoundException("Could not find VNF instance: " + id));
 		inst.setInstantiationState(isLive(id));
+		if (inst.getInstantiationState() == InstantiationState.NOT_INSTANTIATED) {
+			inst.setInstantiatedVnfInfo(null);
+		}
 		return inst;
 	}
 
