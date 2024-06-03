@@ -95,6 +95,7 @@ class GrantActionTest {
 		final GrantAction ga = createService();
 		final UUID id = UUID.randomUUID();
 		final GrantResponse grantResponse = new GrantResponse();
+		grantResponse.setOperation("INSTANTIATE");
 		grantResponse.setVnfdId(id.toString());
 		final Optional<GrantResponse> optGrant = Optional.of(grantResponse);
 		//
