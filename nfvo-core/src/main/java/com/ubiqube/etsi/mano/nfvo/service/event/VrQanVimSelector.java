@@ -32,8 +32,8 @@ import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainerDeployableUnit;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.vim.vnfi.VimCapability;
 import com.ubiqube.etsi.mano.dao.mano.vrqan.VrQan;
-import com.ubiqube.etsi.mano.service.event.PreVimSelection;
 import com.ubiqube.etsi.mano.service.event.QuotaNeeded;
+import com.ubiqube.etsi.mano.service.grant.PreVimSelection;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 
 /**
