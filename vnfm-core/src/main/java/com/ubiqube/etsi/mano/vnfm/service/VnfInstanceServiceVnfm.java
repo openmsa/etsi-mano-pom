@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.InstantiationState;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
+import com.ubiqube.etsi.mano.dao.mano.v2.BlueprintParameters;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.jpa.VnfInstanceJpa;
 import com.ubiqube.etsi.mano.service.VnfInstanceGatewayService;
@@ -49,7 +50,7 @@ public class VnfInstanceServiceVnfm implements VnfInstanceGatewayService {
 		final VnfInstance inst = vnfInstanceJpa.findById(id).orElseThrow(() -> new NotFoundException("Could not find VNF instance: " + id));
 		inst.setInstantiationState(isLive(id));
 		if (inst.getInstantiationState() == InstantiationState.NOT_INSTANTIATED) {
-			inst.setInstantiatedVnfInfo(null);
+			inst.setInstantiatedVnfInfo(new BlueprintParameters());
 		}
 		return inst;
 	}
