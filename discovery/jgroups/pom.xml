@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.ubiqube.mano.discovery</groupId>
 		<artifactId>discovery</artifactId>
-		<version>3.1.0-SNAPSHOT</version>
+		<version>4.0.0-SNAPSHOT</version>
 	</parent>
 	<groupId>com.ubiqube.mano.discovery.jgroups</groupId>
 	<artifactId>jgroups</artifactId>
