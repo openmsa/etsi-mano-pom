@@ -88,6 +88,9 @@ public abstract class AbstractGrantService implements VimResourceService {
 		final Predicate<? super VimTask> isManoClass = x -> (x.getType() == ResourceTypeEnum.COMPUTE) ||
 				(x.getType() == ResourceTypeEnum.LINKPORT) ||
 				(x.getType() == ResourceTypeEnum.STORAGE) ||
+				(x.getType() == ResourceTypeEnum.OS_CONTAINER) ||
+				(x.getType() == ResourceTypeEnum.VIRTUALCP) ||
+				(x.getType() == ResourceTypeEnum.PAASSERVICE) ||
 				(x.getType() == ResourceTypeEnum.VL);
 		plan.getTasks().stream()
 				.filter(isManoClass)
