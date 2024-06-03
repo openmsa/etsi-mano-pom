@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -35,12 +36,14 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Service;
 
+import com.ubiqube.etsi.mano.dao.mano.Connection;
 import com.ubiqube.etsi.mano.dao.mano.ExtManagedVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.dao.mano.GrantVimAssetsEntity;
@@ -51,7 +54,9 @@ import com.ubiqube.etsi.mano.dao.mano.VnfCompute;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.ZoneGroupInformation;
 import com.ubiqube.etsi.mano.dao.mano.ZoneInfoEntity;
+import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
+import com.ubiqube.etsi.mano.dao.mano.ii.K8sInterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.pkg.VirtualCp;
 import com.ubiqube.etsi.mano.dao.mano.vim.ImageServiceAware;
 import com.ubiqube.etsi.mano.dao.mano.vim.SoftwareImage;
@@ -68,6 +73,7 @@ import com.ubiqube.etsi.mano.service.event.flavor.FlavorManager;
 import com.ubiqube.etsi.mano.service.event.images.SoftwareImageService;
 import com.ubiqube.etsi.mano.service.grant.ccm.CcmManager;
 import com.ubiqube.etsi.mano.service.sys.ServerGroup;
+import com.ubiqube.etsi.mano.service.vim.CirConnectionManager;
 import com.ubiqube.etsi.mano.service.vim.NetworkObject;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
@@ -103,11 +109,13 @@ public class GrantAction {
 
 	private final CcmManager ccmManager;
 
+	private final CirConnectionManager cirManager;
+
 	private final Set<String> requireVimInfo;
 
 	protected GrantAction(final GrantsResponseJpa grantJpa, final VimManager vimManager, final VimElection vimElection,
 			final SoftwareImageService imageService, final FlavorManager flavorManager, final GrantSupport grantSupport,
-			final GrantContainerAction grantContainerAction, final VnfPackageService vnfPackageService, final CcmManager ccmManager) {
+			final GrantContainerAction grantContainerAction, final VnfPackageService vnfPackageService, final CcmManager ccmManager, final CirConnectionManager cirManager) {
 		this.vimManager = vimManager;
 		this.vimElection = vimElection;
 		this.grantJpa = grantJpa;
@@ -117,6 +125,7 @@ public class GrantAction {
 		this.grantContainerAction = grantContainerAction;
 		this.vnfPackageService = vnfPackageService;
 		this.ccmManager = ccmManager;
+		this.cirManager = cirManager;
 		requireVimInfo = Set.of("INSTANTIATE", "SCALE", "SCALE_TO_LEVL", "CHANGE_FLAVOUR", "CHANGE_VNFPKG");
 	}
 
@@ -148,12 +157,19 @@ public class GrantAction {
 		if (requireVimInfo.contains(grants.getOperation())) {
 			getVimInformations(vimInfo, grants);
 			addOrCreateK8sVim(grants);
+			addCirConnection(grants);
 		}
 		if ("TERMINATE".equals(grants.getOperation())) {
 			// XXX: There is no need to attempt image upload, and maybe more.
 			getVimInformations(vimInfo, grants);
 			removeK8sCluster(grants);
 		}
+	}
+
+	private void addCirConnection(final GrantResponse grants) {
+		final Map<String, ConnectionInformation> cirMap = StreamSupport.stream(cirManager.findAll().spliterator(), false)
+				.collect(Collectors.toMap(ConnectionInformation::getName, x -> x));
+		grants.setCirConnectionInfo(cirMap);
 	}
 
 	private void removeK8sCluster(final GrantResponse grants) {
@@ -169,9 +185,9 @@ public class GrantAction {
 		if (!haveCni(vnfPackage)) {
 			return;
 		}
-		final VimConnectionInformation vimc = ccmManager.getVimConnection(grants, vnfPackage);
+		final Connection<K8sInterfaceInfo, ?> vimc = ccmManager.getVimConnection(grants, vnfPackage);
 		final LinkedHashSet<VimConnectionInformation> vims = new LinkedHashSet<>(grants.getVimConnections());
-		vims.add(vimc);
+		vims.add((VimConnectionInformation) (Object) vimc);
 		grants.setVimConnections(vims);
 	}
 

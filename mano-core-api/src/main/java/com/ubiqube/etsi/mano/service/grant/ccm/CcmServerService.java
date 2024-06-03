@@ -22,6 +22,6 @@ public interface CcmServerService {
 
 	void terminateCluster(String vnfInstanceId);
 
-	K8s createCluster();
+	K8s createCluster(String name);
 
 }

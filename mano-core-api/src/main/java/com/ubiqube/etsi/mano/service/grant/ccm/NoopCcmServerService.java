@@ -16,22 +16,25 @@
  */
 package com.ubiqube.etsi.mano.service.grant.ccm;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.vim.k8s.K8s;
 
 @Service
 public class NoopCcmServerService implements CcmServerService {
+	/** Logger. */
+	private static final Logger LOG = LoggerFactory.getLogger(NoopCcmServerService.class);
 
 	@Override
 	public void terminateCluster(final String vnfInstanceId) {
-		// TODO Auto-generated method stub
-
+		LOG.warn("Noop: create cluster {}", vnfInstanceId);
 	}
 
 	@Override
-	public K8s createCluster() {
-		// TODO Auto-generated method stub
+	public K8s createCluster(final String name) {
+		LOG.warn("Noop: Delete cluster: {}", name);
 		return null;
 	}
 
