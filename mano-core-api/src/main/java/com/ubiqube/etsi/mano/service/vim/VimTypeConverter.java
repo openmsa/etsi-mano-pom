@@ -61,6 +61,7 @@ public class VimTypeConverter {
 		case "AZURE" -> "UBINFV.AZURE.V_1";
 		case "AWS" -> "UBINFV.AWS.V_1";
 		case "OPENSTACK_V3" -> "ETSINFV.OPENSTACK_KEYSTONE.V_3";
+		case "UBINFV.CISM.V_1" -> "UBINFV.CISM.V_1";
 		default -> throw new IllegalArgumentException("Unexpected value: " + vci.getVimType());
 		};
 		vci.setVimType(value);

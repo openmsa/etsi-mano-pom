@@ -30,9 +30,11 @@ import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
 import com.ubiqube.etsi.mano.dao.mano.ChangeType;
 import com.ubiqube.etsi.mano.dao.mano.GrantInformationExt;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
+import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.jpa.ConnectionInformationJpa;
@@ -67,8 +69,9 @@ class AbstractGrantServiceTest {
 		final UUID id = UUID.randomUUID();
 		response.setId(id);
 		response.setZoneGroups(Set.of());
-		final VimConnectionInformation vim01 = new VimConnectionInformation();
-		bp.setVimConnections(Set.of(vim01));
+		final VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> vim01 = new VimConnectionInformation<>();
+		final Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> s = Set.of(vim01);
+		bp.setVimConnections(s);
 		when(nfvo.sendSyncGrantRequest(any())).thenReturn(response);
 		srv.allocate(bp);
 		assertTrue(true);
@@ -101,8 +104,9 @@ class AbstractGrantServiceTest {
 		final UUID id = UUID.randomUUID();
 		response.setId(id);
 		response.setZoneGroups(Set.of());
-		final VimConnectionInformation vim01 = new VimConnectionInformation();
-		bp.setVimConnections(Set.of(vim01));
+		final VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> vim01 = new VimConnectionInformation<>();
+		final Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> s = Set.of(vim01);
+		bp.setVimConnections(s);
 		when(vnfGrantMapper.mapToGrantResponse(bp)).thenReturn(response);
 		when(nfvo.sendSyncGrantRequest(any())).thenReturn(response);
 		srv.allocate(bp);
@@ -128,8 +132,9 @@ class AbstractGrantServiceTest {
 		task.setChangeType(ChangeType.ADDED);
 		task.setId(tid);
 		bp.setTasks(Set.of(task));
-		final VimConnectionInformation vim01 = new VimConnectionInformation();
-		bp.setVimConnections(Set.of(vim01));
+		final VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> vim01 = new VimConnectionInformation<>();
+		final Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> s = Set.of(vim01);
+		bp.setVimConnections(s);
 		when(vnfGrantMapper.mapToGrantResponse(bp)).thenReturn(response);
 		final GrantResponse response2 = new GrantResponse();
 		response2.setId(id);

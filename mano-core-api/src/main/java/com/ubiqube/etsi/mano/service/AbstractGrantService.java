@@ -31,12 +31,14 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
 import com.ubiqube.etsi.mano.dao.mano.BlueZoneGroupInformation;
 import com.ubiqube.etsi.mano.dao.mano.ChangeType;
 import com.ubiqube.etsi.mano.dao.mano.GrantInformationExt;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.dao.mano.GrantVimAssetsEntity;
 import com.ubiqube.etsi.mano.dao.mano.Instance;
+import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.VimComputeResourceFlavourEntity;
 import com.ubiqube.etsi.mano.dao.mano.VimSoftwareImageEntity;
@@ -160,12 +162,12 @@ public abstract class AbstractGrantService implements VimResourceService {
 
 	protected abstract void check(Blueprint<? extends VimTask, ? extends Instance> plan);
 
-	private Set<VimConnectionInformation> fixVimConnections(final Set<VimConnectionInformation> vimConnections) {
+	private Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> fixVimConnections(final Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vimConnections) {
 		return vimConnections.stream().map(vimManager::registerIfNeeded).collect(Collectors.toSet());
 	}
 
-	private static void fixUnknownTask(final Set<? extends VimTask> tasks, final Set<VimConnectionInformation> vimConnections) {
-		final VimConnectionInformation vimConn = vimConnections.iterator().next();
+	private static void fixUnknownTask(final Set<? extends VimTask> tasks, final Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vimConnections) {
+		final VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> vimConn = vimConnections.iterator().next();
 		tasks.stream()
 				.filter(x -> x.getVimConnectionId() == null)
 				.forEach(x -> x.setVimConnectionId(vimConn.getVimId()));

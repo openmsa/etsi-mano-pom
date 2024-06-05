@@ -24,12 +24,11 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
-import com.ubiqube.etsi.mano.dao.mano.Connection;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.ai.KubernetesV1Auth;
 import com.ubiqube.etsi.mano.dao.mano.ii.K8sInterfaceInfo;
+import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.vim.k8s.K8sServers;
 import com.ubiqube.etsi.mano.dao.mano.vim.k8s.StatusType;
 import com.ubiqube.etsi.mano.service.mapping.VimConnectionInformationMapping;
@@ -48,7 +47,7 @@ public class CcmManager {
 		this.ccmServerService = ccmServerService;
 	}
 
-	public Connection<K8sInterfaceInfo, ?> getVimConnection(final GrantResponse grants, final VnfPackage vnfPackage) {
+	public VimConnectionInformation<K8sInterfaceInfo, KubernetesV1Auth> getVimConnection(final GrantResponse grants, final VnfPackage vnfPackage) {
 		final Optional<K8sServers> k8sInfo = k8sServerInfoJpa.findByVnfInstanceId(getSafeUUID(grants.getVnfInstanceId()));
 		if (k8sInfo.isPresent()) {
 			return connectionInformationMapping.mapFromTls(k8sInfo.get());
@@ -56,24 +55,28 @@ public class CcmManager {
 		final K8s res = ccmServerService.createCluster(grants.getVnfInstanceId());
 		final K8sServers ret = toK8sServers(res, grants.getVnfInstanceId());
 		ret.setId(UUID.randomUUID());
+		ret.setVnfInstanceId(UUID.fromString(grants.getVnfInstanceId()));
 		final K8sServers r = k8sServerInfoJpa.save(ret);
 		return mapToConnection(r);
 	}
 
-	private Connection<K8sInterfaceInfo, ? extends AccessInfo> mapToConnection(final K8sServers r) {
+	private static VimConnectionInformation<K8sInterfaceInfo, KubernetesV1Auth> mapToConnection(final K8sServers r) {
 		final KubernetesV1Auth ai = new KubernetesV1Auth();
-		ai.setClientCertificateData(null);
-		ai.setClientKeyData(null);
+		ai.setClientCertificateData(r.getUserCrt());
+		ai.setClientKeyData(r.getUserKey());
 		final K8sInterfaceInfo ii = new K8sInterfaceInfo();
-		ii.setCertificateAuthorityData(null);
-		ii.setEndpoint(null);
-		final Connection<K8sInterfaceInfo, KubernetesV1Auth> conn = new Connection<>();
+		ii.setCertificateAuthorityData(r.getCaPem());
+		ii.setEndpoint(r.getApiAddress());
+		final VimConnectionInformation<K8sInterfaceInfo, KubernetesV1Auth> conn = new VimConnectionInformation<>();
 		conn.setAccessInfo(ai);
 		conn.setInterfaceInfo(ii);
+		conn.setVimType("UBINFV.CISM.V_1");
+		// XXX: Require a full id ?
+		conn.setVimId(UUID.randomUUID().toString());
 		return conn;
 	}
 
-	private K8sServers toK8sServers(final K8s ret, final String name) {
+	private static K8sServers toK8sServers(final K8s ret, final String name) {
 		final K8sServers r = new K8sServers();
 		r.setApiAddress(ret.getApiUrl());
 		r.setCaPem(ret.getCaData());

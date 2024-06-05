@@ -39,8 +39,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.controller.vnflcm.VnfInstanceLcm;
+import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
 import com.ubiqube.etsi.mano.dao.mano.CancelModeTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.ExtManagedVirtualLinkDataEntity;
+import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.OnboardingStateType;
 import com.ubiqube.etsi.mano.dao.mano.ScaleInfo;
 import com.ubiqube.etsi.mano.dao.mano.UsageStateEnum;
@@ -180,8 +182,8 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 		ensureIsEnabled(vnfPkg);
 
 		if (null != instantiateVnfRequest.getVimConnectionInfo()) {
-			final List<VimConnectionInformation> vimconnections = vimConnectionInformationMapping.mapAsList(instantiateVnfRequest.getVimConnectionInfo());
-			final Set<VimConnectionInformation> vimSet = vimconnections.stream()
+			final List<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vimconnections = vimConnectionInformationMapping.mapAsList(instantiateVnfRequest.getVimConnectionInfo());
+			final Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vimSet = vimconnections.stream()
 					.map(x -> {
 						final Optional<VimConnectionInformation> optVim = vimManager.findOptionalVimByVimId(x.getVimId());
 						if (optVim.isPresent()) {

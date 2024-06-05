@@ -19,9 +19,11 @@ package com.ubiqube.etsi.mano.service;
 import java.util.Set;
 import java.util.UUID;
 
+import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
 import com.ubiqube.etsi.mano.dao.mano.BlueZoneGroupInformation;
 import com.ubiqube.etsi.mano.dao.mano.ExtManagedVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.ExtVirtualLinkDataEntity;
+import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.ZoneInfoEntity;
 import com.ubiqube.etsi.mano.dao.mano.v2.AbstractBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.BlueprintParameters;
@@ -30,7 +32,7 @@ import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 public class TestBluePrint extends AbstractBlueprint<TestTask, TestInstance> {
 
 	private Set<TestTask> task = Set.of();
-	private Set<VimConnectionInformation> vimConn;
+	private Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vimConn;
 	private Set<TestTask> tasks;
 	private TestInstance instance;
 	private UUID id;
@@ -55,7 +57,7 @@ public class TestBluePrint extends AbstractBlueprint<TestTask, TestInstance> {
 	}
 
 	@Override
-	public void setVimConnections(final Set<VimConnectionInformation> vimConnections) {
+	public void setVimConnections(final Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vimConnections) {
 		vimConn = vimConnections;
 
 	}
@@ -85,7 +87,7 @@ public class TestBluePrint extends AbstractBlueprint<TestTask, TestInstance> {
 	}
 
 	@Override
-	public Set<VimConnectionInformation> getVimConnections() {
+	public Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> getVimConnections() {
 		return vimConn;
 	}
 

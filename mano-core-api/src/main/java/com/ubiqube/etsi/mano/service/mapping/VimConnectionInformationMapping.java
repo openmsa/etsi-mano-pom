@@ -17,13 +17,18 @@
 package com.ubiqube.etsi.mano.service.mapping;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
+import org.mapstruct.MappingTarget;
 
-import com.ubiqube.etsi.mano.dao.mano.Connection;
+import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
+import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
+import com.ubiqube.etsi.mano.dao.mano.ai.KeystoneAuthV3;
 import com.ubiqube.etsi.mano.dao.mano.ai.KubernetesV1Auth;
 import com.ubiqube.etsi.mano.dao.mano.dto.VimConnectionInfoDto;
 import com.ubiqube.etsi.mano.dao.mano.ii.K8sInterfaceInfo;
@@ -36,13 +41,49 @@ public interface VimConnectionInformationMapping {
 	@Mapping(target = "id", ignore = true)
 	@Mapping(target = "tenantId", ignore = true)
 	@Mapping(target = "version", ignore = true)
-	VimConnectionInformation map(VimConnectionInfoDto o);
-
-	default List<VimConnectionInformation> mapAsList(final List<VimConnectionInformation> vimConnectionInfo) {
-		return vimConnectionInfo.stream().map(this::map).toList();
+	default VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> map(final VimConnectionInfoDto o) {
+		if (o == null) {
+			return null;
+		}
+		final VimConnectionInformation ret = new VimConnectionInformation<>();
+		ret.setCnfInfo(o.getCnfInfo());
+		ret.setExtra(o.getExtra());
+		ret.setJujuInfo(o.getJujuInfo());
+		ret.setVimCapabilities(o.getVimCapabilities());
+		ret.setVimId(o.getVimId());
+		ret.setVimType(o.getVimType());
+		final AccessInfo ai = switch (ret.getVimType()) {
+		case "OPENSTACK_V3" -> mapToKeystoneAuthV3(o.getAccessInfo(), new KeystoneAuthV3());
+		default -> throw new IllegalArgumentException("Unexpected value: " + ret.getVimType());
+		};
+		ret.setAccessInfo(ai);
+		return ret;
 	}
 
-	VimConnectionInformation map(VimConnectionInformation x);
+	KeystoneAuthV3 mapToKeystoneAuthV3(Map<String, String> accessInfo, @MappingTarget KeystoneAuthV3 keystoneAuthV3);
+
+	default List<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> mapAsList(final List<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vimConnectionInfo) {
+		// Doesn't works with `toList()`
+		return vimConnectionInfo.stream().map(this::map).collect(Collectors.toList());
+	}
+
+	default VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> map(final VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> o) {
+		final VimConnectionInformation<InterfaceInfo, AccessInfo> ret = new VimConnectionInformation<>();
+		ret.setCnfInfo(o.getCnfInfo());
+		ret.setExtra(o.getExtra());
+		ret.setJujuInfo(o.getJujuInfo());
+		ret.setVimCapabilities(o.getVimCapabilities());
+		ret.setVimId(o.getVimId());
+		ret.setVimType(o.getVimType());
+		final AccessInfo ai = switch (ret.getVimType()) {
+		case "OPENSTACK_V3" -> mapToKeystoneAuthV3((KeystoneAuthV3) o.getAccessInfo());
+		default -> throw new IllegalArgumentException("Unexpected value: " + ret.getVimType());
+		};
+		ret.setAccessInfo(ai);
+		return ret;
+	}
+
+	KeystoneAuthV3 mapToKeystoneAuthV3(final KeystoneAuthV3 o);
 
 	default UUID mapUuid(final String str) {
 		if (null == str) {
@@ -54,8 +95,10 @@ public interface VimConnectionInformationMapping {
 	@Mapping(target = "accessInfo", source = ".")
 	@Mapping(target = "extra", ignore = true)
 	@Mapping(target = "interfaceInfo.endpoint", source = "apiAddress")
-	// UBINFV:KUBERNETES_TLS:V_1
-	Connection<K8sInterfaceInfo, KubernetesV1Auth> mapFromTls(K8sServers tls);
+	@Mapping(target = "vimType", constant = "UBINFV.CISM.V_1")
+	@Mapping(target = "vimId", constant = "130bdaa5-672f-437a-96ae-690c6ac3751f")
+	// UBINFV.CISM.V_1
+	VimConnectionInformation<K8sInterfaceInfo, KubernetesV1Auth> mapFromTls(K8sServers tls);
 
 	@Mapping(target = "clientCertificateData", source = "userCrt")
 	@Mapping(target = "clientKeyData", source = "userKey")

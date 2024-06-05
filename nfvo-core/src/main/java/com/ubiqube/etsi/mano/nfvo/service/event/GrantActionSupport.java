@@ -28,9 +28,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
 import com.ubiqube.etsi.mano.dao.mano.ExtManagedVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.GrantInformationExt;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
+import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.NsLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
@@ -114,7 +116,7 @@ public class GrantActionSupport implements GrantSupport {
 	}
 
 	private VimConnectionInformation electVim(@Nullable final String vnfPackageVimId, final GrantResponse grantResponse, final VnfPackage vnfPackage) {
-		final Set<VimConnectionInformation> vimConns = grantResponse.getVimConnections();
+		final Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vimConns = grantResponse.getVimConnections();
 		String vimId;
 		if ((null != vimConns) && !vimConns.isEmpty()) {
 			LOG.info("Selecting vim via Given one.");

@@ -34,6 +34,8 @@ import org.springframework.util.MultiValueMap;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
+import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.pm.ObjectType;
 import com.ubiqube.etsi.mano.dao.mano.pm.PerformanceReport;
@@ -121,7 +123,7 @@ public class VnfmPmControllerImpl implements VnfmPmController {
 	}
 
 	private static void setVim(final PmJob res, final List<VnfInstance> insts) {
-		final List<VimConnectionInformation> vims = insts.stream().flatMap(x -> x.getVimConnectionInfo().stream())
+		final List<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vims = insts.stream().flatMap(x -> x.getVimConnectionInfo().stream())
 				.distinct()
 				.toList();
 		if (vims.size() != 1) {

@@ -43,10 +43,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.dao.mano.Connection;
+import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
 import com.ubiqube.etsi.mano.dao.mano.ExtManagedVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.dao.mano.GrantVimAssetsEntity;
+import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.VimComputeResourceFlavourEntity;
 import com.ubiqube.etsi.mano.dao.mano.VimSoftwareImageEntity;
@@ -56,7 +57,6 @@ import com.ubiqube.etsi.mano.dao.mano.ZoneGroupInformation;
 import com.ubiqube.etsi.mano.dao.mano.ZoneInfoEntity;
 import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
-import com.ubiqube.etsi.mano.dao.mano.ii.K8sInterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.pkg.VirtualCp;
 import com.ubiqube.etsi.mano.dao.mano.vim.ImageServiceAware;
 import com.ubiqube.etsi.mano.dao.mano.vim.SoftwareImage;
@@ -185,10 +185,17 @@ public class GrantAction {
 		if (!haveCni(vnfPackage)) {
 			return;
 		}
-		final Connection<K8sInterfaceInfo, ?> vimc = ccmManager.getVimConnection(grants, vnfPackage);
-		final LinkedHashSet<VimConnectionInformation> vims = new LinkedHashSet<>(grants.getVimConnections());
-		vims.add((VimConnectionInformation) (Object) vimc);
-		grants.setVimConnections(vims);
+		VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> vimc = ccmManager.getVimConnection(grants, vnfPackage);
+		vimc = storeIfNeeded(vimc);
+		grants.setCismConnections(Set.of(vimc));
+	}
+
+	private VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> storeIfNeeded(final VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> vimc) {
+		final VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> res = vimManager.findVimByVimId(vimc.getVimId());
+		if (res != null) {
+			return res;
+		}
+		return vimManager.save(vimc);
 	}
 
 	private static boolean haveCni(final VnfPackage vnfPackage) {
