@@ -46,7 +46,7 @@ public interface ConnectionMapping {
 			return mapToOpenstackV3InterfaceInfo(ii);
 		}
 		if ("UBINFV.CISM.V_1".equals(vimType)) {
-			final K8sInterfaceInfo ret = mapToK8sInterfaceInfo(ii);
+			return mapToK8sInterfaceInfo(ii);
 		}
 		throw new GenericException("");
 	}
@@ -55,21 +55,21 @@ public interface ConnectionMapping {
 
 	OpenstackV3InterfaceInfo mapToOpenstackV3InterfaceInfo(@Valid Map<String, String> ii);
 
-	default List<String> map(final String value) {
+	default List<String> mapStringToList(final String value) {
 		if (value == null) {
 			return List.of();
 		}
 		return List.of(value);
 	}
 
-	KeystoneAuthV3 map(@Valid Map<String, String> ii);
+	KeystoneAuthV3 mapToKeystoneAuthV3(@Valid Map<String, String> ii);
 
 	default AccessInfo mapToAccessInfo(@NotNull final String vimType, @Valid final Map<String, String> ai) {
 		if (ai == null) {
 			return null;
 		}
 		if ("ETSINFV.OPENSTACK_KEYSTONE.V_3".equals(vimType)) {
-			return map(ai);
+			return mapToKeystoneAuthV3(ai);
 		}
 		if ("UBINFV.CISM.V_1".equals(vimType)) {
 			return mapToK8sAuth(ai);
