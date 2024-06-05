@@ -29,6 +29,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
+import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.cnf.CnfServer;
 import com.ubiqube.etsi.mano.dao.mano.common.GeoPoint;
 import com.ubiqube.etsi.mano.dao.mano.vim.SoftwareImage;
@@ -127,7 +129,7 @@ public class VimManager {
 		return vimConnectionInformationJpa.findByVimType(type);
 	}
 
-	public VimConnectionInformation save(final VimConnectionInformation x) {
+	public VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> save(final VimConnectionInformation x) {
 		return vimConnectionInformationJpa.save(x);
 	}
 
@@ -144,7 +146,7 @@ public class VimManager {
 	}
 
 	@Transactional(TxType.REQUIRED)
-	public VimConnectionInformation registerIfNeeded(final VimConnectionInformation x) {
+	public VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> registerIfNeeded(final VimConnectionInformation x) {
 		synchronized (VimManager.class) {
 			final Optional<VimConnectionInformation> vim = vimConnectionInformationJpa.findByVimId(x.getVimId());
 			if (vim.isPresent()) {
@@ -189,11 +191,17 @@ public class VimManager {
 	}
 
 	private VimConnectionInformation registerVim(final VimConnectionInformation vci) {
-		extractCapabilities(vci);
+		if (vimTypeConverter.isVim(vci)) {
+			extractCapabilities(vci);
+		}
 		mergeCnf(vci);
+		vci.getAccessInfo().setId(null);
+		vci.getInterfaceInfo().setId(null);
 		final VimConnectionInformation n = vimConnectionInformationJpa.save(vci);
-		systemService.registerVim(n);
-		init();
+		if (vimTypeConverter.isVim(vci)) {
+			systemService.registerVim(n);
+			init();
+		}
 		return n;
 	}
 
