@@ -46,8 +46,6 @@ import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceService;
 import com.ubiqube.etsi.mano.vnfm.service.VnfInstanceServiceVnfm;
 import com.ubiqube.etsi.mano.vnfm.service.vnflcm.VnfLcmExtractor;
 
-import jakarta.annotation.Nonnull;
-
 /**
  *
  * @author Olivier Vignaud {@literal <ovi@ubiqube.com>}
@@ -131,7 +129,6 @@ public class VnfOrchestrationAdapter implements OrchestrationAdapter<VnfTask, Vn
 		eventManager.sendNotification(notificationEvent, id, Map.of());
 	}
 
-	@Nonnull
 	private static NotificationEvent convert(final WorkflowEvent instantiateProcessing) {
 		return switch (instantiateProcessing) {
 		case INSTANTIATE_PROCESSING -> NotificationEvent.VNF_INSTANCE_CREATE;
