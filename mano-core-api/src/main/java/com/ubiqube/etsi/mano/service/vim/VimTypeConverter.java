@@ -12,9 +12,11 @@
  *     GNU General Public License for more details.
  *
  *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *     along with this program.  If not, see https://www.gnu.org/licenses/.
  */
 package com.ubiqube.etsi.mano.service.vim;
+
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.exception.GenericException;
+import com.ubiqube.etsi.mano.utils.VimType;
 
 /**
  * Convert a incoming vimType from ETSI) to our internal vimType. This is a kind
@@ -33,6 +36,7 @@ import com.ubiqube.etsi.mano.exception.GenericException;
 public class VimTypeConverter {
 	/** Logger. */
 	private static final Logger LOG = LoggerFactory.getLogger(VimTypeConverter.class);
+	private static final Set<String> REAL_VIMS = Set.of("OPENSTACK_KEYSTONE", "OPENSTACK_V3", "AZURE", "AWS");
 
 	@SuppressWarnings("static-method")
 	public void setToInternalType(final VimConnectionInformation vci) {
@@ -52,7 +56,16 @@ public class VimTypeConverter {
 			vci.setVimType("AWS");
 			return;
 		}
+		if ("UBINFV.CISM.V_1".equals(vci.getVimType())) {
+			return;
+		}
 		throw new GenericException("Unsupported vim type: " + vci.getVimType());
+	}
+
+	@SuppressWarnings("static-method")
+	public boolean isVim(final VimConnectionInformation vci) {
+		final VimType vimType = VimType.of(vci.getVimType());
+		return REAL_VIMS.contains(vimType.getVimName());
 	}
 
 	@SuppressWarnings("static-method")
