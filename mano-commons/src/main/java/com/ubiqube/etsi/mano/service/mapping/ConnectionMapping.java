@@ -17,16 +17,68 @@
 package com.ubiqube.etsi.mano.service.mapping;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import org.mapstruct.Mapper;
 
+import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
 import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.ai.KeystoneAuthV3;
+import com.ubiqube.etsi.mano.dao.mano.ai.KubernetesV1Auth;
+import com.ubiqube.etsi.mano.dao.mano.ii.K8sInterfaceInfo;
+import com.ubiqube.etsi.mano.dao.mano.ii.OpenstackV3InterfaceInfo;
+import com.ubiqube.etsi.mano.exception.GenericException;
+
+import jakarta.annotation.Nullable;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 @Mapper
 public interface ConnectionMapping {
+	default InterfaceInfo mapToInterfaceInfo(@NotNull final String vimType, @Valid final Map<String, String> ii) {
+		if (ii == null) {
+			return null;
+		}
+		if ("ETSINFV.OPENSTACK_KEYSTONE.V_3".equals(vimType)) {
+			return mapToOpenstackV3InterfaceInfo(ii);
+		}
+		if ("UBINFV.CISM.V_1".equals(vimType)) {
+			final K8sInterfaceInfo ret = mapToK8sInterfaceInfo(ii);
+		}
+		throw new GenericException("");
+	}
+
+	K8sInterfaceInfo mapToK8sInterfaceInfo(@Valid Map<String, String> ii);
+
+	OpenstackV3InterfaceInfo mapToOpenstackV3InterfaceInfo(@Valid Map<String, String> ii);
+
+	default List<String> map(final String value) {
+		if (value == null) {
+			return List.of();
+		}
+		return List.of(value);
+	}
+
+	KeystoneAuthV3 map(@Valid Map<String, String> ii);
+
+	default AccessInfo mapToAccessInfo(@NotNull final String vimType, @Valid final Map<String, String> ai) {
+		if (ai == null) {
+			return null;
+		}
+		if ("ETSINFV.OPENSTACK_KEYSTONE.V_3".equals(vimType)) {
+			return map(ai);
+		}
+		if ("UBINFV.CISM.V_1".equals(vimType)) {
+			return mapToK8sAuth(ai);
+		}
+		throw new GenericException("Vim type: " + vimType);
+	}
+
+	KubernetesV1Auth mapToK8sAuth(@Valid Map<String, String> ai);
+
 	default Map<String, String> map(final InterfaceInfo value) {
 		if (null == value) {
 			return Map.of();
@@ -60,6 +112,32 @@ public interface ConnectionMapping {
 //		Optional.ofNullable(value.getProjectId()).ifPresent(x -> ret.put("projectId", x));
 		Optional.ofNullable(value.getProjectDomain()).ifPresent(x -> ret.put("projectDomain", x));
 //		Optional.ofNullable(value.getProjectName()).ifPresent(x -> ret.put("projectName", x));
+		return ret;
+	}
+
+	@Nullable
+	default Map<String, String> map(final @Nullable com.ubiqube.etsi.mano.dao.mano.AccessInfo o) {
+		if (null == o) {
+			return null;
+		}
+		final Map<String, String> ret = new LinkedHashMap<>();
+		if (o.getId() != null) {
+			ret.put("id", o.getId().toString());
+		}
+		if (o instanceof final KeystoneAuthV3 ka3) {
+			ret.put("password", ka3.getPassword());
+			ret.put("project", ka3.getProject());
+			ret.put("projectDomain", ka3.getProjectDomain());
+			ret.put("projectId", ka3.getProjectId());
+			ret.put("region", ka3.getRegion());
+			ret.put("userDomain", ka3.getUserDomain());
+			ret.put("userName", ka3.getUsername());
+		} else if (o instanceof final KubernetesV1Auth ka1) {
+			ret.put("client-certificate-data", ka1.getClientCertificateData());
+			ret.put("client-key-data", ka1.getClientKeyData());
+		} else {
+			throw new GenericException("Unknown class: " + o.getClass().getName());
+		}
 		return ret;
 	}
 
