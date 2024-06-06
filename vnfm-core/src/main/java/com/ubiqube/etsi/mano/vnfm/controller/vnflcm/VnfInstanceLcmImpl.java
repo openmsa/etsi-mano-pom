@@ -28,10 +28,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -183,14 +183,10 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 
 		if (null != instantiateVnfRequest.getVimConnectionInfo()) {
 			final List<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vimconnections = vimConnectionInformationMapping.mapAsList(instantiateVnfRequest.getVimConnectionInfo());
-			final Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vimSet = vimconnections.stream()
-					.map(x -> {
-						final Optional<VimConnectionInformation> optVim = vimManager.findOptionalVimByVimId(x.getVimId());
-						if (optVim.isPresent()) {
-							return optVim.get();
-						}
-						return vimManager.save(x);
-					}).collect(Collectors.toSet());
+			final Stream<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vimSetStream = vimconnections.stream()
+					.map(x -> vimManager.findOptionalVimByVimId(x.getVimId())
+							.orElseGet(() -> vimManager.save(x)));
+			final Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vimSet = vimSetStream.collect(Collectors.toSet());
 			vnfInstance.setVimConnectionInfo(vimSet);
 			vnfInstanceService.save(vnfInstance);
 		}
