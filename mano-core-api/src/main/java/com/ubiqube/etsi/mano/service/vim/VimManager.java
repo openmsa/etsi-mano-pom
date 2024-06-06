@@ -98,13 +98,13 @@ public class VimManager {
 	private Map<UUID, Vim> init() {
 		final Map<UUID, Vim> vimAssociation = new HashMap<>();
 		vims.forEach(x -> {
-			final Set<VimConnectionInformation> vimsId = vimConnectionInformationJpa.findByVimType(x.getType());
+			final Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vimsId = vimConnectionInformationJpa.findByVimType(x.getType());
 			associateVims(vimsId, x, vimAssociation);
 		});
 		return vimAssociation;
 	}
 
-	private static void associateVims(final Set<VimConnectionInformation> vimsIs, final Vim vim, final Map<UUID, Vim> vimAssociation) {
+	private static void associateVims(final Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vimsIs, final Vim vim, final Map<UUID, Vim> vimAssociation) {
 		vimsIs.forEach(x -> vimAssociation.put(x.getId(), vim));
 	}
 
@@ -125,7 +125,7 @@ public class VimManager {
 		return vimConnectionInformationJpa.findByVimId(id).orElseThrow(() -> new NotFoundException("No connection vimId " + id));
 	}
 
-	public Set<VimConnectionInformation> getVimByType(final String type) {
+	public Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> getVimByType(final String type) {
 		return vimConnectionInformationJpa.findByVimType(type);
 	}
 
@@ -133,7 +133,7 @@ public class VimManager {
 		return vimConnectionInformationJpa.save(x);
 	}
 
-	public Optional<VimConnectionInformation> findOptionalVimByVimId(final String vimId) {
+	public Optional<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> findOptionalVimByVimId(final String vimId) {
 		return vimConnectionInformationJpa.findByVimId(vimId);
 	}
 
@@ -148,7 +148,7 @@ public class VimManager {
 	@Transactional(TxType.REQUIRED)
 	public VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> registerIfNeeded(final VimConnectionInformation x) {
 		synchronized (VimManager.class) {
-			final Optional<VimConnectionInformation> vim = vimConnectionInformationJpa.findByVimId(x.getVimId());
+			final Optional<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vim = vimConnectionInformationJpa.findByVimId(x.getVimId());
 			if (vim.isPresent()) {
 				return vim.get();
 			}
