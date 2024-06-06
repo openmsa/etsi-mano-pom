@@ -38,6 +38,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
+import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.cnf.CnfServer;
 import com.ubiqube.etsi.mano.dao.mano.common.GeoPoint;
 import com.ubiqube.etsi.mano.dao.mano.vim.SoftwareImage;
@@ -264,6 +266,8 @@ class VimManagerTest {
 		vci.setId(uuid);
 		vci.setVimId(uuidStr);
 		vci.setVimType("dummy-vim");
+		vci.setInterfaceInfo(new InterfaceInfo());
+		vci.setAccessInfo(new AccessInfo());
 		return vci;
 	}
 }
