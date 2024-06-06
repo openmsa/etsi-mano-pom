@@ -129,7 +129,7 @@ public class VimManager {
 		return vimConnectionInformationJpa.findByVimType(type);
 	}
 
-	public VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> save(final VimConnectionInformation x) {
+	public VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> save(final VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> x) {
 		return vimConnectionInformationJpa.save(x);
 	}
 
