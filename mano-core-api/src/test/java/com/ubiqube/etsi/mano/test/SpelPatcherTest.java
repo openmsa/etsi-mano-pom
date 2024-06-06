@@ -74,10 +74,11 @@ class SpelPatcherTest {
 		final SpelParserConfiguration config = new SpelParserConfiguration(true, true); // auto create objects if null
 		final ExpressionParser parser = new SpelExpressionParser(config);
 		final VimConnectionInformation<? extends InterfaceInfo, KeystoneAuthV3> entity = new VimConnectionInformation<>();
+		entity.setAccessInfo(new KeystoneAuthV3());
 		final StandardEvaluationContext modelContext = new StandardEvaluationContext(entity);
-		parser.parseExpression("accessInfo.username").setValue(modelContext, "hello!!!");
+		parser.parseExpression("accessInfo.username").setValue(modelContext, "303ec59e-be2d-499a-afc3-e777f69fbff0");
 		assertNotNull(entity.getAccessInfo());
-		assertEquals("hello!!!", entity.getAccessInfo().getUsername());
+		assertEquals("303ec59e-be2d-499a-afc3-e777f69fbff0", entity.getAccessInfo().getUsername());
 	}
 
 }
