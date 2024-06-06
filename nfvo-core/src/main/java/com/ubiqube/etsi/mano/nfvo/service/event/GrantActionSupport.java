@@ -124,7 +124,7 @@ public class GrantActionSupport implements GrantSupport {
 			return vimManager.findVimByVimId(vimId);
 		}
 		// XXX: Do some real elections.
-		final Set<VimConnectionInformation> vims;
+		final Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vims;
 		if (null != vnfPackageVimId) {
 			LOG.debug("Getting MSA 2.x VIM");
 			vims = vimManager.getVimByType("MSA_20");
@@ -138,7 +138,7 @@ public class GrantActionSupport implements GrantSupport {
 		return doNormalElection(vnfPackage, grantResponse, vims);
 	}
 
-	private VimConnectionInformation doNormalElection(final VnfPackage vnfPackage, final GrantResponse grantResponse, final Set<VimConnectionInformation> vims) {
+	private VimConnectionInformation doNormalElection(final VnfPackage vnfPackage, final GrantResponse grantResponse, final Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vims) {
 		final QuotaNeeded needed = summarizeResources(grantResponse, vnfPackage);
 		final List<VimConnectionInformation> vimsSelected = new ArrayList<>();
 		vims.parallelStream().forEach(x -> {
