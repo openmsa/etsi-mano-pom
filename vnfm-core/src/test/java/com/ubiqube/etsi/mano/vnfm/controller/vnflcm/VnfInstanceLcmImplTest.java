@@ -295,6 +295,7 @@ class VnfInstanceLcmImplTest {
 		final VnfBlueprint bp = TestFactory.createBlueprint();
 		final VnfInstantiate req = new VnfInstantiate();
 		final VimConnectionInformation conn1 = new VimConnectionInformation();
+		conn1.setVimType("OPENSTACK_V3");
 		req.setVimConnectionInfo(List.of(conn1));
 		when(vnfInstanceVnfm.findById(id)).thenReturn(inst);
 		when(vnfPackageService.findById(any())).thenReturn(pkg);
@@ -314,6 +315,7 @@ class VnfInstanceLcmImplTest {
 		final VnfBlueprint bp = TestFactory.createBlueprint();
 		final VnfInstantiate req = new VnfInstantiate();
 		final VimConnectionInformation conn1 = new VimConnectionInformation();
+		conn1.setVimType("OPENSTACK_V3");
 		req.setVimConnectionInfo(List.of(conn1));
 		when(vnfInstanceVnfm.findById(id)).thenReturn(inst);
 		when(vnfPackageService.findById(any())).thenReturn(pkg);
