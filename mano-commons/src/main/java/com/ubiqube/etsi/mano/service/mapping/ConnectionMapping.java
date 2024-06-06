@@ -48,7 +48,11 @@ public interface ConnectionMapping {
 		if ("UBINFV.CISM.V_1".equals(vimType)) {
 			return mapToK8sInterfaceInfo(ii);
 		}
-		throw new GenericException("");
+		if ("PAAS".equals(vimType)) {
+			// XXX: This need works works.
+			return new InterfaceInfo();
+		}
+		throw new GenericException("Unknown vimType: " + vimType);
 	}
 
 	K8sInterfaceInfo mapToK8sInterfaceInfo(@Valid Map<String, String> ii);
@@ -73,6 +77,10 @@ public interface ConnectionMapping {
 		}
 		if ("UBINFV.CISM.V_1".equals(vimType)) {
 			return mapToK8sAuth(ai);
+		}
+		if ("PAAS".equals(vimType)) {
+			// XXX: This need works works.
+			return new AccessInfo();
 		}
 		throw new GenericException("Vim type: " + vimType);
 	}
@@ -135,8 +143,6 @@ public interface ConnectionMapping {
 		} else if (o instanceof final KubernetesV1Auth ka1) {
 			ret.put("client-certificate-data", ka1.getClientCertificateData());
 			ret.put("client-key-data", ka1.getClientKeyData());
-		} else {
-			throw new GenericException("Unknown class: " + o.getClass().getName());
 		}
 		return ret;
 	}
