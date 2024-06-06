@@ -182,8 +182,6 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 		ensureIsEnabled(vnfPkg);
 
 		if (null != instantiateVnfRequest.getVimConnectionInfo()) {
-			final List<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> lst = instantiateVnfRequest.getVimConnectionInfo();
-			vimConnectionInformationMapping.mapAsList(lst);
 			final List<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vimconnections = vimConnectionInformationMapping.mapAsList(instantiateVnfRequest.getVimConnectionInfo());
 			final Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vimSet = vimconnections.stream()
 					.map(x -> {
