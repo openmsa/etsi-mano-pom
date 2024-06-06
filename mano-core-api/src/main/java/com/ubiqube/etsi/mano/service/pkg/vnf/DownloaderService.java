@@ -131,9 +131,7 @@ public class DownloaderService {
 		final String path = Constants.REPOSITORY_FOLDER_ARTIFACTS + "/" + si.getNfvoPath();
 		final FluxRest cli = getWebClient(si, vnfPackage);
 		final Consumer<InputStream> func = is -> {
-			try (final PipedOutputStream osPipe = new PipedOutputStream();
-					final PipedInputStream isPipeIn = new PipedInputStream(osPipe);
-					BoundedInputStream count = new BoundedInputStream.Builder().setInputStream(is).get();
+			try (BoundedInputStream count = new BoundedInputStream.Builder().setInputStream(is).get();
 					MultiHashInputStream mhis = new MultiHashInputStream(count);) {
 				packageRepository.storeBinary(vnfPkgId, path, mhis);
 				setChecksum(si, mhis);
