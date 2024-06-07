@@ -139,7 +139,7 @@ public interface ConnectionMapping {
 			ret.put("projectId", ka3.getProjectId());
 			ret.put("region", ka3.getRegion());
 			ret.put("userDomain", ka3.getUserDomain());
-			ret.put("userName", ka3.getUsername());
+			ret.put("username", ka3.getUsername());
 		} else if (o instanceof final KubernetesV1Auth ka1) {
 			ret.put("client-certificate-data", ka1.getClientCertificateData());
 			ret.put("client-key-data", ka1.getClientKeyData());
