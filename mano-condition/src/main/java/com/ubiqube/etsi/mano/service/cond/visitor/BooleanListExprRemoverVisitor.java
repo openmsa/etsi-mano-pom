@@ -43,15 +43,15 @@ public class BooleanListExprRemoverVisitor extends SimpleNodeReturn<BooleanOpera
 			return removeNot(booleanListExpr, arg);
 		}
 		if (conds.size() == 1) {
-			return conds.get(0);
+			return conds.getFirst();
 		}
 		while (!conds.isEmpty()) {
 			if (null == root) {
-				root = conds.get(0).accept(this, booleanListExpr.getOp());
-				conds.remove(0);
+				root = conds.getFirst().accept(this, booleanListExpr.getOp());
+				conds.removeFirst();
 			}
-			root = new GenericCondition(root, convert(booleanListExpr.getOp()), conds.get(0).accept(this, booleanListExpr.getOp()));
-			conds.remove(0);
+			root = new GenericCondition(root, convert(booleanListExpr.getOp()), conds.getFirst().accept(this, booleanListExpr.getOp()));
+			conds.removeFirst();
 		}
 		return root;
 	}
@@ -61,15 +61,15 @@ public class BooleanListExprRemoverVisitor extends SimpleNodeReturn<BooleanOpera
 		Node root = null;
 		while (!conds.isEmpty()) {
 			if (null == root) {
-				final BooleanExpression cond = conds.get(0);
+				final BooleanExpression cond = conds.getFirst();
 				invertOperator(cond);
 				root = cond.accept(this, arg);
-				conds.remove(0);
+				conds.removeFirst();
 			}
-			final BooleanExpression cond = conds.get(0);
+			final BooleanExpression cond = conds.getFirst();
 			invertOperator(cond);
 			root = new GenericCondition(root, convert(arg), cond.accept(this, arg));
-			conds.remove(0);
+			conds.removeFirst();
 		}
 		return root;
 	}
@@ -101,11 +101,11 @@ public class BooleanListExprRemoverVisitor extends SimpleNodeReturn<BooleanOpera
 		Node root = null;
 		while (!conds.isEmpty()) {
 			if (null == root) {
-				root = conds.get(0).accept(this, newOp);
-				conds.remove(0);
+				root = conds.getFirst().accept(this, newOp);
+				conds.removeFirst();
 			}
-			root = new GenericCondition(root, convert(newOp), conds.get(0).accept(this, newOp));
-			conds.remove(0);
+			root = new GenericCondition(root, convert(newOp), conds.getFirst().accept(this, newOp));
+			conds.removeFirst();
 		}
 		return root;
 	}

@@ -137,7 +137,7 @@ public class OsContainerUow extends AbstractVnfmUow<OsContainerTask> {
 		final List<JujuCloud> jClouds = jujuCloudService.findByMetadataName(vimConnectionInformation.getVimId() + "-"
 				+ vimConnectionInformation.getJujuInfo().getRegion().toLowerCase(), "PASS");
 		if (!jClouds.isEmpty()) {
-			final boolean isSuccess = jujuCloudService.jujuTerminate(jClouds.get(0).getId());
+			final boolean isSuccess = jujuCloudService.jujuTerminate(jClouds.getFirst().getId());
 			return isSuccess ? "SUCCESS" : "FAIL";
 		}
 		return null;

@@ -134,7 +134,7 @@ public class GrantContainerAction {
 		if (res.isEmpty()) {
 			return null;
 		}
-		return res.get(0);
+		return res.getFirst();
 
 	}
 
@@ -164,7 +164,7 @@ public class GrantContainerAction {
 		if (res.isEmpty()) {
 			throw new GenericException("No connection information for " + ct);
 		}
-		final ConnectionInformation ci = res.get(0);
+		final ConnectionInformation ci = res.getFirst();
 		if (res.size() > 1) {
 			LOG.warn("More than one connection for {}, using first one {}", ct, ci.getId());
 		}

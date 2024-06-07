@@ -131,7 +131,7 @@ public class NpmVersionResolver {
 
 	@Nullable
 	protected static String findWebJarResourcePath(final String webjar, final String path) {
-		if (webjar.length() > 0) {
+		if (!webjar.isEmpty()) {
 			final String version = version(webjar);
 			if (version != null) {
 				final String partialPath = path(webjar, version, path);

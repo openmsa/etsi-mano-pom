@@ -185,19 +185,14 @@ public class VnfPackageOnboardingImpl {
 		if (version != null) {
 			part++;
 		}
-		switch (part) {
-		case 0:
-			return Optional.empty();
-		case 1:
-			return vnfPackageService.findByVnfdIdOpt(descriptorId);
-		case 2:
-			return vnfPackageService.findByVnfdIdAndSoftwareVersion(descriptorId, version);
-		case 3:
-			return vnfPackageService.findByVnfdIdFlavorIdVnfdVersion(descriptorId, flavor, version);
-		default:
-			break;
-		}
-		throw new GenericException("Unknown version " + part);
-	}
+        return switch (part) {
+            case 0 -> Optional.empty();
+            case 1 -> vnfPackageService.findByVnfdIdOpt(descriptorId);
+            case 2 -> vnfPackageService.findByVnfdIdAndSoftwareVersion(descriptorId, version);
+            case 3 -> vnfPackageService.findByVnfdIdFlavorIdVnfdVersion(descriptorId, flavor,
+                    version);
+            default -> throw new GenericException("Unknown version " + part);
+        };
+    }
 
 }

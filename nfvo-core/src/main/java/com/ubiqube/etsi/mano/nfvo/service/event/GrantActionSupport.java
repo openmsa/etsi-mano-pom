@@ -194,7 +194,7 @@ public class GrantActionSupport implements GrantSupport {
 			LOG.warn("No NS instance found {} Found {}", vnfInstanceId, resList.size());
 			return;
 		}
-		final NsLiveInstance res = resList.get(0);
+		final NsLiveInstance res = resList.getFirst();
 		final NsBlueprint bluePrint = res.getNsBlueprint();
 		final NsdInstance nsdInstance = bluePrint.getNsInstance();
 		final NsVnfTask inst = (NsVnfTask) res.getNsTask();

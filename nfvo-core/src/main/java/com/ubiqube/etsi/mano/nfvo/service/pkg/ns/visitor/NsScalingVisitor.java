@@ -62,12 +62,12 @@ public class NsScalingVisitor implements NsOnboardingVisitor {
 		nsScaling.getNsStepMapping().forEach(x -> x.target().forEach(y -> {
 			final NsdPackageNsdPackage nsd = findNesteedNs(nsPackage, y);
 			final NsScalingStepMapping scaling = new NsScalingStepMapping(mapStepMapping(x.mapping()), x.aspectId());
-			x.mapping().entrySet().forEach(z -> nsd.addStepMapping(scaling));
+			x.mapping().forEach((key, value) -> nsd.addStepMapping(scaling));
 		}));
 		nsScaling.getVnfStepMapping().forEach(x -> x.target().forEach(y -> {
 			final NsdPackageVnfPackage nsd = findVnf(nsPackage, y);
 			final VnfScalingStepMapping scaling = new VnfScalingStepMapping(mapStepMapping(x.mapping()), x.aspectId());
-			x.mapping().entrySet().forEach(z -> nsd.addStepMapping(scaling));
+			x.mapping().forEach((key, value) -> nsd.addStepMapping(scaling));
 		}));
 		nsScaling.getVlStepMapping().forEach(x -> x.targets().forEach(y -> {
 			final NsVirtualLink vl = findVl(nsPackage, y);
@@ -77,24 +77,27 @@ public class NsScalingVisitor implements NsOnboardingVisitor {
 
 		nsScaling.getNsLevelMapping().forEach(x -> x.target().forEach(y -> {
 			final NsdPackageNsdPackage nsd = findNesteedNs(nsPackage, y);
-			x.mapping().entrySet().forEach(z -> {
-				final NsScalingLevelMapping mapping = new NsScalingLevelMapping(z.getKey(), x.aspectId(), z.getValue());
-				nsd.addLevelMapping(mapping);
-			});
+			x.mapping().forEach((key, value) -> {
+                final NsScalingLevelMapping mapping =
+                        new NsScalingLevelMapping(key, x.aspectId(), value);
+                nsd.addLevelMapping(mapping);
+            });
 		}));
 		nsScaling.getVnfLevelMapping().forEach(x -> x.target().forEach(y -> {
 			final NsdPackageVnfPackage nsd = findVnf(nsPackage, y);
-			x.mapping().entrySet().forEach(z -> {
-				final VnfScalingLevelMapping mapping = new VnfScalingLevelMapping(z.getKey(), x.aspectId(), z.getValue());
-				nsd.addLevelMapping(mapping);
-			});
+			x.mapping().forEach((key, value) -> {
+                final VnfScalingLevelMapping mapping =
+                        new VnfScalingLevelMapping(key, x.aspectId(), value);
+                nsd.addLevelMapping(mapping);
+            });
 		}));
 		nsScaling.getVlLevelMapping().forEach(x -> x.targets().forEach(y -> {
 			final NsVirtualLink vl = findVl(nsPackage, y);
-			x.mapping().entrySet().forEach(z -> {
-				final NsVlLevelMapping mapping = new NsVlLevelMapping(z.getKey(), z.getValue().root(), z.getValue().leaf());
-				vl.addLevelMapping(mapping);
-			});
+			x.mapping().forEach((key, value) -> {
+                final NsVlLevelMapping mapping =
+                        new NsVlLevelMapping(key, value.root(), value.leaf());
+                vl.addLevelMapping(mapping);
+            });
 		}));
 	}
 

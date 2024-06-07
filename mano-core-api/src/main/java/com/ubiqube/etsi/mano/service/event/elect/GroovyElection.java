@@ -97,7 +97,7 @@ public class GroovyElection implements VimElection {
 		if (vims.isEmpty()) {
 			return null;
 		}
-		return vims.get(0);
+		return vims.getFirst();
 	}
 
 	List<Path> findScript() {

@@ -90,7 +90,7 @@ public class NsIndicatorValueChangeNotificationImpl {
 
 	public void evaluateValueBasedOnCondition(final String nsInstanceId, final List<NsIndiValueChangeNotification> notifications) {
 		nsIndValueNotificationJpa.deleteAll(notifications);
-		final String nsdId = notifications.get(0).getNsdId();
+		final String nsdId = notifications.getFirst().getNsdId();
 		final NsdPackage nsdPackage = nsdPackageJpa.findByNsdIdAndNsdOnboardingState(nsdId, OnboardingStateType.ONBOARDED);
 		final Set<NsVnfIndicator> nsVnfIndicators = nsdPackage.getNsVnfIndicator();
 		for (final NsVnfIndicator nsVnfIndicator : nsVnfIndicators) {
@@ -107,9 +107,9 @@ public class NsIndicatorValueChangeNotificationImpl {
 				}
 				conditions: for (final JsonNode jsonNode : actualObj) {
 					final Map<String, Object> condition = mapper.convertValue(jsonNode,
-							new TypeReference<Map<String, Object>>() {
-								//
-							});
+                            new TypeReference<>() {
+                                //
+                            });
 					final Map.Entry<String, Object> c = condition.entrySet().iterator().next();
 					final String indicatorName = c.getKey();
 					Double nsVnfIndicatorValue;
@@ -173,9 +173,9 @@ public class NsIndicatorValueChangeNotificationImpl {
 		Map<String, Object> action = new HashMap<>();
 		for (final JsonNode jsonNode : actualObj) {
 			action = mapper.convertValue(jsonNode,
-					new TypeReference<Map<String, Object>>() {
-						//
-					});
+                    new TypeReference<>() {
+                        //
+                    });
 		}
 		if (action.isEmpty()) {
 			return;

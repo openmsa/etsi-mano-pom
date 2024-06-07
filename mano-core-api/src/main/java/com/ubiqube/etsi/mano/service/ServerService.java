@@ -137,7 +137,7 @@ public class ServerService {
 		if (lst.size() > 1) {
 			LOG.warn("More than one server exist, picking the first one.");
 		}
-		final Servers server = lst.get(0);
+		final Servers server = lst.getFirst();
 		final HttpGateway hg = filterServer(server);
 		return new ServerAdapter(hg, server, new TracingFluxRest(server, springContext));
 	}
@@ -153,7 +153,7 @@ public class ServerService {
 				.version(subscription.getVersion())
 				.build();
 		if (null == server.getVersion()) {
-			return new ServerAdapter(httpGateway.get(0), server, new TracingFluxRest(server, springContext));
+			return new ServerAdapter(httpGateway.getFirst(), server, new TracingFluxRest(server, springContext));
 		}
 		final HttpGateway hg = filterServer(server);
 		return new ServerAdapter(hg, server, new TracingFluxRest(server, springContext));
@@ -187,7 +187,7 @@ public class ServerService {
 
 	public Optional<HttpGateway> getHttpGatewayFromManoVersion(@Nullable final String version) {
 		if (null == version) {
-			return Optional.ofNullable(httpGateway.get(0));
+			return Optional.ofNullable(httpGateway.getFirst());
 		}
 		return httpGateway.stream()
 				.filter(x -> x.getVersion().equals(Version.of(version)))

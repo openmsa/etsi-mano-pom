@@ -26,5 +26,5 @@ public enum Operator {
 	OR,
 	NOT,
 	AND,
-	ASSERT;
+	ASSERT
 }

@@ -83,7 +83,8 @@ public class NfvoCustomOnboarding implements CustomOnboarding {
 		if (null == artifacts) {
 			return;
 		}
-		artifacts.entrySet().forEach(x -> handleSw(cache, zipOut, vnfPackage, vnfPackageReader, x.getValue()));
+		artifacts.forEach(
+                (key, value) -> handleSw(cache, zipOut, vnfPackage, vnfPackageReader, value));
 	}
 
 	private void handleSw(final Set<String> cache, final ZipOutputStream zipOut, final VnfPackage vnfPackage, final VnfPackageReader vnfPackageReader, final SoftwareImage value) {
@@ -156,7 +157,7 @@ public class NfvoCustomOnboarding implements CustomOnboarding {
 	private void copyFileWithHash(final VnfPackageReader vnfPackageReader, final UUID id, final SoftwareImage artifact) {
 		DownloadResult ret = new DownloadResult("", "", "", 0L);
 		try (MultiHashInputStream mhis = new MultiHashInputStream(vnfPackageReader.getFileInputStream(artifact.getImagePath()));
-				final CountingInputStream count = new CountingInputStream(mhis);) {
+				final CountingInputStream count = new CountingInputStream(mhis)) {
 			repo.storeBinary(id, mkPath(artifact.getImagePath()), count);
 			ret = new DownloadResult(mhis.getMd5(), mhis.getSha256(), mhis.getSha512(), count.getByteCount());
 		} catch (final IOException e) {

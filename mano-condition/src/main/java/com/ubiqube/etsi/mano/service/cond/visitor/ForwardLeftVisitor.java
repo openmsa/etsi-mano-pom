@@ -44,7 +44,7 @@ public class ForwardLeftVisitor extends SimpleNodeReturn<Void> {
 	public Node visit(final AttrHolderExpr expr, final Void args) {
 		final List<BooleanExpression> conds = expr.getConditions();
 		if (conds.size() == 1) {
-			final BooleanExpression cond = conds.get(0);
+			final BooleanExpression cond = conds.getFirst();
 			cond.setLeft(LabelExpression.of(expr.getAttrName()));
 			return cond.accept(this, args);
 		}

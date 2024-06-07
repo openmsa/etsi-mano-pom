@@ -27,7 +27,6 @@ import de.codecentric.boot.admin.server.config.EnableAdminServer;
 
 @ImportRuntimeHints(CustomHint.class)
 @EnableAdminServer
-@EnableAutoConfiguration
 @SpringBootApplication
 public class AdminApplication {
 	public static void main(final String[] args) {

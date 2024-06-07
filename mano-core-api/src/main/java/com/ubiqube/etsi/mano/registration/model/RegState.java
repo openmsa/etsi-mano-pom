@@ -22,5 +22,5 @@ package com.ubiqube.etsi.mano.registration.model;
  *
  */
 public enum RegState {
-	DISCOVERED;
+	DISCOVERED
 }

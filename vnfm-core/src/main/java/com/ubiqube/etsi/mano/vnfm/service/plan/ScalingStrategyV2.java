@@ -61,11 +61,10 @@ public class ScalingStrategyV2 implements ScalingStrategy {
 	private static NumberOfCompute handleInstantiate(final VnfBlueprint plan, final VnfPackage vnfPackage, final VnfCompute compute) {
 		final String level = Optional.ofNullable(plan.getParameters().getInstantiationLevelId()).orElseGet(vnfPackage::getDefaultInstantiationLevel);
 		final Optional<VduInstantiationLevel> newLevel = compute.getInstantiationLevel().stream().filter(x -> x.getLevelName().equals(level)).findFirst();
-		if (newLevel.isPresent()) {
-			return new NumberOfCompute(0, newLevel.get().getNumberOfInstances(), null);
-		}
-		return new NumberOfCompute(0, 1, null);
-	}
+        return newLevel.map(vduInstantiationLevel -> new NumberOfCompute(0,
+                        vduInstantiationLevel.getNumberOfInstances(), null))
+                .orElseGet(() -> new NumberOfCompute(0, 1, null));
+    }
 
 	private NumberOfCompute handleScale(final VnfBlueprint plan, final VnfPackage vnfPackage, final VnfCompute compute, final VnfInstance vnfInstance) {
 		return switch (getScalingType(plan.getParameters())) {

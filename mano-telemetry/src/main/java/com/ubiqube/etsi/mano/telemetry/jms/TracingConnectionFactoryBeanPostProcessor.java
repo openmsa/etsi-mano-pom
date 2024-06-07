@@ -64,17 +64,15 @@ public class TracingConnectionFactoryBeanPostProcessor implements BeanPostProces
 			return new LazyConnectionAndXaConnectionFactory(this.beanFactory,
 					cf, xacf);
 		}
-		if (bean instanceof final XAConnectionFactory xacf) {
-			return new LazyXAConnectionFactory(this.beanFactory, xacf);
-		}
-		if (bean instanceof final TopicConnectionFactory tcf) {
-			return new LazyTopicConnectionFactory(this.beanFactory, tcf);
-		}
-		if (bean instanceof final ConnectionFactory cf) {
-			return new LazyConnectionFactory(this.beanFactory, cf);
-		}
-		return bean;
-	}
+        return switch (bean) {
+            case final XAConnectionFactory xacf ->
+                    new LazyXAConnectionFactory(this.beanFactory, xacf);
+            case final TopicConnectionFactory tcf ->
+                    new LazyTopicConnectionFactory(this.beanFactory, tcf);
+            case final ConnectionFactory cf -> new LazyConnectionFactory(this.beanFactory, cf);
+            default -> bean;
+        };
+    }
 
 }
 

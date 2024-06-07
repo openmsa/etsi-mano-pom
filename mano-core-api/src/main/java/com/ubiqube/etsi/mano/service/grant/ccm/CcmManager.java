@@ -91,9 +91,7 @@ public class CcmManager {
 	public void getTerminateCluster(final String vnfInstanceId) {
 		ccmServerService.terminateCluster(vnfInstanceId);
 		final Optional<K8sServers> k8s = k8sServerInfoJpa.findByVnfInstanceId(getSafeUUID(vnfInstanceId));
-		if (k8s.isPresent()) {
-			k8sServerInfoJpa.delete(k8s.get());
-		}
+        k8s.ifPresent(k8sServerInfoJpa::delete);
 	}
 
 }

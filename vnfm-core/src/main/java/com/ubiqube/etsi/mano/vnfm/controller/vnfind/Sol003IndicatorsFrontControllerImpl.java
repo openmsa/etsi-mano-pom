@@ -61,7 +61,7 @@ public class Sol003IndicatorsFrontControllerImpl implements IndicatorsFrontContr
 	@Override
 	public <U> ResponseEntity<U> findByVnfInstanceIdAndIndicatorId(final String vnfInstanceId, final String indicatorId, final Function<VnfIndicator, U> mapper, final Consumer<U> makeLink) {
 		final List<VnfIndicator> res = monitoringManager.search(vnfInstanceId, indicatorId);
-		final U ret = mapper.apply(res.get(0));
+		final U ret = mapper.apply(res.getFirst());
 		return ResponseEntity.ok(ret);
 	}
 

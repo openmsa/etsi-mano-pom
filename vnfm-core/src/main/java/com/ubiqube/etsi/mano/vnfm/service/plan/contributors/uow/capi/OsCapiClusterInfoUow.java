@@ -82,9 +82,7 @@ public class OsCapiClusterInfoUow extends AbstractVnfmUow<K8sInformationsTask> {
 	@Override
 	public String rollback(final Context3d context) {
 		final Optional<K8sServers> obj = serverInfoJpa.findByVimResourceId(task.getVimResourceId());
-		if (obj.isPresent()) {
-			serverInfoJpa.deleteById(obj.get().getId());
-		}
+        obj.ifPresent(k8sServers -> serverInfoJpa.deleteById(k8sServers.getId()));
 		return null;
 	}
 

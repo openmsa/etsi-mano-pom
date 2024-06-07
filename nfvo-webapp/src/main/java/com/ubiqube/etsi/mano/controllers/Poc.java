@@ -205,10 +205,11 @@ public class Poc {
 		final JGraphXAdapter<V, E> graphAdapter = new JGraphXAdapter<>(graph);
 		final mxIGraphLayout layout = new mxHierarchicalLayout(graphAdapter);
 		layout.execute(graphAdapter.getDefaultParent());
-		graphAdapter.getVertexToCellMap().entrySet().forEach(x -> {
-			final Object[] lcell = Arrays.asList(x.getValue()).toArray();
-			mxStyleUtils.setCellStyles(graphAdapter.getModel(), lcell, mxConstants.STYLE_ROUNDED, "true");
-		});
+		graphAdapter.getVertexToCellMap().forEach((key, value) -> {
+            final Object[] lcell = Arrays.asList(value).toArray();
+            mxStyleUtils.setCellStyles(graphAdapter.getModel(), lcell, mxConstants.STYLE_ROUNDED,
+                    "true");
+        });
 		return mxCellRenderer.createBufferedImage(graphAdapter, null, 1, new Color(255, 255, 255, 255), true, null);
 	}
 

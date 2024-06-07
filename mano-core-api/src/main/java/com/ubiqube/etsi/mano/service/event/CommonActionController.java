@@ -159,7 +159,7 @@ public class CommonActionController {
 			final ApiVersionInformation res = rest.get(uri.toUri(), ApiVersionInformation.class, null);
 			return apiVersionMapping.map(res);
 		} catch (final RuntimeException e) {
-			LOG.info("Error fetching " + fragment, e);
+			LOG.info("Error fetching {}", fragment, e);
 		}
 		return null;
 	}

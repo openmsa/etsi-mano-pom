@@ -99,15 +99,15 @@ public class JujuCloudService {
 				jujuCloudJpa.save(jCloud);
 				throw new VnfmException("Error Create Controller");
 			}
-			if (jCloud.getMetadata().getModels().get(0).getName() == null) {
+			if (jCloud.getMetadata().getModels().getFirst().getName() == null) {
 				throw new VnfmException("Error Create Model");
 			}
-			remoteService.addModel(jCloud.getMetadata().getModels().get(0).getName());
-			if ((jCloud.getMetadata().getModels().get(0).getCharmName() == null) || (jCloud.getMetadata().getModels().get(0).getAppName() == null)) {
+			remoteService.addModel(jCloud.getMetadata().getModels().getFirst().getName());
+			if ((jCloud.getMetadata().getModels().getFirst().getCharmName() == null) || (jCloud.getMetadata().getModels().getFirst().getAppName() == null)) {
 				throw new VnfmException("Error Deploying Charm");
 			}
-			remoteService.deployApp(jCloud.getMetadata().getModels().get(0).getCharmName(),
-					jCloud.getMetadata().getModels().get(0).getAppName());
+			remoteService.deployApp(jCloud.getMetadata().getModels().getFirst().getCharmName(),
+					jCloud.getMetadata().getModels().getFirst().getAppName());
 		} catch (final VnfmException e) {
 			jCloud.setStatus("FAIL");
 			jujuCloudJpa.save(jCloud);

@@ -52,7 +52,7 @@ public class PortTupleUow extends AbstractUnitOfWork<PortTupleTask> {
 		final ContrailApi api = new ContrailApi();
 		final List<String> serviceInstanceId = context.getParent(ServiceInstanceNode.class, task.getServiceInstanceName());
 		final String name = UowNameHelper.buildName(task.getToscaName(), task.getInstanceId());
-		return api.createPortTuple(vimConnectionInformation, name, serviceInstanceId.get(0));
+		return api.createPortTuple(vimConnectionInformation, name, serviceInstanceId.getFirst());
 	}
 
 	@Override

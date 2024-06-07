@@ -57,13 +57,17 @@ public final class Constants {
 
 	public static final String VNF_SEARCH_DEFAULT_EXCLUDE_FIELDS = "softwareImages,additionalArtifacts,userDefinedData,checksum";
 
-	public static final Set<String> VNF_SEARCH_MANDATORY_FIELDS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("id", "onboardingState", "operationalState", "usageState", "_links.self.href", "_links.vnfd.href", "_links.packageContent.href")));
+	public static final Set<String> VNF_SEARCH_MANDATORY_FIELDS =
+            Set.of("id", "onboardingState", "operationalState", "usageState", "_links.self.href",
+                    "_links.vnfd.href", "_links.packageContent.href");
 
 	public static final String VNFPMJOB_SEARCH_DEFAULT_EXCLUDE_FIELDS = "reports";
 	@Nonnull
-	public static final Set<String> VNFPMJOB_SEARCH_MANDATORY_FIELDS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("id", "criteria.collectionPeriod", "criteria.reportingPeriod", "objectInstanceIds")));
+	public static final Set<String> VNFPMJOB_SEARCH_MANDATORY_FIELDS =
+            Set.of("id", "criteria.collectionPeriod", "criteria.reportingPeriod",
+                    "objectInstanceIds");
 	@Nonnull
-	public static final Set<String> VNFTHR_SEARCH_MANDATORY_FIELDS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("id")));
+	public static final Set<String> VNFTHR_SEARCH_MANDATORY_FIELDS = Set.of("id");
 
 	// XXX:
 	public static final String VNFTHR_SEARCH_DEFAULT_EXCLUDE_FIELDS = "";
@@ -71,17 +75,22 @@ public final class Constants {
 	// XXX:
 	public static final String ALARM_SEARCH_DEFAULT_EXCLUDE_FIELDS = "";
 	@Nonnull
-	public static final Set<String> ALARM_SEARCH_MANDATORY_FIELDS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("id", "managedObjectId", "rootCauseFaultyResource", "alarmRaisedTime", "ackState",
-			"perceivedSeverity", "eventTime", "eventType", "probableCause", "isRootCause", "_links.self.href")));
+	public static final Set<String> ALARM_SEARCH_MANDATORY_FIELDS =
+            Set.of("id", "managedObjectId", "rootCauseFaultyResource", "alarmRaisedTime",
+                    "ackState", "perceivedSeverity", "eventTime", "eventType", "probableCause",
+                    "isRootCause", "_links.self.href");
 	@Nonnull
-	public static final Set<String> VNFLCMOPOCC_SEARCH_MANDATORY_FIELDS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("id", "operationState", "stateEnteredTime",
-			"isAutomaticInvocation", "operationParams", "isCancelPending", "startTime", "vnfInstanceId", "operation")));
+	public static final Set<String> VNFLCMOPOCC_SEARCH_MANDATORY_FIELDS =
+            Set.of("id", "operationState", "stateEnteredTime", "isAutomaticInvocation",
+                    "operationParams", "isCancelPending", "startTime", "vnfInstanceId",
+                    "operation");
 	@Nonnull
 	public static final String VNFLCMOPOCC_SEARCH_DEFAULT_EXCLUDE_FIELDS = "error,resourceChanges,changedInfo,changedExtConnectivity";
 
 	@Nonnull
-	public static final Set<String> VNFLCM_SEARCH_MANDATORY_FIELDS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("id", "vnfProvider", "vnfProductName",
-			"vnfSoftwareVersion", "vnfdVersion", "instantiationState", "vnfdId")));
+	public static final Set<String> VNFLCM_SEARCH_MANDATORY_FIELDS =
+            Set.of("id", "vnfProvider", "vnfProductName", "vnfSoftwareVersion", "vnfdVersion",
+                    "instantiationState", "vnfdId");
 
 	public static final String VNFLCM_SEARCH_DEFAULT_EXCLUDE_FIELDS = "error,resourceChanges,changedInfo,changedExtConnectivity";
 
@@ -126,7 +135,7 @@ public final class Constants {
 		if (params.size() > 1) {
 			throw new GenericException("Parameter: " + parameter + " could not have multiple occurences.");
 		}
-		return params.get(0);
+		return params.getFirst();
 	}
 
 	public static void ensureDisabled(final PackageBase vnfPackage) {

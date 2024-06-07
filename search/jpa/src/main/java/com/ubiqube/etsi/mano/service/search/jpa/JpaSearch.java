@@ -69,9 +69,7 @@ public class JpaSearch implements ManoSearch {
 				throw new SearchException("Could not handle class: " + node.getClass());
 			}
 			final Optional<Predicate> res = applyOp(be.getLeft(), be.getOp(), be.getRight(), joins);
-			if (res.isPresent()) {
-				predicates.add(res.get());
-			}
+            res.ifPresent(predicates::add);
 		}
 		if (!predicates.isEmpty()) {
 			return cb.and(predicates.toArray(new Predicate[0]));
@@ -135,7 +133,7 @@ public class JpaSearch implements ManoSearch {
 			final String key = Arrays.asList(ro).stream().collect(Collectors.joining("."));
 			attr.parent = Optional.ofNullable(joins.get(key));
 		}
-		attr.name = arr.get(arr.size() - 1);
+		attr.name = arr.getLast();
 		return attr;
 	}
 

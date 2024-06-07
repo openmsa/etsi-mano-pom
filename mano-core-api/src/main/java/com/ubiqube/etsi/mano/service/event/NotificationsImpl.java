@@ -90,7 +90,7 @@ public class NotificationsImpl implements Notifications {
 
 	private static String getStatucCode(@Nullable final ResponseEntity<Void> status) {
 		return Optional.ofNullable(status)
-				.map(x -> x.getStatusCode())
+				.map(ResponseEntity::getStatusCode)
 				.map(HttpStatusCode::toString)
 				.orElse("[No Code]");
 	}

@@ -59,7 +59,7 @@ public class VnfPerformanceNotificationService {
 			LOG.warn("Unable to find notification event {} in database.", event.getSubscriptionId());
 			throw new NotFoundException("Unable to find notification event " + event.getSubscriptionId());
 		}
-		event.setNfvoId(subscription.get(0).getRemoteServerId());
+		event.setNfvoId(subscription.getFirst().getRemoteServerId());
 		final ThresholdCrossedNotification newEvent = vnfPmJpa.save(event);
 		LOG.info("Event received: {} => Id: {}", newEvent.getNfvoId(), newEvent.getId());
 	}
@@ -70,7 +70,7 @@ public class VnfPerformanceNotificationService {
 			LOG.warn("Unable to find notification event {} in database.", event.getSubscriptionId());
 			throw new NotFoundException("Unable to find notification event " + event.getSubscriptionId());
 		}
-		event.setNfvoId(subscription.get(0).getRemoteServerId());
+		event.setNfvoId(subscription.getFirst().getRemoteServerId());
 		final PerformanceInformationAvailableNotification newEvent = availableJpa.save(event);
 		LOG.info("Event received: {} => Id: {}", newEvent.getNfvoId(), newEvent.getId());
 	}

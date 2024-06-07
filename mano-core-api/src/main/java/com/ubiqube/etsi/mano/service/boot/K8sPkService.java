@@ -152,7 +152,7 @@ public class K8sPkService {
 
 	private static String pemEncode(final Object key) {
 		try (final Writer out = new StringWriter();
-				final PemWriter pw = new PemWriter(out);) {
+				final PemWriter pw = new PemWriter(out)) {
 			pw.writeObject(new JcaMiscPEMGenerator(key));
 			pw.flush();
 			return out.toString();

@@ -62,7 +62,7 @@ public class ContrailContributor extends AbstractNsdContributorV3<Object> {
 				siTask.setToscaName(y.getToscaName());
 				siTask.setServiceTemplateId(st.getToscaName());
 				siTask.setInstanceId(instanceId);
-				final CpPair cp = y.getPairs().get(0);
+				final CpPair cp = y.getPairs().getFirst();
 				siTask.setCpPorts(cp);
 				ret.add(create(ServiceInstanceNode.class, siTask.getClass(), siTask.getToscaName(), 1, siTask, parameters.getInstance(), parameters));
 				y.getPairs().forEach(z -> {

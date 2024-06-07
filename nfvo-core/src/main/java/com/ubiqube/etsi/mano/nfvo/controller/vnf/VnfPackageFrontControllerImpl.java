@@ -78,7 +78,7 @@ public class VnfPackageFrontControllerImpl implements VnfPackageFrontController 
 	public <U> ResponseEntity<U> findById(final UUID vnfPkgId, final Function<VnfPackage, U> mapper, final Consumer<U> makeLinks) {
 		final VnfPackage vnfPackage = vnfManagement.vnfPackagesVnfPkgIdGet(vnfPkgId);
 		final FailureDetails error = vnfPackage.getOnboardingFailureDetails();
-		final Long res = Optional.ofNullable(error).map(x -> x.getStatus()).orElse(0L);
+		final Long res = Optional.ofNullable(error).map(FailureDetails::getStatus).orElse(0L);
 		if (res == 0L) {
 			vnfPackage.setOnboardingFailureDetails(null);
 		}

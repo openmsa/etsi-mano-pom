@@ -67,15 +67,15 @@ public class VnffgVisitor implements NsOnboardingVisitor {
 			return null;
 		}
 		final List<NfpDescriptor> nfpds = vnffg.getNfpd();
-		final List<VnffgInstance> insts = nfpds.get(nfpds.size() - 1).getInstances();
+		final List<VnffgInstance> insts = nfpds.getLast().getInstances();
 		if (insts.isEmpty()) {
 			return null;
 		}
-		final List<CpPair> pairs = insts.get(insts.size() - 1).getPairs();
+		final List<CpPair> pairs = insts.getLast().getPairs();
 		if (pairs.isEmpty()) {
 			return null;
 		}
-		final CpPair p = pairs.get(pairs.size() - 1);
+		final CpPair p = pairs.getLast();
 		if (p.getEgress() != null) {
 			return p.getEgress();
 		}
@@ -86,15 +86,15 @@ public class VnffgVisitor implements NsOnboardingVisitor {
 		if (vnffg.getNfpd().isEmpty()) {
 			return null;
 		}
-		final List<VnffgInstance> insts = vnffg.getNfpd().get(0).getInstances();
+		final List<VnffgInstance> insts = vnffg.getNfpd().getFirst().getInstances();
 		if (insts.isEmpty()) {
 			return null;
 		}
-		final List<CpPair> pairs = insts.get(0).getPairs();
+		final List<CpPair> pairs = insts.getFirst().getPairs();
 		if (pairs.isEmpty()) {
 			return null;
 		}
-		return pairs.get(0).getIngress();
+		return pairs.getFirst().getIngress();
 	}
 
 	private static void rebuildConnectivity(final Set<VnffgDescriptor> vnffg, final NsdPackage nsPackage) {

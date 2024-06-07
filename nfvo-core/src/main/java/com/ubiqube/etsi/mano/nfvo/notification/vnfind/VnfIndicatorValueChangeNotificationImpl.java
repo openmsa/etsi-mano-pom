@@ -166,7 +166,7 @@ public class VnfIndicatorValueChangeNotificationImpl {
 		if (res.size() != 1) {
 			throw new GenericException("Trying to select a single resource with id: " + resourceId + ", but got: " + res.size());
 		}
-		return res.get(0);
+		return res.getFirst();
 	}
 
 	private Set<VnfIndiValueChangeNotification> findAllNotifications() {
@@ -210,7 +210,7 @@ public class VnfIndicatorValueChangeNotificationImpl {
 				evaluateTriggers(nsTriggers, nsInstanceId, null, null, notifications);
 			}
 		} else {
-			final String vnfdId = notifications.get(0).getVnfdId();
+			final String vnfdId = notifications.getFirst().getVnfdId();
 			final VnfPackage vnfPackage = vnfPackageServiceImpl.findByVnfdId(vnfdId);
 			final Set<VnfIndicator> vnfIndicators = vnfPackage.getVnfIndicator();
 			for (final VnfIndicator vnfIndicator : vnfIndicators) {
@@ -238,9 +238,9 @@ public class VnfIndicatorValueChangeNotificationImpl {
 			conditionService.evaluate(root, context);
 			conditions: for (final JsonNode jsonNode : actualObj) {
 				final Map<String, Object> condition = mapper.convertValue(jsonNode,
-						new TypeReference<Map<String, Object>>() {
-							//
-						});
+                        new TypeReference<>() {
+                            //
+                        });
 				final Map.Entry<String, Object> c = condition.entrySet().iterator().next();
 				final String indicatorName = c.getKey();
 				LOG.info("trigger indicator name {}", indicatorName);
@@ -333,9 +333,9 @@ public class VnfIndicatorValueChangeNotificationImpl {
 		Map<String, Object> action = new HashMap<>();
 		for (final JsonNode jsonNode : actualObj) {
 			action = mapper.convertValue(jsonNode,
-					new TypeReference<Map<String, Object>>() {
-						//
-					});
+                    new TypeReference<>() {
+                        //
+                    });
 		}
 		if (action.isEmpty()) {
 			return;
@@ -345,15 +345,12 @@ public class VnfIndicatorValueChangeNotificationImpl {
 		final Map<String, Object> b = (Map<String, Object>) a.getValue();
 		final String operationName = (String) b.get("operation");
 		final Map<String, Object> inputs = (Map<String, Object>) b.get("inputs");
-		if ("Vnflcm.scale".equals(operationName)) {
-			vnfLcmInterface.vnfLcmScaleAction(instanceId, server, inputs);
-		} else if ("Vnflcm.heal".equals(operationName)) {
-			vnfLcmInterface.vnfLcmHealAction(instanceId, server, inputs);
-		} else if ("Nslcm.scale".equals(operationName)) {
-			nsLcmInterface.nsLcmScaleAction(instanceId, inputs);
-		} else {
-			LOG.error("operation name not valid");
-		}
+        switch (operationName) {
+            case "Vnflcm.scale" -> vnfLcmInterface.vnfLcmScaleAction(instanceId, server, inputs);
+            case "Vnflcm.heal" -> vnfLcmInterface.vnfLcmHealAction(instanceId, server, inputs);
+            case "Nslcm.scale" -> nsLcmInterface.nsLcmScaleAction(instanceId, inputs);
+            case null, default -> LOG.error("operation name not valid");
+        }
 	}
 
 	private Servers selectServer(final VnfPackage vnfPackage) {

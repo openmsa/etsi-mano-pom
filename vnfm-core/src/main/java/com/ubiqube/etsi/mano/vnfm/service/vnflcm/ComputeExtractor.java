@@ -167,7 +167,7 @@ public class ComputeExtractor implements VnfLcmExtractor {
 
 	private IpOverEthernetAddressDataAddressRangeEntity poolToRange(final List<IpPool> pools) {
 		final IpOverEthernetAddressDataAddressRangeEntity range = new IpOverEthernetAddressDataAddressRangeEntity();
-		final IpPool p = pools.get(0);
+		final IpPool p = pools.getFirst();
 		range.setMinAddress(p.getStartIpAddress());
 		range.setMaxAddress(p.getEndIpAddress());
 		return range;

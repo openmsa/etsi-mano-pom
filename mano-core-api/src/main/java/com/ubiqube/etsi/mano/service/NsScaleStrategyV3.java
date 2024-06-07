@@ -137,7 +137,7 @@ public class NsScaleStrategyV3 {
 		if (inPkg.isEmpty()) {
 			throw new GenericException("");
 		}
-		return inPkg.get(0).getNumberOfInstance();
+		return inPkg.getFirst().getNumberOfInstance();
 	}
 
 	private static int byInstantiationLevel(final String nsInstantiationLevel, final Levelable<? extends NsScleStepMapping, ? extends NsScaleLevel> vnfPackage) {
@@ -145,7 +145,7 @@ public class NsScaleStrategyV3 {
 		if (l.isEmpty()) {
 			throw new GenericException("Unable to find level " + nsInstantiationLevel);
 		}
-		return l.get(0).getNumberOfInstance();
+		return l.getFirst().getNumberOfInstance();
 	}
 
 	private static boolean containsScaleInfo(final String aspectId, final Set<NsScaleInfo> nsScaleInfo) {
@@ -171,11 +171,10 @@ public class NsScaleStrategyV3 {
 				LOG.warn("Could not find step mapping for aspectId: {}", currentAspect);
 				return 1;
 			}
-			if (instanceLevel.isEmpty()) {
-				return getStep(instStep.get().getLevels(), 0);
-			}
-			return getStep(instStep.get().getLevels(), instanceLevel.get().getScaleLevel());
-		}
+            return instanceLevel.map(
+                            scaleInfo -> getStep(instStep.get().getLevels(), scaleInfo.getScaleLevel()))
+                    .orElseGet(() -> getStep(instStep.get().getLevels(), 0));
+        }
 		final int newLevel = computeLevel(scaleNsByStepsData, baseStep);
 		return getStep(stepMapping.get().getLevels(), newLevel);
 	}

@@ -24,6 +24,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import com.ubiqube.etsi.mano.dao.rfc7807.FailureDetails;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -67,7 +68,8 @@ public class LcmGrantsFrontControllerImpl implements LcmGrantsFrontController {
 		final U jsonGrant = func.apply(grants);
 		// Only self link, other links came from request (mapping).
 		makeLink.accept(jsonGrant);
-		final Optional<Long> optError = Optional.ofNullable(grants.getError()).map(x -> x.getStatus());
+		final Optional<Long> optError = Optional.ofNullable(grants.getError()).map(
+                FailureDetails::getStatus);
 		if (optError.isEmpty()) {
 			return ResponseEntity.ok(jsonGrant);
 		}

@@ -100,7 +100,7 @@ public class Node<U> {
 		if (value.isEmpty()) {
 			return null;
 		}
-		return value.get(0);
+		return value.getFirst();
 	}
 
 	public List<U> getValues() {

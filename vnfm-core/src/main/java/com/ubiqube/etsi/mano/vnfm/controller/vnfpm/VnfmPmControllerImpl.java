@@ -129,7 +129,7 @@ public class VnfmPmControllerImpl implements VnfmPmController {
 		if (vims.size() != 1) {
 			throw new GenericException("Bad number of Vim: " + vims.size());
 		}
-		res.setVimConnectionInformation(vims.get(0));
+		res.setVimConnectionInformation(vims.getFirst());
 	}
 
 	/**
@@ -242,7 +242,7 @@ public class VnfmPmControllerImpl implements VnfmPmController {
 		if (ret.isEmpty()) {
 			throw new GenericException("Could not find metric: " + str);
 		}
-		return ret.get(0);
+		return ret.getFirst();
 	}
 
 	@Override

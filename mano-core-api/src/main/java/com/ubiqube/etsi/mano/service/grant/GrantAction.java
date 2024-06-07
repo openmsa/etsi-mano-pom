@@ -338,7 +338,7 @@ public class GrantAction {
 	private String chooseZone(final VimConnectionInformation vimInfo) {
 		final Vim vim = vimManager.getVimById(vimInfo.getId());
 		final List<String> list = vim.getZoneAvailableList(vimInfo);
-		return list.get(0);
+		return list.getFirst();
 	}
 
 	private List<VimComputeResourceFlavourEntity> getFlavors(final VimConnectionInformation vimConnectionInformation, final UUID id) {

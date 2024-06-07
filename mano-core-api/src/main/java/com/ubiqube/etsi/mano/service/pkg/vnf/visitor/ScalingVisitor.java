@@ -68,20 +68,20 @@ public class ScalingVisitor implements OnboardVisitor {
 		instantiationLevels.stream()
 				.forEach(x -> {
 					vnfPackage.setDefaultInstantiationLevel(x.getDefaultLevel());
-					x.getLevels().entrySet().forEach(y -> {
-						final String levelId = y.getKey();
-						y.getValue().getScaleInfo().entrySet().forEach(z -> {
-							final String aspectId = z.getKey();
-							final VnfInstantiationLevels il = new VnfInstantiationLevels(levelId, aspectId, z.getValue().getScaleLevel());
-							vnfPackage.addInstantiationLevel(il);
-						});
-					});
+					x.getLevels()
+                            .forEach((levelId, value1) -> value1.getScaleInfo()
+                                    .forEach((aspectId, value) -> {
+                                        final VnfInstantiationLevels il =
+                                                new VnfInstantiationLevels(levelId, aspectId,
+                                                        value.getScaleLevel());
+                                        vnfPackage.addInstantiationLevel(il);
+                                    }));
 				});
 		vduInstantiationLevels.forEach(x -> {
 			final Set<VduInstantiationLevel> ils = x.getLevels().entrySet().stream().map(y -> {
 				final VduInstantiationLevel vduInstantiationLevel = new VduInstantiationLevel();
 				vduInstantiationLevel.setLevelName(y.getKey());
-				vduInstantiationLevel.setNumberOfInstances(y.getValue().getNumberOfInstances().intValue());
+				vduInstantiationLevel.setNumberOfInstances(y.getValue().getNumberOfInstances());
 				return vduInstantiationLevel;
 			}).collect(Collectors.toSet());
 

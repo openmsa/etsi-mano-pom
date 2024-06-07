@@ -130,7 +130,7 @@ public class VnfmActions extends AbstractGenericActionV3 {
 				.flatMap(x -> x.getExtCps().stream())
 				.flatMap(y -> vnfLiveInstanceJpa.findByTaskVnfInstanceAndToscaName(vnfInstance, y.getCpdId()).stream())
 				.toList();
-		LOG.debug("{}", vli.get(0).getTask());
+		LOG.debug("{}", vli.getFirst().getTask());
 	}
 
 	@Override

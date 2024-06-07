@@ -101,9 +101,9 @@ public class FlavorManager {
 				LOG.info("Flavor created with specs: {}", flv);
 				return flv;
 			}
-			return flv2.get(0).getId();
+			return flv2.getFirst().getId();
 		}
-		return basicFlavor.get(0).getId();
+		return basicFlavor.getFirst().getId();
 	}
 
 	private static Optional<Entry<String, VnfCompute>> getFlavorFromCache(final Map<String, VnfCompute> cache, final VirtualCpu vCpu, final VirtualMemory vMem, final long disk) {

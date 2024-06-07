@@ -90,6 +90,6 @@ public class VnfNotificationService {
 			LOG.warn("Unable to find change event {} in database.", id);
 			throw new NotFoundException("Unable to find notification event " + id);
 		}
-		return subscription.get(0);
+		return subscription.getFirst();
 	}
 }

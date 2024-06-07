@@ -24,5 +24,5 @@ package com.ubiqube.etsi.mano.registration;
 public enum Command {
 	CLUSTER_JOIN,
 	DISCOVERY,
-	TYPE_ANNOUNCE;
+	TYPE_ANNOUNCE
 }

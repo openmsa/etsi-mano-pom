@@ -141,20 +141,14 @@ public class EvalService {
 	}
 
 	private static Node convert(final Object obj) {
-		if (obj instanceof final Enum<?> e) {
-			return new TestValueExpr(e.toString());
-		}
-		if (obj instanceof final String s) {
-			return new TestValueExpr(s);
-		}
-		if (obj instanceof final Double d) {
-			return new NumberValueExpr(d);
-		}
-		if (obj instanceof final Boolean b) {
-			return new BooleanValueExpr(b);
-		}
-		throw new IllegalArgumentException("Could not convert: " + obj.getClass());
-	}
+        return switch (obj) {
+            case final Enum<?> e -> new TestValueExpr(e.toString());
+            case final String s -> new TestValueExpr(s);
+            case final Double d -> new NumberValueExpr(d);
+            case final Boolean b -> new BooleanValueExpr(b);
+            default -> throw new IllegalArgumentException("Could not convert: " + obj.getClass());
+        };
+    }
 
 	public boolean evaluate(final Node nodes, final UUID objectId, final SubscriptionType subscriptionType, final String eventName) {
 		final EvaluatorVisitor eval = new EvaluatorVisitor();

@@ -54,6 +54,6 @@ public class ManoServerDeployement {
 	public enum DeployementFlavor {
 		NFVO,
 		VNFM,
-		NFVO_VNFM;
-	}
+		NFVO_VNFM
+    }
 }

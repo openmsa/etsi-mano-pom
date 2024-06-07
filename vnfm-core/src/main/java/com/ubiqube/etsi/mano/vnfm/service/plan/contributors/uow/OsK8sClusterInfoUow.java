@@ -26,7 +26,6 @@ import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.K8sInformationsTask;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.vim.k8s.K8sServers;
 import com.ubiqube.etsi.mano.dao.mano.vim.k8s.StatusType;
-import com.ubiqube.etsi.mano.dao.mano.vim.vnfi.CnfInformations;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerDeployableNode;
@@ -88,9 +87,7 @@ public class OsK8sClusterInfoUow extends AbstractVnfmUow<K8sInformationsTask> {
 	@Override
 	public @Nullable String rollback(final Context3d context) {
 		final Optional<K8sServers> obj = serverInfoJpa.findByVimResourceId(task.getVimResourceId());
-		if (obj.isPresent()) {
-			serverInfoJpa.deleteById(obj.get().getId());
-		}
+        obj.ifPresent(k8sServers -> serverInfoJpa.deleteById(k8sServers.getId()));
 		return null;
 	}
 

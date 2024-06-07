@@ -78,7 +78,7 @@ public class EndpointService {
 				}
 			}
 		});
-		res.entrySet().forEach(x -> dedupe.add(x.getValue().part, x.getValue()));
+		res.forEach((key, value) -> dedupe.add(value.part, value));
 	}
 
 	private List<HttpMethod> extractMethod(final Class<? extends Object> clazz) {

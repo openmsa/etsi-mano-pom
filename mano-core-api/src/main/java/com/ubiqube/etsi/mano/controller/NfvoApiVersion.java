@@ -92,7 +92,7 @@ public class NfvoApiVersion {
 				}
 			}
 		});
-		res.entrySet().forEach(x -> dedupe.add(x.getValue().part, x.getValue().version));
+		res.forEach((key, value) -> dedupe.add(value.part, value.version));
 	}
 
 	private static boolean haveUsableRequest(final @Nullable RequestMapping req) {

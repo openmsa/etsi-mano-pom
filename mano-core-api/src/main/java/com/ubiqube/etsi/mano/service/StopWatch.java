@@ -67,9 +67,7 @@ public class StopWatch {
 
 	private static String ident(final int indent) {
 		final StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < indent; i++) {
-			sb.append("    ");
-		}
+        sb.append("    ".repeat(Math.max(0, indent)));
 		return sb.toString();
 	}
 

@@ -51,9 +51,7 @@ public class JpaQueryer {
 		final List<Predicate> predicates = new ArrayList<>();
 		for (final Node<U> node : nodes) {
 			final Optional<Predicate> res = applyOp(node.getName(), node.getOp(), node.getValue(), joins);
-			if (res.isPresent()) {
-				predicates.add(res.get());
-			}
+            res.ifPresent(predicates::add);
 		}
 		if (!predicates.isEmpty()) {
 			return cb.and(predicates.toArray(new Predicate[0]));

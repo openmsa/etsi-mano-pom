@@ -46,7 +46,6 @@ import de.codecentric.boot.admin.server.config.EnableAdminServer;
 @EnableEurekaServer
 @EnableAdminServer
 @SpringBootApplication
-@EnableAutoConfiguration
 @EnableDiscoveryClient
 public class EurekaApplication {
 	public static void main(final String[] args) {

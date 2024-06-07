@@ -101,7 +101,7 @@ public class ManoGrant {
 		if (!loc.isPresent()) {
 			throw new GenericException("Grant post received a ACCEPTED response with no Location header");
 		}
-		final Matcher m = UUID_REGEXP.matcher(loc.get().get(0));
+		final Matcher m = UUID_REGEXP.matcher(loc.get().getFirst());
 		m.find();
 		final String uuid = m.group("uuid");
 		final GrantResponse grants = new GrantResponse();

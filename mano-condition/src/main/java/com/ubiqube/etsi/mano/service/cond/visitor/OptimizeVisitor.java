@@ -36,7 +36,7 @@ public class OptimizeVisitor extends SimpleNodeReturn<Void> {
 	public Node visit(final BooleanListExpr booleanListExpr, final Void arg) {
 		final List<BooleanExpression> l = booleanListExpr.getCondition();
 		if (l.size() == 1) {
-			final Node expr = booleanListExpr.getCondition().get(0).accept(this, null);
+			final Node expr = booleanListExpr.getCondition().getFirst().accept(this, null);
 			if ((booleanListExpr.getOp() == BooleanOperatorEnum.NOT) && expr instanceof final GenericCondition gc) {
 				gc.setOp(AstUtils.invert(gc.getOp()));
 				return gc;

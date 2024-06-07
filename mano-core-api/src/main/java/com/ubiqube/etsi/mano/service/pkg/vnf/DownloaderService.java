@@ -18,8 +18,6 @@ package com.ubiqube.etsi.mano.service.pkg.vnf;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -132,7 +130,7 @@ public class DownloaderService {
 		final FluxRest cli = getWebClient(si, vnfPackage);
 		final Consumer<InputStream> func = is -> {
 			try (BoundedInputStream count = new BoundedInputStream.Builder().setInputStream(is).get();
-					MultiHashInputStream mhis = new MultiHashInputStream(count);) {
+					MultiHashInputStream mhis = new MultiHashInputStream(count)) {
 				packageRepository.storeBinary(vnfPkgId, path, mhis);
 				setChecksum(si, mhis);
 				setSize(si, count);

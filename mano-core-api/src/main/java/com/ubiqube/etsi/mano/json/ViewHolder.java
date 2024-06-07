@@ -41,8 +41,8 @@ public class ViewHolder implements Serializable {
 		if (propertyParts.isEmpty()) {
 			return false;
 		}
-		if (element.equals(propertyParts.get(0))) {
-			propertyParts.remove(0);
+		if (element.equals(propertyParts.getFirst())) {
+			propertyParts.removeFirst();
 			return propertyParts.isEmpty();
 		}
 		return false;
@@ -53,7 +53,7 @@ public class ViewHolder implements Serializable {
 		if (propertyParts.isEmpty()) {
 			return null;
 		}
-		return propertyParts.get(0);
+		return propertyParts.getFirst();
 	}
 
 	@Nullable
@@ -61,8 +61,8 @@ public class ViewHolder implements Serializable {
 		if (propertyParts.isEmpty()) {
 			return null;
 		}
-		final String value = propertyParts.get(0);
-		propertyParts.remove(0);
+		final String value = propertyParts.getFirst();
+		propertyParts.removeFirst();
 		return value;
 	}
 }

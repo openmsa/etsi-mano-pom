@@ -170,9 +170,7 @@ public class PrintVisitor implements Visitor<String, Integer> {
 			return "";
 		}
 		final StringBuilder sb = new StringBuilder();
-		for (int x = 0; x < (i - 1); x++) {
-			sb.append("|   ");
-		}
+        sb.append("|   ".repeat(Math.max(0, (i - 1))));
 		sb.append("+---");
 		return sb.toString();
 	}

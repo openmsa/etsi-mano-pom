@@ -76,6 +76,6 @@ public class VnfLcmNotificationService {
 			LOG.warn(UNABLE_TO_FIND_NOTIFICATION_EVENT_IN_DATABASE, event.getSubscriptionId());
 			throw new NotFoundException(UNABLE_TO_FIND_NOTIFICATION_EVENT + event.getSubscriptionId());
 		}
-		return subscription.get(0);
+		return subscription.getFirst();
 	}
 }

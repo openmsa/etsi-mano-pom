@@ -52,7 +52,7 @@ public class VnffmNotificationService {
 			LOG.warn("Unable to find notification event {} in database.", event.getSubscriptionId());
 			throw new NotFoundException("Unable to find notification event " + event.getSubscriptionId());
 		}
-		event.setNfvoId(subscription.get(0).getRemoteServerId());
+		event.setNfvoId(subscription.getFirst().getRemoteServerId());
 		final AlarmNotification newEvent = vnfFmJpa.save(event);
 		LOG.info("Event received: {} => Id: {}", newEvent.getNfvoId(), newEvent.getId());
 	}
