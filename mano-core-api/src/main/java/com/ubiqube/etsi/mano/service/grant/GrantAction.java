@@ -191,9 +191,9 @@ public class GrantAction {
 	}
 
 	private VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> storeIfNeeded(final VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> vimc) {
-		final VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> res = vimManager.findVimByVimId(vimc.getVimId());
-		if (res != null) {
-			return res;
+		final Optional<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> res = vimManager.findOptionalVimByVimId(vimc.getVimId());
+		if (res.isPresent()) {
+			return res.get();
 		}
 		return vimManager.save(vimc);
 	}
