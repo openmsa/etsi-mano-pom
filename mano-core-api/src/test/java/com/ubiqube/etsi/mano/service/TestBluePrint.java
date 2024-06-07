@@ -132,4 +132,15 @@ public class TestBluePrint extends AbstractBlueprint<TestTask, TestInstance> {
 		this.task = tasks;
 	}
 
+	@Override
+	public void setCismConnections(final Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vimConnections) {
+		//
+	}
+
+	@Override
+	public Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> getCismConnections() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
