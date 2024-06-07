@@ -64,6 +64,9 @@ public class VimTypeConverter {
 
 	@SuppressWarnings("static-method")
 	public boolean isVim(final VimConnectionInformation vci) {
+		if ("OPENSTACK_V3".equals(vci.getVimType())) {
+			return true;
+		}
 		final VimType vimType = VimType.of(vci.getVimType());
 		return REAL_VIMS.contains(vimType.getVimName());
 	}

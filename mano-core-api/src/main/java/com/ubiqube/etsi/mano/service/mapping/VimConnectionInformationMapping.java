@@ -32,6 +32,7 @@ import com.ubiqube.etsi.mano.dao.mano.ai.KeystoneAuthV3;
 import com.ubiqube.etsi.mano.dao.mano.ai.KubernetesV1Auth;
 import com.ubiqube.etsi.mano.dao.mano.dto.VimConnectionInfoDto;
 import com.ubiqube.etsi.mano.dao.mano.ii.K8sInterfaceInfo;
+import com.ubiqube.etsi.mano.dao.mano.ii.OpenstackV3InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.vim.k8s.K8sServers;
 
@@ -52,14 +53,27 @@ public interface VimConnectionInformationMapping {
 		ret.setVimCapabilities(o.getVimCapabilities());
 		ret.setVimId(o.getVimId());
 		ret.setVimType(o.getVimType());
+		//
 		final AccessInfo ai = switch (ret.getVimType()) {
 		case "OPENSTACK_V3", "ETSINFV.OPENSTACK_KEYSTONE.V_3" -> mapToKeystoneAuthV3(o.getAccessInfo(), new KeystoneAuthV3());
 		case "" -> mapToKubernetesV1Auth(o.getAccessInfo(), new KubernetesV1Auth());
 		default -> throw new IllegalArgumentException("Unexpected value: " + ret.getVimType());
 		};
 		ret.setAccessInfo(ai);
+		//
+		final InterfaceInfo ii = switch (ret.getVimType()) {
+		case "OPENSTACK_V3", "ETSINFV.OPENSTACK_KEYSTONE.V_3" -> mapToOpenstackV3InterfaceInfo(o.getInterfaceInfo(), new OpenstackV3InterfaceInfo());
+		case "" -> mapToK8sInterfaceInfo(o.getInterfaceInfo(), new K8sInterfaceInfo());
+		default -> throw new IllegalArgumentException("Unexpected value: " + ret.getVimType());
+		};
+		ret.setInterfaceInfo(ii);
 		return ret;
 	}
+
+	K8sInterfaceInfo mapToK8sInterfaceInfo(Map<String, String> interfaceInfo, @MappingTarget K8sInterfaceInfo k8sInterfaceInfo);
+
+	@Mapping(target = "trustedCertificates", ignore = true)
+	OpenstackV3InterfaceInfo mapToOpenstackV3InterfaceInfo(Map<String, String> interfaceInfo, @MappingTarget OpenstackV3InterfaceInfo keystoneAuthV3);
 
 	KubernetesV1Auth mapToKubernetesV1Auth(Map<String, String> accessInfo, @MappingTarget KubernetesV1Auth kubernetesV1Auth);
 
