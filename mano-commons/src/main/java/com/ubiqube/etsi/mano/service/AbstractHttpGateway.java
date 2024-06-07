@@ -16,15 +16,6 @@
  */
 package com.ubiqube.etsi.mano.service;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.BiFunction;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -33,8 +24,17 @@ import com.ubiqube.etsi.mano.controller.Protocols;
 import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.utils.Version;
-
 import jakarta.annotation.Nullable;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.BiFunction;
+
+import static com.ubiqube.etsi.mano.Constants.MANO_VERSIONS;
+import static com.ubiqube.etsi.mano.utils.ResourceUtils.buildResourcePath;
 
 /**
  *
@@ -44,15 +44,15 @@ import jakarta.annotation.Nullable;
 public abstract class AbstractHttpGateway implements HttpGateway {
 	private static final String SOL003 = "sol003";
 	private final ObjectMapper mapper;
-	private List<Protocol> protocols;
+	private final List<Protocol> protocols;
 
 	protected AbstractHttpGateway() {
 		mapper = new ObjectMapper();
 		mapper.registerModule(new JavaTimeModule());
-		final Path path = Paths.get("/", getVersion().toString(), "mano-versions.json");
-		try (final InputStream in = this.getClass().getResourceAsStream(path.toString())) {
+		final String resourcePath = buildResourcePath(getVersion().toString(), MANO_VERSIONS);
+		try (final InputStream in = this.getClass().getResourceAsStream(resourcePath)) {
 			if (null == in) {
-				throw new GenericException("Could not find " + path);
+				throw new GenericException("Could not find resource in classpath=" + resourcePath);
 			}
 			final TypeReference<List<Protocol>> tr = new TypeReference<>() {
 				//
@@ -121,10 +121,7 @@ public abstract class AbstractHttpGateway implements HttpGateway {
 	@Override
 	public boolean isMatching(final ApiVersionType verType, final @Nullable String version) {
 		final Optional<Version> matching = getUrlFor(verType, this::getMatchingProtocols);
-		if (matching.isEmpty()) {
-			return false;
-		}
-		return matching.get().toString().equals(version);
-	}
+        return matching.map(value -> value.toString().equals(version)).orElse(false);
+    }
 
 }

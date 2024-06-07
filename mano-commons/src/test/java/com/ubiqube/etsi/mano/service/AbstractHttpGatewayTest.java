@@ -35,12 +35,12 @@ import com.ubiqube.etsi.mano.exception.GenericException;
 class AbstractHttpGatewayTest {
 
 	@Test
-	void testName() throws Exception {
+	void testName() {
 		Assertions.assertThrows(GenericException.class, HttpGatewayBad::new);
 	}
 
 	@Test
-	void testName002() throws Exception {
+	void testName002() {
 		final HttpGatewayGood res = new HttpGatewayGood();
 		final Object r2 = res.getUrlFor(ApiVersionType.SOL003_GRANT);
 		assertNotNull(r2);

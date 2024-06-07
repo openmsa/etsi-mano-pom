@@ -16,15 +16,16 @@
  */
 package com.ubiqube.etsi.mano.controller;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubiqube.etsi.mano.exception.GenericException;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+
+import static com.ubiqube.etsi.mano.Constants.MANO_VERSIONS;
+import static com.ubiqube.etsi.mano.utils.ResourceUtils.buildResourcePath;
 
 /**
  *
@@ -36,8 +37,8 @@ public abstract class AbstractEtsiImplementation implements EtsiImplementation {
 
 	@Override
 	public List<Protocol> getProtocols() {
-		final Path path = Paths.get("/", getVersion(), "mano-versions.json");
-		try (final InputStream in = this.getClass().getResourceAsStream(path.toString())) {
+		final String resourcePath = buildResourcePath(getVersion(), MANO_VERSIONS);
+		try (final InputStream in = this.getClass().getResourceAsStream(resourcePath)) {
 			final TypeReference<List<Protocol>> tr = new TypeReference<>() {
 				//
 			};

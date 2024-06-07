@@ -24,6 +24,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
+import lombok.experimental.UtilityClass;
 import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.dao.mano.Instance;
@@ -43,6 +44,7 @@ import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 
+@UtilityClass
 public final class Constants {
 
 	private static final String THE_NSD_PACKAGE = "The NSD Package ";
@@ -110,9 +112,7 @@ public final class Constants {
 	 */
 	public static final String CONF_CLUSTER_ID = "clusterId";
 
-	private Constants() {
-		// Nothing.
-	}
+	public static final String MANO_VERSIONS = "mano-versions.json";
 
 	@Nullable
 	public static String getSingleField(@Nullable final MultiValueMap<String, String> bag, final String parameter) {
