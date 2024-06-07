@@ -59,8 +59,7 @@ public class ConditionService {
 			throw new AstException(e);
 		}
 		final List<BooleanExpression> res = JsonToExpression.parseCondition(actualObj);
-		final BooleanListExpr r = new BooleanListExpr(BooleanOperatorEnum.AND, res);
-		Node root = r;
+        Node root = new BooleanListExpr(BooleanOperatorEnum.AND, res);
 		root = applyOptimizer(new ForwardLeftVisitor(), root);
 		root = applyOptimizer(new OptimizeVisitor(), root);
 		root = applyOptimizer(new OptimizeVisitor(), root);

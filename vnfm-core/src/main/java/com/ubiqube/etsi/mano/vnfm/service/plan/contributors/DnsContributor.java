@@ -45,16 +45,15 @@ public class DnsContributor extends AbstractVnfmContributor<Object> {
 
 	@Override
 	public List<SclableResources<Object>> contribute(final VnfPackage bundle, final VnfBlueprint parameters) {
-		final VnfPackage vnfPackage = bundle;
-		final List<SclableResources<Object>> ret = new ArrayList<>();
-		vnfPackage.getVnfVl().forEach(x -> {
+        final List<SclableResources<Object>> ret = new ArrayList<>();
+		bundle.getVnfVl().forEach(x -> {
 			final DnsZoneTask dnsZoneTask = createTask(DnsZoneTask::new);
 			dnsZoneTask.setToscaName(x.getToscaName());
 			dnsZoneTask.setDomainName(x.getToscaName() + ".mano.vm");
 			dnsZoneTask.setType(ResourceTypeEnum.DNSZONE);
 			ret.add(create(DnsZone.class, dnsZoneTask.getClass(), x.getToscaName(), 1, dnsZoneTask, parameters.getInstance(), parameters));
 		});
-		vnfPackage.getVnfCompute().forEach(x -> {
+		bundle.getVnfCompute().forEach(x -> {
 			final DnsHostTask dht = createTask(DnsHostTask::new);
 			dht.setToscaName(x.getToscaName());
 			dht.setHostname(x.getToscaName());

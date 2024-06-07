@@ -43,9 +43,8 @@ public class SecurityContributor extends AbstractVnfmContributor<SecurityGroupTa
 
 	@Override
 	public List<SclableResources<SecurityGroupTask>> contribute(final VnfPackage bundle, final VnfBlueprint parameters) {
-		final VnfPackage vnfPackage = bundle;
-		final List<SclableResources<SecurityGroupTask>> ret = new ArrayList<>();
-		vnfPackage.getSecurityGroups().forEach(x -> {
+        final List<SclableResources<SecurityGroupTask>> ret = new ArrayList<>();
+		bundle.getSecurityGroups().forEach(x -> {
 			final SecurityGroupTask task = createTask(SecurityGroupTask::new);
 			task.setType(ResourceTypeEnum.SECURITY_GROUP);
 			task.setToscaName(x.getToscaName());

@@ -43,8 +43,7 @@ public class VnfLcmNotificationFrontControllerImpl implements VnfLcmNotification
 
 	@Override
 	public ResponseEntity<Void> creationNotification(final VnfLcmNotification body, final String version) {
-		final VnfLcmNotification event = body;
-		notificationService.onCreationNotification(event, version);
+        notificationService.onCreationNotification(body, version);
 		return ResponseEntity.noContent().build();
 	}
 
@@ -55,8 +54,7 @@ public class VnfLcmNotificationFrontControllerImpl implements VnfLcmNotification
 
 	@Override
 	public ResponseEntity<Void> deletionNotification(final VnfLcmNotification body, final String version) {
-		final VnfLcmNotification event = body;
-		notificationService.onDeletionNotification(event, version);
+        notificationService.onDeletionNotification(body, version);
 		return ResponseEntity.noContent().build();
 	}
 
@@ -67,8 +65,7 @@ public class VnfLcmNotificationFrontControllerImpl implements VnfLcmNotification
 
 	@Override
 	public ResponseEntity<Void> vnflcmopoccNotification(final VnfLcmNotification body, final String version) {
-		final VnfLcmNotification event = body;
-		notificationService.onVnfLcmOpOccsNotification(event, version);
+        notificationService.onVnfLcmOpOccsNotification(body, version);
 		return ResponseEntity.noContent().build();
 	}
 

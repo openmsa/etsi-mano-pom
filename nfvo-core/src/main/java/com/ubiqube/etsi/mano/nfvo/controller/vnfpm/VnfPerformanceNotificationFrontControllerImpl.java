@@ -39,8 +39,7 @@ public class VnfPerformanceNotificationFrontControllerImpl implements VnfPerform
 
 	@Override
 	public ResponseEntity<Void> crossedPost(final ThresholdCrossedNotification body, final String version) {
-		final ThresholdCrossedNotification event = body;
-		notificationService.onCrossedNotification(event, version);
+        notificationService.onCrossedNotification(body, version);
 		return ResponseEntity.noContent().build();
 	}
 
@@ -51,8 +50,7 @@ public class VnfPerformanceNotificationFrontControllerImpl implements VnfPerform
 
 	@Override
 	public ResponseEntity<Void> availablePost(final PerformanceInformationAvailableNotification body, final String version) {
-		final PerformanceInformationAvailableNotification event = body;
-		notificationService.onAvailableNotification(event, version);
+        notificationService.onAvailableNotification(body, version);
 		return ResponseEntity.noContent().build();
 	}
 

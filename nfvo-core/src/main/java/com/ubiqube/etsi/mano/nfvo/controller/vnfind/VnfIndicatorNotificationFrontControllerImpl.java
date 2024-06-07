@@ -43,8 +43,7 @@ public class VnfIndicatorNotificationFrontControllerImpl implements VnfIndicator
 
 	@Override
 	public ResponseEntity<Void> valueChangeNotification(final VnfIndiValueChangeNotification body, final String version) {
-		final VnfIndiValueChangeNotification event = body;
-		vnfNotificationService.onNotification(event, version);
+        vnfNotificationService.onNotification(body, version);
 		return ResponseEntity.noContent().build();
 	}
 

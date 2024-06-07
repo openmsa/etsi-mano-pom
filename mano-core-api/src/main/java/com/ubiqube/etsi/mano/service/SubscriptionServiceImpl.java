@@ -106,16 +106,15 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
 	@Override
 	public Subscription save(final Subscription subscriptionRequest, final Class<?> version, final ApiVersionType type) {
-		final Subscription subscription = subscriptionRequest;
-		final ApiAndType nt = ServerService.apiVersionTosubscriptionType(type);
-		subscription.setSubscriptionType(nt.type());
-		subscription.setApi(nt.api());
-		checkAuthData(subscription);
-		ensureUniqueness(subscription);
-		subscription.setNodeFilter(evalService.convertRequestToString(subscriptionRequest));
-		subscription.setVersion(extractVersion(version, nt.type()));
-		checkAvailability(subscription);
-		return subscriptionJpa.save(subscription);
+        final ApiAndType nt = ServerService.apiVersionTosubscriptionType(type);
+		subscriptionRequest.setSubscriptionType(nt.type());
+		subscriptionRequest.setApi(nt.api());
+		checkAuthData(subscriptionRequest);
+		ensureUniqueness(subscriptionRequest);
+		subscriptionRequest.setNodeFilter(evalService.convertRequestToString(subscriptionRequest));
+		subscriptionRequest.setVersion(extractVersion(version, nt.type()));
+		checkAvailability(subscriptionRequest);
+		return subscriptionJpa.save(subscriptionRequest);
 	}
 
 	private static void checkAuthData(final Subscription subscription) {

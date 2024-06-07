@@ -58,12 +58,11 @@ public class OsContainerContributor extends AbstractVnfmContributor<Object> {
 	@Override
 	public List<SclableResources<Object>> contribute(final VnfPackage bundle, final VnfBlueprint parameters) {
 		final List<SclableResources<Object>> ret = new ArrayList<>();
-		final VnfPackage vnfPackage = bundle;
-		vnfPackage.getOsContainerDeployableUnits().forEach(x -> {
+        bundle.getOsContainerDeployableUnits().forEach(x -> {
 			x.getVirtualStorageReq().forEach(y -> {
 				final StorageTask st = createTask(StorageTask::new);
 				st.setType(ResourceTypeEnum.STORAGE);
-				st.setVnfStorage(findStorage(vnfPackage, y));
+				st.setVnfStorage(findStorage(bundle, y));
 				st.setToscaName(y);
 				ret.add(create(Storage.class, st.getClass(), st.getToscaName(), 1, st, parameters.getInstance(), parameters));
 			});
@@ -88,19 +87,19 @@ public class OsContainerContributor extends AbstractVnfmContributor<Object> {
 			ret.add(create(MciopUser.class, mciop.getClass(), mciop.getToscaName(), 1, mciop, parameters.getInstance(), parameters));
 
 		});
-		vnfPackage.getOsContainer().forEach(x -> {
+		bundle.getOsContainer().forEach(x -> {
 			final OsContainerTask t = createTask(OsContainerTask::new);
 			t.setToscaName(x.getName());
 			t.setBlueprint(parameters);
 			t.setType(ResourceTypeEnum.OS_CONTAINER);
 			t.setChangeType(ChangeType.ADDED);
 			t.setOsContainer(x);
-			final String deploy = findDu(vnfPackage.getOsContainerDeployableUnits(), x.getName());
+			final String deploy = findDu(bundle.getOsContainerDeployableUnits(), x.getName());
 			t.setDeployableName(deploy);
 			ret.add(create(OsContainerNode.class, t.getClass(), t.getToscaName(), 1, t, parameters.getInstance(), parameters));
 		});
 
-		vnfPackage.getMciops().forEach(x -> x.getAssociatedVdu().forEach(y -> {
+		bundle.getMciops().forEach(x -> x.getAssociatedVdu().forEach(y -> {
 			final HelmTask t = createTask(HelmTask::new);
 			t.setBlueprint(parameters);
 			t.setMciop(x);
@@ -108,7 +107,7 @@ public class OsContainerContributor extends AbstractVnfmContributor<Object> {
 			t.setToscaName(x.getToscaName());
 			t.setType(ResourceTypeEnum.HELM);
 			t.setParentVdu(y);
-			t.setVnfPackageId(vnfPackage.getId());
+			t.setVnfPackageId(bundle.getId());
 			ret.add(create(HelmNode.class, t.getClass(), t.getToscaName(), 1, t, parameters.getInstance(), parameters));
 		}));
 		return ret;

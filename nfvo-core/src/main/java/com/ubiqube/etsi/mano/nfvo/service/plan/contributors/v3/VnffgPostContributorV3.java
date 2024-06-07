@@ -49,8 +49,7 @@ public class VnffgPostContributorV3 extends AbstractNsdContributorV3<VnffgPostTa
 
 	@Override
 	public List<SclableResources<VnffgPostTask>> contribute(final NsdPackage bundle, final NsBlueprint parameters) {
-		final NsdPackage nsd = bundle;
-		return nsd.getVnffgs().stream()
+        return bundle.getVnffgs().stream()
 				.map(x -> {
 					final VnffgPostTask task = createTask(VnffgPostTask::new);
 					task.setType(ResourceTypeEnum.VNFFG_POST);
@@ -58,8 +57,8 @@ public class VnffgPostContributorV3 extends AbstractNsdContributorV3<VnffgPostTa
 					task.setChain(createChain(x));
 					task.setClassifier(x.getClassifier());
 					task.setVnffg(x);
-					task.setSrcPort(findPort(nsd, task.getClassifier().getLogicalSourcePort()));
-					task.setDstPort(findPort(nsd, task.getClassifier().getLogicalDestinationPort()));
+					task.setSrcPort(findPort(bundle, task.getClassifier().getLogicalSourcePort()));
+					task.setDstPort(findPort(bundle, task.getClassifier().getLogicalDestinationPort()));
 					return create(VnffgPostNode.class, task.getClass(), x.getName(), 1, task, parameters.getInstance(), parameters);
 				})
 				.toList();

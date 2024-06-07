@@ -42,8 +42,7 @@ public class NetworkContributorV3 extends AbstractNsdContributorV3<NsVirtualLink
 
 	@Override
 	public List<SclableResources<NsVirtualLinkTask>> contribute(final NsdPackage bundle, final NsBlueprint parameters) {
-		final NsdPackage nsd = bundle;
-		return nsd.getNsVirtualLinks().stream().map(x -> {
+        return bundle.getNsVirtualLinks().stream().map(x -> {
 			final NsVirtualLinkTask task = createTask(NsVirtualLinkTask::new);
 			task.setType(ResourceTypeEnum.VL);
 			task.setToscaName(x.getToscaName());

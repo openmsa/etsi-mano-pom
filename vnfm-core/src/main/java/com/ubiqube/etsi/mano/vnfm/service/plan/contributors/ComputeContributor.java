@@ -76,22 +76,21 @@ public class ComputeContributor extends AbstractVnfmContributor<Object> {
 
 	@Override
 	public List<SclableResources<Object>> contribute(final VnfPackage bundle, final VnfBlueprint parameters) {
-		final VnfPackage vnfPackage = bundle;
-		final Instance vnfInstance = vnfInstanceServiceVnfm.findById(parameters.getInstance().getId());
+        final Instance vnfInstance = vnfInstanceServiceVnfm.findById(parameters.getInstance().getId());
 		final Set<ScaleInfo> scaling = merge(parameters, vnfInstance);
 		final List<SclableResources<Object>> ret = new ArrayList<>();
-		vnfPackage.getVnfCompute().forEach(x -> {
+		bundle.getVnfCompute().forEach(x -> {
 			final ComputeTask computeTask = createTask(ComputeTask::new);
 			computeTask.setVnfCompute(x);
 			computeTask.setType(ResourceTypeEnum.COMPUTE);
 			computeTask.setToscaName(x.getToscaName());
-			final NumberOfCompute numInst = scalingStrategy.getNumberOfCompute(parameters, vnfPackage, scaling, x, parameters.getVnfInstance());
+			final NumberOfCompute numInst = scalingStrategy.getNumberOfCompute(parameters, bundle, scaling, x, parameters.getVnfInstance());
 			LOG.debug("{} -> {}", x.getToscaName(), numInst);
 			ret.add(create(Compute.class, computeTask.getClass(), x.getToscaName(), numInst.getWanted(), computeTask, parameters.getInstance(), parameters));
 			x.getStorages().forEach(y -> {
 				final StorageTask st = createTask(StorageTask::new);
 				st.setType(ResourceTypeEnum.STORAGE);
-				st.setVnfStorage(findVnfStorage(vnfPackage, y));
+				st.setVnfStorage(findVnfStorage(bundle, y));
 				st.setToscaName(x.getToscaName() + "-" + y);
 				ret.add(create(Storage.class, st.getClass(), st.getToscaName(), 1, st, parameters.getInstance(), parameters));
 			});
@@ -102,7 +101,7 @@ public class ComputeContributor extends AbstractVnfmContributor<Object> {
 				pt.setType(ResourceTypeEnum.LINKPORT);
 				pt.setVnfLinkPort(y);
 				if (pt.getVnfLinkPort().getVirtualLink() == null) {
-					final Optional<String> vlName = findVlName(vnfPackage, y.getToscaName());
+					final Optional<String> vlName = findVlName(bundle, y.getToscaName());
 					if (vlName.isEmpty()) {
 						return;
 					}

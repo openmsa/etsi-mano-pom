@@ -45,9 +45,8 @@ public class NetworkContributor extends AbstractVnfmContributor<Object> {
 
 	@Override
 	public List<SclableResources<Object>> contribute(final VnfPackage bundle, final VnfBlueprint parameters) {
-		final VnfPackage vnfPackage = bundle;
-		final List<SclableResources<Object>> ret = new ArrayList<>();
-		vnfPackage.getVnfVl().stream().forEach(x -> {
+        final List<SclableResources<Object>> ret = new ArrayList<>();
+		bundle.getVnfVl().stream().forEach(x -> {
 			final NetworkTask networkTask = createTask(NetworkTask::new);
 			networkTask.setToscaName(x.getToscaName());
 			networkTask.setType(ResourceTypeEnum.VL);

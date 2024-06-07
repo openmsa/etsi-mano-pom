@@ -84,14 +84,12 @@ public class VnfSubscriptionSol005FrontControllerImpl implements VnfSubscription
 
 	@Override
 	public void vnfPackageChangeNotificationPost(final VnfPackageChangeNotification notificationsMessage) {
-		final VnfPackageChangeNotification msg = notificationsMessage;
-		vnfSubscriptionManagement.vnfPackageChangeNotificationPost(msg);
+        vnfSubscriptionManagement.vnfPackageChangeNotificationPost(notificationsMessage);
 	}
 
 	@Override
 	public void vnfPackageOnboardingNotificationPost(final VnfPackageOnboardingNotification notificationsMessage) {
-		final VnfPackageOnboardingNotification msg = notificationsMessage;
-		vnfSubscriptionManagement.vnfPackageOnboardingNotificationPost(msg);
+        vnfSubscriptionManagement.vnfPackageOnboardingNotificationPost(notificationsMessage);
 	}
 
 }

@@ -42,8 +42,7 @@ public class VnffgLoadbalancerContributorV3 extends AbstractNsdContributorV3<Vnf
 
 	@Override
 	public List<SclableResources<VnffgLoadbalancerTask>> contribute(final NsdPackage bundle, final NsBlueprint parameters) {
-		final NsdPackage nsd = bundle;
-		return nsd.getVnffgs().stream()
+        return bundle.getVnffgs().stream()
 				.flatMap(x -> x.getNfpd().stream())
 				.flatMap(x -> x.getInstances().stream())
 				.map(x -> {

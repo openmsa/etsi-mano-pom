@@ -64,14 +64,13 @@ public class ManoGrantService extends AbstractGrantService {
 				.filter(VnfPortTask.class::isInstance)
 				.map(VnfPortTask.class::cast)
 				.forEach(x -> {
-					final VnfPortTask t = x;
-					final String vl = t.getVnfLinkPort().getVirtualLink();
+                    final String vl = x.getVnfLinkPort().getVirtualLink();
 					final ExtManagedVirtualLinkDataEntity fVl = findVl((VnfBlueprint) plan, vl);
 					if (null == fVl) {
 						return;
 					}
 					LOG.info("Assigning VL {}", fVl.getResourceId());
-					t.setExternal(fVl);
+					x.setExternal(fVl);
 				});
 
 	}

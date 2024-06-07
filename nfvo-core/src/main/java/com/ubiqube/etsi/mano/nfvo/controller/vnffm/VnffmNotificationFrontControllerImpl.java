@@ -43,8 +43,7 @@ public class VnffmNotificationFrontControllerImpl implements VnffmNotificationFr
 
 	@Override
 	public ResponseEntity<Void> alarmNotification(final AlarmNotification body, final String version) {
-		final AlarmNotification event = body;
-		vnffmNotificationService.onNotification(event, version);
+        vnffmNotificationService.onNotification(body, version);
 		return ResponseEntity.noContent().build();
 	}
 
@@ -55,8 +54,7 @@ public class VnffmNotificationFrontControllerImpl implements VnffmNotificationFr
 
 	@Override
 	public ResponseEntity<Void> alarmRebuiltNotification(final AlarmNotification body, final String version) {
-		final AlarmNotification event = body;
-		vnffmNotificationService.onNotification(event, version);
+        vnffmNotificationService.onNotification(body, version);
 		return ResponseEntity.noContent().build();
 	}
 
@@ -67,8 +65,7 @@ public class VnffmNotificationFrontControllerImpl implements VnffmNotificationFr
 
 	@Override
 	public ResponseEntity<Void> alarmClearedNotification(final AlarmNotification body, final String version) {
-		final AlarmNotification event = body;
-		vnffmNotificationService.onNotification(event, version);
+        vnffmNotificationService.onNotification(body, version);
 		return ResponseEntity.noContent().build();
 	}
 

@@ -51,9 +51,8 @@ public class NsdNsdContributorV3 extends AbstractNsdContributorV3<Object> {
 
 	@Override
 	public List<SclableResources<Object>> contribute(final NsdPackage bundle, final NsBlueprint parameters) {
-		final NsdPackage nsd = bundle;
-		final List<SclableResources<Object>> ret = new ArrayList<>();
-		nsd.getNestedNsdInfoIds().forEach(x -> {
+        final List<SclableResources<Object>> ret = new ArrayList<>();
+		bundle.getNestedNsdInfoIds().forEach(x -> {
 			final NsdTask task = createVnfTask(x);
 			final int numInst = nsScaleStrategy.getNumberOfInstances(x, parameters);
 			ret.add(create(VnfCreateNode.class, task.getClass(), x.getToscaName(), numInst, task, parameters.getInstance(), parameters));

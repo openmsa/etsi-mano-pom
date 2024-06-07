@@ -108,8 +108,7 @@ public class PolicyFrontControllerImpl implements PolicyFrontController {
 
 	@Override
 	public <U> ResponseEntity<U> modify(final String policyId, final PolicyPatchDto body, final Function<Policies, U> mapper, final Consumer<U> makeLinks) {
-		final PolicyPatchDto patch = body;
-		final Policies p = policyController.modify(getSafeUUID(policyId), patch);
+        final Policies p = policyController.modify(getSafeUUID(policyId), body);
 		final U e = mapper.apply(p);
 		makeLinks.accept(e);
 		return ResponseEntity.ok(e);
