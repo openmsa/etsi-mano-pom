@@ -284,6 +284,7 @@ public class GrantAction {
 			x.setResourceGroupId(zgi.getZoneId().iterator().next());
 			if (x.getType() == ResourceTypeEnum.OS_CONTAINER) {
 				x.setContainerNamespace("mano");
+				x.setVimConnectionId(null);
 			}
 		});
 		grantContainerAction.handleGrant(grants);
