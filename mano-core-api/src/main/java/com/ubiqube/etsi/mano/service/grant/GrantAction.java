@@ -126,7 +126,7 @@ public class GrantAction {
 		this.vnfPackageService = vnfPackageService;
 		this.ccmManager = ccmManager;
 		this.cirManager = cirManager;
-		requireVimInfo = Set.of("INSTANTIATE", "SCALE", "SCALE_TO_LEVL", "CHANGE_FLAVOUR", "CHANGE_VNFPKG");
+		requireVimInfo = Set.of("INSTANTIATE", "SCALE", "SCALE_TO_LEVEL", "CHANGE_FLAVOUR", "CHANGE_VNFPKG");
 	}
 
 	public final void grantRequest(final UUID objectId) {
