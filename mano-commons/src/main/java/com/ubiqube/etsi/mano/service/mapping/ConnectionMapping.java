@@ -28,9 +28,15 @@ import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
 import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.ai.KeystoneAuthV3;
 import com.ubiqube.etsi.mano.dao.mano.ai.KubernetesV1Auth;
+import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.ii.K8sInterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.ii.OpenstackV3InterfaceInfo;
 import com.ubiqube.etsi.mano.exception.GenericException;
+import com.ubiqube.etsi.mano.service.auth.model.AuthParamBasic;
+import com.ubiqube.etsi.mano.service.auth.model.AuthParamOauth2;
+import com.ubiqube.etsi.mano.service.auth.model.AuthType;
+import com.ubiqube.etsi.mano.service.auth.model.AuthentificationInformations;
+import com.ubiqube.etsi.mano.service.auth.model.OAuth2GrantType;
 
 import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
@@ -147,4 +153,52 @@ public interface ConnectionMapping {
 		return ret;
 	}
 
+	@Nullable
+	default String mapToVimType(final @Nullable ConnectionInformation value) {
+		if (null == value) {
+			return null;
+		}
+		if (value.getAuthentification() != null) {
+			return "UBINFV.%s_%s.V_1".formatted(value.getConnType(), value.getAuthentification().getAuthType().getFirst());
+		}
+		return "UBINFV.%s.V_1".formatted(value.getConnType());
+	}
+
+	default Map<String, String> mapToInterfaceMap(final @Nullable ConnectionInformation value) {
+		if (null == value) {
+			return Map.of();
+		}
+		final LinkedHashMap<String, String> ret = new LinkedHashMap<>();
+		Optional.ofNullable(value.getUrl()).ifPresent(x -> ret.put("endpoint", x.toString()));
+		if (value.isIgnoreSsl()) {
+			ret.put("non-strict-ssl", "true");
+		}
+		return ret;
+	}
+
+	default Map<String, String> mapToMap(final @Nullable AuthentificationInformations value) {
+		if (null == value) {
+			return Map.of();
+		}
+		final LinkedHashMap<String, String> ret = new LinkedHashMap<>();
+		if (value.getAuthType().contains(AuthType.BASIC)) {
+			final AuthParamBasic basic = value.getAuthParamBasic();
+			ret.put("username", basic.getUserName());
+			ret.put("password", basic.getPassword());
+		} else if (value.getAuthType().contains(AuthType.OAUTH2_CLIENT_CREDENTIALS)) {
+			final AuthParamOauth2 oauth2 = value.getAuthParamOauth2();
+			if (oauth2.getGrantType() == OAuth2GrantType.CLIENT_CREDENTIAL) {
+				ret.put("client_id", oauth2.getClientId());
+				ret.put("client_secret", oauth2.getClientSecret());
+				ret.put("grant_type", "client_credentials");
+			} else {
+				ret.put("username", oauth2.getO2Username());
+				ret.put("client_id", oauth2.getClientId());
+				ret.put("grant_type", "password");
+				ret.put("user", oauth2.getO2Username());
+				ret.put("password", oauth2.getO2Password());
+			}
+		}
+		return ret;
+	}
 }
