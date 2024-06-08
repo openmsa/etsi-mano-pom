@@ -128,8 +128,8 @@ public abstract class AbstractGrantService implements VimResourceService {
 		Optional.ofNullable(returnedGrant.getExtVirtualLinks()).ifPresent(plan::addExtVirtualLinks);
 		plan.setGrantsRequestId(returnedGrant.getId().toString());
 		mapVimAsset(plan.getTasks(), returnedGrant.getVimAssets());
-		fixUnknownTask(plan.getTasks(), plan.getVimConnections());
 		plan.setVimConnections(fixVimConnections(plan.getVimConnections()));
+		fixUnknownTask(plan.getTasks(), plan.getVimConnections());
 		fixContainerBefore431(plan);
 		check(plan);
 	}
