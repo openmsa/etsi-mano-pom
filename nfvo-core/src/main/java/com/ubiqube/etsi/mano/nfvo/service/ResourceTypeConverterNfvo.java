@@ -69,21 +69,21 @@ public class ResourceTypeConverterNfvo implements ResourceTypeConverter<NsTask> 
 	private final Map<ResourceTypeEnum, ResourceHolder<NsTask>> resourceToHolder;
 
 	public ResourceTypeConverterNfvo() {
-		set.add(new ResourceHolder(ResourceTypeEnum.VL, x -> new NsVirtualLinkVt((NsVirtualLinkTask) x), Network.class));
-		set.add(new ResourceHolder(ResourceTypeEnum.VNFFG_LOADBALANCER, x -> new VnffgLoadbalancerVt((VnffgLoadbalancerTask) x), VnffgLoadbalancerNode.class));
-		set.add(new ResourceHolder(ResourceTypeEnum.VNFFG_POST, x -> new NsVnffgPostVt((VnffgPostTask) x), VnffgPostNode.class));
-		set.add(new ResourceHolder(ResourceTypeEnum.VNFFG_PORT_PAIR, x -> new NsVnffgPortPairVt((VnffgPortPairTask) x), PortPairNode.class));
-		set.add(new ResourceHolder(ResourceTypeEnum.NSD_CREATE, x -> new NsCreateVt((NsdTask) x), NsdCreateNode.class));
-		set.add(new ResourceHolder(ResourceTypeEnum.NSD_INSTANTIATE, x -> new NsInstantiateVt((NsdInstantiateTask) x), NsdInstantiateNode.class));
-		set.add(new ResourceHolder(ResourceTypeEnum.NSD_EXTRACTOR, x -> new NsExtratorVt((NsdExtractorTask) x), NsdExtractorNode.class));
-		set.add(new ResourceHolder(ResourceTypeEnum.VNF_CREATE, x -> new NsVnfCreateVt((NsVnfTask) x), VnfCreateNode.class));
-		set.add(new ResourceHolder(ResourceTypeEnum.VNF_INSTANTIATE, x -> new NsVnfInstantiateVt((NsVnfInstantiateTask) x), VnfInstantiateNode.class));
-		set.add(new ResourceHolder(ResourceTypeEnum.VNF_EXTRACTOR, x -> new NsVnfExtractorVt((NsVnfExtractorTask) x), VnfExtractorNode.class));
-		set.add(new ResourceHolder(ResourceTypeEnum.TF_NETWORK_POLICY, x -> new NetworkPolicyVt((NetworkPolicyTask) x), NetworkPolicyNode.class));
-		set.add(new ResourceHolder(ResourceTypeEnum.TF_PORT_TUPLE, x -> new PortTupleVt((PortTupleTask) x), PortTupleNode.class));
-		set.add(new ResourceHolder(ResourceTypeEnum.TF_PT_LINK, x -> new PtLinkVt((PtLinkTask) x), PtLinkNode.class));
-		set.add(new ResourceHolder(ResourceTypeEnum.TF_SERVICE_INSTANCE, x -> new ServiceInstanceVt((ServiceInstanceTask) x), ServiceInstanceNode.class));
-		set.add(new ResourceHolder(ResourceTypeEnum.TF_SERVICE_TEMPLATE, x -> new ServiceTemplateVt((ServiceTemplateTask) x), ServiceTemplateNode.class));
+		set.add(new ResourceHolder<>(ResourceTypeEnum.VL, x -> new NsVirtualLinkVt((NsVirtualLinkTask) x), Network.class));
+		set.add(new ResourceHolder<>(ResourceTypeEnum.VNFFG_LOADBALANCER, x -> new VnffgLoadbalancerVt((VnffgLoadbalancerTask) x), VnffgLoadbalancerNode.class));
+		set.add(new ResourceHolder<>(ResourceTypeEnum.VNFFG_POST, x -> new NsVnffgPostVt((VnffgPostTask) x), VnffgPostNode.class));
+		set.add(new ResourceHolder<>(ResourceTypeEnum.VNFFG_PORT_PAIR, x -> new NsVnffgPortPairVt((VnffgPortPairTask) x), PortPairNode.class));
+		set.add(new ResourceHolder<>(ResourceTypeEnum.NSD_CREATE, x -> new NsCreateVt((NsdTask) x), NsdCreateNode.class));
+		set.add(new ResourceHolder<>(ResourceTypeEnum.NSD_INSTANTIATE, x -> new NsInstantiateVt((NsdInstantiateTask) x), NsdInstantiateNode.class));
+		set.add(new ResourceHolder<>(ResourceTypeEnum.NSD_EXTRACTOR, x -> new NsExtratorVt((NsdExtractorTask) x), NsdExtractorNode.class));
+		set.add(new ResourceHolder<>(ResourceTypeEnum.VNF_CREATE, x -> new NsVnfCreateVt((NsVnfTask) x), VnfCreateNode.class));
+		set.add(new ResourceHolder<>(ResourceTypeEnum.VNF_INSTANTIATE, x -> new NsVnfInstantiateVt((NsVnfInstantiateTask) x), VnfInstantiateNode.class));
+		set.add(new ResourceHolder<>(ResourceTypeEnum.VNF_EXTRACTOR, x -> new NsVnfExtractorVt((NsVnfExtractorTask) x), VnfExtractorNode.class));
+		set.add(new ResourceHolder<>(ResourceTypeEnum.TF_NETWORK_POLICY, x -> new NetworkPolicyVt((NetworkPolicyTask) x), NetworkPolicyNode.class));
+		set.add(new ResourceHolder<>(ResourceTypeEnum.TF_PORT_TUPLE, x -> new PortTupleVt((PortTupleTask) x), PortTupleNode.class));
+		set.add(new ResourceHolder<>(ResourceTypeEnum.TF_PT_LINK, x -> new PtLinkVt((PtLinkTask) x), PtLinkNode.class));
+		set.add(new ResourceHolder<>(ResourceTypeEnum.TF_SERVICE_INSTANCE, x -> new ServiceInstanceVt((ServiceInstanceTask) x), ServiceInstanceNode.class));
+		set.add(new ResourceHolder<>(ResourceTypeEnum.TF_SERVICE_TEMPLATE, x -> new ServiceTemplateVt((ServiceTemplateTask) x), ServiceTemplateNode.class));
 		vts = set.stream()
 				.collect(Collectors.toMap(ResourceHolder::res, ResourceHolder::createVt));
 		classToHolder = set.stream()
