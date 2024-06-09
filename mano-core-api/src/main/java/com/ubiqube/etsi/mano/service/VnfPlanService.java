@@ -28,6 +28,7 @@ import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.VnfVl;
 import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
 import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainerDeployableUnit;
+import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.orchestrator.Edge2d;
 import com.ubiqube.etsi.mano.orchestrator.Relation;
@@ -152,13 +153,13 @@ public class VnfPlanService {
 				.filter(x -> x.getContainerReq().contains(name))
 				.map(OsContainerDeployableUnit::getName)
 				.findFirst()
-				.orElseThrow();
+				.orElseThrow(() -> new GenericException("Unable to find OsContainerDeployableUnit with name: " + name));
 	}
 
 	private static ListKeyPair findPort(final VnfPackage vnfPkg, final VnfLinkPort vnfLinkPort) {
 		return vnfPkg.getVirtualLinks().stream()
 				.filter(x -> x.getValue().equals(vnfLinkPort.getToscaName()))
 				.findFirst()
-				.orElseThrow();
+				.orElseThrow(() -> new GenericException("Unable to find VirtualLink with name: " + vnfLinkPort.getToscaName()));
 	}
 }

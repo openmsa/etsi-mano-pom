@@ -28,18 +28,23 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.ubiqube.etsi.mano.dao.mano.MonitoringParams;
 import com.ubiqube.etsi.mano.dao.mano.VlProfileEntity;
 import com.ubiqube.etsi.mano.dao.mano.VnfCompute;
 import com.ubiqube.etsi.mano.dao.mano.VnfExtCp;
+import com.ubiqube.etsi.mano.dao.mano.VnfIndicator;
 import com.ubiqube.etsi.mano.dao.mano.VnfLinkPort;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.VnfVl;
 import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
+import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainer;
 import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainerDeployableUnit;
 import com.ubiqube.etsi.mano.dao.mano.vim.AffinityRule;
 import com.ubiqube.etsi.mano.dao.mano.vim.L2Data;
 import com.ubiqube.etsi.mano.dao.mano.vim.SecurityGroup;
 import com.ubiqube.etsi.mano.dao.mano.vim.VlProtocolData;
+import com.ubiqube.etsi.mano.dao.mano.vim.VnfStorage;
+import com.ubiqube.etsi.mano.dao.mano.vnfm.McIops;
 
 @ExtendWith(MockitoExtension.class)
 class VnfPlanServiceTest {
@@ -63,31 +68,66 @@ class VnfPlanServiceTest {
 		pkg.setAdditionalArtifacts(Set.of());
 		pkg.setAttributes(List.of());
 		pkg.setMciopId(Set.of());
-		pkg.setMciops(Set.of());
+		pkg.setMciops(createMciop());
+		pkg.setMonitoringParameters(createMonitoring());
 		pkg.setSecurityGroups(Set.of(createSecurityGroup()));
-		pkg.setOsContainer(Set.of());
+		pkg.setOsContainer(createOsContainer());
 		pkg.setOsContainerDeployableUnits(Set.of(createDeployableUnit()));
 		pkg.setVirtualLinks(Set.of(createVirtualLink()));
 		pkg.setVnfCompute(Set.of(createCompute()));
 		pkg.setVnfVl(Set.of(createVl()));
 		pkg.setVnfExtCp(Set.of(createVnfExtCp()));
+		pkg.setVnfIndicator(createVnfIndicator());
+		pkg.setVnfStorage(createStorage());
 		return pkg;
+	}
+
+	private static Set<VnfIndicator> createVnfIndicator() {
+		final VnfIndicator vi001 = new VnfIndicator();
+		vi001.setName("vi001");
+		return Set.of(vi001);
+	}
+
+	private static Set<McIops> createMciop() {
+		final McIops mciops = new McIops();
+		mciops.setToscaName("mciops001");
+		mciops.setAssociatedVdu(Set.of("ocdu-001"));
+		return Set.of(mciops);
+	}
+
+	private static Set<OsContainer> createOsContainer() {
+		final OsContainer oc001 = new OsContainer();
+		oc001.setName("oc001");
+		return Set.of(oc001);
+	}
+
+	private static Set<MonitoringParams> createMonitoring() {
+		final MonitoringParams mp001 = new MonitoringParams();
+		mp001.setName("mon001");
+		return Set.of(mp001);
+	}
+
+	private static Set<VnfStorage> createStorage() {
+		final VnfStorage st001 = new VnfStorage();
+		st001.setToscaName("st001");
+		return Set.of(st001);
 	}
 
 	private static OsContainerDeployableUnit createDeployableUnit() {
 		final OsContainerDeployableUnit ocdu = new OsContainerDeployableUnit();
 		ocdu.setName("ocdu-001");
 		ocdu.setVirtualStorageReq(Set.of());
+		ocdu.setContainerReq(Set.of("oc001"));
 		return ocdu;
 	}
 
 	private static VnfCompute createCompute() {
 		final VnfCompute vc = new VnfCompute();
 		vc.setToscaName("vc-001");
-		vc.setStorages(Set.of());
-		vc.setAffinityRule(Set.of());
+		vc.setStorages(Set.of("st001"));
+		vc.setAffinityRule(Set.of("ar001"));
 		vc.setMonitoringParameters(Set.of());
-		vc.setSecurityGroup(Set.of());
+		vc.setSecurityGroup(Set.of("sg001"));
 		vc.setPorts(createComputePorts());
 		vc.setPlacementGroup(Set.of());
 		return vc;
@@ -97,7 +137,10 @@ class VnfPlanServiceTest {
 		final VnfLinkPort vlp001 = new VnfLinkPort();
 		vlp001.setToscaName("vlp-001");
 		vlp001.setVirtualLink("vv-001");
-		return Set.of(vlp001);
+		//
+		final VnfLinkPort vlp002 = new VnfLinkPort();
+		vlp002.setToscaName("eth0");
+		return Set.of(vlp001, vlp002);
 	}
 
 	private static VnfExtCp createVnfExtCp() {
