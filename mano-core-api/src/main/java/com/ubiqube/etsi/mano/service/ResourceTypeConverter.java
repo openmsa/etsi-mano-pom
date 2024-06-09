@@ -20,14 +20,14 @@ import java.util.Optional;
 import java.util.function.Function;
 
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
-import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
+import com.ubiqube.etsi.mano.dao.mano.v2.AbstractTask;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.vnfm.service.graph.ResourceHolder;
 
-public interface ResourceTypeConverter {
+public interface ResourceTypeConverter<T extends AbstractTask> {
 
-	Optional<ResourceHolder> toResourceHolder(ResourceTypeEnum type);
+	Optional<ResourceHolder<T>> toResourceHolder(ResourceTypeEnum type);
 
-	Function<VnfTask, VirtualTaskV3<? extends VnfTask>> toVt(ResourceTypeEnum type);
+	Function<T, VirtualTaskV3<? extends T>> toVt(ResourceTypeEnum type);
 
 }

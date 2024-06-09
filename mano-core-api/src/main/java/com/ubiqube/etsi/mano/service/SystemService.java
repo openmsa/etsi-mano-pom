@@ -23,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
+import com.ubiqube.etsi.mano.dao.mano.v2.AbstractTask;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.jpa.SysConnectionJpa;
@@ -73,7 +74,7 @@ public class SystemService {
 	private final SysConnectionJpa systemConnectionsJpa;
 	private final Patcher patcher;
 	private final SystemConnectionsMapping systemConnectionsMapping;
-	private final ResourceTypeConverter resourceTypeConverter;
+	private final ResourceTypeConverter<? extends AbstractTask> resourceTypeConverter;
 
 	public SystemService(final SystemsJpa systemJpa, final Patcher patcher, final SysConnectionJpa systemConnectionsJpa, final SystemConnectionsMapping systemConnectionsMapping, final ResourceTypeConverter resourceTypeConverter) {
 		this.systemJpa = systemJpa;

@@ -64,6 +64,7 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.Network;
 import com.ubiqube.etsi.mano.orchestrator.v3.BlueprintBuilder;
 import com.ubiqube.etsi.mano.orchestrator.v3.PreExecutionGraphV3;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
+import com.ubiqube.etsi.mano.service.ResourceTypeConverter;
 import com.ubiqube.etsi.mano.tf.entities.NetworkPolicyTask;
 import com.ubiqube.etsi.mano.tf.entities.PortTupleTask;
 import com.ubiqube.etsi.mano.tf.entities.PtLinkTask;
@@ -83,14 +84,15 @@ class NfvoOrchestrationV3Test {
 	private Planner<NsTask> planV2;
 	@Mock
 	private PreExecutionGraphV3<NsTask> plan;
-
+	@Mock
+	private ResourceTypeConverter<NsTask> resourceTypeConverter;
 	@Captor
 	ArgumentCaptor<Function> converter;
 
 	@Test
 	void testSetWorkflow() {
 		final List<AbstractNsdContributorV3<?>> contributors = List.of();
-		final NfvoOrchestrationV3 nfvo = new NfvoOrchestrationV3(contributors, blueprintBuilder, planService, nsLiveInstanceJpa, planV2);
+		final NfvoOrchestrationV3 nfvo = createService(contributors);
 		final NsdPackage bundle = new NsdPackage();
 		final NsBlueprint bluePrint = new NsBlueprint();
 		final NsdInstance instance = new NsdInstance();
@@ -100,24 +102,28 @@ class NfvoOrchestrationV3Test {
 		assertTrue(true);
 	}
 
+	private NfvoOrchestrationV3 createService(final List<AbstractNsdContributorV3<?>> contributors) {
+		return new NfvoOrchestrationV3(contributors, blueprintBuilder, planService, nsLiveInstanceJpa, planV2, resourceTypeConverter);
+	}
+
 	@SuppressWarnings("null")
 	private static Stream<Arguments> providerClass() {
 		return Stream.of(
-				Arguments.of(args.of("NsVirtualLinkTask", () -> new NsVirtualLinkTask())),
-				Arguments.of(args.of("VnffgLoadbalancerTask", () -> new VnffgLoadbalancerTask())),
-				Arguments.of(args.of("VnffgPostTask", () -> new VnffgPostTask())),
-				Arguments.of(args.of("VnffgPortPairTask", () -> new VnffgPortPairTask())),
-				Arguments.of(args.of("NsVnfTask", () -> new NsdTask())),
-				Arguments.of(args.of("NsdInstantiateTask", () -> new NsdInstantiateTask())),
-				Arguments.of(args.of("NsdExtractorTask", () -> new NsdExtractorTask())),
-				Arguments.of(args.of("NsVnfTask", () -> new NsVnfTask())),
-				Arguments.of(args.of("NsVnfInstantiateTask", () -> new NsVnfInstantiateTask())),
-				Arguments.of(args.of("NsVnfExtractorTask", () -> new NsVnfExtractorTask())),
-				Arguments.of(args.of("NetworkPolicyTask", () -> new NetworkPolicyTask())),
-				Arguments.of(args.of("PortTupleTask", () -> new PortTupleTask())),
-				Arguments.of(args.of("PtLinkTask", () -> new PtLinkTask())),
-				Arguments.of(args.of("ServiceInstanceTask", () -> new ServiceInstanceTask())),
-				Arguments.of(args.of("ServiceTemplateTask", () -> new ServiceTemplateTask())));
+				Arguments.of(args.of("NsVirtualLinkTask", NsVirtualLinkTask::new)),
+				Arguments.of(args.of("VnffgLoadbalancerTask", VnffgLoadbalancerTask::new)),
+				Arguments.of(args.of("VnffgPostTask", VnffgPostTask::new)),
+				Arguments.of(args.of("VnffgPortPairTask", VnffgPortPairTask::new)),
+				Arguments.of(args.of("NsVnfTask", NsdTask::new)),
+				Arguments.of(args.of("NsdInstantiateTask", NsdInstantiateTask::new)),
+				Arguments.of(args.of("NsdExtractorTask", NsdExtractorTask::new)),
+				Arguments.of(args.of("NsVnfTask", NsVnfTask::new)),
+				Arguments.of(args.of("NsVnfInstantiateTask", NsVnfInstantiateTask::new)),
+				Arguments.of(args.of("NsVnfExtractorTask", NsVnfExtractorTask::new)),
+				Arguments.of(args.of("NetworkPolicyTask", NetworkPolicyTask::new)),
+				Arguments.of(args.of("PortTupleTask", PortTupleTask::new)),
+				Arguments.of(args.of("PtLinkTask", PtLinkTask::new)),
+				Arguments.of(args.of("ServiceInstanceTask", ServiceInstanceTask::new)),
+				Arguments.of(args.of("ServiceTemplateTask", ServiceTemplateTask::new)));
 	}
 
 	@ParameterizedTest
@@ -126,7 +132,7 @@ class NfvoOrchestrationV3Test {
 		final SclableResources<TestNsTask> sr = new SclableResources<>(Network.class, "name", 0, 1, null);
 		final TestContributor cont = new TestContributor(nsLiveInstanceJpa, List.of(sr));
 		final List<AbstractNsdContributorV3<?>> contributors = List.of(cont);
-		final NfvoOrchestrationV3 nfvo = new NfvoOrchestrationV3(contributors, blueprintBuilder, planService, nsLiveInstanceJpa, planV2);
+		final NfvoOrchestrationV3 nfvo = createService(contributors);
 		final NsdPackage bundle = new NsdPackage();
 		final NsBlueprint bluePrint = new NsBlueprint();
 		final NsdInstance instance = new NsdInstance();
@@ -143,7 +149,7 @@ class NfvoOrchestrationV3Test {
 	@Test
 	void testSetWorkflowContext() {
 		final List<AbstractNsdContributorV3<?>> contributors = List.of();
-		final NfvoOrchestrationV3 nfvo = new NfvoOrchestrationV3(contributors, blueprintBuilder, planService, nsLiveInstanceJpa, planV2);
+		final NfvoOrchestrationV3 nfvo = createService(contributors);
 		final NsdPackage bundle = new NsdPackage();
 		final NsBlueprint bluePrint = new NsBlueprint();
 		final NsdInstance instance = new NsdInstance();
@@ -173,7 +179,7 @@ class NfvoOrchestrationV3Test {
 	@Test
 	void testSetWorkflowContextFail() {
 		final List<AbstractNsdContributorV3<?>> contributors = List.of();
-		final NfvoOrchestrationV3 nfvo = new NfvoOrchestrationV3(contributors, blueprintBuilder, planService, nsLiveInstanceJpa, planV2);
+		final NfvoOrchestrationV3 nfvo = createService(contributors);
 		final NsdPackage bundle = new NsdPackage();
 		final NsBlueprint bluePrint = new NsBlueprint();
 		final NsdInstance instance = new NsdInstance();
@@ -187,7 +193,7 @@ class NfvoOrchestrationV3Test {
 	@Test
 	void testExecute() throws Exception {
 		final List<AbstractNsdContributorV3<?>> contributors = List.of();
-		final NfvoOrchestrationV3 nfvo = new NfvoOrchestrationV3(contributors, blueprintBuilder, planService, nsLiveInstanceJpa, planV2);
+		final NfvoOrchestrationV3 nfvo = createService(contributors);
 		nfvo.execute(plan, null);
 		assertTrue(true);
 	}
@@ -195,7 +201,7 @@ class NfvoOrchestrationV3Test {
 	@Test
 	void testRefresh() throws Exception {
 		final List<AbstractNsdContributorV3<?>> contributors = List.of();
-		final NfvoOrchestrationV3 nfvo = new NfvoOrchestrationV3(contributors, blueprintBuilder, planService, nsLiveInstanceJpa, planV2);
+		final NfvoOrchestrationV3 nfvo = createService(contributors);
 		nfvo.refresh(plan, null);
 		assertTrue(true);
 	}
@@ -203,7 +209,7 @@ class NfvoOrchestrationV3Test {
 	@Test
 	void testRefresh002() throws Exception {
 		final List<AbstractNsdContributorV3<?>> contributors = List.of();
-		final NfvoOrchestrationV3 nfvo = new NfvoOrchestrationV3(contributors, blueprintBuilder, planService, nsLiveInstanceJpa, planV2);
+		final NfvoOrchestrationV3 nfvo = createService(contributors);
 		final TestNsTask task = new TestNsTask(ResourceTypeEnum.VL);
 		final VirtualTaskV3 vt = new TestNsVt(task);
 		when(plan.getPreTasks()).thenReturn(List.of(vt));

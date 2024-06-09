@@ -19,10 +19,10 @@ package com.ubiqube.etsi.mano.vnfm.service.graph;
 import java.util.function.Function;
 
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
-import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
+import com.ubiqube.etsi.mano.dao.mano.v2.AbstractTask;
 import com.ubiqube.etsi.mano.orchestrator.nodes.Node;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 
-public record ResourceHolder(ResourceTypeEnum res, Function<VnfTask, VirtualTaskV3<? extends VnfTask>> createVt, Class<? extends Node> node) {
+public record ResourceHolder<T extends AbstractTask>(ResourceTypeEnum res, Function<T, VirtualTaskV3<? extends T>> createVt, Class<? extends Node> node) {
 
 }
