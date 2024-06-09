@@ -21,6 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -37,6 +38,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfPortTask;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.jpa.ConnectionInformationJpa;
+import com.ubiqube.etsi.mano.orchestrator.entities.SystemConnections;
 import com.ubiqube.etsi.mano.service.SystemService;
 import com.ubiqube.etsi.mano.service.mapping.BlueZoneGroupInformationMapping;
 import com.ubiqube.etsi.mano.service.mapping.GrantInformationExtMapping;
@@ -71,6 +73,8 @@ class ManoGrantServiceTest {
 		response.setId(id);
 		response.setZoneGroups(Set.of());
 		final VimConnectionInformation vim01 = new VimConnectionInformation();
+		vim01.setVimType("TYPE");
+		vim01.setVimId("ID");
 		bp.setVimConnections(Set.of(vim01));
 		final VnfPortTask ts1 = new VnfPortTask();
 		final VnfLinkPort link = new VnfLinkPort();
@@ -78,6 +82,11 @@ class ManoGrantServiceTest {
 		ts1.setVnfLinkPort(link);
 		bp.setTasks(Set.of(ts1));
 		when(nfvo.sendSyncGrantRequest(any())).thenReturn(response);
+		final SystemConnections sc = new SystemConnections<>();
+		sc.setVimType("TYPE");
+		final List<SystemConnections> lst = List.of(sc);
+		when(systemService.findByModuleName(any())).thenReturn(lst);
+		when(vimManager.registerIfNeeded(any())).thenReturn(vim01);
 		srv.allocate(bp);
 		assertTrue(true);
 	}
@@ -96,6 +105,8 @@ class ManoGrantServiceTest {
 		response.setId(id);
 		response.setZoneGroups(Set.of());
 		final VimConnectionInformation vim01 = new VimConnectionInformation();
+		vim01.setVimType("TYPE");
+		vim01.setVimId("ID");
 		bp.setVimConnections(Set.of(vim01));
 		final VnfPortTask ts1 = new VnfPortTask();
 		final VnfLinkPort link = new VnfLinkPort();
@@ -107,6 +118,11 @@ class ManoGrantServiceTest {
 		bp.getParameters().setExtManagedVirtualLinks(new LinkedHashSet<>());
 		bp.getParameters().getExtManagedVirtualLinks().add(ext);
 		when(nfvo.sendSyncGrantRequest(any())).thenReturn(response);
+		final SystemConnections sc = new SystemConnections<>();
+		sc.setVimType("TYPE");
+		final List<SystemConnections> lst = List.of(sc);
+		when(systemService.findByModuleName(any())).thenReturn(lst);
+		when(vimManager.registerIfNeeded(any())).thenReturn(vim01);
 		srv.allocate(bp);
 		assertTrue(true);
 	}
