@@ -70,7 +70,7 @@ public class VimType {
 			sb.append(".V_").append(major);
 		}
 		if (minor != null) {
-			sb.append(".V_").append(minor);
+			sb.append("_").append(minor);
 		}
 		return sb.toString();
 	}
