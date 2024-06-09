@@ -21,6 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -38,6 +39,7 @@ import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.jpa.ConnectionInformationJpa;
+import com.ubiqube.etsi.mano.orchestrator.entities.SystemConnections;
 import com.ubiqube.etsi.mano.service.mapping.BlueZoneGroupInformationMapping;
 import com.ubiqube.etsi.mano.service.mapping.GrantInformationExtMapping;
 import com.ubiqube.etsi.mano.service.mapping.GrantMapper;
@@ -109,11 +111,19 @@ class AbstractGrantServiceTest {
 		final UUID id = UUID.randomUUID();
 		response.setId(id);
 		response.setZoneGroups(Set.of());
-		final VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> vim01 = new VimConnectionInformation<>();
+		final VimConnectionInformation vim01 = new VimConnectionInformation<>();
+		vim01.setVimId("CDE");
+		vim01.setVimType("TYPE");
 		final Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> s = Set.of(vim01);
 		bp.setVimConnections(s);
+		//
+		final SystemConnections sc = new SystemConnections<InterfaceInfo, AccessInfo>();
+		sc.setVimType("TYPE");
+		final List<SystemConnections> lst = List.of(sc);
+		when(systemService.findByModuleName(any())).thenReturn(lst);
 		when(vnfGrantMapper.mapToGrantResponse(bp)).thenReturn(response);
 		when(nfvo.sendSyncGrantRequest(any())).thenReturn(response);
+		when(vimManager.registerIfNeeded(vim01)).thenReturn(vim01);
 		srv.allocate(bp);
 		assertTrue(true);
 	}
@@ -137,15 +147,23 @@ class AbstractGrantServiceTest {
 		task.setChangeType(ChangeType.ADDED);
 		task.setId(tid);
 		bp.setTasks(Set.of(task));
-		final VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> vim01 = new VimConnectionInformation<>();
+		final VimConnectionInformation vim01 = new VimConnectionInformation<>();
+		vim01.setVimType("TYPE");
+		vim01.setVimId("ABC");
 		final Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> s = Set.of(vim01);
 		bp.setVimConnections(s);
 		when(vnfGrantMapper.mapToGrantResponse(bp)).thenReturn(response);
+		final SystemConnections sc = new SystemConnections<InterfaceInfo, AccessInfo>();
+		sc.setVimType("TYPE");
+		final List<SystemConnections> lst = List.of(sc);
+		when(systemService.findByModuleName(any())).thenReturn(lst);
 		final GrantResponse response2 = new GrantResponse();
 		response2.setId(id);
 		response2.setZoneGroups(Set.of());
 		response2.setAddResources(Set.of(gie01));
+		response2.setVimConnections(Set.of(vim01));
 		when(nfvo.sendSyncGrantRequest(any())).thenReturn(response2);
+		when(vimManager.registerIfNeeded(vim01)).thenReturn(vim01);
 		srv.allocate(bp);
 		assertTrue(true);
 	}
