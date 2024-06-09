@@ -42,11 +42,13 @@ class SystemServiceTest {
 	private Patcher patcher;
 	@Mock
 	private SysConnectionJpa connectionJpa;
+	@Mock
+	ResourceTypeConverter resourceTypeConverter;
 
 	@Test
 	void testName() throws Exception {
 		final UUID vimId = UUID.randomUUID();
-		final SystemService ss = new SystemService(systemJpa, patcher, connectionJpa, systemConnectionsMapping);
+		final SystemService ss = new SystemService(systemJpa, patcher, connectionJpa, systemConnectionsMapping, resourceTypeConverter);
 		final SystemConnections sc = new SystemConnections();
 		sc.setVimId(vimId.toString());
 		sc.setVimType("OPENSTACK_V3");

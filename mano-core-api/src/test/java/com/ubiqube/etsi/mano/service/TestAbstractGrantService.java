@@ -28,8 +28,8 @@ import com.ubiqube.etsi.mano.service.vim.VimManager;
 public class TestAbstractGrantService extends AbstractGrantService {
 
 	protected TestAbstractGrantService(final ResourceAllocate nfvo, final VimManager vimManager, final ConnectionInformationJpa connectionJpa, final BlueZoneGroupInformationMapping blueZoneGroupInformationMapping,
-			final GrantMapper vnfGrantMapper, final GrantInformationExtMapping grantInformationExtMapping) {
-		super(nfvo, vimManager, connectionJpa, blueZoneGroupInformationMapping, vnfGrantMapper, grantInformationExtMapping);
+			final GrantMapper vnfGrantMapper, final GrantInformationExtMapping grantInformationExtMapping, final SystemService systemService) {
+		super(nfvo, vimManager, connectionJpa, blueZoneGroupInformationMapping, vnfGrantMapper, grantInformationExtMapping, systemService);
 	}
 
 	@Override

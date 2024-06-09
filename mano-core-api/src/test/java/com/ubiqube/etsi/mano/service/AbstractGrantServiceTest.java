@@ -42,6 +42,7 @@ import com.ubiqube.etsi.mano.service.mapping.BlueZoneGroupInformationMapping;
 import com.ubiqube.etsi.mano.service.mapping.GrantInformationExtMapping;
 import com.ubiqube.etsi.mano.service.mapping.GrantMapper;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
+import com.ubiqube.etsi.mano.service.vim.VimTypeConverter;
 
 @ExtendWith(MockitoExtension.class)
 class AbstractGrantServiceTest {
@@ -53,6 +54,10 @@ class AbstractGrantServiceTest {
 	private ConnectionInformationJpa connectionJpa;
 	@Mock
 	private GrantMapper vnfGrantMapper;
+	@Mock
+	private VimTypeConverter vimTypeConverter;
+	@Mock
+	SystemService systemService;
 	private final GrantInformationExtMapping grantInformationExtMapping = Mappers.getMapper(GrantInformationExtMapping.class);
 	private final BlueZoneGroupInformationMapping blueZoneGroupInformationMapping = Mappers.getMapper(BlueZoneGroupInformationMapping.class);
 
@@ -78,7 +83,7 @@ class AbstractGrantServiceTest {
 	}
 
 	private TestAbstractGrantService createService() {
-		return new TestAbstractGrantService(nfvo, vimManager, connectionJpa, blueZoneGroupInformationMapping, vnfGrantMapper, grantInformationExtMapping);
+		return new TestAbstractGrantService(nfvo, vimManager, connectionJpa, blueZoneGroupInformationMapping, vnfGrantMapper, grantInformationExtMapping, systemService);
 	}
 
 	/**
