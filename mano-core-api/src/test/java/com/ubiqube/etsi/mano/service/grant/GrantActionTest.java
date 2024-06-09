@@ -35,6 +35,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainer;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.jpa.GrantsResponseJpa;
@@ -71,7 +72,7 @@ class GrantActionTest {
 	private CirConnectionManager cirManager;
 
 	@Test
-	void testName() throws Exception {
+	void testName() {
 		final GrantAction ga = createService();
 		final UUID id = UUID.randomUUID();
 		assertThrows(NotFoundException.class, () -> ga.grantRequest(id));
@@ -82,7 +83,7 @@ class GrantActionTest {
 	}
 
 	@Test
-	void test002() throws Exception {
+	void test002() {
 		final GrantAction ga = createService();
 		final UUID id = UUID.randomUUID();
 		final GrantResponse grantResponse = new GrantResponse();
@@ -94,7 +95,7 @@ class GrantActionTest {
 	}
 
 	@Test
-	void test003() throws Exception {
+	void test003() {
 		final GrantAction ga = createService();
 		final UUID id = UUID.randomUUID();
 		final GrantResponse grantResponse = new GrantResponse();
@@ -109,6 +110,50 @@ class GrantActionTest {
 		when(vimElection.doElection(any(LinkedList.class), eq(null), any(HashSet.class), any(HashSet.class))).thenReturn(vimConn);
 		when(vnfPackageService.findByVnfdId(id.toString())).thenReturn(vnfPackage);
 		when(vimManager.getVimById(any())).thenReturn(new DummyVim());
+		ga.grantRequest(id);
+		assertTrue(true);
+	}
+
+	@Test
+	void test004() {
+		final GrantAction ga = createService();
+		final UUID id = UUID.randomUUID();
+		final GrantResponse grantResponse = new GrantResponse();
+		grantResponse.setOperation("TERMINATE");
+		grantResponse.setVnfdId(id.toString());
+		final Optional<GrantResponse> optGrant = Optional.of(grantResponse);
+		//
+		final VimConnectionInformation vimConn = new VimConnectionInformation();
+		final VnfPackage vnfPackage = new VnfPackage();
+		vnfPackage.setVirtualLinks(Set.of());
+		when(grantJpa.findById(id)).thenReturn(optGrant);
+		when(vimElection.doElection(any(LinkedList.class), eq(null), any(HashSet.class), any(HashSet.class))).thenReturn(vimConn);
+		when(vnfPackageService.findByVnfdId(id.toString())).thenReturn(vnfPackage);
+		when(vimManager.getVimById(any())).thenReturn(new DummyVim());
+		ga.grantRequest(id);
+		assertTrue(true);
+	}
+
+	@Test
+	void testCni001() {
+		final GrantAction ga = createService();
+		final UUID id = UUID.randomUUID();
+		final GrantResponse grantResponse = new GrantResponse();
+		grantResponse.setOperation("INSTANTIATE");
+		grantResponse.setVnfdId(id.toString());
+		final Optional<GrantResponse> optGrant = Optional.of(grantResponse);
+		//
+		final VimConnectionInformation vimConn = new VimConnectionInformation();
+		final VnfPackage vnfPackage = new VnfPackage();
+		vnfPackage.setVirtualLinks(Set.of());
+		final OsContainer osc01 = new OsContainer();
+		vnfPackage.setOsContainer(Set.of(osc01));
+		when(grantJpa.findById(id)).thenReturn(optGrant);
+		when(vimElection.doElection(any(LinkedList.class), eq(null), any(HashSet.class), any(HashSet.class))).thenReturn(vimConn);
+		when(vnfPackageService.findByVnfdId(id.toString())).thenReturn(vnfPackage);
+		when(vimManager.getVimById(any())).thenReturn(new DummyVim());
+		when(ccmManager.getVimConnection(any(), any())).thenReturn(vimConn);
+		when(vimManager.save(vimConn)).thenReturn(vimConn);
 		ga.grantRequest(id);
 		assertTrue(true);
 	}
