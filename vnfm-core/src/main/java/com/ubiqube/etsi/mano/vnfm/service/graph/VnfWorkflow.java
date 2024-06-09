@@ -95,11 +95,11 @@ public class VnfWorkflow implements WorkflowV3<VnfPackage, VnfBlueprint, VnfTask
 	private final VnfLiveInstanceJpa liveInstanceJpa;
 	private final VnfPackageService vnfPackageService;
 	private final VnfTaskJpa vnfTaskJpa;
-	private final ResourceTypeConverter resourceTypeConverter;
+	private final ResourceTypeConverter<VnfTask> resourceTypeConverter;
 
 	public VnfWorkflow(final Planner<VnfTask> planv2, final VnfLiveInstanceJpa vnfInstanceJpa,
 			final List<AbstractVnfmContributor<?>> contributors, final VnfPlanService planService, final BlueprintBuilder blueprintBuilder,
-			final VnfPackageService vnfPackageService, final VnfTaskJpa vnfTaskJpa, final ResourceTypeConverter resourceTypeConverter) {
+			final VnfPackageService vnfPackageService, final VnfTaskJpa vnfTaskJpa, final ResourceTypeConverter<VnfTask> resourceTypeConverter) {
 		this.planv2 = planv2;
 		this.liveInstanceJpa = vnfInstanceJpa;
 		this.contributors = (List<AbstractVnfmContributor<VnfTask>>) ((Object) contributors);

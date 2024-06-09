@@ -80,29 +80,29 @@ import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.vt.VnfIndicatorVt;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.vt.VnfPortVt;
 
 @Service
-public class ResourceTypeConverterVnfm implements ResourceTypeConverter {
+public class ResourceTypeConverterVnfm implements ResourceTypeConverter<VnfTask> {
 	private final Map<ResourceTypeEnum, Function<VnfTask, VirtualTaskV3<? extends VnfTask>>> vts;
-	private final Set<ResourceHolder> set = new LinkedHashSet<>();
-	private final Map<Class<? extends Node>, ResourceHolder> classToHolder;
-	private final Map<ResourceTypeEnum, ResourceHolder> resourceToHolder;
+	private final Set<ResourceHolder<VnfTask>> set = new LinkedHashSet<>();
+	private final Map<Class<? extends Node>, ResourceHolder<VnfTask>> classToHolder;
+	private final Map<ResourceTypeEnum, ResourceHolder<VnfTask>> resourceToHolder;
 
 	public ResourceTypeConverterVnfm() {
-		set.add(new ResourceHolder(ResourceTypeEnum.VL, x -> new NetWorkVt((NetworkTask) x), Network.class));
-		set.add(new ResourceHolder(ResourceTypeEnum.SUBNETWORK, x -> new SubNetworkVt((SubNetworkTask) x), SubNetwork.class));
-		set.add(new ResourceHolder(ResourceTypeEnum.COMPUTE, x -> new ComputeVt((ComputeTask) x), Compute.class));
-		set.add(new ResourceHolder(ResourceTypeEnum.LINKPORT, x -> new VnfPortVt((VnfPortTask) x), VnfPortNode.class));
-		set.add(new ResourceHolder(ResourceTypeEnum.VNF_EXTCP, x -> new VnfExtCpVt((ExternalCpTask) x), VnfExtCp.class));
-		set.add(new ResourceHolder(ResourceTypeEnum.SECURITY_GROUP, x -> new SecurityGroupVt((SecurityGroupTask) x), SecurityGroupNode.class));
-		set.add(new ResourceHolder(ResourceTypeEnum.STORAGE, x -> new StorageVt((StorageTask) x), Storage.class));
-		set.add(new ResourceHolder(ResourceTypeEnum.DNSZONE, x -> new DnsZoneVt((DnsZoneTask) x), DnsZone.class));
-		set.add(new ResourceHolder(ResourceTypeEnum.DNSHOST, x -> new DnsHostVt((DnsHostTask) x), DnsHost.class));
-		set.add(new ResourceHolder(ResourceTypeEnum.OS_CONTAINER, x -> new OsContainerVt((OsContainerTask) x), OsContainerNode.class));
-		set.add(new ResourceHolder(ResourceTypeEnum.OS_CONTAINER_INFO, x -> new OsK8sClusterVt((K8sInformationsTask) x), OsK8sInformationsNode.class));
-		set.add(new ResourceHolder(ResourceTypeEnum.OS_CONTAINER_DEPLOYABLE, x -> new OsContainerDeployableVt((OsContainerDeployableTask) x), OsContainerDeployableNode.class));
-		set.add(new ResourceHolder(ResourceTypeEnum.MCIOP_USER, x -> new MciopUserVt((MciopUserTask) x), MciopUser.class));
-		set.add(new ResourceHolder(ResourceTypeEnum.HELM, x -> new HelmVt((HelmTask) x), HelmNode.class));
-		set.add(new ResourceHolder(ResourceTypeEnum.MONITORING, x -> new MonitoringVt((MonitoringTask) x), Monitoring.class));
-		set.add(new ResourceHolder(ResourceTypeEnum.VNF_INDICATOR, x -> new VnfIndicatorVt((VnfIndicatorTask) x), VnfIndicator.class));
+		set.add(new ResourceHolder<>(ResourceTypeEnum.VL, x -> new NetWorkVt((NetworkTask) x), Network.class));
+		set.add(new ResourceHolder<>(ResourceTypeEnum.SUBNETWORK, x -> new SubNetworkVt((SubNetworkTask) x), SubNetwork.class));
+		set.add(new ResourceHolder<>(ResourceTypeEnum.COMPUTE, x -> new ComputeVt((ComputeTask) x), Compute.class));
+		set.add(new ResourceHolder<>(ResourceTypeEnum.LINKPORT, x -> new VnfPortVt((VnfPortTask) x), VnfPortNode.class));
+		set.add(new ResourceHolder<>(ResourceTypeEnum.VNF_EXTCP, x -> new VnfExtCpVt((ExternalCpTask) x), VnfExtCp.class));
+		set.add(new ResourceHolder<>(ResourceTypeEnum.SECURITY_GROUP, x -> new SecurityGroupVt((SecurityGroupTask) x), SecurityGroupNode.class));
+		set.add(new ResourceHolder<>(ResourceTypeEnum.STORAGE, x -> new StorageVt((StorageTask) x), Storage.class));
+		set.add(new ResourceHolder<>(ResourceTypeEnum.DNSZONE, x -> new DnsZoneVt((DnsZoneTask) x), DnsZone.class));
+		set.add(new ResourceHolder<>(ResourceTypeEnum.DNSHOST, x -> new DnsHostVt((DnsHostTask) x), DnsHost.class));
+		set.add(new ResourceHolder<>(ResourceTypeEnum.OS_CONTAINER, x -> new OsContainerVt((OsContainerTask) x), OsContainerNode.class));
+		set.add(new ResourceHolder<>(ResourceTypeEnum.OS_CONTAINER_INFO, x -> new OsK8sClusterVt((K8sInformationsTask) x), OsK8sInformationsNode.class));
+		set.add(new ResourceHolder<>(ResourceTypeEnum.OS_CONTAINER_DEPLOYABLE, x -> new OsContainerDeployableVt((OsContainerDeployableTask) x), OsContainerDeployableNode.class));
+		set.add(new ResourceHolder<>(ResourceTypeEnum.MCIOP_USER, x -> new MciopUserVt((MciopUserTask) x), MciopUser.class));
+		set.add(new ResourceHolder<>(ResourceTypeEnum.HELM, x -> new HelmVt((HelmTask) x), HelmNode.class));
+		set.add(new ResourceHolder<>(ResourceTypeEnum.MONITORING, x -> new MonitoringVt((MonitoringTask) x), Monitoring.class));
+		set.add(new ResourceHolder<>(ResourceTypeEnum.VNF_INDICATOR, x -> new VnfIndicatorVt((VnfIndicatorTask) x), VnfIndicator.class));
 		vts = set.stream()
 				.collect(Collectors.toMap(ResourceHolder::res, ResourceHolder::createVt));
 		classToHolder = set.stream()
@@ -111,12 +111,13 @@ public class ResourceTypeConverterVnfm implements ResourceTypeConverter {
 				.collect(Collectors.toMap(ResourceHolder::res, x -> x));
 	}
 
+	@Override
 	public Function<VnfTask, VirtualTaskV3<? extends VnfTask>> toVt(final ResourceTypeEnum resource) {
 		return vts.get(resource);
 	}
 
 	@Override
-	public Optional<ResourceHolder> toResourceHolder(final ResourceTypeEnum resource) {
+	public Optional<ResourceHolder<VnfTask>> toResourceHolder(final ResourceTypeEnum resource) {
 		return Optional.ofNullable(resourceToHolder.get(resource));
 	}
 
