@@ -82,7 +82,7 @@ public class HelmSystem extends AbstractVimSystemV3<HelmTask> {
 
 	@Override
 	public String getVimType() {
-		return "OPENSTACK_V3";
+		return "UBINFV.CISM.V_1";
 	}
 
 	@Override

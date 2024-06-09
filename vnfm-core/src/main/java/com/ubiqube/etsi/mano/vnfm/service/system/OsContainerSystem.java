@@ -48,7 +48,7 @@ public class OsContainerSystem extends AbstractVimSystemV3<OsContainerTask> {
 
 	@Override
 	public String getVimType() {
-		return "OPENSTACK_V3";
+		return "UBINFV.CISM.V_1";
 	}
 
 	@Override

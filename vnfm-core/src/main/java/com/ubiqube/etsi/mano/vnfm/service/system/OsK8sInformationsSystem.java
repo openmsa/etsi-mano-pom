@@ -45,7 +45,7 @@ public class OsK8sInformationsSystem extends AbstractVimSystemV3<K8sInformations
 
 	@Override
 	public String getVimType() {
-		return "OPENSTACK_V3";
+		return "UBINFV.CISM.V_1";
 	}
 
 	@Override

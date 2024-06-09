@@ -136,6 +136,7 @@ public class VnfInstanceGenericFrontControllerImpl implements VnfInstanceGeneric
 	@Override
 	public <U> ResponseEntity<U> findById(final @Nonnull UUID vnfInstanceId, final Function<VnfInstance, U> func, final Consumer<U> makeLink, final String instanceSelfLink) {
 		final VnfInstance vnfInstanceDb = vnfInstanceServiceVnfm.findById(vnfInstanceId);
+		vnfInstanceDb.getVimConnectionInfo().addAll(vnfInstanceDb.getCismConnectionInfo());
 		vnfInstanceDb.getVimConnectionInfo().forEach(vimTypeConverter::setToExternalType);
 		final U vnfInstance = func.apply(vnfInstanceDb);
 		makeLink.accept(vnfInstance);

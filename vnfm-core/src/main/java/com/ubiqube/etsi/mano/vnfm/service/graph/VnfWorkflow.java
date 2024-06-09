@@ -17,13 +17,10 @@
 package com.ubiqube.etsi.mano.vnfm.service.graph;
 
 import java.util.ArrayList;
-import java.util.EnumMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
-import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,30 +29,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
-import com.ubiqube.etsi.mano.dao.mano.SubNetworkTask;
 import com.ubiqube.etsi.mano.dao.mano.VnfInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
 import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
-import com.ubiqube.etsi.mano.dao.mano.v2.ComputeTask;
-import com.ubiqube.etsi.mano.dao.mano.v2.DnsHostTask;
-import com.ubiqube.etsi.mano.dao.mano.v2.DnsZoneTask;
-import com.ubiqube.etsi.mano.dao.mano.v2.ExternalCpTask;
-import com.ubiqube.etsi.mano.dao.mano.v2.MonitoringTask;
-import com.ubiqube.etsi.mano.dao.mano.v2.NetworkTask;
-import com.ubiqube.etsi.mano.dao.mano.v2.StorageTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
-import com.ubiqube.etsi.mano.dao.mano.v2.VnfIndicatorTask;
-import com.ubiqube.etsi.mano.dao.mano.v2.VnfPortTask;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfTask;
-import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.HelmTask;
-import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.K8sInformationsTask;
-import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.MciopUserTask;
-import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerDeployableTask;
-import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerTask;
-import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.SecurityGroupTask;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.orchestrator.ContextHolder;
 import com.ubiqube.etsi.mano.orchestrator.Edge2d;
@@ -85,28 +65,13 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfPortNode;
 import com.ubiqube.etsi.mano.orchestrator.v3.BlueprintBuilder;
 import com.ubiqube.etsi.mano.orchestrator.v3.PreExecutionGraphV3;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
+import com.ubiqube.etsi.mano.service.ResourceTypeConverter;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.VnfPlanService;
 import com.ubiqube.etsi.mano.service.event.WorkflowV3;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfLiveInstanceJpa;
 import com.ubiqube.etsi.mano.vnfm.jpa.VnfTaskJpa;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.AbstractVnfmContributor;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.vt.ComputeVt;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.vt.DnsHostVt;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.vt.DnsZoneVt;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.vt.HelmVt;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.vt.MciopUserVt;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.vt.MonitoringVt;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.vt.NetWorkVt;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.vt.OsContainerDeployableVt;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.vt.OsContainerVt;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.vt.OsK8sClusterVt;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.vt.SecurityGroupVt;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.vt.StorageVt;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.vt.SubNetworkVt;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.vt.VnfExtCpVt;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.vt.VnfIndicatorVt;
-import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.vt.VnfPortVt;
 
 import jakarta.annotation.Nullable;
 
@@ -125,16 +90,16 @@ public class VnfWorkflow implements WorkflowV3<VnfPackage, VnfBlueprint, VnfTask
 	private final VnfPlanService planService;
 	private final BlueprintBuilder blueprintBuilder;
 	private final List<Class<? extends Node>> masterVertex;
-	private final Map<ResourceTypeEnum, Function<VnfTask, VirtualTaskV3<? extends VnfTask>>> vts;
 
 	private final Planner<VnfTask> planv2;
 	private final VnfLiveInstanceJpa liveInstanceJpa;
 	private final VnfPackageService vnfPackageService;
 	private final VnfTaskJpa vnfTaskJpa;
+	private final ResourceTypeConverter resourceTypeConverter;
 
 	public VnfWorkflow(final Planner<VnfTask> planv2, final VnfLiveInstanceJpa vnfInstanceJpa,
 			final List<AbstractVnfmContributor<?>> contributors, final VnfPlanService planService, final BlueprintBuilder blueprintBuilder,
-			final VnfPackageService vnfPackageService, final VnfTaskJpa vnfTaskJpa) {
+			final VnfPackageService vnfPackageService, final VnfTaskJpa vnfTaskJpa, final ResourceTypeConverter resourceTypeConverter) {
 		this.planv2 = planv2;
 		this.liveInstanceJpa = vnfInstanceJpa;
 		this.contributors = (List<AbstractVnfmContributor<VnfTask>>) ((Object) contributors);
@@ -142,24 +107,8 @@ public class VnfWorkflow implements WorkflowV3<VnfPackage, VnfBlueprint, VnfTask
 		this.blueprintBuilder = blueprintBuilder;
 		this.vnfPackageService = vnfPackageService;
 		this.vnfTaskJpa = vnfTaskJpa;
-		vts = new EnumMap<>(ResourceTypeEnum.class);
-		vts.put(ResourceTypeEnum.VL, x -> new NetWorkVt((NetworkTask) x));
-		vts.put(ResourceTypeEnum.SUBNETWORK, x -> new SubNetworkVt((SubNetworkTask) x));
-		vts.put(ResourceTypeEnum.COMPUTE, x -> new ComputeVt((ComputeTask) x));
-		vts.put(ResourceTypeEnum.LINKPORT, x -> new VnfPortVt((VnfPortTask) x));
-		vts.put(ResourceTypeEnum.VNF_EXTCP, x -> new VnfExtCpVt((ExternalCpTask) x));
-		vts.put(ResourceTypeEnum.SECURITY_GROUP, x -> new SecurityGroupVt((SecurityGroupTask) x));
-		vts.put(ResourceTypeEnum.STORAGE, x -> new StorageVt((StorageTask) x));
-		vts.put(ResourceTypeEnum.DNSZONE, x -> new DnsZoneVt((DnsZoneTask) x));
-		vts.put(ResourceTypeEnum.DNSHOST, x -> new DnsHostVt((DnsHostTask) x));
-		vts.put(ResourceTypeEnum.OS_CONTAINER, x -> new OsContainerVt((OsContainerTask) x));
-		vts.put(ResourceTypeEnum.OS_CONTAINER_INFO, x -> new OsK8sClusterVt((K8sInformationsTask) x));
-		vts.put(ResourceTypeEnum.OS_CONTAINER_DEPLOYABLE, x -> new OsContainerDeployableVt((OsContainerDeployableTask) x));
-		vts.put(ResourceTypeEnum.MCIOP_USER, x -> new MciopUserVt((MciopUserTask) x));
-		vts.put(ResourceTypeEnum.HELM, x -> new HelmVt((HelmTask) x));
-		vts.put(ResourceTypeEnum.MONITORING, x -> new MonitoringVt((MonitoringTask) x));
-		vts.put(ResourceTypeEnum.VNF_INDICATOR, x -> new VnfIndicatorVt((VnfIndicatorTask) x));
 		masterVertex = List.of(Network.class, Compute.class, OsContainerNode.class, OsContainerDeployableNode.class, HelmNode.class, VnfIndicator.class);
+		this.resourceTypeConverter = resourceTypeConverter;
 	}
 
 	@Override
@@ -171,7 +120,7 @@ public class VnfWorkflow implements WorkflowV3<VnfPackage, VnfBlueprint, VnfTask
 			final VnfTask nc = x.copy();
 			nc.setToscaId(UUID.randomUUID().toString());
 			blueprint.addTask(nc);
-			return (VirtualTaskV3<VnfTask>) Optional.ofNullable(vts.get(x.getType()))
+			return (VirtualTaskV3<VnfTask>) Optional.ofNullable(resourceTypeConverter.toVt(x.getType()))
 					.orElseThrow(() -> new GenericException("Unable to find " + x.getType()))
 					.apply(nc);
 		}, buildContext(blueprint), masterVertex);

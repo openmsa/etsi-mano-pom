@@ -82,7 +82,7 @@ public class JujuSystem extends AbstractVimSystemV3<HelmTask> {
 
 	@Override
 	public String getVimType() {
-		return "OPENSTACK_V3";
+		return "JUJU";
 	}
 
 	@Override

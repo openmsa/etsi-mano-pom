@@ -49,7 +49,7 @@ public class MciopUserSystem extends AbstractVimSystemV3<MciopUserTask> {
 
 	@Override
 	public String getVimType() {
-		return "OPENSTACK_V3";
+		return "UBINFV.CISM.V_1";
 	}
 
 	@Override
