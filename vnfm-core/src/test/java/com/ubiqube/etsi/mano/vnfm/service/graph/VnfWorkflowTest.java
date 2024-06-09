@@ -51,6 +51,7 @@ import com.ubiqube.etsi.mano.orchestrator.Planner;
 import com.ubiqube.etsi.mano.orchestrator.v3.BlueprintBuilder;
 import com.ubiqube.etsi.mano.orchestrator.v3.PreExecutionGraphV3;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
+import com.ubiqube.etsi.mano.service.ResourceTypeConverter;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.VnfPlanService;
 import com.ubiqube.etsi.mano.test.controllers.TestFactory;
@@ -73,12 +74,14 @@ class VnfWorkflowTest {
 	private VnfPackageService vnfPackageService;
 	@Mock
 	private VnfTaskJpa vnfTaskJpa;
+	@Mock
+	ResourceTypeConverter resourceTypeConverter;
 
 	@Test
 	void testExecute() {
 		final TestVnfmContributor tc = new TestVnfmContributor(vnfInstanceJpa, List.of());
 		final List<AbstractVnfmContributor<?>> contributors = List.of(tc);
-		final VnfWorkflow srv = new VnfWorkflow(planv2, vnfInstanceJpa, contributors, planService, blueprintBuilder, vnfPackageService, vnfTaskJpa);
+		final VnfWorkflow srv = createService(contributors);
 		final VnfBlueprint blueprint = TestFactory.createBlueprint();
 		blueprint.addExtManagedVirtualLinks(Set.of());
 		final PreExecutionGraphV3<VnfTask> plan = new TestPreExecutionGraphV3();
@@ -86,11 +89,15 @@ class VnfWorkflowTest {
 		assertTrue(true);
 	}
 
+	private VnfWorkflow createService(final List<AbstractVnfmContributor<?>> contributors) {
+		return new VnfWorkflow(planv2, vnfInstanceJpa, contributors, planService, blueprintBuilder, vnfPackageService, vnfTaskJpa, resourceTypeConverter);
+	}
+
 	@Test
 	void testExecuteFull() {
 		final TestVnfmContributor tc = new TestVnfmContributor(vnfInstanceJpa, List.of());
 		final List<AbstractVnfmContributor<?>> contributors = List.of(tc);
-		final VnfWorkflow srv = new VnfWorkflow(planv2, vnfInstanceJpa, contributors, planService, blueprintBuilder, vnfPackageService, vnfTaskJpa);
+		final VnfWorkflow srv = createService(contributors);
 		final VnfBlueprint blueprint = TestFactory.createBlueprint();
 		final ExtManagedVirtualLinkDataEntity ext = new ExtManagedVirtualLinkDataEntity();
 		blueprint.addExtManagedVirtualLinks(Set.of(ext));
@@ -105,7 +112,7 @@ class VnfWorkflowTest {
 	void testRefresh() {
 		final TestVnfmContributor tc = new TestVnfmContributor(vnfInstanceJpa, List.of());
 		final List<AbstractVnfmContributor<?>> contributors = List.of(tc);
-		final VnfWorkflow srv = new VnfWorkflow(planv2, vnfInstanceJpa, contributors, planService, blueprintBuilder, vnfPackageService, vnfTaskJpa);
+		final VnfWorkflow srv = createService(contributors);
 		final PreExecutionGraphV3<VnfTask> prePlan = new TestPreExecutionGraphV3();
 		final Blueprint<VnfTask, ?> local = TestFactory.createBlueprint();
 		srv.refresh(prePlan, local);
@@ -116,7 +123,7 @@ class VnfWorkflowTest {
 	void testRefresh2() {
 		final TestVnfmContributor tc = new TestVnfmContributor(vnfInstanceJpa, List.of());
 		final List<AbstractVnfmContributor<?>> contributors = List.of(tc);
-		final VnfWorkflow srv = new VnfWorkflow(planv2, vnfInstanceJpa, contributors, planService, blueprintBuilder, vnfPackageService, vnfTaskJpa);
+		final VnfWorkflow srv = createService(contributors);
 		final HelmTask nt = new HelmTask();
 		final VirtualTaskV3<HelmTask> h = new HelmVt(nt);
 		final List list = new ArrayList<>();
@@ -130,7 +137,7 @@ class VnfWorkflowTest {
 	void testRefresh3() {
 		final TestVnfmContributor tc = new TestVnfmContributor(vnfInstanceJpa, List.of());
 		final List<AbstractVnfmContributor<?>> contributors = List.of(tc);
-		final VnfWorkflow srv = new VnfWorkflow(planv2, vnfInstanceJpa, contributors, planService, blueprintBuilder, vnfPackageService, vnfTaskJpa);
+		final VnfWorkflow srv = createService(contributors);
 		final HelmTask nt = new HelmTask();
 		nt.setToscaName("helm");
 		final VirtualTaskV3<HelmTask> h = new HelmVt(nt);
@@ -150,7 +157,7 @@ class VnfWorkflowTest {
 	void testSetWorkflowBlueprint(final ResourceTypeEnum param) {
 		final TestVnfmContributor tc = new TestVnfmContributor(vnfInstanceJpa, List.of());
 		final List<AbstractVnfmContributor<?>> contributors = List.of(tc);
-		final VnfWorkflow srv = new VnfWorkflow(planv2, vnfInstanceJpa, contributors, planService, blueprintBuilder, vnfPackageService, vnfTaskJpa);
+		final VnfWorkflow srv = createService(contributors);
 		final VnfPackage bundle = TestFactory.createVnfPkg(UUID.randomUUID());
 		bundle.setVirtualLinks(new LinkedHashSet<>());
 		final ListKeyPair lp = new ListKeyPair();
@@ -183,7 +190,7 @@ class VnfWorkflowTest {
 	void testSetWorkflowBlueprintFail() {
 		final TestVnfmContributor tc = new TestVnfmContributor(vnfInstanceJpa, List.of());
 		final List<AbstractVnfmContributor<?>> contributors = List.of(tc);
-		final VnfWorkflow srv = new VnfWorkflow(planv2, vnfInstanceJpa, contributors, planService, blueprintBuilder, vnfPackageService, vnfTaskJpa);
+		final VnfWorkflow srv = createService(contributors);
 		final VnfPackage bundle = TestFactory.createVnfPkg(UUID.randomUUID());
 		bundle.setVirtualLinks(new LinkedHashSet<>());
 		final ListKeyPair lp = new ListKeyPair();
@@ -216,7 +223,7 @@ class VnfWorkflowTest {
 	void testSetWorkflowBlueprintSimple() {
 		final TestVnfmContributor tc = new TestVnfmContributor(vnfInstanceJpa, List.of());
 		final List<AbstractVnfmContributor<?>> contributors = List.of(tc);
-		final VnfWorkflow srv = new VnfWorkflow(planv2, vnfInstanceJpa, contributors, planService, blueprintBuilder, vnfPackageService, vnfTaskJpa);
+		final VnfWorkflow srv = createService(contributors);
 		final VnfPackage bundle = TestFactory.createVnfPkg(UUID.randomUUID());
 		bundle.setVirtualLinks(new LinkedHashSet<>());
 		final ListKeyPair lp = new ListKeyPair();
@@ -238,7 +245,7 @@ class VnfWorkflowTest {
 	void testSetWorkflowBlueprintSimpleVl() {
 		final TestVnfmContributor tc = new TestVnfmContributor(vnfInstanceJpa, List.of());
 		final List<AbstractVnfmContributor<?>> contributors = List.of(tc);
-		final VnfWorkflow srv = new VnfWorkflow(planv2, vnfInstanceJpa, contributors, planService, blueprintBuilder, vnfPackageService, vnfTaskJpa);
+		final VnfWorkflow srv = createService(contributors);
 		final VnfPackage bundle = TestFactory.createVnfPkg(UUID.randomUUID());
 		bundle.setVirtualLinks(new LinkedHashSet<>());
 		final ListKeyPair lp = new ListKeyPair();

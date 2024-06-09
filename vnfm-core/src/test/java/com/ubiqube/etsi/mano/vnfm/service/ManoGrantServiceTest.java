@@ -37,6 +37,7 @@ import com.ubiqube.etsi.mano.dao.mano.v2.VnfBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.VnfPortTask;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.jpa.ConnectionInformationJpa;
+import com.ubiqube.etsi.mano.service.SystemService;
 import com.ubiqube.etsi.mano.service.mapping.BlueZoneGroupInformationMapping;
 import com.ubiqube.etsi.mano.service.mapping.GrantInformationExtMapping;
 import com.ubiqube.etsi.mano.service.mapping.GrantMapper;
@@ -55,6 +56,9 @@ class ManoGrantServiceTest {
 	private GrantMapper vnfGrantMapper;
 	@Mock
 	private GrantInformationExtMapping grantInformationExtMapping;
+	@Mock
+	private SystemService systemService;
+
 	private final BlueZoneGroupInformationMapping blueZoneGroupInformationMapping = Mappers.getMapper(BlueZoneGroupInformationMapping.class);
 
 	@Test
@@ -79,7 +83,7 @@ class ManoGrantServiceTest {
 	}
 
 	private ManoGrantService createServer() {
-		return new ManoGrantService(nfvo, vimManager, connectionJpa, blueZoneGroupInformationMapping, vnfGrantMapper, grantInformationExtMapping);
+		return new ManoGrantService(nfvo, vimManager, connectionJpa, blueZoneGroupInformationMapping, vnfGrantMapper, grantInformationExtMapping, systemService);
 	}
 
 	@Test
