@@ -51,6 +51,7 @@ public class TestFactory {
 		bp.setCancelMode(CancelModeTypeEnum.FORCEFUL);
 		bp.setVimConnections(new LinkedHashSet<>());
 		bp.setOperateChanges(new OperateChanges());
+		bp.setCismConnections(Set.of());
 		return bp;
 	}
 
