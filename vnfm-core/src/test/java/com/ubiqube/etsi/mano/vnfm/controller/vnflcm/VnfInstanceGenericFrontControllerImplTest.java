@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import java.util.Set;
+import java.util.HashSet;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -183,7 +183,7 @@ class VnfInstanceGenericFrontControllerImplTest {
 		final Consumer<String> lnk = x -> {
 		};
 		final VnfInstance vnfInst = new VnfInstance();
-		vnfInst.setVimConnectionInfo(Set.of());
+		vnfInst.setVimConnectionInfo(new HashSet<>());
 		when(VnfInstanceVnfm.findById(any())).thenReturn(vnfInst);
 		srv.findById(null, x -> "", lnk, null);
 		assertTrue(true);
