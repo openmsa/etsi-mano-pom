@@ -57,6 +57,7 @@ import com.ubiqube.etsi.mano.dao.mano.vnffg.VnffgPortPairTask;
 import com.ubiqube.etsi.mano.dao.mano.vnffg.VnffgPostTask;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.nfvo.jpa.NsLiveInstanceJpa;
+import com.ubiqube.etsi.mano.nfvo.service.ResourceTypeConverterNfvo;
 import com.ubiqube.etsi.mano.nfvo.service.plan.contributors.v3.AbstractNsdContributorV3;
 import com.ubiqube.etsi.mano.orchestrator.Planner;
 import com.ubiqube.etsi.mano.orchestrator.SclableResources;
@@ -84,8 +85,7 @@ class NfvoOrchestrationV3Test {
 	private Planner<NsTask> planV2;
 	@Mock
 	private PreExecutionGraphV3<NsTask> plan;
-	@Mock
-	private ResourceTypeConverter<NsTask> resourceTypeConverter;
+	private final ResourceTypeConverter<NsTask> resourceTypeConverter = new ResourceTypeConverterNfvo();
 	@Captor
 	ArgumentCaptor<Function> converter;
 
