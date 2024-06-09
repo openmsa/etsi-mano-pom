@@ -173,7 +173,6 @@ public abstract class AbstractGrantService implements VimResourceService {
 	}
 
 	private void fixUnknownTask(final Set<? extends VimTask> tasks, final Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vimConnections) {
-		final VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> vimConn = vimConnections.iterator().next();
 		tasks.stream()
 				.filter(x -> x.getVimConnectionId() == null)
 				.forEach(x -> {
