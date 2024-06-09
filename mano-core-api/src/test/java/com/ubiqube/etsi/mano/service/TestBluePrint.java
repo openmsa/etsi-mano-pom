@@ -139,8 +139,7 @@ public class TestBluePrint extends AbstractBlueprint<TestTask, TestInstance> {
 
 	@Override
 	public Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> getCismConnections() {
-		// TODO Auto-generated method stub
-		return null;
+		return Set.of();
 	}
 
 }
