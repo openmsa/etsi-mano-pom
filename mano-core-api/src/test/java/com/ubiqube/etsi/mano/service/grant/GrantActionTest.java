@@ -33,8 +33,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.ubiqube.etsi.mano.dao.mano.GrantInformationExt;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
+import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+import com.ubiqube.etsi.mano.dao.mano.ZoneGroupInformation;
 import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainer;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
@@ -44,6 +47,7 @@ import com.ubiqube.etsi.mano.service.event.elect.VimElection;
 import com.ubiqube.etsi.mano.service.event.flavor.FlavorManager;
 import com.ubiqube.etsi.mano.service.event.images.SoftwareImageService;
 import com.ubiqube.etsi.mano.service.grant.ccm.CcmManager;
+import com.ubiqube.etsi.mano.service.grant.executor.ExecutorFacade;
 import com.ubiqube.etsi.mano.service.vim.CirConnectionManager;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 import com.ubiqube.etsi.mano.vim.dummy.DummyVim;
@@ -70,6 +74,8 @@ class GrantActionTest {
 	private CcmManager ccmManager;
 	@Mock
 	private CirConnectionManager cirManager;
+	@Mock
+	private ExecutorFacade facade;
 
 	@Test
 	void testName() {
@@ -79,7 +85,7 @@ class GrantActionTest {
 	}
 
 	private GrantAction createService() {
-		return new GrantAction(grantJpa, vimManager, vimElection, imageService, flavorManager, grantSupport, grantContainerAction, vnfPackageService, ccmManager, cirManager);
+		return new GrantAction(grantJpa, vimManager, vimElection, grantSupport, grantContainerAction, facade);
 	}
 
 	@Test
@@ -108,7 +114,6 @@ class GrantActionTest {
 		vnfPackage.setVirtualLinks(Set.of());
 		when(grantJpa.findById(id)).thenReturn(optGrant);
 		when(vimElection.doElection(any(LinkedList.class), eq(null), any(HashSet.class), any(HashSet.class))).thenReturn(vimConn);
-		when(vnfPackageService.findByVnfdId(id.toString())).thenReturn(vnfPackage);
 		when(vimManager.getVimById(any())).thenReturn(new DummyVim());
 		ga.grantRequest(id);
 		assertTrue(true);
@@ -128,7 +133,6 @@ class GrantActionTest {
 		vnfPackage.setVirtualLinks(Set.of());
 		when(grantJpa.findById(id)).thenReturn(optGrant);
 		when(vimElection.doElection(any(LinkedList.class), eq(null), any(HashSet.class), any(HashSet.class))).thenReturn(vimConn);
-		when(vnfPackageService.findByVnfdId(id.toString())).thenReturn(vnfPackage);
 		when(vimManager.getVimById(any())).thenReturn(new DummyVim());
 		ga.grantRequest(id);
 		assertTrue(true);
@@ -141,6 +145,10 @@ class GrantActionTest {
 		final GrantResponse grantResponse = new GrantResponse();
 		grantResponse.setOperation("INSTANTIATE");
 		grantResponse.setVnfdId(id.toString());
+		final GrantInformationExt ge01 = new GrantInformationExt();
+		final GrantInformationExt ge02 = new GrantInformationExt();
+		ge02.setType(ResourceTypeEnum.OS_CONTAINER);
+		grantResponse.setAddResources(Set.of(ge01, ge02));
 		final Optional<GrantResponse> optGrant = Optional.of(grantResponse);
 		//
 		final VimConnectionInformation vimConn = new VimConnectionInformation();
@@ -150,10 +158,33 @@ class GrantActionTest {
 		vnfPackage.setOsContainer(Set.of(osc01));
 		when(grantJpa.findById(id)).thenReturn(optGrant);
 		when(vimElection.doElection(any(LinkedList.class), eq(null), any(HashSet.class), any(HashSet.class))).thenReturn(vimConn);
-		when(vnfPackageService.findByVnfdId(id.toString())).thenReturn(vnfPackage);
 		when(vimManager.getVimById(any())).thenReturn(new DummyVim());
-		when(ccmManager.getVimConnection(any(), any())).thenReturn(vimConn);
-		when(vimManager.save(vimConn)).thenReturn(vimConn);
+		when(facade.getZone(vimConn, grantResponse)).thenReturn(() -> "");
+		final ZoneGroupInformation zgi = new ZoneGroupInformation();
+		zgi.setZoneId(Set.of("abc"));
+		when(facade.getServerGroup(grantResponse)).thenReturn(() -> zgi);
+		ga.grantRequest(id);
+		assertTrue(true);
+	}
+
+	@Test
+	void test005() {
+		final GrantAction ga = createService();
+		final UUID id = UUID.randomUUID();
+		final GrantResponse grantResponse = new GrantResponse();
+		grantResponse.setOperation("TERMINATE");
+		final GrantInformationExt ge01 = new GrantInformationExt();
+		grantResponse.addRemoveResources(ge01);
+		final Optional<GrantResponse> optGrant = Optional.of(grantResponse);
+		//
+		final VimConnectionInformation vimConn = new VimConnectionInformation();
+		when(grantJpa.findById(id)).thenReturn(optGrant);
+		when(vimElection.doElection(any(LinkedList.class), eq(null), any(HashSet.class), any(HashSet.class))).thenReturn(vimConn);
+		//
+		when(facade.getZone(vimConn, grantResponse)).thenReturn(() -> "");
+		final ZoneGroupInformation zgi = new ZoneGroupInformation();
+		zgi.setZoneId(Set.of("abc"));
+		when(facade.getServerGroup(grantResponse)).thenReturn(() -> zgi);
 		ga.grantRequest(id);
 		assertTrue(true);
 	}
