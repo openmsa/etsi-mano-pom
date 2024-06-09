@@ -150,6 +150,8 @@ public abstract class AbstractGenericActionV3 {
 	private static void copyVimConnections(final Instance vnfInstance, final Blueprint<?, ?> localPlan) {
 		vnfInstance.setVimConnectionInfo(new LinkedHashSet<>());
 		localPlan.getVimConnections().forEach(vnfInstance::addVimConnectionInfo);
+		vnfInstance.setCismConnectionInfo(new LinkedHashSet<>());
+		localPlan.getCismConnections().forEach(vnfInstance::addCismConnectionInfo);
 	}
 
 	/**

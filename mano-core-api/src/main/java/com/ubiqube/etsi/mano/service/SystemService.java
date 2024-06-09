@@ -22,6 +22,7 @@ import java.util.UUID;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.jpa.SysConnectionJpa;
@@ -59,6 +60,7 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfExtCp;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfIndicator;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.VnfPortNode;
 import com.ubiqube.etsi.mano.service.mapping.SystemConnectionsMapping;
+import com.ubiqube.etsi.mano.vnfm.service.graph.ResourceHolder;
 
 /**
  *
@@ -71,12 +73,14 @@ public class SystemService {
 	private final SysConnectionJpa systemConnectionsJpa;
 	private final Patcher patcher;
 	private final SystemConnectionsMapping systemConnectionsMapping;
+	private final ResourceTypeConverter resourceTypeConverter;
 
-	public SystemService(final SystemsJpa systemJpa, final Patcher patcher, final SysConnectionJpa systemConnectionsJpa, final SystemConnectionsMapping systemConnectionsMapping) {
+	public SystemService(final SystemsJpa systemJpa, final Patcher patcher, final SysConnectionJpa systemConnectionsJpa, final SystemConnectionsMapping systemConnectionsMapping, final ResourceTypeConverter resourceTypeConverter) {
 		this.systemJpa = systemJpa;
 		this.patcher = patcher;
 		this.systemConnectionsJpa = systemConnectionsJpa;
 		this.systemConnectionsMapping = systemConnectionsMapping;
+		this.resourceTypeConverter = resourceTypeConverter;
 	}
 
 	/**
@@ -89,7 +93,27 @@ public class SystemService {
 		if ("OPENSTACK_V3".equals(vimConnectionInformation.getVimType())) {
 			return registerOpenStask(vimConnectionInformation);
 		}
+		if ("UBINFV.CISM.V_1".equals(vimConnectionInformation.getVimType())) {
+			return registerCism(vimConnectionInformation);
+		}
 		throw new GenericException("Unable to find vim of type: " + vimConnectionInformation.getVimType());
+	}
+
+	private Systems registerCism(final VimConnectionInformation vimConnectionInformation) {
+		final Systems sys = new Systems();
+		sys.setVimOrigin(vimConnectionInformation.getId());
+		sys.setVimId(vimConnectionInformation.getVimId());
+		final Class<?>[] sysDtr = {
+				OsContainerDeployableNode.class,
+				OsContainerNode.class,
+				OsK8sInformationsNode.class,
+				MciopUser.class,
+				HelmNode.class,
+		};
+		for (final Class<?> string : sysDtr) {
+			sys.add(createSystem(string.getSimpleName(), vimConnectionInformation, "UBINFV.CISM.V_1"));
+		}
+		return systemJpa.save(sys);
 	}
 
 	private Systems registerOpenStask(final VimConnectionInformation vimConnectionInformation) {
@@ -112,11 +136,6 @@ public class SystemService {
 				VnfCreateNode.class,
 				VnfInstantiateNode.class,
 				VnfExtractorNode.class,
-				OsContainerDeployableNode.class,
-				OsContainerNode.class,
-				OsK8sInformationsNode.class,
-				MciopUser.class,
-				HelmNode.class,
 				VnffgLoadbalancerNode.class,
 				VnffgPostNode.class,
 				SubNetwork.class,
@@ -165,5 +184,11 @@ public class SystemService {
 		patcher.patch(body, sc);
 		final SystemConnections res = systemConnectionsJpa.save(sc);
 		return ResponseEntity.ok(res);
+	}
+
+	public List<SystemConnections> findByModuleName(final ResourceTypeEnum type) {
+		final ResourceHolder res = resourceTypeConverter.toResourceHolder(type).orElseThrow(() -> new GenericException("Unable to find: " + type));
+		return systemConnectionsJpa.findByModuleName(res.node().getSimpleName());
+
 	}
 }

@@ -50,8 +50,10 @@ import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionType;
 import com.ubiqube.etsi.mano.dao.mano.v2.Blueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.ComputeTask;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
+import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.jpa.ConnectionInformationJpa;
+import com.ubiqube.etsi.mano.orchestrator.entities.SystemConnections;
 import com.ubiqube.etsi.mano.service.mapping.BlueZoneGroupInformationMapping;
 import com.ubiqube.etsi.mano.service.mapping.GrantInformationExtMapping;
 import com.ubiqube.etsi.mano.service.mapping.GrantMapper;
@@ -74,14 +76,17 @@ public abstract class AbstractGrantService implements VimResourceService {
 	private final BlueZoneGroupInformationMapping blueZoneGroupInformationMapping;
 	private final GrantMapper vnfGrantMapper;
 	private final GrantInformationExtMapping grantInformationExtMapping;
+	private final SystemService systemService;
 
-	protected AbstractGrantService(final ResourceAllocate nfvo, final VimManager vimManager, final ConnectionInformationJpa connectionJpa, final BlueZoneGroupInformationMapping blueZoneGroupInformationMapping, final GrantMapper vnfGrantMapper, final GrantInformationExtMapping grantInformationExtMapping) {
+	protected AbstractGrantService(final ResourceAllocate nfvo, final VimManager vimManager, final ConnectionInformationJpa connectionJpa, final BlueZoneGroupInformationMapping blueZoneGroupInformationMapping, final GrantMapper vnfGrantMapper, final GrantInformationExtMapping grantInformationExtMapping,
+			final SystemService systemService) {
 		this.nfvo = Objects.requireNonNull(nfvo);
 		this.vimManager = Objects.requireNonNull(vimManager);
 		this.connectionJpa = Objects.requireNonNull(connectionJpa);
 		this.blueZoneGroupInformationMapping = blueZoneGroupInformationMapping;
 		this.vnfGrantMapper = vnfGrantMapper;
 		this.grantInformationExtMapping = grantInformationExtMapping;
+		this.systemService = systemService;
 	}
 
 	@Override
@@ -163,14 +168,30 @@ public abstract class AbstractGrantService implements VimResourceService {
 	protected abstract void check(Blueprint<? extends VimTask, ? extends Instance> plan);
 
 	private Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> fixVimConnections(final Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vimConnections) {
-		return vimConnections.stream().map(vimManager::registerIfNeeded).collect(Collectors.toSet());
+		return vimConnections.stream()
+				.map(vimManager::registerIfNeeded).collect(Collectors.toSet());
 	}
 
-	private static void fixUnknownTask(final Set<? extends VimTask> tasks, final Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vimConnections) {
+	private void fixUnknownTask(final Set<? extends VimTask> tasks, final Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vimConnections) {
 		final VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> vimConn = vimConnections.iterator().next();
 		tasks.stream()
 				.filter(x -> x.getVimConnectionId() == null)
-				.forEach(x -> x.setVimConnectionId(vimConn.getVimId()));
+				.forEach(x -> {
+					final List<SystemConnections> modules = systemService.findByModuleName(x.getType());
+					final String res = modules.stream()
+							.map(y -> vimConnections.stream()
+									.filter(z -> vimEqual(z, y)).findAny())
+							.filter(z -> z.isPresent())
+							.map(z -> z.get().getVimId())
+							.findAny()
+							.orElseThrow(() -> new GenericException("Unable to find connection : " + x.getType()));
+					LOG.info("Set {}={}", res, x.getType());
+					x.setVimConnectionId(res);
+				});
+	}
+
+	private static boolean vimEqual(final VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> z, final SystemConnections y) {
+		return z.getVimType().equals(y.getVimType());
 	}
 
 	private static void mapVimAsset(final Set<? extends VimTask> tasks, final GrantVimAssetsEntity vimAssets) {

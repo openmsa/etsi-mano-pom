@@ -198,10 +198,8 @@ public class VimManager {
 		vci.getAccessInfo().setId(null);
 		vci.getInterfaceInfo().setId(null);
 		final VimConnectionInformation n = vimConnectionInformationJpa.save(vci);
-		if (vimTypeConverter.isVim(vci)) {
-			systemService.registerVim(n);
-			init();
-		}
+		systemService.registerVim(n);
+		init();
 		return n;
 	}
 
