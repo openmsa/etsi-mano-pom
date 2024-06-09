@@ -54,7 +54,7 @@ class TracingConnectionFactoryBeanPostProcessorTest {
 	@Test
 	void test() {
 		final TracingConnectionFactoryBeanPostProcessor srv = new TracingConnectionFactoryBeanPostProcessor(beanFactory);
-		srv.postProcessAfterInitialization(null, "name");
+		srv.postProcessAfterInitialization(new Object(), "name");
 		assertTrue(true);
 	}
 
