@@ -35,14 +35,18 @@ public class ExecutorFacade {
 
 	private final ContainerExecutor containerExecutor;
 	private final ZoneExecutor zoneExecutor;
-	ServerGroupExecutor serverGroupExecutor;
-	SoftwareImageExecutor softwareImageExecutor;
-	FlavorExecutor flavorExecutor;
-	NetworkExecutor networkExecutor;
+	private final ServerGroupExecutor serverGroupExecutor;
+	private final SoftwareImageExecutor softwareImageExecutor;
+	private final FlavorExecutor flavorExecutor;
+	private final NetworkExecutor networkExecutor;
 
-	public ExecutorFacade(final ContainerExecutor containerExecutor, final ZoneExecutor zoneExecutor) {
+	public ExecutorFacade(final ContainerExecutor containerExecutor, final ZoneExecutor zoneExecutor, final NetworkExecutor networkExecutor, final ServerGroupExecutor serverGroupExecutor, final SoftwareImageExecutor softwareImageExecutor, final FlavorExecutor flavorExecutor) {
 		this.containerExecutor = containerExecutor;
 		this.zoneExecutor = zoneExecutor;
+		this.serverGroupExecutor = serverGroupExecutor;
+		this.softwareImageExecutor = softwareImageExecutor;
+		this.flavorExecutor = flavorExecutor;
+		this.networkExecutor = networkExecutor;
 	}
 
 	public void addOrCreateK8sVim(final GrantResponse grants) {
