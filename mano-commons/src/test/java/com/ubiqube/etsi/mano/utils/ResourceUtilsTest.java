@@ -16,25 +16,25 @@
  */
 package com.ubiqube.etsi.mano.utils;
 
+import static com.ubiqube.etsi.mano.utils.ResourceUtils.buildResourcePath;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static com.ubiqube.etsi.mano.utils.ResourceUtils.buildResourcePath;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 @ExtendWith(MockitoExtension.class)
-public class ResourceUtilsTest {
+class ResourceUtilsTest {
 
-    @Test
-    public void buildResourcePath_nominalCase() {
-        assertEquals("/abc", buildResourcePath("abc"));
+	@Test
+	void buildResourcePath_nominalCase() {
+		assertEquals("/abc", buildResourcePath("abc"));
 
-        assertEquals("/abc//d", buildResourcePath("abc", "/d"));
+		assertEquals("/abc//d", buildResourcePath("abc", "/d"));
 
-        assertEquals("//abc//", buildResourcePath("/abc", "/"));
+		assertEquals("//abc//", buildResourcePath("/abc", "/"));
 
-        assertEquals("", buildResourcePath(null));
-        assertEquals("/abc", buildResourcePath("abc", null));
-    }
+		assertEquals("", buildResourcePath(null));
+		assertEquals("/abc", buildResourcePath("abc", null));
+	}
 }
