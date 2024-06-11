@@ -28,7 +28,7 @@ import lombok.Getter;
 
 @Getter
 public class VimType {
-	private static final Pattern PATTERN = Pattern.compile("(?<registrant>[A-Z0-9\\-_]+)\\.(?<vimName>[A-Z0-9\\-_]+)(\\.V_(?<major>[0-9]+)(_(?<minor>[0-9]+))?)?");
+	private static final Pattern PATTERN = Pattern.compile("(?<registrant>[A-Z0-9\\-_]+)\\.(?<vimName>[A-Z0-9\\-_]+)(\\.V_(?<major>[\\d]+)(_(?<minor>[\\d]+))?)?");
 	private final String registrant;
 	private final String vimName;
 	@Nullable
