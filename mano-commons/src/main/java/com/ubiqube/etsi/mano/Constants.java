@@ -16,15 +16,11 @@
  */
 package com.ubiqube.etsi.mano;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
-import lombok.experimental.UtilityClass;
 import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.dao.mano.Instance;
@@ -43,6 +39,7 @@ import com.ubiqube.etsi.mano.exception.GenericException;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
+import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public final class Constants {
@@ -57,15 +54,13 @@ public final class Constants {
 
 	public static final String VNF_SEARCH_DEFAULT_EXCLUDE_FIELDS = "softwareImages,additionalArtifacts,userDefinedData,checksum";
 
-	public static final Set<String> VNF_SEARCH_MANDATORY_FIELDS =
-            Set.of("id", "onboardingState", "operationalState", "usageState", "_links.self.href",
-                    "_links.vnfd.href", "_links.packageContent.href");
+	public static final Set<String> VNF_SEARCH_MANDATORY_FIELDS = Set.of("id", "onboardingState", "operationalState", "usageState", "_links.self.href",
+			"_links.vnfd.href", "_links.packageContent.href");
 
 	public static final String VNFPMJOB_SEARCH_DEFAULT_EXCLUDE_FIELDS = "reports";
 	@Nonnull
-	public static final Set<String> VNFPMJOB_SEARCH_MANDATORY_FIELDS =
-            Set.of("id", "criteria.collectionPeriod", "criteria.reportingPeriod",
-                    "objectInstanceIds");
+	public static final Set<String> VNFPMJOB_SEARCH_MANDATORY_FIELDS = Set.of("id", "criteria.collectionPeriod", "criteria.reportingPeriod",
+			"objectInstanceIds");
 	@Nonnull
 	public static final Set<String> VNFTHR_SEARCH_MANDATORY_FIELDS = Set.of("id");
 
@@ -75,22 +70,19 @@ public final class Constants {
 	// XXX:
 	public static final String ALARM_SEARCH_DEFAULT_EXCLUDE_FIELDS = "";
 	@Nonnull
-	public static final Set<String> ALARM_SEARCH_MANDATORY_FIELDS =
-            Set.of("id", "managedObjectId", "rootCauseFaultyResource", "alarmRaisedTime",
-                    "ackState", "perceivedSeverity", "eventTime", "eventType", "probableCause",
-                    "isRootCause", "_links.self.href");
+	public static final Set<String> ALARM_SEARCH_MANDATORY_FIELDS = Set.of("id", "managedObjectId", "rootCauseFaultyResource", "alarmRaisedTime",
+			"ackState", "perceivedSeverity", "eventTime", "eventType", "probableCause",
+			"isRootCause", "_links.self.href");
 	@Nonnull
-	public static final Set<String> VNFLCMOPOCC_SEARCH_MANDATORY_FIELDS =
-            Set.of("id", "operationState", "stateEnteredTime", "isAutomaticInvocation",
-                    "operationParams", "isCancelPending", "startTime", "vnfInstanceId",
-                    "operation");
+	public static final Set<String> VNFLCMOPOCC_SEARCH_MANDATORY_FIELDS = Set.of("id", "operationState", "stateEnteredTime", "isAutomaticInvocation",
+			"operationParams", "isCancelPending", "startTime", "vnfInstanceId",
+			"operation");
 	@Nonnull
 	public static final String VNFLCMOPOCC_SEARCH_DEFAULT_EXCLUDE_FIELDS = "error,resourceChanges,changedInfo,changedExtConnectivity";
 
 	@Nonnull
-	public static final Set<String> VNFLCM_SEARCH_MANDATORY_FIELDS =
-            Set.of("id", "vnfProvider", "vnfProductName", "vnfSoftwareVersion", "vnfdVersion",
-                    "instantiationState", "vnfdId");
+	public static final Set<String> VNFLCM_SEARCH_MANDATORY_FIELDS = Set.of("id", "vnfProvider", "vnfProductName", "vnfSoftwareVersion", "vnfdVersion",
+			"instantiationState", "vnfdId");
 
 	public static final String VNFLCM_SEARCH_DEFAULT_EXCLUDE_FIELDS = "error,resourceChanges,changedInfo,changedExtConnectivity";
 
