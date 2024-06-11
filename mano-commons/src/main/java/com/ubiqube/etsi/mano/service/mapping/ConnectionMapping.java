@@ -132,7 +132,7 @@ public interface ConnectionMapping {
 	@Nullable
 	default Map<String, String> map(final @Nullable com.ubiqube.etsi.mano.dao.mano.AccessInfo o) {
 		if (null == o) {
-			return null;
+			return Map.of();
 		}
 		final Map<String, String> ret = new LinkedHashMap<>();
 		if (o.getId() != null) {
