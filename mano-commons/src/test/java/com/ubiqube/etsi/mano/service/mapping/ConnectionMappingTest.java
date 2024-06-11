@@ -145,7 +145,7 @@ class ConnectionMappingTest {
 	@Test
 	void testMap001() {
 		final Map<String, String> res = mapper.map((AccessInfo) null);
-		assertNull(res);
+		assertNotNull(res);
 	}
 
 	@Test
