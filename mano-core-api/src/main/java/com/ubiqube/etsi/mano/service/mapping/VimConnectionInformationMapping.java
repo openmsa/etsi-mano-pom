@@ -85,6 +85,9 @@ public interface VimConnectionInformationMapping {
 	}
 
 	default VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> map(final VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> o) {
+		if (o == null) {
+			return null;
+		}
 		final VimConnectionInformation<InterfaceInfo, AccessInfo> ret = new VimConnectionInformation<>();
 		ret.setCnfInfo(o.getCnfInfo());
 		ret.setExtra(o.getExtra());
