@@ -96,12 +96,15 @@ public interface VimConnectionInformationMapping {
 		ret.setVimId(o.getVimId());
 		ret.setVimType(o.getVimType());
 		final AccessInfo ai = switch (ret.getVimType()) {
-		case "OPENSTACK_V3" -> mapToKeystoneAuthV3((KeystoneAuthV3) o.getAccessInfo());
+		case "OPENSTACK_V3", "ETSINFV.OPENSTACK_KEYSTONE.V_3" -> mapToKeystoneAuthV3((KeystoneAuthV3) o.getAccessInfo());
+		case "UBINFV.CISM.V_1" -> mapToK8sInterfaceInfo((KubernetesV1Auth) o.getAccessInfo());
 		default -> throw new IllegalArgumentException("Unexpected value: " + ret.getVimType());
 		};
 		ret.setAccessInfo(ai);
 		return ret;
 	}
+
+	KubernetesV1Auth mapToK8sInterfaceInfo(KubernetesV1Auth o);
 
 	KeystoneAuthV3 mapToKeystoneAuthV3(final KeystoneAuthV3 o);
 
