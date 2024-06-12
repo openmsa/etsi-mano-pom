@@ -25,10 +25,10 @@
 		<maven.compiler.source>21</maven.compiler.source>
 		<lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
 		<org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
-		<org.projectlombok.version>1.18.30</org.projectlombok.version>
+		<org.projectlombok.version>1.18.32</org.projectlombok.version>
 		<version.jetty-bom>9.4.49.v20220914</version.jetty-bom>
 		<version.logstash-logback-encoder>7.4</version.logstash-logback-encoder>
-		<version.loki-logback-appender>1.4.2</version.loki-logback-appender>
+		<version.loki-logback-appender>1.5.1</version.loki-logback-appender>
 	</properties>
 
   <scm>
