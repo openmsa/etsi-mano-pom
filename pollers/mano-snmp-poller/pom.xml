@@ -10,7 +10,7 @@
 	<packaging>jar</packaging>
 	<name>mano-snmp-poller</name>
 	<properties>
-		<org.snmp.snmp4j.version>3.7.4</org.snmp.snmp4j.version>
+		<org.snmp.snmp4j.version>3.8.2</org.snmp.snmp4j.version>
 	</properties>
 	<dependencies>
 		<dependency>
