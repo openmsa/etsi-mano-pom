@@ -29,6 +29,7 @@ import org.libvirt.LibvirtException;
 import org.opendaylight.aaa.cert.api.ICertificateManager;
 import org.opendaylight.ovsdb.lib.OvsdbClient;
 import org.opendaylight.ovsdb.lib.impl.NettyBootstrapFactory;
+import org.opendaylight.ovsdb.lib.impl.NettyBootstrapFactoryImpl;
 import org.opendaylight.ovsdb.lib.impl.OvsdbConnectionService;
 
 import com.google.common.util.concurrent.ListenableFuture;
@@ -82,7 +83,7 @@ class LibvirtTest {
 		System.out.println("Type: " + conn.getType());
 		System.out.println("Version: " + conn.getVersion());
 		final ICertificateManager certManagerSrv = null;
-		final NettyBootstrapFactory bootstrapFactory = new NettyBootstrapFactory();
+		final NettyBootstrapFactory bootstrapFactory = new NettyBootstrapFactoryImpl();
 		final OvsdbConnectionService ovs = new OvsdbConnectionService(bootstrapFactory, certManagerSrv);
 		final OvsdbClient client = ovs.connect(InetAddress.getByName("os-victoria"), 6642);
 		final ListenableFuture<List<String>> db = client.getDatabases();
