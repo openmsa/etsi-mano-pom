@@ -28,7 +28,7 @@
 		<org.projectlombok.version>1.18.32</org.projectlombok.version>
 		<version.jetty-bom>9.4.49.v20220914</version.jetty-bom>
 		<version.logstash-logback-encoder>7.4</version.logstash-logback-encoder>
-		<version.loki-logback-appender>1.4.2</version.loki-logback-appender>
+		<version.loki-logback-appender>1.5.1</version.loki-logback-appender>
 	</properties>
 
   <scm>
