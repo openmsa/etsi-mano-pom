@@ -46,4 +46,8 @@ public class ManoAdmin {
 	public AdminVnfPackage vnfPackage() {
 		return new AdminVnfPackage(client);
 	}
+
+	public ManoCir cir() {
+		return new ManoCir(client);
+	}
 }
