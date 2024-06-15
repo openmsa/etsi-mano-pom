@@ -66,7 +66,7 @@ public class CirRegistryUploader implements RegistryUploader {
 		final RegistryInformations regInfo = mapper.map(cirConn);
 		vnfPackage.getOsContainer().stream().flatMap(x -> x.getArtifacts().values().parallelStream())
 				.forEach(x -> {
-					LOG.info("Uploading to CIR: {}", x.getName());
+					LOG.info("Uploading to CIR: {} from {}", x.getName(), x.getImagePath());
 					File f = new File(Constants.REPOSITORY_FOLDER_ARTIFACTS, x.getImagePath());
 					ManoResource res = packageRepository.getBinary(vnfPackage.getId(), f.toString());
 					try (InputStream raw = res.getInputStream();
