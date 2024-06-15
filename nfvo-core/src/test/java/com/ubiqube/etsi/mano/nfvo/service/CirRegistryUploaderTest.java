@@ -35,8 +35,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionInformation;
+import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainer;
 import com.ubiqube.etsi.mano.dao.mano.vim.SoftwareImage;
-import com.ubiqube.etsi.mano.dao.mano.vnfm.McIops;
 import com.ubiqube.etsi.mano.docker.DockerService;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.repository.ManoResource;
@@ -71,7 +71,7 @@ class CirRegistryUploaderTest {
 		final CirRegistryUploader srv = createService();
 		assertNotNull(srv);
 		final VnfPackage vnfPackage = new VnfPackage();
-		vnfPackage.setMciops(Set.of());
+		vnfPackage.setOsContainer(Set.of());
 		srv.uploadToRegistry(vnfPackage);
 	}
 
@@ -80,8 +80,8 @@ class CirRegistryUploaderTest {
 		final CirRegistryUploader srv = createService();
 		assertNotNull(srv);
 		final VnfPackage vnfPackage = new VnfPackage();
-		final McIops mc01 = new McIops();
-		vnfPackage.setMciops(Set.of(mc01));
+		final OsContainer mc01 = new OsContainer();
+		vnfPackage.setOsContainer(Set.of(mc01));
 		assertThrows(GenericException.class, () -> srv.uploadToRegistry(vnfPackage));
 	}
 
@@ -90,11 +90,11 @@ class CirRegistryUploaderTest {
 		final CirRegistryUploader srv = createService();
 		assertNotNull(srv);
 		final VnfPackage vnfPackage = new VnfPackage();
-		final McIops mc01 = new McIops();
+		final OsContainer mc01 = new OsContainer();
 		final SoftwareImage sw01 = new SoftwareImage();
 		sw01.setImagePath("/path");
 		mc01.setArtifacts(Map.of("img0~", sw01));
-		vnfPackage.setMciops(Set.of(mc01));
+		vnfPackage.setOsContainer(Set.of(mc01));
 		final ConnectionInformation ci01 = new ConnectionInformation();
 		when(vimManager.findAll()).thenReturn(List.of(ci01));
 		final ManoResource mano = Mockito.mock(ManoResource.class);
