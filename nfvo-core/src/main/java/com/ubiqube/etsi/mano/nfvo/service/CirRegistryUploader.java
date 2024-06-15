@@ -22,6 +22,8 @@ import java.io.InputStream;
 import java.util.Iterator;
 import java.util.Optional;
 
+import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
+import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -62,17 +64,36 @@ public class CirRegistryUploader implements RegistryUploader {
 		}
 		final ConnectionInformation cirConn = getCirConnection();
 		final RegistryInformations regInfo = mapper.map(cirConn);
-		vnfPackage.getMciops().stream().flatMap(x -> x.getArtifacts().values().parallelStream())
+		vnfPackage.getOsContainer().stream().flatMap(x -> x.getArtifacts().values().parallelStream())
 				.forEach(x -> {
 					LOG.info("Uploading to CIR: {}", x.getName());
 					File f = new File(Constants.REPOSITORY_FOLDER_ARTIFACTS, x.getImagePath());
 					ManoResource res = packageRepository.getBinary(vnfPackage.getId(), f.toString());
-					try (InputStream is = res.getInputStream()) {
+					try (InputStream raw = res.getInputStream();
+							InputStream is = unpackStream(raw, x.getImagePath())) {
 						dockerService.sendToRegistry(is, regInfo, x.getName(), Optional.ofNullable(x.getVersion()).orElse("latest"));
 					} catch (IOException e) {
-						throw new GenericException(e);
+						throw new GenericException("While opening " + x.getImagePath(), e);
 					}
 				});
+	}
+
+	private static InputStream unpackStream(final InputStream raw, final String imagePath) throws IOException {
+		if (isBz2(imagePath)) {
+			return new BZip2CompressorInputStream(raw);
+		}
+		if (isGz(imagePath)) {
+			return new GzipCompressorInputStream(raw);
+		}
+		return raw;
+	}
+
+	private static boolean isGz(final String imagePath) {
+		return imagePath.endsWith(".gz") || imagePath.endsWith(".tgz");
+	}
+
+	private static boolean isBz2(final String imagePath) {
+		return imagePath.endsWith(".bz2");
 	}
 
 	private ConnectionInformation getCirConnection() {
