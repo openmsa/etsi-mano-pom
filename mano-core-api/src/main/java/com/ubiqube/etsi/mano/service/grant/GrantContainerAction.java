@@ -149,7 +149,7 @@ public class GrantContainerAction {
 				final String tag = Optional.ofNullable(ref.getVersion()).orElse("latest");
 				final RegistryInformations regInfo = convert(conn);
 				try (InputStream is = bin.getInputStream()) {
-					dockerService.sendToRegistry(is, regInfo, imageName, tag);
+					dockerService.sendToRegistry(is, ref.getImagePath(), regInfo, imageName, tag);
 				} catch (final DockerApiException e) {
 					LOG.warn("Could not upload blob: {}", x.getName());
 					LOG.trace("", e);
