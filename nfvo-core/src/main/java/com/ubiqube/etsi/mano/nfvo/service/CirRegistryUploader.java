@@ -71,7 +71,7 @@ public class CirRegistryUploader implements RegistryUploader {
 					ManoResource res = packageRepository.getBinary(vnfPackage.getId(), f.toString());
 					try (InputStream raw = res.getInputStream();
 							InputStream is = unpackStream(raw, x.getImagePath())) {
-						dockerService.sendToRegistry(is, regInfo, x.getName(), Optional.ofNullable(x.getVersion()).orElse("latest"));
+						dockerService.sendToRegistry(is, f.toString(), regInfo, x.getName(), Optional.ofNullable(x.getVersion()).orElse("latest"));
 					} catch (IOException e) {
 						throw new GenericException("While opening " + x.getImagePath(), e);
 					}
