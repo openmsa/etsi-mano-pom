@@ -20,7 +20,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.stream.StreamSupport;
 
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
@@ -31,6 +35,7 @@ import org.springframework.stereotype.Service;
 import com.ubiqube.etsi.mano.Constants;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionInformation;
+import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionType;
 import com.ubiqube.etsi.mano.docker.DockerService;
 import com.ubiqube.etsi.mano.docker.RegistryInformations;
 import com.ubiqube.etsi.mano.exception.GenericException;
@@ -101,7 +106,13 @@ public class CirRegistryUploader implements RegistryUploader {
 		if (!cirConnIte.hasNext()) {
 			throw new GenericException("No CIR connection information found.");
 		}
-		return cirConnIte.next();
+		final List<ConnectionInformation> lst = StreamSupport.stream(Spliterators.spliteratorUnknownSize(cirConnIte, Spliterator.ORDERED), false)
+				.filter(x -> x.getConnType().equals(ConnectionType.OCI))
+				.toList();
+		if (lst.isEmpty()) {
+			throw new GenericException("No suitable CIR connection information found.");
+		}
+		return lst.getFirst();
 	}
 
 }
