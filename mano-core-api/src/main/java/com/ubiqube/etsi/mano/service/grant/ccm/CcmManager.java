@@ -71,8 +71,8 @@ public class CcmManager {
 		conn.setAccessInfo(ai);
 		conn.setInterfaceInfo(ii);
 		conn.setVimType("UBINFV.CISM.V_1");
-		// XXX: Require a full id ?
-		conn.setVimId(UUID.randomUUID().toString());
+		// Use endpoint to make repeatable ID.
+		conn.setVimId(UUID.nameUUIDFromBytes(ii.getEndpoint().getBytes()).toString());
 		return conn;
 	}
 
@@ -91,7 +91,7 @@ public class CcmManager {
 	public void getTerminateCluster(final String vnfInstanceId) {
 		ccmServerService.terminateCluster(vnfInstanceId);
 		final Optional<K8sServers> k8s = k8sServerInfoJpa.findByVnfInstanceId(getSafeUUID(vnfInstanceId));
-        k8s.ifPresent(k8sServerInfoJpa::delete);
+		k8s.ifPresent(k8sServerInfoJpa::delete);
 	}
 
 }
