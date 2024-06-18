@@ -35,6 +35,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionInformation;
+import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionType;
 import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainer;
 import com.ubiqube.etsi.mano.dao.mano.vim.SoftwareImage;
 import com.ubiqube.etsi.mano.docker.DockerService;
@@ -96,6 +97,7 @@ class CirRegistryUploaderTest {
 		mc01.setArtifacts(Map.of("img0~", sw01));
 		vnfPackage.setOsContainer(Set.of(mc01));
 		final ConnectionInformation ci01 = new ConnectionInformation();
+		ci01.setConnType(ConnectionType.OCI);
 		when(vimManager.findAll()).thenReturn(List.of(ci01));
 		final ManoResource mano = Mockito.mock(ManoResource.class);
 		when(mano.getInputStream()).thenReturn(InputStream.nullInputStream());
