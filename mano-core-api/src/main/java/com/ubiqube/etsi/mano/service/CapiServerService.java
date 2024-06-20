@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -23,6 +24,9 @@ import org.springframework.stereotype.Service;
 import com.ubiqube.etsi.mano.dao.mano.cnf.capi.CapiServer;
 import com.ubiqube.etsi.mano.jpa.CapiServerJpa;
 
+/**
+ * Manage the list of CAPI kubernets server connections.
+ */
 @Service
 public class CapiServerService {
 	private final CapiServerJpa capiServerJpa;
@@ -43,4 +47,7 @@ public class CapiServerService {
 		capiServerJpa.deleteById(id);
 	}
 
+	public Optional<CapiServer> findByVimId(final String vimId) {
+		return capiServerJpa.findByVimId(vimId);
+	}
 }

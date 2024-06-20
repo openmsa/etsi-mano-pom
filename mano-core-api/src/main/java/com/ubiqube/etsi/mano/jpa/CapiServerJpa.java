@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.jpa;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.repository.CrudRepository;
@@ -23,5 +24,6 @@ import org.springframework.data.repository.CrudRepository;
 import com.ubiqube.etsi.mano.dao.mano.cnf.capi.CapiServer;
 
 public interface CapiServerJpa extends CrudRepository<CapiServer, UUID> {
-	//
+
+	Optional<CapiServer> findByVimId(String vimId);
 }
