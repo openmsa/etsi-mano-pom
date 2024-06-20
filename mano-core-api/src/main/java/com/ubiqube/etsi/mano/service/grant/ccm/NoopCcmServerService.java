@@ -18,12 +18,10 @@ package com.ubiqube.etsi.mano.service.grant.ccm;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.vim.k8s.K8s;
 
-@Service
 public class NoopCcmServerService implements CcmServerService {
 	/** Logger. */
 	private static final Logger LOG = LoggerFactory.getLogger(NoopCcmServerService.class);
