@@ -22,6 +22,9 @@ import org.slf4j.LoggerFactory;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.vim.k8s.K8s;
 
+/**
+ * This pseudo service is added for debugging purpose.
+ */
 public class NoopCcmServerService implements CcmServerService {
 	/** Logger. */
 	private static final Logger LOG = LoggerFactory.getLogger(NoopCcmServerService.class);
