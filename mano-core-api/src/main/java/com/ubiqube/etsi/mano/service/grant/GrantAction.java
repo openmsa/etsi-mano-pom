@@ -114,7 +114,7 @@ public class GrantAction {
 		grants.setVimConnections(Collections.singleton(vimInfo));
 		if (requireVimInfo.contains(grants.getOperation())) {
 			getVimInformations(vimInfo, grants);
-			executorExecutorFacade.addOrCreateK8sVim(grants);
+			executorExecutorFacade.addOrCreateK8sVim(vimInfo, grants);
 			executorExecutorFacade.addCirConnection(grants);
 		}
 		if ("TERMINATE".equals(grants.getOperation())) {

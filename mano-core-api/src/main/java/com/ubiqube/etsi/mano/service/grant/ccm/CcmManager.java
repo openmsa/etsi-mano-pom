@@ -47,12 +47,12 @@ public class CcmManager {
 		this.ccmServerService = ccmServerService;
 	}
 
-	public VimConnectionInformation<K8sInterfaceInfo, KubernetesV1Auth> getVimConnection(final GrantResponse grants, final VnfPackage vnfPackage) {
+	public VimConnectionInformation<K8sInterfaceInfo, KubernetesV1Auth> getVimConnection(final VimConnectionInformation vimInfo, final GrantResponse grants, final VnfPackage vnfPackage) {
 		final Optional<K8sServers> k8sInfo = k8sServerInfoJpa.findByVnfInstanceId(getSafeUUID(grants.getVnfInstanceId()));
 		if (k8sInfo.isPresent()) {
 			return connectionInformationMapping.mapFromTls(k8sInfo.get());
 		}
-		final K8s res = ccmServerService.createCluster(grants.getVnfInstanceId());
+		final K8s res = ccmServerService.createCluster(vimInfo, grants.getVnfInstanceId());
 		final K8sServers ret = toK8sServers(res, grants.getVnfInstanceId());
 		ret.setId(UUID.randomUUID());
 		ret.setVnfInstanceId(UUID.fromString(grants.getVnfInstanceId()));

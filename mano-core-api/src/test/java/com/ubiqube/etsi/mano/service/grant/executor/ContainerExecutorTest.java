@@ -110,8 +110,9 @@ class ContainerExecutorTest {
 		final GrantResponse grant = new GrantResponse();
 		final VnfPackage vnfPackage = new VnfPackage();
 		vnfPackage.setMciops(Set.of());
+		final VimConnectionInformation vim01 = new VimConnectionInformation<>();
 		when(vnfPackageService.findByVnfdId(any())).thenReturn(vnfPackage);
-		srv.addOrCreateK8sVim(grant);
+		srv.addOrCreateK8sVim(vim01, grant);
 		assertTrue(true);
 	}
 
@@ -124,9 +125,9 @@ class ContainerExecutorTest {
 		vnfPackage.setOsContainerDesc(Set.of(osc));
 		when(vnfPackageService.findByVnfdId(any())).thenReturn(vnfPackage);
 		final VimConnectionInformation vim01 = new VimConnectionInformation<>();
-		when(ccmManager.getVimConnection(any(), any())).thenReturn(vim01);
+		when(ccmManager.getVimConnection(any(), any(), any())).thenReturn(vim01);
 		when(vimManager.findOptionalVimByVimId(any())).thenReturn(Optional.ofNullable(vim01));
-		srv.addOrCreateK8sVim(grant);
+		srv.addOrCreateK8sVim(vim01, grant);
 		assertTrue(true);
 	}
 
@@ -142,10 +143,10 @@ class ContainerExecutorTest {
 		vnfPackage.setOsContainerDeployableUnits(Set.of());
 		when(vnfPackageService.findByVnfdId(any())).thenReturn(vnfPackage);
 		final VimConnectionInformation vim01 = new VimConnectionInformation<>();
-		when(ccmManager.getVimConnection(any(), any())).thenReturn(vim01);
+		when(ccmManager.getVimConnection(any(), any(), any())).thenReturn(vim01);
 		when(vimManager.findOptionalVimByVimId(any())).thenReturn(Optional.empty());
 		when(vimManager.save(any())).thenReturn(vim01);
-		srv.addOrCreateK8sVim(grant);
+		srv.addOrCreateK8sVim(vim01, grant);
 		assertTrue(true);
 	}
 }

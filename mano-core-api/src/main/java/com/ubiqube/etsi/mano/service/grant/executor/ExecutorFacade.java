@@ -49,8 +49,8 @@ public class ExecutorFacade {
 		this.networkExecutor = networkExecutor;
 	}
 
-	public void addOrCreateK8sVim(final GrantResponse grants) {
-		containerExecutor.addOrCreateK8sVim(grants);
+	public void addOrCreateK8sVim(final VimConnectionInformation vimInfo, final GrantResponse grants) {
+		containerExecutor.addOrCreateK8sVim(vimInfo, grants);
 	}
 
 	public void addCirConnection(final GrantResponse grants) {

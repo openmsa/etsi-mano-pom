@@ -16,12 +16,13 @@
  */
 package com.ubiqube.etsi.mano.service.grant.ccm;
 
+import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.vim.k8s.K8s;
 
 public interface CcmServerService {
 
 	void terminateCluster(String vnfInstanceId);
 
-	K8s createCluster(String name);
+	K8s createCluster(VimConnectionInformation vimConn, String name);
 
 }

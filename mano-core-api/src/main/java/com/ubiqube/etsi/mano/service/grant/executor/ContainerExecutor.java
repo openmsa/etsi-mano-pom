@@ -63,12 +63,12 @@ public class ContainerExecutor {
 		ccmManager.getTerminateCluster(grants.getVnfInstanceId());
 	}
 
-	public void addOrCreateK8sVim(final GrantResponse grants) {
+	public void addOrCreateK8sVim(final VimConnectionInformation vci, final GrantResponse grants) {
 		final VnfPackage vnfPackage = vnfPackageService.findByVnfdId(grants.getVnfdId());
 		if (!haveCni(vnfPackage)) {
 			return;
 		}
-		VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> vimc = ccmManager.getVimConnection(grants, vnfPackage);
+		VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> vimc = ccmManager.getVimConnection(vci, grants, vnfPackage);
 		vimc = storeIfNeeded(vimc);
 		grants.setCismConnections(Set.of(vimc));
 	}
