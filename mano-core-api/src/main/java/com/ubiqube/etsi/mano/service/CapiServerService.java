@@ -16,7 +16,6 @@
  */
 package com.ubiqube.etsi.mano.service;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -47,7 +46,4 @@ public class CapiServerService {
 		capiServerJpa.deleteById(id);
 	}
 
-	public Optional<CapiServer> findByVimId(final String vimId) {
-		return capiServerJpa.findByVimId(vimId);
-	}
 }
