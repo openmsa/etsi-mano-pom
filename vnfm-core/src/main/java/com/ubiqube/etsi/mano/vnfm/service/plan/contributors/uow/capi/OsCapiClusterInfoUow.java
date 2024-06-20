@@ -26,6 +26,7 @@ import com.ubiqube.etsi.mano.dao.mano.cnf.capi.CapiServer;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.K8sInformationsTask;
 import com.ubiqube.etsi.mano.dao.mano.vim.k8s.K8sServers;
 import com.ubiqube.etsi.mano.dao.mano.vim.k8s.StatusType;
+import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.jpa.CapiServerJpa;
 import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerDeployableNode;
@@ -60,8 +61,11 @@ public class OsCapiClusterInfoUow extends AbstractVnfmUow<K8sInformationsTask> {
 		}
 		final CapiServer capiSrv = capiServerJpa.findAll().iterator().next();
 		final K8s k8sConfig = mapper.map(capiSrv);
-		final K8s res = osClusterService.getKubeConfig(k8sConfig, "default", buildClusterName(task.getToscaName(), task.getVnfInstId()));
-		final K8sServers ret = toK8sServers(res);
+		final Optional<K8s> res = osClusterService.getKubeConfig(k8sConfig, "default", buildClusterName(task.getToscaName(), task.getVnfInstId()));
+		if (res.isEmpty()) {
+			throw new GenericException("Unable to find newly created cluster: ");
+		}
+		final K8sServers ret = toK8sServers(res.get());
 		ret.setId(UUID.fromString(srv));
 		final K8sServers r = serverInfoJpa.save(ret);
 		return r.getId().toString();
@@ -82,7 +86,7 @@ public class OsCapiClusterInfoUow extends AbstractVnfmUow<K8sInformationsTask> {
 	@Override
 	public String rollback(final Context3d context) {
 		final Optional<K8sServers> obj = serverInfoJpa.findByVimResourceId(task.getVimResourceId());
-        obj.ifPresent(k8sServers -> serverInfoJpa.deleteById(k8sServers.getId()));
+		obj.ifPresent(k8sServers -> serverInfoJpa.deleteById(k8sServers.getId()));
 		return null;
 	}
 

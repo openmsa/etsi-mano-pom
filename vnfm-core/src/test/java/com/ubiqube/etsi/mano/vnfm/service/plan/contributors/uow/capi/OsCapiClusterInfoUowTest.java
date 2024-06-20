@@ -69,7 +69,7 @@ class OsCapiClusterInfoUowTest {
 		when(capiServerJpa.findAll()).thenReturn(List.of(capi));
 		final K8s k8sVal = new K8s();
 		k8sVal.setApiUrl("http://localhost/");
-		when(osClusterService.getKubeConfig(any(), any(), any())).thenReturn(k8sVal);
+		when(osClusterService.getKubeConfig(any(), any(), any())).thenReturn(Optional.of(k8sVal));
 		when(ctx.get(any(), any())).thenReturn(UUID.randomUUID().toString());
 		final K8sServers k8s = new K8sServers();
 		k8s.setId(UUID.randomUUID());
