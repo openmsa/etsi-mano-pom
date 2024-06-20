@@ -1,6 +1,7 @@
 package com.ubiqube.etsi.mano.service.grant.ccm;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,11 +48,11 @@ public class CapiCcmServerService implements CcmServerService {
 		final CapiServer capiSrv = ite.iterator().next();
 		LOG.info("Using capi cluster: {}", capiSrv.getName());
 		final K8s k8s = mapper.map(capiSrv);
-		final K8s res = osClusterService.getKubeConfig(k8s, "default", vimConn.getVimId());
-		if (null == res) {
+		final Optional<K8s> res = osClusterService.getKubeConfig(k8s, "default", vimConn.getVimId());
+		if (res.isEmpty()) {
 			return deployServer(capiSrv, k8s, "default", vimConn.getVimId(), vimConn);
 		}
-		return k8s;
+		return res.get();
 	}
 
 	private K8s deployServer(final CapiServer capiSrv, final K8s k8s, final String ns, final String clusterName, final VimConnectionInformation vci) {
