@@ -109,6 +109,9 @@ public interface ConnectionMapping {
 		ret.put("read-timeout", "" + value.getRetry());
 		Optional.ofNullable(value.getRegionName()).ifPresent(x -> ret.put("regionName", x));
 		Optional.ofNullable(value.getSdnEndpoint()).ifPresent(x -> ret.put("sdn-endpoint", x));
+		if (value instanceof final K8sInterfaceInfo kii) {
+			Optional.ofNullable(((K8sInterfaceInfo) value).getCertificateAuthorityData()).ifPresent(x -> ret.put("certificate-authority-data", x));
+		}
 		return ret;
 	}
 
