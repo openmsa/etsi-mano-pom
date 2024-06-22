@@ -81,7 +81,11 @@ public class CapiCcmServerService implements CcmServerService {
 				.serviceDomain("cluster.local")
 				.build();
 		osClusterService.createCluster(vci, k8s, params);
-		return null;
+		final Optional<K8s> opt = osClusterService.getKubeConfig(k8s, ns, clusterName);
+		if (opt.isPresent()) {
+			return opt.get();
+		}
+		throw new GenericException("Unable to find cluster: " + ns + "/" + clusterName);
 	}
 
 }
