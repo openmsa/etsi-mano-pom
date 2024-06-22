@@ -59,6 +59,7 @@ import com.ubiqube.etsi.mano.model.VnfInstantiate;
 import com.ubiqube.etsi.mano.model.VnfOperateRequest;
 import com.ubiqube.etsi.mano.model.VnfScaleRequest;
 import com.ubiqube.etsi.mano.model.VnfScaleToLevelRequest;
+import com.ubiqube.etsi.mano.service.ServerService;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.event.ActionType;
 import com.ubiqube.etsi.mano.service.event.EventManager;
@@ -101,9 +102,11 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 
 	private final VnfInstanceMapping vnfInstanceMapping;
 
+	private final ServerService serverService;
+
 	public VnfInstanceLcmImpl(final EventManager eventManager, final VnfLcmService vnfLcmService,
 			final VnfInstanceService vnfInstanceService, final VimManager vimManager, final VnfPackageService vnfPackageService,
-			final VnfInstanceServiceVnfm vnfInstanceServiceVnfm, final ManoClientFactory manoClientFactory, final VnfInstanceMapping vnfInstanceMapping, final VnfBlueprintMapping vnfBlueprintMapping, final VimConnectionInformationMapping vimConnectionInformationMapping) {
+			final VnfInstanceServiceVnfm vnfInstanceServiceVnfm, final ManoClientFactory manoClientFactory, final VnfInstanceMapping vnfInstanceMapping, final VnfBlueprintMapping vnfBlueprintMapping, final VimConnectionInformationMapping vimConnectionInformationMapping, final ServerService serverService) {
 		this.eventManager = eventManager;
 		this.vnfLcmService = vnfLcmService;
 		this.vnfInstanceService = vnfInstanceService;
@@ -114,6 +117,7 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 		this.vimConnectionInformationMapping = vimConnectionInformationMapping;
 		this.vnfBlueprintMapping = vnfBlueprintMapping;
 		this.vnfInstanceMapping = vnfInstanceMapping;
+		this.serverService = serverService;
 	}
 
 	@Override
@@ -149,6 +153,7 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 		vnfPkg.setUsageState(UsageStateEnum.NOT_IN_USE);
 		vnfPkg.setId(null);
 		vnfPkg.setSoftwareImages(Set.of());
+		vnfPkg.setServer(serverService.findNearestServer().getServer());
 		final VnfPackage nPkg = vnfPackageService.save(vnfPkg);
 		eventManager.sendActionVnfm(ActionType.VNF_PKG_ONBOARD_DOWNLOAD_INSTANTIATE, nPkg.getId(), Map.of());
 		vnfPkg.setOnboardingState(OnboardingStateType.ONBOARDED);

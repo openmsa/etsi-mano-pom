@@ -40,6 +40,7 @@ import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.exception.NotFoundException;
 import com.ubiqube.etsi.mano.model.ExternalManagedVirtualLink;
 import com.ubiqube.etsi.mano.model.VnfInstantiate;
+import com.ubiqube.etsi.mano.service.ServerService;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.mapping.VimConnectionInformationMapping;
@@ -73,6 +74,9 @@ class VnfInstanceLcmImplTest {
 	private ManoClientFactory manoClient;
 	@Mock
 	private ManoClient mc;
+	@Mock
+	private ServerService serverService;
+
 	private final VimConnectionInformationMapping vimConnectionInformationMapping = Mappers.getMapper(VimConnectionInformationMapping.class);
 
 	private final VnfBlueprintMapping vnfBlueprintMapping = Mappers.getMapper(VnfBlueprintMapping.class);
@@ -88,7 +92,8 @@ class VnfInstanceLcmImplTest {
 	}
 
 	private VnfInstanceLcmImpl createService() {
-		return new VnfInstanceLcmImpl(eventManager, vnfLcmService, vnfInstanceServiec, vimManager, vnfPackageService, vnfInstanceVnfm, manoClient, vnfInstanceMapping, vnfBlueprintMapping, vimConnectionInformationMapping);
+		return new VnfInstanceLcmImpl(eventManager, vnfLcmService, vnfInstanceServiec, vimManager, vnfPackageService, vnfInstanceVnfm, manoClient, vnfInstanceMapping, vnfBlueprintMapping, vimConnectionInformationMapping,
+				serverService);
 	}
 
 	@Test

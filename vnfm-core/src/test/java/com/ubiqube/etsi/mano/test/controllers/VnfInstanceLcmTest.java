@@ -45,6 +45,7 @@ import com.ubiqube.etsi.mano.model.VnfInstantiate;
 import com.ubiqube.etsi.mano.model.VnfOperateRequest;
 import com.ubiqube.etsi.mano.model.VnfScaleRequest;
 import com.ubiqube.etsi.mano.model.VnfScaleToLevelRequest;
+import com.ubiqube.etsi.mano.service.ServerService;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.mapping.VimConnectionInformationMapping;
@@ -79,6 +80,8 @@ class VnfInstanceLcmTest {
 	private VnfInstanceServiceVnfm vnfInstanceServiceVnfm;
 	@Mock
 	private ManoClient onboardVnfPkg;
+	@Mock
+	private ServerService serverService;
 	private final VimConnectionInformationMapping vimConnectionInformationMapping = Mappers.getMapper(VimConnectionInformationMapping.class);
 
 	private final VnfBlueprintMapping vnfBlueprintMapping = Mappers.getMapper(VnfBlueprintMapping.class);
@@ -95,7 +98,7 @@ class VnfInstanceLcmTest {
 	private VnfInstanceLcmImpl createService() {
 		return new VnfInstanceLcmImpl(eventManager, vnfLcmService,
 				vnfInstanceService, vimManager, vnfPackageService,
-				vnfInstanceServiceVnfm, manoClientFactory, vnfInstanceMapping, vnfBlueprintMapping, vimConnectionInformationMapping);
+				vnfInstanceServiceVnfm, manoClientFactory, vnfInstanceMapping, vnfBlueprintMapping, vimConnectionInformationMapping, serverService);
 	}
 
 	@Test
@@ -276,6 +279,6 @@ class VnfInstanceLcmTest {
 
 	private VnfInstanceLcmImpl createVnfInstanceLcm() {
 		return new VnfInstanceLcmImpl(eventManager, vnfLcmService, vnfInstanceService, vimManager, vnfPackageService, vnfInstanceServiceVnfm, manoClientFactory,
-				vnfInstanceMapping, vnfBlueprintMapping, vimConnectionInformationMapping);
+				vnfInstanceMapping, vnfBlueprintMapping, vimConnectionInformationMapping, serverService);
 	}
 }
