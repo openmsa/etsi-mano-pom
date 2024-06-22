@@ -46,6 +46,7 @@ import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.mapping.VimConnectionInformationMapping;
 import com.ubiqube.etsi.mano.service.rest.ManoClient;
 import com.ubiqube.etsi.mano.service.rest.ManoClientFactory;
+import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
 import com.ubiqube.etsi.mano.service.rest.vnfpkg.ManoOnboarded;
 import com.ubiqube.etsi.mano.service.rest.vnfpkg.ManoVnfPackage;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
@@ -213,6 +214,7 @@ class VnfInstanceLcmImplTest {
 		when(manoOnboarded.find()).thenReturn(pkg);
 		when(vnfPackageService.save(pkg)).thenReturn(pkg);
 		when(vnfInstanceServiec.save((VnfInstance) any())).thenReturn(inst);
+		when(serverService.findNearestServer()).thenReturn(new ServerAdapter(null, null, null));
 		srv.post(null, id.toString(), null, null);
 		assertTrue(true);
 	}
