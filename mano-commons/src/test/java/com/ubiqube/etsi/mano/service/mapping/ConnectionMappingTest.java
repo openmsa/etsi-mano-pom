@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.service.mapping;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -33,6 +34,7 @@ import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.ai.KeystoneAuthV3;
 import com.ubiqube.etsi.mano.dao.mano.ai.KubernetesV1Auth;
 import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionInformation;
+import com.ubiqube.etsi.mano.dao.mano.ii.K8sInterfaceInfo;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.service.auth.model.AuthParamBasic;
 import com.ubiqube.etsi.mano.service.auth.model.AuthParamOauth2;
@@ -257,5 +259,14 @@ class ConnectionMappingTest {
 		ci.setUrl(URI.create("http://localhost/"));
 		final Map<String, String> res = mapper.mapToInterfaceMap(ci);
 		assertNotNull(res);
+	}
+
+	@Test
+	void testK8sInterfaceInfo() {
+		final K8sInterfaceInfo kii = new K8sInterfaceInfo();
+		kii.setCertificateAuthorityData("data");
+		final Map<String, String> res = mapper.map(kii);
+		assertNotNull(res);
+		assertEquals("data", res.get("certificate-authority-data"));
 	}
 }

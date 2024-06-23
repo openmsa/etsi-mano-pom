@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
 import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
@@ -61,6 +62,7 @@ public interface ConnectionMapping {
 		throw new GenericException("Unknown vimType: " + vimType);
 	}
 
+	@Mapping(target = "certificateAuthorityData", source = "certificate-authority-data")
 	K8sInterfaceInfo mapToK8sInterfaceInfo(@Valid Map<String, String> ii);
 
 	OpenstackV3InterfaceInfo mapToOpenstackV3InterfaceInfo(@Valid Map<String, String> ii);
@@ -91,6 +93,8 @@ public interface ConnectionMapping {
 		throw new GenericException("Vim type: " + vimType);
 	}
 
+	@Mapping(target = "clientCertificateData", source = "client-certificate-data")
+	@Mapping(target = "clientKeyData", source = "client-key-data")
 	KubernetesV1Auth mapToK8sAuth(@Valid Map<String, String> ai);
 
 	default Map<String, String> map(final InterfaceInfo value) {
