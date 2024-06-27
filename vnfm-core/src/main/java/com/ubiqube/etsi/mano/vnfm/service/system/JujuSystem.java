@@ -76,7 +76,7 @@ public class JujuSystem extends AbstractVimSystemV3<HelmTask> {
 						.build())
 				.url(props.getUrl())
 				.build();
-		final UnitOfWorkV3<HelmTask> uow = new HelmV3DeployUow(virtualTask, client, serverInfoJpa, repo, srv);
+		final UnitOfWorkV3<HelmTask> uow = new HelmV3DeployUow(virtualTask, client, vimConnectionInformation, repo, srv);
 		return orchestrationService.systemBuilderOf(uow);
 	}
 

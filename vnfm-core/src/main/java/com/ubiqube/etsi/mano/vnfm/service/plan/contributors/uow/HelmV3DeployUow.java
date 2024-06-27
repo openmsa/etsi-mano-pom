@@ -22,21 +22,23 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Base64;
 import java.util.UUID;
 
 import com.ubiqube.etsi.mano.Constants;
+import com.ubiqube.etsi.mano.dao.mano.ai.KubernetesV1Auth;
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
+import com.ubiqube.etsi.mano.dao.mano.ii.K8sInterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.HelmTask;
+import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.vim.k8s.K8sServers;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.orchestrator.Context3d;
 import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.HelmNode;
-import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerDeployableNode;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
 import com.ubiqube.etsi.mano.repository.ManoResource;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 import com.ubiqube.etsi.mano.service.vim.k8s.K8sClient;
-import com.ubiqube.etsi.mano.vnfm.jpa.K8sServerInfoJpa;
 
 import jakarta.annotation.Nullable;
 
@@ -48,26 +50,34 @@ import jakarta.annotation.Nullable;
 public class HelmV3DeployUow extends AbstractVnfmUow<HelmTask> {
 	private final K8sClient client;
 	private final HelmTask task;
-	private final K8sServerInfoJpa serverInfoJpa;
 	private final VnfPackageRepository vnfRepo;
 	private final Servers srv;
+	private final VimConnectionInformation<K8sInterfaceInfo, KubernetesV1Auth> vimConnection;
 
-	public HelmV3DeployUow(final VirtualTaskV3<HelmTask> task, final K8sClient client, final K8sServerInfoJpa serverInfoJpa, final VnfPackageRepository vnfRepo,
+	public HelmV3DeployUow(final VirtualTaskV3<HelmTask> task, final K8sClient client, final VimConnectionInformation<K8sInterfaceInfo, KubernetesV1Auth> vimConnectionInformation, final VnfPackageRepository vnfRepo,
 			final Servers srv) {
 		super(task, HelmNode.class);
 		this.client = client;
-		this.serverInfoJpa = serverInfoJpa;
 		this.vnfRepo = vnfRepo;
 		this.srv = srv;
 		this.task = task.getTemplateParameters();
+		this.vimConnection = vimConnectionInformation;
 	}
 
 	@Override
 	public @Nullable String execute(final Context3d context) {
-		final String server = context.get(OsContainerDeployableNode.class, task.getParentVdu());
-		final K8sServers s = serverInfoJpa.findById(UUID.fromString(server)).orElseThrow(() -> new GenericException("Unable to find erver " + server));
 		final File tmpFile = copyFile(task.getMciop().getArtifacts().entrySet().iterator().next().getValue().getImagePath(), task.getVnfPackageId());
+		final K8sServers s = K8sServers.builder()
+				.apiAddress(vimConnection.getInterfaceInfo().getEndpoint())
+				.caPem(base64Decode(vimConnection.getInterfaceInfo().getCertificateAuthorityData()))
+				.userCrt(base64Decode(vimConnection.getAccessInfo().getClientCertificateData()))
+				.userKey(base64Decode(vimConnection.getAccessInfo().getClientKeyData()))
+				.build();
 		return client.deploy(srv, s, tmpFile, UUID.randomUUID().toString());
+	}
+
+	private static String base64Decode(String in) {
+		return new String(Base64.getDecoder().decode(in));
 	}
 
 	@Override
