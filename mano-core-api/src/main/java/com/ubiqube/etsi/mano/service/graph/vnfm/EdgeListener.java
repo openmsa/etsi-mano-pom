@@ -26,12 +26,12 @@ public class EdgeListener<V> implements GraphListener<V, ConnectivityEdge<V>> {
 
 	@Override
 	public void vertexAdded(final GraphVertexChangeEvent<V> e) {
-		// Nothng.
+		// Nothing.
 	}
 
 	@Override
 	public void vertexRemoved(final GraphVertexChangeEvent<V> e) {
-		// Nothng.
+		// Nothing.
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class EdgeListener<V> implements GraphListener<V, ConnectivityEdge<V>> {
 
 	@Override
 	public void edgeRemoved(final GraphEdgeChangeEvent<V, ConnectivityEdge<V>> e) {
-		// Nothng.
+		// Nothing.
 	}
 
 }
