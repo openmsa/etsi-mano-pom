@@ -130,6 +130,7 @@ public interface VimConnectionInformationMapping {
 	@Mapping(target = "accessInfo", source = ".")
 	@Mapping(target = "extra", ignore = true)
 	@Mapping(target = "interfaceInfo.endpoint", source = "apiAddress")
+	@Mapping(target = "interfaceInfo.certificateAuthorityData", source = "caPem")
 	@Mapping(target = "vimType", constant = "UBINFV.CISM.V_1")
 	@Mapping(target = "vimId", constant = "130bdaa5-672f-437a-96ae-690c6ac3751f")
 	// UBINFV.CISM.V_1
