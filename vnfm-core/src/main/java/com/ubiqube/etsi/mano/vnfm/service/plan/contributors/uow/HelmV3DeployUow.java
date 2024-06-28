@@ -84,7 +84,13 @@ public class HelmV3DeployUow extends AbstractVnfmUow<HelmTask> {
 
 	@Override
 	public @Nullable String rollback(final Context3d context) {
-		// No rollback.
+		final K8sServers s = K8sServers.builder()
+				.apiAddress(vimConnection.getInterfaceInfo().getEndpoint())
+				.caPem(base64Decode(vimConnection.getInterfaceInfo().getCertificateAuthorityData()))
+				.userCrt(base64Decode(vimConnection.getAccessInfo().getClientCertificateData()))
+				.userKey(base64Decode(vimConnection.getAccessInfo().getClientKeyData()))
+				.build();
+		client.undeploy(srv, s, s.getUserKey(), task.getVimResourceId());
 		return null;
 	}
 
