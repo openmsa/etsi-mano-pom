@@ -73,10 +73,12 @@ public class HelmV3DeployUow extends AbstractVnfmUow<HelmTask> {
 				.userCrt(base64Decode(vimConnection.getAccessInfo().getClientCertificateData()))
 				.userKey(base64Decode(vimConnection.getAccessInfo().getClientKeyData()))
 				.build();
-		return client.deploy(srv, s, tmpFile, UUID.randomUUID().toString());
+		// Add `i-` before instance name to make sure the resulting name is DNS
+		// compliant.
+		return client.deploy(srv, s, tmpFile, "i-" + UUID.randomUUID().toString());
 	}
 
-	private static String base64Decode(String in) {
+	private static String base64Decode(final String in) {
 		return new String(Base64.getDecoder().decode(in));
 	}
 
