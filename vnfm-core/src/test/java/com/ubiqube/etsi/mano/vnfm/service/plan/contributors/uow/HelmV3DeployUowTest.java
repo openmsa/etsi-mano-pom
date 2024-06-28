@@ -25,7 +25,6 @@ import static org.mockito.Mockito.when;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
-import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,7 +38,6 @@ import com.ubiqube.etsi.mano.dao.mano.ii.K8sInterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.HelmTask;
 import com.ubiqube.etsi.mano.dao.mano.vim.SoftwareImage;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
-import com.ubiqube.etsi.mano.dao.mano.vim.k8s.K8sServers;
 import com.ubiqube.etsi.mano.dao.mano.vnfm.McIops;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.orchestrator.Context3d;
@@ -74,11 +72,8 @@ class HelmV3DeployUowTest {
 		final VirtualTaskV3<HelmTask> vt = new HelmVt(nt);
 		assertNotNull(vt.getType());
 		final Servers servers = new Servers();
-		VimConnectionInformation<K8sInterfaceInfo, KubernetesV1Auth> vci = new VimConnectionInformation<>();
+		VimConnectionInformation<K8sInterfaceInfo, KubernetesV1Auth> vci = createVci();
 		final HelmV3DeployUow uow = new HelmV3DeployUow(vt, client, vci, vnfRepo, servers);
-		when(context.get(any(), any())).thenReturn("778cca86-ce29-11ed-93ee-c8f750509d3b");
-		final K8sServers k8s = new K8sServers();
-		when(serverInfoJpa.findById(any())).thenReturn(Optional.of(k8s));
 		when(vnfRepo.getBinary(any(), any())).thenReturn(resource);
 		when(resource.getInputStream()).thenReturn(InputStream.nullInputStream());
 		uow.execute(context);
@@ -86,7 +81,7 @@ class HelmV3DeployUowTest {
 	}
 
 	@Test
-	void testNotFound() {
+	void testNotFound() throws IOException {
 		final HelmTask nt = new HelmTask();
 		final McIops mciop = new McIops();
 		final SoftwareImage si = new SoftwareImage();
@@ -95,11 +90,24 @@ class HelmV3DeployUowTest {
 		nt.setMciop(mciop);
 		final VirtualTaskV3<HelmTask> vt = new HelmVt(nt);
 		final Servers servers = new Servers();
-		VimConnectionInformation<K8sInterfaceInfo, KubernetesV1Auth> vci = new VimConnectionInformation<>();
+		VimConnectionInformation<K8sInterfaceInfo, KubernetesV1Auth> vci = createVci();
 		final HelmV3DeployUow uow = new HelmV3DeployUow(vt, client, vci, vnfRepo, servers);
-		when(context.get(any(), any())).thenReturn("778cca86-ce29-11ed-93ee-c8f750509d3b");
+		when(vnfRepo.getBinary(any(), any())).thenReturn(resource);
+		InputStream isMock = Mockito.mock(InputStream.class);
+		when(resource.getInputStream()).thenReturn(isMock);
+		when(isMock.transferTo(any())).thenThrow(IOException.class);
 		assertThrows(GenericException.class, () -> uow.execute(context));
 		assertTrue(true);
+	}
+
+	private VimConnectionInformation<K8sInterfaceInfo, KubernetesV1Auth> createVci() {
+		VimConnectionInformation<K8sInterfaceInfo, KubernetesV1Auth> vci = new VimConnectionInformation<>();
+		vci.setAccessInfo(new KubernetesV1Auth());
+		vci.getAccessInfo().setClientCertificateData("YmFzZTY0Cg==");
+		vci.getAccessInfo().setClientKeyData("YmFzZTY0Cg==");
+		vci.setInterfaceInfo(new K8sInterfaceInfo());
+		vci.getInterfaceInfo().setCertificateAuthorityData("YmFzZTY0Cg==");
+		return vci;
 	}
 
 	@Test
@@ -112,11 +120,8 @@ class HelmV3DeployUowTest {
 		nt.setMciop(mciop);
 		final VirtualTaskV3<HelmTask> vt = new HelmVt(nt);
 		final Servers servers = new Servers();
-		VimConnectionInformation<K8sInterfaceInfo, KubernetesV1Auth> vci = new VimConnectionInformation<>();
+		VimConnectionInformation<K8sInterfaceInfo, KubernetesV1Auth> vci = createVci();
 		final HelmV3DeployUow uow = new HelmV3DeployUow(vt, client, vci, vnfRepo, servers);
-		when(context.get(any(), any())).thenReturn("778cca86-ce29-11ed-93ee-c8f750509d3b");
-		final K8sServers k8s = new K8sServers();
-		when(serverInfoJpa.findById(any())).thenReturn(Optional.of(k8s));
 		when(vnfRepo.getBinary(any(), any())).thenReturn(resource);
 		final InputStream inputStream = Mockito.mock(InputStream.class);
 		when(inputStream.transferTo(any())).thenThrow(IOException.class);
