@@ -28,6 +28,7 @@ import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.vim.vnfi.CnfInformations;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.service.CapiServerService;
+import com.ubiqube.etsi.mano.service.grant.ccm.cni.CniInstaller;
 import com.ubiqube.etsi.mano.vim.k8s.K8s;
 import com.ubiqube.etsi.mano.vim.k8s.OsClusterService;
 import com.ubiqube.etsi.mano.vim.k8s.model.K8sParams;
@@ -43,11 +44,13 @@ public class CapiCcmServerService implements CcmServerService {
 	private final CapiServerService capiServerService;
 	private final OsClusterService osClusterService;
 	private final CapiServerMapping mapper;
+	private final List<CniInstaller> cniInstaller;
 
-	public CapiCcmServerService(final CapiServerService capiServerService, final OsClusterService osClusterService, final CapiServerMapping mapper) {
+	public CapiCcmServerService(final CapiServerService capiServerService, final OsClusterService osClusterService, final CapiServerMapping mapper, final List<CniInstaller> cniInstaller) {
 		this.capiServerService = capiServerService;
 		this.osClusterService = osClusterService;
 		this.mapper = mapper;
+		this.cniInstaller = cniInstaller;
 	}
 
 	@Override
@@ -99,9 +102,21 @@ public class CapiCcmServerService implements CcmServerService {
 		osClusterService.createCluster(vci, k8s, params);
 		final Optional<K8s> opt = osClusterService.getKubeConfig(k8s, ns, clusterName);
 		if (opt.isPresent()) {
-			return opt.get();
+			final K8s cluster = opt.get();
+			LOG.info("Deploying default CNI.");
+			final List<String> cniDocs = getCniInstallDocuments();
+			cniDocs.forEach(x -> osClusterService.apply(cluster, x));
+			return cluster;
 		}
 		throw new GenericException("Unable to find cluster: " + ns + "/" + clusterName);
+	}
+
+	private List<String> getCniInstallDocuments() {
+		return cniInstaller.stream()
+				.filter("calico"::equals)
+				.map(x -> x.getK8sDocuments("3.28.0"))
+				.findFirst()
+				.orElse(List.of());
 	}
 
 }
