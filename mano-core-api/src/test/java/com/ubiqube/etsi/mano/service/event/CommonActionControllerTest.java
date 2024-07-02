@@ -87,6 +87,7 @@ class CommonActionControllerTest {
 		when(serversJpa.findById(id)).thenReturn(Optional.of(server));
 		final ServerAdapter serverAdapter = new ServerAdapter(hg, server, fluxRest);
 		when(serverService.buildServerAdapter(server)).thenReturn(serverAdapter);
+		when(hg.getUrlFor(any())).thenReturn("http://localhost/");
 		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://test/"));
 		final Subscription subsc = new Subscription();
 		subsc.setId(UUID.randomUUID());
@@ -117,6 +118,7 @@ class CommonActionControllerTest {
 		when(serversJpa.findById(id)).thenReturn(Optional.of(server));
 		final ServerAdapter serverAdapter = new ServerAdapter(hg, server, fluxRest);
 		when(serverService.buildServerAdapter(server)).thenReturn(serverAdapter);
+		when(hg.getUrlFor(any())).thenReturn("http://localhost/");
 		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://test/"));
 //		when(hg.getVersion()).thenReturn(new Version("4.3.2"));
 		when(serversJpa.save(any())).thenReturn(server);
@@ -139,6 +141,7 @@ class CommonActionControllerTest {
 		when(serversJpa.findById(id)).thenReturn(Optional.of(server));
 		final ServerAdapter serverAdapter = new ServerAdapter(hg, server, fluxRest);
 		when(serverService.buildServerAdapter(server)).thenReturn(serverAdapter);
+		when(hg.getUrlFor(any())).thenReturn("http://localhost/");
 		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://test/"));
 		//
 		final Subscription subsc = new Subscription();
@@ -168,6 +171,7 @@ class CommonActionControllerTest {
 		when(serversJpa.findById(id)).thenReturn(Optional.of(server));
 		final ServerAdapter serverAdapter = new ServerAdapter(hg, server, fluxRest);
 		when(serverService.buildServerAdapter(server)).thenReturn(serverAdapter);
+		when(hg.getUrlFor(any())).thenReturn("http://localhost/");
 		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://test/"));
 		//
 		final Subscription subsc = new Subscription();

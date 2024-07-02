@@ -57,6 +57,7 @@ class ManoQueryBuilderTest {
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
 		when(manoClient.getFragment()).thenReturn("frg");
+		when(httpGateway.getUrlFor(any())).thenReturn("http://localhost/");
 		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
 		//
 		when(fluxRest.delete(any(), any(), any())).thenReturn(null);
@@ -75,6 +76,7 @@ class ManoQueryBuilderTest {
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
 		when(manoClient.getFragment()).thenReturn("frg");
+		when(httpGateway.getUrlFor(any())).thenReturn("http://localhost/");
 		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
 		//
 		when(fluxRest.getWithReturn(any(), any(), any())).thenReturn(null);
@@ -91,6 +93,7 @@ class ManoQueryBuilderTest {
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
 		when(manoClient.getFragment()).thenReturn("frg");
+		when(httpGateway.getUrlFor(any())).thenReturn("http://localhost/");
 		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
 		//
 		when(fluxRest.getWithReturn(any(), any(), any())).thenReturn(null);
@@ -107,6 +110,7 @@ class ManoQueryBuilderTest {
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
 		when(manoClient.getFragment()).thenReturn("frg");
+		when(httpGateway.getUrlFor(any())).thenReturn("http://localhost/");
 		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
 		//
 		when(fluxRest.getWithReturn(any(), any(), any())).thenReturn(ResponseEntity.ok(""));
@@ -125,6 +129,7 @@ class ManoQueryBuilderTest {
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
 		when(manoClient.getFragment()).thenReturn("frg");
+		when(httpGateway.getUrlFor(any())).thenReturn("http://localhost/");
 		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
 		//
 		// when(fluxRest.get(any(), any(), any())).thenReturn(null);
@@ -148,6 +153,7 @@ class ManoQueryBuilderTest {
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
 		when(manoClient.getFragment()).thenReturn("frg");
+		when(httpGateway.getUrlFor(any())).thenReturn("http://localhost/");
 		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
 		//
 		// when(fluxRest.get(any(), any(), any())).thenReturn(null);
@@ -169,6 +175,7 @@ class ManoQueryBuilderTest {
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
 		when(manoClient.getFragment()).thenReturn("frg");
+		when(httpGateway.getUrlFor(any())).thenReturn("http://localhost/");
 		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
 		//
 		// when(fluxRest.get(any(), any(), any())).thenReturn(null);
@@ -187,6 +194,7 @@ class ManoQueryBuilderTest {
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
 		when(manoClient.getFragment()).thenReturn("frg");
+		when(httpGateway.getUrlFor(any())).thenReturn("http://localhost/");
 		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
 		//
 		final Function<HttpGateway, Class<?>> func = x -> String.class;
@@ -206,6 +214,7 @@ class ManoQueryBuilderTest {
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
 		when(manoClient.getFragment()).thenReturn("frg");
+		when(httpGateway.getUrlFor(any())).thenReturn("http://localhost/");
 		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
 		//
 		// when(fluxRest.get(any(), any(), any())).thenReturn(null);
@@ -227,6 +236,7 @@ class ManoQueryBuilderTest {
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
 		when(manoClient.getFragment()).thenReturn("frg");
+		when(httpGateway.getUrlFor(any())).thenReturn("http://localhost/");
 		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
 		//
 		mqb.download(Paths.get("/tmp/test"));
@@ -240,6 +250,7 @@ class ManoQueryBuilderTest {
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
 		when(manoClient.getFragment()).thenReturn("frg");
+		when(httpGateway.getUrlFor(any())).thenReturn("http://localhost/");
 		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
 		//
 		mqb.download(Paths.get("/tmp/test"), null);
@@ -253,6 +264,7 @@ class ManoQueryBuilderTest {
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
 		when(manoClient.getFragment()).thenReturn("frg");
+		when(httpGateway.getUrlFor(any())).thenReturn("http://localhost/");
 		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
 		//
 		mqb.upload(Paths.get("/tmp/test"), null);
@@ -266,6 +278,7 @@ class ManoQueryBuilderTest {
 		when(manoClient.getServer()).thenReturn(serverAdp);
 		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
 		when(manoClient.getFragment()).thenReturn("frg");
+		when(httpGateway.getUrlFor(any())).thenReturn("http://localhost/");
 		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
 		//
 		final Function<HttpGateway, Class<?>> func = x -> String.class;

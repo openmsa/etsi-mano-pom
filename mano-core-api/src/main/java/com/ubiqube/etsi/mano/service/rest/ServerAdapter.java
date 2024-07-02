@@ -57,7 +57,11 @@ public class ServerAdapter {
 	public URI getUriFor(final ApiVersionType type, final String urlPart, final Map<String, Object> params) {
 		final String endOfUri = UriComponentsBuilder
 				.fromUriString(httpGateway.getUrlFor(type)).pathSegment(urlPart).build().toString();
-		return rest.uriBuilder().pathSegment(endOfUri).buildAndExpand(params).toUri();
+		return rest.uriBuilder()
+				.pathSegment(endOfUri)
+				.buildAndExpand(params)
+				.toUri()
+				.normalize();
 	}
 
 	public FluxRest rest() {
