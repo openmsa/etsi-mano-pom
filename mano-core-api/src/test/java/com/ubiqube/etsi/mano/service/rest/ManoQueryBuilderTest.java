@@ -51,14 +51,9 @@ class ManoQueryBuilderTest {
 	private final Servers server = Servers.builder().url(URI.create("http://localhost/")).build();
 
 	@Test
-	void testDelete() throws Exception {
+	void testDelete() {
 		final ManoQueryBuilder mqb = createService();
-		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
-		when(manoClient.getServer()).thenReturn(serverAdp);
-		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
-		when(manoClient.getFragment()).thenReturn("frg");
-		when(httpGateway.getUrlFor(any())).thenReturn("http://localhost/");
-		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
+		createServerAdapter();
 		//
 		when(fluxRest.delete(any(), any(), any())).thenReturn(null);
 		mqb.delete();
@@ -70,14 +65,9 @@ class ManoQueryBuilderTest {
 	}
 
 	@Test
-	void testGetRaw() throws Exception {
+	void testGetRaw() {
 		final ManoQueryBuilder mqb = createService();
-		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
-		when(manoClient.getServer()).thenReturn(serverAdp);
-		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
-		when(manoClient.getFragment()).thenReturn("frg");
-		when(httpGateway.getUrlFor(any())).thenReturn("http://localhost/");
-		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
+		createServerAdapter();
 		//
 		when(fluxRest.getWithReturn(any(), any(), any())).thenReturn(null);
 		final Function<HttpGateway, Class<?>> func = x -> String.class;
@@ -87,14 +77,9 @@ class ManoQueryBuilderTest {
 	}
 
 	@Test
-	void testGetSingleNull() throws Exception {
+	void testGetSingleNull() {
 		final ManoQueryBuilder mqb = createService();
-		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
-		when(manoClient.getServer()).thenReturn(serverAdp);
-		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
-		when(manoClient.getFragment()).thenReturn("frg");
-		when(httpGateway.getUrlFor(any())).thenReturn("http://localhost/");
-		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
+		createServerAdapter();
 		//
 		when(fluxRest.getWithReturn(any(), any(), any())).thenReturn(null);
 		final Function<HttpGateway, Class<?>> func = x -> String.class;
@@ -104,14 +89,9 @@ class ManoQueryBuilderTest {
 	}
 
 	@Test
-	void testGetSingleNonNull() throws Exception {
+	void testGetSingleNonNull() {
 		final ManoQueryBuilder mqb = createService();
-		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
-		when(manoClient.getServer()).thenReturn(serverAdp);
-		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
-		when(manoClient.getFragment()).thenReturn("frg");
-		when(httpGateway.getUrlFor(any())).thenReturn("http://localhost/");
-		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
+		createServerAdapter();
 		//
 		when(fluxRest.getWithReturn(any(), any(), any())).thenReturn(ResponseEntity.ok(""));
 		final Function<HttpGateway, Class<?>> func = x -> String.class;
@@ -123,14 +103,9 @@ class ManoQueryBuilderTest {
 	}
 
 	@Test
-	void testGetList() throws Exception {
+	void testGetList() {
 		final ManoQueryBuilder mqb = createService();
-		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
-		when(manoClient.getServer()).thenReturn(serverAdp);
-		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
-		when(manoClient.getFragment()).thenReturn("frg");
-		when(httpGateway.getUrlFor(any())).thenReturn("http://localhost/");
-		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
+		createServerAdapter();
 		//
 		// when(fluxRest.get(any(), any(), any())).thenReturn(null);
 		final Function<HttpGateway, Class<?>> func = x -> String.class;
@@ -147,14 +122,9 @@ class ManoQueryBuilderTest {
 	}
 
 	@Test
-	void testPostObject() throws Exception {
+	void testPostObject() {
 		final ManoQueryBuilder mqb = createService();
-		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
-		when(manoClient.getServer()).thenReturn(serverAdp);
-		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
-		when(manoClient.getFragment()).thenReturn("frg");
-		when(httpGateway.getUrlFor(any())).thenReturn("http://localhost/");
-		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
+		createServerAdapter();
 		//
 		// when(fluxRest.get(any(), any(), any())).thenReturn(null);
 		final Function<HttpGateway, Class<?>> func = x -> String.class;
@@ -169,14 +139,9 @@ class ManoQueryBuilderTest {
 	}
 
 	@Test
-	void testPostRawObject() throws Exception {
+	void testPostRawObject() {
 		final ManoQueryBuilder mqb = createService();
-		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
-		when(manoClient.getServer()).thenReturn(serverAdp);
-		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
-		when(manoClient.getFragment()).thenReturn("frg");
-		when(httpGateway.getUrlFor(any())).thenReturn("http://localhost/");
-		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
+		createServerAdapter();
 		//
 		// when(fluxRest.get(any(), any(), any())).thenReturn(null);
 		final Function<HttpGateway, Class<?>> func = x -> String.class;
@@ -188,14 +153,9 @@ class ManoQueryBuilderTest {
 	}
 
 	@Test
-	void testPostRaw() throws Exception {
+	void testPostRaw() {
 		final ManoQueryBuilder mqb = createService();
-		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
-		when(manoClient.getServer()).thenReturn(serverAdp);
-		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
-		when(manoClient.getFragment()).thenReturn("frg");
-		when(httpGateway.getUrlFor(any())).thenReturn("http://localhost/");
-		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
+		createServerAdapter();
 		//
 		final Function<HttpGateway, Class<?>> func = x -> String.class;
 		final Function func2 = x -> "";
@@ -208,14 +168,9 @@ class ManoQueryBuilderTest {
 	}
 
 	@Test
-	void testPost() throws Exception {
+	void testPost() {
 		final ManoQueryBuilder mqb = createService();
-		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
-		when(manoClient.getServer()).thenReturn(serverAdp);
-		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
-		when(manoClient.getFragment()).thenReturn("frg");
-		when(httpGateway.getUrlFor(any())).thenReturn("http://localhost/");
-		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
+		createServerAdapter();
 		//
 		// when(fluxRest.get(any(), any(), any())).thenReturn(null);
 		final Function<HttpGateway, Class<?>> func = x -> String.class;
@@ -230,56 +185,36 @@ class ManoQueryBuilderTest {
 	}
 
 	@Test
-	void testDownlad() throws Exception {
+	void testDownlad() {
 		final ManoQueryBuilder mqb = createService();
-		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
-		when(manoClient.getServer()).thenReturn(serverAdp);
-		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
-		when(manoClient.getFragment()).thenReturn("frg");
-		when(httpGateway.getUrlFor(any())).thenReturn("http://localhost/");
-		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
+		createServerAdapter();
 		//
 		mqb.download(Paths.get("/tmp/test"));
 		assertTrue(true);
 	}
 
 	@Test
-	void testDownlad2() throws Exception {
+	void testDownlad2() {
 		final ManoQueryBuilder mqb = createService();
-		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
-		when(manoClient.getServer()).thenReturn(serverAdp);
-		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
-		when(manoClient.getFragment()).thenReturn("frg");
-		when(httpGateway.getUrlFor(any())).thenReturn("http://localhost/");
-		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
+		createServerAdapter();
 		//
 		mqb.download(Paths.get("/tmp/test"), null);
 		assertTrue(true);
 	}
 
 	@Test
-	void testUpload() throws Exception {
+	void testUpload() {
 		final ManoQueryBuilder mqb = createService();
-		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
-		when(manoClient.getServer()).thenReturn(serverAdp);
-		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
-		when(manoClient.getFragment()).thenReturn("frg");
-		when(httpGateway.getUrlFor(any())).thenReturn("http://localhost/");
-		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
+		createServerAdapter();
 		//
 		mqb.upload(Paths.get("/tmp/test"), null);
 		assertTrue(true);
 	}
 
 	@Test
-	void testUpload2() throws Exception {
+	void testUpload2() {
 		final ManoQueryBuilder mqb = createService();
-		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
-		when(manoClient.getServer()).thenReturn(serverAdp);
-		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
-		when(manoClient.getFragment()).thenReturn("frg");
-		when(httpGateway.getUrlFor(any())).thenReturn("http://localhost/");
-		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
+		createServerAdapter();
 		//
 		final Function<HttpGateway, Class<?>> func = x -> String.class;
 		mqb.setWireOutClass(func);
@@ -287,5 +222,14 @@ class ManoQueryBuilderTest {
 		mqb.setOutClass(mapper);
 		mqb.patch(null, Map.of());
 		assertTrue(true);
+	}
+
+	private void createServerAdapter() {
+		final ServerAdapter serverAdp = new ServerAdapter(httpGateway, server, fluxRest);
+		when(manoClient.getServer()).thenReturn(serverAdp);
+		when(manoClient.getQueryType()).thenReturn(ApiVersionType.SOL002_VNFFM);
+		when(manoClient.getFragment()).thenReturn("frg");
+		when(httpGateway.getUrlFor(any())).thenReturn("http://localhost/");
+		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://localhost/"));
 	}
 }

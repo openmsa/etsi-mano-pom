@@ -85,10 +85,7 @@ class CommonActionControllerTest {
 				.url(URI.create("http://localhost/"))
 				.build();
 		when(serversJpa.findById(id)).thenReturn(Optional.of(server));
-		final ServerAdapter serverAdapter = new ServerAdapter(hg, server, fluxRest);
-		when(serverService.buildServerAdapter(server)).thenReturn(serverAdapter);
-		when(hg.getUrlFor(any())).thenReturn("http://localhost/");
-		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://test/"));
+		createServerAdapter(server);
 		final Subscription subsc = new Subscription();
 		subsc.setId(UUID.randomUUID());
 		subsc.setSubscriptionType(SubscriptionType.VNF);
@@ -116,10 +113,7 @@ class CommonActionControllerTest {
 				.subscriptionType(SubscriptionType.VNF)
 				.build();
 		when(serversJpa.findById(id)).thenReturn(Optional.of(server));
-		final ServerAdapter serverAdapter = new ServerAdapter(hg, server, fluxRest);
-		when(serverService.buildServerAdapter(server)).thenReturn(serverAdapter);
-		when(hg.getUrlFor(any())).thenReturn("http://localhost/");
-		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://test/"));
+		createServerAdapter(server);
 //		when(hg.getVersion()).thenReturn(new Version("4.3.2"));
 		when(serversJpa.save(any())).thenReturn(server);
 		final Servers res = cac.registerServer(id, Map.of());
@@ -139,10 +133,7 @@ class CommonActionControllerTest {
 				.subscriptionType(SubscriptionType.NSD)
 				.build();
 		when(serversJpa.findById(id)).thenReturn(Optional.of(server));
-		final ServerAdapter serverAdapter = new ServerAdapter(hg, server, fluxRest);
-		when(serverService.buildServerAdapter(server)).thenReturn(serverAdapter);
-		when(hg.getUrlFor(any())).thenReturn("http://localhost/");
-		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://test/"));
+		createServerAdapter(server);
 		//
 		final Subscription subsc = new Subscription();
 		subsc.setId(UUID.randomUUID());
@@ -169,10 +160,7 @@ class CommonActionControllerTest {
 				.localUser(new LocalAuth())
 				.build();
 		when(serversJpa.findById(id)).thenReturn(Optional.of(server));
-		final ServerAdapter serverAdapter = new ServerAdapter(hg, server, fluxRest);
-		when(serverService.buildServerAdapter(server)).thenReturn(serverAdapter);
-		when(hg.getUrlFor(any())).thenReturn("http://localhost/");
-		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://test/"));
+		createServerAdapter(server);
 		//
 		final Subscription subsc = new Subscription();
 		subsc.setId(UUID.randomUUID());
@@ -185,5 +173,12 @@ class CommonActionControllerTest {
 		when(hg.mapToPkgmSubscription(any())).thenReturn(subsc);
 		final Servers res = cac.registerServer(id, Map.of());
 		assertEquals(PlanStatusType.SUCCESS, res.getServerStatus());
+	}
+
+	private void createServerAdapter(final Servers server) {
+		final ServerAdapter serverAdapter = new ServerAdapter(hg, server, fluxRest);
+		when(serverService.buildServerAdapter(server)).thenReturn(serverAdapter);
+		when(hg.getUrlFor(any())).thenReturn("http://localhost/");
+		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.fromHttpUrl("http://test/"));
 	}
 }
