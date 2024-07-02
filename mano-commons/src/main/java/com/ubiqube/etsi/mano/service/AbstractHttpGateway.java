@@ -25,8 +25,8 @@ import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.utils.Version;
 import jakarta.annotation.Nullable;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -114,8 +114,10 @@ public abstract class AbstractHttpGateway implements HttpGateway {
 
 	private String getProtocols(final String major, final String fragment) {
 		final Optional<Version> version = getMatchingProtocols(major, fragment);
-		return version.map(x -> new File(fragment, "v" + x.getMajor()).toString())
-				.orElse(new File(fragment, "v1").toString());
+        return version.map(vers -> UriComponentsBuilder.fromUriString(fragment)
+						.pathSegment("v" + vers.getMajor()).build().toString())
+				.orElse(UriComponentsBuilder.fromUriString(fragment)
+						.pathSegment("v1").build().toString());
 	}
 
 	@Override
