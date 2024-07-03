@@ -16,16 +16,14 @@
  */
 package com.ubiqube.etsi.mano.service.rest;
 
-import java.net.URI;
-import java.util.Map;
-
-import org.springframework.web.util.UriComponentsBuilder;
-
 import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.dao.mano.version.ApiVersionType;
 import com.ubiqube.etsi.mano.service.HttpGateway;
-
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+
+import java.net.URI;
+import java.util.Map;
 
 /**
  *
@@ -37,6 +35,8 @@ public class ServerAdapter {
 	private final HttpGateway httpGateway;
 	@NotNull
 	private final FluxRest rest;
+
+	@Getter
 	@NotNull
 	private final Servers server;
 
@@ -46,19 +46,13 @@ public class ServerAdapter {
 		rest = fluxRest;
 	}
 
-	public Servers getServer() {
-		return server;
-	}
-
 	public HttpGateway httpGateway() {
 		return httpGateway;
 	}
 
 	public URI getUriFor(final ApiVersionType type, final String urlPart, final Map<String, Object> params) {
-		final String endOfUri = UriComponentsBuilder
-				.fromUriString(httpGateway.getUrlFor(type)).pathSegment(urlPart).build().toString();
 		return rest.uriBuilder()
-				.pathSegment(endOfUri)
+				.pathSegment(httpGateway.getUrlFor(type), urlPart)
 				.buildAndExpand(params)
 				.toUri()
 				.normalize();
