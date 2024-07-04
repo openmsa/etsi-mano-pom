@@ -113,7 +113,7 @@ public class CapiCcmServerService implements CcmServerService {
 
 	private List<String> getCniInstallDocuments() {
 		return cniInstaller.stream()
-				.filter("calico"::equals)
+				.filter(x -> "calico".equals(x.getType()))
 				.map(x -> x.getK8sDocuments("3.28.0"))
 				.findFirst()
 				.orElse(List.of());

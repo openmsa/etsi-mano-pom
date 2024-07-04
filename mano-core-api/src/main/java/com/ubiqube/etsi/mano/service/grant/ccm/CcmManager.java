@@ -57,7 +57,7 @@ public class CcmManager {
 		ret.setId(UUID.randomUUID());
 		ret.setVnfInstanceId(UUID.fromString(grants.getVnfInstanceId()));
 		final K8sServers r = k8sServerInfoJpa.save(ret);
-		return mapToConnection(r);
+		return mapToConnection(ret);
 	}
 
 	private static VimConnectionInformation<K8sInterfaceInfo, KubernetesV1Auth> mapToConnection(final K8sServers r) {
