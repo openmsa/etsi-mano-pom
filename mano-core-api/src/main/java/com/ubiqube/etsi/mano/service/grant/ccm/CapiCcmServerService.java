@@ -29,6 +29,7 @@ import com.ubiqube.etsi.mano.dao.mano.vim.vnfi.CnfInformations;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.service.CapiServerService;
 import com.ubiqube.etsi.mano.service.grant.ccm.cni.CniInstaller;
+import com.ubiqube.etsi.mano.service.grant.ccm.csi.CsiInstaller;
 import com.ubiqube.etsi.mano.vim.k8s.K8s;
 import com.ubiqube.etsi.mano.vim.k8s.OsClusterService;
 import com.ubiqube.etsi.mano.vim.k8s.model.K8sParams;
@@ -44,13 +45,15 @@ public class CapiCcmServerService implements CcmServerService {
 	private final CapiServerService capiServerService;
 	private final OsClusterService osClusterService;
 	private final CapiServerMapping mapper;
-	private final List<CniInstaller> cniInstaller;
+	private final List<CniInstaller> cniInstallers;
+	private final List<CsiInstaller> csiInstallers;
 
-	public CapiCcmServerService(final CapiServerService capiServerService, final OsClusterService osClusterService, final CapiServerMapping mapper, final List<CniInstaller> cniInstaller) {
+	public CapiCcmServerService(final CapiServerService capiServerService, final OsClusterService osClusterService, final CapiServerMapping mapper, final List<CniInstaller> cniInstallers, final List<CsiInstaller> csiInstallers) {
 		this.capiServerService = capiServerService;
 		this.osClusterService = osClusterService;
 		this.mapper = mapper;
-		this.cniInstaller = cniInstaller;
+		this.cniInstallers = cniInstallers;
+		this.csiInstallers = csiInstallers;
 	}
 
 	@Override
@@ -106,17 +109,28 @@ public class CapiCcmServerService implements CcmServerService {
 			LOG.info("Deploying default CNI.");
 			final List<String> cniDocs = getCniInstallDocuments();
 			cniDocs.forEach(x -> osClusterService.apply(cluster, x));
+			LOG.info("Deploying default CSI.");
+			final List<String> csiDocs = getCsiInstallDocuments();
+			csiDocs.forEach(x -> osClusterService.apply(cluster, x));
 			return cluster;
 		}
 		throw new GenericException("Unable to find cluster: " + ns + "/" + clusterName);
 	}
 
+	private List<String> getCsiInstallDocuments() {
+		return csiInstallers.stream()
+				.filter(x -> "cinder".equals(x.getType()))
+				.map(x -> x.getK8sDocuments("2.28.2"))
+				.flatMap(List::stream)
+				.toList();
+	}
+
 	private List<String> getCniInstallDocuments() {
-		return cniInstaller.stream()
+		return cniInstallers.stream()
 				.filter(x -> "calico".equals(x.getType()))
 				.map(x -> x.getK8sDocuments("3.28.0"))
-				.findFirst()
-				.orElse(List.of());
+				.flatMap(List::stream)
+				.toList();
 	}
 
 }
