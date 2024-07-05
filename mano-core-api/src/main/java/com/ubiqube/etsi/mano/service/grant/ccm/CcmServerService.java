@@ -16,6 +16,8 @@
  */
 package com.ubiqube.etsi.mano.service.grant.ccm;
 
+import com.ubiqube.etsi.mano.dao.mano.ai.KeystoneAuthV3;
+import com.ubiqube.etsi.mano.dao.mano.ii.OpenstackV3InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.vim.k8s.K8s;
 
@@ -23,6 +25,6 @@ public interface CcmServerService {
 
 	void terminateCluster(String vnfInstanceId);
 
-	K8s createCluster(VimConnectionInformation vimConn, String name);
+	K8s createCluster(VimConnectionInformation<OpenstackV3InterfaceInfo, KeystoneAuthV3> vimConn, String name);
 
 }

@@ -70,7 +70,7 @@ public class CapiCcmServerService implements CcmServerService {
 	}
 
 	@Override
-	public K8s createCluster(final VimConnectionInformation vimConn, final String vnfInstanceId) {
+	public K8s createCluster(final VimConnectionInformation<OpenstackV3InterfaceInfo, KeystoneAuthV3> vimConn, final String vnfInstanceId) {
 		final Iterable<CapiServer> ite = capiServerService.findAll();
 		if (!ite.iterator().hasNext()) {
 			throw new GenericException("Unable to find a CAPI connection.");
@@ -85,7 +85,7 @@ public class CapiCcmServerService implements CcmServerService {
 		return res.get();
 	}
 
-	private K8s deployServer(final CapiServer capiSrv, final K8s k8s, final String ns, final String clusterName, final VimConnectionInformation vci) {
+	private K8s deployServer(final CapiServer capiSrv, final K8s k8s, final String ns, final String clusterName, final VimConnectionInformation<OpenstackV3InterfaceInfo, KeystoneAuthV3> vci) {
 		final CnfInformations cnfInfo = capiSrv.getCnfInfo();
 		final K8sParams params = K8sParams.builder()
 				.clusterName(clusterName)
@@ -138,7 +138,7 @@ public class CapiCcmServerService implements CcmServerService {
 				.build();
 	}
 
-	private void deployCsiConfigMap(final VimConnectionInformation vci, final K8s k8sCfg) {
+	private void deployCsiConfigMap(final VimConnectionInformation<OpenstackV3InterfaceInfo, KeystoneAuthV3> vci, final K8s k8sCfg) {
 		final String str = toIni(vci);
 		final String b64 = Base64.getEncoder().encodeToString(str.getBytes());
 		final Secret secret = new SecretBuilder()

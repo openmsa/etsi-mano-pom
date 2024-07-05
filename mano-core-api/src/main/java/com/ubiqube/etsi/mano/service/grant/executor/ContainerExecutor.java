@@ -28,7 +28,9 @@ import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+import com.ubiqube.etsi.mano.dao.mano.ai.KeystoneAuthV3;
 import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionInformation;
+import com.ubiqube.etsi.mano.dao.mano.ii.OpenstackV3InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.grant.ccm.CcmManager;
@@ -63,7 +65,7 @@ public class ContainerExecutor {
 		ccmManager.getTerminateCluster(grants.getVnfInstanceId());
 	}
 
-	public void addOrCreateK8sVim(final VimConnectionInformation vci, final GrantResponse grants) {
+	public void addOrCreateK8sVim(final VimConnectionInformation<OpenstackV3InterfaceInfo, KeystoneAuthV3> vci, final GrantResponse grants) {
 		final VnfPackage vnfPackage = vnfPackageService.findByVnfdId(grants.getVnfdId());
 		if (!haveCni(vnfPackage)) {
 			return;

@@ -26,8 +26,10 @@ import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
+import com.ubiqube.etsi.mano.dao.mano.ai.KeystoneAuthV3;
 import com.ubiqube.etsi.mano.dao.mano.ai.KubernetesV1Auth;
 import com.ubiqube.etsi.mano.dao.mano.ii.K8sInterfaceInfo;
+import com.ubiqube.etsi.mano.dao.mano.ii.OpenstackV3InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.vim.k8s.K8sServers;
 import com.ubiqube.etsi.mano.dao.mano.vim.k8s.StatusType;
@@ -47,7 +49,7 @@ public class CcmManager {
 		this.ccmServerService = ccmServerService;
 	}
 
-	public VimConnectionInformation<K8sInterfaceInfo, KubernetesV1Auth> getVimConnection(final VimConnectionInformation vimInfo, final GrantResponse grants, final VnfPackage vnfPackage) {
+	public VimConnectionInformation<K8sInterfaceInfo, KubernetesV1Auth> getVimConnection(final VimConnectionInformation<OpenstackV3InterfaceInfo, KeystoneAuthV3> vimInfo, final GrantResponse grants, final VnfPackage vnfPackage) {
 		final Optional<K8sServers> k8sInfo = k8sServerInfoJpa.findByVnfInstanceId(getSafeUUID(grants.getVnfInstanceId()));
 		if (k8sInfo.isPresent()) {
 			return connectionInformationMapping.mapFromTls(k8sInfo.get());
