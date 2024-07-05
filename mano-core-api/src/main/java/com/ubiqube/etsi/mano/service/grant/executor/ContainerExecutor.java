@@ -84,13 +84,15 @@ public class ContainerExecutor {
 	}
 
 	private static boolean haveCni(final VnfPackage vnfPackage) {
-		if (((null != vnfPackage.getOsContainer()) && !vnfPackage.getOsContainer().isEmpty()) || ((null != vnfPackage.getOsContainerDeployableUnits()) && !vnfPackage.getOsContainerDeployableUnits().isEmpty())) {
-			return true;
-		}
-		if (((null != vnfPackage.getOsContainerDesc()) && !vnfPackage.getOsContainerDesc().isEmpty()) || ((null != vnfPackage.getMciops()) && !vnfPackage.getMciops().isEmpty())) {
-			return true;
-		}
-		return false;
+		return (haveOsContainer(vnfPackage) || haveDeloyableUnit(vnfPackage));
+	}
+
+	private static boolean haveDeloyableUnit(final VnfPackage vnfPackage) {
+		return ((null != vnfPackage.getOsContainerDesc()) && !vnfPackage.getOsContainerDesc().isEmpty()) || ((null != vnfPackage.getMciops()) && !vnfPackage.getMciops().isEmpty());
+	}
+
+	private static boolean haveOsContainer(final VnfPackage vnfPackage) {
+		return ((null != vnfPackage.getOsContainer()) && !vnfPackage.getOsContainer().isEmpty()) || ((null != vnfPackage.getOsContainerDeployableUnits()) && !vnfPackage.getOsContainerDeployableUnits().isEmpty());
 	}
 
 }
