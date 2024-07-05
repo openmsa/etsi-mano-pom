@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.service.grant.ccm;
 
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +24,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.ubiqube.etsi.mano.dao.mano.ai.KeystoneAuthV3;
 import com.ubiqube.etsi.mano.dao.mano.cnf.capi.CapiServer;
+import com.ubiqube.etsi.mano.dao.mano.ii.OpenstackV3InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.vim.vnfi.CnfInformations;
 import com.ubiqube.etsi.mano.exception.GenericException;
@@ -36,6 +39,11 @@ import com.ubiqube.etsi.mano.vim.k8s.model.K8sParams;
 import com.ubiqube.etsi.mano.vim.k8s.model.OsMachineParams;
 import com.ubiqube.etsi.mano.vim.k8s.model.OsParams;
 import com.ubiqube.etsi.mano.vnfm.service.plan.contributors.uow.capi.CapiServerMapping;
+
+import io.fabric8.kubernetes.api.model.Secret;
+import io.fabric8.kubernetes.api.model.SecretBuilder;
+import io.fabric8.kubernetes.api.model.storage.StorageClass;
+import io.fabric8.kubernetes.api.model.storage.StorageClassBuilder;
 
 @Service
 public class CapiCcmServerService implements CcmServerService {
@@ -110,11 +118,61 @@ public class CapiCcmServerService implements CcmServerService {
 			final List<String> cniDocs = getCniInstallDocuments();
 			cniDocs.forEach(x -> osClusterService.apply(cluster, x));
 			LOG.info("Deploying default CSI.");
+			deployCsiConfigMap(vci, cluster);
 			final List<String> csiDocs = getCsiInstallDocuments();
 			csiDocs.forEach(x -> osClusterService.apply(cluster, x));
+			final StorageClass sc = createStorageClass("cinder.csi.openstack.org");
+			osClusterService.applyStorageClass(k8s, sc);
 			return cluster;
 		}
 		throw new GenericException("Unable to find cluster: " + ns + "/" + clusterName);
+	}
+
+	private static StorageClass createStorageClass(final String provisioner) {
+		return new StorageClassBuilder()
+				.withNewMetadata()
+				.withName("mano-provisioner")
+				.addToAnnotations("storageclass.kubernetes.io/is-default-class", "true")
+				.endMetadata()
+				.withProvisioner(provisioner)
+				.build();
+	}
+
+	private void deployCsiConfigMap(final VimConnectionInformation vci, final K8s k8sCfg) {
+		final String str = toIni(vci);
+		final String b64 = Base64.getEncoder().encodeToString(str.getBytes());
+		final Secret secret = new SecretBuilder()
+				.withNewMetadata()
+				.withName("cloud-config")
+				.withNamespace("kube-system")
+				.endMetadata()
+				.addToData("cloud.conf", b64)
+				.build();
+		osClusterService.applySecret(k8sCfg, secret);
+		//
+	}
+
+	/**
+	 * https://github.com/kubernetes/cloud-provider-openstack/blob/master/docs/openstack-cloud-controller-manager/using-openstack-cloud-controller-manager.md#global
+	 *
+	 * @return A ini file.
+	 */
+	public static String toIni(final VimConnectionInformation<OpenstackV3InterfaceInfo, KeystoneAuthV3> vci) {
+		final KeystoneAuthV3 ai = vci.getAccessInfo();
+		final OpenstackV3InterfaceInfo ii = vci.getInterfaceInfo();
+		final StringBuilder sb = new StringBuilder();
+		sb.append("[Global]\n")
+				.append("username = ").append(ai.getUsername()).append("\n")
+				.append("password = ").append(ai.getPassword()).append("\n")
+				.append("auth-url = ").append(ii.getEndpoint()).append("\n")
+				.append("tenant-id = ").append(ai.getProjectId()).append("\n");
+		if (ai.getUserDomain() != null) {
+			sb.append("domain-name = ").append(ai.getUserDomain()).append("\n");
+		}
+		if (ai.getRegion() != null) {
+			sb.append("region = ").append(ai.getRegion()).append("\n");
+		}
+		return sb.toString();
 	}
 
 	private List<String> getCsiInstallDocuments() {
