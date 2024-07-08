@@ -127,7 +127,7 @@ public class CapiCcmServerService implements CcmServerService {
 			final List<String> csiDocs = getCsiInstallDocuments();
 			csiDocs.forEach(x -> osClusterService.apply(cluster, x));
 			final StorageClass sc = createStorageClass("cinder.csi.openstack.org");
-			osClusterService.applyStorageClass(k8s, sc);
+			osClusterService.applyStorageClass(cluster, sc);
 			return cluster;
 		}
 		throw new GenericException("Unable to find cluster: " + ns + "/" + clusterName);
