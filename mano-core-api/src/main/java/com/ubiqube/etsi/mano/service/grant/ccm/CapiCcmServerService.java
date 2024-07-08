@@ -55,13 +55,15 @@ public class CapiCcmServerService implements CcmServerService {
 	private final CapiServerMapping mapper;
 	private final List<CniInstaller> cniInstallers;
 	private final List<CsiInstaller> csiInstallers;
+	private final List<CcmInstaller> ccmInstallers;
 
-	public CapiCcmServerService(final CapiServerService capiServerService, final OsClusterService osClusterService, final CapiServerMapping mapper, final List<CniInstaller> cniInstallers, final List<CsiInstaller> csiInstallers) {
+	public CapiCcmServerService(final CapiServerService capiServerService, final OsClusterService osClusterService, final CapiServerMapping mapper, final List<CniInstaller> cniInstallers, final List<CsiInstaller> csiInstallers, final List<CcmInstaller> ccmInstallers) {
 		this.capiServerService = capiServerService;
 		this.osClusterService = osClusterService;
 		this.mapper = mapper;
 		this.cniInstallers = cniInstallers;
 		this.csiInstallers = csiInstallers;
+		this.ccmInstallers = ccmInstallers;
 	}
 
 	@Override
@@ -114,11 +116,14 @@ public class CapiCcmServerService implements CcmServerService {
 		final Optional<K8s> opt = osClusterService.getKubeConfig(k8s, ns, clusterName);
 		if (opt.isPresent()) {
 			final K8s cluster = opt.get();
+			LOG.info("Deploying default CCM.");
+			deployCloudConfig(cluster, vci);
+			final List<String> ccmDocs = getCcmInstallDocuments();
+			osClusterService.apply(cluster, ccmDocs);
 			LOG.info("Deploying default CNI.");
 			final List<String> cniDocs = getCniInstallDocuments();
 			cniDocs.forEach(x -> osClusterService.apply(cluster, x));
 			LOG.info("Deploying default CSI.");
-			deployCsiConfigMap(vci, cluster);
 			final List<String> csiDocs = getCsiInstallDocuments();
 			csiDocs.forEach(x -> osClusterService.apply(cluster, x));
 			final StorageClass sc = createStorageClass("cinder.csi.openstack.org");
@@ -128,17 +133,8 @@ public class CapiCcmServerService implements CcmServerService {
 		throw new GenericException("Unable to find cluster: " + ns + "/" + clusterName);
 	}
 
-	private static StorageClass createStorageClass(final String provisioner) {
-		return new StorageClassBuilder()
-				.withNewMetadata()
-				.withName("mano-provisioner")
-				.addToAnnotations("storageclass.kubernetes.io/is-default-class", "true")
-				.endMetadata()
-				.withProvisioner(provisioner)
-				.build();
-	}
-
-	private void deployCsiConfigMap(final VimConnectionInformation<OpenstackV3InterfaceInfo, KeystoneAuthV3> vci, final K8s k8sCfg) {
+	private void deployCloudConfig(final K8s k8sCfg, final VimConnectionInformation<OpenstackV3InterfaceInfo, KeystoneAuthV3> vci) {
+		LOG.info("Deploy cloud-config for CCM & CSI on target system.");
 		final String str = toIni(vci);
 		final String b64 = Base64.getEncoder().encodeToString(str.getBytes());
 		final Secret secret = new SecretBuilder()
@@ -149,7 +145,16 @@ public class CapiCcmServerService implements CcmServerService {
 				.addToData("cloud.conf", b64)
 				.build();
 		osClusterService.applySecret(k8sCfg, secret);
-		//
+	}
+
+	private static StorageClass createStorageClass(final String provisioner) {
+		return new StorageClassBuilder()
+				.withNewMetadata()
+				.withName("mano-provisioner")
+				.addToAnnotations("storageclass.kubernetes.io/is-default-class", "true")
+				.endMetadata()
+				.withProvisioner(provisioner)
+				.build();
 	}
 
 	/**
@@ -195,6 +200,14 @@ public class CapiCcmServerService implements CcmServerService {
 		return cniInstallers.stream()
 				.filter(x -> "calico".equals(x.getType()))
 				.map(x -> x.getK8sDocuments("3.28.0"))
+				.flatMap(List::stream)
+				.toList();
+	}
+
+	private List<String> getCcmInstallDocuments() {
+		return ccmInstallers.stream()
+				.filter(x -> "openstack".equals(x.getType()))
+				.map(x -> x.getK8sDocuments("2.30.1"))
 				.flatMap(List::stream)
 				.toList();
 	}
