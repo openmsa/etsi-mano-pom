@@ -164,13 +164,21 @@ public class CapiCcmServerService implements CcmServerService {
 		sb.append("[Global]\n")
 				.append("username = ").append(ai.getUsername()).append("\n")
 				.append("password = ").append(ai.getPassword()).append("\n")
-				.append("auth-url = ").append(ii.getEndpoint()).append("\n")
-				.append("tenant-id = ").append(ai.getProjectId()).append("\n");
+				.append("auth-url = ").append(ii.getEndpoint()).append("\n");
+		if (ai.getProjectId() != null) {
+			sb.append("tenant-id = ").append(ai.getProjectId()).append("\n");
+		}
 		if (ai.getUserDomain() != null) {
 			sb.append("domain-name = ").append(ai.getUserDomain()).append("\n");
 		}
+		if (ai.getProject() != null) {
+			sb.append("tenant-name = ").append(ai.getProject()).append("\n");
+		}
 		if (ai.getRegion() != null) {
 			sb.append("region = ").append(ai.getRegion()).append("\n");
+		}
+		if (ai.getProjectDomain() != null) {
+			sb.append("tenant-domain-name = ").append(ai.getProjectDomain()).append("\n");
 		}
 		return sb.toString();
 	}
