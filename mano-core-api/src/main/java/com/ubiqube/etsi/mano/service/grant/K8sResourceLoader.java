@@ -23,6 +23,7 @@ public interface K8sResourceLoader {
 		final String resourcePath = getVersionedResource(version, "filelist.txt");
 		try (final InputStream in = this.getClass().getResourceAsStream(resourcePath);
 				ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+			Objects.requireNonNull(in, () -> "Could not find resource: " + resourcePath);
 			in.transferTo(baos);
 			return loadFiles(version, baos.toString());
 		} catch (final IOException e) {

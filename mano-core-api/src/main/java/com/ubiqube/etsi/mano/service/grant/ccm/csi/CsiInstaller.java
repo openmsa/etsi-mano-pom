@@ -21,7 +21,7 @@ import com.ubiqube.etsi.mano.service.grant.K8sResourceLoader;
 public interface CsiInstaller extends K8sResourceLoader {
 	@Override
 	default String getSuperType() {
-		return "cni";
+		return "csi";
 	}
 
 }
