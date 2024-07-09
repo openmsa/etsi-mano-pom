@@ -16,11 +16,12 @@
  */
 package com.ubiqube.etsi.mano.service.grant.ccm.csi;
 
-import java.util.List;
+import com.ubiqube.etsi.mano.service.grant.ResourceLoader;
 
-public interface CsiInstaller {
-	String getType();
-
-	List<String> getK8sDocuments(String version);
+public interface CsiInstaller extends ResourceLoader {
+	@Override
+	default String getSuperType() {
+		return "cni";
+	}
 
 }

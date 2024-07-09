@@ -1,11 +1,12 @@
 package com.ubiqube.etsi.mano.service.grant.ccm;
 
-import java.util.List;
+import com.ubiqube.etsi.mano.service.grant.ResourceLoader;
 
-public interface CcmInstaller {
+public interface CcmInstaller extends ResourceLoader {
 
-	String getType();
-
-	List<String> getK8sDocuments(String version);
+	@Override
+	default String getSuperType() {
+		return "ccm";
+	}
 
 }

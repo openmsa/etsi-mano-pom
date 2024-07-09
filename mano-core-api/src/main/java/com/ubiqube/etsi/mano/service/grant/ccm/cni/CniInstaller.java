@@ -16,14 +16,15 @@
  */
 package com.ubiqube.etsi.mano.service.grant.ccm.cni;
 
-import java.util.List;
+import com.ubiqube.etsi.mano.service.grant.ResourceLoader;
 
 /**
  * As in K8s there is many CNI, let's abstract a bit this question.
  */
-public interface CniInstaller {
+public interface CniInstaller extends ResourceLoader {
+	@Override
+	default String getSuperType() {
+		return "cni";
+	}
 
-	String getType();
-
-	List<String> getK8sDocuments(String version);
 }
