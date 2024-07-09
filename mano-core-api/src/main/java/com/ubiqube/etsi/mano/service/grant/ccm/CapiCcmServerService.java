@@ -80,11 +80,7 @@ public class CapiCcmServerService implements CcmServerService {
 		final CapiServer capiSrv = ite.iterator().next();
 		LOG.info("Using capi cluster: {}", capiSrv.getName());
 		final K8s k8s = mapper.map(capiSrv);
-		final Optional<K8s> res = osClusterService.getKubeConfig(k8s, "default", vimConn.getVimId());
-		if (res.isEmpty()) {
-			return deployServer(capiSrv, k8s, "default", vimConn.getVimId(), vimConn);
-		}
-		return res.get();
+		return deployServer(capiSrv, k8s, "default", vimConn.getVimId(), vimConn);
 	}
 
 	private K8s deployServer(final CapiServer capiSrv, final K8s k8s, final String ns, final String clusterName, final VimConnectionInformation<OpenstackV3InterfaceInfo, KeystoneAuthV3> vci) {
