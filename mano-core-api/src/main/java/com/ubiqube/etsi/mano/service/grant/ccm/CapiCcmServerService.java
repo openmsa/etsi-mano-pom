@@ -28,6 +28,7 @@ import com.ubiqube.etsi.mano.dao.mano.ai.KeystoneAuthV3;
 import com.ubiqube.etsi.mano.dao.mano.cnf.capi.CapiServer;
 import com.ubiqube.etsi.mano.dao.mano.ii.OpenstackV3InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
+import com.ubiqube.etsi.mano.dao.mano.vim.vnfi.ClusterOptionVersion;
 import com.ubiqube.etsi.mano.dao.mano.vim.vnfi.CnfInformations;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.service.CapiServerService;
@@ -84,7 +85,7 @@ public class CapiCcmServerService implements CcmServerService {
 	}
 
 	private K8s deployServer(final CapiServer capiSrv, final K8s k8s, final String ns, final String clusterName, final VimConnectionInformation<OpenstackV3InterfaceInfo, KeystoneAuthV3> vci) {
-		final CnfInformations cnfInfo = capiSrv.getCnfInfo();
+		final CnfInformations cnfInfo = vci.getCnfInfo();
 		final K8sParams params = K8sParams.builder()
 				.clusterName(clusterName)
 				.clusterNetworkCidr(List.of("192.168.0.0/16"))
@@ -112,21 +113,45 @@ public class CapiCcmServerService implements CcmServerService {
 		final Optional<K8s> opt = osClusterService.getKubeConfig(k8s, ns, clusterName);
 		if (opt.isPresent()) {
 			final K8s cluster = opt.get();
-			LOG.info("Deploying default CNI.");
-			final List<String> cniDocs = getCniInstallDocuments();
-			cniDocs.forEach(x -> osClusterService.apply(cluster, x));
-			LOG.info("Deploying default CCM.");
 			deployCloudConfig(cluster, vci);
-			final List<String> ccmDocs = getCcmInstallDocuments();
-			osClusterService.apply(cluster, ccmDocs);
-			LOG.info("Deploying default CSI.");
-			final List<String> csiDocs = getCsiInstallDocuments();
-			csiDocs.forEach(x -> osClusterService.apply(cluster, x));
+			createCni(cluster, cnfInfo);
+			createCcm(cluster, cnfInfo);
+			createCsi(cluster, cnfInfo);
 			final StorageClass sc = createStorageClass("cinder.csi.openstack.org");
 			osClusterService.applyStorageClass(cluster, sc);
 			return cluster;
 		}
 		throw new GenericException("Unable to find cluster: " + ns + "/" + clusterName);
+	}
+
+	private void createCsi(final K8s cluster, final CnfInformations cnfInfo) {
+		final ClusterOptionVersion csi = cnfInfo.getCsi();
+		if ((null == csi) || (csi.getModule() == null)) {
+			return;
+		}
+		LOG.info("Deploying default CSI.");
+		final List<String> csiDocs = getCsiInstallDocuments(csi.getModule(), csi.getVersion());
+		csiDocs.forEach(x -> osClusterService.apply(cluster, x));
+	}
+
+	private void createCcm(final K8s cluster, final CnfInformations cnfInfo) {
+		final ClusterOptionVersion ccm = cnfInfo.getCcm();
+		if ((null == ccm) || (ccm.getModule() == null)) {
+			return;
+		}
+		LOG.info("Deploying default CCM.");
+		final List<String> ccmDocs = getCcmInstallDocuments(ccm.getVersion(), ccm.getVersion());
+		osClusterService.apply(cluster, ccmDocs);
+	}
+
+	private void createCni(final K8s cluster, final CnfInformations cnfInfo) {
+		final ClusterOptionVersion cni = cnfInfo.getCni();
+		if ((null == cni) || (cni.getModule() == null)) {
+			return;
+		}
+		LOG.info("Deploying default CNI.");
+		final List<String> cniDocs = getCniInstallDocuments(cni.getModule(), cni.getVersion());
+		cniDocs.forEach(x -> osClusterService.apply(cluster, x));
 	}
 
 	private void deployCloudConfig(final K8s k8sCfg, final VimConnectionInformation<OpenstackV3InterfaceInfo, KeystoneAuthV3> vci) {
@@ -184,26 +209,26 @@ public class CapiCcmServerService implements CcmServerService {
 		return sb.toString();
 	}
 
-	private List<String> getCsiInstallDocuments() {
+	private List<String> getCsiInstallDocuments(final String stack, final String version) {
 		return csiInstallers.stream()
-				.filter(x -> "cinder".equals(x.getType()))
-				.map(x -> x.getK8sDocuments("2.28.2"))
+				.filter(x -> stack.equals(x.getType()))
+				.map(x -> x.getK8sDocuments(version))
 				.flatMap(List::stream)
 				.toList();
 	}
 
-	private List<String> getCniInstallDocuments() {
+	private List<String> getCniInstallDocuments(final String stack, final String version) {
 		return cniInstallers.stream()
-				.filter(x -> "calico".equals(x.getType()))
-				.map(x -> x.getK8sDocuments("3.28.0"))
+				.filter(x -> stack.equals(x.getType()))
+				.map(x -> x.getK8sDocuments(version))
 				.flatMap(List::stream)
 				.toList();
 	}
 
-	private List<String> getCcmInstallDocuments() {
+	private List<String> getCcmInstallDocuments(final String stack, final String version) {
 		return ccmInstallers.stream()
-				.filter(x -> "openstack".equals(x.getType()))
-				.map(x -> x.getK8sDocuments("2.30.1"))
+				.filter(x -> stack.equals(x.getType()))
+				.map(x -> x.getK8sDocuments(version))
 				.flatMap(List::stream)
 				.toList();
 	}
