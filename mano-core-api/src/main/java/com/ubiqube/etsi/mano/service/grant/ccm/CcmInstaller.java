@@ -1,8 +1,8 @@
 package com.ubiqube.etsi.mano.service.grant.ccm;
 
-import com.ubiqube.etsi.mano.service.grant.ResourceLoader;
+import com.ubiqube.etsi.mano.service.grant.K8sResourceLoader;
 
-public interface CcmInstaller extends ResourceLoader {
+public interface CcmInstaller extends K8sResourceLoader {
 
 	@Override
 	default String getSuperType() {
