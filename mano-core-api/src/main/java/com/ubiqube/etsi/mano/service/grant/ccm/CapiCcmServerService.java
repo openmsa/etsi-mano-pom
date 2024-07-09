@@ -116,13 +116,13 @@ public class CapiCcmServerService implements CcmServerService {
 		final Optional<K8s> opt = osClusterService.getKubeConfig(k8s, ns, clusterName);
 		if (opt.isPresent()) {
 			final K8s cluster = opt.get();
+			LOG.info("Deploying default CNI.");
+			final List<String> cniDocs = getCniInstallDocuments();
+			cniDocs.forEach(x -> osClusterService.apply(cluster, x));
 			LOG.info("Deploying default CCM.");
 			deployCloudConfig(cluster, vci);
 			final List<String> ccmDocs = getCcmInstallDocuments();
 			osClusterService.apply(cluster, ccmDocs);
-			LOG.info("Deploying default CNI.");
-			final List<String> cniDocs = getCniInstallDocuments();
-			cniDocs.forEach(x -> osClusterService.apply(cluster, x));
 			LOG.info("Deploying default CSI.");
 			final List<String> csiDocs = getCsiInstallDocuments();
 			csiDocs.forEach(x -> osClusterService.apply(cluster, x));
