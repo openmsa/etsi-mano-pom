@@ -131,7 +131,7 @@ public class CapiCcmServerService implements CcmServerService {
 		}
 		LOG.info("Deploying default CSI.");
 		final List<String> csiDocs = getCsiInstallDocuments(csi.getModule(), csi.getVersion());
-		csiDocs.forEach(x -> osClusterService.apply(cluster, x));
+		osClusterService.apply(cluster, csiDocs);
 	}
 
 	private void createCcm(final K8s cluster, final CnfInformations cnfInfo) {
@@ -151,7 +151,7 @@ public class CapiCcmServerService implements CcmServerService {
 		}
 		LOG.info("Deploying default CNI.");
 		final List<String> cniDocs = getCniInstallDocuments(cni.getModule(), cni.getVersion());
-		cniDocs.forEach(x -> osClusterService.apply(cluster, x));
+		osClusterService.apply(cluster, cniDocs);
 	}
 
 	private void deployCloudConfig(final K8s k8sCfg, final VimConnectionInformation<OpenstackV3InterfaceInfo, KeystoneAuthV3> vci) {
