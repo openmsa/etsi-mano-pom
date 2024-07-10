@@ -27,7 +27,7 @@ import org.mapstruct.factory.Mappers;
 
 import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
 import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
-import com.ubiqube.etsi.mano.dao.mano.dto.VimConnectionInfoDto;
+import com.ubiqube.etsi.mano.dao.mano.dto.VimConnectionRegistrationDto;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 
 class VimConnectionInformationMappingTest {
@@ -39,14 +39,14 @@ class VimConnectionInformationMappingTest {
 	@Test
 	void testVimConnectionInfoDtoNull() {
 		final VimConnectionInformationMapping srv = createService();
-		final VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> res = srv.map((VimConnectionInfoDto) null);
+		final VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> res = srv.map((VimConnectionRegistrationDto) null);
 		assertNull(res);
 	}
 
 	@Test
 	void testVimConnectionInfoDto() {
 		final VimConnectionInformationMapping srv = createService();
-		final VimConnectionInfoDto o = new VimConnectionInfoDto();
+		final VimConnectionRegistrationDto o = new VimConnectionRegistrationDto();
 		o.setVimType("BAD");
 		assertThrows(IllegalArgumentException.class, () -> srv.map(o));
 	}
@@ -54,7 +54,7 @@ class VimConnectionInformationMappingTest {
 	@Test
 	void testVimConnectionInfoDtoK8s() {
 		final VimConnectionInformationMapping srv = createService();
-		final VimConnectionInfoDto o = new VimConnectionInfoDto();
+		final VimConnectionRegistrationDto o = new VimConnectionRegistrationDto();
 		o.setVimType("UBINFV.CISM.V_1");
 		final VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> res = srv.map(o);
 		assertNotNull(res);
@@ -63,7 +63,7 @@ class VimConnectionInformationMappingTest {
 	@Test
 	void testVimConnectionInfoDtoOs1() {
 		final VimConnectionInformationMapping srv = createService();
-		final VimConnectionInfoDto o = new VimConnectionInfoDto();
+		final VimConnectionRegistrationDto o = new VimConnectionRegistrationDto();
 		o.setVimType("ETSINFV.OPENSTACK_KEYSTONE.V_3");
 		final VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> res = srv.map(o);
 		assertNotNull(res);

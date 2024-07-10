@@ -30,7 +30,7 @@ import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
 import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.ai.KeystoneAuthV3;
 import com.ubiqube.etsi.mano.dao.mano.ai.KubernetesV1Auth;
-import com.ubiqube.etsi.mano.dao.mano.dto.VimConnectionInfoDto;
+import com.ubiqube.etsi.mano.dao.mano.dto.VimConnectionRegistrationDto;
 import com.ubiqube.etsi.mano.dao.mano.ii.K8sInterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.ii.OpenstackV3InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
@@ -42,7 +42,7 @@ public interface VimConnectionInformationMapping {
 	@Mapping(target = "id", ignore = true)
 	@Mapping(target = "tenantId", ignore = true)
 	@Mapping(target = "version", ignore = true)
-	default VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> map(final VimConnectionInfoDto o) {
+	default VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> map(final VimConnectionRegistrationDto o) {
 		if (o == null) {
 			return null;
 		}
