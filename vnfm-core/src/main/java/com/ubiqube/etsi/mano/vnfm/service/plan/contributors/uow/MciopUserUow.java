@@ -32,6 +32,9 @@ import com.ubiqube.etsi.mano.vnfm.jpa.K8sServerInfoJpa;
 
 import jakarta.annotation.Nullable;
 
+/**
+ * Create a new K8s certificate, for mano operations.
+ */
 public class MciopUserUow extends AbstractVnfmUow<MciopUserTask> {
 	private final MciopUserTask task;
 	private final K8sServerInfoJpa serverInfoJpa;
