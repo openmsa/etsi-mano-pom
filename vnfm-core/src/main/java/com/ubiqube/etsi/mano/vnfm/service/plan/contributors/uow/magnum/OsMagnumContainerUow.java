@@ -58,7 +58,7 @@ public class OsMagnumContainerUow extends AbstractVnfmUow<OsContainerTask> {
 		osc.getRequestedEphemeralStorageResources();
 		osc.getRequestedMemoryResources();
 		final CnfK8sParams params = CnfK8sParams.builder()
-				.clusterTemplate(cnfi.getClusterTemplate())
+				.clusterTemplate("" /* cnfi.getClusterTemplate() */)
 				.dnsServer(cnfi.getDnsServer())
 				.externalNetworkId("")
 				.keypair(cnfi.getKeyPair())

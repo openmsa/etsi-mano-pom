@@ -51,10 +51,10 @@ public class OsContainerDeployableUow3 extends AbstractVnfmUow<OsContainerDeploy
 		final String network = Optional.ofNullable(task.getNetwork()).map(x -> context.get(Network.class, x)).orElse(null);
 		final OsContainerDeployableUnit du = task.getOsContainerDeployableUnit();
 		final CnfInformations ci = vci.getCnfInfo();
-		if(ci == null) {
+		if (ci == null) {
 			return null;
 		}
-		return vim.cnf(vci).createK8sCluster(ci.getClusterTemplate(), ci.getKeyPair(), du.getVduProfile().getMinNumberOfInstances(), task.getToscaName(), du.getVduProfile().getMinNumberOfInstances(), network);
+		return vim.cnf(vci).createK8sCluster("clusterTemplateId", ci.getKeyPair(), du.getVduProfile().getMinNumberOfInstances(), task.getToscaName(), du.getVduProfile().getMinNumberOfInstances(), network);
 	}
 
 	@Override
