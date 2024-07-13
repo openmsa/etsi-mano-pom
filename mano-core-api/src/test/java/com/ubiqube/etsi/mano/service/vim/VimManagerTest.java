@@ -169,7 +169,6 @@ class VimManagerTest {
 		final VimConnectionInformation vci = createVimConnection();
 		final CnfServer cnfServer = new CnfServer();
 		final CnfInformations info = new CnfInformations();
-		info.setClusterTemplate("tmpl");
 		cnfServer.setInfo(info);
 		when(cnfServerJpa.findById(getSafeUUID(vci.getVimId()))).thenReturn(Optional.of(cnfServer));
 		final VimConnectionInformation res = vm.register(vci);

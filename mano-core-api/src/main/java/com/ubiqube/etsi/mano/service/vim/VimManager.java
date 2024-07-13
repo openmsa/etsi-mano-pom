@@ -216,6 +216,7 @@ public class VimManager {
 
 	private void extractCapabilities(final VimConnectionInformation vci) {
 		final Vim vim = findVim(vci);
+		vim.populateConnection(vci);
 		final List<VimCapability> caps = vim.getCaps(vci);
 		vci.setVimCapabilities(caps.stream().collect(Collectors.toSet()));
 	}
