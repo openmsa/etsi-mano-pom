@@ -53,10 +53,10 @@ public class NetworkExecutor {
 		final List<NetworkObject> netFound = vim.network(vimInfo).search(NetowrkSearchField.NAME, lst);
 		netFound.forEach(x -> {
 			final ExtManagedVirtualLinkDataEntity extVl = new ExtManagedVirtualLinkDataEntity();
-			extVl.setResourceId(x.name());
+			extVl.setResourceId(x.id());
 			extVl.setResourceProviderId(vim.getType());
 			extVl.setVimConnectionId(vimInfo.getVimId());
-			extVl.setVnfVirtualLinkDescId(x.id());
+			extVl.setVnfVirtualLinkDescId(x.name());
 			extVl.setGrants(grants);
 			grants.addExtManagedVl(extVl);
 		});

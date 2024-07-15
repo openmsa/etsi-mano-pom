@@ -275,7 +275,7 @@ public class GrantActionSupport implements GrantSupport {
 	private static ExtManagedVirtualLinkDataEntity createVl(final NetworkObject networkObject, final List<ListKeyPair> vl, final VimConnectionInformation vimConnectionInformation, final GrantResponse grants) {
 		final ExtManagedVirtualLinkDataEntity ret = new ExtManagedVirtualLinkDataEntity();
 		ret.setVnfVirtualLinkDescId(mapToVl(networkObject, vl));
-		ret.setResourceId(networkObject.name());
+		ret.setResourceId(networkObject.id());
 		ret.setResourceProviderId(vimConnectionInformation.getVimType());
 		ret.setVimConnectionId(vimConnectionInformation.getVimId());
 		ret.setGrants(grants);
