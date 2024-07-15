@@ -29,6 +29,7 @@ import com.ubiqube.etsi.mano.dao.mano.common.ListKeyPair;
 import com.ubiqube.etsi.mano.dao.mano.pkg.VirtualCp;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
+import com.ubiqube.etsi.mano.service.vim.NetowrkSearchField;
 import com.ubiqube.etsi.mano.service.vim.NetworkObject;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 
@@ -49,7 +50,7 @@ public class NetworkExecutor {
 				.filter(x -> noneMatchVirtualCp(vnfPkg, x) /* && noneMatchExtCp(vnfPkg, x) */)
 				.map(ListKeyPair::getValue)
 				.toList();
-		final List<NetworkObject> netFound = vim.network(vimInfo).searchByName(lst);
+		final List<NetworkObject> netFound = vim.network(vimInfo).search(NetowrkSearchField.NAME, lst);
 		netFound.forEach(x -> {
 			final ExtManagedVirtualLinkDataEntity extVl = new ExtManagedVirtualLinkDataEntity();
 			extVl.setResourceId(x.name());

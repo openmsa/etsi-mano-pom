@@ -59,7 +59,7 @@ class NetworkExecutorTest {
 		final GrantResponse grant = new GrantResponse();
 		final VimConnectionInformation vimInfo = new VimConnectionInformation<>();
 		when(vim.network(vimInfo)).thenReturn(network);
-		when(network.searchByName(any())).thenReturn(List.of());
+		when(network.search(any(), any())).thenReturn(List.of());
 		srv.extractNetwork(grant, vimInfo, vim);
 		assertTrue(true);
 	}
@@ -78,7 +78,7 @@ class NetworkExecutorTest {
 		final VimConnectionInformation vimInfo = new VimConnectionInformation<>();
 		when(vim.network(vimInfo)).thenReturn(network);
 		final NetworkObject no01 = new NetworkObject("id", "public");
-		when(network.searchByName(any())).thenReturn(List.of(no01));
+		when(network.search(any(), any())).thenReturn(List.of(no01));
 		srv.extractNetwork(grant, vimInfo, vim);
 		assertTrue(true);
 	}
