@@ -28,6 +28,7 @@ import com.ubiqube.etsi.mano.dao.mano.VduProfile;
 import com.ubiqube.etsi.mano.dao.mano.cnf.capi.CapiServer;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerDeployableTask;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
+import com.ubiqube.etsi.mano.dao.mano.vim.vnfi.ClusterMachine;
 import com.ubiqube.etsi.mano.dao.mano.vim.vnfi.CnfInformations;
 import com.ubiqube.etsi.mano.jpa.CapiServerJpa;
 import com.ubiqube.etsi.mano.orchestrator.Context3d;
@@ -63,6 +64,8 @@ public class OsCapiClusterUow extends AbstractVnfmUow<OsContainerDeployableTask>
 	public String execute(final Context3d context) {
 		final String network = Optional.ofNullable(task.getNetwork()).map(x -> context.get(Network.class, x)).orElse(null);
 		final CnfInformations cnfInfo = vci.getCnfInfo();
+		final ClusterMachine master = cnfInfo.getMaster();
+		final ClusterMachine worker = cnfInfo.getWorker();
 		final String clusterName = buildClusterName(task.getToscaName(), task.getVnfInstId());
 		final VduProfile profile = task.getOsContainerDeployableUnit().getVduProfile();
 		final K8sParams k8sParams = K8sParams.builder()
@@ -72,18 +75,18 @@ public class OsCapiClusterUow extends AbstractVnfmUow<OsContainerDeployableTask>
 				.openStackParams(OsParams.builder()
 						.cidr("10.6.0.0/24")
 						.controlPlane(OsMachineParams.builder()
-								.flavor(cnfInfo.getMasterFlavorId())
-								.image(cnfInfo.getImages())
-								.replica(1)
+								.flavor(master.getFlavorId())
+								.image(master.getImage())
+								.replica(master.getMinNumberInstance())
 								.build())
 						.dns(List.of(cnfInfo.getDnsServer()))
 						.domainZone("nova")
 						.extNetId(network)
 						.sshKey(cnfInfo.getKeyPair())
 						.worker(OsMachineParams.builder()
-								.flavor(cnfInfo.getWorkerFlavorId())
-								.image(cnfInfo.getImages())
-								.replica(profile.getMinNumberOfInstances())
+								.flavor(worker.getFlavorId())
+								.image(worker.getImage())
+								.replica(worker.getMinNumberInstance())
 								.build())
 						.build())
 				.serviceDomain("cluster.local")

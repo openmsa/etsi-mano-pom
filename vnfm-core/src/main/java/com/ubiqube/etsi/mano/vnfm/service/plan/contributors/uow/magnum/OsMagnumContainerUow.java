@@ -62,7 +62,7 @@ public class OsMagnumContainerUow extends AbstractVnfmUow<OsContainerTask> {
 				.dnsServer(cnfi.getDnsServer())
 				.externalNetworkId("")
 				.keypair(cnfi.getKeyPair())
-				.masterFlavor(cnfi.getMasterFlavorId())
+				.masterFlavor("" /* cnfi.getMasterFlavorId() */)
 				.name(task.getAlias())
 				.networkDriver("flannel")
 				.serverType("vm")
