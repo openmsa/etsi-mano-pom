@@ -54,6 +54,7 @@ import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.event.QuotaNeeded;
 import com.ubiqube.etsi.mano.service.grant.GrantSupport;
 import com.ubiqube.etsi.mano.service.grant.PreVimSelection;
+import com.ubiqube.etsi.mano.service.vim.NetowrkSearchField;
 import com.ubiqube.etsi.mano.service.vim.NetworkObject;
 import com.ubiqube.etsi.mano.service.vim.ResourceQuota;
 import com.ubiqube.etsi.mano.service.vim.Vim;
@@ -211,7 +212,7 @@ public class GrantActionSupport implements GrantSupport {
 		});
 
 		final List<NetworkObject> vlList = vim.network(vimConnectionInformation)
-				.searchByName(vl.stream()
+				.search(NetowrkSearchField.NAME, vl.stream()
 						.map(ListKeyPair::getValue)
 						.filter(Objects::nonNull)
 						.toList());
