@@ -28,6 +28,7 @@ import com.ubiqube.etsi.mano.dao.mano.ai.KeystoneAuthV3;
 import com.ubiqube.etsi.mano.dao.mano.cnf.capi.CapiServer;
 import com.ubiqube.etsi.mano.dao.mano.ii.OpenstackV3InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
+import com.ubiqube.etsi.mano.dao.mano.vim.vnfi.ClusterMachine;
 import com.ubiqube.etsi.mano.dao.mano.vim.vnfi.ClusterOptionVersion;
 import com.ubiqube.etsi.mano.dao.mano.vim.vnfi.CnfInformations;
 import com.ubiqube.etsi.mano.exception.GenericException;
@@ -86,6 +87,8 @@ public class CapiCcmServerService implements CcmServerService {
 
 	private K8s deployServer(final CapiServer capiSrv, final K8s k8s, final String ns, final String clusterName, final VimConnectionInformation<OpenstackV3InterfaceInfo, KeystoneAuthV3> vci) {
 		final CnfInformations cnfInfo = vci.getCnfInfo();
+		final ClusterMachine master = cnfInfo.getMaster();
+		final ClusterMachine worker = cnfInfo.getWorker();
 		final K8sParams params = K8sParams.builder()
 				.clusterName(clusterName)
 				.clusterNetworkCidr(List.of("192.168.0.0/16"))
@@ -93,18 +96,18 @@ public class CapiCcmServerService implements CcmServerService {
 				.openStackParams(OsParams.builder()
 						.cidr("10.6.0.0/24")
 						.controlPlane(OsMachineParams.builder()
-								.flavor(cnfInfo.getMasterFlavorId())
-								.image(cnfInfo.getImages())
-								.replica(1)
+								.flavor(master.getFlavorId())
+								.image(master.getImage())
+								.replica(master.getMinNumberInstance())
 								.build())
 						.dns(List.of(cnfInfo.getDnsServer()))
 						.domainZone("nova")
 						.extNetId(cnfInfo.getExtNetworkId())
 						.sshKey(cnfInfo.getKeyPair())
 						.worker(OsMachineParams.builder()
-								.flavor(cnfInfo.getWorkerFlavorId())
-								.image(cnfInfo.getImages())
-								.replica(cnfInfo.getMinNumberInstance())
+								.flavor(worker.getFlavorId())
+								.image(worker.getImage())
+								.replica(worker.getMinNumberInstance())
 								.build())
 						.build())
 				.serviceDomain("cluster.local")
