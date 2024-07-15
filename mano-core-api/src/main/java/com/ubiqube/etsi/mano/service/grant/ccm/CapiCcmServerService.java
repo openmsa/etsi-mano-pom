@@ -132,8 +132,8 @@ public class CapiCcmServerService implements CcmServerService {
 		if ((null == csi) || (csi.getModule() == null)) {
 			return;
 		}
-		LOG.info("Deploying default CSI.");
 		final List<String> csiDocs = getCsiInstallDocuments(csi.getModule(), csi.getVersion());
+		LOG.info("Deploying CSI: {} {} => {} Docs", csi.getModule(), csi.getVersion(), csiDocs.size());
 		osClusterService.apply(cluster, csiDocs);
 	}
 
@@ -142,8 +142,8 @@ public class CapiCcmServerService implements CcmServerService {
 		if ((null == ccm) || (ccm.getModule() == null)) {
 			return;
 		}
-		LOG.info("Deploying default CCM.");
-		final List<String> ccmDocs = getCcmInstallDocuments(ccm.getVersion(), ccm.getVersion());
+		final List<String> ccmDocs = getCcmInstallDocuments(ccm.getModule(), ccm.getVersion());
+		LOG.info("Deploying CCM: {} {} => {} docs.", ccm.getModule(), ccm.getVersion(), ccmDocs.size());
 		osClusterService.apply(cluster, ccmDocs);
 	}
 
@@ -152,8 +152,8 @@ public class CapiCcmServerService implements CcmServerService {
 		if ((null == cni) || (cni.getModule() == null)) {
 			return;
 		}
-		LOG.info("Deploying default CNI.");
 		final List<String> cniDocs = getCniInstallDocuments(cni.getModule(), cni.getVersion());
+		LOG.info("Deploying CNI: {} {} => {} docs.", cni.getModule(), cni.getVersion(), cniDocs.size());
 		osClusterService.apply(cluster, cniDocs);
 	}
 
