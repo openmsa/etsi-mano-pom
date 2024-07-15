@@ -31,6 +31,7 @@ import com.ubiqube.etsi.mano.dao.mano.cnf.capi.CapiServer;
 import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainerDeployableUnit;
 import com.ubiqube.etsi.mano.dao.mano.v2.vnfm.OsContainerDeployableTask;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
+import com.ubiqube.etsi.mano.dao.mano.vim.vnfi.ClusterMachine;
 import com.ubiqube.etsi.mano.dao.mano.vim.vnfi.CnfInformations;
 import com.ubiqube.etsi.mano.jpa.CapiServerJpa;
 import com.ubiqube.etsi.mano.orchestrator.vt.VirtualTaskV3;
@@ -61,6 +62,8 @@ class OsCapiClusterUowTest {
 		final VimConnectionInformation vci = new VimConnectionInformation();
 		final CnfInformations cnfInfo = new CnfInformations();
 		cnfInfo.setDnsServer("1.2.3.4");
+		cnfInfo.setMaster(new ClusterMachine());
+		cnfInfo.setWorker(new ClusterMachine());
 		vci.setCnfInfo(cnfInfo);
 		final OsCapiClusterUow srv = createService(task, vci);
 		//
