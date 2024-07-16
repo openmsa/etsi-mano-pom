@@ -88,7 +88,7 @@ public class ModelTest {
 			if ((null != mw) && (null != mr)) {
 				final Class<?> ret = mr.getReturnType();
 				if (Modifier.isAbstract(ret.getModifiers())) {
-					// continue;
+					// continue
 				}
 				mw.invoke(obj, createType(ret));
 			}
