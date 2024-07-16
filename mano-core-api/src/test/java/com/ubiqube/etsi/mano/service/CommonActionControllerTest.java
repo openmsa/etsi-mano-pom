@@ -82,7 +82,7 @@ class CommonActionControllerTest {
 	}
 
 	@Test
-	void testBasicFail() throws Exception {
+	void testBasicFail() {
 		final CommonActionController cac = createService();
 		//
 		when(serverService.buildServerAdapter(server)).thenThrow(RuntimeException.class);
@@ -93,7 +93,7 @@ class CommonActionControllerTest {
 	}
 
 	@Test
-	void testBasicOk() throws Exception {
+	void testBasicOk() {
 		final CommonActionController cac = createService();
 		final Servers server = Servers.builder()
 				.url(URI.create("http://localhost/"))
@@ -104,7 +104,7 @@ class CommonActionControllerTest {
 	}
 
 	@Test
-	void testRegisterServerFail() throws Exception {
+	void testRegisterServerFail() {
 		final CommonActionController cac = createService();
 		//
 		final UUID id = UUID.randomUUID();
@@ -114,7 +114,7 @@ class CommonActionControllerTest {
 	}
 
 	@Test
-	void testRegisterServerVnfmOk() throws Exception {
+	void testRegisterServerVnfmOk() {
 		final CommonActionController cac = createService();
 		final Servers server = Servers.builder()
 				.remoteSubscriptions(Set.of())
@@ -136,7 +136,7 @@ class CommonActionControllerTest {
 	}
 
 	@Test
-	void testRegisterServerNfvoOk() throws Exception {
+	void testRegisterServerNfvoOk() {
 		final CommonActionController cac = createService();
 		final Servers server = Servers.builder()
 				.serverType(ServerType.NFVO)

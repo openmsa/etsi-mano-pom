@@ -68,7 +68,7 @@ class AbstractGrantServiceTest {
 	}
 
 	@Test
-	void testBasic() throws Exception {
+	void testBasic() {
 		final TestAbstractGrantService srv = createService();
 		final TestBluePrint bp = new TestBluePrint();
 		bp.setTasks(Set.of());
@@ -94,7 +94,7 @@ class AbstractGrantServiceTest {
 	 * @throws Exception
 	 */
 	@Test
-	void testOneTask() throws Exception {
+	void testOneTask() {
 		final TestAbstractGrantService srv = createService();
 		final TestBluePrint bp = new TestBluePrint();
 		//
@@ -129,7 +129,7 @@ class AbstractGrantServiceTest {
 	}
 
 	@Test
-	void testPostRequest() throws Exception {
+	void testPostRequest() {
 		final TestAbstractGrantService srv = createService();
 		final UUID tid = UUID.randomUUID();
 		final TestBluePrint bp = new TestBluePrint();

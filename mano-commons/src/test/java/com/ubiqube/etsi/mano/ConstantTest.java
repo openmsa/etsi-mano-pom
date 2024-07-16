@@ -60,9 +60,8 @@ import jakarta.validation.constraints.NotNull;
 class ConstantTest {
 
 	@Test
-	void testName() throws Exception {
-		Set<String> res;
-		res = Constants.VNF_SEARCH_MANDATORY_FIELDS;
+	void testName() {
+		Set<String> res = Constants.VNF_SEARCH_MANDATORY_FIELDS;
 		assertNotNull(res);
 		res = Constants.VNFPMJOB_SEARCH_MANDATORY_FIELDS;
 		assertNotNull(res);

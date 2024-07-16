@@ -24,6 +24,7 @@ import java.util.Map.Entry;
 
 import org.junit.jupiter.api.Test;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -40,12 +41,13 @@ import com.ubiqube.etsi.mano.service.cond.visitor.OptimizeVisitor;
 import com.ubiqube.etsi.mano.service.cond.visitor.PrintVisitor;
 import com.ubiqube.etsi.mano.service.cond.visitor.RemoveSpecialOpVisitor;
 
+@SuppressWarnings("static-method")
 class ConditionParserTest {
 	private static final List<String> conditions = List.of("and", "or", "not", "assert");
 	private static final List<String> operators = List.of("equal", "greater_than", "greater_or_equal", "less_than", "less_or_equal", "in_range", "valid_values", "length", "min_length", "max_length", "pattern", "schema");
 
 	@Test
-	void testName() throws Exception {
+	void testName() throws JsonProcessingException {
 		final ToStringVisitor tsv = new ToStringVisitor();
 		final String cond4 = "[{\"or\":[{\"my_attribute\":[{\"equal\":\"my_value\"}]},{\"my_other_attribute\":[{\"equal\":\"my_other_value\"}]},{\"and\":[{\"my_second\":[{\"less_than\":2},{\"not\":[{\"equal\":0}]}]},{\"another\":[{\"length\":5}]},{\"aaa\":[{\"pattern\":\"^.*$\"}]},{\"aab\":[{\"min_length\":8}]},{\"aac\":[{\"max_length\":8},{\"less_or_equal\":99}]},{\"aad\":[{\"greater_than\":99},{\"greater_or_equal\":5},{\"less_than\":5}]},{\"not\":[{\"four\":[{\"equal\":5.55}]},{\"five\":[{\"in_range\":[1,10]}]}]}]}]}]";
 		final ObjectMapper mapper = new ObjectMapper();
@@ -57,7 +59,7 @@ class ConditionParserTest {
 		final PrintVisitor visitor = new PrintVisitor();
 		final String str = root.accept(visitor, 0);
 		System.out.println("Initial\n" + str);
-		// root = applyOptimizer(new SwapNotVisitor(), root);
+		// root = applyOptimizer(new SwapNotVisitor(), root)
 		root = applyOptimizer(new ForwardLeftVisitor(), root);
 		root = applyOptimizer(new OptimizeVisitor(), root);
 		root = applyOptimizer(new OptimizeVisitor(), root);

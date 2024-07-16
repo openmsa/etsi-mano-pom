@@ -48,7 +48,7 @@ class SingleControllerConditionTest {
 	ConfigurableListableBeanFactory beanFactory;
 
 	@Test
-	void testBase() throws Exception {
+	void testBase() {
 		when(metadata.getAnnotations()).thenReturn(annotations);
 		when(annotations.get(RestController.class)).thenReturn(anSrc);
 		when(anSrc.getSource()).thenReturn(ControllerA.class.getCanonicalName());

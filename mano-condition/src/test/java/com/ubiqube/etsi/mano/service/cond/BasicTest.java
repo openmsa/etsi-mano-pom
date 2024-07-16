@@ -27,7 +27,6 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
@@ -68,7 +67,7 @@ class BasicTest {
 		assertFalse(res);
 	}
 
-	private String extractConditions(final String file) throws IOException, JsonProcessingException {
+	private String extractConditions(final String file) throws IOException {
 		final ObjectMapper omYaml = new ObjectMapper(new YAMLFactory());
 		final ObjectMapper omJson = new ObjectMapper();
 		final InputStream is = this.getClass().getResourceAsStream(file);

@@ -59,21 +59,21 @@ class VnfPackageDbTest {
 	private ManoSearch manoSearch;
 
 	@Test
-	void testDelete01() throws Exception {
+	void testDelete01() {
 		final VnfPackageDb db = new VnfPackageDb(repository, contentManager, jsonMapper, namingStrategy, grammarParser, manoSearch);
 		db.delete(UUID.randomUUID());
 		assertTrue(true);
 	}
 
 	@Test
-	void testDelete02() throws Exception {
+	void testDelete02() {
 		final VnfPackageDb db = new VnfPackageDb(repository, contentManager, jsonMapper, namingStrategy, grammarParser, manoSearch);
 		db.delete(UUID.randomUUID(), "filename");
 		assertTrue(true);
 	}
 
 	@Test
-	void testGet() throws Exception {
+	void testGet() {
 		final VnfPackageDb db = new VnfPackageDb(repository, contentManager, jsonMapper, namingStrategy, grammarParser, manoSearch);
 		final UUID id = UUID.randomUUID();
 		final Optional<VnfPackage> vnfPackage = Optional.of(new VnfPackage());
@@ -83,14 +83,14 @@ class VnfPackageDbTest {
 	}
 
 	@Test
-	void testGetNotFound() throws Exception {
+	void testGetNotFound() {
 		final VnfPackageDb db = new VnfPackageDb(repository, contentManager, jsonMapper, namingStrategy, grammarParser, manoSearch);
 		final UUID id = UUID.randomUUID();
 		assertThrows(NotFoundException.class, () -> db.get(id));
 	}
 
 	@Test
-	void testSave() throws Exception {
+	void testSave() {
 		final VnfPackageDb db = new VnfPackageDb(repository, contentManager, jsonMapper, namingStrategy, grammarParser, manoSearch);
 		final UUID id = UUID.randomUUID();
 		final VnfPackage vnfPkg = new VnfPackage();
@@ -100,7 +100,7 @@ class VnfPackageDbTest {
 	}
 
 	@Test
-	void testSuery01() throws Exception {
+	void testSuery01() {
 		final VnfPackageDb db = new VnfPackageDb(repository, contentManager, jsonMapper, namingStrategy, grammarParser, manoSearch);
 		when(grammarParser.parse("filename")).thenReturn(new GrammarNodeResult(List.of()));
 		db.query("filename");

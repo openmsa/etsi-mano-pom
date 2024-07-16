@@ -114,7 +114,7 @@ public interface ConnectionMapping {
 		Optional.ofNullable(value.getRegionName()).ifPresent(x -> ret.put("regionName", x));
 		Optional.ofNullable(value.getSdnEndpoint()).ifPresent(x -> ret.put("sdn-endpoint", x));
 		if (value instanceof final K8sInterfaceInfo kii) {
-			Optional.ofNullable(((K8sInterfaceInfo) value).getCertificateAuthorityData()).ifPresent(x -> ret.put("certificate-authority-data", x));
+			Optional.ofNullable((kii).getCertificateAuthorityData()).ifPresent(x -> ret.put("certificate-authority-data", x));
 		}
 		return ret;
 	}
@@ -130,9 +130,8 @@ public interface ConnectionMapping {
 		Optional.ofNullable(value.getUserDomain()).ifPresent(x -> ret.put("userDomain", x));
 		Optional.ofNullable(value.getProject()).ifPresent(x -> ret.put("project", x));
 		Optional.ofNullable(value.getRegion()).ifPresent(x -> ret.put("region", x));
-//		Optional.ofNullable(value.getProjectId()).ifPresent(x -> ret.put("projectId", x));
+		Optional.ofNullable(value.getProjectId()).ifPresent(x -> ret.put("projectId", x));
 		Optional.ofNullable(value.getProjectDomain()).ifPresent(x -> ret.put("projectDomain", x));
-//		Optional.ofNullable(value.getProjectName()).ifPresent(x -> ret.put("projectName", x));
 		return ret;
 	}
 

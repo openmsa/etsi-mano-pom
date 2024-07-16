@@ -52,331 +52,331 @@ public class HttpGatewayBad extends AbstractHttpGateway {
 
 	@Override
 	public Class<?> getVnfPackageClass() {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Object createVnfPackageRequest(final Map<String, String> userDefinedData) {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public ParameterizedTypeReference<List<Class<?>>> getVnfPackageClassList() {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Class<?> getVnfPackageSubscriptionClass() {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Object getPkgmSubscriptionRequest(final Subscription req) {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Class<?> getVnfIndicatorValueChangeSubscriptionClass() {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Object getVnfIndicatorValueChangeSubscriptionRequest(final Subscription req) {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Object mapGrantRequest(final GrantResponse o) {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Class<?> getGrantResponse() {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Object createGrantRequest(final GrantResponse grant) {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public void makeGrantLinks(final Object manoGrant) {
-		// TODO Auto-generated method stub
+		//
 
 	}
 
 	@Override
 	public String getSubscriptionUriFor(final ApiAndType at, final String id) {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Class<?> getVnfInstanceClass() {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Class<?> getVnfThresholdClass() {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public ParameterizedTypeReference<List<Class<?>>> getVnfInstanceListParam() {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public ParameterizedTypeReference<List<Class<?>>> getListVnfLcmOpOccs() {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public ParameterizedTypeReference<List<Class<?>>> getNsdPackageClassList() {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Object createVnfInstanceRequest(final String vnfdId, final String vnfInstanceName, final String vnfInstanceDescription) {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Object getVnfInstanceInstantiateRequest(final VnfInstantiate req) {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Class<?> getVnfLcmOpOccsClass() {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Object createVnfInstanceTerminate(final CancelModeTypeEnum terminationType, final Integer gracefulTerminationTimeout) {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Object getVnfInstanceScaleToLevelRequest(final VnfScaleToLevelRequest req) {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Object createVnfInstanceScaleRequest(final ScaleTypeEnum scaleTypeEnum, final String aspectId, final Integer numberOfSteps) {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Object createVnfInstanceHealRequest(final VnfHealRequest req) {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Object getVnfInstanceOperateRequest(final VnfOperateRequest req) {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Object getVnfInstanceChangeFalvourRequest(final ChangeVnfFlavourData req) {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Object getVnfInstanceChangeExtConnRequest(final ChangeExtVnfConnRequest req) {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Object createEvent(final UUID uuid, final EventMessage event) {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Version getVersion() {
-		// TODO Auto-generated method stub
+		//
 		return Version.of("1.2.3");
 	}
 
 	@Override
 	public Class<?> getNsdPackageClass() {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Object createNsdPackageRequest(final Map<String, Object> userDefinedData) {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Class<?> getVnfPmJobClass() {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Object createVnfPmJobRequest(final PmJob pmJob) {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Object createVnfThresholdRequest(final Threshold req) {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Class<?> getVnfIndicatorClass() {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public ParameterizedTypeReference<List<Class<?>>> getVnfIndicatorClassList() {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Class<?> getVnfIndicatorSubscriptionClass() {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Object createVnfInstanceSubscriptionRequest(final Subscription subscription) {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Object createVnfIndicatorSubscriptionRequest(final Subscription subscription) {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Object createVnfFmSubscriptionRequest(final Subscription subscription) {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Class<?> getVnfFmSubscriptionClass() {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Object mapVrQanSubscriptionRequest(final Subscription o) {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Class<?> getVrQanSubscriptionClass() {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Subscription mapVnfFmSubscription(final Object o) {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Subscription mapVrQanSubscriptionSubscription(final Object o) {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Subscription mapToPkgmSubscription(final Object o) {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Subscription mapToVnfIndicatorSubscription(final Object o) {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public GrantResponse mapToGrantResponse(final Object o) {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public NsdPackage mapToNsdPackage(final Object o) {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public VnfIndicator mapToVnfIndicator(final Object o) {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public VnfInstance mapToVnfInstance(final Object o) {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public VnfBlueprint mapToVnfBlueprint(final Object o) {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public VnfPackage mapToVnfPackage(final Object o) {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public Threshold mapToThreshold(final Object o) {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 
 	@Override
 	public PmJob mapToPmJob(final Object o) {
-		// TODO Auto-generated method stub
+		//
 		return null;
 	}
 

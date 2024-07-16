@@ -27,12 +27,13 @@ import org.jgroups.Receiver;
 import org.jgroups.View;
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings("static-method")
 class JgroupsTest {
 	private static final int MAX_ROUNDS = 100;
 	private static final int SLEEP_TIME_IN_MILLIS = 1000;
 
 	@Test
-	void testName() throws Exception {
+	void testName() {
 		assertTrue(true);
 	}
 

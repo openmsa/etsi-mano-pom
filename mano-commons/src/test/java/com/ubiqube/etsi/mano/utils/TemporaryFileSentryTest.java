@@ -27,10 +27,11 @@ import org.junit.jupiter.api.Test;
  * @author olivier
  *
  */
+@SuppressWarnings("static-method")
 class TemporaryFileSentryTest {
 
 	@Test
-	void testName() throws Exception {
+	void testName() {
 		Path file;
 		try (TemporaryFileSentry tfe = new TemporaryFileSentry()) {
 			file = tfe.get();

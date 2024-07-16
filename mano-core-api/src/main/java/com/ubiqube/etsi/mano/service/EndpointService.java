@@ -144,7 +144,7 @@ public class EndpointService {
 		//
 	}
 
-	record HttpMethod(String action, String payh) {
+	record HttpMethod(String action, @Nullable String payh) {
 		//
 	}
 }

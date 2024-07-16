@@ -34,6 +34,7 @@ class NodeTest {
 	@Test
 	void test() {
 		Node n2 = new Node<>();
+		assertNotNull(n2);
 		n2 = new Node<>("name", Operand.CONT, List.of());
 		assertNotNull(n2);
 		n2 = Node.of("name", Operand.GT, List.of());

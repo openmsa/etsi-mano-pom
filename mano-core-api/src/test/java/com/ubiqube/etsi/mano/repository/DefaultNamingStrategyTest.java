@@ -16,21 +16,22 @@
  */
 package com.ubiqube.etsi.mano.repository;
 
-import com.ubiqube.etsi.mano.config.properties.ManoRepositoryProperties;
-import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test;
+
+import com.ubiqube.etsi.mano.config.properties.ManoRepositoryProperties;
+import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 
 @SuppressWarnings("static-method")
 class DefaultNamingStrategyTest {
 
 	@Test
-	void testRoot() throws Exception {
+	void testRoot() {
 		final ManoRepositoryProperties props = new ManoRepositoryProperties();
 		props.setPhysRoot("/tmp/test/");
 		final DefaultNamingStrategy dms = new DefaultNamingStrategy(props);
@@ -39,7 +40,7 @@ class DefaultNamingStrategyTest {
 	}
 
 	@Test
-	void testClassUuidFilename() throws Exception {
+	void testClassUuidFilename() {
 		final ManoRepositoryProperties props = new ManoRepositoryProperties();
 		props.setPhysRoot("/tmp/test/");
 		final DefaultNamingStrategy dms = new DefaultNamingStrategy(props);
@@ -48,7 +49,7 @@ class DefaultNamingStrategyTest {
 	}
 
 	@Test
-	void testClassUuid() throws Exception {
+	void testClassUuid() {
 		final ManoRepositoryProperties props = new ManoRepositoryProperties();
 		props.setPhysRoot("/tmp/test/");
 		final DefaultNamingStrategy dms = new DefaultNamingStrategy(props);
@@ -57,7 +58,7 @@ class DefaultNamingStrategyTest {
 	}
 
 	@Test
-	void testClass() throws Exception {
+	void testClass() {
 		final ManoRepositoryProperties props = new ManoRepositoryProperties();
 		props.setPhysRoot("/tmp/test/");
 		final DefaultNamingStrategy dms = new DefaultNamingStrategy(props);
@@ -65,7 +66,7 @@ class DefaultNamingStrategyTest {
 		assertTrue(res.toString().startsWith(buildPath("/tmp/test/")));
 	}
 
-	private static String buildPath(String segment) {
+	private static String buildPath(final String segment) {
 		return Paths.get(segment).toString();
 	}
 }

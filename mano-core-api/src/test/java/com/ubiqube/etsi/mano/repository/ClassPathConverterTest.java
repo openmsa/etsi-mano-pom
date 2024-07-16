@@ -30,21 +30,21 @@ import com.ubiqube.etsi.mano.exception.GenericException;
 class ClassPathConverterTest {
 
 	@Test
-	void testBadClass() throws Exception {
+	void testBadClass() {
 		final ClassPathConverter cpc = new ClassPathConverter();
 		final Class<? extends ClassPathConverterTest> clazz = getClass();
 		assertThrows(GenericException.class, () -> cpc.convert(clazz));
 	}
 
 	@Test
-	void testNsdClass() throws Exception {
+	void testNsdClass() {
 		final ClassPathConverter cpc = new ClassPathConverter();
 		final String res = cpc.convert(NsdPackage.class);
 		assertNotNull(res);
 	}
 
 	@Test
-	void testList() throws Exception {
+	void testList() {
 		final ClassPathConverter cpc = new ClassPathConverter();
 		final Set<Class<?>> res = cpc.getList();
 		assertNotNull(res);
