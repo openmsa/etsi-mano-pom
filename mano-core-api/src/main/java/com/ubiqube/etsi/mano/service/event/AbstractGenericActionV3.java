@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.service.event;
 
 import java.time.OffsetDateTime;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -148,10 +149,18 @@ public abstract class AbstractGenericActionV3 {
 	protected abstract void mergeVirtualLinks(Instance vnfInstance, Blueprint<?, ?> localPlan);
 
 	private static void copyVimConnections(final Instance vnfInstance, final Blueprint<?, ?> localPlan) {
-		vnfInstance.setVimConnectionInfo(new LinkedHashSet<>());
-		localPlan.getVimConnections().forEach(vnfInstance::addVimConnectionInfo);
-		vnfInstance.setCismConnectionInfo(new LinkedHashSet<>());
-		localPlan.getCismConnections().forEach(vnfInstance::addCismConnectionInfo);
+		if (localPlan.getOperation() == PlanOperationType.TERMINATE) {
+			vnfInstance.setVimConnectionInfo(new LinkedHashSet<>());
+			vnfInstance.setCismConnectionInfo(new LinkedHashSet<>());
+			vnfInstance.setCirConnectionInfo(new LinkedHashMap<>());
+		} else {
+			vnfInstance.setVimConnectionInfo(new LinkedHashSet<>());
+			localPlan.getVimConnections().forEach(vnfInstance::addVimConnectionInfo);
+			vnfInstance.setCismConnectionInfo(new LinkedHashSet<>());
+			localPlan.getCismConnections().forEach(vnfInstance::addCismConnectionInfo);
+			vnfInstance.setCirConnectionInfo(new LinkedHashMap<>());
+			localPlan.getCirConnectionInfo().forEach((k, v) -> vnfInstance.addCirConnection(v));
+		}
 	}
 
 	/**
