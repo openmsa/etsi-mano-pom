@@ -25,6 +25,7 @@ management:
         auto-create-index: true
         host: http://mano-es:9200
         index: mano-metrics-mon
+        index-date-format: yyyy-MM-dd
   endpoint:
     health:
       show-details: ALWAYS
