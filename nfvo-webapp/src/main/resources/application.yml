@@ -52,6 +52,7 @@ management:
       export:
         host: http://mano-es:9200
         index: mano-metrics-nfvo
+        index-date-format: yyyy-MM-dd
   endpoint:
     health:
       show-details: ALWAYS
