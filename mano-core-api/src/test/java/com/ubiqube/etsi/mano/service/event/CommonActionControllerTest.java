@@ -45,6 +45,7 @@ import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.dao.mano.vim.PlanStatusType;
 import com.ubiqube.etsi.mano.dao.subscription.SubscriptionType;
 import com.ubiqube.etsi.mano.jpa.config.ServersJpa;
+import com.ubiqube.etsi.mano.service.EndpointService;
 import com.ubiqube.etsi.mano.service.HttpGateway;
 import com.ubiqube.etsi.mano.service.ServerService;
 import com.ubiqube.etsi.mano.service.auth.model.ServerType;
@@ -71,6 +72,8 @@ class CommonActionControllerTest {
 	private ServerService serverService;
 	@Mock
 	private FluxRest fluxRest;
+	@Mock
+	private EndpointService endpointService;
 	private final ApiVersionMapping apiVersionMapping = Mappers.getMapper(ApiVersionMapping.class);
 
 	@Test
@@ -98,7 +101,7 @@ class CommonActionControllerTest {
 	}
 
 	private CommonActionController createService() {
-		return new CommonActionController(serversJpa, List.of(hg), manoProperties, securityConfigProvider, serverService, apiVersionMapping);
+		return new CommonActionController(serversJpa, List.of(hg), manoProperties, securityConfigProvider, serverService, apiVersionMapping, endpointService);
 	}
 
 	@Test

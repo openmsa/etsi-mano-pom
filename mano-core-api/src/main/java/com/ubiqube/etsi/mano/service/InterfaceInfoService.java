@@ -69,21 +69,21 @@ public class InterfaceInfoService {
 	private ManoServiceInterface convert(final Endpoint x) {
 		final ManoServiceInterface cmii = new ManoServiceInterface();
 		cmii.setApiEndpoint(ApiEndpoint.builder()
-				.apiMajorVersion(x.versoin().getMajor() + "")
-				.apiName(x.part() + "-" + x.versoin())
+				.apiMajorVersion(x.version().getMajor() + "")
+				.apiName(x.part() + "-" + x.version())
 				.apiRoot(x.part())
-				.apiUri(baseUrl + "/" + x.part() + "/v" + x.versoin().getMajor() + "/")
+				.apiUri(baseUrl + "/" + x.part() + "/v" + x.version().getMajor() + "/")
 				.build());
-		cmii.setApiVersion(x.versoin().toString());
+		cmii.setApiVersion(x.version().toString());
 		cmii.setInterfaceState(defaultStates());
 		cmii.setMaxConcurrentIntOpNumber(null);
 		cmii.setMaxConcurrentIntOpNumber(null);
 		cmii.setMetadata(Map.of());
-		cmii.setName(x.part() + "-" + x.versoin());
+		cmii.setName(x.part() + "-" + x.version());
 		cmii.setProviderSpecificApiVersion(null);
 		cmii.setSecurityInfo(createSecInfo());
-		cmii.setStandardVersion(x.versoin().toString());
-		cmii.setProviderSpecificApiVersion(x.versoin().toString());
+		cmii.setStandardVersion(x.version().toString());
+		cmii.setProviderSpecificApiVersion(x.version().toString());
 		final List<SupportedOperations> ope = createSupportedOperation(x.lst());
 		cmii.setSupportedOperations(ope);
 		cmii.setType(x.part());

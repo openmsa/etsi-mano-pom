@@ -51,6 +51,8 @@ import com.ubiqube.etsi.mano.dao.subscription.SubscriptionType;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.jpa.config.ServersJpa;
 import com.ubiqube.etsi.mano.model.ApiVersionInformation;
+import com.ubiqube.etsi.mano.service.EndpointService;
+import com.ubiqube.etsi.mano.service.EndpointService.Endpoint;
 import com.ubiqube.etsi.mano.service.HttpGateway;
 import com.ubiqube.etsi.mano.service.ServerService;
 import com.ubiqube.etsi.mano.service.auth.model.ApiTypesEnum;
@@ -87,15 +89,17 @@ public class CommonActionController {
 	private final ObjectProvider<SecutiryConfig> secutiryConfig;
 	private final ApiVersionMapping apiVersionMapping;
 	private final ServerService serverService;
+	private final EndpointService endpointService;
 
 	public CommonActionController(final ServersJpa serversJpa, final List<com.ubiqube.etsi.mano.service.HttpGateway> httpGateway,
-			final ManoProperties manoProperties, final ObjectProvider<SecutiryConfig> secutiryConfig, final ServerService serverService, final ApiVersionMapping apiVersionMapping) {
+			final ManoProperties manoProperties, final ObjectProvider<SecutiryConfig> secutiryConfig, final ServerService serverService, final ApiVersionMapping apiVersionMapping, final EndpointService endpointService) {
 		this.serversJpa = serversJpa;
 		this.httpGateway = httpGateway;
 		this.manoProperties = manoProperties;
 		this.secutiryConfig = secutiryConfig;
 		this.apiVersionMapping = apiVersionMapping;
 		this.serverService = serverService;
+		this.endpointService = endpointService;
 	}
 
 	public Servers registerServer(final UUID objectId, final Map<String, Object> parameters) {
@@ -216,13 +220,22 @@ public class CommonActionController {
 	}
 
 	private Subscription vnfPackageOnboardingSubscribe(final ServerAdapter serverAdapter) {
-		serverAdapter.getServer().getVersions().stream()
-				.filter(x -> x.getUriPrefix().equals("/vnfpkgm/"));
-		return vnfPackageSubscribe(serverAdapter, "VnfPackageOnboardingNotification", "/vnfpkgm/v1/notification/onboarding");
+		final String res = getPartAndVersion(serverAdapter, ApiVersionType.SOL003_VNFPKGM);
+		return vnfPackageSubscribe(serverAdapter, "VnfPackageOnboardingNotification", "%s/notification/onboarding".formatted(res));
 	}
 
 	private Subscription vnfPackageChangeSubscribe(final ServerAdapter serverAdapter) {
-		return vnfPackageSubscribe(serverAdapter, "VnfPackageChangeNotification", "/vnfpkgm/v1/notification/change");
+		final String res = getPartAndVersion(serverAdapter, ApiVersionType.SOL003_VNFPKGM);
+		return vnfPackageSubscribe(serverAdapter, "VnfPackageChangeNotification", "%s/notification/change".formatted(res));
+	}
+
+	private String getPartAndVersion(final ServerAdapter serverAdapter, final ApiVersionType type) {
+		final List<Endpoint> res = endpointService.getEndpoints().get(type.toString());
+		if (res.isEmpty()) {
+			throw new GenericException("Unable to find: " + type);
+		}
+		final Endpoint val = res.get(0);
+		return "/%s/v%s".formatted(val.part(), val.version().getMajor());
 	}
 
 	private Subscription vnfPackageSubscribe(final ServerAdapter serverAdapter, final String eventName, final String url) {
@@ -238,7 +251,8 @@ public class CommonActionController {
 	private Subscription vnfIndicatorValueChangeSubscribe(final ServerAdapter serverAdapter) {
 		final Servers server = serverAdapter.getServer();
 		final List<FilterAttributes> filters = List.of(FilterAttributes.of(NOTIFICATION_TYPES_0, "VnfIndicatorValueChangeNotification"));
-		final Subscription subsOut = createSubscriptionWithFilter(ApiTypesEnum.SOL003, "/vnfind/v1/notification/value-change", SubscriptionType.VNFIND, filters, server.getLocalUser());
+		final String apiv = getPartAndVersion(serverAdapter, ApiVersionType.SOL003_VNFIND);
+		final Subscription subsOut = createSubscriptionWithFilter(ApiTypesEnum.SOL003, "%s/notification/value-change".formatted(apiv), SubscriptionType.VNFIND, filters, server.getLocalUser());
 		final ManoClient mc = new ManoClient(serverAdapter);
 		final Subscription res = mc.vnfIndicator().subscription().subscribe(subsOut);
 		res.setSubscriptionType(SubscriptionType.VNFIND);

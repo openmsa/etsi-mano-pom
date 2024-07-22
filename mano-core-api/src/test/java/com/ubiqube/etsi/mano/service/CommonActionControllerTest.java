@@ -71,6 +71,8 @@ class CommonActionControllerTest {
 	private HttpGateway httpGateWay1;
 	@Mock
 	private FluxRest fluxRest;
+	@Mock
+	private EndpointService endpointService;
 	private final ApiVersionMapping apiVersionMapping = Mappers.getMapper(ApiVersionMapping.class);
 
 	private final Servers server = Servers.builder()
@@ -78,7 +80,7 @@ class CommonActionControllerTest {
 			.build();
 
 	private CommonActionController createService() {
-		return new CommonActionController(serverJpa, createHttpGateway(), manoProperties, securityConfig, serverService, apiVersionMapping);
+		return new CommonActionController(serverJpa, createHttpGateway(), manoProperties, securityConfig, serverService, apiVersionMapping, endpointService);
 	}
 
 	@Test
