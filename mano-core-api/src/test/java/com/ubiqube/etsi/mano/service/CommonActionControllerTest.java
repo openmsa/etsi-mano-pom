@@ -36,6 +36,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.core.env.Environment;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.ubiqube.etsi.mano.auth.config.SecutiryConfig;
@@ -46,6 +48,7 @@ import com.ubiqube.etsi.mano.dao.mano.vim.PlanStatusType;
 import com.ubiqube.etsi.mano.dao.subscription.SubscriptionType;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.jpa.config.ServersJpa;
+import com.ubiqube.etsi.mano.service.EndpointService.Endpoint;
 import com.ubiqube.etsi.mano.service.auth.model.ServerType;
 import com.ubiqube.etsi.mano.service.event.CommonActionController;
 import com.ubiqube.etsi.mano.service.mapping.ApiVersionMapping;
@@ -132,6 +135,11 @@ class CommonActionControllerTest {
 		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.newInstance());
 		when(httpGateWay0.getUrlFor(ApiVersionType.SOL003_VNFIND)).thenReturn("");
 		//
+		final Endpoint endpoint = new Endpoint("vnfind", Version.of("1.23.2"), serverAdapter, List.of());
+		final MultiValueMap<String, Endpoint> dedupe = new LinkedMultiValueMap<>();
+		dedupe.add("vnfind", endpoint);
+		when(endpointService.getEndpoints()).thenReturn(dedupe);
+		//
 		cac.registerServer(id, Map.of());
 		//
 		assertTrue(true);
@@ -154,6 +162,11 @@ class CommonActionControllerTest {
 		when(fluxRest.uriBuilder()).thenReturn(UriComponentsBuilder.newInstance());
 		when(httpGateWay0.getUrlFor(ApiVersionType.SOL003_VNFIND)).thenReturn("");
 		when(httpGateWay0.getVersion()).thenReturn(new Version("1.2.3"));
+		//
+		final Endpoint endpoint = new Endpoint("vnfpkgm", Version.of("1.23.2"), serverAdapter, List.of());
+		final MultiValueMap<String, Endpoint> dedupe = new LinkedMultiValueMap<>();
+		dedupe.add("vnfpkgm", endpoint);
+		when(endpointService.getEndpoints()).thenReturn(dedupe);
 		//
 		cac.registerServer(id, Map.of());
 		//
