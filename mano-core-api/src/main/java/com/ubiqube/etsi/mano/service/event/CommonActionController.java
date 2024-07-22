@@ -78,8 +78,8 @@ public class CommonActionController {
 	private static final Logger LOG = LoggerFactory.getLogger(CommonActionController.class);
 
 	private static final String NOTIFICATION_TYPES_0 = "notificationTypes[0]";
-	private static final List<String> VNFM_FRAGMENT = Arrays.asList("vnflcm", "vnfpm", "vnffm", "vnfind", "vrqan", "vnfsnapshotpkgm");
-	private static final List<String> NFVO_FRAGMENT = Arrays.asList("grant", "vnfpkgm", "nsd", "nslcm", "nspm", "nsfm", "nfvici", "vnfsnapshotpkgm", "lcmcoord");
+	private static final List<ApiVersionType> VNFM_FRAGMENT = Arrays.asList(ApiVersionType.SOL003_VNFLCM, ApiVersionType.SOL003_VNFPM, ApiVersionType.SOL003_VNFFM, ApiVersionType.SOL003_VNFIND, ApiVersionType.SOL003_VRQAN, ApiVersionType.SOL003_VNFSNAPSHOTPKGM);
+	private static final List<ApiVersionType> NFVO_FRAGMENT = Arrays.asList(ApiVersionType.SOL003_GRANT, ApiVersionType.SOL005_VNFPKGM, ApiVersionType.SOL005_NSD, ApiVersionType.SOL005_NSLCM, ApiVersionType.SOL005_NSPM, ApiVersionType.SOL005_NSFM, ApiVersionType.SOL005_NFVICI, ApiVersionType.SOL005_VNFSNAPSHOTPKGM, ApiVersionType.SOL005_LCMCOORD);
 
 	private final ServersJpa serversJpa;
 	private final List<HttpGateway> httpGateway;
@@ -144,22 +144,26 @@ public class CommonActionController {
 		}
 	}
 
-	private void extratVersion(final List<String> fragments, final Servers server) {
+	private void extratVersion(final List<ApiVersionType> nfvoFragment, final Servers server) {
 		final Set<ApiVersion> versions = new LinkedHashSet<>();
 		server.setVersions(versions);
-		fragments.forEach(x -> Optional.ofNullable(getVersion(x, server)).ifPresent(versions::add));
+		nfvoFragment.forEach(x -> Optional.ofNullable(getVersion(x, server)).ifPresent(versions::add));
 	}
 
-	private @Nullable ApiVersion getVersion(final String fragment, final Servers server) {
+	private @Nullable ApiVersion getVersion(final ApiVersionType x, final Servers server) {
 		try {
-			final Map<String, Object> uriVariables = Map.of("fragment", fragment);
+			final Map<String, Object> uriVariables = Map.of("fragment", x);
 			final FluxRest rest = new FluxRest(server);
 			final UriComponents uri = rest.uriBuilder().pathSegment("{fragment}/api_versions")
 					.buildAndExpand(uriVariables);
 			final ApiVersionInformation res = rest.get(uri.toUri(), ApiVersionInformation.class, null);
-			return apiVersionMapping.map(res);
+			final ApiVersion ret = apiVersionMapping.map(res);
+			if (null != ret) {
+				ret.setType(x);
+			}
+			return ret;
 		} catch (final RuntimeException e) {
-			LOG.info("Error fetching {}", fragment, e);
+			LOG.info("Error fetching {}", x, e);
 		}
 		return null;
 	}
@@ -212,6 +216,8 @@ public class CommonActionController {
 	}
 
 	private Subscription vnfPackageOnboardingSubscribe(final ServerAdapter serverAdapter) {
+		serverAdapter.getServer().getVersions().stream()
+				.filter(x -> x.getUriPrefix().equals("/vnfpkgm/"));
 		return vnfPackageSubscribe(serverAdapter, "VnfPackageOnboardingNotification", "/vnfpkgm/v1/notification/onboarding");
 	}
 

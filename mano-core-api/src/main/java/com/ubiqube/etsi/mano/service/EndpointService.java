@@ -140,7 +140,7 @@ public class EndpointService {
 		return res;
 	}
 
-	record Endpoint(String part, Version versoin, Object bean, List<HttpMethod> lst) {
+	public record Endpoint(String part, Version version, Object bean, List<HttpMethod> lst) {
 		//
 	}
 
