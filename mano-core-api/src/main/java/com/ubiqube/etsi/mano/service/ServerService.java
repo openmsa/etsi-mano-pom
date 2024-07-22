@@ -225,6 +225,9 @@ public class ServerService {
 		case SOL002_VNFFM -> ApiAndType.of(ApiTypesEnum.SOL002, SubscriptionType.VNFFM);
 		case SOL002_VNFIND -> ApiAndType.of(ApiTypesEnum.SOL002, SubscriptionType.VNFIND);
 		case SOL002_VNFCONFIG -> ApiAndType.of(ApiTypesEnum.SOL002, SubscriptionType.VNFCONFIG);
+		case SOL005_LCMCOORD -> ApiAndType.of(ApiTypesEnum.SOL005, SubscriptionType.LCMCOORD);
+		case SOL005_NFVICI -> ApiAndType.of(ApiTypesEnum.SOL005, SubscriptionType.NFVICI);
+		case SOL005_VNFSNAPSHOTPKGM -> ApiAndType.of(ApiTypesEnum.SOL005, SubscriptionType.VNFSNAPSHOTPKGM);
 		default -> throw new GenericException("Unable to find " + subscriptionType);
 		};
 	}
