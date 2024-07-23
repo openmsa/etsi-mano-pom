@@ -27,8 +27,6 @@ import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.dao.mano.VimComputeResourceFlavourEntity;
 import com.ubiqube.etsi.mano.dao.mano.VimSoftwareImageEntity;
 import com.ubiqube.etsi.mano.dao.mano.ZoneGroupInformation;
-import com.ubiqube.etsi.mano.dao.mano.ai.KeystoneAuthV3;
-import com.ubiqube.etsi.mano.dao.mano.ii.OpenstackV3InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.service.vim.Vim;
 
@@ -51,7 +49,7 @@ public class ExecutorFacade {
 		this.networkExecutor = networkExecutor;
 	}
 
-	public void addOrCreateK8sVim(final VimConnectionInformation<OpenstackV3InterfaceInfo, KeystoneAuthV3> vimInfo, final GrantResponse grants) {
+	public void addOrCreateK8sVim(final VimConnectionInformation vimInfo, final GrantResponse grants) {
 		containerExecutor.addOrCreateK8sVim(vimInfo, grants);
 	}
 

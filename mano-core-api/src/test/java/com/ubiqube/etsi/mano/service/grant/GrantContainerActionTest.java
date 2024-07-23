@@ -53,7 +53,6 @@ import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.auth.model.AuthParamBasic;
 import com.ubiqube.etsi.mano.service.auth.model.AuthentificationInformations;
 import com.ubiqube.etsi.mano.service.event.TestFactory;
-import com.ubiqube.etsi.mano.service.grant.GrantContainerAction;
 
 /**
  *
@@ -73,7 +72,7 @@ class GrantContainerActionTest {
 
 	@Test
 	void testHAndleGrant() {
-		final GrantContainerAction srv = new GrantContainerAction(connJpa, dockerService, vnfPkgService, vnfRepository);
+		final GrantContainerAction srv = createService();
 		final GrantResponse grant = new GrantResponse();
 		grant.setVnfdId(UUID.randomUUID().toString());
 		final VnfPackage vnfPkg = TestFactory.createVnfPkg(UUID.randomUUID());
@@ -82,9 +81,13 @@ class GrantContainerActionTest {
 		assertTrue(true);
 	}
 
+	private GrantContainerAction createService() {
+		return new GrantContainerAction(connJpa, dockerService, vnfPkgService, vnfRepository);
+	}
+
 	@Test
 	void testHAndleGrantOsContainer() {
-		final GrantContainerAction srv = new GrantContainerAction(connJpa, dockerService, vnfPkgService, vnfRepository);
+		final GrantContainerAction srv = createService();
 		final GrantResponse grant = new GrantResponse();
 		grant.setVnfdId(UUID.randomUUID().toString());
 		final VnfPackage vnfPkg = TestFactory.createVnfPkg(UUID.randomUUID());
@@ -111,7 +114,7 @@ class GrantContainerActionTest {
 
 	@Test
 	void testHAndleGrantOsContainerDockerException() throws IOException {
-		final GrantContainerAction srv = new GrantContainerAction(connJpa, dockerService, vnfPkgService, vnfRepository);
+		final GrantContainerAction srv = createService();
 		final GrantResponse grant = new GrantResponse();
 		grant.setVnfdId(UUID.randomUUID().toString());
 		final VnfPackage vnfPkg = TestFactory.createVnfPkg(UUID.randomUUID());
@@ -141,7 +144,7 @@ class GrantContainerActionTest {
 
 	@Test
 	void testHAndleGrantVimConn() {
-		final GrantContainerAction srv = new GrantContainerAction(connJpa, dockerService, vnfPkgService, vnfRepository);
+		final GrantContainerAction srv = createService();
 		final GrantResponse grant = new GrantResponse();
 		final GrantInformationExt gie = new GrantInformationExt();
 		gie.setType(ResourceTypeEnum.OS_CONTAINER);
@@ -151,6 +154,12 @@ class GrantContainerActionTest {
 		when(vnfPkgService.findByVnfdId(any())).thenReturn(vnfPkg);
 		final ConnectionInformation conn = new ConnectionInformation();
 		conn.setName("conn1");
+		final AuthentificationInformations auth = AuthentificationInformations.builder()
+				.authType(List.of())
+				.authParamBasic(AuthParamBasic.builder().build())
+				.build();
+		conn.setAuthentification(auth);
+		conn.setUrl(URI.create("http://localhost/"));
 		when(connJpa.findByConnType(any())).thenReturn(List.of(conn));
 		srv.handleGrant(grant);
 		assertTrue(true);
@@ -158,7 +167,7 @@ class GrantContainerActionTest {
 
 	@Test
 	void testHAndleGrantUploadHelm() {
-		final GrantContainerAction srv = new GrantContainerAction(connJpa, dockerService, vnfPkgService, vnfRepository);
+		final GrantContainerAction srv = createService();
 		final GrantResponse grant = new GrantResponse();
 		grant.setVnfdId(UUID.randomUUID().toString());
 		final VnfPackage vnfPkg = TestFactory.createVnfPkg(UUID.randomUUID());

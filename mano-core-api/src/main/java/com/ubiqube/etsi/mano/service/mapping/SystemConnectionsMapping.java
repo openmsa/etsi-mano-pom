@@ -35,9 +35,10 @@ public interface SystemConnectionsMapping {
 	SystemConnections map(VimConnectionInformation o);
 
 	@PostMapping
-	default void map(VimConnectionInformation o, @MappingTarget SystemConnections sc) {
-		if (null == o)
+	default void map(final VimConnectionInformation o, @MappingTarget final SystemConnections sc) {
+		if (null == o) {
 			return;
+		}
 		if ("ETSINFV.OPENSTACK_KEYSTONE.V_3".equals(o.getVimType())) {
 			sc.setInterfaceInfo(mapToOpenstackV3InterfaceInfo(o.getInterfaceInfo()));
 			sc.setAccessInfo(mapToOpenstackV3Ai(o.getAccessInfo()));

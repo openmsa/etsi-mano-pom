@@ -47,7 +47,7 @@ class ZoneExecutorTest {
 	@Test
 	void test() throws Exception {
 		final ZoneExecutor srv = createService();
-		final VimConnectionInformation vim = new VimConnectionInformation<>();
+		final VimConnectionInformation vim = new VimConnectionInformation();
 		final GrantResponse grant = new GrantResponse();
 		final Callable<String> func = srv.getZone(vim, grant);
 		when(vimManager.getVimById(any())).thenReturn(vimM);

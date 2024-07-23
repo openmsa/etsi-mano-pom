@@ -74,7 +74,7 @@ public class CapiCcmServerService implements CcmServerService {
 	}
 
 	@Override
-	public K8s createCluster(final VimConnectionInformation<OpenstackV3InterfaceInfo, KeystoneAuthV3> vimConn, final String vnfInstanceId) {
+	public K8s createCluster(final VimConnectionInformation vimConn, final String vnfInstanceId) {
 		final Iterable<CapiServer> ite = capiServerService.findAll();
 		if (!ite.iterator().hasNext()) {
 			throw new GenericException("Unable to find a CAPI connection.");
@@ -85,7 +85,7 @@ public class CapiCcmServerService implements CcmServerService {
 		return deployServer(capiSrv, k8s, "default", vimConn.getVimId(), vimConn);
 	}
 
-	private K8s deployServer(final CapiServer capiSrv, final K8s k8s, final String ns, final String clusterName, final VimConnectionInformation<OpenstackV3InterfaceInfo, KeystoneAuthV3> vci) {
+	private K8s deployServer(final CapiServer capiSrv, final K8s k8s, final String ns, final String clusterName, final VimConnectionInformation vci) {
 		final CnfInformations cnfInfo = vci.getCnfInfo();
 		final ClusterMachine master = cnfInfo.getMaster();
 		final ClusterMachine worker = cnfInfo.getWorker();
@@ -157,7 +157,7 @@ public class CapiCcmServerService implements CcmServerService {
 		osClusterService.apply(cluster, cniDocs);
 	}
 
-	private void deployCloudConfig(final K8s k8sCfg, final VimConnectionInformation<OpenstackV3InterfaceInfo, KeystoneAuthV3> vci) {
+	private void deployCloudConfig(final K8s k8sCfg, final VimConnectionInformation vci) {
 		LOG.info("Deploy cloud-config for CCM & CSI on target system.");
 		final String str = toIni(vci);
 		final String b64 = Base64.getEncoder().encodeToString(str.getBytes());
@@ -186,9 +186,9 @@ public class CapiCcmServerService implements CcmServerService {
 	 *
 	 * @return A ini file.
 	 */
-	public static String toIni(final VimConnectionInformation<OpenstackV3InterfaceInfo, KeystoneAuthV3> vci) {
-		final KeystoneAuthV3 ai = vci.getAccessInfo();
-		final OpenstackV3InterfaceInfo ii = vci.getInterfaceInfo();
+	public static String toIni(final VimConnectionInformation vci) {
+		final KeystoneAuthV3 ai = (KeystoneAuthV3) vci.getAccessInfo();
+		final OpenstackV3InterfaceInfo ii = (OpenstackV3InterfaceInfo) vci.getInterfaceInfo();
 		final StringBuilder sb = new StringBuilder();
 		sb.append("[Global]\n")
 				.append("username = ").append(ai.getUsername()).append("\n")

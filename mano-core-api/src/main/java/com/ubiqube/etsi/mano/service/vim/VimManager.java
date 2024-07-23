@@ -25,12 +25,11 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
-import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.cnf.CnfServer;
 import com.ubiqube.etsi.mano.dao.mano.common.GeoPoint;
 import com.ubiqube.etsi.mano.dao.mano.vim.SoftwareImage;
@@ -46,6 +45,7 @@ import com.ubiqube.etsi.mano.jpa.VrQanJpa;
 import com.ubiqube.etsi.mano.service.SystemService;
 import com.ubiqube.etsi.mano.service.event.EventManager;
 import com.ubiqube.etsi.mano.service.event.model.NotificationEvent;
+import com.ubiqube.etsi.mano.service.mapping.ConnectionMapping;
 import com.ubiqube.etsi.mano.service.search.ManoSearch;
 import com.ubiqube.etsi.mano.vim.dto.SwImage;
 
@@ -81,6 +81,8 @@ public class VimManager {
 
 	private final VimTypeConverter vimTypeConverter;
 
+	private final ConnectionMapping connectionMapping = Mappers.getMapper(ConnectionMapping.class);
+
 	public VimManager(final List<Vim> vims, final VimConnectionInformationJpa vimConnectionInformationJpa, final SystemService systemService,
 			final CnfServerJpa cnfServerJpa, final VrQanJpa vrQanJpa, final EventManager em, final ManoSearch manoSearch, final CnfInformationsMapping cnfMapper, final VimTypeConverter vimTypeConverter) {
 		this.vims = vims;
@@ -98,13 +100,13 @@ public class VimManager {
 	private Map<UUID, Vim> init() {
 		final Map<UUID, Vim> vimAssociation = new HashMap<>();
 		vims.forEach(x -> {
-			final Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vimsId = vimConnectionInformationJpa.findByVimType(x.getType());
+			final Set<VimConnectionInformation> vimsId = vimConnectionInformationJpa.findByVimType(x.getType());
 			associateVims(vimsId, x, vimAssociation);
 		});
 		return vimAssociation;
 	}
 
-	private static void associateVims(final Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vimsIs, final Vim vim, final Map<UUID, Vim> vimAssociation) {
+	private static void associateVims(final Set<VimConnectionInformation> vimsIs, final Vim vim, final Map<UUID, Vim> vimAssociation) {
 		vimsIs.forEach(x -> vimAssociation.put(x.getId(), vim));
 	}
 
@@ -125,15 +127,15 @@ public class VimManager {
 		return vimConnectionInformationJpa.findByVimId(id).orElseThrow(() -> new NotFoundException("No connection vimId " + id));
 	}
 
-	public Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> getVimByType(final String type) {
+	public Set<VimConnectionInformation> getVimByType(final String type) {
 		return vimConnectionInformationJpa.findByVimType(type);
 	}
 
-	public VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> save(final VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> x) {
+	public VimConnectionInformation save(final VimConnectionInformation x) {
 		return vimConnectionInformationJpa.save(x);
 	}
 
-	public Optional<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> findOptionalVimByVimId(final String vimId) {
+	public Optional<VimConnectionInformation> findOptionalVimByVimId(final String vimId) {
 		return vimConnectionInformationJpa.findByVimId(vimId);
 	}
 
@@ -146,9 +148,9 @@ public class VimManager {
 	}
 
 	@Transactional(TxType.REQUIRED)
-	public VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> registerIfNeeded(final VimConnectionInformation x) {
+	public VimConnectionInformation registerIfNeeded(final VimConnectionInformation x) {
 		synchronized (VimManager.class) {
-			final Optional<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vim = vimConnectionInformationJpa.findByVimId(x.getVimId());
+			final Optional<VimConnectionInformation> vim = vimConnectionInformationJpa.findByVimId(x.getVimId());
 			if (vim.isPresent()) {
 				return vim.get();
 			}

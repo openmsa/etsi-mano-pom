@@ -50,7 +50,7 @@ class SoftwareImageExecutorTest {
 	@Test
 	void test() {
 		final SoftwareImageExecutor srv = createService();
-		final VimConnectionInformation vimInfo = new VimConnectionInformation<>();
+		final VimConnectionInformation vimInfo = new VimConnectionInformation();
 		final GrantResponse grant = new GrantResponse();
 		srv.getSoftwareImageSafe(vimInfo, vim, grant);
 	}
@@ -58,7 +58,7 @@ class SoftwareImageExecutorTest {
 	@Test
 	void test001() {
 		final SoftwareImageExecutor srv = createService();
-		final VimConnectionInformation vimInfo = new VimConnectionInformation<>();
+		final VimConnectionInformation vimInfo = new VimConnectionInformation();
 		final GrantResponse grant = new GrantResponse();
 		final VnfStorage vnfStorage = new VnfStorage();
 		final SoftwareImage sw = new SoftwareImage();

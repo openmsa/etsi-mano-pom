@@ -57,7 +57,7 @@ class NetworkExecutorTest {
 		final VnfPackage vnfPackage = new VnfPackage();
 		when(vnfPackageService.findByVnfdId(any())).thenReturn(vnfPackage);
 		final GrantResponse grant = new GrantResponse();
-		final VimConnectionInformation vimInfo = new VimConnectionInformation<>();
+		final VimConnectionInformation vimInfo = new VimConnectionInformation();
 		when(vim.network(vimInfo)).thenReturn(network);
 		when(network.search(any(), any())).thenReturn(List.of());
 		srv.extractNetwork(grant, vimInfo, vim);
@@ -75,7 +75,7 @@ class NetworkExecutorTest {
 		vnfPackage.setVirtualLinks(Set.of(kp0));
 		when(vnfPackageService.findByVnfdId(any())).thenReturn(vnfPackage);
 		final GrantResponse grant = new GrantResponse();
-		final VimConnectionInformation vimInfo = new VimConnectionInformation<>();
+		final VimConnectionInformation vimInfo = new VimConnectionInformation();
 		when(vim.network(vimInfo)).thenReturn(network);
 		final NetworkObject no01 = new NetworkObject("id", "public");
 		when(network.search(any(), any())).thenReturn(List.of(no01));

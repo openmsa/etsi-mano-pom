@@ -76,8 +76,8 @@ class AbstractGrantServiceTest {
 		final UUID id = UUID.randomUUID();
 		response.setId(id);
 		response.setZoneGroups(Set.of());
-		final VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> vim01 = new VimConnectionInformation<>();
-		final Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> s = Set.of(vim01);
+		final VimConnectionInformation vim01 = new VimConnectionInformation();
+		final Set<VimConnectionInformation> s = Set.of(vim01);
 		bp.setVimConnections(s);
 		when(nfvo.sendSyncGrantRequest(any())).thenReturn(response);
 		srv.allocate(bp);
@@ -111,10 +111,10 @@ class AbstractGrantServiceTest {
 		final UUID id = UUID.randomUUID();
 		response.setId(id);
 		response.setZoneGroups(Set.of());
-		final VimConnectionInformation vim01 = new VimConnectionInformation<>();
+		final VimConnectionInformation vim01 = new VimConnectionInformation();
 		vim01.setVimId("CDE");
 		vim01.setVimType("TYPE");
-		final Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> s = Set.of(vim01);
+		final Set<VimConnectionInformation> s = Set.of(vim01);
 		bp.setVimConnections(s);
 		//
 		final SystemConnections sc = new SystemConnections<InterfaceInfo, AccessInfo>();
@@ -147,10 +147,10 @@ class AbstractGrantServiceTest {
 		task.setChangeType(ChangeType.ADDED);
 		task.setId(tid);
 		bp.setTasks(Set.of(task));
-		final VimConnectionInformation vim01 = new VimConnectionInformation<>();
+		final VimConnectionInformation vim01 = new VimConnectionInformation();
 		vim01.setVimType("TYPE");
 		vim01.setVimId("ABC");
-		final Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> s = Set.of(vim01);
+		final Set<VimConnectionInformation> s = Set.of(vim01);
 		bp.setVimConnections(s);
 		when(vnfGrantMapper.mapToGrantResponse(bp)).thenReturn(response);
 		final SystemConnections sc = new SystemConnections<InterfaceInfo, AccessInfo>();

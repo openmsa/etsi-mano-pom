@@ -41,7 +41,7 @@ class FlavorExecutorTest {
 	@Test
 	void test() {
 		final FlavorExecutor srv = createService();
-		final VimConnectionInformation vim = new VimConnectionInformation<>();
+		final VimConnectionInformation vim = new VimConnectionInformation();
 		srv.getFlavors(vim, UUID.randomUUID());
 	}
 

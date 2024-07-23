@@ -26,7 +26,6 @@ import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.ai.KeystoneAuthV3;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.mapper.JsonWalker;
@@ -73,12 +72,13 @@ class SpelPatcherTest {
 	void testSpel() {
 		final SpelParserConfiguration config = new SpelParserConfiguration(true, true); // auto create objects if null
 		final ExpressionParser parser = new SpelExpressionParser(config);
-		final VimConnectionInformation<? extends InterfaceInfo, KeystoneAuthV3> entity = new VimConnectionInformation<>();
-		entity.setAccessInfo(new KeystoneAuthV3());
+		final VimConnectionInformation entity = new VimConnectionInformation();
+		final KeystoneAuthV3 ai = new KeystoneAuthV3();
+		entity.setAccessInfo(ai);
 		final StandardEvaluationContext modelContext = new StandardEvaluationContext(entity);
 		parser.parseExpression("accessInfo.username").setValue(modelContext, "303ec59e-be2d-499a-afc3-e777f69fbff0");
 		assertNotNull(entity.getAccessInfo());
-		assertEquals("303ec59e-be2d-499a-afc3-e777f69fbff0", entity.getAccessInfo().getUsername());
+		assertEquals("303ec59e-be2d-499a-afc3-e777f69fbff0", ai.getUsername());
 	}
 
 }

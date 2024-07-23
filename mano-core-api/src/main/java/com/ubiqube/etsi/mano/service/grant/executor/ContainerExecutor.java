@@ -22,18 +22,16 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
-import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
-import com.ubiqube.etsi.mano.dao.mano.ai.KeystoneAuthV3;
 import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionInformation;
-import com.ubiqube.etsi.mano.dao.mano.ii.OpenstackV3InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.grant.ccm.CcmManager;
+import com.ubiqube.etsi.mano.service.mapping.ConnectionMapping;
 import com.ubiqube.etsi.mano.service.vim.CirConnectionManager;
 import com.ubiqube.etsi.mano.service.vim.VimManager;
 
@@ -43,17 +41,19 @@ public class ContainerExecutor {
 	private final CirConnectionManager cirManager;
 	private final VnfPackageService vnfPackageService;
 	private final VimManager vimManager;
+	private final ConnectionMapping connectionMapping;
 
 	public ContainerExecutor(final CcmManager ccmManager, final CirConnectionManager cirManager, final VimManager vimManager, final VnfPackageService vnfPackageService) {
 		this.ccmManager = ccmManager;
 		this.cirManager = cirManager;
 		this.vnfPackageService = vnfPackageService;
 		this.vimManager = vimManager;
+		this.connectionMapping = Mappers.getMapper(ConnectionMapping.class);
 	}
 
 	public void addCirConnection(final GrantResponse grants) {
-		final Map<String, ConnectionInformation> cirMap = StreamSupport.stream(cirManager.findAll().spliterator(), false)
-				.collect(Collectors.toMap(ConnectionInformation::getName, x -> x));
+		final Map<String, VimConnectionInformation> cirMap = StreamSupport.stream(cirManager.findAll().spliterator(), false)
+				.collect(Collectors.toMap(ConnectionInformation::getName, connectionMapping::mapFromConnectionInformationToVimConnectionInformation));
 		grants.setCirConnectionInfo(cirMap);
 	}
 
@@ -65,18 +65,18 @@ public class ContainerExecutor {
 		ccmManager.getTerminateCluster(grants.getVnfInstanceId());
 	}
 
-	public void addOrCreateK8sVim(final VimConnectionInformation<OpenstackV3InterfaceInfo, KeystoneAuthV3> vci, final GrantResponse grants) {
+	public void addOrCreateK8sVim(final VimConnectionInformation vci, final GrantResponse grants) {
 		final VnfPackage vnfPackage = vnfPackageService.findByVnfdId(grants.getVnfdId());
 		if (!haveCni(vnfPackage)) {
 			return;
 		}
-		VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> vimc = ccmManager.getVimConnection(vci, grants, vnfPackage);
+		VimConnectionInformation vimc = ccmManager.getVimConnection(vci, grants, vnfPackage);
 		vimc = storeIfNeeded(vimc);
 		grants.setCismConnections(Set.of(vimc));
 	}
 
-	private VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> storeIfNeeded(final VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> vimc) {
-		final Optional<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> res = vimManager.findOptionalVimByVimId(vimc.getVimId());
+	private VimConnectionInformation storeIfNeeded(final VimConnectionInformation vimc) {
+		final Optional<VimConnectionInformation> res = vimManager.findOptionalVimByVimId(vimc.getVimId());
 		if (res.isPresent()) {
 			return res.get();
 		}

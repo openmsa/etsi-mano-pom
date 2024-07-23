@@ -105,34 +105,35 @@ class ContainerExecutorTest {
 	}
 
 	@Test
-	void testAddOrCreateK8sVim001() throws Exception {
+	void testAddOrCreateK8sVim001() {
 		final ContainerExecutor srv = createService();
 		final GrantResponse grant = new GrantResponse();
 		final VnfPackage vnfPackage = new VnfPackage();
 		vnfPackage.setMciops(Set.of());
-		final VimConnectionInformation vim01 = new VimConnectionInformation<>();
+		final VimConnectionInformation vim01 = new VimConnectionInformation();
 		when(vnfPackageService.findByVnfdId(any())).thenReturn(vnfPackage);
 		srv.addOrCreateK8sVim(vim01, grant);
 		assertTrue(true);
 	}
 
 	@Test
-	void testAddOrCreateK8sVim002() throws Exception {
+	void testAddOrCreateK8sVim002() {
 		final ContainerExecutor srv = createService();
 		final GrantResponse grant = new GrantResponse();
 		final VnfPackage vnfPackage = new VnfPackage();
 		final OsContainerDesc osc = new OsContainerDesc();
 		vnfPackage.setOsContainerDesc(Set.of(osc));
 		when(vnfPackageService.findByVnfdId(any())).thenReturn(vnfPackage);
-		final VimConnectionInformation vim01 = new VimConnectionInformation<>();
+		final VimConnectionInformation vim01 = new VimConnectionInformation();
 		when(ccmManager.getVimConnection(any(), any(), any())).thenReturn(vim01);
-		when(vimManager.findOptionalVimByVimId(any())).thenReturn(Optional.ofNullable(vim01));
-		srv.addOrCreateK8sVim(vim01, grant);
+		final VimConnectionInformation vim02 = new VimConnectionInformation();
+		when(vimManager.findOptionalVimByVimId(any())).thenReturn(Optional.ofNullable(vim02));
+		srv.addOrCreateK8sVim(vim02, grant);
 		assertTrue(true);
 	}
 
 	@Test
-	void testAddOrCreateK8sVim003() throws Exception {
+	void testAddOrCreateK8sVim003() {
 		final ContainerExecutor srv = createService();
 		final GrantResponse grant = new GrantResponse();
 		final VnfPackage vnfPackage = new VnfPackage();
@@ -142,11 +143,12 @@ class ContainerExecutorTest {
 		vnfPackage.setOsContainerDesc(Set.of());
 		vnfPackage.setOsContainerDeployableUnits(Set.of());
 		when(vnfPackageService.findByVnfdId(any())).thenReturn(vnfPackage);
-		final VimConnectionInformation vim01 = new VimConnectionInformation<>();
+		final VimConnectionInformation vim01 = new VimConnectionInformation();
 		when(ccmManager.getVimConnection(any(), any(), any())).thenReturn(vim01);
 		when(vimManager.findOptionalVimByVimId(any())).thenReturn(Optional.empty());
-		when(vimManager.save(any())).thenReturn(vim01);
-		srv.addOrCreateK8sVim(vim01, grant);
+		final VimConnectionInformation vim02 = new VimConnectionInformation();
+		when(vimManager.save(any())).thenReturn(vim02);
+		srv.addOrCreateK8sVim(vim02, grant);
 		assertTrue(true);
 	}
 }

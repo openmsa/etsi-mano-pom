@@ -25,13 +25,11 @@ public class TestGenericAction extends AbstractGenericActionV3 {
 
 	protected TestGenericAction(final WorkflowV3 workflow, final VimResourceService vimResourceService, final OrchestrationAdapter<?, ?> orchestrationAdapter, final NsScaleStrategyV3 nsScaleStrategy) {
 		super(workflow, vimResourceService, orchestrationAdapter, nsScaleStrategy, null);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	protected void mergeVirtualLinks(final Instance vnfInstance, final Blueprint<?, ?> localPlan) {
-		// TODO Auto-generated method stub
-
+		//
 	}
 
 }

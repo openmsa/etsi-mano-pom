@@ -22,15 +22,18 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.ubiqube.etsi.mano.jpa.VimConnectionInformationJpa;
+import com.ubiqube.etsi.mano.service.mapping.ConnectionMapping;
 
 @ExtendWith(MockitoExtension.class)
 class VimServiceImplTest {
 	@Mock
 	private VimConnectionInformationJpa vimConn;
+	private final ConnectionMapping mapper = Mappers.getMapper(ConnectionMapping.class);
 
 	@Test
 	void testFindAll() throws Exception {

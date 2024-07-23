@@ -24,6 +24,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,6 +50,7 @@ import com.ubiqube.etsi.mano.orchestrator.v3.PreExecutionGraphV3;
 import com.ubiqube.etsi.mano.service.NsScaleStrategyV3;
 import com.ubiqube.etsi.mano.service.VimResourceService;
 import com.ubiqube.etsi.mano.service.graph.WorkflowEvent;
+import com.ubiqube.etsi.mano.service.mapping.ConnectionMapping;
 
 /**
  *
@@ -69,6 +71,8 @@ public abstract class AbstractGenericActionV3 {
 
 	private final Planner<Task> planv2;
 
+	private final ConnectionMapping connectionMapping;
+
 	protected AbstractGenericActionV3(final WorkflowV3 workflow, final VimResourceService vimResourceService, final OrchestrationAdapter<?, ?> orchestrationAdapter, final NsScaleStrategyV3 nsScaleStrategy,
 			final Planner<Task> planv2) {
 		this.workflow = workflow;
@@ -76,6 +80,7 @@ public abstract class AbstractGenericActionV3 {
 		this.orchestrationAdapter = orchestrationAdapter;
 		this.nsScaleStrategy = nsScaleStrategy;
 		this.planv2 = planv2;
+		this.connectionMapping = Mappers.getMapper(ConnectionMapping.class);
 	}
 
 	public final void instantiate(final UUID blueprintId) {
@@ -148,7 +153,7 @@ public abstract class AbstractGenericActionV3 {
 
 	protected abstract void mergeVirtualLinks(Instance vnfInstance, Blueprint<?, ?> localPlan);
 
-	private static void copyVimConnections(final Instance vnfInstance, final Blueprint<?, ?> localPlan) {
+	private void copyVimConnections(final Instance vnfInstance, final Blueprint<?, ?> localPlan) {
 		if (localPlan.getOperation() == PlanOperationType.TERMINATE) {
 			vnfInstance.setVimConnectionInfo(new LinkedHashSet<>());
 			vnfInstance.setCismConnectionInfo(new LinkedHashSet<>());
@@ -159,7 +164,7 @@ public abstract class AbstractGenericActionV3 {
 			vnfInstance.setCismConnectionInfo(new LinkedHashSet<>());
 			localPlan.getCismConnections().forEach(vnfInstance::addCismConnectionInfo);
 			vnfInstance.setCirConnectionInfo(new LinkedHashMap<>());
-			localPlan.getCirConnectionInfo().forEach((k, v) -> vnfInstance.addCirConnection(v));
+			localPlan.getCirConnectionInfo().forEach((k, v) -> vnfInstance.addCirConnection(connectionMapping.mapFromConnectionInformationToVimConnectionInformation(v)));
 		}
 	}
 

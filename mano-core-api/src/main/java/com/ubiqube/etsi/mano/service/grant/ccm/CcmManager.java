@@ -26,30 +26,26 @@ import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
-import com.ubiqube.etsi.mano.dao.mano.ai.KeystoneAuthV3;
 import com.ubiqube.etsi.mano.dao.mano.ai.KubernetesV1Auth;
 import com.ubiqube.etsi.mano.dao.mano.ii.K8sInterfaceInfo;
-import com.ubiqube.etsi.mano.dao.mano.ii.OpenstackV3InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.vim.k8s.K8sServers;
 import com.ubiqube.etsi.mano.dao.mano.vim.k8s.StatusType;
-import com.ubiqube.etsi.mano.service.mapping.VimConnectionInformationMapping;
 import com.ubiqube.etsi.mano.vim.k8s.K8s;
 import com.ubiqube.etsi.mano.vnfm.jpa.K8sServerInfoJpa;
 
 @Service
 public class CcmManager {
 	private final K8sServerInfoJpa k8sServerInfoJpa;
-	private final VimConnectionInformationMapping connectionInformationMapping;
+
 	private final CcmServerService ccmServerService;
 
-	public CcmManager(final K8sServerInfoJpa k8sServerInfoJpa, final VimConnectionInformationMapping connectionInformationMapping, final CcmServerService ccmServerService) {
+	public CcmManager(final K8sServerInfoJpa k8sServerInfoJpa, final CcmServerService ccmServerService) {
 		this.k8sServerInfoJpa = k8sServerInfoJpa;
-		this.connectionInformationMapping = connectionInformationMapping;
 		this.ccmServerService = ccmServerService;
 	}
 
-	public VimConnectionInformation<K8sInterfaceInfo, KubernetesV1Auth> getVimConnection(final VimConnectionInformation<OpenstackV3InterfaceInfo, KeystoneAuthV3> vimInfo, final GrantResponse grants, final VnfPackage vnfPackage) {
+	public VimConnectionInformation getVimConnection(final VimConnectionInformation vimInfo, final GrantResponse grants, final VnfPackage vnfPackage) {
 		final K8s res = ccmServerService.createCluster(vimInfo, grants.getVnfInstanceId());
 		final K8sServers ret = toK8sServers(res, grants.getVnfInstanceId());
 		ret.setId(UUID.randomUUID());
@@ -57,14 +53,14 @@ public class CcmManager {
 		return mapToConnection(ret);
 	}
 
-	private static VimConnectionInformation<K8sInterfaceInfo, KubernetesV1Auth> mapToConnection(final K8sServers r) {
+	private static VimConnectionInformation mapToConnection(final K8sServers r) {
 		final KubernetesV1Auth ai = new KubernetesV1Auth();
 		ai.setClientCertificateData(r.getUserCrt());
 		ai.setClientKeyData(r.getUserKey());
 		final K8sInterfaceInfo ii = new K8sInterfaceInfo();
 		ii.setCertificateAuthorityData(r.getCaPem());
 		ii.setEndpoint(r.getApiAddress());
-		final VimConnectionInformation<K8sInterfaceInfo, KubernetesV1Auth> conn = new VimConnectionInformation<>();
+		final VimConnectionInformation conn = new VimConnectionInformation();
 		conn.setAccessInfo(ai);
 		conn.setInterfaceInfo(ii);
 		conn.setVimType("UBINFV.CISM.V_1");

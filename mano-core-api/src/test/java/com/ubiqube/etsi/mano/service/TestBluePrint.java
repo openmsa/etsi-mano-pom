@@ -19,11 +19,9 @@ package com.ubiqube.etsi.mano.service;
 import java.util.Set;
 import java.util.UUID;
 
-import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
 import com.ubiqube.etsi.mano.dao.mano.BlueZoneGroupInformation;
 import com.ubiqube.etsi.mano.dao.mano.ExtManagedVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.ExtVirtualLinkDataEntity;
-import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.ZoneInfoEntity;
 import com.ubiqube.etsi.mano.dao.mano.v2.AbstractBlueprint;
 import com.ubiqube.etsi.mano.dao.mano.v2.BlueprintParameters;
@@ -32,7 +30,7 @@ import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 public class TestBluePrint extends AbstractBlueprint<TestTask, TestInstance> {
 
 	private Set<TestTask> task = Set.of();
-	private Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vimConn;
+	private Set<VimConnectionInformation> vimConn;
 	private Set<TestTask> tasks;
 	private TestInstance instance;
 	private UUID id;
@@ -57,7 +55,7 @@ public class TestBluePrint extends AbstractBlueprint<TestTask, TestInstance> {
 	}
 
 	@Override
-	public void setVimConnections(final Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vimConnections) {
+	public void setVimConnections(final Set<VimConnectionInformation> vimConnections) {
 		vimConn = vimConnections;
 
 	}
@@ -87,7 +85,7 @@ public class TestBluePrint extends AbstractBlueprint<TestTask, TestInstance> {
 	}
 
 	@Override
-	public Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> getVimConnections() {
+	public Set<VimConnectionInformation> getVimConnections() {
 		return vimConn;
 	}
 
@@ -133,13 +131,19 @@ public class TestBluePrint extends AbstractBlueprint<TestTask, TestInstance> {
 	}
 
 	@Override
-	public void setCismConnections(final Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vimConnections) {
+	public void setCismConnections(final Set<VimConnectionInformation> vimConnections) {
 		//
 	}
 
 	@Override
-	public Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> getCismConnections() {
+	public Set<VimConnectionInformation> getCismConnections() {
 		return Set.of();
+	}
+
+	@Override
+	public void addCirConnection(final VimConnectionInformation vimConnection) {
+		//
+
 	}
 
 }

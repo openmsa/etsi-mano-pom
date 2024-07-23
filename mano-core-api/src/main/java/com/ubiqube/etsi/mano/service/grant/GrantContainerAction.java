@@ -28,6 +28,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,7 @@ import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionType;
 import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainer;
 import com.ubiqube.etsi.mano.dao.mano.vim.SoftwareImage;
+import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.vnfm.McIops;
 import com.ubiqube.etsi.mano.docker.DockerApiException;
 import com.ubiqube.etsi.mano.docker.DockerService;
@@ -49,6 +51,7 @@ import com.ubiqube.etsi.mano.jpa.ConnectionInformationJpa;
 import com.ubiqube.etsi.mano.repository.ManoResource;
 import com.ubiqube.etsi.mano.repository.VnfPackageRepository;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
+import com.ubiqube.etsi.mano.service.mapping.ConnectionMapping;
 import com.ubiqube.etsi.mano.service.rest.FluxRest;
 
 @Service
@@ -64,11 +67,14 @@ public class GrantContainerAction {
 
 	private final VnfPackageRepository vnfRepository;
 
+	private final ConnectionMapping connectionMapping;
+
 	public GrantContainerAction(final ConnectionInformationJpa connJpa, final DockerService dockerService, final VnfPackageService vnfPackageService, final VnfPackageRepository vnfRepository) {
 		this.connJpa = connJpa;
 		this.dockerService = dockerService;
 		this.vnfPackageService = vnfPackageService;
 		this.vnfRepository = vnfRepository;
+		this.connectionMapping = Mappers.getMapper(ConnectionMapping.class);
 	}
 
 	public void handleGrant(final GrantResponse grants) {
@@ -198,12 +204,12 @@ public class GrantContainerAction {
 				.orElse(null);
 	}
 
-	private void setConnectionConnection(final GrantResponse grants, final ResourceTypeEnum rt, final ConnectionType ct, final Consumer<Map<String, ConnectionInformation>> func) {
+	private void setConnectionConnection(final GrantResponse grants, final ResourceTypeEnum rt, final ConnectionType ct, final Consumer<Map<String, VimConnectionInformation>> func) {
 		if (grants.getAddResources().stream().noneMatch(x -> x.getType() == rt)) {
 			return;
 		}
 		final List<ConnectionInformation> res = connJpa.findByConnType(ct);
-		final Map<String, ConnectionInformation> map = res.stream().collect(Collectors.toMap(ConnectionInformation::getName, x -> x));
+		final Map<String, VimConnectionInformation> map = res.stream().collect(Collectors.toMap(ConnectionInformation::getName, connectionMapping::mapFromConnectionInformationToVimConnectionInformation));
 		func.accept(map);
 	}
 

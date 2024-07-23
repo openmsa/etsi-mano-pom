@@ -24,8 +24,6 @@ import java.util.UUID;
 
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
-import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.service.rest.QueryParameters;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
@@ -40,7 +38,7 @@ public class ManoVim {
 		this.client = client;
 	}
 
-	public VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> register(final VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> vim, final String root) {
+	public VimConnectionInformation register(final VimConnectionInformation vim, final String root) {
 		final ServerAdapter server = client.getServer();
 		final URI uri = buildUri(root, "admin/vim/register");
 		return Objects.requireNonNull(server.rest().post(uri, vim, VimConnectionInformation.class, null));

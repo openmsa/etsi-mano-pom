@@ -42,11 +42,11 @@ public interface VimConnectionInformationMapping {
 	@Mapping(target = "id", ignore = true)
 	@Mapping(target = "tenantId", ignore = true)
 	@Mapping(target = "version", ignore = true)
-	default VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> map(final VimConnectionRegistrationDto o) {
+	default VimConnectionInformation map(final VimConnectionRegistrationDto o) {
 		if (o == null) {
 			return null;
 		}
-		final VimConnectionInformation ret = new VimConnectionInformation<>();
+		final VimConnectionInformation ret = new VimConnectionInformation();
 		ret.setCnfInfo(o.getCnfInfo());
 		ret.setExtra(o.getExtra());
 		ret.setJujuInfo(o.getJujuInfo());
@@ -79,16 +79,16 @@ public interface VimConnectionInformationMapping {
 
 	KeystoneAuthV3 mapToKeystoneAuthV3(Map<String, String> accessInfo, @MappingTarget KeystoneAuthV3 keystoneAuthV3);
 
-	default List<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> mapAsList(final List<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vimConnectionInfo) {
+	default List<VimConnectionInformation> mapAsList(final List<VimConnectionInformation> vimConnectionInfo) {
 		// Doesn't works with `toList()`
 		return vimConnectionInfo.stream().map(this::map).collect(Collectors.toList());
 	}
 
-	default VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> map(final VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo> o) {
+	default VimConnectionInformation map(final VimConnectionInformation o) {
 		if (o == null) {
 			return null;
 		}
-		final VimConnectionInformation<InterfaceInfo, AccessInfo> ret = new VimConnectionInformation<>();
+		final VimConnectionInformation ret = new VimConnectionInformation();
 		ret.setCnfInfo(o.getCnfInfo());
 		ret.setExtra(o.getExtra());
 		ret.setJujuInfo(o.getJujuInfo());
@@ -109,7 +109,7 @@ public interface VimConnectionInformationMapping {
 		default -> throw new IllegalArgumentException("Unexpected value: " + ret.getVimType());
 		};
 		ret.setInterfaceInfo(ii);
-		return ret;
+		return (VimConnectionInformation) ret;
 	}
 
 	K8sInterfaceInfo mapToK8sInterfaceInfo(K8sInterfaceInfo o);
@@ -130,11 +130,11 @@ public interface VimConnectionInformationMapping {
 	@Mapping(target = "accessInfo", source = ".")
 	@Mapping(target = "extra", ignore = true)
 	@Mapping(target = "interfaceInfo.endpoint", source = "apiAddress")
-	@Mapping(target = "interfaceInfo.certificateAuthorityData", source = "caPem")
+//	@Mapping(target = "interfaceInfo.certificateAuthorityData", source = "caPem")
 	@Mapping(target = "vimType", constant = "UBINFV.CISM.V_1")
 	@Mapping(target = "vimId", constant = "130bdaa5-672f-437a-96ae-690c6ac3751f")
 	// UBINFV.CISM.V_1
-	VimConnectionInformation<K8sInterfaceInfo, KubernetesV1Auth> mapFromTls(K8sServers tls);
+	VimConnectionInformation mapFromTls(K8sServers tls);
 
 	@Mapping(target = "clientCertificateData", source = "userCrt")
 	@Mapping(target = "clientKeyData", source = "userKey")
