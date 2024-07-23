@@ -106,6 +106,7 @@ public class VrQanService {
 	 */
 	public void await(final long to, final TimeUnit unit) {
 		try {
+			es.close();
 			es.awaitTermination(to, unit);
 		} catch (final InterruptedException e) {
 			Thread.currentThread().interrupt();
