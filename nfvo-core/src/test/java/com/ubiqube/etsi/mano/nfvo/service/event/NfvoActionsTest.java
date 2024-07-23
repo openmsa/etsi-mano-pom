@@ -82,7 +82,6 @@ class NfvoActionsTest {
 	private ManoClient manoClient;
 	@Mock
 	private ManoVnfInstanceId manoCliVnfInst;
-
 	@Mock
 	private Planner<Task> planner;
 

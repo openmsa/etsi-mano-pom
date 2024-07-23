@@ -24,16 +24,14 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import com.ubiqube.etsi.mano.dao.rfc7807.FailureDetails;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.ubiqube.etsi.mano.controller.lcmgrant.GrantManagement;
 import com.ubiqube.etsi.mano.controller.lcmgrant.LcmGrantsFrontController;
-import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
-import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
+import com.ubiqube.etsi.mano.dao.rfc7807.FailureDetails;
 import com.ubiqube.etsi.mano.service.vim.VimTypeConverter;
 
 import jakarta.annotation.Nonnull;
@@ -60,16 +58,16 @@ public class LcmGrantsFrontControllerImpl implements LcmGrantsFrontController {
 		if (!grants.getAvailable().equals(Boolean.TRUE)) {
 			return ResponseEntity.accepted().build();
 		}
-		final Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> cism = grants.getCismConnections();
+		final Set<VimConnectionInformation> cism = grants.getCismConnections();
 		if (cism != null) {
-			grants.getVimConnections().addAll(cism);
+			grants.getCismConnections().addAll(cism);
 		}
 		grants.getVimConnections().forEach(vimTypeConverter::setToExternalType);
 		final U jsonGrant = func.apply(grants);
 		// Only self link, other links came from request (mapping).
 		makeLink.accept(jsonGrant);
 		final Optional<Long> optError = Optional.ofNullable(grants.getError()).map(
-                FailureDetails::getStatus);
+				FailureDetails::getStatus);
 		if (optError.isEmpty()) {
 			return ResponseEntity.ok(jsonGrant);
 		}

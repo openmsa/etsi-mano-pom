@@ -28,11 +28,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
 import com.ubiqube.etsi.mano.dao.mano.ExtManagedVirtualLinkDataEntity;
 import com.ubiqube.etsi.mano.dao.mano.GrantInformationExt;
 import com.ubiqube.etsi.mano.dao.mano.GrantResponse;
-import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.NsLiveInstance;
 import com.ubiqube.etsi.mano.dao.mano.NsdInstance;
 import com.ubiqube.etsi.mano.dao.mano.ResourceTypeEnum;
@@ -117,7 +115,7 @@ public class GrantActionSupport implements GrantSupport {
 	}
 
 	private VimConnectionInformation electVim(@Nullable final String vnfPackageVimId, final GrantResponse grantResponse, final VnfPackage vnfPackage) {
-		final Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vimConns = grantResponse.getVimConnections();
+		final Set<VimConnectionInformation> vimConns = grantResponse.getVimConnections();
 		String vimId;
 		if ((null != vimConns) && !vimConns.isEmpty()) {
 			LOG.info("Selecting vim via Given one.");
@@ -125,7 +123,7 @@ public class GrantActionSupport implements GrantSupport {
 			return vimManager.findVimByVimId(vimId);
 		}
 		// XXX: Do some real elections.
-		final Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vims;
+		final Set<VimConnectionInformation> vims;
 		if (null != vnfPackageVimId) {
 			LOG.debug("Getting MSA 2.x VIM");
 			vims = vimManager.getVimByType("MSA_20");
@@ -139,7 +137,7 @@ public class GrantActionSupport implements GrantSupport {
 		return doNormalElection(vnfPackage, grantResponse, vims);
 	}
 
-	private VimConnectionInformation doNormalElection(final VnfPackage vnfPackage, final GrantResponse grantResponse, final Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vims) {
+	private VimConnectionInformation doNormalElection(final VnfPackage vnfPackage, final GrantResponse grantResponse, final Set<VimConnectionInformation> vims) {
 		final QuotaNeeded needed = summarizeResources(grantResponse, vnfPackage);
 		final List<VimConnectionInformation> vimsSelected = new ArrayList<>();
 		vims.parallelStream().forEach(x -> {
