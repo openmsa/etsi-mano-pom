@@ -27,11 +27,14 @@ import org.mapstruct.Mapping;
 
 import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
 import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
+import com.ubiqube.etsi.mano.dao.mano.ai.BasicAccess;
 import com.ubiqube.etsi.mano.dao.mano.ai.KeystoneAuthV3;
 import com.ubiqube.etsi.mano.dao.mano.ai.KubernetesV1Auth;
+import com.ubiqube.etsi.mano.dao.mano.ai.OAuth2Access;
 import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.ii.K8sInterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.ii.OpenstackV3InterfaceInfo;
+import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.service.auth.model.AuthParamBasic;
 import com.ubiqube.etsi.mano.service.auth.model.AuthParamOauth2;
@@ -44,7 +47,8 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
 @Mapper
-public interface ConnectionMapping {
+public interface ConnectionMapping extends StringToUriMapping {
+
 	default InterfaceInfo mapToInterfaceInfo(@NotNull final String vimType, @Valid final Map<String, String> ii) {
 		if (ii == null) {
 			return null;
@@ -55,12 +59,17 @@ public interface ConnectionMapping {
 		if ("UBINFV.CISM.V_1".equals(vimType)) {
 			return mapToK8sInterfaceInfo(ii);
 		}
+		if ("UBINFV.HELM_BASIC.V_1".equals(vimType) || "UBINFV.OCI_BASIC.V_1".equals(vimType)) {
+			return mapToHelmInterfaceInfo(ii);
+		}
 		if ("PAAS".equals(vimType)) {
 			// XXX: This need works works.
 			return new InterfaceInfo();
 		}
 		throw new GenericException("Unknown vimType: " + vimType);
 	}
+
+	InterfaceInfo mapToHelmInterfaceInfo(@Valid Map<String, String> ii);
 
 	@Mapping(target = "certificateAuthorityData", source = "certificate-authority-data")
 	K8sInterfaceInfo mapToK8sInterfaceInfo(@Valid Map<String, String> ii);
@@ -86,12 +95,17 @@ public interface ConnectionMapping {
 		if ("UBINFV.CISM.V_1".equals(vimType)) {
 			return mapToK8sAuth(ai);
 		}
+		if ("UBINFV.HELM_BASIC.V_1".equals(vimType) || "UBINFV.OCI_BASIC.V_1".equals(vimType)) {
+			return mapToHelm(ai);
+		}
 		if ("PAAS".equals(vimType)) {
 			// XXX: This need works works.
 			return new AccessInfo();
 		}
 		throw new GenericException("Vim type: " + vimType);
 	}
+
+	BasicAccess mapToHelm(@Valid Map<String, String> ai);
 
 	@Mapping(target = "clientCertificateData", source = "client-certificate-data")
 	@Mapping(target = "clientKeyData", source = "client-key-data")
@@ -207,4 +221,25 @@ public interface ConnectionMapping {
 		}
 		return ret;
 	}
+
+	@Mapping(target = "id", ignore = true)
+	@Mapping(target = "accessTokenUrl", source = "tokenEndpoint")
+	@Mapping(target = "password", source = "clientSecret")
+	@Mapping(target = "scopes", ignore = true)
+	OAuth2Access mapToOAuth2Access(AuthParamOauth2 authParamOauth2);
+
+	@Mapping(target = "id", ignore = true)
+	@Mapping(target = "username", source = "userName")
+	BasicAccess mapToBasicAccess(AuthParamBasic authParamBasic);
+
+	@Mapping(target = "accessInfo", ignore = true)
+	@Mapping(target = "interfaceInfo", ignore = true)
+	@Mapping(target = "cnfInfo", ignore = true)
+	@Mapping(target = "jujuInfo", ignore = true)
+	@Mapping(target = "tenantId", ignore = true)
+	@Mapping(target = "vimCapabilities", ignore = true)
+	@Mapping(target = "vimId", ignore = true)
+	@Mapping(target = "vimType", ignore = true)
+	VimConnectionInformation mapFromConnectionInformationToVimConnectionInformation(ConnectionInformation v);
+
 }

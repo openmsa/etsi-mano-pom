@@ -84,7 +84,6 @@ class VnfScaleRequestTest {
 		v.setInstantiationLevelId(null);
 		v.setLocalizationLanguage(null);
 		v.setVimConnectionInfo(null);
-		v.setVimConnectionInfo(null);
 		v.getExtManagedVirtualLinks();
 		v.getExtVirtualLinks();
 		v.getFlavourId();
