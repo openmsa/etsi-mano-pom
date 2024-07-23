@@ -72,7 +72,7 @@ class HelmV3DeployUowTest {
 		final VirtualTaskV3<HelmTask> vt = new HelmVt(nt);
 		assertNotNull(vt.getType());
 		final Servers servers = new Servers();
-		final VimConnectionInformation<K8sInterfaceInfo, KubernetesV1Auth> vci = createVci();
+		final VimConnectionInformation vci = createVci();
 		final HelmV3DeployUow uow = new HelmV3DeployUow(vt, client, vci, vnfRepo, servers);
 		when(vnfRepo.getBinary(any(), any())).thenReturn(resource);
 		when(resource.getInputStream()).thenReturn(InputStream.nullInputStream());
@@ -90,7 +90,7 @@ class HelmV3DeployUowTest {
 		nt.setMciop(mciop);
 		final VirtualTaskV3<HelmTask> vt = new HelmVt(nt);
 		final Servers servers = new Servers();
-		final VimConnectionInformation<K8sInterfaceInfo, KubernetesV1Auth> vci = createVci();
+		final VimConnectionInformation vci = createVci();
 		final HelmV3DeployUow uow = new HelmV3DeployUow(vt, client, vci, vnfRepo, servers);
 		when(vnfRepo.getBinary(any(), any())).thenReturn(resource);
 		final InputStream isMock = Mockito.mock(InputStream.class);
@@ -100,13 +100,15 @@ class HelmV3DeployUowTest {
 		assertTrue(true);
 	}
 
-	private VimConnectionInformation<K8sInterfaceInfo, KubernetesV1Auth> createVci() {
-		final VimConnectionInformation<K8sInterfaceInfo, KubernetesV1Auth> vci = new VimConnectionInformation<>();
-		vci.setAccessInfo(new KubernetesV1Auth());
-		vci.getAccessInfo().setClientCertificateData("YmFzZTY0Cg==");
-		vci.getAccessInfo().setClientKeyData("YmFzZTY0Cg==");
-		vci.setInterfaceInfo(new K8sInterfaceInfo());
-		vci.getInterfaceInfo().setCertificateAuthorityData("YmFzZTY0Cg==");
+	private VimConnectionInformation createVci() {
+		final VimConnectionInformation vci = new VimConnectionInformation();
+		final KubernetesV1Auth ai = new KubernetesV1Auth();
+		vci.setAccessInfo(ai);
+		ai.setClientCertificateData("YmFzZTY0Cg==");
+		ai.setClientKeyData("YmFzZTY0Cg==");
+		final K8sInterfaceInfo ii = new K8sInterfaceInfo();
+		vci.setInterfaceInfo(ii);
+		ii.setCertificateAuthorityData("YmFzZTY0Cg==");
 		return vci;
 	}
 
@@ -120,7 +122,7 @@ class HelmV3DeployUowTest {
 		nt.setMciop(mciop);
 		final VirtualTaskV3<HelmTask> vt = new HelmVt(nt);
 		final Servers servers = new Servers();
-		final VimConnectionInformation<K8sInterfaceInfo, KubernetesV1Auth> vci = createVci();
+		final VimConnectionInformation vci = createVci();
 		final HelmV3DeployUow uow = new HelmV3DeployUow(vt, client, vci, vnfRepo, servers);
 		when(vnfRepo.getBinary(any(), any())).thenReturn(resource);
 		final InputStream inputStream = Mockito.mock(InputStream.class);
@@ -134,7 +136,7 @@ class HelmV3DeployUowTest {
 		final HelmTask nt = new HelmTask();
 		final VirtualTaskV3<HelmTask> vt = new HelmVt(nt);
 		final Servers servers = new Servers();
-		final VimConnectionInformation<K8sInterfaceInfo, KubernetesV1Auth> vci = createVci();
+		final VimConnectionInformation vci = createVci();
 		final HelmV3DeployUow uow = new HelmV3DeployUow(vt, client, vci, vnfRepo, servers);
 		uow.rollback(context);
 		assertTrue(true);

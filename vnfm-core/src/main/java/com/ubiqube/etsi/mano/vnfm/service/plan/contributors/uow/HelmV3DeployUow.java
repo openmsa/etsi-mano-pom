@@ -52,9 +52,9 @@ public class HelmV3DeployUow extends AbstractVnfmUow<HelmTask> {
 	private final HelmTask task;
 	private final VnfPackageRepository vnfRepo;
 	private final Servers srv;
-	private final VimConnectionInformation<K8sInterfaceInfo, KubernetesV1Auth> vimConnection;
+	private final VimConnectionInformation vimConnection;
 
-	public HelmV3DeployUow(final VirtualTaskV3<HelmTask> task, final K8sClient client, final VimConnectionInformation<K8sInterfaceInfo, KubernetesV1Auth> vimConnectionInformation, final VnfPackageRepository vnfRepo,
+	public HelmV3DeployUow(final VirtualTaskV3<HelmTask> task, final K8sClient client, final VimConnectionInformation vimConnectionInformation, final VnfPackageRepository vnfRepo,
 			final Servers srv) {
 		super(task, HelmNode.class);
 		this.client = client;
@@ -67,11 +67,13 @@ public class HelmV3DeployUow extends AbstractVnfmUow<HelmTask> {
 	@Override
 	public @Nullable String execute(final Context3d context) {
 		final File tmpFile = copyFile(task.getMciop().getArtifacts().entrySet().iterator().next().getValue().getImagePath(), task.getVnfPackageId());
+		final K8sInterfaceInfo ii = (K8sInterfaceInfo) vimConnection.getInterfaceInfo();
+		final KubernetesV1Auth ai = (KubernetesV1Auth) vimConnection.getAccessInfo();
 		final K8sServers s = K8sServers.builder()
 				.apiAddress(vimConnection.getInterfaceInfo().getEndpoint())
-				.caPem(base64Decode(vimConnection.getInterfaceInfo().getCertificateAuthorityData()))
-				.userCrt(base64Decode(vimConnection.getAccessInfo().getClientCertificateData()))
-				.userKey(base64Decode(vimConnection.getAccessInfo().getClientKeyData()))
+				.caPem(base64Decode(ii.getCertificateAuthorityData()))
+				.userCrt(base64Decode(ai.getClientCertificateData()))
+				.userKey(base64Decode(ai.getClientKeyData()))
 				.build();
 		// Add `i-` before instance name to make sure the resulting name is DNS
 		// compliant.
@@ -84,11 +86,13 @@ public class HelmV3DeployUow extends AbstractVnfmUow<HelmTask> {
 
 	@Override
 	public @Nullable String rollback(final Context3d context) {
+		final K8sInterfaceInfo ii = (K8sInterfaceInfo) vimConnection.getInterfaceInfo();
+		final KubernetesV1Auth ai = (KubernetesV1Auth) vimConnection.getAccessInfo();
 		final K8sServers s = K8sServers.builder()
 				.apiAddress(vimConnection.getInterfaceInfo().getEndpoint())
-				.caPem(base64Decode(vimConnection.getInterfaceInfo().getCertificateAuthorityData()))
-				.userCrt(base64Decode(vimConnection.getAccessInfo().getClientCertificateData()))
-				.userKey(base64Decode(vimConnection.getAccessInfo().getClientKeyData()))
+				.caPem(base64Decode(ii.getCertificateAuthorityData()))
+				.userCrt(base64Decode(ai.getClientCertificateData()))
+				.userKey(base64Decode(ai.getClientKeyData()))
 				.build();
 		client.undeploy(srv, s, s.getUserKey(), task.getVimResourceId());
 		return null;

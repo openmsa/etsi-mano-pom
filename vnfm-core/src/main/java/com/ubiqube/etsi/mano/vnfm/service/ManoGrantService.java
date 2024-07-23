@@ -64,7 +64,7 @@ public class ManoGrantService extends AbstractGrantService {
 				.filter(VnfPortTask.class::isInstance)
 				.map(VnfPortTask.class::cast)
 				.forEach(x -> {
-                    final String vl = x.getVnfLinkPort().getVirtualLink();
+					final String vl = x.getVnfLinkPort().getVirtualLink();
 					final ExtManagedVirtualLinkDataEntity fVl = findVl((VnfBlueprint) plan, vl);
 					if (null == fVl) {
 						return;

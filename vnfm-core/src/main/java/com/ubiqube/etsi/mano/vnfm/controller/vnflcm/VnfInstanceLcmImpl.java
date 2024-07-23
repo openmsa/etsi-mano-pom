@@ -39,10 +39,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 
 import com.ubiqube.etsi.mano.controller.vnflcm.VnfInstanceLcm;
-import com.ubiqube.etsi.mano.dao.mano.AccessInfo;
 import com.ubiqube.etsi.mano.dao.mano.CancelModeTypeEnum;
 import com.ubiqube.etsi.mano.dao.mano.ExtManagedVirtualLinkDataEntity;
-import com.ubiqube.etsi.mano.dao.mano.InterfaceInfo;
 import com.ubiqube.etsi.mano.dao.mano.OnboardingStateType;
 import com.ubiqube.etsi.mano.dao.mano.ScaleInfo;
 import com.ubiqube.etsi.mano.dao.mano.UsageStateEnum;
@@ -187,11 +185,11 @@ public class VnfInstanceLcmImpl implements VnfInstanceLcm {
 		ensureIsEnabled(vnfPkg);
 
 		if (null != instantiateVnfRequest.getVimConnectionInfo()) {
-			final List<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vimconnections = vimConnectionInformationMapping.mapAsList(instantiateVnfRequest.getVimConnectionInfo());
-			final Stream<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vimSetStream = vimconnections.stream()
+			final List<VimConnectionInformation> vimconnections = vimConnectionInformationMapping.mapAsList(instantiateVnfRequest.getVimConnectionInfo());
+			final Stream<VimConnectionInformation> vimSetStream = vimconnections.stream()
 					.map(x -> vimManager.findOptionalVimByVimId(x.getVimId())
 							.orElseGet(() -> vimManager.save(x)));
-			final Set<VimConnectionInformation<? extends InterfaceInfo, ? extends AccessInfo>> vimSet = vimSetStream.collect(Collectors.toSet());
+			final Set<VimConnectionInformation> vimSet = vimSetStream.collect(Collectors.toSet());
 			vnfInstance.setVimConnectionInfo(vimSet);
 			vnfInstanceService.save(vnfInstance);
 		}
