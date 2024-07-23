@@ -73,7 +73,7 @@ public class MonitoringRemoteService {
 				.baseUrl(properties.getUrl());
 		final WebClient client = webBuilder
 				.build();
-		return HttpServiceProxyFactory.builder(WebClientAdapter.forClient(client)).build();
+		return HttpServiceProxyFactory.builderFor(WebClientAdapter.create(client)).build();
 	}
 
 }
