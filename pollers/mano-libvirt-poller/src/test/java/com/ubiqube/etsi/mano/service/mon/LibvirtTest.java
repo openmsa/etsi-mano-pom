@@ -93,7 +93,7 @@ class LibvirtTest {
 	}
 
 	@Test
-	void testTest() throws Exception {
+	void testTest() {
 		assertTrue(true);
 	}
 }

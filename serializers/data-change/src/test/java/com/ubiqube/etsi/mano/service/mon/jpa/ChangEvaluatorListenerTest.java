@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.service.mon.jpa;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -52,9 +53,10 @@ class ChangEvaluatorListenerTest {
 	private ConfigurableListableBeanFactory configurableBean;
 
 	@Test
-	void testBasic() throws Exception {
+	void testBasic() {
 		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(dataBackend, jmsTemplate, configurableApplicationContext);
 		final MonitoringDataSlim result = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "res", "key2", 123D, null);
+		assertNotNull(result);
 		final JmsMetricHolder param = new JmsMetricHolder();
 		param.setMetrics(List.of());
 		changEvaluatorListener.changeEvaluator(param);
@@ -62,7 +64,7 @@ class ChangEvaluatorListenerTest {
 	}
 
 	@Test
-	void testOneElement() throws Exception {
+	void testOneElement() {
 		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(dataBackend, jmsTemplate, configurableApplicationContext);
 		final MonitoringDataSlim result = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", "res", 123D, null);
 		//
@@ -74,7 +76,7 @@ class ChangEvaluatorListenerTest {
 	}
 
 	@Test
-	void testSameOnValue() throws Exception {
+	void testSameOnValue() {
 		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(dataBackend, jmsTemplate, configurableApplicationContext);
 		final MonitoringDataSlim result = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", "res", 123D, null);
 		final MonitoringDataSlim result2 = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", "res", 123D, null);
@@ -104,7 +106,7 @@ class ChangEvaluatorListenerTest {
 	}
 
 	@Test
-	void testSameOnText() throws Exception {
+	void testSameOnText() {
 		final ChangEvaluatorListener changEvaluatorListener = new ChangEvaluatorListener(dataBackend, jmsTemplate, configurableApplicationContext);
 		final MonitoringDataSlim result = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", "res", null, "Hello");
 		final MonitoringDataSlim result2 = new TestMonitoringDataSlim(OffsetDateTime.now(), "masterJobId2", "key2", "res", null, "Hello");

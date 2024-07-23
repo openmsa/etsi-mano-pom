@@ -57,7 +57,7 @@ public class InfluxdbDataListener {
 				.addTag("vnf-instance-id", x.getMasterJobId())
 				.time(Instant.now(), WritePrecision.MS))
 				.toList();
-		try (WriteApi client = influxClient.getWriteApi()) {
+		try (WriteApi client = influxClient.makeWriteApi()) {
 			client.writePoints(points);
 		}
 

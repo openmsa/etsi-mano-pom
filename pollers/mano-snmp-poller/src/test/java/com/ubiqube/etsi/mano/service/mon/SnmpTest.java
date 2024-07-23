@@ -67,6 +67,7 @@ import com.ubiqube.etsi.mano.service.mon.poller.snmp.SnmpV2AuthInfo;
  *
  */
 @ExtendWith(MockitoExtension.class)
+@SuppressWarnings("static-method")
 class SnmpTest {
 	@Mock
 	private JmsTemplate jmsTemplate;
@@ -159,7 +160,6 @@ class SnmpTest {
 		usm.addUser(user);
 
 		final Snmp snmp = new Snmp(new DefaultUdpTransportMapping());
-		// SecurityModels.getInstance().addSecurityModel(usm);
 		final SecurityModels securityModels = new SecurityModels();
 		securityModels.addSecurityModel(usm);
 		mPv3.setSecurityModels(securityModels);

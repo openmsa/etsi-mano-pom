@@ -29,10 +29,10 @@ import com.ubiqube.etsi.mano.service.mon.model.VnfIndicatorMonitoringData;
 class VnfIndicatorMonitoringDataTest {
 
 	@Test
-	void testName() throws Exception {
+	void testName() {
 		final VnfIndicatorMonitoringData obj = new VnfIndicatorMonitoringData();
 		obj.equals(null);
-		obj.equals("");
+		"".equals(obj);
 		obj.equals(obj);
 		obj.hashCode();
 		obj.toString();
@@ -40,7 +40,7 @@ class VnfIndicatorMonitoringDataTest {
 	}
 
 	@Test
-	void testCtor() throws Exception {
+	void testCtor() {
 		final VnfIndicatorMonitoringData obj = new VnfIndicatorMonitoringData("key2", UUID.randomUUID(), 123D, UUID.randomUUID());
 		obj.setId(UUID.randomUUID());
 		obj.setKey("key");

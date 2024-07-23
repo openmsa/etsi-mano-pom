@@ -71,7 +71,6 @@ class SubscriptionNotificationServiceTest {
 	@BeforeEach
 	void initialize() {
 		baseUrl = String.format("http://localhost:%s/", mockBackEnd.getPort());
-		// employeeService = new EmployeeService(baseUrl);
 	}
 
 	@Test
@@ -115,6 +114,7 @@ class SubscriptionNotificationServiceTest {
 		assertEquals("/", recordedRequest2.getPath());
 	}
 
+	@SuppressWarnings("static-method")
 	@Test
 	void testSubscription() {
 		final MonSubscription subscription = new MonSubscription();
@@ -123,7 +123,7 @@ class SubscriptionNotificationServiceTest {
 		final MonSubscription subscription2 = new MonSubscription();
 		final AuthParamOauth2 authParamOauth3 = new AuthParamOauth2();
 		subscription2.setAuthParamOauth2(authParamOauth3);
-		assertTrue(subscription.equals(subscription2));
+		assertEquals(subscription, subscription2);
 	}
 
 	@Test

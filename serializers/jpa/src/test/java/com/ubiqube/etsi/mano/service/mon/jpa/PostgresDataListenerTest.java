@@ -38,7 +38,7 @@ class PostgresDataListenerTest {
 	private MonitoringDataJpa monitoringJpa;
 
 	@Test
-	void testName() throws Exception {
+	void testName() {
 		final PostgresDataListener postgresDataListener = new PostgresDataListener(monitoringJpa);
 		final List<MonitoringDataSlim> metrics = List.of();
 		final JmsMetricHolder results = new JmsMetricHolder(metrics);
@@ -47,7 +47,7 @@ class PostgresDataListenerTest {
 	}
 
 	@Test
-	void testNotEmpty() throws Exception {
+	void testNotEmpty() {
 		final PostgresDataListener postgresDataListener = new PostgresDataListener(monitoringJpa);
 		final TelemetryMetricsResult tmp = new TelemetryMetricsResult("masterJobId", "vnfcId", "key", 123D, null, OffsetDateTime.now(), true);
 		final List<MonitoringDataSlim> metrics = List.of(tmp);

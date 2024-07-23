@@ -29,7 +29,7 @@ class MonitoringDataTest {
 
 	@SuppressWarnings("static-method")
 	@Test
-	void testName() throws Exception {
+	void testName() {
 		final MonitoringData md = new MonitoringData();
 		md.setId(UUID.randomUUID());
 		md.setKey("");
