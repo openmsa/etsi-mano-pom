@@ -17,6 +17,7 @@
 package com.ubiqube.etsi.mano.service.mon.data;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
 
@@ -25,12 +26,15 @@ import org.junit.jupiter.api.Test;
  * @author Olivier Vignaud
  *
  */
+@SuppressWarnings("static-method")
 class AuthTypeTest {
 
 	@Test
 	void test() {
 		AuthType at = AuthType.fromValue(null);
+		assertNotNull(at);
 		at = AuthType.fromValue("");
+		assertNotNull(at);
 		at = AuthType.fromValue("TLS_CERT");
 		assertEquals(AuthType.TLS_CERT, at);
 	}

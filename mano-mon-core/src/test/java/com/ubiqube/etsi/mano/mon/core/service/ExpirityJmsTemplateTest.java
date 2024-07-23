@@ -81,7 +81,7 @@ class ExpirityJmsTemplateTest {
 	}
 
 	@Test
-	void testConstructor() throws Exception {
+	void testConstructor() {
 		final ExpirityJmsTemplate ejt = new ExpirityJmsTemplate();
 		assertNotNull(ejt);
 	}

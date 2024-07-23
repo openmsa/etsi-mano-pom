@@ -25,11 +25,13 @@ import org.junit.jupiter.api.Test;
  * @author Olivier Vignaud
  *
  */
+@SuppressWarnings("static-method")
 class MonGenericExceptionTest {
 
 	@Test
 	void test() {
 		MonGenericException e = new MonGenericException("");
+		assertNotNull(e);
 		e = new MonGenericException(new RuntimeException());
 		assertNotNull(e);
 	}

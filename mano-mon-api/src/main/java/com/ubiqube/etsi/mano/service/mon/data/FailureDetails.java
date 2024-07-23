@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.service.mon.data;
 
+import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
@@ -29,7 +30,9 @@ import lombok.Data;
 
 @Embeddable
 @Data
-public class FailureDetails {
+public class FailureDetails implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	private static final Logger LOG = LoggerFactory.getLogger(FailureDetails.class);
 
 	private URI type;

@@ -25,12 +25,15 @@ import org.junit.jupiter.api.Test;
  * @author Olivier Vignaud
  *
  */
+@SuppressWarnings("static-method")
 class MetricFunctionTest {
 
 	@Test
 	void test() {
 		MetricFunction m = MetricFunction.fromValue(null);
+		assertNotNull(m);
 		m = MetricFunction.fromValue("");
+		assertNotNull(m);
 		m = MetricFunction.fromValue("mean");
 		assertNotNull(m);
 	}
