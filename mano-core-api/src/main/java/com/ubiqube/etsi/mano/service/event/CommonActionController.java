@@ -51,8 +51,6 @@ import com.ubiqube.etsi.mano.dao.subscription.SubscriptionType;
 import com.ubiqube.etsi.mano.exception.GenericException;
 import com.ubiqube.etsi.mano.jpa.config.ServersJpa;
 import com.ubiqube.etsi.mano.model.ApiVersionInformation;
-import com.ubiqube.etsi.mano.service.EndpointService;
-import com.ubiqube.etsi.mano.service.EndpointService.Endpoint;
 import com.ubiqube.etsi.mano.service.HttpGateway;
 import com.ubiqube.etsi.mano.service.ServerService;
 import com.ubiqube.etsi.mano.service.auth.model.ApiTypesEnum;
@@ -66,6 +64,7 @@ import com.ubiqube.etsi.mano.service.event.model.Subscription;
 import com.ubiqube.etsi.mano.service.mapping.ApiVersionMapping;
 import com.ubiqube.etsi.mano.service.rest.FluxRest;
 import com.ubiqube.etsi.mano.service.rest.ManoClient;
+import com.ubiqube.etsi.mano.service.rest.ProblemDetailException;
 import com.ubiqube.etsi.mano.service.rest.ServerAdapter;
 
 import jakarta.annotation.Nullable;
@@ -89,17 +88,15 @@ public class CommonActionController {
 	private final ObjectProvider<SecutiryConfig> secutiryConfig;
 	private final ApiVersionMapping apiVersionMapping;
 	private final ServerService serverService;
-	private final EndpointService endpointService;
 
 	public CommonActionController(final ServersJpa serversJpa, final List<com.ubiqube.etsi.mano.service.HttpGateway> httpGateway,
-			final ManoProperties manoProperties, final ObjectProvider<SecutiryConfig> secutiryConfig, final ServerService serverService, final ApiVersionMapping apiVersionMapping, final EndpointService endpointService) {
+			final ManoProperties manoProperties, final ObjectProvider<SecutiryConfig> secutiryConfig, final ServerService serverService, final ApiVersionMapping apiVersionMapping) {
 		this.serversJpa = serversJpa;
 		this.httpGateway = httpGateway;
 		this.manoProperties = manoProperties;
 		this.secutiryConfig = secutiryConfig;
 		this.apiVersionMapping = apiVersionMapping;
 		this.serverService = serverService;
-		this.endpointService = endpointService;
 	}
 
 	public Servers registerServer(final UUID objectId, final Map<String, Object> parameters) {
@@ -220,22 +217,13 @@ public class CommonActionController {
 	}
 
 	private Subscription vnfPackageOnboardingSubscribe(final ServerAdapter serverAdapter) {
-		final String res = getPartAndVersion(ApiVersionType.SOL003_VNFPKGM);
-		return vnfPackageSubscribe(serverAdapter, "VnfPackageOnboardingNotification", "%s/notification/onboarding".formatted(res));
+		final String apiv = serverAdapter.httpGateway().getUrlFor(ApiVersionType.SOL003_VNFPKGM);
+		return vnfPackageSubscribe(serverAdapter, "VnfPackageOnboardingNotification", "/%s/notification/onboarding".formatted(apiv));
 	}
 
 	private Subscription vnfPackageChangeSubscribe(final ServerAdapter serverAdapter) {
-		final String res = getPartAndVersion(ApiVersionType.SOL003_VNFPKGM);
-		return vnfPackageSubscribe(serverAdapter, "VnfPackageChangeNotification", "%s/notification/change".formatted(res));
-	}
-
-	private String getPartAndVersion(final ApiVersionType type) {
-		final List<Endpoint> res = endpointService.getEndpoints().get(type.toString());
-		if ((res == null) || res.isEmpty()) {
-			throw new GenericException("Unable to find: " + type);
-		}
-		final Endpoint val = res.get(0);
-		return "/%s/v%s".formatted(val.part(), val.version().getMajor());
+		final String apiv = serverAdapter.httpGateway().getUrlFor(ApiVersionType.SOL003_VNFPKGM);
+		return vnfPackageSubscribe(serverAdapter, "VnfPackageChangeNotification", "/%s/notification/change".formatted(apiv));
 	}
 
 	private Subscription vnfPackageSubscribe(final ServerAdapter serverAdapter, final String eventName, final String url) {
@@ -251,8 +239,8 @@ public class CommonActionController {
 	private Subscription vnfIndicatorValueChangeSubscribe(final ServerAdapter serverAdapter) {
 		final Servers server = serverAdapter.getServer();
 		final List<FilterAttributes> filters = List.of(FilterAttributes.of(NOTIFICATION_TYPES_0, "VnfIndicatorValueChangeNotification"));
-		final String apiv = getPartAndVersion(ApiVersionType.SOL003_VNFIND);
-		final Subscription subsOut = createSubscriptionWithFilter(ApiTypesEnum.SOL003, "%s/notification/value-change".formatted(apiv), SubscriptionType.VNFIND, filters, server.getLocalUser());
+		final String apiv = serverAdapter.httpGateway().getUrlFor(ApiVersionType.SOL003_VNFIND);
+		final Subscription subsOut = createSubscriptionWithFilter(ApiTypesEnum.SOL003, "/%s/notification/value-change".formatted(apiv), SubscriptionType.VNFIND, filters, server.getLocalUser());
 		final ManoClient mc = new ManoClient(serverAdapter);
 		final Subscription res = mc.vnfIndicator().subscription().subscribe(subsOut);
 		res.setSubscriptionType(SubscriptionType.VNFIND);
@@ -289,7 +277,7 @@ public class CommonActionController {
 		try {
 			final Subscription res = mc.vnfPackage().subscription().find(getSafeUUID(remoteSubscription.getRemoteSubscriptionId()));
 			return res != null;
-		} catch (final WebClientResponseException.NotFound e) {
+		} catch (final WebClientResponseException.NotFound | ProblemDetailException e) {
 			LOG.trace("", e);
 			return false;
 		}

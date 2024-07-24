@@ -54,7 +54,7 @@ class NotificationsImplTest {
 		final ResponseEntity<Object> resp = ResponseEntity.status(200).build();
 		when(fluxRest.getWithReturn(any(), any(), any())).thenReturn(resp);
 		final URI uri = URI.create("http://localhost/");
-		assertThrows(GenericException.class, () -> srv.check(serverAdapter, uri));
+		assertThrows(GenericException.class, () -> srv.check(serverAdapter, uri, null));
 	}
 
 	@Test
@@ -63,7 +63,7 @@ class NotificationsImplTest {
 		final ServerAdapter serverAdapter = new ServerAdapter(httpGateway, server, fluxRest);
 		when(fluxRest.getWithReturn(any(), any(), any())).thenReturn(null);
 		final URI uri = URI.create("http://localhost/");
-		assertThrows(GenericException.class, () -> srv.check(serverAdapter, uri));
+		assertThrows(GenericException.class, () -> srv.check(serverAdapter, uri, null));
 	}
 
 	@Test
@@ -72,7 +72,7 @@ class NotificationsImplTest {
 		final ServerAdapter serverAdapter = new ServerAdapter(httpGateway, server, fluxRest);
 		final ResponseEntity<Object> resp = ResponseEntity.status(204).build();
 		when(fluxRest.getWithReturn(any(), any(), any())).thenReturn(resp);
-		srv.check(serverAdapter, URI.create("http://localhost/"));
+		srv.check(serverAdapter, URI.create("http://localhost/"), "1.2.3");
 		assertTrue(true);
 	}
 

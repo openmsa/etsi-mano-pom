@@ -106,13 +106,14 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
 	@Override
 	public Subscription save(final Subscription subscriptionRequest, final Class<?> version, final ApiVersionType type) {
-        final ApiAndType nt = ServerService.apiVersionTosubscriptionType(type);
+		final ApiAndType nt = ServerService.apiVersionTosubscriptionType(type);
 		subscriptionRequest.setSubscriptionType(nt.type());
 		subscriptionRequest.setApi(nt.api());
 		checkAuthData(subscriptionRequest);
 		ensureUniqueness(subscriptionRequest);
 		subscriptionRequest.setNodeFilter(evalService.convertRequestToString(subscriptionRequest));
 		subscriptionRequest.setVersion(extractVersion(version, nt.type()));
+		subscriptionRequest.setHeaderVersion(extractVersion(version));
 		checkAvailability(subscriptionRequest);
 		return subscriptionJpa.save(subscriptionRequest);
 	}
@@ -158,7 +159,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
 	private void checkAvailability(final Subscription subscription) {
 		final ServerAdapter server = serverService.buildServerAdapter(subscription);
-		notifications.check(server, subscription.getCallbackUri());
+		notifications.check(server, subscription.getCallbackUri(), subscription.getHeaderVersion());
 	}
 
 	private @Nullable String extractVersion(final Class<?> version, final SubscriptionType type) {

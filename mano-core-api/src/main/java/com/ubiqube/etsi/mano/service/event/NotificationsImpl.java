@@ -74,13 +74,13 @@ public class NotificationsImpl implements Notifications {
 	}
 
 	@Override
-	public void check(final ServerAdapter server, final URI uri) {
+	public void check(final ServerAdapter server, final URI uri, final String version) {
 		final var rest = server.rest();
-		doRealCheck(rest, uri);
+		doRealCheck(rest, uri, version);
 	}
 
-	private static void doRealCheck(final FluxRest rest, final URI uri) {
-		final ResponseEntity<Void> status = rest.getWithReturn(uri, Void.class, null);
+	private static void doRealCheck(final FluxRest rest, final URI uri, final String version) {
+		final ResponseEntity<Void> status = rest.getWithReturn(uri, Void.class, version);
 		if ((null == status) || (status.getStatusCode() != HttpStatus.NO_CONTENT)) {
 			final String code = getStatucCode(status);
 			LOG.error("Status response must be 204 by was: {} <=> {}", code, uri);
@@ -96,10 +96,10 @@ public class NotificationsImpl implements Notifications {
 	}
 
 	@Override
-	public void check(final AuthentificationInformations authentication, final URI callbackUri) {
+	public void check(final AuthentificationInformations authentication, final URI callbackUri, final String version) {
 		final Servers server = new Servers(authentication, callbackUri);
 		final FluxRest rest = new FluxRest(server);
-		doRealCheck(rest, callbackUri);
+		doRealCheck(rest, callbackUri, version);
 	}
 
 }

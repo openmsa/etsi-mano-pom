@@ -48,8 +48,8 @@ public interface Notifications {
 	 */
 	void doNotification(final Object obj, final URI uri, final ServerAdapter server);
 
-	void check(ServerAdapter server, final URI uri);
+	void check(ServerAdapter server, final URI uri, String version);
 
-	void check(AuthentificationInformations authentication, URI callbackUri);
+	void check(AuthentificationInformations authentication, URI callbackUri, String version);
 
 }

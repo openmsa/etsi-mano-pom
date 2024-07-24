@@ -47,7 +47,6 @@ import com.ubiqube.etsi.mano.dao.mano.config.Servers;
 import com.ubiqube.etsi.mano.dao.mano.vim.PlanStatusType;
 import com.ubiqube.etsi.mano.dao.subscription.SubscriptionType;
 import com.ubiqube.etsi.mano.jpa.config.ServersJpa;
-import com.ubiqube.etsi.mano.service.EndpointService;
 import com.ubiqube.etsi.mano.service.EndpointService.Endpoint;
 import com.ubiqube.etsi.mano.service.HttpGateway;
 import com.ubiqube.etsi.mano.service.ServerService;
@@ -76,8 +75,6 @@ class CommonActionControllerTest {
 	private ServerService serverService;
 	@Mock
 	private FluxRest fluxRest;
-	@Mock
-	private EndpointService endpointService;
 	private final ApiVersionMapping apiVersionMapping = Mappers.getMapper(ApiVersionMapping.class);
 
 	@Test
@@ -97,7 +94,6 @@ class CommonActionControllerTest {
 		final Endpoint endpoint = new Endpoint("vnfind", Version.of("1.23.2"), serverAdapter, List.of());
 		final MultiValueMap<String, Endpoint> dedupe = new LinkedMultiValueMap<>();
 		dedupe.add("vnfind", endpoint);
-		when(endpointService.getEndpoints()).thenReturn(dedupe);
 		final Subscription subsc = new Subscription();
 		subsc.setId(UUID.randomUUID());
 		subsc.setSubscriptionType(SubscriptionType.VNF);
@@ -110,7 +106,7 @@ class CommonActionControllerTest {
 	}
 
 	private CommonActionController createService() {
-		return new CommonActionController(serversJpa, List.of(hg), manoProperties, securityConfigProvider, serverService, apiVersionMapping, endpointService);
+		return new CommonActionController(serversJpa, List.of(hg), manoProperties, securityConfigProvider, serverService, apiVersionMapping);
 	}
 
 	@Test
@@ -130,7 +126,6 @@ class CommonActionControllerTest {
 		final Endpoint endpoint = new Endpoint("vnfind", Version.of("1.23.2"), serverAdapter, List.of());
 		final MultiValueMap<String, Endpoint> dedupe = new LinkedMultiValueMap<>();
 		dedupe.add("vnfind", endpoint);
-		when(endpointService.getEndpoints()).thenReturn(dedupe);
 //		when(hg.getVersion()).thenReturn(new Version("4.3.2"));
 		when(serversJpa.save(any())).thenReturn(server);
 		final Servers res = cac.registerServer(id, Map.of());
@@ -155,7 +150,6 @@ class CommonActionControllerTest {
 		final Endpoint endpoint = new Endpoint("vnfpkgm", Version.of("1.23.2"), serverAdapter, List.of());
 		final MultiValueMap<String, Endpoint> dedupe = new LinkedMultiValueMap<>();
 		dedupe.add("vnfpkgm", endpoint);
-		when(endpointService.getEndpoints()).thenReturn(dedupe);
 		//
 		final Subscription subsc = new Subscription();
 		subsc.setId(UUID.randomUUID());
@@ -187,7 +181,6 @@ class CommonActionControllerTest {
 		final Endpoint endpoint = new Endpoint("vnfpkgm", Version.of("1.23.2"), serverAdapter, List.of());
 		final MultiValueMap<String, Endpoint> dedupe = new LinkedMultiValueMap<>();
 		dedupe.add("vnfpkgm", endpoint);
-		when(endpointService.getEndpoints()).thenReturn(dedupe);
 		//
 		final Subscription subsc = new Subscription();
 		subsc.setId(UUID.randomUUID());

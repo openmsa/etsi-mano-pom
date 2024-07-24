@@ -74,8 +74,6 @@ class CommonActionControllerTest {
 	private HttpGateway httpGateWay1;
 	@Mock
 	private FluxRest fluxRest;
-	@Mock
-	private EndpointService endpointService;
 	private final ApiVersionMapping apiVersionMapping = Mappers.getMapper(ApiVersionMapping.class);
 
 	private final Servers server = Servers.builder()
@@ -83,7 +81,7 @@ class CommonActionControllerTest {
 			.build();
 
 	private CommonActionController createService() {
-		return new CommonActionController(serverJpa, createHttpGateway(), manoProperties, securityConfig, serverService, apiVersionMapping, endpointService);
+		return new CommonActionController(serverJpa, createHttpGateway(), manoProperties, securityConfig, serverService, apiVersionMapping);
 	}
 
 	@Test
@@ -138,7 +136,6 @@ class CommonActionControllerTest {
 		final Endpoint endpoint = new Endpoint("vnfind", Version.of("1.23.2"), serverAdapter, List.of());
 		final MultiValueMap<String, Endpoint> dedupe = new LinkedMultiValueMap<>();
 		dedupe.add("vnfind", endpoint);
-		when(endpointService.getEndpoints()).thenReturn(dedupe);
 		//
 		cac.registerServer(id, Map.of());
 		//
@@ -166,7 +163,6 @@ class CommonActionControllerTest {
 		final Endpoint endpoint = new Endpoint("vnfpkgm", Version.of("1.23.2"), serverAdapter, List.of());
 		final MultiValueMap<String, Endpoint> dedupe = new LinkedMultiValueMap<>();
 		dedupe.add("vnfpkgm", endpoint);
-		when(endpointService.getEndpoints()).thenReturn(dedupe);
 		//
 		cac.registerServer(id, Map.of());
 		//
