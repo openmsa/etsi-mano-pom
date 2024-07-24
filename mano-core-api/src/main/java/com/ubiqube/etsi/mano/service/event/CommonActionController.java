@@ -220,18 +220,18 @@ public class CommonActionController {
 	}
 
 	private Subscription vnfPackageOnboardingSubscribe(final ServerAdapter serverAdapter) {
-		final String res = getPartAndVersion(serverAdapter, ApiVersionType.SOL003_VNFPKGM);
+		final String res = getPartAndVersion(ApiVersionType.SOL003_VNFPKGM);
 		return vnfPackageSubscribe(serverAdapter, "VnfPackageOnboardingNotification", "%s/notification/onboarding".formatted(res));
 	}
 
 	private Subscription vnfPackageChangeSubscribe(final ServerAdapter serverAdapter) {
-		final String res = getPartAndVersion(serverAdapter, ApiVersionType.SOL003_VNFPKGM);
+		final String res = getPartAndVersion(ApiVersionType.SOL003_VNFPKGM);
 		return vnfPackageSubscribe(serverAdapter, "VnfPackageChangeNotification", "%s/notification/change".formatted(res));
 	}
 
-	private String getPartAndVersion(final ServerAdapter serverAdapter, final ApiVersionType type) {
+	private String getPartAndVersion(final ApiVersionType type) {
 		final List<Endpoint> res = endpointService.getEndpoints().get(type.toString());
-		if (res.isEmpty()) {
+		if ((res == null) || res.isEmpty()) {
 			throw new GenericException("Unable to find: " + type);
 		}
 		final Endpoint val = res.get(0);
@@ -251,7 +251,7 @@ public class CommonActionController {
 	private Subscription vnfIndicatorValueChangeSubscribe(final ServerAdapter serverAdapter) {
 		final Servers server = serverAdapter.getServer();
 		final List<FilterAttributes> filters = List.of(FilterAttributes.of(NOTIFICATION_TYPES_0, "VnfIndicatorValueChangeNotification"));
-		final String apiv = getPartAndVersion(serverAdapter, ApiVersionType.SOL003_VNFIND);
+		final String apiv = getPartAndVersion(ApiVersionType.SOL003_VNFIND);
 		final Subscription subsOut = createSubscriptionWithFilter(ApiTypesEnum.SOL003, "%s/notification/value-change".formatted(apiv), SubscriptionType.VNFIND, filters, server.getLocalUser());
 		final ManoClient mc = new ManoClient(serverAdapter);
 		final Subscription res = mc.vnfIndicator().subscription().subscribe(subsOut);
