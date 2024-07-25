@@ -36,6 +36,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -47,6 +49,7 @@ import com.mxgraph.layout.hierarchical.mxHierarchicalLayout;
 import com.mxgraph.util.mxCellRenderer;
 import com.mxgraph.util.mxConstants;
 import com.mxgraph.util.mxStyleUtils;
+import com.ubiqube.etsi.mano.controllers.objects.Event;
 import com.ubiqube.etsi.mano.dao.mano.NsdPackage;
 import com.ubiqube.etsi.mano.dao.mano.VnfPackage;
 import com.ubiqube.etsi.mano.dao.mano.v2.nfvo.NsBlueprint;
@@ -69,6 +72,8 @@ import com.ubiqube.etsi.mano.orchestrator.nodes.vnfm.OsContainerNode;
 import com.ubiqube.etsi.mano.orchestrator.scale.ScalingEngine;
 import com.ubiqube.etsi.mano.service.VnfPackageService;
 import com.ubiqube.etsi.mano.service.VnfPlanService;
+import com.ubiqube.etsi.mano.service.event.EventManager;
+import com.ubiqube.etsi.mano.service.event.SubscriptionEvent;
 
 import jakarta.validation.constraints.NotNull;
 
@@ -84,7 +89,7 @@ public class Poc {
 	private static final Logger LOG = LoggerFactory.getLogger(Poc.class);
 	private final VnfPackageService vnfPackageService;
 	private final NsdPackageService nsdPackageService;
-
+	private final EventManager eventManager;
 	private final NsBlueprintJpa nsBlueprintJpa;
 	private final VnfPlanService vnfPlanService;
 	private final NsPlanService nsPlanService;
@@ -92,7 +97,8 @@ public class Poc {
 
 	public Poc(final NsBlueprintJpa nsBlueprintJpa, final VnfPlanService vnfPlanService,
 			final NsPlanService nsPlanService, final VnfPackageService vnfPackageService, final NsdPackageService nsdPackageService,
-			final ObjectMapper om) {
+			final ObjectMapper om, final EventManager eventManager) {
+		this.eventManager = eventManager;
 		this.nsBlueprintJpa = nsBlueprintJpa;
 		this.vnfPlanService = vnfPlanService;
 		this.nsPlanService = nsPlanService;
@@ -201,15 +207,22 @@ public class Poc {
 		return ResponseEntity.ok(obj.get());
 	}
 
+	@PostMapping("/send-event")
+	public String getMethodName(@RequestBody final Event param) {
+		final SubscriptionEvent se;
+		eventManager.sendNotification(param.getNotificationEvent(), param.getObjectId(), Map.of());
+		return new String();
+	}
+
 	public static <V, E> BufferedImage drawGraph2(final Graph<V, E> graph) {
 		final JGraphXAdapter<V, E> graphAdapter = new JGraphXAdapter<>(graph);
 		final mxIGraphLayout layout = new mxHierarchicalLayout(graphAdapter);
 		layout.execute(graphAdapter.getDefaultParent());
 		graphAdapter.getVertexToCellMap().forEach((key, value) -> {
-            final Object[] lcell = Arrays.asList(value).toArray();
-            mxStyleUtils.setCellStyles(graphAdapter.getModel(), lcell, mxConstants.STYLE_ROUNDED,
-                    "true");
-        });
+			final Object[] lcell = Arrays.asList(value).toArray();
+			mxStyleUtils.setCellStyles(graphAdapter.getModel(), lcell, mxConstants.STYLE_ROUNDED,
+					"true");
+		});
 		return mxCellRenderer.createBufferedImage(graphAdapter, null, 1, new Color(255, 255, 255, 255), true, null);
 	}
 
