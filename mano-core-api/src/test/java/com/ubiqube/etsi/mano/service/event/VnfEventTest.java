@@ -82,6 +82,7 @@ class VnfEventTest {
 		final Subscription subsc = Subscription.builder()
 				.id(UUID.randomUUID())
 				.callbackUri(URI.create("http://test-uri/"))
+				.headerVersion("1.2.3")
 				.build();
 		final EventMessage event = new EventMessage(NotificationEvent.APP_INSTANCE_CREATE, UUID.randomUUID(), Map.of());
 		//
