@@ -91,7 +91,7 @@ class VnfEventTest {
 		final Object ret = new Object();
 		when(httpGateway.createEvent(subsc.getId(), event)).thenReturn(ret);
 		vnfEvent.sendNotification(subsc, event);
-		verify(notifications).doNotification(ret, subsc.getCallbackUri(), serverAdapter);
+		verify(notifications).doNotification(ret, subsc.getCallbackUri(), serverAdapter, "1.2.3");
 	}
 
 	@Test

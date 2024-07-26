@@ -42,14 +42,27 @@ public interface Notifications {
 	/**
 	 * Send a notification Object to the _uri
 	 *
-	 * @param obj    The JSON Onject.
-	 * @param uri    The complete URL.
-	 * @param server A Servers object.
+	 * @param obj     The JSON Onject.
+	 * @param uri     The complete URL.
+	 * @param server  A Servers object.
+	 * @param version Server HTTP header version.
 	 */
-	void doNotification(final Object obj, final URI uri, final ServerAdapter server);
+	void doNotification(final Object obj, final URI uri, final ServerAdapter server, String version);
 
+	/**
+	 *
+	 * @param uri     The complete URL.
+	 * @param server  A Servers object.
+	 * @param version Server HTTP header version.
+	 */
 	void check(ServerAdapter server, final URI uri, String version);
 
+	/**
+	 *
+	 * @param authentication Authentication informations.
+	 * @param callbackUri    Callback URI.
+	 * @param version        Server HTTP header version.
+	 */
 	void check(AuthentificationInformations authentication, URI callbackUri, String version);
 
 }

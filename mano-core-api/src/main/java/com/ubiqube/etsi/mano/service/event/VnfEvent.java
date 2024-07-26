@@ -71,7 +71,7 @@ public class VnfEvent {
 			return;
 		}
 		final var callbackUri = subscription.getCallbackUri();
-		notifications.doNotification(object, callbackUri, server);
+		notifications.doNotification(object, callbackUri, server, subscription.getHeaderVersion());
 	}
 
 	public void onEvent(final EventMessage ev) {

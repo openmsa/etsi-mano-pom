@@ -55,7 +55,7 @@ public class VnfSubscriptionManagementImpl implements VnfSubscriptionManagement 
 		final Subscription subscriptionsRepository = subscriptionService.findById(subscriptionId, ApiVersionType.SOL005_VNFPKGM);
 		final URI callbackUri = subscriptionsRepository.getCallbackUri();
 		final ServerAdapter server = serverService.buildServerAdapter(subscriptionsRepository);
-		notifications.doNotification(notificationsMessage, callbackUri, server);
+		notifications.doNotification(notificationsMessage, callbackUri, server, subscriptionsRepository.getHeaderVersion());
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public class VnfSubscriptionManagementImpl implements VnfSubscriptionManagement 
 		final Subscription subscription = subscriptionService.findById(subscriptionId, ApiVersionType.SOL005_VNFPKGM);
 		final URI cbUrl = subscription.getCallbackUri();
 		final ServerAdapter server = serverService.buildServerAdapter(subscription);
-		notifications.doNotification(notificationsMessage, cbUrl, server);
+		notifications.doNotification(notificationsMessage, cbUrl, server, subscription.getHeaderVersion());
 	}
 
 }

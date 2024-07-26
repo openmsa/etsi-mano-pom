@@ -80,7 +80,7 @@ class NotificationsImplTest {
 	void testDoNotification() {
 		final NotificationsImpl srv = new NotificationsImpl(mapper);
 		final ServerAdapter serverAdapter = new ServerAdapter(httpGateway, server, fluxRest);
-		srv.doNotification(null, URI.create("http://localhost/"), serverAdapter);
+		srv.doNotification(null, URI.create("http://localhost/"), serverAdapter, "1.2.3");
 		assertTrue(true);
 	}
 }

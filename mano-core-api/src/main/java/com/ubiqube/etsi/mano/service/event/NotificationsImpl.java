@@ -55,7 +55,7 @@ public class NotificationsImpl implements Notifications {
 	 * @param server A Servers object.
 	 */
 	@Override
-	public void doNotification(final Object obj, final URI uri, final ServerAdapter server) {
+	public void doNotification(final Object obj, final URI uri, final ServerAdapter server, final String version) {
 		String content;
 		try {
 			content = mapper.writeValueAsString(obj);
@@ -63,7 +63,7 @@ public class NotificationsImpl implements Notifications {
 			throw new GenericException(e);
 		}
 		LOG.debug("Message :\n{}", content);
-		sendRequest(content, server, uri, null);
+		sendRequest(content, server, uri, version);
 	}
 
 	private static void sendRequest(final String content, final ServerAdapter server, final URI uri, @Nullable final String version) {
