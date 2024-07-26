@@ -41,7 +41,6 @@ import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.cnf.ConnectionType;
 import com.ubiqube.etsi.mano.dao.mano.pkg.OsContainer;
 import com.ubiqube.etsi.mano.dao.mano.vim.SoftwareImage;
-import com.ubiqube.etsi.mano.dao.mano.vim.VimConnectionInformation;
 import com.ubiqube.etsi.mano.dao.mano.vnfm.McIops;
 import com.ubiqube.etsi.mano.docker.DockerApiException;
 import com.ubiqube.etsi.mano.docker.DockerService;
@@ -204,12 +203,12 @@ public class GrantContainerAction {
 				.orElse(null);
 	}
 
-	private void setConnectionConnection(final GrantResponse grants, final ResourceTypeEnum rt, final ConnectionType ct, final Consumer<Map<String, VimConnectionInformation>> func) {
+	private void setConnectionConnection(final GrantResponse grants, final ResourceTypeEnum rt, final ConnectionType ct, final Consumer<Map<String, ConnectionInformation>> func) {
 		if (grants.getAddResources().stream().noneMatch(x -> x.getType() == rt)) {
 			return;
 		}
 		final List<ConnectionInformation> res = connJpa.findByConnType(ct);
-		final Map<String, VimConnectionInformation> map = res.stream().collect(Collectors.toMap(ConnectionInformation::getName, connectionMapping::mapFromConnectionInformationToVimConnectionInformation));
+		final Map<String, ConnectionInformation> map = res.stream().collect(Collectors.toMap(ConnectionInformation::getName, x -> x));
 		func.accept(map);
 	}
 

@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.service.grant.executor;
 
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -52,8 +53,8 @@ public class ContainerExecutor {
 	}
 
 	public void addCirConnection(final GrantResponse grants) {
-		final Map<String, VimConnectionInformation> cirMap = StreamSupport.stream(cirManager.findAll().spliterator(), false)
-				.collect(Collectors.toMap(ConnectionInformation::getName, connectionMapping::mapFromConnectionInformationToVimConnectionInformation));
+		final Map<String, ConnectionInformation> cirMap = StreamSupport.stream(cirManager.findAll().spliterator(), false)
+				.collect(Collectors.toMap(ConnectionInformation::getName, x -> x));
 		grants.setCirConnectionInfo(cirMap);
 	}
 
@@ -72,7 +73,9 @@ public class ContainerExecutor {
 		}
 		VimConnectionInformation vimc = ccmManager.getVimConnection(vci, grants, vnfPackage);
 		vimc = storeIfNeeded(vimc);
-		grants.setCismConnections(Set.of(vimc));
+		final Set vims = new LinkedHashSet<>(grants.getVimConnections());
+		vims.add(vimc);
+		grants.setVimConnections(vims);
 	}
 
 	private VimConnectionInformation storeIfNeeded(final VimConnectionInformation vimc) {
