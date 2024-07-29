@@ -27,7 +27,7 @@
 		<org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
 		<org.projectlombok.version>1.18.34</org.projectlombok.version>
 		<version.jetty-bom>9.4.49.v20220914</version.jetty-bom>
-		<version.logstash-logback-encoder>7.4</version.logstash-logback-encoder>
+		<version.logstash-logback-encoder>8.0</version.logstash-logback-encoder>
 		<version.loki-logback-appender>1.5.2</version.loki-logback-appender>
 	</properties>
 
