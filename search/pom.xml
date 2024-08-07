@@ -20,6 +20,6 @@
 
 	<scm>
 		<developerConnection>scm:git:https://github.com/openmsa/etsi-mano-java.git</developerConnection>
-		<tag>search-aggregator-3.2.0</tag>
+		<tag>search-aggregator-4.0.0</tag>
 	</scm>
 </project>
