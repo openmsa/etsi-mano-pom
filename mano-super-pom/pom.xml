@@ -9,12 +9,12 @@
 	</parent>
 	<groupId>com.ubiqube.mano</groupId>
 	<artifactId>mano-super-pom</artifactId>
-	<version>1.0.1</version>
+	<version>4.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>mano-super-pom</name>
 	<description>ETSI-MANO super pom</description>
 	<scm>
-		<developerConnection>scm:git:ssh://github.com/openmsa/etsi-mano-pom.git</developerConnection>
+		<developerConnection>scm:git:ssh://git@github.com/openmsa/etsi-mano-pom.git</developerConnection>
 		<tag>etsi-mano-pom-4.0.0</tag>
 	</scm>
 	<distributionManagement>
