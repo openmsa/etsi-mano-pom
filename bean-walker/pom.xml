@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.ubiqube.mano</groupId>
 		<artifactId>mano-super-pom</artifactId>
-		<version>4.0.0</version>
+		<version>4.0.1-SNAPSHOT</version>
 		<relativePath />
 	</parent>
 	<artifactId>bean-walker</artifactId>
@@ -27,7 +27,7 @@
 		<dependency>
 			<groupId>com.ubiqube.mano.event</groupId>
 			<artifactId>event-api</artifactId>
-			<version>4.0.0</version>
+			<version>4.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -46,6 +46,6 @@
 	</dependencies>
 
   <scm>
-    <tag>bean-walker-4.0.0</tag>
+    <tag>bean-walker-3.2.0</tag>
   </scm>
 </project>
