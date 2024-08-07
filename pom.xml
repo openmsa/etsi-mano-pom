@@ -12,7 +12,7 @@
 		<module>mano-super-webapp</module>
 	</modules>
 	<scm>
-		<developerConnection>scm:git:https://github.com/openmsa/etsi-mano-pom.git</developerConnection>
+		<developerConnection>scm:git:ssh://github.com/openmsa/etsi-mano-pom.git</developerConnection>
 		<tag>etsi-mano-pom-4.0.0</tag>
 	</scm>
 	<distributionManagement>
