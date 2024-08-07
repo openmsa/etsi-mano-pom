@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.ubiqube.mano.service.search</groupId>
 		<artifactId>search-aggregator</artifactId>
-		<version>4.0.0</version>
+		<version>4.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>hibernate-search</artifactId>
 	<dependencies>
