@@ -16,6 +16,7 @@
  */
 package com.ubiqube.etsi.mano.service.mon.data;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
@@ -31,9 +32,9 @@ class MetricFunctionTest {
 	@Test
 	void test() {
 		MetricFunction m = MetricFunction.fromValue(null);
-		assertNotNull(m);
+		assertNull(m);
 		m = MetricFunction.fromValue("");
-		assertNotNull(m);
+		assertNull(m);
 		m = MetricFunction.fromValue("mean");
 		assertNotNull(m);
 	}
