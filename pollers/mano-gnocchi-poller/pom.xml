@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.ubiqube.mano.service.mon.poller</groupId>
 		<artifactId>mon-poller-aggregator</artifactId>
-		<version>4.0.0-SNAPSHOT</version>
+		<version>4.0.0</version>
 	</parent>
 	<artifactId>mano-gnocchi-poller</artifactId>
 	<dependencies>
@@ -27,7 +27,7 @@
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>openstack-commons</artifactId>
-			<version>${version.openstack-commons}</version>
+			<version>4.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.openstack4j.core.connectors</groupId>

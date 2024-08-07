@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.ubiqube.mano.service.mon</groupId>
 		<artifactId>mano-mon-aggregator</artifactId>
-		<version>4.0.0-SNAPSHOT</version>
+		<version>4.0.0</version>
 	</parent>
 	<artifactId>mano-mon-webapp-client</artifactId>
 	<dependencies>

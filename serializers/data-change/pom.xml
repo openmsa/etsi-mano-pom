@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.ubiqube.mano.service.mon.ser</groupId>
 		<artifactId>mon-ser-parent</artifactId>
-		<version>4.0.0-SNAPSHOT</version>
+		<version>4.0.0</version>
 	</parent>
 	<artifactId>data-change</artifactId>
 	<dependencies>
@@ -31,7 +31,7 @@
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-fluxrest</artifactId>
-			<version>${version.mano-fluxrest}</version>
+			<version>4.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>

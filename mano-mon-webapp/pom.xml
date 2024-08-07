@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.ubiqube.mano</groupId>
 		<artifactId>mano-super-webapp</artifactId>
-		<version>4.0.0-SNAPSHOT</version>
+		<version>4.0.0</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ubiqube.mano.service.mon</groupId>
@@ -177,6 +177,6 @@
 	</profiles>
 
   <scm>
-    <tag>mano-mon-aggregator-3.2.0</tag>
+    <tag>mano-mon-aggregator-4.0.0</tag>
   </scm>
 </project>

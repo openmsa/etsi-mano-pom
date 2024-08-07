@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.ubiqube.mano.service.mon</groupId>
 		<artifactId>mano-mon-aggregator</artifactId>
-		<version>4.0.0-SNAPSHOT</version>
+		<version>4.0.0</version>
 	</parent>
 	<artifactId>mano-mon-api</artifactId>
 	<packaging>jar</packaging>
@@ -13,7 +13,7 @@
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-db-connection</artifactId>
-			<version>${version.small-db}</version>
+			<version>4.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
