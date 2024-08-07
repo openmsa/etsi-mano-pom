@@ -120,6 +120,8 @@ public class GrantAction {
 		if ("TERMINATE".equals(grants.getOperation())) {
 			// XXX: There is no need to attempt image upload, and maybe more.
 			getVimInformations(vimInfo, grants);
+			executorExecutorFacade.addOrCreateK8sVim(vimInfo, grants);
+			executorExecutorFacade.addCirConnection(grants);
 			executorExecutorFacade.removeK8sCluster(grants);
 		}
 	}
