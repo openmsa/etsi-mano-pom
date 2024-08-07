@@ -9,13 +9,13 @@
 	</parent>
 	<groupId>com.ubiqube.mano</groupId>
 	<artifactId>mano-super-pom</artifactId>
-	<version>4.0.0-SNAPSHOT</version>
+	<version>4.0.0</version>
 	<packaging>pom</packaging>
 	<name>mano-super-pom</name>
 	<description>ETSI-MANO super pom</description>
 	<scm>
 		<developerConnection>scm:git:https://github.com/openmsa/etsi-mano-pom.git</developerConnection>
-		<tag>HEAD</tag>
+		<tag>etsi-mano-pom-4.0.0</tag>
 	</scm>
 	<distributionManagement>
 		<snapshotRepository>
@@ -48,7 +48,7 @@
 		<com.ubiqube.io.kubernetes.client-java>21.0.0</com.ubiqube.io.kubernetes.client-java>
 		<com.ubiqube.jgrapht.version>1.5.2</com.ubiqube.jgrapht.version>
 		<com.ubiqube.mockito.version>5.12.0</com.ubiqube.mockito.version>
-		<com.ubiqube.openstack4j.version>3.12-SNAPSHOT</com.ubiqube.openstack4j.version>
+		<com.ubiqube.openstack4j.version>3.12</com.ubiqube.openstack4j.version>
 		<com.ubiqube.podam.version>8.0.2.RELEASE</com.ubiqube.podam.version>
 		<com.ubiqube.spring-boot-admin-starter-client.version>3.3.3</com.ubiqube.spring-boot-admin-starter-client.version>
 		<com.ubiqube.spring-cloud-dependencies.version>2023.0.3</com.ubiqube.spring-cloud-dependencies.version>
@@ -60,43 +60,43 @@
 		<version.commons-compress>1.26.2</version.commons-compress>
 		<!-- Deprecated ? -->
 		<version.javax.servlet-api>4.0.1</version.javax.servlet-api>
-		<version.alarm-client>4.0.0-SNAPSHOT</version.alarm-client>
-		<version.auth-api>4.0.0-SNAPSHOT</version.auth-api>
-		<version.em-client>4.0.0-SNAPSHOT</version.em-client>
-		<version.em-front-controller>4.0.0-SNAPSHOT</version.em-front-controller>
-		<version.etsi-model-431>4.0.0-SNAPSHOT</version.etsi-model-431>
-		<version.etsi-protocols>4.0.0-SNAPSHOT</version.etsi-protocols>
-		<version.event-api>4.0.0-SNAPSHOT</version.event-api>
-		<version.helm3-api>4.0.0-SNAPSHOT</version.helm3-api>
-		<version.k8s-parser>4.0.0-SNAPSHOT</version.k8s-parser>
-		<version.mano-bean-walker>4.0.0-SNAPSHOT</version.mano-bean-walker>
-		<version.mano-commons>4.0.0-SNAPSHOT</version.mano-commons>
-		<version.mano-condition>4.0.0-SNAPSHOT</version.mano-condition>
-		<version.mano-core-api>4.0.0-SNAPSHOT</version.mano-core-api>
-		<version.mano-docker-api>4.0.0-SNAPSHOT</version.mano-docker-api>
-		<version.mano-fluxrest>4.0.0-SNAPSHOT</version.mano-fluxrest>
-		<version.mano-grammar-api>5.0.0-SNAPSHOT</version.mano-grammar-api>
-		<version.mano-juju>1.0.1-SNAPSHOT</version.mano-juju>
-		<version.mano-model>4.0.0-SNAPSHOT</version.mano-model>
-		<version.mano-mon-api>4.0.0-SNAPSHOT</version.mano-mon-api>
-		<version.mano-orika>4.0.0-SNAPSHOT</version.mano-orika>
-		<version.mano-pkg-api>4.0.0-SNAPSHOT</version.mano-pkg-api>
-		<version.mano-repo-api>4.0.0-SNAPSHOT</version.mano-repo-api>
-		<version.mano-spring-properties>4.0.0-SNAPSHOT</version.mano-spring-properties>
-		<version.mano-vim-api>4.0.0-SNAPSHOT</version.mano-vim-api>
-		<version.nfv-front-controller>4.0.0-SNAPSHOT</version.nfv-front-controller>
-		<version.nfvo-core>4.0.0-SNAPSHOT</version.nfvo-core>
-		<version.nfvo-front-controller>4.0.0-SNAPSHOT</version.nfvo-front-controller>
-		<version.openstack-commons>4.0.0-SNAPSHOT</version.openstack-commons>
-		<version.orchestration-api>4.0.0-SNAPSHOT</version.orchestration-api>
-		<version.orchestration-core>4.0.0-SNAPSHOT</version.orchestration-core>
-		<version.search-api>4.0.0-SNAPSHOT</version.search-api>
-		<version.small-db>4.0.0-SNAPSHOT</version.small-db>
-		<version.tosca-api>3.0.0-SNAPSHOT</version.tosca-api>
+		<version.alarm-client>4.0.0</version.alarm-client>
+		<version.auth-api>4.0.0</version.auth-api>
+		<version.em-client>4.0.0</version.em-client>
+		<version.em-front-controller>4.0.0</version.em-front-controller>
+		<version.etsi-model-431>4.0.0</version.etsi-model-431>
+		<version.etsi-protocols>4.0.0</version.etsi-protocols>
+		<version.event-api>4.0.0</version.event-api>
+		<version.helm3-api>4.0.0</version.helm3-api>
+		<version.k8s-parser>4.0.0</version.k8s-parser>
+		<version.mano-bean-walker>4.0.0</version.mano-bean-walker>
+		<version.mano-commons>4.0.0</version.mano-commons>
+		<version.mano-condition>4.0.0</version.mano-condition>
+		<version.mano-core-api>4.0.0</version.mano-core-api>
+		<version.mano-docker-api>4.0.0</version.mano-docker-api>
+		<version.mano-fluxrest>4.0.0</version.mano-fluxrest>
+		<version.mano-grammar-api>5.0.0</version.mano-grammar-api>
+		<version.mano-juju>1.0.1</version.mano-juju>
+		<version.mano-model>4.0.0</version.mano-model>
+		<version.mano-mon-api>4.0.0</version.mano-mon-api>
+		<version.mano-orika>4.0.0</version.mano-orika>
+		<version.mano-pkg-api>4.0.0</version.mano-pkg-api>
+		<version.mano-repo-api>4.0.0</version.mano-repo-api>
+		<version.mano-spring-properties>4.0.0</version.mano-spring-properties>
+		<version.mano-vim-api>4.0.0</version.mano-vim-api>
+		<version.nfv-front-controller>4.0.0</version.nfv-front-controller>
+		<version.nfvo-core>4.0.0</version.nfvo-core>
+		<version.nfvo-front-controller>4.0.0</version.nfvo-front-controller>
+		<version.openstack-commons>4.0.0</version.openstack-commons>
+		<version.orchestration-api>4.0.0</version.orchestration-api>
+		<version.orchestration-core>4.0.0</version.orchestration-core>
+		<version.search-api>4.0.0</version.search-api>
+		<version.small-db>4.0.0</version.small-db>
+		<version.tosca-api>3.0.0</version.tosca-api>
 		<version.ubi-juniper-contrail-api>4.0.0</version.ubi-juniper-contrail-api>
-		<version.ubi-spring-config>4.0.0-SNAPSHOT</version.ubi-spring-config>
-		<version.vnfm-core>4.0.0-SNAPSHOT</version.vnfm-core>
-		<version.vnfm-front-controller>4.0.0-SNAPSHOT</version.vnfm-front-controller>
+		<version.ubi-spring-config>4.0.0</version.ubi-spring-config>
+		<version.vnfm-core>4.0.0</version.vnfm-core>
+		<version.vnfm-front-controller>4.0.0</version.vnfm-front-controller>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
