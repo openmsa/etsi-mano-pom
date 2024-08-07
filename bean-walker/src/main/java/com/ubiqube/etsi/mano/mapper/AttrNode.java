@@ -18,7 +18,7 @@ package com.ubiqube.etsi.mano.mapper;
 
 /**
  *
- * @author Olivier Vignaud <ovi@ubiqube.com>
+ * @author Olivier Vignaud 0{literal <ovi@ubiqube.com>}
  *
  */
 public interface AttrNode {
