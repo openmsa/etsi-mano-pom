@@ -351,6 +351,21 @@
 				</executions>
 			</plugin>
 			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+				<version>2.17.1</version>
+				<configuration>
+					<ruleSet>
+						<ignoreVersions>
+							<ignoreVersion>
+								<type>regex</type>
+								<version>(.+-SNAPSHOT|.+-M\d|.+\.RC\d|.+\.(Beta|Alpha)\d)</version>
+							</ignoreVersion>
+						</ignoreVersions>
+					</ruleSet>
+				</configuration>
+        </plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
 				<executions>
