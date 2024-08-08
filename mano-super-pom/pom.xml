@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -14,7 +16,8 @@
 	<name>mano-super-pom</name>
 	<description>ETSI-MANO super pom</description>
 	<scm>
-		<developerConnection>scm:git:ssh://git@github.com/openmsa/etsi-mano-pom.git</developerConnection>
+		<developerConnection>
+			scm:git:ssh://git@github.com/openmsa/etsi-mano-pom.git</developerConnection>
 		<tag>etsi-mano-pom-4.0.0</tag>
 	</scm>
 	<distributionManagement>
@@ -97,6 +100,16 @@
 		<version.ubi-spring-config>4.0.1-SNAPSHOT</version.ubi-spring-config>
 		<version.vnfm-core>4.0.1-SNAPSHOT</version.vnfm-core>
 		<version.vnfm-front-controller>4.0.1-SNAPSHOT</version.vnfm-front-controller>
+		<version.lucene>9.9.2</version.lucene>
+		<version.apache.mina>2.12.1</version.apache.mina>
+		<version.jsch>0.2.17</version.jsch>
+		<version.eddsa>0.3.0</version.eddsa>
+		<lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
+		<org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
+		<org.projectlombok.version>1.18.34</org.projectlombok.version>
+		<version.jetty-bom>9.4.49.v20220914</version.jetty-bom>
+		<version.logstash-logback-encoder>8.0</version.logstash-logback-encoder>
+		<version.loki-logback-appender>1.5.2</version.loki-logback-appender>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -327,6 +340,468 @@
 				<artifactId>kubernetes-httpclient-okhttp</artifactId>
 				<version>${com.ubiqube.io.fabric8.kubernetes-client.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.apache.lucene</groupId>
+				<artifactId>lucene-core</artifactId>
+				<version>${version.lucene}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.lucene</groupId>
+				<artifactId>lucene-analysis-common</artifactId>
+				<version>${version.lucene}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.graalvm.nativeimage</groupId>
+				<artifactId>svm</artifactId>
+				<version>${graalvm.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.github.lognet</groupId>
+				<artifactId>grpc-spring-boot-starter</artifactId>
+				<version>5.1.5</version>
+			</dependency>
+			<dependency>
+				<groupId>dnsjava</groupId>
+				<artifactId>dnsjava</artifactId>
+				<version>3.6.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jgroups</groupId>
+				<artifactId>jgroups</artifactId>
+				<version>5.1.9.Final</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>2.16.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.maven</groupId>
+				<artifactId>maven-model</artifactId>
+				<version>3.9.3</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.mwiede</groupId>
+				<artifactId>jsch</artifactId>
+				<version>${version.jsch}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.sshd</groupId>
+				<artifactId>sshd-core</artifactId>
+				<version>${version.apache.mina}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.sshd</groupId>
+				<artifactId>sshd-scp</artifactId>
+				<version>${version.apache.mina}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.sshd</groupId>
+				<artifactId>sshd-sftp</artifactId>
+				<version>${version.apache.mina}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.i2p.crypto</groupId>
+				<artifactId>eddsa</artifactId>
+				<version>${version.eddsa}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.logstash.logback</groupId>
+				<artifactId>logstash-logback-encoder</artifactId>
+				<version>${version.logstash-logback-encoder}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.loki4j</groupId>
+				<artifactId>loki-logback-appender</artifactId>
+				<version>${version.loki-logback-appender}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>ch.qos.logback</groupId>
+						<artifactId>logback-classic</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>io.sundr</groupId>
+				<artifactId>builder-annotations</artifactId>
+				<version>0.200.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.activemq</groupId>
+				<artifactId>artemis-jms-server</artifactId>
+				<version>${com.ubiqube.artemis-jms-server.version}</version>
+				<scope>runtime</scope>
+				<exclusions>
+					<exclusion>
+						<groupId>org.apache.activemq</groupId>
+						<artifactId>artemis-jms-client</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<!-- 
+				Ubiqube dependencies.
+			-->
+			<dependency>
+				<groupId>com.ubiqube.mano.crd</groupId>
+				<artifactId>capi-crd-openstack</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano.crd</groupId>
+				<artifactId>capi-crd-main</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>openstack-commons</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano.service.mon</groupId>
+				<artifactId>mano-mon-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>mano-db-connection</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>mano-db-utils</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>mano-db-base</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>mano-db-audit</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>mano-db-vim</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>mano-db-rfc7807</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>mano-db-auth</artifactId>
+				<version>${version.small-db}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>mano-spring-properties</artifactId>
+				<version>${version.ubi-spring-config}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>mano-vim-dummy</artifactId>
+				<version>${version.mano-vim-api}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>mano-dns-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>mano-model</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano.pkg</groupId>
+				<artifactId>mano-pkg-api</artifactId>
+				<version>${version.mano-pkg-api}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>mano-fluxrest</artifactId>
+				<version>${version.mano-fluxrest}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>bean-walker</artifactId>
+				<version>${version.mano-bean-walker}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>mano-condition</artifactId>
+				<version>${version.mano-condition}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>mano-grammar-api</artifactId>
+				<version>${version.mano-grammar-api}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano.auth</groupId>
+				<artifactId>auth-api</artifactId>
+				<version>${version.auth-api}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>em-front-controller</artifactId>
+				<version>${version.nfv-front-controller}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>mano-test-helper</artifactId>
+				<version>4.0.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>mano-commons</artifactId>
+				<version>${version.mano-commons}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano.event</groupId>
+				<artifactId>event-api</artifactId>
+				<version>${version.event-api}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>mano-orika</artifactId>
+				<version>${version.mano-orika}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano.docker</groupId>
+				<artifactId>mano-docker-api</artifactId>
+				<version>${version.mano-docker-api}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano.juju</groupId>
+				<artifactId>juju-client</artifactId>
+				<version>${version.mano-juju}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano.service.search</groupId>
+				<artifactId>mano-search-api</artifactId>
+				<version>${version.search-api}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano.service.search</groupId>
+				<artifactId>jpa</artifactId>
+				<version>${version.search-api}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>mano-grammar-v1</artifactId>
+				<version>${version.mano-grammar-api}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano.repository</groupId>
+				<artifactId>mano-repo-api</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>mano-vim-api</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>mano-core-api</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>orchestration-api</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>vnfm-front-controller</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano.helm3</groupId>
+				<artifactId>helm3-api</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano.em</groupId>
+				<artifactId>em-client</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>mano-vim-k8s</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>vnfm-core</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>etsi-vnfm-261-controllers</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>etsi-vnfm-271-controllers</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>etsi-vnfm-281-controllers</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>etsi-vnfm-331-controllers</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>etsi-vnfm-351-controllers</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>etsi-vnfm-361-controllers</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>etsi-vnfm-431-controllers</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>etsi-nfvem-431-controllers</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>etsi-vnfm-451-controllers</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>etsi-nfvem-451-controllers</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>etsi-sol012-341</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>nfvo-core</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>etsi-nfvo-261-controllers</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>etsi-nfvo-271-controllers</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>etsi-nfvo-281-controllers</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>etsi-nfvo-331-controllers</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>etsi-nfvo-351-controllers</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>etsi-nfvo-361-controllers</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>etsi-nfvo-431-controllers</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>etsi-nfvo-451-controllers</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>orchestration-core</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano.auth</groupId>
+				<artifactId>auth-keycloak</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>mano-vim-openstack</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano.pkg</groupId>
+				<artifactId>mano-pkg-tosca</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>ubi-spring-config</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>mano-grammar25</artifactId>
+				<version>5.0.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano.repository</groupId>
+				<artifactId>mano-repo-fs</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano.event</groupId>
+				<artifactId>event-jms</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano.pkg</groupId>
+				<artifactId>k8s-parser</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano.docker</groupId>
+				<artifactId>mano-docker-jib</artifactId>
+				<version>4.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano.sol001</groupId>
+				<artifactId>sol001-objects</artifactId>
+				<version>${version.tosca-api}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>tosca-api</artifactId>
+				<version>${version.tosca-api}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<build>
@@ -359,12 +834,13 @@
 						<ignoreVersions>
 							<ignoreVersion>
 								<type>regex</type>
-								<version>(.+-SNAPSHOT|.+-M\d|.+\.RC\d|.+\.(Beta|Alpha)\d)</version>
+								<version>
+									(.+-SNAPSHOT|.+-M\d|.+\.RC\d|.+\.(Beta|Alpha)\d)</version>
 							</ignoreVersion>
 						</ignoreVersions>
 					</ruleSet>
 				</configuration>
-        </plugin>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
@@ -382,7 +858,8 @@
 				<artifactId>git-commit-id-maven-plugin</artifactId>
 				<configuration>
 					<generateGitPropertiesFile>true</generateGitPropertiesFile>
-					<generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
+					<generateGitPropertiesFilename>
+						${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
 					<verbose>true</verbose>
 					<commitIdGenerationMode>full</commitIdGenerationMode>
 				</configuration>
@@ -472,8 +949,10 @@
 					<version>3.7.1</version>
 					<configuration>
 						<ignoredUnusedDeclaredDependencies>
-							<ignoredUnusedDeclaredDependency>org.projectlombok:lombok</ignoredUnusedDeclaredDependency>
-							<ignoredUnusedDeclaredDependency>org.springframework.boot:spring-boot-configuration-processor</ignoredUnusedDeclaredDependency>
+							<ignoredUnusedDeclaredDependency>
+								org.projectlombok:lombok</ignoredUnusedDeclaredDependency>
+							<ignoredUnusedDeclaredDependency>
+								org.springframework.boot:spring-boot-configuration-processor</ignoredUnusedDeclaredDependency>
 						</ignoredUnusedDeclaredDependencies>
 					</configuration>
 				</plugin>
