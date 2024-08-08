@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.ubiqube.mano</groupId>
 		<artifactId>mano-super-pom</artifactId>
-		<version>4.0.0-SNAPSHOT</version>
+		<version>4.0.0</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<artifactId>vnfm-core</artifactId>
@@ -46,12 +46,12 @@
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-commons</artifactId>
-			<version>${version.mano-commons}</version>
+			<version>4.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-vim-api</artifactId>
-			<version>${version.mano-vim-api}</version>
+			<version>4.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.groovy</groupId>
@@ -60,7 +60,7 @@
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-core-api</artifactId>
-			<version>${version.mano-core-api}</version>
+			<version>4.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -134,27 +134,27 @@
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>orchestration-api</artifactId>
-			<version>${version.orchestration-api}</version>
+			<version>4.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>vnfm-front-controller</artifactId>
-			<version>${version.vnfm-front-controller}</version>
+			<version>4.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano.helm3</groupId>
 			<artifactId>helm3-api</artifactId>
-			<version>${version.helm3-api}</version>
+			<version>4.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano.em</groupId>
 			<artifactId>em-client</artifactId>
-			<version>${version.em-client}</version>
+			<version>4.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-vim-k8s</artifactId>
-			<version>${version.mano-vim-api}</version>
+			<version>4.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.tngtech.archunit</groupId>
@@ -164,7 +164,7 @@
 		<dependency>
 			<groupId>com.ubiqube.mano</groupId>
 			<artifactId>mano-vim-dummy</artifactId>
-			<version>${version.mano-vim-api}</version>
+			<version>4.0.0</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -205,4 +205,8 @@
 			</plugin>
 		</plugins>
 	</build>
+
+  <scm>
+    <tag>vnfm-core-4.0.0</tag>
+  </scm>
 </project>
