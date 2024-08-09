@@ -55,6 +55,7 @@
 		<com.ubiqube.podam.version>8.0.2.RELEASE</com.ubiqube.podam.version>
 		<com.ubiqube.spring-boot-admin-starter-client.version>3.3.3</com.ubiqube.spring-boot-admin-starter-client.version>
 		<com.ubiqube.spring-cloud-dependencies.version>2023.0.3</com.ubiqube.spring-cloud-dependencies.version>
+		<com.ubiqube.springdoc-openapi-data-rest>1.8.0</com.ubiqube.springdoc-openapi-data-rest>
 		<com.ubiqube.springdoc.version>2.6.0</com.ubiqube.springdoc.version>
 		<com.ubiqube.swagger3.version>2.2.22</com.ubiqube.swagger3.version>
 		<com.ubiqube.reflections.version>0.10.2</com.ubiqube.reflections.version>
@@ -263,7 +264,7 @@
 			<dependency>
 				<groupId>org.springdoc</groupId>
 				<artifactId>springdoc-openapi-data-rest</artifactId>
-				<version>1.8.0</version>
+				<version>${com.ubiqube.springdoc-openapi-data-rest}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.google.guava</groupId>
@@ -834,15 +835,6 @@
 						xmlns="https://www.mojohaus.org/VERSIONS/RULE/2.1.0"
 						xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 						xsi:schemaLocation="https://www.mojohaus.org/VERSIONS/RULE/2.1.0 https://www.mojohaus.org/versions/versions-model/xsd/rule-2.1.0.xsd">
-						<!--
-						<ignoreVersions>
-							<ignoreVersion>
-								<type>regex</type>
-								<version>
-									(.+-SNAPSHOT|.+-M\d|.+\.RC\d|.+\.(Beta|Alpha)\d)</version>
-							</ignoreVersion>
-						</ignoreVersions>
-						-->
 						<rules>
 							<!-- 1.6.0-m1 -->
 							<rule comparisonMethod="maven">
