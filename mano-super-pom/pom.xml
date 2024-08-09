@@ -35,35 +35,51 @@
 		<maven.compiler.target>21</maven.compiler.target>
 		<maven.compiler.source>21</maven.compiler.source>
 		<m2e.apt.activation>jdt_apt</m2e.apt.activation>
-		<version.org.mapstruct>1.5.5.Final</version.org.mapstruct>
 		<com.ubiqube.antlr4-runtime.version>4.13.2</com.ubiqube.antlr4-runtime.version>
+		<com.ubiqube.apache.mina.version>2.12.1</com.ubiqube.apache.mina.version>
 		<com.ubiqube.archunit.version>1.3.0</com.ubiqube.archunit.version>
 		<com.ubiqube.artemis-jms-server.version>2.36.0</com.ubiqube.artemis-jms-server.version>
 		<com.ubiqube.bcpkix-jdk18on.version>1.78.1</com.ubiqube.bcpkix-jdk18on.version>
-		<com.ubiqube.commons-vfs2>2.9.0</com.ubiqube.commons-vfs2>
+		<com.ubiqube.builder-annotations.version>0.200.0</com.ubiqube.builder-annotations.version>
+		<com.ubiqube.commons-compress.version>1.26.2</com.ubiqube.commons-compress.version>
+		<com.ubiqube.commons-io.version>2.16.1</com.ubiqube.commons-io.version>
+		<com.ubiqube.commons-vfs2.version>2.9.0</com.ubiqube.commons-vfs2.version>
 		<com.ubiqube.dexecutor-core.version>2.1.4</com.ubiqube.dexecutor-core.version>
+		<com.ubiqube.dnsjava.version>3.6.0</com.ubiqube.dnsjava.version>
+		<com.ubiqube.eddsa.version>0.3.0</com.ubiqube.eddsa.version>
 		<com.ubiqube.elasticsearch.version>8.14.3</com.ubiqube.elasticsearch.version>
 		<com.ubiqube.equalsverifier.version>3.16.1</com.ubiqube.equalsverifier.version>
 		<com.ubiqube.expressly.version>5.0.0</com.ubiqube.expressly.version>
+		<com.ubiqube.graalvm.version>24.0.2</com.ubiqube.graalvm.version>
+		<com.ubiqube.grpc-spring-boot-starter.version>5.1.5</com.ubiqube.grpc-spring-boot-starter.version>
 		<com.ubiqube.guava.version>32.0.1-jre</com.ubiqube.guava.version>
 		<com.ubiqube.hibernate-search6.version>6.2.4.Final</com.ubiqube.hibernate-search6.version>
 		<com.ubiqube.io.fabric8.kubernetes-client.version>6.13.1</com.ubiqube.io.fabric8.kubernetes-client.version>
-		<com.ubiqube.io.kubernetes.client-java>21.0.1</com.ubiqube.io.kubernetes.client-java>
+		<com.ubiqube.io.kubernetes.client-java.version>21.0.1</com.ubiqube.io.kubernetes.client-java.version>
+		<com.ubiqube.javax.servlet-api.version>4.0.1</com.ubiqube.javax.servlet-api.version>
+		<com.ubiqube.jetty-bom.version>9.4.49.v20220914</com.ubiqube.jetty-bom.version>
 		<com.ubiqube.jgrapht.version>1.5.2</com.ubiqube.jgrapht.version>
+		<com.ubiqube.jgroups.version>5.1.9.Final</com.ubiqube.jgroups.version>
+		<com.ubiqube.jib-core.version>0.27.1</com.ubiqube.jib-core.version>
+		<com.ubiqube.jsch.version>0.2.17</com.ubiqube.jsch.version>
+		<com.ubiqube.logstash-logback-encoder.version>8.0</com.ubiqube.logstash-logback-encoder.version>
+		<com.ubiqube.loki-logback-appender.version>1.5.2</com.ubiqube.loki-logback-appender.version>
+		<com.ubiqube.lombok-mapstruct-binding.version>0.2.0</com.ubiqube.lombok-mapstruct-binding.version>
+		<com.ubiqube.lucene.version>9.9.2</com.ubiqube.lucene.version>
+		<com.ubiqube.maven-model.version>3.9.3</com.ubiqube.maven-model.version>
 		<com.ubiqube.mockito.version>5.12.0</com.ubiqube.mockito.version>
 		<com.ubiqube.openstack4j.version>3.12</com.ubiqube.openstack4j.version>
+		<com.ubiqube.org.mapstruct.version>1.5.5.Final</com.ubiqube.org.mapstruct.version>
+		<com.ubiqube.org.projectlombok.version>1.18.34</com.ubiqube.org.projectlombok.version>
 		<com.ubiqube.podam.version>8.0.2.RELEASE</com.ubiqube.podam.version>
+		<com.ubiqube.reflections.version>0.10.2</com.ubiqube.reflections.version>
 		<com.ubiqube.spring-boot-admin-starter-client.version>3.3.3</com.ubiqube.spring-boot-admin-starter-client.version>
 		<com.ubiqube.spring-cloud-dependencies.version>2023.0.3</com.ubiqube.spring-cloud-dependencies.version>
-		<com.ubiqube.springdoc-openapi-data-rest>1.8.0</com.ubiqube.springdoc-openapi-data-rest>
+		<com.ubiqube.springdoc-openapi-data-rest.version>1.8.0</com.ubiqube.springdoc-openapi-data-rest.version>
 		<com.ubiqube.springdoc.version>2.6.0</com.ubiqube.springdoc.version>
 		<com.ubiqube.swagger3.version>2.2.22</com.ubiqube.swagger3.version>
-		<com.ubiqube.reflections.version>0.10.2</com.ubiqube.reflections.version>
 		<com.ubiqube.wiremock3.version>3.9.1</com.ubiqube.wiremock3.version>
-		<version.jib-core>0.27.1</version.jib-core>
-		<version.commons-compress>1.26.2</version.commons-compress>
 		<!-- Deprecated ? -->
-		<version.javax.servlet-api>4.0.1</version.javax.servlet-api>
 		<version.alarm-client>4.0.1-SNAPSHOT</version.alarm-client>
 		<version.auth-api>4.0.1-SNAPSHOT</version.auth-api>
 		<version.em-client>4.0.1-SNAPSHOT</version.em-client>
@@ -101,33 +117,23 @@
 		<version.ubi-spring-config>4.0.1-SNAPSHOT</version.ubi-spring-config>
 		<version.vnfm-core>4.0.1-SNAPSHOT</version.vnfm-core>
 		<version.vnfm-front-controller>4.0.1-SNAPSHOT</version.vnfm-front-controller>
-		<version.lucene>9.9.2</version.lucene>
-		<version.apache.mina>2.12.1</version.apache.mina>
-		<version.jsch>0.2.17</version.jsch>
-		<version.eddsa>0.3.0</version.eddsa>
-		<lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
-		<org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
-		<org.projectlombok.version>1.18.34</org.projectlombok.version>
-		<version.jetty-bom>9.4.49.v20220914</version.jetty-bom>
-		<version.logstash-logback-encoder>8.0</version.logstash-logback-encoder>
-		<version.loki-logback-appender>1.5.2</version.loki-logback-appender>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>javax.servlet</groupId>
 				<artifactId>javax.servlet-api</artifactId>
-				<version>${version.javax.servlet-api}</version>
+				<version>${com.ubiqube.javax.servlet-api.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.google.cloud.tools</groupId>
 				<artifactId>jib-core</artifactId>
-				<version>${version.jib-core}</version>
+				<version>${com.ubiqube.jib-core.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-compress</artifactId>
-				<version>${version.commons-compress}</version>
+				<version>${com.ubiqube.commons-compress.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>de.codecentric</groupId>
@@ -243,7 +249,7 @@
 			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-vfs2</artifactId>
-				<version>${com.ubiqube.commons-vfs2}</version>
+				<version>${com.ubiqube.commons-vfs2.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springdoc</groupId>
@@ -264,7 +270,7 @@
 			<dependency>
 				<groupId>org.springdoc</groupId>
 				<artifactId>springdoc-openapi-data-rest</artifactId>
-				<version>${com.ubiqube.springdoc-openapi-data-rest}</version>
+				<version>${com.ubiqube.springdoc-openapi-data-rest.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.google.guava</groupId>
@@ -299,7 +305,7 @@
 			<dependency>
 				<groupId>org.mapstruct</groupId>
 				<artifactId>mapstruct</artifactId>
-				<version>${version.org.mapstruct}</version>
+				<version>${com.ubiqube.org.mapstruct.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.wiremock</groupId>
@@ -324,7 +330,7 @@
 			<dependency>
 				<groupId>io.kubernetes</groupId>
 				<artifactId>client-java</artifactId>
-				<version>${com.ubiqube.io.kubernetes.client-java}</version>
+				<version>${com.ubiqube.io.kubernetes.client-java.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>io.fabric8</groupId>
@@ -344,77 +350,77 @@
 			<dependency>
 				<groupId>org.apache.lucene</groupId>
 				<artifactId>lucene-core</artifactId>
-				<version>${version.lucene}</version>
+				<version>${com.ubiqube.lucene.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.lucene</groupId>
 				<artifactId>lucene-analysis-common</artifactId>
-				<version>${version.lucene}</version>
+				<version>${com.ubiqube.lucene.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.graalvm.nativeimage</groupId>
 				<artifactId>svm</artifactId>
-				<version>${graalvm.version}</version>
+				<version>${com.ubiqube.graalvm.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>io.github.lognet</groupId>
 				<artifactId>grpc-spring-boot-starter</artifactId>
-				<version>5.1.5</version>
+				<version>${com.ubiqube.grpc-spring-boot-starter.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>dnsjava</groupId>
 				<artifactId>dnsjava</artifactId>
-				<version>3.6.0</version>
+				<version>${com.ubiqube.dnsjava.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.jgroups</groupId>
 				<artifactId>jgroups</artifactId>
-				<version>5.1.9.Final</version>
+				<version>${com.ubiqube.jgroups.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>commons-io</groupId>
 				<artifactId>commons-io</artifactId>
-				<version>2.16.1</version>
+				<version>${com.ubiqube.commons-io.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.maven</groupId>
 				<artifactId>maven-model</artifactId>
-				<version>3.9.3</version>
+				<version>${com.ubiqube.maven-model.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.github.mwiede</groupId>
 				<artifactId>jsch</artifactId>
-				<version>${version.jsch}</version>
+				<version>${com.ubiqube.jsch.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.sshd</groupId>
 				<artifactId>sshd-core</artifactId>
-				<version>${version.apache.mina}</version>
+				<version>${com.ubiqube.apache.mina.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.sshd</groupId>
 				<artifactId>sshd-scp</artifactId>
-				<version>${version.apache.mina}</version>
+				<version>${com.ubiqube.apache.mina.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.sshd</groupId>
 				<artifactId>sshd-sftp</artifactId>
-				<version>${version.apache.mina}</version>
+				<version>${com.ubiqube.apache.mina.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>net.i2p.crypto</groupId>
 				<artifactId>eddsa</artifactId>
-				<version>${version.eddsa}</version>
+				<version>${com.ubiqube.eddsa.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>net.logstash.logback</groupId>
 				<artifactId>logstash-logback-encoder</artifactId>
-				<version>${version.logstash-logback-encoder}</version>
+				<version>${com.ubiqube.logstash-logback-encoder.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.github.loki4j</groupId>
 				<artifactId>loki-logback-appender</artifactId>
-				<version>${version.loki-logback-appender}</version>
+				<version>${com.ubiqube.loki-logback-appender.version}</version>
 				<exclusions>
 					<exclusion>
 						<groupId>ch.qos.logback</groupId>
@@ -425,7 +431,7 @@
 			<dependency>
 				<groupId>io.sundr</groupId>
 				<artifactId>builder-annotations</artifactId>
-				<version>0.200.0</version>
+				<version>${com.ubiqube.builder-annotations.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.activemq</groupId>
@@ -945,12 +951,12 @@
 						<path>
 							<groupId>org.mapstruct</groupId>
 							<artifactId>mapstruct-processor</artifactId>
-							<version>${version.org.mapstruct}</version>
+							<version>${com.ubiqube.org.mapstruct.version}</version>
 						</path>
 						<path>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
-							<version>${lombok.version}</version>
+							<version>${com.ubiqube.org.projectlombok.version}</version>
 						</path>
 						<path>
 							<groupId>org.projectlombok</groupId>
