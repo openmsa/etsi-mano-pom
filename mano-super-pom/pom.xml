@@ -445,18 +445,18 @@
 			<dependency>
 				<groupId>com.ubiqube.mano.crd</groupId>
 				<artifactId>capi-crd-openstack</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.mano-vim-api}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano.crd</groupId>
 				<artifactId>capi-crd-main</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.mano-vim-api}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>openstack-commons</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.mano-vim-api}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano.service.mon</groupId>
@@ -466,32 +466,32 @@
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>mano-db-connection</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.small-db}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>mano-db-utils</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.small-db}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>mano-db-base</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.small-db}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>mano-db-audit</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.small-db}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>mano-db-vim</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.small-db}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>mano-db-rfc7807</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.small-db}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
@@ -516,7 +516,7 @@
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>mano-model</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.mano-model}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano.pkg</groupId>
@@ -601,197 +601,197 @@
 			<dependency>
 				<groupId>com.ubiqube.mano.repository</groupId>
 				<artifactId>mano-repo-api</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.mano-repo-api}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>mano-vim-api</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.mano-vim-api}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>mano-core-api</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.mano-core-api}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>orchestration-api</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.orchestration-api}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>vnfm-front-controller</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.vnfm-front-controller}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano.helm3</groupId>
 				<artifactId>helm3-api</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.helm3-api}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano.em</groupId>
 				<artifactId>em-client</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.em-client}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>mano-vim-k8s</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.mano-vim-api}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>vnfm-core</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.mano-core-api}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>etsi-vnfm-261-controllers</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.vnfm-front-controller}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>etsi-vnfm-271-controllers</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.vnfm-front-controller}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>etsi-vnfm-281-controllers</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.vnfm-front-controller}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>etsi-vnfm-331-controllers</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.vnfm-front-controller}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>etsi-vnfm-351-controllers</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.vnfm-front-controller}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>etsi-vnfm-361-controllers</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.vnfm-front-controller}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>etsi-vnfm-431-controllers</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.vnfm-front-controller}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>etsi-nfvem-431-controllers</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.vnfm-front-controller}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>etsi-vnfm-451-controllers</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.vnfm-front-controller}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>etsi-nfvem-451-controllers</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.vnfm-front-controller}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>etsi-sol012-341</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.vnfm-front-controller}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>nfvo-core</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.nfvo-core}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>etsi-nfvo-261-controllers</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.nfvo-front-controller}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>etsi-nfvo-271-controllers</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.nfvo-front-controller}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>etsi-nfvo-281-controllers</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.nfvo-front-controller}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>etsi-nfvo-331-controllers</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.nfvo-front-controller}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>etsi-nfvo-351-controllers</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.nfvo-front-controller}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>etsi-nfvo-361-controllers</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.nfvo-front-controller}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>etsi-nfvo-431-controllers</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.nfvo-front-controller}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>etsi-nfvo-451-controllers</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.nfvo-front-controller}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>orchestration-core</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.orchestration-api}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano.auth</groupId>
 				<artifactId>auth-keycloak</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.auth-api}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>mano-vim-openstack</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.mano-vim-api}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano.pkg</groupId>
 				<artifactId>mano-pkg-tosca</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.mano-pkg-api}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>ubi-spring-config</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.ubi-spring-config}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano</groupId>
 				<artifactId>mano-grammar25</artifactId>
-				<version>5.0.0</version>
+				<version>${version.mano-grammar-api}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano.repository</groupId>
 				<artifactId>mano-repo-fs</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.mano-repo-api}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano.event</groupId>
 				<artifactId>event-jms</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.event-api}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano.pkg</groupId>
 				<artifactId>k8s-parser</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.mano-pkg-api}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano.docker</groupId>
 				<artifactId>mano-docker-jib</artifactId>
-				<version>4.0.1-SNAPSHOT</version>
+				<version>${version.mano-docker-api}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ubiqube.mano.sol001</groupId>
