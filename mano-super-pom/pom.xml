@@ -41,7 +41,7 @@
 		<com.ubiqube.artemis-jms-server.version>2.36.0</com.ubiqube.artemis-jms-server.version>
 		<com.ubiqube.bcpkix-jdk18on.version>1.78.1</com.ubiqube.bcpkix-jdk18on.version>
 		<com.ubiqube.builder-annotations.version>0.200.0</com.ubiqube.builder-annotations.version>
-		<com.ubiqube.commons-compress.version>1.26.2</com.ubiqube.commons-compress.version>
+		<com.ubiqube.commons-compress.version>1.27.0</com.ubiqube.commons-compress.version>
 		<com.ubiqube.commons-io.version>2.16.1</com.ubiqube.commons-io.version>
 		<com.ubiqube.commons-vfs2.version>2.9.0</com.ubiqube.commons-vfs2.version>
 		<com.ubiqube.dexecutor-core.version>2.1.4</com.ubiqube.dexecutor-core.version>
