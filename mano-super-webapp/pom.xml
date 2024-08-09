@@ -33,19 +33,6 @@
 					<artifactId>postgresql</artifactId>
 					<scope>runtime</scope>
 				</dependency>
-				<dependency>
-					<groupId>com.ubiqube.mano.service.search</groupId>
-					<artifactId>jpa</artifactId>
-				</dependency>
-			</dependencies>
-		</profile>
-		<profile>
-			<id>search-jpa</id>
-			<dependencies>
-				<dependency>
-					<groupId>com.ubiqube.mano.service.search</groupId>
-					<artifactId>jpa</artifactId>
-				</dependency>
 			</dependencies>
 		</profile>
 		<profile>
