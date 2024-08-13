@@ -69,7 +69,7 @@
 		<com.ubiqube.maven-model.version>3.9.8</com.ubiqube.maven-model.version>
 		<com.ubiqube.mockito.version>5.12.0</com.ubiqube.mockito.version>
 		<com.ubiqube.openstack4j.version>3.12</com.ubiqube.openstack4j.version>
-		<com.ubiqube.org.mapstruct.version>1.5.5.Final</com.ubiqube.org.mapstruct.version>
+		<com.ubiqube.org.mapstruct.version>1.6.0</com.ubiqube.org.mapstruct.version>
 		<com.ubiqube.org.projectlombok.version>1.18.34</com.ubiqube.org.projectlombok.version>
 		<com.ubiqube.podam.version>8.0.2.RELEASE</com.ubiqube.podam.version>
 		<com.ubiqube.reflections.version>0.10.2</com.ubiqube.reflections.version>
