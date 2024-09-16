@@ -89,6 +89,7 @@
 		<version.event-api>4.0.1-SNAPSHOT</version.event-api>
 		<version.helm3-api>4.0.1-SNAPSHOT</version.helm3-api>
 		<version.k8s-parser>4.0.1-SNAPSHOT</version.k8s-parser>
+		<version.liquibase-updater>4.0.1-SNAPSHOT</version.liquibase-updater>
 		<version.mano-bean-walker>4.0.1-SNAPSHOT</version.mano-bean-walker>
 		<version.mano-commons>4.0.1-SNAPSHOT</version.mano-commons>
 		<version.mano-condition>4.0.1-SNAPSHOT</version.mano-condition>
@@ -809,6 +810,11 @@
 				<artifactId>tosca-api</artifactId>
 				<version>${version.tosca-api}</version>
 			</dependency>
+			<dependency>
+				<groupId>com.ubiqube.mano</groupId>
+				<artifactId>liquibase-updater</artifactId>
+				<version>${version.liquibase-updater}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<build>
@@ -991,7 +997,7 @@
 						</ignoredUnusedDeclaredDependencies>
 					</configuration>
 				</plugin>
-				<!--This plugin's configuration is used to store Eclipse m2e settings 
+				<!-- This plugin's configuration is used to store Eclipse m2e settings 
 					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
