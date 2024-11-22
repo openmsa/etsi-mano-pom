@@ -188,7 +188,7 @@
 			</dependency>
 			<dependency>
 				<groupId>com.github.openstack4j.core.connectors</groupId>
-				<artifactId>ubi-openstack4j-httpclient</artifactId>
+				<artifactId>openstack4j-httpclient5</artifactId>
 				<version>${com.ubiqube.openstack4j.version}</version>
 			</dependency>
 			<!-- Hibernate search 6.x -->
