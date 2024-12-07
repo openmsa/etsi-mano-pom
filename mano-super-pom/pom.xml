@@ -122,6 +122,11 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
+				<groupId>org.hibernate.orm</groupId>
+				<artifactId>hibernate-core</artifactId>
+				<version>6.6.1.Final</version>
+			</dependency>
+			<dependency>
 				<groupId>javax.servlet</groupId>
 				<artifactId>javax.servlet-api</artifactId>
 				<version>${com.ubiqube.javax.servlet-api.version}</version>
