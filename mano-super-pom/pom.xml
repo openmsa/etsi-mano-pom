@@ -78,7 +78,7 @@
 		<com.ubiqube.springdoc-openapi-data-rest.version>1.8.0</com.ubiqube.springdoc-openapi-data-rest.version>
 		<com.ubiqube.springdoc.version>2.7.0</com.ubiqube.springdoc.version>
 		<com.ubiqube.swagger3.version>2.2.28</com.ubiqube.swagger3.version>
-		<com.ubiqube.wiremock3.version>3.11.0</com.ubiqube.wiremock3.version>
+		<com.ubiqube.wiremock3.version>3.12.0</com.ubiqube.wiremock3.version>
 		<!-- Deprecated ? -->
 		<version.alarm-client>4.0.1-SNAPSHOT</version.alarm-client>
 		<version.auth-api>4.0.1-SNAPSHOT</version.auth-api>
