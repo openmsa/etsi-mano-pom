@@ -44,7 +44,7 @@
 		<com.ubiqube.classgraph.version>4.8.179</com.ubiqube.classgraph.version>
 		<com.ubiqube.commons-compress.version>1.27.1</com.ubiqube.commons-compress.version>
 		<com.ubiqube.commons-io.version>2.18.0</com.ubiqube.commons-io.version>
-		<com.ubiqube.commons-vfs2.version>2.9.0</com.ubiqube.commons-vfs2.version>
+		<com.ubiqube.commons-vfs2.version>2.10.0</com.ubiqube.commons-vfs2.version>
 		<com.ubiqube.dexecutor-core.version>2.1.4</com.ubiqube.dexecutor-core.version>
 		<com.ubiqube.dnsjava.version>3.6.3</com.ubiqube.dnsjava.version>
 		<com.ubiqube.eddsa.version>0.3.0</com.ubiqube.eddsa.version>
