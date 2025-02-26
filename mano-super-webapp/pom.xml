@@ -158,5 +158,15 @@
 				</dependency>
 			</dependencies>
 		</profile>
+		<profile>
+			<id>k8s</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.springframework.cloud</groupId>
+					<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+					<version>4.2.0</version>
+				</dependency>
+			</dependencies>
+		</profile>
 	</profiles>
 </project>
