@@ -37,7 +37,7 @@
 		<m2e.apt.activation>jdt_apt</m2e.apt.activation>
 		<com.ubiqube.antlr4-runtime.version>4.13.2</com.ubiqube.antlr4-runtime.version>
 		<com.ubiqube.apache.mina.version>2.15.0</com.ubiqube.apache.mina.version>
-		<com.ubiqube.archunit.version>1.4.0</com.ubiqube.archunit.version>
+		<com.ubiqube.archunit.version>1.4.1</com.ubiqube.archunit.version>
 		<com.ubiqube.artemis-jms-server.version>2.41.0</com.ubiqube.artemis-jms-server.version>
 		<com.ubiqube.bcpkix-jdk18on.version>1.80</com.ubiqube.bcpkix-jdk18on.version>
 		<com.ubiqube.builder-annotations.version>0.200.3</com.ubiqube.builder-annotations.version>
