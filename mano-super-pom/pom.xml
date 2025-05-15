@@ -77,7 +77,7 @@
 		<com.ubiqube.spring-cloud-dependencies.version>2024.0.0</com.ubiqube.spring-cloud-dependencies.version>
 		<com.ubiqube.springdoc-openapi-data-rest.version>1.8.0</com.ubiqube.springdoc-openapi-data-rest.version>
 		<com.ubiqube.springdoc.version>2.7.0</com.ubiqube.springdoc.version>
-		<com.ubiqube.swagger3.version>2.2.30</com.ubiqube.swagger3.version>
+		<com.ubiqube.swagger3.version>2.2.32</com.ubiqube.swagger3.version>
 		<com.ubiqube.wiremock3.version>3.13.0</com.ubiqube.wiremock3.version>
 		<!-- Deprecated ? -->
 		<version.alarm-client>4.0.1-SNAPSHOT</version.alarm-client>
