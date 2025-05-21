@@ -50,7 +50,7 @@
 		<com.ubiqube.eddsa.version>0.3.0</com.ubiqube.eddsa.version>
 		<com.ubiqube.elasticsearch.version>9.0.1</com.ubiqube.elasticsearch.version>
 		<com.ubiqube.equalsverifier.version>4.0</com.ubiqube.equalsverifier.version>
-		<com.ubiqube.expressly.version>5.0.0</com.ubiqube.expressly.version>
+		<com.ubiqube.expressly.version>6.0.0</com.ubiqube.expressly.version>
 		<com.ubiqube.graalvm.version>24.2.1</com.ubiqube.graalvm.version>
 		<com.ubiqube.grpc-spring-boot-starter.version>5.2.0</com.ubiqube.grpc-spring-boot-starter.version>
 		<com.ubiqube.guava.version>33.4.8-jre</com.ubiqube.guava.version>
