@@ -47,7 +47,6 @@
 		<com.ubiqube.commons-vfs2.version>2.10.0</com.ubiqube.commons-vfs2.version>
 		<com.ubiqube.dexecutor-core.version>2.1.4</com.ubiqube.dexecutor-core.version>
 		<com.ubiqube.dnsjava.version>3.6.3</com.ubiqube.dnsjava.version>
-		<com.ubiqube.eddsa.version>0.3.0</com.ubiqube.eddsa.version>
 		<com.ubiqube.elasticsearch.version>9.0.1</com.ubiqube.elasticsearch.version>
 		<com.ubiqube.equalsverifier.version>4.0</com.ubiqube.equalsverifier.version>
 		<com.ubiqube.expressly.version>6.0.0</com.ubiqube.expressly.version>
@@ -417,11 +416,6 @@
 				<groupId>org.apache.sshd</groupId>
 				<artifactId>sshd-sftp</artifactId>
 				<version>${com.ubiqube.apache.mina.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>net.i2p.crypto</groupId>
-				<artifactId>eddsa</artifactId>
-				<version>${com.ubiqube.eddsa.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>net.logstash.logback</groupId>
