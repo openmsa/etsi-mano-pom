@@ -47,7 +47,7 @@
 		<com.ubiqube.commons-vfs2.version>2.10.0</com.ubiqube.commons-vfs2.version>
 		<com.ubiqube.dexecutor-core.version>2.1.4</com.ubiqube.dexecutor-core.version>
 		<com.ubiqube.dnsjava.version>3.6.3</com.ubiqube.dnsjava.version>
-		<com.ubiqube.elasticsearch.version>9.1.2</com.ubiqube.elasticsearch.version>
+		<com.ubiqube.elasticsearch.version>9.1.3</com.ubiqube.elasticsearch.version>
 		<com.ubiqube.equalsverifier.version>4.0.9</com.ubiqube.equalsverifier.version>
 		<com.ubiqube.expressly.version>6.0.0</com.ubiqube.expressly.version>
 		<com.ubiqube.graalvm.version>24.2.2</com.ubiqube.graalvm.version>
