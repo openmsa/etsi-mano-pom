@@ -72,7 +72,7 @@
 		<com.ubiqube.org.mapstruct.version>1.6.3</com.ubiqube.org.mapstruct.version>
 		<com.ubiqube.org.projectlombok.version>1.18.40</com.ubiqube.org.projectlombok.version>
 		<com.ubiqube.podam.version>8.0.2.RELEASE</com.ubiqube.podam.version>
-		<com.ubiqube.spring-boot-admin-starter-client.version>3.5.4</com.ubiqube.spring-boot-admin-starter-client.version>
+		<com.ubiqube.spring-boot-admin-starter-client.version>3.5.5</com.ubiqube.spring-boot-admin-starter-client.version>
 		<com.ubiqube.spring-cloud-dependencies.version>2025.0.0</com.ubiqube.spring-cloud-dependencies.version>
 		<com.ubiqube.springdoc-openapi-data-rest.version>1.8.0</com.ubiqube.springdoc-openapi-data-rest.version>
 		<com.ubiqube.springdoc.version>2.8.9</com.ubiqube.springdoc.version>
