@@ -48,7 +48,7 @@
 		<com.ubiqube.dexecutor-core.version>2.1.4</com.ubiqube.dexecutor-core.version>
 		<com.ubiqube.dnsjava.version>3.6.3</com.ubiqube.dnsjava.version>
 		<com.ubiqube.elasticsearch.version>9.1.4</com.ubiqube.elasticsearch.version>
-		<com.ubiqube.equalsverifier.version>4.1</com.ubiqube.equalsverifier.version>
+		<com.ubiqube.equalsverifier.version>4.1.1</com.ubiqube.equalsverifier.version>
 		<com.ubiqube.expressly.version>6.0.0</com.ubiqube.expressly.version>
 		<com.ubiqube.graalvm.version>25.0.0</com.ubiqube.graalvm.version>
 		<com.ubiqube.grpc-spring-boot-starter.version>5.2.0</com.ubiqube.grpc-spring-boot-starter.version>
