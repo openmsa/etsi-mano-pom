@@ -40,7 +40,7 @@
 		<com.ubiqube.archunit.version>1.4.1</com.ubiqube.archunit.version>
 		<com.ubiqube.artemis-jms-server.version>2.42.0</com.ubiqube.artemis-jms-server.version>
 		<com.ubiqube.bcpkix-jdk18on.version>1.82</com.ubiqube.bcpkix-jdk18on.version>
-		<com.ubiqube.builder-annotations.version>0.230.0</com.ubiqube.builder-annotations.version>
+		<com.ubiqube.builder-annotations.version>0.230.1</com.ubiqube.builder-annotations.version>
 		<com.ubiqube.classgraph.version>4.8.181</com.ubiqube.classgraph.version>
 		<com.ubiqube.commons-compress.version>1.28.0</com.ubiqube.commons-compress.version>
 		<com.ubiqube.commons-io.version>2.20.0</com.ubiqube.commons-io.version>
