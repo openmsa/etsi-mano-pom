@@ -63,7 +63,7 @@
 		<com.ubiqube.jib-core.version>0.27.3</com.ubiqube.jib-core.version>
 		<com.ubiqube.jsch.version>2.27.3</com.ubiqube.jsch.version>
 		<com.ubiqube.logstash-logback-encoder.version>8.1</com.ubiqube.logstash-logback-encoder.version>
-		<com.ubiqube.loki-logback-appender.version>2.0.0</com.ubiqube.loki-logback-appender.version>
+		<com.ubiqube.loki-logback-appender.version>2.0.1</com.ubiqube.loki-logback-appender.version>
 		<com.ubiqube.lombok-mapstruct-binding.version>0.2.0</com.ubiqube.lombok-mapstruct-binding.version>
 		<com.ubiqube.lucene.version>10.3.1</com.ubiqube.lucene.version>
 		<com.ubiqube.maven-model.version>3.9.11</com.ubiqube.maven-model.version>
