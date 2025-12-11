@@ -263,6 +263,11 @@
 				<version>${com.ubiqube.testcontainers.version}</version>
 			</dependency>
 			<dependency>
+				<groupId>org.testcontainers</groupId>
+				<artifactId>kafka</artifactId>
+				<version>${com.ubiqube.testcontainers.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>uk.co.jemos.podam</groupId>
 				<artifactId>podam</artifactId>
 				<version>${com.ubiqube.podam.version}</version>
