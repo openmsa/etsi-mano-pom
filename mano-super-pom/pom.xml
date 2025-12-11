@@ -59,7 +59,7 @@
 		<com.ubiqube.javax.servlet-api.version>4.0.1</com.ubiqube.javax.servlet-api.version>
 		<com.ubiqube.jetty-bom.version>9.4.49.v20220914</com.ubiqube.jetty-bom.version>
 		<com.ubiqube.jgrapht.version>1.5.2</com.ubiqube.jgrapht.version>
-		<com.ubiqube.jgroups.version>5.5.1.Final</com.ubiqube.jgroups.version>
+		<com.ubiqube.jgroups.version>5.5.2.Final</com.ubiqube.jgroups.version>
 		<com.ubiqube.jib-core.version>0.28.1</com.ubiqube.jib-core.version>
 		<com.ubiqube.jsch.version>2.27.7</com.ubiqube.jsch.version>
 		<com.ubiqube.logstash-logback-encoder.version>9.0</com.ubiqube.logstash-logback-encoder.version>
