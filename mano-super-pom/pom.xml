@@ -75,7 +75,7 @@
 		<com.ubiqube.spring-boot-admin-starter-client.version>3.5.6</com.ubiqube.spring-boot-admin-starter-client.version>
 		<com.ubiqube.spring-cloud-dependencies.version>2025.0.0</com.ubiqube.spring-cloud-dependencies.version>
 		<com.ubiqube.springdoc-openapi-data-rest.version>1.8.0</com.ubiqube.springdoc-openapi-data-rest.version>
-		<com.ubiqube.springdoc.version>2.8.9</com.ubiqube.springdoc.version>
+		<com.ubiqube.springdoc.version>3.0.1</com.ubiqube.springdoc.version>
 		<com.ubiqube.swagger3.version>2.2.41</com.ubiqube.swagger3.version>
 		<com.ubiqube.testcontainers.version>1.21.4</com.ubiqube.testcontainers.version>
 		<com.ubiqube.wiremock3.version>3.13.2</com.ubiqube.wiremock3.version>
