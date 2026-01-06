@@ -67,7 +67,7 @@
 		<com.ubiqube.lombok-mapstruct-binding.version>0.2.0</com.ubiqube.lombok-mapstruct-binding.version>
 		<com.ubiqube.lucene.version>10.3.2</com.ubiqube.lucene.version>
 		<com.ubiqube.maven-model.version>3.9.12</com.ubiqube.maven-model.version>
-		<com.ubiqube.mockito.version>5.12.0</com.ubiqube.mockito.version>
+		<com.ubiqube.mockito.version>5.21.0</com.ubiqube.mockito.version>
 		<com.ubiqube.openstack4j.version>3.13-SNAPSHOT</com.ubiqube.openstack4j.version>
 		<com.ubiqube.org.mapstruct.version>1.6.3</com.ubiqube.org.mapstruct.version>
 		<com.ubiqube.org.projectlombok.version>1.18.42</com.ubiqube.org.projectlombok.version>
