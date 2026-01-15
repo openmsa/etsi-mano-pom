@@ -54,7 +54,7 @@
 		<com.ubiqube.grpc-spring-boot-starter.version>5.2.0</com.ubiqube.grpc-spring-boot-starter.version>
 		<com.ubiqube.guava.version>33.5.0-jre</com.ubiqube.guava.version>
 		<com.ubiqube.hibernate-search6.version>8.2.1.Final</com.ubiqube.hibernate-search6.version>
-		<com.ubiqube.io.fabric8.kubernetes-client.version>7.4.0</com.ubiqube.io.fabric8.kubernetes-client.version>
+		<com.ubiqube.io.fabric8.kubernetes-client.version>7.5.1</com.ubiqube.io.fabric8.kubernetes-client.version>
 		<com.ubiqube.io.kubernetes.client-java.version>21.0.1</com.ubiqube.io.kubernetes.client-java.version>
 		<com.ubiqube.javax.servlet-api.version>4.0.1</com.ubiqube.javax.servlet-api.version>
 		<com.ubiqube.jetty-bom.version>9.4.49.v20220914</com.ubiqube.jetty-bom.version>
