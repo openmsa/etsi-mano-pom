@@ -58,7 +58,7 @@
 		<com.ubiqube.io.kubernetes.client-java.version>21.0.1</com.ubiqube.io.kubernetes.client-java.version>
 		<com.ubiqube.javax.servlet-api.version>4.0.1</com.ubiqube.javax.servlet-api.version>
 		<com.ubiqube.jetty-bom.version>9.4.49.v20220914</com.ubiqube.jetty-bom.version>
-		<com.ubiqube.jgrapht.version>1.5.2</com.ubiqube.jgrapht.version>
+		<com.ubiqube.jgrapht.version>1.5.3</com.ubiqube.jgrapht.version>
 		<com.ubiqube.jgroups.version>5.5.4.Final</com.ubiqube.jgroups.version>
 		<com.ubiqube.jib-core.version>0.28.1</com.ubiqube.jib-core.version>
 		<com.ubiqube.jsch.version>2.28.0</com.ubiqube.jsch.version>
